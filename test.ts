@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs';
 import { Contract, Account, Compiler } from './tealscript';
 
 class Approval extends Contract {
@@ -26,8 +27,7 @@ class Approval extends Contract {
     return totalBalance;
   }
 }
-
 const contract = new Compiler(__filename.replace('.js', '.ts'));
-console.log(contract.teal.join('\n'));
+writeFileSync('approval.teal', contract.teal.join('\n'));
 
 if (contract.unprocessedNodes[0]) console.log(contract.unprocessedNodes[0]);

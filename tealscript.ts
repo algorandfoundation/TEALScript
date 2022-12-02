@@ -164,14 +164,15 @@ export class Compiler {
         this.processNode(node.right);
         this.teal.push(node.operator);
         break;
-      case AST_NODE_TYPES.Identifier:
+      case AST_NODE_TYPES.Identifier: {
         const { type, index } = this.scratch[node.name];
         this.teal.push(`load ${index} // ${node.name}: ${type}`);
         break;
+      }
       case AST_NODE_TYPES.VariableDeclaration:
         node.declarations.forEach((d: any) => { this.processNode(d); });
         break;
-      case AST_NODE_TYPES.VariableDeclarator:
+      case AST_NODE_TYPES.VariableDeclarator: {
         const { name } = node.id;
 
         let varType: string = typeof node.init.value;
@@ -191,6 +192,7 @@ export class Compiler {
 
         this.teal.push(`store ${this.scratchIndex} // ${name}: ${varType}`);
         break;
+      }
       case AST_NODE_TYPES.ExpressionStatement:
         this.processNode(node.expression);
         break;
@@ -207,12 +209,13 @@ export class Compiler {
           this.unprocessedNodes.push(node);
         }
         break;
-      case AST_NODE_TYPES.MemberExpression:
+      case AST_NODE_TYPES.MemberExpression: {
         const s = this.scratch[node.object.name];
         this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
         this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
         break;
-      case AST_NODE_TYPES.Literal:
+      }
+      case AST_NODE_TYPES.Literal: {
         const litType = typeof node.value;
         if (litType === 'string') {
           this.teal.push(`byte "${node.value}"`);
@@ -220,6 +223,7 @@ export class Compiler {
           this.teal.push(`int ${node.value}`);
         }
         break;
+      }
       case AST_NODE_TYPES.IfStatement:
         this.processIfStatement(node);
         break;

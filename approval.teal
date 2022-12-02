@@ -1,0 +1,66 @@
+getTotalBalance:
+txna ApplicationArgs 0
+txnas Accounts
+store 0 // firstAccount: Account
+txna ApplicationArgs 1
+txnas Accounts
+store 1 // secondAccount: Account
+byte "HERE"
+store 2 // msg: bytes
+load 2 // msg: bytes
+log
+load 0 // firstAccount: Account
+log
+load 1 // secondAccount: Account
+log
+if0_condition:
+load 0 // firstAccount: Account
+acct_params_get AcctBalance
+swap
+pop
+load 1 // secondAccount: Account
+acct_params_get AcctBalance
+swap
+pop
+&&
+bz if0_end
+byte "Both accounts have a balance!"
+log
+if0_end:
+load 0 // firstAccount: Account
+acct_params_get AcctBalance
+assert
+load 1 // secondAccount: Account
+acct_params_get AcctBalance
+assert
++
+store 2 // totalBalance: uint64
+if1_condition:
+load 2 // totalBalance: uint64
+int 0
+==
+bz if1_elseif1_condition
+byte "These accounts have nothing"
+log
+b if1_end
+if1_elseif1_condition:
+load 2 // totalBalance: uint64
+int 100000000000000
+>
+bz if1_elseif2_condition
+byte "At least one of these accounts is a whale"
+log
+b if1_end
+if1_elseif2_condition:
+load 2 // totalBalance: uint64
+int 1000000000000
+>
+bz if1_end
+byte "These accounts have a reasonable balance"
+log
+if1_end:
+load 2 // totalBalance: uint64
+itob
+byte 0x151f7c75
+swap
+concat
