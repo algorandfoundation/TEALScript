@@ -59,6 +59,8 @@ bz if1_end
 byte "These accounts have a reasonable balance"
 log
 if1_end:
+dig 3
+match foo bar
 load 2 // totalBalance: uint64
 itob
 byte 0x151f7c75

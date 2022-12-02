@@ -4,6 +4,20 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
+export interface OpSpec {
+  Opcode: number;
+  Name: string;
+  Size: number;
+  Doc: string;
+  Groups: string[];
+  Args: string;
+  Returns: string;
+  DocExtra: string;
+  ImmediateNote: string;
+  ArgEnum: string[];
+  ArgEnumTypes: string;
+}
+
 export class Account {
   // @ts-ignore
   balance: number;
@@ -16,15 +30,20 @@ export class Contract {
   // @ts-ignore
   box: {[key: string]: string};
 
-  btoi(bytes: string | Account): number {
-    return 0;
-  }
+  // @ts-ignore
+  btoi(bytes: string | Account): number {}
 
-  itob(int: number): string {
-    return '';
-  }
+  // @ts-ignore
+  itob(int: number): string {}
 
+  // @ts-ignore
   log(bytes: string | Account): void {}
+
+  // @ts-ignore
+  dig(n: number): string | number {}
+
+  // @ts-ignore
+  match(...labels: string[]) {}
 }
 
 export class Compiler {
@@ -231,13 +250,27 @@ export class Compiler {
     this.processNode(node.expression);
   }
 
+  private processOpcode(node: any) {
+    const opSpec = langspec.Ops.find((o) => o.Name === node.callee.property.name) as OpSpec;
+    let line: string[] = [node.callee.property.name];
+
+    if (opSpec.Size === 1) {
+      node.arguments.forEach((a: any) => this.processNode(a));
+    } else if (opSpec.Size === 0) {
+      line = line.concat(node.arguments.map((a: any) => a.value));
+    } else {
+      line = line.concat(node.arguments.slice(0, opSpec.Size - 1).map((a: any) => a.value));
+    }
+
+    this.teal.push(line.join(' '));
+  }
+
   private processCallExpression(node: any) {
-    node.arguments.forEach((a: any) => this.processNode(a));
     const opcodeNames = langspec.Ops.map((o) => o.Name);
 
     if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
       if (opcodeNames.includes(node.callee.property.name)) {
-        this.teal.push(node.callee.property.name);
+        this.processOpcode(node);
       } else {
         this.unprocessedNodes.push(node);
       }

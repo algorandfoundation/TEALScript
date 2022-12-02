@@ -24,6 +24,9 @@ class Approval extends Contract {
       this.log('These accounts have a reasonable balance');
     }
 
+    this.dig(3);
+    this.match('foo', 'bar');
+
     return totalBalance;
   }
 }
