@@ -24,7 +24,11 @@ class Approval extends Contract {
       this.log('These accounts have a reasonable balance');
     }
 
-    this.dig(3);
+    const id = this.dig(3) as number;
+    const acct = new Account(id);
+    if (acct.hasBalance) {
+      this.log(this.itob(acct.balance));
+    }
     this.match('foo', 'bar');
 
     return totalBalance;

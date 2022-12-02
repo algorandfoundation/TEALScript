@@ -34,9 +34,9 @@ load 1 // secondAccount: Account
 acct_params_get AcctBalance
 assert
 +
-store 2 // totalBalance: uint64
+store 3 // totalBalance: uint64
 if1_condition:
-load 2 // totalBalance: uint64
+load 3 // totalBalance: uint64
 int 0
 ==
 bz if1_elseif1_condition
@@ -44,7 +44,7 @@ byte "These accounts have nothing"
 log
 b if1_end
 if1_elseif1_condition:
-load 2 // totalBalance: uint64
+load 3 // totalBalance: uint64
 int 100000000000000
 >
 bz if1_elseif2_condition
@@ -52,7 +52,7 @@ byte "At least one of these accounts is a whale"
 log
 b if1_end
 if1_elseif2_condition:
-load 2 // totalBalance: uint64
+load 3 // totalBalance: uint64
 int 1000000000000
 >
 bz if1_end
@@ -60,8 +60,23 @@ byte "These accounts have a reasonable balance"
 log
 if1_end:
 dig 3
+store 4 // id: uint64
+load 4 // id: uint64
+store 5 // acct: Account
+if2_condition:
+load 5 // acct: Account
+acct_params_get AcctBalance
+swap
+pop
+bz if2_end
+load 5 // acct: Account
+acct_params_get AcctBalance
+assert
+itob
+log
+if2_end:
 match foo bar
-load 2 // totalBalance: uint64
+load 3 // totalBalance: uint64
 itob
 byte 0x151f7c75
 swap

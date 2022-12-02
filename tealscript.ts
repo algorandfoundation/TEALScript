@@ -20,6 +20,9 @@ export interface OpSpec {
 
 export class Account {
   // @ts-ignore
+  constructor(id: number) {}
+
+  // @ts-ignore
   balance: number;
 
   // @ts-ignore
@@ -225,6 +228,14 @@ export class Compiler {
     node.declarations.forEach((d: any) => { this.processNode(d); });
   }
 
+  private processNewExpression(node: any) {
+    node.arguments.forEach((a: any) => { this.processNode(a); });
+  }
+
+  private processTSAsExpression(node: any) {
+    this.processNode(node.expression);
+  }
+
   private processVariableDeclarator(node: any) {
     const { name } = node.id;
 
@@ -234,9 +245,16 @@ export class Compiler {
     const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
     if (numberTypes.includes(node.init.type)) {
       varType = 'uint64';
+    } else if (node.init.type === AST_NODE_TYPES.NewExpression) {
+      varType = node.init.callee.name;
+    } else if (node.init.type === AST_NODE_TYPES.TSAsExpression) {
+      varType = node.init.typeAnnotation.type;
     }
 
-    varType = varType.replace('string', 'bytes').replace('number', 'uint64');
+    varType = varType
+      .replace('string', 'bytes')
+      .replace('number', 'uint64')
+      .replace(AST_NODE_TYPES.TSNumberKeyword, 'uint64');
 
     this.scratch[name] = {
       index: this.scratchIndex,
@@ -244,6 +262,7 @@ export class Compiler {
     };
 
     this.teal.push(`store ${this.scratchIndex} // ${name}: ${varType}`);
+    this.scratchIndex += 1;
   }
 
   private processExpressionStatement(node: any) {
