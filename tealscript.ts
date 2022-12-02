@@ -50,12 +50,12 @@ export class Compiler {
 
   private maybeValue(opcode: string) {
     this.teal.push(opcode);
-    this.teal.push('swap');
-    this.teal.push('pop');
+    this.teal.push('assert');
   }
 
   private hasMaybeValue(opcode: string) {
     this.teal.push(opcode);
+    this.teal.push('swap');
     this.teal.push('pop');
   }
 
