@@ -5,28 +5,6 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 // TODO import opcode spec
 const OPCODES = ['log', 'itob'];
 
-function maybeValue(compiler: Compiler, opcode: string) {
-  compiler.teal.push(opcode);
-  compiler.teal.push('swap');
-  compiler.teal.push('pop');
-}
-
-function hasMaybeValue(compiler: Compiler, opcode: string) {
-  compiler.teal.push(opcode);
-  compiler.teal.push('pop');
-}
-
-const TYPE_FUNCTIONS = {
-  Account: {
-    balance: (compiler: Compiler) => {
-      maybeValue(compiler, 'acct_params_get AcctBalance');
-    },
-    hasBalance: (compiler: Compiler) => {
-      hasMaybeValue(compiler, 'acct_params_get AcctBalance');
-    },
-  },
-};
-
 export class Account {
   balance: number;
 
@@ -69,6 +47,28 @@ export class Compiler {
       }
     });
   }
+
+  private maybeValue(opcode: string) {
+    this.teal.push(opcode);
+    this.teal.push('swap');
+    this.teal.push('pop');
+  }
+
+  private hasMaybeValue(opcode: string) {
+    this.teal.push(opcode);
+    this.teal.push('pop');
+  }
+
+  private readonly TYPE_FUNCTIONS = {
+    Account: {
+      balance: () => {
+        this.maybeValue('acct_params_get AcctBalance');
+      },
+      hasBalance: () => {
+        this.hasMaybeValue('acct_params_get AcctBalance');
+      },
+    },
+  };
 
   private processIfStatement(node: any, elseIfCount: number = 0) {
     if (elseIfCount === 0) {
@@ -210,7 +210,7 @@ export class Compiler {
       case AST_NODE_TYPES.MemberExpression:
         const s = this.scratch[node.object.name];
         this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
-        TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name](this);
+        this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
         break;
       case AST_NODE_TYPES.Literal:
         const litType = typeof node.value;
