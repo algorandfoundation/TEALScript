@@ -2,17 +2,18 @@
 import * as fs from 'fs';
 import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
-
-// TODO import opcode spec
-const OPCODES = ['log', 'itob'];
+import * as langspec from './langspec.json';
 
 export class Account {
+  // @ts-ignore
   balance: number;
 
+  // @ts-ignore
   hasBalance: number;
 }
 
 export class Contract {
+  // @ts-ignore
   box: {[key: string]: string};
 
   btoi(bytes: string | Account): number {
@@ -159,7 +160,8 @@ export class Compiler {
 
   private processNode(node: any) {
     try {
-      this[`process${node.type}`](node);
+      // @ts-ignore
+      (this[`process${node.type}`])(node);
     } catch (e) {
       if (!(e instanceof TypeError)) throw e;
 
@@ -230,10 +232,11 @@ export class Compiler {
   }
 
   private processCallExpression(node: any) {
-    node.arguments.forEach((a) => this.processNode(a));
+    node.arguments.forEach((a: any) => this.processNode(a));
+    const opcodeNames = langspec.Ops.map((o) => o.Name);
 
     if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
-      if (OPCODES.includes(node.callee.property.name)) {
+      if (opcodeNames.includes(node.callee.property.name)) {
         this.teal.push(node.callee.property.name);
       } else {
         this.unprocessedNodes.push(node);
@@ -246,6 +249,7 @@ export class Compiler {
   private processMemberExpression(node: any) {
     const s = this.scratch[node.object.name];
     this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
+    // @ts-ignore
     this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
   }
 

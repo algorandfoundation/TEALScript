@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "tsc test.ts && node test.js"
+    "start": "tsc && node test.js"
   },
   "dependencies": {
     "typescript": "^4.9.3",

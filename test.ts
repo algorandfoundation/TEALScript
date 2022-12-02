@@ -28,6 +28,8 @@ class Approval extends Contract {
   }
 }
 const contract = new Compiler(__filename.replace('.js', '.ts'));
-writeFileSync('approval.teal', contract.teal.join('\n'));
+const teal = contract.teal.join('\n');
+writeFileSync('approval.teal', teal);
+console.log(teal);
 
 if (contract.unprocessedNodes[0]) console.log(contract.unprocessedNodes[0]);
