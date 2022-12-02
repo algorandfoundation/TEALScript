@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import * as fs from 'fs';
 import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
@@ -26,20 +27,36 @@ export class Contract {
 }
 
 export class Compiler {
-  teal = [];
+  teal: any[];
 
-  scratch = {};
+  scratch: any;
 
-  scratchIndex = 0;
+  scratchIndex: number;
 
-  unprocessedNodes = [];
+  unprocessedNodes: any[];
 
-  functionReturnType = 'string';
+  functionReturnType: string;
 
-  ifCount = 0;
+  ifCount: number;
+
+  filename: string;
+
+  content: string;
+
+  processErrorNodes: any[];
 
   constructor(filename: string) {
-    const tree = parser.parse(fs.readFileSync(filename, 'utf-8'), { loc: true });
+    this.filename = filename;
+    this.content = fs.readFileSync(this.filename, 'utf-8');
+    this.teal = [];
+    this.scratch = {};
+    this.scratchIndex = 0;
+    this.functionReturnType = 'string';
+    this.ifCount = 0;
+    this.unprocessedNodes = [];
+    this.processErrorNodes = [];
+
+    const tree = parser.parse(this.content, { range: true, loc: true });
 
     tree.body.forEach((body: any) => {
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
@@ -98,7 +115,7 @@ export class Compiler {
     }
   }
 
-  private processFunction(fn: any) {
+  private processFunctionExpression(fn: any) {
     let argCount = -1;
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
@@ -127,110 +144,117 @@ export class Compiler {
     this.functionReturnType = 'string';
   }
 
+  private processMethodDefinition(node: any) {
+    this.teal.push(`${node.key.name}:`);
+    this.processNode(node.value);
+  }
+
+  private processClassBody(node: any) {
+    node.body.forEach((b: any) => { this.processNode(b); });
+  }
+
+  private processClassDeclaration(node: any) {
+    this.processNode(node.body);
+  }
+
   private processNode(node: any) {
-    switch (node.type) {
-      case AST_NODE_TYPES.MethodDefinition:
-        this.teal.push(`${node.key.name}:`);
-        this.processNode(node.value);
-        break;
-      case AST_NODE_TYPES.ClassBody:
-        node.body.forEach((b: any) => { this.processNode(b); });
-        break;
-      case AST_NODE_TYPES.ClassDeclaration:
-        this.processNode(node.body);
-        break;
-      case AST_NODE_TYPES.FunctionExpression:
-        this.processFunction(node);
-        break;
-      case AST_NODE_TYPES.BlockStatement:
-        node.body.forEach((b: any) => { this.processNode(b); });
-        break;
-      case AST_NODE_TYPES.ReturnStatement:
-        this.processNode(node.argument);
-        if (['TSNumberKeyword', 'Asset', 'App'].includes(this.functionReturnType)) this.teal.push('itob');
+    try {
+      this[`process${node.type}`](node);
+    } catch (e) {
+      if (!(e instanceof TypeError)) throw e;
 
-        this.teal.push('byte 0x151f7c75');
-        this.teal.push('swap');
-        this.teal.push('concat');
-        break;
-      case AST_NODE_TYPES.BinaryExpression:
-        this.processNode(node.left);
-        this.processNode(node.right);
-        this.teal.push(node.operator.replace('===', '=='));
+      this.processErrorNodes.push(node);
+      const errNode = this.processErrorNodes[0];
+      e.message = `TEALScript can not process ${errNode.type} at ${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
+      throw e;
+    }
+  }
 
-        break;
-      case AST_NODE_TYPES.LogicalExpression:
-        this.processNode(node.left);
-        this.processNode(node.right);
-        this.teal.push(node.operator);
-        break;
-      case AST_NODE_TYPES.Identifier: {
-        const { type, index } = this.scratch[node.name];
-        this.teal.push(`load ${index} // ${node.name}: ${type}`);
-        break;
-      }
-      case AST_NODE_TYPES.VariableDeclaration:
-        node.declarations.forEach((d: any) => { this.processNode(d); });
-        break;
-      case AST_NODE_TYPES.VariableDeclarator: {
-        const { name } = node.id;
+  private processBlockStatement(node: any) {
+    node.body.forEach((b: any) => { this.processNode(b); });
+  }
 
-        let varType: string = typeof node.init.value;
-        this.processNode(node.init);
+  private processReturnStatement(node: any) {
+    this.processNode(node.argument);
+    if (['TSNumberKeyword', 'Asset', 'App'].includes(this.functionReturnType)) this.teal.push('itob');
 
-        const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
-        if (numberTypes.includes(node.init.type)) {
-          varType = 'uint64';
-        }
+    this.teal.push('byte 0x151f7c75');
+    this.teal.push('swap');
+    this.teal.push('concat');
+  }
 
-        varType = varType.replace('string', 'bytes').replace('number', 'uint64');
+  private processBinaryExpression(node: any) {
+    this.processNode(node.left);
+    this.processNode(node.right);
+    this.teal.push(node.operator.replace('===', '=='));
+  }
 
-        this.scratch[name] = {
-          index: this.scratchIndex,
-          type: varType,
-        };
+  private processLogicalExpression(node: any) {
+    this.processNode(node.left);
+    this.processNode(node.right);
+    this.teal.push(node.operator);
+  }
 
-        this.teal.push(`store ${this.scratchIndex} // ${name}: ${varType}`);
-        break;
-      }
-      case AST_NODE_TYPES.ExpressionStatement:
-        this.processNode(node.expression);
-        break;
-      case AST_NODE_TYPES.CallExpression:
-        node.arguments.forEach((a) => this.processNode(a));
+  private processIdentifier(node: any) {
+    const { type, index } = this.scratch[node.name];
+    this.teal.push(`load ${index} // ${node.name}: ${type}`);
+  }
 
-        if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
-          if (OPCODES.includes(node.callee.property.name)) {
-            this.teal.push(node.callee.property.name);
-          } else {
-            this.unprocessedNodes.push(node);
-          }
-        } else {
-          this.unprocessedNodes.push(node);
-        }
-        break;
-      case AST_NODE_TYPES.MemberExpression: {
-        const s = this.scratch[node.object.name];
-        this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
-        this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
-        break;
-      }
-      case AST_NODE_TYPES.Literal: {
-        const litType = typeof node.value;
-        if (litType === 'string') {
-          this.teal.push(`byte "${node.value}"`);
-        } else {
-          this.teal.push(`int ${node.value}`);
-        }
-        break;
-      }
-      case AST_NODE_TYPES.IfStatement:
-        this.processIfStatement(node);
-        break;
+  private processVariableDeclaration(node: any) {
+    node.declarations.forEach((d: any) => { this.processNode(d); });
+  }
 
-      default:
+  private processVariableDeclarator(node: any) {
+    const { name } = node.id;
+
+    let varType: string = typeof node.init.value;
+    this.processNode(node.init);
+
+    const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
+    if (numberTypes.includes(node.init.type)) {
+      varType = 'uint64';
+    }
+
+    varType = varType.replace('string', 'bytes').replace('number', 'uint64');
+
+    this.scratch[name] = {
+      index: this.scratchIndex,
+      type: varType,
+    };
+
+    this.teal.push(`store ${this.scratchIndex} // ${name}: ${varType}`);
+  }
+
+  private processExpressionStatement(node: any) {
+    this.processNode(node.expression);
+  }
+
+  private processCallExpression(node: any) {
+    node.arguments.forEach((a) => this.processNode(a));
+
+    if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+      if (OPCODES.includes(node.callee.property.name)) {
+        this.teal.push(node.callee.property.name);
+      } else {
         this.unprocessedNodes.push(node);
-        break;
+      }
+    } else {
+      this.unprocessedNodes.push(node);
+    }
+  }
+
+  private processMemberExpression(node: any) {
+    const s = this.scratch[node.object.name];
+    this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
+    this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
+  }
+
+  private processLiteral(node: any) {
+    const litType = typeof node.value;
+    if (litType === 'string') {
+      this.teal.push(`byte "${node.value}"`);
+    } else {
+      this.teal.push(`int ${node.value}`);
     }
   }
 }
