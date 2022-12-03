@@ -35,13 +35,10 @@ class ExampleTEALScriptApp extends Contract {
   }
 
   private exampleInteralSubroutine(account: Account): number {
+    this.box.put('foo', 'bar');
     return account.balance;
   }
 }
 const contract = new Compiler(__filename.replace('.js', '.ts'));
-const teal = contract.teal.join('\n');
-writeFileSync('approval.teal', teal);
-console.log(JSON.stringify(contract.abi, null, 2));
-console.log(teal);
-
-if (contract.unprocessedNodes[0]) console.log(contract.unprocessedNodes[0]);
+writeFileSync('approval.teal', contract.teal.join('\n'));
+writeFileSync('abi.json', JSON.stringify(contract.abi, null, 2));

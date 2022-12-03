@@ -18,6 +18,14 @@ interface OpSpec {
   ArgEnumTypes: string;
 }
 
+export class Box<KeyType, ValueType> {
+  // @ts-ignore
+  get(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  put(key: KeyType, value: ValueType): void {}
+}
+
 interface Function {
   name: string
   returnType: string
@@ -35,7 +43,7 @@ export class Account {
 
 export class Contract {
   // @ts-ignore
-  box: {[key: string]: string};
+  box: Box<string, string>;
 
   // @ts-ignore
   btoi(bytes: string | Account): number {}
@@ -60,8 +68,6 @@ export class Compiler {
 
   scratchIndex: number;
 
-  unprocessedNodes: any[];
-
   ifCount: number;
 
   filename: string;
@@ -83,7 +89,6 @@ export class Compiler {
     this.scratch = {};
     this.scratchIndex = 0;
     this.ifCount = 0;
-    this.unprocessedNodes = [];
     this.processErrorNodes = [];
     this.frame = {};
     this.currentFunction = { name: '', returnType: '' };
@@ -251,12 +256,12 @@ export class Compiler {
     try {
       // @ts-ignore
       (this[`process${node.type}`])(node);
-    } catch (e) {
-      if (!(e instanceof TypeError)) throw e;
-
-      this.processErrorNodes.push(node);
-      const errNode = this.processErrorNodes[0];
-      e.message = `TEALScript can not process ${errNode.type} at ${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
+    } catch (e: any) {
+      if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
+        this.processErrorNodes.push(node);
+        const errNode = this.processErrorNodes[0];
+        e.message = `TEALScript can not process ${errNode.type} at ${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
+      }
       throw e;
     }
   }
@@ -353,6 +358,11 @@ export class Compiler {
     this.teal.push(line.join(' '));
   }
 
+  private processBoxCall(node: any) {
+    node.arguments.forEach((a: any) => this.processNode(a));
+    this.teal.push(`box_${node.callee.property.name}`);
+  }
+
   private processCallExpression(node: any) {
     const opcodeNames = langspec.Ops.map((o) => o.Name);
 
@@ -360,21 +370,27 @@ export class Compiler {
       if (opcodeNames.includes(node.callee.property.name)) {
         this.processOpcode(node);
       } else {
-        this.unprocessedNodes.push(node);
+        throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
       }
+    } else if (node.callee.object.property.name === 'box') {
+      this.processBoxCall(node);
     } else {
-      this.unprocessedNodes.push(node);
+      throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
     }
   }
 
   private processMemberExpression(node: any) {
-    const target = this.frame[node.object.name] || this.scratch[node.object.name];
-    const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
+    if (node.object.property?.name === 'box') {
+      this.teal.push(`box_get ${node.property.name}`);
+    } else {
+      const target = this.frame[node.object.name] || this.scratch[node.object.name];
+      const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
 
-    this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
+      this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
 
-    // @ts-ignore
-    this.TYPE_FUNCTIONS[target.type][node.property.name]();
+      // @ts-ignore
+      this.TYPE_FUNCTIONS[target.type][node.property.name]();
+    }
   }
 
   private processLiteral(node: any) {

@@ -1,0 +1,26 @@
+{
+  "name": "ExampleTEALScriptApp",
+  "desc": "",
+  "methods": [
+    {
+      "name": "exampleAbiMethod",
+      "args": [
+        {
+          "name": "firstAccount",
+          "type": "Account",
+          "desc": ""
+        },
+        {
+          "name": "secondAccount",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    }
+  ]
+}
