@@ -27,10 +27,10 @@ export class Account {
   constructor(id: number) {}
 
   // @ts-ignore
-  balance: number;
+  readonly balance: number;
 
   // @ts-ignore
-  hasBalance: number;
+  readonly hasBalance: number;
 }
 
 export class Contract {
@@ -74,10 +74,12 @@ export class Compiler {
 
   currentFunction: Function;
 
+  abi: any;
+
   constructor(filename: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
-    this.teal = [];
+    this.teal = ['#pragma version 8', 'b main'];
     this.scratch = {};
     this.scratchIndex = 0;
     this.ifCount = 0;
@@ -90,9 +92,25 @@ export class Compiler {
 
     tree.body.forEach((body: any) => {
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
+        this.abi = { name: body.id.name, desc: '', methods: [] };
+
         this.processNode(body);
       }
     });
+
+    if (!this.teal.includes('main:')) {
+      this.teal.push('main:');
+      this.routeAbiMethods();
+    }
+  }
+
+  private routeAbiMethods() {
+    this.abi.methods.forEach((m: any) => {
+      const abiSignature = `${m.name}(${m.args.map((a: any) => a.type.toLowerCase()).join(',')})${m.returns.type.toLowerCase()}`;
+      this.teal.push(`method "${abiSignature}"`);
+    });
+    this.teal.push('txna ApplicationArgs 0');
+    this.teal.push(`match ${this.abi.methods.map((m: any) => `abi_route_${m.name}`).join(' ')}`);
   }
 
   private maybeValue(opcode: string) {
@@ -167,12 +185,14 @@ export class Compiler {
   }
 
   private processAbiMethod(fn: any) {
-    let argCount = -1;
+    let argCount = 0;
     this.teal.push(`abi_route_${this.currentFunction.name}:`);
+    const args: any[] = [];
 
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+      args.push({ name: p.name, type, desc: '' });
 
       if (type === 'uint64') {
         this.teal.push('btoi');
@@ -181,7 +201,13 @@ export class Compiler {
       }
     });
 
+    this.abi.methods.push({
+      name: this.currentFunction.name, args, desc: '', returns: { type: this.currentFunction.returnType, desc: '' },
+    });
+
     this.teal.push(`callsub ${this.currentFunction.name}`);
+    this.teal.push('int 1');
+    this.teal.push('return');
     this.processSubroutine(fn, true);
   }
 

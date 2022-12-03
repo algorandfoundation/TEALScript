@@ -1,9 +1,13 @@
+#pragma version 8
+b main
 abi_route_exampleAbiMethod:
-txna ApplicationArgs 0
-txnas Accounts
 txna ApplicationArgs 1
 txnas Accounts
+txna ApplicationArgs 2
+txnas Accounts
 callsub exampleAbiMethod
+int 1
+return
 exampleAbiMethod:
 proto 2 0
 byte "HERE"
@@ -93,3 +97,7 @@ byte 0x151f7c75
 swap
 concat
 retsub
+main:
+method "exampleAbiMethod(account,account)uint64"
+txna ApplicationArgs 0
+match abi_route_exampleAbiMethod

@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { Contract, Account, Compiler } from './tealscript';
 
-class Approval extends Contract {
+class ExampleTEALScriptApp extends Contract {
   exampleAbiMethod(firstAccount: Account, secondAccount: Account): number {
     const msg = 'HERE';
     this.log(msg);
@@ -41,6 +41,7 @@ class Approval extends Contract {
 const contract = new Compiler(__filename.replace('.js', '.ts'));
 const teal = contract.teal.join('\n');
 writeFileSync('approval.teal', teal);
+console.log(JSON.stringify(contract.abi, null, 2));
 console.log(teal);
 
 if (contract.unprocessedNodes[0]) console.log(contract.unprocessedNodes[0]);
