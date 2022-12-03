@@ -68,6 +68,8 @@ export class Compiler {
 
   processErrorNodes: any[];
 
+  frame: any;
+
   constructor(filename: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
@@ -78,6 +80,7 @@ export class Compiler {
     this.ifCount = 0;
     this.unprocessedNodes = [];
     this.processErrorNodes = [];
+    this.frame = {};
 
     const tree = parser.parse(this.content, { range: true, loc: true });
 
@@ -138,7 +141,36 @@ export class Compiler {
     }
   }
 
-  private processFunctionExpression(fn: any) {
+  private processInternalSubroutine(fn: any) {
+    const lastFrame = JSON.parse(JSON.stringify(this.frame));
+    this.frame = {};
+
+    this.teal.push(`proto ${fn.params.length} ${fn.returnType.typeAnnotation.type === 'void' ? 0 : 1}`);
+    let frameIndex = 0;
+    fn.params.forEach((p: any) => {
+      let type = 'any';
+
+      switch (p.typeAnnotation.typeAnnotation.type) {
+        case 'TSNumberKeyword':
+          type = 'uint64';
+          break;
+        default:
+          type = p.typeAnnotation.typeAnnotation.typeName.name;
+          break;
+      }
+      frameIndex -= 1;
+      this.frame[p.name] = {};
+      this.frame[p.name].index = frameIndex;
+      this.frame[p.name].type = type;
+    });
+
+    this.functionReturnType = fn.returnType.typeAnnotation.type;
+    this.processNode(fn.body);
+    this.frame = lastFrame;
+    this.functionReturnType = 'string';
+  }
+
+  private processAbiMethod(fn: any) {
     let argCount = -1;
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
@@ -169,7 +201,11 @@ export class Compiler {
 
   private processMethodDefinition(node: any) {
     this.teal.push(`${node.key.name}:`);
-    this.processNode(node.value);
+    if (node.accessibility === 'private') {
+      this.processInternalSubroutine(node.value);
+    } else {
+      this.processAbiMethod(node.value);
+    }
   }
 
   private processClassBody(node: any) {
@@ -299,10 +335,13 @@ export class Compiler {
   }
 
   private processMemberExpression(node: any) {
-    const s = this.scratch[node.object.name];
-    this.teal.push(`load ${s.index} // ${node.object.name}: ${s.type}`);
+    const target = this.frame[node.object.name] || this.scratch[node.object.name];
+    const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
+
+    this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
+
     // @ts-ignore
-    this.TYPE_FUNCTIONS[this.scratch[node.object.name].type][node.property.name]();
+    this.TYPE_FUNCTIONS[target.type][node.property.name]();
   }
 
   private processLiteral(node: any) {

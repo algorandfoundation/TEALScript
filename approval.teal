@@ -1,4 +1,4 @@
-getTotalBalance:
+exampleAbiMethod:
 txna ApplicationArgs 0
 txnas Accounts
 store 0 // firstAccount: Account
@@ -77,6 +77,15 @@ log
 if2_end:
 match foo bar
 load 3 // totalBalance: uint64
+itob
+byte 0x151f7c75
+swap
+concat
+exampleInteralSubroutine:
+proto 1 1
+frame_dig -1 // account: Account
+acct_params_get AcctBalance
+assert
 itob
 byte 0x151f7c75
 swap

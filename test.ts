@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 import { Contract, Account, Compiler } from './tealscript';
 
 class Approval extends Contract {
-  getTotalBalance(firstAccount: Account, secondAccount: Account): number {
+  exampleAbiMethod(firstAccount: Account, secondAccount: Account): number {
     const msg = 'HERE';
     this.log(msg);
     this.log(firstAccount);
@@ -32,6 +32,10 @@ class Approval extends Contract {
     this.match('foo', 'bar');
 
     return totalBalance;
+  }
+
+  private exampleInteralSubroutine(account: Account): number {
+    return account.balance;
   }
 }
 const contract = new Compiler(__filename.replace('.js', '.ts'));
