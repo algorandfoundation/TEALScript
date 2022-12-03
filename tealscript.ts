@@ -4,7 +4,7 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
-export interface OpSpec {
+interface OpSpec {
   Opcode: number;
   Name: string;
   Size: number;
@@ -18,6 +18,10 @@ export interface OpSpec {
   ArgEnumTypes: string;
 }
 
+interface Function {
+  name: string
+  returnType: string
+}
 export class Account {
   // @ts-ignore
   constructor(id: number) {}
@@ -58,8 +62,6 @@ export class Compiler {
 
   unprocessedNodes: any[];
 
-  functionReturnType: string;
-
   ifCount: number;
 
   filename: string;
@@ -70,17 +72,19 @@ export class Compiler {
 
   frame: any;
 
+  currentFunction: Function;
+
   constructor(filename: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
     this.teal = [];
     this.scratch = {};
     this.scratchIndex = 0;
-    this.functionReturnType = 'string';
     this.ifCount = 0;
     this.unprocessedNodes = [];
     this.processErrorNodes = [];
     this.frame = {};
+    this.currentFunction = { name: '', returnType: '' };
 
     const tree = parser.parse(this.content, { range: true, loc: true });
 
@@ -148,43 +152,28 @@ export class Compiler {
     this.teal.push(`proto ${fn.params.length} ${fn.returnType.typeAnnotation.type === 'void' ? 0 : 1}`);
     let frameIndex = 0;
     fn.params.forEach((p: any) => {
-      let type = 'any';
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
 
-      switch (p.typeAnnotation.typeAnnotation.type) {
-        case 'TSNumberKeyword':
-          type = 'uint64';
-          break;
-        default:
-          type = p.typeAnnotation.typeAnnotation.typeName.name;
-          break;
-      }
       frameIndex -= 1;
       this.frame[p.name] = {};
       this.frame[p.name].index = frameIndex;
       this.frame[p.name].type = type;
     });
 
-    this.functionReturnType = fn.returnType.typeAnnotation.type;
     this.processNode(fn.body);
     this.frame = lastFrame;
-    this.functionReturnType = 'string';
   }
 
   private processAbiMethod(fn: any) {
     let argCount = -1;
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
-      let type = 'any';
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
 
-      switch (p.typeAnnotation.typeAnnotation.type) {
-        case 'TSNumberKeyword':
-          type = 'uint64';
-          this.teal.push('btoi');
-          break;
-        default:
-          type = p.typeAnnotation.typeAnnotation.typeName.name;
-          if (['Account', 'Asset', 'App'].includes(type)) this.teal.push(`txnas ${type}s`);
-          break;
+      if (type === 'uint64') {
+        this.teal.push('btoi');
+      } else if (['Account', 'Asset', 'App'].includes(type)) {
+        this.teal.push(`txnas ${type}s`);
       }
 
       this.teal.push(`store ${this.scratchIndex} // ${p.name}: ${type}`);
@@ -194,13 +183,31 @@ export class Compiler {
       this.scratchIndex += 1;
     });
 
-    this.functionReturnType = fn.returnType.typeAnnotation.type;
     this.processNode(fn.body);
-    this.functionReturnType = 'string';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private getTypeFromAnnotation(typeAnnotation: any) {
+    let type = 'any';
+
+    switch (typeAnnotation.type) {
+      case 'TSNumberKeyword':
+        type = 'uint64';
+        break;
+      default:
+        type = typeAnnotation.typeName.name;
+        break;
+    }
+
+    return type;
   }
 
   private processMethodDefinition(node: any) {
     this.teal.push(`${node.key.name}:`);
+    this.currentFunction.name = node.key.name;
+    this.currentFunction.returnType = this
+      .getTypeFromAnnotation(node.value.returnType.typeAnnotation);
+
     if (node.accessibility === 'private') {
       this.processInternalSubroutine(node.value);
     } else {
@@ -236,7 +243,7 @@ export class Compiler {
 
   private processReturnStatement(node: any) {
     this.processNode(node.argument);
-    if (['TSNumberKeyword', 'Asset', 'App'].includes(this.functionReturnType)) this.teal.push('itob');
+    if (['uint64', 'Asset', 'App'].includes(this.currentFunction.returnType)) this.teal.push('itob');
 
     this.teal.push('byte 0x151f7c75');
     this.teal.push('swap');
