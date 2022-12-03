@@ -145,11 +145,12 @@ export class Compiler {
     }
   }
 
-  private processInternalSubroutine(fn: any) {
+  private processSubroutine(fn: any, abi: boolean = false) {
+    this.teal.push(`${this.currentFunction.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
-    this.teal.push(`proto ${fn.params.length} ${fn.returnType.typeAnnotation.type === 'void' ? 0 : 1}`);
+    this.teal.push(`proto ${fn.params.length} ${(this.currentFunction.returnType === 'void') || abi ? 0 : 1}`);
     let frameIndex = 0;
     fn.params.forEach((p: any) => {
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
@@ -161,11 +162,14 @@ export class Compiler {
     });
 
     this.processNode(fn.body);
+    this.teal.push('retsub');
     this.frame = lastFrame;
   }
 
   private processAbiMethod(fn: any) {
     let argCount = -1;
+    this.teal.push(`abi_route_${this.currentFunction.name}:`);
+
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
@@ -175,15 +179,10 @@ export class Compiler {
       } else if (['Account', 'Asset', 'App'].includes(type)) {
         this.teal.push(`txnas ${type}s`);
       }
-
-      this.teal.push(`store ${this.scratchIndex} // ${p.name}: ${type}`);
-      this.scratch[p.name] = {};
-      this.scratch[p.name].index = this.scratchIndex;
-      this.scratch[p.name].type = type;
-      this.scratchIndex += 1;
     });
 
-    this.processNode(fn.body);
+    this.teal.push(`callsub ${this.currentFunction.name}`);
+    this.processSubroutine(fn, true);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -203,13 +202,12 @@ export class Compiler {
   }
 
   private processMethodDefinition(node: any) {
-    this.teal.push(`${node.key.name}:`);
     this.currentFunction.name = node.key.name;
     this.currentFunction.returnType = this
       .getTypeFromAnnotation(node.value.returnType.typeAnnotation);
 
     if (node.accessibility === 'private') {
-      this.processInternalSubroutine(node.value);
+      this.processSubroutine(node.value);
     } else {
       this.processAbiMethod(node.value);
     }
@@ -263,8 +261,10 @@ export class Compiler {
   }
 
   private processIdentifier(node: any) {
-    const { type, index } = this.scratch[node.name];
-    this.teal.push(`load ${index} // ${node.name}: ${type}`);
+    const target = this.frame[node.name] || this.scratch[node.name];
+    const opcode = this.frame[node.name] ? 'frame_dig' : 'load';
+
+    this.teal.push(`${opcode} ${target.index} // ${node.name}: ${target.type}`);
   }
 
   private processVariableDeclaration(node: any) {

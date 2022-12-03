@@ -1,24 +1,25 @@
-exampleAbiMethod:
+abi_route_exampleAbiMethod:
 txna ApplicationArgs 0
 txnas Accounts
-store 0 // firstAccount: Account
 txna ApplicationArgs 1
 txnas Accounts
-store 1 // secondAccount: Account
+callsub exampleAbiMethod
+exampleAbiMethod:
+proto 2 0
 byte "HERE"
-store 2 // msg: bytes
-load 2 // msg: bytes
+store 0 // msg: bytes
+load 0 // msg: bytes
 log
-load 0 // firstAccount: Account
+frame_dig -1 // firstAccount: Account
 log
-load 1 // secondAccount: Account
+frame_dig -2 // secondAccount: Account
 log
 if0_condition:
-load 0 // firstAccount: Account
+frame_dig -1 // firstAccount: Account
 acct_params_get AcctBalance
 swap
 pop
-load 1 // secondAccount: Account
+frame_dig -2 // secondAccount: Account
 acct_params_get AcctBalance
 swap
 pop
@@ -27,16 +28,16 @@ bz if0_end
 byte "Both accounts have a balance!"
 log
 if0_end:
-load 0 // firstAccount: Account
+frame_dig -1 // firstAccount: Account
 acct_params_get AcctBalance
 assert
-load 1 // secondAccount: Account
+frame_dig -2 // secondAccount: Account
 acct_params_get AcctBalance
 assert
 +
-store 3 // totalBalance: uint64
+store 1 // totalBalance: uint64
 if1_condition:
-load 3 // totalBalance: uint64
+load 1 // totalBalance: uint64
 int 0
 ==
 bz if1_elseif1_condition
@@ -44,7 +45,7 @@ byte "These accounts have nothing"
 log
 b if1_end
 if1_elseif1_condition:
-load 3 // totalBalance: uint64
+load 1 // totalBalance: uint64
 int 100000000000000
 >
 bz if1_elseif2_condition
@@ -52,7 +53,7 @@ byte "At least one of these accounts is a whale"
 log
 b if1_end
 if1_elseif2_condition:
-load 3 // totalBalance: uint64
+load 1 // totalBalance: uint64
 int 1000000000000
 >
 bz if1_end
@@ -60,27 +61,28 @@ byte "These accounts have a reasonable balance"
 log
 if1_end:
 dig 3
-store 4 // id: uint64
-load 4 // id: uint64
-store 5 // acct: Account
+store 2 // id: uint64
+load 2 // id: uint64
+store 3 // acct: Account
 if2_condition:
-load 5 // acct: Account
+load 3 // acct: Account
 acct_params_get AcctBalance
 swap
 pop
 bz if2_end
-load 5 // acct: Account
+load 3 // acct: Account
 acct_params_get AcctBalance
 assert
 itob
 log
 if2_end:
 match foo bar
-load 3 // totalBalance: uint64
+load 1 // totalBalance: uint64
 itob
 byte 0x151f7c75
 swap
 concat
+retsub
 exampleInteralSubroutine:
 proto 1 1
 frame_dig -1 // account: Account
@@ -90,3 +92,4 @@ itob
 byte 0x151f7c75
 swap
 concat
+retsub
