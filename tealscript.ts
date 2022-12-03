@@ -20,6 +20,9 @@ interface OpSpec {
 
 export class Box<KeyType, ValueType> {
   // @ts-ignore
+  constructor(size: number = undefined) {}
+
+  // @ts-ignore
   get(key: KeyType): ValueType {}
 
   // @ts-ignore
@@ -82,6 +85,8 @@ export class Compiler {
 
   abi: any;
 
+  boxProps: any;
+
   constructor(filename: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
@@ -92,6 +97,12 @@ export class Compiler {
     this.processErrorNodes = [];
     this.frame = {};
     this.currentFunction = { name: '', returnType: '' };
+    this.boxProps = {
+      box: {
+        key: 'bytes',
+        value: 'bytes',
+      },
+    };
 
     const tree = parser.parse(this.content, { range: true, loc: true });
 
@@ -165,6 +176,18 @@ export class Compiler {
     if (elseIfCount === 0) {
       this.teal.push(`if${this.ifCount}_end:`);
       this.ifCount += 1;
+    }
+  }
+
+  private processPropertyDefinition(node: any) {
+    if (node.value.callee.name === 'Box') {
+      this.boxProps[node.key.name] = {
+        key: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
+        value: this.getTypeFromAnnotation(node.value.typeParameters.params[1]),
+        size: node.value.arguments.value,
+      };
+    } else {
+      throw new Error();
     }
   }
 
@@ -359,8 +382,21 @@ export class Compiler {
   }
 
   private processBoxCall(node: any) {
-    node.arguments.forEach((a: any) => this.processNode(a));
-    this.teal.push(`box_${node.callee.property.name}`);
+    const op = node.callee.property.name;
+    const { value, key } = this.boxProps[node.callee.object.property.name];
+
+    if (op === 'get') {
+      this.processNode(node.arguments[0]);
+      if (['Account', 'Asset', 'App', 'uint64'].includes(key)) this.teal.push('itob');
+      this.teal.push('box_get');
+      if (['Account', 'Asset', 'App', 'uint64'].includes(value)) this.teal.push('btoi');
+    } else {
+      this.processNode(node.arguments[0]);
+      if (['Account', 'Asset', 'App', 'uint64'].includes(key)) this.teal.push('itob');
+      this.processNode(node.arguments[1]);
+      if (['Account', 'Asset', 'App', 'uint64'].includes(value)) this.teal.push('itob');
+      this.teal.push('box_put');
+    }
   }
 
   private processCallExpression(node: any) {
@@ -372,7 +408,7 @@ export class Compiler {
       } else {
         throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
       }
-    } else if (node.callee.object.property.name === 'box') {
+    } else if (Object.keys(this.boxProps).includes(node.callee.object.property.name)) {
       this.processBoxCall(node);
     } else {
       throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));

@@ -1,8 +1,16 @@
 import { writeFileSync } from 'fs';
-import { Contract, Account, Compiler } from './tealscript';
+import {
+  Contract, Account, Compiler, Box,
+} from './tealscript';
 
 class ExampleTEALScriptApp extends Contract {
+  accountBalanceBox = new Box<Account, number>(8);
+
   exampleAbiMethod(firstAccount: Account, secondAccount: Account): number {
+    this.accountBalanceBox.put(firstAccount, firstAccount.balance);
+    this.accountBalanceBox.put(secondAccount, secondAccount.balance);
+
+    this.log(this.itob(this.accountBalanceBox.get(firstAccount)));
     const msg = 'HERE';
     this.log(msg);
     this.log(firstAccount);

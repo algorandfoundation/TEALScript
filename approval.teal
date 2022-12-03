@@ -10,6 +10,26 @@ int 1
 return
 exampleAbiMethod:
 proto 2 0
+frame_dig -1 // firstAccount: Account
+itob
+frame_dig -1 // firstAccount: Account
+acct_params_get AcctBalance
+assert
+itob
+box_put
+frame_dig -2 // secondAccount: Account
+itob
+frame_dig -2 // secondAccount: Account
+acct_params_get AcctBalance
+assert
+itob
+box_put
+frame_dig -1 // firstAccount: Account
+itob
+box_get
+btoi
+itob
+log
 byte "HERE"
 store 0 // msg: bytes
 load 0 // msg: bytes
