@@ -4,6 +4,8 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
+export type uint64 = number;
+
 interface OpSpec {
   Opcode: number;
   Name: string;
@@ -20,7 +22,7 @@ interface OpSpec {
 
 export class BoxMap<KeyType, ValueType> {
   // @ts-ignore
-  constructor(size: number = undefined) {}
+  constructor(options: { defaultSize?: number }) {}
 
   // @ts-ignore
   get(key: KeyType): ValueType {}
@@ -345,7 +347,7 @@ export class Compiler {
     } else if (node.init.type === AST_NODE_TYPES.NewExpression) {
       varType = node.init.callee.name;
     } else if (node.init.type === AST_NODE_TYPES.TSAsExpression) {
-      varType = node.init.typeAnnotation.type;
+      varType = this.getTypeFromAnnotation(node.init.typeAnnotation);
     }
 
     varType = varType
