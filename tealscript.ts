@@ -18,7 +18,7 @@ interface OpSpec {
   ArgEnumTypes: string;
 }
 
-export class Box<KeyType, ValueType> {
+export class BoxMap<KeyType, ValueType> {
   // @ts-ignore
   constructor(size: number = undefined) {}
 
@@ -46,7 +46,7 @@ export class Account {
 
 export class Contract {
   // @ts-ignore
-  box: Box<string, string>;
+  box: BoxMap<string, string>;
 
   // @ts-ignore
   btoi(bytes: string | Account): number {}
@@ -180,7 +180,7 @@ export class Compiler {
   }
 
   private processPropertyDefinition(node: any) {
-    if (node.value.callee.name === 'Box') {
+    if (node.value.callee.name === 'BoxMap') {
       this.boxProps[node.key.name] = {
         key: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
         value: this.getTypeFromAnnotation(node.value.typeParameters.params[1]),
