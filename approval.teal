@@ -105,6 +105,8 @@ itob
 log
 if2_end:
 match foo bar
+frame_dig -1 // firstAccount: Account
+callsub exampleInteralSubroutine
 load 1 // totalBalance: uint64
 itob
 byte 0x151f7c75

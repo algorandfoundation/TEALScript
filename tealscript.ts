@@ -452,7 +452,8 @@ export class Compiler {
       if (opcodeNames.includes(node.callee.property.name)) {
         this.processOpcode(node);
       } else {
-        throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
+        node.arguments.forEach((a: any) => this.processNode(a));
+        this.teal.push(`callsub ${node.callee.property.name}`);
       }
     } else if (Object.keys(this.boxProps).includes(node.callee.object.property.name)) {
       this.processBoxCall(node);

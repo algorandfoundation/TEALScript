@@ -42,6 +42,8 @@ class ExampleTEALScriptApp extends Contract {
     }
     this.match('foo', 'bar');
 
+    this.exampleInteralSubroutine(firstAccount);
+
     return totalBalance;
   }
 
