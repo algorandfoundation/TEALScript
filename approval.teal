@@ -31,8 +31,8 @@ btoi
 itob
 log
 byte "HERE"
-store 0 // msg: bytes
-load 0 // msg: bytes
+store 0 // msg: string
+load 0 // msg: string
 log
 frame_dig -1 // firstAccount: Account
 log

@@ -5,6 +5,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
 export type uint64 = number;
+export type bytes = string;
 
 interface OpSpec {
   Opcode: number;
@@ -37,30 +38,30 @@ interface Function {
 }
 export class Account {
   // @ts-ignore
-  constructor(id: number) {}
+  constructor(id: uint64) {}
 
   // @ts-ignore
-  readonly balance: number;
+  readonly balance: uint64;
 
   // @ts-ignore
-  readonly hasBalance: number;
+  readonly hasBalance: uint64;
 }
 
 export class Contract {
   // @ts-ignore
-  box: BoxMap<string, string>;
+  box: BoxMap<string, bytes>;
 
   // @ts-ignore
-  btoi(bytes: string | Account): number {}
+  btoi(bytes: bytes | Account): uint64 {}
 
   // @ts-ignore
-  itob(int: number): string {}
+  itob(int: uint64): bytes {}
 
   // @ts-ignore
-  log(bytes: string | Account): void {}
+  log(content: bytes | Account): void {}
 
   // @ts-ignore
-  dig(n: number): string | number {}
+  dig(n: uint64): bytes | uint64 {}
 
   // @ts-ignore
   match(...labels: string[]) {}
@@ -350,10 +351,7 @@ export class Compiler {
       varType = this.getTypeFromAnnotation(node.init.typeAnnotation);
     }
 
-    varType = varType
-      .replace('string', 'bytes')
-      .replace('number', 'uint64')
-      .replace(AST_NODE_TYPES.TSNumberKeyword, 'uint64');
+    varType = varType.replace('number', 'uint64');
 
     this.scratch[name] = {
       index: this.scratchIndex,
