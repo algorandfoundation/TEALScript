@@ -24,6 +24,10 @@ acct_params_get AcctBalance
 assert
 itob
 box_put
+bytes "fn"
+int 42
+itob
+box_put
 frame_dig -1 // firstAccount: Account
 itob
 box_get

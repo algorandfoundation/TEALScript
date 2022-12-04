@@ -21,6 +21,13 @@ interface OpSpec {
   ArgEnumTypes: string;
 }
 
+interface BoxProp {
+  key?: string
+  defaultSize?: number
+  keyType: string
+  valueType: string
+}
+
 export class BoxMap<KeyType, ValueType> {
   // @ts-ignore
   constructor(options: { defaultSize?: number }) {}
@@ -30,6 +37,17 @@ export class BoxMap<KeyType, ValueType> {
 
   // @ts-ignore
   put(key: KeyType, value: ValueType): void {}
+}
+
+export class Box<ValueType> {
+  // @ts-ignore
+  constructor(options: { defaultSize?: number, key?: string }) {}
+
+  // @ts-ignore
+  get(): ValueType {}
+
+  // @ts-ignore
+  put(value: ValueType): void {}
 }
 
 interface Function {
@@ -88,7 +106,7 @@ export class Compiler {
 
   abi: any;
 
-  boxProps: any;
+  boxProps: {[key: string]: BoxProp};
 
   constructor(filename: string) {
     this.filename = filename;
@@ -102,8 +120,8 @@ export class Compiler {
     this.currentFunction = { name: '', returnType: '' };
     this.boxProps = {
       box: {
-        key: 'bytes',
-        value: 'bytes',
+        keyType: 'bytes',
+        valueType: 'bytes',
       },
     };
 
@@ -184,11 +202,28 @@ export class Compiler {
 
   private processPropertyDefinition(node: any) {
     if (node.value.callee.name === 'BoxMap') {
-      this.boxProps[node.key.name] = {
-        key: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
-        value: this.getTypeFromAnnotation(node.value.typeParameters.params[1]),
-        size: node.value.arguments.value,
+      const props: BoxProp = {
+        keyType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
+        valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[1]),
       };
+
+      const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
+      if (sizeProp) props.defaultSize = sizeProp.value.value;
+
+      this.boxProps[node.key.name] = props;
+    } else if (node.value.callee.name === 'Box') {
+      const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
+      const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
+
+      const props: BoxProp = {
+        key: keyProp.value.value,
+        keyType: 'string',
+        valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
+      };
+
+      if (sizeProp) props.defaultSize = sizeProp.value.value;
+
+      this.boxProps[node.key.name] = props;
     } else {
       throw new Error();
     }
@@ -383,18 +418,29 @@ export class Compiler {
 
   private processBoxCall(node: any) {
     const op = node.callee.property.name;
-    const { value, key } = this.boxProps[node.callee.object.property.name];
+    const { valueType, keyType, key } = this.boxProps[node.callee.object.property.name];
 
     if (op === 'get') {
-      this.processNode(node.arguments[0]);
-      if (['Account', 'Asset', 'App', 'uint64'].includes(key)) this.teal.push('itob');
+      if (key) {
+        this.teal.push(`bytes "${key}"`);
+      } else {
+        this.processNode(node.arguments[0]);
+        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+      }
+
       this.teal.push('box_get');
-      if (['Account', 'Asset', 'App', 'uint64'].includes(value)) this.teal.push('btoi');
+      if (['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
     } else {
-      this.processNode(node.arguments[0]);
-      if (['Account', 'Asset', 'App', 'uint64'].includes(key)) this.teal.push('itob');
-      this.processNode(node.arguments[1]);
-      if (['Account', 'Asset', 'App', 'uint64'].includes(value)) this.teal.push('itob');
+      if (key) {
+        this.teal.push(`bytes "${key}"`);
+      } else {
+        this.processNode(node.arguments[0]);
+        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+      }
+
+      this.processNode(node.arguments[key ? 0 : 1]);
+      if (['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('itob');
+
       this.teal.push('box_put');
     }
   }
