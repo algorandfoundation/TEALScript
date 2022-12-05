@@ -28,6 +28,16 @@ bytes "fn"
 int 42
 itob
 box_put
+itxn_begin
+int pay
+itxn_field TypeEnum
+int 0
+itxn_field Fee
+frame_dig -1 // firstAccount: Account
+itxn_field Receiver
+int 100000
+itxn_field Amount
+itxn_submit
 frame_dig -1 // firstAccount: Account
 itob
 box_get

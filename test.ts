@@ -13,6 +13,12 @@ class ExampleTEALScriptApp extends Contract {
     this.accountBalanceBox.put(secondAccount, secondAccount.balance);
     this.favoriteNumber.put(42);
 
+    this.sendPayment({
+      fee: 0,
+      receiver: firstAccount,
+      amount: 100_000,
+    });
+
     this.log(this.itob(this.accountBalanceBox.get(firstAccount)));
     const msg = 'HERE';
     this.log(msg);

@@ -65,9 +65,24 @@ export class Account {
   readonly hasBalance: uint64;
 }
 
+interface CommonTransactionParams {
+  fee: uint64
+  sender?: Account
+  rekeyTo?: Account
+  closeRemainderTo?: Account
+}
+
+interface PaymentParams extends CommonTransactionParams {
+  amount: uint64
+  receiver: Account
+}
+
 export class Contract {
   // @ts-ignore
   box: BoxMap<string, bytes>;
+
+  // @ts-ignore
+  sendPayment(params: PaymentParams): void {}
 
   // @ts-ignore
   btoi(bytes: bytes | Account): uint64 {}
@@ -445,20 +460,47 @@ export class Compiler {
     }
   }
 
+  private processTransaction(node: any) {
+    let txnType = '';
+
+    switch (node.callee.property.name) {
+      case ('sendPayment'):
+        txnType = 'pay';
+        break;
+      default:
+        break;
+    }
+
+    this.teal.push('itxn_begin');
+    this.teal.push(`int ${txnType}`);
+    this.teal.push('itxn_field TypeEnum');
+
+    node.arguments[0].properties.forEach((p: any) => {
+      this.processNode(p.value);
+      const key = p.key.name;
+      this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+    });
+
+    this.teal.push('itxn_submit');
+  }
+
   private processCallExpression(node: any) {
     const opcodeNames = langspec.Ops.map((o) => o.Name);
+    const methodName = node.callee.property.name;
 
     if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
-      if (opcodeNames.includes(node.callee.property.name)) {
+      if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
+      } else if (methodName === 'sendPayment') {
+        this.processTransaction(node);
       } else {
         node.arguments.forEach((a: any) => this.processNode(a));
-        this.teal.push(`callsub ${node.callee.property.name}`);
+        this.teal.push(`callsub ${methodName}`);
       }
     } else if (Object.keys(this.boxProps).includes(node.callee.object.property.name)) {
       this.processBoxCall(node);
     } else {
-      throw (new Error(`TEALScript can not process ${node.callee.property.name} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
+      throw (new Error(`TEALScript can not process ${methodName} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
     }
   }
 
