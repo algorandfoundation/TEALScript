@@ -38,6 +38,40 @@ itxn_field Receiver
 int 100000
 itxn_field Amount
 itxn_submit
+itxn_begin
+int appl
+itxn_field TypeEnum
+int 0
+itxn_field Fee
+int 1337
+itxn_field ApplicationID
+byte "foo"
+itxn_field ApplicationArgs
+byte "bar"
+itxn_field ApplicationArgs
+byte "NoOp"
+itxn_field OnComplete
+itxn_submit
+itxn_begin
+int appl
+itxn_field TypeEnum
+method "exampleExternalMethod(account,uint64)void"
+itxn_field ApplicationArgs
+int 0
+itxn_field Fee
+int 1337
+itxn_field ApplicationID
+byte "NoOp"
+itxn_field OnComplete
+frame_dig -1 // firstAccount: Account
+txn_field Accounts
+int 1
+itob
+itxn_field ApplicationArgs
+int 777
+itob
+itxn_field ApplicationArgs
+itxn_submit
 frame_dig -1 // firstAccount: Account
 itob
 box_get

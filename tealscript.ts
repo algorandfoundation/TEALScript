@@ -65,16 +65,40 @@ export class Account {
   readonly hasBalance: uint64;
 }
 
+export class Asset {}
+export class Application {}
+
 interface CommonTransactionParams {
   fee: uint64
   sender?: Account
   rekeyTo?: Account
-  closeRemainderTo?: Account
+  note?: string
 }
 
 interface PaymentParams extends CommonTransactionParams {
   amount: uint64
   receiver: Account
+  closeRemainderTo?: Account
+}
+
+interface AppParams extends CommonTransactionParams {
+  applicationID: uint64
+  onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  accounts?: Account[]
+  approvalProgram?: bytes
+  applicationArgs?: bytes[]
+  clearStateProgram?: bytes
+  apps?: Array<uint64 | Application>
+  assets?: Array<uint64 | Asset>
+  globalNumByteSlice?: uint64
+  globalNumUint?: uint64
+  localNumByteSlice?: uint64
+  localNumUint?: uint64
+}
+
+interface MethodCallParams<ArgsType> extends AppParams {
+  methodArgs: ArgsType
+  name: string
 }
 
 export class Contract {
@@ -83,6 +107,12 @@ export class Contract {
 
   // @ts-ignore
   sendPayment(params: PaymentParams): void {}
+
+  // @ts-ignore
+  sendAppCall(params: AppParams): void {}
+
+  // @ts-ignore
+  sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType {}
 
   // @ts-ignore
   btoi(bytes: bytes | Account): uint64 {}
@@ -300,6 +330,9 @@ export class Compiler {
       case 'TSNumberKeyword':
         type = 'uint64';
         break;
+      case 'TSVoidKeyword':
+        type = 'void';
+        break;
       default:
         type = typeAnnotation.typeName.name;
         break;
@@ -310,8 +343,9 @@ export class Compiler {
 
   private processMethodDefinition(node: any) {
     this.currentFunction.name = node.key.name;
-    this.currentFunction.returnType = this
-      .getTypeFromAnnotation(node.value.returnType.typeAnnotation);
+    this.currentFunction.returnType = this.getTypeFromAnnotation(
+      node.value.returnType.typeAnnotation,
+    );
 
     if (node.accessibility === 'private') {
       this.processSubroutine(node.value);
@@ -467,6 +501,10 @@ export class Compiler {
       case ('sendPayment'):
         txnType = 'pay';
         break;
+      case ('sendMethodCall'):
+      case ('sendAppCall'):
+        txnType = 'appl';
+        break;
       default:
         break;
     }
@@ -475,10 +513,64 @@ export class Compiler {
     this.teal.push(`int ${txnType}`);
     this.teal.push('itxn_field TypeEnum');
 
+    const nameProp = node.arguments[0].properties.find((p: any) => p.key.name === 'name');
+
+    if (nameProp) {
+      const argTypes = node.typeParameters.params[0].elementTypes
+        .map((t: any) => this.getTypeFromAnnotation(t));
+      const returnType = this.getTypeFromAnnotation(node.typeParameters.params[1]);
+      this.teal.push(`method "${nameProp.value.value}(${argTypes.join(',').toLowerCase()})${returnType.toLowerCase()}"`);
+      this.teal.push('itxn_field ApplicationArgs');
+    }
+
     node.arguments[0].properties.forEach((p: any) => {
-      this.processNode(p.value);
       const key = p.key.name;
-      this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+
+      if (key === 'name') {
+        // do nothing
+      } else if (key === 'methodArgs') {
+        const argTypes = node.typeParameters.params[0].elementTypes
+          .map((t: any) => this.getTypeFromAnnotation(t));
+        let accountIndex = 1;
+        let appIndex = 1;
+        let assetIndex = 0;
+
+        p.value.elements.forEach((e: any, i: number) => {
+          if (argTypes[i] === 'Account') {
+            this.processNode(e);
+            this.teal.push('txn_field Accounts');
+            this.teal.push(`int ${accountIndex}`);
+            this.teal.push('itob');
+            accountIndex += 1;
+          } else if (argTypes[i] === 'Asset') {
+            this.processNode(e);
+            this.teal.push('txn_field Assets');
+            this.teal.push(`int ${assetIndex}`);
+            this.teal.push('itob');
+            assetIndex += 1;
+          } else if (argTypes[i] === 'App') {
+            this.processNode(e);
+            this.teal.push('txn_field Applications');
+            this.teal.push(`int ${appIndex}`);
+            this.teal.push('itob');
+            appIndex += 1;
+          } else if (argTypes[i] === 'uint64') {
+            this.processNode(e);
+            this.teal.push('itob');
+          } else {
+            this.processNode(e);
+          }
+          this.teal.push('itxn_field ApplicationArgs');
+        });
+      } else if (p.value.type === AST_NODE_TYPES.ArrayExpression) {
+        p.value.elements.forEach((e: any) => {
+          this.processNode(e);
+          this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+        });
+      } else {
+        this.processNode(p.value);
+        this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+      }
     });
 
     this.teal.push('itxn_submit');
@@ -491,7 +583,7 @@ export class Compiler {
     if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
-      } else if (methodName === 'sendPayment') {
+      } else if (['sendPayment', 'sendAppCall', 'sendMethodCall'].includes(methodName)) {
         this.processTransaction(node);
       } else {
         node.arguments.forEach((a: any) => this.processNode(a));

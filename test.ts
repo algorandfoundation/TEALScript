@@ -19,6 +19,21 @@ class ExampleTEALScriptApp extends Contract {
       amount: 100_000,
     });
 
+    this.sendAppCall({
+      fee: 0,
+      applicationID: 1337,
+      applicationArgs: ['foo', 'bar'],
+      onComplete: 'NoOp',
+    });
+
+    this.sendMethodCall<[Account, uint64], void>({
+      fee: 0,
+      applicationID: 1337,
+      onComplete: 'NoOp',
+      name: 'exampleExternalMethod',
+      methodArgs: [firstAccount, 42],
+    });
+
     this.log(this.itob(this.accountBalanceBox.get(firstAccount)));
     const msg = 'HERE';
     this.log(msg);
