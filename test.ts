@@ -56,12 +56,11 @@ class ExampleTEALScriptApp extends Contract {
       this.log('These accounts have a reasonable balance');
     }
 
-    const id = this.dig(3) as uint64;
+    const id = 456;
     const acct = new Account(id);
     if (acct.hasBalance) {
       this.log(this.itob(acct.balance));
     }
-    this.match('foo', 'bar');
 
     this.exampleInteralSubroutine(firstAccount);
 

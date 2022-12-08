@@ -68,7 +68,7 @@ txn_field Accounts
 int 1
 itob
 itxn_field ApplicationArgs
-int 777
+int 42
 itob
 itxn_field ApplicationArgs
 itxn_submit
@@ -132,7 +132,7 @@ bz if1_end
 byte "These accounts have a reasonable balance"
 log
 if1_end:
-dig 3
+int 456
 store 2 // id: uint64
 load 2 // id: uint64
 store 3 // acct: Account
@@ -148,7 +148,6 @@ assert
 itob
 log
 if2_end:
-match foo bar
 frame_dig -1 // firstAccount: Account
 callsub exampleInteralSubroutine
 load 1 // totalBalance: uint64

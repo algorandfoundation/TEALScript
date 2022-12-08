@@ -101,6 +101,9 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
+type BytesLike = bytes | Account
+type IntLike = uint64 | Asset | Application
+
 export class Contract {
   // @ts-ignore
   box: BoxMap<string, bytes>;
@@ -115,19 +118,100 @@ export class Contract {
   sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType {}
 
   // @ts-ignore
-  btoi(bytes: bytes | Account): uint64 {}
+  btoi(bytes: BytesLike): uint64 {}
 
   // @ts-ignore
-  itob(int: uint64): bytes {}
+  itob(int: IntLike): bytes {}
 
   // @ts-ignore
-  log(content: bytes | Account): void {}
+  log(content: BytesLike): void {}
 
   // @ts-ignore
-  dig(n: uint64): bytes | uint64 {}
+  err() {}
 
   // @ts-ignore
-  match(...labels: string[]) {}
+  sha256(arg0: ByteLike) {}
+
+  // @ts-ignore
+  keccak256(arg0: ByteLike) {}
+
+  // @ts-ignore
+  sha512_256(arg0: ByteLike) {}
+
+  // @ts-ignore
+  ed25519verify(arg0: ByteLike, arg1: ByteLike, arg2: ByteLike) {}
+
+  // @ts-ignore
+  len(arg0: ByteLike) {}
+
+  // @ts-ignore
+  mulw(arg0: IntLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  addw(arg0: IntLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  divmodw(arg0: IntLike, arg1: IntLike, arg2: IntLike, arg3: IntLike) {}
+
+  // @ts-ignore
+  assert(arg0: IntLike) {}
+
+  // @ts-ignore
+  concat(arg0: ByteLike, arg1: ByteLike) {}
+
+  // @ts-ignore
+  substring3(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
+
+  // @ts-ignore
+  getbit(arg0: ByteLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  setbit(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
+
+  // @ts-ignore
+  getbyte(arg0: ByteLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  setbyte(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
+
+  // @ts-ignore
+  extract3(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
+
+  // @ts-ignore
+  extract_uint16(arg0: ByteLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  extract_uint32(arg0: ByteLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  extract_uint64(arg0: ByteLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  replace3(arg0: ByteLike, arg1: IntLike, arg2: ByteLike) {}
+
+  // @ts-ignore
+  ed25519verify_bare(arg0: ByteLike, arg1: ByteLike, arg2: ByteLike) {}
+
+  // @ts-ignore
+  sqrt(arg0: IntLike) {}
+
+  // @ts-ignore
+  bitlen(arg0: ByteLike) {}
+
+  // @ts-ignore
+  exp(arg0: IntLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  expw(arg0: IntLike, arg1: IntLike) {}
+
+  // @ts-ignore
+  bsqrt(arg0: ByteLike) {}
+
+  // @ts-ignore
+  divw(arg0: IntLike, arg1: IntLike, arg2: IntLike) {}
+
+  // @ts-ignore
+  sha3_256(arg0: ByteLike) {}
 }
 
 export class Compiler {
