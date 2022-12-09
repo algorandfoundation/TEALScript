@@ -21,7 +21,8 @@ interface OpSpec {
   ArgEnumTypes: string;
 }
 
-interface BoxProp {
+interface StorageProp {
+  type: string
   key?: string
   defaultSize?: number
   keyType: string
@@ -30,7 +31,7 @@ interface BoxProp {
 
 export class BoxMap<KeyType, ValueType> {
   // @ts-ignore
-  constructor(options: { defaultSize?: number }) {}
+  constructor(options?: { defaultSize?: number }) {}
 
   // @ts-ignore
   get(key: KeyType): ValueType {}
@@ -41,13 +42,35 @@ export class BoxMap<KeyType, ValueType> {
 
 export class Box<ValueType> {
   // @ts-ignore
-  constructor(options: { defaultSize?: number, key?: string }) {}
+  constructor(options?: { defaultSize?: number, key?: string }) {}
 
   // @ts-ignore
   get(): ValueType {}
 
   // @ts-ignore
   put(value: ValueType): void {}
+}
+
+export class Global<ValueType> {
+  // @ts-ignore
+  constructor(options?: { key?: string }) {}
+
+  // @ts-ignore
+  get(): ValueType {}
+
+  // @ts-ignore
+  put(value: ValueType): void {}
+}
+
+export class GlobalMap<KeyType, ValueType> {
+  // @ts-ignore
+  constructor() {}
+
+  // @ts-ignore
+  get(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  put(key: KeyType, value: ValueType): void {}
 }
 
 interface Function {
@@ -235,7 +258,7 @@ export class Compiler {
 
   abi: any;
 
-  boxProps: {[key: string]: BoxProp};
+  storageProps: {[key: string]: StorageProp};
 
   constructor(filename: string) {
     this.filename = filename;
@@ -247,8 +270,9 @@ export class Compiler {
     this.processErrorNodes = [];
     this.frame = {};
     this.currentFunction = { name: '', returnType: '' };
-    this.boxProps = {
+    this.storageProps = {
       box: {
+        type: 'box',
         keyType: 'bytes',
         valueType: 'bytes',
       },
@@ -330,29 +354,35 @@ export class Compiler {
   }
 
   private processPropertyDefinition(node: any) {
-    if (node.value.callee.name === 'BoxMap') {
-      const props: BoxProp = {
+    const klass = node.value.callee.name as string;
+
+    if (['BoxMap', 'GlobalMap'].includes(klass)) {
+      const props: StorageProp = {
+        type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
         valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[1]),
       };
 
-      const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
-      if (sizeProp) props.defaultSize = sizeProp.value.value;
+      if (node.value.arguments[0]) {
+        const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
+        if (sizeProp) props.defaultSize = sizeProp.value.value;
+      }
 
-      this.boxProps[node.key.name] = props;
-    } else if (node.value.callee.name === 'Box') {
-      const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
+      this.storageProps[node.key.name] = props;
+    } else if (['Box', 'Global'].includes(klass)) {
       const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
 
-      const props: BoxProp = {
+      const props: StorageProp = {
+        type: klass.toLowerCase(),
         key: keyProp.value.value,
         keyType: 'string',
         valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
       };
 
+      const sizeProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'defaultSize');
       if (sizeProp) props.defaultSize = sizeProp.value.value;
 
-      this.boxProps[node.key.name] = props;
+      this.storageProps[node.key.name] = props;
     } else {
       throw new Error();
     }
@@ -413,6 +443,9 @@ export class Compiler {
     switch (typeAnnotation.type) {
       case 'TSNumberKeyword':
         type = 'uint64';
+        break;
+      case 'TSStringKeyword':
+        type = 'string';
         break;
       case 'TSVoidKeyword':
         type = 'void';
@@ -549,9 +582,11 @@ export class Compiler {
     this.teal.push(line.join(' '));
   }
 
-  private processBoxCall(node: any) {
+  private processStorageCall(node: any) {
     const op = node.callee.property.name;
-    const { valueType, keyType, key } = this.boxProps[node.callee.object.property.name];
+    const {
+      type, valueType, keyType, key,
+    } = this.storageProps[node.callee.object.property.name] as StorageProp;
 
     if (op === 'get') {
       if (key) {
@@ -561,8 +596,18 @@ export class Compiler {
         if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
       }
 
-      this.teal.push('box_get');
-      if (['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
+      switch (type) {
+        case ('global'):
+          this.teal.push('app_global_get');
+          break;
+        case ('box'):
+          this.teal.push('box_get');
+          break;
+        default:
+          throw new Error();
+      }
+
+      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
     } else {
       if (key) {
         this.teal.push(`bytes "${key}"`);
@@ -572,9 +617,18 @@ export class Compiler {
       }
 
       this.processNode(node.arguments[key ? 0 : 1]);
-      if (['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('itob');
+      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('itob');
 
-      this.teal.push('box_put');
+      switch (type) {
+        case ('global'):
+          this.teal.push('app_global_put');
+          break;
+        case ('box'):
+          this.teal.push('box_put');
+          break;
+        default:
+          throw new Error();
+      }
     }
   }
 
@@ -673,8 +727,8 @@ export class Compiler {
         node.arguments.forEach((a: any) => this.processNode(a));
         this.teal.push(`callsub ${methodName}`);
       }
-    } else if (Object.keys(this.boxProps).includes(node.callee.object.property.name)) {
-      this.processBoxCall(node);
+    } else if (Object.keys(this.storageProps).includes(node.callee.object.property.name)) {
+      this.processStorageCall(node);
     } else {
       throw (new Error(`TEALScript can not process ${methodName} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
     }

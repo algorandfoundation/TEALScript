@@ -28,6 +28,12 @@ bytes "fn"
 int 42
 itob
 box_put
+bytes "sg"
+int 123
+app_global_put
+byte "foo"
+int 456
+app_global_put
 itxn_begin
 int pay
 itxn_field TypeEnum
