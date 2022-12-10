@@ -4,26 +4,38 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
-const GLOBAL_TYPES = {
-  minTxnFee: 'uint64',
-  minBalance: 'uint64',
-  maxTxnLife: 'uint64',
-  zeroAddress: 'bytes',
-  groupSize: 'uint64',
-  logicSigVersion: 'uint64',
-  round: 'uint64',
-  latestTimestamp: 'uint64',
-  currentApplication: 'Application',
-  creatorAddress: 'Account',
-  currentApplicationAddress: 'Account',
-  groupID: 'bytes',
-  opcodeBudget: 'uint64',
-  callerApplication: 'Application',
-  callerApplicationAddress: 'Account',
-};
-
-const APP_TYPES = {
-  address: 'Account',
+const TYPES = {
+  global: {
+    minTxnFee: 'uint64',
+    minBalance: 'uint64',
+    maxTxnLife: 'uint64',
+    zeroAddress: 'Account',
+    groupSize: 'uint64',
+    logicSigVersion: 'uint64',
+    round: 'uint64',
+    latestTimestamp: 'uint64',
+    currentApplication: 'Application',
+    creatorAddress: 'Account',
+    currentApplicationAddress: 'Account',
+    groupID: 'bytes',
+    opcodeBudget: 'uint64',
+    callerApplication: 'Application',
+    callerApplicationAddress: 'Account',
+  },
+  txn: {
+    fee: 'uint64',
+    sender: 'Account',
+    rekeyTo: 'Account',
+    note: 'bytes',
+    applicationID: 'uint64',
+    onComplete: 'bytes',
+    approvalProgram: 'bytes',
+    clearStateProgram: 'bytes',
+    globalNumByteSlice: 'uint64',
+    globalNumUint: 'uint64',
+    localNumByteSlice: 'uint64',
+    localNumUint: 'uint64',
+  },
 };
 
 export type uint64 = number;
@@ -153,7 +165,9 @@ interface MethodCallParams<ArgsType> extends AppParams {
 
 type BytesLike = bytes | Account
 type IntLike = uint64 | Asset | Application
-
+interface ThisTxnParams extends AppParams {
+  sender: Account
+}
 export class Contract {
   global!: {
     minTxnFee: uint64
@@ -172,6 +186,8 @@ export class Contract {
     callerApplication: Application
     callerApplicationAddress: Account
   };
+
+  txn!: ThisTxnParams;
 
   // @ts-ignore
   sendPayment(params: PaymentParams): void {}
@@ -832,10 +848,10 @@ export class Compiler {
       nodes.reverse().forEach((n: any) => {
         let type: string | undefined;
 
-        if (prevProps.at(-1)?.name === 'global') {
-          this.teal.push(`global ${this.capitalizeFirstChar(n.property.name)}`);
+        if (prevProps.at(-1) && ['global', 'txn'].includes(prevProps.at(-1)!.name)) {
+          this.teal.push(`${prevProps.at(-1)!.name} ${this.capitalizeFirstChar(n.property.name)}`);
           // @ts-ignore
-          type = GLOBAL_TYPES[n.property.name];
+          type = TYPES[prevProps.at(-1)!.name][n.property.name];
         } else if (prevProps.at(-1)?.type) {
           // @ts-ignore
           const fn = this.TYPE_FUNCTIONS[prevProps.at(-1).type][n.property.name];

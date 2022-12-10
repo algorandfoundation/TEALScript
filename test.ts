@@ -79,6 +79,7 @@ class ExampleTEALScriptApp extends Contract {
     this.log(this.itob(bal));
     this.log(this.itob(account.assetBalance(1337)));
     this.log(this.itob(this.global.currentApplication.address.assetBalance(42)));
+    this.log(this.itob(this.txn.sender.assetBalance(777)));
     return account.balance;
   }
 }

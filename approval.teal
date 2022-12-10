@@ -187,6 +187,12 @@ asset_holding_get AssetBalance
 assert
 itob
 log
+txn Sender
+int 777
+asset_holding_get AssetBalance
+assert
+itob
+log
 frame_dig -1 // account: Account
 acct_params_get AcctBalance
 assert
