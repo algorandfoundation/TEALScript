@@ -164,9 +164,15 @@ concat
 retsub
 exampleInteralSubroutine:
 proto 1 1
-byte "foo"
-byte "bar"
-box_put
+global CurrentApplication
+app_params_get AppAddress
+assert
+acct_params_get AcctBalance
+assert
+store 4 // bal: uint64
+load 4 // bal: uint64
+itob
+log
 frame_dig -1 // account: Account
 acct_params_get AcctBalance
 assert

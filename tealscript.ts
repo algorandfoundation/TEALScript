@@ -4,6 +4,28 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as langspec from './langspec.json';
 
+const GLOBAL_TYPES = {
+  minTxnFee: 'uint64',
+  minBalance: 'uint64',
+  maxTxnLife: 'uint64',
+  zeroAddress: 'bytes',
+  groupSize: 'uint64',
+  logicSigVersion: 'uint64',
+  round: 'uint64',
+  latestTimestamp: 'uint64',
+  currentApplication: 'Application',
+  creatorAddress: 'Account',
+  currentApplicationAddress: 'Account',
+  groupID: 'bytes',
+  opcodeBudget: 'uint64',
+  callerApplication: 'Application',
+  callerApplicationAddress: 'Account',
+};
+
+const APP_TYPES = {
+  address: 'Account',
+};
+
 export type uint64 = number;
 export type bytes = string;
 
@@ -89,7 +111,9 @@ export class Account {
 }
 
 export class Asset {}
-export class Application {}
+export class Application {
+  address!: Account;
+}
 
 interface CommonTransactionParams {
   fee: uint64
@@ -128,8 +152,23 @@ type BytesLike = bytes | Account
 type IntLike = uint64 | Asset | Application
 
 export class Contract {
-  // @ts-ignore
-  box: BoxMap<string, bytes>;
+  global!: {
+    minTxnFee: uint64
+    minBalance: uint64
+    maxTxnLife: uint64
+    zeroAddress: bytes
+    groupSize: uint64
+    logicSigVersion: uint64
+    round: uint64
+    latestTimestamp: uint64
+    currentApplication: Application
+    creatorAddress: Account
+    currentApplicationAddress: Account
+    groupID: bytes
+    opcodeBudget: uint64
+    callerApplication: Application
+    callerApplicationAddress: Account
+  };
 
   // @ts-ignore
   sendPayment(params: PaymentParams): void {}
@@ -260,6 +299,8 @@ export class Compiler {
 
   storageProps: {[key: string]: StorageProp};
 
+  lastType: string | undefined;
+
   constructor(filename: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
@@ -270,13 +311,7 @@ export class Compiler {
     this.processErrorNodes = [];
     this.frame = {};
     this.currentFunction = { name: '', returnType: '' };
-    this.storageProps = {
-      box: {
-        type: 'box',
-        keyType: 'bytes',
-        valueType: 'bytes',
-      },
-    };
+    this.storageProps = {};
 
     const tree = parser.parse(this.content, { range: true, loc: true });
 
@@ -316,11 +351,25 @@ export class Compiler {
 
   private readonly TYPE_FUNCTIONS = {
     Account: {
-      balance: () => {
-        this.maybeValue('acct_params_get AcctBalance');
+      balance: {
+        fn: () => {
+          this.maybeValue('acct_params_get AcctBalance');
+        },
+        type: 'uint64',
       },
-      hasBalance: () => {
-        this.hasMaybeValue('acct_params_get AcctBalance');
+      hasBalance: {
+        fn: () => {
+          this.hasMaybeValue('acct_params_get AcctBalance');
+        },
+        type: 'uint64',
+      },
+    },
+    Application: {
+      address: {
+        fn: () => {
+          this.maybeValue('app_params_get AppAddress');
+        },
+        type: 'Account',
       },
     },
   };
@@ -540,8 +589,9 @@ export class Compiler {
   private processVariableDeclarator(node: any) {
     const { name } = node.id;
 
-    let varType: string = typeof node.init.value;
     this.processNode(node.init);
+    let varType: string = this.lastType || typeof node.init.value;
+    this.lastType = undefined;
 
     const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
     if (numberTypes.includes(node.init.type)) {
@@ -703,15 +753,19 @@ export class Compiler {
       } else if (p.value.type === AST_NODE_TYPES.ArrayExpression) {
         p.value.elements.forEach((e: any) => {
           this.processNode(e);
-          this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+          this.teal.push(`itxn_field ${this.capitalizeFirstChar(key)}`);
         });
       } else {
         this.processNode(p.value);
-        this.teal.push(`itxn_field ${key.charAt(0).toUpperCase() + key.slice(1)}`);
+        this.teal.push(`itxn_field ${this.capitalizeFirstChar(key)}`);
       }
     });
 
     this.teal.push('itxn_submit');
+  }
+
+  private capitalizeFirstChar(str: string) {
+    return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
   }
 
   private processCallExpression(node: any) {
@@ -734,17 +788,43 @@ export class Compiler {
     }
   }
 
-  private processMemberExpression(node: any) {
-    if (node.object.property?.name === 'box') {
-      this.teal.push(`box_get ${node.property.name}`);
+  private processStorageExpression(node: any) {
+    const target = this.frame[node.object.name] || this.scratch[node.object.name];
+    const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
+
+    this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
+
+    // @ts-ignore
+    this.TYPE_FUNCTIONS[target.type][node.property.name].fn();
+  }
+
+  private processMemberExpression(node: any, nodes: any[] = []) {
+    nodes.push(node);
+
+    if (node.object.type === AST_NODE_TYPES.MemberExpression) {
+      this.processMemberExpression(node.object, nodes);
     } else {
-      const target = this.frame[node.object.name] || this.scratch[node.object.name];
-      const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
+      const prevProps: {name: string, type?: string}[] = [];
 
-      this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
+      nodes.reverse().forEach((n: any) => {
+        let type: string | undefined;
 
-      // @ts-ignore
-      this.TYPE_FUNCTIONS[target.type][node.property.name]();
+        if (prevProps.at(-1)?.name === 'global') {
+          this.teal.push(`global ${this.capitalizeFirstChar(n.property.name)}`);
+          // @ts-ignore
+          type = GLOBAL_TYPES[n.property.name];
+        } else if (prevProps.at(-1)?.type) {
+          // @ts-ignore
+          const fn = this.TYPE_FUNCTIONS[prevProps.at(-1).type][n.property.name];
+          fn.fn();
+          type = fn.type;
+        } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
+          this.processStorageExpression(node);
+        }
+
+        this.lastType = type;
+        prevProps.push({ name: n.property.name, type });
+      });
     }
   }
 
