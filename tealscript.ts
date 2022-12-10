@@ -165,8 +165,19 @@ interface MethodCallParams<ArgsType> extends AppParams {
 
 type BytesLike = bytes | Account
 type IntLike = uint64 | Asset | Application
-interface ThisTxnParams extends AppParams {
+interface ThisTxnParams {
+  fee: uint64
   sender: Account
+  rekeyTo?: Account
+  note?: bytes
+  applicationID: uint64
+  onComplete: bytes
+  approvalProgram?: bytes
+  clearStateProgram?: bytes
+  globalNumByteSlice?: uint64
+  globalNumUint?: uint64
+  localNumByteSlice?: uint64
+  localNumUint?: uint64
 }
 export class Contract {
   global!: {
