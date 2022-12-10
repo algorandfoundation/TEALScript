@@ -108,6 +108,9 @@ export class Account {
 
   // @ts-ignore
   readonly hasBalance: uint64;
+
+  // @ts-ignore
+  assetBalance(asaID: uint64): uint64 {}
 }
 
 export class Asset {}
@@ -363,6 +366,13 @@ export class Compiler {
         },
         type: 'uint64',
       },
+      assetBalance: {
+        fn: () => {
+          this.maybeValue('asset_holding_get AssetBalance');
+        },
+        type: 'uint64',
+        args: true,
+      },
     },
     Application: {
       address: {
@@ -590,7 +600,9 @@ export class Compiler {
     const { name } = node.id;
 
     this.processNode(node.init);
-    let varType: string = this.lastType || typeof node.init.value;
+    let varType: string = typeof node.init.value;
+    if (varType === 'undefined' && this.lastType) varType = this.lastType;
+
     this.lastType = undefined;
 
     const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
@@ -781,21 +793,32 @@ export class Compiler {
         node.arguments.forEach((a: any) => this.processNode(a));
         this.teal.push(`callsub ${methodName}`);
       }
-    } else if (Object.keys(this.storageProps).includes(node.callee.object.property.name)) {
+    } else if (Object.keys(this.storageProps).includes(node.callee.object.property?.name)) {
       this.processStorageCall(node);
     } else {
-      throw (new Error(`TEALScript can not process ${methodName} at ${this.filename}:${node.loc.start.line}:${node.loc.start.column}`));
+      if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
+        this.processNode(node.callee);
+      } else {
+        this.processNode(node.callee.object);
+      }
+      node.arguments.forEach((a: any) => this.processNode(a));
+      // @ts-ignore
+      this.TYPE_FUNCTIONS[this.lastType][node.callee.property.name].fn();
     }
   }
 
-  private processStorageExpression(node: any) {
+  private processStorageExpression(node: any): string {
     const target = this.frame[node.object.name] || this.scratch[node.object.name];
     const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
 
     this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
 
     // @ts-ignore
-    this.TYPE_FUNCTIONS[target.type][node.property.name].fn();
+    const fn = this.TYPE_FUNCTIONS[target.type][node.property.name];
+
+    if (!fn.args) fn.fn();
+
+    return target.type;
   }
 
   private processMemberExpression(node: any, nodes: any[] = []) {
@@ -819,7 +842,7 @@ export class Compiler {
           fn.fn();
           type = fn.type;
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
-          this.processStorageExpression(node);
+          type = this.processStorageExpression(node);
         }
 
         this.lastType = type;

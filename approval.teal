@@ -174,6 +174,20 @@ load 4 // bal: uint64
 itob
 log
 frame_dig -1 // account: Account
+int 1337
+asset_holding_get AssetBalance
+assert
+itob
+log
+global CurrentApplication
+app_params_get AppAddress
+assert
+int 42
+asset_holding_get AssetBalance
+assert
+itob
+log
+frame_dig -1 // account: Account
 acct_params_get AcctBalance
 assert
 itob

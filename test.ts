@@ -77,6 +77,8 @@ class ExampleTEALScriptApp extends Contract {
   private exampleInteralSubroutine(account: Account): uint64 {
     const bal = this.global.currentApplication.address.balance;
     this.log(this.itob(bal));
+    this.log(this.itob(account.assetBalance(1337)));
+    this.log(this.itob(this.global.currentApplication.address.assetBalance(42)));
     return account.balance;
   }
 }
