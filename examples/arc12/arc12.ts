@@ -61,11 +61,11 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    // TODO: if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
+    if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
   }
 
   optIn(asa: Asset, mbrPayment: PayTxn): void {
-    // TODO: this.assert(this.funderMap.exists(asa));
+    this.assert(this.funderMap.exists(asa));
     this.assert(mbrPayment.sender === this.txn.sender);
     this.assert(mbrPayment.receiver === this.global.currentApplicationAddress);
 
@@ -84,7 +84,7 @@ class Vault extends Contract {
   }
 
   claim(asa: Asset, creator: Account, asaMbrFunder: Account): void {
-    // TODO: this.assert(this.funderMap.exists(asa));
+    this.assert(this.funderMap.exists(asa));
     this.assert(asaMbrFunder === this.funderMap.get(asa));
     this.assert(this.txn.sender === this.receiver.get());
     this.assert(this.creator.get() === creator);
@@ -107,7 +107,7 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    // TODO: if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
+    if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
   }
 
   delete(): void {
@@ -120,7 +120,7 @@ class Master extends Contract {
   vaultMap = new BoxMap<Account, Application>({ defaultSize: 8 });
 
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
-    // TODO: this.assert(this.vaultMap.exists(receiver))
+    this.assert(this.vaultMap.exists(receiver));
     this.assert(mbrPayment.receiver === this.global.currentApplicationAddress);
     this.assert(mbrPayment.sender === this.txn.sender);
     this.assert(mbrPayment.closeRemainderTo === this.global.zeroAddress);
@@ -152,7 +152,7 @@ class Master extends Contract {
   }
 
   verifyAxfer(receiver: Account, vaultAxfer: AssetTransferTxn, vault: Application): void {
-    // TODO: this.assert(this.vaultMap.exists(receiver))
+    this.assert(this.vaultMap.exists(receiver));
 
     this.assert(this.vaultMap.get(receiver) === vault);
     this.assert(vaultAxfer.assetReceiver === vault.address);
@@ -164,7 +164,7 @@ class Master extends Contract {
   }
 
   getVaultAddr(receiver: Account): Account {
-    // TODO: this.assert(this.vaultMap.exists(receiver))
+    this.assert(this.vaultMap.exists(receiver));
     return this.vaultMap.get(receiver).address;
   }
 

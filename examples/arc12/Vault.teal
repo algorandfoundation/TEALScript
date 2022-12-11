@@ -96,7 +96,6 @@ itxn_submit
 frame_dig -3 // asa: Asset
 itob
 box_del
-btoi
 load 1 // preMbr: uint64
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
@@ -125,6 +124,16 @@ itxn_field Amount
 int 0
 itxn_field Fee
 itxn_submit
+if0_condition:
+global CurrentApplicationAddress
+acct_params_get AcctTotalAssets
+assert
+int 0
+==
+bz if0_end
+frame_dig -4 // vaultCreator: Account
+callsub closeAcct
+if0_end:
 retsub
 abi_route_optIn:
 txna ApplicationArgs 1
@@ -137,6 +146,12 @@ int 1
 return
 optIn:
 proto 2 0
+frame_dig -1 // asa: Asset
+itob
+box_get
+swap
+pop
+assert
 frame_dig -2 // mbrPayment: PayTxn
 gtxns Sender
 txn Sender
@@ -190,10 +205,17 @@ int 1
 return
 claim:
 proto 3 0
+frame_dig -1 // asa: Asset
+itob
+box_get
+swap
+pop
+assert
 frame_dig -3 // asaMbrFunder: Account
 frame_dig -1 // asa: Asset
 itob
 box_get
+assert
 btoi
 ==
 assert
@@ -214,7 +236,6 @@ store 4 // initialMbr: uint64
 frame_dig -1 // asa: Asset
 itob
 box_del
-btoi
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -246,6 +267,16 @@ itxn_field Amount
 int 0
 itxn_field Fee
 itxn_submit
+if1_condition:
+global CurrentApplicationAddress
+acct_params_get AcctTotalAssets
+assert
+int 0
+==
+bz if1_end
+frame_dig -2 // creator: Account
+callsub closeAcct
+if1_end:
 retsub
 abi_route_delete:
 callsub delete

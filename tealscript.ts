@@ -79,6 +79,9 @@ export class BoxMap<KeyType, ValueType> {
   get(key: KeyType): ValueType {}
 
   // @ts-ignore
+  exists(key: KeyType): ValueType {}
+
+  // @ts-ignore
   delete(key: KeyType): ValueType {}
 
   // @ts-ignore
@@ -91,6 +94,9 @@ export class Box<ValueType> {
 
   // @ts-ignore
   get(): ValueType {}
+
+  // @ts-ignore
+  exists(): ValueType {}
 
   // @ts-ignore
   delete(): ValueType {}
@@ -107,6 +113,9 @@ export class Global<ValueType> {
   get(): ValueType {}
 
   // @ts-ignore
+  exists(): ValueType {}
+
+  // @ts-ignore
   delete(): ValueType {}
 
   // @ts-ignore
@@ -119,6 +128,9 @@ export class GlobalMap<KeyType, ValueType> {
 
   // @ts-ignore
   get(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  exists(key: KeyType): ValueType {}
 
   // @ts-ignore
   delete(key: KeyType): ValueType {}
@@ -143,6 +155,9 @@ export class Account {
 
   // @ts-ignore
   readonly minBalance: uint64;
+
+  // @ts-ignore
+  readonly assets: uint64;
 
   // @ts-ignore
   assetBalance(asa: Asset): uint64 {}
@@ -454,6 +469,12 @@ export class Compiler {
       minBalance: {
         fn: () => {
           this.maybeValue('acct_params_get AcctMinBalance');
+        },
+        type: 'uint64',
+      },
+      assets: {
+        fn: () => {
+          this.maybeValue('acct_params_get AcctTotalAssets');
         },
         type: 'uint64',
       },
@@ -770,7 +791,7 @@ export class Compiler {
           this.teal.push('app_global_get');
           break;
         case ('box'):
-          this.teal.push('box_get');
+          this.maybeValue('box_get');
           break;
         default:
           throw new Error();
@@ -795,8 +816,6 @@ export class Compiler {
         default:
           throw new Error();
       }
-
-      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
     } else if (op === 'put') {
       if (key) {
         this.teal.push(`bytes "${key}"`);
@@ -814,6 +833,26 @@ export class Compiler {
           break;
         case ('box'):
           this.teal.push('box_put');
+          break;
+        default:
+          throw new Error();
+      }
+    } else if (op === 'exists') {
+      if (type === 'global') this.teal.push('txna Applications 0');
+
+      if (key) {
+        this.teal.push(`bytes "${key}"`);
+      } else {
+        this.processNode(node.arguments[0]);
+        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+      }
+
+      switch (type) {
+        case ('global'):
+          this.hasMaybeValue('app_global_get_ex');
+          break;
+        case ('box'):
+          this.hasMaybeValue('box_get');
           break;
         default:
           throw new Error();

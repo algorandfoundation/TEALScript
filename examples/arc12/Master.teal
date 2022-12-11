@@ -11,6 +11,12 @@ int 1
 return
 createVault:
 proto 2 0
+frame_dig -1 // receiver: Account
+itob
+box_get
+swap
+pop
+assert
 frame_dig -2 // mbrPayment: PayTxn
 gtxns Receiver
 global CurrentApplicationAddress
@@ -99,6 +105,13 @@ proto 3 0
 frame_dig -1 // receiver: Account
 itob
 box_get
+swap
+pop
+assert
+frame_dig -1 // receiver: Account
+itob
+box_get
+assert
 frame_dig -3 // vault: Application
 ==
 assert
@@ -126,6 +139,7 @@ proto 1 0
 frame_dig -1 // receiver: Account
 itob
 box_get
+assert
 byte 0x151f7c75
 swap
 concat
@@ -138,6 +152,12 @@ int 1
 return
 getVaultAddr:
 proto 1 0
+frame_dig -1 // receiver: Account
+itob
+box_get
+swap
+pop
+assert
 byte 0x151f7c75
 swap
 concat
@@ -159,6 +179,7 @@ frame_dig -1 // vault: Application
 txn Sender
 itob
 box_get
+assert
 ==
 assert
 global CurrentApplicationAddress
