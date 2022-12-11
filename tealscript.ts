@@ -35,6 +35,9 @@ const TYPES = {
     globalNumUint: 'uint64',
     localNumByteSlice: 'uint64',
     localNumUint: 'uint64',
+    amount: 'uint64',
+    receiver: 'Account',
+    closeRemainderTo: 'Account',
   },
 };
 
@@ -142,6 +145,8 @@ interface PaymentParams extends CommonTransactionParams {
   receiver: Account
   closeRemainderTo?: Account
 }
+
+export type PayTxn = Required<PaymentParams>
 
 interface AppParams extends CommonTransactionParams {
   applicationID: uint64
@@ -379,7 +384,7 @@ export class Compiler {
     this.teal.push('pop');
   }
 
-  private readonly TYPE_FUNCTIONS = {
+  private readonly TEAL_FUNCTIONS = {
     Account: {
       balance: {
         fn: () => {
@@ -499,16 +504,21 @@ export class Compiler {
     let argCount = 0;
     this.teal.push(`abi_route_${this.currentFunction.name}:`);
     const args: any[] = [];
+    let gtxnCount = 0;
 
     fn.params.forEach((p: any) => {
       this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).replace('Txn', '');
       args.push({ name: p.name, type, desc: '' });
 
       if (type === 'uint64') {
         this.teal.push('btoi');
       } else if (['Account', 'Asset', 'App'].includes(type)) {
         this.teal.push(`txnas ${type}s`);
+      } else if (type.includes('Txn')) {
+        this.teal.push('global GroupIndex');
+        this.teal.push(`int ${gtxnCount += 1}`);
+        this.teal.push('-');
       }
     });
 
@@ -830,7 +840,7 @@ export class Compiler {
       }
       node.arguments.forEach((a: any) => this.processNode(a));
       // @ts-ignore
-      this.TYPE_FUNCTIONS[this.lastType][node.callee.property.name].fn();
+      this.tealFunction(this.lastType, node.callee.property.name);
     }
   }
 
@@ -840,10 +850,7 @@ export class Compiler {
 
     this.teal.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`);
 
-    // @ts-ignore
-    const fn = this.TYPE_FUNCTIONS[target.type][node.property.name];
-
-    if (!fn.args) fn.fn();
+    this.tealFunction(target.type, node.property.name, true);
 
     return target.type;
   }
@@ -865,9 +872,7 @@ export class Compiler {
           type = TYPES[prevProps.at(-1)!.name][n.property.name];
         } else if (prevProps.at(-1)?.type) {
           // @ts-ignore
-          const fn = this.TYPE_FUNCTIONS[prevProps.at(-1).type][n.property.name];
-          fn.fn();
-          type = fn.type;
+          type = this.tealFunction(prevProps.at(-1).type, n.property.name);
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
           type = this.processStorageExpression(node);
         }
@@ -876,6 +881,26 @@ export class Compiler {
         prevProps.push({ name: n.property.name, type });
       });
     }
+  }
+
+  private tealFunction(type: string, name: string, checkArgs: boolean = false) {
+    if (type.includes('Txn')) {
+      this.teal.push(`gtxns ${this.capitalizeFirstChar(name)}`);
+
+      // @ts-ignore
+      return TYPES.txn[name];
+    }
+
+    // @ts-ignore
+    const typeFunction = this.TEAL_FUNCTIONS[type][name];
+
+    if (checkArgs) {
+      if (!typeFunction.args) typeFunction.fn();
+    } else {
+      typeFunction.fn();
+    }
+
+    return typeFunction.type;
   }
 
   private processLiteral(node: any) {
