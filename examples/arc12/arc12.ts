@@ -45,7 +45,7 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    // TODO: this.funderMap.delete(asa);
+    this.funderMap.delete(asa);
 
     const mbrAmt = preMbr - this.global.currentApplicationAddress.minBalance;
 
@@ -91,7 +91,7 @@ class Vault extends Contract {
 
     const initialMbr = this.global.currentApplicationAddress.minBalance;
 
-    // TODO: this.funderMap.delete(asa);
+    this.funderMap.delete(asa);
 
     this.sendAssetTransfer({
       assetReceiver: this.txn.sender,
@@ -184,7 +184,7 @@ class Master extends Contract {
       fee: 0,
     });
 
-    // TODO: this.vaultMap.delete(this.txn.sender);
+    this.vaultMap.delete(this.txn.sender);
     /*
     this.sendPayment({
       receiver: vaultCreator,

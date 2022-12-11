@@ -93,6 +93,10 @@ itxn_field AssetCloseTo
 int 0
 itxn_field Fee
 itxn_submit
+frame_dig -3 // asa: Asset
+itob
+box_del
+btoi
 load 1 // preMbr: uint64
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
@@ -207,6 +211,10 @@ global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 4 // initialMbr: uint64
+frame_dig -1 // asa: Asset
+itob
+box_del
+btoi
 itxn_begin
 int axfer
 itxn_field TypeEnum

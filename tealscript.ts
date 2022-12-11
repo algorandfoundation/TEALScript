@@ -79,6 +79,9 @@ export class BoxMap<KeyType, ValueType> {
   get(key: KeyType): ValueType {}
 
   // @ts-ignore
+  delete(key: KeyType): ValueType {}
+
+  // @ts-ignore
   put(key: KeyType, value: ValueType): void {}
 }
 
@@ -88,6 +91,9 @@ export class Box<ValueType> {
 
   // @ts-ignore
   get(): ValueType {}
+
+  // @ts-ignore
+  delete(): ValueType {}
 
   // @ts-ignore
   put(value: ValueType): void {}
@@ -101,6 +107,9 @@ export class Global<ValueType> {
   get(): ValueType {}
 
   // @ts-ignore
+  delete(): ValueType {}
+
+  // @ts-ignore
   put(value: ValueType): void {}
 }
 
@@ -110,6 +119,9 @@ export class GlobalMap<KeyType, ValueType> {
 
   // @ts-ignore
   get(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  delete(key: KeyType): ValueType {}
 
   // @ts-ignore
   put(key: KeyType, value: ValueType): void {}
@@ -765,7 +777,27 @@ export class Compiler {
       }
 
       if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
-    } else {
+    } else if (op === 'delete') {
+      if (key) {
+        this.teal.push(`bytes "${key}"`);
+      } else {
+        this.processNode(node.arguments[0]);
+        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+      }
+
+      switch (type) {
+        case ('global'):
+          this.teal.push('app_global_del');
+          break;
+        case ('box'):
+          this.teal.push('box_del');
+          break;
+        default:
+          throw new Error();
+      }
+
+      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
+    } else if (op === 'put') {
       if (key) {
         this.teal.push(`bytes "${key}"`);
       } else {
