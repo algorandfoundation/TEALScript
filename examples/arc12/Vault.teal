@@ -1,0 +1,255 @@
+#pragma version 8
+b main
+abi_route_closeAcct:
+txna ApplicationArgs 1
+txnas Accounts
+callsub closeAcct
+int 1
+return
+closeAcct:
+proto 1 0
+frame_dig -1 // vaultCreator: Account
+bytes "creator"
+app_global_get
+==
+assert
+itxn_begin
+int pay
+itxn_field TypeEnum
+frame_dig -1 // vaultCreator: Account
+itxn_field Receiver
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+itxn_field Amount
+int 0
+itxn_field Fee
+txn Sender
+itxn_field CloseRemainderTo
+itxn_submit
+global GroupIndex
+int 1
++
+store 0 // deleteVaultTxn: GroupTxn
+load 0 // deleteVaultTxn: GroupTxn
+gtxns ApplicationID
+bytes "master"
+app_global_get
+==
+assert
+retsub
+abi_route_create:
+txna ApplicationArgs 1
+txnas Accounts
+txna ApplicationArgs 2
+txnas Accounts
+callsub create
+int 1
+return
+create:
+proto 2 0
+bytes "creator"
+frame_dig -2 // sender: Account
+app_global_put
+bytes "receiver"
+frame_dig -1 // receiver: Account
+app_global_put
+bytes "master"
+global CallerApplication
+app_global_put
+retsub
+abi_route_reject:
+txna ApplicationArgs 1
+txnas Accounts
+txna ApplicationArgs 2
+txnas Accounts
+txna ApplicationArgs 3
+txnas Assets
+txna ApplicationArgs 4
+txnas Accounts
+callsub reject
+int 1
+return
+reject:
+proto 4 0
+txn Sender
+bytes "receiver"
+app_global_get
+==
+assert
+frame_dig -2 // feeSink: Account
+addr Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA
+==
+assert
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+store 1 // preMbr: uint64
+itxn_begin
+int axfer
+itxn_field TypeEnum
+frame_dig -1 // asaCreator: Account
+itxn_field AssetReceiver
+frame_dig -3 // asa: Asset
+itxn_field XferAsset
+int 0
+itxn_field AssetAmount
+frame_dig -1 // asaCreator: Account
+itxn_field AssetCloseTo
+int 0
+itxn_field Fee
+itxn_submit
+load 1 // preMbr: uint64
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+-
+store 2 // mbrAmt: uint64
+itxn_begin
+int pay
+itxn_field TypeEnum
+frame_dig -2 // feeSink: Account
+itxn_field Receiver
+load 2 // mbrAmt: uint64
+txn Fee
+-
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
+itxn_begin
+int pay
+itxn_field TypeEnum
+txn Sender
+itxn_field Receiver
+txn Fee
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
+retsub
+abi_route_optIn:
+txna ApplicationArgs 1
+txnas Assets
+global GroupIndex
+int 1
+-
+callsub optIn
+int 1
+return
+optIn:
+proto 2 0
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Sender
+txn Sender
+==
+assert
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+store 3 // preMbr: uint64
+frame_dig -1 // asa: Asset
+itob
+txn Sender
+itob
+box_put
+itxn_begin
+int axfer
+itxn_field TypeEnum
+global CurrentApplicationAddress
+itxn_field AssetReceiver
+int 0
+itxn_field AssetAmount
+int 0
+itxn_field Fee
+frame_dig -1 // asa: Asset
+itxn_field XferAsset
+itxn_submit
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Amount
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+load 3 // preMbr: uint64
+-
+==
+assert
+retsub
+abi_route_claim:
+txna ApplicationArgs 1
+txnas Assets
+txna ApplicationArgs 2
+txnas Accounts
+txna ApplicationArgs 3
+txnas Accounts
+callsub claim
+int 1
+return
+claim:
+proto 3 0
+frame_dig -3 // asaMbrFunder: Account
+frame_dig -1 // asa: Asset
+itob
+box_get
+btoi
+==
+assert
+txn Sender
+bytes "receiver"
+app_global_get
+==
+assert
+bytes "creator"
+app_global_get
+frame_dig -2 // creator: Account
+==
+assert
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+store 4 // initialMbr: uint64
+itxn_begin
+int axfer
+itxn_field TypeEnum
+txn Sender
+itxn_field AssetReceiver
+int 0
+itxn_field Fee
+global CurrentApplicationAddress
+frame_dig -1 // asa: Asset
+asset_holding_get AssetBalance
+assert
+itxn_field AssetAmount
+frame_dig -1 // asa: Asset
+itxn_field XferAsset
+txn Sender
+itxn_field AssetCloseTo
+itxn_submit
+itxn_begin
+int pay
+itxn_field TypeEnum
+frame_dig -3 // asaMbrFunder: Account
+itxn_field Receiver
+load 4 // initialMbr: uint64
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+-
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
+retsub
+main:
+method "closeAcct(account)void"
+method "create(account,account)void"
+method "reject(account,account,asset,account)void"
+method "optIn(asset,pay)void"
+method "claim(asset,account,account)void"
+txna ApplicationArgs 0
+match abi_route_closeAcct abi_route_create abi_route_reject abi_route_optIn abi_route_claim

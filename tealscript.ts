@@ -19,6 +19,7 @@ const TYPES = {
     creatorAddress: 'Account',
     currentApplicationAddress: 'Account',
     groupID: 'bytes',
+    groupIndex: 'uint64',
     opcodeBudget: 'uint64',
     callerApplication: 'Application',
     callerApplicationAddress: 'Account',
@@ -28,7 +29,7 @@ const TYPES = {
     sender: 'Account',
     rekeyTo: 'Account',
     note: 'bytes',
-    applicationID: 'uint64',
+    applicationID: 'Application',
     onComplete: 'bytes',
     approvalProgram: 'bytes',
     clearStateProgram: 'bytes',
@@ -129,7 +130,7 @@ export class Account {
   readonly minBalance: uint64;
 
   // @ts-ignore
-  assetBalance(asaID: uint64): uint64 {}
+  assetBalance(asa: Asset): uint64 {}
 }
 
 export class Asset {}
@@ -158,11 +159,8 @@ interface PaymentParams extends CommonTransactionParams {
   closeRemainderTo?: Account
 }
 
-export type PayTxn = Required<PaymentParams>
-export type AssetTransferTxn = Required<AssetTransferParams>
-
 interface AppParams extends CommonTransactionParams {
-  applicationID: uint64
+  applicationID: Application
   onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Account[]
   approvalProgram?: bytes
@@ -176,6 +174,10 @@ interface AppParams extends CommonTransactionParams {
   localNumUint?: uint64
 }
 
+export type PayTxn = Required<PaymentParams>
+export type AssetTransferTxn = Required<AssetTransferParams>
+export type AppCallTxn = Required<AppParams>
+
 interface MethodCallParams<ArgsType> extends AppParams {
   methodArgs: ArgsType
   name: string
@@ -188,7 +190,7 @@ interface ThisTxnParams {
   sender: Account
   rekeyTo?: Account
   note?: bytes
-  applicationID: uint64
+  applicationID: Application
   onComplete: bytes
   approvalProgram?: bytes
   clearStateProgram?: bytes
@@ -197,6 +199,9 @@ interface ThisTxnParams {
   localNumByteSlice?: uint64
   localNumUint?: uint64
 }
+
+type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
+
 export class Contract {
   global!: {
     minTxnFee: uint64
@@ -211,12 +216,18 @@ export class Contract {
     creatorAddress: Account
     currentApplicationAddress: Account
     groupID: bytes
+    groupIndex: uint64
     opcodeBudget: uint64
     callerApplication: Application
     callerApplicationAddress: Account
   };
 
   txn!: ThisTxnParams;
+
+  groupTxns!: Transaction[];
+
+  // @ts-ignore
+  addr(address: string): Account {}
 
   // @ts-ignore
   sendPayment(params: PaymentParams): void {}
@@ -869,6 +880,8 @@ export class Compiler {
         this.processOpcode(node);
       } else if (['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'].includes(methodName)) {
         this.processTransaction(node);
+      } else if (['addr'].includes(methodName)) {
+        this.teal.push(`addr ${node.arguments[0].value}`);
       } else {
         node.arguments.forEach((a: any) => this.processNode(a));
         this.teal.push(`callsub ${methodName}`);
@@ -913,6 +926,9 @@ export class Compiler {
           this.teal.push(`${prevProps.at(-1)!.name} ${this.capitalizeFirstChar(n.property.name)}`);
           // @ts-ignore
           type = TYPES[prevProps.at(-1)!.name][n.property.name];
+        } else if (prevProps.at(-1) && ['groupTxns'].includes(prevProps.at(-1)!.name)) {
+          this.processNode(n.property);
+          type = 'GroupTxn';
         } else if (prevProps.at(-1)?.type) {
           // @ts-ignore
           type = this.tealFunction(prevProps.at(-1).type, n.property.name);
