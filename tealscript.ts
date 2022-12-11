@@ -348,7 +348,7 @@ export class Compiler {
 
   lastType: string | undefined;
 
-  constructor(filename: string) {
+  constructor(filename: string, className: string) {
     this.filename = filename;
     this.content = fs.readFileSync(this.filename, 'utf-8');
     this.teal = ['#pragma version 8', 'b main'];
@@ -363,7 +363,7 @@ export class Compiler {
     const tree = parser.parse(this.content, { range: true, loc: true });
 
     tree.body.forEach((body: any) => {
-      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
+      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract' && body.id.name === className) {
         this.abi = { name: body.id.name, desc: '', methods: [] };
 
         this.processNode(body);
@@ -943,5 +943,19 @@ export class Compiler {
     } else {
       this.teal.push(`int ${node.value}`);
     }
+  }
+}
+
+export class TEALScript {
+  constructor(filename: string) {
+    const tree = parser.parse(fs.readFileSync(filename, 'utf-8'), { range: true, loc: true });
+
+    tree.body.forEach((body: any) => {
+      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
+        const compiler = new Compiler(filename, body.id.name);
+        fs.writeFileSync(`${body.id.name}.teal`, compiler.teal.join('\n'));
+        fs.writeFileSync(`${body.id.name}.json`, JSON.stringify(compiler.abi, null, 2));
+      }
+    });
   }
 }

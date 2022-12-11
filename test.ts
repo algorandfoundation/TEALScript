@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import {
-  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn,
+  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn, TEALScript,
 } from './tealscript';
 
 class ExampleTEALScriptApp extends Contract {
@@ -98,6 +98,5 @@ class ExampleTEALScriptApp extends Contract {
     return account.balance;
   }
 }
-const contract = new Compiler(__filename.replace('.js', '.ts'));
-writeFileSync('approval.teal', contract.teal.join('\n'));
-writeFileSync('abi.json', JSON.stringify(contract.abi, null, 2));
+// eslint-disable-next-line no-new
+new TEALScript(__filename.replace('.js', '.ts'));
