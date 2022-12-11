@@ -1,63 +1,13 @@
 {
-  "name": "Vault",
+  "name": "Master",
   "desc": "",
   "methods": [
     {
-      "name": "create",
+      "name": "createVault",
       "args": [
         {
           "name": "receiver",
           "type": "Account",
-          "desc": ""
-        },
-        {
-          "name": "sender",
-          "type": "Account",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
-      "name": "reject",
-      "args": [
-        {
-          "name": "asaCreator",
-          "type": "Account",
-          "desc": ""
-        },
-        {
-          "name": "feeSink",
-          "type": "Account",
-          "desc": ""
-        },
-        {
-          "name": "asa",
-          "type": "Asset",
-          "desc": ""
-        },
-        {
-          "name": "vaultCreator",
-          "type": "Account",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
-      "name": "optIn",
-      "args": [
-        {
-          "name": "asa",
-          "type": "Asset",
           "desc": ""
         },
         {
@@ -68,26 +18,26 @@
       ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "Application",
         "desc": ""
       }
     },
     {
-      "name": "claim",
+      "name": "verifyAxfer",
       "args": [
         {
-          "name": "asa",
-          "type": "Asset",
-          "desc": ""
-        },
-        {
-          "name": "creator",
+          "name": "receiver",
           "type": "Account",
           "desc": ""
         },
         {
-          "name": "asaMbrFunder",
-          "type": "Account",
+          "name": "vaultAxfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "vault",
+          "type": "Application",
           "desc": ""
         }
       ],
@@ -98,8 +48,49 @@
       }
     },
     {
-      "name": "delete",
-      "args": [],
+      "name": "getVaultId",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "Application",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getVaultAddr",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "Account",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteVault",
+      "args": [
+        {
+          "name": "vault",
+          "type": "Application",
+          "desc": ""
+        },
+        {
+          "name": "creator",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
         "type": "void",

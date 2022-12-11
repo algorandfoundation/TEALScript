@@ -1,11 +1,5 @@
 #pragma version 8
 b main
-abi_route_closeAcct:
-txna ApplicationArgs 1
-txnas Accounts
-callsub closeAcct
-int 1
-return
 closeAcct:
 proto 1 0
 frame_dig -1 // vaultCreator: Account
@@ -245,11 +239,28 @@ int 0
 itxn_field Fee
 itxn_submit
 retsub
+abi_route_delete:
+callsub delete
+int 1
+return
+delete:
+proto 0 0
+global CurrentApplicationAddress
+acct_params_get AcctBalance
+assert
+int 0
+==
+assert
+txn Sender
+global CreatorAddress
+==
+assert
+retsub
 main:
-method "closeAcct(account)void"
 method "create(account,account)void"
 method "reject(account,account,asset,account)void"
 method "optIn(asset,pay)void"
 method "claim(asset,account,account)void"
+method "delete()void"
 txna ApplicationArgs 0
-match abi_route_closeAcct abi_route_create abi_route_reject abi_route_optIn abi_route_claim
+match abi_route_create abi_route_reject abi_route_optIn abi_route_claim abi_route_delete

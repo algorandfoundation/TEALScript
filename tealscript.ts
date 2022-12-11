@@ -41,6 +41,9 @@ const TYPES = {
     receiver: 'Account',
     closeRemainderTo: 'Account',
   },
+  itxn: {
+    createdApplicationID: 'Application',
+  },
 };
 
 export type uint64 = number;
@@ -160,7 +163,7 @@ interface PaymentParams extends CommonTransactionParams {
 }
 
 interface AppParams extends CommonTransactionParams {
-  applicationID: Application
+  applicationID?: Application
   onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Account[]
   approvalProgram?: bytes
@@ -179,7 +182,7 @@ export type AssetTransferTxn = Required<AssetTransferParams>
 export type AppCallTxn = Required<AppParams>
 
 interface MethodCallParams<ArgsType> extends AppParams {
-  methodArgs: ArgsType
+  methodArgs?: ArgsType
   name: string
 }
 
@@ -207,7 +210,7 @@ export class Contract {
     minTxnFee: uint64
     minBalance: uint64
     maxTxnLife: uint64
-    zeroAddress: bytes
+    zeroAddress: Account
     groupSize: uint64
     logicSigVersion: uint64
     round: uint64
@@ -220,6 +223,10 @@ export class Contract {
     opcodeBudget: uint64
     callerApplication: Application
     callerApplicationAddress: Account
+  };
+
+  itxn!: {
+    createdApplicationID: Application
   };
 
   txn!: ThisTxnParams;
@@ -922,7 +929,7 @@ export class Compiler {
       nodes.reverse().forEach((n: any) => {
         let type: string | undefined;
 
-        if (prevProps.at(-1) && ['global', 'txn'].includes(prevProps.at(-1)!.name)) {
+        if (prevProps.at(-1) && ['global', 'txn', 'itxn'].includes(prevProps.at(-1)!.name)) {
           this.teal.push(`${prevProps.at(-1)!.name} ${this.capitalizeFirstChar(n.property.name)}`);
           // @ts-ignore
           type = TYPES[prevProps.at(-1)!.name][n.property.name];

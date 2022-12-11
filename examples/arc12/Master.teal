@@ -1,0 +1,188 @@
+#pragma version 8
+b main
+abi_route_createVault:
+txna ApplicationArgs 1
+txnas Accounts
+global GroupIndex
+int 1
+-
+callsub createVault
+int 1
+return
+createVault:
+proto 2 0
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Sender
+txn Sender
+==
+assert
+frame_dig -2 // mbrPayment: PayTxn
+gtxns CloseRemainderTo
+global ZeroAddress
+==
+assert
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+store 0 // preCreateMBR: uint64
+itxn_begin
+int appl
+itxn_field TypeEnum
+method "create(account,account)void"
+itxn_field ApplicationArgs
+byte "NoOp"
+itxn_field OnComplete
+int 0
+itxn_field Fee
+frame_dig -1 // receiver: Account
+txn_field Accounts
+int 1
+itob
+itxn_field ApplicationArgs
+txn Sender
+txn_field Accounts
+int 2
+itob
+itxn_field ApplicationArgs
+itxn_submit
+itxn CreatedApplicationID
+store 1 // vault: Application
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 1 // vault: Application
+app_params_get AppAddress
+assert
+itxn_field Receiver
+global MinBalance
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
+frame_dig -1 // receiver: Account
+itob
+load 1 // vault: Application
+box_put
+frame_dig -2 // mbrPayment: PayTxn
+gtxns Amount
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+load 0 // preCreateMBR: uint64
+-
+global MinBalance
++
+==
+assert
+load 1 // vault: Application
+byte 0x151f7c75
+swap
+concat
+retsub
+abi_route_verifyAxfer:
+txna ApplicationArgs 1
+txnas Accounts
+global GroupIndex
+int 1
+-
+txna ApplicationArgs 2
+callsub verifyAxfer
+int 1
+return
+verifyAxfer:
+proto 3 0
+frame_dig -1 // receiver: Account
+itob
+box_get
+frame_dig -3 // vault: Application
+==
+assert
+frame_dig -2 // vaultAxfer: AssetTransferTxn
+gtxns AssetReceiver
+frame_dig -3 // vault: Application
+app_params_get AppAddress
+assert
+==
+assert
+frame_dig -2 // vaultAxfer: AssetTransferTxn
+gtxns AssetCloseTo
+global ZeroAddress
+==
+assert
+retsub
+abi_route_getVaultId:
+txna ApplicationArgs 1
+txnas Accounts
+callsub getVaultId
+int 1
+return
+getVaultId:
+proto 1 0
+frame_dig -1 // receiver: Account
+itob
+box_get
+byte 0x151f7c75
+swap
+concat
+retsub
+abi_route_getVaultAddr:
+txna ApplicationArgs 1
+txnas Accounts
+callsub getVaultAddr
+int 1
+return
+getVaultAddr:
+proto 1 0
+byte 0x151f7c75
+swap
+concat
+retsub
+abi_route_deleteVault:
+txna ApplicationArgs 1
+txna ApplicationArgs 2
+txnas Accounts
+callsub deleteVault
+int 1
+return
+deleteVault:
+proto 2 0
+txn Fee
+int 0
+==
+assert
+frame_dig -1 // vault: Application
+txn Sender
+itob
+box_get
+==
+assert
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+store 2 // preDeleteMBR: uint64
+itxn_begin
+int appl
+itxn_field TypeEnum
+method "delete()void"
+itxn_field ApplicationArgs
+frame_dig -1 // vault: Application
+itxn_field ApplicationID
+byte "DeleteApplication"
+itxn_field OnComplete
+int 0
+itxn_field Fee
+itxn_submit
+retsub
+main:
+method "createVault(account,pay)application"
+method "verifyAxfer(account,axfer,application)void"
+method "getVaultId(account)application"
+method "getVaultAddr(account)account"
+method "deleteVault(application,account)void"
+txna ApplicationArgs 0
+match abi_route_createVault abi_route_verifyAxfer abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault

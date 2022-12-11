@@ -1,5 +1,6 @@
+/* eslint-disable max-classes-per-file */
 import {
-  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn, TEALScript, Application, Asset,
+  Contract, Account, BoxMap, Global, PayTxn, AssetTransferTxn, TEALScript, Application, Asset,
 } from '../../tealscript';
 
 class Vault extends Contract {
@@ -11,7 +12,7 @@ class Vault extends Contract {
 
   funderMap = new BoxMap<Asset, Account>({ defaultSize: 32 });
 
-  closeAcct(vaultCreator: Account): void {
+  private closeAcct(vaultCreator: Account): void {
     this.assert(vaultCreator === this.creator.get());
 
     this.sendPayment({
@@ -108,6 +109,91 @@ class Vault extends Contract {
 
     // TODO: if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
   }
+
+  delete(): void {
+    this.assert(this.global.currentApplicationAddress.balance === 0);
+    this.assert(this.txn.sender === this.global.creatorAddress);
+  }
 }
+
+class Master extends Contract {
+  vaultMap = new BoxMap<Account, Application>({ defaultSize: 8 });
+
+  createVault(receiver: Account, mbrPayment: PayTxn): Application {
+    // TODO: this.assert(this.vaultMap.exists(receiver))
+    this.assert(mbrPayment.receiver === this.global.currentApplicationAddress);
+    this.assert(mbrPayment.sender === this.txn.sender);
+    this.assert(mbrPayment.closeRemainderTo === this.global.zeroAddress);
+
+    const preCreateMBR = this.global.currentApplicationAddress.minBalance;
+
+    // TODO: approval/clear program
+    this.sendMethodCall<[Account, Account], void>({
+      name: 'create',
+      onComplete: 'NoOp',
+      fee: 0,
+      methodArgs: [receiver, this.txn.sender],
+    });
+
+    const vault = this.itxn.createdApplicationID;
+
+    this.sendPayment({
+      receiver: vault.address,
+      amount: this.global.minBalance,
+      fee: 0,
+    });
+
+    this.vaultMap.put(receiver, vault);
+
+    // eslint-disable-next-line max-len
+    this.assert(mbrPayment.amount === (this.global.currentApplicationAddress.minBalance - preCreateMBR) + this.global.minBalance);
+
+    return vault;
+  }
+
+  verifyAxfer(receiver: Account, vaultAxfer: AssetTransferTxn, vault: Application): void {
+    // TODO: this.assert(this.vaultMap.exists(receiver))
+
+    this.assert(this.vaultMap.get(receiver) === vault);
+    this.assert(vaultAxfer.assetReceiver === vault.address);
+    this.assert(vaultAxfer.assetCloseTo === this.global.zeroAddress);
+  }
+
+  getVaultId(receiver: Account): Application {
+    return this.vaultMap.get(receiver);
+  }
+
+  getVaultAddr(receiver: Account): Account {
+    // TODO: this.assert(this.vaultMap.exists(receiver))
+    return this.vaultMap.get(receiver).address;
+  }
+
+  deleteVault(vault: Application, creator: Account): void {
+    this.assert(this.txn.fee === 0);
+    this.assert(vault === this.vaultMap.get(this.txn.sender));
+
+    // TODO: const vaultCreator = vault.global<Account>('creator')
+    // this.assert(vaultCreator === creator);
+
+    const preDeleteMBR = this.global.currentApplicationAddress.minBalance;
+
+    this.sendMethodCall<[], void>({
+      applicationID: vault,
+      onComplete: 'DeleteApplication',
+      name: 'delete',
+      fee: 0,
+    });
+
+    // TODO: this.vaultMap.delete(this.txn.sender);
+    /*
+    this.sendPayment({
+      receiver: vaultCreator,
+      amount: preDeleteMBR - this.global.currentApplicationAddress.minBalance,
+      fee: 0,
+    });
+    */
+  }
+}
+
 // eslint-disable-next-line no-new
 new TEALScript(__filename.replace('.js', '.ts'));
