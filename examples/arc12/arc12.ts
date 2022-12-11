@@ -172,8 +172,8 @@ class Master extends Contract {
     this.assert(this.txn.fee === 0);
     this.assert(vault === this.vaultMap.get(this.txn.sender));
 
-    // TODO: const vaultCreator = vault.global<Account>('creator')
-    // this.assert(vaultCreator === creator);
+    const vaultCreator = vault.global('creator') as Account;
+    this.assert(vaultCreator === creator);
 
     const preDeleteMBR = this.global.currentApplicationAddress.minBalance;
 
@@ -185,13 +185,12 @@ class Master extends Contract {
     });
 
     this.vaultMap.delete(this.txn.sender);
-    /*
+
     this.sendPayment({
       receiver: vaultCreator,
       amount: preDeleteMBR - this.global.currentApplicationAddress.minBalance,
       fee: 0,
     });
-    */
   }
 }
 

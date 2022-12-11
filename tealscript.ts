@@ -166,6 +166,9 @@ export class Account {
 export class Asset {}
 export class Application {
   address!: Account;
+
+  // @ts-ignore
+  global(key: BytesLike): any {}
 }
 
 interface CommonTransactionParams {
@@ -1026,6 +1029,11 @@ export class Compiler {
 
       // @ts-ignore
       return TYPES.txn[name];
+    }
+
+    if (name === 'global') {
+      this.maybeValue('app_global_get_ex');
+      return 'any';
     }
 
     // @ts-ignore

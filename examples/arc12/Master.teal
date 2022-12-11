@@ -182,10 +182,21 @@ box_get
 assert
 ==
 assert
+frame_dig -1 // vault: Application
+app_global_get_ex
+assert
+byte "creator"
+app_global_get_ex
+assert
+store 2 // vaultCreator: Account
+load 2 // vaultCreator: Account
+frame_dig -2 // creator: Account
+==
+assert
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
-store 2 // preDeleteMBR: uint64
+store 3 // preDeleteMBR: uint64
 itxn_begin
 int appl
 itxn_field TypeEnum
@@ -201,6 +212,20 @@ itxn_submit
 txn Sender
 itob
 box_del
+itxn_begin
+int pay
+itxn_field TypeEnum
+load 2 // vaultCreator: Account
+itxn_field Receiver
+load 3 // preDeleteMBR: uint64
+global CurrentApplicationAddress
+acct_params_get AcctMinBalance
+assert
+-
+itxn_field Amount
+int 0
+itxn_field Fee
+itxn_submit
 retsub
 main:
 method "createVault(account,pay)application"
