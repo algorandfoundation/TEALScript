@@ -126,6 +126,9 @@ export class Account {
   readonly hasBalance: uint64;
 
   // @ts-ignore
+  readonly minBalance: uint64;
+
+  // @ts-ignore
   assetBalance(asaID: uint64): uint64 {}
 }
 
@@ -417,6 +420,12 @@ export class Compiler {
         },
         type: 'uint64',
         args: true,
+      },
+      minBalance: {
+        fn: () => {
+          this.maybeValue('acct_params_get AcctMinBalance');
+        },
+        type: 'uint64',
       },
     },
     Application: {
