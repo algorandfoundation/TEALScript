@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import {
   Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn, TEALScript,
-} from './tealscript';
+} from '../../tealscript';
 
 class ExampleTEALScriptApp extends Contract {
   accountBalanceBox = new BoxMap<Account, uint64>({ defaultSize: 8 });

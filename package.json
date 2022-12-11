@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "ts-node test.ts"
+    "start": "ts-node examples/**/*.ts"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",

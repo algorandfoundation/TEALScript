@@ -2,6 +2,7 @@
 import * as fs from 'fs';
 import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import path from 'path';
 import * as langspec from './langspec.json';
 
 const TYPES = {
@@ -949,12 +950,13 @@ export class Compiler {
 export class TEALScript {
   constructor(filename: string) {
     const tree = parser.parse(fs.readFileSync(filename, 'utf-8'), { range: true, loc: true });
+    const dir = path.dirname(filename);
 
     tree.body.forEach((body: any) => {
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
         const compiler = new Compiler(filename, body.id.name);
-        fs.writeFileSync(`${body.id.name}.teal`, compiler.teal.join('\n'));
-        fs.writeFileSync(`${body.id.name}.json`, JSON.stringify(compiler.abi, null, 2));
+        fs.writeFileSync(path.join(dir, `${body.id.name}.teal`), compiler.teal.join('\n'));
+        fs.writeFileSync(path.join(dir, `${body.id.name}.json`), JSON.stringify(compiler.abi, null, 2));
       }
     });
   }
