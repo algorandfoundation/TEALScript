@@ -5,18 +5,38 @@ txna ApplicationArgs 1
 txnas Accounts
 txna ApplicationArgs 2
 txnas Accounts
-txna ApplicationArgs 3
+global GroupIndex
+int 2
+-
+global GroupIndex
+int 1
+-
 callsub exampleAbiMethod
 int 1
 return
 exampleAbiMethod:
-proto 3 0
+proto 4 0
 frame_dig -3 // payment: PayTxn
 gtxns Sender
 int 123
 gtxns AssetBalance
 itob
 log
+frame_dig -4 // axfer: AssetTransferTxn
+gtxns AssetReceiver
+log
+itxn_begin
+int axfer
+itxn_field TypeEnum
+int 0
+itxn_field Fee
+frame_dig -1 // firstAccount: Account
+itxn_field AssetReceiver
+int 100000
+itxn_field AssetAmount
+int 1337
+itxn_field XferAsset
+itxn_submit
 frame_dig -1 // firstAccount: Account
 itob
 frame_dig -1 // firstAccount: Account
@@ -209,6 +229,6 @@ swap
 concat
 retsub
 main:
-method "exampleAbiMethod(account,account,pay)uint64"
+method "exampleAbiMethod(account,account,pay,axfer)uint64"
 txna ApplicationArgs 0
 match abi_route_exampleAbiMethod

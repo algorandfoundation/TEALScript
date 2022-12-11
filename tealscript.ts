@@ -140,6 +140,14 @@ interface CommonTransactionParams {
   note?: string
 }
 
+interface AssetTransferParams extends CommonTransactionParams {
+  xferAsset: Asset
+  assetAmount: uint64
+  assetSender?: Account
+  assetReceiver: Account
+  assetCloseTo?: Account
+}
+
 interface PaymentParams extends CommonTransactionParams {
   amount: uint64
   receiver: Account
@@ -147,6 +155,7 @@ interface PaymentParams extends CommonTransactionParams {
 }
 
 export type PayTxn = Required<PaymentParams>
+export type AssetTransferTxn = Required<AssetTransferParams>
 
 interface AppParams extends CommonTransactionParams {
   applicationID: uint64
@@ -210,6 +219,9 @@ export class Contract {
 
   // @ts-ignore
   sendAppCall(params: AppParams): void {}
+
+  // @ts-ignore
+  sendAssetTransfer(params: AssetTransferParams): void {}
 
   // @ts-ignore
   sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType {}
@@ -504,12 +516,28 @@ export class Compiler {
     let argCount = 0;
     this.teal.push(`abi_route_${this.currentFunction.name}:`);
     const args: any[] = [];
-    let gtxnCount = 0;
+
+    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes('Txn')).length;
+    gtxnIndex += 1;
 
     fn.params.forEach((p: any) => {
-      this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).replace('Txn', '');
-      args.push({ name: p.name, type, desc: '' });
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+      let abiType = type;
+
+      if (type.includes('Txn')) {
+        switch (type) {
+          case ('PayTxn'):
+            abiType = 'pay';
+            break;
+          case 'AssetTransferTxn':
+            abiType = 'axfer';
+            break;
+          default:
+            break;
+        }
+      } else {
+        this.teal.push(`txna ApplicationArgs ${argCount += 1}`);
+      }
 
       if (type === 'uint64') {
         this.teal.push('btoi');
@@ -517,9 +545,11 @@ export class Compiler {
         this.teal.push(`txnas ${type}s`);
       } else if (type.includes('Txn')) {
         this.teal.push('global GroupIndex');
-        this.teal.push(`int ${gtxnCount += 1}`);
+        this.teal.push(`int ${gtxnIndex -= 1}`);
         this.teal.push('-');
       }
+
+      args.push({ name: p.name, type: abiType, desc: '' });
     });
 
     this.abi.methods.push({
@@ -738,6 +768,9 @@ export class Compiler {
       case ('sendPayment'):
         txnType = 'pay';
         break;
+      case ('sendAssetTransfer'):
+        txnType = 'axfer';
+        break;
       case ('sendMethodCall'):
       case ('sendAppCall'):
         txnType = 'appl';
@@ -824,7 +857,7 @@ export class Compiler {
     if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
-      } else if (['sendPayment', 'sendAppCall', 'sendMethodCall'].includes(methodName)) {
+      } else if (['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'].includes(methodName)) {
         this.processTransaction(node);
       } else {
         node.arguments.forEach((a: any) => this.processNode(a));

@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import {
-  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn,
+  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn,
 } from './tealscript';
 
 class ExampleTEALScriptApp extends Contract {
@@ -12,8 +12,21 @@ class ExampleTEALScriptApp extends Contract {
 
   aGlobalMap = new GlobalMap<string, uint64>();
 
-  exampleAbiMethod(firstAccount: Account, secondAccount: Account, payment: PayTxn): uint64 {
+  exampleAbiMethod(
+    firstAccount: Account,
+    secondAccount: Account,
+    payment: PayTxn,
+    axfer: AssetTransferTxn,
+  ): uint64 {
     this.log(this.itob(payment.sender.assetBalance(123)));
+    this.log(axfer.assetReceiver);
+
+    this.sendAssetTransfer({
+      fee: 0,
+      assetReceiver: firstAccount,
+      assetAmount: 100_000,
+      xferAsset: 1337,
+    });
 
     this.accountBalanceBox.put(firstAccount, firstAccount.balance);
     this.accountBalanceBox.put(secondAccount, secondAccount.balance);
