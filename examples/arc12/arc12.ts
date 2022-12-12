@@ -127,12 +127,13 @@ class Master extends Contract {
 
     const preCreateMBR = this.global.currentApplicationAddress.minBalance;
 
-    // TODO: approval/clear program
+    // TODO: approval program
     this.sendMethodCall<[Account, Account], void>({
       name: 'create',
       onComplete: 'NoOp',
       fee: 0,
       methodArgs: [receiver, this.txn.sender],
+      clearStateProgram: this.app.clearStateProgram,
     });
 
     const vault = this.itxn.createdApplicationID;

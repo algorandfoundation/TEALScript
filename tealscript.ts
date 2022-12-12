@@ -167,6 +167,8 @@ export class Asset {}
 export class Application {
   address!: Account;
 
+  clearStateProgram!: bytes;
+
   // @ts-ignore
   global(key: BytesLike): any {}
 }
@@ -262,6 +264,8 @@ export class Contract {
   txn!: ThisTxnParams;
 
   groupTxns!: Transaction[];
+
+  app!: Application;
 
   // @ts-ignore
   addr(address: string): Account {}
@@ -1010,6 +1014,9 @@ export class Compiler {
         } else if (prevProps.at(-1) && ['groupTxns'].includes(prevProps.at(-1)!.name)) {
           this.processNode(n.property);
           type = 'GroupTxn';
+        } else if (prevProps.at(-1) && ['app'].includes(prevProps.at(-1)!.name)) {
+          this.teal.push('txna Applications 0');
+          this.maybeValue(`app_params_get ${this.capitalizeFirstChar(n.property.name)}`);
         } else if (prevProps.at(-1)?.type) {
           // @ts-ignore
           type = this.tealFunction(prevProps.at(-1).type, n.property.name);

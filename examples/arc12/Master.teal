@@ -55,6 +55,10 @@ txn_field Accounts
 int 2
 itob
 itxn_field ApplicationArgs
+txna Applications 0
+app_params_get ClearStateProgram
+assert
+itxn_field ClearStateProgram
 itxn_submit
 itxn CreatedApplicationID
 store 1 // vault: Application
