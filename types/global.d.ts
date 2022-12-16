@@ -54,3 +54,153 @@ declare const global: {
     callerApplication: Application
     callerApplicationAddress: Account
   };
+
+declare class Contract {
+  itxn: {
+      createdApplicationID: Application
+    };
+
+  txn: ThisTxnParams;
+
+  txnGroup: Transaction[];
+
+  app: Application;
+}
+
+declare type uint64 = number
+declare type bytes = string
+
+declare class BoxMap<KeyType, ValueType> {
+  constructor(options?: { defaultSize?: number })
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): ValueType
+
+  delete(key: KeyType): ValueType
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class Box<ValueType> {
+  constructor(options?: { defaultSize?: number, key?: string })
+
+  get(): ValueType
+
+  exists(): ValueType
+
+  delete(): ValueType
+
+  put(value: ValueType): void
+}
+
+declare class Global<ValueType> {
+  constructor(options?: { key?: string })
+
+  get(): ValueType
+
+  exists(): ValueType
+
+  delete(): ValueType
+
+  put(value: ValueType): void
+}
+
+declare class GlobalMap<KeyType, ValueType> {
+  constructor()
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): ValueType
+
+  delete(key: KeyType): ValueType
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class Account {
+  constructor(id: uint64)
+
+  readonly balance: uint64;
+
+  readonly hasBalance: uint64;
+
+  readonly minBalance: uint64;
+
+  readonly assets: uint64;
+
+  assetBalance(asa: Asset): uint64
+}
+
+declare class Asset {}
+declare class Application {
+  address!: Account;
+
+  clearStateProgram!: bytes;
+
+  global(key: BytesLike): any
+}
+
+interface CommonTransactionParams {
+  fee: uint64
+  sender?: Account
+  rekeyTo?: Account
+  note?: string
+}
+
+interface AssetTransferParams extends CommonTransactionParams {
+  xferAsset: Asset
+  assetAmount: uint64
+  assetSender?: Account
+  assetReceiver: Account
+  assetCloseTo?: Account
+}
+
+interface PaymentParams extends CommonTransactionParams {
+  amount: uint64
+  receiver: Account
+  closeRemainderTo?: Account
+}
+
+interface AppParams extends CommonTransactionParams {
+  applicationID?: Application
+  onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  accounts?: Account[]
+  approvalProgram?: bytes
+  applicationArgs?: bytes[]
+  clearStateProgram?: bytes
+  apps?: Array<uint64 | Application>
+  assets?: Array<uint64 | Asset>
+  globalNumByteSlice?: uint64
+  globalNumUint?: uint64
+  localNumByteSlice?: uint64
+  localNumUint?: uint64
+}
+
+declare type PayTxn = Required<PaymentParams>
+declare type AssetTransferTxn = Required<AssetTransferParams>
+declare type AppCallTxn = Required<AppParams>
+
+interface MethodCallParams<ArgsType> extends AppParams {
+  methodArgs?: ArgsType
+  name: string
+}
+
+type BytesLike = bytes | Account
+type IntLike = uint64 | Asset | Application
+interface ThisTxnParams {
+  fee: uint64
+  sender: Account
+  rekeyTo?: Account
+  note?: bytes
+  applicationID: Application
+  onComplete: bytes
+  approvalProgram?: bytes
+  clearStateProgram?: bytes
+  globalNumByteSlice?: uint64
+  globalNumUint?: uint64
+  localNumByteSlice?: uint64
+  localNumUint?: uint64
+}
+
+type Transaction = PayTxn & AssetTransferTxn & AppCallTxn

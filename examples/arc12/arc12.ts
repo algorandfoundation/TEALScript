@@ -1,8 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
-import {
-  Contract, Account, BoxMap, Global, PayTxn, AssetTransferTxn, Application, Asset,
-} from '../../tealscript';
 
 class Vault extends Contract {
   creator = new Global<Account>({ key: 'creator' });

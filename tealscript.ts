@@ -46,9 +46,6 @@ const TYPES = {
   },
 };
 
-export type uint64 = number;
-export type bytes = string;
-
 interface OpSpec {
   Opcode: number;
   Name: string;
@@ -71,184 +68,10 @@ interface StorageProp {
   valueType: string
 }
 
-export class BoxMap<KeyType, ValueType> {
-  // @ts-ignore
-  constructor(options?: { defaultSize?: number }) {}
-
-  // @ts-ignore
-  get(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  exists(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  delete(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  put(key: KeyType, value: ValueType): void {}
-}
-
-export class Box<ValueType> {
-  // @ts-ignore
-  constructor(options?: { defaultSize?: number, key?: string }) {}
-
-  // @ts-ignore
-  get(): ValueType {}
-
-  // @ts-ignore
-  exists(): ValueType {}
-
-  // @ts-ignore
-  delete(): ValueType {}
-
-  // @ts-ignore
-  put(value: ValueType): void {}
-}
-
-export class Global<ValueType> {
-  // @ts-ignore
-  constructor(options?: { key?: string }) {}
-
-  // @ts-ignore
-  get(): ValueType {}
-
-  // @ts-ignore
-  exists(): ValueType {}
-
-  // @ts-ignore
-  delete(): ValueType {}
-
-  // @ts-ignore
-  put(value: ValueType): void {}
-}
-
-export class GlobalMap<KeyType, ValueType> {
-  // @ts-ignore
-  constructor() {}
-
-  // @ts-ignore
-  get(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  exists(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  delete(key: KeyType): ValueType {}
-
-  // @ts-ignore
-  put(key: KeyType, value: ValueType): void {}
-}
-
-interface Function {
+interface Subroutine {
   name: string
   returnType: string
 }
-export class Account {
-  // @ts-ignore
-  constructor(id: uint64) {}
-
-  // @ts-ignore
-  readonly balance: uint64;
-
-  // @ts-ignore
-  readonly hasBalance: uint64;
-
-  // @ts-ignore
-  readonly minBalance: uint64;
-
-  // @ts-ignore
-  readonly assets: uint64;
-
-  // @ts-ignore
-  assetBalance(asa: Asset): uint64 {}
-}
-
-export class Asset {}
-export class Application {
-  address!: Account;
-
-  clearStateProgram!: bytes;
-
-  // @ts-ignore
-  global(key: BytesLike): any {}
-}
-
-interface CommonTransactionParams {
-  fee: uint64
-  sender?: Account
-  rekeyTo?: Account
-  note?: string
-}
-
-interface AssetTransferParams extends CommonTransactionParams {
-  xferAsset: Asset
-  assetAmount: uint64
-  assetSender?: Account
-  assetReceiver: Account
-  assetCloseTo?: Account
-}
-
-interface PaymentParams extends CommonTransactionParams {
-  amount: uint64
-  receiver: Account
-  closeRemainderTo?: Account
-}
-
-interface AppParams extends CommonTransactionParams {
-  applicationID?: Application
-  onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
-  accounts?: Account[]
-  approvalProgram?: bytes
-  applicationArgs?: bytes[]
-  clearStateProgram?: bytes
-  apps?: Array<uint64 | Application>
-  assets?: Array<uint64 | Asset>
-  globalNumByteSlice?: uint64
-  globalNumUint?: uint64
-  localNumByteSlice?: uint64
-  localNumUint?: uint64
-}
-
-export type PayTxn = Required<PaymentParams>
-export type AssetTransferTxn = Required<AssetTransferParams>
-export type AppCallTxn = Required<AppParams>
-
-interface MethodCallParams<ArgsType> extends AppParams {
-  methodArgs?: ArgsType
-  name: string
-}
-
-type BytesLike = bytes | Account
-type IntLike = uint64 | Asset | Application
-interface ThisTxnParams {
-  fee: uint64
-  sender: Account
-  rekeyTo?: Account
-  note?: bytes
-  applicationID: Application
-  onComplete: bytes
-  approvalProgram?: bytes
-  clearStateProgram?: bytes
-  globalNumByteSlice?: uint64
-  globalNumUint?: uint64
-  localNumByteSlice?: uint64
-  localNumUint?: uint64
-}
-
-type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
-
-export class Contract {
-  itxn!: {
-    createdApplicationID: Application
-  };
-
-  txn!: ThisTxnParams;
-
-  txnGroup!: Transaction[];
-
-  app!: Application;
-}
-
 export class Compiler {
   teal: any[];
 
@@ -266,7 +89,7 @@ export class Compiler {
 
   frame: any;
 
-  currentFunction: Function;
+  currentSubroutine: Subroutine;
 
   abi: any;
 
@@ -283,7 +106,7 @@ export class Compiler {
     this.ifCount = 0;
     this.processErrorNodes = [];
     this.frame = {};
-    this.currentFunction = { name: '', returnType: '' };
+    this.currentSubroutine = { name: '', returnType: '' };
     this.storageProps = {};
 
     const tree = parser.parse(this.content, { range: true, loc: true });
@@ -430,11 +253,11 @@ export class Compiler {
   }
 
   private processSubroutine(fn: any, abi: boolean = false) {
-    this.teal.push(`${this.currentFunction.name}:`);
+    this.teal.push(`${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
-    this.teal.push(`proto ${fn.params.length} ${(this.currentFunction.returnType === 'void') || abi ? 0 : 1}`);
+    this.teal.push(`proto ${fn.params.length} ${(this.currentSubroutine.returnType === 'void') || abi ? 0 : 1}`);
     let frameIndex = 0;
     fn.params.forEach((p: any) => {
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
@@ -452,7 +275,7 @@ export class Compiler {
 
   private processAbiMethod(fn: any) {
     let argCount = 0;
-    this.teal.push(`abi_route_${this.currentFunction.name}:`);
+    this.teal.push(`abi_route_${this.currentSubroutine.name}:`);
     const args: any[] = [];
 
     let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes('Txn')).length;
@@ -491,10 +314,10 @@ export class Compiler {
     });
 
     this.abi.methods.push({
-      name: this.currentFunction.name, args, desc: '', returns: { type: this.currentFunction.returnType, desc: '' },
+      name: this.currentSubroutine.name, args, desc: '', returns: { type: this.currentSubroutine.returnType, desc: '' },
     });
 
-    this.teal.push(`callsub ${this.currentFunction.name}`);
+    this.teal.push(`callsub ${this.currentSubroutine.name}`);
     this.teal.push('int 1');
     this.teal.push('return');
     this.processSubroutine(fn, true);
@@ -523,8 +346,8 @@ export class Compiler {
   }
 
   private processMethodDefinition(node: any) {
-    this.currentFunction.name = node.key.name;
-    this.currentFunction.returnType = this.getTypeFromAnnotation(
+    this.currentSubroutine.name = node.key.name;
+    this.currentSubroutine.returnType = this.getTypeFromAnnotation(
       node.value.returnType.typeAnnotation,
     );
 
@@ -563,7 +386,7 @@ export class Compiler {
 
   private processReturnStatement(node: any) {
     this.processNode(node.argument);
-    if (['uint64', 'Asset', 'App'].includes(this.currentFunction.returnType)) this.teal.push('itob');
+    if (['uint64', 'Asset', 'App'].includes(this.currentSubroutine.returnType)) this.teal.push('itob');
 
     this.teal.push('byte 0x151f7c75');
     this.teal.push('swap');
@@ -944,9 +767,16 @@ export class TEALScript {
 
     tree.body.forEach((body: any) => {
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
+        const tealPath = path.join(dir, `${body.id.name}.teal`);
+        const abiPath = path.join(dir, `${body.id.name}.json`);
+
+        if (fs.existsSync(tealPath)) fs.rmSync(tealPath);
+        if (fs.existsSync(abiPath)) fs.rmSync(abiPath);
+
         const compiler = new Compiler(filename, body.id.name);
-        fs.writeFileSync(path.join(dir, `${body.id.name}.teal`), compiler.teal.join('\n'));
-        fs.writeFileSync(path.join(dir, `${body.id.name}.json`), JSON.stringify(compiler.abi, null, 2));
+
+        fs.writeFileSync(tealPath, compiler.teal.join('\n'));
+        fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
       }
     });
   }

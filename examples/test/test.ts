@@ -1,8 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
-import {
-  Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn, TEALScript,
-} from '../../tealscript';
 
 class ExampleTEALScriptApp extends Contract {
   accountBalanceBox = new BoxMap<Account, uint64>({ defaultSize: 8 });
