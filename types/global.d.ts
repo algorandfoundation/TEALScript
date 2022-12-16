@@ -35,3 +35,22 @@ declare function expw(arg0: IntLike, arg1: IntLike)
 declare function bsqrt(arg0: ByteLike)
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: ByteLike)
+
+declare const global: {
+    minTxnFee: uint64
+    minBalance: uint64
+    maxTxnLife: uint64
+    zeroAddress: Account
+    groupSize: uint64
+    logicSigVersion: uint64
+    round: uint64
+    latestTimestamp: uint64
+    currentApplication: Application
+    creatorAddress: Account
+    currentApplicationAddress: Account
+    groupID: bytes
+    groupIndex: uint64
+    opcodeBudget: uint64
+    callerApplication: Application
+    callerApplicationAddress: Account
+  };

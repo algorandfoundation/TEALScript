@@ -238,32 +238,13 @@ interface ThisTxnParams {
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
 
 export class Contract {
-  global!: {
-    minTxnFee: uint64
-    minBalance: uint64
-    maxTxnLife: uint64
-    zeroAddress: Account
-    groupSize: uint64
-    logicSigVersion: uint64
-    round: uint64
-    latestTimestamp: uint64
-    currentApplication: Application
-    creatorAddress: Account
-    currentApplicationAddress: Account
-    groupID: bytes
-    groupIndex: uint64
-    opcodeBudget: uint64
-    callerApplication: Application
-    callerApplicationAddress: Account
-  };
-
   itxn!: {
     createdApplicationID: Application
   };
 
   txn!: ThisTxnParams;
 
-  groupTxns!: Transaction[];
+  txnGroup!: Transaction[];
 
   app!: Application;
 }
@@ -895,20 +876,22 @@ export class Compiler {
 
       nodes.reverse().forEach((n: any) => {
         let type: string | undefined;
+        // global calls won't have a prevProp
+        const obj = prevProps.at(-1) || { name: n.object.name, type: undefined };
 
-        if (prevProps.at(-1) && ['global', 'txn', 'itxn'].includes(prevProps.at(-1)!.name)) {
-          this.teal.push(`${prevProps.at(-1)!.name} ${this.capitalizeFirstChar(n.property.name)}`);
+        if (['global', 'txn', 'itxn'].includes(obj.name)) {
+          this.teal.push(`${obj.name} ${this.capitalizeFirstChar(n.property.name)}`);
           // @ts-ignore
-          type = TYPES[prevProps.at(-1)!.name][n.property.name];
-        } else if (prevProps.at(-1) && ['groupTxns'].includes(prevProps.at(-1)!.name)) {
+          type = TYPES[obj.name][n.property.name];
+        } else if (['txnGroup'].includes(obj.name)) {
           this.processNode(n.property);
           type = 'GroupTxn';
-        } else if (prevProps.at(-1) && ['app'].includes(prevProps.at(-1)!.name)) {
+        } else if (['app'].includes(obj.name)) {
           this.teal.push('txna Applications 0');
           this.maybeValue(`app_params_get ${this.capitalizeFirstChar(n.property.name)}`);
-        } else if (prevProps.at(-1)?.type) {
+        } else if (obj.type) {
           // @ts-ignore
-          type = this.tealFunction(prevProps.at(-1).type, n.property.name);
+          type = this.tealFunction(obj.type, n.property.name);
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
           type = this.processStorageExpression(node);
         }

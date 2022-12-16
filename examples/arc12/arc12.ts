@@ -18,25 +18,25 @@ class Vault extends Contract {
 
     sendPayment({
       receiver: vaultCreator,
-      amount: this.global.currentApplicationAddress.minBalance,
+      amount: global.currentApplicationAddress.minBalance,
       fee: 0,
       closeRemainderTo: this.txn.sender,
     });
 
-    const deleteVaultTxn = this.groupTxns[this.global.groupIndex + 1];
+    const deleteVaultTxn = this.txnGroup[global.groupIndex + 1];
     assert(deleteVaultTxn.applicationID === this.master.get());
   }
 
   create(receiver: Account, sender: Account): void {
     this.creator.put(sender);
     this.receiver.put(receiver);
-    this.master.put(this.global.callerApplication);
+    this.master.put(global.callerApplication);
   }
 
   reject(asaCreator: Account, feeSink: Account, asa: Asset, vaultCreator: Account): void {
     assert(this.txn.sender === this.receiver.get());
     assert(feeSink === addr('Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA'));
-    const preMbr = this.global.currentApplicationAddress.minBalance;
+    const preMbr = global.currentApplicationAddress.minBalance;
 
     sendAssetTransfer({
       assetReceiver: asaCreator,
@@ -48,7 +48,7 @@ class Vault extends Contract {
 
     this.funderMap.delete(asa);
 
-    const mbrAmt = preMbr - this.global.currentApplicationAddress.minBalance;
+    const mbrAmt = preMbr - global.currentApplicationAddress.minBalance;
 
     sendPayment({
       receiver: feeSink,
@@ -62,26 +62,26 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
+    if (global.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
   }
 
   optIn(asa: Asset, mbrPayment: PayTxn): void {
     assert(this.funderMap.exists(asa));
     assert(mbrPayment.sender === this.txn.sender);
-    assert(mbrPayment.receiver === this.global.currentApplicationAddress);
+    assert(mbrPayment.receiver === global.currentApplicationAddress);
 
-    const preMbr = this.global.currentApplicationAddress.minBalance;
+    const preMbr = global.currentApplicationAddress.minBalance;
 
     this.funderMap.put(asa, this.txn.sender);
 
     sendAssetTransfer({
-      assetReceiver: this.global.currentApplicationAddress,
+      assetReceiver: global.currentApplicationAddress,
       assetAmount: 0,
       fee: 0,
       xferAsset: asa,
     });
 
-    assert(mbrPayment.amount === this.global.currentApplicationAddress.minBalance - preMbr);
+    assert(mbrPayment.amount === global.currentApplicationAddress.minBalance - preMbr);
   }
 
   claim(asa: Asset, creator: Account, asaMbrFunder: Account): void {
@@ -90,30 +90,30 @@ class Vault extends Contract {
     assert(this.txn.sender === this.receiver.get());
     assert(this.creator.get() === creator);
 
-    const initialMbr = this.global.currentApplicationAddress.minBalance;
+    const initialMbr = global.currentApplicationAddress.minBalance;
 
     this.funderMap.delete(asa);
 
     sendAssetTransfer({
       assetReceiver: this.txn.sender,
       fee: 0,
-      assetAmount: this.global.currentApplicationAddress.assetBalance(asa),
+      assetAmount: global.currentApplicationAddress.assetBalance(asa),
       xferAsset: asa,
       assetCloseTo: this.txn.sender,
     });
 
     sendPayment({
       receiver: asaMbrFunder,
-      amount: initialMbr - this.global.currentApplicationAddress.minBalance,
+      amount: initialMbr - global.currentApplicationAddress.minBalance,
       fee: 0,
     });
 
-    if (this.global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
+    if (global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
   }
 
   delete(): void {
-    assert(this.global.currentApplicationAddress.balance === 0);
-    assert(this.txn.sender === this.global.creatorAddress);
+    assert(global.currentApplicationAddress.balance === 0);
+    assert(this.txn.sender === global.creatorAddress);
   }
 }
 
@@ -122,11 +122,11 @@ class Master extends Contract {
 
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
     assert(this.vaultMap.exists(receiver));
-    assert(mbrPayment.receiver === this.global.currentApplicationAddress);
+    assert(mbrPayment.receiver === global.currentApplicationAddress);
     assert(mbrPayment.sender === this.txn.sender);
-    assert(mbrPayment.closeRemainderTo === this.global.zeroAddress);
+    assert(mbrPayment.closeRemainderTo === global.zeroAddress);
 
-    const preCreateMBR = this.global.currentApplicationAddress.minBalance;
+    const preCreateMBR = global.currentApplicationAddress.minBalance;
 
     // TODO: approval program
     sendMethodCall<[Account, Account], void>({
@@ -141,14 +141,14 @@ class Master extends Contract {
 
     sendPayment({
       receiver: vault.address,
-      amount: this.global.minBalance,
+      amount: global.minBalance,
       fee: 0,
     });
 
     this.vaultMap.put(receiver, vault);
 
     // eslint-disable-next-line max-len
-    assert(mbrPayment.amount === (this.global.currentApplicationAddress.minBalance - preCreateMBR) + this.global.minBalance);
+    assert(mbrPayment.amount === (global.currentApplicationAddress.minBalance - preCreateMBR) + global.minBalance);
 
     return vault;
   }
@@ -158,7 +158,7 @@ class Master extends Contract {
 
     assert(this.vaultMap.get(receiver) === vault);
     assert(vaultAxfer.assetReceiver === vault.address);
-    assert(vaultAxfer.assetCloseTo === this.global.zeroAddress);
+    assert(vaultAxfer.assetCloseTo === global.zeroAddress);
   }
 
   getVaultId(receiver: Account): Application {
@@ -177,7 +177,7 @@ class Master extends Contract {
     const vaultCreator = vault.global('creator') as Account;
     assert(vaultCreator === creator);
 
-    const preDeleteMBR = this.global.currentApplicationAddress.minBalance;
+    const preDeleteMBR = global.currentApplicationAddress.minBalance;
 
     sendMethodCall<[], void>({
       applicationID: vault,
@@ -190,7 +190,7 @@ class Master extends Contract {
 
     sendPayment({
       receiver: vaultCreator,
-      amount: preDeleteMBR - this.global.currentApplicationAddress.minBalance,
+      amount: preDeleteMBR - global.currentApplicationAddress.minBalance,
       fee: 0,
     });
   }
