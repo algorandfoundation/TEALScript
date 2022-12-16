@@ -5,6 +5,10 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import path from 'path';
 import * as langspec from './langspec.json';
 
+function capitalizeFirstChar(str: string) {
+  return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
+}
+
 const TYPES = {
   global: {
     minTxnFee: 'uint64',
@@ -634,19 +638,15 @@ export class Compiler {
       } else if (p.value.type === AST_NODE_TYPES.ArrayExpression) {
         p.value.elements.forEach((e: any) => {
           this.processNode(e);
-          this.teal.push(`itxn_field ${this.capitalizeFirstChar(key)}`);
+          this.teal.push(`itxn_field ${capitalizeFirstChar(key)}`);
         });
       } else {
         this.processNode(p.value);
-        this.teal.push(`itxn_field ${this.capitalizeFirstChar(key)}`);
+        this.teal.push(`itxn_field ${capitalizeFirstChar(key)}`);
       }
     });
 
     this.teal.push('itxn_submit');
-  }
-
-  private capitalizeFirstChar(str: string) {
-    return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
   }
 
   private processCallExpression(node: any) {
@@ -703,7 +703,7 @@ export class Compiler {
         const obj = prevProps.at(-1) || { name: n.object.name, type: undefined };
 
         if (['global', 'txn', 'itxn'].includes(obj.name)) {
-          this.teal.push(`${obj.name} ${this.capitalizeFirstChar(n.property.name)}`);
+          this.teal.push(`${obj.name} ${capitalizeFirstChar(n.property.name)}`);
           // @ts-ignore
           type = TYPES[obj.name][n.property.name];
         } else if (['txnGroup'].includes(obj.name)) {
@@ -711,7 +711,7 @@ export class Compiler {
           type = 'GroupTxn';
         } else if (['app'].includes(obj.name)) {
           this.teal.push('txna Applications 0');
-          this.maybeValue(`app_params_get ${this.capitalizeFirstChar(n.property.name)}`);
+          this.maybeValue(`app_params_get ${capitalizeFirstChar(n.property.name)}`);
         } else if (obj.type) {
           // @ts-ignore
           type = this.tealFunction(obj.type, n.property.name);
@@ -727,7 +727,7 @@ export class Compiler {
 
   private tealFunction(type: string, name: string, checkArgs: boolean = false) {
     if (type.includes('Txn')) {
-      this.teal.push(`gtxns ${this.capitalizeFirstChar(name)}`);
+      this.teal.push(`gtxns ${capitalizeFirstChar(name)}`);
 
       // @ts-ignore
       return TYPES.txn[name];
