@@ -1,9 +1,7 @@
-/* eslint-disable max-classes-per-file */
-import * as fs from 'fs';
-import * as parser from '@typescript-eslint/typescript-estree';
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
-import path from 'path';
-import * as langspec from './langspec.json';
+import * as parser from '@typescript-eslint/typescript-estree';
+import * as fs from 'fs';
+import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
@@ -76,7 +74,7 @@ interface Subroutine {
   name: string
   returnType: string
 }
-export class Compiler {
+export default class Compiler {
   teal: any[];
 
   scratch: any;
@@ -757,27 +755,5 @@ export class Compiler {
     } else {
       this.teal.push(`int ${node.value}`);
     }
-  }
-}
-
-export class TEALScript {
-  constructor(filename: string) {
-    const tree = parser.parse(fs.readFileSync(filename, 'utf-8'), { range: true, loc: true });
-    const dir = path.dirname(filename);
-
-    tree.body.forEach((body: any) => {
-      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
-        const tealPath = path.join(dir, `${body.id.name}.teal`);
-        const abiPath = path.join(dir, `${body.id.name}.json`);
-
-        if (fs.existsSync(tealPath)) fs.rmSync(tealPath);
-        if (fs.existsSync(abiPath)) fs.rmSync(abiPath);
-
-        const compiler = new Compiler(filename, body.id.name);
-
-        fs.writeFileSync(tealPath, compiler.teal.join('\n'));
-        fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
-      }
-    });
   }
 }

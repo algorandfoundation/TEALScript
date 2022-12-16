@@ -106,18 +106,6 @@ declare class Global<ValueType> {
   put(value: ValueType): void
 }
 
-declare class GlobalMap<KeyType, ValueType> {
-  constructor()
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): ValueType
-
-  delete(key: KeyType): ValueType
-
-  put(key: KeyType, value: ValueType): void
-}
-
 declare class Account {
   constructor(id: uint64)
 

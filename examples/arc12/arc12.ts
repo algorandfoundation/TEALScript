@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
 
+// eslint-disable-next-line no-unused-vars
 class Vault extends Contract {
   creator = new Global<Account>({ key: 'creator' });
 
@@ -114,6 +115,7 @@ class Vault extends Contract {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 class Master extends Contract {
   vaultMap = new BoxMap<Account, Application>({ defaultSize: 8 });
 
