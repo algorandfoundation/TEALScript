@@ -266,117 +266,6 @@ export class Contract {
   groupTxns!: Transaction[];
 
   app!: Application;
-
-  // @ts-ignore
-  addr(address: string): Account {}
-
-  // @ts-ignore
-  sendPayment(params: PaymentParams): void {}
-
-  // @ts-ignore
-  sendAppCall(params: AppParams): void {}
-
-  // @ts-ignore
-  sendAssetTransfer(params: AssetTransferParams): void {}
-
-  // @ts-ignore
-  sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType {}
-
-  // @ts-ignore
-  btoi(bytes: BytesLike): uint64 {}
-
-  // @ts-ignore
-  itob(int: IntLike): bytes {}
-
-  // @ts-ignore
-  log(content: BytesLike): void {}
-
-  // @ts-ignore
-  err() {}
-
-  // @ts-ignore
-  sha256(arg0: ByteLike) {}
-
-  // @ts-ignore
-  keccak256(arg0: ByteLike) {}
-
-  // @ts-ignore
-  sha512_256(arg0: ByteLike) {}
-
-  // @ts-ignore
-  ed25519verify(arg0: ByteLike, arg1: ByteLike, arg2: ByteLike) {}
-
-  // @ts-ignore
-  len(arg0: ByteLike) {}
-
-  // @ts-ignore
-  mulw(arg0: IntLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  addw(arg0: IntLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  divmodw(arg0: IntLike, arg1: IntLike, arg2: IntLike, arg3: IntLike) {}
-
-  // @ts-ignore
-  assert(arg0: IntLike) {}
-
-  // @ts-ignore
-  concat(arg0: ByteLike, arg1: ByteLike) {}
-
-  // @ts-ignore
-  substring3(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
-
-  // @ts-ignore
-  getbit(arg0: ByteLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  setbit(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
-
-  // @ts-ignore
-  getbyte(arg0: ByteLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  setbyte(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
-
-  // @ts-ignore
-  extract3(arg0: ByteLike, arg1: IntLike, arg2: IntLike) {}
-
-  // @ts-ignore
-  extract_uint16(arg0: ByteLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  extract_uint32(arg0: ByteLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  extract_uint64(arg0: ByteLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  replace3(arg0: ByteLike, arg1: IntLike, arg2: ByteLike) {}
-
-  // @ts-ignore
-  ed25519verify_bare(arg0: ByteLike, arg1: ByteLike, arg2: ByteLike) {}
-
-  // @ts-ignore
-  sqrt(arg0: IntLike) {}
-
-  // @ts-ignore
-  bitlen(arg0: ByteLike) {}
-
-  // @ts-ignore
-  exp(arg0: IntLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  expw(arg0: IntLike, arg1: IntLike) {}
-
-  // @ts-ignore
-  bsqrt(arg0: ByteLike) {}
-
-  // @ts-ignore
-  divw(arg0: IntLike, arg1: IntLike, arg2: IntLike) {}
-
-  // @ts-ignore
-  sha3_256(arg0: ByteLike) {}
 }
 
 export class Compiler {
@@ -765,8 +654,8 @@ export class Compiler {
   }
 
   private processOpcode(node: any) {
-    const opSpec = langspec.Ops.find((o) => o.Name === node.callee.property.name) as OpSpec;
-    let line: string[] = [node.callee.property.name];
+    const opSpec = langspec.Ops.find((o) => o.Name === node.callee.name) as OpSpec;
+    let line: string[] = [node.callee.name];
 
     if (opSpec.Size === 1) {
       node.arguments.forEach((a: any) => this.processNode(a));
@@ -870,7 +759,7 @@ export class Compiler {
   private processTransaction(node: any) {
     let txnType = '';
 
-    switch (node.callee.property.name) {
+    switch (node.callee.name) {
       case ('sendPayment'):
         txnType = 'pay';
         break;
@@ -958,19 +847,19 @@ export class Compiler {
 
   private processCallExpression(node: any) {
     const opcodeNames = langspec.Ops.map((o) => o.Name);
-    const methodName = node.callee.property.name;
+    const methodName = node.callee?.property?.name || node.callee.name;
 
-    if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+    if (node.callee.object === undefined) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
       } else if (['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'].includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
         this.teal.push(`addr ${node.arguments[0].value}`);
-      } else {
-        node.arguments.forEach((a: any) => this.processNode(a));
-        this.teal.push(`callsub ${methodName}`);
       }
+    } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+      node.arguments.forEach((a: any) => this.processNode(a));
+      this.teal.push(`callsub ${methodName}`);
     } else if (Object.keys(this.storageProps).includes(node.callee.object.property?.name)) {
       this.processStorageCall(node);
     } else {
