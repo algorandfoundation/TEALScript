@@ -1,4 +1,5 @@
-import { writeFileSync } from 'fs';
+/* eslint-disable no-undef */
+/* eslint-disable max-classes-per-file */
 import {
   Contract, Account, Compiler, BoxMap, uint64, Box, Global, GlobalMap, PayTxn, AssetTransferTxn, TEALScript,
 } from '../../tealscript';
@@ -18,10 +19,10 @@ class ExampleTEALScriptApp extends Contract {
     payment: PayTxn,
     axfer: AssetTransferTxn,
   ): uint64 {
-    this.log(this.itob(payment.sender.assetBalance(123)));
-    this.log(axfer.assetReceiver);
+    log(itob(payment.sender.assetBalance(123)));
+    log(axfer.assetReceiver);
 
-    this.sendAssetTransfer({
+    sendAssetTransfer({
       fee: 0,
       assetReceiver: firstAccount,
       assetAmount: 100_000,
@@ -35,20 +36,20 @@ class ExampleTEALScriptApp extends Contract {
     this.someGlobal.put(123);
     this.aGlobalMap.put('foo', 456);
 
-    this.sendPayment({
+    sendPayment({
       fee: 0,
       receiver: firstAccount,
       amount: 100_000,
     });
 
-    this.sendAppCall({
+    sendAppCall({
       fee: 0,
       applicationID: 1337,
       applicationArgs: ['foo', 'bar'],
       onComplete: 'NoOp',
     });
 
-    this.sendMethodCall<[Account, uint64], void>({
+    sendMethodCall<[Account, uint64], void>({
       fee: 0,
       applicationID: 1337,
       onComplete: 'NoOp',
@@ -56,32 +57,32 @@ class ExampleTEALScriptApp extends Contract {
       methodArgs: [firstAccount, 42],
     });
 
-    this.log(this.itob(this.accountBalanceBox.get(firstAccount)));
+    log(itob(this.accountBalanceBox.get(firstAccount)));
     const msg = 'HERE';
-    this.log(msg);
-    this.log(firstAccount);
-    this.log(secondAccount);
+    log(msg);
+    log(firstAccount);
+    log(secondAccount);
 
     if (firstAccount.hasBalance && secondAccount.hasBalance) {
-      this.log('Both accounts have a balance!');
+      log('Both accounts have a balance!');
     }
 
     const totalBalance = firstAccount.balance + secondAccount.balance;
 
     if (totalBalance === 0) {
-      this.log('These accounts have nothing');
+      log('These accounts have nothing');
     } else if (totalBalance > 100_000_000e6) {
-      this.log('At least one of these accounts is a whale');
+      log('At least one of these accounts is a whale');
     } else if (totalBalance > 1_000_000e6) {
-      this.log('At least one of these accounts is rich');
+      log('At least one of these accounts is rich');
     } else {
-      this.log('These accounts have a reasonable balance');
+      log('These accounts have a reasonable balance');
     }
 
     const id = 456;
     const acct = new Account(id);
     if (acct.hasBalance) {
-      this.log(this.itob(acct.balance));
+      log(itob(acct.balance));
     }
 
     this.exampleInteralSubroutine(firstAccount);
@@ -91,10 +92,10 @@ class ExampleTEALScriptApp extends Contract {
 
   private exampleInteralSubroutine(account: Account): uint64 {
     const bal = this.global.currentApplication.address.balance;
-    this.log(this.itob(bal));
-    this.log(this.itob(account.assetBalance(1337)));
-    this.log(this.itob(this.global.currentApplication.address.assetBalance(42)));
-    this.log(this.itob(this.txn.sender.assetBalance(777)));
+    log(itob(bal));
+    log(itob(account.assetBalance(1337)));
+    log(itob(this.global.currentApplication.address.assetBalance(42)));
+    log(itob(this.txn.sender.assetBalance(777)));
     return account.balance;
   }
 }

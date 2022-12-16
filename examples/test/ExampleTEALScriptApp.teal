@@ -108,6 +108,7 @@ itxn_submit
 frame_dig -1 // firstAccount: Account
 itob
 box_get
+assert
 btoi
 itob
 log
