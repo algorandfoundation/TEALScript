@@ -94,6 +94,23 @@ declare class Box<ValueType> {
   put(value: ValueType): void
 }
 
+export class GlobalMap<KeyType, ValueType> {
+  // @ts-ignore
+  constructor() {}
+
+  // @ts-ignore
+  get(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  exists(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  delete(key: KeyType): ValueType {}
+
+  // @ts-ignore
+  put(key: KeyType, value: ValueType): void {}
+}
+
 declare class Global<ValueType> {
   constructor(options?: { key?: string })
 
