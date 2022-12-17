@@ -16,25 +16,25 @@ class Vault extends Contract {
 
     sendPayment({
       receiver: vaultCreator,
-      amount: global.currentApplicationAddress.minBalance,
+      amount: globals.currentApplicationAddress.minBalance,
       fee: 0,
       closeRemainderTo: this.txn.sender,
     });
 
-    const deleteVaultTxn = this.txnGroup[global.groupIndex + 1];
+    const deleteVaultTxn = this.txnGroup[globals.groupIndex + 1];
     assert(deleteVaultTxn.applicationID === this.master.get());
   }
 
   create(receiver: Account, sender: Account): void {
     this.creator.put(sender);
     this.receiver.put(receiver);
-    this.master.put(global.callerApplication);
+    this.master.put(globals.callerApplication);
   }
 
   reject(asaCreator: Account, feeSink: Account, asa: Asset, vaultCreator: Account): void {
     assert(this.txn.sender === this.receiver.get());
     assert(feeSink === addr('Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA'));
-    const preMbr = global.currentApplicationAddress.minBalance;
+    const preMbr = globals.currentApplicationAddress.minBalance;
 
     sendAssetTransfer({
       assetReceiver: asaCreator,
@@ -46,7 +46,7 @@ class Vault extends Contract {
 
     this.funderMap.delete(asa);
 
-    const mbrAmt = preMbr - global.currentApplicationAddress.minBalance;
+    const mbrAmt = preMbr - globals.currentApplicationAddress.minBalance;
 
     sendPayment({
       receiver: feeSink,
@@ -60,26 +60,26 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    if (global.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
+    if (globals.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
   }
 
   optIn(asa: Asset, mbrPayment: PayTxn): void {
     assert(this.funderMap.exists(asa));
     assert(mbrPayment.sender === this.txn.sender);
-    assert(mbrPayment.receiver === global.currentApplicationAddress);
+    assert(mbrPayment.receiver === globals.currentApplicationAddress);
 
-    const preMbr = global.currentApplicationAddress.minBalance;
+    const preMbr = globals.currentApplicationAddress.minBalance;
 
     this.funderMap.put(asa, this.txn.sender);
 
     sendAssetTransfer({
-      assetReceiver: global.currentApplicationAddress,
+      assetReceiver: globals.currentApplicationAddress,
       assetAmount: 0,
       fee: 0,
       xferAsset: asa,
     });
 
-    assert(mbrPayment.amount === global.currentApplicationAddress.minBalance - preMbr);
+    assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr);
   }
 
   claim(asa: Asset, creator: Account, asaMbrFunder: Account): void {
@@ -88,30 +88,30 @@ class Vault extends Contract {
     assert(this.txn.sender === this.receiver.get());
     assert(this.creator.get() === creator);
 
-    const initialMbr = global.currentApplicationAddress.minBalance;
+    const initialMbr = globals.currentApplicationAddress.minBalance;
 
     this.funderMap.delete(asa);
 
     sendAssetTransfer({
       assetReceiver: this.txn.sender,
       fee: 0,
-      assetAmount: global.currentApplicationAddress.assetBalance(asa),
+      assetAmount: globals.currentApplicationAddress.assetBalance(asa),
       xferAsset: asa,
       assetCloseTo: this.txn.sender,
     });
 
     sendPayment({
       receiver: asaMbrFunder,
-      amount: initialMbr - global.currentApplicationAddress.minBalance,
+      amount: initialMbr - globals.currentApplicationAddress.minBalance,
       fee: 0,
     });
 
-    if (global.currentApplicationAddress.assets === 0) this.closeAcct(creator);
+    if (globals.currentApplicationAddress.assets === 0) this.closeAcct(creator);
   }
 
   delete(): void {
-    assert(global.currentApplicationAddress.balance === 0);
-    assert(this.txn.sender === global.creatorAddress);
+    assert(globals.currentApplicationAddress.balance === 0);
+    assert(this.txn.sender === globals.creatorAddress);
   }
 }
 
@@ -121,11 +121,11 @@ class Master extends Contract {
 
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
     assert(this.vaultMap.exists(receiver));
-    assert(mbrPayment.receiver === global.currentApplicationAddress);
+    assert(mbrPayment.receiver === globals.currentApplicationAddress);
     assert(mbrPayment.sender === this.txn.sender);
-    assert(mbrPayment.closeRemainderTo === global.zeroAddress);
+    assert(mbrPayment.closeRemainderTo === globals.zeroAddress);
 
-    const preCreateMBR = global.currentApplicationAddress.minBalance;
+    const preCreateMBR = globals.currentApplicationAddress.minBalance;
 
     // TODO: approval program
     sendMethodCall<[Account, Account], void>({
@@ -140,14 +140,14 @@ class Master extends Contract {
 
     sendPayment({
       receiver: vault.address,
-      amount: global.minBalance,
+      amount: globals.minBalance,
       fee: 0,
     });
 
     this.vaultMap.put(receiver, vault);
 
     // eslint-disable-next-line max-len
-    assert(mbrPayment.amount === (global.currentApplicationAddress.minBalance - preCreateMBR) + global.minBalance);
+    assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance);
 
     return vault;
   }
@@ -157,7 +157,7 @@ class Master extends Contract {
 
     assert(this.vaultMap.get(receiver) === vault);
     assert(vaultAxfer.assetReceiver === vault.address);
-    assert(vaultAxfer.assetCloseTo === global.zeroAddress);
+    assert(vaultAxfer.assetCloseTo === globals.zeroAddress);
   }
 
   getVaultId(receiver: Account): Application {
@@ -176,7 +176,7 @@ class Master extends Contract {
     const vaultCreator = vault.global('creator') as Account;
     assert(vaultCreator === creator);
 
-    const preDeleteMBR = global.currentApplicationAddress.minBalance;
+    const preDeleteMBR = globals.currentApplicationAddress.minBalance;
 
     sendMethodCall<[], void>({
       applicationID: vault,
@@ -189,7 +189,7 @@ class Master extends Contract {
 
     sendPayment({
       receiver: vaultCreator,
-      amount: preDeleteMBR - global.currentApplicationAddress.minBalance,
+      amount: preDeleteMBR - globals.currentApplicationAddress.minBalance,
       fee: 0,
     });
   }

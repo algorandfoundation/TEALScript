@@ -144,7 +144,7 @@ interface ThisTxnParams {
 
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
 
-declare const global: {
+declare const globals: {
   minTxnFee: uint64
   minBalance: uint64
   maxTxnLife: uint64

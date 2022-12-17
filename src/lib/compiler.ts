@@ -696,8 +696,8 @@ export default class Compiler {
 
       nodes.reverse().forEach((n: any) => {
         let type: string | undefined;
-        // global calls won't have a prevProp
-        const obj = prevProps.at(-1) || { name: n.object.name, type: undefined };
+        // globals calls won't have a prevProp
+        const obj = prevProps.at(-1) || { name: n.object?.name?.replace('globals', 'global'), type: undefined };
 
         if (['global', 'txn', 'itxn'].includes(obj.name)) {
           this.teal.push(`${obj.name} ${capitalizeFirstChar(n.property.name)}`);
