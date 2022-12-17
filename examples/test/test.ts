@@ -41,14 +41,14 @@ class ExampleTEALScriptApp extends Contract {
 
     sendAppCall({
       fee: 0,
-      applicationID: 1337,
+      applicationID: new Application(1337),
       applicationArgs: ['foo', 'bar'],
       onComplete: 'NoOp',
     });
 
     sendMethodCall<[Account, uint64], void>({
       fee: 0,
-      applicationID: 1337,
+      applicationID: new Application(1337),
       onComplete: 'NoOp',
       name: 'exampleExternalMethod',
       methodArgs: [firstAccount, 42],
@@ -88,13 +88,11 @@ class ExampleTEALScriptApp extends Contract {
   }
 
   private exampleInteralSubroutine(account: Account): uint64 {
-    const bal = this.global.currentApplication.address.balance;
+    const bal = global.currentApplication.address.balance;
     log(itob(bal));
     log(itob(account.assetBalance(1337)));
-    log(itob(this.global.currentApplication.address.assetBalance(42)));
+    log(itob(global.currentApplication.address.assetBalance(42)));
     log(itob(this.txn.sender.assetBalance(777)));
     return account.balance;
   }
 }
-// eslint-disable-next-line no-new
-new TEALScript(__filename.replace('.js', '.ts'));
