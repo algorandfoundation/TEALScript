@@ -1,6 +1,5 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
-import * as fs from 'fs';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -83,7 +82,7 @@ export default class Compiler {
 
   ifCount: number;
 
-  filename: string;
+  filename?: string;
 
   content: string;
 
@@ -99,9 +98,9 @@ export default class Compiler {
 
   lastType: string | undefined;
 
-  constructor(filename: string, className: string) {
+  constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
-    this.content = fs.readFileSync(this.filename, 'utf-8');
+    this.content = content;
     this.teal = ['#pragma version 8', 'b main'];
     this.scratch = {};
     this.scratchIndex = 0;
