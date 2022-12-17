@@ -40,7 +40,7 @@ declare class GlobalMap<KeyType, ValueType> {
   put(key: KeyType, value: ValueType): void
 }
 
-declare class Global<ValueType> {
+declare class GlobalValue<ValueType> {
   constructor(options?: { key?: string })
 
   get(): ValueType

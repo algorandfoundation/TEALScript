@@ -2,7 +2,7 @@
   "name": "tealscript",
   "version": "0.0.0",
   "scripts": {
-    "start": "ts-node examples/test/compile.ts && ts-node examples/arc12/compile.ts"
+    "start": "tsc && tealscript examples/arc12/arc12.ts && tealscript examples/test/test.ts"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",

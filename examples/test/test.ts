@@ -6,7 +6,7 @@ class ExampleTEALScriptApp extends Contract {
 
   favoriteNumber = new Box<uint64>({ defaultSize: 8, key: 'fn' });
 
-  someGlobal = new Global<uint64>({ key: 'sg' });
+  someGlobal = new GlobalValue<uint64>({ key: 'sg' });
 
   aGlobalMap = new GlobalMap<string, uint64>();
 

@@ -3,11 +3,11 @@
 
 // eslint-disable-next-line no-unused-vars
 class Vault extends Contract {
-  creator = new Global<Account>({ key: 'creator' });
+  creator = new GlobalValue<Account>({ key: 'creator' });
 
-  master = new Global<Application>({ key: 'master' });
+  master = new GlobalValue<Application>({ key: 'master' });
 
-  receiver = new Global<Account>({ key: 'receiver' });
+  receiver = new GlobalValue<Account>({ key: 'receiver' });
 
   funderMap = new BoxMap<Asset, Account>({ defaultSize: 32 });
 

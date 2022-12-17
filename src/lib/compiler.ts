@@ -234,11 +234,11 @@ export default class Compiler {
       }
 
       this.storageProps[node.key.name] = props;
-    } else if (['Box', 'Global'].includes(klass)) {
+    } else if (['Box', 'GlobalValue'].includes(klass)) {
       const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
 
       const props: StorageProp = {
-        type: klass.toLowerCase(),
+        type: klass.toLowerCase().replace('value', ''),
         key: keyProp.value.value,
         keyType: 'string',
         valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
