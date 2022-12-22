@@ -15,10 +15,12 @@ const dir = path.dirname(filename);
 tree.body.forEach(async (body: any) => {
   if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
     const tealPath = path.join(dir, `${body.id.name}.teal`);
-    const abiPath = path.join(dir, `${body.id.name}.json`);
+    const abiPath = path.join(dir, `${body.id.name}.abi.json`);
+    const srcmapPath = path.join(dir, `${body.id.name}.src_map.json`);
 
     if (fs.existsSync(tealPath)) fs.rmSync(tealPath);
     if (fs.existsSync(abiPath)) fs.rmSync(abiPath);
+    if (fs.existsSync(srcmapPath)) fs.rmSync(srcmapPath);
 
     const compiler = new Compiler(content, body.id.name, filename);
     await compiler.compile();
@@ -27,5 +29,6 @@ tree.body.forEach(async (body: any) => {
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
 
     await compiler.algodCompile();
+    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.pcToLine, null, 2));
   }
 });

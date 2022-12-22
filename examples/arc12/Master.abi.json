@@ -1,0 +1,110 @@
+{
+  "name": "Master",
+  "desc": "",
+  "methods": [
+    {
+      "name": "create",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createVault",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        },
+        {
+          "name": "mbrPayment",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "Application",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyAxfer",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        },
+        {
+          "name": "vaultAxfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "vault",
+          "type": "Application",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getVaultId",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "Application",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getVaultAddr",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "Account",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteVault",
+      "args": [
+        {
+          "name": "vault",
+          "type": "Application",
+          "desc": ""
+        },
+        {
+          "name": "creator",
+          "type": "Account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

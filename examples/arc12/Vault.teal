@@ -45,10 +45,10 @@ return
 create:
 proto 2 0
 byte "creator"
-frame_dig -2 // sender: Account
+frame_dig -1 // sender: Account
 app_global_put
 byte "receiver"
-frame_dig -1 // receiver: Account
+frame_dig -2 // receiver: Account
 app_global_put
 byte "master"
 global CallerApplicationID
@@ -77,7 +77,7 @@ byte "receiver"
 app_global_get
 ==
 assert
-frame_dig -2 // feeSink: Account
+frame_dig -3 // feeSink: Account
 addr Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA
 ==
 assert
@@ -88,18 +88,18 @@ store 1 // preMbr: uint64
 itxn_begin
 int axfer
 itxn_field TypeEnum
-frame_dig -1 // asaCreator: Account
+frame_dig -4 // asaCreator: Account
 itxn_field AssetReceiver
-frame_dig -3 // asa: Asset
+frame_dig -2 // asa: Asset
 itxn_field XferAsset
 int 0
 itxn_field AssetAmount
-frame_dig -1 // asaCreator: Account
+frame_dig -4 // asaCreator: Account
 itxn_field AssetCloseTo
 int 0
 itxn_field Fee
 itxn_submit
-frame_dig -3 // asa: Asset
+frame_dig -2 // asa: Asset
 itob
 box_del
 load 1 // preMbr: uint64
@@ -111,7 +111,7 @@ store 2 // mbrAmt: uint64
 itxn_begin
 int pay
 itxn_field TypeEnum
-frame_dig -2 // feeSink: Account
+frame_dig -3 // feeSink: Account
 itxn_field Receiver
 load 2 // mbrAmt: uint64
 txn Fee
@@ -137,7 +137,7 @@ assert
 int 0
 ==
 bz if0_end
-frame_dig -4 // vaultCreator: Account
+frame_dig -1 // vaultCreator: Account
 callsub closeAcct
 if0_end:
 retsub
@@ -153,18 +153,19 @@ int 1
 return
 optIn:
 proto 2 0
-frame_dig -1 // asa: Asset
+frame_dig -2 // asa: Asset
 itob
 box_get
 swap
 pop
+!
 assert
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Sender
 txn Sender
 ==
 assert
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Receiver
 global CurrentApplicationAddress
 ==
@@ -173,7 +174,7 @@ global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 3 // preMbr: uint64
-frame_dig -1 // asa: Asset
+frame_dig -2 // asa: Asset
 itob
 txn Sender
 box_put
@@ -186,10 +187,10 @@ int 0
 itxn_field AssetAmount
 int 0
 itxn_field Fee
-frame_dig -1 // asa: Asset
+frame_dig -2 // asa: Asset
 itxn_field XferAsset
 itxn_submit
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Amount
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
@@ -214,14 +215,14 @@ int 1
 return
 claim:
 proto 3 0
-frame_dig -1 // asa: Asset
+frame_dig -3 // asa: Asset
 itob
 box_get
 swap
 pop
 assert
-frame_dig -3 // asaMbrFunder: Account
-frame_dig -1 // asa: Asset
+frame_dig -1 // asaMbrFunder: Account
+frame_dig -3 // asa: Asset
 itob
 box_get
 assert
@@ -241,7 +242,7 @@ global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 4 // initialMbr: uint64
-frame_dig -1 // asa: Asset
+frame_dig -3 // asa: Asset
 itob
 box_del
 itxn_begin
@@ -252,11 +253,11 @@ itxn_field AssetReceiver
 int 0
 itxn_field Fee
 global CurrentApplicationAddress
-frame_dig -1 // asa: Asset
+frame_dig -3 // asa: Asset
 asset_holding_get AssetBalance
 assert
 itxn_field AssetAmount
-frame_dig -1 // asa: Asset
+frame_dig -3 // asa: Asset
 itxn_field XferAsset
 txn Sender
 itxn_field AssetCloseTo
@@ -264,7 +265,7 @@ itxn_submit
 itxn_begin
 int pay
 itxn_field TypeEnum
-frame_dig -3 // asaMbrFunder: Account
+frame_dig -1 // asaMbrFunder: Account
 itxn_field Receiver
 load 4 // initialMbr: uint64
 global CurrentApplicationAddress
@@ -294,9 +295,9 @@ delete:
 proto 0 0
 global CurrentApplicationAddress
 acct_params_get AcctBalance
-assert
-int 0
-==
+swap
+pop
+!
 assert
 txn Sender
 global CreatorAddress

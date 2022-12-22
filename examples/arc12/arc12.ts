@@ -64,7 +64,7 @@ class Vault extends Contract {
   }
 
   optIn(asa: Asset, mbrPayment: PayTxn): void {
-    assert(this.funderMap.exists(asa));
+    assert(!this.funderMap.exists(asa));
     assert(mbrPayment.sender === this.txn.sender);
     assert(mbrPayment.receiver === globals.currentApplicationAddress);
 
@@ -110,7 +110,7 @@ class Vault extends Contract {
   }
 
   delete(): void {
-    assert(globals.currentApplicationAddress.balance === 0);
+    assert(!globals.currentApplicationAddress.hasBalance);
     assert(this.txn.sender === globals.creatorAddress);
   }
 }
@@ -119,8 +119,12 @@ class Vault extends Contract {
 class Master extends Contract {
   vaultMap = new BoxMap<Account, Application>({ defaultSize: 8 });
 
+  create(): void {
+    assert(this.txn.applicationID === new Application(0));
+  }
+
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
-    assert(this.vaultMap.exists(receiver));
+    assert(!this.vaultMap.exists(receiver));
     assert(mbrPayment.receiver === globals.currentApplicationAddress);
     assert(mbrPayment.sender === this.txn.sender);
     assert(mbrPayment.closeRemainderTo === globals.zeroAddress);
@@ -134,6 +138,8 @@ class Master extends Contract {
       methodArgs: [receiver, this.txn.sender],
       clearStateProgram: this.app.clearStateProgram,
       approvalProgram: Vault,
+      globalNumByteSlice: 2,
+      globalNumUint: 1,
     });
 
     const vault = this.itxn.createdApplicationID;

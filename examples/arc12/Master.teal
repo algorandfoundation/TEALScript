@@ -1,5 +1,16 @@
 #pragma version 8
 b main
+abi_route_create:
+callsub create
+int 1
+return
+create:
+proto 0 0
+txn ApplicationID
+int 0
+==
+assert
+retsub
 abi_route_createVault:
 txna ApplicationArgs 1
 btoi
@@ -12,22 +23,23 @@ int 1
 return
 createVault:
 proto 2 0
-frame_dig -1 // receiver: Account
+frame_dig -2 // receiver: Account
 box_get
 swap
 pop
+!
 assert
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Receiver
 global CurrentApplicationAddress
 ==
 assert
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Sender
 txn Sender
 ==
 assert
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns CloseRemainderTo
 global ZeroAddress
 ==
@@ -45,7 +57,7 @@ int NoOp
 itxn_field OnCompletion
 int 0
 itxn_field Fee
-frame_dig -1 // receiver: Account
+frame_dig -2 // receiver: Account
 itxn_field Accounts
 int 1
 itob
@@ -59,8 +71,12 @@ txna Applications 0
 app_params_get AppClearStateProgram
 assert
 itxn_field ClearStateProgram
-byte b64 CCADAAEEJgMHY3JlYXRvcghyZWNlaXZlcgZtYXN0ZXJCAe6KAQCL/yhkEkSxI7IQi/+yBzIKcwFEsggisgExALIJszEWIwg1ADQAOBgqZBJEiTYaARfAHDYaAhfAHIgAAiNDigIAKIv+ZymL/2cqMg1niTYaARfAHDYaAhfAHDYaAxfAMDYaBBfAHIgAAiNDigQAMQApZBJEi/6AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRDUBsSSyEIv/shSL/bIRIrISi/+yFSKyAbOL/Ra8NAEyCnMBRAk1ArEjshCL/rIHNAIxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEABYv8iP8GiTYaARfAMDEWIwmIAAIjQ4oCAIv/Fr5MSESL/jgAMQASRIv+OAcyChJEMgpzAUQ1A4v/FjEAv7EkshAyCrIUIrISIrIBi/+yEbOL/jgIMgpzAUQ0AwkSRIk2GgEXwDA2GgIXwBw2GgMXwByIAAIjQ4oDAIv/Fr5MSESL/Yv/Fr5EEkQxAClkEkQoZIv+EkQyCnMBRDUEi/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgc0BDIKcwFECbIIIrIBszIKcwlEIhJBAAWL/oj+KomIAAIjQ4oAADIKcwBEIhJEMQAyCRJEiYAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYoAEJDeNPDYaAI4F/hT+Nf7g/zj/vA==
+byte b64 CCADAQAEJgMHY3JlYXRvcghyZWNlaXZlcgZtYXN0ZXJCAe+KAQCL/yhkEkSxIrIQi/+yBzIKcwFEsggjsgExALIJszEWIgg1ADQAOBgqZBJEiTYaARfAHDYaAhfAHIgAAiJDigIAKIv/ZymL/mcqMg1niTYaARfAHDYaAhfAHDYaAxfAMDYaBBfAHIgAAiJDigQAMQApZBJEi/2AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRDUBsSSyEIv8shSL/rIRI7ISi/yyFSOyAbOL/ha8NAEyCnMBRAk1ArEishCL/bIHNAIxAQmyCCOyAbOxIrIQMQCyBzEBsggjsgGzMgpzCUQjEkEABYv/iP8GiTYaARfAMDEWIgmIAAIiQ4oCAIv+Fr5MSBREi/84ADEAEkSL/zgHMgoSRDIKcwFENQOL/hYxAL+xJLIQMgqyFCOyEiOyAYv+shGzi/84CDIKcwFENAMJEkSJNhoBF8AwNhoCF8AcNhoDF8AciAACIkOKAwCL/Ra+TEhEi/+L/Ra+RBJEMQApZBJEKGSL/hJEMgpzAUQ1BIv9FryxJLIQMQCyFCOyATIKi/1wAESyEov9shExALIVs7EishCL/7IHNAQyCnMBRAmyCCOyAbMyCnMJRCMSQQAFi/6I/imJiAACIkOKAAAyCnMATEgURDEAMgkSRImABMExXFmABI9MVj2ABHGXm0CABCkcUWKABCQ3jTw2GgCOBf4T/jT+3/84/7w=
 itxn_field ApprovalProgram
+int 2
+itxn_field GlobalNumByteSlice
+int 1
+itxn_field GlobalNumUint
 itxn_submit
 itxn CreatedApplicationID
 store 1 // vault: Application
@@ -76,11 +92,11 @@ itxn_field Amount
 int 0
 itxn_field Fee
 itxn_submit
-frame_dig -1 // receiver: Account
+frame_dig -2 // receiver: Account
 load 1 // vault: Application
 itob
 box_put
-frame_dig -2 // mbrPayment: PayTxn
+frame_dig -1 // mbrPayment: PayTxn
 gtxns Amount
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
@@ -96,6 +112,7 @@ itob
 byte 0x151f7c75
 swap
 concat
+log
 retsub
 abi_route_verifyAxfer:
 txna ApplicationArgs 1
@@ -112,21 +129,21 @@ int 1
 return
 verifyAxfer:
 proto 3 0
-frame_dig -1 // receiver: Account
+frame_dig -3 // receiver: Account
 box_get
 swap
 pop
 assert
-frame_dig -1 // receiver: Account
+frame_dig -3 // receiver: Account
 box_get
 assert
 btoi
-frame_dig -3 // vault: Application
+frame_dig -1 // vault: Application
 ==
 assert
 frame_dig -2 // vaultAxfer: AssetTransferTxn
 gtxns AssetReceiver
-frame_dig -3 // vault: Application
+frame_dig -1 // vault: Application
 app_params_get AppAddress
 assert
 ==
@@ -154,6 +171,7 @@ itob
 byte 0x151f7c75
 swap
 concat
+log
 retsub
 abi_route_getVaultAddr:
 txna ApplicationArgs 1
@@ -172,6 +190,7 @@ assert
 byte 0x151f7c75
 swap
 concat
+log
 retsub
 abi_route_deleteVault:
 txna ApplicationArgs 1
@@ -189,20 +208,20 @@ txn Fee
 int 0
 ==
 assert
-frame_dig -1 // vault: Application
+frame_dig -2 // vault: Application
 txn Sender
 box_get
 assert
 btoi
 ==
 assert
-frame_dig -1 // vault: Application
+frame_dig -2 // vault: Application
 byte "creator"
 app_global_get_ex
 assert
 store 2 // vaultCreator: Account
 load 2 // vaultCreator: Account
-frame_dig -2 // creator: Account
+frame_dig -1 // creator: Account
 ==
 assert
 global CurrentApplicationAddress
@@ -214,7 +233,7 @@ int appl
 itxn_field TypeEnum
 method "delete()void"
 itxn_field ApplicationArgs
-frame_dig -1 // vault: Application
+frame_dig -2 // vault: Application
 itxn_field ApplicationID
 int DeleteApplication
 itxn_field OnCompletion
@@ -239,10 +258,11 @@ itxn_field Fee
 itxn_submit
 retsub
 main:
+method "create()void"
 method "createVault(account,pay)uint64"
 method "verifyAxfer(account,axfer,application)void"
 method "getVaultId(account)uint64"
 method "getVaultAddr(account)address"
 method "deleteVault(application,account)void"
 txna ApplicationArgs 0
-match abi_route_createVault abi_route_verifyAxfer abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault
+match abi_route_create abi_route_createVault abi_route_verifyAxfer abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault

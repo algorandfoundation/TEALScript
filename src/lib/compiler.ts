@@ -1,6 +1,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
+import * as vlq from 'vlq';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -104,6 +105,10 @@ export default class Compiler {
 
   name: string;
 
+  pcToLine: {[key: number]: number};
+
+  lineToPc: {[key: number]: number[]};
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -117,6 +122,8 @@ export default class Compiler {
     this.storageProps = {};
     this.contractClasses = [];
     this.name = className;
+    this.pcToLine = {};
+    this.lineToPc = {};
   }
 
   async compile() {
@@ -268,6 +275,11 @@ export default class Compiler {
     }
   }
 
+  private processUnaryExpression(node: any) {
+    this.processNode(node.argument);
+    this.teal.push(node.operator);
+  }
+
   private processPropertyDefinition(node: any) {
     const klass = node.value.callee.name as string;
 
@@ -310,7 +322,7 @@ export default class Compiler {
 
     this.teal.push(`proto ${fn.params.length} ${(this.currentSubroutine.returnType === 'void') || abi ? 0 : 1}`);
     let frameIndex = 0;
-    fn.params.forEach((p: any) => {
+    fn.params.reverse().forEach((p: any) => {
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
 
       frameIndex -= 1;
@@ -443,6 +455,7 @@ export default class Compiler {
     this.teal.push('byte 0x151f7c75');
     this.teal.push('swap');
     this.teal.push('concat');
+    this.teal.push('log');
   }
 
   private processBinaryExpression(node: any) {
@@ -831,6 +844,28 @@ export default class Compiler {
 
     if (response.status !== 200) {
       throw new Error(`${response.statusText}: ${json.message}`);
+    }
+
+    const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
+      const decoded = vlq.decode(m);
+      if (decoded.length > 2) return decoded[2];
+      return undefined;
+    });
+
+    let lastLine = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [pc, lineDelta] of pcList.entries()) {
+      // If the delta is not undefined, the lastLine should be updated with
+      // lastLine + the delta
+      if (lineDelta !== undefined) {
+        lastLine += lineDelta;
+      }
+
+      if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
+
+      this.lineToPc[lastLine].push(pc);
+      this.pcToLine[pc] = lastLine;
     }
 
     return json.result;
