@@ -12,7 +12,7 @@ const content = fs.readFileSync(filename, 'utf-8');
 const tree = parser.parse(content, { range: true, loc: true });
 const dir = path.dirname(filename);
 
-tree.body.forEach((body: any) => {
+tree.body.forEach(async (body: any) => {
   if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
     const tealPath = path.join(dir, `${body.id.name}.teal`);
     const abiPath = path.join(dir, `${body.id.name}.json`);
@@ -21,10 +21,11 @@ tree.body.forEach((body: any) => {
     if (fs.existsSync(abiPath)) fs.rmSync(abiPath);
 
     const compiler = new Compiler(content, body.id.name, filename);
+    await compiler.compile();
 
     fs.writeFileSync(tealPath, compiler.teal.join('\n'));
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
 
-    compiler.compile();
+    await compiler.algodCompile();
   }
 });

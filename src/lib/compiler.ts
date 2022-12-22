@@ -76,7 +76,7 @@ interface Subroutine {
   returnType: string
 }
 export default class Compiler {
-  teal: any[];
+  teal: string[];
 
   scratch: any;
 
@@ -100,6 +100,10 @@ export default class Compiler {
 
   lastType: string | undefined;
 
+  contractClasses: string[];
+
+  name: string;
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -111,11 +115,19 @@ export default class Compiler {
     this.frame = {};
     this.currentSubroutine = { name: '', returnType: '' };
     this.storageProps = {};
+    this.contractClasses = [];
+    this.name = className;
+  }
 
+  async compile() {
     const tree = parser.parse(this.content, { range: true, loc: true });
 
     tree.body.forEach((body: any) => {
-      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract' && body.id.name === className) {
+      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
+        this.contractClasses.push(body.id.name);
+      }
+
+      if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract' && body.id.name === this.name) {
         this.abi = { name: body.id.name, desc: '', methods: [] };
 
         this.processNode(body);
@@ -126,6 +138,16 @@ export default class Compiler {
       this.teal.push('main:');
       this.routeAbiMethods();
     }
+
+    this.teal = await Promise.all(this.teal.map((async (t) => {
+      if (t.includes('PENDING_COMPILE: ')) {
+        const c = new Compiler(this.content, t.split(' ')[1], this.filename);
+        await c.compile();
+        const program = await c.algodCompile();
+        return `byte b64 ${program}`;
+      }
+      return t;
+    })));
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
@@ -436,6 +458,10 @@ export default class Compiler {
   }
 
   private processIdentifier(node: any) {
+    if (this.contractClasses.includes(node.name)) {
+      this.teal.push(`PENDING_COMPILE: ${node.name}`);
+      return;
+    }
     const target = this.frame[node.name] || this.scratch[node.name];
     const opcode = this.frame[node.name] ? 'frame_dig' : 'load';
 
@@ -791,7 +817,7 @@ export default class Compiler {
     }
   }
 
-  async compile(): Promise<string> {
+  async algodCompile(): Promise<string> {
     const response = await fetch('https://mainnet-api.algonode.cloud/v2/teal/compile?sourcemap=true', {
       method: 'POST',
       headers: {

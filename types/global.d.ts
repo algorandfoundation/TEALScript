@@ -107,7 +107,7 @@ interface AppParams extends CommonTransactionParams {
   applicationID?: Application
   OnCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Account[]
-  approvalProgram?: bytes
+  approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
   apps?: Array<uint64 | Application>
