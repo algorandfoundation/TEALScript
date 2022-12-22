@@ -195,8 +195,6 @@ btoi
 ==
 assert
 frame_dig -1 // vault: Application
-app_global_get_ex
-assert
 byte "creator"
 app_global_get_ex
 assert

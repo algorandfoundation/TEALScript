@@ -208,6 +208,13 @@ export default class Compiler {
         },
         type: 'Account',
       },
+      global: {
+        fn: () => {
+          this.maybeValue('app_global_get_ex');
+        },
+        type: 'any',
+        args: true,
+      },
     },
   };
 
@@ -763,11 +770,6 @@ export default class Compiler {
       return TYPES.txn[name];
     }
 
-    if (name === 'global') {
-      this.maybeValue('app_global_get_ex');
-      return 'any';
-    }
-
     // @ts-ignore
     const typeFunction = this.TEAL_FUNCTIONS[type][name];
 
@@ -801,7 +803,10 @@ export default class Compiler {
 
     const json = await response.json();
 
-    console.log(json.message || json);
+    if (response.status !== 200) {
+      throw new Error(`${response.statusText}: ${json.message}`);
+    }
+
     return json.result;
   }
 }
