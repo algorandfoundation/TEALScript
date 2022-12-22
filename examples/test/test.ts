@@ -43,13 +43,13 @@ class ExampleTEALScriptApp extends Contract {
       fee: 0,
       applicationID: new Application(1337),
       applicationArgs: ['foo', 'bar'],
-      onComplete: 'NoOp',
+      OnCompletion: 'NoOp',
     });
 
     sendMethodCall<[Account, uint64], void>({
       fee: 0,
       applicationID: new Application(1337),
-      onComplete: 'NoOp',
+      OnCompletion: 'NoOp',
       name: 'exampleExternalMethod',
       methodArgs: [firstAccount, 42],
     });
@@ -88,10 +88,10 @@ class ExampleTEALScriptApp extends Contract {
   }
 
   private exampleInteralSubroutine(account: Account): uint64 {
-    const bal = globals.currentApplication.address.balance;
+    const bal = globals.currentApplicationID.address.balance;
     log(itob(bal));
     log(itob(account.assetBalance(1337)));
-    log(itob(globals.currentApplication.address.assetBalance(42)));
+    log(itob(globals.currentApplicationID.address.assetBalance(42)));
     log(itob(this.txn.sender.assetBalance(777)));
     return account.balance;
   }

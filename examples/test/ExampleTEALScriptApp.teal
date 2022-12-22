@@ -2,13 +2,15 @@
 b main
 abi_route_exampleAbiMethod:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
 txna ApplicationArgs 2
+btoi
 txnas Accounts
-global GroupIndex
+txn GroupIndex
 int 2
 -
-global GroupIndex
+txn GroupIndex
 int 1
 -
 callsub exampleAbiMethod
@@ -19,7 +21,8 @@ proto 4 0
 frame_dig -3 // payment: PayTxn
 gtxns Sender
 int 123
-gtxns AssetBalance
+asset_holding_get AssetBalance
+assert
 itob
 log
 frame_dig -4 // axfer: AssetTransferTxn
@@ -38,24 +41,22 @@ int 1337
 itxn_field XferAsset
 itxn_submit
 frame_dig -1 // firstAccount: Account
-itob
 frame_dig -1 // firstAccount: Account
 acct_params_get AcctBalance
 assert
 itob
 box_put
 frame_dig -2 // secondAccount: Account
-itob
 frame_dig -2 // secondAccount: Account
 acct_params_get AcctBalance
 assert
 itob
 box_put
-bytes "fn"
+byte "fn"
 int 42
 itob
 box_put
-bytes "sg"
+byte "sg"
 int 123
 app_global_put
 byte "foo"
@@ -82,8 +83,8 @@ byte "foo"
 itxn_field ApplicationArgs
 byte "bar"
 itxn_field ApplicationArgs
-byte "NoOp"
-itxn_field OnComplete
+int NoOp
+itxn_field OnCompletion
 itxn_submit
 itxn_begin
 int appl
@@ -94,10 +95,10 @@ int 0
 itxn_field Fee
 int 1337
 itxn_field ApplicationID
-byte "NoOp"
-itxn_field OnComplete
+int NoOp
+itxn_field OnCompletion
 frame_dig -1 // firstAccount: Account
-txn_field Accounts
+itxn_field Accounts
 int 1
 itob
 itxn_field ApplicationArgs
@@ -106,7 +107,6 @@ itob
 itxn_field ApplicationArgs
 itxn_submit
 frame_dig -1 // firstAccount: Account
-itob
 box_get
 assert
 btoi
@@ -192,7 +192,7 @@ concat
 retsub
 exampleInteralSubroutine:
 proto 1 1
-global CurrentApplication
+global CurrentApplicationID
 app_params_get AppAddress
 assert
 acct_params_get AcctBalance
@@ -207,7 +207,7 @@ asset_holding_get AssetBalance
 assert
 itob
 log
-global CurrentApplication
+global CurrentApplicationID
 app_params_get AppAddress
 assert
 int 42

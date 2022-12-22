@@ -2,8 +2,9 @@
 b main
 abi_route_createVault:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
-global GroupIndex
+txn GroupIndex
 int 1
 -
 callsub createVault
@@ -12,7 +13,6 @@ return
 createVault:
 proto 2 0
 frame_dig -1 // receiver: Account
-itob
 box_get
 swap
 pop
@@ -41,22 +41,22 @@ int appl
 itxn_field TypeEnum
 method "create(account,account)void"
 itxn_field ApplicationArgs
-byte "NoOp"
-itxn_field OnComplete
+int NoOp
+itxn_field OnCompletion
 int 0
 itxn_field Fee
 frame_dig -1 // receiver: Account
-txn_field Accounts
+itxn_field Accounts
 int 1
 itob
 itxn_field ApplicationArgs
 txn Sender
-txn_field Accounts
+itxn_field Accounts
 int 2
 itob
 itxn_field ApplicationArgs
 txna Applications 0
-app_params_get ClearStateProgram
+app_params_get AppClearStateProgram
 assert
 itxn_field ClearStateProgram
 itxn_submit
@@ -75,8 +75,8 @@ int 0
 itxn_field Fee
 itxn_submit
 frame_dig -1 // receiver: Account
-itob
 load 1 // vault: Application
+itob
 box_put
 frame_dig -2 // mbrPayment: PayTxn
 gtxns Amount
@@ -90,32 +90,35 @@ global MinBalance
 ==
 assert
 load 1 // vault: Application
+itob
 byte 0x151f7c75
 swap
 concat
 retsub
 abi_route_verifyAxfer:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
-global GroupIndex
+txn GroupIndex
 int 1
 -
 txna ApplicationArgs 2
+btoi
+txnas Applications
 callsub verifyAxfer
 int 1
 return
 verifyAxfer:
 proto 3 0
 frame_dig -1 // receiver: Account
-itob
 box_get
 swap
 pop
 assert
 frame_dig -1 // receiver: Account
-itob
 box_get
 assert
+btoi
 frame_dig -3 // vault: Application
 ==
 assert
@@ -134,6 +137,7 @@ assert
 retsub
 abi_route_getVaultId:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
 callsub getVaultId
 int 1
@@ -141,15 +145,17 @@ return
 getVaultId:
 proto 1 0
 frame_dig -1 // receiver: Account
-itob
 box_get
 assert
+btoi
+itob
 byte 0x151f7c75
 swap
 concat
 retsub
 abi_route_getVaultAddr:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
 callsub getVaultAddr
 int 1
@@ -157,7 +163,6 @@ return
 getVaultAddr:
 proto 1 0
 frame_dig -1 // receiver: Account
-itob
 box_get
 swap
 pop
@@ -168,7 +173,10 @@ concat
 retsub
 abi_route_deleteVault:
 txna ApplicationArgs 1
+btoi
+txnas Applications
 txna ApplicationArgs 2
+btoi
 txnas Accounts
 callsub deleteVault
 int 1
@@ -181,9 +189,9 @@ int 0
 assert
 frame_dig -1 // vault: Application
 txn Sender
-itob
 box_get
 assert
+btoi
 ==
 assert
 frame_dig -1 // vault: Application
@@ -208,13 +216,12 @@ method "delete()void"
 itxn_field ApplicationArgs
 frame_dig -1 // vault: Application
 itxn_field ApplicationID
-byte "DeleteApplication"
-itxn_field OnComplete
+int DeleteApplication
+itxn_field OnCompletion
 int 0
 itxn_field Fee
 itxn_submit
 txn Sender
-itob
 box_del
 itxn_begin
 int pay
@@ -232,10 +239,10 @@ itxn_field Fee
 itxn_submit
 retsub
 main:
-method "createVault(account,pay)application"
+method "createVault(account,pay)uint64"
 method "verifyAxfer(account,axfer,application)void"
-method "getVaultId(account)application"
-method "getVaultAddr(account)account"
+method "getVaultId(account)uint64"
+method "getVaultAddr(account)address"
 method "deleteVault(application,account)void"
 txna ApplicationArgs 0
 match abi_route_createVault abi_route_verifyAxfer abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault

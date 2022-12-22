@@ -3,7 +3,7 @@ b main
 closeAcct:
 proto 1 0
 frame_dig -1 // vaultCreator: Account
-bytes "creator"
+byte "creator"
 app_global_get
 ==
 assert
@@ -21,45 +21,51 @@ itxn_field Fee
 txn Sender
 itxn_field CloseRemainderTo
 itxn_submit
-global GroupIndex
+txn GroupIndex
 int 1
 +
 store 0 // deleteVaultTxn: GroupTxn
 load 0 // deleteVaultTxn: GroupTxn
 gtxns ApplicationID
-bytes "master"
+byte "master"
 app_global_get
 ==
 assert
 retsub
 abi_route_create:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
 txna ApplicationArgs 2
+btoi
 txnas Accounts
 callsub create
 int 1
 return
 create:
 proto 2 0
-bytes "creator"
+byte "creator"
 frame_dig -2 // sender: Account
 app_global_put
-bytes "receiver"
+byte "receiver"
 frame_dig -1 // receiver: Account
 app_global_put
-bytes "master"
-global CallerApplication
+byte "master"
+global CallerApplicationID
 app_global_put
 retsub
 abi_route_reject:
 txna ApplicationArgs 1
+btoi
 txnas Accounts
 txna ApplicationArgs 2
+btoi
 txnas Accounts
 txna ApplicationArgs 3
+btoi
 txnas Assets
 txna ApplicationArgs 4
+btoi
 txnas Accounts
 callsub reject
 int 1
@@ -67,7 +73,7 @@ return
 reject:
 proto 4 0
 txn Sender
-bytes "receiver"
+byte "receiver"
 app_global_get
 ==
 assert
@@ -137,8 +143,9 @@ if0_end:
 retsub
 abi_route_optIn:
 txna ApplicationArgs 1
+btoi
 txnas Assets
-global GroupIndex
+txn GroupIndex
 int 1
 -
 callsub optIn
@@ -169,7 +176,6 @@ store 3 // preMbr: uint64
 frame_dig -1 // asa: Asset
 itob
 txn Sender
-itob
 box_put
 itxn_begin
 int axfer
@@ -195,10 +201,13 @@ assert
 retsub
 abi_route_claim:
 txna ApplicationArgs 1
+btoi
 txnas Assets
 txna ApplicationArgs 2
+btoi
 txnas Accounts
 txna ApplicationArgs 3
+btoi
 txnas Accounts
 callsub claim
 int 1
@@ -216,15 +225,14 @@ frame_dig -1 // asa: Asset
 itob
 box_get
 assert
-btoi
 ==
 assert
 txn Sender
-bytes "receiver"
+byte "receiver"
 app_global_get
 ==
 assert
-bytes "creator"
+byte "creator"
 app_global_get
 frame_dig -2 // creator: Account
 ==

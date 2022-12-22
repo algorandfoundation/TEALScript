@@ -105,7 +105,7 @@ interface PaymentParams extends CommonTransactionParams {
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
-  onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  OnCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Account[]
   approvalProgram?: bytes
   applicationArgs?: bytes[]
@@ -133,13 +133,14 @@ interface ThisTxnParams {
   rekeyTo?: Account
   note?: bytes
   applicationID: Application
-  onComplete: bytes
+  OnCompletion: bytes
   approvalProgram?: bytes
   clearStateProgram?: bytes
   globalNumByteSlice?: uint64
   globalNumUint?: uint64
   localNumByteSlice?: uint64
   localNumUint?: uint64
+  groupIndex: uint64
 }
 
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
@@ -153,13 +154,12 @@ declare const globals: {
   logicSigVersion: uint64
   round: uint64
   latestTimestamp: uint64
-  currentApplication: Application
+  currentApplicationID: Application
   creatorAddress: Account
   currentApplicationAddress: Account
   groupID: bytes
-  groupIndex: uint64
   opcodeBudget: uint64
-  callerApplication: Application
+  callerApplicationID: Application
   callerApplicationAddress: Account
 };
 

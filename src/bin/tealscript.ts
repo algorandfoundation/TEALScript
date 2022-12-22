@@ -24,5 +24,7 @@ tree.body.forEach((body: any) => {
 
     fs.writeFileSync(tealPath, compiler.teal.join('\n'));
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
+
+    compiler.compile();
   }
 });

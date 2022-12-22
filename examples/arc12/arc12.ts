@@ -21,14 +21,14 @@ class Vault extends Contract {
       closeRemainderTo: this.txn.sender,
     });
 
-    const deleteVaultTxn = this.txnGroup[globals.groupIndex + 1];
+    const deleteVaultTxn = this.txnGroup[this.txn.groupIndex + 1];
     assert(deleteVaultTxn.applicationID === this.master.get());
   }
 
   create(receiver: Account, sender: Account): void {
     this.creator.put(sender);
     this.receiver.put(receiver);
-    this.master.put(globals.callerApplication);
+    this.master.put(globals.callerApplicationID);
   }
 
   reject(asaCreator: Account, feeSink: Account, asa: Asset, vaultCreator: Account): void {
@@ -130,7 +130,7 @@ class Master extends Contract {
     // TODO: approval program
     sendMethodCall<[Account, Account], void>({
       name: 'create',
-      onComplete: 'NoOp',
+      OnCompletion: 'NoOp',
       fee: 0,
       methodArgs: [receiver, this.txn.sender],
       clearStateProgram: this.app.clearStateProgram,
@@ -180,7 +180,7 @@ class Master extends Contract {
 
     sendMethodCall<[], void>({
       applicationID: vault,
-      onComplete: 'DeleteApplication',
+      OnCompletion: 'DeleteApplication',
       name: 'delete',
       fee: 0,
     });

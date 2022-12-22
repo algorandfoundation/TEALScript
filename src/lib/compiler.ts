@@ -1,5 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
+import fetch from 'node-fetch';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -16,13 +17,12 @@ const TYPES = {
     logicSigVersion: 'uint64',
     round: 'uint64',
     latestTimestamp: 'uint64',
-    currentApplication: 'Application',
+    currentApplicationID: 'Application',
     creatorAddress: 'Account',
     currentApplicationAddress: 'Account',
     groupID: 'bytes',
-    groupIndex: 'uint64',
     opcodeBudget: 'uint64',
-    callerApplication: 'Application',
+    callerApplicationID: 'Application',
     callerApplicationAddress: 'Account',
   },
   txn: {
@@ -31,7 +31,7 @@ const TYPES = {
     rekeyTo: 'Account',
     note: 'bytes',
     applicationID: 'Application',
-    onComplete: 'bytes',
+    OnCompletion: 'bytes',
     approvalProgram: 'bytes',
     clearStateProgram: 'bytes',
     globalNumByteSlice: 'uint64',
@@ -41,6 +41,8 @@ const TYPES = {
     amount: 'uint64',
     receiver: 'Account',
     closeRemainderTo: 'Account',
+    groupIndex: 'uint64',
+
   },
   itxn: {
     createdApplicationID: 'Application',
@@ -126,10 +128,29 @@ export default class Compiler {
     }
   }
 
+  private pushMethod(name: string, args: string[], returns: string) {
+    const abiArgs = args.map((a) => a.toLowerCase());
+
+    let abiReturns = returns.toLowerCase();
+
+    switch (abiReturns) {
+      case 'application':
+        abiReturns = 'uint64';
+        break;
+      case 'account':
+        abiReturns = 'address';
+        break;
+      default:
+        break;
+    }
+
+    const sig = `${name}(${abiArgs.join(',')})${abiReturns}`;
+    this.teal.push(`method "${sig}"`);
+  }
+
   private routeAbiMethods() {
     this.abi.methods.forEach((m: any) => {
-      const abiSignature = `${m.name}(${m.args.map((a: any) => a.type.toLowerCase()).join(',')})${m.returns.type.toLowerCase()}`;
-      this.teal.push(`method "${abiSignature}"`);
+      this.pushMethod(m.name, m.args.map((a: any) => a.type), m.returns.type);
     });
     this.teal.push('txna ApplicationArgs 0');
     this.teal.push(`match ${this.abi.methods.map((m: any) => `abi_route_${m.name}`).join(' ')}`);
@@ -303,10 +324,11 @@ export default class Compiler {
 
       if (type === 'uint64') {
         this.teal.push('btoi');
-      } else if (['Account', 'Asset', 'App'].includes(type)) {
+      } else if (['Account', 'Asset', 'Application'].includes(type)) {
+        this.teal.push('btoi');
         this.teal.push(`txnas ${type}s`);
       } else if (type.includes('Txn')) {
-        this.teal.push('global GroupIndex');
+        this.teal.push('txn GroupIndex');
         this.teal.push(`int ${gtxnIndex -= 1}`);
         this.teal.push('-');
       }
@@ -387,7 +409,7 @@ export default class Compiler {
 
   private processReturnStatement(node: any) {
     this.processNode(node.argument);
-    if (['uint64', 'Asset', 'App'].includes(this.currentSubroutine.returnType)) this.teal.push('itob');
+    if (['uint64', 'Asset', 'Application'].includes(this.currentSubroutine.returnType)) this.teal.push('itob');
 
     this.teal.push('byte 0x151f7c75');
     this.teal.push('swap');
@@ -481,10 +503,10 @@ export default class Compiler {
 
     if (op === 'get') {
       if (key) {
-        this.teal.push(`bytes "${key}"`);
+        this.teal.push(`byte "${key}"`);
       } else {
         this.processNode(node.arguments[0]);
-        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.teal.push('itob');
       }
 
       switch (type) {
@@ -498,13 +520,13 @@ export default class Compiler {
           throw new Error();
       }
 
-      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('btoi');
+      if (type === 'box' && ['Asset', 'Application', 'uint64'].includes(valueType)) this.teal.push('btoi');
     } else if (op === 'delete') {
       if (key) {
-        this.teal.push(`bytes "${key}"`);
+        this.teal.push(`byte "${key}"`);
       } else {
         this.processNode(node.arguments[0]);
-        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.teal.push('itob');
       }
 
       switch (type) {
@@ -519,14 +541,14 @@ export default class Compiler {
       }
     } else if (op === 'put') {
       if (key) {
-        this.teal.push(`bytes "${key}"`);
+        this.teal.push(`byte "${key}"`);
       } else {
         this.processNode(node.arguments[0]);
-        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.teal.push('itob');
       }
 
       this.processNode(node.arguments[key ? 0 : 1]);
-      if (type === 'box' && ['Account', 'Asset', 'App', 'uint64'].includes(valueType)) this.teal.push('itob');
+      if (type === 'box' && ['Asset', 'Application', 'uint64'].includes(valueType)) this.teal.push('itob');
 
       switch (type) {
         case ('global'):
@@ -542,10 +564,10 @@ export default class Compiler {
       if (type === 'global') this.teal.push('txna Applications 0');
 
       if (key) {
-        this.teal.push(`bytes "${key}"`);
+        this.teal.push(`byte "${key}"`);
       } else {
         this.processNode(node.arguments[0]);
-        if (['Account', 'Asset', 'App', 'uint64'].includes(keyType)) this.teal.push('itob');
+        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.teal.push('itob');
       }
 
       switch (type) {
@@ -598,6 +620,9 @@ export default class Compiler {
 
       if (key === 'name') {
         // do nothing
+      } else if (key === 'OnCompletion') {
+        this.teal.push(`int ${p.value.value}`);
+        this.teal.push('itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
         const argTypes = node.typeParameters.params[0].elementTypes
           .map((t: any) => this.getTypeFromAnnotation(t));
@@ -608,19 +633,19 @@ export default class Compiler {
         p.value.elements.forEach((e: any, i: number) => {
           if (argTypes[i] === 'Account') {
             this.processNode(e);
-            this.teal.push('txn_field Accounts');
+            this.teal.push('itxn_field Accounts');
             this.teal.push(`int ${accountIndex}`);
             this.teal.push('itob');
             accountIndex += 1;
           } else if (argTypes[i] === 'Asset') {
             this.processNode(e);
-            this.teal.push('txn_field Assets');
+            this.teal.push('itxn_field Assets');
             this.teal.push(`int ${assetIndex}`);
             this.teal.push('itob');
             assetIndex += 1;
-          } else if (argTypes[i] === 'App') {
+          } else if (argTypes[i] === 'Application') {
             this.processNode(e);
-            this.teal.push('txn_field Applications');
+            this.teal.push('itxn_field Applications');
             this.teal.push(`int ${appIndex}`);
             this.teal.push('itob');
             appIndex += 1;
@@ -708,12 +733,20 @@ export default class Compiler {
           type = 'GroupTxn';
         } else if (['app'].includes(obj.name)) {
           this.teal.push('txna Applications 0');
-          this.maybeValue(`app_params_get ${capitalizeFirstChar(n.property.name)}`);
+          this.maybeValue(`app_params_get App${capitalizeFirstChar(n.property.name)}`);
         } else if (obj.type) {
           // @ts-ignore
           type = this.tealFunction(obj.type, n.property.name);
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
           type = this.processStorageExpression(node);
+        }
+
+        if (type?.includes('Txn')) {
+          let typesKey = type;
+          if (typesKey.includes('Txn')) typesKey = 'txn';
+
+          // @ts-ignore
+          if (TYPES[typesKey][n.property.name]) type = TYPES[typesKey][n.property.name];
         }
 
         this.lastType = type;
@@ -754,5 +787,21 @@ export default class Compiler {
     } else {
       this.teal.push(`int ${node.value}`);
     }
+  }
+
+  async compile(): Promise<string> {
+    const response = await fetch('https://mainnet-api.algonode.cloud/v2/teal/compile?sourcemap=true', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-API-Key': 'a'.repeat(64),
+      },
+      body: this.teal.join('\n'),
+    });
+
+    const json = await response.json();
+
+    console.log(json.message || json);
+    return json.result;
   }
 }
