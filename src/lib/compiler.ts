@@ -109,6 +109,8 @@ export default class Compiler {
 
   lineToPc: {[key: number]: number[]};
 
+  lastSourceCommentRange: [number, number];
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -124,6 +126,7 @@ export default class Compiler {
     this.name = className;
     this.pcToLine = {};
     this.lineToPc = {};
+    this.lastSourceCommentRange = [0, 0];
   }
 
   async compile() {
@@ -494,6 +497,7 @@ export default class Compiler {
   }
 
   private processVariableDeclarator(node: any) {
+    this.addSourceComment(node);
     const { name } = node.id;
 
     this.processNode(node.init);
@@ -718,6 +722,7 @@ export default class Compiler {
   }
 
   private processCallExpression(node: any) {
+    this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
     const methodName = node.callee?.property?.name || node.callee.name;
 
@@ -869,5 +874,15 @@ export default class Compiler {
     }
 
     return json.result;
+  }
+
+  addSourceComment(node: any) {
+    if (node.range[0] >= this.lastSourceCommentRange[0]
+      && node.range[0] <= this.lastSourceCommentRange[1]) return;
+
+    this.lastSourceCommentRange = node.range;
+
+    const content = this.content.substring(node.range[0], node.range[1]).replace(/\n/g, '\n//');
+    this.teal.push(`// ${this.filename}:${node.loc.start.line}: ${content}`);
   }
 }

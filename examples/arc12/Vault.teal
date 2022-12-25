@@ -2,11 +2,18 @@
 b main
 closeAcct:
 proto 1 0
+// examples/arc12/arc12.ts:15: assert(vaultCreator === this.creator.get())
 frame_dig -1 // vaultCreator: Account
 byte "creator"
 app_global_get
 ==
 assert
+// examples/arc12/arc12.ts:17: sendPayment({
+//      receiver: vaultCreator,
+//      amount: globals.currentApplicationAddress.minBalance,
+//      fee: 0,
+//      closeRemainderTo: this.txn.sender,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -21,10 +28,12 @@ itxn_field Fee
 txn Sender
 itxn_field CloseRemainderTo
 itxn_submit
+// examples/arc12/arc12.ts:24: deleteVaultTxn = this.txnGroup[this.txn.groupIndex + 1]
 txn GroupIndex
 int 1
 +
 store 0 // deleteVaultTxn: GroupTxn
+// examples/arc12/arc12.ts:25: assert(deleteVaultTxn.applicationID === this.master.get())
 load 0 // deleteVaultTxn: GroupTxn
 gtxns ApplicationID
 byte "master"
@@ -44,12 +53,15 @@ int 1
 return
 create:
 proto 2 0
+// examples/arc12/arc12.ts:29: this.creator.put(sender)
 byte "creator"
 frame_dig -1 // sender: Account
 app_global_put
+// examples/arc12/arc12.ts:30: this.receiver.put(receiver)
 byte "receiver"
 frame_dig -2 // receiver: Account
 app_global_put
+// examples/arc12/arc12.ts:31: this.master.put(globals.callerApplicationID)
 byte "master"
 global CallerApplicationID
 app_global_put
@@ -72,19 +84,29 @@ int 1
 return
 reject:
 proto 4 0
+// examples/arc12/arc12.ts:35: assert(this.txn.sender === this.receiver.get())
 txn Sender
 byte "receiver"
 app_global_get
 ==
 assert
+// examples/arc12/arc12.ts:36: assert(feeSink === addr('Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA'))
 frame_dig -3 // feeSink: Account
 addr Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA
 ==
 assert
+// examples/arc12/arc12.ts:37: preMbr = globals.currentApplicationAddress.minBalance
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 1 // preMbr: uint64
+// examples/arc12/arc12.ts:39: sendAssetTransfer({
+//      assetReceiver: asaCreator,
+//      xferAsset: asa,
+//      assetAmount: 0,
+//      assetCloseTo: asaCreator,
+//      fee: 0,
+//    })
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -99,15 +121,22 @@ itxn_field AssetCloseTo
 int 0
 itxn_field Fee
 itxn_submit
+// examples/arc12/arc12.ts:47: this.funderMap.delete(asa)
 frame_dig -2 // asa: Asset
 itob
 box_del
+// examples/arc12/arc12.ts:49: mbrAmt = preMbr - globals.currentApplicationAddress.minBalance
 load 1 // preMbr: uint64
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 -
 store 2 // mbrAmt: uint64
+// examples/arc12/arc12.ts:51: sendPayment({
+//      receiver: feeSink,
+//      amount: mbrAmt - this.txn.fee,
+//      fee: 0,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -120,6 +149,11 @@ itxn_field Amount
 int 0
 itxn_field Fee
 itxn_submit
+// examples/arc12/arc12.ts:57: sendPayment({
+//      receiver: this.txn.sender,
+//      amount: this.txn.fee,
+//      fee: 0,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -137,6 +171,7 @@ assert
 int 0
 ==
 bz if0_end
+// examples/arc12/arc12.ts:63: this.closeAcct(vaultCreator)
 frame_dig -1 // vaultCreator: Account
 callsub closeAcct
 if0_end:
@@ -153,6 +188,7 @@ int 1
 return
 optIn:
 proto 2 0
+// examples/arc12/arc12.ts:67: assert(!this.funderMap.exists(asa))
 frame_dig -2 // asa: Asset
 itob
 box_get
@@ -160,24 +196,34 @@ swap
 pop
 !
 assert
+// examples/arc12/arc12.ts:68: assert(mbrPayment.sender === this.txn.sender)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Sender
 txn Sender
 ==
 assert
+// examples/arc12/arc12.ts:69: assert(mbrPayment.receiver === globals.currentApplicationAddress)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Receiver
 global CurrentApplicationAddress
 ==
 assert
+// examples/arc12/arc12.ts:71: preMbr = globals.currentApplicationAddress.minBalance
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 3 // preMbr: uint64
+// examples/arc12/arc12.ts:73: this.funderMap.put(asa, this.txn.sender)
 frame_dig -2 // asa: Asset
 itob
 txn Sender
 box_put
+// examples/arc12/arc12.ts:75: sendAssetTransfer({
+//      assetReceiver: globals.currentApplicationAddress,
+//      assetAmount: 0,
+//      fee: 0,
+//      xferAsset: asa,
+//    })
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -190,6 +236,7 @@ itxn_field Fee
 frame_dig -2 // asa: Asset
 itxn_field XferAsset
 itxn_submit
+// examples/arc12/arc12.ts:82: assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Amount
 global CurrentApplicationAddress
@@ -215,12 +262,14 @@ int 1
 return
 claim:
 proto 3 0
+// examples/arc12/arc12.ts:86: assert(this.funderMap.exists(asa))
 frame_dig -3 // asa: Asset
 itob
 box_get
 swap
 pop
 assert
+// examples/arc12/arc12.ts:87: assert(asaMbrFunder === this.funderMap.get(asa))
 frame_dig -1 // asaMbrFunder: Account
 frame_dig -3 // asa: Asset
 itob
@@ -228,23 +277,34 @@ box_get
 assert
 ==
 assert
+// examples/arc12/arc12.ts:88: assert(this.txn.sender === this.receiver.get())
 txn Sender
 byte "receiver"
 app_global_get
 ==
 assert
+// examples/arc12/arc12.ts:89: assert(this.creator.get() === creator)
 byte "creator"
 app_global_get
 frame_dig -2 // creator: Account
 ==
 assert
+// examples/arc12/arc12.ts:91: initialMbr = globals.currentApplicationAddress.minBalance
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 4 // initialMbr: uint64
+// examples/arc12/arc12.ts:93: this.funderMap.delete(asa)
 frame_dig -3 // asa: Asset
 itob
 box_del
+// examples/arc12/arc12.ts:95: sendAssetTransfer({
+//      assetReceiver: this.txn.sender,
+//      fee: 0,
+//      assetAmount: globals.currentApplicationAddress.assetBalance(asa),
+//      xferAsset: asa,
+//      assetCloseTo: this.txn.sender,
+//    })
 itxn_begin
 int axfer
 itxn_field TypeEnum
@@ -262,6 +322,11 @@ itxn_field XferAsset
 txn Sender
 itxn_field AssetCloseTo
 itxn_submit
+// examples/arc12/arc12.ts:103: sendPayment({
+//      receiver: asaMbrFunder,
+//      amount: initialMbr - globals.currentApplicationAddress.minBalance,
+//      fee: 0,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -283,6 +348,7 @@ assert
 int 0
 ==
 bz if1_end
+// examples/arc12/arc12.ts:109: this.closeAcct(creator)
 frame_dig -2 // creator: Account
 callsub closeAcct
 if1_end:
@@ -293,12 +359,14 @@ int 1
 return
 delete:
 proto 0 0
+// examples/arc12/arc12.ts:113: assert(!globals.currentApplicationAddress.hasBalance)
 global CurrentApplicationAddress
 acct_params_get AcctBalance
 swap
 pop
 !
 assert
+// examples/arc12/arc12.ts:114: assert(this.txn.sender === globals.creatorAddress)
 txn Sender
 global CreatorAddress
 ==

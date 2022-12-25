@@ -6,6 +6,7 @@ int 1
 return
 create:
 proto 0 0
+// examples/arc12/arc12.ts:123: assert(this.txn.applicationID === new Application(0))
 txn ApplicationID
 int 0
 ==
@@ -23,31 +24,46 @@ int 1
 return
 createVault:
 proto 2 0
+// examples/arc12/arc12.ts:127: assert(!this.vaultMap.exists(receiver))
 frame_dig -2 // receiver: Account
 box_get
 swap
 pop
 !
 assert
+// examples/arc12/arc12.ts:128: assert(mbrPayment.receiver === globals.currentApplicationAddress)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Receiver
 global CurrentApplicationAddress
 ==
 assert
+// examples/arc12/arc12.ts:129: assert(mbrPayment.sender === this.txn.sender)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Sender
 txn Sender
 ==
 assert
+// examples/arc12/arc12.ts:130: assert(mbrPayment.closeRemainderTo === globals.zeroAddress)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns CloseRemainderTo
 global ZeroAddress
 ==
 assert
+// examples/arc12/arc12.ts:132: preCreateMBR = globals.currentApplicationAddress.minBalance
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 0 // preCreateMBR: uint64
+// examples/arc12/arc12.ts:134: sendMethodCall<[Account, Account], void>({
+//      name: 'create',
+//      OnCompletion: 'NoOp',
+//      fee: 0,
+//      methodArgs: [receiver, this.txn.sender],
+//      clearStateProgram: this.app.clearStateProgram,
+//      approvalProgram: Vault,
+//      globalNumByteSlice: 2,
+//      globalNumUint: 1,
+//    })
 itxn_begin
 int appl
 itxn_field TypeEnum
@@ -78,8 +94,14 @@ itxn_field GlobalNumByteSlice
 int 1
 itxn_field GlobalNumUint
 itxn_submit
+// examples/arc12/arc12.ts:145: vault = this.itxn.createdApplicationID
 itxn CreatedApplicationID
 store 1 // vault: Application
+// examples/arc12/arc12.ts:147: sendPayment({
+//      receiver: vault.address,
+//      amount: globals.minBalance,
+//      fee: 0,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
@@ -92,10 +114,12 @@ itxn_field Amount
 int 0
 itxn_field Fee
 itxn_submit
+// examples/arc12/arc12.ts:153: this.vaultMap.put(receiver, vault)
 frame_dig -2 // receiver: Account
 load 1 // vault: Application
 itob
 box_put
+// examples/arc12/arc12.ts:156: assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance)
 frame_dig -1 // mbrPayment: PayTxn
 gtxns Amount
 global CurrentApplicationAddress
@@ -129,11 +153,13 @@ int 1
 return
 verifyAxfer:
 proto 3 0
+// examples/arc12/arc12.ts:162: assert(this.vaultMap.exists(receiver))
 frame_dig -3 // receiver: Account
 box_get
 swap
 pop
 assert
+// examples/arc12/arc12.ts:164: assert(this.vaultMap.get(receiver) === vault)
 frame_dig -3 // receiver: Account
 box_get
 assert
@@ -141,6 +167,7 @@ btoi
 frame_dig -1 // vault: Application
 ==
 assert
+// examples/arc12/arc12.ts:165: assert(vaultAxfer.assetReceiver === vault.address)
 frame_dig -2 // vaultAxfer: AssetTransferTxn
 gtxns AssetReceiver
 frame_dig -1 // vault: Application
@@ -148,6 +175,7 @@ app_params_get AppAddress
 assert
 ==
 assert
+// examples/arc12/arc12.ts:166: assert(vaultAxfer.assetCloseTo === globals.zeroAddress)
 frame_dig -2 // vaultAxfer: AssetTransferTxn
 gtxns AssetCloseTo
 global ZeroAddress
@@ -163,6 +191,7 @@ int 1
 return
 getVaultId:
 proto 1 0
+// examples/arc12/arc12.ts:170: this.vaultMap.get(receiver)
 frame_dig -1 // receiver: Account
 box_get
 assert
@@ -182,6 +211,7 @@ int 1
 return
 getVaultAddr:
 proto 1 0
+// examples/arc12/arc12.ts:174: assert(this.vaultMap.exists(receiver))
 frame_dig -1 // receiver: Account
 box_get
 swap
@@ -204,10 +234,12 @@ int 1
 return
 deleteVault:
 proto 2 0
+// examples/arc12/arc12.ts:179: assert(this.txn.fee === 0)
 txn Fee
 int 0
 ==
 assert
+// examples/arc12/arc12.ts:180: assert(vault === this.vaultMap.get(this.txn.sender))
 frame_dig -2 // vault: Application
 txn Sender
 box_get
@@ -215,19 +247,28 @@ assert
 btoi
 ==
 assert
+// examples/arc12/arc12.ts:182: vaultCreator = vault.global('creator') as Account
 frame_dig -2 // vault: Application
 byte "creator"
 app_global_get_ex
 assert
 store 2 // vaultCreator: Account
+// examples/arc12/arc12.ts:183: assert(vaultCreator === creator)
 load 2 // vaultCreator: Account
 frame_dig -1 // creator: Account
 ==
 assert
+// examples/arc12/arc12.ts:185: preDeleteMBR = globals.currentApplicationAddress.minBalance
 global CurrentApplicationAddress
 acct_params_get AcctMinBalance
 assert
 store 3 // preDeleteMBR: uint64
+// examples/arc12/arc12.ts:187: sendMethodCall<[], void>({
+//      applicationID: vault,
+//      OnCompletion: 'DeleteApplication',
+//      name: 'delete',
+//      fee: 0,
+//    })
 itxn_begin
 int appl
 itxn_field TypeEnum
@@ -240,8 +281,14 @@ itxn_field OnCompletion
 int 0
 itxn_field Fee
 itxn_submit
+// examples/arc12/arc12.ts:194: this.vaultMap.delete(this.txn.sender)
 txn Sender
 box_del
+// examples/arc12/arc12.ts:196: sendPayment({
+//      receiver: vaultCreator,
+//      amount: preDeleteMBR - globals.currentApplicationAddress.minBalance,
+//      fee: 0,
+//    })
 itxn_begin
 int pay
 itxn_field TypeEnum
