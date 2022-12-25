@@ -257,18 +257,22 @@ export default class Compiler {
       this.teal.push(`if${this.ifCount}_elseif${elseIfCount}_condition:`);
     }
 
+    this.addSourceComment(node.test);
     this.processNode(node.test);
 
     if (node.alternate == null) {
       this.teal.push(`bz if${this.ifCount}_end`);
+      this.addSourceComment(node.consequent);
       this.processNode(node.consequent);
     } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
       this.teal.push(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.addSourceComment(node.consequent);
       this.processNode(node.consequent);
       this.teal.push(`b if${this.ifCount}_end`);
       this.processIfStatement(node.alternate, elseIfCount + 1);
     } else {
       this.teal.push(`bz if${this.ifCount}_end`);
+      this.addSourceComment(node.alternate);
       this.processNode(node.alternate);
     }
 

@@ -165,13 +165,14 @@ int 0
 itxn_field Fee
 itxn_submit
 if0_condition:
+// examples/arc12/arc12.ts:63: globals.currentApplicationAddress.assets === 0
 global CurrentApplicationAddress
 acct_params_get AcctTotalAssets
 assert
 int 0
 ==
 bz if0_end
-// examples/arc12/arc12.ts:63: this.closeAcct(vaultCreator)
+// examples/arc12/arc12.ts:63: this.closeAcct(vaultCreator);
 frame_dig -1 // vaultCreator: Account
 callsub closeAcct
 if0_end:
@@ -342,13 +343,14 @@ int 0
 itxn_field Fee
 itxn_submit
 if1_condition:
+// examples/arc12/arc12.ts:109: globals.currentApplicationAddress.assets === 0
 global CurrentApplicationAddress
 acct_params_get AcctTotalAssets
 assert
 int 0
 ==
 bz if1_end
-// examples/arc12/arc12.ts:109: this.closeAcct(creator)
+// examples/arc12/arc12.ts:109: this.closeAcct(creator);
 frame_dig -2 // creator: Account
 callsub closeAcct
 if1_end:
