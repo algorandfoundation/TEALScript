@@ -11,7 +11,7 @@ function capitalizeFirstChar(str: string) {
 
 const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
-const TYPES = {
+const TYPES: { [key: string]: { [key: string]: string } } = {
   global: {
     minTxnFee: 'uint64',
     minBalance: 'uint64',
@@ -234,7 +234,15 @@ export default class Compiler {
     this.teal.push('pop');
   }
 
-  private readonly TEAL_FUNCTIONS = {
+  private readonly TEAL_FUNCTIONS: {
+    [key:string]: {
+      [key:string]: {
+        fn: () => void,
+        type: string,
+        args?: boolean,
+      }
+    }
+  } = {
     Account: {
       balance: {
         fn: () => {
@@ -477,8 +485,7 @@ export default class Compiler {
 
   private processNode(node: any) {
     try {
-      // @ts-ignore
-      (this[`process${node.type}`])(node);
+      ((this as any)[`process${node.type}`])(node);
     } catch (e: any) {
       if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
         this.processErrorNodes.push(node);
@@ -790,8 +797,7 @@ export default class Compiler {
         this.processNode(node.callee.object);
       }
       node.arguments.forEach((a: any) => this.processNode(a));
-      // @ts-ignore
-      this.tealFunction(this.lastType, node.callee.property.name);
+      this.tealFunction(this.lastType!, node.callee.property.name);
     }
   }
 
@@ -821,7 +827,6 @@ export default class Compiler {
 
         if (['global', 'txn', 'itxn'].includes(obj.name)) {
           this.teal.push(`${obj.name} ${capitalizeFirstChar(n.property.name)}`);
-          // @ts-ignore
           type = TYPES[obj.name][n.property.name];
         } else if (['txnGroup'].includes(obj.name)) {
           this.processNode(n.property);
@@ -830,7 +835,6 @@ export default class Compiler {
           this.teal.push('txna Applications 0');
           this.maybeValue(`app_params_get App${capitalizeFirstChar(n.property.name)}`);
         } else if (obj.type) {
-          // @ts-ignore
           type = this.tealFunction(obj.type, n.property.name);
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
           type = this.processStorageExpression(node);
@@ -840,7 +844,6 @@ export default class Compiler {
           let typesKey = type;
           if (typesKey.includes('Txn')) typesKey = 'txn';
 
-          // @ts-ignore
           if (TYPES[typesKey][n.property.name]) type = TYPES[typesKey][n.property.name];
         }
 
@@ -854,11 +857,9 @@ export default class Compiler {
     if (type.includes('Txn')) {
       this.teal.push(`gtxns ${capitalizeFirstChar(name)}`);
 
-      // @ts-ignore
       return TYPES.txn[name];
     }
 
-    // @ts-ignore
     const typeFunction = this.TEAL_FUNCTIONS[type][name];
 
     if (checkArgs) {
