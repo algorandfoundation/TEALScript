@@ -160,6 +160,36 @@ export default class Compiler {
     })));
   }
 
+  prettyTeal() {
+    const output: string[] = [];
+    let comments: string[] = [];
+
+    this.teal.forEach((t) => {
+      if (t.startsWith('//')) {
+        comments.push(t);
+        return;
+      }
+
+      const isLabel = t.split('//')[0].endsWith(':');
+
+      if (comments.length !== 0 || isLabel) output.push('');
+
+      if (isLabel || t.startsWith('#')) {
+        comments.forEach((c) => output.push(c));
+        comments = [];
+        output.push(t);
+      } else {
+        comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
+        comments = [];
+        output.push(`\t${t}`);
+      }
+
+      if (t.startsWith('itxn_field')) output.push('');
+    });
+
+    return output.join('\n');
+  }
+
   private pushMethod(name: string, args: string[], returns: string) {
     const abiArgs = args.map((a) => a.toLowerCase());
 
@@ -456,6 +486,7 @@ export default class Compiler {
   }
 
   private processReturnStatement(node: any) {
+    this.addSourceComment(node);
     this.processNode(node.argument);
     if (['uint64', 'Asset', 'Application'].includes(this.currentSubroutine.returnType)) this.teal.push('itob');
 
@@ -846,7 +877,7 @@ export default class Compiler {
         'Content-Type': 'text/plain',
         'X-API-Key': 'a'.repeat(64),
       },
-      body: this.teal.join('\n'),
+      body: this.prettyTeal(),
     });
 
     const json = await response.json();

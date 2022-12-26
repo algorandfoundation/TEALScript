@@ -25,7 +25,7 @@ tree.body.forEach(async (body: any) => {
     const compiler = new Compiler(content, body.id.name, filename);
     await compiler.compile();
 
-    fs.writeFileSync(tealPath, compiler.teal.join('\n'));
+    fs.writeFileSync(tealPath, compiler.prettyTeal());
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
 
     await compiler.algodCompile();
