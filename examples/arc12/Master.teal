@@ -79,8 +79,6 @@ createVault:
 	method "create(account,account)void"
 	itxn_field ApplicationArgs
 
-	// examples/arc12/arc12.ts:135
-	// name: 'create'
 	// examples/arc12/arc12.ts:136
 	// OnCompletion: 'NoOp'
 	int NoOp
@@ -363,8 +361,6 @@ deleteVault:
 	int DeleteApplication
 	itxn_field OnCompletion
 
-	// examples/arc12/arc12.ts:190
-	// name: 'delete'
 	// examples/arc12/arc12.ts:191
 	// fee: 0
 	int 0

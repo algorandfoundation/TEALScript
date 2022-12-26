@@ -709,8 +709,8 @@ export default class Compiler {
     }
 
     node.arguments[0].properties.forEach((p: any) => {
-      this.addSourceComment(p);
       const key = p.key.name;
+      if (key !== 'name') this.addSourceComment(p);
 
       if (key === 'name') {
         // do nothing
