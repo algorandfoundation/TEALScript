@@ -11,7 +11,7 @@ function capitalizeFirstChar(str: string) {
 
 const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
-const TYPES: { [key: string]: { [key: string]: string } } = {
+const TYPES: { [type: string]: { [property: string]: string } } = {
   global: {
     minTxnFee: 'uint64',
     minBalance: 'uint64',
@@ -235,8 +235,8 @@ export default class Compiler {
   }
 
   private readonly TEAL_FUNCTIONS: {
-    [key:string]: {
-      [key:string]: {
+    [type: string]: {
+      [fn: string]: {
         fn: () => void,
         type: string,
         args?: boolean,
