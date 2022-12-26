@@ -2,7 +2,6 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import path from 'path';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -11,7 +10,7 @@ function capitalizeFirstChar(str: string) {
 
 const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
-const TYPES = {
+const TYPES: { [type: string]: { [property: string]: string } } = {
   global: {
     minTxnFee: 'uint64',
     minBalance: 'uint64',
@@ -234,56 +233,64 @@ export default class Compiler {
     this.teal.push('pop');
   }
 
-  private readonly TEAL_FUNCTIONS = {
-    Account: {
-      balance: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctBalance');
+  private readonly TEAL_FUNCTIONS: {
+    [type: string]: {
+      [fn: string]: {
+        fn: () => void,
+        type: string,
+        args?: boolean,
+      }
+    }
+  } = {
+      Account: {
+        balance: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      hasBalance: {
-        fn: () => {
-          this.hasMaybeValue('acct_params_get AcctBalance');
+        hasBalance: {
+          fn: () => {
+            this.hasMaybeValue('acct_params_get AcctBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      assetBalance: {
-        fn: () => {
-          this.maybeValue('asset_holding_get AssetBalance');
+        assetBalance: {
+          fn: () => {
+            this.maybeValue('asset_holding_get AssetBalance');
+          },
+          type: 'uint64',
+          args: true,
         },
-        type: 'uint64',
-        args: true,
-      },
-      minBalance: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctMinBalance');
+        minBalance: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctMinBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      assets: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctTotalAssets');
+        assets: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAssets');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
       },
-    },
-    Application: {
-      address: {
-        fn: () => {
-          this.maybeValue('app_params_get AppAddress');
+      Application: {
+        address: {
+          fn: () => {
+            this.maybeValue('app_params_get AppAddress');
+          },
+          type: 'Account',
         },
-        type: 'Account',
-      },
-      global: {
-        fn: () => {
-          this.maybeValue('app_global_get_ex');
+        global: {
+          fn: () => {
+            this.maybeValue('app_global_get_ex');
+          },
+          type: 'any',
+          args: true,
         },
-        type: 'any',
-        args: true,
       },
-    },
-  };
+    };
 
   private processIfStatement(node: any, elseIfCount: number = 0) {
     let labelPrefix: string;
@@ -477,8 +484,7 @@ export default class Compiler {
 
   private processNode(node: any) {
     try {
-      // @ts-ignore
-      (this[`process${node.type}`])(node);
+      ((this as any)[`process${node.type}`])(node);
     } catch (e: any) {
       if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
         this.processErrorNodes.push(node);
@@ -790,8 +796,7 @@ export default class Compiler {
         this.processNode(node.callee.object);
       }
       node.arguments.forEach((a: any) => this.processNode(a));
-      // @ts-ignore
-      this.tealFunction(this.lastType, node.callee.property.name);
+      this.tealFunction(this.lastType!, node.callee.property.name);
     }
   }
 
@@ -821,7 +826,6 @@ export default class Compiler {
 
         if (['global', 'txn', 'itxn'].includes(obj.name)) {
           this.teal.push(`${obj.name} ${capitalizeFirstChar(n.property.name)}`);
-          // @ts-ignore
           type = TYPES[obj.name][n.property.name];
         } else if (['txnGroup'].includes(obj.name)) {
           this.processNode(n.property);
@@ -830,7 +834,6 @@ export default class Compiler {
           this.teal.push('txna Applications 0');
           this.maybeValue(`app_params_get App${capitalizeFirstChar(n.property.name)}`);
         } else if (obj.type) {
-          // @ts-ignore
           type = this.tealFunction(obj.type, n.property.name);
         } else if (this.frame[n.object.name] || this.scratch[n.object.name]) {
           type = this.processStorageExpression(node);
@@ -840,7 +843,6 @@ export default class Compiler {
           let typesKey = type;
           if (typesKey.includes('Txn')) typesKey = 'txn';
 
-          // @ts-ignore
           if (TYPES[typesKey][n.property.name]) type = TYPES[typesKey][n.property.name];
         }
 
@@ -854,11 +856,9 @@ export default class Compiler {
     if (type.includes('Txn')) {
       this.teal.push(`gtxns ${capitalizeFirstChar(name)}`);
 
-      // @ts-ignore
       return TYPES.txn[name];
     }
 
-    // @ts-ignore
     const typeFunction = this.TEAL_FUNCTIONS[type][name];
 
     if (checkArgs) {
