@@ -2,7 +2,6 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import path from 'path';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -243,55 +242,55 @@ export default class Compiler {
       }
     }
   } = {
-    Account: {
-      balance: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctBalance');
+      Account: {
+        balance: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      hasBalance: {
-        fn: () => {
-          this.hasMaybeValue('acct_params_get AcctBalance');
+        hasBalance: {
+          fn: () => {
+            this.hasMaybeValue('acct_params_get AcctBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      assetBalance: {
-        fn: () => {
-          this.maybeValue('asset_holding_get AssetBalance');
+        assetBalance: {
+          fn: () => {
+            this.maybeValue('asset_holding_get AssetBalance');
+          },
+          type: 'uint64',
+          args: true,
         },
-        type: 'uint64',
-        args: true,
-      },
-      minBalance: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctMinBalance');
+        minBalance: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctMinBalance');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
-      },
-      assets: {
-        fn: () => {
-          this.maybeValue('acct_params_get AcctTotalAssets');
+        assets: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAssets');
+          },
+          type: 'uint64',
         },
-        type: 'uint64',
       },
-    },
-    Application: {
-      address: {
-        fn: () => {
-          this.maybeValue('app_params_get AppAddress');
+      Application: {
+        address: {
+          fn: () => {
+            this.maybeValue('app_params_get AppAddress');
+          },
+          type: 'Account',
         },
-        type: 'Account',
-      },
-      global: {
-        fn: () => {
-          this.maybeValue('app_global_get_ex');
+        global: {
+          fn: () => {
+            this.maybeValue('app_global_get_ex');
+          },
+          type: 'any',
+          args: true,
         },
-        type: 'any',
-        args: true,
       },
-    },
-  };
+    };
 
   private processIfStatement(node: any, elseIfCount: number = 0) {
     let labelPrefix: string;
