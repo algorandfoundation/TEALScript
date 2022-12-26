@@ -2,11 +2,14 @@ import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
+import path from 'path';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
+
+const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
 const TYPES = {
   global: {
@@ -183,8 +186,6 @@ export default class Compiler {
         comments = [];
         output.push(`\t${t}`);
       }
-
-      if (t.startsWith('itxn_field')) output.push('');
     });
 
     return output.join('\n');
@@ -701,6 +702,7 @@ export default class Compiler {
     }
 
     node.arguments[0].properties.forEach((p: any) => {
+      this.addSourceComment(p);
       const key = p.key.name;
 
       if (key === 'name') {
@@ -764,7 +766,7 @@ export default class Compiler {
     if (node.callee.object === undefined) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
-      } else if (['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'].includes(methodName)) {
+      } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
         this.teal.push(`addr ${node.arguments[0].value}`);
@@ -912,12 +914,21 @@ export default class Compiler {
   }
 
   addSourceComment(node: any) {
-    if (node.range[0] >= this.lastSourceCommentRange[0]
-      && node.range[0] <= this.lastSourceCommentRange[1]) return;
+    if (
+      node.range[0] >= this.lastSourceCommentRange[0]
+      && node.range[0] <= this.lastSourceCommentRange[1]
+    ) return;
 
-    this.lastSourceCommentRange = node.range;
+    const methodName = node.callee?.property?.name || node.callee?.name;
+    let content = this.content.substring(node.range[0], node.range[1]).replace(/\n/g, '\n//');
 
-    const content = this.content.substring(node.range[0], node.range[1]).replace(/\n/g, '\n//');
-    this.teal.push(`// ${this.filename}:${node.loc.start.line}: ${content}`);
+    if (TXN_METHODS.includes(methodName)) {
+      [content] = content.split('\n');
+    } else {
+      this.lastSourceCommentRange = node.range;
+    }
+
+    if (this.filename) this.teal.push(`// ${this.filename}:${node.loc.start.line}`);
+    this.teal.push(`// ${content}`);
   }
 }
