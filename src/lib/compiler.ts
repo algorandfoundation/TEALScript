@@ -167,6 +167,8 @@ export default class Compiler {
     const output: string[] = [];
     let comments: string[] = [];
 
+    let lastIsLabel: boolean = false;
+
     this.teal.forEach((t) => {
       if (t.startsWith('//')) {
         comments.push(t);
@@ -175,16 +177,18 @@ export default class Compiler {
 
       const isLabel = t.split('//')[0].endsWith(':');
 
-      if (comments.length !== 0 || isLabel) output.push('');
+      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
 
       if (isLabel || t.startsWith('#')) {
         comments.forEach((c) => output.push(c));
         comments = [];
         output.push(t);
+        lastIsLabel = true;
       } else {
         comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
         comments = [];
         output.push(`\t${t}`);
+        lastIsLabel = false;
       }
     });
 
@@ -282,28 +286,31 @@ export default class Compiler {
   };
 
   private processIfStatement(node: any, elseIfCount: number = 0) {
+    let labelPrefix: string;
+
     if (elseIfCount === 0) {
-      this.teal.push(`if${this.ifCount}_condition:`);
+      labelPrefix = `if${this.ifCount}`;
     } else {
-      this.teal.push(`if${this.ifCount}_elseif${elseIfCount}_condition:`);
+      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
     }
+
+    this.teal.push(`${labelPrefix}_condition:`);
 
     this.addSourceComment(node.test);
     this.processNode(node.test);
 
     if (node.alternate == null) {
       this.teal.push(`bz if${this.ifCount}_end`);
-      this.addSourceComment(node.consequent);
+      this.teal.push(`${labelPrefix}_consequent:`);
       this.processNode(node.consequent);
     } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
       this.teal.push(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
-      this.addSourceComment(node.consequent);
+      this.teal.push(`${labelPrefix}_consequent:`);
       this.processNode(node.consequent);
       this.teal.push(`b if${this.ifCount}_end`);
       this.processIfStatement(node.alternate, elseIfCount + 1);
     } else {
       this.teal.push(`bz if${this.ifCount}_end`);
-      this.addSourceComment(node.alternate);
       this.processNode(node.alternate);
     }
 

@@ -227,7 +227,6 @@ reject:
 	itxn_submit
 
 if0_condition:
-
 	// examples/arc12/arc12.ts:63
 	// globals.currentApplicationAddress.assets === 0
 	global CurrentApplicationAddress
@@ -237,8 +236,9 @@ if0_condition:
 	==
 	bz if0_end
 
+if0_consequent:
 	// examples/arc12/arc12.ts:63
-	// this.closeAcct(vaultCreator);
+	// this.closeAcct(vaultCreator)
 	frame_dig -1 // vaultCreator: Account
 	callsub closeAcct
 
@@ -466,7 +466,6 @@ claim:
 	itxn_submit
 
 if1_condition:
-
 	// examples/arc12/arc12.ts:109
 	// globals.currentApplicationAddress.assets === 0
 	global CurrentApplicationAddress
@@ -476,8 +475,9 @@ if1_condition:
 	==
 	bz if1_end
 
+if1_consequent:
 	// examples/arc12/arc12.ts:109
-	// this.closeAcct(creator);
+	// this.closeAcct(creator)
 	frame_dig -2 // creator: Account
 	callsub closeAcct
 
