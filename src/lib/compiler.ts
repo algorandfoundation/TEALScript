@@ -297,22 +297,22 @@ export default class Compiler {
 
     if (elseIfCount === 0) {
       labelPrefix = `if${this.ifCount}`;
+      this.teal.push(`// ${labelPrefix}_condition`);
     } else {
       labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
+      this.teal.push(`${labelPrefix}_condition:`);
     }
-
-    this.teal.push(`${labelPrefix}_condition:`);
 
     this.addSourceComment(node.test);
     this.processNode(node.test);
 
     if (node.alternate == null) {
       this.teal.push(`bz if${this.ifCount}_end`);
-      this.teal.push(`${labelPrefix}_consequent:`);
+      this.teal.push(`// ${labelPrefix}_consequent`);
       this.processNode(node.consequent);
     } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
       this.teal.push(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
-      this.teal.push(`${labelPrefix}_consequent:`);
+      this.teal.push(`// ${labelPrefix}_consequent`);
       this.processNode(node.consequent);
       this.teal.push(`b if${this.ifCount}_end`);
       this.processIfStatement(node.alternate, elseIfCount + 1);
