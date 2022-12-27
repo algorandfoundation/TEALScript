@@ -15,5 +15,7 @@ jobs:
       run: yarn run lint
     - name: Run tests
       run: yarn test
+    - name: Run examples tests
+      run: yarn run test-examples
     - name: Run examples
       run: yarn run examples
