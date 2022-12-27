@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
-    "test": "npx mocha -r ts-node/register 'tests/**/*.ts'",
+    "test": "npx mocha -r ts-node/register 'tests/**/*.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts"
   },
