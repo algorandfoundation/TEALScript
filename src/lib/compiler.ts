@@ -262,6 +262,20 @@ export default class Compiler {
           type: 'uint64',
           args: true,
         },
+        assetFrozen: {
+          fn: () => {
+            this.maybeValue('asset_holding_get AssetFrozen');
+          },
+          type: 'uint64',
+          args: true,
+        },
+        hasAsset: {
+          fn: () => {
+            this.hasMaybeValue('asset_holding_get AssetBalance');
+          },
+          type: 'uint64',
+          args: true,
+        },
         minBalance: {
           fn: () => {
             this.maybeValue('acct_params_get AcctMinBalance');
@@ -271,6 +285,66 @@ export default class Compiler {
         assets: {
           fn: () => {
             this.maybeValue('acct_params_get AcctTotalAssets');
+          },
+          type: 'uint64',
+        },
+        authAddr: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctAuthAddr');
+          },
+          type: 'uint64',
+        },
+        totalNumUint: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalNumUint');
+          },
+          type: 'uint64',
+        },
+        totalNumByteSlice: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalNumByteSlice');
+          },
+          type: 'uint64',
+        },
+        totalExtraAppPages: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalExtraAppPages');
+          },
+          type: 'uint64',
+        },
+        totalAppsCreated: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAppsCreated');
+          },
+          type: 'uint64',
+        },
+        totalAppsOptedIn: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAppsOptedIn');
+          },
+          type: 'uint64',
+        },
+        totalAssetsCreated: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAssetsCreated');
+          },
+          type: 'uint64',
+        },
+        totalAssets: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalAssets');
+          },
+          type: 'uint64',
+        },
+        totalBoxes: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalBoxes');
+          },
+          type: 'uint64',
+        },
+        totalBoxBytes: {
+          fn: () => {
+            this.maybeValue('acct_params_get AcctTotalBoxBytes');
           },
           type: 'uint64',
         },

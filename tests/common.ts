@@ -2,7 +2,7 @@ import fs from 'fs';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import Compiler from '../src/lib/compiler';
 
-export default async function getMethodTeal(
+export async function getMethodTeal(
   filename: string,
   className: string,
   methodName: string,
@@ -14,4 +14,8 @@ export default async function getMethodTeal(
 
   const index = teal.indexOf(`${methodName}:`);
   return teal.slice(index + 2, index + 2 + length);
+}
+
+export function lowerFirstChar(str: string) {
+  return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
 }

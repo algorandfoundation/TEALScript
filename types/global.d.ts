@@ -65,7 +65,32 @@ declare class Account {
 
   readonly assets: uint64;
 
+  // eslint-disable-next-line no-use-before-define
+  readonly authAddr: Account;
+
+  readonly totalNumUint: uint64;
+
+  readonly totalNumByteSlice: uint64;
+
+  readonly totalExtraAppPages: uint64;
+
+  readonly totalAppsCreated: uint64;
+
+  readonly totalAppsOptedIn: uint64;
+
+  readonly totalAssetsCreated: uint64;
+
+  readonly totalAssets: uint64;
+
+  readonly totalBoxes: uint64;
+
+  readonly totalBoxBytes: uint64;
+
   assetBalance(asa: Asset): uint64
+
+  hasAsset(asa: Asset): uint64
+
+  assetFrozen(asa: Asset): uint64
 }
 
 type BytesLike = bytes | Account
