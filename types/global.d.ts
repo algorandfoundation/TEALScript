@@ -63,7 +63,7 @@ declare class Account {
 
   readonly minBalance: uint64;
 
-  readonly assets: uint64;
+  readonly totalAssets: uint64;
 
   // eslint-disable-next-line no-use-before-define
   readonly authAddr: Account;
@@ -79,8 +79,6 @@ declare class Account {
   readonly totalAppsOptedIn: uint64;
 
   readonly totalAssetsCreated: uint64;
-
-  readonly totalAssets: uint64;
 
   readonly totalBoxes: uint64;
 

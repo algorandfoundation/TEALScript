@@ -10,6 +10,10 @@ function capitalizeFirstChar(str: string) {
 
 const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
+const PARAM_TYPES: {[param: string]: string} = {
+  AcctAuthAddr: 'Account',
+};
+
 const TYPES: { [type: string]: { [property: string]: string } } = {
   global: {
     minTxnFee: 'uint64',
@@ -131,6 +135,68 @@ export default class Compiler {
     this.lastSourceCommentRange = [0, 0];
   }
 
+  getParamOps(type: string) {
+    let op: string;
+
+    switch (type) {
+      case 'Account':
+        op = 'acct_params_get';
+        break;
+      case 'Application':
+        op = 'app_params_get';
+        break;
+      default:
+        throw new Error(`Unknown type ${type}`);
+    }
+
+    const opSpec = langspec.Ops.find((o) => o.Name === op);
+    if (opSpec === undefined) {
+      throw new Error(`Unknown op ${op}`);
+    }
+
+    return opSpec.ArgEnum!.map((arg, i) => ({
+      name: arg,
+      type: PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64'),
+      args: opSpec.Args!.length,
+      fn: () => {
+        this.maybeValue(`${op} ${arg}`);
+      },
+    }));
+  }
+
+  private readonly OP_PARAMS: {[type: string]: any[]} = {
+    Account: [
+      ...this.getParamOps('Account'),
+      {
+        name: 'AssetBalance',
+        type: 'uint64',
+        args: 2,
+        fn: () => {
+          this.maybeValue('asset_holding_get AssetBalance');
+        },
+      },
+      {
+        name: 'AssetFrozen',
+        type: 'uint64',
+        args: 2,
+        fn: () => {
+          this.maybeValue('asset_holding_get AssetFrozen');
+        },
+      },
+    ],
+    Application: [
+      ...this.getParamOps('Application'),
+      {
+        name: 'Global',
+        type: 'any',
+        args: 2,
+        fn: () => {
+          this.maybeValue('app_global_get_ex');
+        },
+      },
+    ],
+  };
+
   async compile() {
     const tree = parser.parse(this.content, { range: true, loc: true });
 
@@ -232,139 +298,6 @@ export default class Compiler {
     this.teal.push('swap');
     this.teal.push('pop');
   }
-
-  private readonly TEAL_FUNCTIONS: {
-    [type: string]: {
-      [fn: string]: {
-        fn: () => void,
-        type: string,
-        args?: boolean,
-      }
-    }
-  } = {
-      Account: {
-        balance: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctBalance');
-          },
-          type: 'uint64',
-        },
-        hasBalance: {
-          fn: () => {
-            this.hasMaybeValue('acct_params_get AcctBalance');
-          },
-          type: 'uint64',
-        },
-        assetBalance: {
-          fn: () => {
-            this.maybeValue('asset_holding_get AssetBalance');
-          },
-          type: 'uint64',
-          args: true,
-        },
-        assetFrozen: {
-          fn: () => {
-            this.maybeValue('asset_holding_get AssetFrozen');
-          },
-          type: 'uint64',
-          args: true,
-        },
-        hasAsset: {
-          fn: () => {
-            this.hasMaybeValue('asset_holding_get AssetBalance');
-          },
-          type: 'uint64',
-          args: true,
-        },
-        minBalance: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctMinBalance');
-          },
-          type: 'uint64',
-        },
-        assets: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalAssets');
-          },
-          type: 'uint64',
-        },
-        authAddr: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctAuthAddr');
-          },
-          type: 'uint64',
-        },
-        totalNumUint: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalNumUint');
-          },
-          type: 'uint64',
-        },
-        totalNumByteSlice: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalNumByteSlice');
-          },
-          type: 'uint64',
-        },
-        totalExtraAppPages: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalExtraAppPages');
-          },
-          type: 'uint64',
-        },
-        totalAppsCreated: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalAppsCreated');
-          },
-          type: 'uint64',
-        },
-        totalAppsOptedIn: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalAppsOptedIn');
-          },
-          type: 'uint64',
-        },
-        totalAssetsCreated: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalAssetsCreated');
-          },
-          type: 'uint64',
-        },
-        totalAssets: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalAssets');
-          },
-          type: 'uint64',
-        },
-        totalBoxes: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalBoxes');
-          },
-          type: 'uint64',
-        },
-        totalBoxBytes: {
-          fn: () => {
-            this.maybeValue('acct_params_get AcctTotalBoxBytes');
-          },
-          type: 'uint64',
-        },
-      },
-      Application: {
-        address: {
-          fn: () => {
-            this.maybeValue('app_params_get AppAddress');
-          },
-          type: 'Account',
-        },
-        global: {
-          fn: () => {
-            this.maybeValue('app_global_get_ex');
-          },
-          type: 'any',
-          args: true,
-        },
-      },
-    };
 
   private processIfStatement(node: any, elseIfCount: number = 0) {
     let labelPrefix: string;
@@ -933,15 +866,37 @@ export default class Compiler {
       return TYPES.txn[name];
     }
 
-    const typeFunction = this.TEAL_FUNCTIONS[type][name];
+    if (!name.startsWith('has')) {
+      const paramObj = this.OP_PARAMS[type].find((p) => {
+        let paramName = p.name.replace(/^Acct/, '').replace(/^App/, '');
 
-    if (checkArgs) {
-      if (!typeFunction.args) typeFunction.fn();
-    } else {
-      typeFunction.fn();
+        if (type !== 'Account') paramName = paramName.replace(/^Asset/, '');
+        return paramName === capitalizeFirstChar(name);
+      });
+
+      if (!paramObj) throw new Error(`Unknown method: ${type}.${name}`);
+
+      if (checkArgs) {
+        if (paramObj.args === 1) paramObj.fn();
+      } else {
+        paramObj.fn();
+      }
+
+      return paramObj.type;
     }
 
-    return typeFunction.type;
+    switch (name) {
+      case 'hasBalance':
+        this.hasMaybeValue('acct_params_get AcctBalance');
+        break;
+      case 'hasAsset':
+        if (!checkArgs) this.hasMaybeValue('asset_holding_get AssetBalance');
+        break;
+      default:
+        throw new Error(`Unknown method: ${type}.${name}`);
+    }
+
+    return 'uint64';
   }
 
   private processLiteral(node: any) {

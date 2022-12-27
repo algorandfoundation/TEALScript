@@ -12,8 +12,12 @@ class AccountTest extends Contract {
     assert(a.assetBalance(123));
   }
 
-  assets(a: Account): void {
-    assert(a.assets);
+  assetFrozen(a: Account): void {
+    assert(a.assetFrozen(123));
+  }
+
+  hasBalance(a: Account): void {
+    assert(a.hasBalance);
   }
 
   balance(a: Account): void {
@@ -22,14 +26,6 @@ class AccountTest extends Contract {
 
   minBalance(a: Account): void {
     assert(a.minBalance);
-  }
-
-  hasBalance(a: Account): void {
-    assert(a.hasBalance);
-  }
-
-  assetFrozen(a: Account): void {
-    assert(a.assetFrozen(123));
   }
 
   authAddr(a: Account): void {

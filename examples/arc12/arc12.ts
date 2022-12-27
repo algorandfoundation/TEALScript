@@ -60,7 +60,7 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    if (globals.currentApplicationAddress.assets === 0) this.closeAcct(vaultCreator);
+    if (globals.currentApplicationAddress.totalAssets === 0) this.closeAcct(vaultCreator);
   }
 
   optIn(asa: Asset, mbrPayment: PayTxn): void {
@@ -106,7 +106,7 @@ class Vault extends Contract {
       fee: 0,
     });
 
-    if (globals.currentApplicationAddress.assets === 0) this.closeAcct(creator);
+    if (globals.currentApplicationAddress.totalAssets === 0) this.closeAcct(creator);
   }
 
   delete(): void {

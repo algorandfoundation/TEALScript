@@ -228,7 +228,7 @@ reject:
 
 	// if0_condition
 	// examples/arc12/arc12.ts:63
-	// globals.currentApplicationAddress.assets === 0
+	// globals.currentApplicationAddress.totalAssets === 0
 	global CurrentApplicationAddress
 	acct_params_get AcctTotalAssets
 	assert
@@ -467,7 +467,7 @@ claim:
 
 	// if1_condition
 	// examples/arc12/arc12.ts:109
-	// globals.currentApplicationAddress.assets === 0
+	// globals.currentApplicationAddress.totalAssets === 0
 	global CurrentApplicationAddress
 	acct_params_get AcctTotalAssets
 	assert
