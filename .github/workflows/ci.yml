@@ -12,6 +12,8 @@ jobs:
     - name: Install modules
       run: yarn
     - name: Run ESLint
-      run: npx eslint examples/ src/ --ext .ts
+      run: yarn run lint
+    - name: Run tests
+      run: yarn test
     - name: Run examples
-      run: yarn start
+      run: yarn run examples

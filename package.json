@@ -2,7 +2,10 @@
   "name": "tealscript",
   "version": "0.0.0",
   "scripts": {
-    "start": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts"
+    "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
+    "test": "npx mocha -r ts-node/register 'tests/**/*.ts'",
+    "lint": "eslint examples/ src/ tests/ --ext .ts",
+    "fix": "eslint --fix examples/ src/ tests/ --ext .ts"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",
@@ -14,10 +17,15 @@
     "vlq": "^2.0.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.9",
     "@types/node-fetch": "^2.6.2",
+    "chai": "^4.3.7",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "ts-node": "^10.9.1"
   },
   "bin": {
