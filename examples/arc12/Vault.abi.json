@@ -7,12 +7,12 @@
       "args": [
         {
           "name": "receiver",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         },
         {
           "name": "sender",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         }
       ],
@@ -27,22 +27,22 @@
       "args": [
         {
           "name": "asaCreator",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         },
         {
           "name": "feeSink",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         },
         {
           "name": "asa",
-          "type": "Asset",
+          "type": "asset",
           "desc": ""
         },
         {
           "name": "vaultCreator",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         }
       ],
@@ -57,7 +57,7 @@
       "args": [
         {
           "name": "asa",
-          "type": "Asset",
+          "type": "asset",
           "desc": ""
         },
         {
@@ -77,17 +77,17 @@
       "args": [
         {
           "name": "asa",
-          "type": "Asset",
+          "type": "asset",
           "desc": ""
         },
         {
           "name": "creator",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         },
         {
           "name": "asaMbrFunder",
-          "type": "Account",
+          "type": "account",
           "desc": ""
         }
       ],

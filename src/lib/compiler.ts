@@ -408,7 +408,7 @@ export default class Compiler {
         this.teal.push('-');
       }
 
-      args.push({ name: p.name, type: abiType, desc: '' });
+      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
     this.abi.methods.push({
