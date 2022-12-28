@@ -1,6 +1,6 @@
 {
   "name": "tealscript",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "scripts": {
@@ -8,7 +8,8 @@
     "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
     "test-examples": "mocha -r ts-node/register 'tests/examples.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
-    "fix": "eslint --fix examples/ src/ tests/ --ext .ts"
+    "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.44.0",
