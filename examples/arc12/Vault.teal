@@ -4,7 +4,7 @@
 closeAcct:
 	proto 1 0
 
-	// examples/arc12/arc12.ts:15
+	// examples/arc12/arc12.ts:18
 	// assert(vaultCreator === this.creator.get())
 	frame_dig -1 // vaultCreator: Account
 	byte "creator"
@@ -12,43 +12,43 @@ closeAcct:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:17
+	// examples/arc12/arc12.ts:20
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:18
+	// examples/arc12/arc12.ts:21
 	// receiver: vaultCreator
 	frame_dig -1 // vaultCreator: Account
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:19
+	// examples/arc12/arc12.ts:22
 	// amount: globals.currentApplicationAddress.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:20
+	// examples/arc12/arc12.ts:23
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/arc12/arc12.ts:21
+	// examples/arc12/arc12.ts:24
 	// closeRemainderTo: this.txn.sender
 	txn Sender
 	itxn_field CloseRemainderTo
 	itxn_submit
 
-	// examples/arc12/arc12.ts:24
+	// examples/arc12/arc12.ts:27
 	// deleteVaultTxn = this.txnGroup[this.txn.groupIndex + 1]
 	txn GroupIndex
 	int 1
 	+
 	store 0 // deleteVaultTxn: GroupTxn
 
-	// examples/arc12/arc12.ts:25
+	// examples/arc12/arc12.ts:28
 	// assert(deleteVaultTxn.applicationID === this.master.get())
 	load 0 // deleteVaultTxn: GroupTxn
 	gtxns ApplicationID
@@ -72,19 +72,19 @@ abi_route_create:
 create:
 	proto 2 0
 
-	// examples/arc12/arc12.ts:29
+	// examples/arc12/arc12.ts:32
 	// this.creator.put(sender)
 	byte "creator"
 	frame_dig -1 // sender: Account
 	app_global_put
 
-	// examples/arc12/arc12.ts:30
+	// examples/arc12/arc12.ts:33
 	// this.receiver.put(receiver)
 	byte "receiver"
 	frame_dig -2 // receiver: Account
 	app_global_put
 
-	// examples/arc12/arc12.ts:31
+	// examples/arc12/arc12.ts:34
 	// this.master.put(globals.callerApplicationID)
 	byte "master"
 	global CallerApplicationID
@@ -111,7 +111,7 @@ abi_route_reject:
 reject:
 	proto 4 0
 
-	// examples/arc12/arc12.ts:35
+	// examples/arc12/arc12.ts:38
 	// assert(this.txn.sender === this.receiver.get())
 	txn Sender
 	byte "receiver"
@@ -119,59 +119,59 @@ reject:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:36
+	// examples/arc12/arc12.ts:39
 	// assert(feeSink === addr('Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA'))
 	frame_dig -3 // feeSink: Account
 	addr Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA
 	==
 	assert
 
-	// examples/arc12/arc12.ts:37
+	// examples/arc12/arc12.ts:40
 	// preMbr = globals.currentApplicationAddress.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	store 1 // preMbr: uint64
 
-	// examples/arc12/arc12.ts:39
+	// examples/arc12/arc12.ts:42
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:40
+	// examples/arc12/arc12.ts:43
 	// assetReceiver: asaCreator
 	frame_dig -4 // asaCreator: Account
 	itxn_field AssetReceiver
 
-	// examples/arc12/arc12.ts:41
+	// examples/arc12/arc12.ts:44
 	// xferAsset: asa
 	frame_dig -2 // asa: Asset
 	itxn_field XferAsset
 
-	// examples/arc12/arc12.ts:42
+	// examples/arc12/arc12.ts:45
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
-	// examples/arc12/arc12.ts:43
+	// examples/arc12/arc12.ts:46
 	// assetCloseTo: asaCreator
 	frame_dig -4 // asaCreator: Account
 	itxn_field AssetCloseTo
 
-	// examples/arc12/arc12.ts:44
+	// examples/arc12/arc12.ts:47
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
-	// examples/arc12/arc12.ts:47
+	// examples/arc12/arc12.ts:50
 	// this.funderMap.delete(asa)
 	frame_dig -2 // asa: Asset
 	itob
 	box_del
 
-	// examples/arc12/arc12.ts:49
+	// examples/arc12/arc12.ts:52
 	// mbrAmt = preMbr - globals.currentApplicationAddress.minBalance
 	load 1 // preMbr: uint64
 	global CurrentApplicationAddress
@@ -180,54 +180,54 @@ reject:
 	-
 	store 2 // mbrAmt: uint64
 
-	// examples/arc12/arc12.ts:51
+	// examples/arc12/arc12.ts:54
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:52
+	// examples/arc12/arc12.ts:55
 	// receiver: feeSink
 	frame_dig -3 // feeSink: Account
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:53
+	// examples/arc12/arc12.ts:56
 	// amount: mbrAmt - this.txn.fee
 	load 2 // mbrAmt: uint64
 	txn Fee
 	-
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:54
+	// examples/arc12/arc12.ts:57
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
-	// examples/arc12/arc12.ts:57
+	// examples/arc12/arc12.ts:60
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:58
+	// examples/arc12/arc12.ts:61
 	// receiver: this.txn.sender
 	txn Sender
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:59
+	// examples/arc12/arc12.ts:62
 	// amount: this.txn.fee
 	txn Fee
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:60
+	// examples/arc12/arc12.ts:63
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
 	// if0_condition
-	// examples/arc12/arc12.ts:63
+	// examples/arc12/arc12.ts:66
 	// globals.currentApplicationAddress.totalAssets === 0
 	global CurrentApplicationAddress
 	acct_params_get AcctTotalAssets
@@ -237,7 +237,7 @@ reject:
 	bz if0_end
 
 	// if0_consequent
-	// examples/arc12/arc12.ts:63
+	// examples/arc12/arc12.ts:66
 	// this.closeAcct(vaultCreator)
 	frame_dig -1 // vaultCreator: Account
 	callsub closeAcct
@@ -259,7 +259,7 @@ abi_route_optIn:
 optIn:
 	proto 2 0
 
-	// examples/arc12/arc12.ts:67
+	// examples/arc12/arc12.ts:70
 	// assert(!this.funderMap.exists(asa))
 	frame_dig -2 // asa: Asset
 	itob
@@ -269,7 +269,7 @@ optIn:
 	!
 	assert
 
-	// examples/arc12/arc12.ts:68
+	// examples/arc12/arc12.ts:71
 	// assert(mbrPayment.sender === this.txn.sender)
 	frame_dig -1 // mbrPayment: PayTxn
 	gtxns Sender
@@ -277,7 +277,7 @@ optIn:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:69
+	// examples/arc12/arc12.ts:72
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
 	frame_dig -1 // mbrPayment: PayTxn
 	gtxns Receiver
@@ -285,48 +285,48 @@ optIn:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:71
+	// examples/arc12/arc12.ts:74
 	// preMbr = globals.currentApplicationAddress.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	store 3 // preMbr: uint64
 
-	// examples/arc12/arc12.ts:73
+	// examples/arc12/arc12.ts:76
 	// this.funderMap.put(asa, this.txn.sender)
 	frame_dig -2 // asa: Asset
 	itob
 	txn Sender
 	box_put
 
-	// examples/arc12/arc12.ts:75
+	// examples/arc12/arc12.ts:78
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:76
+	// examples/arc12/arc12.ts:79
 	// assetReceiver: globals.currentApplicationAddress
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// examples/arc12/arc12.ts:77
+	// examples/arc12/arc12.ts:80
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
-	// examples/arc12/arc12.ts:78
+	// examples/arc12/arc12.ts:81
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/arc12/arc12.ts:79
+	// examples/arc12/arc12.ts:82
 	// xferAsset: asa
 	frame_dig -2 // asa: Asset
 	itxn_field XferAsset
 	itxn_submit
 
-	// examples/arc12/arc12.ts:82
+	// examples/arc12/arc12.ts:85
 	// assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr)
 	frame_dig -1 // mbrPayment: PayTxn
 	gtxns Amount
@@ -356,7 +356,7 @@ abi_route_claim:
 claim:
 	proto 3 0
 
-	// examples/arc12/arc12.ts:86
+	// examples/arc12/arc12.ts:89
 	// assert(this.funderMap.exists(asa))
 	frame_dig -3 // asa: Asset
 	itob
@@ -365,7 +365,7 @@ claim:
 	pop
 	assert
 
-	// examples/arc12/arc12.ts:87
+	// examples/arc12/arc12.ts:90
 	// assert(asaMbrFunder === this.funderMap.get(asa))
 	frame_dig -1 // asaMbrFunder: Account
 	frame_dig -3 // asa: Asset
@@ -375,7 +375,7 @@ claim:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:88
+	// examples/arc12/arc12.ts:91
 	// assert(this.txn.sender === this.receiver.get())
 	txn Sender
 	byte "receiver"
@@ -383,7 +383,7 @@ claim:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:89
+	// examples/arc12/arc12.ts:92
 	// assert(this.creator.get() === creator)
 	byte "creator"
 	app_global_get
@@ -391,36 +391,36 @@ claim:
 	==
 	assert
 
-	// examples/arc12/arc12.ts:91
+	// examples/arc12/arc12.ts:94
 	// initialMbr = globals.currentApplicationAddress.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	store 4 // initialMbr: uint64
 
-	// examples/arc12/arc12.ts:93
+	// examples/arc12/arc12.ts:96
 	// this.funderMap.delete(asa)
 	frame_dig -3 // asa: Asset
 	itob
 	box_del
 
-	// examples/arc12/arc12.ts:95
+	// examples/arc12/arc12.ts:98
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:96
+	// examples/arc12/arc12.ts:99
 	// assetReceiver: this.txn.sender
 	txn Sender
 	itxn_field AssetReceiver
 
-	// examples/arc12/arc12.ts:97
+	// examples/arc12/arc12.ts:100
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/arc12/arc12.ts:98
+	// examples/arc12/arc12.ts:101
 	// assetAmount: globals.currentApplicationAddress.assetBalance(asa)
 	global CurrentApplicationAddress
 	frame_dig -3 // asa: Asset
@@ -428,29 +428,29 @@ claim:
 	assert
 	itxn_field AssetAmount
 
-	// examples/arc12/arc12.ts:99
+	// examples/arc12/arc12.ts:102
 	// xferAsset: asa
 	frame_dig -3 // asa: Asset
 	itxn_field XferAsset
 
-	// examples/arc12/arc12.ts:100
+	// examples/arc12/arc12.ts:103
 	// assetCloseTo: this.txn.sender
 	txn Sender
 	itxn_field AssetCloseTo
 	itxn_submit
 
-	// examples/arc12/arc12.ts:103
+	// examples/arc12/arc12.ts:106
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:104
+	// examples/arc12/arc12.ts:107
 	// receiver: asaMbrFunder
 	frame_dig -1 // asaMbrFunder: Account
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:105
+	// examples/arc12/arc12.ts:108
 	// amount: initialMbr - globals.currentApplicationAddress.minBalance
 	load 4 // initialMbr: uint64
 	global CurrentApplicationAddress
@@ -459,14 +459,14 @@ claim:
 	-
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:106
+	// examples/arc12/arc12.ts:109
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
 	// if1_condition
-	// examples/arc12/arc12.ts:109
+	// examples/arc12/arc12.ts:112
 	// globals.currentApplicationAddress.totalAssets === 0
 	global CurrentApplicationAddress
 	acct_params_get AcctTotalAssets
@@ -476,7 +476,7 @@ claim:
 	bz if1_end
 
 	// if1_consequent
-	// examples/arc12/arc12.ts:109
+	// examples/arc12/arc12.ts:112
 	// this.closeAcct(creator)
 	frame_dig -2 // creator: Account
 	callsub closeAcct
@@ -492,7 +492,7 @@ abi_route_delete:
 delete:
 	proto 0 0
 
-	// examples/arc12/arc12.ts:113
+	// examples/arc12/arc12.ts:116
 	// assert(!globals.currentApplicationAddress.hasBalance)
 	global CurrentApplicationAddress
 	acct_params_get AcctBalance
@@ -501,7 +501,7 @@ delete:
 	!
 	assert
 
-	// examples/arc12/arc12.ts:114
+	// examples/arc12/arc12.ts:117
 	// assert(this.txn.sender === globals.creatorAddress)
 	txn Sender
 	global CreatorAddress

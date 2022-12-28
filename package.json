@@ -1,7 +1,8 @@
 {
   "name": "tealscript",
   "version": "0.0.0",
-  "types": "types/global.d.ts",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
   "scripts": {
     "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
     "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
@@ -32,6 +33,6 @@
     "ts-node": "^10.9.1"
   },
   "bin": {
-    "tealscript": "dist/src/bin/tealscript.js"
+    "tealscript": "dist/bin/tealscript.js"
   }
 }

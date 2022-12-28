@@ -186,18 +186,6 @@ declare const globals: {
   callerApplicationAddress: Account
 };
 
-declare class Contract {
-  itxn: {
-    createdApplicationID: Application
-  };
-
-  txn: ThisTxnParams;
-
-  txnGroup: Transaction[];
-
-  app: Application;
-}
-
 declare function addr(address: string): Account
 declare function sendPayment(params: PaymentParams): void
 declare function sendAppCall(params: AppParams): void
