@@ -128,39 +128,35 @@ export default class Compiler {
     this.lastSourceCommentRange = [0, 0];
   }
 
-  getParamOps(op: string) {
+  getOpParamObjects(op: string) {
     const opSpec = langspec.Ops.find((o) => o.Name === op);
     if (opSpec === undefined) {
       throw new Error(`Unknown op ${op}`);
     }
 
-    if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
-      return opSpec.ArgEnum!.map((arg, i) => ({
+    return opSpec.ArgEnum!.map((arg, i) => {
+      let fn;
+      if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
+        fn = () => this.teal.push(`${op} ${arg}`);
+      } else {
+        fn = () => this.maybeValue(`${op} ${arg}`);
+      }
+      return {
         name: arg,
         type: PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64'),
         args: opSpec.Args?.length || 0,
-        fn: () => {
-          this.teal.push(`${op} ${arg}`);
-        },
-      }));
-    }
-    return opSpec.ArgEnum!.map((arg, i) => ({
-      name: arg,
-      type: PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64'),
-      args: opSpec.Args?.length || 0,
-      fn: () => {
-        this.maybeValue(`${op} ${arg}`);
-      },
-    }));
+        fn,
+      };
+    });
   }
 
   private readonly OP_PARAMS: {[type: string]: any[]} = {
     Account: [
-      ...this.getParamOps('acct_params_get'),
-      ...this.getParamOps('asset_holding_get'),
+      ...this.getOpParamObjects('acct_params_get'),
+      ...this.getOpParamObjects('asset_holding_get'),
     ],
     Application: [
-      ...this.getParamOps('app_params_get'),
+      ...this.getOpParamObjects('app_params_get'),
       {
         name: 'Global',
         type: 'any',
@@ -170,10 +166,10 @@ export default class Compiler {
         },
       },
     ],
-    txn: this.getParamOps('txn'),
-    global: this.getParamOps('global'),
-    itxn: this.getParamOps('itxn'),
-    gtxns: this.getParamOps('gtxns'),
+    txn: this.getOpParamObjects('txn'),
+    global: this.getOpParamObjects('global'),
+    itxn: this.getOpParamObjects('itxn'),
+    gtxns: this.getOpParamObjects('gtxns'),
   };
 
   async compile() {
