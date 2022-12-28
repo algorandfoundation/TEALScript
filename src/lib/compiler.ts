@@ -412,7 +412,7 @@ export default class Compiler {
     });
 
     this.abi.methods.push({
-      name: this.currentSubroutine.name, args, desc: '', returns: { type: this.currentSubroutine.returnType, desc: '' },
+      name: this.currentSubroutine.name, args, desc: '', returns: { type: this.currentSubroutine.returnType.toLocaleLowerCase(), desc: '' },
     });
 
     this.teal.push(`callsub ${this.currentSubroutine.name}`);
