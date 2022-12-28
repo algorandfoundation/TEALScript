@@ -411,8 +411,13 @@ export default class Compiler {
       args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
+    const returnType = this.currentSubroutine.returnType
+      .toLocaleLowerCase()
+      .replace(/asset|application/, 'uint64')
+      .replace('account', 'address');
+
     this.abi.methods.push({
-      name: this.currentSubroutine.name, args, desc: '', returns: { type: this.currentSubroutine.returnType.toLocaleLowerCase(), desc: '' },
+      name: this.currentSubroutine.name, args, desc: '', returns: { type: returnType, desc: '' },
     });
 
     this.teal.push(`callsub ${this.currentSubroutine.name}`);
