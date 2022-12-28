@@ -11,49 +11,42 @@ function capitalizeFirstChar(str: string) {
 const TXN_METHODS = ['sendPayment', 'sendAppCall', 'sendMethodCall', 'sendAssetTransfer'];
 
 const PARAM_TYPES: {[param: string]: string} = {
+  // Account
   AcctAuthAddr: 'Account',
-};
-
-const TYPES: { [type: string]: { [property: string]: string } } = {
-  global: {
-    minTxnFee: 'uint64',
-    minBalance: 'uint64',
-    maxTxnLife: 'uint64',
-    zeroAddress: 'Account',
-    groupSize: 'uint64',
-    logicSigVersion: 'uint64',
-    round: 'uint64',
-    latestTimestamp: 'uint64',
-    currentApplicationID: 'Application',
-    creatorAddress: 'Account',
-    currentApplicationAddress: 'Account',
-    groupID: 'bytes',
-    opcodeBudget: 'uint64',
-    callerApplicationID: 'Application',
-    callerApplicationAddress: 'Account',
-  },
-  txn: {
-    fee: 'uint64',
-    sender: 'Account',
-    rekeyTo: 'Account',
-    note: 'bytes',
-    applicationID: 'Application',
-    OnCompletion: 'bytes',
-    approvalProgram: 'bytes',
-    clearStateProgram: 'bytes',
-    globalNumByteSlice: 'uint64',
-    globalNumUint: 'uint64',
-    localNumByteSlice: 'uint64',
-    localNumUint: 'uint64',
-    amount: 'uint64',
-    receiver: 'Account',
-    closeRemainderTo: 'Account',
-    groupIndex: 'uint64',
-
-  },
-  itxn: {
-    createdApplicationID: 'Application',
-  },
+  // Application
+  AppCreator: 'Account',
+  AppAddress: 'Account',
+  AssetManager: 'Account',
+  AssetReserve: 'Account',
+  AssetFreeze: 'Account',
+  AssetClawback: 'Account',
+  AssetCreator: 'Account',
+  // Global
+  ZeroAddress: 'Account',
+  CurrentApplicationID: 'Application',
+  CreatorAddress: 'Account',
+  CurrentApplicationAddress: 'Account',
+  CallerApplicationID: 'Application',
+  CallerApplicationAddress: 'Account',
+  // Txn
+  Sender: 'Account',
+  Receiver: 'Account',
+  CloseRemainderTo: 'Account',
+  XferAsset: 'Asset',
+  AssetSender: 'Account',
+  AssetReceiver: 'Account',
+  AssetCloseTo: 'Account',
+  ApplicationID: 'Application',
+  RekeyTo: 'Account',
+  ConfigAsset: 'Asset',
+  ConfigAssetManager: 'Account',
+  ConfigAssetReserve: 'Account',
+  ConfigAssetFreeze: 'Account',
+  ConfigAssetClawback: 'Account',
+  FreezeAsset: 'Asset',
+  FreezeAssetAccount: 'Account',
+  CreatedAssetID: 'Asset',
+  CreatedApplicationID: 'Application',
 };
 
 interface OpSpec {
@@ -135,29 +128,26 @@ export default class Compiler {
     this.lastSourceCommentRange = [0, 0];
   }
 
-  getParamOps(type: string) {
-    let op: string;
-
-    switch (type) {
-      case 'Account':
-        op = 'acct_params_get';
-        break;
-      case 'Application':
-        op = 'app_params_get';
-        break;
-      default:
-        throw new Error(`Unknown type ${type}`);
-    }
-
+  getParamOps(op: string) {
     const opSpec = langspec.Ops.find((o) => o.Name === op);
     if (opSpec === undefined) {
       throw new Error(`Unknown op ${op}`);
     }
 
+    if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
+      return opSpec.ArgEnum!.map((arg, i) => ({
+        name: arg,
+        type: PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64'),
+        args: opSpec.Args?.length || 0,
+        fn: () => {
+          this.teal.push(`${op} ${arg}`);
+        },
+      }));
+    }
     return opSpec.ArgEnum!.map((arg, i) => ({
       name: arg,
       type: PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64'),
-      args: opSpec.Args!.length,
+      args: opSpec.Args?.length || 0,
       fn: () => {
         this.maybeValue(`${op} ${arg}`);
       },
@@ -166,26 +156,11 @@ export default class Compiler {
 
   private readonly OP_PARAMS: {[type: string]: any[]} = {
     Account: [
-      ...this.getParamOps('Account'),
-      {
-        name: 'AssetBalance',
-        type: 'uint64',
-        args: 2,
-        fn: () => {
-          this.maybeValue('asset_holding_get AssetBalance');
-        },
-      },
-      {
-        name: 'AssetFrozen',
-        type: 'uint64',
-        args: 2,
-        fn: () => {
-          this.maybeValue('asset_holding_get AssetFrozen');
-        },
-      },
+      ...this.getParamOps('acct_params_get'),
+      ...this.getParamOps('asset_holding_get'),
     ],
     Application: [
-      ...this.getParamOps('Application'),
+      ...this.getParamOps('app_params_get'),
       {
         name: 'Global',
         type: 'any',
@@ -195,6 +170,10 @@ export default class Compiler {
         },
       },
     ],
+    txn: this.getParamOps('txn'),
+    global: this.getParamOps('global'),
+    itxn: this.getParamOps('itxn'),
+    gtxns: this.getParamOps('gtxns'),
   };
 
   async compile() {
@@ -832,8 +811,7 @@ export default class Compiler {
         const obj = prevProps.at(-1) || { name: n.object?.name?.replace('globals', 'global'), type: undefined };
 
         if (['global', 'txn', 'itxn'].includes(obj.name)) {
-          this.teal.push(`${obj.name} ${capitalizeFirstChar(n.property.name)}`);
-          type = TYPES[obj.name][n.property.name];
+          type = this.tealFunction(obj.name, n.property.name);
         } else if (['txnGroup'].includes(obj.name)) {
           this.processNode(n.property);
           type = 'GroupTxn';
@@ -846,11 +824,9 @@ export default class Compiler {
           type = this.processStorageExpression(node);
         }
 
-        if (type?.includes('Txn')) {
-          let typesKey = type;
-          if (typesKey.includes('Txn')) typesKey = 'txn';
-
-          if (TYPES[typesKey][n.property.name]) type = TYPES[typesKey][n.property.name];
+        if (type?.includes('Txn') && n.property.name) {
+          type = this.OP_PARAMS.txn
+            .find((p) => p.name === capitalizeFirstChar(n.property.name))?.type;
         }
 
         this.lastType = type;
@@ -859,18 +835,18 @@ export default class Compiler {
     }
   }
 
-  private tealFunction(type: string, name: string, checkArgs: boolean = false) {
+  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false) {
+    let type = calleeType;
     if (type.includes('Txn')) {
-      this.teal.push(`gtxns ${capitalizeFirstChar(name)}`);
-
-      return TYPES.txn[name];
+      type = 'gtxns';
     }
 
     if (!name.startsWith('has')) {
       const paramObj = this.OP_PARAMS[type].find((p) => {
-        let paramName = p.name.replace(/^Acct/, '').replace(/^App/, '');
+        let paramName = p.name.replace(/^Acct/, '');
 
-        if (type !== 'Account') paramName = paramName.replace(/^Asset/, '');
+        if (type === 'Application') paramName = paramName.replace(/^App/, '');
+        if (type === 'Asset') paramName = paramName.replace(/^Asset/, '');
         return paramName === capitalizeFirstChar(name);
       });
 
