@@ -79,29 +79,29 @@ interface Subroutine {
 export default class Compiler {
   teal: string[];
 
-  scratch: any;
+  private scratch: any;
 
-  scratchIndex: number;
+  private scratchIndex: number;
 
-  ifCount: number;
+  private ifCount: number;
 
   filename?: string;
 
   content: string;
 
-  processErrorNodes: any[];
+  private processErrorNodes: any[];
 
-  frame: any;
+  private frame: any;
 
-  currentSubroutine: Subroutine;
+  private currentSubroutine: Subroutine;
 
   abi: any;
 
-  storageProps: {[key: string]: StorageProp};
+  private storageProps: {[key: string]: StorageProp};
 
-  lastType: string | undefined;
+  private lastType: string | undefined;
 
-  contractClasses: string[];
+  private contractClasses: string[];
 
   name: string;
 
@@ -109,7 +109,7 @@ export default class Compiler {
 
   lineToPc: {[key: number]: number[]};
 
-  lastSourceCommentRange: [number, number];
+  private lastSourceCommentRange: [number, number];
 
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
