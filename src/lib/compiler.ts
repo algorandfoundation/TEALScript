@@ -74,6 +74,7 @@ interface StorageProp {
 interface Subroutine {
   name: string
   returnType: string
+  decorators?: string[]
 }
 export default class Compiler {
   teal: string[];
@@ -375,6 +376,49 @@ export default class Compiler {
     this.teal.push(`abi_route_${this.currentSubroutine.name}:`);
     const args: any[] = [];
 
+    if (this.currentSubroutine.decorators) {
+      this.currentSubroutine.decorators.forEach((d, i) => {
+        switch (d) {
+          case 'createApplication':
+            this.teal.push('txn ApplicationID');
+            this.teal.push('int 0');
+            break;
+          case 'noOp':
+            this.teal.push('int NoOp');
+            this.teal.push('txn OnCompletion');
+            break;
+          case 'optIn':
+            this.teal.push('int OptIn');
+            this.teal.push('txn OnCompletion');
+            break;
+          case 'closeOut':
+            this.teal.push('int CloseOut');
+            this.teal.push('txn OnCompletion');
+            break;
+          case 'updateApplication':
+            this.teal.push('int UpdateApplication');
+            this.teal.push('txn OnCompletion');
+            break;
+          case 'deleteApplication':
+            this.teal.push('int DeleteApplication');
+            this.teal.push('txn OnCompletion');
+            break;
+          default:
+            throw new Error(`Unknown decorator: ${d}`);
+        }
+
+        this.teal.push('==');
+        if (i > 0) this.teal.push('||');
+      });
+
+      this.teal.push('assert');
+    } else {
+      this.teal.push('txn OnCompletion');
+      this.teal.push('int NoOp');
+      this.teal.push('==');
+      this.teal.push('assert');
+    }
+
     let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes('Txn')).length;
     gtxnIndex += 1;
 
@@ -457,6 +501,7 @@ export default class Compiler {
     if (node.accessibility === 'private') {
       this.processSubroutine(node.value);
     } else {
+      this.currentSubroutine.decorators = node.decorators?.map((d: any) => d.expression.name);
       this.processAbiMethod(node.value);
     }
   }

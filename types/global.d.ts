@@ -224,3 +224,16 @@ declare function expw(arg0: IntLike, arg1: IntLike)
 declare function bsqrt(arg0: BytesLike)
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
+
+function decoratorFunction (
+  target: Object,
+  key: string | symbol,
+  descriptor: PropertyDescriptor
+): PropertyDescriptor
+
+declare const createApplication = decoratorFunction;
+declare const noOp = decoratorFunction;
+declare const optIn = decoratorFunction;
+declare const closeOut = decoratorFunction;
+declare const updateApplication = decoratorFunction;
+declare const deleteApplication = decoratorFunction;
