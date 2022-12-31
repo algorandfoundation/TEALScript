@@ -304,6 +304,12 @@ getVaultAddr:
 
 	// examples/arc12/arc12.ts:181
 	// return this.vaultMap.get(receiver).address;
+	frame_dig -1 // receiver: Account
+	box_get
+	assert
+	btoi
+	app_params_get AppAddress
+	assert
 	byte 0x151f7c75
 	swap
 	concat
