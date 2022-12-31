@@ -844,7 +844,7 @@ export default class Compiler {
       node.arguments.forEach((a: any) => this.processNode(a));
       this.lastType = preArgsType;
 
-      this.tealFunction(this.lastType!, node.callee.property.name)();
+      this.tealFunction(this.lastType!, node.callee.property.name);
     }
   }
 
@@ -854,7 +854,7 @@ export default class Compiler {
 
     this.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`, target.type);
 
-    this.tealFunction(target.type, node.property.name, true)();
+    this.tealFunction(target.type, node.property.name, true);
 
     this.lastType = target.type;
   }
@@ -882,7 +882,7 @@ export default class Compiler {
       }
 
       if (n.object?.name === 'globals') {
-        this.tealFunction('global', n.property.name)();
+        this.tealFunction('global', n.property.name);
         return;
       }
 
@@ -917,18 +917,17 @@ export default class Compiler {
 
       const { name } = n.property;
 
-      this.tealFunction(this.lastType!, name)();
+      this.tealFunction(this.lastType!, name);
     });
   }
 
-  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false) {
+  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
     let type = calleeType;
     if (type.includes('Txn')) {
       type = 'gtxns';
     }
 
     if (!name.startsWith('has')) {
-      if (this.OP_PARAMS[type] === undefined) return undefined;
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
@@ -940,19 +939,20 @@ export default class Compiler {
       if (!paramObj) throw new Error(`Unknown method: ${type}.${name}`);
 
       if (!checkArgs || paramObj.args === 1) {
-        return paramObj.fn;
+        paramObj.fn();
       }
-      return () => {};
+      return;
     }
 
     switch (name) {
       case 'hasBalance':
-        return () => this.hasMaybeValue('acct_params_get AcctBalance');
+        this.hasMaybeValue('acct_params_get AcctBalance');
+        return;
       case 'hasAsset':
         if (!checkArgs) {
-          return () => this.hasMaybeValue('asset_holding_get AssetBalance');
+          this.hasMaybeValue('asset_holding_get AssetBalance');
         }
-        return () => {};
+        return;
       default:
         throw new Error(`Unknown method: ${type}.${name}`);
     }
