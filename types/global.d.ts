@@ -9,9 +9,9 @@ declare class BoxMap<KeyType, ValueType> {
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): ValueType
+  exists(key: KeyType): uint64
 
-  delete(key: KeyType): ValueType
+  delete(key: KeyType): void
 
   put(key: KeyType, value: ValueType): void
 }
@@ -21,9 +21,9 @@ declare class Box<ValueType> {
 
   get(): ValueType
 
-  exists(): ValueType
+  exists(): uint64
 
-  delete(): ValueType
+  delete(): void
 
   put(value: ValueType): void
 }
@@ -33,9 +33,9 @@ declare class GlobalMap<KeyType, ValueType> {
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): ValueType
+  exists(key: KeyType): uint64
 
-  delete(key: KeyType): ValueType
+  delete(key: KeyType): void
 
   put(key: KeyType, value: ValueType): void
 }
@@ -45,9 +45,9 @@ declare class GlobalValue<ValueType> {
 
   get(): ValueType
 
-  exists(): ValueType
+  exists(): uint64
 
-  delete(): ValueType
+  delete(): void
 
   put(value: ValueType): void
 }

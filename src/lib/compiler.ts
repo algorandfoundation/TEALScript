@@ -111,6 +111,8 @@ export default class Compiler {
 
   private lastSourceCommentRange: [number, number];
 
+  private comments: parser.TSESTree.Comment[];
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -127,6 +129,7 @@ export default class Compiler {
     this.pcToLine = {};
     this.lineToPc = {};
     this.lastSourceCommentRange = [0, 0];
+    this.comments = [];
   }
 
   getOpParamObjects(op: string) {
@@ -176,15 +179,15 @@ export default class Compiler {
 
   private push(teal: string, type: string) {
     this.teal.push(teal);
-    this.lastType = type;
+    if (type !== 'void') this.lastType = type;
   }
 
   private pushVoid(teal: string) {
-    this.teal.push(teal);
+    this.push(teal, 'void');
   }
 
   async compile() {
-    const tree = parser.parse(this.content, { range: true, loc: true });
+    const tree = parser.parse(this.content, { range: true, loc: true, comment: true });
 
     tree.body.forEach((body: any) => {
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract') {
@@ -192,6 +195,14 @@ export default class Compiler {
       }
 
       if (body.type === AST_NODE_TYPES.ClassDeclaration && body.superClass.name === 'Contract' && body.id.name === this.name) {
+        this.comments = tree.comments
+          .filter((c) => (
+            c.loc.start.line >= body.loc.start.line
+            && c.loc.end.line <= body.loc.end.line
+            && c.value.startsWith('/')
+          ))
+          .reverse();
+
         this.abi = { name: body.id.name, desc: '', methods: [] };
 
         this.processNode(body);
@@ -524,8 +535,18 @@ export default class Compiler {
     this.processNode(node.body);
   }
 
+  private popComments(line: number): void {
+    if (this.comments.at(-1) && this.comments.at(-1)!.loc.start.line <= line) {
+      this.teal.push(`/${this.comments.pop()!.value}`);
+      return this.popComments(line);
+    }
+
+    return undefined;
+  }
+
   private processNode(node: any) {
     try {
+      this.popComments(node.loc.start.line);
       ((this as any)[`process${node.type}`])(node);
     } catch (e: any) {
       if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
@@ -877,7 +898,7 @@ export default class Compiler {
 
     chain.forEach((n: any) => {
       if (n.type === AST_NODE_TYPES.CallExpression) {
-        this.processCallExpression(n);
+        this.processNode(n);
         return;
       }
 

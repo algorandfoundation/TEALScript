@@ -57,6 +57,21 @@
       }
     },
     {
+      "name": "hasVault",
+      "args": [
+        {
+          "name": "receiver",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
       "name": "getVaultId",
       "args": [
         {
