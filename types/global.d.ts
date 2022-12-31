@@ -133,7 +133,7 @@ interface AppParams extends CommonTransactionParams {
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
-  apps?: Array<uint64 | Application>
+  applications?: Array<uint64 | Application>
   assets?: Array<uint64 | Asset>
   globalNumByteSlice?: uint64
   globalNumUint?: uint64
@@ -186,7 +186,9 @@ declare const globals: {
   callerApplicationAddress: Account
 };
 
+declare function method(signature: string): bytes
 declare function addr(address: string): Account
+
 declare function sendPayment(params: PaymentParams): void
 declare function sendAppCall(params: AppParams): void
 declare function sendAssetTransfer(params: AssetTransferParams): void

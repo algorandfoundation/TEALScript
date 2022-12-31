@@ -48,6 +48,9 @@ const PARAM_TYPES: {[param: string]: string} = {
   CreatedAssetID: 'Asset',
   CreatedApplicationID: 'Application',
   ApplicationArgs: 'bytes[]',
+  Applications: 'Application[]',
+  Assets: 'Asset[]',
+  Accounts: 'Account[]',
 };
 
 interface OpSpec {
