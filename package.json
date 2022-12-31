@@ -1,6 +1,6 @@
 {
   "name": "@joe-p/tealscript",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
     "test-examples": "mocha -r ts-node/register 'tests/examples.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
-    "build": "tsc", 
+    "docs": "typedoc",
     "prepack": "tsc"
   },
   "dependencies": {
@@ -32,7 +32,9 @@
     "eslint-plugin-mocha": "^10.1.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.23.23",
+    "typedoc-plugin-merge-modules": "^4.0.1"
   },
   "bin": {
     "tealscript": "dist/bin/tealscript.js"
