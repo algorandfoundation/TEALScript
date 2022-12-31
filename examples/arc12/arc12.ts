@@ -28,8 +28,8 @@ class Vault extends Contract {
 
     const deleteVaultTxn = this.txnGroup[this.txn.groupIndex + 1];
     /// Ensure the master is being called atomically for deletion
-    /// TODO: Ensure deleteVault is being called
     assert(deleteVaultTxn.applicationID === this.master.get());
+    assert(deleteVaultTxn.applicationArgs[0] === method('deleteVault(application,account)void'));
   }
 
   @createApplication

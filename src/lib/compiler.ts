@@ -47,6 +47,7 @@ const PARAM_TYPES: {[param: string]: string} = {
   FreezeAssetAccount: 'Account',
   CreatedAssetID: 'Asset',
   CreatedApplicationID: 'Application',
+  ApplicationArgs: 'bytes[]',
 };
 
 interface OpSpec {
@@ -847,6 +848,8 @@ export default class Compiler {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
         this.push(`addr ${node.arguments[0].value}`, 'Account');
+      } else if (['method'].includes(methodName)) {
+        this.push(`method "${node.arguments[0].value}"`, 'bytes');
       }
     } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
       const preArgsType = this.lastType;
@@ -876,8 +879,6 @@ export default class Compiler {
     this.push(`${opcode} ${target.index} // ${node.object.name}: ${target.type}`, target.type);
 
     this.tealFunction(target.type, node.property.name, true);
-
-    this.lastType = target.type;
   }
 
   private getChain(node: any, chain: any[] = []): any[] {
@@ -897,6 +898,11 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n: any) => {
+      if (this.lastType?.endsWith('[]')) {
+        this.push(`${this.teal.pop()} ${n.property.value}`, this.lastType.replace('[]', ''));
+        return;
+      }
+
       if (n.type === AST_NODE_TYPES.CallExpression) {
         this.processNode(n);
         return;

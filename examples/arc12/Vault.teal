@@ -51,13 +51,20 @@ closeAcct:
 	store 0 // deleteVaultTxn: GroupTxn
 
 	// Ensure the master is being called atomically for deletion
-	// TODO: Ensure deleteVault is being called
-	// examples/arc12/arc12.ts:32
+	// examples/arc12/arc12.ts:31
 	// assert(deleteVaultTxn.applicationID === this.master.get())
 	load 0 // deleteVaultTxn: GroupTxn
 	gtxns ApplicationID
 	byte "master"
 	app_global_get
+	==
+	assert
+
+	// examples/arc12/arc12.ts:32
+	// assert(deleteVaultTxn.applicationArgs[0] === method('deleteVault(application,account)void'))
+	load 0 // deleteVaultTxn: GroupTxn
+	gtxns ApplicationArgs 0
+	method "deleteVault(application,account)void"
 	==
 	assert
 	retsub
