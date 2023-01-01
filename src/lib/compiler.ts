@@ -324,6 +324,13 @@ export default class Compiler {
       this.processNode(node.consequent);
       this.pushVoid(`b if${this.ifCount}_end`);
       this.processIfStatement(node.alternate, elseIfCount + 1);
+    } else if (node.alternate.type === AST_NODE_TYPES.BlockStatement) {
+      this.pushVoid(`bz if${this.ifCount}_else`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+      this.pushVoid(`b if${this.ifCount}_end`);
+      this.pushVoid(`if${this.ifCount}_else:`);
+      this.processNode(node.alternate);
     } else {
       this.pushVoid(`bz if${this.ifCount}_end`);
       this.processNode(node.alternate);
