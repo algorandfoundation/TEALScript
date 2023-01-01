@@ -151,7 +151,6 @@ describe('If', function () {
 
   it('ifElseIfElseIfElse', async function () {
     const teal = await getTeal('ifElseIfElseIfElse');
-    console.log(teal);
     expect(teal).to.deep.equal(
       [
         '// if5_condition',
