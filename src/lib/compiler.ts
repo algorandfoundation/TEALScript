@@ -93,7 +93,7 @@ export default class Compiler {
 
   content: string;
 
-  private processErrorNodes: any[];
+  private nodeProcessingErrors: any[];
 
   private frame: any;
 
@@ -124,7 +124,7 @@ export default class Compiler {
     this.scratch = {};
     this.scratchIndex = 0;
     this.ifCount = 0;
-    this.processErrorNodes = [];
+    this.nodeProcessingErrors = [];
     this.frame = {};
     this.currentSubroutine = { name: '', returnType: '' };
     this.storageProps = {};
@@ -560,10 +560,13 @@ export default class Compiler {
       this.popComments(node.loc.start.line);
       ((this as any)[`process${node.type}`])(node);
     } catch (e: any) {
+      this.nodeProcessingErrors.push(node);
+      const errNode = this.nodeProcessingErrors[0];
+      const locInfo = `${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n> ${this.content.substring(errNode.range[0], errNode.range[1]).replace(/\n/g, '\n> ')}`;
       if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
-        this.processErrorNodes.push(node);
-        const errNode = this.processErrorNodes[0];
-        e.message = `TEALScript can not process ${errNode.type} at ${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
+        e.message = `${locInfo}\nTEALScript can not process ${errNode.type}`;
+      } else {
+        e.message = `Can't compile the source code at ${locInfo}`;
       }
       throw e;
     }
@@ -586,8 +589,19 @@ export default class Compiler {
 
   private processBinaryExpression(node: any) {
     this.processNode(node.left);
+    const leftType = this.lastType!;
     this.processNode(node.right);
-    this.push(node.operator.replace('===', '=='), 'uint64');
+
+    if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
+
+    const operator = node.operator.replace('===', '==');
+    if (this.lastType === 'uint64') {
+      this.push(operator, 'uint64');
+    } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
+      this.push(`b${operator}`, leftType);
+    } else {
+      this.push(operator, 'uint64');
+    }
   }
 
   private processLogicalExpression(node: any) {
@@ -618,6 +632,7 @@ export default class Compiler {
 
   private processTSAsExpression(node: any) {
     this.processNode(node.expression);
+    this.lastType = this.getTypeFromAnnotation(node.typeAnnotation);
   }
 
   private processVariableDeclarator(node: any) {
@@ -625,26 +640,13 @@ export default class Compiler {
     const { name } = node.id;
 
     this.processNode(node.init);
-    let varType: string = typeof node.init.value;
-    if (varType === 'undefined' && this.lastType) varType = this.lastType;
-
-    const numberTypes = [AST_NODE_TYPES.LogicalExpression, AST_NODE_TYPES.BinaryExpression];
-    if (numberTypes.includes(node.init.type)) {
-      varType = 'uint64';
-    } else if (node.init.type === AST_NODE_TYPES.NewExpression) {
-      varType = node.init.callee.name;
-    } else if (node.init.type === AST_NODE_TYPES.TSAsExpression) {
-      varType = this.getTypeFromAnnotation(node.init.typeAnnotation);
-    }
-
-    varType = varType.replace('number', 'uint64');
 
     this.scratch[name] = {
       index: this.scratchIndex,
-      type: varType,
+      type: this.lastType,
     };
 
-    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${varType}`);
+    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${this.lastType}`);
     this.scratchIndex += 1;
   }
 

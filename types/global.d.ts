@@ -239,3 +239,6 @@ declare const optIn = decoratorFunction;
 declare const closeOut = decoratorFunction;
 declare const updateApplication = decoratorFunction;
 declare const deleteApplication = decoratorFunction;
+
+declare type uint256 = number
+declare type ufixed64x2 = number
