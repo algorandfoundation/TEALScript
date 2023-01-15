@@ -4,54 +4,6 @@
 declare type uint64 = number
 declare type bytes = string
 
-declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number })
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  put(key: KeyType, value: ValueType): void
-}
-
-declare class Box<ValueType> {
-  constructor(options?: { defaultSize?: number, key?: string })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  put(value: ValueType): void
-}
-
-declare class GlobalMap<KeyType, ValueType> {
-  constructor()
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  put(key: KeyType, value: ValueType): void
-}
-
-declare class GlobalValue<ValueType> {
-  constructor(options?: { key?: string })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  put(value: ValueType): void
-}
-
 declare class Asset {}
 
 declare class Account {
@@ -101,6 +53,78 @@ declare class Application {
   clearStateProgram: bytes;
 
   global(key: BytesLike): any
+}
+
+declare class BoxMap<KeyType, ValueType> {
+  constructor(options?: { defaultSize?: number })
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): uint64
+
+  delete(key: KeyType): void
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class BoxReference<ValueType> {
+  constructor(options?: { defaultSize?: number, key?: string })
+
+  get(): ValueType
+
+  exists(): uint64
+
+  delete(): void
+
+  put(value: ValueType): void
+}
+
+declare class GlobalMap<KeyType, ValueType> {
+  constructor()
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): uint64
+
+  delete(key: KeyType): void
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class GlobalReference<ValueType> {
+  constructor(options?: { key?: string })
+
+  get(): ValueType
+
+  exists(): uint64
+
+  delete(): void
+
+  put(value: ValueType): void
+}
+
+declare class LocalMap<KeyType, ValueType> {
+  constructor()
+
+  get(account: Account, key: KeyType): ValueType
+
+  exists(account: Account, key: KeyType): uint64
+
+  delete(account: Account, key: KeyType): void
+
+  put(account: Account, key: KeyType, value: ValueType): void
+}
+
+declare class LocalReference<ValueType> {
+  constructor(options?: { key?: string })
+
+  get(account: Account): ValueType
+
+  exists(account: Account): uint64
+
+  delete(account: Account): void
+
+  put(account: Account, value: ValueType): void
 }
 
 type IntLike = uint64 | Asset | Application

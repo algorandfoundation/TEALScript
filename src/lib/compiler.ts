@@ -350,7 +350,7 @@ export default class Compiler {
   private processPropertyDefinition(node: any) {
     const klass = node.value.callee.name as string;
 
-    if (['BoxMap', 'GlobalMap'].includes(klass)) {
+    if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
@@ -363,11 +363,11 @@ export default class Compiler {
       }
 
       this.storageProps[node.key.name] = props;
-    } else if (['Box', 'GlobalValue'].includes(klass)) {
+    } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
       const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
 
       const props: StorageProp = {
-        type: klass.toLowerCase().replace('value', ''),
+        type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.value.value,
         keyType: 'string',
         valueType: this.getTypeFromAnnotation(node.value.typeParameters.params[0]),
@@ -671,92 +671,205 @@ export default class Compiler {
     this.pushVoid(line.join(' '));
   }
 
+  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
+    global: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_global_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+
+        this.push('app_global_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('app_global_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_global_get_ex');
+      },
+    },
+    local: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_local_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 1 : 2]);
+
+        this.push('app_local_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('app_local_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        this.processNode(node.arguments[0]);
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_local_get_ex');
+      },
+    },
+    box: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.maybeValue('box_get', valueType);
+        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('btoi');
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('itob');
+
+        this.push('box_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('box_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('box_get');
+      },
+    },
+  };
+
   private processStorageCall(node: any) {
     const op = node.callee.property.name;
-    const {
-      type, valueType, keyType, key,
-    } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-    if (op === 'get') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
-      }
-
-      switch (type) {
-        case ('global'):
-          this.push('app_global_get', valueType);
-          break;
-        case ('box'):
-          this.maybeValue('box_get', valueType);
-          break;
-        default:
-          throw new Error();
-      }
-
-      if (type === 'box' && ['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('btoi');
-    } else if (op === 'delete') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
-      }
-
-      switch (type) {
-        case ('global'):
-          this.pushVoid('app_global_del');
-          break;
-        case ('box'):
-          this.pushVoid('box_del');
-          break;
-        default:
-          throw new Error();
-      }
-    } else if (op === 'put') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
-      }
-
-      this.processNode(node.arguments[key ? 0 : 1]);
-      if (type === 'box' && ['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('itob');
-
-      switch (type) {
-        case ('global'):
-          this.pushVoid('app_global_put');
-          break;
-        case ('box'):
-          this.pushVoid('box_put');
-          break;
-        default:
-          throw new Error();
-      }
-    } else if (op === 'exists') {
-      if (type === 'global') this.pushVoid('txna Applications 0');
-
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
-      }
-
-      switch (type) {
-        case ('global'):
-          this.hasMaybeValue('app_global_get_ex');
-          break;
-        case ('box'):
-          this.hasMaybeValue('box_get');
-          break;
-        default:
-          throw new Error();
-      }
-    }
+    const { type } = this.storageProps[node.callee.object.property.name] as StorageProp;
+    this.storageFunctions[type][op](node);
   }
 
   private processTransaction(node: any) {
