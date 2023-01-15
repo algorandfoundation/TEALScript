@@ -566,7 +566,8 @@ export default class Compiler {
       if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
         e.message = `${locInfo}\nTEALScript can not process ${errNode.type}`;
       } else {
-        e.message = `Can't compile the source code at ${locInfo}`;
+        const msg = e.message.replace('Can\'t compile the source code at', '').replace(locInfo, '');
+        e.message = `Can't compile the source code at ${locInfo} ${msg}`;
       }
       throw e;
     }
