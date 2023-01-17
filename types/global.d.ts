@@ -1,10 +1,36 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
 declare type uint64 = number
 declare type bytes = string
+declare class Asset {
+  constructor(id: uint64)
 
-declare class Asset {}
+  readonly total: uint64;
+
+  readonly decimals: uint64;
+
+  readonly defaultFrozen: uint64;
+
+  readonly name: string;
+
+  readonly unitName: string;
+
+  readonly url: string;
+
+  readonly metadataHash: string;
+
+  readonly manager: Account;
+
+  readonly reserve: Account;
+
+  readonly freeze: Account;
+
+  readonly clawback: Account;
+
+  readonly creator: Account;
+}
 
 declare class Account {
   constructor(id: uint64)
@@ -127,7 +153,7 @@ declare class LocalReference<ValueType> {
   put(account: Account, value: ValueType): void
 }
 
-type IntLike = uint64 | Asset | Application
+type IntLike = uint64 | Asset | Application | boolean
 
 interface CommonTransactionParams {
   fee: uint64

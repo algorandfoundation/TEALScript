@@ -26,7 +26,7 @@ describe('Account', function () {
 
   it('assetBalance', async function () {
     expect(await getTeal('assetBalance')).to.deep.equal([
-      '// assert(a.assetBalance(123))',
+      '// assert(a.assetBalance(new Asset(123)))',
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
@@ -37,7 +37,7 @@ describe('Account', function () {
 
   it('assetFrozen', async function () {
     expect(await getTeal('assetFrozen')).to.deep.equal([
-      '// assert(a.assetFrozen(123))',
+      '// assert(a.assetFrozen(new Asset(123)))',
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetFrozen',
@@ -48,7 +48,7 @@ describe('Account', function () {
 
   it('hasAsset', async function () {
     expect(await getTeal('hasAsset')).to.deep.equal([
-      '// assert(a.hasAsset(123))',
+      '// assert(a.hasAsset(new Asset(123)))',
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
