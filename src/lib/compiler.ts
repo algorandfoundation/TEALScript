@@ -428,6 +428,8 @@ export default class Compiler {
     );
 
     if (node.accessibility === 'private') {
+      // TODO: error
+      if (node.value.type !== AST_NODE_TYPES.FunctionExpression) return;
       this.processSubroutine(node.value);
       return;
     }
@@ -436,6 +438,8 @@ export default class Compiler {
       (d: any) => d.expression.name,
     );
 
+    // TODO: error
+    if (node.value.type !== AST_NODE_TYPES.FunctionExpression) return;
     this.processAbiMethod(node.value);
   }
 
@@ -557,6 +561,337 @@ export default class Compiler {
 
   private processExpressionStatement(node: TSESTree.ExpressionStatement) {
     this.processNode(node.expression);
+  }
+
+  private processCallExpression(node: TSESTree.CallExpression) {
+    this.addSourceComment(node);
+    const opcodeNames = langspec.Ops.map((o) => o.Name);
+    // @ts-ignore
+    const methodName = node.callee?.property?.name || node.callee.name;
+
+    // @ts-ignore
+    if (node.callee.object === undefined) {
+      if (opcodeNames.includes(methodName)) {
+        this.processOpcode(node);
+      } else if (TXN_METHODS.includes(methodName)) {
+        this.processTransaction(node);
+      } else if (['addr'].includes(methodName)) {
+        // @ts-ignore
+        this.push(`addr ${node.arguments[0].value}`, 'Account');
+      }
+      // @ts-ignore
+    } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+      const preArgsType = this.lastType;
+      node.arguments.forEach((a: any) => this.processNode(a));
+      this.lastType = preArgsType;
+      this.pushVoid(`callsub ${methodName}`);
+    } else if (
+      // @ts-ignore
+      Object.keys(this.storageProps).includes(node.callee.object.property?.name)
+    ) {
+      this.processStorageCall(node);
+    } else {
+      // @ts-ignore
+      if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
+        this.processNode(node.callee);
+      } else {
+        // @ts-ignore
+        this.processNode(node.callee.object);
+      }
+      const preArgsType = this.lastType;
+      node.arguments.forEach((a: any) => this.processNode(a));
+      this.lastType = preArgsType;
+
+      // @ts-ignore
+      this.tealFunction(this.lastType!, node.callee.property.name);
+    }
+  }
+
+  private processIfStatement(node: TSESTree.IfStatement, elseIfCount: number = 0) {
+    let labelPrefix: string;
+
+    if (elseIfCount === 0) {
+      labelPrefix = `if${this.ifCount}`;
+      this.pushVoid(`// ${labelPrefix}_condition`);
+    } else {
+      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
+      this.pushVoid(`${labelPrefix}_condition:`);
+    }
+
+    this.addSourceComment(node.test);
+    this.processNode(node.test);
+
+    if (node.alternate == null) {
+      this.pushVoid(`bz if${this.ifCount}_end`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+    } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
+      this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+      this.pushVoid(`b if${this.ifCount}_end`);
+      this.processIfStatement(node.alternate, elseIfCount + 1);
+    } else {
+      this.pushVoid(`bz if${this.ifCount}_end`);
+      this.processNode(node.alternate);
+    }
+
+    if (elseIfCount === 0) {
+      this.pushVoid(`if${this.ifCount}_end:`);
+      this.ifCount += 1;
+    }
+  }
+
+  private processUnaryExpression(node: TSESTree.UnaryExpression) {
+    this.processNode(node.argument);
+    this.push(node.operator, 'uint64');
+  }
+
+  private processPropertyDefinition(node: TSESTree.PropertyDefinition) {
+    // @ts-ignore
+    const klass = node.value.callee.name as string;
+
+    if (['BoxMap', 'GlobalMap'].includes(klass)) {
+      const props: StorageProp = {
+        type: klass.toLocaleLowerCase().replace('map', ''),
+        keyType: this.getTypeFromAnnotation(
+          // @ts-ignore
+          node.value.typeParameters.params[0],
+        ),
+        valueType: this.getTypeFromAnnotation(
+          // @ts-ignore
+          node.value.typeParameters.params[1],
+        ),
+      };
+
+      // @ts-ignore
+      if (node.value.arguments[0]) {
+        // @ts-ignore
+        const sizeProp = node.value.arguments[0].properties.find(
+          (p: any) => p.key.name === 'defaultSize',
+        );
+        if (sizeProp) props.defaultSize = sizeProp.value.value;
+      }
+
+      // @ts-ignore
+      this.storageProps[node.key.name] = props;
+    } else if (['Box', 'GlobalValue'].includes(klass)) {
+      // @ts-ignore
+      const keyProp = node.value.arguments[0].properties.find(
+        (p: any) => p.key.name === 'key',
+      );
+
+      const props: StorageProp = {
+        type: klass.toLowerCase().replace('value', ''),
+        key: keyProp.value.value,
+        keyType: 'string',
+        valueType: this.getTypeFromAnnotation(
+          // @ts-ignore
+          node.value.typeParameters.params[0],
+        ),
+      };
+
+      // @ts-ignore
+      const sizeProp = node.value.arguments[0].properties.find(
+        (p: any) => p.key.name === 'defaultSize',
+      );
+      if (sizeProp) props.defaultSize = sizeProp.value.value;
+
+      // @ts-ignore
+      this.storageProps[node.key.name] = props;
+    } else {
+      throw new Error();
+    }
+  }
+
+  private processLiteral(node: TSESTree.Literal) {
+    const litType = typeof node.value;
+    if (litType === 'string') {
+      this.push(`byte "${node.value}"`, 'bytes');
+    } else {
+      this.push(`int ${node.value}`, 'uint64');
+    }
+  }
+
+  private processMemberExpression(node: TSESTree.MemberExpression) {
+    const chain = this.getChain(node).reverse();
+
+    chain.push(node);
+
+    chain.forEach((n: any) => {
+      if (n.type === AST_NODE_TYPES.CallExpression) {
+        this.processNode(n);
+        return;
+      }
+
+      if (n.object?.name === 'globals') {
+        this.tealFunction('global', n.property.name);
+        return;
+      }
+
+      if (this.frame[n.object?.name] || this.scratch[n.object?.name]) {
+        this.processStorageExpression(n);
+        return;
+      }
+
+      if (n.object?.type === AST_NODE_TYPES.ThisExpression) {
+        switch (n.property.name) {
+          case 'txnGroup':
+            this.lastType = 'GroupTxn';
+            break;
+          case 'app':
+            this.lastType = 'Application';
+            this.pushVoid('txna Applications -1');
+            break;
+          default:
+            this.lastType = n.property.name;
+            break;
+        }
+
+        return;
+      }
+
+      if (n.property.type !== AST_NODE_TYPES.Identifier) {
+        const prevType = this.lastType;
+        this.processNode(n.property);
+        this.lastType = prevType;
+        return;
+      }
+
+      const { name } = n.property;
+
+      this.tealFunction(this.lastType!, name);
+    });
+  }
+
+  private processSubroutine(fn: TSESTree.FunctionExpression, abi: boolean = false) {
+    this.pushVoid(`${this.currentSubroutine.name}:`);
+    const lastFrame = JSON.parse(JSON.stringify(this.frame));
+    this.frame = {};
+
+    this.pushVoid(
+      `proto ${fn.params.length} ${
+        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
+      }`,
+    );
+    let frameIndex = 0;
+    fn.params.reverse().forEach((p: any) => {
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+
+      frameIndex -= 1;
+      this.frame[p.name] = {};
+      this.frame[p.name].index = frameIndex;
+      this.frame[p.name].type = type;
+    });
+
+    this.processNode(fn.body);
+    this.pushVoid('retsub');
+    this.frame = lastFrame;
+  }
+
+  private processAbiMethod(fn: TSESTree.FunctionExpression) {
+    let argCount = 0;
+    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
+    const args: any[] = [];
+
+    if (this.currentSubroutine.decorators) {
+      this.currentSubroutine.decorators.forEach((d, i) => {
+        switch (d) {
+          case 'createApplication':
+            this.pushVoid('txn ApplicationID');
+            this.pushVoid('int 0');
+            break;
+          case 'noOp':
+            this.pushVoid('int NoOp');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'optIn':
+            this.pushVoid('int OptIn');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'closeOut':
+            this.pushVoid('int CloseOut');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'updateApplication':
+            this.pushVoid('int UpdateApplication');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'deleteApplication':
+            this.pushVoid('int DeleteApplication');
+            this.pushVoid('txn OnCompletion');
+            break;
+          default:
+            throw new Error(`Unknown decorator: ${d}`);
+        }
+
+        this.pushVoid('==');
+        if (i > 0) this.pushVoid('||');
+      });
+
+      this.pushVoid('assert');
+    } else {
+      this.pushVoid('txn OnCompletion');
+      this.pushVoid('int NoOp');
+      this.pushVoid('==');
+      this.pushVoid('assert');
+    }
+
+    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(
+      p.typeAnnotation.typeAnnotation,
+    ).includes('Txn')).length;
+
+    gtxnIndex += 1;
+
+    fn.params.forEach((p: any) => {
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+      let abiType = type;
+
+      if (type.includes('Txn')) {
+        switch (type) {
+          case 'PayTxn':
+            abiType = 'pay';
+            break;
+          case 'AssetTransferTxn':
+            abiType = 'axfer';
+            break;
+          default:
+            break;
+        }
+      } else {
+        this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
+      }
+
+      if (type === 'uint64') {
+        this.pushVoid('btoi');
+      } else if (['Account', 'Asset', 'Application'].includes(type)) {
+        this.pushVoid('btoi');
+        this.pushVoid(`txnas ${type}s`);
+      } else if (type.includes('Txn')) {
+        this.pushVoid('txn GroupIndex');
+        this.pushVoid(`int ${(gtxnIndex -= 1)}`);
+        this.pushVoid('-');
+      }
+
+      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
+    });
+
+    const returnType = this.currentSubroutine.returnType
+      .toLocaleLowerCase()
+      .replace(/asset|application/, 'uint64')
+      .replace('account', 'address');
+
+    this.abi.methods.push({
+      name: this.currentSubroutine.name,
+      args,
+      desc: '',
+      returns: { type: returnType, desc: '' },
+    });
+
+    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
+    this.pushVoid('int 1');
+    this.pushVoid('return');
+    this.processSubroutine(fn, true);
   }
 
   private processOpcode(node: any) {
@@ -775,50 +1110,6 @@ export default class Compiler {
     this.pushVoid('itxn_submit');
   }
 
-  private processCallExpression(node: TSESTree.CallExpression) {
-    this.addSourceComment(node);
-    const opcodeNames = langspec.Ops.map((o) => o.Name);
-    // @ts-ignore
-    const methodName = node.callee?.property?.name || node.callee.name;
-
-    // @ts-ignore
-    if (node.callee.object === undefined) {
-      if (opcodeNames.includes(methodName)) {
-        this.processOpcode(node);
-      } else if (TXN_METHODS.includes(methodName)) {
-        this.processTransaction(node);
-      } else if (['addr'].includes(methodName)) {
-        // @ts-ignore
-        this.push(`addr ${node.arguments[0].value}`, 'Account');
-      }
-      // @ts-ignore
-    } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
-      const preArgsType = this.lastType;
-      node.arguments.forEach((a: any) => this.processNode(a));
-      this.lastType = preArgsType;
-      this.pushVoid(`callsub ${methodName}`);
-    } else if (
-      // @ts-ignore
-      Object.keys(this.storageProps).includes(node.callee.object.property?.name)
-    ) {
-      this.processStorageCall(node);
-    } else {
-      // @ts-ignore
-      if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
-        this.processNode(node.callee);
-      } else {
-        // @ts-ignore
-        this.processNode(node.callee.object);
-      }
-      const preArgsType = this.lastType;
-      node.arguments.forEach((a: any) => this.processNode(a));
-      this.lastType = preArgsType;
-
-      // @ts-ignore
-      this.tealFunction(this.lastType!, node.callee.property.name);
-    }
-  }
-
   private processStorageExpression(node: any) {
     const target = this.frame[node.object.name] || this.scratch[node.object.name];
     const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
@@ -831,293 +1122,6 @@ export default class Compiler {
     this.tealFunction(target.type, node.property.name, true);
 
     this.lastType = target.type;
-  }
-
-  private processIfStatement(node: any, elseIfCount: number = 0) {
-    let labelPrefix: string;
-
-    if (elseIfCount === 0) {
-      labelPrefix = `if${this.ifCount}`;
-      this.pushVoid(`// ${labelPrefix}_condition`);
-    } else {
-      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
-      this.pushVoid(`${labelPrefix}_condition:`);
-    }
-
-    this.addSourceComment(node.test);
-    this.processNode(node.test);
-
-    if (node.alternate == null) {
-      this.pushVoid(`bz if${this.ifCount}_end`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
-    } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
-      this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
-      this.pushVoid(`b if${this.ifCount}_end`);
-      this.processIfStatement(node.alternate, elseIfCount + 1);
-    } else {
-      this.pushVoid(`bz if${this.ifCount}_end`);
-      this.processNode(node.alternate);
-    }
-
-    if (elseIfCount === 0) {
-      this.pushVoid(`if${this.ifCount}_end:`);
-      this.ifCount += 1;
-    }
-  }
-
-  private processUnaryExpression(node: TSESTree.UnaryExpression) {
-    this.processNode(node.argument);
-    this.push(node.operator, 'uint64');
-  }
-
-  private processPropertyDefinition(node: TSESTree.PropertyDefinition) {
-    // @ts-ignore
-    const klass = node.value.callee.name as string;
-
-    if (['BoxMap', 'GlobalMap'].includes(klass)) {
-      const props: StorageProp = {
-        type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[0],
-        ),
-        valueType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[1],
-        ),
-      };
-
-      // @ts-ignore
-      if (node.value.arguments[0]) {
-        // @ts-ignore
-        const sizeProp = node.value.arguments[0].properties.find(
-          (p: any) => p.key.name === 'defaultSize',
-        );
-        if (sizeProp) props.defaultSize = sizeProp.value.value;
-      }
-
-      // @ts-ignore
-      this.storageProps[node.key.name] = props;
-    } else if (['Box', 'GlobalValue'].includes(klass)) {
-      // @ts-ignore
-      const keyProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'key',
-      );
-
-      const props: StorageProp = {
-        type: klass.toLowerCase().replace('value', ''),
-        key: keyProp.value.value,
-        keyType: 'string',
-        valueType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[0],
-        ),
-      };
-
-      // @ts-ignore
-      const sizeProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'defaultSize',
-      );
-      if (sizeProp) props.defaultSize = sizeProp.value.value;
-
-      // @ts-ignore
-      this.storageProps[node.key.name] = props;
-    } else {
-      throw new Error();
-    }
-  }
-
-  private processSubroutine(fn: any, abi: boolean = false) {
-    this.pushVoid(`${this.currentSubroutine.name}:`);
-    const lastFrame = JSON.parse(JSON.stringify(this.frame));
-    this.frame = {};
-
-    this.pushVoid(
-      `proto ${fn.params.length} ${
-        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
-      }`,
-    );
-    let frameIndex = 0;
-    fn.params.reverse().forEach((p: any) => {
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
-
-      frameIndex -= 1;
-      this.frame[p.name] = {};
-      this.frame[p.name].index = frameIndex;
-      this.frame[p.name].type = type;
-    });
-
-    this.processNode(fn.body);
-    this.pushVoid('retsub');
-    this.frame = lastFrame;
-  }
-
-  private processAbiMethod(fn: any) {
-    let argCount = 0;
-    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
-    const args: any[] = [];
-
-    if (this.currentSubroutine.decorators) {
-      this.currentSubroutine.decorators.forEach((d, i) => {
-        switch (d) {
-          case 'createApplication':
-            this.pushVoid('txn ApplicationID');
-            this.pushVoid('int 0');
-            break;
-          case 'noOp':
-            this.pushVoid('int NoOp');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'optIn':
-            this.pushVoid('int OptIn');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'closeOut':
-            this.pushVoid('int CloseOut');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'updateApplication':
-            this.pushVoid('int UpdateApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'deleteApplication':
-            this.pushVoid('int DeleteApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          default:
-            throw new Error(`Unknown decorator: ${d}`);
-        }
-
-        this.pushVoid('==');
-        if (i > 0) this.pushVoid('||');
-      });
-
-      this.pushVoid('assert');
-    } else {
-      this.pushVoid('txn OnCompletion');
-      this.pushVoid('int NoOp');
-      this.pushVoid('==');
-      this.pushVoid('assert');
-    }
-
-    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(
-      p.typeAnnotation.typeAnnotation,
-    ).includes('Txn')).length;
-
-    gtxnIndex += 1;
-
-    fn.params.forEach((p: any) => {
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
-      let abiType = type;
-
-      if (type.includes('Txn')) {
-        switch (type) {
-          case 'PayTxn':
-            abiType = 'pay';
-            break;
-          case 'AssetTransferTxn':
-            abiType = 'axfer';
-            break;
-          default:
-            break;
-        }
-      } else {
-        this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
-      }
-
-      if (type === 'uint64') {
-        this.pushVoid('btoi');
-      } else if (['Account', 'Asset', 'Application'].includes(type)) {
-        this.pushVoid('btoi');
-        this.pushVoid(`txnas ${type}s`);
-      } else if (type.includes('Txn')) {
-        this.pushVoid('txn GroupIndex');
-        this.pushVoid(`int ${(gtxnIndex -= 1)}`);
-        this.pushVoid('-');
-      }
-
-      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
-    });
-
-    const returnType = this.currentSubroutine.returnType
-      .toLocaleLowerCase()
-      .replace(/asset|application/, 'uint64')
-      .replace('account', 'address');
-
-    this.abi.methods.push({
-      name: this.currentSubroutine.name,
-      args,
-      desc: '',
-      returns: { type: returnType, desc: '' },
-    });
-
-    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
-    this.pushVoid('int 1');
-    this.pushVoid('return');
-    this.processSubroutine(fn, true);
-  }
-
-  private processMemberExpression(node: any) {
-    const chain = this.getChain(node).reverse();
-
-    chain.push(node);
-
-    chain.forEach((n: any) => {
-      if (n.type === AST_NODE_TYPES.CallExpression) {
-        this.processNode(n);
-        return;
-      }
-
-      if (n.object?.name === 'globals') {
-        this.tealFunction('global', n.property.name);
-        return;
-      }
-
-      if (this.frame[n.object?.name] || this.scratch[n.object?.name]) {
-        this.processStorageExpression(n);
-        return;
-      }
-
-      if (n.object?.type === AST_NODE_TYPES.ThisExpression) {
-        switch (n.property.name) {
-          case 'txnGroup':
-            this.lastType = 'GroupTxn';
-            break;
-          case 'app':
-            this.lastType = 'Application';
-            this.pushVoid('txna Applications -1');
-            break;
-          default:
-            this.lastType = n.property.name;
-            break;
-        }
-
-        return;
-      }
-
-      if (n.property.type !== AST_NODE_TYPES.Identifier) {
-        const prevType = this.lastType;
-        this.processNode(n.property);
-        this.lastType = prevType;
-        return;
-      }
-
-      const { name } = n.property;
-
-      this.tealFunction(this.lastType!, name);
-    });
-  }
-
-  private processLiteral(node: any) {
-    const litType = typeof node.value;
-    if (litType === 'string') {
-      this.push(`byte "${node.value}"`, 'bytes');
-    } else {
-      this.push(`int ${node.value}`, 'uint64');
-    }
   }
 
   private getChain(node: any, chain: any[] = []): any[] {
