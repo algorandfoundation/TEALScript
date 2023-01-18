@@ -9,6 +9,11 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
+const numberTypes = [
+  AST_NODE_TYPES.LogicalExpression,
+  AST_NODE_TYPES.BinaryExpression,
+];
+
 const TXN_METHODS = [
   'sendPayment',
   'sendAppCall',
@@ -440,19 +445,19 @@ export default class Compiler {
     });
   }
 
-  private processClassDeclaration(node: any) {
+  private processClassDeclaration(node: TSESTree.ClassDeclaration) {
     this.processNode(node.body);
   }
 
-  private processBlockStatement(node: any) {
+  private processBlockStatement(node: TSESTree.BlockStatement) {
     node.body.forEach((b: any) => {
       this.processNode(b);
     });
   }
 
-  private processReturnStatement(node: any) {
+  private processReturnStatement(node: TSESTree.ReturnStatement) {
     this.addSourceComment(node);
-    this.processNode(node.argument);
+    if (node.argument !== null) this.processNode(node.argument);
     if (
       ['uint64', 'Asset', 'Application'].includes(
         this.currentSubroutine.returnType,
@@ -465,19 +470,19 @@ export default class Compiler {
     this.pushVoid('log');
   }
 
-  private processBinaryExpression(node: any) {
+  private processBinaryExpression(node: TSESTree.BinaryExpression) {
     this.processNode(node.left);
     this.processNode(node.right);
     this.push(node.operator.replace('===', '=='), 'uint64');
   }
 
-  private processLogicalExpression(node: any) {
+  private processLogicalExpression(node: TSESTree.LogicalExpression) {
     this.processNode(node.left);
     this.processNode(node.right);
     this.push(node.operator, 'uint64');
   }
 
-  private processIdentifier(node: any) {
+  private processIdentifier(node: TSESTree.Identifier) {
     if (this.contractClasses.includes(node.name)) {
       this.pushVoid(`PENDING_COMPILE: ${node.name}`);
       return;
@@ -491,38 +496,49 @@ export default class Compiler {
     );
   }
 
-  private processVariableDeclaration(node: any) {
+  private processNewExpression(node: TSESTree.NewExpression) {
+    node.arguments.forEach((a: TSESTree.CallExpressionArgument) => {
+      this.processNode(a);
+    });
+
+    // TODO: error?
+    if (node.callee.type !== AST_NODE_TYPES.Identifier) return;
+
+    this.lastType = node.callee.name;
+  }
+
+  private processTSAsExpression(node: TSESTree.TSAsExpression) {
+    this.processNode(node.expression);
+  }
+
+  private processVariableDeclaration(node: TSESTree.VariableDeclaration) {
     node.declarations.forEach((d: any) => {
       this.processNode(d);
     });
   }
 
-  private processNewExpression(node: any) {
-    node.arguments.forEach((a: any) => {
-      this.processNode(a);
-    });
-    this.lastType = node.callee.name;
-  }
-
-  private processTSAsExpression(node: any) {
-    this.processNode(node.expression);
-  }
-
-  private processVariableDeclarator(node: any) {
+  private processVariableDeclarator(node: TSESTree.VariableDeclarator) {
     this.addSourceComment(node);
+
+    // TODO: error
+    if (node.id.type !== AST_NODE_TYPES.Identifier) return;
     const { name } = node.id;
 
+    // TODO: error
+    if (node.init === null) return;
+
     this.processNode(node.init);
+
+    // TODO: only a subset of Expression union types have a `value` prop
+    // @ts-ignore
     let varType: string = typeof node.init.value;
     if (varType === 'undefined' && this.lastType) varType = this.lastType;
 
-    const numberTypes = [
-      AST_NODE_TYPES.LogicalExpression,
-      AST_NODE_TYPES.BinaryExpression,
-    ];
     if (numberTypes.includes(node.init.type)) {
       varType = 'uint64';
-    } else if (node.init.type === AST_NODE_TYPES.NewExpression) {
+    } else if (
+      node.init.type === AST_NODE_TYPES.NewExpression
+      && node.init.callee.type === AST_NODE_TYPES.Identifier) {
       varType = node.init.callee.name;
     } else if (node.init.type === AST_NODE_TYPES.TSAsExpression) {
       varType = this.getTypeFromAnnotation(node.init.typeAnnotation);
@@ -539,7 +555,7 @@ export default class Compiler {
     this.scratchIndex += 1;
   }
 
-  private processExpressionStatement(node: any) {
+  private processExpressionStatement(node: TSESTree.ExpressionStatement) {
     this.processNode(node.expression);
   }
 
@@ -759,38 +775,46 @@ export default class Compiler {
     this.pushVoid('itxn_submit');
   }
 
-  private processCallExpression(node: any) {
+  private processCallExpression(node: TSESTree.CallExpression) {
     this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
+    // @ts-ignore
     const methodName = node.callee?.property?.name || node.callee.name;
 
+    // @ts-ignore
     if (node.callee.object === undefined) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
+        // @ts-ignore
         this.push(`addr ${node.arguments[0].value}`, 'Account');
       }
+      // @ts-ignore
     } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
       const preArgsType = this.lastType;
       node.arguments.forEach((a: any) => this.processNode(a));
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
+      // @ts-ignore
       Object.keys(this.storageProps).includes(node.callee.object.property?.name)
     ) {
       this.processStorageCall(node);
     } else {
+      // @ts-ignore
       if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
         this.processNode(node.callee);
       } else {
+        // @ts-ignore
         this.processNode(node.callee.object);
       }
       const preArgsType = this.lastType;
       node.arguments.forEach((a: any) => this.processNode(a));
       this.lastType = preArgsType;
 
+      // @ts-ignore
       this.tealFunction(this.lastType!, node.callee.property.name);
     }
   }
@@ -844,34 +868,41 @@ export default class Compiler {
     }
   }
 
-  private processUnaryExpression(node: any) {
+  private processUnaryExpression(node: TSESTree.UnaryExpression) {
     this.processNode(node.argument);
     this.push(node.operator, 'uint64');
   }
 
-  private processPropertyDefinition(node: any) {
+  private processPropertyDefinition(node: TSESTree.PropertyDefinition) {
+    // @ts-ignore
     const klass = node.value.callee.name as string;
 
     if (['BoxMap', 'GlobalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: this.getTypeFromAnnotation(
+          // @ts-ignore
           node.value.typeParameters.params[0],
         ),
         valueType: this.getTypeFromAnnotation(
+          // @ts-ignore
           node.value.typeParameters.params[1],
         ),
       };
 
+      // @ts-ignore
       if (node.value.arguments[0]) {
+        // @ts-ignore
         const sizeProp = node.value.arguments[0].properties.find(
           (p: any) => p.key.name === 'defaultSize',
         );
         if (sizeProp) props.defaultSize = sizeProp.value.value;
       }
 
+      // @ts-ignore
       this.storageProps[node.key.name] = props;
     } else if (['Box', 'GlobalValue'].includes(klass)) {
+      // @ts-ignore
       const keyProp = node.value.arguments[0].properties.find(
         (p: any) => p.key.name === 'key',
       );
@@ -881,15 +912,18 @@ export default class Compiler {
         key: keyProp.value.value,
         keyType: 'string',
         valueType: this.getTypeFromAnnotation(
+          // @ts-ignore
           node.value.typeParameters.params[0],
         ),
       };
 
+      // @ts-ignore
       const sizeProp = node.value.arguments[0].properties.find(
         (p: any) => p.key.name === 'defaultSize',
       );
       if (sizeProp) props.defaultSize = sizeProp.value.value;
 
+      // @ts-ignore
       this.storageProps[node.key.name] = props;
     } else {
       throw new Error();
