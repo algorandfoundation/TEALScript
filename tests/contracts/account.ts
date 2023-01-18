@@ -33,6 +33,7 @@ class AccountTest extends Contract {
   }
 
   authAddr(a: Account): void {
+    // @ts-ignore
     assert(a.authAddr);
   }
 

@@ -580,7 +580,21 @@ export default class Compiler {
   private processReturnStatement(node: any) {
     this.addSourceComment(node);
     this.processNode(node.argument);
-    if (['uint64', 'Asset', 'Application'].includes(this.currentSubroutine.returnType)) this.pushVoid('itob');
+
+    if (this.currentSubroutine.returnType !== this.lastType) {
+      if (this.lastType?.startsWith('uint')) {
+        const returnBitWidth = parseInt(this.currentSubroutine.returnType.replace('uint', ''), 10);
+        const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+        if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${this.currentSubroutine.returnType})`);
+
+        if (this.lastType === 'uint64') this.pushVoid('itob');
+        this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+        this.pushVoid('b&');
+
+        // eslint-disable-next-line no-console
+        console.warn(`WARNING: Converting ${this.currentSubroutine.name} return value from ${this.lastType} to ${this.currentSubroutine.returnType}`);
+      } else throw new Error(`Type mismatch (${this.currentSubroutine.returnType} !== ${this.lastType})`);
+    } else if (['uint64', 'Asset', 'Application'].includes(this.currentSubroutine.returnType)) this.pushVoid('itob');
 
     this.pushVoid('byte 0x151f7c75');
     this.pushVoid('swap');
@@ -633,7 +647,20 @@ export default class Compiler {
 
   private processTSAsExpression(node: any) {
     this.processNode(node.expression);
-    this.lastType = this.getTypeFromAnnotation(node.typeAnnotation);
+    const type = this.getTypeFromAnnotation(node.typeAnnotation);
+    if (type.startsWith('uint') && type !== this.lastType) {
+      const typeBitWidth = parseInt(type.replace('uint', ''), 10);
+      const lastBitWidth = parseInt(this.lastType!.replace('uint', ''), 10);
+
+      // eslint-disable-next-line no-console
+      if (lastBitWidth > typeBitWidth) console.warn('WARNING: Converting value from ', this.lastType, 'to ', type, 'may result in loss of precision');
+
+      if (this.lastType === 'uint64') this.pushVoid('itob');
+      this.pushVoid(`byte 0x${'FF'.repeat(typeBitWidth / 8)}`);
+      this.pushVoid('b&');
+    }
+
+    this.lastType = type;
   }
 
   private processVariableDeclarator(node: any) {
