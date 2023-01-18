@@ -3,6 +3,7 @@ import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import * as langspec from '../langspec.json';
+import { isClassExpression, isIdentifier } from 'typescript';
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
@@ -190,11 +191,11 @@ export default class Compiler {
       comment: true,
     });
 
-    tree.body.forEach((body: any) => {
-      if (
-        body.type === AST_NODE_TYPES.ClassDeclaration
-        && body.superClass.name === 'Contract'
-      ) {
+    tree.body.forEach((body: parser.TSESTree.ProgramStatement) => {
+      if (body.type !== AST_NODE_TYPES.ClassDeclaration) return;
+      if (body.superClass === null || body.superClass.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (body.superClass.name === 'Contract') {
         this.contractClasses.push(body.id.name);
         if (body.id.name === this.name) {
           this.comments = tree.comments
@@ -322,66 +323,66 @@ export default class Compiler {
 
     try {
       switch (node.type) {
-        // TS organizational
-        case 'ClassBody':
+        // Contract organizational
+        case AST_NODE_TYPES.ClassBody:
           this.processClassBody(node);
           break;
-        case 'ClassDeclaration':
+        case AST_NODE_TYPES.ClassDeclaration:
           this.processClassDeclaration(node);
           break;
-        case 'PropertyDefinition':
+        case AST_NODE_TYPES.PropertyDefinition:
           this.processPropertyDefinition(node);
           break;
-        case 'MethodDefinition':
+        case AST_NODE_TYPES.MethodDefinition:
           this.processMethodDefinition(node);
           break;
-        case 'MemberExpression':
+        case AST_NODE_TYPES.MemberExpression:
           this.processMemberExpression(node);
           break;
-        case 'TSAsExpression':
+        case AST_NODE_TYPES.TSAsExpression:
           this.processTSAsExpression(node);
           break;
-        case 'NewExpression':
+        case AST_NODE_TYPES.NewExpression:
           this.processNewExpression(node);
           break;
 
         // Vars/Consts
-        case 'Identifier':
+        case AST_NODE_TYPES.Identifier:
           this.processIdentifier(node);
           break;
-        case 'VariableDeclaration':
+        case AST_NODE_TYPES.VariableDeclaration:
           this.processVariableDeclaration(node);
           break;
-        case 'VariableDeclarator':
+        case AST_NODE_TYPES.VariableDeclarator:
           this.processVariableDeclarator(node);
           break;
-        case 'Literal':
+        case AST_NODE_TYPES.Literal:
           this.processLiteral(node);
           break;
 
         // Logical
-        case 'BlockStatement':
+        case AST_NODE_TYPES.BlockStatement:
           this.processBlockStatement(node);
           break;
-        case 'IfStatement':
+        case AST_NODE_TYPES.IfStatement:
           this.processIfStatement(node);
           break;
-        case 'UnaryExpression':
+        case AST_NODE_TYPES.UnaryExpression:
           this.processUnaryExpression(node);
           break;
-        case 'BinaryExpression':
+        case AST_NODE_TYPES.BinaryExpression:
           this.processBinaryExpression(node);
           break;
-        case 'LogicalExpression':
+        case AST_NODE_TYPES.LogicalExpression:
           this.processLogicalExpression(node);
           break;
-        case 'CallExpression':
+        case AST_NODE_TYPES.CallExpression:
           this.processCallExpression(node);
           break;
-        case 'ExpressionStatement':
+        case AST_NODE_TYPES.ExpressionStatement:
           this.processExpressionStatement(node);
           break;
-        case 'ReturnStatement':
+        case AST_NODE_TYPES.ReturnStatement:
           this.processReturnStatement(node);
           break;
 
