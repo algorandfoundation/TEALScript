@@ -1,9 +1,9 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
+import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
+
 import * as langspec from '../langspec.json';
-import { isClassExpression, isIdentifier } from 'typescript';
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
@@ -15,6 +15,8 @@ const TXN_METHODS = [
   'sendMethodCall',
   'sendAssetTransfer',
 ];
+
+const CONTRACT_SUBCLASS = 'Contract';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Account
@@ -117,7 +119,7 @@ export default class Compiler {
 
   private lastSourceCommentRange: [number, number];
 
-  private comments: parser.TSESTree.Comment[];
+  private comments: TSESTree.Comment[];
 
   private readonly OP_PARAMS: { [type: string]: any[] } = {
     Account: [
@@ -191,12 +193,13 @@ export default class Compiler {
       comment: true,
     });
 
-    tree.body.forEach((body: parser.TSESTree.ProgramStatement) => {
+    tree.body.forEach((body: TSESTree.ProgramStatement) => {
       if (body.type !== AST_NODE_TYPES.ClassDeclaration) return;
       if (body.superClass === null || body.superClass.type !== AST_NODE_TYPES.Identifier) return;
 
-      if (body.superClass.name === 'Contract') {
+      if (body.superClass.name === CONTRACT_SUBCLASS) {
         this.contractClasses.push(body.id.name);
+
         if (body.id.name === this.name) {
           this.comments = tree.comments
             .filter(
@@ -292,13 +295,13 @@ export default class Compiler {
     let type = 'any';
 
     switch (typeAnnotation.type) {
-      case 'TSNumberKeyword':
+      case AST_NODE_TYPES.TSNumberKeyword:
         type = 'uint64';
         break;
-      case 'TSStringKeyword':
+      case AST_NODE_TYPES.TSStringKeyword:
         type = 'string';
         break;
-      case 'TSVoidKeyword':
+      case AST_NODE_TYPES.TSVoidKeyword:
         type = 'void';
         break;
       default:
@@ -318,7 +321,7 @@ export default class Compiler {
     return undefined;
   }
 
-  private processNode(node: any) {
+  private processNode(node: TSESTree.Node) {
     this.popComments(node.loc.start.line);
 
     try {
@@ -407,24 +410,32 @@ export default class Compiler {
     }
   }
 
-  private processMethodDefinition(node: any) {
+  private processMethodDefinition(node: TSESTree.MethodDefinition) {
+    // TODO: raise exception?
+    if (node.key.type !== AST_NODE_TYPES.Identifier) return;
     this.currentSubroutine.name = node.key.name;
+
+    // TODO: raise exception for no return val?
+    const { returnType } = node.value;
+    if (returnType === undefined) return;
     this.currentSubroutine.returnType = this.getTypeFromAnnotation(
-      node.value.returnType.typeAnnotation,
+      returnType.typeAnnotation,
     );
 
     if (node.accessibility === 'private') {
       this.processSubroutine(node.value);
-    } else {
-      this.currentSubroutine.decorators = node.decorators?.map(
-        (d: any) => d.expression.name,
-      );
-      this.processAbiMethod(node.value);
+      return;
     }
+
+    this.currentSubroutine.decorators = node.decorators?.map(
+      (d: any) => d.expression.name,
+    );
+
+    this.processAbiMethod(node.value);
   }
 
-  private processClassBody(node: any) {
-    node.body.forEach((b: any) => {
+  private processClassBody(node: TSESTree.ClassBody) {
+    node.body.forEach((b: TSESTree.ClassElement) => {
       this.processNode(b);
     });
   }
@@ -958,9 +969,10 @@ export default class Compiler {
       this.pushVoid('assert');
     }
 
-    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes(
-      'Txn',
-    )).length;
+    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(
+      p.typeAnnotation.typeAnnotation,
+    ).includes('Txn')).length;
+
     gtxnIndex += 1;
 
     fn.params.forEach((p: any) => {
