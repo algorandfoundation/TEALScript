@@ -118,6 +118,28 @@ export default class Compiler {
 
   private comments: parser.TSESTree.Comment[];
 
+  private readonly OP_PARAMS: { [type: string]: any[] } = {
+    Account: [
+      ...this.getOpParamObjects('acct_params_get'),
+      ...this.getOpParamObjects('asset_holding_get'),
+    ],
+    Application: [
+      ...this.getOpParamObjects('app_params_get'),
+      {
+        name: 'Global',
+        type: 'any',
+        args: 2,
+        fn: () => {
+          this.maybeValue('app_global_get_ex', 'bytes');
+        },
+      },
+    ],
+    txn: this.getOpParamObjects('txn'),
+    global: this.getOpParamObjects('global'),
+    itxn: this.getOpParamObjects('itxn'),
+    gtxns: this.getOpParamObjects('gtxns'),
+  };
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -159,37 +181,6 @@ export default class Compiler {
         fn,
       };
     });
-  }
-
-  private readonly OP_PARAMS: { [type: string]: any[] } = {
-    Account: [
-      ...this.getOpParamObjects('acct_params_get'),
-      ...this.getOpParamObjects('asset_holding_get'),
-    ],
-    Application: [
-      ...this.getOpParamObjects('app_params_get'),
-      {
-        name: 'Global',
-        type: 'any',
-        args: 2,
-        fn: () => {
-          this.maybeValue('app_global_get_ex', 'bytes');
-        },
-      },
-    ],
-    txn: this.getOpParamObjects('txn'),
-    global: this.getOpParamObjects('global'),
-    itxn: this.getOpParamObjects('itxn'),
-    gtxns: this.getOpParamObjects('gtxns'),
-  };
-
-  private push(teal: string, type: string) {
-    this.teal.push(teal);
-    if (type !== 'void') this.lastType = type;
-  }
-
-  private pushVoid(teal: string) {
-    this.push(teal, 'void');
   }
 
   async compile() {
@@ -239,36 +230,13 @@ export default class Compiler {
     );
   }
 
-  prettyTeal() {
-    const output: string[] = [];
-    let comments: string[] = [];
+  private push(teal: string, type: string) {
+    this.teal.push(teal);
+    if (type !== 'void') this.lastType = type;
+  }
 
-    let lastIsLabel: boolean = false;
-
-    this.teal.forEach((t) => {
-      if (t.startsWith('//')) {
-        comments.push(t);
-        return;
-      }
-
-      const isLabel = t.split('//')[0].endsWith(':');
-
-      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
-
-      if (isLabel || t.startsWith('#')) {
-        comments.forEach((c) => output.push(c));
-        comments = [];
-        output.push(t);
-        lastIsLabel = true;
-      } else {
-        comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
-        comments = [];
-        output.push(`\t${t}`);
-        lastIsLabel = false;
-      }
-    });
-
-    return output.join('\n');
+  private pushVoid(teal: string) {
+    this.push(teal, 'void');
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
@@ -318,222 +286,6 @@ export default class Compiler {
     this.push('pop', 'uint64');
   }
 
-  private processIfStatement(node: any, elseIfCount: number = 0) {
-    let labelPrefix: string;
-
-    if (elseIfCount === 0) {
-      labelPrefix = `if${this.ifCount}`;
-      this.pushVoid(`// ${labelPrefix}_condition`);
-    } else {
-      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
-      this.pushVoid(`${labelPrefix}_condition:`);
-    }
-
-    this.addSourceComment(node.test);
-    this.processNode(node.test);
-
-    if (node.alternate == null) {
-      this.pushVoid(`bz if${this.ifCount}_end`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
-    } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
-      this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
-      this.pushVoid(`b if${this.ifCount}_end`);
-      this.processIfStatement(node.alternate, elseIfCount + 1);
-    } else {
-      this.pushVoid(`bz if${this.ifCount}_end`);
-      this.processNode(node.alternate);
-    }
-
-    if (elseIfCount === 0) {
-      this.pushVoid(`if${this.ifCount}_end:`);
-      this.ifCount += 1;
-    }
-  }
-
-  private processUnaryExpression(node: any) {
-    this.processNode(node.argument);
-    this.push(node.operator, 'uint64');
-  }
-
-  private processPropertyDefinition(node: any) {
-    const klass = node.value.callee.name as string;
-
-    if (['BoxMap', 'GlobalMap'].includes(klass)) {
-      const props: StorageProp = {
-        type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: this.getTypeFromAnnotation(
-          node.value.typeParameters.params[0],
-        ),
-        valueType: this.getTypeFromAnnotation(
-          node.value.typeParameters.params[1],
-        ),
-      };
-
-      if (node.value.arguments[0]) {
-        const sizeProp = node.value.arguments[0].properties.find(
-          (p: any) => p.key.name === 'defaultSize',
-        );
-        if (sizeProp) props.defaultSize = sizeProp.value.value;
-      }
-
-      this.storageProps[node.key.name] = props;
-    } else if (['Box', 'GlobalValue'].includes(klass)) {
-      const keyProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'key',
-      );
-
-      const props: StorageProp = {
-        type: klass.toLowerCase().replace('value', ''),
-        key: keyProp.value.value,
-        keyType: 'string',
-        valueType: this.getTypeFromAnnotation(
-          node.value.typeParameters.params[0],
-        ),
-      };
-
-      const sizeProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'defaultSize',
-      );
-      if (sizeProp) props.defaultSize = sizeProp.value.value;
-
-      this.storageProps[node.key.name] = props;
-    } else {
-      throw new Error();
-    }
-  }
-
-  private processSubroutine(fn: any, abi: boolean = false) {
-    this.pushVoid(`${this.currentSubroutine.name}:`);
-    const lastFrame = JSON.parse(JSON.stringify(this.frame));
-    this.frame = {};
-
-    this.pushVoid(
-      `proto ${fn.params.length} ${
-        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
-      }`,
-    );
-    let frameIndex = 0;
-    fn.params.reverse().forEach((p: any) => {
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
-
-      frameIndex -= 1;
-      this.frame[p.name] = {};
-      this.frame[p.name].index = frameIndex;
-      this.frame[p.name].type = type;
-    });
-
-    this.processNode(fn.body);
-    this.pushVoid('retsub');
-    this.frame = lastFrame;
-  }
-
-  private processAbiMethod(fn: any) {
-    let argCount = 0;
-    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
-    const args: any[] = [];
-
-    if (this.currentSubroutine.decorators) {
-      this.currentSubroutine.decorators.forEach((d, i) => {
-        switch (d) {
-          case 'createApplication':
-            this.pushVoid('txn ApplicationID');
-            this.pushVoid('int 0');
-            break;
-          case 'noOp':
-            this.pushVoid('int NoOp');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'optIn':
-            this.pushVoid('int OptIn');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'closeOut':
-            this.pushVoid('int CloseOut');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'updateApplication':
-            this.pushVoid('int UpdateApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'deleteApplication':
-            this.pushVoid('int DeleteApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          default:
-            throw new Error(`Unknown decorator: ${d}`);
-        }
-
-        this.pushVoid('==');
-        if (i > 0) this.pushVoid('||');
-      });
-
-      this.pushVoid('assert');
-    } else {
-      this.pushVoid('txn OnCompletion');
-      this.pushVoid('int NoOp');
-      this.pushVoid('==');
-      this.pushVoid('assert');
-    }
-
-    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes(
-      'Txn',
-    )).length;
-    gtxnIndex += 1;
-
-    fn.params.forEach((p: any) => {
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
-      let abiType = type;
-
-      if (type.includes('Txn')) {
-        switch (type) {
-          case 'PayTxn':
-            abiType = 'pay';
-            break;
-          case 'AssetTransferTxn':
-            abiType = 'axfer';
-            break;
-          default:
-            break;
-        }
-      } else {
-        this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
-      }
-
-      if (type === 'uint64') {
-        this.pushVoid('btoi');
-      } else if (['Account', 'Asset', 'Application'].includes(type)) {
-        this.pushVoid('btoi');
-        this.pushVoid(`txnas ${type}s`);
-      } else if (type.includes('Txn')) {
-        this.pushVoid('txn GroupIndex');
-        this.pushVoid(`int ${(gtxnIndex -= 1)}`);
-        this.pushVoid('-');
-      }
-
-      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
-    });
-
-    const returnType = this.currentSubroutine.returnType
-      .toLocaleLowerCase()
-      .replace(/asset|application/, 'uint64')
-      .replace('account', 'address');
-
-    this.abi.methods.push({
-      name: this.currentSubroutine.name,
-      args,
-      desc: '',
-      returns: { type: returnType, desc: '' },
-    });
-
-    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
-    this.pushVoid('int 1');
-    this.pushVoid('return');
-    this.processSubroutine(fn, true);
-  }
-
   // eslint-disable-next-line class-methods-use-this
   private getTypeFromAnnotation(typeAnnotation: any) {
     let type = 'any';
@@ -556,32 +308,6 @@ export default class Compiler {
     return type;
   }
 
-  private processMethodDefinition(node: any) {
-    this.currentSubroutine.name = node.key.name;
-    this.currentSubroutine.returnType = this.getTypeFromAnnotation(
-      node.value.returnType.typeAnnotation,
-    );
-
-    if (node.accessibility === 'private') {
-      this.processSubroutine(node.value);
-    } else {
-      this.currentSubroutine.decorators = node.decorators?.map(
-        (d: any) => d.expression.name,
-      );
-      this.processAbiMethod(node.value);
-    }
-  }
-
-  private processClassBody(node: any) {
-    node.body.forEach((b: any) => {
-      this.processNode(b);
-    });
-  }
-
-  private processClassDeclaration(node: any) {
-    this.processNode(node.body);
-  }
-
   private popComments(line: number): void {
     if (this.comments.at(-1) && this.comments.at(-1)!.loc.start.line <= line) {
       this.teal.push(`/${this.comments.pop()!.value}`);
@@ -592,9 +318,9 @@ export default class Compiler {
   }
 
   private processNode(node: any) {
-    try {
-      this.popComments(node.loc.start.line);
+    this.popComments(node.loc.start.line);
 
+    try {
       switch (node.type) {
         // TS organizational
         case 'ClassBody':
@@ -678,6 +404,32 @@ export default class Compiler {
       }
       throw e;
     }
+  }
+
+  private processMethodDefinition(node: any) {
+    this.currentSubroutine.name = node.key.name;
+    this.currentSubroutine.returnType = this.getTypeFromAnnotation(
+      node.value.returnType.typeAnnotation,
+    );
+
+    if (node.accessibility === 'private') {
+      this.processSubroutine(node.value);
+    } else {
+      this.currentSubroutine.decorators = node.decorators?.map(
+        (d: any) => d.expression.name,
+      );
+      this.processAbiMethod(node.value);
+    }
+  }
+
+  private processClassBody(node: any) {
+    node.body.forEach((b: any) => {
+      this.processNode(b);
+    });
+  }
+
+  private processClassDeclaration(node: any) {
+    this.processNode(node.body);
   }
 
   private processBlockStatement(node: any) {
@@ -1045,16 +797,220 @@ export default class Compiler {
     this.lastType = target.type;
   }
 
-  private getChain(node: any, chain: any[] = []): any[] {
-    if (node.object.type === AST_NODE_TYPES.MemberExpression) {
-      chain.push(node.object);
-      return this.getChain(node.object, chain);
+  private processIfStatement(node: any, elseIfCount: number = 0) {
+    let labelPrefix: string;
+
+    if (elseIfCount === 0) {
+      labelPrefix = `if${this.ifCount}`;
+      this.pushVoid(`// ${labelPrefix}_condition`);
+    } else {
+      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
+      this.pushVoid(`${labelPrefix}_condition:`);
     }
-    if (node.object.type === AST_NODE_TYPES.CallExpression) {
-      chain.push(node.object);
-      return this.getChain(node.object.callee, chain);
+
+    this.addSourceComment(node.test);
+    this.processNode(node.test);
+
+    if (node.alternate == null) {
+      this.pushVoid(`bz if${this.ifCount}_end`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+    } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
+      this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+      this.pushVoid(`b if${this.ifCount}_end`);
+      this.processIfStatement(node.alternate, elseIfCount + 1);
+    } else {
+      this.pushVoid(`bz if${this.ifCount}_end`);
+      this.processNode(node.alternate);
     }
-    return chain;
+
+    if (elseIfCount === 0) {
+      this.pushVoid(`if${this.ifCount}_end:`);
+      this.ifCount += 1;
+    }
+  }
+
+  private processUnaryExpression(node: any) {
+    this.processNode(node.argument);
+    this.push(node.operator, 'uint64');
+  }
+
+  private processPropertyDefinition(node: any) {
+    const klass = node.value.callee.name as string;
+
+    if (['BoxMap', 'GlobalMap'].includes(klass)) {
+      const props: StorageProp = {
+        type: klass.toLocaleLowerCase().replace('map', ''),
+        keyType: this.getTypeFromAnnotation(
+          node.value.typeParameters.params[0],
+        ),
+        valueType: this.getTypeFromAnnotation(
+          node.value.typeParameters.params[1],
+        ),
+      };
+
+      if (node.value.arguments[0]) {
+        const sizeProp = node.value.arguments[0].properties.find(
+          (p: any) => p.key.name === 'defaultSize',
+        );
+        if (sizeProp) props.defaultSize = sizeProp.value.value;
+      }
+
+      this.storageProps[node.key.name] = props;
+    } else if (['Box', 'GlobalValue'].includes(klass)) {
+      const keyProp = node.value.arguments[0].properties.find(
+        (p: any) => p.key.name === 'key',
+      );
+
+      const props: StorageProp = {
+        type: klass.toLowerCase().replace('value', ''),
+        key: keyProp.value.value,
+        keyType: 'string',
+        valueType: this.getTypeFromAnnotation(
+          node.value.typeParameters.params[0],
+        ),
+      };
+
+      const sizeProp = node.value.arguments[0].properties.find(
+        (p: any) => p.key.name === 'defaultSize',
+      );
+      if (sizeProp) props.defaultSize = sizeProp.value.value;
+
+      this.storageProps[node.key.name] = props;
+    } else {
+      throw new Error();
+    }
+  }
+
+  private processSubroutine(fn: any, abi: boolean = false) {
+    this.pushVoid(`${this.currentSubroutine.name}:`);
+    const lastFrame = JSON.parse(JSON.stringify(this.frame));
+    this.frame = {};
+
+    this.pushVoid(
+      `proto ${fn.params.length} ${
+        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
+      }`,
+    );
+    let frameIndex = 0;
+    fn.params.reverse().forEach((p: any) => {
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+
+      frameIndex -= 1;
+      this.frame[p.name] = {};
+      this.frame[p.name].index = frameIndex;
+      this.frame[p.name].type = type;
+    });
+
+    this.processNode(fn.body);
+    this.pushVoid('retsub');
+    this.frame = lastFrame;
+  }
+
+  private processAbiMethod(fn: any) {
+    let argCount = 0;
+    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
+    const args: any[] = [];
+
+    if (this.currentSubroutine.decorators) {
+      this.currentSubroutine.decorators.forEach((d, i) => {
+        switch (d) {
+          case 'createApplication':
+            this.pushVoid('txn ApplicationID');
+            this.pushVoid('int 0');
+            break;
+          case 'noOp':
+            this.pushVoid('int NoOp');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'optIn':
+            this.pushVoid('int OptIn');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'closeOut':
+            this.pushVoid('int CloseOut');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'updateApplication':
+            this.pushVoid('int UpdateApplication');
+            this.pushVoid('txn OnCompletion');
+            break;
+          case 'deleteApplication':
+            this.pushVoid('int DeleteApplication');
+            this.pushVoid('txn OnCompletion');
+            break;
+          default:
+            throw new Error(`Unknown decorator: ${d}`);
+        }
+
+        this.pushVoid('==');
+        if (i > 0) this.pushVoid('||');
+      });
+
+      this.pushVoid('assert');
+    } else {
+      this.pushVoid('txn OnCompletion');
+      this.pushVoid('int NoOp');
+      this.pushVoid('==');
+      this.pushVoid('assert');
+    }
+
+    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation).includes(
+      'Txn',
+    )).length;
+    gtxnIndex += 1;
+
+    fn.params.forEach((p: any) => {
+      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+      let abiType = type;
+
+      if (type.includes('Txn')) {
+        switch (type) {
+          case 'PayTxn':
+            abiType = 'pay';
+            break;
+          case 'AssetTransferTxn':
+            abiType = 'axfer';
+            break;
+          default:
+            break;
+        }
+      } else {
+        this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
+      }
+
+      if (type === 'uint64') {
+        this.pushVoid('btoi');
+      } else if (['Account', 'Asset', 'Application'].includes(type)) {
+        this.pushVoid('btoi');
+        this.pushVoid(`txnas ${type}s`);
+      } else if (type.includes('Txn')) {
+        this.pushVoid('txn GroupIndex');
+        this.pushVoid(`int ${(gtxnIndex -= 1)}`);
+        this.pushVoid('-');
+      }
+
+      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
+    });
+
+    const returnType = this.currentSubroutine.returnType
+      .toLocaleLowerCase()
+      .replace(/asset|application/, 'uint64')
+      .replace('account', 'address');
+
+    this.abi.methods.push({
+      name: this.currentSubroutine.name,
+      args,
+      desc: '',
+      returns: { type: returnType, desc: '' },
+    });
+
+    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
+    this.pushVoid('int 1');
+    this.pushVoid('return');
+    this.processSubroutine(fn, true);
   }
 
   private processMemberExpression(node: any) {
@@ -1085,7 +1041,7 @@ export default class Compiler {
             break;
           case 'app':
             this.lastType = 'Application';
-            this.pushVoid('txna Applications 0');
+            this.pushVoid('txna Applications -1');
             break;
           default:
             this.lastType = n.property.name;
@@ -1106,6 +1062,27 @@ export default class Compiler {
 
       this.tealFunction(this.lastType!, name);
     });
+  }
+
+  private processLiteral(node: any) {
+    const litType = typeof node.value;
+    if (litType === 'string') {
+      this.push(`byte "${node.value}"`, 'bytes');
+    } else {
+      this.push(`int ${node.value}`, 'uint64');
+    }
+  }
+
+  private getChain(node: any, chain: any[] = []): any[] {
+    if (node.object.type === AST_NODE_TYPES.MemberExpression) {
+      chain.push(node.object);
+      return this.getChain(node.object, chain);
+    }
+    if (node.object.type === AST_NODE_TYPES.CallExpression) {
+      chain.push(node.object);
+      return this.getChain(node.object.callee, chain);
+    }
+    return chain;
   }
 
   private tealFunction(
@@ -1146,15 +1123,6 @@ export default class Compiler {
         return;
       default:
         throw new Error(`Unknown method: ${type}.${name}`);
-    }
-  }
-
-  private processLiteral(node: any) {
-    const litType = typeof node.value;
-    if (litType === 'string') {
-      this.push(`byte "${node.value}"`, 'bytes');
-    } else {
-      this.push(`int ${node.value}`, 'uint64');
     }
   }
 
@@ -1221,5 +1189,37 @@ export default class Compiler {
 
     if (this.filename) { this.pushVoid(`// ${this.filename}:${node.loc.start.line}`); }
     this.pushVoid(`// ${content}`);
+  }
+
+  prettyTeal() {
+    const output: string[] = [];
+    let comments: string[] = [];
+
+    let lastIsLabel: boolean = false;
+
+    this.teal.forEach((t) => {
+      if (t.startsWith('//')) {
+        comments.push(t);
+        return;
+      }
+
+      const isLabel = t.split('//')[0].endsWith(':');
+
+      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
+
+      if (isLabel || t.startsWith('#')) {
+        comments.forEach((c) => output.push(c));
+        comments = [];
+        output.push(t);
+        lastIsLabel = true;
+      } else {
+        comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
+        comments = [];
+        output.push(`\t${t}`);
+        lastIsLabel = false;
+      }
+    });
+
+    return output.join('\n');
   }
 }
