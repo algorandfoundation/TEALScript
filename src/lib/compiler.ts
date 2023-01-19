@@ -525,6 +525,10 @@ export default class Compiler {
   }
 
   private processMethodDefinition(node: any) {
+    if (node.value?.returnType?.typeAnnotation === undefined) {
+      throw new Error(`Return type annotation is missing from ${node.key.name}`);
+    }
+
     this.currentSubroutine.name = node.key.name;
     this.currentSubroutine.returnType = this.getTypeFromAnnotation(
       node.value.returnType.typeAnnotation,
