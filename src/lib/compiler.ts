@@ -19,6 +19,8 @@ enum StackType {
   any = 'any',
 }
 
+// TODO: add VirtualType for things like tuple/array but distinct from ABI types?
+
 // Represents the type_enum for a transaction
 // eslint-disable-next-line no-shadow
 enum TransactionType {
@@ -559,7 +561,7 @@ export default class Compiler {
     }
 
     this.processNode(node.right);
-    this.push(node.operator, 'uint64');
+    this.push(node.operator, StackType.uint64);
     this.pushVoid(`${label!}:`);
   }
 
