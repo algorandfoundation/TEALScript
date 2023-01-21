@@ -777,6 +777,11 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n: any) => {
+      if (this.lastType?.endsWith('[]')) {
+        this.push(`${this.teal.pop()} ${n.property.value}`, this.lastType.replace('[]', ''));
+        return;
+      }
+
       if (n.type === AST_NODE_TYPES.CallExpression) {
         this.processNode(n);
         return;
@@ -799,7 +804,7 @@ export default class Compiler {
             break;
           case 'app':
             this.lastType = 'Application';
-            this.pushVoid('txna Applications -1');
+            this.pushVoid('txna Applications 0');
             break;
           default:
             this.lastType = n.property.name;
@@ -1296,62 +1301,6 @@ export default class Compiler {
     }
     return chain;
   }
-
-  // private processMemberExpression(node: any) {
-  //  const chain = this.getChain(node).reverse();
-
-  //  chain.push(node);
-
-  //  chain.forEach((n: any) => {
-  //    if (this.lastType?.endsWith('[]')) {
-  //      this.push(`${this.teal.pop()} ${n.property.value}`, this.lastType.replace('[]', ''));
-  //      return;
-  //    }
-
-  //    if (n.type === AST_NODE_TYPES.CallExpression) {
-  //      this.processNode(n);
-  //      return;
-  //    }
-
-  //    if (n.object?.name === 'globals') {
-  //      this.tealFunction('global', n.property.name);
-  //      return;
-  //    }
-
-  //    if (this.frame[n.object?.name] || this.scratch[n.object?.name]) {
-  //      this.processStorageExpression(n);
-  //      return;
-  //    }
-
-  //    if (n.object?.type === AST_NODE_TYPES.ThisExpression) {
-  //      switch (n.property.name) {
-  //        case 'txnGroup':
-  //          this.lastType = 'GroupTxn';
-  //          break;
-  //        case 'app':
-  //          this.lastType = 'Application';
-  //          this.pushVoid('txna Applications 0');
-  //          break;
-  //        default:
-  //          this.lastType = n.property.name;
-  //          break;
-  //      }
-
-  //      return;
-  //    }
-
-  //    if (n.property.type !== AST_NODE_TYPES.Identifier) {
-  //      const prevType = this.lastType;
-  //      this.processNode(n.property);
-  //      this.lastType = prevType;
-  //      return;
-  //    }
-
-  //    const { name } = n.property;
-
-  //    this.tealFunction(this.lastType!, name);
-  //  });
-  // }
 
   private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
     let type = calleeType;
