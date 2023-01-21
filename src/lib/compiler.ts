@@ -117,6 +117,10 @@ export default class Compiler {
 
   private comments: parser.TSESTree.Comment[];
 
+  private andCount: number = 0;
+
+  private orCount: number = 0;
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -613,7 +617,7 @@ export default class Compiler {
 
     if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
 
-    const operator = node.operator.replace('===', '==');
+    const operator = node.operator.replace('===', '==').replace('!==', '!=');
     if (this.lastType === 'uint64') {
       this.push(operator, 'uint64');
     } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
@@ -625,8 +629,26 @@ export default class Compiler {
 
   private processLogicalExpression(node: any) {
     this.processNode(node.left);
+
+    let label: string;
+
+    if (node.operator === '&&') {
+      label = `skip_and${this.andCount}`;
+      this.andCount += 1;
+
+      this.pushVoid('dup');
+      this.pushVoid(`bz ${label}`);
+    } else if (node.operator === '||') {
+      label = `skip_or${this.orCount}`;
+      this.orCount += 1;
+
+      this.pushVoid('dup');
+      this.pushVoid(`bnz ${label}`);
+    }
+
     this.processNode(node.right);
     this.push(node.operator, 'uint64');
+    this.pushVoid(`${label!}:`);
   }
 
   private processIdentifier(node: any) {
