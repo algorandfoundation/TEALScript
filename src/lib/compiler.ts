@@ -10,16 +10,18 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
+// Represents the stack types available in the AVM
 // eslint-disable-next-line no-shadow
-export enum StackType {
+enum StackType {
   none = 'none',
   uint64 = 'uint64',
   bytes = 'bytes',
   any = 'any',
 }
 
+// Represents the type_enum for a transaction
 // eslint-disable-next-line no-shadow
-export enum TransactionType {
+enum TransactionType {
   PaymentTx = 'pay',
   KeyRegistrationTx = 'keyreg',
   AssetConfigTx = 'acfg',
@@ -29,6 +31,8 @@ export enum TransactionType {
   StateProofTx = 'stpf',
 }
 
+// The possible node types that are to be
+// interpreted as integers
 const numberTypes = [
   AST_NODE_TYPES.LogicalExpression,
   AST_NODE_TYPES.BinaryExpression,
