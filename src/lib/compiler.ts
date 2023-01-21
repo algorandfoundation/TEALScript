@@ -29,17 +29,6 @@ export enum TransactionType {
   StateProofTx = 'stpf',
 }
 
-function isNumeric(t: string): boolean {
-  return ['uint64', 'Asset', 'Application'].includes(t);
-}
-
-// eslint-disable-next-line no-shadow
-// export enum ForeignType {
-//   Account = "Account",
-//
-//
-// }
-
 const numberTypes = [
   AST_NODE_TYPES.LogicalExpression,
   AST_NODE_TYPES.BinaryExpression,
@@ -126,6 +115,10 @@ interface Subroutine {
 }
 
 // These should probably be types rather than strings?
+function isNumeric(t: string): boolean {
+  return ['uint64', 'Asset', 'Application'].includes(t);
+}
+
 function isRefType(t: string): boolean {
   return ['Account', 'Asset', 'Application'].includes(t);
 }
@@ -509,8 +502,8 @@ export default class Compiler {
   private processReturnStatement(node: TSESTree.ReturnStatement) {
     this.addSourceComment(node);
     if (node.argument !== null) this.processNode(node.argument);
-    if (isNumeric(this.currentSubroutine.returnType)
-    ) { this.pushVoid('itob'); }
+
+    if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
 
     this.pushVoid('byte 0x151f7c75');
     this.pushVoid('swap');
@@ -586,6 +579,7 @@ export default class Compiler {
 
   private processTSAsExpression(node: TSESTree.TSAsExpression) {
     this.processNode(node.expression);
+
     const type = this.getTypeFromAnnotation(node.typeAnnotation);
     if (type.startsWith('uint') && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
