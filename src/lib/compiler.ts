@@ -906,8 +906,6 @@ export default class Compiler {
     this.processSubroutine(fn, true);
   }
 
-<<<<<<< HEAD
-=======
   // eslint-disable-next-line class-methods-use-this
   private getTypeFromAnnotation(typeAnnotation: any) {
     let type = 'any';
@@ -1110,7 +1108,6 @@ export default class Compiler {
     this.processNode(node.expression);
   }
 
->>>>>>> main/dev
   private processOpcode(node: any) {
     const opSpec = langspec.Ops.find(
       (o) => o.Name === node.callee.name,
@@ -1132,15 +1129,6 @@ export default class Compiler {
     this.pushVoid(line.join(' '));
   }
 
-<<<<<<< HEAD
-  private processStorageCall(node: any) {
-    const op = node.callee.property.name;
-    const {
-      type, valueType, keyType, key,
-    } = this.storageProps[
-      node.callee.object.property.name
-    ] as StorageProp;
-=======
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
     global: {
       get: (node: any) => {
@@ -1209,73 +1197,8 @@ export default class Compiler {
         const {
           valueType, keyType, key,
         } = this.storageProps[node.callee.object.property.name] as StorageProp;
->>>>>>> main/dev
 
         this.processNode(node.arguments[0]);
-<<<<<<< HEAD
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
-      }
-
-      switch (type) {
-        case 'global':
-          this.push('app_global_get', valueType);
-          break;
-        case 'box':
-          this.maybeValue('box_get', valueType);
-          break;
-        default:
-          throw new Error();
-      }
-
-      if (
-        type === 'box'
-        && ['Asset', 'Application', 'uint64'].includes(valueType)
-      ) { this.pushVoid('btoi'); }
-    } else if (op === 'delete') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
-      }
-
-      switch (type) {
-        case 'global':
-          this.pushVoid('app_global_del');
-          break;
-        case 'box':
-          this.pushVoid('box_del');
-          break;
-        default:
-          throw new Error();
-      }
-    } else if (op === 'put') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
-        this.processNode(node.arguments[0]);
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
-      }
-
-      this.processNode(node.arguments[key ? 0 : 1]);
-      if (
-        type === 'box'
-        && ['Asset', 'Application', 'uint64'].includes(valueType)
-      ) { this.pushVoid('itob'); }
-
-      switch (type) {
-        case 'global':
-          this.pushVoid('app_global_put');
-          break;
-        case 'box':
-          this.pushVoid('box_put');
-          break;
-        default:
-          throw new Error();
-      }
-    } else if (op === 'exists') {
-      if (type === 'global') this.pushVoid('txna Applications 0');
-=======
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -1317,7 +1240,6 @@ export default class Compiler {
           this.processNode(node.arguments[1]);
           if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
         }
->>>>>>> main/dev
 
         this.pushVoid('app_local_del');
       },
@@ -1326,22 +1248,6 @@ export default class Compiler {
           keyType, key,
         } = this.storageProps[node.callee.object.property.name] as StorageProp;
         this.processNode(node.arguments[0]);
-<<<<<<< HEAD
-        if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
-      }
-
-      switch (type) {
-        case 'global':
-          this.hasMaybeValue('app_global_get_ex');
-          break;
-        case 'box':
-          this.hasMaybeValue('box_get');
-          break;
-        default:
-          throw new Error();
-      }
-    }
-=======
         this.pushVoid('txna Applications 0');
 
         if (key) {
@@ -1422,7 +1328,6 @@ export default class Compiler {
     const op = node.callee.property.name;
     const { type } = this.storageProps[node.callee.object.property.name] as StorageProp;
     this.storageFunctions[type][op](node);
->>>>>>> main/dev
   }
 
   private processTransaction(node: any) {
@@ -1524,8 +1429,6 @@ export default class Compiler {
     this.pushVoid('itxn_submit');
   }
 
-<<<<<<< HEAD
-=======
   private processCallExpression(node: any) {
     this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
@@ -1562,7 +1465,6 @@ export default class Compiler {
     }
   }
 
->>>>>>> main/dev
   private processStorageExpression(node: any) {
     const target = this.frame[node.object.name] || this.scratch[node.object.name];
     const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
@@ -1587,13 +1489,6 @@ export default class Compiler {
     return chain;
   }
 
-<<<<<<< HEAD
-  private tealFunction(
-    calleeType: string,
-    name: string,
-    checkArgs: boolean = false,
-  ): void {
-=======
   private processMemberExpression(node: any) {
     const chain = this.getChain(node).reverse();
 
@@ -1651,7 +1546,6 @@ export default class Compiler {
   }
 
   private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
->>>>>>> main/dev
     let type = calleeType;
     if (type.includes('Txn')) {
       type = 'gtxns';
