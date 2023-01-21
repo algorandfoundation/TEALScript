@@ -524,11 +524,11 @@ export default class Compiler {
 
     const operator = node.operator.replace('===', '==').replace('!==', '!=');
     if (this.lastType === 'uint64') {
-      this.push(operator, 'uint64');
+      this.push(operator, StackType.uint64);
     } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
       this.push(`b${operator}`, leftType);
     } else {
-      this.push(operator, 'uint64');
+      this.push(operator, StackType.uint64);
     }
   }
 
