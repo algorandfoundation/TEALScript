@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
@@ -8,6 +9,36 @@ import * as langspec from '../langspec.json';
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
+
+// eslint-disable-next-line no-shadow
+export enum StackType {
+  none = 'none',
+  uint64 = 'uint64',
+  bytes = 'bytes',
+  any = 'any',
+}
+
+// eslint-disable-next-line no-shadow
+export enum TransactionType {
+  PaymentTx = 'pay',
+  KeyRegistrationTx = 'keyreg',
+  AssetConfigTx = 'acfg',
+  AssetTransferTx = 'axfer',
+  AssetFreezeTx = 'afrz',
+  ApplicationCallTx = 'appl',
+  StateProofTx = 'stpf',
+}
+
+function isNumeric(t: string): boolean {
+  return ['uint64', 'Asset', 'Application'].includes(t);
+}
+
+// eslint-disable-next-line no-shadow
+// export enum ForeignType {
+//   Account = "Account",
+//
+//
+// }
 
 const numberTypes = [
   AST_NODE_TYPES.LogicalExpression,
@@ -93,6 +124,12 @@ interface Subroutine {
   returnType: string;
   decorators?: string[];
 }
+
+// These should probably be types rather than strings?
+function isRefType(t: string): boolean {
+  return ['Account', 'Asset', 'Application'].includes(t);
+}
+
 export default class Compiler {
   teal: string[];
 
@@ -142,7 +179,7 @@ export default class Compiler {
         type: 'any',
         args: 2,
         fn: () => {
-          this.maybeValue('app_global_get_ex', 'bytes');
+          this.maybeValue('app_global_get_ex', StackType.bytes);
         },
       },
     ],
@@ -184,7 +221,7 @@ export default class Compiler {
     return opSpec.ArgEnum!.map((arg, i) => {
       let fn;
       const type = PARAM_TYPES[arg]
-        || opSpec.ArgEnumTypes![i].replace('B', 'bytes').replace('U', 'uint64');
+        || opSpec.ArgEnumTypes![i].replace('B', StackType.bytes).replace('U', StackType.uint64);
 
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
         fn = () => this.push(`${op} ${arg}`, type);
@@ -300,22 +337,22 @@ export default class Compiler {
   private hasMaybeValue(opcode: string) {
     this.pushVoid(opcode);
     this.pushVoid('swap');
-    this.push('pop', 'uint64');
+    this.push('pop', StackType.uint64);
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private getTypeFromAnnotation(typeAnnotation: any) {
-    let type = 'any';
+  private getTypeFromAnnotation(typeAnnotation: any): StackType | string {
+    let type = StackType.any;
 
     switch (typeAnnotation.type) {
       case AST_NODE_TYPES.TSNumberKeyword:
-        type = 'uint64';
+        type = StackType.uint64;
         break;
       case AST_NODE_TYPES.TSStringKeyword:
-        type = 'string';
+        type = StackType.bytes;
         break;
       case AST_NODE_TYPES.TSVoidKeyword:
-        type = 'void';
+        type = StackType.none;
         break;
       default:
         type = typeAnnotation.typeName.name;
@@ -472,10 +509,7 @@ export default class Compiler {
   private processReturnStatement(node: TSESTree.ReturnStatement) {
     this.addSourceComment(node);
     if (node.argument !== null) this.processNode(node.argument);
-    if (
-      ['uint64', 'Asset', 'Application'].includes(
-        this.currentSubroutine.returnType,
-      )
+    if (isNumeric(this.currentSubroutine.returnType)
     ) { this.pushVoid('itob'); }
 
     this.pushVoid('byte 0x151f7c75');
@@ -765,9 +799,9 @@ export default class Compiler {
   private processLiteral(node: TSESTree.Literal) {
     const litType = typeof node.value;
     if (litType === 'string') {
-      this.push(`byte "${node.value}"`, 'bytes');
+      this.push(`byte "${node.value}"`, StackType.bytes);
     } else {
-      this.push(`int ${node.value}`, 'uint64');
+      this.push(`int ${node.value}`, StackType.uint64);
     }
   }
 
@@ -906,17 +940,18 @@ export default class Compiler {
 
     gtxnIndex += 1;
 
-    fn.params.forEach((p: any) => {
+    fn.params.forEach((p: TSESTree.Parameter) => {
+      // @ts-ignore
       const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
       let abiType = type;
 
       if (type.includes('Txn')) {
         switch (type) {
           case 'PayTxn':
-            abiType = 'pay';
+            abiType = TransactionType.PaymentTx;
             break;
           case 'AssetTransferTxn':
-            abiType = 'axfer';
+            abiType = TransactionType.AssetTransferTx;
             break;
           default:
             break;
@@ -925,9 +960,9 @@ export default class Compiler {
         this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
       }
 
-      if (type === 'uint64') {
+      if (type === StackType.uint64) {
         this.pushVoid('btoi');
-      } else if (['Account', 'Asset', 'Application'].includes(type)) {
+      } else if (isRefType(type)) {
         this.pushVoid('btoi');
         this.pushVoid(`txnas ${type}s`);
       } else if (type.includes('Txn')) {
@@ -936,6 +971,7 @@ export default class Compiler {
         this.pushVoid('-');
       }
 
+      // @ts-ignore
       args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
@@ -989,7 +1025,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.push('app_global_get', valueType);
@@ -1003,7 +1039,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.processNode(node.arguments[key ? 0 : 1]);
@@ -1019,7 +1055,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.pushVoid('app_global_del');
@@ -1035,7 +1071,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.hasMaybeValue('app_global_get_ex');
@@ -1053,7 +1089,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[1]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.push('app_local_get', valueType);
@@ -1069,7 +1105,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[1]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.processNode(node.arguments[key ? 1 : 2]);
@@ -1087,7 +1123,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[1]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.pushVoid('app_local_del');
@@ -1103,7 +1139,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[1]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.hasMaybeValue('app_local_get_ex');
@@ -1119,11 +1155,11 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.maybeValue('box_get', valueType);
-        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('btoi');
+        if (isNumeric(valueType)) this.pushVoid('btoi');
       },
       put: (node: any) => {
         const {
@@ -1134,11 +1170,11 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.processNode(node.arguments[key ? 0 : 1]);
-        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('itob');
+        if (isNumeric(valueType)) this.pushVoid('itob');
 
         this.push('box_put', valueType);
       },
@@ -1151,7 +1187,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.pushVoid('box_del');
@@ -1165,7 +1201,7 @@ export default class Compiler {
           this.pushVoid(`byte "${key}"`);
         } else {
           this.processNode(node.arguments[0]);
-          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+          if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
         this.hasMaybeValue('box_get');
@@ -1184,14 +1220,14 @@ export default class Compiler {
 
     switch (node.callee.name) {
       case 'sendPayment':
-        txnType = 'pay';
+        txnType = TransactionType.PaymentTx;
         break;
       case 'sendAssetTransfer':
-        txnType = 'axfer';
+        txnType = TransactionType.AssetTransferTx;
         break;
       case 'sendMethodCall':
       case 'sendAppCall':
-        txnType = 'appl';
+        txnType = TransactionType.ApplicationCallTx;
         break;
       default:
         break;
@@ -1256,7 +1292,7 @@ export default class Compiler {
             this.pushVoid(`int ${appIndex}`);
             this.pushVoid('itob');
             appIndex += 1;
-          } else if (argTypes[i] === 'uint64') {
+          } else if (argTypes[i] === StackType.uint64) {
             this.processNode(e);
             this.pushVoid('itob');
           } else {
