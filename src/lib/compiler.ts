@@ -31,6 +31,13 @@ enum TransactionType {
   StateProofTx = 'stpf',
 }
 
+// eslint-disable-next-line no-shadow
+enum ForeignType {
+  Asset = 'Asset',
+  Account = 'Account',
+  Application = 'Application',
+}
+
 // The possible node types that are to be
 // interpreted as integers
 const numberTypes = [
@@ -49,45 +56,45 @@ const CONTRACT_SUBCLASS = 'Contract';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Account
-  AcctAuthAddr: 'Account',
+  AcctAuthAddr: ForeignType.Account,
   // Application
-  AppCreator: 'Account',
-  AppAddress: 'Account',
-  AssetManager: 'Account',
-  AssetReserve: 'Account',
-  AssetFreeze: 'Account',
-  AssetClawback: 'Account',
-  AssetCreator: 'Account',
+  AppCreator: ForeignType.Account,
+  AppAddress: ForeignType.Account,
+  AssetManager: ForeignType.Account,
+  AssetReserve: ForeignType.Account,
+  AssetFreeze: ForeignType.Account,
+  AssetClawback: ForeignType.Account,
+  AssetCreator: ForeignType.Account,
   // Global
-  ZeroAddress: 'Account',
-  CurrentApplicationID: 'Application',
-  CreatorAddress: 'Account',
-  CurrentApplicationAddress: 'Account',
-  CallerApplicationID: 'Application',
-  CallerApplicationAddress: 'Account',
+  ZeroAddress: ForeignType.Account,
+  CurrentApplicationID: ForeignType.Application,
+  CreatorAddress: ForeignType.Account,
+  CurrentApplicationAddress: ForeignType.Account,
+  CallerApplicationID: ForeignType.Application,
+  CallerApplicationAddress: ForeignType.Account,
   // Txn
-  Sender: 'Account',
-  Receiver: 'Account',
-  CloseRemainderTo: 'Account',
-  XferAsset: 'Asset',
-  AssetSender: 'Account',
-  AssetReceiver: 'Account',
-  AssetCloseTo: 'Account',
-  ApplicationID: 'Application',
-  RekeyTo: 'Account',
-  ConfigAsset: 'Asset',
-  ConfigAssetManager: 'Account',
-  ConfigAssetReserve: 'Account',
-  ConfigAssetFreeze: 'Account',
-  ConfigAssetClawback: 'Account',
-  FreezeAsset: 'Asset',
-  FreezeAssetAccount: 'Account',
-  CreatedAssetID: 'Asset',
-  CreatedApplicationID: 'Application',
-  ApplicationArgs: 'bytes[]',
-  Applications: 'Application[]',
-  Assets: 'Asset[]',
-  Accounts: 'Account[]',
+  Sender: ForeignType.Account,
+  Receiver: ForeignType.Account,
+  CloseRemainderTo: ForeignType.Account,
+  XferAsset: ForeignType.Asset,
+  AssetSender: ForeignType.Account,
+  AssetReceiver: ForeignType.Account,
+  AssetCloseTo: ForeignType.Account,
+  ApplicationID: ForeignType.Application,
+  RekeyTo: ForeignType.Account,
+  ConfigAsset: ForeignType.Asset,
+  ConfigAssetManager: ForeignType.Account,
+  ConfigAssetReserve: ForeignType.Account,
+  ConfigAssetFreeze: ForeignType.Account,
+  ConfigAssetClawback: ForeignType.Account,
+  FreezeAsset: ForeignType.Asset,
+  FreezeAssetAccount: ForeignType.Account,
+  CreatedAssetID: ForeignType.Asset,
+  CreatedApplicationID: ForeignType.Application,
+  ApplicationArgs: `${StackType.bytes}[]`,
+  Applications: `${ForeignType.Application}[]`,
+  Assets: `${ForeignType.Asset}[]`,
+  Accounts: `${ForeignType.Account}[]`,
 };
 
 interface OpSpec {
@@ -523,7 +530,7 @@ export default class Compiler {
     if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
 
     const operator = node.operator.replace('===', '==').replace('!==', '!=');
-    if (this.lastType === 'uint64') {
+    if (this.lastType === StackType.uint64) {
       this.push(operator, StackType.uint64);
     } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
       this.push(`b${operator}`, leftType);
@@ -662,7 +669,7 @@ export default class Compiler {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
         // @ts-ignore
-        this.push(`addr ${node.arguments[0].value}`, 'Account');
+        this.push(`addr ${node.arguments[0].value}`, ForeignType.Account);
       }
       // @ts-ignore
     } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
@@ -1272,19 +1279,19 @@ export default class Compiler {
         let assetIndex = 0;
 
         p.value.elements.forEach((e: any, i: number) => {
-          if (argTypes[i] === 'Account') {
+          if (argTypes[i] === ForeignType.Account) {
             this.processNode(e);
             this.pushVoid('itxn_field Accounts');
             this.pushVoid(`int ${accountIndex}`);
             this.pushVoid('itob');
             accountIndex += 1;
-          } else if (argTypes[i] === 'Asset') {
+          } else if (argTypes[i] === ForeignType.Asset) {
             this.processNode(e);
             this.pushVoid('itxn_field Assets');
             this.pushVoid(`int ${assetIndex}`);
             this.pushVoid('itob');
             assetIndex += 1;
-          } else if (argTypes[i] === 'Application') {
+          } else if (argTypes[i] === ForeignType.Application) {
             this.processNode(e);
             this.pushVoid('itxn_field Applications');
             this.pushVoid(`int ${appIndex}`);
@@ -1346,8 +1353,8 @@ export default class Compiler {
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
-        if (type === 'Application') paramName = paramName.replace(/^App/, '');
-        if (type === 'Asset') paramName = paramName.replace(/^Asset/, '');
+        if (type === ForeignType.Application) paramName = paramName.replace(/^App/, '');
+        if (type === ForeignType.Asset) paramName = paramName.replace(/^Asset/, '');
         return paramName === capitalizeFirstChar(name);
       });
 
