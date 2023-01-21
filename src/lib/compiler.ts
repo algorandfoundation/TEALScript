@@ -649,10 +649,8 @@ export default class Compiler {
         e instanceof TypeError
         && e.message.includes('this[node.type] is not a function')
       ) {
-        // @ts-ignore
-        this.processErrorNodes.push(node);
-        // @ts-ignore
-        const errNode = this.processErrorNodes[0];
+        this.nodeProcessingErrors.push(node);
+        const errNode = this.nodeProcessingErrors[0];
         e.message = `TEALScript can not process ${errNode.type} at ${
           this.filename
         }:${errNode.loc.start.line}:${
@@ -947,7 +945,19 @@ export default class Compiler {
   }
 
   private processPropertyDefinition(node: TSESTree.PropertyDefinition) {
-    // @ts-ignore
+    // TODO: type error?
+    if (node.value === null) return;
+
+    // TODO: type error?
+    if (
+      node.value.type !== AST_NODE_TYPES.NewExpression
+      && node.value.type !== AST_NODE_TYPES.CallExpression) {
+      return;
+    }
+
+    // TODO: type error?
+    if (node.value.callee.type !== AST_NODE_TYPES.Identifier) return;
+
     const klass = node.value.callee.name as string;
 
     if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
