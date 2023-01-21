@@ -867,6 +867,9 @@ export default class Compiler {
       } else if (['addr'].includes(methodName)) {
         // @ts-ignore
         this.push(`addr ${node.arguments[0].value}`, ForeignType.Account);
+      } else if (['method'].includes(methodName)) {
+        // @ts-ignore
+        this.push(`method "${node.arguments[0].value}"`, StackType.bytes);
       }
       // @ts-ignore
     } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
