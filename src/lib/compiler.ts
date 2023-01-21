@@ -60,6 +60,10 @@ const PARAM_TYPES: { [param: string]: string } = {
   FreezeAssetAccount: 'Account',
   CreatedAssetID: 'Asset',
   CreatedApplicationID: 'Application',
+  ApplicationArgs: 'bytes[]',
+  Applications: 'Application[]',
+  Assets: 'Asset[]',
+  Accounts: 'Account[]',
 };
 
 interface OpSpec {
@@ -102,7 +106,7 @@ export default class Compiler {
 
   content: string;
 
-  private processErrorNodes: any[];
+  private nodeProcessingErrors: any[];
 
   private frame: any;
 
@@ -148,6 +152,10 @@ export default class Compiler {
     gtxns: this.getOpParamObjects('gtxns'),
   };
 
+  private andCount: number = 0;
+
+  private orCount: number = 0;
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -155,7 +163,7 @@ export default class Compiler {
     this.scratch = {};
     this.scratchIndex = 0;
     this.ifCount = 0;
-    this.processErrorNodes = [];
+    this.nodeProcessingErrors = [];
     this.frame = {};
     this.currentSubroutine = { name: '', returnType: '' };
     this.storageProps = {};
@@ -631,6 +639,13 @@ export default class Compiler {
       this.processNode(node.consequent);
       this.pushVoid(`b if${this.ifCount}_end`);
       this.processIfStatement(node.alternate, elseIfCount + 1);
+    } else if (node.alternate.type === AST_NODE_TYPES.BlockStatement) {
+      this.pushVoid(`bz if${this.ifCount}_else`);
+      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.processNode(node.consequent);
+      this.pushVoid(`b if${this.ifCount}_end`);
+      this.pushVoid(`if${this.ifCount}_else:`);
+      this.processNode(node.alternate);
     } else {
       this.pushVoid(`bz if${this.ifCount}_end`);
       this.processNode(node.alternate);
@@ -651,7 +666,7 @@ export default class Compiler {
     // @ts-ignore
     const klass = node.value.callee.name as string;
 
-    if (['BoxMap', 'GlobalMap'].includes(klass)) {
+    if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: this.getTypeFromAnnotation(
@@ -675,14 +690,11 @@ export default class Compiler {
 
       // @ts-ignore
       this.storageProps[node.key.name] = props;
-    } else if (['Box', 'GlobalValue'].includes(klass)) {
-      // @ts-ignore
-      const keyProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'key',
-      );
+    } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
+      const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
 
       const props: StorageProp = {
-        type: klass.toLowerCase().replace('value', ''),
+        type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.value.value,
         keyType: 'string',
         valueType: this.getTypeFromAnnotation(
@@ -894,6 +906,211 @@ export default class Compiler {
     this.processSubroutine(fn, true);
   }
 
+<<<<<<< HEAD
+=======
+  // eslint-disable-next-line class-methods-use-this
+  private getTypeFromAnnotation(typeAnnotation: any) {
+    let type = 'any';
+
+    switch (typeAnnotation.type) {
+      case 'TSNumberKeyword':
+        type = 'uint64';
+        break;
+      case 'TSStringKeyword':
+        type = 'string';
+        break;
+      case 'TSVoidKeyword':
+        type = 'void';
+        break;
+      default:
+        type = typeAnnotation.typeName.name;
+        break;
+    }
+
+    return type;
+  }
+
+  private processMethodDefinition(node: any) {
+    if (node.value?.returnType?.typeAnnotation === undefined) {
+      throw new Error(`Return type annotation is missing from ${node.key.name}`);
+    }
+
+    this.currentSubroutine.name = node.key.name;
+    this.currentSubroutine.returnType = this.getTypeFromAnnotation(
+      node.value.returnType.typeAnnotation,
+    );
+
+    if (node.accessibility === 'private') {
+      this.processSubroutine(node.value);
+    } else {
+      this.currentSubroutine.decorators = node.decorators?.map((d: any) => d.expression.name);
+      this.processAbiMethod(node.value);
+    }
+  }
+
+  private processClassBody(node: any) {
+    node.body.forEach((b: any) => { this.processNode(b); });
+  }
+
+  private processClassDeclaration(node: any) {
+    this.processNode(node.body);
+  }
+
+  private popComments(line: number): void {
+    if (this.comments.at(-1) && this.comments.at(-1)!.loc.start.line <= line) {
+      this.teal.push(`/${this.comments.pop()!.value}`);
+      return this.popComments(line);
+    }
+
+    return undefined;
+  }
+
+  private processNode(node: any) {
+    try {
+      this.popComments(node.loc.start.line);
+      ((this as any)[`process${node.type}`])(node);
+    } catch (e: any) {
+      this.nodeProcessingErrors.push(node);
+      const errNode = this.nodeProcessingErrors[0];
+      const locInfo = `${this.filename}:${errNode.loc.start.line}:${errNode.loc.start.column}\n> ${this.content.substring(errNode.range[0], errNode.range[1]).replace(/\n/g, '\n> ')}`;
+      if ((e instanceof TypeError) && e.message.includes('this[node.type] is not a function')) {
+        e.message = `${locInfo}\nTEALScript can not process ${errNode.type}`;
+      } else {
+        const msg = e.message.replace('Can\'t compile the source code at', '').replace(locInfo, '');
+        e.message = `Can't compile the source code at ${locInfo} ${msg}`;
+      }
+      throw e;
+    }
+  }
+
+  private processBlockStatement(node: any) {
+    node.body.forEach((b: any) => { this.processNode(b); });
+  }
+
+  private processReturnStatement(node: any) {
+    this.addSourceComment(node);
+    this.processNode(node.argument);
+
+    if (this.currentSubroutine.returnType !== this.lastType) {
+      if (this.lastType?.startsWith('uint')) {
+        const returnBitWidth = parseInt(this.currentSubroutine.returnType.replace('uint', ''), 10);
+        const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+        if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${this.currentSubroutine.returnType})`);
+
+        if (this.lastType === 'uint64') this.pushVoid('itob');
+        this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+        this.pushVoid('b&');
+
+        // eslint-disable-next-line no-console
+        console.warn(`WARNING: Converting ${this.currentSubroutine.name} return value from ${this.lastType} to ${this.currentSubroutine.returnType}`);
+      } else throw new Error(`Type mismatch (${this.currentSubroutine.returnType} !== ${this.lastType})`);
+    } else if (['uint64', 'Asset', 'Application'].includes(this.currentSubroutine.returnType)) this.pushVoid('itob');
+
+    this.pushVoid('byte 0x151f7c75');
+    this.pushVoid('swap');
+    this.pushVoid('concat');
+    this.pushVoid('log');
+  }
+
+  private processBinaryExpression(node: any) {
+    this.processNode(node.left);
+    const leftType = this.lastType!;
+    this.processNode(node.right);
+
+    if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
+
+    const operator = node.operator.replace('===', '==').replace('!==', '!=');
+    if (this.lastType === 'uint64') {
+      this.push(operator, 'uint64');
+    } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
+      this.push(`b${operator}`, leftType);
+    } else {
+      this.push(operator, 'uint64');
+    }
+  }
+
+  private processLogicalExpression(node: any) {
+    this.processNode(node.left);
+
+    let label: string;
+
+    if (node.operator === '&&') {
+      label = `skip_and${this.andCount}`;
+      this.andCount += 1;
+
+      this.pushVoid('dup');
+      this.pushVoid(`bz ${label}`);
+    } else if (node.operator === '||') {
+      label = `skip_or${this.orCount}`;
+      this.orCount += 1;
+
+      this.pushVoid('dup');
+      this.pushVoid(`bnz ${label}`);
+    }
+
+    this.processNode(node.right);
+    this.push(node.operator, 'uint64');
+    this.pushVoid(`${label!}:`);
+  }
+
+  private processIdentifier(node: any) {
+    if (this.contractClasses.includes(node.name)) {
+      this.pushVoid(`PENDING_COMPILE: ${node.name}`);
+      return;
+    }
+    const target = this.frame[node.name] || this.scratch[node.name];
+    const opcode = this.frame[node.name] ? 'frame_dig' : 'load';
+
+    this.push(`${opcode} ${target.index} // ${node.name}: ${target.type}`, target.type);
+  }
+
+  private processVariableDeclaration(node: any) {
+    node.declarations.forEach((d: any) => { this.processNode(d); });
+  }
+
+  private processNewExpression(node: any) {
+    node.arguments.forEach((a: any) => { this.processNode(a); });
+    this.lastType = node.callee.name;
+  }
+
+  private processTSAsExpression(node: any) {
+    this.processNode(node.expression);
+    const type = this.getTypeFromAnnotation(node.typeAnnotation);
+    if (type.startsWith('uint') && type !== this.lastType) {
+      const typeBitWidth = parseInt(type.replace('uint', ''), 10);
+      const lastBitWidth = parseInt(this.lastType!.replace('uint', ''), 10);
+
+      // eslint-disable-next-line no-console
+      if (lastBitWidth > typeBitWidth) console.warn('WARNING: Converting value from ', this.lastType, 'to ', type, 'may result in loss of precision');
+
+      if (this.lastType === 'uint64') this.pushVoid('itob');
+      this.pushVoid(`byte 0x${'FF'.repeat(typeBitWidth / 8)}`);
+      this.pushVoid('b&');
+    }
+
+    this.lastType = type;
+  }
+
+  private processVariableDeclarator(node: any) {
+    this.addSourceComment(node);
+    const { name } = node.id;
+
+    this.processNode(node.init);
+
+    this.scratch[name] = {
+      index: this.scratchIndex,
+      type: this.lastType,
+    };
+
+    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${this.lastType}`);
+    this.scratchIndex += 1;
+  }
+
+  private processExpressionStatement(node: any) {
+    this.processNode(node.expression);
+  }
+
+>>>>>>> main/dev
   private processOpcode(node: any) {
     const opSpec = langspec.Ops.find(
       (o) => o.Name === node.callee.name,
@@ -915,6 +1132,7 @@ export default class Compiler {
     this.pushVoid(line.join(' '));
   }
 
+<<<<<<< HEAD
   private processStorageCall(node: any) {
     const op = node.callee.property.name;
     const {
@@ -922,12 +1140,79 @@ export default class Compiler {
     } = this.storageProps[
       node.callee.object.property.name
     ] as StorageProp;
+=======
+  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
+    global: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
 
-    if (op === 'get') {
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_global_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+
+        this.push('app_global_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('app_global_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_global_get_ex');
+      },
+    },
+    local: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+>>>>>>> main/dev
+
         this.processNode(node.arguments[0]);
+<<<<<<< HEAD
         if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
       }
 
@@ -990,11 +1275,58 @@ export default class Compiler {
       }
     } else if (op === 'exists') {
       if (type === 'global') this.pushVoid('txna Applications 0');
+=======
 
-      if (key) {
-        this.pushVoid(`byte "${key}"`);
-      } else {
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_local_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
         this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 1 : 2]);
+
+        this.push('app_local_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+>>>>>>> main/dev
+
+        this.pushVoid('app_local_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        this.processNode(node.arguments[0]);
+<<<<<<< HEAD
         if (['Asset', 'Application', 'uint64'].includes(keyType)) { this.pushVoid('itob'); }
       }
 
@@ -1009,6 +1341,88 @@ export default class Compiler {
           throw new Error();
       }
     }
+=======
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_local_get_ex');
+      },
+    },
+    box: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.maybeValue('box_get', valueType);
+        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('btoi');
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+        if (['Asset', 'Application', 'uint64'].includes(valueType)) this.pushVoid('itob');
+
+        this.push('box_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('box_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (['Asset', 'Application', 'uint64'].includes(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('box_get');
+      },
+    },
+  };
+
+  private processStorageCall(node: any) {
+    const op = node.callee.property.name;
+    const { type } = this.storageProps[node.callee.object.property.name] as StorageProp;
+    this.storageFunctions[type][op](node);
+>>>>>>> main/dev
   }
 
   private processTransaction(node: any) {
@@ -1110,6 +1524,45 @@ export default class Compiler {
     this.pushVoid('itxn_submit');
   }
 
+<<<<<<< HEAD
+=======
+  private processCallExpression(node: any) {
+    this.addSourceComment(node);
+    const opcodeNames = langspec.Ops.map((o) => o.Name);
+    const methodName = node.callee?.property?.name || node.callee.name;
+
+    if (node.callee.object === undefined) {
+      if (opcodeNames.includes(methodName)) {
+        this.processOpcode(node);
+      } else if (TXN_METHODS.includes(methodName)) {
+        this.processTransaction(node);
+      } else if (['addr'].includes(methodName)) {
+        this.push(`addr ${node.arguments[0].value}`, 'Account');
+      } else if (['method'].includes(methodName)) {
+        this.push(`method "${node.arguments[0].value}"`, 'bytes');
+      }
+    } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+      const preArgsType = this.lastType;
+      node.arguments.forEach((a: any) => this.processNode(a));
+      this.lastType = preArgsType;
+      this.pushVoid(`callsub ${methodName}`);
+    } else if (Object.keys(this.storageProps).includes(node.callee.object.property?.name)) {
+      this.processStorageCall(node);
+    } else {
+      if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
+        this.processNode(node.callee);
+      } else {
+        this.processNode(node.callee.object);
+      }
+      const preArgsType = this.lastType;
+      node.arguments.forEach((a: any) => this.processNode(a));
+      this.lastType = preArgsType;
+
+      this.tealFunction(this.lastType!, node.callee.property.name);
+    }
+  }
+
+>>>>>>> main/dev
   private processStorageExpression(node: any) {
     const target = this.frame[node.object.name] || this.scratch[node.object.name];
     const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
@@ -1120,8 +1573,6 @@ export default class Compiler {
     );
 
     this.tealFunction(target.type, node.property.name, true);
-
-    this.lastType = target.type;
   }
 
   private getChain(node: any, chain: any[] = []): any[] {
@@ -1136,11 +1587,71 @@ export default class Compiler {
     return chain;
   }
 
+<<<<<<< HEAD
   private tealFunction(
     calleeType: string,
     name: string,
     checkArgs: boolean = false,
   ): void {
+=======
+  private processMemberExpression(node: any) {
+    const chain = this.getChain(node).reverse();
+
+    chain.push(node);
+
+    chain.forEach((n: any) => {
+      if (this.lastType?.endsWith('[]')) {
+        this.push(`${this.teal.pop()} ${n.property.value}`, this.lastType.replace('[]', ''));
+        return;
+      }
+
+      if (n.type === AST_NODE_TYPES.CallExpression) {
+        this.processNode(n);
+        return;
+      }
+
+      if (n.object?.name === 'globals') {
+        this.tealFunction('global', n.property.name);
+        return;
+      }
+
+      if (this.frame[n.object?.name] || this.scratch[n.object?.name]) {
+        this.processStorageExpression(n);
+        return;
+      }
+
+      if (n.object?.type === AST_NODE_TYPES.ThisExpression) {
+        switch (n.property.name) {
+          case 'txnGroup':
+            this.lastType = 'GroupTxn';
+            break;
+          case 'app':
+            this.lastType = 'Application';
+            this.pushVoid('txna Applications 0');
+            break;
+          default:
+            this.lastType = n.property.name;
+            break;
+        }
+
+        return;
+      }
+
+      if (n.property.type !== AST_NODE_TYPES.Identifier) {
+        const prevType = this.lastType;
+        this.processNode(n.property);
+        this.lastType = prevType;
+        return;
+      }
+
+      const { name } = n.property;
+
+      this.tealFunction(this.lastType!, name);
+    });
+  }
+
+  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
+>>>>>>> main/dev
     let type = calleeType;
     if (type.includes('Txn')) {
       type = 'gtxns';
