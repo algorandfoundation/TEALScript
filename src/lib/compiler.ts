@@ -13,7 +13,7 @@ function capitalizeFirstChar(str: string) {
 // Represents the stack types available in the AVM
 // eslint-disable-next-line no-shadow
 enum StackType {
-  none = 'none',
+  none = 'void',
   uint64 = 'uint64',
   bytes = 'bytes',
   any = 'any',
