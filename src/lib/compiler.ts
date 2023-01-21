@@ -467,10 +467,9 @@ export default class Compiler {
 
         if (className === this.name) {
           // TODO: Comments
+          this.abi = { name: className, desc: '', methods: [] };
 
           this.processNode(body);
-
-          this.abi = { name: className, desc: '', methods: [] };
         }
       }
     });
@@ -615,6 +614,12 @@ export default class Compiler {
         case ts.SyntaxKind.ReturnStatement:
           this.processReturnStatement(node as ts.ReturnStatement);
           break;
+        case ts.SyntaxKind.HeritageClause:
+          console.log('HeritageClause');
+          break;
+        case ts.SyntaxKind.ParenthesizedExpression:
+          this.processNode((node as ts.ParenthesizedExpression).expression);
+          break;
 
         // unhandled
         default:
@@ -665,8 +670,8 @@ export default class Compiler {
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
-    node.forEachChild((child) => {
-      this.processNode(child);
+    node.members.forEach((m) => {
+      this.processNode(m);
     });
   }
 
@@ -942,8 +947,7 @@ export default class Compiler {
 
     chain.forEach((n) => {
       if (this.lastType?.endsWith('[]')) {
-        // TODO: figure this out
-        this.push(`${this.teal.pop()} ${(n).argumentExpression.value}`, this.lastType.replace('[]', ''));
+        // this.push(`${this.teal.pop()} ${(n).argumentExpression.value}`, this.lastType.replace('[]', ''));
         return;
       }
 
@@ -1014,6 +1018,7 @@ export default class Compiler {
     });
 
     this.processNode(fn.body!);
+
     this.pushVoid('retsub');
     this.frame = lastFrame;
   }
@@ -1100,7 +1105,7 @@ export default class Compiler {
         this.pushVoid('-');
       }
 
-      args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
+      args.push({ name: p.name.getText(), type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
@@ -1177,91 +1182,90 @@ export default class Compiler {
 
     );
 
-    // TODO: Left off here
-
     if (nameProp) {
-      const argTypes = (node.typeArguments![0] as ts.TupleType).elements.map(
+      const argTypes = (node.typeArguments![0] as ts.TupleTypeNode).elements.map(
         (t) => t.getText(),
       );
-      const returnType = this.getTypeFromAnnotation(
-        node.typeParameters.params[1],
-      );
+      const returnType = node.typeArguments![1].getText();
+
       this.pushVoid(
-        `method "${nameProp.value.value}(${argTypes
+        `method "${nameProp.name?.getText()}(${argTypes
           .join(',')
           .toLowerCase()})${returnType.toLowerCase()}"`,
       );
       this.pushVoid('itxn_field ApplicationArgs');
     }
 
-    node.arguments[0].properties.forEach((p) => {
-      const key = p.key.name;
-      if (key !== 'name') this.addSourceComment(p);
+    ((node.arguments[0] as ts.ObjectLiteralExpression)
+      .properties as unknown as ts.PropertyAssignment[])
+      .forEach((p) => {
+        const key = p.name?.getText();
 
-      if (key === 'name') {
+        if (key === 'name') {
         // do nothing
-      } else if (key === 'OnCompletion') {
-        this.pushVoid(`int ${p.value.value}`);
-        this.pushVoid('itxn_field OnCompletion');
-      } else if (key === 'methodArgs') {
-        const argTypes = node.typeParameters.params[0].elementTypes.map(
-          (t) => this.getTypeFromAnnotation(t),
-        );
-        let accountIndex = 1;
-        let appIndex = 1;
-        let assetIndex = 0;
+        } else if (key === 'OnCompletion') {
+          this.pushVoid(`int ${p.initializer.getText()}`);
+          this.pushVoid('itxn_field OnCompletion');
+        } else if (key === 'methodArgs') {
+          const argTypes = (node.typeArguments![0] as ts.TupleTypeNode).elements.map(
+            (t) => t.getText(),
+          );
+          let accountIndex = 1;
+          let appIndex = 1;
+          let assetIndex = 0;
 
-        p.value.elements.forEach((e, i: number) => {
-          if (argTypes[i] === ForeignType.Account) {
+          (p.initializer as ts.ArrayLiteralExpression).elements.forEach((e, i: number) => {
+            if (argTypes[i] === ForeignType.Account) {
+              this.processNode(e);
+              this.pushVoid('itxn_field Accounts');
+              this.pushVoid(`int ${accountIndex}`);
+              this.pushVoid('itob');
+              accountIndex += 1;
+            } else if (argTypes[i] === ForeignType.Asset) {
+              this.processNode(e);
+              this.pushVoid('itxn_field Assets');
+              this.pushVoid(`int ${assetIndex}`);
+              this.pushVoid('itob');
+              assetIndex += 1;
+            } else if (argTypes[i] === ForeignType.Application) {
+              this.processNode(e);
+              this.pushVoid('itxn_field Applications');
+              this.pushVoid(`int ${appIndex}`);
+              this.pushVoid('itob');
+              appIndex += 1;
+            } else if (argTypes[i] === StackType.uint64) {
+              this.processNode(e);
+              this.pushVoid('itob');
+            } else {
+              this.processNode(e);
+            }
+            this.pushVoid('itxn_field ApplicationArgs');
+          });
+        } else if (p.initializer.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+          (p.initializer as ts.ArrayLiteralExpression).elements.forEach((e) => {
             this.processNode(e);
-            this.pushVoid('itxn_field Accounts');
-            this.pushVoid(`int ${accountIndex}`);
-            this.pushVoid('itob');
-            accountIndex += 1;
-          } else if (argTypes[i] === ForeignType.Asset) {
-            this.processNode(e);
-            this.pushVoid('itxn_field Assets');
-            this.pushVoid(`int ${assetIndex}`);
-            this.pushVoid('itob');
-            assetIndex += 1;
-          } else if (argTypes[i] === ForeignType.Application) {
-            this.processNode(e);
-            this.pushVoid('itxn_field Applications');
-            this.pushVoid(`int ${appIndex}`);
-            this.pushVoid('itob');
-            appIndex += 1;
-          } else if (argTypes[i] === StackType.uint64) {
-            this.processNode(e);
-            this.pushVoid('itob');
-          } else {
-            this.processNode(e);
-          }
-          this.pushVoid('itxn_field ApplicationArgs');
-        });
-      } else if (p.value.type === ts.SyntaxKind.ArrayLiteralExpression) {
-        p.value.elements.forEach((e) => {
-          this.processNode(e);
+            this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
+          });
+        } else {
+          this.processNode(p.initializer);
           this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
-        });
-      } else {
-        this.processNode(p.value);
-        this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
-      }
-    });
+        }
+      });
 
     this.pushVoid('itxn_submit');
   }
 
-  private processStorageExpression(node) {
-    const target = this.frame[node.object.name] || this.scratch[node.object.name];
-    const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
+  private processStorageExpression(node: ts.PropertyAccessExpression) {
+    const name = node.expression.getText();
+    const target = this.frame[name] || this.scratch[name];
+    const opcode = this.frame[name] ? 'frame_dig' : 'load';
 
     this.push(
-      `${opcode} ${target.index} // ${node.object.name}: ${target.type}`,
+      `${opcode} ${target.index} // ${name}: ${target.type}`,
       target.type,
     );
 
-    this.tealFunction(target.type, node.property.name, true);
+    this.tealFunction(target.type, name, true);
   }
 
   private getChain(
