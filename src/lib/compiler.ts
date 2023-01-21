@@ -195,6 +195,201 @@ export default class Compiler {
     gtxns: this.getOpParamObjects('gtxns'),
   };
 
+  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
+    global: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_global_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+
+        this.push('app_global_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('app_global_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_global_get_ex');
+      },
+    },
+    local: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.push('app_local_get', valueType);
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 1 : 2]);
+
+        this.push('app_local_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        this.processNode(node.arguments[0]);
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('app_local_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        this.processNode(node.arguments[0]);
+        this.pushVoid('txna Applications 0');
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[1]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('app_local_get_ex');
+      },
+    },
+    box: {
+      get: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.maybeValue('box_get', valueType);
+        if (isNumeric(valueType)) this.pushVoid('btoi');
+      },
+      put: (node: any) => {
+        const {
+          valueType, keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+        if (isNumeric(valueType)) this.pushVoid('itob');
+
+        this.push('box_put', valueType);
+      },
+      delete: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.pushVoid('box_del');
+      },
+      exists: (node: any) => {
+        const {
+          keyType, key,
+        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+
+        if (key) {
+          this.pushVoid(`byte "${key}"`);
+        } else {
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid('itob');
+        }
+
+        this.hasMaybeValue('box_get');
+      },
+    },
+  };
+
   private andCount: number = 0;
 
   private orCount: number = 0;
@@ -1020,201 +1215,6 @@ export default class Compiler {
 
     this.pushVoid(line.join(' '));
   }
-
-  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
-    global: {
-      get: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.push('app_global_get', valueType);
-      },
-      put: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.processNode(node.arguments[key ? 0 : 1]);
-
-        this.push('app_global_put', valueType);
-      },
-      delete: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.pushVoid('app_global_del');
-      },
-      exists: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        this.pushVoid('txna Applications 0');
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.hasMaybeValue('app_global_get_ex');
-      },
-    },
-    local: {
-      get: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        this.processNode(node.arguments[0]);
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.push('app_local_get', valueType);
-      },
-      put: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        this.processNode(node.arguments[0]);
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.processNode(node.arguments[key ? 1 : 2]);
-
-        this.push('app_local_put', valueType);
-      },
-      delete: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        this.processNode(node.arguments[0]);
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.pushVoid('app_local_del');
-      },
-      exists: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-        this.processNode(node.arguments[0]);
-        this.pushVoid('txna Applications 0');
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.hasMaybeValue('app_local_get_ex');
-      },
-    },
-    box: {
-      get: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.maybeValue('box_get', valueType);
-        if (isNumeric(valueType)) this.pushVoid('btoi');
-      },
-      put: (node: any) => {
-        const {
-          valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.processNode(node.arguments[key ? 0 : 1]);
-        if (isNumeric(valueType)) this.pushVoid('itob');
-
-        this.push('box_put', valueType);
-      },
-      delete: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.pushVoid('box_del');
-      },
-      exists: (node: any) => {
-        const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
-
-        if (key) {
-          this.pushVoid(`byte "${key}"`);
-        } else {
-          this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-        }
-
-        this.hasMaybeValue('box_get');
-      },
-    },
-  };
 
   private processStorageCall(node: any) {
     const op = node.callee.property.name;
