@@ -41,6 +41,27 @@ describe('Binary Expressions', function () {
     );
   });
 
+  it('combo', async function () {
+    const teal = await getTeal('combo');
+    expect(teal).to.deep.equal(
+      [
+        '// assert(a || (b && c))',
+        'frame_dig -3 // a: uint64',
+        'dup',
+        'bnz skip_or1',
+        'frame_dig -2 // b: uint64',
+        'dup',
+        'bz skip_and1',
+        'frame_dig -1 // c: uint64',
+        '&&',
+        'skip_and1:',
+        '||',
+        'skip_or1:',
+        'assert',
+      ],
+    );
+  });
+
   it('==', async function () {
     const teal = await getTeal('equal');
     expect(teal).to.deep.equal(

@@ -36,4 +36,8 @@ class BinaryTest extends Contract {
   bitXor(a: uint64, b: uint64): void {
     assert(a ^ b);
   }
+
+  combo(a: uint64, b: uint64, c: uint64): void {
+    assert(a || (b && c));
+  }
 }
