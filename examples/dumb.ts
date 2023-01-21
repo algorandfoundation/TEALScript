@@ -1,5 +1,2 @@
-type X = {
-    a: number
-}
-
-console.log({ a: 1 } as X);
+// eslint-disable-next-line no-unused-vars
+const z = 2 + 3;

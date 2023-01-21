@@ -10,4 +10,5 @@ const filename = process.argv[2];
 const sourceFile = ts.createSourceFile(filename, fs.readFileSync(filename).toString(), ts.ScriptTarget.ES2015, true);
 
 const c = new Compiler(sourceFile);
-console.log(c);
+
+console.log(c.teal.join('\n'));

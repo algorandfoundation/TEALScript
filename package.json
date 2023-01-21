@@ -4,7 +4,7 @@
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
   "scripts": {
-    "alt": "ts-node src/bin/ts.ts examples/arc12/arc12.ts",
+    "alt": "ts-node src/bin/ts.ts examples/dumb.ts",
     "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
     "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
     "test-examples": "mocha -r ts-node/register 'tests/examples.test.ts'",
