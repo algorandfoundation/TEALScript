@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/typescript-estree';
 import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
+import * as ts from 'typescript';
 
 import * as langspec from '../langspec.json';
 
@@ -39,13 +39,6 @@ enum ForeignType {
   Account = 'Account',
   Application = 'Application',
 }
-
-// The possible node types that are to be
-// interpreted as integers
-const numberTypes = [
-  AST_NODE_TYPES.LogicalExpression,
-  AST_NODE_TYPES.BinaryExpression,
-];
 
 const TXN_METHODS = [
   'sendPayment',
@@ -149,7 +142,7 @@ export default class Compiler {
 
   content: string;
 
-  private nodeProcessingErrors: any[];
+  private processErrorNodes: any[] = [];
 
   private frame: any;
 
@@ -170,8 +163,6 @@ export default class Compiler {
   lineToPc: { [key: number]: number[] };
 
   private lastSourceCommentRange: [number, number];
-
-  private comments: TSESTree.Comment[];
 
   private readonly OP_PARAMS: { [type: string]: any[] } = {
     Account: [
@@ -197,10 +188,12 @@ export default class Compiler {
 
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
     global: {
-      get: (node: any) => {
+      get: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -211,10 +204,12 @@ export default class Compiler {
 
         this.push('app_global_get', valueType);
       },
-      put: (node: any) => {
+      put: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -227,10 +222,12 @@ export default class Compiler {
 
         this.push('app_global_put', valueType);
       },
-      delete: (node: any) => {
+      delete: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -241,10 +238,12 @@ export default class Compiler {
 
         this.pushVoid('app_global_del');
       },
-      exists: (node: any) => {
+      exists: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
 
         this.pushVoid('txna Applications 0');
 
@@ -259,10 +258,12 @@ export default class Compiler {
       },
     },
     local: {
-      get: (node: any) => {
+      get: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         this.processNode(node.arguments[0]);
 
@@ -275,10 +276,12 @@ export default class Compiler {
 
         this.push('app_local_get', valueType);
       },
-      put: (node: any) => {
+      put: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         this.processNode(node.arguments[0]);
 
@@ -293,10 +296,12 @@ export default class Compiler {
 
         this.push('app_local_put', valueType);
       },
-      delete: (node: any) => {
+      delete: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
 
         this.processNode(node.arguments[0]);
 
@@ -309,10 +314,12 @@ export default class Compiler {
 
         this.pushVoid('app_local_del');
       },
-      exists: (node: any) => {
+      exists: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
         this.processNode(node.arguments[0]);
         this.pushVoid('txna Applications 0');
 
@@ -327,10 +334,12 @@ export default class Compiler {
       },
     },
     box: {
-      get: (node: any) => {
+      get: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -342,10 +351,12 @@ export default class Compiler {
         this.maybeValue('box_get', valueType);
         if (isNumeric(valueType)) this.pushVoid('btoi');
       },
-      put: (node: any) => {
+      put: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
           valueType, keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -359,10 +370,12 @@ export default class Compiler {
 
         this.push('box_put', valueType);
       },
-      delete: (node: any) => {
+      delete: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -373,10 +386,12 @@ export default class Compiler {
 
         this.pushVoid('box_del');
       },
-      exists: (node: any) => {
+      exists: (node: ts.CallExpression) => {
+        // @ts-ignore
+        const name = node.expression.expression.name.getText();
         const {
-          keyType, key,
-        } = this.storageProps[node.callee.object.property.name] as StorageProp;
+          valueType, keyType, key,
+        } = this.storageProps[name] as StorageProp;
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -401,7 +416,6 @@ export default class Compiler {
     this.scratch = {};
     this.scratchIndex = 0;
     this.ifCount = 0;
-    this.nodeProcessingErrors = [];
     this.frame = {};
     this.currentSubroutine = { name: '', returnType: '' };
     this.storageProps = {};
@@ -410,7 +424,6 @@ export default class Compiler {
     this.pcToLine = {};
     this.lineToPc = {};
     this.lastSourceCommentRange = [0, 0];
-    this.comments = [];
   }
 
   getOpParamObjects(op: string) {
@@ -438,31 +451,26 @@ export default class Compiler {
   }
 
   async compile() {
-    const tree = parser.parse(this.content, {
-      range: true,
-      loc: true,
-      comment: true,
-    });
+    const src = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
 
-    tree.body.forEach((body: TSESTree.ProgramStatement) => {
-      if (body.type !== AST_NODE_TYPES.ClassDeclaration) return;
-      if (body.superClass === null || body.superClass.type !== AST_NODE_TYPES.Identifier) return;
+    src.statements.forEach((body) => {
+      if (!ts.isClassDeclaration(body)) return;
 
-      if (body.superClass.name === CONTRACT_SUBCLASS) {
-        this.contractClasses.push(body.id.name);
+      if (
+        body.heritageClauses === undefined
+        || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)
+      ) return;
 
-        if (body.id.name === this.name) {
-          this.comments = tree.comments
-            .filter(
-              (c) => c.loc.start.line >= body.loc.start.line
-                && c.loc.end.line <= body.loc.end.line
-                && c.value.startsWith('/'),
-            )
-            .reverse();
+      if (body.heritageClauses[0].types[0].expression.text === CONTRACT_SUBCLASS) {
+        const className = body.name!.text;
+        this.contractClasses.push(className);
 
-          this.abi = { name: body.id.name, desc: '', methods: [] };
+        if (className === this.name) {
+          // TODO: Comments
 
           this.processNode(body);
+
+          this.abi = { name: className, desc: '', methods: [] };
         }
       }
     });
@@ -541,117 +549,84 @@ export default class Compiler {
     this.push('pop', StackType.uint64);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private getTypeFromAnnotation(typeAnnotation: any): StackType | string {
-    let type = StackType.any;
-
-    switch (typeAnnotation.type) {
-      case AST_NODE_TYPES.TSNumberKeyword:
-        type = StackType.uint64;
-        break;
-      case AST_NODE_TYPES.TSStringKeyword:
-        type = StackType.bytes;
-        break;
-      case AST_NODE_TYPES.TSVoidKeyword:
-        type = StackType.none;
-        break;
-      default:
-        type = typeAnnotation.typeName.name;
-        break;
-    }
-
-    return type;
-  }
-
-  private popComments(line: number): void {
-    if (this.comments.at(-1) && this.comments.at(-1)!.loc.start.line <= line) {
-      this.teal.push(`/${this.comments.pop()!.value}`);
-      return this.popComments(line);
-    }
-
-    return undefined;
-  }
-
-  private processNode(node: TSESTree.Node) {
-    this.popComments(node.loc.start.line);
+  private processNode(node: ts.Node) {
+    // TODO: this.popComments(node.loc.start.line);
 
     try {
-      switch (node.type) {
+      switch (node.kind) {
         // Contract organizational
-        case AST_NODE_TYPES.ClassBody:
-          this.processClassBody(node);
+        case ts.SyntaxKind.ClassDeclaration:
+          this.processClassDeclaration(node as ts.ClassDeclaration);
           break;
-        case AST_NODE_TYPES.ClassDeclaration:
-          this.processClassDeclaration(node);
+        case ts.SyntaxKind.PropertyDeclaration:
+          this.processPropertyDefinition(node as ts.PropertyDeclaration);
           break;
-        case AST_NODE_TYPES.PropertyDefinition:
-          this.processPropertyDefinition(node);
+        case ts.SyntaxKind.MethodDeclaration:
+          this.processMethodDefinition(node as ts.MethodDeclaration);
           break;
-        case AST_NODE_TYPES.MethodDefinition:
-          this.processMethodDefinition(node);
+        case ts.SyntaxKind.PropertyAccessExpression:
+          this.processMemberExpression(node as ts.PropertyAccessExpression);
           break;
-        case AST_NODE_TYPES.MemberExpression:
-          this.processMemberExpression(node);
+        case ts.SyntaxKind.AsExpression:
+          this.processTSAsExpression(node as ts.AsExpression);
           break;
-        case AST_NODE_TYPES.TSAsExpression:
-          this.processTSAsExpression(node);
-          break;
-        case AST_NODE_TYPES.NewExpression:
-          this.processNewExpression(node);
+        case ts.SyntaxKind.NewExpression:
+          this.processNewExpression(node as ts.NewExpression);
           break;
 
         // Vars/Consts
-        case AST_NODE_TYPES.Identifier:
-          this.processIdentifier(node);
+        case ts.SyntaxKind.Identifier:
+          this.processIdentifier(node as ts.Identifier);
           break;
-        case AST_NODE_TYPES.VariableDeclaration:
-          this.processVariableDeclaration(node);
+        case ts.SyntaxKind.VariableDeclarationList:
+          this.processVariableDeclaration(node as ts.VariableDeclarationList);
           break;
-        case AST_NODE_TYPES.VariableDeclarator:
-          this.processVariableDeclarator(node);
+        case ts.SyntaxKind.VariableDeclaration:
+          this.processVariableDeclarator(node as ts.VariableDeclaration);
           break;
-        case AST_NODE_TYPES.Literal:
-          this.processLiteral(node);
+        case ts.SyntaxKind.StringLiteral:
+        case ts.SyntaxKind.NumericLiteral:
+          this.processLiteral(node as ts.StringLiteral | ts.NumericLiteral);
           break;
 
         // Logical
-        case AST_NODE_TYPES.BlockStatement:
-          this.processBlockStatement(node);
+        case ts.SyntaxKind.Block:
+          this.processBlockStatement(node as ts.Block);
           break;
-        case AST_NODE_TYPES.IfStatement:
-          this.processIfStatement(node);
+        case ts.SyntaxKind.IfStatement:
+          this.processIfStatement(node as ts.IfStatement);
           break;
-        case AST_NODE_TYPES.UnaryExpression:
-          this.processUnaryExpression(node);
+        case ts.SyntaxKind.PrefixUnaryExpression:
+          this.processUnaryExpression(node as ts.PrefixUnaryExpression);
           break;
-        case AST_NODE_TYPES.BinaryExpression:
-          this.processBinaryExpression(node);
+        case ts.SyntaxKind.BinaryExpression:
+          this.processBinaryExpression(node as ts.BinaryExpression);
           break;
-        case AST_NODE_TYPES.LogicalExpression:
-          this.processLogicalExpression(node);
+        // TODO
+        // case ts.SyntaxKind.Logic:
+        //  this.processLogicalExpression(node);
+        //  break;
+        case ts.SyntaxKind.CallExpression:
+          this.processCallExpression(node as ts.CallExpression);
           break;
-        case AST_NODE_TYPES.CallExpression:
-          this.processCallExpression(node);
+        case ts.SyntaxKind.ExpressionStatement:
+          this.processExpressionStatement(node as ts.ExpressionStatement);
           break;
-        case AST_NODE_TYPES.ExpressionStatement:
-          this.processExpressionStatement(node);
-          break;
-        case AST_NODE_TYPES.ReturnStatement:
-          this.processReturnStatement(node);
+        case ts.SyntaxKind.ReturnStatement:
+          this.processReturnStatement(node as ts.ReturnStatement);
           break;
 
         // unhandled
         default:
-          throw new Error(`Unknown node type: ${node.type}`);
+          throw new Error(`Unknown node type: ${node.kind}`);
       }
     } catch (e: any) {
       if (
         e instanceof TypeError
         && e.message.includes('this[node.type] is not a function')
       ) {
-        // @ts-ignore
         this.processErrorNodes.push(node);
-        // @ts-ignore
+
         const errNode = this.processErrorNodes[0];
         e.message = `TEALScript can not process ${errNode.type} at ${
           this.filename
@@ -663,53 +638,46 @@ export default class Compiler {
     }
   }
 
-  private processMethodDefinition(node: TSESTree.MethodDefinition) {
+  private processMethodDefinition(node: ts.MethodDeclaration) {
     // TODO: raise exception?
-    if (node.key.type !== AST_NODE_TYPES.Identifier) return;
-    this.currentSubroutine.name = node.key.name;
+    if (!ts.isIdentifier(node.name)) return;
+    this.currentSubroutine.name = node.name.getText();
 
     // TODO: raise exception for no return val?
-    const { returnType } = node.value;
+    const returnType = node.type?.getText();
     if (returnType === undefined) return;
-    this.currentSubroutine.returnType = this.getTypeFromAnnotation(
-      returnType.typeAnnotation,
-    );
+    this.currentSubroutine.returnType = returnType;
 
-    if (node.accessibility === 'private') {
-      // TODO: error
-      if (node.value.type !== AST_NODE_TYPES.FunctionExpression) return;
-      this.processSubroutine(node.value);
+    // TODO: Error here
+    if (!node.body) return;
+
+    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
+      this.processSubroutine(node);
       return;
     }
 
-    this.currentSubroutine.decorators = node.decorators?.map(
-      (d: any) => d.expression.name,
+    this.currentSubroutine.decorators = (ts.getDecorators(node) || []).map(
+      (d) => d.expression.getText(),
     );
 
     // TODO: error
-    if (node.value.type !== AST_NODE_TYPES.FunctionExpression) return;
-    this.processAbiMethod(node.value);
+    this.processAbiMethod(node);
   }
 
-  private processClassBody(node: TSESTree.ClassBody) {
-    node.body.forEach((b: TSESTree.ClassElement) => {
-      this.processNode(b);
+  private processClassDeclaration(node: ts.ClassDeclaration) {
+    node.forEachChild((child) => {
+      this.processNode(child);
     });
   }
 
-  private processClassDeclaration(node: TSESTree.ClassDeclaration) {
-    this.processNode(node.body);
-  }
-
-  private processBlockStatement(node: TSESTree.BlockStatement) {
-    node.body.forEach((b: any) => {
-      this.processNode(b);
+  private processBlockStatement(node: ts.Block) {
+    node.statements.forEach((s) => {
+      this.processNode(s);
     });
   }
 
-  private processReturnStatement(node: TSESTree.ReturnStatement) {
-    this.addSourceComment(node);
-    if (node.argument !== null) this.processNode(node.argument);
+  private processReturnStatement(node: ts.ReturnStatement) {
+    if (node.expression !== undefined) this.processNode(node.expression);
 
     if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
 
@@ -719,14 +687,14 @@ export default class Compiler {
     this.pushVoid('log');
   }
 
-  private processBinaryExpression(node: TSESTree.BinaryExpression) {
+  private processBinaryExpression(node: ts.BinaryExpression) {
     this.processNode(node.left);
     const leftType = this.lastType!;
     this.processNode(node.right);
 
     if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
 
-    const operator = node.operator.replace('===', '==').replace('!==', '!=');
+    const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
       this.push(operator, StackType.uint64);
     } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
@@ -736,7 +704,8 @@ export default class Compiler {
     }
   }
 
-  private processLogicalExpression(node: TSESTree.LogicalExpression) {
+  /* TODO
+  private processLogicalExpression(node: ts.LogicalExpression) {
     this.processNode(node.left);
 
     let label: string;
@@ -759,36 +728,34 @@ export default class Compiler {
     this.push(node.operator, StackType.uint64);
     this.pushVoid(`${label!}:`);
   }
+  */
 
-  private processIdentifier(node: TSESTree.Identifier) {
-    if (this.contractClasses.includes(node.name)) {
-      this.pushVoid(`PENDING_COMPILE: ${node.name}`);
+  private processIdentifier(node: ts.Identifier) {
+    if (this.contractClasses.includes(node.getText())) {
+      this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
     }
-    const target = this.frame[node.name] || this.scratch[node.name];
-    const opcode = this.frame[node.name] ? 'frame_dig' : 'load';
+    const target = this.frame[node.getText()] || this.scratch[node.getText()];
+    const opcode = this.frame[node.getText()] ? 'frame_dig' : 'load';
 
     this.push(
-      `${opcode} ${target.index} // ${node.name}: ${target.type}`,
+      `${opcode} ${target.index} // ${node.getText()}: ${target.type}`,
       target.type,
     );
   }
 
-  private processNewExpression(node: TSESTree.NewExpression) {
-    node.arguments.forEach((a: TSESTree.CallExpressionArgument) => {
+  private processNewExpression(node: ts.NewExpression) {
+    (node.arguments || []).forEach((a) => {
       this.processNode(a);
     });
 
-    // TODO: error?
-    if (node.callee.type !== AST_NODE_TYPES.Identifier) return;
-
-    this.lastType = node.callee.name;
+    this.lastType = node.expression.getText();
   }
 
-  private processTSAsExpression(node: TSESTree.TSAsExpression) {
+  private processTSAsExpression(node: ts.AsExpression) {
     this.processNode(node.expression);
 
-    const type = this.getTypeFromAnnotation(node.typeAnnotation);
+    const type = node.type.getText();
     if (type.startsWith('uint') && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
       const lastBitWidth = parseInt(this.lastType!.replace('uint', ''), 10);
@@ -804,102 +771,71 @@ export default class Compiler {
     this.lastType = type;
   }
 
-  private processVariableDeclaration(node: TSESTree.VariableDeclaration) {
-    node.declarations.forEach((d: any) => {
+  private processVariableDeclaration(node: ts.VariableDeclarationList) {
+    node.declarations.forEach((d) => {
       this.processNode(d);
     });
   }
 
-  private processVariableDeclarator(node: TSESTree.VariableDeclarator) {
-    this.addSourceComment(node);
+  private processVariableDeclarator(node: ts.VariableDeclaration) {
+    const name = node.name.getText();
 
-    // TODO: error
-    if (node.id.type !== AST_NODE_TYPES.Identifier) return;
-    const { name } = node.id;
+    // TODO: Error if no initializer?
+    if (!node.initializer) return;
 
-    // TODO: error
-    if (node.init === null) return;
-
-    this.processNode(node.init);
-
-    // TODO: only a subset of Expression union types have a `value` prop
-    // @ts-ignore
-    let varType: string = typeof node.init.value;
-    if (varType === 'undefined' && this.lastType) varType = this.lastType;
-
-    if (numberTypes.includes(node.init.type)) {
-      varType = 'uint64';
-    } else if (
-      node.init.type === AST_NODE_TYPES.NewExpression
-      && node.init.callee.type === AST_NODE_TYPES.Identifier) {
-      varType = node.init.callee.name;
-    } else if (node.init.type === AST_NODE_TYPES.TSAsExpression) {
-      varType = this.getTypeFromAnnotation(node.init.typeAnnotation);
-    }
-
-    varType = varType.replace('number', 'uint64');
+    this.processNode(node.initializer);
 
     this.scratch[name] = {
       index: this.scratchIndex,
-      type: varType,
+      type: this.lastType,
     };
 
-    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${varType}`);
+    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${this.lastType}`);
     this.scratchIndex += 1;
   }
 
-  private processExpressionStatement(node: TSESTree.ExpressionStatement) {
+  private processExpressionStatement(node: ts.ExpressionStatement) {
     this.processNode(node.expression);
   }
 
-  private processCallExpression(node: TSESTree.CallExpression) {
-    this.addSourceComment(node);
+  private processCallExpression(node: ts.CallExpression) {
     const opcodeNames = langspec.Ops.map((o) => o.Name);
-    // @ts-ignore
-    const methodName = node.callee?.property?.name || node.callee.name;
+    const methodName = node.expression.getText();
 
-    // @ts-ignore
-    if (node.callee.object === undefined) {
+    if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
-        // @ts-ignore
-        this.push(`addr ${node.arguments[0].value}`, ForeignType.Account);
+        this.push(`addr ${node.arguments[0].getText()}`, ForeignType.Account);
       } else if (['method'].includes(methodName)) {
-        // @ts-ignore
-        this.push(`method "${node.arguments[0].value}"`, StackType.bytes);
+        this.push(`method "${node.arguments[0].getText()}"`, StackType.bytes);
       }
-      // @ts-ignore
-    } else if (node.callee.object.type === AST_NODE_TYPES.ThisExpression) {
+    } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
-      node.arguments.forEach((a: any) => this.processNode(a));
+      node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
-      // @ts-ignore
-      Object.keys(this.storageProps).includes(node.callee.object.property?.name)
+      Object.keys(this.storageProps).includes(node.expression.expression.getText())
     ) {
       this.processStorageCall(node);
     } else {
-      // @ts-ignore
-      if (node.callee.object.type === AST_NODE_TYPES.Identifier) {
-        this.processNode(node.callee);
+      if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
+        this.processNode(node.expression);
       } else {
-        // @ts-ignore
-        this.processNode(node.callee.object);
+        this.processNode(node.expression.expression);
       }
       const preArgsType = this.lastType;
-      node.arguments.forEach((a: any) => this.processNode(a));
+      node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
-      // @ts-ignore
-      this.tealFunction(this.lastType!, node.callee.property.name);
+      this.tealFunction(this.lastType!, node.expression.name.getText());
     }
   }
 
-  private processIfStatement(node: TSESTree.IfStatement, elseIfCount: number = 0) {
+  private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
     let labelPrefix: string;
 
     if (elseIfCount === 0) {
@@ -910,29 +846,28 @@ export default class Compiler {
       this.pushVoid(`${labelPrefix}_condition:`);
     }
 
-    this.addSourceComment(node.test);
-    this.processNode(node.test);
+    this.processNode(node.expression);
 
-    if (node.alternate == null) {
+    if (node.elseStatement == null) {
       this.pushVoid(`bz if${this.ifCount}_end`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
-    } else if (node.alternate.type === AST_NODE_TYPES.IfStatement) {
+      this.processNode(node.thenStatement);
+    } else if (node.elseStatement.kind === ts.SyntaxKind.IfStatement) {
       this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
+      this.processNode(node.thenStatement);
       this.pushVoid(`b if${this.ifCount}_end`);
-      this.processIfStatement(node.alternate, elseIfCount + 1);
-    } else if (node.alternate.type === AST_NODE_TYPES.BlockStatement) {
+      this.processIfStatement(node.elseStatement as ts.IfStatement, elseIfCount + 1);
+    } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
       this.pushVoid(`bz if${this.ifCount}_else`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
-      this.processNode(node.consequent);
+      this.processNode(node.thenStatement);
       this.pushVoid(`b if${this.ifCount}_end`);
       this.pushVoid(`if${this.ifCount}_else:`);
-      this.processNode(node.alternate);
+      this.processNode(node.elseStatement);
     } else {
       this.pushVoid(`bz if${this.ifCount}_end`);
-      this.processNode(node.alternate);
+      this.processNode(node.elseStatement);
     }
 
     if (elseIfCount === 0) {
@@ -941,103 +876,94 @@ export default class Compiler {
     }
   }
 
-  private processUnaryExpression(node: TSESTree.UnaryExpression) {
-    this.processNode(node.argument);
-    this.push(node.operator, 'uint64');
+  private processUnaryExpression(node: ts.PrefixUnaryExpression) {
+    this.processNode(node.operand);
+    // TODO: Get operator string
+    this.push(node.operator.toString(), 'uint64');
   }
 
-  private processPropertyDefinition(node: TSESTree.PropertyDefinition) {
-    // @ts-ignore
-    const klass = node.value.callee.name as string;
+  private processPropertyDefinition(node: ts.PropertyDeclaration) {
+    if (node.initializer === undefined || !ts.isNewExpression(node.initializer)) throw new Error();
+
+    const klass = node.initializer.expression.getText();
 
     if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[0],
-        ),
-        valueType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[1],
-        ),
+        keyType: node.initializer.typeArguments![0].getText(),
+        valueType: node.initializer.typeArguments![1].getText(),
       };
 
-      // @ts-ignore
-      if (node.value.arguments[0]) {
-        // @ts-ignore
-        const sizeProp = node.value.arguments[0].properties.find(
-          (p: any) => p.key.name === 'defaultSize',
-        );
-        if (sizeProp) props.defaultSize = sizeProp.value.value;
-      }
+      if (node.initializer?.arguments?.[0] === undefined) throw new Error();
+      const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
+      const sizeProp = arg.properties.find(
+        (p) => p.name?.getText() === 'defaultSize',
+      );
+      if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
 
-      // @ts-ignore
-      this.storageProps[node.key.name] = props;
+      this.storageProps[node.name.getText()] = props;
     } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
-      // @ts-ignore
-      const keyProp = node.value.arguments[0].properties.find((p: any) => p.key.name === 'key');
+      if (node.initializer?.arguments?.[0] === undefined) throw new Error();
+      const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
+      const keyProp = arg.properties.find(
+        (p) => p.name?.getText() === 'key',
+      );
 
       const props: StorageProp = {
         type: klass.toLowerCase().replace('reference', ''),
-        key: keyProp.value.value,
+        key: keyProp!.name!.getText(),
         keyType: 'string',
-        valueType: this.getTypeFromAnnotation(
-          // @ts-ignore
-          node.value.typeParameters.params[0],
-        ),
+        valueType: node.initializer.typeArguments![0].getText(),
       };
 
-      // @ts-ignore
-      const sizeProp = node.value.arguments[0].properties.find(
-        (p: any) => p.key.name === 'defaultSize',
+      const sizeProp = arg.properties.find(
+        (p) => p.name?.getText() === 'defaultSize',
       );
-      if (sizeProp) props.defaultSize = sizeProp.value.value;
+      if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
 
-      // @ts-ignore
-      this.storageProps[node.key.name] = props;
+      this.storageProps[node.name.getText()] = props;
     } else {
       throw new Error();
     }
   }
 
-  private processLiteral(node: TSESTree.Literal) {
-    const litType = typeof node.value;
-    if (litType === 'string') {
-      this.push(`byte "${node.value}"`, StackType.bytes);
+  private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
+    if (node.kind === ts.SyntaxKind.StringLiteral) {
+      this.push(`byte "${node.getText()}"`, StackType.bytes);
     } else {
-      this.push(`int ${node.value}`, StackType.uint64);
+      this.push(`int ${node.getText()}`, StackType.uint64);
     }
   }
 
-  private processMemberExpression(node: TSESTree.MemberExpression) {
+  private processMemberExpression(node: ts.PropertyAccessExpression) {
     const chain = this.getChain(node).reverse();
 
     chain.push(node);
 
-    chain.forEach((n: any) => {
+    chain.forEach((n) => {
       if (this.lastType?.endsWith('[]')) {
-        this.push(`${this.teal.pop()} ${n.property.value}`, this.lastType.replace('[]', ''));
+        // TODO: figure this out
+        this.push(`${this.teal.pop()} ${(n).argumentExpression.value}`, this.lastType.replace('[]', ''));
         return;
       }
 
-      if (n.type === AST_NODE_TYPES.CallExpression) {
+      if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
         return;
       }
 
-      if (n.object?.name === 'globals') {
-        this.tealFunction('global', n.property.name);
+      if (n.expression.getText() === 'globals') {
+        this.tealFunction('global', n.name.getText());
         return;
       }
 
-      if (this.frame[n.object?.name] || this.scratch[n.object?.name]) {
+      if (this.frame[n.expression.getText()] || this.scratch[n.expression.getText()]) {
         this.processStorageExpression(n);
         return;
       }
 
-      if (n.object?.type === AST_NODE_TYPES.ThisExpression) {
-        switch (n.property.name) {
+      if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
+        switch (n.name.getText()) {
           case 'txnGroup':
             this.lastType = 'GroupTxn';
             break;
@@ -1046,52 +972,53 @@ export default class Compiler {
             this.pushVoid('txna Applications 0');
             break;
           default:
-            this.lastType = n.property.name;
+            this.lastType = n.name.getText();
             break;
         }
 
         return;
       }
 
-      if (n.property.type !== AST_NODE_TYPES.Identifier) {
+      if (n.name.kind !== ts.SyntaxKind.Identifier) {
         const prevType = this.lastType;
-        this.processNode(n.property);
+        this.processNode(n.name);
         this.lastType = prevType;
         return;
       }
 
-      const { name } = n.property;
-
-      this.tealFunction(this.lastType!, name);
+      this.tealFunction(this.lastType!, n.name.getText());
     });
   }
 
-  private processSubroutine(fn: TSESTree.FunctionExpression, abi: boolean = false) {
+  private processSubroutine(fn: ts.MethodDeclaration, abi: boolean = false) {
     this.pushVoid(`${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
     this.pushVoid(
-      `proto ${fn.params.length} ${
+      `proto ${fn.parameters.length} ${
         this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
       }`,
     );
     let frameIndex = 0;
-    fn.params.reverse().forEach((p: any) => {
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+    const params = new Array(...fn.parameters);
+    params.reverse().forEach((p) => {
+      if (p.type === undefined) throw new Error();
+
+      const type = p.type.getText();
 
       frameIndex -= 1;
-      this.frame[p.name] = {};
-      this.frame[p.name].index = frameIndex;
-      this.frame[p.name].type = type;
+      this.frame[p.name.getText()] = {};
+      this.frame[p.name.getText()].index = frameIndex;
+      this.frame[p.name.getText()].type = type;
     });
 
-    this.processNode(fn.body);
+    this.processNode(fn.body!);
     this.pushVoid('retsub');
     this.frame = lastFrame;
   }
 
-  private processAbiMethod(fn: TSESTree.FunctionExpression) {
+  private processAbiMethod(fn: ts.MethodDeclaration) {
     let argCount = 0;
     this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
     const args: any[] = [];
@@ -1139,15 +1066,12 @@ export default class Compiler {
       this.pushVoid('assert');
     }
 
-    let gtxnIndex = fn.params.filter((p: any) => this.getTypeFromAnnotation(
-      p.typeAnnotation.typeAnnotation,
-    ).includes('Txn')).length;
+    let gtxnIndex = fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length;
 
     gtxnIndex += 1;
 
-    fn.params.forEach((p: TSESTree.Parameter) => {
-      // @ts-ignore
-      const type = this.getTypeFromAnnotation(p.typeAnnotation.typeAnnotation);
+    fn.parameters.forEach((p) => {
+      const type = p!.type!.getText();
       let abiType = type;
 
       if (type.includes('Txn')) {
@@ -1176,7 +1100,6 @@ export default class Compiler {
         this.pushVoid('-');
       }
 
-      // @ts-ignore
       args.push({ name: p.name, type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
@@ -1198,37 +1121,39 @@ export default class Compiler {
     this.processSubroutine(fn, true);
   }
 
-  private processOpcode(node: any) {
+  private processOpcode(node: ts.CallExpression) {
     const opSpec = langspec.Ops.find(
-      (o) => o.Name === node.callee.name,
+      (o) => o.Name === node.expression.getText(),
     ) as OpSpec;
-    let line: string[] = [node.callee.name];
+    let line: string[] = [node.expression.getText()];
 
     if (opSpec.Size === 1) {
       const preArgsType = this.lastType;
-      node.arguments.forEach((a: any) => this.processNode(a));
+      node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
     } else if (opSpec.Size === 0) {
-      line = line.concat(node.arguments.map((a: any) => a.value));
+      line = line.concat(node.arguments.map((a) => a.getText()));
     } else {
       line = line.concat(
-        node.arguments.slice(0, opSpec.Size - 1).map((a: any) => a.value),
+        node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()),
       );
     }
 
     this.pushVoid(line.join(' '));
   }
 
-  private processStorageCall(node: any) {
-    const op = node.callee.property.name;
-    const { type } = this.storageProps[node.callee.object.property.name] as StorageProp;
+  private processStorageCall(node: ts.CallExpression) {
+    // @ts-ignore
+    const op = node.expression.name.getText();
+    // @ts-ignore
+    const { type } = this.storageProps[node.expression.expression.name.getText()] as StorageProp;
     this.storageFunctions[type][op](node);
   }
 
-  private processTransaction(node: any) {
+  private processTransaction(node: ts.CallExpression) {
     let txnType = '';
 
-    switch (node.callee.name) {
+    switch (node.expression.getText()) {
       case 'sendPayment':
         txnType = TransactionType.PaymentTx;
         break;
@@ -1247,13 +1172,16 @@ export default class Compiler {
     this.pushVoid(`int ${txnType}`);
     this.pushVoid('itxn_field TypeEnum');
 
-    const nameProp = node.arguments[0].properties.find(
-      (p: any) => p.key.name === 'name',
+    const nameProp = (node.arguments[0] as ts.ObjectLiteralExpression).properties.find(
+      (p) => p.name?.getText() === 'name',
+
     );
 
+    // TODO: Left off here
+
     if (nameProp) {
-      const argTypes = node.typeParameters.params[0].elementTypes.map(
-        (t: any) => this.getTypeFromAnnotation(t),
+      const argTypes = (node.typeArguments![0] as ts.TupleType).elements.map(
+        (t) => t.getText(),
       );
       const returnType = this.getTypeFromAnnotation(
         node.typeParameters.params[1],
@@ -1266,7 +1194,7 @@ export default class Compiler {
       this.pushVoid('itxn_field ApplicationArgs');
     }
 
-    node.arguments[0].properties.forEach((p: any) => {
+    node.arguments[0].properties.forEach((p) => {
       const key = p.key.name;
       if (key !== 'name') this.addSourceComment(p);
 
@@ -1277,13 +1205,13 @@ export default class Compiler {
         this.pushVoid('itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
         const argTypes = node.typeParameters.params[0].elementTypes.map(
-          (t: any) => this.getTypeFromAnnotation(t),
+          (t) => this.getTypeFromAnnotation(t),
         );
         let accountIndex = 1;
         let appIndex = 1;
         let assetIndex = 0;
 
-        p.value.elements.forEach((e: any, i: number) => {
+        p.value.elements.forEach((e, i: number) => {
           if (argTypes[i] === ForeignType.Account) {
             this.processNode(e);
             this.pushVoid('itxn_field Accounts');
@@ -1310,8 +1238,8 @@ export default class Compiler {
           }
           this.pushVoid('itxn_field ApplicationArgs');
         });
-      } else if (p.value.type === AST_NODE_TYPES.ArrayExpression) {
-        p.value.elements.forEach((e: any) => {
+      } else if (p.value.type === ts.SyntaxKind.ArrayLiteralExpression) {
+        p.value.elements.forEach((e) => {
           this.processNode(e);
           this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
         });
@@ -1324,7 +1252,7 @@ export default class Compiler {
     this.pushVoid('itxn_submit');
   }
 
-  private processStorageExpression(node: any) {
+  private processStorageExpression(node) {
     const target = this.frame[node.object.name] || this.scratch[node.object.name];
     const opcode = this.frame[node.object.name] ? 'frame_dig' : 'load';
 
@@ -1336,14 +1264,20 @@ export default class Compiler {
     this.tealFunction(target.type, node.property.name, true);
   }
 
-  private getChain(node: any, chain: any[] = []): any[] {
-    if (node.object.type === AST_NODE_TYPES.MemberExpression) {
-      chain.push(node.object);
-      return this.getChain(node.object, chain);
+  private getChain(
+    node: ts.PropertyAccessExpression,
+    chain: (ts.PropertyAccessExpression | ts.CallExpression)[] = [],
+  ): (ts.PropertyAccessExpression | ts.CallExpression)[] {
+    if (node.expression.kind === ts.SyntaxKind.PropertyAccessExpression) {
+      chain.push(node.expression as ts.PropertyAccessExpression);
+      return this.getChain(node.expression as ts.PropertyAccessExpression, chain);
     }
-    if (node.object.type === AST_NODE_TYPES.CallExpression) {
-      chain.push(node.object);
-      return this.getChain(node.object.callee, chain);
+    if (node.expression.kind === ts.SyntaxKind.CallExpression) {
+      chain.push(node.expression as ts.CallExpression);
+      return this.getChain(
+        (node.expression as ts.CallExpression).expression as ts.PropertyAccessExpression,
+        chain,
+      );
     }
     return chain;
   }
@@ -1427,27 +1361,6 @@ export default class Compiler {
     }
 
     return json.result;
-  }
-
-  addSourceComment(node: any) {
-    if (
-      node.range[0] >= this.lastSourceCommentRange[0]
-      && node.range[0] <= this.lastSourceCommentRange[1]
-    ) { return; }
-
-    const methodName = node.callee?.property?.name || node.callee?.name;
-    let content = this.content
-      .substring(node.range[0], node.range[1])
-      .replace(/\n/g, '\n//');
-
-    if (TXN_METHODS.includes(methodName)) {
-      [content] = content.split('\n');
-    } else {
-      this.lastSourceCommentRange = node.range;
-    }
-
-    if (this.filename) { this.pushVoid(`// ${this.filename}:${node.loc.start.line}`); }
-    this.pushVoid(`// ${content}`);
   }
 
   prettyTeal() {
