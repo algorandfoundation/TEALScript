@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts from 'typescript';
+import ts, { isStringLiteral } from 'typescript';
 
 import * as langspec from '../langspec.json';
 
@@ -591,80 +591,31 @@ export default class Compiler {
     this.pushComments(node);
 
     try {
-      switch (node.kind) {
-        // Contract organizational
-        case ts.SyntaxKind.ClassDeclaration:
-          this.processClassDeclaration(node as ts.ClassDeclaration);
-          break;
-        case ts.SyntaxKind.PropertyDeclaration:
-          this.processPropertyDefinition(node as ts.PropertyDeclaration);
-          break;
-        case ts.SyntaxKind.MethodDeclaration:
-          this.processMethodDefinition(node as ts.MethodDeclaration);
-          break;
-        case ts.SyntaxKind.PropertyAccessExpression:
-          this.processMemberExpression(node as ts.PropertyAccessExpression);
-          break;
-        case ts.SyntaxKind.AsExpression:
-          this.processTSAsExpression(node as ts.AsExpression);
-          break;
-        case ts.SyntaxKind.NewExpression:
-          this.processNewExpression(node as ts.NewExpression);
-          break;
+      if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
+      else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
+      else if (ts.isMethodDeclaration(node)) this.processMethodDefinition(node);
+      else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
+      else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
+      else if (ts.isNewExpression(node)) this.processNewExpression(node);
 
-        // Vars/Consts
-        case ts.SyntaxKind.Identifier:
-          this.processIdentifier(node as ts.Identifier);
-          break;
-        case ts.SyntaxKind.VariableDeclarationList:
-          this.processVariableDeclaration(node as ts.VariableDeclarationList);
-          break;
-        case ts.SyntaxKind.VariableDeclaration:
-          this.processVariableDeclarator(node as ts.VariableDeclaration);
-          break;
-        case ts.SyntaxKind.StringLiteral:
-        case ts.SyntaxKind.NumericLiteral:
-          this.processLiteral(node as ts.StringLiteral | ts.NumericLiteral);
-          break;
+      // Vars/Consts
+      else if (ts.isIdentifier(node)) this.processIdentifier(node);
+      else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);
+      else if (ts.isVariableDeclaration(node)) this.processVariableDeclarator(node);
+      else if (ts.isNumericLiteral(node) || isStringLiteral(node)) this.processLiteral(node);
 
-        // Logical
-        case ts.SyntaxKind.Block:
-          this.processBlockStatement(node as ts.Block);
-          break;
-        case ts.SyntaxKind.IfStatement:
-          this.processIfStatement(node as ts.IfStatement);
-          break;
-        case ts.SyntaxKind.PrefixUnaryExpression:
-          this.processUnaryExpression(node as ts.PrefixUnaryExpression);
-          break;
-        case ts.SyntaxKind.BinaryExpression:
-          this.processBinaryExpression(node as ts.BinaryExpression);
-          break;
-        case ts.SyntaxKind.CallExpression:
-          this.processCallExpression(node as ts.CallExpression);
-          break;
-        case ts.SyntaxKind.ExpressionStatement:
-          this.processExpressionStatement(node as ts.ExpressionStatement);
-          break;
-        case ts.SyntaxKind.ReturnStatement:
-          this.processReturnStatement(node as ts.ReturnStatement);
-          break;
-        case ts.SyntaxKind.HeritageClause:
-          break;
-        case ts.SyntaxKind.ParenthesizedExpression:
-          this.processNode((node as ts.ParenthesizedExpression).expression);
-          break;
-        case ts.SyntaxKind.VariableStatement:
-          this.processNode((node as ts.VariableStatement).declarationList);
-          break;
-        case ts.SyntaxKind.ElementAccessExpression:
-          this.processElementAccessExpression(node as ts.ElementAccessExpression);
-          break;
-
-        // unhandled
-        default:
-          throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
-      }
+      // Logical
+      else if (ts.isBlock(node)) this.processBlockStatement(node);
+      else if (ts.isIfStatement(node)) this.processIfStatement(node);
+      else if (ts.isPrefixUnaryExpression(node)) this.processUnaryExpression(node);
+      else if (ts.isBinaryExpression(node)) this.processBinaryExpression(node);
+      else if (ts.isCallExpression(node)) this.processCallExpression(node);
+      else if (ts.isExpressionStatement(node)) this.processExpressionStatement(node);
+      else if (ts.isReturnStatement(node)) this.processReturnStatement(node);
+      else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
+      else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
+      else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
+      else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
 
