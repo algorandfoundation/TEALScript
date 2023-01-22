@@ -164,6 +164,8 @@ export default class Compiler {
 
   private lastSourceCommentRange: [number, number];
 
+  private comments: number[] = [];
+
   private readonly OP_PARAMS: { [type: string]: any[] } = {
     Account: [
       ...this.getOpParamObjects('acct_params_get'),
@@ -551,8 +553,22 @@ export default class Compiler {
     this.push('pop', StackType.uint64);
   }
 
+  private pushComments(node: ts.Node) {
+    const commentRanges = [
+      ...(ts.getLeadingCommentRanges(this.sourceFile.text, node.pos) || []),
+      ...(ts.getTrailingCommentRanges(this.sourceFile.text, node.pos) || []),
+    ];
+    commentRanges.forEach((c) => {
+      const comment = this.sourceFile.text.slice(c.pos, c.end);
+      if (comment.startsWith('///') && !this.comments.includes(c.pos)) {
+        this.pushVoid(comment.replace('///', '//'));
+        this.comments.push(c.pos);
+      }
+    });
+  }
+
   private processNode(node: ts.Node) {
-    // TODO: this.popComments(node.loc.start.line);
+    this.pushComments(node);
 
     try {
       switch (node.kind) {
@@ -978,11 +994,6 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n) => {
-      if (this.lastType?.endsWith('[]')) {
-        // this.push(`${this.teal.pop()} ${(n).argumentExpression.value}`, this.lastType.replace('[]', ''));
-        return;
-      }
-
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
         return;
@@ -1236,6 +1247,7 @@ export default class Compiler {
         }
 
         this.addSourceComment(p, true);
+        this.pushComments(p);
 
         if (key === 'OnCompletion') {
           this.pushVoid(`int ${(p.initializer as ts.StringLiteral).text}`);
