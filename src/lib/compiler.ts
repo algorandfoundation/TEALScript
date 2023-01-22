@@ -470,7 +470,6 @@ export default class Compiler {
         this.contractClasses.push(className);
 
         if (className === this.name) {
-          // TODO: Comments
           this.abi = { name: className, desc: '', methods: [] };
 
           this.processNode(body);
@@ -642,22 +641,20 @@ export default class Compiler {
 
         // unhandled
         default:
-          throw new Error(`Unknown node type: ${node.kind}`);
+          throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
       }
     } catch (e: any) {
-      if (
-        e instanceof TypeError
-        && e.message.includes('this[node.type] is not a function')
-      ) {
-        this.processErrorNodes.push(node);
+      this.processErrorNodes.push(node);
 
-        const errNode = this.processErrorNodes[0];
-        e.message = `TEALScript can not process ${errNode.type} at ${
-          this.filename
-        }:${errNode.loc.start.line}:${
-          errNode.loc.start.column
-        }\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
-      }
+      const errNode = this.processErrorNodes[0];
+      const loc = ts.getLineAndCharacterOfPosition(this.sourceFile, errNode.pos);
+      const lines: string[] = [];
+      errNode.getText().split('\n').forEach((l: string, i: number) => {
+        lines.push(`${this.filename}:${loc.line + i + 1}: ${l}`);
+      });
+
+      e.message = `TEALScript can not process ${ts.SyntaxKind[errNode.kind]} at ${this.filename}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+
       throw e;
     }
   }
@@ -676,17 +673,14 @@ export default class Compiler {
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
-    // TODO: raise exception?
-    if (!ts.isIdentifier(node.name)) return;
+    if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    // TODO: raise exception for no return val?
     const returnType = node.type?.getText();
-    if (returnType === undefined) return;
+    if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
-    // TODO: Error here
-    if (!node.body) return;
+    if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
     if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
       this.processSubroutine(node);
@@ -697,7 +691,6 @@ export default class Compiler {
       (d) => d.expression.getText(),
     );
 
-    // TODO: error
     this.processAbiMethod(node);
   }
 
@@ -822,8 +815,7 @@ export default class Compiler {
     this.addSourceComment(node);
     const name = node.name.getText();
 
-    // TODO: Error if no initializer?
-    if (!node.initializer) return;
+    if (!node.initializer) throw new Error('Variables must be initialized when defined');
 
     this.processNode(node.initializer);
 
