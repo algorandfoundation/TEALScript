@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-import * as parser from '@typescript-eslint/typescript-estree';
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 import * as langspec from '../langspec.json';
 
