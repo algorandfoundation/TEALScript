@@ -201,11 +201,13 @@ export default class Compiler {
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
     global: {
       get: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -217,11 +219,13 @@ export default class Compiler {
         this.push('app_global_get', valueType);
       },
       put: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -235,11 +239,13 @@ export default class Compiler {
         this.push('app_global_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -251,11 +257,13 @@ export default class Compiler {
         this.pushVoid('app_global_del');
       },
       exists: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         this.pushVoid('txna Applications 0');
 
@@ -271,11 +279,13 @@ export default class Compiler {
     },
     local: {
       get: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
 
@@ -289,11 +299,13 @@ export default class Compiler {
         this.push('app_local_get', valueType);
       },
       put: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
 
@@ -309,11 +321,13 @@ export default class Compiler {
         this.push('app_local_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
 
@@ -327,11 +341,13 @@ export default class Compiler {
         this.pushVoid('app_local_del');
       },
       exists: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
         this.processNode(node.arguments[0]);
         this.pushVoid('txna Applications 0');
 
@@ -347,11 +363,13 @@ export default class Compiler {
     },
     box: {
       get: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -364,11 +382,13 @@ export default class Compiler {
         if (isNumeric(valueType)) this.pushVoid('btoi');
       },
       put: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -383,11 +403,13 @@ export default class Compiler {
         this.push('box_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -399,11 +421,13 @@ export default class Compiler {
         this.pushVoid('box_del');
       },
       exists: (node: ts.CallExpression) => {
-        // @ts-ignore
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
+
         const {
           valueType, keyType, key,
-        } = this.storageProps[name] as StorageProp;
+        } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
@@ -653,21 +677,25 @@ export default class Compiler {
         lines.push(`${this.filename}:${loc.line + i + 1}: ${l}`);
       });
 
-      e.message = `TEALScript can not process ${ts.SyntaxKind[errNode.kind]} at ${this.filename}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+      const msg = `TEALScript can not process ${ts.SyntaxKind[errNode.kind]} at ${this.filename}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+
+      e.message = `${e.message.replace(`\n${msg}`, '')}\n${msg}`;
 
       throw e;
     }
   }
 
   private processElementAccessExpression(node: ts.ElementAccessExpression) {
-    switch ((node.expression as ts.PropertyAccessExpression).name.getText()) {
+    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Element access expression must be property access expression');
+    switch (node.expression.name.getText()) {
       case 'txnGroup':
         this.processNode(node.argumentExpression);
         this.lastType = 'GroupTxn';
         break;
       default:
         this.processNode(node.expression);
-        this.push(`${this.teal.pop()} ${(node.argumentExpression as ts.NumericLiteral).text}`, this.lastType.replace('[]', ''));
+        if (!ts.isNumericLiteral(node.argumentExpression)) throw new Error('Element access expression argument must be numeric literal');
+        this.push(`${this.teal.pop()} ${node.argumentExpression.text}`, this.lastType.replace('[]', ''));
         break;
     }
   }
@@ -835,8 +863,15 @@ export default class Compiler {
   private processCallExpression(node: ts.CallExpression) {
     this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
-    const methodName = (node.expression as ts.PropertyAccessExpression).name?.getText()
-    || node.expression.getText();
+    if (!(ts.isPropertyAccessExpression(node.expression) || ts.isIdentifier(node.expression))) throw new Error(`Only property access expressions are supported (given ${ts.SyntaxKind[node.expression.kind]})`);
+
+    let methodName = '';
+
+    if (ts.isPropertyAccessExpression(node.expression)) {
+      methodName = node.expression.name.getText();
+    } else if (ts.isIdentifier(node.expression)) {
+      methodName = node.expression.getText();
+    }
 
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
@@ -844,9 +879,11 @@ export default class Compiler {
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
-        this.push(`addr ${(node.arguments[0] as ts.StringLiteral).text}`, ForeignType.Account);
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
+        this.push(`addr ${node.arguments[0].text}`, ForeignType.Account);
       } else if (['method'].includes(methodName)) {
-        this.push(`method "${(node.arguments[0] as ts.StringLiteral).text}"`, StackType.bytes);
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
+        this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
       }
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
@@ -854,8 +891,8 @@ export default class Compiler {
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
-      Object.keys(this.storageProps)
-        .includes((node.expression.expression as ts.PropertyAccessExpression)?.name?.getText())
+      ts.isPropertyAccessExpression(node.expression.expression)
+      && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
     ) {
       this.processStorageCall(node);
     } else {
@@ -890,12 +927,12 @@ export default class Compiler {
       this.pushVoid(`bz if${this.ifCount}_end`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-    } else if (node.elseStatement.kind === ts.SyntaxKind.IfStatement) {
+    } else if (ts.isIfStatement(node.elseStatement)) {
       this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
       this.pushVoid(`b if${this.ifCount}_end`);
-      this.processIfStatement(node.elseStatement as ts.IfStatement, elseIfCount + 1);
+      this.processIfStatement(node.elseStatement, elseIfCount + 1);
     } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
       this.pushVoid(`bz if${this.ifCount}_else`);
       this.pushVoid(`// ${labelPrefix}_consequent`);
@@ -938,7 +975,9 @@ export default class Compiler {
       };
 
       if (node.initializer?.arguments?.[0] !== undefined) {
-        const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
+        if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
+
+        const arg = node.initializer.arguments[0];
         const sizeProp = arg.properties.find(
           (p) => p.name?.getText() === 'defaultSize',
         );
@@ -947,15 +986,20 @@ export default class Compiler {
 
       this.storageProps[node.name.getText()] = props;
     } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
-      if (node.initializer?.arguments?.[0] === undefined) throw new Error();
-      const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
+      if (node.initializer?.arguments?.[0] === undefined) throw new Error('Storage reference must include an argument');
+      if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
+
+      const arg = node.initializer.arguments[0];
       const keyProp = arg.properties.find(
         (p) => p.name?.getText() === 'key',
       );
 
+      if (keyProp === undefined) throw new Error('Must provide a key for storage reference');
+      if (!ts.isPropertyAssignment(keyProp) || !ts.isStringLiteral(keyProp.initializer)) throw new Error('Key must be a string literal');
+
       const props: StorageProp = {
         type: klass.toLowerCase().replace('reference', ''),
-        key: ((keyProp as ts.PropertyAssignment).initializer as ts.StringLiteral).text,
+        key: keyProp.initializer.text,
         keyType: 'string',
         valueType: node.initializer.typeArguments![0].getText(),
       };
@@ -1177,10 +1221,11 @@ export default class Compiler {
   }
 
   private processStorageCall(node: ts.CallExpression) {
-    // @ts-ignore
+    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
+
     const op = node.expression.name.getText();
-    // @ts-ignore
-    const { type } = this.storageProps[node.expression.expression.name.getText()] as StorageProp;
+    const { type } = this.storageProps[node.expression.expression.name.getText()];
 
     this.storageFunctions[type][op](node);
   }
@@ -1207,85 +1252,99 @@ export default class Compiler {
     this.pushVoid(`int ${txnType}`);
     this.pushVoid('itxn_field TypeEnum');
 
-    const nameProp = (node.arguments[0] as ts.ObjectLiteralExpression).properties.find(
+    if (!ts.isObjectLiteralExpression(node.arguments[0])) throw new Error('Transaction call argument must be an object');
+
+    const nameProp = node.arguments[0].properties.find(
       (p) => p.name?.getText() === 'name',
 
     );
 
     if (nameProp) {
-      const argTypes = (node.typeArguments![0] as ts.TupleTypeNode).elements.map(
+      if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer)) throw new Error('Method call name key must be a string');
+
+      if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+
+      const argTypes = node.typeArguments[0].elements.map(
         (t) => t.getText(),
       );
+
       const returnType = node.typeArguments![1].getText();
 
       this.pushVoid(
-        `method "${((nameProp as ts.PropertyAssignment).initializer as ts.StringLiteral).text}(${argTypes
+        `method "${nameProp.initializer.text}(${argTypes
           .join(',')
           .toLowerCase()})${returnType.toLowerCase()}"`,
       );
       this.pushVoid('itxn_field ApplicationArgs');
     }
 
-    ((node.arguments[0] as ts.ObjectLiteralExpression)
-      .properties as unknown as ts.PropertyAssignment[])
-      .forEach((p) => {
-        const key = p.name?.getText();
+    node.arguments[0].properties.forEach((p) => {
+      const key = p.name?.getText();
 
-        if (key === 'name') {
-          return;
-        }
+      if (key === undefined) throw new Error('Key must be defined');
 
-        this.addSourceComment(p, true);
-        this.pushComments(p);
+      if (key === 'name') {
+        return;
+      }
 
-        if (key === 'OnCompletion') {
-          this.pushVoid(`int ${(p.initializer as ts.StringLiteral).text}`);
-          this.pushVoid('itxn_field OnCompletion');
-        } else if (key === 'methodArgs') {
-          const argTypes = (node.typeArguments![0] as ts.TupleTypeNode).elements.map(
-            (t) => t.getText(),
-          );
-          let accountIndex = 1;
-          let appIndex = 1;
-          let assetIndex = 0;
+      this.addSourceComment(p, true);
+      this.pushComments(p);
 
-          (p.initializer as ts.ArrayLiteralExpression).elements.forEach((e, i: number) => {
-            if (argTypes[i] === ForeignType.Account) {
-              this.processNode(e);
-              this.pushVoid('itxn_field Accounts');
-              this.pushVoid(`int ${accountIndex}`);
-              this.pushVoid('itob');
-              accountIndex += 1;
-            } else if (argTypes[i] === ForeignType.Asset) {
-              this.processNode(e);
-              this.pushVoid('itxn_field Assets');
-              this.pushVoid(`int ${assetIndex}`);
-              this.pushVoid('itob');
-              assetIndex += 1;
-            } else if (argTypes[i] === ForeignType.Application) {
-              this.processNode(e);
-              this.pushVoid('itxn_field Applications');
-              this.pushVoid(`int ${appIndex}`);
-              this.pushVoid('itob');
-              appIndex += 1;
-            } else if (argTypes[i] === StackType.uint64) {
-              this.processNode(e);
-              this.pushVoid('itob');
-            } else {
-              this.processNode(e);
-            }
-            this.pushVoid('itxn_field ApplicationArgs');
-          });
-        } else if (p.initializer.kind === ts.SyntaxKind.ArrayLiteralExpression) {
-          (p.initializer as ts.ArrayLiteralExpression).elements.forEach((e) => {
+      if (key === 'OnCompletion') {
+        if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer)) throw new Error('OnCompletion key must be a string');
+        this.pushVoid(`int ${p.initializer.text}`);
+        this.pushVoid('itxn_field OnCompletion');
+      } else if (key === 'methodArgs') {
+        if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = node.typeArguments[0].elements.map(
+          (t) => t.getText(),
+        );
+
+        let accountIndex = 1;
+        let appIndex = 1;
+        let assetIndex = 0;
+
+        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
+
+        p.initializer.elements.forEach((e, i: number) => {
+          if (argTypes[i] === ForeignType.Account) {
             this.processNode(e);
-            this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
-          });
-        } else {
-          this.processNode(p.initializer);
+            this.pushVoid('itxn_field Accounts');
+            this.pushVoid(`int ${accountIndex}`);
+            this.pushVoid('itob');
+            accountIndex += 1;
+          } else if (argTypes[i] === ForeignType.Asset) {
+            this.processNode(e);
+            this.pushVoid('itxn_field Assets');
+            this.pushVoid(`int ${assetIndex}`);
+            this.pushVoid('itob');
+            assetIndex += 1;
+          } else if (argTypes[i] === ForeignType.Application) {
+            this.processNode(e);
+            this.pushVoid('itxn_field Applications');
+            this.pushVoid(`int ${appIndex}`);
+            this.pushVoid('itob');
+            appIndex += 1;
+          } else if (argTypes[i] === StackType.uint64) {
+            this.processNode(e);
+            this.pushVoid('itob');
+          } else {
+            this.processNode(e);
+          }
+          this.pushVoid('itxn_field ApplicationArgs');
+        });
+      } else if (ts.isPropertyAssignment(p) && ts.isArrayLiteralExpression(p.initializer)) {
+        p.initializer.elements.forEach((e) => {
+          this.processNode(e);
           this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
-        }
-      });
+        });
+      } else if (ts.isPropertyAssignment(p)) {
+        this.processNode(p.initializer);
+        this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
+      } else {
+        throw new Error(`Cannot process transaction property: ${p.getText()}`);
+      }
+    });
 
     this.pushVoid('itxn_submit');
   }
@@ -1307,14 +1366,15 @@ export default class Compiler {
     node: ts.PropertyAccessExpression,
     chain: (ts.PropertyAccessExpression | ts.CallExpression)[] = [],
   ): (ts.PropertyAccessExpression | ts.CallExpression)[] {
-    if (node.expression.kind === ts.SyntaxKind.PropertyAccessExpression) {
-      chain.push(node.expression as ts.PropertyAccessExpression);
-      return this.getChain(node.expression as ts.PropertyAccessExpression, chain);
+    if (ts.isPropertyAccessExpression(node.expression)) {
+      chain.push(node.expression);
+      return this.getChain(node.expression, chain);
     }
-    if (node.expression.kind === ts.SyntaxKind.CallExpression) {
-      chain.push(node.expression as ts.CallExpression);
+    if (ts.isCallExpression(node.expression)) {
+      chain.push(node.expression);
+      if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error('Invalid call chain');
       return this.getChain(
-        (node.expression as ts.CallExpression).expression as ts.PropertyAccessExpression,
+        node.expression.expression,
         chain,
       );
     }

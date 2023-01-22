@@ -18,5 +18,6 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/ban-ts-comment': 'warn',
   },
 };
