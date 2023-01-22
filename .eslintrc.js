@@ -17,5 +17,7 @@ module.exports = {
     'mocha',
   ],
   rules: {
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/ban-ts-comment': 'warn',
   },
 };

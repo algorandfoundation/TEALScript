@@ -6,14 +6,14 @@ export async function getMethodTeal(
   filename: string,
   className: string,
   methodName: string,
-  length: number,
 ): Promise<string[]> {
   const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className);
   await compiler.compile();
   const { teal } = compiler;
 
-  const index = teal.indexOf(`${methodName}:`);
-  return teal.slice(index + 2, index + 2 + length);
+  const labelIndex = teal.indexOf(`${methodName}:`);
+  const retsubIndex = teal.indexOf('retsub', labelIndex);
+  return teal.slice(labelIndex + 2, retsubIndex);
 }
 
 export function lowerFirstChar(str: string) {

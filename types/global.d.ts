@@ -1,58 +1,36 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
 declare type uint64 = number
 declare type bytes = string
+declare class Asset {
+  constructor(id: uint64)
 
-declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number })
+  readonly total: uint64;
 
-  get(key: KeyType): ValueType
+  readonly decimals: uint64;
 
-  exists(key: KeyType): uint64
+  readonly defaultFrozen: uint64;
 
-  delete(key: KeyType): void
+  readonly name: string;
 
-  put(key: KeyType, value: ValueType): void
+  readonly unitName: string;
+
+  readonly url: string;
+
+  readonly metadataHash: string;
+
+  readonly manager: Account;
+
+  readonly reserve: Account;
+
+  readonly freeze: Account;
+
+  readonly clawback: Account;
+
+  readonly creator: Account;
 }
-
-declare class Box<ValueType> {
-  constructor(options?: { defaultSize?: number, key?: string })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  put(value: ValueType): void
-}
-
-declare class GlobalMap<KeyType, ValueType> {
-  constructor()
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  put(key: KeyType, value: ValueType): void
-}
-
-declare class GlobalValue<ValueType> {
-  constructor(options?: { key?: string })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  put(value: ValueType): void
-}
-
-declare class Asset {}
 
 declare class Account {
   constructor(id: uint64)
@@ -103,7 +81,79 @@ declare class Application {
   global(key: BytesLike): any
 }
 
-type IntLike = uint64 | Asset | Application
+declare class BoxMap<KeyType, ValueType> {
+  constructor(options?: { defaultSize?: number })
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): uint64
+
+  delete(key: KeyType): void
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class BoxReference<ValueType> {
+  constructor(options?: { defaultSize?: number, key?: string })
+
+  get(): ValueType
+
+  exists(): uint64
+
+  delete(): void
+
+  put(value: ValueType): void
+}
+
+declare class GlobalMap<KeyType, ValueType> {
+  constructor()
+
+  get(key: KeyType): ValueType
+
+  exists(key: KeyType): uint64
+
+  delete(key: KeyType): void
+
+  put(key: KeyType, value: ValueType): void
+}
+
+declare class GlobalReference<ValueType> {
+  constructor(options?: { key?: string })
+
+  get(): ValueType
+
+  exists(): uint64
+
+  delete(): void
+
+  put(value: ValueType): void
+}
+
+declare class LocalMap<KeyType, ValueType> {
+  constructor()
+
+  get(account: Account, key: KeyType): ValueType
+
+  exists(account: Account, key: KeyType): uint64
+
+  delete(account: Account, key: KeyType): void
+
+  put(account: Account, key: KeyType, value: ValueType): void
+}
+
+declare class LocalReference<ValueType> {
+  constructor(options?: { key?: string })
+
+  get(account: Account): ValueType
+
+  exists(account: Account): uint64
+
+  delete(account: Account): void
+
+  put(account: Account, value: ValueType): void
+}
+
+type IntLike = uint64 | Asset | Application | boolean
 
 interface CommonTransactionParams {
   fee: uint64
@@ -133,7 +183,7 @@ interface AppParams extends CommonTransactionParams {
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
-  apps?: Array<uint64 | Application>
+  applications?: Array<uint64 | Application>
   assets?: Array<uint64 | Asset>
   globalNumByteSlice?: uint64
   globalNumUint?: uint64
@@ -186,7 +236,9 @@ declare const globals: {
   callerApplicationAddress: Account
 };
 
+declare function method(signature: string): bytes
 declare function addr(address: string): Account
+
 declare function sendPayment(params: PaymentParams): void
 declare function sendAppCall(params: AppParams): void
 declare function sendAssetTransfer(params: AssetTransferParams): void
@@ -237,3 +289,6 @@ declare const optIn = decoratorFunction;
 declare const closeOut = decoratorFunction;
 declare const updateApplication = decoratorFunction;
 declare const deleteApplication = decoratorFunction;
+
+declare type uint256 = number
+declare type ufixed64x2 = number
