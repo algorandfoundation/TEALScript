@@ -409,6 +409,8 @@ export default class Compiler {
 
   private orCount: number = 0;
 
+  private sourceFile!: ts.SourceFile;
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -452,6 +454,7 @@ export default class Compiler {
 
   async compile() {
     const src = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
+    this.sourceFile = src;
 
     src.statements.forEach((body) => {
       if (!ts.isClassDeclaration(body)) return;
@@ -601,10 +604,6 @@ export default class Compiler {
         case ts.SyntaxKind.BinaryExpression:
           this.processBinaryExpression(node as ts.BinaryExpression);
           break;
-        // TODO
-        // case ts.SyntaxKind.Logic:
-        //  this.processLogicalExpression(node);
-        //  break;
         case ts.SyntaxKind.CallExpression:
           this.processCallExpression(node as ts.CallExpression);
           break;
@@ -615,10 +614,15 @@ export default class Compiler {
           this.processReturnStatement(node as ts.ReturnStatement);
           break;
         case ts.SyntaxKind.HeritageClause:
-          console.log('HeritageClause');
           break;
         case ts.SyntaxKind.ParenthesizedExpression:
           this.processNode((node as ts.ParenthesizedExpression).expression);
+          break;
+        case ts.SyntaxKind.VariableStatement:
+          this.processNode((node as ts.VariableStatement).declarationList);
+          break;
+        case ts.SyntaxKind.ElementAccessExpression:
+          this.processElementAccessExpression(node as ts.ElementAccessExpression);
           break;
 
         // unhandled
@@ -640,6 +644,19 @@ export default class Compiler {
         }\n ${this.content.substring(errNode.range[0], errNode.range[1])}`;
       }
       throw e;
+    }
+  }
+
+  private processElementAccessExpression(node: ts.ElementAccessExpression) {
+    switch ((node.expression as ts.PropertyAccessExpression).name.getText()) {
+      case 'txnGroup':
+        this.processNode(node.argumentExpression);
+        this.lastType = 'GroupTxn';
+        break;
+      default:
+        this.processNode(node.expression);
+        this.push(`${this.teal.pop()} ${(node.argumentExpression as ts.NumericLiteral).text}`, this.lastType!.replace('[]', ''));
+        break;
     }
   }
 
@@ -682,6 +699,7 @@ export default class Compiler {
   }
 
   private processReturnStatement(node: ts.ReturnStatement) {
+    this.addSourceComment(node);
     if (node.expression !== undefined) this.processNode(node.expression);
 
     if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
@@ -693,11 +711,16 @@ export default class Compiler {
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
+    if (['&&', '||'].includes(node.operatorToken.getText())) {
+      this.processLogicalExpression(node);
+      return;
+    }
+
     this.processNode(node.left);
     const leftType = this.lastType!;
     this.processNode(node.right);
 
-    if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType})`);
+    if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
 
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
@@ -709,19 +732,18 @@ export default class Compiler {
     }
   }
 
-  /* TODO
-  private processLogicalExpression(node: ts.LogicalExpression) {
+  private processLogicalExpression(node: ts.BinaryExpression) {
     this.processNode(node.left);
 
     let label: string;
 
-    if (node.operator === '&&') {
+    if (node.operatorToken.getText() === '&&') {
       label = `skip_and${this.andCount}`;
       this.andCount += 1;
 
       this.pushVoid('dup');
       this.pushVoid(`bz ${label}`);
-    } else if (node.operator === '||') {
+    } else if (node.operatorToken.getText() === '||') {
       label = `skip_or${this.orCount}`;
       this.orCount += 1;
 
@@ -730,10 +752,9 @@ export default class Compiler {
     }
 
     this.processNode(node.right);
-    this.push(node.operator, StackType.uint64);
+    this.push(node.operatorToken.getText(), StackType.uint64);
     this.pushVoid(`${label!}:`);
   }
-  */
 
   private processIdentifier(node: ts.Identifier) {
     if (this.contractClasses.includes(node.getText())) {
@@ -783,6 +804,7 @@ export default class Compiler {
   }
 
   private processVariableDeclarator(node: ts.VariableDeclaration) {
+    this.addSourceComment(node);
     const name = node.name.getText();
 
     // TODO: Error if no initializer?
@@ -804,8 +826,10 @@ export default class Compiler {
   }
 
   private processCallExpression(node: ts.CallExpression) {
+    this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
-    const methodName = node.expression.getText();
+    const methodName = (node.expression as ts.PropertyAccessExpression).name?.getText()
+    || node.expression.getText();
 
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
@@ -813,9 +837,9 @@ export default class Compiler {
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
-        this.push(`addr ${node.arguments[0].getText()}`, ForeignType.Account);
+        this.push(`addr ${(node.arguments[0] as ts.StringLiteral).text}`, ForeignType.Account);
       } else if (['method'].includes(methodName)) {
-        this.push(`method "${node.arguments[0].getText()}"`, StackType.bytes);
+        this.push(`method "${(node.arguments[0] as ts.StringLiteral).text}"`, StackType.bytes);
       }
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
@@ -823,7 +847,8 @@ export default class Compiler {
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
-      Object.keys(this.storageProps).includes(node.expression.expression.getText())
+      Object.keys(this.storageProps)
+        .includes((node.expression.expression as ts.PropertyAccessExpression)?.name?.getText())
     ) {
       this.processStorageCall(node);
     } else {
@@ -851,6 +876,7 @@ export default class Compiler {
       this.pushVoid(`${labelPrefix}_condition:`);
     }
 
+    this.addSourceComment(node.expression);
     this.processNode(node.expression);
 
     if (node.elseStatement == null) {
@@ -883,8 +909,13 @@ export default class Compiler {
 
   private processUnaryExpression(node: ts.PrefixUnaryExpression) {
     this.processNode(node.operand);
-    // TODO: Get operator string
-    this.push(node.operator.toString(), 'uint64');
+    switch (node.operator) {
+      case 53:
+        this.pushVoid('!');
+        break;
+      default:
+        throw new Error(`Unsupported unary operator ${node.operator}`);
+    }
   }
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
@@ -899,12 +930,13 @@ export default class Compiler {
         valueType: node.initializer.typeArguments![1].getText(),
       };
 
-      if (node.initializer?.arguments?.[0] === undefined) throw new Error();
-      const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
-      const sizeProp = arg.properties.find(
-        (p) => p.name?.getText() === 'defaultSize',
-      );
-      if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+      if (node.initializer?.arguments?.[0] !== undefined) {
+        const arg = node.initializer.arguments[0] as ts.ObjectLiteralExpression;
+        const sizeProp = arg.properties.find(
+          (p) => p.name?.getText() === 'defaultSize',
+        );
+        if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+      }
 
       this.storageProps[node.name.getText()] = props;
     } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
@@ -916,7 +948,7 @@ export default class Compiler {
 
       const props: StorageProp = {
         type: klass.toLowerCase().replace('reference', ''),
-        key: keyProp!.name!.getText(),
+        key: ((keyProp as ts.PropertyAssignment).initializer as ts.StringLiteral).text,
         keyType: 'string',
         valueType: node.initializer.typeArguments![0].getText(),
       };
@@ -934,9 +966,9 @@ export default class Compiler {
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
     if (node.kind === ts.SyntaxKind.StringLiteral) {
-      this.push(`byte "${node.getText()}"`, StackType.bytes);
+      this.push(`byte "${node.text}"`, StackType.bytes);
     } else {
-      this.push(`int ${node.getText()}`, StackType.uint64);
+      this.push(`int ${node.text}`, StackType.uint64);
     }
   }
 
@@ -968,9 +1000,6 @@ export default class Compiler {
 
       if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
         switch (n.name.getText()) {
-          case 'txnGroup':
-            this.lastType = 'GroupTxn';
-            break;
           case 'app':
             this.lastType = 'Application';
             this.pushVoid('txna Applications 0');
@@ -1028,7 +1057,7 @@ export default class Compiler {
     this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
     const args: any[] = [];
 
-    if (this.currentSubroutine.decorators) {
+    if (this.currentSubroutine.decorators?.length) {
       this.currentSubroutine.decorators.forEach((d, i) => {
         switch (d) {
           case 'createApplication':
@@ -1152,6 +1181,7 @@ export default class Compiler {
     const op = node.expression.name.getText();
     // @ts-ignore
     const { type } = this.storageProps[node.expression.expression.name.getText()] as StorageProp;
+
     this.storageFunctions[type][op](node);
   }
 
@@ -1189,7 +1219,7 @@ export default class Compiler {
       const returnType = node.typeArguments![1].getText();
 
       this.pushVoid(
-        `method "${nameProp.name?.getText()}(${argTypes
+        `method "${((nameProp as ts.PropertyAssignment).initializer as ts.StringLiteral).text}(${argTypes
           .join(',')
           .toLowerCase()})${returnType.toLowerCase()}"`,
       );
@@ -1202,9 +1232,13 @@ export default class Compiler {
         const key = p.name?.getText();
 
         if (key === 'name') {
-        // do nothing
-        } else if (key === 'OnCompletion') {
-          this.pushVoid(`int ${p.initializer.getText()}`);
+          return;
+        }
+
+        this.addSourceComment(p, true);
+
+        if (key === 'OnCompletion') {
+          this.pushVoid(`int ${(p.initializer as ts.StringLiteral).text}`);
           this.pushVoid('itxn_field OnCompletion');
         } else if (key === 'methodArgs') {
           const argTypes = (node.typeArguments![0] as ts.TupleTypeNode).elements.map(
@@ -1265,7 +1299,7 @@ export default class Compiler {
       target.type,
     );
 
-    this.tealFunction(target.type, name, true);
+    this.tealFunction(target.type, node.name.getText(), true);
   }
 
   private getChain(
@@ -1365,6 +1399,21 @@ export default class Compiler {
     }
 
     return json.result;
+  }
+
+  private addSourceComment(node: ts.Node, force: boolean = false) {
+    if (
+      !force
+      && node.getStart() >= this.lastSourceCommentRange[0]
+      && node.getEnd() <= this.lastSourceCommentRange[1]
+    ) { return; }
+
+    const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
+
+    if (this.filename) { this.pushVoid(`// ${this.filename}:${lineNum}`); }
+    this.pushVoid(`// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
+
+    this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
   prettyTeal() {
