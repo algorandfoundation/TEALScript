@@ -129,63 +129,74 @@ function isRefType(t: string): boolean {
 }
 
 export default class Compiler {
-  teal: string[];
+  teal: string[] = ['#pragma version 8', 'b main'];
 
-  private scratch: any;
+  private scratch: {[name: string] :{index: number; type: string}} = {};
 
-  private scratchIndex: number;
+  private scratchIndex: number = 0;
 
-  private ifCount: number;
+  private ifCount: number = 0;
 
   filename?: string;
 
   content: string;
 
-  private processErrorNodes: any[] = [];
+  private processErrorNodes: ts.Node[] = [];
 
-  private frame: any;
+  private frame: {[name: string] :{index: number; type: string}} = {};
 
-  private currentSubroutine: Subroutine;
+  private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
-  abi: any;
+  abi: {
+    name: string,
+    desc: string,
+    methods: {
+      name: string,
+      desc: string,
+      args: {name: string, type: string, desc: string}[],
+      returns: {type: string, desc: string},
+      }[]
+    } = { name: '', desc: '', methods: [] };
 
-  private storageProps: { [key: string]: StorageProp };
+  private storageProps: { [key: string]: StorageProp } = {};
 
-  private lastType: string | undefined;
+  private lastType: string = 'void';
 
-  private contractClasses: string[];
+  private contractClasses: string[] = [];
 
   name: string;
 
-  pcToLine: { [key: number]: number };
+  pcToLine: { [key: number]: number } = {};
 
-  lineToPc: { [key: number]: number[] };
+  lineToPc: { [key: number]: number[] } = {};
 
-  private lastSourceCommentRange: [number, number];
+  private lastSourceCommentRange: [number, number] = [-1, -1];
 
   private comments: number[] = [];
 
-  private readonly OP_PARAMS: { [type: string]: any[] } = {
-    Account: [
-      ...this.getOpParamObjects('acct_params_get'),
-      ...this.getOpParamObjects('asset_holding_get'),
-    ],
-    Application: [
-      ...this.getOpParamObjects('app_params_get'),
-      {
-        name: 'Global',
-        type: 'any',
-        args: 2,
-        fn: () => {
-          this.maybeValue('app_global_get_ex', StackType.bytes);
+  private readonly OP_PARAMS: {
+    [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
+  } = {
+      Account: [
+        ...this.getOpParamObjects('acct_params_get'),
+        ...this.getOpParamObjects('asset_holding_get'),
+      ],
+      Application: [
+        ...this.getOpParamObjects('app_params_get'),
+        {
+          name: 'Global',
+          type: 'any',
+          args: 2,
+          fn: () => {
+            this.maybeValue('app_global_get_ex', StackType.bytes);
+          },
         },
-      },
-    ],
-    txn: this.getOpParamObjects('txn'),
-    global: this.getOpParamObjects('global'),
-    itxn: this.getOpParamObjects('itxn'),
-    gtxns: this.getOpParamObjects('gtxns'),
-  };
+      ],
+      txn: this.getOpParamObjects('txn'),
+      global: this.getOpParamObjects('global'),
+      itxn: this.getOpParamObjects('itxn'),
+      gtxns: this.getOpParamObjects('gtxns'),
+    };
 
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
     global: {
@@ -410,23 +421,13 @@ export default class Compiler {
 
   private orCount: number = 0;
 
-  private sourceFile!: ts.SourceFile;
+  private sourceFile: ts.SourceFile;
 
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
-    this.teal = ['#pragma version 8', 'b main'];
-    this.scratch = {};
-    this.scratchIndex = 0;
-    this.ifCount = 0;
-    this.frame = {};
-    this.currentSubroutine = { name: '', returnType: '' };
-    this.storageProps = {};
-    this.contractClasses = [];
     this.name = className;
-    this.pcToLine = {};
-    this.lineToPc = {};
-    this.lastSourceCommentRange = [0, 0];
+    this.sourceFile = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
   }
 
   getOpParamObjects(op: string) {
@@ -454,10 +455,7 @@ export default class Compiler {
   }
 
   async compile() {
-    const src = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
-    this.sourceFile = src;
-
-    src.statements.forEach((body) => {
+    this.sourceFile.statements.forEach((body) => {
       if (!ts.isClassDeclaration(body)) return;
 
       if (
@@ -525,17 +523,17 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    this.abi.methods.forEach((m: any) => {
+    this.abi.methods.forEach((m) => {
       this.pushMethod(
         m.name,
-        m.args.map((a: any) => a.type),
+        m.args.map((a) => a.type),
         m.returns.type,
       );
     });
     this.pushVoid('txna ApplicationArgs 0');
     this.pushVoid(
       `match ${this.abi.methods
-        .map((m: any) => `abi_route_${m.name}`)
+        .map((m) => `abi_route_${m.name}`)
         .join(' ')}`,
     );
   }
@@ -643,7 +641,9 @@ export default class Compiler {
         default:
           throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
       }
-    } catch (e: any) {
+    } catch (e) {
+      if (!(e instanceof Error)) throw e;
+
       this.processErrorNodes.push(node);
 
       const errNode = this.processErrorNodes[0];
@@ -667,7 +667,7 @@ export default class Compiler {
         break;
       default:
         this.processNode(node.expression);
-        this.push(`${this.teal.pop()} ${(node.argumentExpression as ts.NumericLiteral).text}`, this.lastType!.replace('[]', ''));
+        this.push(`${this.teal.pop()} ${(node.argumentExpression as ts.NumericLiteral).text}`, this.lastType.replace('[]', ''));
         break;
     }
   }
@@ -725,7 +725,7 @@ export default class Compiler {
     }
 
     this.processNode(node.left);
-    const leftType = this.lastType!;
+    const leftType = this.lastType;
     this.processNode(node.right);
 
     if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
@@ -792,7 +792,7 @@ export default class Compiler {
     const type = node.type.getText();
     if (type.startsWith('uint') && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
-      const lastBitWidth = parseInt(this.lastType!.replace('uint', ''), 10);
+      const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
 
       // eslint-disable-next-line no-console
       if (lastBitWidth > typeBitWidth) console.warn('WARNING: Converting value from ', this.lastType, 'to ', type, 'may result in loss of precision');
@@ -868,7 +868,7 @@ export default class Compiler {
       node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
-      this.tealFunction(this.lastType!, node.expression.name.getText());
+      this.tealFunction(this.lastType, node.expression.name.getText());
     }
   }
 
@@ -1021,7 +1021,7 @@ export default class Compiler {
         return;
       }
 
-      this.tealFunction(this.lastType!, n.name.getText());
+      this.tealFunction(this.lastType, n.name.getText());
     });
   }
 
@@ -1043,9 +1043,7 @@ export default class Compiler {
       const type = p.type.getText();
 
       frameIndex -= 1;
-      this.frame[p.name.getText()] = {};
-      this.frame[p.name.getText()].index = frameIndex;
-      this.frame[p.name.getText()].type = type;
+      this.frame[p.name.getText()] = { index: frameIndex, type };
     });
 
     this.processNode(fn.body!);
@@ -1057,7 +1055,7 @@ export default class Compiler {
   private processAbiMethod(fn: ts.MethodDeclaration) {
     let argCount = 0;
     this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
-    const args: any[] = [];
+    const args: {name: string, type: string, desc: string}[] = [];
 
     if (this.currentSubroutine.decorators?.length) {
       this.currentSubroutine.decorators.forEach((d, i) => {
