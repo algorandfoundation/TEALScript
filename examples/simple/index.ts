@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 import * as bkr from 'beaker-ts';
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { Simple } from './simple_client';
 
+// eslint-disable-next-line func-names
 (async function () {
   const acct = (await bkr.sandbox.getAccounts()).pop();
   if (acct === undefined) return;

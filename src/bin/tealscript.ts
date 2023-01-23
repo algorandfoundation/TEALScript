@@ -12,7 +12,6 @@ const src = ts.createSourceFile(filename, fs.readFileSync(filename, 'utf-8'), ts
 
 // Output dir for artifacts
 const dir = process.argv.length > 3 ? process.argv[3] : path.dirname(filename);
-console.log(process.argv);
 
 src.statements.forEach(async (body) => {
   if (ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract') {
