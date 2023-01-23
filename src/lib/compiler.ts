@@ -136,6 +136,8 @@ export default class Compiler {
 
   generatedTeal: string = '';
 
+  generatedClearTeal: string = '';
+
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private scratchIndex: number = 0;
@@ -1597,6 +1599,8 @@ export default class Compiler {
   }
 
   prettyClearTeal(): string {
+    if (this.generatedClearTeal !== '') return this.generatedClearTeal;
+
     const output: string[] = [];
     let comments: string[] = [];
 
@@ -1625,6 +1629,13 @@ export default class Compiler {
       }
     });
 
-    return output.join('\n');
+    // only the pragma, default approve
+    if (output.length === 1) {
+      output.push('int 1');
+      output.push('return');
+    }
+
+    this.generatedClearTeal = output.join('\n');
+    return this.generatedClearTeal;
   }
 }
