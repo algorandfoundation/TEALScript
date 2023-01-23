@@ -1,0 +1,76 @@
+#pragma version 8
+	b main
+
+abi_route_createApp:
+	txn ApplicationID
+	int 0
+	==
+	assert
+	callsub createApp
+	int 1
+	return
+
+createApp:
+	proto 0 0
+	retsub
+
+abi_route_incr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	btoi
+	callsub incr
+	int 1
+	return
+
+incr:
+	proto 1 0
+
+	// examples/simple/simple.ts:16
+	// this.counter.put(this.counter.get() + i)
+	byte "counter"
+	byte "counter"
+	app_global_get
+	frame_dig -1 // i: uint64
+	+
+	app_global_put
+	retsub
+
+abi_route_decr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	btoi
+	callsub decr
+	int 1
+	return
+
+decr:
+	proto 1 0
+
+	// examples/simple/simple.ts:20
+	// this.counter.put(this.counter.get() - i)
+	byte "counter"
+	byte "counter"
+	app_global_get
+	frame_dig -1 // i: uint64
+	-
+	app_global_put
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	int NoOp
+	txn OnCompletion
+	match abi_route_createApp
+
+route_abi:
+	method "incr(uint64)void"
+	method "decr(uint64)void"
+	txna ApplicationArgs 0
+	match abi_route_incr abi_route_decr
