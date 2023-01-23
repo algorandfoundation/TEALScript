@@ -78,8 +78,8 @@ closeAcct:
 	retsub
 
 abi_route_create:
-	txn ApplicationID
-	int 0
+	txn OnCompletion
+	int NoOp
 	==
 	assert
 	txna ApplicationArgs 1
@@ -525,11 +525,7 @@ claim:
 if1_end:
 	retsub
 
-abi_route_delete:
-	int DeleteApplication
-	txn OnCompletion
-	==
-	assert
+bare_route_delete:
 	callsub delete
 	int 1
 	return
@@ -555,10 +551,22 @@ delete:
 	retsub
 
 main:
+	txn NumAppArgs
+	bnz route_abi
+	int DeleteApplication
+	txn OnCompletion
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	int 1
+	match bare_route_delete
+
+route_abi:
 	method "create(account,account)void"
 	method "reject(account,account,asset,account)void"
 	method "optIn(asset,pay)void"
 	method "claim(asset,account,account)void"
-	method "delete()void"
 	txna ApplicationArgs 0
-	match abi_route_create abi_route_reject abi_route_optIn abi_route_claim abi_route_delete
+	match abi_route_create abi_route_reject abi_route_optIn abi_route_claim

@@ -96,15 +96,20 @@
         "type": "void",
         "desc": ""
       }
-    },
+    }
+  ],
+  "bareMethods": [
     {
       "name": "delete",
-      "args": [],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
+      "predicates": [
+        "int DeleteApplication",
+        "txn OnCompletion",
+        "==",
+        "txn ApplicationID",
+        "int 0",
+        "!=",
+        "&&"
+      ]
     }
   ]
 }

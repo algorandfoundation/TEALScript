@@ -1121,13 +1121,10 @@ export default class Compiler {
       if (i > 0) predicates.push('||');
     });
 
+    // if not a create, dont allow it
     predicates.push('txn ApplicationID');
     predicates.push('int 0');
-
-    // if not a create, dont allow it
-    if (allowCreate) predicates.push('==');
-    else predicates.push('!=');
-
+    predicates.push(allowCreate ? '==' : '!=');
     predicates.push('&&');
 
     this.abi.bareMethods.push({
