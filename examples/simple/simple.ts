@@ -9,6 +9,8 @@ import { Contract } from '../../src/lib/index';
 class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
+  @updateApplication
+  @noOp
   @createApplication
   createApp(): void { }
 

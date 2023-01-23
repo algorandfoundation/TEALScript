@@ -1,7 +1,7 @@
 #pragma version 8
 	b main
 
-abi_route_createApp:
+bare_route_createApp:
 	callsub createApp
 	int 1
 	return
@@ -10,7 +10,7 @@ createApp:
 	proto 0 0
 	retsub
 
-abi_route_blah:
+bare_route_blah:
 	callsub blah
 	int 1
 	return
@@ -33,7 +33,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.ts:21
+	// examples/simple/simple.ts:23
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -57,7 +57,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.ts:25
+	// examples/simple/simple.ts:27
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -70,9 +70,17 @@ decr:
 main:
 	txn NumAppArgs
 	bnz route_abi
+	int UpdateApplication
+	txn OnCompletion
+	==
+	int NoOp
+	txn OnCompletion
+	==
+	||
 	txn ApplicationID
 	int 0
 	==
+	&&
 	int NoOp
 	txn OnCompletion
 	==
@@ -81,7 +89,7 @@ main:
 	!=
 	&&
 	int 1
-	match abi_route_createApp abi_route_blah
+	match bare_route_createApp bare_route_blah
 
 route_abi:
 	method "incr(uint64)void"
