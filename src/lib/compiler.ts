@@ -156,8 +156,14 @@ export default class Compiler {
       desc: string,
       args: {name: string, type: string, desc: string}[],
       returns: {type: string, desc: string},
-      }[]
-    } = { name: '', desc: '', methods: [] };
+      }[],
+      bareMethods: {
+        name: string,
+        onComplete: string,
+      }[],
+    } = {
+      name: '', desc: '', methods: [], bareMethods: [],
+    };
 
   private storageProps: { [key: string]: StorageProp } = {};
 
@@ -493,7 +499,9 @@ export default class Compiler {
         this.contractClasses.push(className);
 
         if (className === this.name) {
-          this.abi = { name: className, desc: '', methods: [] };
+          this.abi = {
+            name: className, desc: '', methods: [], bareMethods: [],
+          };
 
           this.processNode(body);
         }
@@ -547,7 +555,27 @@ export default class Compiler {
     this.pushVoid(`method "${sig}"`);
   }
 
+  private pushBareMethod(onComplete: string) {
+    this.pushVoid('int NoOp');
+  }
+
   private routeAbiMethods() {
+    this.pushVoid('txn NumAppArgs');
+    this.pushVoid('bnz route_abi');
+
+    // Route the bare methods with no args
+    this.abi.bareMethods.forEach((m) => {
+      this.pushBareMethod(m.onComplete);
+    });
+    this.pushVoid('txn OnCompletion');
+    this.pushVoid(
+      `match ${this.abi.bareMethods
+        .map((m) => `abi_route_${m.name}`)
+        .join(' ')}`,
+    );
+
+    this.pushVoid('route_abi:');
+    // Route the abi methods with args
     this.abi.methods.forEach((m) => {
       this.pushMethod(
         m.name,
@@ -671,7 +699,7 @@ export default class Compiler {
       (d) => d.expression.getText(),
     );
 
-    this.processAbiMethod(node);
+    this.processRoutableMethod(node);
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
@@ -1050,7 +1078,7 @@ export default class Compiler {
     this.frame = lastFrame;
   }
 
-  private processAbiMethod(fn: ts.MethodDeclaration) {
+  private processRoutableMethod(fn: ts.MethodDeclaration) {
     let argCount = 0;
     this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
     const args: {name: string, type: string, desc: string}[] = [];
@@ -1140,12 +1168,21 @@ export default class Compiler {
       .replace(/asset|application/, 'uint64')
       .replace('account', 'address');
 
-    this.abi.methods.push({
-      name: this.currentSubroutine.name,
-      args,
-      desc: '',
-      returns: { type: returnType, desc: '' },
-    });
+    if (args.length === 0) {
+      // TODO: wrong spot for this, should get
+      // on complete from decorator
+      this.abi.bareMethods.push({
+        name: this.currentSubroutine.name,
+        onComplete: 'NoOp',
+      });
+    } else {
+      this.abi.methods.push({
+        name: this.currentSubroutine.name,
+        args,
+        desc: '',
+        returns: { type: returnType, desc: '' },
+      });
+    }
 
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');
@@ -1438,13 +1475,13 @@ export default class Compiler {
       hints: {},
       schema: {
         local: {
-          declared: {
-            counter: { type: 'uint64', key: 'counter' },
-          },
+          declared: {},
           reserved: {},
         },
         global: {
-          declared: {},
+          declared: {
+            counter: { type: 'uint64', key: 'counter' },
+          },
           reserved: {},
         },
       },

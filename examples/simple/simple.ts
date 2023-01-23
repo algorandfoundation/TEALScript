@@ -10,8 +10,7 @@ class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
   @createApplication
-  create(): void {
-  }
+  createApp(): void { }
 
   incr(i: uint64): void {
     this.counter.put(this.counter.get() + i);

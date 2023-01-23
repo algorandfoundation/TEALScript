@@ -1,16 +1,16 @@
 #pragma version 8
 	b main
 
-abi_route_create:
+abi_route_createApp:
 	txn ApplicationID
 	int 0
 	==
 	assert
-	callsub create
+	callsub createApp
 	int 1
 	return
 
-create:
+createApp:
 	proto 0 0
 	retsub
 
@@ -28,7 +28,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.ts:17
+	// examples/simple/simple.ts:16
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -52,7 +52,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.ts:21
+	// examples/simple/simple.ts:20
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -63,8 +63,14 @@ decr:
 	retsub
 
 main:
-	method "create()void"
+	txn NumAppArgs
+	bnz route_abi
+	int NoOp
+	txn OnCompletion
+	match abi_route_createApp
+
+route_abi:
 	method "incr(uint64)void"
 	method "decr(uint64)void"
 	txna ApplicationArgs 0
-	match abi_route_create abi_route_incr abi_route_decr
+	match abi_route_incr abi_route_decr

@@ -3,15 +3,6 @@
   "desc": "",
   "methods": [
     {
-      "name": "create",
-      "args": [],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
       "name": "incr",
       "args": [
         {
@@ -40,6 +31,12 @@
         "type": "void",
         "desc": ""
       }
+    }
+  ],
+  "bareMethods": [
+    {
+      "name": "createApp",
+      "onComplete": "NoOp"
     }
   ]
 }
