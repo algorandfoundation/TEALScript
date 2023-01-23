@@ -6,7 +6,16 @@
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { Contract } from '../../src/lib/index';
 
+class SimpleClear extends Contract {
+  @main
+  main() : void {
+    assert(1);
+  }
+}
+
 class Simple extends Contract {
+  // clear: SimpleClear = new SimpleClear();
+
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
   @updateApplication

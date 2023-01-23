@@ -283,6 +283,7 @@ function decoratorFunction (
   descriptor: PropertyDescriptor
 ): PropertyDescriptor
 
+declare const main = decoratorFunction;
 declare const createApplication = decoratorFunction;
 declare const noOp = decoratorFunction;
 declare const optIn = decoratorFunction;

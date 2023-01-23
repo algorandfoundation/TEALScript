@@ -1052,14 +1052,14 @@ export default class Compiler {
     });
   }
 
-  private processSubroutine(fn: ts.MethodDeclaration, abi: boolean = false) {
+  private processSubroutine(fn: ts.MethodDeclaration, isAbi: boolean = false) {
     this.pushVoid(`${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
     this.pushVoid(
       `proto ${fn.parameters.length} ${
-        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
+        this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1
       }`,
     );
     let frameIndex = 0;
@@ -1079,13 +1079,14 @@ export default class Compiler {
     this.frame = lastFrame;
   }
 
-  private processBareMethod(fn: ts.MethodDeclaration) {
-    this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
-    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
-    this.pushVoid('int 1');
-    this.pushVoid('return');
+  private processLabel(fn: ts.MethodDeclaration) {
+    this.pushVoid(`${this.currentSubroutine.name}:`);
+    this.processNode(fn.body!);
+  }
 
+  private processBareMethod(fn: ts.MethodDeclaration) {
     let allowCreate: boolean = false;
+    let isMain: boolean = false;
     const allowedOnCompletes: string[] = [];
 
     this.currentSubroutine.decorators?.forEach((d, i) => {
@@ -1108,10 +1109,23 @@ export default class Compiler {
         case 'deleteApplication':
           allowedOnCompletes.push('DeleteApplication');
           break;
+        case 'main':
+          isMain = true;
+          break;
         default:
           throw new Error(`Unknown decorator: ${d}`);
       }
     });
+
+    if (isMain) {
+      this.processLabel(fn);
+      return;
+    }
+
+    this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
+    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
+    this.pushVoid('int 1');
+    this.pushVoid('return');
 
     const predicates: string[] = [];
     allowedOnCompletes.forEach((oc, i) => {
@@ -1131,8 +1145,7 @@ export default class Compiler {
       name: this.currentSubroutine.name,
       predicates,
     });
-
-    this.processSubroutine(fn, true);
+    this.processSubroutine(fn, false);
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
