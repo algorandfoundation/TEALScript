@@ -21,4 +21,7 @@ import { Simple } from './simple_client';
   await appClient.incr({ i: BigInt(1) });
   await appClient.incr({ i: BigInt(1) });
   console.log(await appClient.getApplicationState());
+
+  const result = await appClient.add({ a: BigInt(123), b: BigInt(456) });
+  console.log(result.returnValue);
 }());

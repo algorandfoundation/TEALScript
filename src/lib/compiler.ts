@@ -734,6 +734,18 @@ export default class Compiler {
 
     if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
 
+    // TODO: others? need encode subroutine for well known types?
+    if (this.currentSubroutine.returnType === 'uint256') {
+      this.pushVoid('dup');
+      this.pushVoid('len');
+      this.pushVoid('int 32');
+      this.pushVoid('swap');
+      this.pushVoid('-');
+      this.pushVoid('bzero');
+      this.pushVoid('swap');
+      this.pushVoid('concat');
+    }
+
     this.pushVoid('byte 0x151f7c75');
     this.pushVoid('swap');
     this.pushVoid('concat');
@@ -1156,7 +1168,7 @@ export default class Compiler {
     predicates.push('txn ApplicationID');
     predicates.push('int 0');
     predicates.push(allowCreate ? '==' : '!=');
-    predicates.push('&&');
+    if (allowedOnCompletes.length > 0) predicates.push('&&');
 
     this.abi.bareMethods.push({
       name: this.currentSubroutine.name,

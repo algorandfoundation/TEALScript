@@ -31,6 +31,26 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "add",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
     }
   ],
   "bareMethods": [
@@ -39,20 +59,7 @@
       "predicates": [
         "txn ApplicationID",
         "int 0",
-        "==",
-        "&&"
-      ]
-    },
-    {
-      "name": "blah",
-      "predicates": [
-        "int NoOp",
-        "txn OnCompletion",
-        "==",
-        "txn ApplicationID",
-        "int 0",
-        "!=",
-        "&&"
+        "=="
       ]
     }
   ]

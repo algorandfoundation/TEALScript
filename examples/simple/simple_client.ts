@@ -1,7 +1,6 @@
 import algosdk from 'algosdk';
 import * as bkr from 'beaker-ts';
 
-// eslint-disable-next-line import/prefer-default-export
 export class Simple extends bkr.ApplicationClient {
   desc: string = '';
 
@@ -16,9 +15,9 @@ export class Simple extends bkr.ApplicationClient {
 
   override acctSchema: bkr.Schema = { declared: {}, reserved: {} };
 
-  override approvalProgram: string = 'I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYmFyZV9yb3V0ZV9jcmVhdGVBcHA6CgljYWxsc3ViIGNyZWF0ZUFwcAoJaW50IDEKCXJldHVybgoKY3JlYXRlQXBwOgoJcHJvdG8gMCAwCglyZXRzdWIKCmJhcmVfcm91dGVfYmxhaDoKCWNhbGxzdWIgYmxhaAoJaW50IDEKCXJldHVybgoKYmxhaDoKCXByb3RvIDAgMAoJcmV0c3ViCgphYmlfcm91dGVfaW5jcjoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJYXNzZXJ0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgljYWxsc3ViIGluY3IKCWludCAxCglyZXR1cm4KCmluY3I6Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9zaW1wbGUvc2ltcGxlLnRzOjI3CgkvLyB0aGlzLmNvdW50ZXIucHV0KHRoaXMuY291bnRlci5nZXQoKSArIGkpCglieXRlICJjb3VudGVyIgoJYnl0ZSAiY291bnRlciIKCWFwcF9nbG9iYWxfZ2V0CglmcmFtZV9kaWcgLTEgLy8gaTogdWludDY0CgkrCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgphYmlfcm91dGVfZGVjcjoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJYXNzZXJ0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgljYWxsc3ViIGRlY3IKCWludCAxCglyZXR1cm4KCmRlY3I6Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9zaW1wbGUvc2ltcGxlLnRzOjMxCgkvLyB0aGlzLmNvdW50ZXIucHV0KHRoaXMuY291bnRlci5nZXQoKSAtIGkpCglieXRlICJjb3VudGVyIgoJYnl0ZSAiY291bnRlciIKCWFwcF9nbG9iYWxfZ2V0CglmcmFtZV9kaWcgLTEgLy8gaTogdWludDY0CgktCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJPT0KCSYmCglpbnQgTm9PcAoJdHhuIE9uQ29tcGxldGlvbgoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglpbnQgMQoJbWF0Y2ggYmFyZV9yb3V0ZV9jcmVhdGVBcHAgYmFyZV9yb3V0ZV9ibGFoCgpyb3V0ZV9hYmk6CgltZXRob2QgImluY3IodWludDY0KXZvaWQiCgltZXRob2QgImRlY3IodWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfaW5jciBhYmlfcm91dGVfZGVjcg==';
+  override approvalProgram: string = 'I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYmFyZV9yb3V0ZV9jcmVhdGVBcHA6CgljYWxsc3ViIGNyZWF0ZUFwcAoJaW50IDEKCXJldHVybgoKY3JlYXRlQXBwOgoJcHJvdG8gMCAwCglyZXRzdWIKCmFiaV9yb3V0ZV9pbmNyOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cglhc3NlcnQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCWNhbGxzdWIgaW5jcgoJaW50IDEKCXJldHVybgoKaW5jcjoKCXByb3RvIDEgMAoKCS8vIGV4YW1wbGVzL3NpbXBsZS9zaW1wbGUudHM6MTcKCS8vIHRoaXMuY291bnRlci5wdXQodGhpcy5jb3VudGVyLmdldCgpICsgaSkKCWJ5dGUgImNvdW50ZXIiCglieXRlICJjb3VudGVyIgoJYXBwX2dsb2JhbF9nZXQKCWZyYW1lX2RpZyAtMSAvLyBpOiB1aW50NjQKCSsKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCmFiaV9yb3V0ZV9kZWNyOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cglhc3NlcnQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCWNhbGxzdWIgZGVjcgoJaW50IDEKCXJldHVybgoKZGVjcjoKCXByb3RvIDEgMAoKCS8vIGV4YW1wbGVzL3NpbXBsZS9zaW1wbGUudHM6MjEKCS8vIHRoaXMuY291bnRlci5wdXQodGhpcy5jb3VudGVyLmdldCgpIC0gaSkKCWJ5dGUgImNvdW50ZXIiCglieXRlICJjb3VudGVyIgoJYXBwX2dsb2JhbF9nZXQKCWZyYW1lX2RpZyAtMSAvLyBpOiB1aW50NjQKCS0KCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCmFiaV9yb3V0ZV9hZGQ6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCWFzc2VydAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJY2FsbHN1YiBhZGQKCWludCAxCglyZXR1cm4KCmFkZDoKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL3NpbXBsZS9zaW1wbGUudHM6MjUKCS8vIHJldHVybiBhICsgYjsKCWZyYW1lX2RpZyAtMiAvLyBhOiB1aW50MjU2CglmcmFtZV9kaWcgLTEgLy8gYjogdWludDI1NgoJYisKCWR1cAoJbGVuCglpbnQgMzIKCXN3YXAKCS0KCWJ6ZXJvCglzd2FwCgljb25jYXQKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09CglpbnQgMQoJbWF0Y2ggYmFyZV9yb3V0ZV9jcmVhdGVBcHAKCnJvdXRlX2FiaToKCW1ldGhvZCAiaW5jcih1aW50NjQpdm9pZCIKCW1ldGhvZCAiZGVjcih1aW50NjQpdm9pZCIKCW1ldGhvZCAiYWRkKHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2luY3IgYWJpX3JvdXRlX2RlY3IgYWJpX3JvdXRlX2FkZA==';
 
-  override clearProgram: string = 'I3ByYWdtYSB2ZXJzaW9uIDgKCS8vIGV4YW1wbGVzL3NpbXBsZS9zaW1wbGUudHM6MTUKCS8vIHRoaXMuY291bnRlci5wdXQodGhpcy5jb3VudGVyLmdldCgpICsgMSkKCWJ5dGUgImNvdW50ZXIiCglieXRlICJjb3VudGVyIgoJYXBwX2dsb2JhbF9nZXQKCWludCAxCgkrCglhcHBfZ2xvYmFsX3B1dA==';
+  override clearProgram: string = 'I3ByYWdtYSB2ZXJzaW9uIDgKCS8vIGV4YW1wbGVzL3NpbXBsZS9zaW1wbGUudHM6MzEKCS8vIHRoaXMuY291bnRlci5wdXQodGhpcy5jb3VudGVyLmdldCgpICsgMSkKCWJ5dGUgImNvdW50ZXIiCglieXRlICJjb3VudGVyIgoJYXBwX2dsb2JhbF9nZXQKCWludCAxCgkrCglhcHBfZ2xvYmFsX3B1dA==';
 
   override methods: algosdk.ABIMethod[] = [
     new algosdk.ABIMethod({
@@ -26,6 +25,9 @@ export class Simple extends bkr.ApplicationClient {
     }),
     new algosdk.ABIMethod({
       name: 'decr', desc: '', args: [{ type: 'uint64', name: 'i', desc: '' }], returns: { type: 'void', desc: '' },
+    }),
+    new algosdk.ABIMethod({
+      name: 'add', desc: '', args: [{ type: 'uint256', name: 'a', desc: '' }, { type: 'uint256', name: 'b', desc: '' }], returns: { type: 'uint256', desc: '' },
     }),
   ];
 
@@ -43,6 +45,14 @@ export class Simple extends bkr.ApplicationClient {
     return new bkr.ABIResult<void>(result);
   }
 
+  async add(args: {
+        a: bigint;
+        b: bigint;
+    }, txnParams?: bkr.TransactionOverrides): Promise<bkr.ABIResult<bigint>> {
+    const result = await this.execute(await this.compose.add({ a: args.a, b: args.b }, txnParams));
+    return new bkr.ABIResult<bigint>(result, result.returnValue as bigint);
+  }
+
   compose = {
     incr: async (args: {
             i: bigint;
@@ -50,5 +60,9 @@ export class Simple extends bkr.ApplicationClient {
     decr: async (args: {
             i: bigint;
         }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => this.addMethodCall(algosdk.getMethodByName(this.methods, 'decr'), { i: args.i }, txnParams, atc),
+    add: async (args: {
+            a: bigint;
+            b: bigint;
+        }, txnParams?: bkr.TransactionOverrides, atc?: algosdk.AtomicTransactionComposer): Promise<algosdk.AtomicTransactionComposer> => this.addMethodCall(algosdk.getMethodByName(this.methods, 'add'), { a: args.a, b: args.b }, txnParams, atc),
   };
 }

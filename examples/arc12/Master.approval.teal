@@ -457,7 +457,6 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	&&
 	int 1
 	match bare_route_create
 

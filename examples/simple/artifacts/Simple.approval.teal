@@ -10,15 +10,6 @@ createApp:
 	proto 0 0
 	retsub
 
-bare_route_blah:
-	callsub blah
-	int 1
-	return
-
-blah:
-	proto 0 0
-	retsub
-
 abi_route_incr:
 	txn OnCompletion
 	int NoOp
@@ -33,7 +24,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.ts:27
+	// examples/simple/simple.ts:17
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -57,7 +48,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.ts:31
+	// examples/simple/simple.ts:21
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -67,25 +58,51 @@ decr:
 	app_global_put
 	retsub
 
+abi_route_add:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	txna ApplicationArgs 2
+	callsub add
+	int 1
+	return
+
+add:
+	proto 2 0
+
+	// examples/simple/simple.ts:25
+	// return a + b;
+	frame_dig -2 // a: uint256
+	frame_dig -1 // b: uint256
+	b+
+	dup
+	len
+	int 32
+	swap
+	-
+	bzero
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
 	txn ApplicationID
 	int 0
 	==
-	&&
-	int NoOp
-	txn OnCompletion
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
 	int 1
-	match bare_route_createApp bare_route_blah
+	match bare_route_createApp
 
 route_abi:
 	method "incr(uint64)void"
 	method "decr(uint64)void"
+	method "add(uint256,uint256)uint256"
 	txna ApplicationArgs 0
-	match abi_route_incr abi_route_decr
+	match abi_route_incr abi_route_decr abi_route_add

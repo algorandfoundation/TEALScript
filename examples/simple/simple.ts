@@ -9,19 +9,9 @@ import { Contract } from '../../src/lib/index';
 class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
-  @clearState
-  // @ts-ignore
-  clearState(): void {
-    this.counter.put(this.counter.get() + 1);
-  }
-
   @createApplication
   // @ts-ignore
   createApp(): void { }
-
-  @noOp
-  // @ts-ignore
-  blah(): void { }
 
   incr(i: uint64): void {
     this.counter.put(this.counter.get() + i);
@@ -29,5 +19,15 @@ class Simple extends Contract {
 
   decr(i: uint64): void {
     this.counter.put(this.counter.get() - i);
+  }
+
+  add(a: uint256, b: uint256): uint256 {
+    return a + b;
+  }
+
+  @clearState
+  // @ts-ignore
+  clearState(): void {
+    this.counter.put(this.counter.get() + 1);
   }
 }
