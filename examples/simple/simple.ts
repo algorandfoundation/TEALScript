@@ -6,7 +6,7 @@
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { Contract } from '../../src/lib/index';
 
-class Simple extends Contract {
+export default class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
   @createApplication

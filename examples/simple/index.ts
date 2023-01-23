@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
 import * as bkr from 'beaker-ts';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { Simple } from './simple_client';
+import { Simple as Client } from './simple_client';
 
 // eslint-disable-next-line func-names
 (async function () {
   const acct = (await bkr.sandbox.getAccounts()).pop();
   if (acct === undefined) return;
 
-  const appClient = new Simple({
+  const appClient = new Client({
     client: bkr.clients.sandboxAlgod(),
     signer: acct.signer,
     sender: acct.addr,
@@ -20,8 +20,9 @@ import { Simple } from './simple_client';
   await appClient.incr({ i: 1n });
   await appClient.incr({ i: 1n });
   await appClient.incr({ i: 1n });
-  console.log(await appClient.getApplicationState());
+  const { counter } = await appClient.getApplicationState();
+  console.log(`worked?: ${counter === 3}`);
 
   const result = await appClient.add({ a: 123n, b: 456n });
-  console.log(result.returnValue);
+  console.log(result.value);
 }());
