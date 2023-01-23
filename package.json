@@ -5,6 +5,9 @@
   "types": "dist/lib/index.d.ts",
   "scripts": {
     "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
+    "simple-gen": "ts-node  src/bin/tealscript.ts examples/simple/simple.ts",
+    "simple-beaker-gen": "npx beaker-ts generate examples/simple/Simple.json examples/simple/",
+    "simple-run": "npx tsx examples/simple/index.ts",
     "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
     "test-examples": "mocha -r ts-node/register 'tests/examples.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
@@ -13,6 +16,8 @@
     "prepack": "tsc"
   },
   "dependencies": {
+    "algosdk": "^2.0.0",
+    "beaker-ts": "^0.0.70",
     "eslint": "^8.28.0",
     "node-fetch": "2",
     "typescript": "^4.9.3",
@@ -23,6 +28,8 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.9",
     "@types/node-fetch": "^2.6.2",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
     "chai": "^4.3.7",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
@@ -31,9 +38,7 @@
     "nyc": "^15.1.0",
     "ts-node": "^10.9.1",
     "typedoc": "^0.23.23",
-    "typedoc-plugin-merge-modules": "^4.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0"
+    "typedoc-plugin-merge-modules": "^4.0.1"
   },
   "bin": {
     "tealscript": "dist/bin/tealscript.js"

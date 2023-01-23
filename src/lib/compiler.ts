@@ -2,7 +2,8 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts, { isStringLiteral } from 'typescript';
-
+import * as bkr from 'beaker-ts';
+import algosdk from 'algosdk';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -830,6 +831,8 @@ export default class Compiler {
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
+        // TODO: add pseudo op type parsing/assertion to handle this
+        // not currently exported in langspeg.json
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
         this.push(`addr ${node.arguments[0].text}`, ForeignType.Account);
       } else if (['method'].includes(methodName)) {
@@ -1426,6 +1429,31 @@ export default class Compiler {
     this.pushVoid(`// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
+  }
+
+  appSpec(): object {
+    const approval = Buffer.from(this.prettyTeal()).toString('base64');
+    const clear = Buffer.from('#pragma version 8\nint 1; return').toString('base64');
+    return {
+      hints: {},
+      schema: {
+        local: {
+          declared: {
+            counter: { type: 'uint64', key: 'counter' },
+          },
+          reserved: {},
+        },
+        global: {
+          declared: {},
+          reserved: {},
+        },
+      },
+      source: {
+        approval,
+        clear,
+      },
+      contract: this.abi,
+    };
   }
 
   prettyTeal() {

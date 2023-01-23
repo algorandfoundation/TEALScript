@@ -16,10 +16,12 @@ src.statements.forEach(async (body) => {
     const name = body.name!.text;
     const tealPath = path.join(dir, `${name}.teal`);
     const abiPath = path.join(dir, `${name}.abi.json`);
+    const appPath = path.join(dir, `${name}.json`);
     const srcmapPath = path.join(dir, `${name}.src_map.json`);
 
     if (fs.existsSync(tealPath)) fs.rmSync(tealPath);
     if (fs.existsSync(abiPath)) fs.rmSync(abiPath);
+    if (fs.existsSync(abiPath)) fs.rmSync(appPath);
     if (fs.existsSync(srcmapPath)) fs.rmSync(srcmapPath);
 
     const compiler = new Compiler(content, name, filename);
@@ -30,5 +32,6 @@ src.statements.forEach(async (body) => {
 
     await compiler.algodCompile();
     fs.writeFileSync(srcmapPath, JSON.stringify(compiler.pcToLine, null, 2));
+    fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec()));
   }
 });

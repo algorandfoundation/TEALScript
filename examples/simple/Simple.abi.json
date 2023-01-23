@@ -1,0 +1,45 @@
+{
+  "name": "Simple",
+  "desc": "",
+  "methods": [
+    {
+      "name": "create",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "incr",
+      "args": [
+        {
+          "name": "i",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "decr",
+      "args": [
+        {
+          "name": "i",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}
