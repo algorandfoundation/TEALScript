@@ -132,7 +132,7 @@ function isRefType(t: string): boolean {
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
-  clearTeal: string[] = ['#pragma version 8', 'b clearState'];
+  clearTeal: string[] = ['#pragma version 8'];
 
   generatedTeal: string = '';
 
@@ -1090,7 +1090,6 @@ export default class Compiler {
 
   private processClearState(fn: ts.MethodDeclaration) {
     this.compilingApproval = false;
-    this.pushVoid(`${this.currentSubroutine.name}:`);
     this.processNode(fn.body!);
     this.compilingApproval = true;
   }
