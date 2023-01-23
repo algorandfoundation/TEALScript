@@ -132,11 +132,15 @@ function isRefType(t: string): boolean {
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
+  clearTeal: string[] = ['#pragma version 8', 'b clearState'];
+
   generatedTeal: string = '';
 
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private scratchIndex: number = 0;
+
+  private compilingApproval: boolean = true;
 
   private ifCount: number = 0;
 
@@ -529,8 +533,13 @@ export default class Compiler {
   }
 
   private push(teal: string, type: string) {
-    this.teal.push(teal);
-    if (type !== 'void') this.lastType = type;
+    if (this.compilingApproval) {
+      this.teal.push(teal);
+      if (type !== 'void') this.lastType = type;
+    } else {
+      this.clearTeal.push(teal);
+      if (type !== 'void') this.lastType = type;
+    }
   }
 
   private pushVoid(teal: string) {
@@ -1079,14 +1088,16 @@ export default class Compiler {
     this.frame = lastFrame;
   }
 
-  private processLabel(fn: ts.MethodDeclaration) {
+  private processClearState(fn: ts.MethodDeclaration) {
+    this.compilingApproval = false;
     this.pushVoid(`${this.currentSubroutine.name}:`);
     this.processNode(fn.body!);
+    this.compilingApproval = true;
   }
 
   private processBareMethod(fn: ts.MethodDeclaration) {
     let allowCreate: boolean = false;
-    let isMain: boolean = false;
+    let isClearState: boolean = false;
     const allowedOnCompletes: string[] = [];
 
     this.currentSubroutine.decorators?.forEach((d, i) => {
@@ -1109,16 +1120,16 @@ export default class Compiler {
         case 'deleteApplication':
           allowedOnCompletes.push('DeleteApplication');
           break;
-        case 'main':
-          isMain = true;
+        case 'clearState':
+          isClearState = true;
           break;
         default:
           throw new Error(`Unknown decorator: ${d}`);
       }
     });
 
-    if (isMain) {
-      this.processLabel(fn);
+    if (isClearState) {
+      this.processClearState(fn);
       return;
     }
 
@@ -1503,7 +1514,7 @@ export default class Compiler {
 
   appSpec(): object {
     const approval = Buffer.from(this.prettyTeal()).toString('base64');
-    const clear = Buffer.from('#pragma version 8\nint 1; return').toString('base64');
+    const clear = Buffer.from(this.prettyClearTeal()).toString('base64');
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
@@ -1576,5 +1587,37 @@ export default class Compiler {
 
     this.generatedTeal = output.join('\n');
     return this.generatedTeal;
+  }
+
+  prettyClearTeal(): string {
+    const output: string[] = [];
+    let comments: string[] = [];
+
+    let lastIsLabel: boolean = false;
+
+    this.clearTeal.forEach((t) => {
+      if (t.startsWith('//')) {
+        comments.push(t);
+        return;
+      }
+
+      const isLabel = t.split('//')[0].endsWith(':');
+
+      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
+
+      if (isLabel || t.startsWith('#')) {
+        comments.forEach((c) => output.push(c));
+        comments = [];
+        output.push(t);
+        lastIsLabel = true;
+      } else {
+        comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
+        comments = [];
+        output.push(`\t${t}`);
+        lastIsLabel = false;
+      }
+    });
+
+    return output.join('\n');
   }
 }

@@ -7,7 +7,7 @@
     "examples": "ts-node src/bin/tealscript.ts examples/arc12/arc12.ts",
     "simple-gen-artifacts": "ts-node src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts/",
     "simple-gen-client": "npx beaker-ts -- generate examples/simple/artifacts/Simple.json examples/simple/",
-    "simple-gen":"npm run simple-gen-artifacts && npm run simple-gen-client",
+    "simple-gen":"npm run simple-gen-artifacts && npm run simple-gen-client && npm run fix",
     "simple-run": "npx tsx examples/simple/index.ts",
     "simple":"npm run simple-gen && npm run simple-run",
     "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",

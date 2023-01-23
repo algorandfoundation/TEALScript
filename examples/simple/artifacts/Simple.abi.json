@@ -37,13 +37,6 @@
     {
       "name": "createApp",
       "predicates": [
-        "int UpdateApplication",
-        "txn OnCompletion",
-        "==",
-        "int NoOp",
-        "txn OnCompletion",
-        "==",
-        "||",
         "txn ApplicationID",
         "int 0",
         "==",

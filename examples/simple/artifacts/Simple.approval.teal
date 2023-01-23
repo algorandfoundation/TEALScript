@@ -33,7 +33,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.ts:32
+	// examples/simple/simple.ts:27
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -57,7 +57,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.ts:36
+	// examples/simple/simple.ts:31
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -70,13 +70,6 @@ decr:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int UpdateApplication
-	txn OnCompletion
-	==
-	int NoOp
-	txn OnCompletion
-	==
-	||
 	txn ApplicationID
 	int 0
 	==
