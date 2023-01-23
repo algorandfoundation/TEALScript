@@ -36,7 +36,23 @@
   "bareMethods": [
     {
       "name": "createApp",
-      "onComplete": "NoOp"
+      "predicates": [
+        "txn ApplicationID",
+        "int 0",
+        "=="
+      ]
+    },
+    {
+      "name": "blah",
+      "predicates": [
+        "int NoOp",
+        "txn OnCompletion",
+        "==",
+        "txn ApplicationID",
+        "int 0",
+        "!=",
+        "&&"
+      ]
     }
   ]
 }

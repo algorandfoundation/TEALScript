@@ -161,7 +161,7 @@ export default class Compiler {
       }[],
       bareMethods: {
         name: string,
-        onComplete: string,
+        predicates: string[],
       }[],
     } = {
       name: '', desc: '', methods: [], bareMethods: [],
@@ -557,20 +557,18 @@ export default class Compiler {
     this.pushVoid(`method "${sig}"`);
   }
 
-  // TODO: use consts
-  private pushBareMethod(onComplete: string) {
-    this.pushVoid(`int ${onComplete}`);
-  }
-
   private routeAbiMethods() {
     this.pushVoid('txn NumAppArgs');
     this.pushVoid('bnz route_abi');
 
     // Route the bare methods with no args
     this.abi.bareMethods.forEach((m) => {
-      this.pushBareMethod(m.onComplete);
+      m.predicates.forEach((p: string) => {
+        this.pushVoid(p);
+      });
     });
-    this.pushVoid('txn OnCompletion');
+
+    this.pushVoid('int 1');
     this.pushVoid(
       `match ${this.abi.bareMethods
         .map((m) => `abi_route_${m.name}`)
@@ -1083,51 +1081,75 @@ export default class Compiler {
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
     let argCount = 0;
-    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
-    const args: {name: string, type: string, desc: string}[] = [];
 
-    if (this.currentSubroutine.decorators?.length) {
-      this.currentSubroutine.decorators.forEach((d, i) => {
+    const numArgs = fn.parameters.length;
+    const bareDecorators = this.currentSubroutine.decorators?.length || 0;
+
+    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
+
+    // bare method
+    if (numArgs === 0 && bareDecorators > 0) {
+      this.pushVoid(`callsub ${this.currentSubroutine.name}`);
+      this.pushVoid('int 1');
+      this.pushVoid('return');
+
+      const predicates: string[] = [];
+      this.currentSubroutine.decorators?.forEach((d, i) => {
         switch (d) {
           case 'createApplication':
-            this.pushVoid('txn ApplicationID');
-            this.pushVoid('int 0');
+            predicates.push('txn ApplicationID');
+            predicates.push('int 0');
             break;
           case 'noOp':
-            this.pushVoid('int NoOp');
-            this.pushVoid('txn OnCompletion');
+            predicates.push('int NoOp');
+            predicates.push('txn OnCompletion');
             break;
           case 'optIn':
-            this.pushVoid('int OptIn');
-            this.pushVoid('txn OnCompletion');
+            predicates.push('int OptIn');
+            predicates.push('txn OnCompletion');
             break;
           case 'closeOut':
-            this.pushVoid('int CloseOut');
-            this.pushVoid('txn OnCompletion');
+            predicates.push('int CloseOut');
+            predicates.push('txn OnCompletion');
             break;
           case 'updateApplication':
-            this.pushVoid('int UpdateApplication');
-            this.pushVoid('txn OnCompletion');
+            predicates.push('int UpdateApplication');
+            predicates.push('txn OnCompletion');
             break;
           case 'deleteApplication':
-            this.pushVoid('int DeleteApplication');
-            this.pushVoid('txn OnCompletion');
+            predicates.push('int DeleteApplication');
+            predicates.push('txn OnCompletion');
             break;
           default:
             throw new Error(`Unknown decorator: ${d}`);
         }
-
-        this.pushVoid('==');
-        if (i > 0) this.pushVoid('||');
+        predicates.push('==');
+        if (i > 0) predicates.push('||');
       });
 
-      this.pushVoid('assert');
-    } else {
-      this.pushVoid('txn OnCompletion');
-      this.pushVoid('int NoOp');
-      this.pushVoid('==');
-      this.pushVoid('assert');
+      // Not a create, dont allow it
+      if (!this.currentSubroutine.decorators?.includes('createApplication')) {
+        predicates.push('txn ApplicationID');
+        predicates.push('int 0');
+        predicates.push('!=');
+        predicates.push('&&');
+      }
+
+      this.abi.bareMethods.push({
+        name: this.currentSubroutine.name,
+        predicates,
+      });
+
+      this.processSubroutine(fn, true);
+      return;
     }
+
+    const args: {name: string, type: string, desc: string}[] = [];
+
+    this.pushVoid('txn OnCompletion');
+    this.pushVoid('int NoOp');
+    this.pushVoid('==');
+    this.pushVoid('assert');
 
     let gtxnIndex = fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length;
 
@@ -1171,21 +1193,12 @@ export default class Compiler {
       .replace(/asset|application/, 'uint64')
       .replace('account', 'address');
 
-    if (args.length === 0) {
-      // TODO: wrong spot for this, should get
-      // on complete from decorator
-      this.abi.bareMethods.push({
-        name: this.currentSubroutine.name,
-        onComplete: 'NoOp',
-      });
-    } else {
-      this.abi.methods.push({
-        name: this.currentSubroutine.name,
-        args,
-        desc: '',
-        returns: { type: returnType, desc: '' },
-      });
-    }
+    this.abi.methods.push({
+      name: this.currentSubroutine.name,
+      args,
+      desc: '',
+      returns: { type: returnType, desc: '' },
+    });
 
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');

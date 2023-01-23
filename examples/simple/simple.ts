@@ -12,6 +12,11 @@ class Simple extends Contract {
   @createApplication
   createApp(): void { }
 
+  @noOp
+  blah(): void {
+
+  }
+
   incr(i: uint64): void {
     this.counter.put(this.counter.get() + i);
   }
