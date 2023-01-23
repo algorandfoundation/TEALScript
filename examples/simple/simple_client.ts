@@ -1,6 +1,7 @@
 import algosdk from 'algosdk';
 import * as bkr from 'beaker-ts';
 
+// eslint-disable-next-line import/prefer-default-export
 export class Simple extends bkr.ApplicationClient {
   desc: string = '';
 
