@@ -10,7 +10,6 @@ class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
   @createApplication
-  // @ts-ignore
   createApp(): void { }
 
   incr(i: uint64): void {
@@ -26,7 +25,6 @@ class Simple extends Contract {
   }
 
   @clearState
-  // @ts-ignore
   clearState(): void {
     this.counter.put(this.counter.get() + 1);
   }
