@@ -17,11 +17,11 @@ import { Simple } from './simple_client';
   const { appId, appAddress, txId } = await appClient.create();
   console.log(`Created app ${appId} with address ${appAddress} in tx ${txId}`);
 
-  await appClient.incr({ i: BigInt(1) });
-  await appClient.incr({ i: BigInt(1) });
-  await appClient.incr({ i: BigInt(1) });
+  await appClient.incr({ i: 1n });
+  await appClient.incr({ i: 1n });
+  await appClient.incr({ i: 1n });
   console.log(await appClient.getApplicationState());
 
-  const result = await appClient.add({ a: BigInt(123), b: BigInt(456) });
+  const result = await appClient.add({ a: 123n, b: 456n });
   console.log(result.returnValue);
 }());
