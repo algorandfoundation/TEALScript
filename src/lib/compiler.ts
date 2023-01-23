@@ -132,6 +132,8 @@ function isRefType(t: string): boolean {
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
+  generatedTeal: string = '';
+
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private scratchIndex: number = 0;
@@ -1511,7 +1513,9 @@ export default class Compiler {
     };
   }
 
-  prettyTeal() {
+  prettyTeal(): string {
+    if (this.generatedTeal !== '') return this.generatedTeal;
+
     const output: string[] = [];
     let comments: string[] = [];
 
@@ -1540,6 +1544,7 @@ export default class Compiler {
       }
     });
 
-    return output.join('\n');
+    this.generatedTeal = output.join('\n');
+    return this.generatedTeal;
   }
 }
