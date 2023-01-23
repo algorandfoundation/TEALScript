@@ -1471,17 +1471,34 @@ export default class Compiler {
   appSpec(): object {
     const approval = Buffer.from(this.prettyTeal()).toString('base64');
     const clear = Buffer.from('#pragma version 8\nint 1; return').toString('base64');
+
+    const globalDeclared: Record<string, object> = {};
+    const localDeclared: Record<string, object> = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [k, v] of Object.entries(this.storageProps)) {
+      // eslint-disable-next-line default-case
+      switch (v.type) {
+        case 'global':
+          globalDeclared[k] = { type: v.valueType, key: k };
+          break;
+        case 'local':
+          localDeclared[k] = { type: v.valueType, key: k };
+          break;
+        default:
+          // TODO: boxes?
+          break;
+      }
+    }
+
     return {
       hints: {},
       schema: {
         local: {
-          declared: {},
+          declared: localDeclared,
           reserved: {},
         },
         global: {
-          declared: {
-            counter: { type: 'uint64', key: 'counter' },
-          },
+          declared: globalDeclared,
           reserved: {},
         },
       },
