@@ -167,7 +167,7 @@ export default class Compiler {
       args: {name: string, type: string, desc: string}[],
       returns: {type: string, desc: string},
       }[],
-      bareMethods: {
+    bareMethods: {
         name: string,
         predicates: string[],
       }[],
@@ -1579,7 +1579,7 @@ export default class Compiler {
         approval,
         clear,
       },
-      contract: this.abi,
+      contract: { name: this.abi.name, desc: this.abi.desc, methods: this.abi.methods },
     };
   }
 
