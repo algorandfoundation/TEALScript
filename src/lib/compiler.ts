@@ -555,8 +555,9 @@ export default class Compiler {
     this.pushVoid(`method "${sig}"`);
   }
 
+  // TODO: use consts
   private pushBareMethod(onComplete: string) {
-    this.pushVoid('int NoOp');
+    this.pushVoid(`int ${onComplete}`);
   }
 
   private routeAbiMethods() {
