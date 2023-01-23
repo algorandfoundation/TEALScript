@@ -41,6 +41,6 @@ class MathTest extends Contract {
   }
 
   u64Return256(a: uint64, b: uint64): uint256 {
-    return (a + b) as uint256;
+    return a + b;
   }
 }

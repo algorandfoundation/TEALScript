@@ -732,18 +732,29 @@ export default class Compiler {
     this.addSourceComment(node);
     if (node.expression !== undefined) this.processNode(node.expression);
 
-    if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
+    const { returnType, name } = this.currentSubroutine;
 
-    // TODO: others? need encode subroutine for well known types?
-    if (this.currentSubroutine.returnType === 'uint256') {
-      this.pushVoid('dup');
-      this.pushVoid('len');
-      this.pushVoid('int 32');
-      this.pushVoid('swap');
-      this.pushVoid('-');
-      this.pushVoid('bzero');
-      this.pushVoid('swap');
-      this.pushVoid('concat');
+    // Automatically convert to larger int IF the types dont match
+    if (returnType !== this.lastType) {
+      if (this.lastType?.startsWith('uint')) {
+        const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
+        const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+        if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
+
+        if (this.lastType === 'uint64') this.pushVoid('itob');
+
+        this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+        this.pushVoid('b&');
+
+        // eslint-disable-next-line no-console
+        console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
+      } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+    } else if (isNumeric(returnType)) {
+      this.pushVoid('itob');
+    } else if (returnType.startsWith('uint')) {
+      const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
+      this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+      this.pushVoid('b&');
     }
 
     this.pushVoid('byte 0x151f7c75');

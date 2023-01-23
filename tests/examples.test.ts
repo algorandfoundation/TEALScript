@@ -17,7 +17,7 @@ import Compiler from '../src/lib/compiler';
     });
 
     it('Generates TEAL', function () {
-      expect(this.compiler.prettyTeal()).to.equal(fs.readFileSync(`examples/arc12/${className}.teal`, 'utf-8'));
+      expect(this.compiler.prettyTeal()).to.equal(fs.readFileSync(`examples/arc12/${className}.approval.teal`, 'utf-8'));
     });
 
     it('Generates Sourcemap', function () {
