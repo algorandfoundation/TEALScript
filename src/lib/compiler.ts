@@ -694,6 +694,10 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
+    if (this.currentSubroutine.name === 'clearState') {
+      this.compilingApproval = false;
+    }
+
     const returnType = node.type?.getText();
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
@@ -709,7 +713,11 @@ export default class Compiler {
       (d) => d.expression.getText(),
     );
 
-    this.processRoutableMethod(node);
+    if (this.currentSubroutine.name === 'clearState') {
+      this.processClearState(node);
+    } else {
+      this.processRoutableMethod(node);
+    }
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {

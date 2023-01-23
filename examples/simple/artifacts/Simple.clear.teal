@@ -1,5 +1,9 @@
 #pragma version 8
-	// examples/simple/simple.ts:23
-	// assert(1)
+	// examples/simple/simple.ts:14
+	// this.counter.put(this.counter.get() + 1)
+	byte "counter"
+	byte "counter"
+	app_global_get
 	int 1
-	assert
+	+
+	app_global_put
