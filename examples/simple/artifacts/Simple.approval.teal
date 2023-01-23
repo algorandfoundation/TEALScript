@@ -33,7 +33,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.ts:25
+	// examples/simple/simple.ts:27
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -57,7 +57,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.ts:29
+	// examples/simple/simple.ts:31
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"

@@ -142,6 +142,8 @@ export default class Compiler {
 
   private scratchIndex: number = 0;
 
+  private clearStateCompiled: boolean = false;
+
   private compilingApproval: boolean = true;
 
   private ifCount: number = 0;
@@ -696,10 +698,6 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    if (this.currentSubroutine.name === 'clearState') {
-      this.compilingApproval = false;
-    }
-
     const returnType = node.type?.getText();
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
@@ -715,11 +713,7 @@ export default class Compiler {
       (d) => d.expression.getText(),
     );
 
-    if (this.currentSubroutine.name === 'clearState') {
-      this.processClearState(node);
-    } else {
-      this.processRoutableMethod(node);
-    }
+    this.processRoutableMethod(node);
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
@@ -1099,8 +1093,11 @@ export default class Compiler {
   }
 
   private processClearState(fn: ts.MethodDeclaration) {
+    if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
+
     this.compilingApproval = false;
     this.processNode(fn.body!);
+    this.clearStateCompiled = true;
     this.compilingApproval = true;
   }
 

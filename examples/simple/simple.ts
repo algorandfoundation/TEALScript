@@ -9,6 +9,8 @@ import { Contract } from '../../src/lib/index';
 class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
+  @clearState
+  // @ts-ignore
   clearState(): void {
     this.counter.put(this.counter.get() + 1);
   }
