@@ -21,8 +21,8 @@ import { Simple as Client } from './simple_client';
   await appClient.incr({ i: 1n });
   await appClient.incr({ i: 1n });
   const { counter } = await appClient.getApplicationState();
-  console.log(`worked?: ${counter === 3}`);
+  console.log(`counter == 3?: ${counter === 3}`);
 
   const result = await appClient.add({ a: 123n, b: 456n });
-  console.log(result.value);
+  console.log(`add worked?: ${result.value === 123n + 456n}`);
 }());
