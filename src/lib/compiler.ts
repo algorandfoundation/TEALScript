@@ -158,6 +158,8 @@ export default class Compiler {
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
+  private bareMethods: { name: string, predicates: string[] }[] = [];
+
   abi: {
     name: string,
     desc: string,
@@ -167,12 +169,8 @@ export default class Compiler {
       args: {name: string, type: string, desc: string}[],
       returns: {type: string, desc: string},
       }[],
-    bareMethods: {
-        name: string,
-        predicates: string[],
-      }[],
     } = {
-      name: '', desc: '', methods: [], bareMethods: [],
+      name: '', desc: '', methods: [],
     };
 
   private storageProps: { [key: string]: StorageProp } = {};
@@ -510,7 +508,7 @@ export default class Compiler {
 
         if (className === this.name) {
           this.abi = {
-            name: className, desc: '', methods: [], bareMethods: [],
+            name: className, desc: '', methods: [],
           };
 
           this.processNode(body);
@@ -575,7 +573,7 @@ export default class Compiler {
     this.pushVoid('bnz route_abi');
 
     // Route the bare methods with no args
-    this.abi.bareMethods.forEach((m) => {
+    this.bareMethods.forEach((m) => {
       m.predicates.forEach((p: string) => {
         this.pushVoid(p);
       });
@@ -583,7 +581,7 @@ export default class Compiler {
 
     this.pushVoid('int 1');
     this.pushVoid(
-      `match ${this.abi.bareMethods
+      `match ${this.bareMethods
         .map((m) => `bare_route_${m.name}`)
         .join(' ')}`,
     );
@@ -1181,7 +1179,7 @@ export default class Compiler {
     predicates.push(allowCreate ? '==' : '!=');
     if (allowedOnCompletes.length > 0) predicates.push('&&');
 
-    this.abi.bareMethods.push({
+    this.bareMethods.push({
       name: this.currentSubroutine.name,
       predicates,
     });
