@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-import * as bkr from 'beaker-ts';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+/* eslint-disable func-names */
+/* eslint-disable import/no-unresolved, import/extensions */
+import { sandbox, clients } from 'beaker-ts';
 import { Simple as Client } from './simple_client';
 
-// eslint-disable-next-line func-names
 (async function () {
-  const acct = (await bkr.sandbox.getAccounts()).pop();
+  const acct = (await sandbox.getAccounts()).pop();
   if (acct === undefined) return;
 
   const appClient = new Client({
-    client: bkr.clients.sandboxAlgod(),
+    client: clients.sandboxAlgod(),
     signer: acct.signer,
     sender: acct.addr,
   });
