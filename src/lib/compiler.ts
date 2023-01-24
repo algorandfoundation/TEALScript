@@ -1489,7 +1489,7 @@ export default class Compiler {
           'Content-Type': 'text/plain',
           'X-API-Key': 'a'.repeat(64),
         },
-        body: this.prettyTeal(),
+        body: this.approvalProgram(),
       },
     );
 
@@ -1540,8 +1540,8 @@ export default class Compiler {
   }
 
   appSpec(): object {
-    const approval = Buffer.from(this.prettyTeal()).toString('base64');
-    const clear = Buffer.from(this.prettyClearTeal()).toString('base64');
+    const approval = Buffer.from(this.approvalProgram()).toString('base64');
+    const clear = Buffer.from(this.clearProgram()).toString('base64');
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
@@ -1572,50 +1572,37 @@ export default class Compiler {
     };
   }
 
-  prettyTeal(): string {
+  approvalProgram(): string {
     if (this.generatedTeal !== '') return this.generatedTeal;
 
-    const output: string[] = [];
-    let comments: string[] = [];
-
-    let lastIsLabel: boolean = false;
-
-    this.teal.forEach((t) => {
-      if (t.startsWith('//')) {
-        comments.push(t);
-        return;
-      }
-
-      const isLabel = t.split('//')[0].endsWith(':');
-
-      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
-
-      if (isLabel || t.startsWith('#')) {
-        comments.forEach((c) => output.push(c));
-        comments = [];
-        output.push(t);
-        lastIsLabel = true;
-      } else {
-        comments.forEach((c) => output.push(`\t${c.replace(/\n/g, '\n\t')}`));
-        comments = [];
-        output.push(`\t${t}`);
-        lastIsLabel = false;
-      }
-    });
-
+    const output = this.prettyTeal(this.teal);
     this.generatedTeal = output.join('\n');
+
     return this.generatedTeal;
   }
 
-  prettyClearTeal(): string {
+  clearProgram(): string {
     if (this.generatedClearTeal !== '') return this.generatedClearTeal;
 
+    const output = this.prettyTeal(this.clearTeal);
+    // if no clear state, just default approve
+    if (!this.clearStateCompiled) {
+      output.push('int 1');
+      output.push('return');
+    }
+    this.generatedClearTeal = output.join('\n');
+
+    return this.generatedClearTeal;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  prettyTeal(teal: string[]): string[] {
     const output: string[] = [];
     let comments: string[] = [];
 
     let lastIsLabel: boolean = false;
 
-    this.clearTeal.forEach((t) => {
+    teal.forEach((t) => {
       if (t.startsWith('//')) {
         comments.push(t);
         return;
@@ -1638,13 +1625,6 @@ export default class Compiler {
       }
     });
 
-    // only the pragma, default approve
-    if (output.length === 1) {
-      output.push('int 1');
-      output.push('return');
-    }
-
-    this.generatedClearTeal = output.join('\n');
-    return this.generatedClearTeal;
+    return output;
   }
 }
