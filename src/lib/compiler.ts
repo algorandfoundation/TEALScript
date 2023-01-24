@@ -1564,20 +1564,11 @@ export default class Compiler {
     return {
       hints: {},
       schema: {
-        local: {
-          declared: localDeclared,
-          reserved: {},
-        },
-        global: {
-          declared: globalDeclared,
-          reserved: {},
-        },
+        local: { declared: localDeclared, reserved: {} },
+        global: { declared: globalDeclared, reserved: {} },
       },
-      source: {
-        approval,
-        clear,
-      },
-      contract: { name: this.abi.name, desc: this.abi.desc, methods: this.abi.methods },
+      source: { approval, clear },
+      contract: this.abi,
     };
   }
 
