@@ -43,4 +43,9 @@ class MathTest extends Contract {
   u64Return256(a: uint64, b: uint64): uint256 {
     return (a + b) as uint256;
   }
+
+  maxU64(): void {
+    // eslint-disable-next-line no-loss-of-precision
+    assert(18_446_744_073_709_551_615);
+  }
 }

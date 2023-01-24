@@ -970,7 +970,7 @@ export default class Compiler {
     if (node.kind === ts.SyntaxKind.StringLiteral) {
       this.push(`byte "${node.text}"`, StackType.bytes);
     } else {
-      this.push(`int ${node.text}`, StackType.uint64);
+      this.push(`int ${node.getText()}`, StackType.uint64);
     }
   }
 

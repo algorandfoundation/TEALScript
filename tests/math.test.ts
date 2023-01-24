@@ -159,4 +159,15 @@ describe('Math', function () {
       ],
     );
   });
+
+  it('max uint64', async function () {
+    const teal = await getTeal('maxU64');
+    expect(teal).to.deep.equal(
+      [
+        '// assert(18_446_744_073_709_551_615)',
+        'int 18_446_744_073_709_551_615',
+        'assert',
+      ],
+    );
+  });
 });
