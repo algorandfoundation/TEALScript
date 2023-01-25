@@ -25,4 +25,7 @@ import { Simple as Client } from './simple_client';
 
   const result = await appClient.add({ a: 123n, b: 456n });
   console.log(`add worked?: ${result.value === 123n + 456n}`);
+
+  // TODO: Make this actual test
+  if (counter !== 3 || result.value !== 123n + 456n) process.exit(1);
 }());
