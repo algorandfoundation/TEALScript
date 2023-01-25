@@ -395,12 +395,10 @@ deleteVault:
 
 	// Call delete on the vault
 	// examples/arc12/arc12.ts:212
-	// sendMethodCall<[], void>({
+	// sendAppCall({
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
-	method "delete()void"
-	itxn_field ApplicationArgs
 
 	// examples/arc12/arc12.ts:213
 	// applicationID: vault
@@ -412,30 +410,30 @@ deleteVault:
 	int DeleteApplication
 	itxn_field OnCompletion
 
-	// examples/arc12/arc12.ts:216
+	// examples/arc12/arc12.ts:215
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
-	// examples/arc12/arc12.ts:219
+	// examples/arc12/arc12.ts:218
 	// this.vaultMap.delete(this.txn.sender)
 	txn Sender
 	box_del
 
 	// Send the MBR back to the vault creator
-	// examples/arc12/arc12.ts:222
+	// examples/arc12/arc12.ts:221
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:223
+	// examples/arc12/arc12.ts:222
 	// receiver: vaultCreator
 	load 2 // vaultCreator: Account
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:224
+	// examples/arc12/arc12.ts:223
 	// amount: preDeleteMBR - globals.currentApplicationAddress.minBalance
 	load 3 // preDeleteMBR: uint64
 	global CurrentApplicationAddress
@@ -444,7 +442,7 @@ deleteVault:
 	-
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:225
+	// examples/arc12/arc12.ts:224
 	// fee: 0
 	int 0
 	itxn_field Fee

@@ -35,3 +35,10 @@ jobs:
 
     - name: Run simple e2e smoketest
       run: yarn simple
+
+    - name: Install ARC12 test dependencies
+      run: pip3 install -r ./examples/arc12/tests/requirements.txt
+
+    - name: Run ARC12 tests
+      run: pytest ./examples/arc12/tests
+
