@@ -209,10 +209,9 @@ class Master extends Contract {
     const preDeleteMBR = globals.currentApplicationAddress.minBalance;
 
     /// Call delete on the vault
-    sendMethodCall<[], void>({
+    sendAppCall({
       applicationID: vault,
       OnCompletion: 'DeleteApplication',
-      name: 'delete',
       fee: 0,
     });
 

@@ -11,11 +11,34 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install modules
       run: yarn
+
     - name: Run ESLint
       run: yarn run lint
+
     - name: Run tests
       run: yarn test
+
     - name: Run examples tests
       run: yarn run test-examples
+
     - name: Run examples
       run: yarn run examples
+
+    - name: Clone algodeploy
+      run: git clone https://github.com/joe-p/algodeploy
+      
+    - name: Install algodeploy dependencies
+      run: pip3 install -r ./algodeploy/requirements.txt
+
+    - name: Run algodeploy create
+      run: python3 ./algodeploy/algodeploy.py create --no-archive
+
+    - name: Run simple e2e smoketest
+      run: yarn simple
+
+    - name: Install ARC12 test dependencies
+      run: pip3 install -r ./examples/arc12/tests/requirements.txt
+
+    - name: Run ARC12 tests
+      run: python3 -m pytest ./examples/arc12/tests
+

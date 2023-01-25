@@ -2,7 +2,8 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts, { isStringLiteral } from 'typescript';
-
+import * as bkr from 'beaker-ts';
+import algosdk from 'algosdk';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -131,9 +132,19 @@ function isRefType(t: string): boolean {
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
+  clearTeal: string[] = ['#pragma version 8'];
+
+  generatedTeal: string = '';
+
+  generatedClearTeal: string = '';
+
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private scratchIndex: number = 0;
+
+  private clearStateCompiled: boolean = false;
+
+  private compilingApproval: boolean = true;
 
   private ifCount: number = 0;
 
@@ -147,6 +158,8 @@ export default class Compiler {
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
+  private bareMethods: { name: string, predicates: string[] }[] = [];
+
   abi: {
     name: string,
     desc: string,
@@ -155,8 +168,10 @@ export default class Compiler {
       desc: string,
       args: {name: string, type: string, desc: string}[],
       returns: {type: string, desc: string},
-      }[]
-    } = { name: '', desc: '', methods: [] };
+      }[],
+    } = {
+      name: '', desc: '', methods: [],
+    };
 
   private storageProps: { [key: string]: StorageProp } = {};
 
@@ -492,7 +507,9 @@ export default class Compiler {
         this.contractClasses.push(className);
 
         if (className === this.name) {
-          this.abi = { name: className, desc: '', methods: [] };
+          this.abi = {
+            name: className, desc: '', methods: [],
+          };
 
           this.processNode(body);
         }
@@ -518,8 +535,13 @@ export default class Compiler {
   }
 
   private push(teal: string, type: string) {
-    this.teal.push(teal);
-    if (type !== 'void') this.lastType = type;
+    if (this.compilingApproval) {
+      this.teal.push(teal);
+      if (type !== 'void') this.lastType = type;
+    } else {
+      this.clearTeal.push(teal);
+      if (type !== 'void') this.lastType = type;
+    }
   }
 
   private pushVoid(teal: string) {
@@ -547,6 +569,25 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
+    this.pushVoid('txn NumAppArgs');
+    this.pushVoid('bnz route_abi');
+
+    // Route the bare methods with no args
+    this.bareMethods.forEach((m) => {
+      m.predicates.forEach((p: string) => {
+        this.pushVoid(p);
+      });
+    });
+
+    this.pushVoid('int 1');
+    this.pushVoid(
+      `match ${this.bareMethods
+        .map((m) => `bare_route_${m.name}`)
+        .join(' ')}`,
+    );
+
+    this.pushVoid('route_abi:');
+    // Route the abi methods with args
     this.abi.methods.forEach((m) => {
       this.pushMethod(
         m.name,
@@ -670,7 +711,7 @@ export default class Compiler {
       (d) => d.expression.getText(),
     );
 
-    this.processAbiMethod(node);
+    this.processRoutableMethod(node);
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
@@ -689,7 +730,30 @@ export default class Compiler {
     this.addSourceComment(node);
     if (node.expression !== undefined) this.processNode(node.expression);
 
-    if (isNumeric(this.currentSubroutine.returnType)) { this.pushVoid('itob'); }
+    const { returnType, name } = this.currentSubroutine;
+
+    // Automatically convert to larger int IF the types dont match
+    if (returnType !== this.lastType) {
+      if (this.lastType?.startsWith('uint')) {
+        const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
+        const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+        if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
+
+        if (this.lastType === 'uint64') this.pushVoid('itob');
+
+        this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+        this.pushVoid('b&');
+
+        // eslint-disable-next-line no-console
+        console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
+      } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+    } else if (isNumeric(returnType)) {
+      this.pushVoid('itob');
+    } else if (returnType.startsWith('uint')) {
+      const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
+      this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+      this.pushVoid('b&');
+    }
 
     this.pushVoid('byte 0x151f7c75');
     this.pushVoid('swap');
@@ -830,6 +894,8 @@ export default class Compiler {
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node);
       } else if (['addr'].includes(methodName)) {
+        // TODO: add pseudo op type parsing/assertion to handle this
+        // not currently exported in langspeg.json
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
         this.push(`addr ${node.arguments[0].text}`, ForeignType.Account);
       } else if (['method'].includes(methodName)) {
@@ -1020,14 +1086,14 @@ export default class Compiler {
     });
   }
 
-  private processSubroutine(fn: ts.MethodDeclaration, abi: boolean = false) {
+  private processSubroutine(fn: ts.MethodDeclaration, isAbi: boolean = false) {
     this.pushVoid(`${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
     this.pushVoid(
       `proto ${fn.parameters.length} ${
-        this.currentSubroutine.returnType === 'void' || abi ? 0 : 1
+        this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1
       }`,
     );
     let frameIndex = 0;
@@ -1047,53 +1113,98 @@ export default class Compiler {
     this.frame = lastFrame;
   }
 
-  private processAbiMethod(fn: ts.MethodDeclaration) {
+  private processClearState(fn: ts.MethodDeclaration) {
+    if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
+
+    this.compilingApproval = false;
+    this.processNode(fn.body!);
+    this.clearStateCompiled = true;
+    this.compilingApproval = true;
+  }
+
+  private processBareMethod(fn: ts.MethodDeclaration) {
+    let allowCreate: boolean = false;
+    let isClearState: boolean = false;
+    const allowedOnCompletes: string[] = [];
+
+    this.currentSubroutine.decorators?.forEach((d, i) => {
+      switch (d) {
+        case 'createApplication':
+          allowCreate = true;
+          break;
+        case 'noOp':
+          allowedOnCompletes.push('NoOp');
+          break;
+        case 'optIn':
+          allowedOnCompletes.push('OptIn');
+          break;
+        case 'closeOut':
+          allowedOnCompletes.push('CloseOut');
+          break;
+        case 'updateApplication':
+          allowedOnCompletes.push('UpdateApplication');
+          break;
+        case 'deleteApplication':
+          allowedOnCompletes.push('DeleteApplication');
+          break;
+        case 'clearState':
+          isClearState = true;
+          break;
+        default:
+          throw new Error(`Unknown decorator: ${d}`);
+      }
+    });
+
+    if (isClearState) {
+      this.processClearState(fn);
+      return;
+    }
+
+    this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
+    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
+    this.pushVoid('int 1');
+    this.pushVoid('return');
+
+    const predicates: string[] = [];
+    allowedOnCompletes.forEach((oc, i) => {
+      predicates.push(`int ${oc}`);
+      predicates.push('txn OnCompletion');
+      predicates.push('==');
+      if (i > 0) predicates.push('||');
+    });
+
+    // if not a create, dont allow it
+    predicates.push('txn ApplicationID');
+    predicates.push('int 0');
+    predicates.push(allowCreate ? '==' : '!=');
+    if (allowedOnCompletes.length > 0) predicates.push('&&');
+
+    this.bareMethods.push({
+      name: this.currentSubroutine.name,
+      predicates,
+    });
+    this.processSubroutine(fn, false);
+  }
+
+  private processRoutableMethod(fn: ts.MethodDeclaration) {
     let argCount = 0;
+
+    const numArgs = fn.parameters.length;
+    const bareDecorators = this.currentSubroutine.decorators?.length || 0;
+
+    // bare method
+    if (numArgs === 0 && bareDecorators > 0) {
+      this.processBareMethod(fn);
+      return;
+    }
+
     this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
     const args: {name: string, type: string, desc: string}[] = [];
 
-    if (this.currentSubroutine.decorators?.length) {
-      this.currentSubroutine.decorators.forEach((d, i) => {
-        switch (d) {
-          case 'createApplication':
-            this.pushVoid('txn ApplicationID');
-            this.pushVoid('int 0');
-            break;
-          case 'noOp':
-            this.pushVoid('int NoOp');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'optIn':
-            this.pushVoid('int OptIn');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'closeOut':
-            this.pushVoid('int CloseOut');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'updateApplication':
-            this.pushVoid('int UpdateApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          case 'deleteApplication':
-            this.pushVoid('int DeleteApplication');
-            this.pushVoid('txn OnCompletion');
-            break;
-          default:
-            throw new Error(`Unknown decorator: ${d}`);
-        }
-
-        this.pushVoid('==');
-        if (i > 0) this.pushVoid('||');
-      });
-
-      this.pushVoid('assert');
-    } else {
-      this.pushVoid('txn OnCompletion');
-      this.pushVoid('int NoOp');
-      this.pushVoid('==');
-      this.pushVoid('assert');
-    }
+    this.pushVoid('txn OnCompletion');
+    this.pushVoid('int NoOp');
+    this.pushVoid('==');
+    this.pushVoid('assert');
 
     let gtxnIndex = fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length;
 
@@ -1378,7 +1489,7 @@ export default class Compiler {
           'Content-Type': 'text/plain',
           'X-API-Key': 'a'.repeat(64),
         },
-        body: this.prettyTeal(),
+        body: this.approvalProgram(),
       },
     );
 
@@ -1428,13 +1539,70 @@ export default class Compiler {
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
-  prettyTeal() {
+  appSpec(): object {
+    const approval = Buffer.from(this.approvalProgram()).toString('base64');
+    const clear = Buffer.from(this.clearProgram()).toString('base64');
+
+    const globalDeclared: Record<string, object> = {};
+    const localDeclared: Record<string, object> = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [k, v] of Object.entries(this.storageProps)) {
+      // eslint-disable-next-line default-case
+      switch (v.type) {
+        case 'global':
+          globalDeclared[k] = { type: v.valueType, key: k };
+          break;
+        case 'local':
+          localDeclared[k] = { type: v.valueType, key: k };
+          break;
+        default:
+          // TODO: boxes?
+          break;
+      }
+    }
+
+    return {
+      hints: {},
+      schema: {
+        local: { declared: localDeclared, reserved: {} },
+        global: { declared: globalDeclared, reserved: {} },
+      },
+      source: { approval, clear },
+      contract: this.abi,
+    };
+  }
+
+  approvalProgram(): string {
+    if (this.generatedTeal !== '') return this.generatedTeal;
+
+    const output = this.prettyTeal(this.teal);
+    this.generatedTeal = output.join('\n');
+
+    return this.generatedTeal;
+  }
+
+  clearProgram(): string {
+    if (this.generatedClearTeal !== '') return this.generatedClearTeal;
+
+    const output = this.prettyTeal(this.clearTeal);
+    // if no clear state, just default approve
+    if (!this.clearStateCompiled) {
+      output.push('int 1');
+      output.push('return');
+    }
+    this.generatedClearTeal = output.join('\n');
+
+    return this.generatedClearTeal;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  prettyTeal(teal: string[]): string[] {
     const output: string[] = [];
     let comments: string[] = [];
 
     let lastIsLabel: boolean = false;
 
-    this.teal.forEach((t) => {
+    teal.forEach((t) => {
       if (t.startsWith('//')) {
         comments.push(t);
         return;
@@ -1457,6 +1625,6 @@ export default class Compiler {
       }
     });
 
-    return output.join('\n');
+    return output;
   }
 }

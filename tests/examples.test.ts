@@ -17,7 +17,7 @@ import Compiler from '../src/lib/compiler';
     });
 
     it('Generates TEAL', function () {
-      expect(this.compiler.prettyTeal()).to.equal(fs.readFileSync(`examples/arc12/${className}.teal`, 'utf-8'));
+      expect(this.compiler.approvalProgram()).to.equal(fs.readFileSync(`examples/arc12/${className}.approval.teal`, 'utf-8'));
     });
 
     it('Generates Sourcemap', function () {
@@ -26,6 +26,10 @@ import Compiler from '../src/lib/compiler';
 
     it('Generates ABI JSON', function () {
       expect(this.compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`examples/arc12/${className}.abi.json`, 'utf-8')));
+    });
+
+    it('Generates App Spec', function () {
+      expect(this.compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`examples/arc12/${className}.json`, 'utf-8')));
     });
   });
 });

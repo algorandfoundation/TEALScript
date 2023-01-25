@@ -1,0 +1,102 @@
+#pragma version 8
+	b main
+
+bare_route_createApp:
+	callsub createApp
+	int 1
+	return
+
+createApp:
+	proto 0 0
+	retsub
+
+abi_route_incr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	btoi
+	callsub incr
+	int 1
+	return
+
+incr:
+	proto 1 0
+
+	// examples/simple/simple.ts:16
+	// this.counter.put(this.counter.get() + i)
+	byte "counter"
+	byte "counter"
+	app_global_get
+	frame_dig -1 // i: uint64
+	+
+	app_global_put
+	retsub
+
+abi_route_decr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	btoi
+	callsub decr
+	int 1
+	return
+
+decr:
+	proto 1 0
+
+	// examples/simple/simple.ts:20
+	// this.counter.put(this.counter.get() - i)
+	byte "counter"
+	byte "counter"
+	app_global_get
+	frame_dig -1 // i: uint64
+	-
+	app_global_put
+	retsub
+
+abi_route_add:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	txna ApplicationArgs 1
+	txna ApplicationArgs 2
+	callsub add
+	int 1
+	return
+
+add:
+	proto 2 0
+
+	// examples/simple/simple.ts:24
+	// return a + b;
+	frame_dig -2 // a: uint256
+	frame_dig -1 // b: uint256
+	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
+	int 1
+	match bare_route_createApp
+
+route_abi:
+	method "incr(uint64)void"
+	method "decr(uint64)void"
+	method "add(uint256,uint256)uint256"
+	txna ApplicationArgs 0
+	match abi_route_incr abi_route_decr abi_route_add

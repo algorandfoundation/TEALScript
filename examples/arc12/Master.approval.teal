@@ -1,11 +1,7 @@
 #pragma version 8
 	b main
 
-abi_route_create:
-	txn ApplicationID
-	int 0
-	==
-	assert
+bare_route_create:
 	callsub create
 	int 1
 	return
@@ -120,7 +116,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:158
 	// approvalProgram: Vault
-	byte b64 CCADAAEEJgMHY3JlYXRvcghyZWNlaXZlcgZtYXN0ZXJCAiCKAQCL/yhkEkSxI7IQi/+yBzIKcwFEsggisgExALIJszEWIwg1ADQAOBgqZBJENAA5GgCABJtKZKUSRDQAOTIBNjIAEkSJMRgiEkQ2GgEXwBw2GgIXwByIAAIjQ4oCACiL/2cpi/5nKjINZ4kxGSISRDYaARfAHDYaAhfAHDYaAxfAMDYaBBfAHIgAAiNDigQAMQApZBJEi/2AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRDUBsSSyEIv8shSL/rIRIrISi/yyFSKyAbOL/ha8NAEyCnMBRAk1ArEjshCL/bIHNAIxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEABYv/iP7liTEZIhJENhoBF8AwMRYjCYgAAiNDigIAi/4WvkxIFESL/zgAMQASRIv/OAcyChJEMgpzAUQ1A4v+FjEAv7EkshAyCrIUIrISIrIBi/6yEbOL/zgIMgpzAUQ0AwkSRIkxGSISRDYaARfAMDYaAhfAHDYaAxfAHIgAAiNDigMAi/0WvkxIRIv/i/0WvkQSRDEAKWQSRChki/4SRDIKcwFENQSL/Ra8sSSyEDEAshQisgEyCov9cABEshKL/bIRMQCyFbOxI7IQi/+yBzQEMgpzAUQJsggisgGzMgpzCUQiEkEABYv+iP3+iYEFMRkSRIgAAiNDigAAMgpzAExIFEQxADIJEkSJgATBMVxZgASPTFY9gARxl5tAgAQpHFFigAQkN408NhoAjgX9+f4f/s//Lf+2
+	byte b64 CCADAAEEJgMHY3JlYXRvcghyZWNlaXZlcgZtYXN0ZXJCAhqKAQCL/yhkEkSxI7IQi/+yBzIKcwFEsggisgExALIJszEWIwg1ADQAOBgqZBJENAA5GgCABJtKZKUSRDQAOTIBNjIAEkSJMRkiEkQ2GgEXwBw2GgIXwByIAAIjQ4oCACiL/2cpi/5nKjINZ4kxGSISRDYaARfAHDYaAhfAHDYaAxfAMDYaBBfAHIgAAiNDigQAMQApZBJEi/2AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRDUBsSSyEIv8shSL/rIRIrISi/yyFSKyAbOL/ha8NAEyCnMBRAk1ArEjshCL/bIHNAIxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEABYv/iP7liTEZIhJENhoBF8AwMRYjCYgAAiNDigIAi/4WvkxIFESL/zgAMQASRIv/OAcyChJEMgpzAUQ1A4v+FjEAv7EkshAyCrIUIrISIrIBi/6yEbOL/zgIMgpzAUQ0AwkSRIkxGSISRDYaARfAMDYaAhfAHDYaAxfAHIgAAiNDigMAi/0WvkxIRIv/i/0WvkQSRDEAKWQSRChki/4SRDIKcwFENQSL/Ra8sSSyEDEAshQisgEyCov9cABEshKL/bIRMQCyFbOxI7IQi/+yBzQEMgpzAUQJsggisgGzMgpzCUQiEkEABYv+iP3+iYgAAiNDigAAMgpzAExIFEQxADIJEkSJMRtAAA+BBTEZEjEYIhMQI44B/9WABMExXFmABI9MVj2ABHGXm0CABCkcUWI2GgCOBP3z/hn+yf8n
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.ts:159
@@ -399,12 +395,10 @@ deleteVault:
 
 	// Call delete on the vault
 	// examples/arc12/arc12.ts:212
-	// sendMethodCall<[], void>({
+	// sendAppCall({
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
-	method "delete()void"
-	itxn_field ApplicationArgs
 
 	// examples/arc12/arc12.ts:213
 	// applicationID: vault
@@ -416,30 +410,30 @@ deleteVault:
 	int DeleteApplication
 	itxn_field OnCompletion
 
-	// examples/arc12/arc12.ts:216
+	// examples/arc12/arc12.ts:215
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
-	// examples/arc12/arc12.ts:219
+	// examples/arc12/arc12.ts:218
 	// this.vaultMap.delete(this.txn.sender)
 	txn Sender
 	box_del
 
 	// Send the MBR back to the vault creator
-	// examples/arc12/arc12.ts:222
+	// examples/arc12/arc12.ts:221
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/arc12/arc12.ts:223
+	// examples/arc12/arc12.ts:222
 	// receiver: vaultCreator
 	load 2 // vaultCreator: Account
 	itxn_field Receiver
 
-	// examples/arc12/arc12.ts:224
+	// examples/arc12/arc12.ts:223
 	// amount: preDeleteMBR - globals.currentApplicationAddress.minBalance
 	load 3 // preDeleteMBR: uint64
 	global CurrentApplicationAddress
@@ -448,7 +442,7 @@ deleteVault:
 	-
 	itxn_field Amount
 
-	// examples/arc12/arc12.ts:225
+	// examples/arc12/arc12.ts:224
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -456,7 +450,15 @@ deleteVault:
 	retsub
 
 main:
-	method "create()void"
+	txn NumAppArgs
+	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
+	int 1
+	match bare_route_create
+
+route_abi:
 	method "createVault(account,pay)uint64"
 	method "verifyAxfer(account,axfer,application)void"
 	method "hasVault(account)uint64"
@@ -464,4 +466,4 @@ main:
 	method "getVaultAddr(account)address"
 	method "deleteVault(application,account)void"
 	txna ApplicationArgs 0
-	match abi_route_create abi_route_createVault abi_route_verifyAxfer abi_route_hasVault abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault
+	match abi_route_createVault abi_route_verifyAxfer abi_route_hasVault abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault
