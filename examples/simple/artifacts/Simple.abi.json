@@ -52,15 +52,5 @@
         "desc": ""
       }
     }
-  ],
-  "bareMethods": [
-    {
-      "name": "createApp",
-      "predicates": [
-        "txn ApplicationID",
-        "int 0",
-        "=="
-      ]
-    }
   ]
 }
