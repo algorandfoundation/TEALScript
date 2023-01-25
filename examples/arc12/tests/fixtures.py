@@ -3,7 +3,7 @@ from beaker import *
 import beaker as bkr
 from pyteal import *
 from pathlib import Path
-from algosdk.future import transaction
+from algosdk import transaction
 from algosdk.encoding import decode_address
 from algosdk.atomic_transaction_composer import (
     TransactionWithSigner,
