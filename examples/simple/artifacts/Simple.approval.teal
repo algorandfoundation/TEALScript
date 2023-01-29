@@ -2,12 +2,14 @@
 	b main
 
 bare_route_createApp:
+	byte 0x
+	dupn 127
 	callsub createApp
 	int 1
 	return
 
 createApp:
-	proto 0 0
+	proto 128 0
 	retsub
 
 abi_route_incr:
@@ -17,19 +19,21 @@ abi_route_incr:
 	assert
 	txna ApplicationArgs 1
 	btoi
+	byte 0x
+	dupn 126
 	callsub incr
 	int 1
 	return
 
 incr:
-	proto 1 0
+	proto 128 0
 
 	// examples/simple/simple.ts:16
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
 	app_global_get
-	frame_dig -1 // i: uint64
+	frame_dig -128 // i: uint64
 	+
 	app_global_put
 	retsub
@@ -41,19 +45,21 @@ abi_route_decr:
 	assert
 	txna ApplicationArgs 1
 	btoi
+	byte 0x
+	dupn 126
 	callsub decr
 	int 1
 	return
 
 decr:
-	proto 1 0
+	proto 128 0
 
 	// examples/simple/simple.ts:20
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
 	app_global_get
-	frame_dig -1 // i: uint64
+	frame_dig -128 // i: uint64
 	-
 	app_global_put
 	retsub
@@ -65,17 +71,19 @@ abi_route_add:
 	assert
 	txna ApplicationArgs 1
 	txna ApplicationArgs 2
+	byte 0x
+	dupn 125
 	callsub add
 	int 1
 	return
 
 add:
-	proto 2 0
+	proto 128 0
 
 	// examples/simple/simple.ts:24
 	// return a + b;
-	frame_dig -2 // a: uint256
-	frame_dig -1 // b: uint256
+	frame_dig -128 // a: uint256
+	frame_dig -127 // b: uint256
 	b+
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

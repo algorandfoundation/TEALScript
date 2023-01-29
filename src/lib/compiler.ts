@@ -140,7 +140,7 @@ export default class Compiler {
 
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
-  private scratchIndex: number = 0;
+  private frameIndex: number = 0;
 
   private clearStateCompiled: boolean = false;
 
@@ -813,10 +813,9 @@ export default class Compiler {
       return;
     }
     const target = this.frame[node.getText()] || this.scratch[node.getText()];
-    const opcode = this.frame[node.getText()] ? 'frame_dig' : 'load';
 
     this.push(
-      `${opcode} ${target.index} // ${node.getText()}: ${target.type}`,
+      `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
       target.type,
     );
   }
@@ -863,12 +862,12 @@ export default class Compiler {
     this.processNode(node.initializer);
 
     this.scratch[name] = {
-      index: this.scratchIndex,
+      index: this.frameIndex,
       type: this.lastType,
     };
 
-    this.pushVoid(`store ${this.scratchIndex} // ${name}: ${this.lastType}`);
-    this.scratchIndex += 1;
+    this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+    this.frameIndex += 1;
   }
 
   private processExpressionStatement(node: ts.ExpressionStatement) {
@@ -905,6 +904,8 @@ export default class Compiler {
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       node.arguments.forEach((a) => this.processNode(a));
+      this.pushVoid('byte 0x');
+      this.pushVoid(`dupn ${127 - node.arguments.length}`);
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
@@ -1092,19 +1093,19 @@ export default class Compiler {
     this.frame = {};
 
     this.pushVoid(
-      `proto ${fn.parameters.length} ${
+      `proto 128 ${
         this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1
       }`,
     );
-    let frameIndex = 0;
+    this.frameIndex = -128;
     const params = new Array(...fn.parameters);
-    params.reverse().forEach((p) => {
+    params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
       const type = p.type.getText();
 
-      frameIndex -= 1;
-      this.frame[p.name.getText()] = { index: frameIndex, type };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type };
+      this.frameIndex += 1;
     });
 
     this.processNode(fn.body!);
@@ -1161,6 +1162,8 @@ export default class Compiler {
     }
 
     this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
+    this.pushVoid('byte 0x');
+    this.pushVoid(`dupn ${127}`);
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');
     this.pushVoid('return');
@@ -1242,6 +1245,9 @@ export default class Compiler {
 
       args.push({ name: p.name.getText(), type: abiType.toLocaleLowerCase(), desc: '' });
     });
+
+    this.pushVoid('byte 0x');
+    this.pushVoid(`dupn ${127 - args.length}`);
 
     const returnType = this.currentSubroutine.returnType
       .toLocaleLowerCase()
@@ -1414,10 +1420,9 @@ export default class Compiler {
   private processStorageExpression(node: ts.PropertyAccessExpression) {
     const name = node.expression.getText();
     const target = this.frame[name] || this.scratch[name];
-    const opcode = this.frame[name] ? 'frame_dig' : 'load';
 
     this.push(
-      `${opcode} ${target.index} // ${name}: ${target.type}`,
+      `frame_dig ${target.index} // ${name}: ${target.type}`,
       target.type,
     );
 
@@ -1487,7 +1492,6 @@ export default class Compiler {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'X-API-Key': 'a'.repeat(64),
         },
         body: this.approvalProgram(),
       },

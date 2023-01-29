@@ -14,8 +14,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a + b;',
-        'frame_dig -2 // a: uint64',
-        'frame_dig -1 // b: uint64',
+        'frame_dig -128 // a: uint64',
+        'frame_dig -127 // b: uint64',
         '+',
         'itob',
         'byte 0x151f7c75',
@@ -31,8 +31,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a - b;',
-        'frame_dig -2 // a: uint64',
-        'frame_dig -1 // b: uint64',
+        'frame_dig -128 // a: uint64',
+        'frame_dig -127 // b: uint64',
         '-',
         'itob',
         'byte 0x151f7c75',
@@ -48,8 +48,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a * b;',
-        'frame_dig -2 // a: uint64',
-        'frame_dig -1 // b: uint64',
+        'frame_dig -128 // a: uint64',
+        'frame_dig -127 // b: uint64',
         '*',
         'itob',
         'byte 0x151f7c75',
@@ -65,8 +65,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a / b;',
-        'frame_dig -2 // a: uint64',
-        'frame_dig -1 // b: uint64',
+        'frame_dig -128 // a: uint64',
+        'frame_dig -127 // b: uint64',
         '/',
         'itob',
         'byte 0x151f7c75',
@@ -82,8 +82,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a + b;',
-        'frame_dig -2 // a: uint256',
-        'frame_dig -1 // b: uint256',
+        'frame_dig -128 // a: uint256',
+        'frame_dig -127 // b: uint256',
         'b+',
         'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
         'b&',
@@ -100,8 +100,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a - b;',
-        'frame_dig -2 // a: uint256',
-        'frame_dig -1 // b: uint256',
+        'frame_dig -128 // a: uint256',
+        'frame_dig -127 // b: uint256',
         'b-',
         'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
         'b&',
@@ -118,8 +118,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a * b;',
-        'frame_dig -2 // a: uint256',
-        'frame_dig -1 // b: uint256',
+        'frame_dig -128 // a: uint256',
+        'frame_dig -127 // b: uint256',
         'b*',
         'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
         'b&',
@@ -136,8 +136,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a / b;',
-        'frame_dig -2 // a: uint256',
-        'frame_dig -1 // b: uint256',
+        'frame_dig -128 // a: uint256',
+        'frame_dig -127 // b: uint256',
         'b/',
         'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
         'b&',
@@ -154,8 +154,8 @@ describe('Math', function () {
     expect(teal).to.deep.equal(
       [
         '// return a + b;',
-        'frame_dig -2 // a: uint64',
-        'frame_dig -1 // b: uint64',
+        'frame_dig -128 // a: uint64',
+        'frame_dig -127 // b: uint64',
         '+',
         'itob',
         'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
