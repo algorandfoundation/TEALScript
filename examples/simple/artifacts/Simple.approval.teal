@@ -3,13 +3,13 @@
 
 bare_route_createApp:
 	byte 0x
-	dupn 127
+	dupn 1
 	callsub createApp
 	int 1
 	return
 
 createApp:
-	proto 128 0
+	proto 1 0
 	retsub
 
 abi_route_incr:
@@ -17,23 +17,23 @@ abi_route_incr:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 2
 	txna ApplicationArgs 1
 	btoi
-	byte 0x
-	dupn 126
 	callsub incr
 	int 1
 	return
 
 incr:
-	proto 128 0
+	proto 2 0
 
 	// examples/simple/simple.ts:16
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
 	app_global_get
-	frame_dig -128 // i: uint64
+	frame_dig -1 // i: uint64
 	+
 	app_global_put
 	retsub
@@ -43,23 +43,23 @@ abi_route_decr:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 2
 	txna ApplicationArgs 1
 	btoi
-	byte 0x
-	dupn 126
 	callsub decr
 	int 1
 	return
 
 decr:
-	proto 128 0
+	proto 2 0
 
 	// examples/simple/simple.ts:20
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
 	app_global_get
-	frame_dig -128 // i: uint64
+	frame_dig -1 // i: uint64
 	-
 	app_global_put
 	retsub
@@ -69,22 +69,51 @@ abi_route_add:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 3
 	txna ApplicationArgs 1
 	txna ApplicationArgs 2
-	byte 0x
-	dupn 125
 	callsub add
 	int 1
 	return
 
 add:
-	proto 128 0
+	proto 3 0
 
 	// examples/simple/simple.ts:24
 	// return a + b;
-	frame_dig -128 // a: uint256
-	frame_dig -127 // b: uint256
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
 	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_sub:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	txna ApplicationArgs 1
+	txna ApplicationArgs 2
+	callsub sub
+	int 1
+	return
+
+sub:
+	proto 3 0
+
+	// examples/simple/simple.ts:28
+	// return a - b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b-
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	byte 0x151f7c75
@@ -106,5 +135,6 @@ route_abi:
 	method "incr(uint64)void"
 	method "decr(uint64)void"
 	method "add(uint256,uint256)uint256"
+	method "sub(uint256,uint256)uint256"
 	txna ApplicationArgs 0
-	match abi_route_incr abi_route_decr abi_route_add
+	match abi_route_incr abi_route_decr abi_route_add abi_route_sub

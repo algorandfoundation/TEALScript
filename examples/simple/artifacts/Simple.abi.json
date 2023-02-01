@@ -36,12 +36,32 @@
       "name": "add",
       "args": [
         {
-          "name": "a",
+          "name": "b",
           "type": "uint256",
           "desc": ""
         },
         {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "sub",
+      "args": [
+        {
           "name": "b",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "a",
           "type": "uint256",
           "desc": ""
         }

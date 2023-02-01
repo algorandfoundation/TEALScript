@@ -23,9 +23,14 @@ import { Simple as Client } from './simple_client';
   const { counter } = await appClient.getApplicationState();
   console.log(`counter == 3?: ${counter === 3}`);
 
-  const result = await appClient.add({ a: 123n, b: 456n });
-  console.log(`add worked?: ${result.value === 123n + 456n}`);
+  const addResult = await appClient.add({ a: 123n, b: 456n });
+  console.log(`add worked?: ${addResult.value === 123n + 456n}`);
+
+  const subResult = await appClient.sub({ a: 5n, b: 3n });
+  console.log(`add worked?: ${subResult.value === 5n - 3n}`);
 
   // TODO: Make this actual test
-  if (counter !== 3 || result.value !== 123n + 456n) process.exit(1);
+  if (
+    counter !== 3 || addResult.value !== 123n + 456n || subResult.value !== 5n - 3n
+  ) process.exit(1);
 }());

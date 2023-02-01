@@ -142,6 +142,8 @@ export default class Compiler {
 
   private frameIndex: number = 0;
 
+  private frameSize: {[methodName: string]: number} = {};
+
   private clearStateCompiled: boolean = false;
 
   private compilingApproval: boolean = true;
@@ -523,12 +525,24 @@ export default class Compiler {
 
     this.teal = await Promise.all(
       this.teal.map(async (t) => {
-        if (t.includes('PENDING_COMPILE: ')) {
+        if (t.startsWith('PENDING_COMPILE')) {
           const c = new Compiler(this.content, t.split(' ')[1], this.filename);
           await c.compile();
           const program = await c.algodCompile();
           return `byte b64 ${program}`;
         }
+
+        if (t.startsWith('PENDING_DUPN')) {
+          const method = t.split(' ')[1];
+          return `dupn ${this.frameSize[method]}`;
+        }
+
+        if (t.startsWith('PENDING_PROTO')) {
+          const method = t.split(' ')[1];
+          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+          return `proto ${this.frameSize[method]} ${this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1}`;
+        }
+
         return t;
       }),
     );
@@ -867,7 +881,7 @@ export default class Compiler {
     };
 
     this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
-    this.frameIndex += 1;
+    this.frameIndex -= 1;
   }
 
   private processExpressionStatement(node: ts.ExpressionStatement) {
@@ -903,9 +917,9 @@ export default class Compiler {
       }
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
-      node.arguments.forEach((a) => this.processNode(a));
       this.pushVoid('byte 0x');
-      this.pushVoid(`dupn ${127 - node.arguments.length}`);
+      this.pushVoid(`PENDING_DUPN: ${methodName}`);
+      new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
       this.pushVoid(`callsub ${methodName}`);
     } else if (
@@ -1087,17 +1101,14 @@ export default class Compiler {
     });
   }
 
-  private processSubroutine(fn: ts.MethodDeclaration, isAbi: boolean = false) {
+  private processSubroutine(fn: ts.MethodDeclaration) {
     this.pushVoid(`${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
-    this.pushVoid(
-      `proto 128 ${
-        this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1
-      }`,
-    );
-    this.frameIndex = -128;
+    this.pushVoid(`PENDING_PROTO: ${this.currentSubroutine.name}`);
+
+    this.frameIndex = -1;
     const params = new Array(...fn.parameters);
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
@@ -1105,13 +1116,14 @@ export default class Compiler {
       const type = p.type.getText();
 
       this.frame[p.name.getText()] = { index: this.frameIndex, type };
-      this.frameIndex += 1;
+      this.frameIndex -= 1;
     });
 
     this.processNode(fn.body!);
 
     this.pushVoid('retsub');
     this.frame = lastFrame;
+    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1;
   }
 
   private processClearState(fn: ts.MethodDeclaration) {
@@ -1163,7 +1175,7 @@ export default class Compiler {
 
     this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
     this.pushVoid('byte 0x');
-    this.pushVoid(`dupn ${127}`);
+    this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');
     this.pushVoid('return');
@@ -1186,7 +1198,7 @@ export default class Compiler {
       name: this.currentSubroutine.name,
       predicates,
     });
-    this.processSubroutine(fn, false);
+    this.processSubroutine(fn);
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
@@ -1209,11 +1221,14 @@ export default class Compiler {
     this.pushVoid('==');
     this.pushVoid('assert');
 
+    this.pushVoid('byte 0x');
+    this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
+
     let gtxnIndex = fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length;
 
     gtxnIndex += 1;
 
-    fn.parameters.forEach((p) => {
+    new Array(...fn.parameters).reverse().forEach((p) => {
       const type = p!.type!.getText();
       let abiType = type;
 
@@ -1246,9 +1261,6 @@ export default class Compiler {
       args.push({ name: p.name.getText(), type: abiType.toLocaleLowerCase(), desc: '' });
     });
 
-    this.pushVoid('byte 0x');
-    this.pushVoid(`dupn ${127 - args.length}`);
-
     const returnType = this.currentSubroutine.returnType
       .toLocaleLowerCase()
       .replace(/asset|application/, 'uint64')
@@ -1264,7 +1276,7 @@ export default class Compiler {
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');
     this.pushVoid('return');
-    this.processSubroutine(fn, true);
+    this.processSubroutine(fn);
   }
 
   private processOpcode(node: ts.CallExpression) {

@@ -24,6 +24,10 @@ export default class Simple extends Contract {
     return a + b;
   }
 
+  sub(a: uint256, b: uint256): uint256 {
+    return a - b;
+  }
+
   @clearState
   clearState(): void {
     this.counter.put(this.counter.get() + 1);
