@@ -6,13 +6,13 @@
       "name": "createVault",
       "args": [
         {
-          "name": "mbrPayment",
-          "type": "pay",
+          "name": "receiver",
+          "type": "account",
           "desc": ""
         },
         {
-          "name": "receiver",
-          "type": "account",
+          "name": "mbrPayment",
+          "type": "pay",
           "desc": ""
         }
       ],
@@ -26,8 +26,8 @@
       "name": "verifyAxfer",
       "args": [
         {
-          "name": "vault",
-          "type": "application",
+          "name": "receiver",
+          "type": "account",
           "desc": ""
         },
         {
@@ -36,8 +36,8 @@
           "desc": ""
         },
         {
-          "name": "receiver",
-          "type": "account",
+          "name": "vault",
+          "type": "application",
           "desc": ""
         }
       ],
@@ -96,13 +96,13 @@
       "name": "deleteVault",
       "args": [
         {
-          "name": "creator",
-          "type": "account",
+          "name": "vault",
+          "type": "application",
           "desc": ""
         },
         {
-          "name": "vault",
-          "type": "application",
+          "name": "creator",
+          "type": "account",
           "desc": ""
         }
       ],

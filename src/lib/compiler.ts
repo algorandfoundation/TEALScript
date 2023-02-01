@@ -2,8 +2,6 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts, { isStringLiteral } from 'typescript';
-import * as bkr from 'beaker-ts';
-import algosdk from 'algosdk';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -1206,13 +1204,12 @@ export default class Compiler {
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
-    let argCount = 0;
+    const argCount = fn.parameters.length;
 
-    const numArgs = fn.parameters.length;
     const bareDecorators = this.currentSubroutine.decorators?.length || 0;
 
     // bare method
-    if (numArgs === 0 && bareDecorators > 0) {
+    if (argCount === 0 && bareDecorators > 0) {
       this.processBareMethod(fn);
       return;
     }
@@ -1228,9 +1225,8 @@ export default class Compiler {
     this.pushVoid('byte 0x');
     this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
 
-    let gtxnIndex = fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length;
-
-    gtxnIndex += 1;
+    let nonTxnArgCount = argCount - fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length + 1;
+    let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
       const type = p!.type!.getText();
@@ -1248,7 +1244,7 @@ export default class Compiler {
             break;
         }
       } else {
-        this.pushVoid(`txna ApplicationArgs ${(argCount += 1)}`);
+        this.pushVoid(`txna ApplicationArgs ${nonTxnArgCount -= 1}`);
       }
 
       if (type === StackType.uint64) {
@@ -1258,7 +1254,7 @@ export default class Compiler {
         this.pushVoid(`txnas ${type}s`);
       } else if (type.includes('Txn')) {
         this.pushVoid('txn GroupIndex');
-        this.pushVoid(`int ${(gtxnIndex -= 1)}`);
+        this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
       }
 
@@ -1272,7 +1268,7 @@ export default class Compiler {
 
     this.abi.methods.push({
       name: this.currentSubroutine.name,
-      args,
+      args: args.reverse(),
       desc: '',
       returns: { type: returnType, desc: '' },
     });

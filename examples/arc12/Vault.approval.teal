@@ -84,10 +84,10 @@ abi_route_create:
 	assert
 	byte 0x
 	dupn 1
-	txna ApplicationArgs 1
+	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
-	txna ApplicationArgs 2
+	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
 	callsub create
@@ -123,16 +123,16 @@ abi_route_reject:
 	assert
 	byte 0x
 	dupn 3
-	txna ApplicationArgs 1
+	txna ApplicationArgs 4
 	btoi
 	txnas Accounts
-	txna ApplicationArgs 2
-	btoi
-	txnas Assets
 	txna ApplicationArgs 3
 	btoi
+	txnas Assets
+	txna ApplicationArgs 2
+	btoi
 	txnas Accounts
-	txna ApplicationArgs 4
+	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
 	callsub reject
@@ -389,13 +389,13 @@ abi_route_claim:
 	assert
 	byte 0x
 	dupn 2
-	txna ApplicationArgs 1
+	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
-	txna ApplicationArgs 3
+	txna ApplicationArgs 1
 	btoi
 	txnas Assets
 	callsub claim
@@ -579,8 +579,8 @@ main:
 
 route_abi:
 	method "create(account,account)void"
-	method "reject(account,asset,account,account)void"
-	method "optIn(pay,asset)void"
-	method "claim(account,account,asset)void"
+	method "reject(account,account,asset,account)void"
+	method "optIn(asset,pay)void"
+	method "claim(asset,account,account)void"
 	txna ApplicationArgs 0
 	match abi_route_create abi_route_reject abi_route_optIn abi_route_claim

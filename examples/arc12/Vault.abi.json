@@ -6,12 +6,12 @@
       "name": "create",
       "args": [
         {
-          "name": "sender",
+          "name": "receiver",
           "type": "account",
           "desc": ""
         },
         {
-          "name": "receiver",
+          "name": "sender",
           "type": "account",
           "desc": ""
         }
@@ -26,7 +26,12 @@
       "name": "reject",
       "args": [
         {
-          "name": "vaultCreator",
+          "name": "asaCreator",
+          "type": "account",
+          "desc": ""
+        },
+        {
+          "name": "feeSink",
           "type": "account",
           "desc": ""
         },
@@ -36,12 +41,7 @@
           "desc": ""
         },
         {
-          "name": "feeSink",
-          "type": "account",
-          "desc": ""
-        },
-        {
-          "name": "asaCreator",
+          "name": "vaultCreator",
           "type": "account",
           "desc": ""
         }
@@ -56,13 +56,13 @@
       "name": "optIn",
       "args": [
         {
-          "name": "mbrPayment",
-          "type": "pay",
+          "name": "asa",
+          "type": "asset",
           "desc": ""
         },
         {
-          "name": "asa",
-          "type": "asset",
+          "name": "mbrPayment",
+          "type": "pay",
           "desc": ""
         }
       ],
@@ -76,8 +76,8 @@
       "name": "claim",
       "args": [
         {
-          "name": "asaMbrFunder",
-          "type": "account",
+          "name": "asa",
+          "type": "asset",
           "desc": ""
         },
         {
@@ -86,8 +86,8 @@
           "desc": ""
         },
         {
-          "name": "asa",
-          "type": "asset",
+          "name": "asaMbrFunder",
+          "type": "account",
           "desc": ""
         }
       ],
