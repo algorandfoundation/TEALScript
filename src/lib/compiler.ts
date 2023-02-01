@@ -144,6 +144,8 @@ export default class Compiler {
 
   private frameSize: {[methodName: string]: number} = {};
 
+  private returnTypes: {[methodName: string]: string} = {};
+
   private clearStateCompiled: boolean = false;
 
   private compilingApproval: boolean = true;
@@ -540,7 +542,7 @@ export default class Compiler {
         if (t.startsWith('PENDING_PROTO')) {
           const method = t.split(' ')[1];
           const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${this.currentSubroutine.returnType === 'void' || isAbi ? 0 : 1}`;
+          return `proto ${this.frameSize[method]} ${this.returnTypes[method] === 'void' || isAbi ? 0 : 1}`;
         }
 
         return t;
@@ -713,6 +715,8 @@ export default class Compiler {
     const returnType = node.type?.getText();
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
+
+    this.returnTypes[this.currentSubroutine.name] = returnType;
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
