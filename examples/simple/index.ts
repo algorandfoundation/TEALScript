@@ -27,7 +27,7 @@ import { Simple as Client } from './simple_client';
   console.log(`add worked?: ${addResult.value === 123n + 456n}`);
 
   const subResult = await appClient.sub({ a: 5n, b: 3n });
-  console.log(`add worked?: ${subResult.value === 5n - 3n}`);
+  console.log(`sub worked?: ${subResult.value === 5n - 3n}`);
 
   // TODO: Make this actual test
   if (

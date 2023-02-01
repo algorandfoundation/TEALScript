@@ -144,7 +144,7 @@ export default class Compiler {
 
   private frameSize: {[methodName: string]: number} = {};
 
-  private returnTypes: {[methodName: string]: string} = {};
+  private subroutines: {[methodName: string]: {returnType: string, args: number}} = {};
 
   private clearStateCompiled: boolean = false;
 
@@ -536,13 +536,13 @@ export default class Compiler {
 
         if (t.startsWith('PENDING_DUPN')) {
           const method = t.split(' ')[1];
-          return `dupn ${this.frameSize[method]}`;
+          return `dupn ${this.frameSize[method] - this.subroutines[method].args}`;
         }
 
         if (t.startsWith('PENDING_PROTO')) {
           const method = t.split(' ')[1];
           const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${this.returnTypes[method] === 'void' || isAbi ? 0 : 1}`;
+          return `proto ${this.frameSize[method]} ${this.subroutines[method].returnType === 'void' || isAbi ? 0 : 1}`;
         }
 
         return t;
@@ -716,7 +716,7 @@ export default class Compiler {
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
-    this.returnTypes[this.currentSubroutine.name] = returnType;
+    this.subroutines[this.currentSubroutine.name] = { returnType, args: node.parameters.length };
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 

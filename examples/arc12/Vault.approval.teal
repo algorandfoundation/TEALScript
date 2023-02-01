@@ -83,7 +83,7 @@ abi_route_create:
 	==
 	assert
 	byte 0x
-	dupn 3
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -122,7 +122,7 @@ abi_route_reject:
 	==
 	assert
 	byte 0x
-	dupn 7
+	dupn 3
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -274,7 +274,7 @@ reject:
 	// examples/arc12/arc12.ts:75
 	// this.closeAcct(vaultCreator)
 	byte 0x
-	dupn 3
+	dupn 2
 	frame_dig -4 // vaultCreator: Account
 	callsub closeAcct
 
@@ -287,7 +287,7 @@ abi_route_optIn:
 	==
 	assert
 	byte 0x
-	dupn 4
+	dupn 2
 	txn GroupIndex
 	int 1
 	-
@@ -388,7 +388,7 @@ abi_route_claim:
 	==
 	assert
 	byte 0x
-	dupn 5
+	dupn 2
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -530,7 +530,7 @@ claim:
 	// examples/arc12/arc12.ts:124
 	// this.closeAcct(creator)
 	byte 0x
-	dupn 3
+	dupn 2
 	frame_dig -2 // creator: Account
 	callsub closeAcct
 

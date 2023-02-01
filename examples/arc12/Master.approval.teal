@@ -25,7 +25,7 @@ abi_route_createVault:
 	==
 	assert
 	byte 0x
-	dupn 5
+	dupn 3
 	txn GroupIndex
 	int 1
 	-
@@ -120,7 +120,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:158
 	// approvalProgram: Vault
-	byte b64 CCADAAEEJgQAB2NyZWF0b3IIcmVjZWl2ZXIGbWFzdGVyQgIvigMAi/8pZBJEsSOyEIv/sgcyCnMBRLIIIrIBMQCyCbMxFiMIjP6L/jgYK2QSRIv+ORoAgASbSmSlEkSL/jkyATYyABJEiTEZIhJEKEcDNhoBF8AcNhoCF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEkQoRwc2GgEXwBw2GgIXwDA2GgMXwBw2GgQXwByIAAIjQ4oHADEAKmQSRIv+gCDH/M2yWPDUGJwr+LbWjuaXUIZCsK0AHzH8uRjDVLqFmhJEMgpzAUSM+7EkshCL/7IUi/2yESKyEov/shUisgGzi/0WvIv7MgpzAUQJjPqxI7IQi/6yB4v6MQEJsggisgGzsSOyEDEAsgcxAbIIIrIBszIKcwlEIhJBAAgoRwOL/Ij+3IkxGSISRChHBDEWIwk2GgEXwDCIAAIjQ4oEAIv/Fr5MSBREi/44ADEAEkSL/jgHMgoSRDIKcwFEjP2L/xYxAL+xJLIQMgqyFCKyEiKyAYv/shGzi/44CDIKcwFEi/0JEkSJMRkiEkQoRwU2GgEXwBw2GgIXwBw2GgMXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwOL/oj97IkoRwGIAAIjQ4oBADIKcwBMSBREMQAyCRJEiTEbQAAPgQUxGRIxGCITECOOAf/SgATBMVxZgAS2SJXHgASxjEuRgARU+eWlNhoAjgT93v4H/r3/Hg==
+	byte b64 CCADAAEEJgQAB2NyZWF0b3IIcmVjZWl2ZXIGbWFzdGVyQgIvigMAi/8pZBJEsSOyEIv/sgcyCnMBRLIIIrIBMQCyCbMxFiMIjP6L/jgYK2QSRIv+ORoAgASbSmSlEkSL/jkyATYyABJEiTEZIhJEKEcBNhoBF8AcNhoCF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEkQoRwM2GgEXwBw2GgIXwDA2GgMXwBw2GgQXwByIAAIjQ4oHADEAKmQSRIv+gCDH/M2yWPDUGJwr+LbWjuaXUIZCsK0AHzH8uRjDVLqFmhJEMgpzAUSM+7EkshCL/7IUi/2yESKyEov/shUisgGzi/0WvIv7MgpzAUQJjPqxI7IQi/6yB4v6MQEJsggisgGzsSOyEDEAsgcxAbIIIrIBszIKcwlEIhJBAAgoRwKL/Ij+3IkxGSISRChHAjEWIwk2GgEXwDCIAAIjQ4oEAIv/Fr5MSBREi/44ADEAEkSL/jgHMgoSRDIKcwFEjP2L/xYxAL+xJLIQMgqyFCKyEiKyAYv/shGzi/44CDIKcwFEi/0JEkSJMRkiEkQoRwI2GgEXwBw2GgIXwBw2GgMXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwKL/oj97IkoRwGIAAIjQ4oBADIKcwBMSBREMQAyCRJEiTEbQAAPgQUxGRIxGCITECOOAf/SgATBMVxZgAS2SJXHgASxjEuRgARU+eWlNhoAjgT93v4H/r3/Hg==
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.ts:159
@@ -201,7 +201,7 @@ abi_route_verifyAxfer:
 	==
 	assert
 	byte 0x
-	dupn 4
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Applications
@@ -261,7 +261,7 @@ abi_route_hasVault:
 	==
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -291,7 +291,7 @@ abi_route_getVaultId:
 	==
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -321,7 +321,7 @@ abi_route_getVaultAddr:
 	==
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -352,7 +352,7 @@ abi_route_deleteVault:
 	==
 	assert
 	byte 0x
-	dupn 5
+	dupn 3
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts

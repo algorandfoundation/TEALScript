@@ -18,7 +18,7 @@ abi_route_incr:
 	==
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	callsub incr
@@ -44,7 +44,7 @@ abi_route_decr:
 	==
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	callsub decr
@@ -70,7 +70,7 @@ abi_route_add:
 	==
 	assert
 	byte 0x
-	dupn 3
+	dupn 1
 	txna ApplicationArgs 1
 	txna ApplicationArgs 2
 	callsub add
@@ -99,7 +99,7 @@ abi_route_sub:
 	==
 	assert
 	byte 0x
-	dupn 3
+	dupn 1
 	txna ApplicationArgs 1
 	txna ApplicationArgs 2
 	callsub sub
