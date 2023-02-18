@@ -729,7 +729,7 @@ export default class Compiler {
 
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     let hexString = '';
-    this.pushVoid('byte 0x');
+    let bytesOnStack = false;
 
     const typeHintText = getABIType(this.typeHint!.getText());
     const length = getTypeLength(typeHintText.match(/^uint\d+/)![0]!);
@@ -737,20 +737,28 @@ export default class Compiler {
     node.elements.forEach((e, i) => {
       if (ts.isNumericLiteral(e)) {
         hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+
         if (i === node.elements.length - 1) {
           this.pushVoid(`byte 0x${hexString}`);
-          this.pushVoid('concat');
+          if (bytesOnStack) this.pushVoid('concat');
         }
-      } else {
-        if (hexString.length > 0) {
-          this.pushVoid(`byte 0x${hexString}`);
-          this.pushVoid('concat');
-          hexString = '';
-        }
-        this.processNode(e);
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
-        this.pushVoid('concat');
+
+        return;
       }
+
+      if (hexString.length > 0) {
+        this.pushVoid(`byte 0x${hexString}`);
+        if (bytesOnStack) this.pushVoid('concat');
+        bytesOnStack = true;
+
+        hexString = '';
+      }
+
+      this.processNode(e);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      if (bytesOnStack) this.pushVoid('concat');
+
+      bytesOnStack = true;
     });
 
     this.lastType = this.typeHint!.getText();

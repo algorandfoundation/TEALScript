@@ -28,9 +28,7 @@ staticArray:
 
 	// tests/contracts/abi.ts:15
 	// a: Static<uint64[], 3> = [11, 22, 33]
-	byte 0x
 	byte 0x000000000000000b00000000000000160000000000000021
-	concat
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:17
@@ -65,9 +63,7 @@ returnStaticArray:
 
 	// tests/contracts/abi.ts:21
 	// a: Static<uint64[], 3> = [11, 22, 33]
-	byte 0x
 	byte 0x000000000000000b00000000000000160000000000000021
-	concat
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:23
@@ -141,10 +137,8 @@ nonLiteralStaticArrayElements:
 
 	// tests/contracts/abi.ts:34
 	// a: Static<uint64[], 3> = [n1, n2, n3]
-	byte 0x
 	frame_dig -1 // n1: uint64
 	itob
-	concat
 	frame_dig -2 // n2: uint64
 	itob
 	concat
@@ -200,9 +194,7 @@ mixedStaticArrayElements:
 
 	// tests/contracts/abi.ts:43
 	// a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
-	byte 0x
 	byte 0x000000000000000000000000000000010000000000000002
-	concat
 	frame_dig -1 // n1: uint64
 	itob
 	concat
