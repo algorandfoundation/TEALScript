@@ -34,11 +34,7 @@ staticArray:
 	// tests/contracts/abi.ts:17
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8
-	*
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75
@@ -93,11 +89,7 @@ staticArrayArg:
 	// tests/contracts/abi.ts:27
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8
-	*
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75
@@ -150,11 +142,7 @@ nonLiteralStaticArrayElements:
 	// tests/contracts/abi.ts:36
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
-	int 1
-	int 8
-	*
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75
@@ -211,28 +199,56 @@ mixedStaticArrayElements:
 	// tests/contracts/abi.ts:45
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
+	extract 8 8
+	btoi
+	frame_dig -4 // a: uint64[9]
+	extract 32 8
+	btoi
+	+
+	frame_dig -4 // a: uint64[9]
+	extract 56 8
+	btoi
+	+
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_nonLiteralStaticArrayAccess:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub nonLiteralStaticArrayAccess
 	int 1
+	return
+
+nonLiteralStaticArrayAccess:
+	proto 3 0
+
+	// tests/contracts/abi.ts:49
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:50
+	// n = 1
+	int 1
+	frame_bury -2 // n: uint64
+
+	// tests/contracts/abi.ts:52
+	// return a[n];
+	frame_dig -1 // a: uint64[3]
+	frame_dig -2 // n: uint64
 	int 8
 	*
 	int 8
 	extract3
 	btoi
-	frame_dig -4 // a: uint64[9]
-	int 4
-	int 8
-	*
-	int 8
-	extract3
-	btoi
-	+
-	frame_dig -4 // a: uint64[9]
-	int 7
-	int 8
-	*
-	int 8
-	extract3
-	btoi
-	+
 	itob
 	byte 0x151f7c75
 	swap
@@ -255,5 +271,6 @@ route_abi:
 	method "staticArrayArg(uint64[3])uint64"
 	method "nonLiteralStaticArrayElements()uint64"
 	method "mixedStaticArrayElements()uint64"
+	method "nonLiteralStaticArrayAccess()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess

@@ -45,4 +45,9 @@ describe('ABI', function () {
     const ret = await appClient.mixedStaticArrayElements();
     expect(ret.returnValue).to.equal(BigInt(1 + 4 + 7));
   });
+
+  it('nonLiteralStaticArrayAccess', async function () {
+    const ret = await appClient.nonLiteralStaticArrayAccess();
+    expect(ret.returnValue).to.equal(BigInt(22));
+  });
 });

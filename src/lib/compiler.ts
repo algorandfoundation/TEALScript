@@ -801,15 +801,18 @@ export default class Compiler {
     const type = this.lastType.replace(/\[\d+\]$/, '');
     const typeLength = getTypeLength(type);
 
-    this.processNode(node);
-
-    // TODO: Optimize literal access
-    this.pushLines(
-      `int ${typeLength}`,
-      '*',
-      `int ${typeLength}`,
-      'extract3',
-    );
+    if (ts.isNumericLiteral(node)) {
+      const offset = typeLength * parseInt(node.getText(), 10);
+      this.pushVoid(`extract ${offset} ${typeLength}`);
+    } else {
+      this.processNode(node);
+      this.pushLines(
+        `int ${typeLength}`,
+        '*',
+        `int ${typeLength}`,
+        'extract3',
+      );
+    }
 
     if (isNumeric(type)) this.pushVoid('btoi');
 
