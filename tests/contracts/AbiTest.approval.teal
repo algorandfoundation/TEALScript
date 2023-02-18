@@ -1,0 +1,141 @@
+#pragma version 8
+	b main
+
+bare_route_create:
+	byte 0x
+	dupn 1
+	callsub create
+	int 1
+	return
+
+create:
+	proto 1 0
+	retsub
+
+abi_route_staticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub staticArray
+	int 1
+	return
+
+staticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:15
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	int 33
+	itob
+	byte 0x
+	concat
+	concat
+	concat
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:17
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	int 1
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnStaticArray
+	int 1
+	return
+
+returnStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:21
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	int 33
+	itob
+	byte 0x
+	concat
+	concat
+	concat
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:23
+	// return a;
+	frame_dig -1 // a: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	callsub staticArrayArg
+	int 1
+	return
+
+staticArrayArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:27
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	int 1
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
+	int 1
+	match bare_route_create
+
+route_abi:
+	method "staticArray()uint64"
+	method "returnStaticArray()uint64[3]"
+	method "staticArrayArg(uint64[3])uint64"
+	txna ApplicationArgs 0
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg
