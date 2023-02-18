@@ -1209,7 +1209,11 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      const type = p.type.getText();
+      let type = p.type.getText();
+
+      if (type.startsWith('Static')) {
+        type = getABIType(type);
+      }
 
       this.frame[p.name.getText()] = { index: this.frameIndex, type };
       this.frameIndex -= 1;

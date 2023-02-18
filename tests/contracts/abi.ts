@@ -12,14 +12,18 @@ class AbiTest extends Contract {
   create(): void {}
 
   staticArray(): uint64 {
-    const c: Static<uint64[], 3> = [11, 22, 33];
+    const a: Static<uint64[], 3> = [11, 22, 33];
 
-    return c[1];
+    return a[1];
   }
 
   returnStaticArray(): Static<uint64[], 3> {
-    const c: Static<uint64[], 3> = [11, 22, 33];
+    const a: Static<uint64[], 3> = [11, 22, 33];
 
-    return c;
+    return a;
+  }
+
+  staticArrayArg(a: Static<uint64[], 3>): uint64 {
+    return a[1];
   }
 }

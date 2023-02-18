@@ -28,4 +28,11 @@ describe('ABI', function () {
     const ret = await appClient.returnStaticArray();
     expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
+
+  it('staticArrayArg', async function () {
+    const ret = await appClient.staticArrayArg({
+      a: [BigInt(11), BigInt(22), BigInt(33)],
+    });
+    expect(ret.returnValue).to.deep.equal(BigInt(22));
+  });
 });
