@@ -729,7 +729,7 @@ export default class Compiler {
 
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     let hexString = '';
-    this.pushVoid('byte 0x // HEHE');
+    this.pushVoid('byte 0x');
 
     const typeHintText = getABIType(this.typeHint!.getText());
     const length = getTypeLength(typeHintText.match(/^uint\d+/)![0]!);
