@@ -3,7 +3,9 @@
 /* eslint-disable max-classes-per-file */
 
 declare type uint64 = number
+
 declare type bytes = string
+declare type Static<T, N extends number> = T
 declare class Asset {
   constructor(id: uint64)
 

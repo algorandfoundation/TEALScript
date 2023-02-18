@@ -10,12 +10,15 @@
     "simple-gen":"yarn simple-gen-artifacts && yarn simple-gen-client && yarn fix",
     "simple-run": "npx tsx examples/simple/index.ts",
     "simple":"yarn simple-gen && yarn simple-run",
-    "test": "nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
+    "test": "yarn pre-test && nyc --reporter=html mocha -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
     "test-examples": "mocha -r ts-node/register 'tests/examples.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
-    "prepack": "tsc"
+    "prepack": "tsc",
+    "compile-tests": "for f in tests/contracts/abi.ts; do ts-node src/bin/tealscript.ts $f; done",
+    "generate-test-clients": "for f in tests/contracts/AbiTest.json; do npx beaker-ts generate $f tests/contracts/clients/; done",
+    "pre-test": "yarn compile-tests && yarn generate-test-clients"
   },
   "dependencies": {
     "algosdk": "^2.0.0",

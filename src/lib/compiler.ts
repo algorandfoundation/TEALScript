@@ -8,6 +8,23 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
+function getTypeLength(type: string) {
+  if (type.startsWith('uint')) {
+    return parseInt(type.slice(4), 10) / 8;
+  }
+  switch (type) {
+    case 'Asset':
+    case 'Application':
+      return 8;
+    case 'bytes':
+      return 1;
+    case 'Account':
+      return 32;
+    default:
+      throw new Error(`Unknown type ${type}`);
+  }
+}
+
 // Represents the stack types available in the AVM
 // eslint-disable-next-line no-shadow
 enum StackType {
@@ -84,10 +101,10 @@ const PARAM_TYPES: { [param: string]: string } = {
   FreezeAssetAccount: ForeignType.Account,
   CreatedAssetID: ForeignType.Asset,
   CreatedApplicationID: ForeignType.Application,
-  ApplicationArgs: `${StackType.bytes}[]`,
-  Applications: `${ForeignType.Application}[]`,
-  Assets: `${ForeignType.Asset}[]`,
-  Accounts: `${ForeignType.Account}[]`,
+  ApplicationArgs: `ImmediateArray: ${StackType.bytes}`,
+  Applications: `ImmediateArray: ${ForeignType.Application}`,
+  Assets: `ImmediateArray: ${ForeignType.Asset}`,
+  Accounts: `ImmediateArray: ${ForeignType.Account}`,
 };
 
 interface OpSpec {
@@ -190,6 +207,8 @@ export default class Compiler {
   private lastSourceCommentRange: [number, number] = [-1, -1];
 
   private comments: number[] = [];
+
+  private typeHint?: ts.TypeNode;
 
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
@@ -652,6 +671,7 @@ export default class Compiler {
       else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
       else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
+      else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
@@ -691,19 +711,78 @@ export default class Compiler {
     }
   }
 
-  private processElementAccessExpression(node: ts.ElementAccessExpression) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Element access expression must be property access expression');
-    switch (node.expression.name.getText()) {
-      case 'txnGroup':
-        this.processNode(node.argumentExpression);
-        this.lastType = 'GroupTxn';
-        break;
-      default:
-        this.processNode(node.expression);
-        if (!ts.isNumericLiteral(node.argumentExpression)) throw new Error('Element access expression argument must be numeric literal');
-        this.push(`${this.teal.pop()} ${node.argumentExpression.text}`, this.lastType.replace('[]', ''));
-        break;
+  private pushLines(...lines: string[]) {
+    lines.forEach((l) => this.push(l, 'void'));
+  }
+
+  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
+    const types: string[] = [];
+    node.elements.forEach((e, i) => {
+      this.processNode(e);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      types.push(this.lastType);
+    });
+
+    this.pushVoid('byte 0x');
+
+    types.reverse().forEach((t) => {
+      this.pushVoid('concat');
+    });
+
+    if (types.every((t) => t === types[0])) {
+      this.lastType = `${types[0]}[${node.elements.length}]`;
+    } else {
+      this.lastType = this.typeHint!.getText();
     }
+  }
+
+  private processElementAccessExpression(
+    node: ts.ElementAccessExpression,
+    chain: ts.Expression[] = [],
+    equalExpression: boolean = false,
+  ) {
+    chain.push(node.argumentExpression);
+    if (ts.isElementAccessExpression(node.expression)) {
+      this.processElementAccessExpression(node.expression, chain, equalExpression);
+    } else {
+      this.processNode(node.expression);
+
+      const isAbiArray = this.lastType !== 'txnGroup' && !this.lastType.startsWith('ImmediateArray');
+
+      chain.reverse().forEach((e) => {
+        this.processElementAccessArgumentExpression(e);
+      });
+    }
+  }
+
+  private processElementAccessArgumentExpression(node: ts.Expression) {
+    if (this.lastType === 'txnGroup') {
+      this.processNode(node);
+      this.lastType = 'GroupTxn';
+      return;
+    }
+
+    if (this.lastType.startsWith('ImmediateArray')) {
+      this.push(`${this.teal.pop()} ${node.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
+      return;
+    }
+
+    const type = this.lastType.replace(/\[\d+\]$/, '');
+    const typeLength = getTypeLength(type);
+
+    this.processNode(node);
+
+    // TODO: Optimize literal access
+    this.pushLines(
+      `int ${typeLength}`,
+      '*',
+      `int ${typeLength}`,
+      'extract3',
+    );
+
+    if (isNumeric(type)) this.pushVoid('btoi');
+
+    this.lastType = type;
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -865,7 +944,9 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.declarations.forEach((d) => {
+      this.typeHint = d.type;
       this.processNode(d);
+      this.typeHint = undefined;
     });
   }
 
@@ -1512,6 +1593,9 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
