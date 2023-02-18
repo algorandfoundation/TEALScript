@@ -16,4 +16,10 @@ class AbiTest extends Contract {
 
     return c[1];
   }
+
+  returnStaticArray(): Static<uint64[], 3> {
+    const c: Static<uint64[], 3> = [11, 22, 33];
+
+    return c;
+  }
 }

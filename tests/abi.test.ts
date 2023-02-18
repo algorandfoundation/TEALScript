@@ -19,8 +19,13 @@ describe('ABI', function () {
     await appClient.create();
   });
 
-  it('dynamicTupleArg runtime', async function () {
+  it('staticArray', async function () {
     const ret = await appClient.staticArray();
     expect(ret.returnValue).to.equal(BigInt(22));
+  });
+
+  it('returnStaticArray', async function () {
+    const ret = await appClient.returnStaticArray();
+    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
 });

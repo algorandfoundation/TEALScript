@@ -25,6 +25,18 @@ function getTypeLength(type: string) {
   }
 }
 
+function getABIType(type: string): string {
+  let abiType = type.toLowerCase();
+
+  if (abiType.startsWith('static')) {
+    const arrayType = abiType.match(/<\w+/)![0].replace('<', '');
+    const arrayLength = abiType.match(/\d+>/)![0].replace('>', '');
+    abiType = `${arrayType}[${arrayLength}]`;
+  }
+
+  return abiType;
+}
+
 // Represents the stack types available in the AVM
 // eslint-disable-next-line no-shadow
 enum StackType {
@@ -789,7 +801,8 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = node.type?.getText();
+    let returnType = node.type?.getText()!;
+    if (returnType.startsWith('Static')) returnType = getABIType(returnType);
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -844,7 +857,7 @@ export default class Compiler {
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType)) {
       this.pushVoid('itob');
-    } else if (returnType.startsWith('uint')) {
+    } else if (returnType.match(/uint\d+$/)) {
       const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
       this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
       this.pushVoid('b&');
@@ -1339,11 +1352,10 @@ export default class Compiler {
         this.pushVoid('-');
       }
 
-      args.push({ name: p.name.getText(), type: abiType.toLocaleLowerCase(), desc: '' });
+      args.push({ name: p.name.getText(), type: getABIType(abiType), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
-      .toLocaleLowerCase()
       .replace(/asset|application/, 'uint64')
       .replace('account', 'address');
 
