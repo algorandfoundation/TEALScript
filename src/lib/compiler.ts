@@ -728,23 +728,34 @@ export default class Compiler {
   }
 
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
-    const types: string[] = [];
+    let hexString = '';
+    this.pushVoid('byte 0x // HEHE');
+
+    const typeHintText = getABIType(this.typeHint!.getText());
+    const length = getTypeLength(typeHintText.match(/^uint\d+/)![0]!);
+
     node.elements.forEach((e, i) => {
-      this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-      types.push(this.lastType);
+      if (ts.isNumericLiteral(e)) {
+        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+        if (i === node.elements.length - 1) {
+          this.pushVoid(`byte 0x${hexString}`);
+          this.pushVoid('concat');
+        }
+      } else {
+        if (hexString.length > 0) {
+          this.pushVoid(`byte 0x${hexString}`);
+          this.pushVoid('concat');
+          hexString = '';
+        }
+        this.processNode(e);
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        this.pushVoid('concat');
+      }
     });
 
-    this.pushVoid('byte 0x');
-
-    types.reverse().forEach((t) => {
-      this.pushVoid('concat');
-    });
-
-    if (types.every((t) => t === types[0])) {
-      this.lastType = `${types[0]}[${node.elements.length}]`;
-    } else {
-      this.lastType = this.typeHint!.getText();
+    this.lastType = this.typeHint!.getText();
+    if (this.lastType.startsWith('Static')) {
+      this.lastType = getABIType(this.lastType);
     }
   }
 

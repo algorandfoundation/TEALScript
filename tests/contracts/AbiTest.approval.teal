@@ -28,15 +28,8 @@ staticArray:
 
 	// tests/contracts/abi.ts:15
 	// a: Static<uint64[], 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	int 33
-	itob
-	byte 0x
-	concat
-	concat
+	byte 0x // HEHE
+	byte 0x000000000000000b00000000000000160000000000000021
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -72,15 +65,8 @@ returnStaticArray:
 
 	// tests/contracts/abi.ts:21
 	// a: Static<uint64[], 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	int 33
-	itob
-	byte 0x
-	concat
-	concat
+	byte 0x // HEHE
+	byte 0x000000000000000b00000000000000160000000000000021
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -124,6 +110,144 @@ staticArrayArg:
 	log
 	retsub
 
+abi_route_nonLiteralStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 5
+	callsub nonLiteralStaticArrayElements
+	int 1
+	return
+
+nonLiteralStaticArrayElements:
+	proto 5 0
+
+	// tests/contracts/abi.ts:31
+	// n1 = 11
+	int 11
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.ts:32
+	// n2 = 22
+	int 22
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.ts:33
+	// n3 = 33
+	int 33
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.ts:34
+	// a: Static<uint64[], 3> = [n1, n2, n3]
+	byte 0x // HEHE
+	frame_dig -1 // n1: uint64
+	itob
+	concat
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	frame_bury -4 // a: uint64[3]
+
+	// tests/contracts/abi.ts:36
+	// return a[1];
+	frame_dig -4 // a: uint64[3]
+	int 1
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_mixedStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 5
+	callsub mixedStaticArrayElements
+	int 1
+	return
+
+mixedStaticArrayElements:
+	proto 5 0
+
+	// tests/contracts/abi.ts:40
+	// n1 = 3
+	int 3
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.ts:41
+	// n2 = 4
+	int 4
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.ts:42
+	// n3 = 5
+	int 5
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.ts:43
+	// a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
+	byte 0x // HEHE
+	byte 0x000000000000000000000000000000010000000000000002
+	concat
+	frame_dig -1 // n1: uint64
+	itob
+	concat
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	byte 0x000000000000000600000000000000070000000000000008
+	concat
+	frame_bury -4 // a: uint64[9]
+
+	// tests/contracts/abi.ts:45
+	// return a[1] + a[4] + a[7];
+	frame_dig -4 // a: uint64[9]
+	int 1
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	frame_dig -4 // a: uint64[9]
+	int 4
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	+
+	frame_dig -4 // a: uint64[9]
+	int 7
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	+
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -137,5 +261,7 @@ route_abi:
 	method "staticArray()uint64"
 	method "returnStaticArray()uint64[3]"
 	method "staticArrayArg(uint64[3])uint64"
+	method "nonLiteralStaticArrayElements()uint64"
+	method "mixedStaticArrayElements()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements

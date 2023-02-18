@@ -26,4 +26,22 @@ class AbiTest extends Contract {
   staticArrayArg(a: Static<uint64[], 3>): uint64 {
     return a[1];
   }
+
+  nonLiteralStaticArrayElements(): uint64 {
+    const n1 = 11;
+    const n2 = 22;
+    const n3 = 33;
+    const a: Static<uint64[], 3> = [n1, n2, n3];
+
+    return a[1];
+  }
+
+  mixedStaticArrayElements(): uint64 {
+    const n1 = 3;
+    const n2 = 4;
+    const n3 = 5;
+    const a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
+
+    return a[1] + a[4] + a[7];
+  }
 }

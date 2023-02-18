@@ -35,4 +35,14 @@ describe('ABI', function () {
     });
     expect(ret.returnValue).to.deep.equal(BigInt(22));
   });
+
+  it('nonLiteralStaticArrayElements', async function () {
+    const ret = await appClient.nonLiteralStaticArrayElements();
+    expect(ret.returnValue).to.equal(BigInt(22));
+  });
+
+  it('mixedStaticArrayElements', async function () {
+    const ret = await appClient.mixedStaticArrayElements();
+    expect(ret.returnValue).to.equal(BigInt(1 + 4 + 7));
+  });
 });
