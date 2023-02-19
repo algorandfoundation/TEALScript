@@ -8,7 +8,25 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
-function getTypeLength(type: string) {
+function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
+  if (type.toLowerCase().startsWith('staticarray')) {
+    if (typeNode === undefined) throw new Error(type);
+
+    if (ts.isTypeReferenceNode(typeNode)) {
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return length * getTypeLength(innerType.getText(), innerType);
+    }
+  }
+
+  if (type.endsWith(']')) {
+    const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
+    const length = parseInt(lenStr, 10);
+    const innerType = type.replace(/\[\d+]$/, '');
+    return getTypeLength(innerType) * length;
+  }
+
   if (type.startsWith('uint')) {
     return parseInt(type.slice(4), 10) / 8;
   }
@@ -21,17 +39,22 @@ function getTypeLength(type: string) {
     case 'account':
       return 32;
     default:
-      throw new Error(`Unknown type ${type}`);
+      throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
   }
 }
 
-function getABIType(type: string): string {
-  let abiType = type.toLowerCase();
+function getABIType(type: string, typeNode?: ts.TypeNode): string {
+  const abiType = type.toLowerCase();
 
-  if (abiType.startsWith('static')) {
-    const arrayType = abiType.match(/<\w+/)![0].replace('<', '');
-    const arrayLength = abiType.match(/\d+>/)![0].replace('>', '');
-    abiType = `${arrayType}[${arrayLength}]`;
+  if (abiType.toLowerCase().startsWith('static')) {
+    if (typeNode === undefined) throw new Error(type);
+
+    if (ts.isTypeReferenceNode(typeNode)) {
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return `${getABIType(innerType.getText(), innerType)}[${length}]`;
+    }
   }
 
   return abiType;
@@ -738,8 +761,9 @@ export default class Compiler {
     let hexString = '';
     let bytesOnStack = false;
 
-    const typeHintText = getABIType(this.typeHint!.getText());
-    const length = getTypeLength(typeHintText.match(/^uint\d+/)![0]!);
+    const abiTypeHint = getABIType(this.typeHint!.getText(), this.typeHint);
+
+    const length = getTypeLength(abiTypeHint.match(/\w+/)![0]);
 
     node.elements.forEach((e, i) => {
       if (ts.isNumericLiteral(e)) {
@@ -768,10 +792,7 @@ export default class Compiler {
       bytesOnStack = true;
     });
 
-    this.lastType = this.typeHint!.getText();
-    if (this.lastType.startsWith('Static')) {
-      this.lastType = getABIType(this.lastType);
-    }
+    this.lastType = abiTypeHint;
   }
 
   private processElementAccessExpression(
@@ -831,7 +852,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = getABIType(node.type?.getText()!);
+    const returnType = getABIType(node.type?.getText()!, node.type);
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -1169,7 +1190,10 @@ export default class Compiler {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: getABIType(node.initializer.typeArguments![0].getText()),
-        valueType: getABIType(node.initializer.typeArguments![1].getText()),
+        valueType: getABIType(
+          node.initializer.typeArguments![1].getText(),
+          node.initializer.typeArguments![1],
+        ),
       };
 
       if (node.initializer?.arguments?.[0] !== undefined) {
@@ -1199,7 +1223,10 @@ export default class Compiler {
         type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.initializer.text,
         keyType: 'string',
-        valueType: getABIType(node.initializer.typeArguments![0].getText()),
+        valueType: getABIType(
+          node.initializer.typeArguments![0].getText(),
+          node.initializer.typeArguments![0],
+        ),
       };
 
       const sizeProp = arg.properties.find(
@@ -1279,7 +1306,7 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      let type = getABIType(p.type.getText());
+      let type = getABIType(p.type.getText(), p.type);
 
       if (type.startsWith('Static')) {
         type = getABIType(type);
@@ -1397,7 +1424,7 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = getABIType(p!.type!.getText());
+      const type = getABIType(p!.type!.getText(), p.type);
       let abiType = type;
 
       if (type.includes('txn')) {

@@ -99,4 +99,16 @@ describe('ABI', function () {
 
     expect(ret.returnValue).to.deep.equal([BigInt(1111), BigInt(2222), BigInt(3333)]);
   });
+
+  it('nestedStaticArray', async function () {
+    const ret = await appClient.nestedStaticArray();
+    expect(ret.returnValue).to.equal(BigInt(55));
+  });
+
+  /* TODO
+  it('updateNestedStaticArrayElement', async function () {
+    const ret = await appClient.updateNestedStaticArrayElement();
+    expect(ret.returnValue).to.equal(BigInt(555));
+  });
+  */
 });

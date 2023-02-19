@@ -55,7 +55,7 @@ class AbiTest extends Contract {
     const n1 = 3;
     const n2 = 4;
     const n3 = 5;
-    const a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
+    const a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
 
     return a[1] + a[4] + a[7];
   }
@@ -146,4 +146,20 @@ class AbiTest extends Contract {
 
     return ret;
   }
+
+  nestedStaticArray(): uint64 {
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+
+    return a[1][1];
+  }
+
+  /* TODO
+  updateNestedStaticArrayElement(): uint64 {
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+
+    a[1][1] = 555;
+
+    return a[1][1];
+  }
+  */
 }

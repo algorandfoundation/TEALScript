@@ -192,7 +192,7 @@ mixedStaticArrayElements:
 	frame_bury -3 // n3: uint64
 
 	// tests/contracts/abi.ts:58
-	// a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
+	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	byte 0x000000000000000000000000000000010000000000000002
 	frame_dig -1 // n1: uint64
 	itob
@@ -679,6 +679,40 @@ updateStaticArrayInStorageMap:
 	log
 	retsub
 
+abi_route_nestedStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub nestedStaticArray
+	int 1
+	return
+
+nestedStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:151
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]]
+	byte 0x000000000000000b00000000000000160000000000000021
+	byte 0x000000000000002c00000000000000370000000000000042
+	concat
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:153
+	// return a[1][1];
+	frame_dig -1 // a: uint64[3][3]
+	extract 24 24
+	extract 8 8
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -707,5 +741,6 @@ route_abi:
 	method "updateStaticArrayInStorageRef()uint64[3]"
 	method "staticArrayInStorageMap()uint64[3]"
 	method "updateStaticArrayInStorageMap()uint64[3]"
+	method "nestedStaticArray()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray
