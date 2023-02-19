@@ -153,7 +153,6 @@ class AbiTest extends Contract {
     return a[1][1];
   }
 
-  /* TODO
   updateNestedStaticArrayElement(): uint64 {
     const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
 
@@ -161,5 +160,4 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
-  */
 }

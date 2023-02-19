@@ -105,10 +105,8 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(55));
   });
 
-  /* TODO
   it('updateNestedStaticArrayElement', async function () {
     const ret = await appClient.updateNestedStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
-  */
 });

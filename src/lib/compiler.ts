@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { isStringLiteral } from 'typescript';
+import ts, { decodedTextSpanIntersectsWith, isStringLiteral } from 'typescript';
 import * as langspec from '../langspec.json';
 
 function capitalizeFirstChar(str: string) {
@@ -919,13 +919,40 @@ export default class Compiler {
     this.pushVoid('log');
   }
 
+  private getBaseArrayNode(
+    node: ts.ElementAccessExpression,
+  ): ts.Node {
+    if (ts.isElementAccessExpression(node.expression)) {
+      return this.getBaseArrayNode(node.expression);
+    }
+    return node.expression;
+  }
+
+  private getArrayNodeChain(
+    node: ts.ElementAccessExpression,
+    depth: number,
+    chain: ts.ElementAccessExpression[] = [],
+  ): ts.ElementAccessExpression[] {
+    if (chain.length !== depth) {
+      if (!ts.isElementAccessExpression(node.expression)) throw new Error();
+      chain.push(node);
+      this.getArrayNodeChain(node.expression, depth, chain);
+    }
+    return chain;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression) {
     if (node.operatorToken.getText() === '=') {
       this.addSourceComment(node);
       if (!ts.isElementAccessExpression(node.left)) throw new Error();
 
-      const expr = this.processElementAccessExpression(node.left, [], true);
+      const baseArrayNode = this.getBaseArrayNode(node.left);
+      this.processNode(baseArrayNode);
       const type = this.lastType.replace(/\[\d+\]$/, '');
+      const depth = (type.match(/\[\d+]/g) || []).length;
+
+      const depthChain = this.getArrayNodeChain(node.left, depth);
+
       const typeLength = getTypeLength(type);
 
       // Get offset
@@ -935,6 +962,14 @@ export default class Compiler {
         '*',
       );
 
+      // TODO: Optimize literal access arguments
+      depthChain.forEach((n) => {
+        this.processNode(n.argumentExpression);
+        this.pushVoid(`int ${getTypeLength(this.lastType)}`);
+        this.pushVoid('*');
+        this.pushVoid('+');
+      });
+
       // Get new value
       this.processNode(node.right);
       if (isNumeric(this.lastType)) this.pushVoid('itob');
@@ -942,20 +977,22 @@ export default class Compiler {
       // Replace old value with new value
       this.pushVoid('replace3');
 
-      if (ts.isIdentifier(expr)) {
-        const name = expr.getText();
+      if (ts.isIdentifier(baseArrayNode)) {
+        const name = baseArrayNode.getText();
         const { index } = this.frame[name];
         this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
       } else if (
-        ts.isCallExpression(expr)
-          && ts.isPropertyAccessExpression(expr.expression)
-          && ts.isPropertyAccessExpression(expr.expression.expression)
-          && Object.keys(this.storageProps).includes(expr.expression.expression?.name?.getText())
+        ts.isCallExpression(baseArrayNode)
+          && ts.isPropertyAccessExpression(baseArrayNode.expression)
+          && ts.isPropertyAccessExpression(baseArrayNode.expression.expression)
+          && Object.keys(this.storageProps).includes(
+            baseArrayNode.expression.expression?.name?.getText(),
+          )
       ) {
-        const storageProp = this.storageProps[expr.expression.expression.name.getText()];
-        this.storageFunctions[storageProp.type].put(expr);
+        const storageProp = this.storageProps[baseArrayNode.expression.expression.name.getText()];
+        this.storageFunctions[storageProp.type].put(baseArrayNode);
       } else {
-        throw new Error(`Can't update ${ts.SyntaxKind[expr.kind]} array`);
+        throw new Error(`Can't update ${ts.SyntaxKind[baseArrayNode.kind]} array`);
       }
 
       return;
