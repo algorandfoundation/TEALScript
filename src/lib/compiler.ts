@@ -243,7 +243,7 @@ export default class Compiler {
 
   private comments: number[] = [];
 
-  private typeHint?: ts.TypeNode;
+  private typeHint: {node?: ts.TypeNode, text?: string} = {};
 
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
@@ -761,7 +761,7 @@ export default class Compiler {
     let hexString = '';
     let bytesOnStack = false;
 
-    const abiTypeHint = getABIType(this.typeHint!.getText(), this.typeHint);
+    const abiTypeHint = getABIType(this.typeHint.text!, this.typeHint.node);
 
     const length = getTypeLength(abiTypeHint.match(/\w+/)![0]);
 
@@ -934,7 +934,7 @@ export default class Compiler {
     chain: ts.ElementAccessExpression[] = [],
   ): ts.ElementAccessExpression[] {
     if (chain.length !== depth) {
-      if (!ts.isElementAccessExpression(node.expression)) throw new Error();
+      if (!ts.isElementAccessExpression(node.expression)) throw new Error(`${depth}`);
       chain.push(node);
       this.getArrayNodeChain(node.expression, depth, chain);
     }
@@ -948,8 +948,18 @@ export default class Compiler {
 
       const baseArrayNode = this.getBaseArrayNode(node.left);
       this.processNode(baseArrayNode);
+
       const type = this.lastType.replace(/\[\d+\]$/, '');
-      const depth = (type.match(/\[\d+]/g) || []).length;
+      let depth = (type.match(/\[\d+]/g) || []).length;
+
+      const prePeekTeal = new Array(...this.teal);
+      this.processNode(node.left);
+      const leftType = this.lastType;
+      this.teal = prePeekTeal;
+
+      this.typeHint.text = leftType;
+
+      if (leftType.endsWith(']')) depth -= 1;
 
       const depthChain = this.getArrayNodeChain(node.left, depth);
 
@@ -995,6 +1005,7 @@ export default class Compiler {
         throw new Error(`Can't update ${ts.SyntaxKind[baseArrayNode.kind]} array`);
       }
 
+      this.typeHint = {};
       return;
     }
 
@@ -1085,9 +1096,10 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.declarations.forEach((d) => {
-      this.typeHint = d.type;
+      this.typeHint.node = d.type;
+      if (d.type) this.typeHint.text = d.type.getText();
       this.processNode(d);
-      this.typeHint = undefined;
+      this.typeHint = {};
     });
   }
 

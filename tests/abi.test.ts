@@ -109,4 +109,9 @@ describe('ABI', function () {
     const ret = await appClient.updateNestedStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
+
+  it('updateNestedStaticArray', async function () {
+    const ret = await appClient.updateNestedStaticArray();
+    expect(ret.returnValue).to.equal(BigInt(555));
+  });
 });

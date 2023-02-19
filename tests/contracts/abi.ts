@@ -160,4 +160,12 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+
+  updateNestedStaticArray(): uint64 {
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+
+    a[1] = [444, 555, 666];
+
+    return a[1][1];
+  }
 }
