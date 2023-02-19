@@ -985,21 +985,38 @@ export default class Compiler {
 
       const typeLength = getTypeLength(type);
 
-      // Get offset
-      this.processNode(node.left.argumentExpression);
-      this.pushLines(
-        `int ${typeLength} // len(${type})`,
-        '*',
-      );
+      let offsetValue = 0;
+      let intsOnStack = false;
 
-      // TODO: Optimize literal access arguments
+      // Get offset
+      if (ts.isNumericLiteral(node.left.argumentExpression)) {
+        offsetValue += parseInt(node.left.argumentExpression.getText(), 10) * typeLength;
+      } else {
+        intsOnStack = true;
+        this.processNode(node.left.argumentExpression);
+        this.pushLines(
+          `int ${typeLength} // len(${type})`,
+          '*',
+        );
+      }
+
       depthChain.reverse().forEach((n) => {
-        this.processNode(n.argumentExpression);
         const t = this.getStackTypeFromNode(n);
-        this.pushVoid(`int ${getTypeLength(t)} // len(${t})`);
-        this.pushVoid('*');
-        this.pushVoid('+');
+        const l = getTypeLength(t);
+
+        if (ts.isNumericLiteral(n.argumentExpression)) {
+          offsetValue += parseInt(n.argumentExpression.getText(), 10) * l;
+        } else {
+          intsOnStack = true;
+          this.processNode(n.argumentExpression);
+          this.pushVoid(`int ${l} // len(${t})`);
+          this.pushVoid('*');
+          this.pushVoid('+');
+        }
       });
+
+      if (offsetValue) this.pushVoid(`int ${offsetValue} // offset calculated from literal access arguments`);
+      if (intsOnStack) this.pushVoid('+');
 
       // Get new value
       this.processNode(node.right);
@@ -1008,6 +1025,7 @@ export default class Compiler {
       // Replace old value with new value
       this.pushVoid('replace3');
 
+      // Add back to frame/storage if necessary
       if (ts.isIdentifier(baseArrayNode)) {
         const name = baseArrayNode.getText();
         const { index } = this.frame[name];

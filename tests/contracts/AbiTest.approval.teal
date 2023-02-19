@@ -289,9 +289,7 @@ setStaticArrayElement:
 	// tests/contracts/abi.ts:73
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 222
 	itob
 	replace3
@@ -421,9 +419,7 @@ updateStaticArrayInStorageRef:
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 111
 	itob
 	replace3
@@ -436,9 +432,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 222
 	itob
 	replace3
@@ -452,9 +446,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 333
 	itob
 	replace3
@@ -606,9 +598,7 @@ updateStaticArrayInStorageMap:
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 1111
 	itob
 	replace3
@@ -621,9 +611,7 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 2222
 	itob
 	replace3
@@ -637,9 +625,7 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 1
-	int 8 // len(uint64)
-	*
+	int 8 // offset calculated from literal access arguments
 	int 3333
 	itob
 	replace3
@@ -737,13 +723,7 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.ts:159
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // len(uint64[3])
-	*
-	int 1
-	int 8 // len(uint64)
-	*
-	+
+	int 32 // offset calculated from literal access arguments
 	int 555
 	itob
 	replace3
@@ -786,9 +766,7 @@ updateNestedStaticArray:
 	// tests/contracts/abi.ts:167
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // len(uint64[3])
-	*
+	int 24 // offset calculated from literal access arguments
 	byte 0x00000000000001bc000000000000022b000000000000029a
 	replace3
 	frame_bury -1 // a: uint64[3]
@@ -834,13 +812,7 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.ts:177
 	// a[1][1] = [777 as uint16, 888 as uint16]
 	frame_dig -1 // a: uint16[2][2][2]
-	int 1
-	int 8 // len(uint16[2][2])
-	*
-	int 1
-	int 4 // len(uint16[2])
-	*
-	+
+	int 12 // offset calculated from literal access arguments
 	int 777
 	itob
 	extract 6 0
