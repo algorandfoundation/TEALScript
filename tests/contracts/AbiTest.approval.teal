@@ -37,12 +37,12 @@ abi_route_staticArray:
 staticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:24
+	// tests/contracts/abi.ts:30
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:26
+	// tests/contracts/abi.ts:32
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	extract 8 8
@@ -68,12 +68,12 @@ abi_route_returnStaticArray:
 returnStaticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:30
+	// tests/contracts/abi.ts:36
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:32
+	// tests/contracts/abi.ts:38
 	// return a;
 	frame_dig -1 // a: uint64[3]
 	byte 0x151f7c75
@@ -97,7 +97,7 @@ abi_route_staticArrayArg:
 staticArrayArg:
 	proto 2 0
 
-	// tests/contracts/abi.ts:36
+	// tests/contracts/abi.ts:42
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	extract 8 8
@@ -123,22 +123,22 @@ abi_route_nonLiteralStaticArrayElements:
 nonLiteralStaticArrayElements:
 	proto 5 0
 
-	// tests/contracts/abi.ts:40
+	// tests/contracts/abi.ts:46
 	// n1 = 11
 	int 11
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.ts:41
+	// tests/contracts/abi.ts:47
 	// n2 = 22
 	int 22
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.ts:42
+	// tests/contracts/abi.ts:48
 	// n3 = 33
 	int 33
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.ts:43
+	// tests/contracts/abi.ts:49
 	// a: Static<uint64[], 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
@@ -150,7 +150,7 @@ nonLiteralStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[3]
 
-	// tests/contracts/abi.ts:45
+	// tests/contracts/abi.ts:51
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
 	extract 8 8
@@ -176,22 +176,22 @@ abi_route_mixedStaticArrayElements:
 mixedStaticArrayElements:
 	proto 5 0
 
-	// tests/contracts/abi.ts:49
+	// tests/contracts/abi.ts:55
 	// n1 = 3
 	int 3
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.ts:50
+	// tests/contracts/abi.ts:56
 	// n2 = 4
 	int 4
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.ts:51
+	// tests/contracts/abi.ts:57
 	// n3 = 5
 	int 5
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.ts:52
+	// tests/contracts/abi.ts:58
 	// a: Static<uint64[], 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	byte 0x000000000000000000000000000000010000000000000002
 	frame_dig -1 // n1: uint64
@@ -207,7 +207,7 @@ mixedStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[9]
 
-	// tests/contracts/abi.ts:54
+	// tests/contracts/abi.ts:60
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
 	extract 8 8
@@ -241,17 +241,17 @@ abi_route_nonLiteralStaticArrayAccess:
 nonLiteralStaticArrayAccess:
 	proto 3 0
 
-	// tests/contracts/abi.ts:58
+	// tests/contracts/abi.ts:64
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:59
+	// tests/contracts/abi.ts:65
 	// n = 1
 	int 1
 	frame_bury -2 // n: uint64
 
-	// tests/contracts/abi.ts:61
+	// tests/contracts/abi.ts:67
 	// return a[n];
 	frame_dig -1 // a: uint64[3]
 	frame_dig -2 // n: uint64
@@ -281,12 +281,12 @@ abi_route_setStaticArrayElement:
 setStaticArrayElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:65
+	// tests/contracts/abi.ts:71
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:67
+	// tests/contracts/abi.ts:73
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
 	int 1
@@ -297,7 +297,7 @@ setStaticArrayElement:
 	replace3
 	frame_bury -1 // a: uint64
 
-	// tests/contracts/abi.ts:69
+	// tests/contracts/abi.ts:75
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	extract 8 8
@@ -323,31 +323,31 @@ abi_route_staticArrayInStorageRef:
 staticArrayInStorageRef:
 	proto 3 0
 
-	// tests/contracts/abi.ts:73
+	// tests/contracts/abi.ts:79
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:75
+	// tests/contracts/abi.ts:81
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:76
+	// tests/contracts/abi.ts:82
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:77
+	// tests/contracts/abi.ts:83
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:79
+	// tests/contracts/abi.ts:85
 	// ret: Static<uint64[], 3> = [
 	byte "gRef"
 	app_global_get
@@ -370,7 +370,7 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:85
+	// tests/contracts/abi.ts:91
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -393,31 +393,31 @@ abi_route_updateStaticArrayInStorageRef:
 updateStaticArrayInStorageRef:
 	proto 3 0
 
-	// tests/contracts/abi.ts:89
+	// tests/contracts/abi.ts:95
 	// a: Static<uint64[], 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:91
+	// tests/contracts/abi.ts:97
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:92
+	// tests/contracts/abi.ts:98
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:93
+	// tests/contracts/abi.ts:99
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:95
+	// tests/contracts/abi.ts:101
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
@@ -431,7 +431,7 @@ updateStaticArrayInStorageRef:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.ts:96
+	// tests/contracts/abi.ts:102
 	// this.lRef.get(this.txn.sender)[1] = 222
 	txn Sender
 	byte "lRef"
@@ -447,7 +447,7 @@ updateStaticArrayInStorageRef:
 	uncover 2
 	app_local_put
 
-	// tests/contracts/abi.ts:97
+	// tests/contracts/abi.ts:103
 	// this.bRef.get()[1] = 333
 	byte "bRef"
 	box_get
@@ -462,7 +462,7 @@ updateStaticArrayInStorageRef:
 	swap
 	box_put
 
-	// tests/contracts/abi.ts:99
+	// tests/contracts/abi.ts:105
 	// ret: Static<uint64[], 3> = [
 	byte "gRef"
 	app_global_get
@@ -485,7 +485,192 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:105
+	// tests/contracts/abi.ts:111
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticArrayInStorageMap:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub staticArrayInStorageMap
+	int 1
+	return
+
+staticArrayInStorageMap:
+	proto 3 0
+
+	// tests/contracts/abi.ts:115
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:117
+	// this.gMap.put('gMap', a)
+	byte "gMap"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:118
+	// this.lMap.put(this.txn.sender, 'lMap', a)
+	txn Sender
+	byte "lMap"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:119
+	// this.bMap.put('bMap', a)
+	byte "bMap"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:121
+	// ret: Static<uint64[], 3> = [
+	byte "gMap"
+	app_global_get
+	extract 8 8
+	btoi
+	itob
+	txn Sender
+	byte "lMap"
+	app_local_get
+	extract 8 8
+	btoi
+	itob
+	concat
+	byte "bMap"
+	box_get
+	assert
+	extract 8 8
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:127
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateStaticArrayInStorageMap:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub updateStaticArrayInStorageMap
+	int 1
+	return
+
+updateStaticArrayInStorageMap:
+	proto 3 0
+
+	// tests/contracts/abi.ts:131
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:133
+	// this.gMap.put('gMap', a)
+	byte "gMap"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:134
+	// this.lMap.put(this.txn.sender, 'lMap', a)
+	txn Sender
+	byte "lMap"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:135
+	// this.bMap.put('bMap', a)
+	byte "bMap"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:137
+	// this.gMap.get('gMap')[1] = 1111
+	byte "gMap"
+	app_global_get
+	int 1
+	int 8
+	*
+	int 1111
+	itob
+	replace3
+	byte "gMap"
+	swap
+	app_global_put
+
+	// tests/contracts/abi.ts:138
+	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
+	txn Sender
+	byte "lMap"
+	app_local_get
+	int 1
+	int 8
+	*
+	int 2222
+	itob
+	replace3
+	txn Sender
+	byte "lMap"
+	uncover 2
+	app_local_put
+
+	// tests/contracts/abi.ts:139
+	// this.bMap.get('bMap')[1] = 3333
+	byte "bMap"
+	box_get
+	assert
+	int 1
+	int 8
+	*
+	int 3333
+	itob
+	replace3
+	byte "bMap"
+	swap
+	box_put
+
+	// tests/contracts/abi.ts:141
+	// ret: Static<uint64[], 3> = [
+	byte "gMap"
+	app_global_get
+	extract 8 8
+	btoi
+	itob
+	txn Sender
+	byte "lMap"
+	app_local_get
+	extract 8 8
+	btoi
+	itob
+	concat
+	byte "bMap"
+	box_get
+	assert
+	extract 8 8
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:147
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -520,5 +705,7 @@ route_abi:
 	method "setStaticArrayElement()uint64"
 	method "staticArrayInStorageRef()uint64[3]"
 	method "updateStaticArrayInStorageRef()uint64[3]"
+	method "staticArrayInStorageMap()uint64[3]"
+	method "updateStaticArrayInStorageMap()uint64[3]"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap

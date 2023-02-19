@@ -14,6 +14,12 @@ class AbiTest extends Contract {
 
   bRef = new BoxReference<Static<uint64[], 3>>({ key: 'bRef' });
 
+  gMap = new GlobalMap<string, Static<uint64[], 3>>();
+
+  lMap = new LocalMap<string, Static<uint64[], 3>>();
+
+  bMap = new BoxMap<string, Static<uint64[], 3>>();
+
   @createApplication
   create(): void {}
 
@@ -100,6 +106,42 @@ class AbiTest extends Contract {
       this.gRef.get()[1],
       this.lRef.get(this.txn.sender)[1],
       this.bRef.get()[1],
+    ];
+
+    return ret;
+  }
+
+  staticArrayInStorageMap(): Static<uint64[], 3> {
+    const a: Static<uint64[], 3> = [11, 22, 33];
+
+    this.gMap.put('gMap', a);
+    this.lMap.put(this.txn.sender, 'lMap', a);
+    this.bMap.put('bMap', a);
+
+    const ret: Static<uint64[], 3> = [
+      this.gMap.get('gMap')[1],
+      this.lMap.get(this.txn.sender, 'lMap')[1],
+      this.bMap.get('bMap')[1],
+    ];
+
+    return ret;
+  }
+
+  updateStaticArrayInStorageMap(): Static<uint64[], 3> {
+    const a: Static<uint64[], 3> = [11, 22, 33];
+
+    this.gMap.put('gMap', a);
+    this.lMap.put(this.txn.sender, 'lMap', a);
+    this.bMap.put('bMap', a);
+
+    this.gMap.get('gMap')[1] = 1111;
+    this.lMap.get(this.txn.sender, 'lMap')[1] = 2222;
+    this.bMap.get('bMap')[1] = 3333;
+
+    const ret: Static<uint64[], 3> = [
+      this.gMap.get('gMap')[1],
+      this.lMap.get(this.txn.sender, 'lMap')[1],
+      this.bMap.get('bMap')[1],
     ];
 
     return ret;

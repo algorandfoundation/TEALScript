@@ -25,7 +25,7 @@ describe('ABI', function () {
     const txn = makePaymentTxnWithSuggestedParamsFromObject({
       from: acct.addr,
       to: appClient.appAddress,
-      amount: 113700,
+      amount: 127400,
       suggestedParams: await clients.sandboxAlgod().getTransactionParams().do(),
     });
 
@@ -83,5 +83,20 @@ describe('ABI', function () {
     );
 
     expect(ret.returnValue).to.deep.equal([BigInt(111), BigInt(222), BigInt(333)]);
+  });
+
+  it('staticArrayInStorageMap', async function () {
+    const ret = await appClient.staticArrayInStorageMap(
+      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
+    );
+    expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
+  });
+
+  it('updateStaticArrayInStorageMap', async function () {
+    const ret = await appClient.updateStaticArrayInStorageMap(
+      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
+    );
+
+    expect(ret.returnValue).to.deep.equal([BigInt(1111), BigInt(2222), BigInt(3333)]);
   });
 });
