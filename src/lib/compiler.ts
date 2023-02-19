@@ -20,7 +20,7 @@ function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
     }
   }
 
-  if (type.endsWith(']')) {
+  if (type.match(/\[\d+]/)) {
     const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
     const length = parseInt(lenStr, 10);
     const innerType = type.replace(/\[\d+]$/, '');
@@ -827,11 +827,29 @@ export default class Compiler {
       return;
     }
 
-    const type = this.lastType.replace(/\[\d+\]$/, '');
+    let type: string;
+    let types: string[] = [];
+
+    if (this.lastType.match(/\[\d+]/)) {
+      type = this.lastType.replace(/\[\d+\]$/, '');
+    } else {
+      const accessor = parseInt(node.getText(), 10);
+      types = this.lastType.replace(']', '').replace('[', '').split(',').map((t) => t.trim());
+      type = types[accessor];
+    }
+
     const typeLength = getTypeLength(type);
 
     if (ts.isNumericLiteral(node)) {
-      const offset = typeLength * parseInt(node.getText(), 10);
+      let offset: number = 0;
+      if (types.length) {
+        const accessor = parseInt(node.getText(), 10);
+
+        types.forEach((t, i) => {
+          if (i < accessor) { offset += getTypeLength(t); }
+        });
+      } else offset = typeLength * parseInt(node.getText(), 10);
+
       this.pushVoid(`extract ${offset} ${typeLength}`);
     } else {
       this.processNode(node);

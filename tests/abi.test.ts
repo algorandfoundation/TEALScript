@@ -119,4 +119,9 @@ describe('ABI', function () {
     const ret = await appClient.threeDimensionalUint16Array();
     expect(ret.returnValue).to.equal(BigInt(888));
   });
+
+  it('simpleTuple', async function () {
+    const ret = await appClient.simpleTuple();
+    expect(ret.returnValue).to.equal(BigInt(44));
+  });
 });

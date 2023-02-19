@@ -837,6 +837,47 @@ threeDimensionalUint16Array:
 	log
 	retsub
 
+abi_route_simpleTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub simpleTuple
+	int 1
+	return
+
+simpleTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:183
+	// a: [uint64, uint16, uint64, uint16] = [11, 22 as uint16, 33, 44 as uint16]
+	byte 0x000000000000000b
+	int 22
+	itob
+	extract 6 0
+	concat
+	byte 0x0000000000000021
+	concat
+	int 44
+	itob
+	extract 6 0
+	concat
+	frame_bury -1 // a: [uint64, uint16, uint64, uint16]
+
+	// tests/contracts/abi.ts:185
+	// return a[3];
+	frame_dig -1 // a: [uint64, uint16, uint64, uint16]
+	extract 18 2
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -869,5 +910,6 @@ route_abi:
 	method "updateNestedStaticArrayElement()uint64"
 	method "updateNestedStaticArray()uint64"
 	method "threeDimensionalUint16Array()uint16"
+	method "simpleTuple()uint16"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple
