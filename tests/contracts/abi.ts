@@ -168,4 +168,14 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+
+  threeDimensionalUint16Array(): uint16 {
+    const a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
+      [[11, 22], [33, 44]], [[55, 66], [77, 88]],
+    ];
+
+    a[1][1] = [777 as uint16, 888 as uint16];
+
+    return a[1][1][1];
+  }
 }

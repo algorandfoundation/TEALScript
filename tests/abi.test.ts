@@ -114,4 +114,9 @@ describe('ABI', function () {
     const ret = await appClient.updateNestedStaticArray();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
+
+  it('threeDimensionalUint16Array', async function () {
+    const ret = await appClient.threeDimensionalUint16Array();
+    expect(ret.returnValue).to.equal(BigInt(888));
+  });
 });

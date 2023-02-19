@@ -296,3 +296,4 @@ declare const deleteApplication = decoratorFunction;
 
 declare type uint256 = number
 declare type ufixed64x2 = number
+declare type uint16 = number

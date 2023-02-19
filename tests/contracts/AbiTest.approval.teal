@@ -290,7 +290,7 @@ setStaticArrayElement:
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 222
 	itob
@@ -422,7 +422,7 @@ updateStaticArrayInStorageRef:
 	byte "gRef"
 	app_global_get
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 111
 	itob
@@ -437,7 +437,7 @@ updateStaticArrayInStorageRef:
 	byte "lRef"
 	app_local_get
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 222
 	itob
@@ -453,7 +453,7 @@ updateStaticArrayInStorageRef:
 	box_get
 	assert
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 333
 	itob
@@ -607,7 +607,7 @@ updateStaticArrayInStorageMap:
 	byte "gMap"
 	app_global_get
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 1111
 	itob
@@ -622,7 +622,7 @@ updateStaticArrayInStorageMap:
 	byte "lMap"
 	app_local_get
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 2222
 	itob
@@ -638,7 +638,7 @@ updateStaticArrayInStorageMap:
 	box_get
 	assert
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	int 3333
 	itob
@@ -738,10 +738,10 @@ updateNestedStaticArrayElement:
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
 	int 1
-	int 24
+	int 24 // len(uint64[3])
 	*
 	int 1
-	int 8
+	int 8 // len(uint64)
 	*
 	+
 	int 555
@@ -787,7 +787,7 @@ updateNestedStaticArray:
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
 	int 1
-	int 24
+	int 24 // len(uint64[3])
 	*
 	byte 0x00000000000001bc000000000000022b000000000000029a
 	replace3
@@ -800,6 +800,65 @@ updateNestedStaticArray:
 	extract 8 8
 	btoi
 	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_threeDimensionalUint16Array:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub threeDimensionalUint16Array
+	int 1
+	return
+
+threeDimensionalUint16Array:
+	proto 2 0
+
+	// tests/contracts/abi.ts:173
+	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
+	byte 0x000b0016
+	byte 0x0021002c
+	concat
+	byte 0x00370042
+	byte 0x004d0058
+	concat
+	concat
+	frame_bury -1 // a: uint16[2][2][2]
+
+	// tests/contracts/abi.ts:177
+	// a[1][1] = [777 as uint16, 888 as uint16]
+	frame_dig -1 // a: uint16[2][2][2]
+	int 1
+	int 8 // len(uint16[2][2])
+	*
+	int 1
+	int 4 // len(uint16[2])
+	*
+	+
+	int 777
+	itob
+	extract 6 0
+	int 888
+	itob
+	extract 6 0
+	concat
+	replace3
+	frame_bury -1 // a: uint16[2][2]
+
+	// tests/contracts/abi.ts:179
+	// return a[1][1][1];
+	frame_dig -1 // a: uint16[2][2][2]
+	extract 8 8
+	extract 4 4
+	extract 2 2
+	byte 0xFFFF
+	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -837,5 +896,6 @@ route_abi:
 	method "nestedStaticArray()uint64"
 	method "updateNestedStaticArrayElement()uint64"
 	method "updateNestedStaticArray()uint64"
+	method "threeDimensionalUint16Array()uint16"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array

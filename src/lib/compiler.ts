@@ -941,6 +941,19 @@ export default class Compiler {
     return chain;
   }
 
+  private fixBitWidth(desiredWidth: number) {
+    const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+
+    // eslint-disable-next-line no-console
+    if (lastBitWidth > desiredWidth) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
+
+    if (lastBitWidth < desiredWidth) {
+      this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
+    } else {
+      this.pushVoid(`extract ${lastBitWidth / 8 - desiredWidth / 8} 0`);
+    }
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression) {
     if (node.operatorToken.getText() === '=') {
       this.addSourceComment(node);
@@ -968,14 +981,18 @@ export default class Compiler {
       // Get offset
       this.processNode(node.left.argumentExpression);
       this.pushLines(
-        `int ${typeLength}`,
+        `int ${typeLength} // len(${type})`,
         '*',
       );
 
       // TODO: Optimize literal access arguments
-      depthChain.forEach((n) => {
+      depthChain.reverse().forEach((n) => {
         this.processNode(n.argumentExpression);
-        this.pushVoid(`int ${getTypeLength(this.lastType)}`);
+        const preTeal = new Array(...this.teal);
+        this.processNode(n);
+        console.log(this.lastType);
+        this.teal = preTeal;
+        this.pushVoid(`int ${getTypeLength(this.lastType)} // len(${this.lastType})`);
         this.pushVoid('*');
         this.pushVoid('+');
       });
@@ -1081,14 +1098,9 @@ export default class Compiler {
     const type = getABIType(node.type.getText());
     if (type.startsWith('uint') && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
-      const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
-
-      // eslint-disable-next-line no-console
-      if (lastBitWidth > typeBitWidth) console.warn('WARNING: Converting value from ', this.lastType, 'to ', type, 'may result in loss of precision');
 
       if (this.lastType === 'uint64') this.pushVoid('itob');
-      this.pushVoid(`byte 0x${'FF'.repeat(typeBitWidth / 8)}`);
-      this.pushVoid('b&');
+      this.fixBitWidth(typeBitWidth);
     }
 
     this.lastType = type;
