@@ -6,7 +6,7 @@ closeAcct:
 
 	// examples/arc12/arc12.ts:18
 	// assert(vaultCreator === this.creator.get())
-	frame_dig -1 // vaultCreator: Account
+	frame_dig -1 // vaultCreator: account
 	byte "creator"
 	app_global_get
 	==
@@ -21,7 +21,7 @@ closeAcct:
 
 	// examples/arc12/arc12.ts:22
 	// receiver: vaultCreator
-	frame_dig -1 // vaultCreator: Account
+	frame_dig -1 // vaultCreator: account
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:23
@@ -48,12 +48,12 @@ closeAcct:
 	txn GroupIndex
 	int 1
 	+
-	frame_bury -2 // deleteVaultTxn: GroupTxn
+	frame_bury -2 // deleteVaultTxn: grouptxn
 
 	// Ensure Master.deleteVault is being called for this vault
 	// examples/arc12/arc12.ts:31
 	// assert(deleteVaultTxn.applicationID === this.master.get())
-	frame_dig -2 // deleteVaultTxn: GroupTxn
+	frame_dig -2 // deleteVaultTxn: grouptxn
 	gtxns ApplicationID
 	byte "master"
 	app_global_get
@@ -62,7 +62,7 @@ closeAcct:
 
 	// examples/arc12/arc12.ts:32
 	// assert(deleteVaultTxn.applicationArgs[0] === method('deleteVault(application,account)void'))
-	frame_dig -2 // deleteVaultTxn: GroupTxn
+	frame_dig -2 // deleteVaultTxn: grouptxn
 	gtxns ApplicationArgs 0
 	method "deleteVault(application,account)void"
 	==
@@ -70,7 +70,7 @@ closeAcct:
 
 	// examples/arc12/arc12.ts:33
 	// assert(deleteVaultTxn.applications[1] === this.app)
-	frame_dig -2 // deleteVaultTxn: GroupTxn
+	frame_dig -2 // deleteVaultTxn: grouptxn
 	gtxns Applications 1
 	txna Applications 0
 	==
@@ -100,13 +100,13 @@ create:
 	// examples/arc12/arc12.ts:38
 	// this.creator.put(sender)
 	byte "creator"
-	frame_dig -2 // sender: Account
+	frame_dig -2 // sender: account
 	app_global_put
 
 	// examples/arc12/arc12.ts:39
 	// this.receiver.put(receiver)
 	byte "receiver"
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	app_global_put
 
 	// examples/arc12/arc12.ts:40
@@ -152,7 +152,7 @@ reject:
 
 	// examples/arc12/arc12.ts:45
 	// assert(feeSink === addr('Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA'))
-	frame_dig -2 // feeSink: Account
+	frame_dig -2 // feeSink: account
 	addr Y76M3MSY6DKBRHBL7C3NNDXGS5IIMQVQVUAB6MP4XEMMGVF2QWNPL226CA
 	==
 	assert
@@ -173,12 +173,12 @@ reject:
 
 	// examples/arc12/arc12.ts:50
 	// assetReceiver: asaCreator
-	frame_dig -1 // asaCreator: Account
+	frame_dig -1 // asaCreator: account
 	itxn_field AssetReceiver
 
 	// examples/arc12/arc12.ts:51
 	// xferAsset: asa
-	frame_dig -3 // asa: Asset
+	frame_dig -3 // asa: asset
 	itxn_field XferAsset
 
 	// examples/arc12/arc12.ts:52
@@ -188,7 +188,7 @@ reject:
 
 	// examples/arc12/arc12.ts:53
 	// assetCloseTo: asaCreator
-	frame_dig -1 // asaCreator: Account
+	frame_dig -1 // asaCreator: account
 	itxn_field AssetCloseTo
 
 	// examples/arc12/arc12.ts:54
@@ -199,7 +199,7 @@ reject:
 
 	// examples/arc12/arc12.ts:57
 	// this.funderMap.delete(asa)
-	frame_dig -3 // asa: Asset
+	frame_dig -3 // asa: asset
 	itob
 	box_del
 
@@ -221,7 +221,7 @@ reject:
 
 	// examples/arc12/arc12.ts:63
 	// receiver: feeSink
-	frame_dig -2 // feeSink: Account
+	frame_dig -2 // feeSink: account
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:64
@@ -275,7 +275,7 @@ reject:
 	// this.closeAcct(vaultCreator)
 	byte 0x
 	dupn 2
-	frame_dig -4 // vaultCreator: Account
+	frame_dig -4 // vaultCreator: account
 	callsub closeAcct
 
 if0_end:
@@ -303,7 +303,7 @@ optIn:
 
 	// examples/arc12/arc12.ts:79
 	// assert(!this.funderMap.exists(asa))
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itob
 	box_get
 	swap
@@ -313,7 +313,7 @@ optIn:
 
 	// examples/arc12/arc12.ts:80
 	// assert(mbrPayment.sender === this.txn.sender)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Sender
 	txn Sender
 	==
@@ -321,7 +321,7 @@ optIn:
 
 	// examples/arc12/arc12.ts:81
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
@@ -336,7 +336,7 @@ optIn:
 
 	// examples/arc12/arc12.ts:85
 	// this.funderMap.put(asa, this.txn.sender)
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itob
 	txn Sender
 	box_put
@@ -365,13 +365,13 @@ optIn:
 
 	// examples/arc12/arc12.ts:92
 	// xferAsset: asa
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itxn_field XferAsset
 	itxn_submit
 
 	// examples/arc12/arc12.ts:95
 	// assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Amount
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
@@ -407,7 +407,7 @@ claim:
 
 	// examples/arc12/arc12.ts:99
 	// assert(this.funderMap.exists(asa))
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itob
 	box_get
 	swap
@@ -416,8 +416,8 @@ claim:
 
 	// examples/arc12/arc12.ts:100
 	// assert(asaMbrFunder === this.funderMap.get(asa))
-	frame_dig -3 // asaMbrFunder: Account
-	frame_dig -1 // asa: Asset
+	frame_dig -3 // asaMbrFunder: account
+	frame_dig -1 // asa: asset
 	itob
 	box_get
 	assert
@@ -436,7 +436,7 @@ claim:
 	// assert(this.creator.get() === creator)
 	byte "creator"
 	app_global_get
-	frame_dig -2 // creator: Account
+	frame_dig -2 // creator: account
 	==
 	assert
 
@@ -449,7 +449,7 @@ claim:
 
 	// examples/arc12/arc12.ts:106
 	// this.funderMap.delete(asa)
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itob
 	box_del
 
@@ -473,14 +473,14 @@ claim:
 	// examples/arc12/arc12.ts:112
 	// assetAmount: globals.currentApplicationAddress.assetBalance(asa)
 	global CurrentApplicationAddress
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	asset_holding_get AssetBalance
 	assert
 	itxn_field AssetAmount
 
 	// examples/arc12/arc12.ts:113
 	// xferAsset: asa
-	frame_dig -1 // asa: Asset
+	frame_dig -1 // asa: asset
 	itxn_field XferAsset
 
 	// examples/arc12/arc12.ts:114
@@ -498,7 +498,7 @@ claim:
 
 	// examples/arc12/arc12.ts:119
 	// receiver: asaMbrFunder
-	frame_dig -3 // asaMbrFunder: Account
+	frame_dig -3 // asaMbrFunder: account
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:120
@@ -531,7 +531,7 @@ claim:
 	// this.closeAcct(creator)
 	byte 0x
 	dupn 2
-	frame_dig -2 // creator: Account
+	frame_dig -2 // creator: account
 	callsub closeAcct
 
 if1_end:

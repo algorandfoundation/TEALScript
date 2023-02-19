@@ -13,12 +13,12 @@ function getTypeLength(type: string) {
     return parseInt(type.slice(4), 10) / 8;
   }
   switch (type) {
-    case 'Asset':
-    case 'Application':
+    case 'asset':
+    case 'application':
       return 8;
     case 'bytes':
       return 1;
-    case 'Account':
+    case 'account':
       return 32;
     default:
       throw new Error(`Unknown type ${type}`);
@@ -62,9 +62,9 @@ enum TransactionType {
 
 // eslint-disable-next-line no-shadow
 enum ForeignType {
-  Asset = 'Asset',
-  Account = 'Account',
-  Application = 'Application',
+  Asset = 'asset',
+  Account = 'account',
+  Application = 'application',
 }
 
 const TXN_METHODS = [
@@ -149,11 +149,11 @@ interface Subroutine {
 
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
-  return ['uint64', 'Asset', 'Application'].includes(t);
+  return ['uint64', 'asset', 'application'].includes(t);
 }
 
 function isRefType(t: string): boolean {
-  return ['Account', 'Asset', 'Application'].includes(t);
+  return ['account', 'asset', 'application'].includes(t);
 }
 
 export default class Compiler {
@@ -225,11 +225,11 @@ export default class Compiler {
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
   } = {
-      Account: [
+      account: [
         ...this.getOpParamObjects('acct_params_get'),
         ...this.getOpParamObjects('asset_holding_get'),
       ],
-      Application: [
+      application: [
         ...this.getOpParamObjects('app_params_get'),
         {
           name: 'Global',
@@ -601,9 +601,9 @@ export default class Compiler {
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
-    const abiArgs = args.map((a) => a.toLowerCase());
+    const abiArgs = args.map((a) => a);
 
-    let abiReturns = returns.toLowerCase();
+    let abiReturns = returns;
 
     switch (abiReturns) {
       case 'application':
@@ -797,7 +797,7 @@ export default class Compiler {
   private processElementAccessArgumentExpression(node: ts.Expression) {
     if (this.lastType === 'txnGroup') {
       this.processNode(node);
-      this.lastType = 'GroupTxn';
+      this.lastType = 'grouptxn';
       return;
     }
 
@@ -831,8 +831,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    let returnType = node.type?.getText()!;
-    if (returnType.startsWith('Static')) returnType = getABIType(returnType);
+    const returnType = getABIType(node.type?.getText()!);
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -1004,13 +1003,13 @@ export default class Compiler {
       this.processNode(a);
     });
 
-    this.lastType = node.expression.getText();
+    this.lastType = getABIType(node.expression.getText());
   }
 
   private processTSAsExpression(node: ts.AsExpression) {
     this.processNode(node.expression);
 
-    const type = node.type.getText();
+    const type = getABIType(node.type.getText());
     if (type.startsWith('uint') && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
       const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
@@ -1169,7 +1168,7 @@ export default class Compiler {
     if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: node.initializer.typeArguments![0].getText(),
+        keyType: getABIType(node.initializer.typeArguments![0].getText()),
         valueType: getABIType(node.initializer.typeArguments![1].getText()),
       };
 
@@ -1246,7 +1245,7 @@ export default class Compiler {
       if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
         switch (n.name.getText()) {
           case 'app':
-            this.lastType = 'Application';
+            this.lastType = 'application';
             this.pushVoid('txna Applications 0');
             break;
           default:
@@ -1280,7 +1279,7 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      let type = p.type.getText();
+      let type = getABIType(p.type.getText());
 
       if (type.startsWith('Static')) {
         type = getABIType(type);
@@ -1398,15 +1397,15 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = p!.type!.getText();
+      const type = getABIType(p!.type!.getText());
       let abiType = type;
 
-      if (type.includes('Txn')) {
+      if (type.includes('txn')) {
         switch (type) {
-          case 'PayTxn':
+          case 'paytxn':
             abiType = TransactionType.PaymentTx;
             break;
-          case 'AssetTransferTxn':
+          case 'assettransfertxn':
             abiType = TransactionType.AssetTransferTx;
             break;
           default:
@@ -1420,8 +1419,8 @@ export default class Compiler {
         this.pushVoid('btoi');
       } else if (isRefType(type)) {
         this.pushVoid('btoi');
-        this.pushVoid(`txnas ${type}s`);
-      } else if (type.includes('Txn')) {
+        this.pushVoid(`txnas ${capitalizeFirstChar(type)}s`);
+      } else if (type.includes('txn')) {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
@@ -1513,15 +1512,13 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => t.getText(),
+        (t) => getABIType(t.getText()),
       );
 
       const returnType = node.typeArguments![1].getText();
 
       this.pushVoid(
-        `method "${nameProp.initializer.text}(${argTypes
-          .join(',')
-          .toLowerCase()})${returnType.toLowerCase()}"`,
+        `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`,
       );
       this.pushVoid('itxn_field ApplicationArgs');
     }
@@ -1545,7 +1542,7 @@ export default class Compiler {
       } else if (key === 'methodArgs') {
         if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
         const argTypes = node.typeArguments[0].elements.map(
-          (t) => t.getText(),
+          (t) => getABIType(t.getText()),
         );
 
         let accountIndex = 1;
@@ -1630,7 +1627,7 @@ export default class Compiler {
 
   private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
     let type = calleeType;
-    if (type.includes('Txn')) {
+    if (type.includes('txn') && !['itxn', 'txn'].includes(type)) {
       type = 'gtxns';
     }
 

@@ -38,7 +38,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
           const teal = await getTeal(`${storageType}${storageClass}${method}`);
           const expectedTeal: string[] = [];
 
-          if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: Account');
+          if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
 
           if (['local', 'global'].includes(storageType) && method === 'Exists') expectedTeal.push('txna Applications 0');
 
