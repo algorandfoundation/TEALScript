@@ -256,6 +256,48 @@ nonLiteralStaticArrayAccess:
 	log
 	retsub
 
+abi_route_setStaticArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub setStaticArrayElement
+	int 1
+	return
+
+setStaticArrayElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:56
+	// a: Static<uint64[], 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:58
+	// a[1] = 222
+	frame_dig -1 // a: uint64[3]
+	int 1
+	int 8
+	*
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64
+
+	// tests/contracts/abi.ts:60
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	extract 8 8
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -272,5 +314,6 @@ route_abi:
 	method "nonLiteralStaticArrayElements()uint64"
 	method "mixedStaticArrayElements()uint64"
 	method "nonLiteralStaticArrayAccess()uint64"
+	method "setStaticArrayElement()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement

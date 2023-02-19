@@ -771,19 +771,20 @@ export default class Compiler {
     node: ts.ElementAccessExpression,
     chain: ts.Expression[] = [],
     equalExpression: boolean = false,
-  ) {
+  ): ts.LeftHandSideExpression {
     chain.push(node.argumentExpression);
     if (ts.isElementAccessExpression(node.expression)) {
-      this.processElementAccessExpression(node.expression, chain, equalExpression);
-    } else {
-      this.processNode(node.expression);
-
-      const isAbiArray = this.lastType !== 'txnGroup' && !this.lastType.startsWith('ImmediateArray');
-
-      chain.reverse().forEach((e) => {
-        this.processElementAccessArgumentExpression(e);
-      });
+      return this.processElementAccessExpression(node.expression, chain, equalExpression);
     }
+
+    this.processNode(node.expression);
+
+    chain.reverse().forEach((e, i) => {
+      if (equalExpression && i === chain.length - 1) return;
+      this.processElementAccessArgumentExpression(e);
+    });
+
+    return node.expression;
   }
 
   private processElementAccessArgumentExpression(node: ts.Expression) {
@@ -892,6 +893,39 @@ export default class Compiler {
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
+    if (node.operatorToken.getText() === '=') {
+      this.addSourceComment(node);
+      if (!ts.isElementAccessExpression(node.left)) throw new Error();
+
+      const expr = this.processElementAccessExpression(node.left, [], true);
+      const type = this.lastType.replace(/\[\d+\]$/, '');
+      const typeLength = getTypeLength(type);
+
+      // Get offset
+      this.processNode(node.left.argumentExpression);
+      this.pushLines(
+        `int ${typeLength}`,
+        '*',
+      );
+
+      // Get new value
+      this.processNode(node.right);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+      // Replace old value with new value
+      this.pushVoid('replace3');
+
+      if (ts.isIdentifier(expr)) {
+        const name = expr.getText();
+        const { index } = this.frame[name];
+        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      } else {
+        throw new Error(`Can't update ${ts.SyntaxKind[expr.kind]} array`);
+      }
+
+      return;
+    }
+
     if (['&&', '||'].includes(node.operatorToken.getText())) {
       this.processLogicalExpression(node);
       return;
@@ -942,7 +976,7 @@ export default class Compiler {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
     }
-    const target = this.frame[node.getText()] || this.scratch[node.getText()];
+    const target = this.frame[node.getText()];
 
     this.push(
       `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
@@ -993,7 +1027,7 @@ export default class Compiler {
 
     this.processNode(node.initializer);
 
-    this.scratch[name] = {
+    this.frame[name] = {
       index: this.frameIndex,
       type: this.lastType,
     };
@@ -1189,7 +1223,7 @@ export default class Compiler {
         return;
       }
 
-      if (this.frame[n.expression.getText()] || this.scratch[n.expression.getText()]) {
+      if (this.frame[n.expression.getText()]) {
         this.processStorageExpression(n);
         return;
       }
@@ -1550,7 +1584,7 @@ export default class Compiler {
 
   private processStorageExpression(node: ts.PropertyAccessExpression) {
     const name = node.expression.getText();
-    const target = this.frame[name] || this.scratch[name];
+    const target = this.frame[name];
 
     this.push(
       `frame_dig ${target.index} // ${name}: ${target.type}`,

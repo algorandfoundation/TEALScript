@@ -51,4 +51,12 @@ class AbiTest extends Contract {
 
     return a[n];
   }
+
+  setStaticArrayElement(): uint64 {
+    const a: Static<uint64[], 3> = [11, 22, 33];
+
+    a[1] = 222;
+
+    return a[1];
+  }
 }
