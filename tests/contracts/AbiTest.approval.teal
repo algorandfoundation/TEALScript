@@ -38,7 +38,7 @@ staticArray:
 	proto 2 0
 
 	// tests/contracts/abi.ts:30
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -69,7 +69,7 @@ returnStaticArray:
 	proto 2 0
 
 	// tests/contracts/abi.ts:36
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -139,7 +139,7 @@ nonLiteralStaticArrayElements:
 	frame_bury -3 // n3: uint64
 
 	// tests/contracts/abi.ts:49
-	// a: Static<uint64[], 3> = [n1, n2, n3]
+	// a: StaticArray<uint64, 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
 	frame_dig -2 // n2: uint64
@@ -242,7 +242,7 @@ nonLiteralStaticArrayAccess:
 	proto 3 0
 
 	// tests/contracts/abi.ts:64
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -282,7 +282,7 @@ setStaticArrayElement:
 	proto 2 0
 
 	// tests/contracts/abi.ts:71
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -324,7 +324,7 @@ staticArrayInStorageRef:
 	proto 3 0
 
 	// tests/contracts/abi.ts:79
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -348,7 +348,7 @@ staticArrayInStorageRef:
 	box_put
 
 	// tests/contracts/abi.ts:85
-	// ret: Static<uint64[], 3> = [
+	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
 	extract 8 8
@@ -394,7 +394,7 @@ updateStaticArrayInStorageRef:
 	proto 3 0
 
 	// tests/contracts/abi.ts:95
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -463,7 +463,7 @@ updateStaticArrayInStorageRef:
 	box_put
 
 	// tests/contracts/abi.ts:105
-	// ret: Static<uint64[], 3> = [
+	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
 	extract 8 8
@@ -509,7 +509,7 @@ staticArrayInStorageMap:
 	proto 3 0
 
 	// tests/contracts/abi.ts:115
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -533,7 +533,7 @@ staticArrayInStorageMap:
 	box_put
 
 	// tests/contracts/abi.ts:121
-	// ret: Static<uint64[], 3> = [
+	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
 	extract 8 8
@@ -579,7 +579,7 @@ updateStaticArrayInStorageMap:
 	proto 3 0
 
 	// tests/contracts/abi.ts:131
-	// a: Static<uint64[], 3> = [11, 22, 33]
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
@@ -648,7 +648,7 @@ updateStaticArrayInStorageMap:
 	box_put
 
 	// tests/contracts/abi.ts:141
-	// ret: Static<uint64[], 3> = [
+	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
 	extract 8 8

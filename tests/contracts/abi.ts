@@ -8,17 +8,17 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class AbiTest extends Contract {
-  gRef = new GlobalReference<Static<uint64[], 3>>({ key: 'gRef' });
+  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalReference<Static<uint64[], 3>>({ key: 'lRef' });
+  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxReference<Static<uint64[], 3>>({ key: 'bRef' });
+  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalMap<string, Static<uint64[], 3>>();
+  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
 
-  lMap = new LocalMap<string, Static<uint64[], 3>>();
+  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, Static<uint64[], 3>>();
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
 
   @createApplication
   create(): void {}
@@ -27,18 +27,18 @@ class AbiTest extends Contract {
   optIn(): void {}
 
   staticArray(): uint64 {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     return a[1];
   }
 
-  returnStaticArray(): Static<uint64[], 3> {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+  returnStaticArray(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     return a;
   }
 
-  staticArrayArg(a: Static<uint64[], 3>): uint64 {
+  staticArrayArg(a: StaticArray<uint64, 3>): uint64 {
     return a[1];
   }
 
@@ -46,7 +46,7 @@ class AbiTest extends Contract {
     const n1 = 11;
     const n2 = 22;
     const n3 = 33;
-    const a: Static<uint64[], 3> = [n1, n2, n3];
+    const a: StaticArray<uint64, 3> = [n1, n2, n3];
 
     return a[1];
   }
@@ -61,28 +61,28 @@ class AbiTest extends Contract {
   }
 
   nonLiteralStaticArrayAccess(): uint64 {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
     const n = 1;
 
     return a[n];
   }
 
   setStaticArrayElement(): uint64 {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     a[1] = 222;
 
     return a[1];
   }
 
-  staticArrayInStorageRef(): Static<uint64[], 3> {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+  staticArrayInStorageRef(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     this.gRef.put(a);
     this.lRef.put(this.txn.sender, a);
     this.bRef.put(a);
 
-    const ret: Static<uint64[], 3> = [
+    const ret: StaticArray<uint64, 3> = [
       this.gRef.get()[1],
       this.lRef.get(this.txn.sender)[1],
       this.bRef.get()[1],
@@ -91,8 +91,8 @@ class AbiTest extends Contract {
     return ret;
   }
 
-  updateStaticArrayInStorageRef(): Static<uint64[], 3> {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+  updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     this.gRef.put(a);
     this.lRef.put(this.txn.sender, a);
@@ -102,7 +102,7 @@ class AbiTest extends Contract {
     this.lRef.get(this.txn.sender)[1] = 222;
     this.bRef.get()[1] = 333;
 
-    const ret: Static<uint64[], 3> = [
+    const ret: StaticArray<uint64, 3> = [
       this.gRef.get()[1],
       this.lRef.get(this.txn.sender)[1],
       this.bRef.get()[1],
@@ -111,14 +111,14 @@ class AbiTest extends Contract {
     return ret;
   }
 
-  staticArrayInStorageMap(): Static<uint64[], 3> {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+  staticArrayInStorageMap(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     this.gMap.put('gMap', a);
     this.lMap.put(this.txn.sender, 'lMap', a);
     this.bMap.put('bMap', a);
 
-    const ret: Static<uint64[], 3> = [
+    const ret: StaticArray<uint64, 3> = [
       this.gMap.get('gMap')[1],
       this.lMap.get(this.txn.sender, 'lMap')[1],
       this.bMap.get('bMap')[1],
@@ -127,8 +127,8 @@ class AbiTest extends Contract {
     return ret;
   }
 
-  updateStaticArrayInStorageMap(): Static<uint64[], 3> {
-    const a: Static<uint64[], 3> = [11, 22, 33];
+  updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
 
     this.gMap.put('gMap', a);
     this.lMap.put(this.txn.sender, 'lMap', a);
@@ -138,7 +138,7 @@ class AbiTest extends Contract {
     this.lMap.get(this.txn.sender, 'lMap')[1] = 2222;
     this.bMap.get('bMap')[1] = 3333;
 
-    const ret: Static<uint64[], 3> = [
+    const ret: StaticArray<uint64, 3> = [
       this.gMap.get('gMap')[1],
       this.lMap.get(this.txn.sender, 'lMap')[1],
       this.bMap.get('bMap')[1],
