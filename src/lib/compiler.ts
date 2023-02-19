@@ -282,7 +282,9 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 0 : 1]);
+        if (node.arguments[key ? 0 : 1]) {
+          this.processNode(node.arguments[key ? 0 : 1]);
+        } else this.pushVoid('swap'); // Used when updating storage array
 
         this.push('app_global_put', valueType);
       },
@@ -364,7 +366,9 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 1 : 2]);
+        if (node.arguments[key ? 1 : 2]) {
+          this.processNode(node.arguments[key ? 1 : 2]);
+        } else this.pushVoid('uncover 2'); // Used when updating storage array
 
         this.push('app_local_put', valueType);
       },
@@ -445,7 +449,10 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 0 : 1]);
+        if (node.arguments[key ? 0 : 1]) {
+          this.processNode(node.arguments[key ? 0 : 1]);
+        } else this.pushVoid('swap'); // Used when updating storage array
+
         if (isNumeric(valueType)) this.pushVoid('itob');
 
         this.push('box_put', valueType);
@@ -919,6 +926,14 @@ export default class Compiler {
         const name = expr.getText();
         const { index } = this.frame[name];
         this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      } else if (
+        ts.isCallExpression(expr)
+          && ts.isPropertyAccessExpression(expr.expression)
+          && ts.isPropertyAccessExpression(expr.expression.expression)
+          && Object.keys(this.storageProps).includes(expr.expression.expression?.name?.getText())
+      ) {
+        const storageProp = this.storageProps[expr.expression.expression.name.getText()];
+        this.storageFunctions[storageProp.type].put(expr);
       } else {
         throw new Error(`Can't update ${ts.SyntaxKind[expr.kind]} array`);
       }
@@ -1155,7 +1170,7 @@ export default class Compiler {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: node.initializer.typeArguments![0].getText(),
-        valueType: node.initializer.typeArguments![1].getText(),
+        valueType: getABIType(node.initializer.typeArguments![1].getText()),
       };
 
       if (node.initializer?.arguments?.[0] !== undefined) {
@@ -1185,7 +1200,7 @@ export default class Compiler {
         type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.initializer.text,
         keyType: 'string',
-        valueType: node.initializer.typeArguments![0].getText(),
+        valueType: getABIType(node.initializer.typeArguments![0].getText()),
       };
 
       const sizeProp = arg.properties.find(
@@ -1720,12 +1735,13 @@ export default class Compiler {
     // eslint-disable-next-line no-restricted-syntax
     for (const [k, v] of Object.entries(this.storageProps)) {
       // eslint-disable-next-line default-case
+      // TODO; Proper global/local types?
       switch (v.type) {
         case 'global':
-          globalDeclared[k] = { type: v.valueType, key: k };
+          globalDeclared[k] = { type: 'bytes', key: k };
           break;
         case 'local':
-          localDeclared[k] = { type: v.valueType, key: k };
+          localDeclared[k] = { type: 'bytes', key: k };
           break;
         default:
           // TODO: boxes?

@@ -8,8 +8,17 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class AbiTest extends Contract {
+  gRef = new GlobalReference<Static<uint64[], 3>>({ key: 'gRef' });
+
+  lRef = new LocalReference<Static<uint64[], 3>>({ key: 'lRef' });
+
+  bRef = new BoxReference<Static<uint64[], 3>>({ key: 'bRef' });
+
   @createApplication
   create(): void {}
+
+  @optIn
+  optIn(): void {}
 
   staticArray(): uint64 {
     const a: Static<uint64[], 3> = [11, 22, 33];
@@ -58,5 +67,41 @@ class AbiTest extends Contract {
     a[1] = 222;
 
     return a[1];
+  }
+
+  staticArrayInStorageRef(): Static<uint64[], 3> {
+    const a: Static<uint64[], 3> = [11, 22, 33];
+
+    this.gRef.put(a);
+    this.lRef.put(this.txn.sender, a);
+    this.bRef.put(a);
+
+    const ret: Static<uint64[], 3> = [
+      this.gRef.get()[1],
+      this.lRef.get(this.txn.sender)[1],
+      this.bRef.get()[1],
+    ];
+
+    return ret;
+  }
+
+  updateStaticArrayInStorageRef(): Static<uint64[], 3> {
+    const a: Static<uint64[], 3> = [11, 22, 33];
+
+    this.gRef.put(a);
+    this.lRef.put(this.txn.sender, a);
+    this.bRef.put(a);
+
+    this.gRef.get()[1] = 111;
+    this.lRef.get(this.txn.sender)[1] = 222;
+    this.bRef.get()[1] = 333;
+
+    const ret: Static<uint64[], 3> = [
+      this.gRef.get()[1],
+      this.lRef.get(this.txn.sender)[1],
+      this.bRef.get()[1],
+    ];
+
+    return ret;
   }
 }

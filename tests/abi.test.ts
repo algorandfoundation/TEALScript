@@ -2,21 +2,35 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
 import { sandbox, clients } from 'beaker-ts';
+import { AtomicTransactionComposer, makePaymentTxnWithSuggestedParamsFromObject } from 'algosdk';
 import { AbiTest } from './contracts/clients/abitest_client';
 
 let appClient: AbiTest;
 
 describe('ABI', function () {
   before(async function () {
-    const acct = (await sandbox.getAccounts()).pop();
+    const acct = (await sandbox.getAccounts()).pop()!;
 
     appClient = new AbiTest({
       client: clients.sandboxAlgod(),
-      signer: acct!.signer,
-      sender: acct!.addr,
+      signer: acct.signer,
+      sender: acct.addr,
     });
 
     await appClient.create();
+    await appClient.optIn();
+
+    const atc = new AtomicTransactionComposer();
+
+    const txn = makePaymentTxnWithSuggestedParamsFromObject({
+      from: acct.addr,
+      to: appClient.appAddress,
+      amount: 113700,
+      suggestedParams: await clients.sandboxAlgod().getTransactionParams().do(),
+    });
+
+    atc.addTransaction({ txn, signer: acct.signer });
+    await atc.execute(clients.sandboxAlgod(), 3);
   });
 
   it('staticArray', async function () {
@@ -54,5 +68,20 @@ describe('ABI', function () {
   it('setStaticArrayElement', async function () {
     const ret = await appClient.setStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
+  });
+
+  it('staticArrayInStorageRef', async function () {
+    const ret = await appClient.staticArrayInStorageRef(
+      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
+    );
+    expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
+  });
+
+  it('updateStaticArrayInStorageRef', async function () {
+    const ret = await appClient.updateStaticArrayInStorageRef(
+      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
+    );
+
+    expect(ret.returnValue).to.deep.equal([BigInt(111), BigInt(222), BigInt(333)]);
   });
 });
