@@ -954,6 +954,16 @@ export default class Compiler {
     }
   }
 
+  private getStackTypeFromNode(node: ts.Node) {
+    const preType = this.lastType;
+    const preTeal = new Array(...this.teal);
+    this.processNode(node);
+    const type = this.lastType;
+    this.lastType = preType;
+    this.teal = preTeal;
+    return type;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression) {
     if (node.operatorToken.getText() === '=') {
       this.addSourceComment(node);
@@ -965,10 +975,7 @@ export default class Compiler {
       const type = this.lastType.replace(/\[\d+\]$/, '');
       let depth = (type.match(/\[\d+]/g) || []).length;
 
-      const prePeekTeal = new Array(...this.teal);
-      this.processNode(node.left);
-      const leftType = this.lastType;
-      this.teal = prePeekTeal;
+      const leftType = this.getStackTypeFromNode(node.left);
 
       this.typeHint.text = leftType;
 
@@ -988,11 +995,8 @@ export default class Compiler {
       // TODO: Optimize literal access arguments
       depthChain.reverse().forEach((n) => {
         this.processNode(n.argumentExpression);
-        const preTeal = new Array(...this.teal);
-        this.processNode(n);
-        console.log(this.lastType);
-        this.teal = preTeal;
-        this.pushVoid(`int ${getTypeLength(this.lastType)} // len(${this.lastType})`);
+        const t = this.getStackTypeFromNode(n);
+        this.pushVoid(`int ${getTypeLength(t)} // len(${t})`);
         this.pushVoid('*');
         this.pushVoid('+');
       });
