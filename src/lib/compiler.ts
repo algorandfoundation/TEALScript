@@ -13,6 +13,26 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
+function getABIType(
+  type: string,
+  typeNode?: ts.Expression | ts.Node,
+): string {
+  const abiType = type.toLowerCase();
+
+  if (abiType.toLowerCase().startsWith('static')) {
+    if (typeNode === undefined) throw new Error(type);
+
+    if (ts.isExpressionWithTypeArguments(typeNode) || ts.isTypeReferenceNode(typeNode)) {
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return `${getABIType(innerType.getText(), innerType)}[${length}]`;
+    }
+  }
+
+  return abiType;
+}
+
 function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
   if (type.toLowerCase().startsWith('staticarray')) {
     if (typeNode === undefined) throw new Error(type);
@@ -32,6 +52,17 @@ function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
     return getTypeLength(innerType) * length;
   }
 
+  if (type.startsWith('[')) {
+    const tNode = stringToExpression(type);
+    if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
+    let totalLength = 0;
+    const types = tNode.elements.forEach((t) => {
+      totalLength += getTypeLength(t.getText());
+    });
+
+    return totalLength;
+  }
+
   if (type.startsWith('uint')) {
     return parseInt(type.slice(4), 10) / 8;
   }
@@ -46,26 +77,6 @@ function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
     default:
       throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
   }
-}
-
-function getABIType(
-  type: string,
-  typeNode?: ts.Expression | ts.Node,
-): string {
-  const abiType = type.toLowerCase();
-
-  if (abiType.toLowerCase().startsWith('static')) {
-    if (typeNode === undefined) throw new Error(type);
-
-    if (ts.isExpressionWithTypeArguments(typeNode) || ts.isTypeReferenceNode(typeNode)) {
-      const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
-
-      return `${getABIType(innerType.getText(), innerType)}[${length}]`;
-    }
-  }
-
-  return abiType;
 }
 
 // Represents the stack types available in the AVM

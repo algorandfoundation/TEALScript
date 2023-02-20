@@ -920,6 +920,48 @@ arrayInTuple:
 	log
 	retsub
 
+abi_route_tupleInArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub tupleInArray
+	int 1
+	return
+
+tupleInArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:197
+	// a: StaticArray<[uint64, uint16], 2> = [
+	byte 0x000000000000000b
+	int 22
+	itob
+	extract 6 0
+	concat
+	byte 0x0000000000000021
+	int 44
+	itob
+	extract 6 0
+	concat
+	concat
+	frame_bury -1 // a: [uint64, uint16][2]
+
+	// tests/contracts/abi.ts:201
+	// return a[1][1];
+	frame_dig -1 // a: [uint64, uint16][2]
+	extract 10 10
+	extract 8 2
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -954,5 +996,6 @@ route_abi:
 	method "threeDimensionalUint16Array()uint16"
 	method "simpleTuple()uint16"
 	method "arrayInTuple()uint64"
+	method "tupleInArray()uint16"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray

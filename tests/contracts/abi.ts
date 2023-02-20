@@ -192,4 +192,12 @@ class AbiTest extends Contract {
 
     return a[2][1];
   }
+
+  tupleInArray(): uint16 {
+    const a: StaticArray<[uint64, uint16], 2> = [
+      [11, 22 as uint16], [33, 44 as uint16],
+    ];
+
+    return a[1][1];
+  }
 }
