@@ -202,10 +202,18 @@ class AbiTest extends Contract {
   }
 
   tupleInTuple(): uint64 {
-    const a: [uint64, uint16, [uint64, uint16], [uint16, uint64]] = [
-      11, 22 as uint16, [33, 44 as uint16], [55 as uint16, 66],
+    const a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+      11 as uint16, 22 as uint16, [33, 44 as uint16], [55 as uint16, 66],
     ];
 
     return a[3][1];
+  }
+
+  shortTypeNotation(): uint16 {
+    const a: [uint16<2>, uint64<2>, uint16<2>] = [
+      [11 as uint16, 22 as uint16], [33, 44], [55 as uint16, 66 as uint16],
+    ];
+
+    return a[2][1];
   }
 }

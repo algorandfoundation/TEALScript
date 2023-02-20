@@ -977,8 +977,10 @@ tupleInTuple:
 	proto 2 0
 
 	// tests/contracts/abi.ts:205
-	// a: [uint64, uint16, [uint64, uint16], [uint16, uint64]] = [
-	byte 0x000000000000000b
+	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+	int 11
+	itob
+	extract 6 0
 	int 22
 	itob
 	extract 6 0
@@ -995,15 +997,63 @@ tupleInTuple:
 	byte 0x0000000000000042
 	concat
 	concat
-	frame_bury -1 // a: [uint64, uint16, [uint64, uint16], [uint16, uint64]]
+	frame_bury -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
 
 	// tests/contracts/abi.ts:209
 	// return a[3][1];
-	frame_dig -1 // a: [uint64, uint16, [uint64, uint16], [uint16, uint64]]
-	extract 20 10
+	frame_dig -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
+	extract 14 10
 	extract 2 8
 	btoi
 	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_shortTypeNotation:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub shortTypeNotation
+	int 1
+	return
+
+shortTypeNotation:
+	proto 2 0
+
+	// tests/contracts/abi.ts:213
+	// a: [uint16<2>, uint64<2>, uint16<2>] = [
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat
+	byte 0x0000000000000021000000000000002c
+	concat
+	int 55
+	itob
+	extract 6 0
+	int 66
+	itob
+	extract 6 0
+	concat
+	concat
+	frame_bury -1 // a: [uint16<2>, uint64<2>, uint16<2>]
+
+	// tests/contracts/abi.ts:217
+	// return a[2][1];
+	frame_dig -1 // a: [uint16<2>, uint64<2>, uint16<2>]
+	extract 20 4
+	extract 2 2
+	byte 0xFFFF
+	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -1046,5 +1096,6 @@ route_abi:
 	method "arrayInTuple()uint64"
 	method "tupleInArray()uint16"
 	method "tupleInTuple()uint64"
+	method "shortTypeNotation()uint16"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation

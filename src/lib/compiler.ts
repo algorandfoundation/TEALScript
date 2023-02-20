@@ -19,7 +19,11 @@ function getABIType(
 ): string {
   const abiType = type.toLowerCase();
 
-  if (abiType.toLowerCase().startsWith('static')) {
+  if (abiType.match(/<\d+>$/)) {
+    return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
+  }
+
+  if (abiType.startsWith('static')) {
     if (typeNode === undefined) throw new Error(type);
 
     if (ts.isExpressionWithTypeArguments(typeNode) || ts.isTypeReferenceNode(typeNode)) {
@@ -33,11 +37,14 @@ function getABIType(
   return abiType;
 }
 
-function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
+function getTypeLength(
+  type: string,
+  typeNode?: ts.TypeNode | ts.ExpressionWithTypeArguments,
+): number {
   if (type.toLowerCase().startsWith('staticarray')) {
     if (typeNode === undefined) throw new Error(type);
 
-    if (ts.isTypeReferenceNode(typeNode)) {
+    if (ts.isTypeReferenceNode(typeNode) || ts.isExpressionWithTypeArguments(typeNode)) {
       const innerType = typeNode!.typeArguments![0];
       const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
 
@@ -63,7 +70,11 @@ function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
     return totalLength;
   }
 
-  if (type.startsWith('uint')) {
+  if (type.match(/<\d+>$/)) {
+    return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * getTypeLength(type.match(/\w+/)![0]);
+  }
+
+  if (type.match(/uint\d+$/)) {
     return parseInt(type.slice(4), 10) / 8;
   }
   switch (type) {
@@ -782,9 +793,28 @@ export default class Compiler {
 
     const abiTypeHint = getABIType(this.typeHint.text!, this.typeHint.node);
 
-    const length = getTypeLength(abiTypeHint.match(/\w+/)![0]);
+    const typeNode = stringToExpression(abiTypeHint);
+    let innerTypeNodes: ts.ExpressionWithTypeArguments[] = [];
+    let innerTypes: string[];
+
+    if (ts.isArrayLiteralExpression(typeNode)) {
+      innerTypes = typeNode.elements.map((t) => t.getText());
+      innerTypeNodes = new Array(...typeNode.elements) as ts.ExpressionWithTypeArguments[];
+    }
 
     node.elements.forEach((e, i) => {
+      let type: string;
+      let length: number;
+
+      if (innerTypes) {
+        type = innerTypes[i];
+        length = getTypeLength(innerTypes[i], innerTypeNodes[i]);
+        this.typeHint = { text: innerTypes[i], node: innerTypeNodes[i] };
+      } else {
+        type = abiTypeHint.match(/\w+/)![0]!;
+        length = getTypeLength(type);
+      }
+
       if (ts.isNumericLiteral(e)) {
         hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
 
@@ -851,10 +881,12 @@ export default class Compiler {
 
     if (this.lastType.match(/\[\d+]/)) {
       type = this.lastType.replace(/\[\d+\]$/, '');
+    } else if (this.lastType.match(/<\d+>$/)) {
+      [type] = this.lastType.match(/\w+/)!;
     } else {
       const accessor = parseInt(node.getText(), 10);
       const typeNode = stringToExpression(this.lastType);
-      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error(`${typeNode.getText()}`);
       types = typeNode.elements.map((t) => {
         if (
           !ts.isExpressionWithTypeArguments(t)
@@ -938,7 +970,7 @@ export default class Compiler {
 
     // Automatically convert to larger int IF the types dont match
     if (returnType !== this.lastType) {
-      if (this.lastType?.startsWith('uint')) {
+      if (this.lastType?.match(/uint\d+$/)) {
         const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
         const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
         if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
@@ -1108,7 +1140,7 @@ export default class Compiler {
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
       this.push(operator, StackType.uint64);
-    } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
+    } else if (this.lastType.match(/uint\d+/) || this.lastType.match(/uifxed\d+x\d+$/)) {
       this.push(`b${operator}`, leftType);
     } else {
       this.push(operator, StackType.uint64);
@@ -1164,7 +1196,7 @@ export default class Compiler {
     this.processNode(node.expression);
 
     const type = getABIType(node.type.getText());
-    if (type.startsWith('uint') && type !== this.lastType) {
+    if (type.match(/uint\d+$/) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid('itob');

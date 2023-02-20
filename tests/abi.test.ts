@@ -17,7 +17,7 @@ describe('ABI', function () {
       sender: acct.addr,
     });
 
-    await appClient.create();
+    await appClient.create({ extraPages: 2 });
     await appClient.optIn();
 
     const atc = new AtomicTransactionComposer();
@@ -137,6 +137,11 @@ describe('ABI', function () {
 
   it('tupleInTuple', async function () {
     const ret = await appClient.tupleInTuple();
+    expect(ret.returnValue).to.equal(BigInt(66));
+  });
+
+  it('shortTypeNotation', async function () {
+    const ret = await appClient.shortTypeNotation();
     expect(ret.returnValue).to.equal(BigInt(66));
   });
 });
