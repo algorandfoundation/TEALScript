@@ -134,4 +134,9 @@ describe('ABI', function () {
     const ret = await appClient.tupleInArray();
     expect(ret.returnValue).to.equal(BigInt(44));
   });
+
+  it('tupleInTuple', async function () {
+    const ret = await appClient.tupleInTuple();
+    expect(ret.returnValue).to.equal(BigInt(66));
+  });
 });

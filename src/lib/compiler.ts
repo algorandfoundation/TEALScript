@@ -857,7 +857,9 @@ export default class Compiler {
       if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
       types = typeNode.elements.map((t) => {
         if (
-          !ts.isExpressionWithTypeArguments(t) && !ts.isIdentifier(t)
+          !ts.isExpressionWithTypeArguments(t)
+          && !ts.isIdentifier(t)
+          && !ts.isArrayLiteralExpression(t)
         ) throw new Error(ts.SyntaxKind[t.kind]);
         return getABIType(t.getText(), t);
       });

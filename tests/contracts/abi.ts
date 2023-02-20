@@ -200,4 +200,12 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+
+  tupleInTuple(): uint64 {
+    const a: [uint64, uint16, [uint64, uint16], [uint16, uint64]] = [
+      11, 22 as uint16, [33, 44 as uint16], [55 as uint16, 66],
+    ];
+
+    return a[3][1];
+  }
 }
