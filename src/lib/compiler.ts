@@ -1,8 +1,13 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { decodedTextSpanIntersectsWith, isStringLiteral } from 'typescript';
+import ts from 'typescript';
 import * as langspec from '../langspec.json';
+
+function stringToExpression(str: string) {
+  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+}
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
@@ -43,13 +48,16 @@ function getTypeLength(type: string, typeNode?: ts.TypeNode): number {
   }
 }
 
-function getABIType(type: string, typeNode?: ts.TypeNode): string {
+function getABIType(
+  type: string,
+  typeNode?: ts.Expression | ts.Node,
+): string {
   const abiType = type.toLowerCase();
 
   if (abiType.toLowerCase().startsWith('static')) {
     if (typeNode === undefined) throw new Error(type);
 
-    if (ts.isTypeReferenceNode(typeNode)) {
+    if (ts.isExpressionWithTypeArguments(typeNode) || ts.isTypeReferenceNode(typeNode)) {
       const innerType = typeNode!.typeArguments![0];
       const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
 
@@ -719,7 +727,7 @@ export default class Compiler {
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
       else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);
       else if (ts.isVariableDeclaration(node)) this.processVariableDeclarator(node);
-      else if (ts.isNumericLiteral(node) || isStringLiteral(node)) this.processLiteral(node);
+      else if (ts.isNumericLiteral(node) || ts.isStringLiteral(node)) this.processLiteral(node);
 
       // Logical
       else if (ts.isBlock(node)) this.processBlockStatement(node);
@@ -834,7 +842,14 @@ export default class Compiler {
       type = this.lastType.replace(/\[\d+\]$/, '');
     } else {
       const accessor = parseInt(node.getText(), 10);
-      types = this.lastType.replace(']', '').replace('[', '').split(',').map((t) => t.trim());
+      const typeNode = stringToExpression(this.lastType);
+      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+      types = typeNode.elements.map((t) => {
+        if (
+          !ts.isExpressionWithTypeArguments(t) && !ts.isIdentifier(t)
+        ) throw new Error(ts.SyntaxKind[t.kind]);
+        return getABIType(t.getText(), t);
+      });
       type = types[accessor];
     }
 
