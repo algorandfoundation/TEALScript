@@ -174,20 +174,20 @@ class AbiTest extends Contract {
       [[11, 22], [33, 44]], [[55, 66], [77, 88]],
     ];
 
-    a[1][1] = [777 as uint16, 888 as uint16];
+    a[1][1] = [777, 888];
 
     return a[1][1][1];
   }
 
   simpleTuple(): uint16 {
-    const a: [uint64, uint16, uint64, uint16] = [11, 22 as uint16, 33, 44 as uint16];
+    const a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44];
 
     return a[3];
   }
 
   arrayInTuple(): uint64 {
     const a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
-      11, 22 as uint16, [33, 44], 55 as uint16,
+      11, 22, [33, 44], 55,
     ];
 
     return a[2][1];
@@ -195,7 +195,7 @@ class AbiTest extends Contract {
 
   tupleInArray(): uint16 {
     const a: StaticArray<[uint64, uint16], 2> = [
-      [11, 22 as uint16], [33, 44 as uint16],
+      [11, 22], [33, 44],
     ];
 
     return a[1][1];
@@ -203,7 +203,7 @@ class AbiTest extends Contract {
 
   tupleInTuple(): uint64 {
     const a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
-      11 as uint16, 22 as uint16, [33, 44 as uint16], [55 as uint16, 66],
+      11, 22, [33, 44], [55, 66],
     ];
 
     return a[3][1];
@@ -211,7 +211,7 @@ class AbiTest extends Contract {
 
   shortTypeNotation(): uint16 {
     const a: [uint16<2>, uint64<2>, uint16<2>] = [
-      [11 as uint16, 22 as uint16], [33, 44], [55 as uint16, 66 as uint16],
+      [11, 22], [33, 44], [55, 66],
     ];
 
     return a[2][1];

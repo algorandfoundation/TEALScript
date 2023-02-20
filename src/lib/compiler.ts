@@ -798,8 +798,14 @@ export default class Compiler {
     let innerTypes: string[];
 
     if (ts.isArrayLiteralExpression(typeNode)) {
-      innerTypes = typeNode.elements.map((t) => t.getText());
+      innerTypes = typeNode.elements.map((t) => getABIType(t.getText(), t));
       innerTypeNodes = new Array(...typeNode.elements) as ts.ExpressionWithTypeArguments[];
+    } else if (ts.isElementAccessExpression(typeNode)
+    && ts.isArrayLiteralExpression(typeNode.expression)) {
+      innerTypes = typeNode.expression.elements.map((t) => getABIType(t.getText(), t));
+      innerTypeNodes = new Array(
+        ...typeNode.expression.elements,
+      ) as ts.ExpressionWithTypeArguments[];
     }
 
     node.elements.forEach((e, i) => {
@@ -835,7 +841,7 @@ export default class Compiler {
       }
 
       this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      if (isNumeric(this.lastType) && !innerTypes) this.pushVoid('itob');
       if (bytesOnStack) this.pushVoid('concat');
 
       bytesOnStack = true;

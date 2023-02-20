@@ -810,16 +810,10 @@ threeDimensionalUint16Array:
 	frame_bury -1 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.ts:177
-	// a[1][1] = [777 as uint16, 888 as uint16]
+	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
 	int 12 // offset calculated from literal access arguments
-	int 777
-	itob
-	extract 6 0
-	int 888
-	itob
-	extract 6 0
-	concat
+	byte 0x03090378
 	replace3
 	frame_bury -1 // a: uint16[2][2]
 
@@ -852,18 +846,8 @@ simpleTuple:
 	proto 2 0
 
 	// tests/contracts/abi.ts:183
-	// a: [uint64, uint16, uint64, uint16] = [11, 22 as uint16, 33, 44 as uint16]
-	byte 0x000000000000000b
-	int 22
-	itob
-	extract 6 0
-	concat
-	byte 0x0000000000000021
-	concat
-	int 44
-	itob
-	extract 6 0
-	concat
+	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
+	byte 0x000000000000000b00160000000000000021002c
 	frame_bury -1 // a: [uint64, uint16, uint64, uint16]
 
 	// tests/contracts/abi.ts:185
@@ -894,16 +878,10 @@ arrayInTuple:
 
 	// tests/contracts/abi.ts:189
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
-	byte 0x000000000000000b
-	int 22
-	itob
-	extract 6 0
-	concat
+	byte 0x000000000000000b0016
 	byte 0x0000000000000021000000000000002c
 	concat
-	int 55
-	itob
-	extract 6 0
+	byte 0x0037
 	concat
 	frame_bury -1 // a: [uint64, uint16, staticarray<uint64, 2>, uint16]
 
@@ -936,16 +914,8 @@ tupleInArray:
 
 	// tests/contracts/abi.ts:197
 	// a: StaticArray<[uint64, uint16], 2> = [
-	byte 0x000000000000000b
-	int 22
-	itob
-	extract 6 0
-	concat
-	byte 0x0000000000000021
-	int 44
-	itob
-	extract 6 0
-	concat
+	byte 0x000000000000000b0000000000000016
+	byte 0x0021002c
 	concat
 	frame_bury -1 // a: [uint64, uint16][2]
 
@@ -978,24 +948,10 @@ tupleInTuple:
 
 	// tests/contracts/abi.ts:205
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
-	int 11
-	itob
-	extract 6 0
-	int 22
-	itob
-	extract 6 0
+	byte 0x000b0016
+	byte 0x0000000000000021002c
 	concat
-	byte 0x0000000000000021
-	int 44
-	itob
-	extract 6 0
-	concat
-	concat
-	int 55
-	itob
-	extract 6 0
-	byte 0x0000000000000042
-	concat
+	byte 0x00370000000000000042
 	concat
 	frame_bury -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
 
@@ -1028,22 +984,10 @@ shortTypeNotation:
 
 	// tests/contracts/abi.ts:213
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
-	int 11
-	itob
-	extract 6 0
-	int 22
-	itob
-	extract 6 0
-	concat
+	byte 0x000b0016
 	byte 0x0000000000000021000000000000002c
 	concat
-	int 55
-	itob
-	extract 6 0
-	int 66
-	itob
-	extract 6 0
-	concat
+	byte 0x00370042
 	concat
 	frame_bury -1 // a: [uint16<2>, uint64<2>, uint16<2>]
 
