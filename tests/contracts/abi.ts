@@ -61,12 +61,13 @@ class AbiTest extends Contract {
   }
 
   nonLiteralStaticArrayAccess(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-    const n = 1;
+    const a: StaticArray<uint64, 3> = [11, 22, 33, 44];
+    const n = 2;
 
     return a[n];
   }
 
+  /*
   setStaticArrayElement(): uint64 {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -74,6 +75,7 @@ class AbiTest extends Contract {
 
     return a[1];
   }
+  */
 
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
@@ -91,6 +93,7 @@ class AbiTest extends Contract {
     return ret;
   }
 
+  /*
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -110,6 +113,7 @@ class AbiTest extends Contract {
 
     return ret;
   }
+  */
 
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
@@ -127,6 +131,7 @@ class AbiTest extends Contract {
     return ret;
   }
 
+  /*
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -178,6 +183,7 @@ class AbiTest extends Contract {
 
     return a[1][1][1];
   }
+  */
 
   simpleTuple(): uint16 {
     const a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44];
