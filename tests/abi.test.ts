@@ -65,13 +65,10 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(33));
   });
 
-  /*
-
   it('setStaticArrayElement', async function () {
     const ret = await appClient.setStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
-  */
 
   it('staticArrayInStorageRef', async function () {
     const ret = await appClient.staticArrayInStorageRef(
@@ -80,7 +77,6 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  /*
   it('updateStaticArrayInStorageRef', async function () {
     const ret = await appClient.updateStaticArrayInStorageRef(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
@@ -88,7 +84,6 @@ describe('ABI', function () {
 
     expect(ret.returnValue).to.deep.equal([BigInt(111), BigInt(222), BigInt(333)]);
   });
-  */
 
   it('staticArrayInStorageMap', async function () {
     const ret = await appClient.staticArrayInStorageMap(
@@ -97,7 +92,6 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  /*
   it('updateStaticArrayInStorageMap', async function () {
     const ret = await appClient.updateStaticArrayInStorageMap(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
@@ -126,7 +120,6 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(888));
   });
 
-  */
   it('simpleTuple', async function () {
     const ret = await appClient.simpleTuple();
     expect(ret.returnValue).to.equal(BigInt(44));

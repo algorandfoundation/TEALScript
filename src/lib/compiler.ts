@@ -864,7 +864,7 @@ export default class Compiler {
     return chain;
   }
 
-  private processStaticArray(node: ts.ElementAccessExpression): void {
+  private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
 
     let offset = 0;
@@ -910,9 +910,36 @@ export default class Compiler {
     if (offset) this.pushLines(`int ${offset}`);
     if (intsOnStack && offset) this.pushVoid('+');
 
-    this.pushVoid(`int ${getTypeLength(type)}`);
-    this.push('extract3', type);
-    if (isNumeric(type)) this.push('btoi', type);
+    if (newValue === undefined) {
+      this.pushVoid(`int ${getTypeLength(type)}`);
+      this.push('extract3', type);
+      if (isNumeric(type)) this.push('btoi', type);
+    } else {
+      this.processNode(newValue);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      this.pushVoid('replace3');
+
+      // Add back to frame/storage if necessary
+      if (ts.isIdentifier(chain[0].expression)) {
+        const name = chain[0].expression.getText();
+        const { index } = this.frame[name];
+        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      } else if (
+        ts.isCallExpression(chain[0].expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression.expression)
+                && Object.keys(this.storageProps).includes(
+                  chain[0].expression.expression.expression?.name?.getText(),
+                )
+      ) {
+        const storageProp = this.storageProps[
+          chain[0].expression.expression.expression.name.getText()
+        ];
+        this.storageFunctions[storageProp.type].put(chain[0].expression);
+      } else {
+        throw new Error(`Can't update ${ts.SyntaxKind[chain[0].expression.kind]} array`);
+      }
+    }
   }
 
   private processElementAccessExpression(node: ts.ElementAccessExpression) {
@@ -1037,8 +1064,16 @@ export default class Compiler {
 
   private processBinaryExpression(node: ts.BinaryExpression) {
     if (node.operatorToken.getText() === '=') {
+      this.addSourceComment(node);
+
+      const leftType = this.getStackTypeFromNode(node.left);
+      this.typeHint.text = leftType;
+
       if (!ts.isElementAccessExpression(node.left)) throw new Error();
-      // TODO
+      this.processStaticArray(node.left, node.right);
+
+      this.typeHint.text = undefined;
+      return;
     }
 
     if (['&&', '||'].includes(node.operatorToken.getText())) {
