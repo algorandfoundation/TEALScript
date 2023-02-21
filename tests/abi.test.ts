@@ -62,7 +62,7 @@ describe('ABI', function () {
 
   it('nonLiteralStaticArrayAccess', async function () {
     const ret = await appClient.nonLiteralStaticArrayAccess();
-    expect(ret.returnValue).to.equal(BigInt(22));
+    expect(ret.returnValue).to.equal(BigInt(33));
   });
 
   it('setStaticArrayElement', async function () {

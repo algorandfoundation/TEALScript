@@ -61,8 +61,8 @@ class AbiTest extends Contract {
   }
 
   nonLiteralStaticArrayAccess(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-    const n = 1;
+    const a: StaticArray<uint64, 3> = [11, 22, 33, 44];
+    const n = 2;
 
     return a[n];
   }

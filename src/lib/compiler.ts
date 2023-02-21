@@ -2,6 +2,7 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
+import { access } from 'fs';
 import * as langspec from '../langspec.json';
 
 function stringToExpression(str: string) {
@@ -850,86 +851,113 @@ export default class Compiler {
     this.lastType = abiTypeHint;
   }
 
-  private processElementAccessExpression(
+  private getAccessChain(
     node: ts.ElementAccessExpression,
-    chain: ts.Expression[] = [],
-    equalExpression: boolean = false,
-  ): ts.LeftHandSideExpression {
-    chain.push(node.argumentExpression);
+    chain: ts.ElementAccessExpression[] = [],
+  ) {
+    chain.push(node);
+
     if (ts.isElementAccessExpression(node.expression)) {
-      return this.processElementAccessExpression(node.expression, chain, equalExpression);
+      this.getAccessChain(node.expression, chain);
     }
 
-    this.processNode(node.expression);
-
-    chain.reverse().forEach((e, i) => {
-      if (equalExpression && i === chain.length - 1) return;
-      this.processElementAccessArgumentExpression(e);
-    });
-
-    return node.expression;
+    return chain;
   }
 
-  private processElementAccessArgumentExpression(node: ts.Expression) {
-    if (this.lastType === 'txnGroup') {
-      this.processNode(node);
+  private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
+    const chain = this.getAccessChain(node).reverse();
+
+    let offset = 0;
+    let type: string = '';
+    let intsOnStack = false;
+
+    this.processNode(chain[0].expression);
+
+    chain.forEach((e) => {
+      const baseExpressionType = this.getStackTypeFromNode(e.expression);
+
+      if (baseExpressionType.match(/\[\d+\]$/)) {
+        type = baseExpressionType.replace(/\[\d+\]$/, '');
+
+        if (ts.isNumericLiteral(e.argumentExpression)) {
+          offset += getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
+        } else {
+          this.processNode(e.argumentExpression);
+
+          if (intsOnStack) {
+            this.pushVoid('+');
+            intsOnStack = false;
+          }
+
+          this.pushLines(`int ${getTypeLength(type)}`, '*');
+          intsOnStack = true;
+        }
+      } else if (baseExpressionType.startsWith('[')) {
+        const typeExpression = stringToExpression(baseExpressionType);
+        if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
+
+        const innerTypes = typeExpression.elements.map((t) => t.getText());
+        const accessor = parseInt(e.argumentExpression.getText(), 10);
+
+        innerTypes.forEach((t, i) => {
+          if (i < accessor) {
+            offset += getTypeLength(getABIType(t));
+          } else if (i === accessor) type = getABIType(t, stringToExpression(t));
+        });
+      } else throw new Error(`HERE ${e.getText()}  ${baseExpressionType}`);
+    });
+
+    if (offset) this.pushLines(`int ${offset}`);
+    if (intsOnStack && offset) this.pushVoid('+');
+
+    if (newValue === undefined) {
+      this.pushVoid(`int ${getTypeLength(type)}`);
+      this.push('extract3', type);
+      if (isNumeric(type)) this.push('btoi', type);
+    } else {
+      this.processNode(newValue);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      this.pushVoid('replace3');
+
+      // Add back to frame/storage if necessary
+      if (ts.isIdentifier(chain[0].expression)) {
+        const name = chain[0].expression.getText();
+        const { index } = this.frame[name];
+        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      } else if (
+        ts.isCallExpression(chain[0].expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression.expression)
+                && Object.keys(this.storageProps).includes(
+                  chain[0].expression.expression.expression?.name?.getText(),
+                )
+      ) {
+        const storageProp = this.storageProps[
+          chain[0].expression.expression.expression.name.getText()
+        ];
+        this.storageFunctions[storageProp.type].put(chain[0].expression);
+      } else {
+        throw new Error(`Can't update ${ts.SyntaxKind[chain[0].expression.kind]} array`);
+      }
+    }
+  }
+
+  private processElementAccessExpression(node: ts.ElementAccessExpression) {
+    const baseType = this.getStackTypeFromNode(node.expression);
+    if (baseType === 'txnGroup') {
+      this.processNode(node.expression);
+      this.processNode(node.argumentExpression);
       this.lastType = 'grouptxn';
       return;
     }
 
-    if (this.lastType.startsWith('ImmediateArray')) {
-      this.push(`${this.teal.pop()} ${node.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
+    if (baseType.startsWith('ImmediateArray')) {
+      this.processNode(node.expression);
+      this.push(`${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
       return;
     }
 
-    let type: string;
-    let types: string[] = [];
-
-    if (this.lastType.match(/\[\d+]/)) {
-      type = this.lastType.replace(/\[\d+\]$/, '');
-    } else if (this.lastType.match(/<\d+>$/)) {
-      [type] = this.lastType.match(/\w+/)!;
-    } else {
-      const accessor = parseInt(node.getText(), 10);
-      const typeNode = stringToExpression(this.lastType);
-      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error(`${typeNode.getText()}`);
-      types = typeNode.elements.map((t) => {
-        if (
-          !ts.isExpressionWithTypeArguments(t)
-          && !ts.isIdentifier(t)
-          && !ts.isArrayLiteralExpression(t)
-        ) throw new Error(ts.SyntaxKind[t.kind]);
-        return getABIType(t.getText(), t);
-      });
-      type = types[accessor];
-    }
-
-    const typeLength = getTypeLength(type);
-
-    if (ts.isNumericLiteral(node)) {
-      let offset: number = 0;
-      if (types.length) {
-        const accessor = parseInt(node.getText(), 10);
-
-        types.forEach((t, i) => {
-          if (i < accessor) { offset += getTypeLength(t); }
-        });
-      } else offset = typeLength * parseInt(node.getText(), 10);
-
-      this.pushVoid(`extract ${offset} ${typeLength}`);
-    } else {
-      this.processNode(node);
-      this.pushLines(
-        `int ${typeLength}`,
-        '*',
-        `int ${typeLength}`,
-        'extract3',
-      );
-    }
-
-    if (isNumeric(type)) this.pushVoid('btoi');
-
-    this.lastType = type;
+    this.processStaticArray(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -1051,84 +1079,14 @@ export default class Compiler {
   private processBinaryExpression(node: ts.BinaryExpression) {
     if (node.operatorToken.getText() === '=') {
       this.addSourceComment(node);
-      if (!ts.isElementAccessExpression(node.left)) throw new Error();
-
-      const baseArrayNode = this.getBaseArrayNode(node.left);
-      this.processNode(baseArrayNode);
-
-      const type = this.lastType.replace(/\[\d+\]$/, '');
-      let depth = (type.match(/\[\d+]/g) || []).length;
 
       const leftType = this.getStackTypeFromNode(node.left);
-
       this.typeHint.text = leftType;
 
-      if (leftType.endsWith(']')) depth -= 1;
+      if (!ts.isElementAccessExpression(node.left)) throw new Error();
+      this.processStaticArray(node.left, node.right);
 
-      const depthChain = this.getArrayNodeChain(node.left, depth);
-
-      const typeLength = getTypeLength(type);
-
-      let offsetValue = 0;
-      let intsOnStack = false;
-
-      // Get offset
-      if (ts.isNumericLiteral(node.left.argumentExpression)) {
-        offsetValue += parseInt(node.left.argumentExpression.getText(), 10) * typeLength;
-      } else {
-        intsOnStack = true;
-        this.processNode(node.left.argumentExpression);
-        this.pushLines(
-          `int ${typeLength} // len(${type})`,
-          '*',
-        );
-      }
-
-      depthChain.reverse().forEach((n) => {
-        const t = this.getStackTypeFromNode(n);
-        const l = getTypeLength(t);
-
-        if (ts.isNumericLiteral(n.argumentExpression)) {
-          offsetValue += parseInt(n.argumentExpression.getText(), 10) * l;
-        } else {
-          intsOnStack = true;
-          this.processNode(n.argumentExpression);
-          this.pushVoid(`int ${l} // len(${t})`);
-          this.pushVoid('*');
-          this.pushVoid('+');
-        }
-      });
-
-      if (offsetValue) this.pushVoid(`int ${offsetValue} // offset calculated from literal access arguments`);
-      if (intsOnStack) this.pushVoid('+');
-
-      // Get new value
-      this.processNode(node.right);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-
-      // Replace old value with new value
-      this.pushVoid('replace3');
-
-      // Add back to frame/storage if necessary
-      if (ts.isIdentifier(baseArrayNode)) {
-        const name = baseArrayNode.getText();
-        const { index } = this.frame[name];
-        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
-      } else if (
-        ts.isCallExpression(baseArrayNode)
-          && ts.isPropertyAccessExpression(baseArrayNode.expression)
-          && ts.isPropertyAccessExpression(baseArrayNode.expression.expression)
-          && Object.keys(this.storageProps).includes(
-            baseArrayNode.expression.expression?.name?.getText(),
-          )
-      ) {
-        const storageProp = this.storageProps[baseArrayNode.expression.expression.name.getText()];
-        this.storageFunctions[storageProp.type].put(baseArrayNode);
-      } else {
-        throw new Error(`Can't update ${ts.SyntaxKind[baseArrayNode.kind]} array`);
-      }
-
-      this.typeHint = {};
+      this.typeHint.text = undefined;
       return;
     }
 

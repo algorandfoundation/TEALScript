@@ -45,7 +45,9 @@ staticArray:
 	// tests/contracts/abi.ts:32
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -100,7 +102,9 @@ staticArrayArg:
 	// tests/contracts/abi.ts:42
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -153,7 +157,9 @@ nonLiteralStaticArrayElements:
 	// tests/contracts/abi.ts:51
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -210,14 +216,20 @@ mixedStaticArrayElements:
 	// tests/contracts/abi.ts:60
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	frame_dig -4 // a: uint64[9]
-	extract 32 8
+	int 32
+	int 8
+	extract3
 	btoi
 	+
 	frame_dig -4 // a: uint64[9]
-	extract 56 8
+	int 56
+	int 8
+	extract3
 	btoi
 	+
 	itob
@@ -242,13 +254,13 @@ nonLiteralStaticArrayAccess:
 	proto 3 0
 
 	// tests/contracts/abi.ts:64
-	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	// a: StaticArray<uint64, 3> = [11, 22, 33, 44]
+	byte 0x000000000000000b00000000000000160000000000000021000000000000002c
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:65
-	// n = 1
-	int 1
+	// n = 2
+	int 2
 	frame_bury -2 // n: uint64
 
 	// tests/contracts/abi.ts:67
@@ -289,7 +301,7 @@ setStaticArrayElement:
 	// tests/contracts/abi.ts:73
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 222
 	itob
 	replace3
@@ -298,7 +310,9 @@ setStaticArrayElement:
 	// tests/contracts/abi.ts:75
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -349,20 +363,26 @@ staticArrayInStorageRef:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lRef"
 	app_local_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bRef"
 	box_get
 	assert
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
@@ -419,7 +439,7 @@ updateStaticArrayInStorageRef:
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 111
 	itob
 	replace3
@@ -432,7 +452,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 222
 	itob
 	replace3
@@ -446,7 +466,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 333
 	itob
 	replace3
@@ -458,20 +478,26 @@ updateStaticArrayInStorageRef:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lRef"
 	app_local_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bRef"
 	box_get
 	assert
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
@@ -528,20 +554,26 @@ staticArrayInStorageMap:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lMap"
 	app_local_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bMap"
 	box_get
 	assert
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
@@ -598,7 +630,7 @@ updateStaticArrayInStorageMap:
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 1111
 	itob
 	replace3
@@ -611,7 +643,7 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 2222
 	itob
 	replace3
@@ -625,7 +657,7 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 8 // offset calculated from literal access arguments
+	int 8
 	int 3333
 	itob
 	replace3
@@ -637,20 +669,26 @@ updateStaticArrayInStorageMap:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lMap"
 	app_local_get
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bMap"
 	box_get
 	assert
-	extract 8 8
+	int 8
+	int 8
+	extract3
 	btoi
 	itob
 	concat
@@ -689,8 +727,9 @@ nestedStaticArray:
 	// tests/contracts/abi.ts:153
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	extract 24 24
-	extract 8 8
+	int 32
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -723,17 +762,18 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.ts:159
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	int 32 // offset calculated from literal access arguments
+	int 32
 	int 555
 	itob
 	replace3
-	frame_bury -1 // a: uint64[3]
+	frame_bury -1 // a: uint64
 
 	// tests/contracts/abi.ts:161
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	extract 24 24
-	extract 8 8
+	int 32
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -766,7 +806,7 @@ updateNestedStaticArray:
 	// tests/contracts/abi.ts:167
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
-	int 24 // offset calculated from literal access arguments
+	int 24
 	byte 0x00000000000001bc000000000000022b000000000000029a
 	replace3
 	frame_bury -1 // a: uint64[3]
@@ -774,8 +814,9 @@ updateNestedStaticArray:
 	// tests/contracts/abi.ts:169
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	extract 24 24
-	extract 8 8
+	int 32
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -812,17 +853,17 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.ts:177
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
-	int 12 // offset calculated from literal access arguments
+	int 12
 	byte 0x03090378
 	replace3
-	frame_bury -1 // a: uint16[2][2]
+	frame_bury -1 // a: uint16[2]
 
 	// tests/contracts/abi.ts:179
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
-	extract 8 8
-	extract 4 4
-	extract 2 2
+	int 14
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	byte 0x151f7c75
@@ -853,7 +894,9 @@ simpleTuple:
 	// tests/contracts/abi.ts:185
 	// return a[3];
 	frame_dig -1 // a: [uint64, uint16, uint64, uint16]
-	extract 18 2
+	int 18
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	byte 0x151f7c75
@@ -888,8 +931,9 @@ arrayInTuple:
 	// tests/contracts/abi.ts:193
 	// return a[2][1];
 	frame_dig -1 // a: [uint64, uint16, staticarray<uint64, 2>, uint16]
-	extract 10 16
-	extract 8 8
+	int 18
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -922,8 +966,9 @@ tupleInArray:
 	// tests/contracts/abi.ts:201
 	// return a[1][1];
 	frame_dig -1 // a: [uint64, uint16][2]
-	extract 10 10
-	extract 8 2
+	int 18
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	byte 0x151f7c75
@@ -958,8 +1003,9 @@ tupleInTuple:
 	// tests/contracts/abi.ts:209
 	// return a[3][1];
 	frame_dig -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
-	extract 14 10
-	extract 2 8
+	int 16
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -994,8 +1040,9 @@ shortTypeNotation:
 	// tests/contracts/abi.ts:217
 	// return a[2][1];
 	frame_dig -1 // a: [uint16<2>, uint64<2>, uint16<2>]
-	extract 20 4
-	extract 2 2
+	int 22
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	byte 0x151f7c75
