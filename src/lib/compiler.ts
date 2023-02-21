@@ -943,6 +943,20 @@ export default class Compiler {
   }
 
   private processElementAccessExpression(node: ts.ElementAccessExpression) {
+    const baseType = this.getStackTypeFromNode(node.expression);
+    if (baseType === 'txnGroup') {
+      this.processNode(node.expression);
+      this.processNode(node.argumentExpression);
+      this.lastType = 'grouptxn';
+      return;
+    }
+
+    if (baseType.startsWith('ImmediateArray')) {
+      this.processNode(node.expression);
+      this.push(`${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
+      return;
+    }
+
     this.processStaticArray(node);
   }
 
