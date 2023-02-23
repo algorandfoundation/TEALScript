@@ -14,42 +14,34 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
-function getABIType(
-  type: string,
-  typeNode?: ts.Expression | ts.Node,
-): string {
+function getABIType(type: string): string {
   const abiType = type.toLowerCase();
+  const typeNode = stringToExpression(type) as ts.Expression;
 
   if (abiType.match(/<\d+>$/)) {
     return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
   }
 
   if (abiType.startsWith('static')) {
-    if (typeNode === undefined) throw new Error(type);
-
-    if (ts.isExpressionWithTypeArguments(typeNode) || ts.isTypeReferenceNode(typeNode)) {
+    if (ts.isExpressionWithTypeArguments(typeNode)) {
       const innerType = typeNode!.typeArguments![0];
       const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
 
-      return `${getABIType(innerType.getText(), innerType)}[${length}]`;
+      return `${getABIType(innerType.getText())}[${length}]`;
     }
   }
 
   return abiType;
 }
 
-function getTypeLength(
-  type: string,
-  typeNode?: ts.TypeNode | ts.ExpressionWithTypeArguments,
-): number {
+function getTypeLength(type: string): number {
+  const typeNode = stringToExpression(type) as ts.Expression;
   if (type.toLowerCase().startsWith('staticarray')) {
-    if (typeNode === undefined) throw new Error(type);
-
-    if (ts.isTypeReferenceNode(typeNode) || ts.isExpressionWithTypeArguments(typeNode)) {
+    if (ts.isExpressionWithTypeArguments(typeNode)) {
       const innerType = typeNode!.typeArguments![0];
       const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
 
-      return length * getTypeLength(innerType.getText(), innerType);
+      return length * getTypeLength(innerType.getText());
     }
   }
 
@@ -274,7 +266,7 @@ export default class Compiler {
 
   private comments: number[] = [];
 
-  private typeHint: {node?: ts.TypeNode, text?: string} = {};
+  private typeHint?: string;
 
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
@@ -792,18 +784,18 @@ export default class Compiler {
     let hexString = '';
     let bytesOnStack = false;
 
-    const abiTypeHint = getABIType(this.typeHint.text!, this.typeHint.node);
+    const abiTypeHint = getABIType(this.typeHint!);
 
     const typeNode = stringToExpression(abiTypeHint);
     let innerTypeNodes: ts.ExpressionWithTypeArguments[] = [];
     let innerTypes: string[];
 
     if (ts.isArrayLiteralExpression(typeNode)) {
-      innerTypes = typeNode.elements.map((t) => getABIType(t.getText(), t));
+      innerTypes = typeNode.elements.map((t) => getABIType(t.getText()));
       innerTypeNodes = new Array(...typeNode.elements) as ts.ExpressionWithTypeArguments[];
     } else if (ts.isElementAccessExpression(typeNode)
     && ts.isArrayLiteralExpression(typeNode.expression)) {
-      innerTypes = typeNode.expression.elements.map((t) => getABIType(t.getText(), t));
+      innerTypes = typeNode.expression.elements.map((t) => getABIType(t.getText()));
       innerTypeNodes = new Array(
         ...typeNode.expression.elements,
       ) as ts.ExpressionWithTypeArguments[];
@@ -815,8 +807,8 @@ export default class Compiler {
 
       if (innerTypes) {
         type = innerTypes[i];
-        length = getTypeLength(innerTypes[i], innerTypeNodes[i]);
-        this.typeHint = { text: innerTypes[i], node: innerTypeNodes[i] };
+        length = getTypeLength(innerTypes[i]);
+        this.typeHint = innerTypes[i];
       } else {
         type = abiTypeHint.match(/\w+/)![0]!;
         length = getTypeLength(type);
@@ -902,7 +894,7 @@ export default class Compiler {
         innerTypes.forEach((t, i) => {
           if (i < accessor) {
             offset += getTypeLength(getABIType(t));
-          } else if (i === accessor) type = getABIType(t, stringToExpression(t));
+          } else if (i === accessor) type = getABIType(t);
         });
       } else throw new Error(`HERE ${e.getText()}  ${baseExpressionType}`);
     });
@@ -964,7 +956,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = getABIType(node.type?.getText()!, node.type);
+    const returnType = getABIType(node.type!.getText());
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -1081,12 +1073,12 @@ export default class Compiler {
       this.addSourceComment(node);
 
       const leftType = this.getStackTypeFromNode(node.left);
-      this.typeHint.text = leftType;
+      this.typeHint = leftType;
 
       if (!ts.isElementAccessExpression(node.left)) throw new Error();
       this.processStaticArray(node.left, node.right);
 
-      this.typeHint.text = undefined;
+      this.typeHint = undefined;
       return;
     }
 
@@ -1172,10 +1164,9 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.declarations.forEach((d) => {
-      this.typeHint.node = d.type;
-      if (d.type) this.typeHint.text = d.type.getText();
+      this.typeHint = d.type?.getText();
       this.processNode(d);
-      this.typeHint = {};
+      this.typeHint = undefined;
     });
   }
 
@@ -1315,10 +1306,7 @@ export default class Compiler {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
         keyType: getABIType(node.initializer.typeArguments![0].getText()),
-        valueType: getABIType(
-          node.initializer.typeArguments![1].getText(),
-          node.initializer.typeArguments![1],
-        ),
+        valueType: getABIType(node.initializer.typeArguments![1].getText()),
       };
 
       if (node.initializer?.arguments?.[0] !== undefined) {
@@ -1348,10 +1336,7 @@ export default class Compiler {
         type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.initializer.text,
         keyType: 'string',
-        valueType: getABIType(
-          node.initializer.typeArguments![0].getText(),
-          node.initializer.typeArguments![0],
-        ),
+        valueType: getABIType(node.initializer.typeArguments![0].getText()),
       };
 
       const sizeProp = arg.properties.find(
@@ -1431,7 +1416,7 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      let type = getABIType(p.type.getText(), p.type);
+      let type = getABIType(p.type.getText());
 
       if (type.startsWith('Static')) {
         type = getABIType(type);
@@ -1549,7 +1534,7 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = getABIType(p!.type!.getText(), p.type);
+      const type = getABIType(p!.type!.getText());
       let abiType = type;
 
       if (type.includes('txn')) {
