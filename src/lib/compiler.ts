@@ -7,8 +7,8 @@ import * as langspec from '../langspec.json';
 // This is seperate from getABIType because the bracket notation
 // is useful for parsing, but the ABI/appspec JSON need the parens
 function getABITupleString(str: string) {
-  const trailingBrakcet = /(?<!\[\d+)]/;
-  const leadingBracket = /\[(?!\d+])/;
+  const trailingBrakcet = /(?<!\[\d*)]/;
+  const leadingBracket = /\[(?!\d*])/;
 
   return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
 }
@@ -887,15 +887,36 @@ export default class Compiler {
     const types = this.getTypes(this.typeHint!);
     const nodes = this.getArrayNodes(node);
 
+    const context = { bytesOnStack: false, hexString: '' };
+    if (types.static.length === 0 && types.dynamic.length === 1) {
+      const baseType = types.dynamic[0];
+      nodes.forEach((e, i) => {
+        this.processArrayElement(e, baseType, i === nodes.length - 1, context);
+      });
+
+      this.pushLines(
+        'dup',
+        'len',
+        `int ${getTypeLength(baseType)}`,
+        '/',
+        'itob',
+        'extract 6 0',
+        'swap',
+        'concat',
+      );
+
+      this.lastType = getABIType(this.typeHint!);
+      return;
+    }
+
     // Process static elements
     // TODO: Throw error if size is wrong
-    const staticContext = { bytesOnStack: false, hexString: '' };
     nodes.slice(0, types.static.length).forEach((e, i) => {
       this.processArrayElement(
         e,
         types.static[i],
         i === types.static.length - 1,
-        staticContext,
+        context,
       );
     });
 
@@ -955,7 +976,10 @@ export default class Compiler {
             offset += getTypeLength(getABIType(t));
           } else if (i === accessor) type = getABIType(t);
         });
-      } else throw new Error(`HERE ${e.getText()}  ${baseExpressionType}`);
+      } else if (baseExpressionType.match(/\[\]$/)) {
+        type = baseExpressionType.replace(/\[\]$/, '');
+        offset += getTypeLength(type) + 2;
+      } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
 
     if (offset) this.pushLines(`int ${offset}`);

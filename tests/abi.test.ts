@@ -161,4 +161,26 @@ describe('ABI', function () {
     });
     expect(ret.returnValue).to.deep.equal(BigInt(22));
   });
+
+  it('dynamicArray', async function () {
+    const ret = await appClient.dynamicArray();
+    expect(ret.returnValue).to.equal(BigInt(22));
+  });
+
+  it('returnDynamicArray', async function () {
+    const ret = await appClient.returnDynamicArray();
+    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
+  });
+
+  it('dynamicArrayArg', async function () {
+    const ret = await appClient.dynamicArrayArg({
+      a: [BigInt(11), BigInt(22), BigInt(33)],
+    });
+    expect(ret.returnValue).to.deep.equal(BigInt(22));
+  });
+
+  it('updateDynamicArrayElement', async function () {
+    const ret = await appClient.updateDynamicArrayElement();
+    expect(ret.returnValue).to.equal(BigInt(222));
+  });
 });

@@ -1123,6 +1123,162 @@ tupleArg:
 	log
 	retsub
 
+abi_route_dynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub dynamicArray
+	int 1
+	return
+
+dynamicArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:240
+	// a: uint64[] = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 0
+	swap
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:242
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 10
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnDynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnDynamicArray
+	int 1
+	return
+
+returnDynamicArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:246
+	// a: uint64[] = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 0
+	swap
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:247
+	// return a;
+	frame_dig -1 // a: uint64[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	callsub dynamicArrayArg
+	int 1
+	return
+
+dynamicArrayArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:251
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 10
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateDynamicArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateDynamicArrayElement
+	int 1
+	return
+
+updateDynamicArrayElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:255
+	// a: uint64[] = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 0
+	swap
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:257
+	// a[1] = 222
+	frame_dig -1 // a: uint64[]
+	int 10
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64
+
+	// tests/contracts/abi.ts:259
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 10
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -1163,5 +1319,9 @@ route_abi:
 	method "disgusting()uint64"
 	method "returnTuple()(uint64,uint16,uint64)"
 	method "tupleArg((uint64,uint16,uint64))uint16"
+	method "dynamicArray()uint64"
+	method "returnDynamicArray()uint64[]"
+	method "dynamicArrayArg(uint64[])uint64"
+	method "updateDynamicArrayElement()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement
