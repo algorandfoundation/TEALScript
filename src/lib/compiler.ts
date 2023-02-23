@@ -832,18 +832,41 @@ export default class Compiler {
     const nodes = this.getArrayNodes(node);
 
     // TODO: Throw error if size is wrong
-    // TODO: Optimize literal elements
+
+    let hexString = '';
+    let bytesOnStack = false;
     nodes.forEach((e, i) => {
-      this.processNode(e);
-      if (isNumeric(this.lastType)) {
-        this.pushVoid('itob');
+      const length = getTypeLength(types[i]);
+
+      if (ts.isNumericLiteral(e)) {
+        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+
+        if (i === nodes.length - 1) {
+          this.pushVoid(`byte 0x${hexString}`);
+          if (bytesOnStack) this.pushVoid('concat');
+        }
+
+        return;
       }
+
+      if (hexString.length > 0) {
+        this.pushVoid(`byte 0x${hexString}`);
+        if (bytesOnStack) this.pushVoid('concat');
+        bytesOnStack = true;
+
+        hexString = '';
+      }
+
+      this.processNode(e);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
 
       if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) {
         this.fixBitWidth(parseInt(types[i].match(/\d+/)![0], 10));
       }
 
-      if (i) this.pushVoid(`concat // ${types[i]}`);
+      if (bytesOnStack) this.pushVoid('concat');
+
+      bytesOnStack = true;
     });
 
     this.lastType = getABIType(this.typeHint!);
