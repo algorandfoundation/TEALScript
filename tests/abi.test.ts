@@ -183,4 +183,9 @@ describe('ABI', function () {
     const ret = await appClient.updateDynamicArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
+
+  it('dynamicTupleArray', async function () {
+    const ret = await appClient.dynamicTupleArray();
+    expect(ret.returnValue).to.equal(BigInt(44));
+  });
 });

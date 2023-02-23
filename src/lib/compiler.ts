@@ -38,6 +38,11 @@ function getABIType(type: string): string {
     return `${getABIType(innerType.getText())}[${length}]`;
   }
 
+  if (abiType.match(/\[\]$/)) {
+    const baseType = abiType.replace(/\[\]$/, '');
+    return `${getABIType(baseType)}[]`;
+  }
+
   if (abiType.startsWith('[')) {
     if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
 
@@ -890,10 +895,23 @@ export default class Compiler {
     const context = { bytesOnStack: false, hexString: '' };
     if (types.static.length === 0 && types.dynamic.length === 1) {
       const baseType = types.dynamic[0];
-      nodes.forEach((e, i) => {
-        this.processArrayElement(e, baseType, i === nodes.length - 1, context);
-      });
 
+      if (baseType.startsWith('[')) {
+        const innerTypes = this.getTypes(baseType).static;
+
+        nodes.forEach((e, i) => {
+          this.processArrayElement(
+            e,
+            innerTypes[i % innerTypes.length],
+            i === nodes.length - 1,
+            context,
+          );
+        });
+      } else {
+        nodes.forEach((e, i) => {
+          this.processArrayElement(e, baseType, i === nodes.length - 1, context);
+        });
+      }
       this.pushLines(
         'dup',
         'len',
@@ -964,6 +982,9 @@ export default class Compiler {
           this.pushLines(`int ${getTypeLength(type)}`, '*');
           intsOnStack = true;
         }
+      } else if (baseExpressionType.match(/\[\]$/)) {
+        type = baseExpressionType.replace(/\[\]$/, '');
+        offset += getTypeLength(type) + 2;
       } else if (baseExpressionType.startsWith('[')) {
         const typeExpression = stringToExpression(baseExpressionType);
         if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
@@ -976,9 +997,6 @@ export default class Compiler {
             offset += getTypeLength(getABIType(t));
           } else if (i === accessor) type = getABIType(t);
         });
-      } else if (baseExpressionType.match(/\[\]$/)) {
-        type = baseExpressionType.replace(/\[\]$/, '');
-        offset += getTypeLength(type) + 2;
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
 
