@@ -799,11 +799,11 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private getTypes(typeString: string): string[] {
+  private getTypes(typeString: string): {static: string[], dynamic: string[]} {
     const abiType = getABIType(typeString);
     const typeNode = stringToExpression(abiType);
     const staticLengthRegex = /(\[\d+\])+$/;
-    const types: string[] = [];
+    const types: {static: string[], dynamic: string[]} = { static: [], dynamic: [] };
 
     if (abiType.match(staticLengthRegex)) {
       const baseType = abiType.replace(staticLengthRegex, '');
@@ -813,18 +813,21 @@ export default class Compiler {
         count *= parseInt(n, 10);
       });
 
-      types.push(...Array(count).fill(this.getTypes(baseType)));
+      types.static.push(...Array(count).fill(this.getTypes(baseType).static));
     } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
       typeNode.elements.forEach((e) => {
-        types.push(...this.getTypes(e.getText()));
+        types.static.push(...this.getTypes(e.getText()).static);
       });
     } else if (ts.isIdentifier(typeNode)) {
-      types.push(typeNode.getText());
-    } else {
-      throw new Error();
-    }
+      types.static.push(typeNode.getText());
+    } else if (ts.isElementAccessExpression(typeNode)) {
+      const dynamicArrayRegex = /\[\]$/;
+      const baseType = typeString.replace(dynamicArrayRegex, '');
+      if (baseType.match(dynamicArrayRegex)) throw new Error('Nested dynamic types not supported');
+      types.dynamic.push(baseType);
+    } else throw new Error(`${ts.SyntaxKind[typeNode.kind]} ${typeNode.getText()}`);
 
-    return types.flat();
+    return { static: types.static.flat(), dynamic: types.dynamic };
   }
 
   private getArrayNodes(node: ts.ArrayLiteralExpression): ts.Node[] {
@@ -841,46 +844,59 @@ export default class Compiler {
     return nodes.flat();
   }
 
+  private processArrayElement(
+    e: ts.Node,
+    type: string,
+    isLast: boolean,
+    context: {bytesOnStack: boolean, hexString: string},
+  ) {
+    const length = getTypeLength(type);
+
+    if (ts.isNumericLiteral(e)) {
+      context.hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+
+      if (isLast) {
+        this.pushVoid(`byte 0x${context.hexString}`);
+        if (context.bytesOnStack) this.pushVoid('concat');
+      }
+
+      return;
+    }
+
+    if (context.hexString.length > 0) {
+      this.pushVoid(`byte 0x${context.hexString}`);
+      if (context.bytesOnStack) this.pushVoid('concat');
+      context.bytesOnStack = true;
+
+      context.hexString = '';
+    }
+
+    this.processNode(e);
+    if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+    if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
+      this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
+    }
+
+    if (context.bytesOnStack) this.pushVoid('concat');
+
+    context.bytesOnStack = true;
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     const types = this.getTypes(this.typeHint!);
     const nodes = this.getArrayNodes(node);
 
+    // Process static elements
     // TODO: Throw error if size is wrong
-
-    let hexString = '';
-    let bytesOnStack = false;
-    nodes.forEach((e, i) => {
-      const length = getTypeLength(types[i]);
-
-      if (ts.isNumericLiteral(e)) {
-        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
-
-        if (i === nodes.length - 1) {
-          this.pushVoid(`byte 0x${hexString}`);
-          if (bytesOnStack) this.pushVoid('concat');
-        }
-
-        return;
-      }
-
-      if (hexString.length > 0) {
-        this.pushVoid(`byte 0x${hexString}`);
-        if (bytesOnStack) this.pushVoid('concat');
-        bytesOnStack = true;
-
-        hexString = '';
-      }
-
-      this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) {
-        this.fixBitWidth(parseInt(types[i].match(/\d+/)![0], 10));
-      }
-
-      if (bytesOnStack) this.pushVoid('concat');
-
-      bytesOnStack = true;
+    const staticContext = { bytesOnStack: false, hexString: '' };
+    nodes.slice(0, types.static.length).forEach((e, i) => {
+      this.processArrayElement(
+        e,
+        types.static[i],
+        i === types.static.length - 1,
+        staticContext,
+      );
     });
 
     this.lastType = getABIType(this.typeHint!);
