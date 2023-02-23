@@ -61,7 +61,7 @@ class AbiTest extends Contract {
   }
 
   nonLiteralStaticArrayAccess(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33, 44];
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
     const n = 2;
 
     return a[n];
@@ -148,13 +148,13 @@ class AbiTest extends Contract {
   }
 
   nestedStaticArray(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
     return a[1][1];
   }
 
   updateNestedStaticArrayElement(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
     a[1][1] = 555;
 
@@ -162,7 +162,7 @@ class AbiTest extends Contract {
   }
 
   updateNestedStaticArray(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
     a[1] = [444, 555, 666];
 

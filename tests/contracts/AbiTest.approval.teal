@@ -39,7 +39,14 @@ staticArray:
 
 	// tests/contracts/abi.ts:30
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:32
@@ -72,7 +79,14 @@ returnStaticArray:
 
 	// tests/contracts/abi.ts:36
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:38
@@ -148,10 +162,10 @@ nonLiteralStaticArrayElements:
 	itob
 	frame_dig -2 // n2: uint64
 	itob
-	concat
+	concat // uint64
 	frame_dig -3 // n3: uint64
 	itob
-	concat
+	concat // uint64
 	frame_bury -4 // a: uint64[3]
 
 	// tests/contracts/abi.ts:51
@@ -199,18 +213,32 @@ mixedStaticArrayElements:
 
 	// tests/contracts/abi.ts:58
 	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
-	byte 0x000000000000000000000000000000010000000000000002
+	int 0
+	itob
+	int 1
+	itob
+	concat // uint64
+	int 2
+	itob
+	concat // uint64
 	frame_dig -1 // n1: uint64
 	itob
-	concat
+	concat // uint64
 	frame_dig -2 // n2: uint64
 	itob
-	concat
+	concat // uint64
 	frame_dig -3 // n3: uint64
 	itob
-	concat
-	byte 0x000000000000000600000000000000070000000000000008
-	concat
+	concat // uint64
+	int 6
+	itob
+	concat // uint64
+	int 7
+	itob
+	concat // uint64
+	int 8
+	itob
+	concat // uint64
 	frame_bury -4 // a: uint64[9]
 
 	// tests/contracts/abi.ts:60
@@ -254,8 +282,15 @@ nonLiteralStaticArrayAccess:
 	proto 3 0
 
 	// tests/contracts/abi.ts:64
-	// a: StaticArray<uint64, 3> = [11, 22, 33, 44]
-	byte 0x000000000000000b00000000000000160000000000000021000000000000002c
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:65
@@ -295,7 +330,14 @@ setStaticArrayElement:
 
 	// tests/contracts/abi.ts:71
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:73
@@ -337,7 +379,14 @@ staticArrayInStorageRef:
 
 	// tests/contracts/abi.ts:79
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:81
@@ -376,7 +425,7 @@ staticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	byte "bRef"
 	box_get
 	assert
@@ -385,7 +434,7 @@ staticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	frame_bury -2 // ret: uint64[3]
 
 	// tests/contracts/abi.ts:91
@@ -413,7 +462,14 @@ updateStaticArrayInStorageRef:
 
 	// tests/contracts/abi.ts:95
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:97
@@ -491,7 +547,7 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	byte "bRef"
 	box_get
 	assert
@@ -500,7 +556,7 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	frame_bury -2 // ret: uint64[3]
 
 	// tests/contracts/abi.ts:111
@@ -528,7 +584,14 @@ staticArrayInStorageMap:
 
 	// tests/contracts/abi.ts:115
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:117
@@ -567,7 +630,7 @@ staticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	byte "bMap"
 	box_get
 	assert
@@ -576,7 +639,7 @@ staticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	frame_bury -2 // ret: uint64[3]
 
 	// tests/contracts/abi.ts:127
@@ -604,7 +667,14 @@ updateStaticArrayInStorageMap:
 
 	// tests/contracts/abi.ts:131
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.ts:133
@@ -682,7 +752,7 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	byte "bMap"
 	box_get
 	assert
@@ -691,7 +761,7 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	concat
+	concat // uint64
 	frame_bury -2 // ret: uint64[3]
 
 	// tests/contracts/abi.ts:147
@@ -718,10 +788,33 @@ nestedStaticArray:
 	proto 2 0
 
 	// tests/contracts/abi.ts:151
-	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]]
-	byte 0x000000000000000b00000000000000160000000000000021
-	byte 0x000000000000002c00000000000000370000000000000042
-	concat
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	concat // uint64
+	int 55
+	itob
+	concat // uint64
+	int 66
+	itob
+	concat // uint64
+	int 77
+	itob
+	concat // uint64
+	int 88
+	itob
+	concat // uint64
+	int 99
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.ts:153
@@ -753,10 +846,33 @@ updateNestedStaticArrayElement:
 	proto 2 0
 
 	// tests/contracts/abi.ts:157
-	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]]
-	byte 0x000000000000000b00000000000000160000000000000021
-	byte 0x000000000000002c00000000000000370000000000000042
-	concat
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	concat // uint64
+	int 55
+	itob
+	concat // uint64
+	int 66
+	itob
+	concat // uint64
+	int 77
+	itob
+	concat // uint64
+	int 88
+	itob
+	concat // uint64
+	int 99
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.ts:159
@@ -797,17 +913,47 @@ updateNestedStaticArray:
 	proto 2 0
 
 	// tests/contracts/abi.ts:165
-	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66]]
-	byte 0x000000000000000b00000000000000160000000000000021
-	byte 0x000000000000002c00000000000000370000000000000042
-	concat
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	int 11
+	itob
+	int 22
+	itob
+	concat // uint64
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	concat // uint64
+	int 55
+	itob
+	concat // uint64
+	int 66
+	itob
+	concat // uint64
+	int 77
+	itob
+	concat // uint64
+	int 88
+	itob
+	concat // uint64
+	int 99
+	itob
+	concat // uint64
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.ts:167
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
 	int 24
-	byte 0x00000000000001bc000000000000022b000000000000029a
+	int 444
+	itob
+	int 555
+	itob
+	concat // uint64
+	int 666
+	itob
+	concat // uint64
 	replace3
 	frame_bury -1 // a: uint64[3]
 
@@ -841,20 +987,50 @@ threeDimensionalUint16Array:
 
 	// tests/contracts/abi.ts:173
 	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
-	byte 0x000b0016
-	byte 0x0021002c
-	concat
-	byte 0x00370042
-	byte 0x004d0058
-	concat
-	concat
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	extract 6 0
+	concat // uint16
+	int 44
+	itob
+	extract 6 0
+	concat // uint16
+	int 55
+	itob
+	extract 6 0
+	concat // uint16
+	int 66
+	itob
+	extract 6 0
+	concat // uint16
+	int 77
+	itob
+	extract 6 0
+	concat // uint16
+	int 88
+	itob
+	extract 6 0
+	concat // uint16
 	frame_bury -1 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.ts:177
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
 	int 12
-	byte 0x03090378
+	int 777
+	itob
+	extract 6 0
+	int 888
+	itob
+	extract 6 0
+	concat // uint16
 	replace3
 	frame_bury -1 // a: uint16[2]
 
@@ -888,12 +1064,24 @@ simpleTuple:
 
 	// tests/contracts/abi.ts:183
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
-	byte 0x000000000000000b00160000000000000021002c
-	frame_bury -1 // a: [uint64, uint16, uint64, uint16]
+	int 11
+	itob
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	extract 6 0
+	concat // uint16
+	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
 	// tests/contracts/abi.ts:185
 	// return a[3];
-	frame_dig -1 // a: [uint64, uint16, uint64, uint16]
+	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
 	int 18
 	int 2
 	extract3
@@ -921,16 +1109,27 @@ arrayInTuple:
 
 	// tests/contracts/abi.ts:189
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
-	byte 0x000000000000000b0016
-	byte 0x0000000000000021000000000000002c
-	concat
-	byte 0x0037
-	concat
-	frame_bury -1 // a: [uint64, uint16, staticarray<uint64, 2>, uint16]
+	int 11
+	itob
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	concat // uint64
+	int 55
+	itob
+	extract 6 0
+	concat // uint16
+	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
 	// tests/contracts/abi.ts:193
 	// return a[2][1];
-	frame_dig -1 // a: [uint64, uint16, staticarray<uint64, 2>, uint16]
+	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
 	int 18
 	int 8
 	extract3
@@ -958,14 +1157,24 @@ tupleInArray:
 
 	// tests/contracts/abi.ts:197
 	// a: StaticArray<[uint64, uint16], 2> = [
-	byte 0x000000000000000b0000000000000016
-	byte 0x0021002c
-	concat
-	frame_bury -1 // a: [uint64, uint16][2]
+	int 11
+	itob
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	extract 6 0
+	concat // uint16
+	frame_bury -1 // a: [uint64,uint16][2]
 
 	// tests/contracts/abi.ts:201
 	// return a[1][1];
-	frame_dig -1 // a: [uint64, uint16][2]
+	frame_dig -1 // a: [uint64,uint16][2]
 	int 18
 	int 2
 	extract3
@@ -993,16 +1202,32 @@ tupleInTuple:
 
 	// tests/contracts/abi.ts:205
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
-	byte 0x000b0016
-	byte 0x0000000000000021002c
-	concat
-	byte 0x00370000000000000042
-	concat
-	frame_bury -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	extract 6 0
+	concat // uint16
+	int 55
+	itob
+	extract 6 0
+	concat // uint16
+	int 66
+	itob
+	concat // uint64
+	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
 	// tests/contracts/abi.ts:209
 	// return a[3][1];
-	frame_dig -1 // a: [uint16, uint16, [uint64, uint16], [uint16, uint64]]
+	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 	int 16
 	int 8
 	extract3
@@ -1030,16 +1255,32 @@ shortTypeNotation:
 
 	// tests/contracts/abi.ts:213
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
-	byte 0x000b0016
-	byte 0x0000000000000021000000000000002c
-	concat
-	byte 0x00370042
-	concat
-	frame_bury -1 // a: [uint16<2>, uint64<2>, uint16<2>]
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat // uint16
+	int 33
+	itob
+	concat // uint64
+	int 44
+	itob
+	concat // uint64
+	int 55
+	itob
+	extract 6 0
+	concat // uint16
+	int 66
+	itob
+	extract 6 0
+	concat // uint16
+	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 
 	// tests/contracts/abi.ts:217
 	// return a[2][1];
-	frame_dig -1 // a: [uint16<2>, uint64<2>, uint16<2>]
+	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
 	int 22
 	int 2
 	extract3

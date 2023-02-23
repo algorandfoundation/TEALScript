@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
-import { access } from 'fs';
+import { access, fstat } from 'fs';
 import * as langspec from '../langspec.json';
 
 function stringToExpression(str: string) {
@@ -23,12 +23,17 @@ function getABIType(type: string): string {
   }
 
   if (abiType.startsWith('static')) {
-    if (ts.isExpressionWithTypeArguments(typeNode)) {
-      const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+    if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
+    const innerType = typeNode!.typeArguments![0];
+    const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
 
-      return `${getABIType(innerType.getText())}[${length}]`;
-    }
+    return `${getABIType(innerType.getText())}[${length}]`;
+  }
+
+  if (abiType.startsWith('[')) {
+    if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+
+    return `[${typeNode.elements.map((t) => getABIType(t.getText())).join(',')}]`;
   }
 
   return abiType;
@@ -45,7 +50,7 @@ function getTypeLength(type: string): number {
     }
   }
 
-  if (type.match(/\[\d+]/)) {
+  if (type.match(/\[\d+]$/)) {
     const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
     const length = parseInt(lenStr, 10);
     const innerType = type.replace(/\[\d+]$/, '');
@@ -780,67 +785,68 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
-    let hexString = '';
-    let bytesOnStack = false;
+  private getTypes(typeString: string): string[] {
+    const abiType = getABIType(typeString);
+    const typeNode = stringToExpression(abiType);
+    const staticLengthRegex = /(\[\d+\])+$/;
+    const types: string[] = [];
 
-    const abiTypeHint = getABIType(this.typeHint!);
+    if (abiType.match(staticLengthRegex)) {
+      const baseType = abiType.replace(staticLengthRegex, '');
 
-    const typeNode = stringToExpression(abiTypeHint);
-    let innerTypeNodes: ts.ExpressionWithTypeArguments[] = [];
-    let innerTypes: string[];
+      let count: number = 1;
+      abiType.match(staticLengthRegex)![0].match(/\d+/g)!.forEach((n) => {
+        count *= parseInt(n, 10);
+      });
 
-    if (ts.isArrayLiteralExpression(typeNode)) {
-      innerTypes = typeNode.elements.map((t) => getABIType(t.getText()));
-      innerTypeNodes = new Array(...typeNode.elements) as ts.ExpressionWithTypeArguments[];
-    } else if (ts.isElementAccessExpression(typeNode)
-    && ts.isArrayLiteralExpression(typeNode.expression)) {
-      innerTypes = typeNode.expression.elements.map((t) => getABIType(t.getText()));
-      innerTypeNodes = new Array(
-        ...typeNode.expression.elements,
-      ) as ts.ExpressionWithTypeArguments[];
+      types.push(...Array(count).fill(this.getTypes(baseType)));
+    } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
+      typeNode.elements.forEach((e) => {
+        types.push(...this.getTypes(e.getText()));
+      });
+    } else if (ts.isIdentifier(typeNode)) {
+      types.push(typeNode.getText());
+    } else {
+      throw new Error();
     }
 
-    node.elements.forEach((e, i) => {
-      let type: string;
-      let length: number;
+    return types.flat();
+  }
 
-      if (innerTypes) {
-        type = innerTypes[i];
-        length = getTypeLength(innerTypes[i]);
-        this.typeHint = innerTypes[i];
+  private getArrayNodes(node: ts.ArrayLiteralExpression): ts.Node[] {
+    const nodes: ts.Node[] = [];
+
+    node.elements.forEach((e) => {
+      if (ts.isArrayLiteralExpression(e)) {
+        nodes.push(...this.getArrayNodes(e));
       } else {
-        type = abiTypeHint.match(/\w+/)![0]!;
-        length = getTypeLength(type);
+        nodes.push(e);
       }
-
-      if (ts.isNumericLiteral(e)) {
-        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
-
-        if (i === node.elements.length - 1) {
-          this.pushVoid(`byte 0x${hexString}`);
-          if (bytesOnStack) this.pushVoid('concat');
-        }
-
-        return;
-      }
-
-      if (hexString.length > 0) {
-        this.pushVoid(`byte 0x${hexString}`);
-        if (bytesOnStack) this.pushVoid('concat');
-        bytesOnStack = true;
-
-        hexString = '';
-      }
-
-      this.processNode(e);
-      if (isNumeric(this.lastType) && !innerTypes) this.pushVoid('itob');
-      if (bytesOnStack) this.pushVoid('concat');
-
-      bytesOnStack = true;
     });
 
-    this.lastType = abiTypeHint;
+    return nodes.flat();
+  }
+
+  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
+    const types = this.getTypes(this.typeHint!);
+    const nodes = this.getArrayNodes(node);
+
+    // TODO: Throw error if size is wrong
+    // TODO: Optimize literal elements
+    nodes.forEach((e, i) => {
+      this.processNode(e);
+      if (isNumeric(this.lastType)) {
+        this.pushVoid('itob');
+      }
+
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) {
+        this.fixBitWidth(parseInt(types[i].match(/\d+/)![0], 10));
+      }
+
+      if (i) this.pushVoid(`concat // ${types[i]}`);
+    });
+
+    this.lastType = getABIType(this.typeHint!);
   }
 
   private getAccessChain(
@@ -1815,7 +1821,7 @@ export default class Compiler {
 
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
-      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }
