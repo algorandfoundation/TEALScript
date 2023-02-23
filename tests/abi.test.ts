@@ -144,4 +144,9 @@ describe('ABI', function () {
     const ret = await appClient.shortTypeNotation();
     expect(ret.returnValue).to.equal(BigInt(66));
   });
+
+  it('disgusting', async function () {
+    const ret = await appClient.disgusting();
+    expect(ret.returnValue).to.equal(BigInt(8888));
+  });
 });

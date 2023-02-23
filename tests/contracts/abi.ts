@@ -216,4 +216,14 @@ class AbiTest extends Contract {
 
     return a[2][1];
   }
+
+  disgusting(): uint64 {
+    const a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+      [[11, 22], 33, [44, 55], [[66, 77], [88, 99]]],
+      [[111, 222], 333, [444, 555], [[666, 777], [888, 999]]],
+    ];
+
+    a[1][3][1] = [8888, 9999];
+    return a[1][3][1][0]; // 8888
+  }
 }

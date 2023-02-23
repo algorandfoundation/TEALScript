@@ -1025,6 +1025,47 @@ shortTypeNotation:
 	log
 	retsub
 
+abi_route_disgusting:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub disgusting
+	int 1
+	return
+
+disgusting:
+	proto 2 0
+
+	// tests/contracts/abi.ts:221
+	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+	byte 0x000b00160000000000000021002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063006f00de000000000000014d01bc000000000000022b000000000000029a0000000000000309000000000000037800000000000003e7
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.ts:226
+	// a[1][3][1] = [8888, 9999]
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	int 92
+	byte 0x00000000000022b8000000000000270f
+	replace3
+	frame_bury -1 // a: uint64[2]
+
+	// tests/contracts/abi.ts:227
+	// return a[1][3][1][0];
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	int 92
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -1062,5 +1103,6 @@ route_abi:
 	method "tupleInArray()uint16"
 	method "tupleInTuple()uint64"
 	method "shortTypeNotation()uint16"
+	method "disgusting()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting
