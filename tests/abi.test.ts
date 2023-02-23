@@ -149,4 +149,16 @@ describe('ABI', function () {
     const ret = await appClient.disgusting();
     expect(ret.returnValue).to.equal(BigInt(8888));
   });
+
+  it('returnTuple', async function () {
+    const ret = await appClient.returnTuple();
+    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
+  });
+
+  it('tupleArg', async function () {
+    const ret = await appClient.tupleArg({
+      a: [BigInt(11), BigInt(22), BigInt(33)],
+    });
+    expect(ret.returnValue).to.deep.equal(BigInt(22));
+  });
 });

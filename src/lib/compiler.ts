@@ -2,8 +2,16 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
-import { access, fstat } from 'fs';
 import * as langspec from '../langspec.json';
+
+// This is seperate from getABIType because the bracket notation
+// is useful for parsing, but the ABI/appspec JSON need the parens
+function getABITupleString(str: string) {
+  const trailingBrakcet = /(?<!\[\d+)]/;
+  const leadingBracket = /\[(?!\d+])/;
+
+  return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
+}
 
 function stringToExpression(str: string) {
   const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
@@ -635,6 +643,12 @@ export default class Compiler {
         return t;
       }),
     );
+
+    this.abi.methods = this.abi.methods.map((m) => ({
+      ...m,
+      args: m.args.map((a) => ({ ...a, type: getABITupleString(a.type) })),
+      returns: { ...m.returns, type: getABITupleString(m.returns.type) },
+    }));
   }
 
   private push(teal: string, type: string) {
@@ -652,7 +666,7 @@ export default class Compiler {
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
-    const abiArgs = args.map((a) => a);
+    const abiArgs = args.map((a) => getABITupleString(a));
 
     let abiReturns = returns;
 
@@ -667,7 +681,7 @@ export default class Compiler {
         break;
     }
 
-    const sig = `${name}(${abiArgs.join(',')})${abiReturns}`;
+    const sig = `${name}(${abiArgs.join(',')})${getABITupleString(abiReturns)}`;
     this.pushVoid(`method "${sig}"`);
   }
 
@@ -1678,7 +1692,7 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => getABIType(t.getText()),
+        (t) => getABITupleString(getABIType(t.getText())),
       );
 
       const returnType = node.typeArguments![1].getText();

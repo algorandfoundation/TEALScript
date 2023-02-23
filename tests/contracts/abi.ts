@@ -226,4 +226,13 @@ class AbiTest extends Contract {
     a[1][3][1] = [8888, 9999];
     return a[1][3][1][0]; // 8888
   }
+
+  returnTuple(): [uint64, uint16, uint64] {
+    const a: [uint64, uint16, uint64] = [11, 22, 33];
+    return a;
+  }
+
+  tupleArg(a: [uint64, uint16, uint64]): uint16 {
+    return a[1];
+  }
 }
