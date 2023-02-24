@@ -189,10 +189,17 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(44));
   });
 
-  it('returnDynamicArrayInTuple', async function () {
-    const ret = await appClient.returnDynamicArrayInTuple();
+  it('returnTupleWithDyamicArray', async function () {
+    const ret = await appClient.returnTupleWithDyamicArray();
     expect(ret.returnValue).to.deep.equal(
       [BigInt(1), BigInt(2), [BigInt(3), BigInt(4)], [BigInt(5), BigInt(6)]],
+    );
+  });
+
+  it('returnDynamicArrayFromTuple', async function () {
+    const ret = await appClient.returnDynamicArrayFromTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(7), BigInt(8)],
     );
   });
 });

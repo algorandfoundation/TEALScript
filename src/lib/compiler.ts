@@ -964,7 +964,7 @@ export default class Compiler {
           .elements.slice(-types.dynamic.length)[i - 1] as ts.ArrayLiteralExpression;
 
         head.push(
-          headEnd // end of the total head
+          head.at(-1)! // last offset
           + 2 // add two for uint16 len value
           // Add length of the previous dynamic array
           + getTypeLength(lastBaseType) * lastElement.elements.length,
@@ -1011,6 +1011,39 @@ export default class Compiler {
     let intsOnStack = false;
 
     this.processNode(chain[0].expression);
+    const lastTypeExpression = stringToExpression(this.lastType);
+
+    if (ts.isArrayLiteralExpression(lastTypeExpression)) {
+      const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
+      const accessedType = lastTypeExpression.elements[accessor].getText();
+
+      if (accessedType.endsWith('[]')) {
+        const types = this.getTypes(this.lastType);
+
+        const dynamicTypeIndex = lastTypeExpression.elements.length - types.dynamic.length;
+
+        let headOffset = 0;
+        headOffset += types.static.reduce((a, b) => a + getTypeLength(b), 0);
+        headOffset += dynamicTypeIndex * 2;
+
+        this.pushLines(
+          'dupn 2',
+          `int ${headOffset} // head offset`,
+          'extract_uint16 // extract array offset',
+          'dup',
+          'cover 2',
+          'extract_uint16 // extract array length',
+          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))}`,
+          '* // array size',
+          'int 2',
+          '+',
+          'extract3',
+        );
+
+        this.lastType = accessedType;
+        return;
+      }
+    }
 
     chain.forEach((e) => {
       const baseExpressionType = this.getStackTypeFromNode(e.expression);
