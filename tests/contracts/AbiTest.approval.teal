@@ -1139,15 +1139,7 @@ dynamicArray:
 
 	// tests/contracts/abi.ts:240
 	// a: uint64[] = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 0
-	swap
-	concat
+	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.ts:242
@@ -1180,15 +1172,7 @@ returnDynamicArray:
 
 	// tests/contracts/abi.ts:246
 	// a: uint64[] = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 0
-	swap
-	concat
+	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.ts:247
@@ -1245,15 +1229,7 @@ updateDynamicArrayElement:
 
 	// tests/contracts/abi.ts:255
 	// a: uint64[] = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 0
-	swap
-	concat
+	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.ts:257
@@ -1295,15 +1271,7 @@ dynamicTupleArray:
 
 	// tests/contracts/abi.ts:263
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
-	byte 0x000b00000000000000160021000000000000002c
-	dup
-	len
-	int 10
-	/
-	itob
-	extract 6 0
-	swap
-	concat
+	byte 0x0002000b00000000000000160021000000000000002c
 	frame_bury -1 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.ts:265
@@ -1380,16 +1348,22 @@ returnDynamicArrayFromTuple:
 	// tests/contracts/abi.ts:277
 	// return a[4];
 	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[],uint64[]]
-	dupn 2
+	store 0 // full tuple
+	load 0 // full tuple
 	int 14 // head offset
 	extract_uint16 // extract array offset
-	dup
-	cover 2
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
 	extract_uint16 // extract array length
 	int 8
 	* // array size
 	int 2
-	+
+	+ // array size + len
+	store 2 // full array length
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
 	extract3
 	byte 0x151f7c75
 	swap

@@ -900,6 +900,7 @@ export default class Compiler {
 
       if (baseType.startsWith('[')) {
         const innerTypes = this.getTypes(baseType).static;
+        context.hexString = (nodes.length / innerTypes.length).toString(16).padStart(4, '0');
 
         nodes.forEach((e, i) => {
           this.processArrayElement(
@@ -910,20 +911,12 @@ export default class Compiler {
           );
         });
       } else {
+        context.hexString = (nodes.length).toString(16).padStart(4, '0');
+
         nodes.forEach((e, i) => {
           this.processArrayElement(e, baseType, i === nodes.length - 1, context);
         });
       }
-      this.pushLines(
-        'dup',
-        'len',
-        `int ${getTypeLength(baseType)}`,
-        '/',
-        'itob',
-        'extract 6 0',
-        'swap',
-        'concat',
-      );
 
       this.lastType = getABIType(this.typeHint!);
       return;
@@ -1027,20 +1020,31 @@ export default class Compiler {
         headOffset += dynamicTypeIndex * 2;
 
         this.pushLines(
-          'dupn 2',
+          'store 0 // full tuple',
+          'load 0 // full tuple',
           `int ${headOffset} // head offset`,
           'extract_uint16 // extract array offset',
-          'dup',
-          'cover 2',
+          'store 1 // array offset',
+          'load 0 // full tuple',
+          'load 1 // array offset',
           'extract_uint16 // extract array length',
           `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))}`,
           '* // array size',
           'int 2',
-          '+',
-          'extract3',
+          '+ // array size + len',
+          'store 2 // full array length',
         );
 
-        this.lastType = accessedType;
+        if (newValue === undefined) {
+          this.pushLines(
+            'load 0 // full tuple',
+            'load 1 // array offset',
+            'load 2 // full array length',
+            'extract3',
+          );
+          this.lastType = accessedType;
+        }
+
         return;
       }
     }

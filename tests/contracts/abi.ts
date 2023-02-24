@@ -274,6 +274,6 @@ class AbiTest extends Contract {
   returnDynamicArrayFromTuple(): uint64[] {
     const a: [uint64, uint16, uint64[], uint16[], uint64[]] = [1, 2, [3, 4], [5, 6], [7, 8]];
 
-    return a[4]; // 8
+    return a[4]; // [7, 8]
   }
 }
