@@ -996,6 +996,30 @@ export default class Compiler {
     return chain;
   }
 
+  private updateValue(node: ts.ElementAccessExpression) {
+    // TODO Create function for adding back to storage
+    // Add back to frame/storage if necessary
+    if (ts.isIdentifier(node.expression)) {
+      const name = node.expression.getText();
+      const { index, type } = this.frame[name];
+      this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+    } else if (
+      ts.isCallExpression(node.expression)
+                && ts.isPropertyAccessExpression(node.expression.expression)
+                && ts.isPropertyAccessExpression(node.expression.expression.expression)
+                && Object.keys(this.storageProps).includes(
+                  node.expression.expression.expression?.name?.getText(),
+                )
+    ) {
+      const storageProp = this.storageProps[
+        node.expression.expression.expression.name.getText()
+      ];
+      this.storageFunctions[storageProp.type].put(node.expression);
+    } else {
+      throw new Error(`Can't update ${ts.SyntaxKind[node.expression.kind]} array`);
+    }
+  }
+
   private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
 
@@ -1013,11 +1037,15 @@ export default class Compiler {
       if (accessedType.endsWith('[]')) {
         const types = this.getTypes(this.lastType);
 
-        const dynamicTypeIndex = lastTypeExpression.elements.length - types.dynamic.length;
+        const numStaticElements = lastTypeExpression.elements.length - types.dynamic.length;
+        const dynamicTypeIndex = accessor - numStaticElements;
 
         let headOffset = 0;
         headOffset += types.static.reduce((a, b) => a + getTypeLength(b), 0);
-        headOffset += dynamicTypeIndex * 2;
+
+        const startOfHeads = headOffset;
+
+        headOffset += (dynamicTypeIndex) * 2;
 
         this.pushLines(
           'store 0 // full tuple',
@@ -1043,6 +1071,60 @@ export default class Compiler {
             'extract3',
           );
           this.lastType = accessedType;
+        } else {
+          this.processNode(newValue);
+
+          const totalHeadLength = types.dynamic.length * 2;
+
+          this.pushLines(
+            'store 6 // new array',
+            // get static part of tuple
+            'load 0 // full tuple',
+            'int 0',
+            `int ${startOfHeads} // start of dynamic heads`,
+            'extract3',
+            'store 3 // static part of tuple',
+            // get dynamic heads
+            'load 0 // full tuple',
+            `extract ${startOfHeads} ${totalHeadLength}`,
+            'store 4 // dynamic heads',
+            // get values AFTER the updated array
+            // TODO: Make this conditional and add complementing logic for BEFORE array
+            'load 0 // full tuple',
+            'load 1 // array offset',
+            'load 2 // full array length',
+            '+',
+            'load 0 // full tuple',
+            'len',
+            'substring3',
+            'store 5 // values after array',
+            // Update dynamic heads
+            'load 4 // dynamic heads',
+            `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
+            'load 6 // new array',
+            'len',
+            'load 2',
+            '-',
+            'itob',
+            'extract 6 2',
+            'dup',
+            'concat',
+            'b&',
+            'b+',
+            `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
+            'b&',
+            'store 4 // dynamic heads',
+            // form new array
+            'load 3 // static part of tuple',
+            'load 4 // dynamic heads',
+            'load 6 // new array',
+            'load 5 // values after array',
+            'concat',
+            'concat',
+            'concat',
+          );
+
+          this.updateValue(chain[0]);
         }
 
         return;
@@ -1098,26 +1180,7 @@ export default class Compiler {
       if (isNumeric(this.lastType)) this.pushVoid('itob');
       this.pushVoid('replace3');
 
-      // Add back to frame/storage if necessary
-      if (ts.isIdentifier(chain[0].expression)) {
-        const name = chain[0].expression.getText();
-        const { index } = this.frame[name];
-        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
-      } else if (
-        ts.isCallExpression(chain[0].expression)
-                && ts.isPropertyAccessExpression(chain[0].expression.expression)
-                && ts.isPropertyAccessExpression(chain[0].expression.expression.expression)
-                && Object.keys(this.storageProps).includes(
-                  chain[0].expression.expression.expression?.name?.getText(),
-                )
-      ) {
-        const storageProp = this.storageProps[
-          chain[0].expression.expression.expression.name.getText()
-        ];
-        this.storageFunctions[storageProp.type].put(chain[0].expression);
-      } else {
-        throw new Error(`Can't update ${ts.SyntaxKind[chain[0].expression.kind]} array`);
-      }
+      this.updateValue(chain[0]);
     }
   }
 

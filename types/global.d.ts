@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
+declare type uint8<N = void> = N extends number ? number[] : number;
 declare type uint16<N = void> = N extends number ? number[] : number;
 declare type uint64<N = void> = N extends number ? number[] : number;
 declare type uint256<N = void> = N extends number ? number[] : number;

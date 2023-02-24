@@ -202,4 +202,11 @@ describe('ABI', function () {
       [BigInt(7), BigInt(8)],
     );
   });
+
+  it('updateDynamicArrayInTuple', async function () {
+    const ret = await appClient.updateDynamicArrayInTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(11), BigInt(22), BigInt(33)],
+    );
+  });
 });
