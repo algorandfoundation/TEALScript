@@ -821,7 +821,9 @@ export default class Compiler {
       types.static.push(...Array(count).fill(this.getTypes(baseType).static));
     } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
       typeNode.elements.forEach((e) => {
-        types.static.push(...this.getTypes(e.getText()).static);
+        const innerTypes = this.getTypes(e.getText());
+        types.static.push(...innerTypes.static);
+        types.dynamic.push(...innerTypes.dynamic);
       });
     } else if (ts.isIdentifier(typeNode)) {
       types.static.push(typeNode.getText());
@@ -938,6 +940,53 @@ export default class Compiler {
       );
     });
 
+    if (types.dynamic.length === 0) {
+      this.lastType = getABIType(this.typeHint!);
+      return;
+    }
+
+    const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
+
+    const headEnd = staticLen + (2 * types.dynamic.length);
+    const head: number[] = [headEnd];
+    const dynamicContext = { bytesOnStack: false, hexString: '' };
+
+    node.elements.slice(-types.dynamic.length).forEach((e, i) => {
+      if (!ts.isArrayLiteralExpression(e)) throw new Error();
+
+      const baseType = types.dynamic[i];
+      const innerTypes = this.getTypes(baseType);
+      const innerNodes = this.getArrayNodes(e);
+
+      if (i) {
+        const lastBaseType = types.dynamic[i - 1];
+        const lastElement = node
+          .elements.slice(-types.dynamic.length)[i - 1] as ts.ArrayLiteralExpression;
+
+        head.push(
+          headEnd // end of the total head
+          + 2 // add two for uint16 len value
+          // Add length of the previous dynamic array
+          + getTypeLength(lastBaseType) * lastElement.elements.length,
+        );
+      }
+
+      dynamicContext.hexString += innerNodes.length.toString(16).padStart(4, '0');
+
+      innerNodes.forEach((n, j) => {
+        this.processArrayElement(
+          n,
+          innerTypes.static[j % innerTypes.static.length],
+          (j === innerNodes.length - 1) && (i === types.dynamic.length - 1),
+          dynamicContext,
+        );
+      });
+    });
+
+    this.pushVoid(`byte 0x${head.map((h) => h.toString(16).padStart(4, '0')).join('')} // head`);
+    this.pushVoid('swap');
+    this.pushVoid('concat');
+    if (staticLen > 0) this.pushVoid('concat');
     this.lastType = getABIType(this.typeHint!);
   }
 
