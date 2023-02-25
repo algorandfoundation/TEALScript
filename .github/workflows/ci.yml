@@ -10,14 +10,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Clone algodeploy
-      run: git clone https://github.com/joe-p/algodeploy
-      
-    - name: Install algodeploy dependencies
-      run: pip3 install -r ./algodeploy/requirements.txt
+    - name: Install algokit
+      run: pip install algokit
 
-    - name: Run algodeploy create
-      run: python3 ./algodeploy/algodeploy.py create --no-archive
+    - name: Run localnet
+      run: algokit localnet start
 
     - name: Install modules
       run: yarn
