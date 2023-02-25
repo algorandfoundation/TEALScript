@@ -1088,17 +1088,39 @@ export default class Compiler {
             'load 0 // full tuple',
             `extract ${startOfHeads} ${totalHeadLength}`,
             'store 4 // dynamic heads',
-            // get values AFTER the updated array
-            // TODO: Make this conditional and add complementing logic for BEFORE array
-            'load 0 // full tuple',
-            'load 1 // array offset',
-            'load 2 // full array length',
-            '+',
-            'load 0 // full tuple',
-            'len',
-            'substring3',
+            'byte 0x',
+            'dup',
             'store 5 // values after array',
-            // Update dynamic heads
+            'store 7 // values before array',
+          );
+
+          // get values AFTER the updated array
+          if (dynamicTypeIndex < types.dynamic.length - 1) {
+            this.pushLines(
+              'load 0 // full tuple',
+              'load 1 // array offset',
+              'load 2 // full array length',
+              '+',
+              'load 0 // full tuple',
+              'len',
+              'substring3',
+              'store 5 // values after array',
+            );
+          }
+
+          // Get values BEFORE the updated array
+          if (dynamicTypeIndex > 0) {
+            this.pushLines(
+              'load 0 // full tuple',
+              `int ${startOfHeads + totalHeadLength} // head end`,
+              'load 1 // array offset',
+              'substring3',
+              'store 7 // values before array',
+            );
+          }
+
+          // Update dynamic heads
+          this.pushLines(
             'load 4 // dynamic heads',
             `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
             'load 6 // new array',
@@ -1107,8 +1129,12 @@ export default class Compiler {
             '-',
             'itob',
             'extract 6 2',
+            // TODO make this a function
             'dup',
             'concat',
+            'dup',
+            'concat',
+            // END TODO
             'b&',
             'b+',
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
@@ -1117,8 +1143,10 @@ export default class Compiler {
             // form new array
             'load 3 // static part of tuple',
             'load 4 // dynamic heads',
+            'load 7 // values before array',
             'load 6 // new array',
             'load 5 // values after array',
+            'concat',
             'concat',
             'concat',
             'concat',

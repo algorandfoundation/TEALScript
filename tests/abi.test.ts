@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
 import { sandbox, clients } from 'beaker-ts';
-import { AtomicTransactionComposer, makePaymentTxnWithSuggestedParamsFromObject } from 'algosdk';
+import algosdk from 'algosdk';
 import { AbiTest } from './contracts/clients/abitest_client';
 
 let appClient: AbiTest;
@@ -20,9 +20,9 @@ describe('ABI', function () {
     await appClient.create({ extraPages: 2 });
     await appClient.optIn();
 
-    const atc = new AtomicTransactionComposer();
+    const atc = new algosdk.AtomicTransactionComposer();
 
-    const txn = makePaymentTxnWithSuggestedParamsFromObject({
+    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: acct.addr,
       to: appClient.appAddress,
       amount: 127400,
@@ -204,9 +204,42 @@ describe('ABI', function () {
   });
 
   it('updateDynamicArrayInTuple', async function () {
+    /*
+    const atc = new algosdk.AtomicTransactionComposer();
+    atc.addMethodCall({
+      appID: appClient.appId,
+      method: algosdk.getMethodByName(appClient.methods, 'updateDynamicArrayInTuple'),
+      sender: appClient.sender,
+      signer: appClient.signer,
+      suggestedParams: await appClient.getSuggestedParams(),
+    });
+
+    const txns = atc.buildGroup().map((t) => t.txn);
+
+    const sigs = (await atc.gatherSignatures())
+      .map((s) => (algosdk.decodeObj(s) as algosdk.SignedTransaction).sig);
+
+    const dr = await algosdk.createDryrun({
+      client: appClient.client,
+      txns: [{ txn: txns[0], sig: sigs[0] }],
+    });
+
+    const drrTxn = new algosdk.DryrunResult(await appClient.client.dryrun(dr).do()).txns[0];
+
+    console.log(drrTxn.appTrace(
+      { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
+    ));
+    */
+
+    const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
+      { old: BigInt(9), new: BigInt(9) },
+      { old: [BigInt(8)], new: [BigInt(10), BigInt(11)] },
+      { old: [BigInt(7)], new: [BigInt(12), BigInt(13)] },
+      { old: [BigInt(6)], new: [BigInt(14), BigInt(15)] },
+      { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
+    ];
+
     const ret = await appClient.updateDynamicArrayInTuple();
-    expect(ret.returnValue).to.deep.equal(
-      [BigInt(11), BigInt(22), BigInt(33)],
-    );
+    expect(ret.returnValue).to.deep.equal([a[0].old, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
 });
