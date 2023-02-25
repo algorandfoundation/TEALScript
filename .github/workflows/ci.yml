@@ -10,9 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install modules
-      run: yarn
-
     - name: Clone algodeploy
       run: git clone https://github.com/joe-p/algodeploy
       
@@ -21,6 +18,9 @@ jobs:
 
     - name: Run algodeploy create
       run: python3 ./algodeploy/algodeploy.py create --no-archive
+
+    - name: Install modules
+      run: yarn
 
     - name: Run ESLint
       run: yarn run lint
