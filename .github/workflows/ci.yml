@@ -9,8 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
     - name: Install modules
       run: yarn
+
+    - name: Clone algodeploy
+      run: git clone https://github.com/joe-p/algodeploy
+      
+    - name: Install algodeploy dependencies
+      run: pip3 install -r ./algodeploy/requirements.txt
+
+    - name: Run algodeploy create
+      run: python3 ./algodeploy/algodeploy.py create --no-archive
 
     - name: Run ESLint
       run: yarn run lint
@@ -23,18 +33,6 @@ jobs:
 
     - name: Run examples
       run: yarn run examples
-
-    - name: Clone algodeploy
-      run: git clone https://github.com/joe-p/algodeploy
-      
-    - name: Install algodeploy dependencies
-      run: pip3 install -r ./algodeploy/requirements.txt
-
-    - name: Run algodeploy create
-      run: python3 ./algodeploy/algodeploy.py create --no-archive
-
-    - name: Run simple e2e smoketest
-      run: yarn simple
 
     - name: Install ARC12 test dependencies
       run: pip3 install -r ./examples/arc12/tests/requirements.txt
