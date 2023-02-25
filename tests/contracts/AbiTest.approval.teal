@@ -1396,6 +1396,16 @@ updateDynamicArrayInTuple:
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:283
+	// a[0] = 99 as uint8
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 0
+	int 99
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:284
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full tuple
@@ -1461,7 +1471,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:284
+	// tests/contracts/abi.ts:285
 	// a[2] = [12, 13]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full tuple
@@ -1532,7 +1542,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:285
+	// tests/contracts/abi.ts:286
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full tuple
@@ -1603,7 +1613,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:286
+	// tests/contracts/abi.ts:287
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full tuple
@@ -1666,7 +1676,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:288
+	// tests/contracts/abi.ts:289
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75

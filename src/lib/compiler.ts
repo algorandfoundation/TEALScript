@@ -997,7 +997,6 @@ export default class Compiler {
   }
 
   private updateValue(node: ts.ElementAccessExpression) {
-    // TODO Create function for adding back to storage
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node.expression)) {
       const name = node.expression.getText();
@@ -1196,7 +1195,7 @@ export default class Compiler {
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
 
-    if (offset) this.pushLines(`int ${offset}`);
+    if (offset || ts.isNumericLiteral(chain.at(-1)!.argumentExpression)) this.pushLines(`int ${offset}`);
     if (intsOnStack && offset) this.pushVoid('+');
 
     if (newValue === undefined) {
@@ -2093,7 +2092,7 @@ export default class Compiler {
 
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
-      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

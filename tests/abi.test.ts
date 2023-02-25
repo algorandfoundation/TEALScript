@@ -232,7 +232,7 @@ describe('ABI', function () {
     */
 
     const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
-      { old: BigInt(9), new: BigInt(9) },
+      { old: BigInt(9), new: BigInt(99) },
       { old: [BigInt(8)], new: [BigInt(10), BigInt(11)] },
       { old: [BigInt(7)], new: [BigInt(12), BigInt(13)] },
       { old: [BigInt(6)], new: [BigInt(14), BigInt(15)] },
@@ -240,6 +240,6 @@ describe('ABI', function () {
     ];
 
     const ret = await appClient.updateDynamicArrayInTuple();
-    expect(ret.returnValue).to.deep.equal([a[0].old, a[1].new, a[2].new, a[3].new, a[4].new]);
+    expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
 });

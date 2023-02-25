@@ -280,6 +280,7 @@ class AbiTest extends Contract {
   updateDynamicArrayInTuple(): [uint8, uint16[], uint8[], uint16[], uint8[]] {
     const a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]];
 
+    a[0] = 99 as uint8;
     a[1] = [10, 11];
     a[2] = [12, 13];
     a[3] = [14, 15];
