@@ -2,8 +2,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
-declare type uint64 = number
+declare type uint16<N = void> = N extends number ? number[] : number;
+declare type uint64<N = void> = N extends number ? number[] : number;
+declare type uint256<N = void> = N extends number ? number[] : number;
+
+declare type ufixed64x2<N = void> = N extends number ? number[] : number;
+
 declare type bytes = string
+declare type StaticArray<T, N extends number> = T[]
+
 declare class Asset {
   constructor(id: uint64)
 
@@ -290,6 +297,3 @@ declare const optIn = decoratorFunction;
 declare const closeOut = decoratorFunction;
 declare const updateApplication = decoratorFunction;
 declare const deleteApplication = decoratorFunction;
-
-declare type uint256 = number
-declare type ufixed64x2 = number

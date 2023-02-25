@@ -41,7 +41,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:144
 	// assert(!this.vaultMap.exists(receiver))
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -50,7 +50,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:145
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
@@ -58,7 +58,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:146
 	// assert(mbrPayment.sender === this.txn.sender)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Sender
 	txn Sender
 	==
@@ -66,7 +66,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:147
 	// assert(mbrPayment.closeRemainderTo === globals.zeroAddress)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns CloseRemainderTo
 	global ZeroAddress
 	==
@@ -100,7 +100,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:156
 	// methodArgs: [receiver, this.txn.sender]
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	itxn_field Accounts
 	int 1
 	itob
@@ -137,7 +137,7 @@ createVault:
 	// examples/arc12/arc12.ts:163
 	// vault = this.itxn.createdApplicationID
 	itxn CreatedApplicationID
-	frame_bury -4 // vault: Application
+	frame_bury -4 // vault: application
 
 	// Fund the vault with account MBR
 	// examples/arc12/arc12.ts:166
@@ -148,7 +148,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:167
 	// receiver: vault.address
-	frame_dig -4 // vault: Application
+	frame_dig -4 // vault: application
 	app_params_get AppAddress
 	assert
 	itxn_field Receiver
@@ -166,14 +166,14 @@ createVault:
 
 	// examples/arc12/arc12.ts:172
 	// this.vaultMap.put(receiver, vault)
-	frame_dig -1 // receiver: Account
-	frame_dig -4 // vault: Application
+	frame_dig -1 // receiver: account
+	frame_dig -4 // vault: application
 	itob
 	box_put
 
 	// examples/arc12/arc12.ts:175
 	// assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance)
-	frame_dig -2 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Amount
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
@@ -187,7 +187,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:177
 	// return vault;
-	frame_dig -4 // vault: Application
+	frame_dig -4 // vault: application
 	itob
 	byte 0x151f7c75
 	swap
@@ -220,7 +220,7 @@ verifyAxfer:
 
 	// examples/arc12/arc12.ts:181
 	// assert(this.vaultMap.exists(receiver))
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -228,19 +228,19 @@ verifyAxfer:
 
 	// examples/arc12/arc12.ts:183
 	// assert(this.vaultMap.get(receiver) === vault)
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
-	frame_dig -3 // vault: Application
+	frame_dig -3 // vault: application
 	==
 	assert
 
 	// examples/arc12/arc12.ts:184
 	// assert(vaultAxfer.assetReceiver === vault.address)
-	frame_dig -2 // vaultAxfer: AssetTransferTxn
+	frame_dig -2 // vaultAxfer: assettransfertxn
 	gtxns AssetReceiver
-	frame_dig -3 // vault: Application
+	frame_dig -3 // vault: application
 	app_params_get AppAddress
 	assert
 	==
@@ -248,7 +248,7 @@ verifyAxfer:
 
 	// examples/arc12/arc12.ts:185
 	// assert(vaultAxfer.assetCloseTo === globals.zeroAddress)
-	frame_dig -2 // vaultAxfer: AssetTransferTxn
+	frame_dig -2 // vaultAxfer: assettransfertxn
 	gtxns AssetCloseTo
 	global ZeroAddress
 	==
@@ -274,7 +274,7 @@ hasVault:
 
 	// examples/arc12/arc12.ts:189
 	// return this.vaultMap.exists(receiver);
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -304,7 +304,7 @@ getVaultId:
 
 	// examples/arc12/arc12.ts:193
 	// return this.vaultMap.get(receiver);
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
@@ -334,7 +334,7 @@ getVaultAddr:
 
 	// examples/arc12/arc12.ts:197
 	// return this.vaultMap.get(receiver).address;
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
@@ -377,7 +377,7 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:204
 	// assert(vault === this.vaultMap.get(this.txn.sender))
-	frame_dig -1 // vault: Application
+	frame_dig -1 // vault: application
 	txn Sender
 	box_get
 	assert
@@ -387,16 +387,16 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:206
 	// vaultCreator = vault.global('creator') as Account
-	frame_dig -1 // vault: Application
+	frame_dig -1 // vault: application
 	byte "creator"
 	app_global_get_ex
 	assert
-	frame_bury -3 // vaultCreator: Account
+	frame_bury -3 // vaultCreator: account
 
 	// examples/arc12/arc12.ts:207
 	// assert(vaultCreator === creator)
-	frame_dig -3 // vaultCreator: Account
-	frame_dig -2 // creator: Account
+	frame_dig -3 // vaultCreator: account
+	frame_dig -2 // creator: account
 	==
 	assert
 
@@ -416,7 +416,7 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:213
 	// applicationID: vault
-	frame_dig -1 // vault: Application
+	frame_dig -1 // vault: application
 	itxn_field ApplicationID
 
 	// examples/arc12/arc12.ts:214
@@ -444,7 +444,7 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:222
 	// receiver: vaultCreator
-	frame_dig -3 // vaultCreator: Account
+	frame_dig -3 // vaultCreator: account
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:223

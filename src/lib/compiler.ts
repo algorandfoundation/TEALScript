@@ -1,11 +1,99 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { isStringLiteral } from 'typescript';
+import ts from 'typescript';
 import * as langspec from '../langspec.json';
+
+// This is seperate from getABIType because the bracket notation
+// is useful for parsing, but the ABI/appspec JSON need the parens
+function getABITupleString(str: string) {
+  const trailingBrakcet = /(?<!\[\d+)]/;
+  const leadingBracket = /\[(?!\d+])/;
+
+  return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
+}
+
+function stringToExpression(str: string) {
+  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+}
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
+}
+
+function getABIType(type: string): string {
+  const abiType = type.toLowerCase();
+  const typeNode = stringToExpression(type) as ts.Expression;
+
+  if (abiType.match(/<\d+>$/)) {
+    return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
+  }
+
+  if (abiType.startsWith('static')) {
+    if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
+    const innerType = typeNode!.typeArguments![0];
+    const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+    return `${getABIType(innerType.getText())}[${length}]`;
+  }
+
+  if (abiType.startsWith('[')) {
+    if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+
+    return `[${typeNode.elements.map((t) => getABIType(t.getText())).join(',')}]`;
+  }
+
+  return abiType;
+}
+
+function getTypeLength(type: string): number {
+  const typeNode = stringToExpression(type) as ts.Expression;
+  if (type.toLowerCase().startsWith('staticarray')) {
+    if (ts.isExpressionWithTypeArguments(typeNode)) {
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return length * getTypeLength(innerType.getText());
+    }
+  }
+
+  if (type.match(/\[\d+]$/)) {
+    const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
+    const length = parseInt(lenStr, 10);
+    const innerType = type.replace(/\[\d+]$/, '');
+    return getTypeLength(innerType) * length;
+  }
+
+  if (type.startsWith('[')) {
+    const tNode = stringToExpression(type);
+    if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
+    let totalLength = 0;
+    const types = tNode.elements.forEach((t) => {
+      totalLength += getTypeLength(t.getText());
+    });
+
+    return totalLength;
+  }
+
+  if (type.match(/<\d+>$/)) {
+    return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * getTypeLength(type.match(/\w+/)![0]);
+  }
+
+  if (type.match(/uint\d+$/)) {
+    return parseInt(type.slice(4), 10) / 8;
+  }
+  switch (type) {
+    case 'asset':
+    case 'application':
+      return 8;
+    case 'bytes':
+      return 1;
+    case 'account':
+      return 32;
+    default:
+      throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
+  }
 }
 
 // Represents the stack types available in the AVM
@@ -33,9 +121,9 @@ enum TransactionType {
 
 // eslint-disable-next-line no-shadow
 enum ForeignType {
-  Asset = 'Asset',
-  Account = 'Account',
-  Application = 'Application',
+  Asset = 'asset',
+  Account = 'account',
+  Application = 'application',
 }
 
 const TXN_METHODS = [
@@ -84,10 +172,10 @@ const PARAM_TYPES: { [param: string]: string } = {
   FreezeAssetAccount: ForeignType.Account,
   CreatedAssetID: ForeignType.Asset,
   CreatedApplicationID: ForeignType.Application,
-  ApplicationArgs: `${StackType.bytes}[]`,
-  Applications: `${ForeignType.Application}[]`,
-  Assets: `${ForeignType.Asset}[]`,
-  Accounts: `${ForeignType.Account}[]`,
+  ApplicationArgs: `ImmediateArray: ${StackType.bytes}`,
+  Applications: `ImmediateArray: ${ForeignType.Application}`,
+  Assets: `ImmediateArray: ${ForeignType.Asset}`,
+  Accounts: `ImmediateArray: ${ForeignType.Account}`,
 };
 
 interface OpSpec {
@@ -120,11 +208,11 @@ interface Subroutine {
 
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
-  return ['uint64', 'Asset', 'Application'].includes(t);
+  return ['uint64', 'asset', 'application'].includes(t);
 }
 
 function isRefType(t: string): boolean {
-  return ['Account', 'Asset', 'Application'].includes(t);
+  return ['account', 'asset', 'application'].includes(t);
 }
 
 export default class Compiler {
@@ -191,14 +279,16 @@ export default class Compiler {
 
   private comments: number[] = [];
 
+  private typeHint?: string;
+
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
   } = {
-      Account: [
+      account: [
         ...this.getOpParamObjects('acct_params_get'),
         ...this.getOpParamObjects('asset_holding_get'),
       ],
-      Application: [
+      application: [
         ...this.getOpParamObjects('app_params_get'),
         {
           name: 'Global',
@@ -251,7 +341,9 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 0 : 1]);
+        if (node.arguments[key ? 0 : 1]) {
+          this.processNode(node.arguments[key ? 0 : 1]);
+        } else this.pushVoid('swap'); // Used when updating storage array
 
         this.push('app_global_put', valueType);
       },
@@ -333,7 +425,9 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 1 : 2]);
+        if (node.arguments[key ? 1 : 2]) {
+          this.processNode(node.arguments[key ? 1 : 2]);
+        } else this.pushVoid('uncover 2'); // Used when updating storage array
 
         this.push('app_local_put', valueType);
       },
@@ -414,7 +508,10 @@ export default class Compiler {
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
 
-        this.processNode(node.arguments[key ? 0 : 1]);
+        if (node.arguments[key ? 0 : 1]) {
+          this.processNode(node.arguments[key ? 0 : 1]);
+        } else this.pushVoid('swap'); // Used when updating storage array
+
         if (isNumeric(valueType)) this.pushVoid('itob');
 
         this.push('box_put', valueType);
@@ -546,6 +643,12 @@ export default class Compiler {
         return t;
       }),
     );
+
+    this.abi.methods = this.abi.methods.map((m) => ({
+      ...m,
+      args: m.args.map((a) => ({ ...a, type: getABITupleString(a.type) })),
+      returns: { ...m.returns, type: getABITupleString(m.returns.type) },
+    }));
   }
 
   private push(teal: string, type: string) {
@@ -563,9 +666,9 @@ export default class Compiler {
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
-    const abiArgs = args.map((a) => a.toLowerCase());
+    const abiArgs = args.map((a) => getABITupleString(a));
 
-    let abiReturns = returns.toLowerCase();
+    let abiReturns = returns;
 
     switch (abiReturns) {
       case 'application':
@@ -578,7 +681,7 @@ export default class Compiler {
         break;
     }
 
-    const sig = `${name}(${abiArgs.join(',')})${abiReturns}`;
+    const sig = `${name}(${abiArgs.join(',')})${getABITupleString(abiReturns)}`;
     this.pushVoid(`method "${sig}"`);
   }
 
@@ -652,12 +755,13 @@ export default class Compiler {
       else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
       else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
+      else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
       else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);
       else if (ts.isVariableDeclaration(node)) this.processVariableDeclarator(node);
-      else if (ts.isNumericLiteral(node) || isStringLiteral(node)) this.processLiteral(node);
+      else if (ts.isNumericLiteral(node) || ts.isStringLiteral(node)) this.processLiteral(node);
 
       // Logical
       else if (ts.isBlock(node)) this.processBlockStatement(node);
@@ -691,26 +795,211 @@ export default class Compiler {
     }
   }
 
-  private processElementAccessExpression(node: ts.ElementAccessExpression) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Element access expression must be property access expression');
-    switch (node.expression.name.getText()) {
-      case 'txnGroup':
-        this.processNode(node.argumentExpression);
-        this.lastType = 'GroupTxn';
-        break;
-      default:
-        this.processNode(node.expression);
-        if (!ts.isNumericLiteral(node.argumentExpression)) throw new Error('Element access expression argument must be numeric literal');
-        this.push(`${this.teal.pop()} ${node.argumentExpression.text}`, this.lastType.replace('[]', ''));
-        break;
+  private pushLines(...lines: string[]) {
+    lines.forEach((l) => this.push(l, 'void'));
+  }
+
+  private getTypes(typeString: string): string[] {
+    const abiType = getABIType(typeString);
+    const typeNode = stringToExpression(abiType);
+    const staticLengthRegex = /(\[\d+\])+$/;
+    const types: string[] = [];
+
+    if (abiType.match(staticLengthRegex)) {
+      const baseType = abiType.replace(staticLengthRegex, '');
+
+      let count: number = 1;
+      abiType.match(staticLengthRegex)![0].match(/\d+/g)!.forEach((n) => {
+        count *= parseInt(n, 10);
+      });
+
+      types.push(...Array(count).fill(this.getTypes(baseType)));
+    } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
+      typeNode.elements.forEach((e) => {
+        types.push(...this.getTypes(e.getText()));
+      });
+    } else if (ts.isIdentifier(typeNode)) {
+      types.push(typeNode.getText());
+    } else {
+      throw new Error();
     }
+
+    return types.flat();
+  }
+
+  private getArrayNodes(node: ts.ArrayLiteralExpression): ts.Node[] {
+    const nodes: ts.Node[] = [];
+
+    node.elements.forEach((e) => {
+      if (ts.isArrayLiteralExpression(e)) {
+        nodes.push(...this.getArrayNodes(e));
+      } else {
+        nodes.push(e);
+      }
+    });
+
+    return nodes.flat();
+  }
+
+  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
+    const types = this.getTypes(this.typeHint!);
+    const nodes = this.getArrayNodes(node);
+
+    // TODO: Throw error if size is wrong
+
+    let hexString = '';
+    let bytesOnStack = false;
+    nodes.forEach((e, i) => {
+      const length = getTypeLength(types[i]);
+
+      if (ts.isNumericLiteral(e)) {
+        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+
+        if (i === nodes.length - 1) {
+          this.pushVoid(`byte 0x${hexString}`);
+          if (bytesOnStack) this.pushVoid('concat');
+        }
+
+        return;
+      }
+
+      if (hexString.length > 0) {
+        this.pushVoid(`byte 0x${hexString}`);
+        if (bytesOnStack) this.pushVoid('concat');
+        bytesOnStack = true;
+
+        hexString = '';
+      }
+
+      this.processNode(e);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) {
+        this.fixBitWidth(parseInt(types[i].match(/\d+/)![0], 10));
+      }
+
+      if (bytesOnStack) this.pushVoid('concat');
+
+      bytesOnStack = true;
+    });
+
+    this.lastType = getABIType(this.typeHint!);
+  }
+
+  private getAccessChain(
+    node: ts.ElementAccessExpression,
+    chain: ts.ElementAccessExpression[] = [],
+  ) {
+    chain.push(node);
+
+    if (ts.isElementAccessExpression(node.expression)) {
+      this.getAccessChain(node.expression, chain);
+    }
+
+    return chain;
+  }
+
+  private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
+    const chain = this.getAccessChain(node).reverse();
+
+    let offset = 0;
+    let type: string = '';
+    let intsOnStack = false;
+
+    this.processNode(chain[0].expression);
+
+    chain.forEach((e) => {
+      const baseExpressionType = this.getStackTypeFromNode(e.expression);
+
+      if (baseExpressionType.match(/\[\d+\]$/)) {
+        type = baseExpressionType.replace(/\[\d+\]$/, '');
+
+        if (ts.isNumericLiteral(e.argumentExpression)) {
+          offset += getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
+        } else {
+          this.processNode(e.argumentExpression);
+
+          if (intsOnStack) {
+            this.pushVoid('+');
+            intsOnStack = false;
+          }
+
+          this.pushLines(`int ${getTypeLength(type)}`, '*');
+          intsOnStack = true;
+        }
+      } else if (baseExpressionType.startsWith('[')) {
+        const typeExpression = stringToExpression(baseExpressionType);
+        if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
+
+        const innerTypes = typeExpression.elements.map((t) => t.getText());
+        const accessor = parseInt(e.argumentExpression.getText(), 10);
+
+        innerTypes.forEach((t, i) => {
+          if (i < accessor) {
+            offset += getTypeLength(getABIType(t));
+          } else if (i === accessor) type = getABIType(t);
+        });
+      } else throw new Error(`HERE ${e.getText()}  ${baseExpressionType}`);
+    });
+
+    if (offset) this.pushLines(`int ${offset}`);
+    if (intsOnStack && offset) this.pushVoid('+');
+
+    if (newValue === undefined) {
+      this.pushVoid(`int ${getTypeLength(type)}`);
+      this.push('extract3', type);
+      if (isNumeric(type)) this.push('btoi', type);
+    } else {
+      this.processNode(newValue);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      this.pushVoid('replace3');
+
+      // Add back to frame/storage if necessary
+      if (ts.isIdentifier(chain[0].expression)) {
+        const name = chain[0].expression.getText();
+        const { index } = this.frame[name];
+        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      } else if (
+        ts.isCallExpression(chain[0].expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression)
+                && ts.isPropertyAccessExpression(chain[0].expression.expression.expression)
+                && Object.keys(this.storageProps).includes(
+                  chain[0].expression.expression.expression?.name?.getText(),
+                )
+      ) {
+        const storageProp = this.storageProps[
+          chain[0].expression.expression.expression.name.getText()
+        ];
+        this.storageFunctions[storageProp.type].put(chain[0].expression);
+      } else {
+        throw new Error(`Can't update ${ts.SyntaxKind[chain[0].expression.kind]} array`);
+      }
+    }
+  }
+
+  private processElementAccessExpression(node: ts.ElementAccessExpression) {
+    const baseType = this.getStackTypeFromNode(node.expression);
+    if (baseType === 'txnGroup') {
+      this.processNode(node.expression);
+      this.processNode(node.argumentExpression);
+      this.lastType = 'grouptxn';
+      return;
+    }
+
+    if (baseType.startsWith('ImmediateArray')) {
+      this.processNode(node.expression);
+      this.push(`${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
+      return;
+    }
+
+    this.processStaticArray(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = node.type?.getText();
+    const returnType = getABIType(node.type!.getText());
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -750,7 +1039,7 @@ export default class Compiler {
 
     // Automatically convert to larger int IF the types dont match
     if (returnType !== this.lastType) {
-      if (this.lastType?.startsWith('uint')) {
+      if (this.lastType?.match(/uint\d+$/)) {
         const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
         const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
         if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
@@ -765,7 +1054,7 @@ export default class Compiler {
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType)) {
       this.pushVoid('itob');
-    } else if (returnType.startsWith('uint')) {
+    } else if (returnType.match(/uint\d+$/)) {
       const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
       this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
       this.pushVoid('b&');
@@ -777,7 +1066,65 @@ export default class Compiler {
     this.pushVoid('log');
   }
 
+  private getBaseArrayNode(
+    node: ts.ElementAccessExpression,
+  ): ts.Node {
+    if (ts.isElementAccessExpression(node.expression)) {
+      return this.getBaseArrayNode(node.expression);
+    }
+    return node.expression;
+  }
+
+  private getArrayNodeChain(
+    node: ts.ElementAccessExpression,
+    depth: number,
+    chain: ts.ElementAccessExpression[] = [],
+  ): ts.ElementAccessExpression[] {
+    if (chain.length !== depth) {
+      if (!ts.isElementAccessExpression(node.expression)) throw new Error(`${depth}`);
+      chain.push(node);
+      this.getArrayNodeChain(node.expression, depth, chain);
+    }
+    return chain;
+  }
+
+  private fixBitWidth(desiredWidth: number) {
+    const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+
+    // eslint-disable-next-line no-console
+    if (lastBitWidth > desiredWidth) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
+
+    if (lastBitWidth < desiredWidth) {
+      this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
+    } else {
+      this.pushVoid(`extract ${lastBitWidth / 8 - desiredWidth / 8} 0`);
+    }
+  }
+
+  private getStackTypeFromNode(node: ts.Node) {
+    const preType = this.lastType;
+    const preTeal = new Array(...this.teal);
+    this.processNode(node);
+    const type = this.lastType;
+    this.lastType = preType;
+    this.teal = preTeal;
+    return type;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression) {
+    if (node.operatorToken.getText() === '=') {
+      this.addSourceComment(node);
+
+      const leftType = this.getStackTypeFromNode(node.left);
+      this.typeHint = leftType;
+
+      if (!ts.isElementAccessExpression(node.left)) throw new Error();
+      this.processStaticArray(node.left, node.right);
+
+      this.typeHint = undefined;
+      return;
+    }
+
     if (['&&', '||'].includes(node.operatorToken.getText())) {
       this.processLogicalExpression(node);
       return;
@@ -792,7 +1139,7 @@ export default class Compiler {
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
       this.push(operator, StackType.uint64);
-    } else if (this.lastType.startsWith('uint') || this.lastType.startsWith('uifxed')) {
+    } else if (this.lastType.match(/uint\d+/) || this.lastType.match(/uifxed\d+x\d+$/)) {
       this.push(`b${operator}`, leftType);
     } else {
       this.push(operator, StackType.uint64);
@@ -828,7 +1175,7 @@ export default class Compiler {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
     }
-    const target = this.frame[node.getText()] || this.scratch[node.getText()];
+    const target = this.frame[node.getText()];
 
     this.push(
       `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
@@ -841,23 +1188,18 @@ export default class Compiler {
       this.processNode(a);
     });
 
-    this.lastType = node.expression.getText();
+    this.lastType = getABIType(node.expression.getText());
   }
 
   private processTSAsExpression(node: ts.AsExpression) {
     this.processNode(node.expression);
 
-    const type = node.type.getText();
-    if (type.startsWith('uint') && type !== this.lastType) {
+    const type = getABIType(node.type.getText());
+    if (type.match(/uint\d+$/) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
-      const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
-
-      // eslint-disable-next-line no-console
-      if (lastBitWidth > typeBitWidth) console.warn('WARNING: Converting value from ', this.lastType, 'to ', type, 'may result in loss of precision');
 
       if (this.lastType === 'uint64') this.pushVoid('itob');
-      this.pushVoid(`byte 0x${'FF'.repeat(typeBitWidth / 8)}`);
-      this.pushVoid('b&');
+      this.fixBitWidth(typeBitWidth);
     }
 
     this.lastType = type;
@@ -865,7 +1207,9 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.declarations.forEach((d) => {
+      this.typeHint = d.type?.getText();
       this.processNode(d);
+      this.typeHint = undefined;
     });
   }
 
@@ -877,7 +1221,7 @@ export default class Compiler {
 
     this.processNode(node.initializer);
 
-    this.scratch[name] = {
+    this.frame[name] = {
       index: this.frameIndex,
       type: this.lastType,
     };
@@ -1004,8 +1348,8 @@ export default class Compiler {
     if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
       const props: StorageProp = {
         type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: node.initializer.typeArguments![0].getText(),
-        valueType: node.initializer.typeArguments![1].getText(),
+        keyType: getABIType(node.initializer.typeArguments![0].getText()),
+        valueType: getABIType(node.initializer.typeArguments![1].getText()),
       };
 
       if (node.initializer?.arguments?.[0] !== undefined) {
@@ -1035,7 +1379,7 @@ export default class Compiler {
         type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.initializer.text,
         keyType: 'string',
-        valueType: node.initializer.typeArguments![0].getText(),
+        valueType: getABIType(node.initializer.typeArguments![0].getText()),
       };
 
       const sizeProp = arg.properties.find(
@@ -1073,7 +1417,7 @@ export default class Compiler {
         return;
       }
 
-      if (this.frame[n.expression.getText()] || this.scratch[n.expression.getText()]) {
+      if (this.frame[n.expression.getText()]) {
         this.processStorageExpression(n);
         return;
       }
@@ -1081,7 +1425,7 @@ export default class Compiler {
       if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
         switch (n.name.getText()) {
           case 'app':
-            this.lastType = 'Application';
+            this.lastType = 'application';
             this.pushVoid('txna Applications 0');
             break;
           default:
@@ -1115,7 +1459,11 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      const type = p.type.getText();
+      let type = getABIType(p.type.getText());
+
+      if (type.startsWith('Static')) {
+        type = getABIType(type);
+      }
 
       this.frame[p.name.getText()] = { index: this.frameIndex, type };
       this.frameIndex -= 1;
@@ -1229,15 +1577,15 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = p!.type!.getText();
+      const type = getABIType(p!.type!.getText());
       let abiType = type;
 
-      if (type.includes('Txn')) {
+      if (type.includes('txn')) {
         switch (type) {
-          case 'PayTxn':
+          case 'paytxn':
             abiType = TransactionType.PaymentTx;
             break;
-          case 'AssetTransferTxn':
+          case 'assettransfertxn':
             abiType = TransactionType.AssetTransferTx;
             break;
           default:
@@ -1251,18 +1599,17 @@ export default class Compiler {
         this.pushVoid('btoi');
       } else if (isRefType(type)) {
         this.pushVoid('btoi');
-        this.pushVoid(`txnas ${type}s`);
-      } else if (type.includes('Txn')) {
+        this.pushVoid(`txnas ${capitalizeFirstChar(type)}s`);
+      } else if (type.includes('txn')) {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
       }
 
-      args.push({ name: p.name.getText(), type: abiType.toLocaleLowerCase(), desc: '' });
+      args.push({ name: p.name.getText(), type: getABIType(abiType), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
-      .toLocaleLowerCase()
       .replace(/asset|application/, 'uint64')
       .replace('account', 'address');
 
@@ -1345,15 +1692,13 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => t.getText(),
+        (t) => getABITupleString(getABIType(t.getText())),
       );
 
       const returnType = node.typeArguments![1].getText();
 
       this.pushVoid(
-        `method "${nameProp.initializer.text}(${argTypes
-          .join(',')
-          .toLowerCase()})${returnType.toLowerCase()}"`,
+        `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`,
       );
       this.pushVoid('itxn_field ApplicationArgs');
     }
@@ -1377,7 +1722,7 @@ export default class Compiler {
       } else if (key === 'methodArgs') {
         if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
         const argTypes = node.typeArguments[0].elements.map(
-          (t) => t.getText(),
+          (t) => getABIType(t.getText()),
         );
 
         let accountIndex = 1;
@@ -1431,7 +1776,7 @@ export default class Compiler {
 
   private processStorageExpression(node: ts.PropertyAccessExpression) {
     const name = node.expression.getText();
-    const target = this.frame[name] || this.scratch[name];
+    const target = this.frame[name];
 
     this.push(
       `frame_dig ${target.index} // ${name}: ${target.type}`,
@@ -1462,7 +1807,7 @@ export default class Compiler {
 
   private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
     let type = calleeType;
-    if (type.includes('Txn')) {
+    if (type.includes('txn') && !['itxn', 'txn'].includes(type)) {
       type = 'gtxns';
     }
 
@@ -1512,6 +1857,9 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
@@ -1564,12 +1912,13 @@ export default class Compiler {
     // eslint-disable-next-line no-restricted-syntax
     for (const [k, v] of Object.entries(this.storageProps)) {
       // eslint-disable-next-line default-case
+      // TODO; Proper global/local types?
       switch (v.type) {
         case 'global':
-          globalDeclared[k] = { type: v.valueType, key: k };
+          globalDeclared[k] = { type: 'bytes', key: k };
           break;
         case 'local':
-          localDeclared[k] = { type: v.valueType, key: k };
+          localDeclared[k] = { type: 'bytes', key: k };
           break;
         default:
           // TODO: boxes?
