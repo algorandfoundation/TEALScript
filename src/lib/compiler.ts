@@ -4,6 +4,13 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
+// https://stackoverflow.com/a/55435856
+function* chunks<T>(arr: T[], n: number): Generator<T[], void> {
+  for (let i = 0; i < arr.length; i += n) {
+    yield arr.slice(i, i + n);
+  }
+}
+
 // This is seperate from getABIType because the bracket notation
 // is useful for parsing, but the ABI/appspec JSON need the parens
 function getABITupleString(str: string) {
@@ -131,6 +138,7 @@ const TXN_METHODS = [
   'sendAppCall',
   'sendMethodCall',
   'sendAssetTransfer',
+  'sendAssetConfig',
 ];
 
 const CONTRACT_SUBCLASS = 'Contract';
@@ -303,6 +311,7 @@ export default class Compiler {
       global: this.getOpParamObjects('global'),
       itxn: this.getOpParamObjects('itxn'),
       gtxns: this.getOpParamObjects('gtxns'),
+      asset: this.getOpParamObjects('asset_params_get'),
     };
 
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
@@ -560,6 +569,52 @@ export default class Compiler {
   private orCount: number = 0;
 
   private sourceFile: ts.SourceFile;
+
+  private customMethods: { [methodName: string]: (node: ts.CallExpression) => void } = {
+    wideRatio: (node: ts.CallExpression) => {
+      if (
+        node.arguments.length !== 2
+        || !ts.isArrayLiteralExpression(node.arguments[0])
+        || !ts.isArrayLiteralExpression(node.arguments[1])
+      ) throw new Error();
+
+      this.pushVoid('// wideRatio TODO: figure out proper chunk math');
+
+      [...chunks(new Array(...node.arguments[0].elements), 2)].forEach((chunk) => {
+        if (chunk.length === 1) {
+          this.pushVoid('int 0');
+          this.processNode(chunk[0]);
+        } else {
+          this.processNode(chunk[0]);
+          this.processNode(chunk[1]);
+        }
+
+        this.pushVoid('mulw');
+      });
+
+      [...chunks(new Array(...node.arguments[1].elements), 2)].forEach((chunk) => {
+        if (chunk.length === 1) {
+          this.pushVoid('int 0');
+          this.processNode(chunk[0]);
+        } else {
+          this.processNode(chunk[0]);
+          this.processNode(chunk[1]);
+        }
+      });
+
+      this.pushLines(
+        'divmodw',
+        'pop',
+        'pop',
+        'swap',
+        '!',
+        'assert',
+      );
+
+      this.lastType = 'uint64';
+    },
+
+  };
 
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
@@ -1118,8 +1173,13 @@ export default class Compiler {
       const leftType = this.getStackTypeFromNode(node.left);
       this.typeHint = leftType;
 
-      if (!ts.isElementAccessExpression(node.left)) throw new Error();
-      this.processStaticArray(node.left, node.right);
+      if (ts.isIdentifier(node.left)) {
+        const name = node.left.getText();
+        const target = this.frame[name];
+        this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
+      } else if (ts.isElementAccessExpression(node.left)) {
+        this.processStaticArray(node.left, node.right);
+      }
 
       this.typeHint = undefined;
       return;
@@ -1217,16 +1277,23 @@ export default class Compiler {
     this.addSourceComment(node);
     const name = node.name.getText();
 
-    if (!node.initializer) throw new Error('Variables must be initialized when defined');
+    if (node.initializer) {
+      this.processNode(node.initializer);
 
-    this.processNode(node.initializer);
+      this.frame[name] = {
+        index: this.frameIndex,
+        type: this.lastType,
+      };
 
-    this.frame[name] = {
-      index: this.frameIndex,
-      type: this.lastType,
-    };
+      this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+    } else {
+      if (!node.type) throw new Error('Uninitialized variables must have a type');
+      this.frame[name] = {
+        index: this.frameIndex,
+        type: node.type.getText(),
+      };
+    }
 
-    this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
     this.frameIndex -= 1;
   }
 
@@ -1260,14 +1327,16 @@ export default class Compiler {
       } else if (['method'].includes(methodName)) {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
-      }
+      } else if (this.customMethods[methodName]) {
+        this.customMethods[methodName](node);
+      } else throw new Error(`${methodName} is undefined`);
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');
       this.pushVoid(`PENDING_DUPN: ${methodName}`);
       new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
-      this.pushVoid(`callsub ${methodName}`);
+      this.push(`callsub ${methodName}`, this.subroutines[methodName].returnType);
     } else if (
       ts.isPropertyAccessExpression(node.expression.expression)
       && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
@@ -1671,8 +1740,11 @@ export default class Compiler {
       case 'sendAppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
-      default:
+      case 'sendAssetConfig':
+        txnType = TransactionType.AssetConfigTx;
         break;
+      default:
+        throw new Error(`Invalid transaction call ${node.expression.getText()}`);
     }
 
     this.pushVoid('itxn_begin');

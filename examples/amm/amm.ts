@@ -47,14 +47,13 @@ class ConstantProductAMM extends Contract {
     });
   }
 
-  private doOptIn(asset: Asset) {
+  private doOptIn(asset: Asset): void {
     this.doAxfer(this.app.address, asset, 0);
   }
 
   private tokensToMintIntial(aAmount: uint64, bAmount: uint64): uint64 {
     return sqrt(aAmount * bAmount);
   }
-  // TODO implement WideRatio
 
   private tokensToMint(
     issued: uint64,
@@ -62,13 +61,39 @@ class ConstantProductAMM extends Contract {
     bSupply: uint64,
     aAmount: uint64,
     bAmount: uint64,
-  ): uint64 {}
+  ): uint64 {
+    const aRatio = wideRatio([aAmount, 1_000], [aSupply]);
+    const bRatio = wideRatio([bAmount, 1_000], [bSupply]);
 
-  private computeRatio(): uint64 {}
+    let ratio: uint64;
 
-  private tokensToBurn(issued: uint64, supply: uint64, amount: uint64): uint64 {}
+    if (aRatio < bRatio) {
+      ratio = aRatio;
+    } else {
+      ratio = bRatio;
+    }
 
-  private tokensToSwap(inAmount: uint64, inSupply: uint64, outSupply: uint64): uint64 {}
+    return wideRatio([ratio, issued], [1_000]);
+  }
+
+  private computeRatio(): uint64 {
+    return wideRatio(
+      [this.app.address.assetBalance(this.assetA.get()), 1_000],
+      [this.app.address.assetBalance(this.assetB.get())],
+    );
+  }
+
+  private tokensToBurn(issued: uint64, supply: uint64, amount: uint64): uint64 {
+    return wideRatio([supply, amount], [issued]);
+  }
+
+  private tokensToSwap(inAmount: uint64, inSupply: uint64, outSupply: uint64): uint64 {
+    const factor = 1_000 - 5;
+    return wideRatio(
+      [inAmount, factor, outSupply],
+      [(inSupply * 1_000) + (inAmount * factor)],
+    );
+  }
 
   set_governor(governor: Account): void {
     assert(this.txn.sender === this.governor.get());
