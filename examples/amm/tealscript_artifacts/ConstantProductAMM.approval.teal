@@ -933,43 +933,36 @@ skip_or0:
 	==
 	assert
 
-	// examples/amm/amm.ts:219
-	// outId: Asset
-	// if2_condition
-	// examples/amm/amm.ts:220
-	// swapXfer.xferAsset === aAsset
+	// examples/amm/amm.ts:218
+	// outId = swapXfer.xferAsset === aAsset ? aAsset : bAsset
 	frame_dig -1 // swapXfer: assettransfertxn
 	gtxns XferAsset
 	frame_dig -2 // aAsset: asset
 	==
-	bz if2_else
+	bz ternary0_false
+	frame_dig -2 // aAsset: asset
+	b ternary0_end
 
-	// if2_consequent
-	// examples/amm/amm.ts:221
-	// outId = aAsset
-	frame_bury -4 // outId: Asset
-	b if2_end
+ternary0_false:
+	frame_dig -3 // bAsset: asset
 
-if2_else:
-	// examples/amm/amm.ts:223
-	// outId = bAsset
-	frame_bury -4 // outId: Asset
+ternary0_end:
+	frame_bury -4 // outId: asset
 
-if2_end:
-	// examples/amm/amm.ts:226
+	// examples/amm/amm.ts:220
 	// inId = swapXfer.xferAsset
 	frame_dig -1 // swapXfer: assettransfertxn
 	gtxns XferAsset
 	frame_bury -5 // inId: asset
 
-	// examples/amm/amm.ts:228
+	// examples/amm/amm.ts:222
 	// toSwap = this.tokensToSwap(
 	byte 0x
 	dupn 2
 	txna Applications 0
 	app_params_get AppAddress
 	assert
-	frame_dig -4 // outId: Asset
+	frame_dig -4 // outId: asset
 	asset_holding_get AssetBalance
 	assert
 	txna Applications 0
@@ -986,23 +979,23 @@ if2_end:
 	callsub tokensToSwap
 	frame_bury -6 // toSwap: uint64
 
-	// examples/amm/amm.ts:234
+	// examples/amm/amm.ts:228
 	// assert(toSwap > 0)
 	frame_dig -6 // toSwap: uint64
 	int 0
 	>
 	assert
 
-	// examples/amm/amm.ts:236
+	// examples/amm/amm.ts:230
 	// this.doAxfer(this.txn.sender, outId, toSwap)
 	byte 0x
 	dupn 1
 	frame_dig -6 // toSwap: uint64
-	frame_dig -4 // outId: Asset
+	frame_dig -4 // outId: asset
 	txn Sender
 	callsub doAxfer
 
-	// examples/amm/amm.ts:238
+	// examples/amm/amm.ts:232
 	// this.ratio.put(this.computeRatio())
 	byte "r"
 	byte 0x

@@ -246,6 +246,8 @@ export default class Compiler {
 
   private ifCount: number = 0;
 
+  private ternaryCount: number = 0;
+
   filename?: string;
 
   content: string;
@@ -862,6 +864,7 @@ export default class Compiler {
       else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
+      else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
       else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -881,6 +884,18 @@ export default class Compiler {
 
       throw e;
     }
+  }
+
+  private processConditionalExpression(node: ts.ConditionalExpression) {
+    this.processNode(node.condition);
+    this.pushVoid(`bz ternary${this.ternaryCount}_false`);
+    this.processNode(node.whenTrue);
+    this.pushVoid(`b ternary${this.ternaryCount}_end`);
+    this.pushVoid(`ternary${this.ternaryCount}_false:`);
+    this.processNode(node.whenFalse);
+    this.pushVoid(`ternary${this.ternaryCount}_end:`);
+
+    this.ternaryCount += 1;
   }
 
   private pushLines(...lines: string[]) {

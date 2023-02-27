@@ -215,13 +215,7 @@ class ConstantProductAMM extends Contract {
     assert(swapXfer.assetAmount > 0);
     assert(swapXfer.sender === this.txn.sender);
 
-    // TODO: Ternary operator
-    let outId: Asset;
-    if (swapXfer.xferAsset === aAsset) {
-      outId = aAsset;
-    } else {
-      outId = bAsset;
-    }
+    const outId = swapXfer.xferAsset === aAsset ? aAsset : bAsset;
 
     const inId = swapXfer.xferAsset;
 
