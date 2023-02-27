@@ -65,13 +65,7 @@ class ConstantProductAMM extends Contract {
     const aRatio = wideRatio([aAmount, 1_000], [aSupply]);
     const bRatio = wideRatio([bAmount, 1_000], [bSupply]);
 
-    let ratio: uint64;
-
-    if (aRatio < bRatio) {
-      ratio = aRatio;
-    } else {
-      ratio = bRatio;
-    }
+    const ratio = aRatio < bRatio ? aRatio : bRatio;
 
     return wideRatio([ratio, issued], [1_000]);
   }
