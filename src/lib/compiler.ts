@@ -570,6 +570,60 @@ export default class Compiler {
 
   private sourceFile: ts.SourceFile;
 
+  private multiplyWideRatioFactors(factors: ts.Expression[]) {
+    if (factors.length === 1) {
+      this.pushVoid('int 0');
+      this.processNode(factors[0]);
+    } else {
+      this.processNode(factors[0]);
+      this.processNode(factors[1]);
+      this.pushVoid('mulw');
+    }
+
+    factors.slice(2).forEach((f) => {
+      this.processNode(f);
+
+      /*
+      https://github.com/algorand/pyteal/blob/d117f99c07a64cddf6de21b72232df12b53fdbbb/pyteal/ast/widemath.py#LL12C8-L12C8
+
+      stack is [..., A, B, C], where C is current factor
+      need to pop all A,B,C from stack and push X,Y, where X and Y are:
+            X * 2**64 + Y = (A * 2**64 + B) * C
+      <=>   X * 2**64 + Y = A * C * 2**64 + B * C
+      <=>   X = A * C + highword(B * C)
+            Y = lowword(B * C)
+
+      TealOp(expr, Op.uncover, 2),  # stack: [..., B, C, A]
+      TealOp(expr, Op.dig, 1),  # stack: [..., B, C, A, C]
+      TealOp(expr, Op.mul),  # stack: [..., B, C, A*C]
+      TealOp(expr, Op.cover, 2),  # stack: [..., A*C, B, C]
+      TealOp(
+          expr, Op.mulw
+      ),  # stack: [..., A*C, highword(B*C), lowword(B*C)]
+      TealOp(
+          expr, Op.cover, 2
+      ),  # stack: [..., lowword(B*C), A*C, highword(B*C)]
+      TealOp(
+          expr, Op.add
+      ),  # stack: [..., lowword(B*C), A*C+highword(B*C)]
+      TealOp(
+          expr, Op.swap
+      ),  # stack: [..., A*C+highword(B*C), lowword(B*C)]
+      */
+
+      this.pushLines(
+        'uncover 2',
+        'dig 1',
+        '*',
+        'cover 2',
+        'mulw',
+        'cover 2',
+        '+',
+        'swap',
+      );
+    });
+  }
+
   private customMethods: { [methodName: string]: (node: ts.CallExpression) => void } = {
     wideRatio: (node: ts.CallExpression) => {
       if (
@@ -578,29 +632,8 @@ export default class Compiler {
         || !ts.isArrayLiteralExpression(node.arguments[1])
       ) throw new Error();
 
-      this.pushVoid('// wideRatio TODO: figure out proper chunk math');
-
-      [...chunks(new Array(...node.arguments[0].elements), 2)].forEach((chunk) => {
-        if (chunk.length === 1) {
-          this.pushVoid('int 0');
-          this.processNode(chunk[0]);
-        } else {
-          this.processNode(chunk[0]);
-          this.processNode(chunk[1]);
-        }
-
-        this.pushVoid('mulw');
-      });
-
-      [...chunks(new Array(...node.arguments[1].elements), 2)].forEach((chunk) => {
-        if (chunk.length === 1) {
-          this.pushVoid('int 0');
-          this.processNode(chunk[0]);
-        } else {
-          this.processNode(chunk[0]);
-          this.processNode(chunk[1]);
-        }
-      });
+      this.multiplyWideRatioFactors(new Array(...node.arguments[0].elements));
+      this.multiplyWideRatioFactors(new Array(...node.arguments[1].elements));
 
       this.pushLines(
         'divmodw',

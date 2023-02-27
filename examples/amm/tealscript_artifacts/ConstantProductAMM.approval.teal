@@ -154,7 +154,6 @@ tokensToMint:
 
 	// examples/amm/amm.ts:65
 	// aRatio = wideRatio([aAmount, 1_000], [aSupply])
-	// wideRatio TODO: figure out proper chunk math
 	frame_dig -4 // aAmount: uint64
 	int 1_000
 	mulw
@@ -170,7 +169,6 @@ tokensToMint:
 
 	// examples/amm/amm.ts:66
 	// bRatio = wideRatio([bAmount, 1_000], [bSupply])
-	// wideRatio TODO: figure out proper chunk math
 	frame_dig -5 // bAmount: uint64
 	int 1_000
 	mulw
@@ -208,7 +206,6 @@ if0_else:
 if0_end:
 	// examples/amm/amm.ts:76
 	// return wideRatio([ratio, issued], [1_000]);
-	// wideRatio TODO: figure out proper chunk math
 	frame_dig -8 // ratio: uint64
 	frame_dig -1 // issued: uint64
 	mulw
@@ -232,7 +229,6 @@ computeRatio:
 
 	// examples/amm/amm.ts:80
 	// return wideRatio(
-	// wideRatio TODO: figure out proper chunk math
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -268,7 +264,6 @@ tokensToBurn:
 
 	// examples/amm/amm.ts:87
 	// return wideRatio([supply, amount], [issued]);
-	// wideRatio TODO: figure out proper chunk math
 	frame_dig -2 // supply: uint64
 	frame_dig -3 // amount: uint64
 	mulw
@@ -299,13 +294,18 @@ tokensToSwap:
 
 	// examples/amm/amm.ts:92
 	// return wideRatio(
-	// wideRatio TODO: figure out proper chunk math
 	frame_dig -1 // inAmount: uint64
 	frame_dig -4 // factor: uint64
 	mulw
-	int 0
 	frame_dig -3 // outSupply: uint64
+	uncover 2
+	dig 1
+	*
+	cover 2
 	mulw
+	cover 2
+	+
+	swap
 	int 0
 	frame_dig -2 // inSupply: uint64
 	int 1_000
