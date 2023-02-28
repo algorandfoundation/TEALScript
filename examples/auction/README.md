@@ -1,8 +1,4 @@
-This repo contains 
-1. [An auction smart contract](auction.py) written with [PyTeal](https://github.com/algorand/pyteal) and [Beaker](https://github.com/algorand-devrel/beaker)
-2. [Python Tests](test_auction.py) written with [Beaker](https://github.com/algorand-devrel/beaker) and [pytest](https://docs.pytest.org/en/7.1.x/)
-3. [TypeScript Tests](web/spec/index.spec.ts) written with [beaker-ts](https://github.com/algorand-devrel/beaker-ts) and [jest](https://github.com/facebook/jest)
-4. A web-based [front-end](web/) written with [js-algorand-sdk](https://github.com/algorand-devrel/beaker) and [beaker-ts](https://github.com/algorand-devrel/beaker-ts) (based on [algo-web-template](https://github.com/algorand-devrel/algo-web-template))
+Port of Beaker auction contract to TEALScript. Original source: https://github.com/algorand-devrel/beaker-auction/tree/7e1fe62b852c0d819954a931f10cf39d841cbc02 
 
 # Install python dependencies
 
@@ -15,21 +11,7 @@ This repo contains
 ## Python Tests (PyTest)
 
 1. `source .venv/bin/activate` to activate virtual environment
-2. `python auction.py` to generate artifacts (`.teal`, `.json` files)
-3. `pytest` to execute tests
-
-## Web Front End
-
-1. `cd web/`
-2. `npm i` to install the nodeJS dependencies
-3. `npm run beaker` to compile the smart contract and generate the typescript class for the beaker application
-4. `npm run serve` to serve and open web app
-
-To use the app you must have at least one account in MyAlgo funded on testnet. You can get testnet funds [here](https://bank.testnet.algorand.network/)
-
-## TypeScript Tests (Jest)
-
-1. `cd web/`
-2. `npm i` to install the nodeJS dependencies
-4. `npm run test` to compile and run Jest tests
+2. `python auction.py` to generate beaker artifacts (`.teal`, `.json` files)
+3. `npx tsx ../../src/bin/tealscript.ts auction.ts tealscript_artifacts` to generate tealscript artifacts
+4. `pytest` to execute tests
 
