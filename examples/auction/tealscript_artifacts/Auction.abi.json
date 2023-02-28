@@ -1,0 +1,95 @@
+{
+  "name": "Auction",
+  "desc": "",
+  "methods": [
+    {
+      "name": "optIntoAsset",
+      "args": [
+        {
+          "name": "asset",
+          "type": "asset",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "startAuction",
+      "args": [
+        {
+          "name": "startingPrice",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "length",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "axfer",
+          "type": "axfer",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "bid",
+      "args": [
+        {
+          "name": "payment",
+          "type": "pay",
+          "desc": ""
+        },
+        {
+          "name": "previousBidder",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "claimBid",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "claim_asset",
+      "args": [
+        {
+          "name": "asset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "assetCreator",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

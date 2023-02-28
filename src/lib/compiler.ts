@@ -1909,16 +1909,40 @@ export default class Compiler {
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
+
+    const state = {
+      global: {
+        num_byte_slices: 0,
+        num_uints: 0,
+      },
+      local: {
+        num_byte_slices: 0,
+        num_uints: 0,
+      },
+    };
     // eslint-disable-next-line no-restricted-syntax
     for (const [k, v] of Object.entries(this.storageProps)) {
       // eslint-disable-next-line default-case
       // TODO; Proper global/local types?
       switch (v.type) {
         case 'global':
-          globalDeclared[k] = { type: 'bytes', key: k };
+          if (isNumeric(v.valueType)) {
+            state.global.num_uints += 1;
+            globalDeclared[k] = { type: 'uint64', key: k };
+          } else {
+            globalDeclared[k] = { type: 'bytes', key: k };
+            state.global.num_byte_slices += 1;
+          }
+
           break;
         case 'local':
-          localDeclared[k] = { type: 'bytes', key: k };
+          if (isNumeric(v.valueType)) {
+            state.local.num_uints += 1;
+            localDeclared[k] = { type: 'uint64', key: k };
+          } else {
+            state.local.num_byte_slices += 1;
+            localDeclared[k] = { type: 'bytes', key: k };
+          }
           break;
         default:
           // TODO: boxes?
@@ -1932,6 +1956,7 @@ export default class Compiler {
         local: { declared: localDeclared, reserved: {} },
         global: { declared: globalDeclared, reserved: {} },
       },
+      state,
       source: { approval, clear },
       contract: this.abi,
     };
