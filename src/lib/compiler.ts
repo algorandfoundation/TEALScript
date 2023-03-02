@@ -138,7 +138,7 @@ const TXN_METHODS = [
   'sendAppCall',
   'sendMethodCall',
   'sendAssetTransfer',
-  'sendAssetConfig',
+  'sendAssetCreation',
 ];
 
 const CONTRACT_SUBCLASS = 'Contract';
@@ -1788,6 +1788,7 @@ export default class Compiler {
       case 'sendAppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
+      case 'sendAssetCreation':
       case 'sendAssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
@@ -1892,6 +1893,10 @@ export default class Compiler {
     });
 
     this.pushVoid('itxn_submit');
+
+    if (node.expression.getText() === 'sendAssetCreation') {
+      this.push('itxn CreatedAssetID', 'asset');
+    }
   }
 
   private processStorageExpression(node: ts.PropertyAccessExpression) {

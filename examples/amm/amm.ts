@@ -25,7 +25,7 @@ class ConstantProductAMM extends Contract {
   private doCreatePoolToken(aAsset: Asset, bAsset: Asset): Asset {
     // Unit name asserts not needed since it's done automatically by Asset.unitName
 
-    sendAssetConfig({
+    return sendAssetCreation({
       configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName))),
       configAssetUnitName: 'dpt',
       configAssetTotal: 1_000_000,
@@ -34,8 +34,6 @@ class ConstantProductAMM extends Contract {
       configAssetReserve: this.app.address,
       fee: 0,
     });
-
-    return this.itxn.createdAssetID;
   }
 
   private doAxfer(receiver: Account, asset: Asset, amount: uint64): void {

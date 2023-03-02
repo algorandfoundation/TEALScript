@@ -177,7 +177,7 @@ interface AssetTransferParams extends CommonTransactionParams {
   assetCloseTo?: Account
 }
 
-interface AssetConfigParams extends CommonTransactionParams {
+interface AssetCreateParams extends CommonTransactionParams {
   configAssetName: bytes
   configAssetUnitName: bytes
   configAssetTotal: uint64
@@ -258,7 +258,7 @@ declare function addr(address: string): Account
 declare function sendPayment(params: PaymentParams): void
 declare function sendAppCall(params: AppParams): void
 declare function sendAssetTransfer(params: AssetTransferParams): void
-declare function sendAssetConfig(params: AssetConfigParams): void
+declare function sendAssetCreation(params: AssetCreateParams): Asset
 // eslint-disable-next-line max-len
 declare function sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType
 declare function btoi(byteslice: BytesLike): uint64
