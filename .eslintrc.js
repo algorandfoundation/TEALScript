@@ -1,5 +1,5 @@
 module.exports = {
-  ignorePatterns: ['tests/contracts/clients/*'],
+  ignorePatterns: ['*_client.ts'],
   env: {
     browser: true,
     es2021: true,
