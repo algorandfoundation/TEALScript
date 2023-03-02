@@ -2,7 +2,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
 
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
