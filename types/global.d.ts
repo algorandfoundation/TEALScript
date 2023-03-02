@@ -177,6 +177,15 @@ interface AssetTransferParams extends CommonTransactionParams {
   assetCloseTo?: Account
 }
 
+interface AssetCreateParams extends CommonTransactionParams {
+  configAssetName: bytes
+  configAssetUnitName: bytes
+  configAssetTotal: uint64
+  configAssetDecimals: uint64
+  configAssetManager: Account
+  configAssetReserve: Account
+}
+
 interface PaymentParams extends CommonTransactionParams {
   amount: uint64
   receiver: Account
@@ -249,6 +258,7 @@ declare function addr(address: string): Account
 declare function sendPayment(params: PaymentParams): void
 declare function sendAppCall(params: AppParams): void
 declare function sendAssetTransfer(params: AssetTransferParams): void
+declare function sendAssetCreation(params: AssetCreateParams): Asset
 // eslint-disable-next-line max-len
 declare function sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType
 declare function btoi(byteslice: BytesLike): uint64
@@ -283,6 +293,8 @@ declare function expw(arg0: IntLike, arg1: IntLike)
 declare function bsqrt(arg0: BytesLike)
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
+
+declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
 
 function decoratorFunction (
   target: Object,

@@ -4,6 +4,13 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
+// https://stackoverflow.com/a/55435856
+function* chunks<T>(arr: T[], n: number): Generator<T[], void> {
+  for (let i = 0; i < arr.length; i += n) {
+    yield arr.slice(i, i + n);
+  }
+}
+
 // This is seperate from getABIType because the bracket notation
 // is useful for parsing, but the ABI/appspec JSON need the parens
 function getABITupleString(str: string) {
@@ -131,6 +138,7 @@ const TXN_METHODS = [
   'sendAppCall',
   'sendMethodCall',
   'sendAssetTransfer',
+  'sendAssetCreation',
 ];
 
 const CONTRACT_SUBCLASS = 'Contract';
@@ -238,6 +246,8 @@ export default class Compiler {
 
   private ifCount: number = 0;
 
+  private ternaryCount: number = 0;
+
   filename?: string;
 
   content: string;
@@ -303,6 +313,7 @@ export default class Compiler {
       global: this.getOpParamObjects('global'),
       itxn: this.getOpParamObjects('itxn'),
       gtxns: this.getOpParamObjects('gtxns'),
+      asset: this.getOpParamObjects('asset_params_get'),
     };
 
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
@@ -561,6 +572,85 @@ export default class Compiler {
 
   private sourceFile: ts.SourceFile;
 
+  private multiplyWideRatioFactors(factors: ts.Expression[]) {
+    if (factors.length === 1) {
+      this.pushVoid('int 0');
+      this.processNode(factors[0]);
+    } else {
+      this.processNode(factors[0]);
+      this.processNode(factors[1]);
+      this.pushVoid('mulw');
+    }
+
+    factors.slice(2).forEach((f) => {
+      this.processNode(f);
+
+      /*
+      https://github.com/algorand/pyteal/blob/d117f99c07a64cddf6de21b72232df12b53fdbbb/pyteal/ast/widemath.py#LL12C8-L12C8
+
+      stack is [..., A, B, C], where C is current factor
+      need to pop all A,B,C from stack and push X,Y, where X and Y are:
+            X * 2**64 + Y = (A * 2**64 + B) * C
+      <=>   X * 2**64 + Y = A * C * 2**64 + B * C
+      <=>   X = A * C + highword(B * C)
+            Y = lowword(B * C)
+
+      TealOp(expr, Op.uncover, 2),  # stack: [..., B, C, A]
+      TealOp(expr, Op.dig, 1),  # stack: [..., B, C, A, C]
+      TealOp(expr, Op.mul),  # stack: [..., B, C, A*C]
+      TealOp(expr, Op.cover, 2),  # stack: [..., A*C, B, C]
+      TealOp(
+          expr, Op.mulw
+      ),  # stack: [..., A*C, highword(B*C), lowword(B*C)]
+      TealOp(
+          expr, Op.cover, 2
+      ),  # stack: [..., lowword(B*C), A*C, highword(B*C)]
+      TealOp(
+          expr, Op.add
+      ),  # stack: [..., lowword(B*C), A*C+highword(B*C)]
+      TealOp(
+          expr, Op.swap
+      ),  # stack: [..., A*C+highword(B*C), lowword(B*C)]
+      */
+
+      this.pushLines(
+        'uncover 2',
+        'dig 1',
+        '*',
+        'cover 2',
+        'mulw',
+        'cover 2',
+        '+',
+        'swap',
+      );
+    });
+  }
+
+  private customMethods: { [methodName: string]: (node: ts.CallExpression) => void } = {
+    wideRatio: (node: ts.CallExpression) => {
+      if (
+        node.arguments.length !== 2
+        || !ts.isArrayLiteralExpression(node.arguments[0])
+        || !ts.isArrayLiteralExpression(node.arguments[1])
+      ) throw new Error();
+
+      this.multiplyWideRatioFactors(new Array(...node.arguments[0].elements));
+      this.multiplyWideRatioFactors(new Array(...node.arguments[1].elements));
+
+      this.pushLines(
+        'divmodw',
+        'pop',
+        'pop',
+        'swap',
+        '!',
+        'assert',
+      );
+
+      this.lastType = 'uint64';
+    },
+
+  };
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -774,6 +864,7 @@ export default class Compiler {
       else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
+      else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
       else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -793,6 +884,18 @@ export default class Compiler {
 
       throw e;
     }
+  }
+
+  private processConditionalExpression(node: ts.ConditionalExpression) {
+    this.processNode(node.condition);
+    this.pushVoid(`bz ternary${this.ternaryCount}_false`);
+    this.processNode(node.whenTrue);
+    this.pushVoid(`b ternary${this.ternaryCount}_end`);
+    this.pushVoid(`ternary${this.ternaryCount}_false:`);
+    this.processNode(node.whenFalse);
+    this.pushVoid(`ternary${this.ternaryCount}_end:`);
+
+    this.ternaryCount += 1;
   }
 
   private pushLines(...lines: string[]) {
@@ -1118,8 +1221,13 @@ export default class Compiler {
       const leftType = this.getStackTypeFromNode(node.left);
       this.typeHint = leftType;
 
-      if (!ts.isElementAccessExpression(node.left)) throw new Error();
-      this.processStaticArray(node.left, node.right);
+      if (ts.isIdentifier(node.left)) {
+        const name = node.left.getText();
+        const target = this.frame[name];
+        this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
+      } else if (ts.isElementAccessExpression(node.left)) {
+        this.processStaticArray(node.left, node.right);
+      }
 
       this.typeHint = undefined;
       return;
@@ -1217,16 +1325,23 @@ export default class Compiler {
     this.addSourceComment(node);
     const name = node.name.getText();
 
-    if (!node.initializer) throw new Error('Variables must be initialized when defined');
+    if (node.initializer) {
+      this.processNode(node.initializer);
 
-    this.processNode(node.initializer);
+      this.frame[name] = {
+        index: this.frameIndex,
+        type: this.lastType,
+      };
 
-    this.frame[name] = {
-      index: this.frameIndex,
-      type: this.lastType,
-    };
+      this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+    } else {
+      if (!node.type) throw new Error('Uninitialized variables must have a type');
+      this.frame[name] = {
+        index: this.frameIndex,
+        type: node.type.getText(),
+      };
+    }
 
-    this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
     this.frameIndex -= 1;
   }
 
@@ -1260,14 +1375,16 @@ export default class Compiler {
       } else if (['method'].includes(methodName)) {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
-      }
+      } else if (this.customMethods[methodName]) {
+        this.customMethods[methodName](node);
+      } else throw new Error(`${methodName} is undefined`);
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');
       this.pushVoid(`PENDING_DUPN: ${methodName}`);
       new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
-      this.pushVoid(`callsub ${methodName}`);
+      this.push(`callsub ${methodName}`, this.subroutines[methodName].returnType);
     } else if (
       ts.isPropertyAccessExpression(node.expression.expression)
       && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
@@ -1671,8 +1788,12 @@ export default class Compiler {
       case 'sendAppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
-      default:
+      case 'sendAssetCreation':
+      case 'sendAssetConfig':
+        txnType = TransactionType.AssetConfigTx;
         break;
+      default:
+        throw new Error(`Invalid transaction call ${node.expression.getText()}`);
     }
 
     this.pushVoid('itxn_begin');
@@ -1772,6 +1893,10 @@ export default class Compiler {
     });
 
     this.pushVoid('itxn_submit');
+
+    if (node.expression.getText() === 'sendAssetCreation') {
+      this.push('itxn CreatedAssetID', 'asset');
+    }
   }
 
   private processStorageExpression(node: ts.PropertyAccessExpression) {

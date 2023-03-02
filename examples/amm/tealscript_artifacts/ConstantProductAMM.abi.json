@@ -1,0 +1,136 @@
+{
+  "name": "ConstantProductAMM",
+  "desc": "",
+  "methods": [
+    {
+      "name": "set_governor",
+      "args": [
+        {
+          "name": "governor",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "bootstrap",
+      "args": [
+        {
+          "name": "seed",
+          "type": "pay",
+          "desc": ""
+        },
+        {
+          "name": "aAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "bAsset",
+          "type": "asset",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "mint",
+      "args": [
+        {
+          "name": "aXfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "bXfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "poolAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "aAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "bAsset",
+          "type": "asset",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "burn",
+      "args": [
+        {
+          "name": "poolXfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "poolAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "aAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "bAsset",
+          "type": "asset",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "swap",
+      "args": [
+        {
+          "name": "swapXfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "aAsset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "bAsset",
+          "type": "asset",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}
