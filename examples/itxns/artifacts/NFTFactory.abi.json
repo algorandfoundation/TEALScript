@@ -1,0 +1,46 @@
+{
+  "name": "NFTFactory",
+  "desc": "",
+  "methods": [
+    {
+      "name": "createNFT",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "unitName",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "transferNFT",
+      "args": [
+        {
+          "name": "asset",
+          "type": "asset",
+          "desc": ""
+        },
+        {
+          "name": "receiver",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

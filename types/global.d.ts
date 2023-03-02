@@ -178,12 +178,12 @@ interface AssetTransferParams extends CommonTransactionParams {
 }
 
 interface AssetCreateParams extends CommonTransactionParams {
-  configAssetName: bytes
-  configAssetUnitName: bytes
+  configAssetName?: bytes
+  configAssetUnitName?: bytes
   configAssetTotal: uint64
   configAssetDecimals: uint64
-  configAssetManager: Account
-  configAssetReserve: Account
+  configAssetManager?: Account
+  configAssetReserve?: Account
 }
 
 interface PaymentParams extends CommonTransactionParams {

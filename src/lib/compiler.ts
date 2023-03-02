@@ -1816,7 +1816,12 @@ export default class Compiler {
         (t) => getABITupleString(getABIType(t.getText())),
       );
 
-      const returnType = node.typeArguments![1].getText();
+      let returnType = node.typeArguments![1].getText();
+
+      returnType = returnType.toLowerCase()
+        .replace('asset', 'uint64')
+        .replace('account', 'address')
+        .replace('application', 'uint64');
 
       this.pushVoid(
         `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`,
@@ -1894,7 +1899,19 @@ export default class Compiler {
 
     this.pushVoid('itxn_submit');
 
-    if (node.expression.getText() === 'sendAssetCreation') {
+    if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
+      this.pushLines(
+        'itxn NumLogs',
+        'int 1',
+        '-',
+        'itxnas Logs',
+        'extract 4 0',
+      );
+
+      const returnType = getABIType(node.typeArguments![1].getText());
+      if (isNumeric(returnType)) this.pushVoid('btoi');
+      this.lastType = returnType;
+    } else if (node.expression.getText() === 'sendAssetCreation') {
       this.push('itxn CreatedAssetID', 'asset');
     }
   }
