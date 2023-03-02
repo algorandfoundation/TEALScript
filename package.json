@@ -18,7 +18,8 @@
     "prepack": "tsc",
     "compile-tests": "for f in tests/contracts/abi.ts; do ts-node src/bin/tealscript.ts $f; done",
     "generate-test-clients": "for f in tests/contracts/AbiTest.json; do npx beaker-ts generate $f tests/contracts/clients/; done",
-    "pre-test": "yarn compile-tests && yarn generate-test-clients"
+    "pre-test": "yarn compile-tests && yarn generate-test-clients",
+    "itxns": "tsx ./src/bin/tealscript.ts examples/itxns/itxns.ts examples/itxns/artifacts && beaker generate examples/itxns/artifacts/FactoryCaller.json examples/itxns/beaker-client && tsx examples/itxns/demo.ts"
   },
   "dependencies": {
     "algosdk": "^2.0.0",

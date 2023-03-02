@@ -42,7 +42,7 @@ import { FactoryCaller } from './beaker-client/factorycaller_client';
     asset!.valueOf() as number,
   ).do();
 
-  console.log(`factoryCaller asset holding: ${assetHolding}`);
+  console.log(`factoryCaller asset holding: ${JSON.stringify(assetHolding)}`);
 
   const assetInfo = await factoryCaller.client.getAssetByID(asset!.valueOf() as number).do();
 
