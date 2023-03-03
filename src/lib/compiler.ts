@@ -220,6 +220,17 @@ function isRefType(t: string): boolean {
   return ['account', 'asset', 'application'].includes(t);
 }
 
+const scratch = {
+  fullTuple: '0 // full tuple',
+  arrayOffset: '1 // array offset',
+  fullArrayLength: '2 // full array length',
+  newArray: '6 // new array',
+  staticPartOfTuple: '3 // static part of tuple',
+  dynamicHeads: '4 // dynamic heads',
+  valuesAfterArray: '5 // values after array',
+  valuesBeforeArray: '7 // values before array',
+};
+
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
@@ -1047,26 +1058,26 @@ export default class Compiler {
         headOffset += (dynamicTypeIndex) * 2;
 
         this.pushLines(
-          'store 0 // full tuple',
-          'load 0 // full tuple',
+          `store ${scratch.fullTuple}`,
+          `load ${scratch.fullTuple}`,
           `int ${headOffset} // head offset`,
           'extract_uint16 // extract array offset',
-          'store 1 // array offset',
-          'load 0 // full tuple',
-          'load 1 // array offset',
+          `store ${scratch.arrayOffset}`,
+          `load ${scratch.fullTuple}`,
+          `load ${scratch.arrayOffset}`,
           'extract_uint16 // extract array length',
           `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))}`,
           '* // array size',
           'int 2',
           '+ // array size + len',
-          'store 2 // full array length',
+          `store ${scratch.fullArrayLength}`,
         );
 
         if (newValue === undefined) {
           this.pushLines(
-            'load 0 // full tuple',
-            'load 1 // array offset',
-            'load 2 // full array length',
+            `load ${scratch.fullTuple}`,
+            `load ${scratch.arrayOffset}`,
+            `load ${scratch.fullArrayLength}`,
             'extract3',
           );
           this.lastType = accessedType;
@@ -1076,55 +1087,55 @@ export default class Compiler {
           const totalHeadLength = types.dynamic.length * 2;
 
           this.pushLines(
-            'store 6 // new array',
+            `store ${scratch.newArray}`,
             // get static part of tuple
-            'load 0 // full tuple',
+            `load ${scratch.fullTuple}`,
             'int 0',
             `int ${startOfHeads} // start of dynamic heads`,
             'extract3',
-            'store 3 // static part of tuple',
+            `store ${scratch.staticPartOfTuple}`,
             // get dynamic heads
-            'load 0 // full tuple',
+            `load ${scratch.fullTuple}`,
             `extract ${startOfHeads} ${totalHeadLength}`,
-            'store 4 // dynamic heads',
+            `store ${scratch.dynamicHeads}`,
             'byte 0x',
             'dup',
-            'store 5 // values after array',
-            'store 7 // values before array',
+            `store ${scratch.valuesAfterArray}`,
+            `store ${scratch.valuesBeforeArray}`,
           );
 
           // get values AFTER the updated array
           if (dynamicTypeIndex < types.dynamic.length - 1) {
             this.pushLines(
-              'load 0 // full tuple',
-              'load 1 // array offset',
-              'load 2 // full array length',
+              `load ${scratch.fullTuple}`,
+              `load ${scratch.arrayOffset}`,
+              `load ${scratch.fullArrayLength}`,
               '+',
-              'load 0 // full tuple',
+              `load ${scratch.fullTuple}`,
               'len',
               'substring3',
-              'store 5 // values after array',
+              `store ${scratch.valuesAfterArray}`,
             );
           }
 
           // Get values BEFORE the updated array
           if (dynamicTypeIndex > 0) {
             this.pushLines(
-              'load 0 // full tuple',
+              `load ${scratch.fullTuple}`,
               `int ${startOfHeads + totalHeadLength} // head end`,
-              'load 1 // array offset',
+              `load ${scratch.arrayOffset}`,
               'substring3',
-              'store 7 // values before array',
+              `store ${scratch.valuesBeforeArray}`,
             );
           }
 
           // Update dynamic heads
           this.pushLines(
-            'load 4 // dynamic heads',
+            `load ${scratch.dynamicHeads}`,
             `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
-            'load 6 // new array',
+            `load ${scratch.newArray}`,
             'len',
-            'load 2',
+            `load ${scratch.fullArrayLength}`,
             '-',
             'itob',
             'extract 6 2',
@@ -1138,13 +1149,13 @@ export default class Compiler {
             'b+',
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
             'b&',
-            'store 4 // dynamic heads',
+            `store ${scratch.dynamicHeads}`,
             // form new array
-            'load 3 // static part of tuple',
-            'load 4 // dynamic heads',
-            'load 7 // values before array',
-            'load 6 // new array',
-            'load 5 // values after array',
+            `load ${scratch.staticPartOfTuple}`,
+            `load ${scratch.dynamicHeads}`,
+            `load ${scratch.valuesBeforeArray}`,
+            `load ${scratch.newArray}`,
+            `load ${scratch.valuesAfterArray}`,
             'concat',
             'concat',
             'concat',

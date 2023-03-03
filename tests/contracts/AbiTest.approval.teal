@@ -1447,7 +1447,7 @@ updateDynamicArrayInTuple:
 	byte 0x0000FFFFFFFFFFFF
 	load 6 // new array
 	len
-	load 2
+	load 2 // full array length
 	-
 	itob
 	extract 6 2
@@ -1518,7 +1518,7 @@ updateDynamicArrayInTuple:
 	byte 0x00000000FFFFFFFF
 	load 6 // new array
 	len
-	load 2
+	load 2 // full array length
 	-
 	itob
 	extract 6 2
@@ -1589,7 +1589,7 @@ updateDynamicArrayInTuple:
 	byte 0x000000000000FFFF
 	load 6 // new array
 	len
-	load 2
+	load 2 // full array length
 	-
 	itob
 	extract 6 2
@@ -1652,7 +1652,7 @@ updateDynamicArrayInTuple:
 	byte 0x0000000000000000
 	load 6 // new array
 	len
-	load 2
+	load 2 // full array length
 	-
 	itob
 	extract 6 2
