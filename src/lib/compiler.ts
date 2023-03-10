@@ -954,6 +954,7 @@ export default class Compiler {
     }
 
     // Process dynamic elements
+    // TODO: Optimize this when there are literal dynamic elements
     const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
 
     if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
@@ -970,30 +971,34 @@ export default class Compiler {
     );
 
     node.elements.slice(-types.dynamic.length).forEach((e, i) => {
-      if (!ts.isArrayLiteralExpression(e)) throw new Error();
+      if (ts.isArrayLiteralExpression(e)) {
+        const baseType = types.dynamic[i];
+        const innerTypes = this.getTypes(baseType);
+        const innerNodes = this.getArrayNodes(e);
 
-      const baseType = types.dynamic[i];
-      const innerTypes = this.getTypes(baseType);
-      const innerNodes = this.getArrayNodes(e);
+        innerNodes.forEach((n, j) => {
+          const type = innerTypes.static[j % innerTypes.static.length];
 
-      innerNodes.forEach((n, j) => {
-        const type = innerTypes.static[j % innerTypes.static.length];
+          this.processNode(n);
+          if (isNumeric(this.lastType)) this.pushVoid('itob');
 
-        this.processNode(n);
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
+          if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
+            this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
+          }
 
-        if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
-          this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
-        }
+          if (j) this.pushVoid('concat');
+        });
 
-        if (j) this.pushVoid('concat');
-      });
-
-      this.pushLines(
-        `byte 0x${e.elements.length.toString(16).padStart(4, '0')}`,
-        'swap',
-        'concat',
-      );
+        this.pushLines(
+          `byte 0x${e.elements.length.toString(16).padStart(4, '0')}`,
+          'swap',
+          'concat',
+        );
+      } else {
+        this.processNode(e);
+        const expectedType = `${types.dynamic[i]}[]`;
+        if (expectedType !== this.lastType) throw new Error(`Expected type of ${expectedType}, but got ${this.lastType}`);
+      }
 
       // update head if not last element
       if (i !== types.dynamic.length - 1) {

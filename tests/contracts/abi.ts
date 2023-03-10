@@ -288,4 +288,11 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  nonLiteralDynamicElementInTuple(): [uint8, uint16, uint8[], uint16[], uint8[]] {
+    const e: uint16[] = [5, 6];
+    const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]];
+
+    return a;
+  }
 }
