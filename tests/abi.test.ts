@@ -190,25 +190,10 @@ describe('ABI', function () {
   });
 
   it('returnTupleWithDyamicArray', async function () {
-    const ret = await appClient.returnTupleWithDyamicArray();
-    expect(ret.returnValue).to.deep.equal(
-      [BigInt(1), BigInt(2), [BigInt(3), BigInt(4)], [BigInt(5), BigInt(6)]],
-    );
-  });
-
-  it('returnDynamicArrayFromTuple', async function () {
-    const ret = await appClient.returnDynamicArrayFromTuple();
-    expect(ret.returnValue).to.deep.equal(
-      [BigInt(7), BigInt(8)],
-    );
-  });
-
-  it('updateDynamicArrayInTuple', async function () {
-    /*
     const atc = new algosdk.AtomicTransactionComposer();
     atc.addMethodCall({
       appID: appClient.appId,
-      method: algosdk.getMethodByName(appClient.methods, 'updateDynamicArrayInTuple'),
+      method: algosdk.getMethodByName(appClient.methods, 'returnTupleWithDyamicArray'),
       sender: appClient.sender,
       signer: appClient.signer,
       suggestedParams: await appClient.getSuggestedParams(),
@@ -229,8 +214,24 @@ describe('ABI', function () {
     console.log(drrTxn.appTrace(
       { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
     ));
-    */
 
+    //  0x00000000000000010002000e0020000200000000000000030000000000000004000200050006
+    //  0x00000000000000010002000e0021000200000000000000030000000000000004000200050006
+
+    const ret = await appClient.returnTupleWithDyamicArray();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(1), BigInt(2), [BigInt(3), BigInt(4)], [BigInt(5), BigInt(6)]],
+    );
+  });
+
+  it('returnDynamicArrayFromTuple', async function () {
+    const ret = await appClient.returnDynamicArrayFromTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(7), BigInt(8)],
+    );
+  });
+
+  it('updateDynamicArrayInTuple', async function () {
     const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
       { old: BigInt(9), new: BigInt(99) },
       { old: [BigInt(8)], new: [BigInt(10), BigInt(11)] },

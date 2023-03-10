@@ -1305,9 +1305,54 @@ returnTupleWithDyamicArray:
 	// tests/contracts/abi.ts:269
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
 	byte 0x00000000000000010002
-	byte 0x000200000000000000030000000000000004000200050006
-	byte 0x000e0020 // head
+	store 11 // static elements
+	byte 0x000e // head end
+	store 8 // dynamic head
+	int 14
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 3
+	itob
+	int 4
+	itob
+	concat
+	byte 0x0002
 	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 6 0
+	int 6
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
 	concat
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
@@ -1338,9 +1383,82 @@ returnDynamicArrayFromTuple:
 	// tests/contracts/abi.ts:275
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
 	byte 0x010002
-	byte 0x0002030400020005000600020708
-	byte 0x0009000d0013 // head
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 7 0
+	int 4
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
 	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 6 0
+	int 6
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 7
+	itob
+	extract 7 0
+	int 8
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
 	concat
 	concat
 	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
@@ -1388,9 +1506,92 @@ updateDynamicArrayInTuple:
 	// tests/contracts/abi.ts:281
 	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
 	byte 0x09
-	byte 0x0001000800010700010006000105
-	byte 0x0009000d00100014 // head
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 8
+	itob
+	extract 6 0
+	byte 0x0001
 	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 7
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
 	concat
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]

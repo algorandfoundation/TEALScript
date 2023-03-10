@@ -224,11 +224,15 @@ const scratch = {
   fullTuple: '0 // full tuple',
   arrayOffset: '1 // array offset',
   fullArrayLength: '2 // full array length',
-  newArray: '6 // new array',
   staticPartOfTuple: '3 // static part of tuple',
   dynamicHeads: '4 // dynamic heads',
   valuesAfterArray: '5 // values after array',
+  newArray: '6 // new array',
   valuesBeforeArray: '7 // values before array',
+  dynamicHead: '8 // dynamic head',
+  dynamicHeadOffset: '9 // dynamic head offset',
+  dynamicElements: '10 // dynamic elements',
+  staticElements: '11 // static elements',
 };
 
 export default class Compiler {
@@ -862,7 +866,7 @@ export default class Compiler {
     return nodes.flat();
   }
 
-  private processArrayElement(
+  private processStaticArrayElement(
     e: ts.Node,
     type: string,
     isLast: boolean,
@@ -914,7 +918,7 @@ export default class Compiler {
         context.hexString = (nodes.length / innerTypes.length).toString(16).padStart(4, '0');
 
         nodes.forEach((e, i) => {
-          this.processArrayElement(
+          this.processStaticArrayElement(
             e,
             innerTypes[i % innerTypes.length],
             i === nodes.length - 1,
@@ -925,7 +929,7 @@ export default class Compiler {
         context.hexString = (nodes.length).toString(16).padStart(4, '0');
 
         nodes.forEach((e, i) => {
-          this.processArrayElement(e, baseType, i === nodes.length - 1, context);
+          this.processStaticArrayElement(e, baseType, i === nodes.length - 1, context);
         });
       }
 
@@ -936,7 +940,7 @@ export default class Compiler {
     // Process static elements
     // TODO: Throw error if size is wrong
     nodes.slice(0, types.static.length).forEach((e, i) => {
-      this.processArrayElement(
+      this.processStaticArrayElement(
         e,
         types.static[i],
         i === types.static.length - 1,
@@ -949,11 +953,21 @@ export default class Compiler {
       return;
     }
 
+    // Process dynamic elements
     const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
 
+    if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
+
     const headEnd = staticLen + (2 * types.dynamic.length);
-    const head: number[] = [headEnd];
-    const dynamicContext = { bytesOnStack: false, hexString: '' };
+    this.pushLines(
+      `store ${scratch.staticElements}`,
+      `byte 0x${headEnd.toString(16).padStart(4, '0')} // head end`,
+      `store ${scratch.dynamicHead}`,
+      `int ${headEnd}`,
+      `store ${scratch.dynamicHeadOffset}`,
+      'byte 0x',
+      `store ${scratch.dynamicElements}`,
+    );
 
     node.elements.slice(-types.dynamic.length).forEach((e, i) => {
       if (!ts.isArrayLiteralExpression(e)) throw new Error();
@@ -962,35 +976,58 @@ export default class Compiler {
       const innerTypes = this.getTypes(baseType);
       const innerNodes = this.getArrayNodes(e);
 
-      if (i) {
-        const lastBaseType = types.dynamic[i - 1];
-        const lastElement = node
-          .elements.slice(-types.dynamic.length)[i - 1] as ts.ArrayLiteralExpression;
+      innerNodes.forEach((n, j) => {
+        const type = innerTypes.static[j % innerTypes.static.length];
 
-        head.push(
-          head.at(-1)! // last offset
-          + 2 // add two for uint16 len value
-          // Add length of the previous dynamic array
-          + getTypeLength(lastBaseType) * lastElement.elements.length,
+        this.processNode(n);
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+        if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
+          this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
+        }
+
+        if (j) this.pushVoid('concat');
+      });
+
+      this.pushLines(
+        `byte 0x${e.elements.length.toString(16).padStart(4, '0')}`,
+        'swap',
+        'concat',
+      );
+
+      // update head if not last element
+      if (i !== types.dynamic.length - 1) {
+        this.pushLines(
+          'dup',
+          'len',
+          `load ${scratch.dynamicHeadOffset}`,
+          '+',
+          'dup',
+          `store ${scratch.dynamicHeadOffset}`,
+          'itob',
+          'extract 6 2',
+          `load ${scratch.dynamicHead}`,
+          'swap',
+          'concat',
+          `store ${scratch.dynamicHead}`,
         );
       }
 
-      dynamicContext.hexString += innerNodes.length.toString(16).padStart(4, '0');
-
-      innerNodes.forEach((n, j) => {
-        this.processArrayElement(
-          n,
-          innerTypes.static[j % innerTypes.static.length],
-          (j === innerNodes.length - 1) && (i === types.dynamic.length - 1),
-          dynamicContext,
-        );
-      });
+      this.pushLines(
+        `load ${scratch.dynamicElements}`,
+        'swap',
+        'concat',
+        `store ${scratch.dynamicElements}`,
+      );
     });
 
-    this.pushVoid(`byte 0x${head.map((h) => h.toString(16).padStart(4, '0')).join('')} // head`);
-    this.pushVoid('swap');
-    this.pushVoid('concat');
-    if (staticLen > 0) this.pushVoid('concat');
+    this.pushLines(
+      `load ${scratch.staticElements}`,
+      `load ${scratch.dynamicHead}`,
+      `load ${scratch.dynamicElements}`,
+      'concat',
+      'concat',
+    );
     this.lastType = getABIType(this.typeHint!);
   }
 
