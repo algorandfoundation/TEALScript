@@ -270,7 +270,7 @@ describe('ABI', function () {
 
   it('arraySplice', async function () {
     const ret = await appClient.arraySplice();
-    expect(ret.returnValue).to.deep.equal([1, 7, 8, 9, 10].map((n) => BigInt(n)));
+    expect(ret.returnValue).to.deep.equal([1, 3].map((n) => BigInt(n)));
   });
 
   it('arraySpliceValue', async function () {

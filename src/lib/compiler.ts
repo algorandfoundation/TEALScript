@@ -1674,6 +1674,8 @@ export default class Compiler {
       this.pushLines(
         `int ${getTypeLength(elementType)}`,
         '*',
+        'int 2',
+        '+',
         `store ${scratch.spliceStart}`,
       );
 
@@ -1693,21 +1695,25 @@ export default class Compiler {
       this.pushLines(
         'int 2',
         `load ${scratch.spliceStart}`,
-        'extract3',
+        'substring3',
       );
 
       // extract second part
       this.processNode(node.expression.expression);
       this.pushLines(
+        // get end
         'dup',
         'len',
-        // `int ${spliceStart + spliceByteLength}`,
+        // get start (end of splice)
         `load ${scratch.spliceStart}`,
         `load ${scratch.spliceByteLength}`,
         '+',
+        `int ${getTypeLength(elementType)}`,
+        '-',
         'swap',
+        // extract second part
         'substring3',
-        // concat
+        // concat everything
         'concat',
         'concat',
       );
@@ -1721,10 +1727,7 @@ export default class Compiler {
         );
         this.processNode(node.expression.expression);
         this.pushLines(
-          // `int ${spliceStart + 2}`,
           `load ${scratch.spliceStart}`,
-          'int 2',
-          '+',
           // `int ${spliceByteLength - getTypeLength(elementType)}`,
           `load ${scratch.spliceByteLength}`,
           `int ${getTypeLength(elementType)}`,
