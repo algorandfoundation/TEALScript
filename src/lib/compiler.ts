@@ -233,6 +233,8 @@ const scratch = {
   dynamicHeadOffset: '9 // dynamic head offset',
   dynamicElements: '10 // dynamic elements',
   staticElements: '11 // static elements',
+  spliceStart: '12 // splice start',
+  spliceByteLength: '13 // splice byte length',
 };
 
 export default class Compiler {
@@ -1643,40 +1645,61 @@ export default class Compiler {
 
       this.lastType = poppedType;
     } else if (methodName === 'splice') {
+      this.processNode(node.expression.expression);
+      if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
       const elementType = this.lastType.replace(/\[\]$/, '');
-      if (!this.lastType.endsWith('[]')) throw new Error('Can only splice dynamic array');
 
       // get new len
-      this.processNode(node.expression.expression);
       this.pushLines(
         'int 0',
         'extract_uint16',
-        `int ${parseInt(node.arguments[1].getText(), 10)}`,
+      );
+      // `int ${parseInt(node.arguments[1].getText(), 10)}`
+      this.processNode(node.arguments[1]);
+      this.pushLines(
         '-',
         'itob',
         'extract 6 2',
       );
 
-      const spliceIndex = parseInt(node.arguments[0].getText(), 10);
-      const spliceStart = spliceIndex * getTypeLength(elementType);
+      // TODO: Optimize for literals
+      // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
+      // const spliceStart = spliceIndex * getTypeLength(elementType);
+      this.processNode(node.arguments[0]);
+      this.pushLines(
+        `int ${getTypeLength(elementType)}`,
+        '*',
+        `store ${scratch.spliceStart}`,
+      );
+
+      // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
+      // const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
+      this.processNode(node.arguments[1]);
+      this.pushLines(
+        `int ${getTypeLength(elementType)}`,
+        'int 1',
+        '+',
+        '*',
+        `store ${scratch.spliceByteLength}`,
+      );
 
       // extract first part
       this.processNode(node.expression.expression);
       this.pushLines(
         'int 2',
-        `int ${spliceStart}`,
+        `load ${scratch.spliceStart}`,
         'extract3',
       );
-
-      const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
-      const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
 
       // extract second part
       this.processNode(node.expression.expression);
       this.pushLines(
         'dup',
         'len',
-        `int ${spliceStart + spliceByteLength}`,
+        // `int ${spliceStart + spliceByteLength}`,
+        `load ${scratch.spliceStart}`,
+        `load ${scratch.spliceByteLength}`,
+        '+',
         'swap',
         'substring3',
         // concat
@@ -1684,16 +1707,23 @@ export default class Compiler {
         'concat',
       );
 
-      // TOOD: return the spliced elements
-      // only get the popped element if we're expecting a return value
       if (this.topLevelNode !== node) {
+        // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
+        this.processNode(node.arguments[1]);
         this.pushLines(
-          `byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`,
+          'itob',
+          'extract 6 2',
         );
         this.processNode(node.expression.expression);
         this.pushLines(
-          `int ${spliceStart + 2}`,
-          `int ${spliceByteLength - getTypeLength(elementType)}`,
+          // `int ${spliceStart + 2}`,
+          `load ${scratch.spliceStart}`,
+          'int 2',
+          '+',
+          // `int ${spliceByteLength - getTypeLength(elementType)}`,
+          `load ${scratch.spliceByteLength}`,
+          `int ${getTypeLength(elementType)}`,
+          '-',
           'extract3',
           'concat',
           'swap',

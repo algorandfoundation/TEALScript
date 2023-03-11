@@ -2173,14 +2173,26 @@ arraySplice:
 	-
 	itob
 	extract 6 2
+	int 1
+	int 2
+	*
+	store 12 // splice start
+	int 2
+	int 2
+	int 1
+	+
+	*
+	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 2
-	int 2
+	load 12 // splice start
 	extract3
 	frame_dig -1 // a: uint16[]
 	dup
 	len
-	int 8
+	load 12 // splice start
+	load 13 // splice byte length
+	+
 	swap
 	substring3
 	concat
@@ -2202,13 +2214,13 @@ abi_route_arraySpliceValue:
 	==
 	assert
 	byte 0x
-	dupn 3
+	dupn 5
 	callsub arraySpliceValue
 	int 1
 	return
 
 arraySpliceValue:
-	proto 3 0
+	proto 5 0
 
 	// tests/contracts/abi.ts:332
 	// a: uint16[] = [1, 2, 3, 4]
@@ -2216,39 +2228,67 @@ arraySpliceValue:
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.ts:334
-	// v = a.splice(1, 2)
+	// i = 1
+	int 1
+	frame_bury -2 // i: uint64
+
+	// tests/contracts/abi.ts:335
+	// l = 2
+	int 2
+	frame_bury -3 // l: uint64
+
+	// tests/contracts/abi.ts:336
+	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
 	int 0
 	extract_uint16
-	int 2
+	frame_dig -3 // l: uint64
 	-
 	itob
 	extract 6 2
+	frame_dig -2 // i: uint64
+	int 2
+	*
+	store 12 // splice start
+	frame_dig -3 // l: uint64
+	int 2
+	int 1
+	+
+	*
+	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 2
-	int 2
+	load 12 // splice start
 	extract3
 	frame_dig -1 // a: uint16[]
 	dup
 	len
-	int 8
+	load 12 // splice start
+	load 13 // splice byte length
+	+
 	swap
 	substring3
 	concat
 	concat
-	byte 0x0002
+	frame_dig -3 // l: uint64
+	itob
+	extract 6 2
 	frame_dig -1 // a: uint16[]
-	int 4
-	int 4
+	load 12 // splice start
+	int 2
+	+
+	load 13 // splice byte length
+	int 2
+	-
 	extract3
 	concat
 	swap
 	frame_bury -1 // a: uint16[]
-	frame_bury -2 // v: uint16[]
+	frame_bury -4 // v: uint16[]
 
-	// tests/contracts/abi.ts:336
+	// tests/contracts/abi.ts:338
 	// return v;
-	frame_dig -2 // v: uint16[]
+	frame_dig -4 // v: uint16[]
 	byte 0x151f7c75
 	swap
 	concat
