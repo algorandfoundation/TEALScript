@@ -1685,8 +1685,23 @@ export default class Compiler {
       );
 
       // TOOD: return the spliced elements
+      // only get the popped element if we're expecting a return value
+      if (this.topLevelNode !== node) {
+        this.pushLines(
+          `byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`,
+        );
+        this.processNode(node.expression.expression);
+        this.pushLines(
+          `int ${spliceStart + 2}`,
+          `int ${spliceByteLength - getTypeLength(elementType)}`,
+          'extract3',
+          'concat',
+          'swap',
+        );
+      }
 
       this.updateValue(node.expression.expression);
+      this.lastType = `${elementType}[]`;
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');

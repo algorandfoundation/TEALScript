@@ -272,4 +272,10 @@ describe('ABI', function () {
     const ret = await appClient.arraySplice();
     expect(ret.returnValue).to.deep.equal([BigInt(1), BigInt(4)]);
   });
+
+  it('arraySpliceValue', async function () {
+    dryrun('arraySpliceValue');
+    const ret = await appClient.arraySpliceValue();
+    expect(ret.returnValue).to.deep.equal([BigInt(2), BigInt(3)]);
+  });
 });
