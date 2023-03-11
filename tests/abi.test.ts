@@ -7,6 +7,29 @@ import { AbiTest } from './contracts/clients/abitest_client';
 
 let appClient: AbiTest;
 
+// eslint-disable-next-line no-unused-vars
+async function dryrun(methodName: string) {
+  const atc = new algosdk.AtomicTransactionComposer();
+  atc.addMethodCall({
+    appID: appClient.appId,
+    method: algosdk.getMethodByName(appClient.methods, methodName),
+    sender: appClient.sender,
+    signer: appClient.signer,
+    suggestedParams: await appClient.getSuggestedParams(),
+  });
+  const txns = atc.buildGroup().map((t) => t.txn);
+  const sigs = (await atc.gatherSignatures())
+    .map((s) => (algosdk.decodeObj(s) as algosdk.SignedTransaction).sig);
+  const dr = await algosdk.createDryrun({
+    client: appClient.client,
+    txns: [{ txn: txns[0], sig: sigs[0] }],
+  });
+  const drrTxn = new algosdk.DryrunResult(await appClient.client.dryrun(dr).do()).txns[0];
+  console.log(drrTxn.appTrace(
+    { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
+  ));
+}
+
 describe('ABI', function () {
   before(async function () {
     const acct = (await sandbox.getAccounts()).pop()!;
@@ -226,5 +249,22 @@ describe('ABI', function () {
         [BigInt(5), BigInt(6)],
         [BigInt(7), BigInt(8)]],
     );
+  });
+
+  it('arrayPush', async function () {
+    const ret = await appClient.arrayPush();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(1), BigInt(2), BigInt(3)],
+    );
+  });
+
+  it('arrayPop', async function () {
+    const ret = await appClient.arrayPop();
+    expect(ret.returnValue).to.deep.equal([BigInt(1), BigInt(2)]);
+  });
+
+  it('arrayPopValue', async function () {
+    const ret = await appClient.arrayPopValue();
+    expect(ret.returnValue).to.equal(BigInt(3));
   });
 });

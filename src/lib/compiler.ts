@@ -581,6 +581,10 @@ export default class Compiler {
 
   private sourceFile: ts.SourceFile;
 
+  private nodeDepth: number = 0;
+
+  private topLevelNode!: ts.Node;
+
   constructor(content: string, className: string, filename?: string) {
     this.filename = filename;
     this.content = content;
@@ -768,6 +772,22 @@ export default class Compiler {
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
+    let isTopLevelNode = false;
+
+    if (
+      !ts.isClassDeclaration(node)
+      && !ts.isMethodDeclaration(node)
+      && !ts.isBlock(node)
+      && !ts.isExpressionStatement(node)
+      && !ts.isNonNullExpression(node)
+    ) {
+      if (this.nodeDepth === 0) {
+        this.topLevelNode = node;
+        isTopLevelNode = true;
+      }
+      this.nodeDepth += 1;
+    }
+
     try {
       if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
       else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
@@ -776,6 +796,7 @@ export default class Compiler {
       else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
       else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
+      else if (ts.isNonNullExpression(node)) this.processNode(node.expression);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
@@ -813,6 +834,8 @@ export default class Compiler {
 
       throw e;
     }
+
+    if (isTopLevelNode) this.nodeDepth = 0;
   }
 
   private pushLines(...lines: string[]) {
@@ -1049,26 +1072,26 @@ export default class Compiler {
     return chain;
   }
 
-  private updateValue(node: ts.ElementAccessExpression) {
+  private updateValue(node: ts.Node) {
     // Add back to frame/storage if necessary
-    if (ts.isIdentifier(node.expression)) {
-      const name = node.expression.getText();
+    if (ts.isIdentifier(node)) {
+      const name = node.getText();
       const { index, type } = this.frame[name];
       this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
     } else if (
-      ts.isCallExpression(node.expression)
+      ts.isCallExpression(node)
+                && ts.isPropertyAccessExpression(node.expression)
                 && ts.isPropertyAccessExpression(node.expression.expression)
-                && ts.isPropertyAccessExpression(node.expression.expression.expression)
                 && Object.keys(this.storageProps).includes(
-                  node.expression.expression.expression?.name?.getText(),
+                  node.expression.expression?.name?.getText(),
                 )
     ) {
       const storageProp = this.storageProps[
-        node.expression.expression.expression.name.getText()
+        node.expression.expression.name.getText()
       ];
-      this.storageFunctions[storageProp.type].put(node.expression);
+      this.storageFunctions[storageProp.type].put(node);
     } else {
-      throw new Error(`Can't update ${ts.SyntaxKind[node.expression.kind]} array`);
+      throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
     }
   }
 
@@ -1204,7 +1227,7 @@ export default class Compiler {
             'concat',
           );
 
-          this.updateValue(chain[0]);
+          this.updateValue(chain[0].expression);
         }
 
         return;
@@ -1260,7 +1283,7 @@ export default class Compiler {
       if (isNumeric(this.lastType)) this.pushVoid('itob');
       this.pushVoid('replace3');
 
-      this.updateValue(chain[0]);
+      this.updateValue(chain[0].expression);
     }
   }
 
@@ -1408,6 +1431,8 @@ export default class Compiler {
       if (!ts.isElementAccessExpression(node.left)) throw new Error();
       this.processStaticArray(node.left, node.right);
 
+      // TODO: Type check
+
       this.typeHint = undefined;
       return;
     }
@@ -1548,6 +1573,75 @@ export default class Compiler {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
       }
+    } else if (methodName === 'push') {
+      const preType = this.lastType;
+      this.processNode(node.expression.expression);
+      if (!this.lastType.endsWith('[]')) throw new Error('Cannot only push to dynamic array');
+      this.pushLines(
+        'dup', // [a, a]
+        'int 0',
+        'extract_uint16',
+        'int 1',
+        '+',
+        'itob',
+        'extract 6 2', // [a, len]
+        'swap', // [len, a]
+        'extract 2 0', // [len, aElems]
+        'concat', // [newA]
+      );
+      this.processNode(node.arguments[0]);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      this.pushVoid('concat');
+
+      this.updateValue(node.expression.expression);
+
+      this.lastType = preType;
+    } else if (methodName === 'pop') {
+      this.processNode(node.expression.expression);
+      const poppedType = this.lastType.replace(/\[\]$/, '');
+      if (!this.lastType.endsWith('[]')) throw new Error('Cannot only pop from dynamic array');
+
+      const typeLength = getTypeLength(this.lastType.replace(/\[\]$/, ''));
+      this.pushLines(
+        'dup', // [a, a]
+        'int 0',
+        'extract_uint16',
+        'int 1',
+        '-',
+        'itob',
+        'extract 6 2', // [a, len]
+        'swap', // [len, a]
+        'extract 2 0', // [len, aElems]
+        'concat', // [newA]
+        'dup',
+        'len',
+        `int ${typeLength}`,
+        '-',
+        'int 0',
+        'swap',
+        'extract3',
+      );
+
+      // only get the popped element if we're expecting a return value
+      if (this.topLevelNode !== node) {
+        this.pushLines(
+          'dup',
+          'len',
+          `int ${typeLength}`,
+        );
+
+        this.processNode(node.expression.expression);
+
+        this.pushLines(
+          'cover 2',
+          'extract3',
+          'swap',
+        );
+      }
+
+      this.updateValue(node.expression.expression);
+
+      this.lastType = poppedType;
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');

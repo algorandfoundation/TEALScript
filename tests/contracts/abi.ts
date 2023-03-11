@@ -295,4 +295,28 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  arrayPush(): uint16[] {
+    const a: uint16[] = [1, 2];
+
+    a.push(3 as uint16);
+
+    return a;
+  }
+
+  arrayPop(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.pop()!;
+
+    return a;
+  }
+
+  arrayPopValue(): uint16 {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.pop()!;
+
+    return v;
+  }
 }
