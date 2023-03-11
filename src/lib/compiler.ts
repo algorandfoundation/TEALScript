@@ -1257,7 +1257,12 @@ export default class Compiler {
         }
       } else if (baseExpressionType.match(/\[\]$/)) {
         type = baseExpressionType.replace(/\[\]$/, '');
-        offset += getTypeLength(type) + 2;
+
+        this.processNode(e.argumentExpression);
+
+        this.pushLines(`int ${getTypeLength(type)}`, '*', 'int 2', '+');
+
+        intsOnStack = true;
       } else if (baseExpressionType.startsWith('[')) {
         const typeExpression = stringToExpression(baseExpressionType);
         if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
@@ -1273,7 +1278,7 @@ export default class Compiler {
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
 
-    if (offset || ts.isNumericLiteral(chain.at(-1)!.argumentExpression)) this.pushLines(`int ${offset}`);
+    if (offset || !intsOnStack) this.pushLines(`int ${offset} // offset`);
     if (intsOnStack && offset) this.pushVoid('+');
 
     if (newValue === undefined) {

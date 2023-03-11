@@ -337,4 +337,11 @@ class AbiTest extends Contract {
 
     return v;
   }
+
+  dynamicArrayElements(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+    const newA: uint16[] = [a[0], a[1], a[2]];
+
+    return newA;
+  }
 }

@@ -277,4 +277,9 @@ describe('ABI', function () {
     const ret = await appClient.arraySpliceValue();
     expect(ret.returnValue).to.deep.equal([2, 3, 4, 5, 6, 7, 8].map((n) => BigInt(n)));
   });
+
+  it('dynamicArrayElements', async function () {
+    const ret = await appClient.dynamicArrayElements();
+    expect(ret.returnValue).to.deep.equal([1, 2, 3].map((n) => BigInt(n)));
+  });
 });

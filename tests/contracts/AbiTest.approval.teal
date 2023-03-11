@@ -45,7 +45,7 @@ staticArray:
 	// tests/contracts/abi.ts:32
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -102,7 +102,7 @@ staticArrayArg:
 	// tests/contracts/abi.ts:42
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -157,7 +157,7 @@ nonLiteralStaticArrayElements:
 	// tests/contracts/abi.ts:51
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -216,18 +216,18 @@ mixedStaticArrayElements:
 	// tests/contracts/abi.ts:60
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
 	frame_dig -4 // a: uint64[9]
-	int 32
+	int 32 // offset
 	int 8
 	extract3
 	btoi
 	+
 	frame_dig -4 // a: uint64[9]
-	int 56
+	int 56 // offset
 	int 8
 	extract3
 	btoi
@@ -301,7 +301,7 @@ setStaticArrayElement:
 	// tests/contracts/abi.ts:73
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	int 8
+	int 8 // offset
 	int 222
 	itob
 	replace3
@@ -310,7 +310,7 @@ setStaticArrayElement:
 	// tests/contracts/abi.ts:75
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -363,7 +363,7 @@ staticArrayInStorageRef:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -371,7 +371,7 @@ staticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -380,7 +380,7 @@ staticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -439,7 +439,7 @@ updateStaticArrayInStorageRef:
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 111
 	itob
 	replace3
@@ -452,7 +452,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 222
 	itob
 	replace3
@@ -466,7 +466,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 333
 	itob
 	replace3
@@ -478,7 +478,7 @@ updateStaticArrayInStorageRef:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -486,7 +486,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -495,7 +495,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -554,7 +554,7 @@ staticArrayInStorageMap:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -562,7 +562,7 @@ staticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -571,7 +571,7 @@ staticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -630,7 +630,7 @@ updateStaticArrayInStorageMap:
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 1111
 	itob
 	replace3
@@ -643,7 +643,7 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 2222
 	itob
 	replace3
@@ -657,7 +657,7 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 3333
 	itob
 	replace3
@@ -669,7 +669,7 @@ updateStaticArrayInStorageMap:
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -677,7 +677,7 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -686,7 +686,7 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 8
+	int 8 // offset
 	int 8
 	extract3
 	btoi
@@ -725,7 +725,7 @@ nestedStaticArray:
 	// tests/contracts/abi.ts:153
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 32
+	int 32 // offset
 	int 8
 	extract3
 	btoi
@@ -758,7 +758,7 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.ts:159
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	int 32
+	int 32 // offset
 	int 555
 	itob
 	replace3
@@ -767,7 +767,7 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.ts:161
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 32
+	int 32 // offset
 	int 8
 	extract3
 	btoi
@@ -800,7 +800,7 @@ updateNestedStaticArray:
 	// tests/contracts/abi.ts:167
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
-	int 24
+	int 24 // offset
 	byte 0x00000000000001bc000000000000022b000000000000029a
 	replace3
 	frame_bury -1 // a: uint64[3][3]
@@ -808,7 +808,7 @@ updateNestedStaticArray:
 	// tests/contracts/abi.ts:169
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 32
+	int 32 // offset
 	int 8
 	extract3
 	btoi
@@ -841,7 +841,7 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.ts:177
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
-	int 12
+	int 12 // offset
 	byte 0x03090378
 	replace3
 	frame_bury -1 // a: uint16[2][2][2]
@@ -849,7 +849,7 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.ts:179
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
-	int 14
+	int 14 // offset
 	int 2
 	extract3
 	byte 0xFFFF
@@ -882,7 +882,7 @@ simpleTuple:
 	// tests/contracts/abi.ts:185
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	int 18
+	int 18 // offset
 	int 2
 	extract3
 	byte 0xFFFF
@@ -915,7 +915,7 @@ arrayInTuple:
 	// tests/contracts/abi.ts:193
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
-	int 18
+	int 18 // offset
 	int 8
 	extract3
 	btoi
@@ -948,7 +948,7 @@ tupleInArray:
 	// tests/contracts/abi.ts:201
 	// return a[1][1];
 	frame_dig -1 // a: [uint64,uint16][2]
-	int 18
+	int 18 // offset
 	int 2
 	extract3
 	byte 0xFFFF
@@ -981,7 +981,7 @@ tupleInTuple:
 	// tests/contracts/abi.ts:209
 	// return a[3][1];
 	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
-	int 16
+	int 16 // offset
 	int 8
 	extract3
 	btoi
@@ -1014,7 +1014,7 @@ shortTypeNotation:
 	// tests/contracts/abi.ts:217
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
-	int 22
+	int 22 // offset
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1047,7 +1047,7 @@ disgusting:
 	// tests/contracts/abi.ts:226
 	// a[1][3][1] = [8888, 9999]
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
-	int 92
+	int 92 // offset
 	byte 0x00000000000022b8000000000000270f
 	replace3
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
@@ -1055,7 +1055,7 @@ disgusting:
 	// tests/contracts/abi.ts:227
 	// return a[1][3][1][0];
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
-	int 92
+	int 92 // offset
 	int 8
 	extract3
 	btoi
@@ -1112,7 +1112,7 @@ tupleArg:
 	// tests/contracts/abi.ts:236
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
-	int 8
+	int 8 // offset
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1145,7 +1145,11 @@ dynamicArray:
 	// tests/contracts/abi.ts:242
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 10
+	int 1
+	int 8
+	*
+	int 2
+	+
 	int 8
 	extract3
 	btoi
@@ -1202,7 +1206,11 @@ dynamicArrayArg:
 	// tests/contracts/abi.ts:251
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 10
+	int 1
+	int 8
+	*
+	int 2
+	+
 	int 8
 	extract3
 	btoi
@@ -1235,7 +1243,11 @@ updateDynamicArrayElement:
 	// tests/contracts/abi.ts:257
 	// a[1] = 222
 	frame_dig -1 // a: uint64[]
-	int 10
+	int 1
+	int 8
+	*
+	int 2
+	+
 	int 222
 	itob
 	replace3
@@ -1244,7 +1256,11 @@ updateDynamicArrayElement:
 	// tests/contracts/abi.ts:259
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 10
+	int 1
+	int 8
+	*
+	int 2
+	+
 	int 8
 	extract3
 	btoi
@@ -1277,7 +1293,13 @@ dynamicTupleArray:
 	// tests/contracts/abi.ts:265
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint64][]
-	int 14
+	int 1
+	int 10
+	*
+	int 2
+	+
+	int 2 // offset
+	+
 	int 8
 	extract3
 	btoi
@@ -1599,7 +1621,7 @@ updateDynamicArrayInTuple:
 	// tests/contracts/abi.ts:283
 	// a[0] = 99 as uint8
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	int 0
+	int 0 // offset
 	int 99
 	itob
 	extract 7 0
@@ -2295,6 +2317,66 @@ arraySpliceValue:
 	log
 	retsub
 
+abi_route_dynamicArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub dynamicArrayElements
+	int 1
+	return
+
+dynamicArrayElements:
+	proto 3 0
+
+	// tests/contracts/abi.ts:342
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:343
+	// newA: uint16[] = [a[0], a[1], a[2]]
+	byte 0x0003
+	frame_dig -1 // a: uint16[]
+	int 0
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_dig -1 // a: uint16[]
+	int 1
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_dig -1 // a: uint16[]
+	int 2
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_bury -2 // newA: uint16[]
+
+	// tests/contracts/abi.ts:345
+	// return newA;
+	frame_dig -2 // newA: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -2349,5 +2431,6 @@ route_abi:
 	method "arrayPopValue()uint16"
 	method "arraySplice()uint16[]"
 	method "arraySpliceValue()uint16[]"
+	method "dynamicArrayElements()uint16[]"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements
