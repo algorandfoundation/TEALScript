@@ -4,6 +4,7 @@
 export default class Contract {
   itxn!: {
       createdApplicationID: Application
+      createdAssetID: Asset
     };
 
   txn!: ThisTxnParams;
