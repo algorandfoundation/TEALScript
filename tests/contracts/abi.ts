@@ -319,4 +319,12 @@ class AbiTest extends Contract {
 
     return v;
   }
+
+  arraySplice(): uint16[] {
+    const a: uint16[] = [1, 2, 3, 4];
+
+    a.splice(1, 2);
+
+    return a;
+  }
 }

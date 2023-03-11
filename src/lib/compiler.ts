@@ -1599,7 +1599,7 @@ export default class Compiler {
     } else if (methodName === 'pop') {
       this.processNode(node.expression.expression);
       const poppedType = this.lastType.replace(/\[\]$/, '');
-      if (!this.lastType.endsWith('[]')) throw new Error('Cannot only pop from dynamic array');
+      if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
 
       const typeLength = getTypeLength(this.lastType.replace(/\[\]$/, ''));
       this.pushLines(
@@ -1642,6 +1642,51 @@ export default class Compiler {
       this.updateValue(node.expression.expression);
 
       this.lastType = poppedType;
+    } else if (methodName === 'splice') {
+      const elementType = this.lastType.replace(/\[\]$/, '');
+      if (!this.lastType.endsWith('[]')) throw new Error('Can only splice dynamic array');
+
+      // get new len
+      this.processNode(node.expression.expression);
+      this.pushLines(
+        'int 0',
+        'extract_uint16',
+        `int ${parseInt(node.arguments[1].getText(), 10)}`,
+        '-',
+        'itob',
+        'extract 6 2',
+      );
+
+      const spliceIndex = parseInt(node.arguments[0].getText(), 10);
+      const spliceStart = spliceIndex * getTypeLength(elementType);
+
+      // extract first part
+      this.processNode(node.expression.expression);
+      this.pushLines(
+        'int 2',
+        `int ${spliceStart}`,
+        'extract3',
+      );
+
+      const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
+      const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
+
+      // extract second part
+      this.processNode(node.expression.expression);
+      this.pushLines(
+        'dup',
+        'len',
+        `int ${spliceStart + spliceByteLength}`,
+        'swap',
+        'substring3',
+        // concat
+        'concat',
+        'concat',
+      );
+
+      // TOOD: return the spliced elements
+
+      this.updateValue(node.expression.expression);
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');
