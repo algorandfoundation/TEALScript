@@ -1677,9 +1677,9 @@ export default class Compiler {
       this.processNode(node.arguments[1]);
       this.pushLines(
         `int ${getTypeLength(elementType)}`,
-        'int 1',
-        '+',
         '*',
+        `int ${getTypeLength(elementType)}`,
+        '+',
         `store ${scratch.spliceByteLength}`,
       );
 

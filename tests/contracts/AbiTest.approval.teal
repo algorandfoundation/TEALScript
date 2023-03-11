@@ -2160,16 +2160,16 @@ arraySplice:
 	proto 2 0
 
 	// tests/contracts/abi.ts:324
-	// a: uint16[] = [1, 2, 3, 4]
-	byte 0x00040001000200030004
+	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	byte 0x000a000100020003000400050006000700080009000a
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.ts:326
-	// a.splice(1, 2)
+	// a.splice(1, 5)
 	frame_dig -1 // a: uint16[]
 	int 0
 	extract_uint16
-	int 2
+	int 5
 	-
 	itob
 	extract 6 2
@@ -2177,11 +2177,11 @@ arraySplice:
 	int 2
 	*
 	store 12 // splice start
+	int 5
 	int 2
-	int 2
-	int 1
-	+
 	*
+	int 2
+	+
 	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 2
@@ -2223,8 +2223,8 @@ arraySpliceValue:
 	proto 5 0
 
 	// tests/contracts/abi.ts:332
-	// a: uint16[] = [1, 2, 3, 4]
-	byte 0x00040001000200030004
+	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	byte 0x000a000100020003000400050006000700080009000a
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.ts:334
@@ -2233,8 +2233,8 @@ arraySpliceValue:
 	frame_bury -2 // i: uint64
 
 	// tests/contracts/abi.ts:335
-	// l = 2
-	int 2
+	// l = 7
+	int 7
 	frame_bury -3 // l: uint64
 
 	// tests/contracts/abi.ts:336
@@ -2252,9 +2252,9 @@ arraySpliceValue:
 	store 12 // splice start
 	frame_dig -3 // l: uint64
 	int 2
-	int 1
-	+
 	*
+	int 2
+	+
 	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 2
