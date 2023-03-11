@@ -282,4 +282,24 @@ describe('ABI', function () {
     const ret = await appClient.dynamicArrayElements();
     expect(ret.returnValue).to.deep.equal([1, 2, 3].map((n) => BigInt(n)));
   });
+
+  it('spliceLastElement', async function () {
+    const ret = await appClient.spliceLastElement();
+    expect(ret.returnValue).to.deep.equal([1, 2].map((n) => BigInt(n)));
+  });
+
+  it('spliceLastElementValue', async function () {
+    const ret = await appClient.spliceLastElementValue();
+    expect(ret.returnValue).to.deep.equal([3].map((n) => BigInt(n)));
+  });
+
+  it('spliceFirstElement', async function () {
+    const ret = await appClient.spliceFirstElement();
+    expect(ret.returnValue).to.deep.equal([2, 3].map((n) => BigInt(n)));
+  });
+
+  it('spliceFirstElementValue', async function () {
+    const ret = await appClient.spliceFirstElementValue();
+    expect(ret.returnValue).to.deep.equal([1].map((n) => BigInt(n)));
+  });
 });

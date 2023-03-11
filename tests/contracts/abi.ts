@@ -344,4 +344,36 @@ class AbiTest extends Contract {
 
     return newA;
   }
+
+  spliceLastElement(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.splice(2, 1);
+
+    return a;
+  }
+
+  spliceLastElementValue(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.splice(2, 1);
+
+    return v;
+  }
+
+  spliceFirstElement(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.splice(0, 1);
+
+    return a;
+  }
+
+  spliceFirstElementValue(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.splice(0, 1);
+
+    return v;
+  }
 }
