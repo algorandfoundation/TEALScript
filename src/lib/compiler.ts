@@ -99,6 +99,7 @@ function getTypeLength(type: string): number {
     case 'asset':
     case 'application':
       return 8;
+    case 'string':
     case 'bytes':
       return 1;
     case 'account':
@@ -1234,7 +1235,7 @@ export default class Compiler {
       const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
       const accessedType = lastTypeExpression.elements[accessor].getText();
 
-      if (accessedType.endsWith('[]')) {
+      if (accessedType.endsWith('[]') || accessedType === 'string') {
         const types = this.getTypes(this.lastType);
 
         const numStaticElements = lastTypeExpression.elements.length - types.dynamic.length;
@@ -1353,6 +1354,10 @@ export default class Compiler {
           );
 
           this.updateValue(chain[0].expression);
+        }
+
+        if (accessedType === 'string') {
+          this.push('extract 2 0 // extract bytes from string', 'bytes');
         }
 
         return;

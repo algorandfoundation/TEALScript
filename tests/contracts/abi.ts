@@ -390,4 +390,12 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  accesStringInTuple(): string {
+    const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
+
+    assert(a[2] === 'Hello World!');
+
+    return a[2];
+  }
 }

@@ -320,4 +320,10 @@ describe('ABI', function () {
     const ret = await appClient.stringInTuple();
     expect(ret.returnValue).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
   });
+
+  it('accesStringInTuple', async function () {
+    const s = 'Hello World!';
+    const ret = await appClient.accesStringInTuple();
+    expect(ret.returnValue).to.equal(s);
+  });
 });
