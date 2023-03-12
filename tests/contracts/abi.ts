@@ -376,4 +376,18 @@ class AbiTest extends Contract {
 
     return v;
   }
+
+  stringReturn(): string {
+    return 'Hello World!';
+  }
+
+  stringArg(s: string): void {
+    assert(s === 'Hello World!');
+  }
+
+  stringInTuple(): [uint16, uint8[], string, uint8[]] {
+    const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
+
+    return a;
+  }
 }

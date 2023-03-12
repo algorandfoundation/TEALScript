@@ -953,7 +953,9 @@ export default class Compiler {
     const staticLengthRegex = /(\[\d+\])+$/;
     const types: {static: string[], dynamic: string[]} = { static: [], dynamic: [] };
 
-    if (abiType.match(staticLengthRegex)) {
+    if (abiType === 'string') {
+      types.dynamic.push('string');
+    } else if (abiType.match(staticLengthRegex)) {
       const baseType = abiType.replace(staticLengthRegex, '');
 
       let count: number = 1;
@@ -1122,6 +1124,24 @@ export default class Compiler {
           'swap',
           'concat',
         );
+      } else if (types.dynamic[i] === 'string') {
+        if (ts.isStringLiteral(e)) {
+          const len = e.text.length.toString(16).padStart(4, '0');
+          const val = Buffer.from(e.text, 'utf-8').toString('hex');
+          this.push(`byte 0x${len}${val} // ${e.text}`, 'string');
+        } else this.processNode(e);
+
+        if (this.lastType === StackType.bytes) {
+          this.pushLines(
+            'dup',
+            'len',
+            'itob',
+            'extract 6 2',
+            'swap',
+            'concat',
+          );
+          this.lastType = 'string';
+        }
       } else {
         this.processNode(e);
         const expectedType = `${types.dynamic[i]}[]`;
@@ -1471,6 +1491,17 @@ export default class Compiler {
 
         // eslint-disable-next-line no-console
         console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
+      } else if ([returnType, this.lastType].includes('string') && [returnType, this.lastType].includes('bytes')) {
+        if (returnType === 'string') {
+          this.pushLines(
+            'dup',
+            'len',
+            'itob',
+            'extract 6 2',
+            'swap',
+            'concat',
+          );
+        } else this.pushVoid('extract 2 0');
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType)) {
       this.pushVoid('itob');
@@ -1974,7 +2005,7 @@ export default class Compiler {
       const props: StorageProp = {
         type: klass.toLowerCase().replace('reference', ''),
         key: keyProp.initializer.text,
-        keyType: 'string',
+        keyType: 'byte[]',
         valueType: getABIType(node.initializer.typeArguments![0].getText()),
       };
 
@@ -2061,7 +2092,7 @@ export default class Compiler {
         type = getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace('string', 'bytes') };
       this.frameIndex -= 1;
     });
 
@@ -2200,6 +2231,8 @@ export default class Compiler {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
+      } else if (type === 'string') {
+        this.pushVoid('extract 2 0');
       }
 
       args.push({ name: p.name.getText(), type: getABIType(abiType), desc: '' });

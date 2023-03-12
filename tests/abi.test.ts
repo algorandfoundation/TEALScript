@@ -302,4 +302,22 @@ describe('ABI', function () {
     const ret = await appClient.spliceFirstElementValue();
     expect(ret.returnValue).to.deep.equal([1].map((n) => BigInt(n)));
   });
+
+  it('stringReturn', async function () {
+    const s = 'Hello World!';
+    const ret = await appClient.stringReturn();
+    expect(ret.returnValue).to.equal(s);
+  });
+
+  it('stringArg', async function () {
+    const s = 'Hello World!';
+    await appClient.stringArg({ s });
+    // asert is in contract
+  });
+
+  it('stringInTuple', async function () {
+    const s = 'Hello World!';
+    const ret = await appClient.stringInTuple();
+    expect(ret.returnValue).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
+  });
 });
