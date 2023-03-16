@@ -40,7 +40,7 @@ describe('ABI', function () {
       sender: acct.addr,
     });
 
-    await appClient.create({ extraPages: 2 });
+    await appClient.create({ extraPages: 3 });
     await appClient.optIn();
 
     const atc = new algosdk.AtomicTransactionComposer();
@@ -347,6 +347,17 @@ describe('ABI', function () {
         [BigInt(4), BigInt(5)],
         [BigInt(6), BigInt(7)],
         [BigInt(8), BigInt(9)]],
+    );
+  });
+
+  it('shortenDynamicElementInTuple', async function () {
+    dryrun('shortenDynamicElementInTuple');
+    const ret = await appClient.shortenDynamicElementInTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        [BigInt(5)],
+        [BigInt(6)],
+        [BigInt(7)]],
     );
   });
 });

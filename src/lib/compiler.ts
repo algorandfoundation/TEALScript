@@ -599,6 +599,8 @@ export default class Compiler {
 
   private topLevelNode!: ts.Node;
 
+  dynamicArrayCounter: number = 0;
+
   private multiplyWideRatioFactors(factors: ts.Expression[]) {
     if (factors.length === 1) {
       this.pushVoid('int 0');
@@ -1335,14 +1337,25 @@ export default class Compiler {
             );
           }
 
+          this.dynamicArrayCounter += 1;
+
           // Update dynamic heads
           this.pushLines(
             `load ${scratch.dynamicHeads}`,
             `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
+
             `load ${scratch.newArray}`,
             'len',
             `load ${scratch.fullArrayLength}`,
+            `load ${scratch.newArray}`,
+            'len',
+            `load ${scratch.fullArrayLength}`,
+            '>=',
+            `bnz skip_len_swap_${this.dynamicArrayCounter}`,
+            'swap',
+            `skip_len_swap_${this.dynamicArrayCounter}:`,
             '-',
+
             'itob',
             'extract 6 2',
             'dup',
@@ -1356,7 +1369,18 @@ export default class Compiler {
             'dup',
             'concat', // 64
             'b&',
+
+            `load ${scratch.newArray}`,
+            'len',
+            `load ${scratch.fullArrayLength}`,
+            '>=', // if this is true, subtract
+            `bnz sub_head_${this.dynamicArrayCounter}`,
+            'b-',
+            `b sub_or_add_head_end_${this.dynamicArrayCounter}`,
+            `sub_head_${this.dynamicArrayCounter}:`,
             'b+',
+            `sub_or_add_head_end_${this.dynamicArrayCounter}:`,
+
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
             'b&',
             `store ${scratch.dynamicHeads}`,

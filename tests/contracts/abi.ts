@@ -420,4 +420,14 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  shortenDynamicElementInTuple(): [uint16[], uint16[], uint16[]] {
+    const a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]];
+
+    a[0] = [5];
+    a[1] = [6];
+    a[2] = [7];
+
+    return a;
+  }
 }
