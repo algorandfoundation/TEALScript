@@ -398,4 +398,16 @@ class AbiTest extends Contract {
 
     return a[2];
   }
+
+  updateStringInTuple(): [uint8, uint16[], string, uint16[], uint8[]] {
+    const a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]];
+
+    a[0] = 99 as uint8;
+    a[1] = [10, 11];
+    a[2] = 'Hello World!';
+    a[3] = [14, 15];
+    a[4] = [16, 17];
+
+    return a;
+  }
 }

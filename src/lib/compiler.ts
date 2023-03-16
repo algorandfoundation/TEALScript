@@ -1273,7 +1273,22 @@ export default class Compiler {
           );
           this.lastType = accessedType;
         } else {
-          this.processNode(newValue);
+          if (ts.isStringLiteral(newValue)) {
+            const len = newValue.text.length.toString(16).padStart(4, '0');
+            const val = Buffer.from(newValue.text, 'utf-8').toString('hex');
+            this.push(`byte 0x${len}${val} // ${newValue.text}`, 'string');
+          } else this.processNode(newValue);
+
+          if (this.lastType === StackType.bytes) {
+            this.pushLines(
+              'dup',
+              'len',
+              'itob',
+              'extract 6 2',
+              'swap',
+              'concat',
+            );
+          }
 
           const totalHeadLength = types.dynamic.length * 2;
 
@@ -1356,7 +1371,7 @@ export default class Compiler {
           this.updateValue(chain[0].expression);
         }
 
-        if (accessedType === 'string') {
+        if (accessedType === 'string' && !newValue) {
           this.push('extract 2 0 // extract bytes from string', 'bytes');
         }
 

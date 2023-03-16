@@ -2955,6 +2955,398 @@ accesStringInTuple:
 	log
 	retsub
 
+abi_route_updateStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateStringInTuple
+	int 1
+	return
+
+updateStringInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:403
+	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
+	byte 0x09
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 8
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	byte 0x000348693f // Hi?
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:405
+	// a[0] = 99 as uint8
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 0 // offset
+	int 99
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:406
+	// a[1] = [10, 11]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	store 0 // full tuple
+	load 0 // full tuple
+	int 1 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	int 2
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	byte 0x0002000a000b
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	int 1 // start of dynamic heads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	extract 1 8
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+	load 4 // dynamic heads
+	byte 0x0000FFFFFFFFFFFF
+	load 6 // new array
+	len
+	load 2 // full array length
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	b&
+	b+
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:407
+	// a[2] = 'Hello World!'
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	store 0 // full tuple
+	load 0 // full tuple
+	int 3 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	int 1
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	int 1 // start of dynamic heads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	extract 1 8
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+	load 0 // full tuple
+	int 9 // head end
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+	load 4 // dynamic heads
+	byte 0x00000000FFFFFFFF
+	load 6 // new array
+	len
+	load 2 // full array length
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	b&
+	b+
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:408
+	// a[3] = [14, 15]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	store 0 // full tuple
+	load 0 // full tuple
+	int 5 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	int 2
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	byte 0x0002000e000f
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	int 1 // start of dynamic heads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	extract 1 8
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+	load 0 // full tuple
+	int 9 // head end
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+	load 4 // dynamic heads
+	byte 0x000000000000FFFF
+	load 6 // new array
+	len
+	load 2 // full array length
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	b&
+	b+
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:409
+	// a[4] = [16, 17]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	store 0 // full tuple
+	load 0 // full tuple
+	int 7 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	int 1
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	byte 0x00021011
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	int 1 // start of dynamic heads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	extract 1 8
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	load 0 // full tuple
+	int 9 // head end
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+	load 4 // dynamic heads
+	byte 0x0000000000000000
+	load 6 // new array
+	len
+	load 2 // full array length
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	b&
+	b+
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:411
+	// return a;
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -3018,5 +3410,6 @@ route_abi:
 	method "stringArg(string)void"
 	method "stringInTuple()(uint16,uint8[],string,uint8[])"
 	method "accesStringInTuple()string"
+	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple

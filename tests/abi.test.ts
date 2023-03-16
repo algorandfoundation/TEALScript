@@ -326,4 +326,17 @@ describe('ABI', function () {
     const ret = await appClient.accesStringInTuple();
     expect(ret.returnValue).to.equal(s);
   });
+
+  it('updateStringInTuple', async function () {
+    const a = [
+      { old: BigInt(9), new: BigInt(99) },
+      { old: [BigInt(8)], new: [BigInt(10), BigInt(11)] },
+      { old: 'Hi?', new: 'Hello World!' },
+      { old: [BigInt(6)], new: [BigInt(14), BigInt(15)] },
+      { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
+    ];
+
+    const ret = await appClient.updateStringInTuple();
+    expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
+  });
 });
