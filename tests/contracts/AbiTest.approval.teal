@@ -1678,6 +1678,12 @@ updateDynamicArrayInTuple:
 	concat
 	dup
 	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	b&
 	b+
 	byte 0xFFFFFFFFFFFFFFFF
@@ -1745,6 +1751,12 @@ updateDynamicArrayInTuple:
 	-
 	itob
 	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	dup
 	concat
 	dup
@@ -1820,6 +1832,12 @@ updateDynamicArrayInTuple:
 	concat
 	dup
 	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	b&
 	b+
 	byte 0xFFFFFFFFFFFFFFFF
@@ -1879,6 +1897,12 @@ updateDynamicArrayInTuple:
 	-
 	itob
 	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	dup
 	concat
 	dup
@@ -3117,6 +3141,12 @@ updateStringInTuple:
 	concat
 	dup
 	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	b&
 	b+
 	byte 0xFFFFFFFFFFFFFFFF
@@ -3184,6 +3214,12 @@ updateStringInTuple:
 	-
 	itob
 	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	dup
 	concat
 	dup
@@ -3259,6 +3295,12 @@ updateStringInTuple:
 	concat
 	dup
 	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	b&
 	b+
 	byte 0xFFFFFFFFFFFFFFFF
@@ -3318,6 +3360,12 @@ updateStringInTuple:
 	-
 	itob
 	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
 	dup
 	concat
 	dup

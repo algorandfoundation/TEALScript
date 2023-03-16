@@ -1345,12 +1345,16 @@ export default class Compiler {
             '-',
             'itob',
             'extract 6 2',
-            // TODO make this a function
             'dup',
-            'concat',
+            'concat', // 4
             'dup',
-            'concat',
-            // END TODO
+            'concat', // 8
+            'dup',
+            'concat', // 16
+            'dup',
+            'concat', // 32
+            'dup',
+            'concat', // 64
             'b&',
             'b+',
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
