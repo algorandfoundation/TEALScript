@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
 
 import { Contract } from '../../src/lib/index';
@@ -11,6 +12,9 @@ class ContactsApp extends Contract {
   contacts = new BoxMap<Account, [string, string]>({ defaultSize: 0 });
 
   myContact = new GlobalReference<[string, string]>({ key: 'myContact' });
+
+  @createApplication
+  create(): void {}
 
   setMyContact(name: string, company: string): void {
     const contact: [string, string] = [name, company];

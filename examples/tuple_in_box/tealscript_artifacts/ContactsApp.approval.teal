@@ -1,6 +1,17 @@
 #pragma version 8
 	b main
 
+bare_route_create:
+	byte 0x
+	dupn 1
+	callsub create
+	int 1
+	return
+
+create:
+	proto 1 0
+	retsub
+
 abi_route_setMyContact:
 	txn OnCompletion
 	int NoOp
@@ -19,7 +30,7 @@ abi_route_setMyContact:
 setMyContact:
 	proto 4 0
 
-	// app.ts:16
+	// app.ts:20
 	// contact: [string, string] = [name, company]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -70,13 +81,13 @@ setMyContact:
 	concat
 	frame_bury -3 // contact: [string,string]
 
-	// app.ts:18
+	// app.ts:22
 	// this.myContact.put(contact)
 	byte "myContact"
 	frame_dig -3 // contact: [string,string]
 	app_global_put
 
-	// app.ts:19
+	// app.ts:23
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	frame_dig -3 // contact: [string,string]
@@ -104,7 +115,7 @@ abi_route_addContact:
 addContact:
 	proto 5 0
 
-	// app.ts:23
+	// app.ts:27
 	// contact: [string, string] = [name, company]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -155,7 +166,7 @@ addContact:
 	concat
 	frame_bury -4 // contact: [string,string]
 
-	// app.ts:24
+	// app.ts:28
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: account
 	frame_dig -4 // contact: [string,string]
@@ -184,7 +195,7 @@ updateContactField:
 	proto 4 0
 
 	// if0_condition
-	// app.ts:28
+	// app.ts:32
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -192,7 +203,7 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// app.ts:29
+	// app.ts:33
 	// this.contacts.get(address)[0] = value
 	frame_dig -3 // address: account
 	box_get
@@ -243,6 +254,14 @@ updateContactField:
 	load 6 // new array
 	len
 	load 2 // full array length
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz skip_len_swap_1
+	swap
+
+skip_len_swap_1:
 	-
 	itob
 	extract 6 2
@@ -257,7 +276,18 @@ updateContactField:
 	dup
 	concat
 	b&
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz sub_head_1
+	b-
+	b sub_or_add_head_end_1
+
+sub_head_1:
 	b+
+
+sub_or_add_head_end_1:
 	byte 0xFFFFFFFF
 	b&
 	store 4 // dynamic heads
@@ -271,12 +301,15 @@ updateContactField:
 	concat
 	concat
 	frame_dig -3 // address: account
+	box_del
+	pop
+	frame_dig -3 // address: account
 	swap
 	box_put
 	b if0_end
 
 if0_elseif1_condition:
-	// app.ts:30
+	// app.ts:34
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -284,7 +317,7 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// app.ts:31
+	// app.ts:35
 	// this.contacts.get(address)[1] = value
 	frame_dig -3 // address: account
 	box_get
@@ -332,6 +365,14 @@ if0_elseif1_condition:
 	load 6 // new array
 	len
 	load 2 // full array length
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz skip_len_swap_2
+	swap
+
+skip_len_swap_2:
 	-
 	itob
 	extract 6 2
@@ -346,7 +387,18 @@ if0_elseif1_condition:
 	dup
 	concat
 	b&
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz sub_head_2
+	b-
+	b sub_or_add_head_end_2
+
+sub_head_2:
 	b+
+
+sub_or_add_head_end_2:
 	byte 0xFFFFFFFF
 	b&
 	store 4 // dynamic heads
@@ -360,12 +412,15 @@ if0_elseif1_condition:
 	concat
 	concat
 	frame_dig -3 // address: account
+	box_del
+	pop
+	frame_dig -3 // address: account
 	swap
 	box_put
 	b if0_end
 
 if0_else:
-	// app.ts:32
+	// app.ts:36
 	// err()
 	err
 
@@ -391,7 +446,7 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 3 0
 
-	// app.ts:36
+	// app.ts:40
 	// assert(this.contacts.get(address)[0] === name)
 	frame_dig -2 // address: account
 	box_get
@@ -422,8 +477,11 @@ verifyContactName:
 main:
 	txn NumAppArgs
 	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
 	int 1
-	match 
+	match bare_route_create
 
 route_abi:
 	method "setMyContact(string,string)void"
