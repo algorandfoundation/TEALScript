@@ -18,12 +18,14 @@ async function printContacts(appClient: ContactsApp) {
 
   const addresses = await appClient.getApplicationBoxNames();
 
-  addresses.forEach(async (address) => {
+  const promises = addresses.map(async (address) => {
     const encodedTuple = await appClient.getApplicationBox(address);
     const decodedTuple = decodeContactsTuple(encodedTuple);
 
     console.log(`  ${algosdk.encodeAddress(address)}: ${decodedTuple.name} (${decodedTuple.company})`);
   });
+
+  await Promise.all(promises);
 }
 
 async function fundApp(appClient: ContactsApp, amount: number) {
@@ -68,7 +70,7 @@ async function main() {
   const myContact = decodeContactsTuple(rawState[Buffer.from('myContact').toString('hex')] as Uint8Array);
 
   console.log(`My Contact: ${JSON.stringify(myContact)}`);
-  printContacts(appClient);
+  await printContacts(appClient);
 
   console.log('Adding Bob...');
 
@@ -78,7 +80,7 @@ async function main() {
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
   );
 
-  printContacts(appClient);
+  await printContacts(appClient);
 
   console.log("Updating Bob's company...");
 
@@ -93,7 +95,7 @@ async function main() {
     },
   );
 
-  printContacts(appClient);
+  await printContacts(appClient);
 
   console.log("Updating Bob's name...");
 
@@ -103,7 +105,7 @@ async function main() {
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
   );
 
-  printContacts(appClient);
+  await printContacts(appClient);
   console.log("Verifying Bob's name...");
 
   await appClient.verifyContactName(
