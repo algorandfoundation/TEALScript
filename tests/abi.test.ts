@@ -351,7 +351,6 @@ describe('ABI', function () {
   });
 
   it('shortenDynamicElementInTuple', async function () {
-    dryrun('shortenDynamicElementInTuple');
     const ret = await appClient.shortenDynamicElementInTuple();
     expect(ret.returnValue).to.deep.equal(
       [

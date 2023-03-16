@@ -1217,6 +1217,16 @@ export default class Compiler {
       const storageProp = this.storageProps[
         node.expression.expression.name.getText()
       ];
+
+      // TODO: Make this an option in box constructor
+      if (storageProp.type === 'box') {
+        if (storageProp.key) {
+          this.pushVoid(`byte "${storageProp.key}"`);
+        } else this.processNode(node.arguments[0]);
+
+        this.pushLines('box_del', 'pop');
+      }
+
       this.storageFunctions[storageProp.type].put(node);
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);

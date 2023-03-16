@@ -471,6 +471,9 @@ updateStaticArrayInStorageRef:
 	itob
 	replace3
 	byte "bRef"
+	box_del
+	pop
+	byte "bRef"
 	swap
 	box_put
 
@@ -661,6 +664,9 @@ updateStaticArrayInStorageMap:
 	int 3333
 	itob
 	replace3
+	byte "bMap"
+	box_del
+	pop
 	byte "bMap"
 	swap
 	box_put
