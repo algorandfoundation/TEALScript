@@ -339,4 +339,14 @@ describe('ABI', function () {
     const ret = await appClient.updateStringInTuple();
     expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
+
+  it('updateTupleWithOnlyDynamicTypes', async function () {
+    const ret = await appClient.updateTupleWithOnlyDynamicTypes();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        [BigInt(4), BigInt(5)],
+        [BigInt(6), BigInt(7)],
+        [BigInt(8), BigInt(9)]],
+    );
+  });
 });

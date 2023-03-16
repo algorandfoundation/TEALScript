@@ -410,4 +410,14 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  updateTupleWithOnlyDynamicTypes(): [uint16[], uint16[], uint16[]] {
+    const a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]];
+
+    a[0] = [4, 5];
+    a[1] = [6, 7];
+    a[2] = [8, 9];
+
+    return a;
+  }
 }
