@@ -11,7 +11,7 @@ class ContactsApp extends Contract {
   // 1 index = company
   contacts = new BoxMap<Account, [string, string]>();
 
-  myContact = new GlobalReference<[string, string]>({ key: 'myContact' });
+  myContact = new GlobalReference<[string, string]>();
 
   @createApplication
   create(): void {}

@@ -2021,12 +2021,22 @@ export default class Compiler {
 
     const klass = node.initializer.expression.getText();
 
-    if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
-      const props: StorageProp = {
-        type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: getABIType(node.initializer.typeArguments![0].getText()),
-        valueType: getABIType(node.initializer.typeArguments![1].getText()),
-      };
+    if (['BoxMap', 'GlobalMap', 'LocalMap', 'BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
+      let props: StorageProp;
+
+      if (klass.includes('Map')) {
+        props = {
+          type: klass.toLocaleLowerCase().replace('map', ''),
+          keyType: getABIType(node.initializer.typeArguments![0].getText()),
+          valueType: getABIType(node.initializer.typeArguments![1].getText()),
+        };
+      } else {
+        props = {
+          type: klass.toLocaleLowerCase().replace('map', '').replace('reference', ''),
+          keyType: 'bytes',
+          valueType: getABIType(node.initializer.typeArguments![0].getText()),
+        };
+      }
 
       if (props.type === 'box' && isDynamicType(props.valueType)) {
         props.dynamicSize = true;
@@ -2039,50 +2049,31 @@ export default class Compiler {
           if (!ts.isPropertyAssignment(p)) throw new Error();
           const name = p.name?.getText();
 
-          if (name === 'defaultSize') {
-            props.defaultSize = parseInt(p.initializer.getText(), 10);
-          } else if (props.type === 'box' && name === 'dynamicSize' && isDynamicType(props.valueType)) {
-            props.dynamicSize = p.initializer.getText() === 'true';
-          } else throw new Error(`Unknown property ${name}`);
+          switch (name) {
+            case 'key':
+              if (klass.includes('Map')) throw new Error(`${name} only applies to storage references`);
+              if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage key must be string');
+              props.key = p.initializer.text;
+              break;
+            case 'defaultSize':
+              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
+              props.defaultSize = parseInt(p.initializer.getText(), 10);
+              break;
+            case 'dynamicSize':
+              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
+              if (!isDynamicType(props.valueType)) throw new Error(`${name} only applies to dynamic types`);
+
+              props.dynamicSize = p.initializer.getText() === 'true';
+              break;
+            default:
+              throw new Error(`Unknown property ${name}`);
+          }
         });
       }
 
-      this.storageProps[node.name.getText()] = props;
-    } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
-      if (node.initializer?.arguments?.[0] === undefined) throw new Error('Storage reference must include an argument');
-      if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
-
-      const arg = node.initializer.arguments[0];
-      const keyProp = arg.properties.find(
-        (p) => p.name?.getText() === 'key',
-      );
-
-      if (keyProp === undefined) throw new Error('Must provide a key for storage reference');
-      if (!ts.isPropertyAssignment(keyProp) || !ts.isStringLiteral(keyProp.initializer)) throw new Error('Key must be a string literal');
-
-      const props: StorageProp = {
-        type: klass.toLowerCase().replace('reference', ''),
-        key: keyProp.initializer.text,
-        keyType: 'byte[]',
-        valueType: getABIType(node.initializer.typeArguments![0].getText()),
-      };
-
-      if (props.type === 'box' && isDynamicType(props.valueType)) {
-        props.dynamicSize = true;
+      if (!props.key && klass.includes('Reference')) {
+        props.key = node.name.getText();
       }
-
-      node.initializer.arguments[0].properties.forEach((p) => {
-        if (!ts.isPropertyAssignment(p)) throw new Error();
-        const name = p.name?.getText();
-
-        if (name === 'key') return;
-
-        if (name === 'defaultSize') {
-          props.defaultSize = parseInt(p.initializer.getText(), 10);
-        } else if (props.type === 'box' && name === 'dynamicSize' && isDynamicType(props.valueType)) {
-          props.dynamicSize = p.initializer.getText() === 'true';
-        } else throw new Error(`Unknown property ${name}`);
-      });
 
       this.storageProps[node.name.getText()] = props;
     } else {
