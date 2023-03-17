@@ -30,7 +30,7 @@ abi_route_setMyContact:
 setMyContact:
 	proto 4 0
 
-	// app.ts:20
+	// ./examples/tuple_in_box/app.ts:20
 	// contact: [string, string] = [name, company]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -81,13 +81,13 @@ setMyContact:
 	concat
 	frame_bury -3 // contact: [string,string]
 
-	// app.ts:22
+	// ./examples/tuple_in_box/app.ts:22
 	// this.myContact.put(contact)
 	byte "myContact"
 	frame_dig -3 // contact: [string,string]
 	app_global_put
 
-	// app.ts:23
+	// ./examples/tuple_in_box/app.ts:23
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	dup
@@ -118,7 +118,7 @@ abi_route_addContact:
 addContact:
 	proto 5 0
 
-	// app.ts:27
+	// ./examples/tuple_in_box/app.ts:27
 	// contact: [string, string] = [name, company]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -169,7 +169,7 @@ addContact:
 	concat
 	frame_bury -4 // contact: [string,string]
 
-	// app.ts:28
+	// ./examples/tuple_in_box/app.ts:28
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: account
 	dup
@@ -201,7 +201,7 @@ updateContactField:
 	proto 4 0
 
 	// if0_condition
-	// app.ts:32
+	// ./examples/tuple_in_box/app.ts:32
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -209,7 +209,7 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// app.ts:33
+	// ./examples/tuple_in_box/app.ts:33
 	// this.contacts.get(address)[0] = value
 	frame_dig -3 // address: account
 	box_get
@@ -315,7 +315,7 @@ sub_or_add_head_end_1:
 	b if0_end
 
 if0_elseif1_condition:
-	// app.ts:34
+	// ./examples/tuple_in_box/app.ts:34
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -323,7 +323,7 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// app.ts:35
+	// ./examples/tuple_in_box/app.ts:35
 	// this.contacts.get(address)[1] = value
 	frame_dig -3 // address: account
 	box_get
@@ -426,7 +426,7 @@ sub_or_add_head_end_2:
 	b if0_end
 
 if0_else:
-	// app.ts:36
+	// ./examples/tuple_in_box/app.ts:36
 	// err()
 	err
 
@@ -452,7 +452,7 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 3 0
 
-	// app.ts:40
+	// ./examples/tuple_in_box/app.ts:40
 	// assert(this.contacts.get(address)[0] === name)
 	frame_dig -2 // address: account
 	box_get
