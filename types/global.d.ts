@@ -91,7 +91,7 @@ declare class Application {
 }
 
 declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number })
+  constructor(options?: { defaultSize?: number, dynamicSize?: boolean })
 
   get(key: KeyType): ValueType
 
@@ -103,7 +103,7 @@ declare class BoxMap<KeyType, ValueType> {
 }
 
 declare class BoxReference<ValueType> {
-  constructor(options?: { defaultSize?: number, key?: string })
+  constructor(options?: { defaultSize?: number, key?: string, dynamicSize?: boolean })
 
   get(): ValueType
 

@@ -4,11 +4,8 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
-// https://stackoverflow.com/a/55435856
-function* chunks<T>(arr: T[], n: number): Generator<T[], void> {
-  for (let i = 0; i < arr.length; i += n) {
-    yield arr.slice(i, i + n);
-  }
+function isDynamicType(type: string) {
+  return type.includes('[]') || type.includes('string') || type.includes('bytes');
 }
 
 // This is seperate from getABIType because the bracket notation
@@ -212,6 +209,7 @@ interface StorageProp {
   defaultSize?: number;
   keyType: string;
   valueType: string;
+  dynamicSize?: boolean;
 }
 
 interface Subroutine {
@@ -532,7 +530,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, dynamicSize,
         } = this.storageProps[name];
 
         if (key) {
@@ -541,6 +539,8 @@ export default class Compiler {
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
+
+        if (dynamicSize) this.pushLines('dup', 'box_del', 'pop');
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
@@ -1030,7 +1030,7 @@ export default class Compiler {
     if (isNumeric(this.lastType)) this.pushVoid('itob');
 
     if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
-      this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
+      this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(e));
     }
 
     if (context.bytesOnStack) this.pushVoid('concat');
@@ -1116,7 +1116,7 @@ export default class Compiler {
           if (isNumeric(this.lastType)) this.pushVoid('itob');
 
           if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
-            this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10));
+            this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(n));
           }
 
           if (j) this.pushVoid('concat');
@@ -1217,15 +1217,6 @@ export default class Compiler {
       const storageProp = this.storageProps[
         node.expression.expression.name.getText()
       ];
-
-      // TODO: Make this an option in box constructor
-      if (storageProp.type === 'box') {
-        if (storageProp.key) {
-          this.pushVoid(`byte "${storageProp.key}"`);
-        } else this.processNode(node.arguments[0]);
-
-        this.pushLines('box_del', 'pop');
-      }
 
       this.storageFunctions[storageProp.type].put(node);
     } else {
@@ -1597,11 +1588,11 @@ export default class Compiler {
     return chain;
   }
 
-  private fixBitWidth(desiredWidth: number) {
+  private fixBitWidth(desiredWidth: number, warn: boolean = true) {
     const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
 
     // eslint-disable-next-line no-console
-    if (lastBitWidth > desiredWidth) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
+    if (lastBitWidth > desiredWidth && warn) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
 
     if (lastBitWidth < desiredWidth) {
       this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
@@ -1715,7 +1706,7 @@ export default class Compiler {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid('itob');
-      this.fixBitWidth(typeBitWidth);
+      this.fixBitWidth(typeBitWidth, !ts.isNumericLiteral(node.expression));
     }
 
     this.lastType = type;
@@ -2037,14 +2028,23 @@ export default class Compiler {
         valueType: getABIType(node.initializer.typeArguments![1].getText()),
       };
 
+      if (props.type === 'box' && isDynamicType(props.valueType)) {
+        props.dynamicSize = true;
+      }
+
       if (node.initializer?.arguments?.[0] !== undefined) {
         if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
 
-        const arg = node.initializer.arguments[0];
-        const sizeProp = arg.properties.find(
-          (p) => p.name?.getText() === 'defaultSize',
-        );
-        if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+        node.initializer.arguments[0].properties.forEach((p) => {
+          if (!ts.isPropertyAssignment(p)) throw new Error();
+          const name = p.name?.getText();
+
+          if (name === 'defaultSize') {
+            props.defaultSize = parseInt(p.initializer.getText(), 10);
+          } else if (props.type === 'box' && name === 'dynamicSize' && isDynamicType(props.valueType)) {
+            props.dynamicSize = p.initializer.getText() === 'true';
+          } else throw new Error(`Unknown property ${name}`);
+        });
       }
 
       this.storageProps[node.name.getText()] = props;
@@ -2067,10 +2067,22 @@ export default class Compiler {
         valueType: getABIType(node.initializer.typeArguments![0].getText()),
       };
 
-      const sizeProp = arg.properties.find(
-        (p) => p.name?.getText() === 'defaultSize',
-      );
-      if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+      if (props.type === 'box' && isDynamicType(props.valueType)) {
+        props.dynamicSize = true;
+      }
+
+      node.initializer.arguments[0].properties.forEach((p) => {
+        if (!ts.isPropertyAssignment(p)) throw new Error();
+        const name = p.name?.getText();
+
+        if (name === 'key') return;
+
+        if (name === 'defaultSize') {
+          props.defaultSize = parseInt(p.initializer.getText(), 10);
+        } else if (props.type === 'box' && name === 'dynamicSize' && isDynamicType(props.valueType)) {
+          props.dynamicSize = p.initializer.getText() === 'true';
+        } else throw new Error(`Unknown property ${name}`);
+      });
 
       this.storageProps[node.name.getText()] = props;
     } else {

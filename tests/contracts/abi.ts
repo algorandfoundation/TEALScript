@@ -18,7 +18,7 @@ class AbiTest extends Contract {
 
   lMap = new LocalMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
   @createApplication
   create(): void {}

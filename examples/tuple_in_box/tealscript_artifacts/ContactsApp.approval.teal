@@ -90,6 +90,9 @@ setMyContact:
 	// app.ts:23
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
+	dup
+	box_del
+	pop
 	frame_dig -3 // contact: [string,string]
 	box_put
 	retsub
@@ -169,6 +172,9 @@ addContact:
 	// app.ts:28
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: account
+	dup
+	box_del
+	pop
 	frame_dig -4 // contact: [string,string]
 	box_put
 	retsub
@@ -301,9 +307,9 @@ sub_or_add_head_end_1:
 	concat
 	concat
 	frame_dig -3 // address: account
+	dup
 	box_del
 	pop
-	frame_dig -3 // address: account
 	swap
 	box_put
 	b if0_end
@@ -412,9 +418,9 @@ sub_or_add_head_end_2:
 	concat
 	concat
 	frame_dig -3 // address: account
+	dup
 	box_del
 	pop
-	frame_dig -3 // address: account
 	swap
 	box_put
 	b if0_end

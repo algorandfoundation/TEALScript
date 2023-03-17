@@ -9,7 +9,7 @@ class ContactsApp extends Contract {
   // NamedTuple will simply be a map of names in the compiler to indexes in the tuple
   // 0 index = name
   // 1 index = company
-  contacts = new BoxMap<Account, [string, string]>({ defaultSize: 0 });
+  contacts = new BoxMap<Account, [string, string]>();
 
   myContact = new GlobalReference<[string, string]>({ key: 'myContact' });
 
