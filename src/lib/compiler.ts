@@ -739,6 +739,12 @@ export default class Compiler {
       this.routeAbiMethods();
     }
 
+    Object.keys(this.compilerSubroutines).forEach((sub) => {
+      if (this.teal.includes(`callsub ${sub}`)) {
+        this.teal.splice(2, 0, ...this.compilerSubroutines[sub]());
+      }
+    });
+
     this.teal = await Promise.all(
       this.teal.map(async (t) => {
         if (t.startsWith('PENDING_COMPILE')) {
@@ -1224,6 +1230,36 @@ export default class Compiler {
     }
   }
 
+  private compilerSubroutines: {[name: string]: () => string[]} = {
+    preArrayAccess: () => {
+      const frame = {
+        headOffset: '-1 // head offset',
+        typeLength: '-2 // type length',
+        fullTuple: '-3 // full tuple',
+      };
+
+      return [
+        'preArrayAccess:',
+        'proto 3 0',
+        `frame_dig ${frame.fullTuple}`,
+        `store ${scratch.fullTuple}`,
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.headOffset}`,
+        'extract_uint16 // extract array offset',
+        `store ${scratch.arrayOffset}`,
+        `load ${scratch.fullTuple}`,
+        `load ${scratch.arrayOffset}`,
+        'extract_uint16 // extract array length',
+        `frame_dig ${frame.typeLength}`,
+        '* // array size',
+        'int 2',
+        '+ // array size + len',
+        `store ${scratch.fullArrayLength}`,
+        'retsub',
+      ];
+    },
+  };
+
   private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
 
@@ -1252,19 +1288,9 @@ export default class Compiler {
         headOffset += (dynamicTypeIndex) * 2;
 
         this.pushLines(
-          `store ${scratch.fullTuple}`,
-          `load ${scratch.fullTuple}`,
+          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
           `int ${headOffset} // head offset`,
-          'extract_uint16 // extract array offset',
-          `store ${scratch.arrayOffset}`,
-          `load ${scratch.fullTuple}`,
-          `load ${scratch.arrayOffset}`,
-          'extract_uint16 // extract array length',
-          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))}`,
-          '* // array size',
-          'int 2',
-          '+ // array size + len',
-          `store ${scratch.fullArrayLength}`,
+          'callsub preArrayAccess',
         );
 
         if (newValue === undefined) {
@@ -2573,7 +2599,7 @@ export default class Compiler {
 
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
-      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

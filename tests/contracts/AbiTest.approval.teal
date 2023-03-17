@@ -1,6 +1,24 @@
 #pragma version 8
 	b main
 
+preArrayAccess:
+	proto 3 0
+	frame_dig -3 // full tuple
+	store 0 // full tuple
+	load 0 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	frame_dig -2 // type length
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	retsub
+
 bare_route_create:
 	byte 0x
 	dupn 1
@@ -1488,19 +1506,9 @@ returnDynamicArrayFromTuple:
 	// tests/contracts/abi.ts:277
 	// return a[4];
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 7 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	load 0 // full tuple
 	load 1 // array offset
 	load 2 // full array length
@@ -1631,19 +1639,9 @@ updateDynamicArrayInTuple:
 	// tests/contracts/abi.ts:284
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 1 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x0002000a000b
 	store 6 // new array
 	load 0 // full tuple
@@ -1722,19 +1720,9 @@ sub_or_add_head_end_1:
 	// tests/contracts/abi.ts:285
 	// a[2] = [12, 13]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 3 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00020c0d
 	store 6 // new array
 	load 0 // full tuple
@@ -1818,19 +1806,9 @@ sub_or_add_head_end_2:
 	// tests/contracts/abi.ts:286
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 5 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x0002000e000f
 	store 6 // new array
 	load 0 // full tuple
@@ -1914,19 +1892,9 @@ sub_or_add_head_end_3:
 	// tests/contracts/abi.ts:287
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 7 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00021011
 	store 6 // new array
 	load 0 // full tuple
@@ -3000,19 +2968,9 @@ accesStringInTuple:
 	// tests/contracts/abi.ts:397
 	// assert(a[2] === 'Hello World!')
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 4 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	load 0 // full tuple
 	load 1 // array offset
 	load 2 // full array length
@@ -3025,19 +2983,9 @@ accesStringInTuple:
 	// tests/contracts/abi.ts:399
 	// return a[2];
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 4 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	load 0 // full tuple
 	load 1 // array offset
 	load 2 // full array length
@@ -3170,19 +3118,9 @@ updateStringInTuple:
 	// tests/contracts/abi.ts:406
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 1 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x0002000a000b
 	store 6 // new array
 	load 0 // full tuple
@@ -3261,19 +3199,9 @@ sub_or_add_head_end_5:
 	// tests/contracts/abi.ts:407
 	// a[2] = 'Hello World!'
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 3 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
 	store 6 // new array
 	load 0 // full tuple
@@ -3357,19 +3285,9 @@ sub_or_add_head_end_6:
 	// tests/contracts/abi.ts:408
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 5 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x0002000e000f
 	store 6 // new array
 	load 0 // full tuple
@@ -3453,19 +3371,9 @@ sub_or_add_head_end_7:
 	// tests/contracts/abi.ts:409
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 1 // type length
 	int 7 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 1
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00021011
 	store 6 // new array
 	load 0 // full tuple
@@ -3635,19 +3543,9 @@ updateTupleWithOnlyDynamicTypes:
 	// tests/contracts/abi.ts:417
 	// a[0] = [4, 5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 0 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x000200040005
 	store 6 // new array
 	load 0 // full tuple
@@ -3726,19 +3624,9 @@ sub_or_add_head_end_9:
 	// tests/contracts/abi.ts:418
 	// a[1] = [6, 7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 2 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x000200060007
 	store 6 // new array
 	load 0 // full tuple
@@ -3822,19 +3710,9 @@ sub_or_add_head_end_10:
 	// tests/contracts/abi.ts:419
 	// a[2] = [8, 9]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 4 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x000200080009
 	store 6 // new array
 	load 0 // full tuple
@@ -4016,19 +3894,9 @@ shortenDynamicElementInTuple:
 	// tests/contracts/abi.ts:427
 	// a[0] = [5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 0 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00010005
 	store 6 // new array
 	load 0 // full tuple
@@ -4107,19 +3975,9 @@ sub_or_add_head_end_12:
 	// tests/contracts/abi.ts:428
 	// a[1] = [6]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 2 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00010006
 	store 6 // new array
 	load 0 // full tuple
@@ -4203,19 +4061,9 @@ sub_or_add_head_end_13:
 	// tests/contracts/abi.ts:429
 	// a[2] = [7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	store 0 // full tuple
-	load 0 // full tuple
+	int 2 // type length
 	int 4 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	int 2
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
+	callsub preArrayAccess
 	byte 0x00010007
 	store 6 // new array
 	load 0 // full tuple
