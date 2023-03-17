@@ -19,6 +19,98 @@ preArrayAccess:
 	store 2 // full array length
 	retsub
 
+updateDynamicElement:
+	proto 8 1
+	frame_dig -8 // newArray
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	frame_dig -2 // startOfHeads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	frame_dig -2 // startOfHeads
+	frame_dig -3 // totalHeadLength
+	extract3 
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	frame_dig -4 // lastDynamicElement
+	bnz skip_values_after_array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+
+skip_values_after_array:
+	frame_dig -5 // firstDynamicElement
+	bnz skip_values_before_array
+	load 0 // full tuple
+	frame_dig -1 // headEnd
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+
+skip_values_before_array:
+	load 4 // dynamic heads
+	frame_dig -6 // headUpdateBitmask
+	load 6 // new array
+	len
+	load 2 // full array length
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz skip_len_swap
+	swap
+
+skip_len_swap:
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	b&
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz add_head
+	b-
+	b sub_or_add_head_end
+
+add_head:
+	b+
+
+sub_or_add_head_end:
+	frame_dig -7 // fullHeadBitmask
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	retsub
+
 bare_route_create:
 	byte 0x
 	dupn 1
@@ -1643,78 +1735,14 @@ updateDynamicArrayInTuple:
 	int 1 // head offset
 	callsub preArrayAccess
 	byte 0x0002000a000b
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 4 // dynamic heads
-	byte 0x0000FFFFFFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_1
-	swap
-
-skip_len_swap_1:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_1
-	b-
-	b sub_or_add_head_end_1
-
-sub_head_1:
-	b+
-
-sub_or_add_head_end_1:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000FFFFFFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:285
@@ -1724,83 +1752,14 @@ sub_or_add_head_end_1:
 	int 3 // head offset
 	callsub preArrayAccess
 	byte 0x00020c0d
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x00000000FFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_2
-	swap
-
-skip_len_swap_2:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_2
-	b-
-	b sub_or_add_head_end_2
-
-sub_head_2:
-	b+
-
-sub_or_add_head_end_2:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x00000000FFFFFFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:286
@@ -1810,83 +1769,14 @@ sub_or_add_head_end_2:
 	int 5 // head offset
 	callsub preArrayAccess
 	byte 0x0002000e000f
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x000000000000FFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_3
-	swap
-
-skip_len_swap_3:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_3
-	b-
-	b sub_or_add_head_end_3
-
-sub_head_3:
-	b+
-
-sub_or_add_head_end_3:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x000000000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:287
@@ -1896,75 +1786,14 @@ sub_or_add_head_end_3:
 	int 7 // head offset
 	callsub preArrayAccess
 	byte 0x00021011
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x0000000000000000
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_4
-	swap
-
-skip_len_swap_4:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_4
-	b-
-	b sub_or_add_head_end_4
-
-sub_head_4:
-	b+
-
-sub_or_add_head_end_4:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:289
@@ -3122,78 +2951,14 @@ updateStringInTuple:
 	int 1 // head offset
 	callsub preArrayAccess
 	byte 0x0002000a000b
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 4 // dynamic heads
-	byte 0x0000FFFFFFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_5
-	swap
-
-skip_len_swap_5:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_5
-	b-
-	b sub_or_add_head_end_5
-
-sub_head_5:
-	b+
-
-sub_or_add_head_end_5:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000FFFFFFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:407
@@ -3203,83 +2968,14 @@ sub_or_add_head_end_5:
 	int 3 // head offset
 	callsub preArrayAccess
 	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x00000000FFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_6
-	swap
-
-skip_len_swap_6:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_6
-	b-
-	b sub_or_add_head_end_6
-
-sub_head_6:
-	b+
-
-sub_or_add_head_end_6:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x00000000FFFFFFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:408
@@ -3289,83 +2985,14 @@ sub_or_add_head_end_6:
 	int 5 // head offset
 	callsub preArrayAccess
 	byte 0x0002000e000f
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x000000000000FFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_7
-	swap
-
-skip_len_swap_7:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_7
-	b-
-	b sub_or_add_head_end_7
-
-sub_head_7:
-	b+
-
-sub_or_add_head_end_7:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x000000000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:409
@@ -3375,75 +3002,14 @@ sub_or_add_head_end_7:
 	int 7 // head offset
 	callsub preArrayAccess
 	byte 0x00021011
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 1 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 1 8
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	int 9 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x0000000000000000
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_8
-	swap
-
-skip_len_swap_8:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_8
-	b-
-	b sub_or_add_head_end_8
-
-sub_head_8:
-	b+
-
-sub_or_add_head_end_8:
 	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.ts:411
@@ -3547,78 +3113,14 @@ updateTupleWithOnlyDynamicTypes:
 	int 0 // head offset
 	callsub preArrayAccess
 	byte 0x000200040005
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 4 // dynamic heads
-	byte 0x0000FFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_9
-	swap
-
-skip_len_swap_9:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_9
-	b-
-	b sub_or_add_head_end_9
-
-sub_head_9:
-	b+
-
-sub_or_add_head_end_9:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000FFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:418
@@ -3628,83 +3130,14 @@ sub_or_add_head_end_9:
 	int 2 // head offset
 	callsub preArrayAccess
 	byte 0x000200060007
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 6 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x00000000FFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_10
-	swap
-
-skip_len_swap_10:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_10
-	b-
-	b sub_or_add_head_end_10
-
-sub_head_10:
-	b+
-
-sub_or_add_head_end_10:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x00000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:419
@@ -3714,75 +3147,14 @@ sub_or_add_head_end_10:
 	int 4 // head offset
 	callsub preArrayAccess
 	byte 0x000200080009
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	int 6 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x000000000000
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_11
-	swap
-
-skip_len_swap_11:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_11
-	b-
-	b sub_or_add_head_end_11
-
-sub_head_11:
-	b+
-
-sub_or_add_head_end_11:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:421
@@ -3898,78 +3270,14 @@ shortenDynamicElementInTuple:
 	int 0 // head offset
 	callsub preArrayAccess
 	byte 0x00010005
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 4 // dynamic heads
-	byte 0x0000FFFFFFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_12
-	swap
-
-skip_len_swap_12:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_12
-	b-
-	b sub_or_add_head_end_12
-
-sub_head_12:
-	b+
-
-sub_or_add_head_end_12:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x0000FFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:428
@@ -3979,83 +3287,14 @@ sub_or_add_head_end_12:
 	int 2 // head offset
 	callsub preArrayAccess
 	byte 0x00010006
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-	load 0 // full tuple
-	int 6 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x00000000FFFF
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_13
-	swap
-
-skip_len_swap_13:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_13
-	b-
-	b sub_or_add_head_end_13
-
-sub_head_13:
-	b+
-
-sub_or_add_head_end_13:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x00000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:429
@@ -4065,75 +3304,14 @@ sub_or_add_head_end_13:
 	int 4 // head offset
 	callsub preArrayAccess
 	byte 0x00010007
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	int 0 // start of dynamic heads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	extract 0 6
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	load 0 // full tuple
-	int 6 // head end
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-	load 4 // dynamic heads
-	byte 0x000000000000
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap_14
-	swap
-
-skip_len_swap_14:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz sub_head_14
-	b-
-	b sub_or_add_head_end_14
-
-sub_head_14:
-	b+
-
-sub_or_add_head_end_14:
 	byte 0xFFFFFFFFFFFF
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
+	byte 0x000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
 	// tests/contracts/abi.ts:431

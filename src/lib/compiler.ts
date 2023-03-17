@@ -599,8 +599,6 @@ export default class Compiler {
 
   private topLevelNode!: ts.Node;
 
-  dynamicArrayCounter: number = 0;
-
   private multiplyWideRatioFactors(factors: ts.Expression[]) {
     if (factors.length === 1) {
       this.pushVoid('int 0');
@@ -1231,6 +1229,124 @@ export default class Compiler {
   }
 
   private compilerSubroutines: {[name: string]: () => string[]} = {
+    updateDynamicElement: () => {
+      const frame = {
+        newArray: '-8 // newArray', // already on stack
+        startOfHeads: '-2 // startOfHeads', // startOfHeads
+        totalHeadLength: '-3 // totalHeadLength', // types.dynamic.length * 2;
+        lastDynamicElement: '-4 // lastDynamicElement', // dynamicTypeIndex === types.dynamic.length - 1
+        firstDynamicElement: '-5 // firstDynamicElement', // dynamicTypeIndex === 0
+        headUpdateBitmask: '-6 // headUpdateBitmask', // `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
+        fullHeadBitmask: '-7 // fullHeadBitmask', // `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
+        headEnd: '-1 // headEnd', // startOfHeads + totalHeadLength
+      };
+
+      const subTeal = [
+        'updateDynamicElement:',
+        'proto 8 1',
+        `frame_dig ${frame.newArray}`,
+      ];
+
+      subTeal.push(
+        `store ${scratch.newArray}`,
+        // get static part of tuple
+        `load ${scratch.fullTuple}`,
+        'int 0',
+        `frame_dig ${frame.startOfHeads}`,
+        'extract3',
+        `store ${scratch.staticPartOfTuple}`,
+        // get dynamic heads
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.startOfHeads}`,
+        `frame_dig ${frame.totalHeadLength}`,
+        'extract3 ',
+        `store ${scratch.dynamicHeads}`,
+        'byte 0x',
+        'dup',
+        `store ${scratch.valuesAfterArray}`,
+        `store ${scratch.valuesBeforeArray}`,
+
+        // Get values AFTER the updated array
+        `frame_dig ${frame.lastDynamicElement}`,
+        'bnz skip_values_after_array',
+        `load ${scratch.fullTuple}`,
+        `load ${scratch.arrayOffset}`,
+        `load ${scratch.fullArrayLength}`,
+        '+',
+        `load ${scratch.fullTuple}`,
+        'len',
+        'substring3',
+        `store ${scratch.valuesAfterArray}`,
+        'skip_values_after_array:',
+        // Get values BEFORE the updated array
+        `frame_dig ${frame.firstDynamicElement}`,
+        'bnz skip_values_before_array',
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.headEnd}`,
+        `load ${scratch.arrayOffset}`,
+        'substring3',
+        `store ${scratch.valuesBeforeArray}`,
+        'skip_values_before_array:',
+
+        // Update dynamic heads
+        `load ${scratch.dynamicHeads}`,
+        `frame_dig ${frame.headUpdateBitmask}`,
+
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        '>=',
+        'bnz skip_len_swap',
+        'swap',
+        'skip_len_swap:',
+        '-',
+
+        'itob',
+        'extract 6 2',
+        'dup',
+        'concat', // 4
+        'dup',
+        'concat', // 8
+        'dup',
+        'concat', // 16
+        'dup',
+        'concat', // 32
+        'dup',
+        'concat', // 64
+        'b&',
+
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        '>=', // if this is true, subtract
+        'bnz add_head',
+        'b-',
+        'b sub_or_add_head_end',
+        'add_head:',
+        'b+',
+        'sub_or_add_head_end:',
+
+        `frame_dig ${frame.fullHeadBitmask}`,
+        'b&',
+        `store ${scratch.dynamicHeads}`,
+        // form new array
+        `load ${scratch.staticPartOfTuple}`,
+        `load ${scratch.dynamicHeads}`,
+        `load ${scratch.valuesBeforeArray}`,
+        `load ${scratch.newArray}`,
+        `load ${scratch.valuesAfterArray}`,
+        'concat',
+        'concat',
+        'concat',
+        'concat',
+        'retsub',
+      );
+
+      return subTeal;
+    },
     preArrayAccess: () => {
       const frame = {
         headOffset: '-1 // head offset',
@@ -1300,7 +1416,10 @@ export default class Compiler {
             `load ${scratch.fullArrayLength}`,
             'extract3',
           );
-          this.lastType = accessedType;
+
+          if (accessedType === 'string') {
+            this.push('extract 2 0 // extract bytes from string', 'bytes');
+          } else this.lastType = accessedType;
         } else {
           if (ts.isStringLiteral(newValue)) {
             const len = newValue.text.length.toString(16).padStart(4, '0');
@@ -1320,114 +1439,18 @@ export default class Compiler {
           }
 
           const totalHeadLength = types.dynamic.length * 2;
-
           this.pushLines(
-            `store ${scratch.newArray}`,
-            // get static part of tuple
-            `load ${scratch.fullTuple}`,
-            'int 0',
-            `int ${startOfHeads} // start of dynamic heads`,
-            'extract3',
-            `store ${scratch.staticPartOfTuple}`,
-            // get dynamic heads
-            `load ${scratch.fullTuple}`,
-            `extract ${startOfHeads} ${totalHeadLength}`,
-            `store ${scratch.dynamicHeads}`,
-            'byte 0x',
-            'dup',
-            `store ${scratch.valuesAfterArray}`,
-            `store ${scratch.valuesBeforeArray}`,
-          );
-
-          // get values AFTER the updated array
-          if (dynamicTypeIndex < types.dynamic.length - 1) {
-            this.pushLines(
-              `load ${scratch.fullTuple}`,
-              `load ${scratch.arrayOffset}`,
-              `load ${scratch.fullArrayLength}`,
-              '+',
-              `load ${scratch.fullTuple}`,
-              'len',
-              'substring3',
-              `store ${scratch.valuesAfterArray}`,
-            );
-          }
-
-          // Get values BEFORE the updated array
-          if (dynamicTypeIndex > 0) {
-            this.pushLines(
-              `load ${scratch.fullTuple}`,
-              `int ${startOfHeads + totalHeadLength} // head end`,
-              `load ${scratch.arrayOffset}`,
-              'substring3',
-              `store ${scratch.valuesBeforeArray}`,
-            );
-          }
-
-          this.dynamicArrayCounter += 1;
-
-          // Update dynamic heads
-          this.pushLines(
-            `load ${scratch.dynamicHeads}`,
-            `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
-
-            `load ${scratch.newArray}`,
-            'len',
-            `load ${scratch.fullArrayLength}`,
-            `load ${scratch.newArray}`,
-            'len',
-            `load ${scratch.fullArrayLength}`,
-            '>=',
-            `bnz skip_len_swap_${this.dynamicArrayCounter}`,
-            'swap',
-            `skip_len_swap_${this.dynamicArrayCounter}:`,
-            '-',
-
-            'itob',
-            'extract 6 2',
-            'dup',
-            'concat', // 4
-            'dup',
-            'concat', // 8
-            'dup',
-            'concat', // 16
-            'dup',
-            'concat', // 32
-            'dup',
-            'concat', // 64
-            'b&',
-
-            `load ${scratch.newArray}`,
-            'len',
-            `load ${scratch.fullArrayLength}`,
-            '>=', // if this is true, subtract
-            `bnz sub_head_${this.dynamicArrayCounter}`,
-            'b-',
-            `b sub_or_add_head_end_${this.dynamicArrayCounter}`,
-            `sub_head_${this.dynamicArrayCounter}:`,
-            'b+',
-            `sub_or_add_head_end_${this.dynamicArrayCounter}:`,
-
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
-            'b&',
-            `store ${scratch.dynamicHeads}`,
-            // form new array
-            `load ${scratch.staticPartOfTuple}`,
-            `load ${scratch.dynamicHeads}`,
-            `load ${scratch.valuesBeforeArray}`,
-            `load ${scratch.newArray}`,
-            `load ${scratch.valuesAfterArray}`,
-            'concat',
-            'concat',
-            'concat',
-            'concat',
+            `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)} // head update bitmask`,
+            `int ${dynamicTypeIndex === 0 ? 1 : 0} // is first dynamic element`,
+            `int ${dynamicTypeIndex === types.dynamic.length - 1 ? 1 : 0} // is last dynamic element`,
+            `int ${totalHeadLength} // total head length`,
+            `int ${startOfHeads} // startOfHeads`,
+            `int ${startOfHeads + totalHeadLength} // head end`,
+            'callsub updateDynamicElement',
           );
 
           this.updateValue(chain[0].expression);
-        }
-
-        if (accessedType === 'string' && !newValue) {
-          this.push('extract 2 0 // extract bytes from string', 'bytes');
         }
 
         return;
