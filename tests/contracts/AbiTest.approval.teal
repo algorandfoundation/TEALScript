@@ -3323,6 +3323,65 @@ shortenDynamicElementInTuple:
 	log
 	retsub
 
+abi_route_namedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub namedTuple
+	int 1
+	return
+
+namedTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:435
+	// a: {
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.ts:443
+	// return a.bar;
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -3389,5 +3448,6 @@ route_abi:
 	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
 	method "updateTupleWithOnlyDynamicTypes()(uint16[],uint16[],uint16[])"
 	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
+	method "namedTuple()string"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple

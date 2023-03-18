@@ -4,6 +4,26 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
+function getObjectTypeAndIndex(type: string, key: string): {type: string; index: number} {
+  const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+
+  let retVal = { type: '', index: 0 };
+
+  statement.forEachChild((n) => {
+    if (!ts.isVariableDeclarationList(n)) throw new Error();
+    n.declarations.forEach((d) => {
+      if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+
+      d.type.members.forEach((m, i) => {
+        if (!ts.isPropertySignature(m)) throw new Error();
+        if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
+      });
+    });
+  });
+
+  return retVal;
+}
+
 function isDynamicType(type: string) {
   return type.includes('[]') || type.includes('string') || type.includes('bytes');
 }
@@ -17,9 +37,28 @@ function getABITupleString(str: string) {
   return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
 }
 
-function stringToExpression(str: string) {
-  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
-  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+function stringToExpression(str: string): ts.Expression {
+  if (str.startsWith('{')) {
+    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
+
+    const types: string[] = [];
+    srcFile.statements[0].forEachChild((n) => {
+      if (!ts.isVariableDeclarationList(n)) throw new Error();
+      n.declarations.forEach((d) => {
+        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+
+        d.type.members.forEach((m, i) => {
+          if (!ts.isPropertySignature(m)) throw new Error();
+          types.push(m.type!.getText());
+        });
+      });
+    });
+
+    return stringToExpression(`[${types.join(',')}]`);
+  } {
+    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+    return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+  }
 }
 
 function capitalizeFirstChar(str: string) {
@@ -896,6 +935,8 @@ export default class Compiler {
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
       else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
       else if (ts.isNonNullExpression(node)) this.processNode(node.expression);
+      else if (ts.isObjectLiteralExpression(node)) this.processObjectLiteralExpression(node);
+      else if (node.kind === 108) this.lastType = 'this';
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
@@ -915,7 +956,7 @@ export default class Compiler {
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
-      else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
+      else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
 
@@ -936,6 +977,26 @@ export default class Compiler {
     }
 
     if (isTopLevelNode) this.nodeDepth = 0;
+  }
+
+  private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
+    const type = this.typeHint;
+    if (type === undefined) throw new Error();
+    const typeArray: string[] = [];
+    const valueArray: string[] = [];
+
+    node.properties.forEach((p) => {
+      if (!ts.isPropertyAssignment(p)) throw new Error();
+      const r = getObjectTypeAndIndex(type, p.name.getText());
+      typeArray[r.index] = r.type;
+      valueArray[r.index] = p.initializer.getText();
+    });
+
+    this.typeHint = `[${typeArray.join(',')}]`;
+    const tupleNode = stringToExpression(`[${valueArray.join(',')}]`);
+    if (!ts.isArrayLiteralExpression(tupleNode)) throw new Error();
+    this.processArrayLiteralExpression(tupleNode);
+    this.lastType = type.replace(/\s+/g, ' ');
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
@@ -1727,6 +1788,12 @@ export default class Compiler {
   }
 
   private processIdentifier(node: ts.Identifier) {
+    // should only be true when calling getStackTypeFromNode
+    if (node.getText() === 'globals') {
+      this.lastType = 'globals';
+      return;
+    }
+
     if (this.contractClasses.includes(node.getText())) {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
@@ -2146,6 +2213,13 @@ export default class Compiler {
     chain.forEach((n) => {
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
+        return;
+      }
+
+      const expressionType = this.getStackTypeFromNode(n.expression);
+      if (expressionType.startsWith('{')) {
+        const { index } = getObjectTypeAndIndex(expressionType, n.name.getText());
+        this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
         return;
       }
 
@@ -2621,8 +2695,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      // eslint-disable-next-line no-console
-      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      // console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

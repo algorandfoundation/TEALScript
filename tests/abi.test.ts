@@ -25,6 +25,7 @@ async function dryrun(methodName: string) {
     txns: [{ txn: txns[0], sig: sigs[0] }],
   });
   const drrTxn = new algosdk.DryrunResult(await appClient.client.dryrun(dr).do()).txns[0];
+  // eslint-disable-next-line no-console
   console.log(drrTxn.appTrace(
     { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
   ));
@@ -358,5 +359,10 @@ describe('ABI', function () {
         [BigInt(6)],
         [BigInt(7)]],
     );
+  });
+
+  it('namedTuple', async function () {
+    const ret = await appClient.namedTuple();
+    expect(ret.returnValue).to.equal('Hello World!');
   });
 });
