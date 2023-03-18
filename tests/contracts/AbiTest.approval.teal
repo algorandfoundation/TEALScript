@@ -147,12 +147,12 @@ abi_route_staticArray:
 staticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:30
+	// tests/contracts/abi.ts:35
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:32
+	// tests/contracts/abi.ts:37
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 8 // offset
@@ -180,12 +180,12 @@ abi_route_returnStaticArray:
 returnStaticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:36
+	// tests/contracts/abi.ts:41
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:38
+	// tests/contracts/abi.ts:43
 	// return a;
 	frame_dig -1 // a: uint64[3]
 	byte 0x151f7c75
@@ -209,7 +209,7 @@ abi_route_staticArrayArg:
 staticArrayArg:
 	proto 2 0
 
-	// tests/contracts/abi.ts:42
+	// tests/contracts/abi.ts:47
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 8 // offset
@@ -237,22 +237,22 @@ abi_route_nonLiteralStaticArrayElements:
 nonLiteralStaticArrayElements:
 	proto 5 0
 
-	// tests/contracts/abi.ts:46
+	// tests/contracts/abi.ts:51
 	// n1 = 11
 	int 11
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.ts:47
+	// tests/contracts/abi.ts:52
 	// n2 = 22
 	int 22
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.ts:48
+	// tests/contracts/abi.ts:53
 	// n3 = 33
 	int 33
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.ts:49
+	// tests/contracts/abi.ts:54
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
@@ -264,7 +264,7 @@ nonLiteralStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[3]
 
-	// tests/contracts/abi.ts:51
+	// tests/contracts/abi.ts:56
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
 	int 8 // offset
@@ -292,22 +292,22 @@ abi_route_mixedStaticArrayElements:
 mixedStaticArrayElements:
 	proto 5 0
 
-	// tests/contracts/abi.ts:55
+	// tests/contracts/abi.ts:60
 	// n1 = 3
 	int 3
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.ts:56
+	// tests/contracts/abi.ts:61
 	// n2 = 4
 	int 4
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.ts:57
+	// tests/contracts/abi.ts:62
 	// n3 = 5
 	int 5
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.ts:58
+	// tests/contracts/abi.ts:63
 	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	byte 0x000000000000000000000000000000010000000000000002
 	frame_dig -1 // n1: uint64
@@ -323,7 +323,7 @@ mixedStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[9]
 
-	// tests/contracts/abi.ts:60
+	// tests/contracts/abi.ts:65
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
 	int 8 // offset
@@ -363,17 +363,17 @@ abi_route_nonLiteralStaticArrayAccess:
 nonLiteralStaticArrayAccess:
 	proto 3 0
 
-	// tests/contracts/abi.ts:64
+	// tests/contracts/abi.ts:69
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:65
+	// tests/contracts/abi.ts:70
 	// n = 2
 	int 2
 	frame_bury -2 // n: uint64
 
-	// tests/contracts/abi.ts:67
+	// tests/contracts/abi.ts:72
 	// return a[n];
 	frame_dig -1 // a: uint64[3]
 	frame_dig -2 // n: uint64
@@ -403,12 +403,12 @@ abi_route_setStaticArrayElement:
 setStaticArrayElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:71
+	// tests/contracts/abi.ts:76
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:73
+	// tests/contracts/abi.ts:78
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
 	int 8 // offset
@@ -417,7 +417,7 @@ setStaticArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:75
+	// tests/contracts/abi.ts:80
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 8 // offset
@@ -445,31 +445,31 @@ abi_route_staticArrayInStorageRef:
 staticArrayInStorageRef:
 	proto 3 0
 
-	// tests/contracts/abi.ts:79
+	// tests/contracts/abi.ts:84
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:81
+	// tests/contracts/abi.ts:86
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:82
+	// tests/contracts/abi.ts:87
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:83
+	// tests/contracts/abi.ts:88
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:85
+	// tests/contracts/abi.ts:90
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
@@ -498,7 +498,7 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:91
+	// tests/contracts/abi.ts:96
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -521,31 +521,31 @@ abi_route_updateStaticArrayInStorageRef:
 updateStaticArrayInStorageRef:
 	proto 3 0
 
-	// tests/contracts/abi.ts:95
+	// tests/contracts/abi.ts:100
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:97
+	// tests/contracts/abi.ts:102
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:98
+	// tests/contracts/abi.ts:103
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:99
+	// tests/contracts/abi.ts:104
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:101
+	// tests/contracts/abi.ts:106
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
@@ -557,7 +557,7 @@ updateStaticArrayInStorageRef:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.ts:102
+	// tests/contracts/abi.ts:107
 	// this.lRef.get(this.txn.sender)[1] = 222
 	txn Sender
 	byte "lRef"
@@ -571,7 +571,7 @@ updateStaticArrayInStorageRef:
 	uncover 2
 	app_local_put
 
-	// tests/contracts/abi.ts:103
+	// tests/contracts/abi.ts:108
 	// this.bRef.get()[1] = 333
 	byte "bRef"
 	box_get
@@ -584,7 +584,7 @@ updateStaticArrayInStorageRef:
 	swap
 	box_put
 
-	// tests/contracts/abi.ts:105
+	// tests/contracts/abi.ts:110
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
@@ -613,7 +613,7 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:111
+	// tests/contracts/abi.ts:116
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -636,31 +636,31 @@ abi_route_staticArrayInStorageMap:
 staticArrayInStorageMap:
 	proto 3 0
 
-	// tests/contracts/abi.ts:115
+	// tests/contracts/abi.ts:120
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:117
+	// tests/contracts/abi.ts:122
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:118
+	// tests/contracts/abi.ts:123
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:119
+	// tests/contracts/abi.ts:124
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:121
+	// tests/contracts/abi.ts:126
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
@@ -689,7 +689,7 @@ staticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:127
+	// tests/contracts/abi.ts:132
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -712,31 +712,31 @@ abi_route_updateStaticArrayInStorageMap:
 updateStaticArrayInStorageMap:
 	proto 3 0
 
-	// tests/contracts/abi.ts:131
+	// tests/contracts/abi.ts:136
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.ts:133
+	// tests/contracts/abi.ts:138
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.ts:134
+	// tests/contracts/abi.ts:139
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.ts:135
+	// tests/contracts/abi.ts:140
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.ts:137
+	// tests/contracts/abi.ts:142
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
@@ -748,7 +748,7 @@ updateStaticArrayInStorageMap:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.ts:138
+	// tests/contracts/abi.ts:143
 	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
 	txn Sender
 	byte "lMap"
@@ -762,7 +762,7 @@ updateStaticArrayInStorageMap:
 	uncover 2
 	app_local_put
 
-	// tests/contracts/abi.ts:139
+	// tests/contracts/abi.ts:144
 	// this.bMap.get('bMap')[1] = 3333
 	byte "bMap"
 	box_get
@@ -775,7 +775,7 @@ updateStaticArrayInStorageMap:
 	swap
 	box_put
 
-	// tests/contracts/abi.ts:141
+	// tests/contracts/abi.ts:146
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
@@ -804,7 +804,7 @@ updateStaticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.ts:147
+	// tests/contracts/abi.ts:152
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -827,12 +827,12 @@ abi_route_nestedStaticArray:
 nestedStaticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:151
+	// tests/contracts/abi.ts:156
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.ts:153
+	// tests/contracts/abi.ts:158
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 32 // offset
@@ -860,12 +860,12 @@ abi_route_updateNestedStaticArrayElement:
 updateNestedStaticArrayElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:157
+	// tests/contracts/abi.ts:162
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.ts:159
+	// tests/contracts/abi.ts:164
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
 	int 32 // offset
@@ -874,7 +874,7 @@ updateNestedStaticArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.ts:161
+	// tests/contracts/abi.ts:166
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 32 // offset
@@ -902,12 +902,12 @@ abi_route_updateNestedStaticArray:
 updateNestedStaticArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:165
+	// tests/contracts/abi.ts:170
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.ts:167
+	// tests/contracts/abi.ts:172
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
 	int 24 // offset
@@ -915,7 +915,7 @@ updateNestedStaticArray:
 	replace3
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.ts:169
+	// tests/contracts/abi.ts:174
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 32 // offset
@@ -943,12 +943,12 @@ abi_route_threeDimensionalUint16Array:
 threeDimensionalUint16Array:
 	proto 2 0
 
-	// tests/contracts/abi.ts:173
+	// tests/contracts/abi.ts:178
 	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
 	byte 0x000b00160021002c00370042004d0058
 	frame_bury -1 // a: uint16[2][2][2]
 
-	// tests/contracts/abi.ts:177
+	// tests/contracts/abi.ts:182
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
 	int 12 // offset
@@ -956,7 +956,7 @@ threeDimensionalUint16Array:
 	replace3
 	frame_bury -1 // a: uint16[2][2][2]
 
-	// tests/contracts/abi.ts:179
+	// tests/contracts/abi.ts:184
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
 	int 14 // offset
@@ -984,12 +984,12 @@ abi_route_simpleTuple:
 simpleTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:183
+	// tests/contracts/abi.ts:188
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
 	byte 0x000000000000000b00160000000000000021002c
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
-	// tests/contracts/abi.ts:185
+	// tests/contracts/abi.ts:190
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
 	int 18 // offset
@@ -1017,12 +1017,12 @@ abi_route_arrayInTuple:
 arrayInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:189
+	// tests/contracts/abi.ts:194
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
 	byte 0x000000000000000b00160000000000000021000000000000002c0037
 	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
-	// tests/contracts/abi.ts:193
+	// tests/contracts/abi.ts:198
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
 	int 18 // offset
@@ -1050,12 +1050,12 @@ abi_route_tupleInArray:
 tupleInArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:197
+	// tests/contracts/abi.ts:202
 	// a: StaticArray<[uint64, uint16], 2> = [
 	byte 0x000000000000000b00160000000000000021002c
 	frame_bury -1 // a: [uint64,uint16][2]
 
-	// tests/contracts/abi.ts:201
+	// tests/contracts/abi.ts:206
 	// return a[1][1];
 	frame_dig -1 // a: [uint64,uint16][2]
 	int 18 // offset
@@ -1083,12 +1083,12 @@ abi_route_tupleInTuple:
 tupleInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:205
+	// tests/contracts/abi.ts:210
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
 	byte 0x000b00160000000000000021002c00370000000000000042
 	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
-	// tests/contracts/abi.ts:209
+	// tests/contracts/abi.ts:214
 	// return a[3][1];
 	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 	int 16 // offset
@@ -1116,12 +1116,12 @@ abi_route_shortTypeNotation:
 shortTypeNotation:
 	proto 2 0
 
-	// tests/contracts/abi.ts:213
+	// tests/contracts/abi.ts:218
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
 	byte 0x000b00160000000000000021000000000000002c00370042
 	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 
-	// tests/contracts/abi.ts:217
+	// tests/contracts/abi.ts:222
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
 	int 22 // offset
@@ -1149,12 +1149,12 @@ abi_route_disgusting:
 disgusting:
 	proto 2 0
 
-	// tests/contracts/abi.ts:221
+	// tests/contracts/abi.ts:226
 	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
 	byte 0x000b00160000000000000021002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063006f00de000000000000014d01bc000000000000022b000000000000029a0000000000000309000000000000037800000000000003e7
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 
-	// tests/contracts/abi.ts:226
+	// tests/contracts/abi.ts:231
 	// a[1][3][1] = [8888, 9999]
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 	int 92 // offset
@@ -1162,7 +1162,7 @@ disgusting:
 	replace3
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 
-	// tests/contracts/abi.ts:227
+	// tests/contracts/abi.ts:232
 	// return a[1][3][1][0];
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 	int 92 // offset
@@ -1190,12 +1190,12 @@ abi_route_returnTuple:
 returnTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:231
+	// tests/contracts/abi.ts:236
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
 	byte 0x000000000000000b00160000000000000021
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
-	// tests/contracts/abi.ts:232
+	// tests/contracts/abi.ts:237
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	byte 0x151f7c75
@@ -1219,7 +1219,7 @@ abi_route_tupleArg:
 tupleArg:
 	proto 2 0
 
-	// tests/contracts/abi.ts:236
+	// tests/contracts/abi.ts:241
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	int 8 // offset
@@ -1247,12 +1247,12 @@ abi_route_dynamicArray:
 dynamicArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:240
+	// tests/contracts/abi.ts:245
 	// a: uint64[] = [11, 22, 33]
 	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:242
+	// tests/contracts/abi.ts:247
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1284,12 +1284,12 @@ abi_route_returnDynamicArray:
 returnDynamicArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:246
+	// tests/contracts/abi.ts:251
 	// a: uint64[] = [11, 22, 33]
 	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:247
+	// tests/contracts/abi.ts:252
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -1313,7 +1313,7 @@ abi_route_dynamicArrayArg:
 dynamicArrayArg:
 	proto 2 0
 
-	// tests/contracts/abi.ts:251
+	// tests/contracts/abi.ts:256
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1345,12 +1345,12 @@ abi_route_updateDynamicArrayElement:
 updateDynamicArrayElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:255
+	// tests/contracts/abi.ts:260
 	// a: uint64[] = [11, 22, 33]
 	byte 0x0003000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:257
+	// tests/contracts/abi.ts:262
 	// a[1] = 222
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1363,7 +1363,7 @@ updateDynamicArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:259
+	// tests/contracts/abi.ts:264
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1395,12 +1395,12 @@ abi_route_dynamicTupleArray:
 dynamicTupleArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:263
+	// tests/contracts/abi.ts:268
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
 	byte 0x0002000b00000000000000160021000000000000002c
 	frame_bury -1 // a: [uint16,uint64][]
 
-	// tests/contracts/abi.ts:265
+	// tests/contracts/abi.ts:270
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint64][]
 	int 1
@@ -1434,7 +1434,7 @@ abi_route_returnTupleWithDyamicArray:
 returnTupleWithDyamicArray:
 	proto 2 0
 
-	// tests/contracts/abi.ts:269
+	// tests/contracts/abi.ts:274
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
 	byte 0x00000000000000010002
 	store 11 // static elements
@@ -1489,7 +1489,7 @@ returnTupleWithDyamicArray:
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
 
-	// tests/contracts/abi.ts:271
+	// tests/contracts/abi.ts:276
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
 	byte 0x151f7c75
@@ -1512,7 +1512,7 @@ abi_route_returnDynamicArrayFromTuple:
 returnDynamicArrayFromTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:275
+	// tests/contracts/abi.ts:280
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
 	byte 0x010002
 	store 11 // static elements
@@ -1595,7 +1595,7 @@ returnDynamicArrayFromTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:277
+	// tests/contracts/abi.ts:282
 	// return a[4];
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	int 1 // type length
@@ -1625,7 +1625,7 @@ abi_route_updateDynamicArrayInTuple:
 updateDynamicArrayInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:281
+	// tests/contracts/abi.ts:286
 	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
 	byte 0x09
 	store 11 // static elements
@@ -1718,7 +1718,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:283
+	// tests/contracts/abi.ts:288
 	// a[0] = 99 as uint8
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	int 0 // offset
@@ -1728,7 +1728,7 @@ updateDynamicArrayInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:284
+	// tests/contracts/abi.ts:289
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	int 2 // type length
@@ -1745,7 +1745,7 @@ updateDynamicArrayInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:285
+	// tests/contracts/abi.ts:290
 	// a[2] = [12, 13]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	int 1 // type length
@@ -1762,7 +1762,7 @@ updateDynamicArrayInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:286
+	// tests/contracts/abi.ts:291
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	int 2 // type length
@@ -1779,7 +1779,7 @@ updateDynamicArrayInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:287
+	// tests/contracts/abi.ts:292
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	int 1 // type length
@@ -1796,7 +1796,7 @@ updateDynamicArrayInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:289
+	// tests/contracts/abi.ts:294
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
@@ -1819,12 +1819,12 @@ abi_route_nonLiteralDynamicElementInTuple:
 nonLiteralDynamicElementInTuple:
 	proto 3 0
 
-	// tests/contracts/abi.ts:293
+	// tests/contracts/abi.ts:298
 	// e: uint16[] = [5, 6]
 	byte 0x000200050006
 	frame_bury -1 // e: uint16[]
 
-	// tests/contracts/abi.ts:294
+	// tests/contracts/abi.ts:299
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
 	byte 0x010002
 	store 11 // static elements
@@ -1898,7 +1898,7 @@ nonLiteralDynamicElementInTuple:
 	concat
 	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:296
+	// tests/contracts/abi.ts:301
 	// return a;
 	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
@@ -1921,12 +1921,12 @@ abi_route_arrayPush:
 arrayPush:
 	proto 2 0
 
-	// tests/contracts/abi.ts:300
+	// tests/contracts/abi.ts:305
 	// a: uint16[] = [1, 2]
 	byte 0x000200010002
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:302
+	// tests/contracts/abi.ts:307
 	// a.push(3 as uint16)
 	frame_dig -1 // a: uint16[]
 	dup
@@ -1945,7 +1945,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:304
+	// tests/contracts/abi.ts:309
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -1968,12 +1968,12 @@ abi_route_arrayPop:
 arrayPop:
 	proto 2 0
 
-	// tests/contracts/abi.ts:308
+	// tests/contracts/abi.ts:313
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:310
+	// tests/contracts/abi.ts:315
 	// a.pop()
 	frame_dig -1 // a: uint16[]
 	dup
@@ -1995,7 +1995,7 @@ arrayPop:
 	extract3
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:312
+	// tests/contracts/abi.ts:317
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2018,12 +2018,12 @@ abi_route_arrayPopValue:
 arrayPopValue:
 	proto 3 0
 
-	// tests/contracts/abi.ts:316
+	// tests/contracts/abi.ts:321
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:318
+	// tests/contracts/abi.ts:323
 	// v = a.pop()!
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2053,7 +2053,7 @@ arrayPopValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16
 
-	// tests/contracts/abi.ts:320
+	// tests/contracts/abi.ts:325
 	// return v;
 	frame_dig -2 // v: uint16
 	byte 0xFFFF
@@ -2078,12 +2078,12 @@ abi_route_arraySplice:
 arraySplice:
 	proto 2 0
 
-	// tests/contracts/abi.ts:324
+	// tests/contracts/abi.ts:329
 	// a: uint64[] = [1, 2, 3]
 	byte 0x0003000000000000000100000000000000020000000000000003
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:326
+	// tests/contracts/abi.ts:331
 	// a.splice(1, 1)
 	frame_dig -1 // a: uint64[]
 	int 0
@@ -2122,7 +2122,7 @@ arraySplice:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.ts:328
+	// tests/contracts/abi.ts:333
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -2145,22 +2145,22 @@ abi_route_arraySpliceValue:
 arraySpliceValue:
 	proto 5 0
 
-	// tests/contracts/abi.ts:332
+	// tests/contracts/abi.ts:337
 	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	byte 0x000a000100020003000400050006000700080009000a
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:334
+	// tests/contracts/abi.ts:339
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.ts:335
+	// tests/contracts/abi.ts:340
 	// l = 7
 	int 7
 	frame_bury -3 // l: uint64
 
-	// tests/contracts/abi.ts:336
+	// tests/contracts/abi.ts:341
 	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -2211,7 +2211,7 @@ arraySpliceValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -4 // v: uint16[]
 
-	// tests/contracts/abi.ts:338
+	// tests/contracts/abi.ts:343
 	// return v;
 	frame_dig -4 // v: uint16[]
 	byte 0x151f7c75
@@ -2234,12 +2234,12 @@ abi_route_dynamicArrayElements:
 dynamicArrayElements:
 	proto 3 0
 
-	// tests/contracts/abi.ts:342
+	// tests/contracts/abi.ts:347
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:343
+	// tests/contracts/abi.ts:348
 	// newA: uint16[] = [a[0], a[1], a[2]]
 	byte 0x0003
 	frame_dig -1 // a: uint16[]
@@ -2271,7 +2271,7 @@ dynamicArrayElements:
 	concat
 	frame_bury -2 // newA: uint16[]
 
-	// tests/contracts/abi.ts:345
+	// tests/contracts/abi.ts:350
 	// return newA;
 	frame_dig -2 // newA: uint16[]
 	byte 0x151f7c75
@@ -2294,12 +2294,12 @@ abi_route_spliceLastElement:
 spliceLastElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:349
+	// tests/contracts/abi.ts:354
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:351
+	// tests/contracts/abi.ts:356
 	// a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -2338,7 +2338,7 @@ spliceLastElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:353
+	// tests/contracts/abi.ts:358
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2361,12 +2361,12 @@ abi_route_spliceLastElementValue:
 spliceLastElementValue:
 	proto 3 0
 
-	// tests/contracts/abi.ts:357
+	// tests/contracts/abi.ts:362
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:359
+	// tests/contracts/abi.ts:364
 	// v = a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -2417,7 +2417,7 @@ spliceLastElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.ts:361
+	// tests/contracts/abi.ts:366
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -2440,12 +2440,12 @@ abi_route_spliceFirstElement:
 spliceFirstElement:
 	proto 2 0
 
-	// tests/contracts/abi.ts:365
+	// tests/contracts/abi.ts:370
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:367
+	// tests/contracts/abi.ts:372
 	// a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -2484,7 +2484,7 @@ spliceFirstElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:369
+	// tests/contracts/abi.ts:374
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2507,12 +2507,12 @@ abi_route_spliceFirstElementValue:
 spliceFirstElementValue:
 	proto 3 0
 
-	// tests/contracts/abi.ts:373
+	// tests/contracts/abi.ts:378
 	// a: uint16[] = [1, 2, 3]
 	byte 0x0003000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.ts:375
+	// tests/contracts/abi.ts:380
 	// v = a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -2563,7 +2563,7 @@ spliceFirstElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.ts:377
+	// tests/contracts/abi.ts:382
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -2586,7 +2586,7 @@ abi_route_stringReturn:
 stringReturn:
 	proto 1 0
 
-	// tests/contracts/abi.ts:381
+	// tests/contracts/abi.ts:386
 	// return 'Hello World!';
 	byte "Hello World!"
 	dup
@@ -2617,7 +2617,7 @@ abi_route_stringArg:
 stringArg:
 	proto 2 0
 
-	// tests/contracts/abi.ts:385
+	// tests/contracts/abi.ts:390
 	// assert(s === 'Hello World!')
 	frame_dig -1 // s: bytes
 	byte "Hello World!"
@@ -2639,7 +2639,7 @@ abi_route_stringInTuple:
 stringInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:389
+	// tests/contracts/abi.ts:394
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
 	byte 0x0001
 	store 11 // static elements
@@ -2705,7 +2705,7 @@ stringInTuple:
 	concat
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
 
-	// tests/contracts/abi.ts:391
+	// tests/contracts/abi.ts:396
 	// return a;
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	byte 0x151f7c75
@@ -2728,7 +2728,7 @@ abi_route_accesStringInTuple:
 accesStringInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:395
+	// tests/contracts/abi.ts:400
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
 	byte 0x0001
 	store 11 // static elements
@@ -2794,7 +2794,7 @@ accesStringInTuple:
 	concat
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
 
-	// tests/contracts/abi.ts:397
+	// tests/contracts/abi.ts:402
 	// assert(a[2] === 'Hello World!')
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	int 1 // type length
@@ -2809,7 +2809,7 @@ accesStringInTuple:
 	==
 	assert
 
-	// tests/contracts/abi.ts:399
+	// tests/contracts/abi.ts:404
 	// return a[2];
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	int 1 // type length
@@ -2846,7 +2846,7 @@ abi_route_updateStringInTuple:
 updateStringInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:403
+	// tests/contracts/abi.ts:408
 	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
 	byte 0x09
 	store 11 // static elements
@@ -2934,7 +2934,7 @@ updateStringInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:405
+	// tests/contracts/abi.ts:410
 	// a[0] = 99 as uint8
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	int 0 // offset
@@ -2944,7 +2944,7 @@ updateStringInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:406
+	// tests/contracts/abi.ts:411
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	int 2 // type length
@@ -2961,7 +2961,7 @@ updateStringInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:407
+	// tests/contracts/abi.ts:412
 	// a[2] = 'Hello World!'
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	int 1 // type length
@@ -2978,7 +2978,7 @@ updateStringInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:408
+	// tests/contracts/abi.ts:413
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	int 2 // type length
@@ -2995,7 +2995,7 @@ updateStringInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:409
+	// tests/contracts/abi.ts:414
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	int 1 // type length
@@ -3012,7 +3012,7 @@ updateStringInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.ts:411
+	// tests/contracts/abi.ts:416
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	byte 0x151f7c75
@@ -3035,7 +3035,7 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 updateTupleWithOnlyDynamicTypes:
 	proto 2 0
 
-	// tests/contracts/abi.ts:415
+	// tests/contracts/abi.ts:420
 	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -3106,7 +3106,7 @@ updateTupleWithOnlyDynamicTypes:
 	concat
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:417
+	// tests/contracts/abi.ts:422
 	// a[0] = [4, 5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3123,7 +3123,7 @@ updateTupleWithOnlyDynamicTypes:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:418
+	// tests/contracts/abi.ts:423
 	// a[1] = [6, 7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3140,7 +3140,7 @@ updateTupleWithOnlyDynamicTypes:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:419
+	// tests/contracts/abi.ts:424
 	// a[2] = [8, 9]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3157,7 +3157,7 @@ updateTupleWithOnlyDynamicTypes:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:421
+	// tests/contracts/abi.ts:426
 	// return a;
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	byte 0x151f7c75
@@ -3180,7 +3180,7 @@ abi_route_shortenDynamicElementInTuple:
 shortenDynamicElementInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:425
+	// tests/contracts/abi.ts:430
 	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
 	byte 0x // no static elements
 	store 11 // static elements
@@ -3263,7 +3263,7 @@ shortenDynamicElementInTuple:
 	concat
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:427
+	// tests/contracts/abi.ts:432
 	// a[0] = [5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3280,7 +3280,7 @@ shortenDynamicElementInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:428
+	// tests/contracts/abi.ts:433
 	// a[1] = [6]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3297,7 +3297,7 @@ shortenDynamicElementInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:429
+	// tests/contracts/abi.ts:434
 	// a[2] = [7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	int 2 // type length
@@ -3314,7 +3314,7 @@ shortenDynamicElementInTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.ts:431
+	// tests/contracts/abi.ts:436
 	// return a;
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	byte 0x151f7c75
@@ -3337,7 +3337,7 @@ abi_route_namedTuple:
 namedTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:435
+	// tests/contracts/abi.ts:440
 	// a: {
 	byte 0x0001
 	store 11 // static elements
@@ -3359,7 +3359,7 @@ namedTuple:
 	concat
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.ts:443
+	// tests/contracts/abi.ts:448
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	int 1 // type length
@@ -3396,7 +3396,7 @@ abi_route_updateNamedTuple:
 updateNamedTuple:
 	proto 2 0
 
-	// tests/contracts/abi.ts:447
+	// tests/contracts/abi.ts:452
 	// a: {
 	byte 0x0001
 	store 11 // static elements
@@ -3418,7 +3418,7 @@ updateNamedTuple:
 	concat
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.ts:455
+	// tests/contracts/abi.ts:460
 	// a.bar = 'Hello World!'
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	int 1 // type length
@@ -3435,9 +3435,85 @@ updateNamedTuple:
 	callsub updateDynamicElement
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.ts:457
+	// tests/contracts/abi.ts:462
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_customTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub customTypes
+	int 1
+	return
+
+customTypes:
+	proto 2 0
+
+	// tests/contracts/abi.ts:466
+	// aa: CustomType = {
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	byte 0x000348693f // Hi?
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.ts:471
+	// aa.bar = 'Hello World!'
+	frame_dig -1 // aa: CustomType
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	byte 0xFFFF
+	byte 0x0000 // head update bitmask
+	int 1 // is first dynamic element
+	int 1 // is last dynamic element
+	int 2 // total head length
+	int 2 // startOfHeads
+	int 4 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.ts:473
+	// return aa.bar;
+	frame_dig -1 // aa: CustomType
 	int 1 // type length
 	int 2 // head offset
 	callsub preArrayAccess
@@ -3526,5 +3602,6 @@ route_abi:
 	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
 	method "namedTuple()string"
 	method "updateNamedTuple()string"
+	method "customTypes()string"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes

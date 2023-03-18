@@ -4,31 +4,7 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
-function getObjectTypeAndIndex(type: string, key: string): {type: string; index: number} {
-  const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
-
-  let retVal = { type: '', index: 0 };
-
-  statement.forEachChild((n) => {
-    if (!ts.isVariableDeclarationList(n)) throw new Error();
-    n.declarations.forEach((d) => {
-      if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
-
-      d.type.members.forEach((m, i) => {
-        if (!ts.isPropertySignature(m)) throw new Error();
-        if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
-      });
-    });
-  });
-
-  return retVal;
-}
-
-function isDynamicType(type: string) {
-  return type.includes('[]') || type.includes('string') || type.includes('bytes');
-}
-
-// This is seperate from getABIType because the bracket notation
+// This is seperate from this.getABIType because the bracket notation
 // is useful for parsing, but the ABI/appspec JSON need the parens
 function getABITupleString(str: string) {
   const trailingBrakcet = /(?<!\[\d*)]/;
@@ -63,36 +39,6 @@ function stringToExpression(str: string): ts.Expression {
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
-}
-
-function getABIType(type: string): string {
-  const abiType = type.toLowerCase();
-  const typeNode = stringToExpression(type) as ts.Expression;
-
-  if (abiType.match(/<\d+>$/)) {
-    return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
-  }
-
-  if (abiType.startsWith('static')) {
-    if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
-    const innerType = typeNode!.typeArguments![0];
-    const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
-
-    return `${getABIType(innerType.getText())}[${length}]`;
-  }
-
-  if (abiType.match(/\[\]$/)) {
-    const baseType = abiType.replace(/\[\]$/, '');
-    return `${getABIType(baseType)}[]`;
-  }
-
-  if (abiType.startsWith('[')) {
-    if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
-
-    return `[${typeNode.elements.map((t) => getABIType(t.getText())).join(',')}]`;
-  }
-
-  return abiType;
 }
 
 function getTypeLength(type: string): number {
@@ -291,6 +237,8 @@ export default class Compiler {
   generatedTeal: string = '';
 
   generatedClearTeal: string = '';
+
+  private customTypes: {[name: string] : string} = {};
 
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
@@ -748,8 +696,75 @@ export default class Compiler {
     });
   }
 
+  private isDynamicType(type: string): boolean {
+    if (this.customTypes[type]) return this.isDynamicType(this.customTypes[type]);
+
+    return type.includes('[]') || type.includes('string') || type.includes('bytes');
+  }
+
+  private getABIType(type: string): string {
+    if (this.customTypes[type]) return type;
+    const abiType = type.toLowerCase();
+    const typeNode = stringToExpression(type) as ts.Expression;
+
+    if (abiType.match(/<\d+>$/)) {
+      return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
+    }
+
+    if (abiType.startsWith('static')) {
+      if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return `${this.getABIType(innerType.getText())}[${length}]`;
+    }
+
+    if (abiType.match(/\[\]$/)) {
+      const baseType = abiType.replace(/\[\]$/, '');
+      return `${this.getABIType(baseType)}[]`;
+    }
+
+    if (abiType.startsWith('[')) {
+      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+
+      return `[${typeNode.elements.map((t) => this.getABIType(t.getText())).join(',')}]`;
+    }
+
+    return abiType;
+  }
+
+  private getObjectTypeAndIndex(givenType: string, key: string): {type: string; index: number} {
+    let type = givenType;
+
+    if (this.customTypes[type]) {
+      type = this.customTypes[type];
+    }
+
+    const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+
+    let retVal = { type: '', index: 0 };
+
+    statement.forEachChild((n) => {
+      if (!ts.isVariableDeclarationList(n)) throw new Error();
+      n.declarations.forEach((d) => {
+        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+
+        d.type.members.forEach((m, i) => {
+          if (!ts.isPropertySignature(m)) throw new Error();
+          if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
+        });
+      });
+    });
+
+    return retVal;
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
+      if (ts.isTypeAliasDeclaration(body)) {
+        this.customTypes[body.name.getText()] = body.type.getText();
+      }
+
       if (!ts.isClassDeclaration(body)) return;
 
       if (
@@ -987,7 +1002,7 @@ export default class Compiler {
 
     node.properties.forEach((p) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
-      const r = getObjectTypeAndIndex(type, p.name.getText());
+      const r = this.getObjectTypeAndIndex(type, p.name.getText());
       typeArray[r.index] = r.type;
       valueArray[r.index] = p.initializer.getText();
     });
@@ -1016,7 +1031,7 @@ export default class Compiler {
   }
 
   private getTypes(typeString: string): {static: string[], dynamic: string[]} {
-    const abiType = getABIType(typeString);
+    const abiType = this.getABIType(typeString);
     const typeNode = stringToExpression(abiType);
     const staticLengthRegex = /(\[\d+\])+$/;
     const types: {static: string[], dynamic: string[]} = { static: [], dynamic: [] };
@@ -1131,7 +1146,7 @@ export default class Compiler {
         });
       }
 
-      this.lastType = getABIType(this.typeHint!);
+      this.lastType = this.getABIType(this.typeHint!);
       return;
     }
 
@@ -1147,7 +1162,7 @@ export default class Compiler {
     });
 
     if (types.dynamic.length === 0) {
-      this.lastType = getABIType(this.typeHint!);
+      this.lastType = this.getABIType(this.typeHint!);
       return;
     }
 
@@ -1249,7 +1264,7 @@ export default class Compiler {
       'concat',
       'concat',
     );
-    this.lastType = getABIType(this.typeHint!);
+    this.lastType = this.getABIType(this.typeHint!);
   }
 
   private getAccessChain(
@@ -1445,6 +1460,10 @@ export default class Compiler {
     let intsOnStack = false;
 
     this.processNode(chain[0].expression);
+    if (this.customTypes[this.lastType]) {
+      this.lastType = this.customTypes[this.lastType];
+    }
+
     const lastTypeExpression = stringToExpression(this.lastType);
 
     if (ts.isArrayLiteralExpression(lastTypeExpression)) {
@@ -1554,8 +1573,8 @@ export default class Compiler {
 
         innerTypes.forEach((t, i) => {
           if (i < accessor) {
-            offset += getTypeLength(getABIType(t));
-          } else if (i === accessor) type = getABIType(t);
+            offset += getTypeLength(this.getABIType(t));
+          } else if (i === accessor) type = this.getABIType(t);
         });
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
@@ -1598,7 +1617,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = getABIType(node.type!.getText());
+    const returnType = this.getABIType(node.type!.getText());
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -1736,8 +1755,9 @@ export default class Compiler {
         this.processStaticArray(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
-        if (expressionType.startsWith('{')) {
-          const { index } = getObjectTypeAndIndex(expressionType, node.left.name.getText());
+
+        if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+          const { index } = this.getObjectTypeAndIndex(expressionType, node.left.name.getText());
           const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
           if (!ts.isElementAccessExpression(expr)) throw new Error();
           this.processStaticArray(expr, node.right);
@@ -1820,13 +1840,13 @@ export default class Compiler {
       this.processNode(a);
     });
 
-    this.lastType = getABIType(node.expression.getText());
+    this.lastType = this.getABIType(node.expression.getText());
   }
 
   private processTSAsExpression(node: ts.AsExpression) {
     this.processNode(node.expression);
 
-    const type = getABIType(node.type.getText());
+    const type = this.getABIType(node.type.getText());
     if (type.match(/uint\d+$/) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
@@ -2152,18 +2172,18 @@ export default class Compiler {
       if (klass.includes('Map')) {
         props = {
           type: klass.toLocaleLowerCase().replace('map', ''),
-          keyType: getABIType(node.initializer.typeArguments![0].getText()),
-          valueType: getABIType(node.initializer.typeArguments![1].getText()),
+          keyType: this.getABIType(node.initializer.typeArguments![0].getText()),
+          valueType: this.getABIType(node.initializer.typeArguments![1].getText()),
         };
       } else {
         props = {
           type: klass.toLocaleLowerCase().replace('map', '').replace('reference', ''),
           keyType: 'bytes',
-          valueType: getABIType(node.initializer.typeArguments![0].getText()),
+          valueType: this.getABIType(node.initializer.typeArguments![0].getText()),
         };
       }
 
-      if (props.type === 'box' && isDynamicType(props.valueType)) {
+      if (props.type === 'box' && this.isDynamicType(props.valueType)) {
         props.dynamicSize = true;
       }
 
@@ -2186,7 +2206,7 @@ export default class Compiler {
               break;
             case 'dynamicSize':
               if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
-              if (!isDynamicType(props.valueType)) throw new Error(`${name} only applies to dynamic types`);
+              if (!this.isDynamicType(props.valueType)) throw new Error(`${name} only applies to dynamic types`);
 
               props.dynamicSize = p.initializer.getText() === 'true';
               break;
@@ -2226,8 +2246,8 @@ export default class Compiler {
       }
 
       const expressionType = this.getStackTypeFromNode(n.expression);
-      if (expressionType.startsWith('{')) {
-        const { index } = getObjectTypeAndIndex(expressionType, n.name.getText());
+      if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+        const { index } = this.getObjectTypeAndIndex(expressionType, n.name.getText());
         this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
         return;
       }
@@ -2279,10 +2299,10 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      let type = getABIType(p.type.getText());
+      let type = this.getABIType(p.type.getText());
 
       if (type.startsWith('Static')) {
-        type = getABIType(type);
+        type = this.getABIType(type);
       }
 
       this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace('string', 'bytes') };
@@ -2397,7 +2417,7 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = getABIType(p!.type!.getText());
+      const type = this.getABIType(p!.type!.getText());
       let abiType = type;
 
       if (type.includes('txn')) {
@@ -2428,7 +2448,7 @@ export default class Compiler {
         this.pushVoid('extract 2 0');
       }
 
-      args.push({ name: p.name.getText(), type: getABIType(abiType), desc: '' });
+      args.push({ name: p.name.getText(), type: this.getABIType(abiType), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
@@ -2518,7 +2538,7 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => getABITupleString(getABIType(t.getText())),
+        (t) => getABITupleString(this.getABIType(t.getText())),
       );
 
       let returnType = node.typeArguments![1].getText();
@@ -2553,7 +2573,7 @@ export default class Compiler {
       } else if (key === 'methodArgs') {
         if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
         const argTypes = node.typeArguments[0].elements.map(
-          (t) => getABIType(t.getText()),
+          (t) => this.getABIType(t.getText()),
         );
 
         let accountIndex = 1;
@@ -2613,7 +2633,7 @@ export default class Compiler {
         'extract 4 0',
       );
 
-      const returnType = getABIType(node.typeArguments![1].getText());
+      const returnType = this.getABIType(node.typeArguments![1].getText());
       if (isNumeric(returnType)) this.pushVoid('btoi');
       this.lastType = returnType;
     } else if (node.expression.getText() === 'sendAssetCreation') {

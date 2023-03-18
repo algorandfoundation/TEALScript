@@ -6,6 +6,11 @@
 
 import { Contract } from '../../src/lib/index';
 
+type CustomType = {
+  foo: uint16,
+  bar: string
+}
+
 // eslint-disable-next-line no-unused-vars
 class AbiTest extends Contract {
   gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
@@ -455,5 +460,16 @@ class AbiTest extends Contract {
     a.bar = 'Hello World!';
 
     return a.bar;
+  }
+
+  customTypes(): string {
+    const aa: CustomType = {
+      foo: 1,
+      bar: 'Hi?',
+    };
+
+    aa.bar = 'Hello World!';
+
+    return aa.bar;
   }
 }

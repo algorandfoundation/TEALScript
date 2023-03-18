@@ -370,4 +370,9 @@ describe('ABI', function () {
     const ret = await appClient.updateNamedTuple();
     expect(ret.returnValue).to.equal('Hello World!');
   });
+
+  it('customTypes', async function () {
+    const ret = await appClient.customTypes();
+    expect(ret.returnValue).to.equal('Hello World!');
+  });
 });
