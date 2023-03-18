@@ -140,8 +140,8 @@ abi_route_setMyContact:
 setMyContact:
 	proto 4 0
 
-	// ./examples/tuple_in_box/app.ts:20
-	// contact: [string, string] = [name, company]
+	// ./examples/tuple_in_box/app.ts:21
+	// contact: {name: string, company: string} = { name: name, company: company }
 	byte 0x // no static elements
 	store 11 // static elements
 	byte 0x0004 // head end
@@ -189,21 +189,21 @@ setMyContact:
 	load 10 // dynamic elements
 	concat
 	concat
-	frame_bury -3 // contact: [string,string]
-
-	// ./examples/tuple_in_box/app.ts:22
-	// this.myContact.put(contact)
-	byte "myContact"
-	frame_dig -3 // contact: [string,string]
-	app_global_put
+	frame_bury -3 // contact: {name: string, company: string}
 
 	// ./examples/tuple_in_box/app.ts:23
+	// this.myContact.put(contact)
+	byte "myContact"
+	frame_dig -3 // contact: {name: string, company: string}
+	app_global_put
+
+	// ./examples/tuple_in_box/app.ts:24
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	dup
 	box_del
 	pop
-	frame_dig -3 // contact: [string,string]
+	frame_dig -3 // contact: {name: string, company: string}
 	box_put
 	retsub
 
@@ -228,8 +228,8 @@ abi_route_addContact:
 addContact:
 	proto 5 0
 
-	// ./examples/tuple_in_box/app.ts:27
-	// contact: [string, string] = [name, company]
+	// ./examples/tuple_in_box/app.ts:28
+	// contact: {name: string, company: string} = { name: name, company: company }
 	byte 0x // no static elements
 	store 11 // static elements
 	byte 0x0004 // head end
@@ -277,15 +277,15 @@ addContact:
 	load 10 // dynamic elements
 	concat
 	concat
-	frame_bury -4 // contact: [string,string]
+	frame_bury -4 // contact: {name: string, company: string}
 
-	// ./examples/tuple_in_box/app.ts:28
+	// ./examples/tuple_in_box/app.ts:29
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: account
 	dup
 	box_del
 	pop
-	frame_dig -4 // contact: [string,string]
+	frame_dig -4 // contact: {name: string, company: string}
 	box_put
 	retsub
 
@@ -311,7 +311,7 @@ updateContactField:
 	proto 4 0
 
 	// if0_condition
-	// ./examples/tuple_in_box/app.ts:32
+	// ./examples/tuple_in_box/app.ts:33
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -319,8 +319,10 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// ./examples/tuple_in_box/app.ts:33
-	// this.contacts.get(address)[0] = value
+	// ./examples/tuple_in_box/app.ts:34
+	// this.contacts.get(address).name = value
+	// ./examples/tuple_in_box/app.ts:1
+	// this.contacts.get(address)
 	frame_dig -3 // address: account
 	box_get
 	assert
@@ -351,7 +353,7 @@ updateContactField:
 	b if0_end
 
 if0_elseif1_condition:
-	// ./examples/tuple_in_box/app.ts:34
+	// ./examples/tuple_in_box/app.ts:35
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -359,8 +361,10 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// ./examples/tuple_in_box/app.ts:35
-	// this.contacts.get(address)[1] = value
+	// ./examples/tuple_in_box/app.ts:36
+	// this.contacts.get(address).company = value
+	// ./examples/tuple_in_box/app.ts:1
+	// this.contacts.get(address)
 	frame_dig -3 // address: account
 	box_get
 	assert
@@ -391,7 +395,7 @@ if0_elseif1_condition:
 	b if0_end
 
 if0_else:
-	// ./examples/tuple_in_box/app.ts:36
+	// ./examples/tuple_in_box/app.ts:37
 	// err()
 	err
 
@@ -417,8 +421,11 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 3 0
 
-	// ./examples/tuple_in_box/app.ts:40
-	// assert(this.contacts.get(address)[0] === name)
+	// ./examples/tuple_in_box/app.ts:41
+	// assert(this.contacts.get(address).name === name)
+	frame_dig -2 // address: account
+	box_get
+	assert
 	frame_dig -2 // address: account
 	box_get
 	assert
