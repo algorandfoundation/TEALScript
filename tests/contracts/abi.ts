@@ -442,4 +442,18 @@ class AbiTest extends Contract {
 
     return a.bar;
   }
+
+  updateNamedTuple(): string {
+    const a: {
+      foo: uint16,
+      bar: string,
+    } = {
+      foo: 1,
+      bar: 'Hi?',
+    };
+
+    a.bar = 'Hello World!';
+
+    return a.bar;
+  }
 }

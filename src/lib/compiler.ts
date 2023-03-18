@@ -1734,6 +1734,15 @@ export default class Compiler {
         this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processStaticArray(node.left, node.right);
+      } else if (ts.isPropertyAccessExpression(node.left)) {
+        const expressionType = this.getStackTypeFromNode(node.left.expression);
+        if (expressionType.startsWith('{')) {
+          const { index } = getObjectTypeAndIndex(expressionType, node.left.name.getText());
+          const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
+          if (!ts.isElementAccessExpression(expr)) throw new Error();
+          this.processStaticArray(expr, node.right);
+          return;
+        }
       }
 
       // TODO: Type check

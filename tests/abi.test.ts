@@ -365,4 +365,9 @@ describe('ABI', function () {
     const ret = await appClient.namedTuple();
     expect(ret.returnValue).to.equal('Hello World!');
   });
+
+  it('updateNamedTuple', async function () {
+    const ret = await appClient.updateNamedTuple();
+    expect(ret.returnValue).to.equal('Hello World!');
+  });
 });
