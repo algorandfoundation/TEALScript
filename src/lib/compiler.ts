@@ -1919,6 +1919,8 @@ export default class Compiler {
       } else if (['method'].includes(methodName)) {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
+      } else if (this.customMethods[methodName]) {
+        this.customMethods[methodName](node);
       }
     } else if (methodName === 'push') {
       const preType = this.lastType;
@@ -2080,8 +2082,6 @@ export default class Compiler {
 
       this.updateValue(node.expression.expression);
       this.lastType = `${elementType}[]`;
-    } else if (this.customMethods[methodName]) {
-      this.customMethods[methodName](node);
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');

@@ -140,7 +140,7 @@ abi_route_setMyContact:
 setMyContact:
 	proto 4 0
 
-	// ./examples/tuple_in_box/app.ts:19
+	// examples/tuple_in_box/app.ts:19
 	// contact: Contact = { name: name, company: company }
 	byte 0x // no static elements
 	store 11 // static elements
@@ -191,13 +191,13 @@ setMyContact:
 	concat
 	frame_bury -3 // contact: Contact
 
-	// ./examples/tuple_in_box/app.ts:21
+	// examples/tuple_in_box/app.ts:21
 	// this.myContact.put(contact)
 	byte "myContact"
 	frame_dig -3 // contact: Contact
 	app_global_put
 
-	// ./examples/tuple_in_box/app.ts:22
+	// examples/tuple_in_box/app.ts:22
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	dup
@@ -228,7 +228,7 @@ abi_route_addContact:
 addContact:
 	proto 5 0
 
-	// ./examples/tuple_in_box/app.ts:26
+	// examples/tuple_in_box/app.ts:26
 	// contact: Contact = { name: name, company: company }
 	byte 0x // no static elements
 	store 11 // static elements
@@ -279,7 +279,7 @@ addContact:
 	concat
 	frame_bury -4 // contact: Contact
 
-	// ./examples/tuple_in_box/app.ts:27
+	// examples/tuple_in_box/app.ts:27
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: account
 	dup
@@ -311,7 +311,7 @@ updateContactField:
 	proto 4 0
 
 	// if0_condition
-	// ./examples/tuple_in_box/app.ts:31
+	// examples/tuple_in_box/app.ts:31
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -319,9 +319,9 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// ./examples/tuple_in_box/app.ts:32
+	// examples/tuple_in_box/app.ts:32
 	// this.contacts.get(address).name = value
-	// ./examples/tuple_in_box/app.ts:1
+	// examples/tuple_in_box/app.ts:1
 	// this.contacts.get(address)
 	frame_dig -3 // address: account
 	box_get
@@ -353,7 +353,7 @@ updateContactField:
 	b if0_end
 
 if0_elseif1_condition:
-	// ./examples/tuple_in_box/app.ts:33
+	// examples/tuple_in_box/app.ts:33
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -361,9 +361,9 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// ./examples/tuple_in_box/app.ts:34
+	// examples/tuple_in_box/app.ts:34
 	// this.contacts.get(address).company = value
-	// ./examples/tuple_in_box/app.ts:1
+	// examples/tuple_in_box/app.ts:1
 	// this.contacts.get(address)
 	frame_dig -3 // address: account
 	box_get
@@ -395,7 +395,7 @@ if0_elseif1_condition:
 	b if0_end
 
 if0_else:
-	// ./examples/tuple_in_box/app.ts:35
+	// examples/tuple_in_box/app.ts:35
 	// err()
 	err
 
@@ -421,7 +421,7 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 3 0
 
-	// ./examples/tuple_in_box/app.ts:39
+	// examples/tuple_in_box/app.ts:39
 	// assert(this.contacts.get(address).name === name)
 	frame_dig -2 // address: account
 	box_get

@@ -11,31 +11,31 @@ bare_route_create:
 create:
 	proto 1 0
 
-	// auction.ts:22
+	// examples/auction/auction.ts:22
 	// this.auctionEnd.put(0)
 	byte "auctionEnd"
 	int 0
 	app_global_put
 
-	// auction.ts:23
+	// examples/auction/auction.ts:23
 	// this.highestBid.put(0)
 	byte "highestBid"
 	int 0
 	app_global_put
 
-	// auction.ts:24
+	// examples/auction/auction.ts:24
 	// this.asaAmt.put(0)
 	byte "asaAmt"
 	int 0
 	app_global_put
 
-	// auction.ts:25
+	// examples/auction/auction.ts:25
 	// this.asa.put(new Asset(0))
 	byte "asa"
 	int 0
 	app_global_put
 
-	// auction.ts:28
+	// examples/auction/auction.ts:28
 	// this.highestBidder.put(globals.zeroAddress)
 	byte "highestBidder"
 	global ZeroAddress
@@ -60,7 +60,7 @@ optIntoAsset:
 	proto 2 0
 
 	// Only allow app creator to opt the app account into a ASA
-	// auction.ts:33
+	// examples/auction/auction.ts:33
 	// assert(this.txn.sender === globals.creatorAddress)
 	txn Sender
 	global CreatorAddress
@@ -68,7 +68,7 @@ optIntoAsset:
 	assert
 
 	// Verify a ASA hasn't already been opted into
-	// auction.ts:36
+	// examples/auction/auction.ts:36
 	// assert(this.asa.get() === new Asset(0))
 	byte "asa"
 	app_global_get
@@ -77,37 +77,37 @@ optIntoAsset:
 	assert
 
 	// Save ASA ID in global state
-	// auction.ts:39
+	// examples/auction/auction.ts:39
 	// this.asa.put(asset)
 	byte "asa"
 	frame_dig -1 // asset: asset
 	app_global_put
 
 	// Submit opt-in transaction: 0 asset transfer to self
-	// auction.ts:42
+	// examples/auction/auction.ts:42
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// auction.ts:43
+	// examples/auction/auction.ts:43
 	// assetReceiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetReceiver
 
-	// auction.ts:44
+	// examples/auction/auction.ts:44
 	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
-	// auction.ts:45
+	// examples/auction/auction.ts:45
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
-	// auction.ts:46
+	// examples/auction/auction.ts:46
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -135,7 +135,7 @@ abi_route_startAuction:
 startAuction:
 	proto 4 0
 
-	// auction.ts:51
+	// examples/auction/auction.ts:51
 	// assert(this.txn.sender === globals.creatorAddress)
 	txn Sender
 	global CreatorAddress
@@ -143,7 +143,7 @@ startAuction:
 	assert
 
 	// Ensure the auction hasn't already been started
-	// auction.ts:54
+	// examples/auction/auction.ts:54
 	// assert(this.auctionEnd.get() === 0)
 	byte "auctionEnd"
 	app_global_get
@@ -152,7 +152,7 @@ startAuction:
 	assert
 
 	// Verify axfer
-	// auction.ts:57
+	// examples/auction/auction.ts:57
 	// assert(axfer.assetReceiver === this.app.address)
 	frame_dig -3 // axfer: assettransfertxn
 	gtxns AssetReceiver
@@ -163,14 +163,14 @@ startAuction:
 	assert
 
 	// Set global state
-	// auction.ts:60
+	// examples/auction/auction.ts:60
 	// this.asaAmt.put(axfer.assetAmount)
 	byte "asaAmt"
 	frame_dig -3 // axfer: assettransfertxn
 	gtxns AssetAmount
 	app_global_put
 
-	// auction.ts:61
+	// examples/auction/auction.ts:61
 	// this.auctionEnd.put(globals.latestTimestamp + length)
 	byte "auctionEnd"
 	global LatestTimestamp
@@ -178,7 +178,7 @@ startAuction:
 	+
 	app_global_put
 
-	// auction.ts:62
+	// examples/auction/auction.ts:62
 	// this.highestBid.put(startingPrice)
 	byte "highestBid"
 	frame_dig -1 // startingPrice: uint64
@@ -188,23 +188,23 @@ startAuction:
 pay:
 	proto 3 0
 
-	// auction.ts:66
+	// examples/auction/auction.ts:66
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// auction.ts:69
+	// examples/auction/auction.ts:69
 	// receiver: receiver
 	frame_dig -1 // receiver: account
 	itxn_field Receiver
 
-	// auction.ts:71
+	// examples/auction/auction.ts:71
 	// amount: amount
 	frame_dig -2 // amount: uint64
 	itxn_field Amount
 
-	// auction.ts:72
+	// examples/auction/auction.ts:72
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -232,7 +232,7 @@ bid:
 	proto 3 0
 
 	// Ensure auction hasn't ended
-	// auction.ts:79
+	// examples/auction/auction.ts:79
 	// assert(globals.latestTimestamp < this.auctionEnd.get())
 	global LatestTimestamp
 	byte "auctionEnd"
@@ -241,7 +241,7 @@ bid:
 	assert
 
 	// Verify payment transaction
-	// auction.ts:82
+	// examples/auction/auction.ts:82
 	// assert(payment.amount > this.highestBid.get())
 	frame_dig -1 // payment: paytxn
 	gtxns Amount
@@ -250,7 +250,7 @@ bid:
 	>
 	assert
 
-	// auction.ts:83
+	// examples/auction/auction.ts:83
 	// assert(this.txn.sender === payment.sender)
 	txn Sender
 	frame_dig -1 // payment: paytxn
@@ -260,7 +260,7 @@ bid:
 
 	// Return previous bid if there was one
 	// if0_condition
-	// auction.ts:86
+	// examples/auction/auction.ts:86
 	// this.highestBidder.get() !== globals.zeroAddress
 	byte "highestBidder"
 	app_global_get
@@ -269,7 +269,7 @@ bid:
 	bz if0_end
 
 	// if0_consequent
-	// auction.ts:87
+	// examples/auction/auction.ts:87
 	// this.pay(this.highestBidder.get(), this.highestBid.get())
 	byte 0x
 	dupn 1
@@ -281,14 +281,14 @@ bid:
 
 if0_end:
 	// Set global state
-	// auction.ts:91
+	// examples/auction/auction.ts:91
 	// this.highestBid.put(payment.amount)
 	byte "highestBid"
 	frame_dig -1 // payment: paytxn
 	gtxns Amount
 	app_global_put
 
-	// auction.ts:92
+	// examples/auction/auction.ts:92
 	// this.highestBidder.put(payment.sender)
 	byte "highestBidder"
 	frame_dig -1 // payment: paytxn
@@ -310,7 +310,7 @@ abi_route_claimBid:
 claimBid:
 	proto 1 0
 
-	// auction.ts:98
+	// examples/auction/auction.ts:98
 	// this.pay(globals.creatorAddress, this.highestBid.get())
 	byte 0x
 	dupn 1
@@ -341,36 +341,36 @@ claim_asset:
 	proto 3 0
 
 	// Send ASA to highest bidder
-	// auction.ts:105
+	// examples/auction/auction.ts:105
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// auction.ts:106
+	// examples/auction/auction.ts:106
 	// assetReceiver: this.highestBidder.get()
 	byte "highestBidder"
 	app_global_get
 	itxn_field AssetReceiver
 
-	// auction.ts:107
+	// examples/auction/auction.ts:107
 	// xferAsset: this.asa.get()
 	byte "asa"
 	app_global_get
 	itxn_field XferAsset
 
-	// auction.ts:108
+	// examples/auction/auction.ts:108
 	// assetAmount: this.asaAmt.get()
 	byte "asaAmt"
 	app_global_get
 	itxn_field AssetAmount
 
-	// auction.ts:109
+	// examples/auction/auction.ts:109
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// auction.ts:110
+	// examples/auction/auction.ts:110
 	// assetCloseTo: assetCreator
 	frame_dig -2 // assetCreator: account
 	itxn_field AssetCloseTo
@@ -387,28 +387,28 @@ bare_route_delete:
 delete:
 	proto 1 0
 
-	// auction.ts:116
+	// examples/auction/auction.ts:116
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// auction.ts:117
+	// examples/auction/auction.ts:117
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// auction.ts:118
+	// examples/auction/auction.ts:118
 	// receiver: globals.creatorAddress
 	global CreatorAddress
 	itxn_field Receiver
 
-	// auction.ts:119
+	// examples/auction/auction.ts:119
 	// closeRemainderTo: globals.creatorAddress
 	global CreatorAddress
 	itxn_field CloseRemainderTo
 
-	// auction.ts:120
+	// examples/auction/auction.ts:120
 	// amount: 0
 	int 0
 	itxn_field Amount

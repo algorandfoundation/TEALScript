@@ -71,8 +71,8 @@ abi_route_add:
 	assert
 	byte 0x
 	dupn 1
-	txna ApplicationArgs 1
 	txna ApplicationArgs 2
+	txna ApplicationArgs 1
 	callsub add
 	int 1
 	return
@@ -100,8 +100,8 @@ abi_route_sub:
 	assert
 	byte 0x
 	dupn 1
-	txna ApplicationArgs 1
 	txna ApplicationArgs 2
+	txna ApplicationArgs 1
 	callsub sub
 	int 1
 	return
