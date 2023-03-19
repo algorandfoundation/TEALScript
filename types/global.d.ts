@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
+declare type byte<N = void> = string
+declare type uint8<N = void> = N extends number ? number[] : number;
 declare type uint16<N = void> = N extends number ? number[] : number;
 declare type uint64<N = void> = N extends number ? number[] : number;
 declare type uint256<N = void> = N extends number ? number[] : number;
@@ -89,7 +91,7 @@ declare class Application {
 }
 
 declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number })
+  constructor(options?: { defaultSize?: number, dynamicSize?: boolean })
 
   get(key: KeyType): ValueType
 
@@ -101,7 +103,7 @@ declare class BoxMap<KeyType, ValueType> {
 }
 
 declare class BoxReference<ValueType> {
-  constructor(options?: { defaultSize?: number, key?: string })
+  constructor(options?: { defaultSize?: number, key?: string, dynamicSize?: boolean })
 
   get(): ValueType
 

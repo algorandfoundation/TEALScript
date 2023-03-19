@@ -6,6 +6,11 @@
 
 import { Contract } from '../../src/lib/index';
 
+type CustomType = {
+  foo: uint16,
+  bar: string
+}
+
 // eslint-disable-next-line no-unused-vars
 class AbiTest extends Contract {
   gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
@@ -18,7 +23,7 @@ class AbiTest extends Contract {
 
   lMap = new LocalMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
   @createApplication
   create(): void {}
@@ -234,5 +239,237 @@ class AbiTest extends Contract {
 
   tupleArg(a: [uint64, uint16, uint64]): uint16 {
     return a[1];
+  }
+
+  dynamicArray(): uint64 {
+    const a: uint64[] = [11, 22, 33];
+
+    return a[1];
+  }
+
+  returnDynamicArray(): uint64[] {
+    const a: uint64[] = [11, 22, 33];
+    return a;
+  }
+
+  dynamicArrayArg(a: uint64[]): uint64 {
+    return a[1];
+  }
+
+  updateDynamicArrayElement(): uint64 {
+    const a: uint64[] = [11, 22, 33];
+
+    a[1] = 222;
+
+    return a[1];
+  }
+
+  dynamicTupleArray(): uint64 {
+    const a: [uint16, uint64][] = [[11, 22], [33, 44]];
+
+    return a[1][1];
+  }
+
+  returnTupleWithDyamicArray(): [uint64, uint16, uint64[], uint16[]] {
+    const a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]];
+
+    return a;
+  }
+
+  returnDynamicArrayFromTuple(): uint8[] {
+    const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]];
+
+    return a[4]; // [7, 8]
+  }
+
+  updateDynamicArrayInTuple(): [uint8, uint16[], uint8[], uint16[], uint8[]] {
+    const a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]];
+
+    a[0] = 99 as uint8;
+    a[1] = [10, 11];
+    a[2] = [12, 13];
+    a[3] = [14, 15];
+    a[4] = [16, 17];
+
+    return a;
+  }
+
+  nonLiteralDynamicElementInTuple(): [uint8, uint16, uint8[], uint16[], uint8[]] {
+    const e: uint16[] = [5, 6];
+    const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]];
+
+    return a;
+  }
+
+  arrayPush(): uint16[] {
+    const a: uint16[] = [1, 2];
+
+    a.push(3 as uint16);
+
+    return a;
+  }
+
+  arrayPop(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.pop()!;
+
+    return a;
+  }
+
+  arrayPopValue(): uint16 {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.pop()!;
+
+    return v;
+  }
+
+  arraySplice(): uint64[] {
+    const a: uint64[] = [1, 2, 3];
+
+    a.splice(1, 1);
+
+    return a;
+  }
+
+  arraySpliceValue(): uint16[] {
+    const a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    const i = 1;
+    const l = 7;
+    const v = a.splice(i, l);
+
+    return v;
+  }
+
+  dynamicArrayElements(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+    const newA: uint16[] = [a[0], a[1], a[2]];
+
+    return newA;
+  }
+
+  spliceLastElement(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.splice(2, 1);
+
+    return a;
+  }
+
+  spliceLastElementValue(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.splice(2, 1);
+
+    return v;
+  }
+
+  spliceFirstElement(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    a.splice(0, 1);
+
+    return a;
+  }
+
+  spliceFirstElementValue(): uint16[] {
+    const a: uint16[] = [1, 2, 3];
+
+    const v = a.splice(0, 1);
+
+    return v;
+  }
+
+  stringReturn(): string {
+    return 'Hello World!';
+  }
+
+  stringArg(s: string): void {
+    assert(s === 'Hello World!');
+  }
+
+  stringInTuple(): [uint16, uint8[], string, uint8[]] {
+    const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
+
+    return a;
+  }
+
+  accesStringInTuple(): string {
+    const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
+
+    assert(a[2] === 'Hello World!');
+
+    return a[2];
+  }
+
+  updateStringInTuple(): [uint8, uint16[], string, uint16[], uint8[]] {
+    const a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]];
+
+    a[0] = 99 as uint8;
+    a[1] = [10, 11];
+    a[2] = 'Hello World!';
+    a[3] = [14, 15];
+    a[4] = [16, 17];
+
+    return a;
+  }
+
+  updateTupleWithOnlyDynamicTypes(): [uint16[], uint16[], uint16[]] {
+    const a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]];
+
+    a[0] = [4, 5];
+    a[1] = [6, 7];
+    a[2] = [8, 9];
+
+    return a;
+  }
+
+  shortenDynamicElementInTuple(): [uint16[], uint16[], uint16[]] {
+    const a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]];
+
+    a[0] = [5];
+    a[1] = [6];
+    a[2] = [7];
+
+    return a;
+  }
+
+  namedTuple(): string {
+    const a: {
+      foo: uint16,
+      bar: string,
+    } = {
+      foo: 1,
+      bar: 'Hello World!',
+    };
+
+    return a.bar;
+  }
+
+  updateNamedTuple(): string {
+    const a: {
+      foo: uint16,
+      bar: string,
+    } = {
+      foo: 1,
+      bar: 'Hi?',
+    };
+
+    a.bar = 'Hello World!';
+
+    return a.bar;
+  }
+
+  customTypes(): string {
+    const aa: CustomType = {
+      foo: 1,
+      bar: 'Hi?',
+    };
+
+    aa.bar = 'Hello World!';
+
+    return aa.bar;
   }
 }

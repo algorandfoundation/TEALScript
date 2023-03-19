@@ -4,54 +4,41 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
-// https://stackoverflow.com/a/55435856
-function* chunks<T>(arr: T[], n: number): Generator<T[], void> {
-  for (let i = 0; i < arr.length; i += n) {
-    yield arr.slice(i, i + n);
-  }
-}
-
-// This is seperate from getABIType because the bracket notation
+// This is seperate from this.getABIType because the bracket notation
 // is useful for parsing, but the ABI/appspec JSON need the parens
 function getABITupleString(str: string) {
-  const trailingBrakcet = /(?<!\[\d+)]/;
-  const leadingBracket = /\[(?!\d+])/;
+  const trailingBrakcet = /(?<!\[\d*)]/;
+  const leadingBracket = /\[(?!\d*])/;
 
   return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
 }
 
-function stringToExpression(str: string) {
-  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
-  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+function stringToExpression(str: string): ts.Expression {
+  if (str.startsWith('{')) {
+    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
+
+    const types: string[] = [];
+    srcFile.statements[0].forEachChild((n) => {
+      if (!ts.isVariableDeclarationList(n)) throw new Error();
+      n.declarations.forEach((d) => {
+        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+
+        d.type.members.forEach((m, i) => {
+          if (!ts.isPropertySignature(m)) throw new Error();
+          types.push(m.type!.getText());
+        });
+      });
+    });
+
+    return stringToExpression(`[${types.join(',')}]`);
+  } {
+    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+    return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+  }
 }
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
-}
-
-function getABIType(type: string): string {
-  const abiType = type.toLowerCase();
-  const typeNode = stringToExpression(type) as ts.Expression;
-
-  if (abiType.match(/<\d+>$/)) {
-    return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
-  }
-
-  if (abiType.startsWith('static')) {
-    if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
-    const innerType = typeNode!.typeArguments![0];
-    const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
-
-    return `${getABIType(innerType.getText())}[${length}]`;
-  }
-
-  if (abiType.startsWith('[')) {
-    if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
-
-    return `[${typeNode.elements.map((t) => getABIType(t.getText())).join(',')}]`;
-  }
-
-  return abiType;
 }
 
 function getTypeLength(type: string): number {
@@ -94,6 +81,7 @@ function getTypeLength(type: string): number {
     case 'asset':
     case 'application':
       return 8;
+    case 'string':
     case 'bytes':
       return 1;
     case 'account':
@@ -206,6 +194,7 @@ interface StorageProp {
   defaultSize?: number;
   keyType: string;
   valueType: string;
+  dynamicSize?: boolean;
 }
 
 interface Subroutine {
@@ -223,6 +212,23 @@ function isRefType(t: string): boolean {
   return ['account', 'asset', 'application'].includes(t);
 }
 
+const scratch = {
+  fullTuple: '0 // full tuple',
+  arrayOffset: '1 // array offset',
+  fullArrayLength: '2 // full array length',
+  staticPartOfTuple: '3 // static part of tuple',
+  dynamicHeads: '4 // dynamic heads',
+  valuesAfterArray: '5 // values after array',
+  newArray: '6 // new array',
+  valuesBeforeArray: '7 // values before array',
+  dynamicHead: '8 // dynamic head',
+  dynamicHeadOffset: '9 // dynamic head offset',
+  dynamicElements: '10 // dynamic elements',
+  staticElements: '11 // static elements',
+  spliceStart: '12 // splice start',
+  spliceByteLength: '13 // splice byte length',
+};
+
 export default class Compiler {
   teal: string[] = ['#pragma version 8', 'b main'];
 
@@ -231,6 +237,8 @@ export default class Compiler {
   generatedTeal: string = '';
 
   generatedClearTeal: string = '';
+
+  private customTypes: {[name: string] : string} = {};
 
   private scratch: {[name: string] :{index: number; type: string}} = {};
 
@@ -509,7 +517,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, dynamicSize,
         } = this.storageProps[name];
 
         if (key) {
@@ -518,6 +526,8 @@ export default class Compiler {
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
         }
+
+        if (dynamicSize) this.pushLines('dup', 'box_del', 'pop');
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
@@ -571,6 +581,10 @@ export default class Compiler {
   private orCount: number = 0;
 
   private sourceFile: ts.SourceFile;
+
+  private nodeDepth: number = 0;
+
+  private topLevelNode!: ts.Node;
 
   private multiplyWideRatioFactors(factors: ts.Expression[]) {
     if (factors.length === 1) {
@@ -682,8 +696,75 @@ export default class Compiler {
     });
   }
 
+  private isDynamicType(type: string): boolean {
+    if (this.customTypes[type]) return this.isDynamicType(this.customTypes[type]);
+
+    return type.includes('[]') || type.includes('string') || type.includes('bytes');
+  }
+
+  private getABIType(type: string): string {
+    if (this.customTypes[type]) return type;
+    const abiType = type.toLowerCase();
+    const typeNode = stringToExpression(type) as ts.Expression;
+
+    if (abiType.match(/<\d+>$/)) {
+      return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
+    }
+
+    if (abiType.startsWith('static')) {
+      if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
+      const innerType = typeNode!.typeArguments![0];
+      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+
+      return `${this.getABIType(innerType.getText())}[${length}]`;
+    }
+
+    if (abiType.match(/\[\]$/)) {
+      const baseType = abiType.replace(/\[\]$/, '');
+      return `${this.getABIType(baseType)}[]`;
+    }
+
+    if (abiType.startsWith('[')) {
+      if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
+
+      return `[${typeNode.elements.map((t) => this.getABIType(t.getText())).join(',')}]`;
+    }
+
+    return abiType;
+  }
+
+  private getObjectTypeAndIndex(givenType: string, key: string): {type: string; index: number} {
+    let type = givenType;
+
+    if (this.customTypes[type]) {
+      type = this.customTypes[type];
+    }
+
+    const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+
+    let retVal = { type: '', index: 0 };
+
+    statement.forEachChild((n) => {
+      if (!ts.isVariableDeclarationList(n)) throw new Error();
+      n.declarations.forEach((d) => {
+        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+
+        d.type.members.forEach((m, i) => {
+          if (!ts.isPropertySignature(m)) throw new Error();
+          if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
+        });
+      });
+    });
+
+    return retVal;
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
+      if (ts.isTypeAliasDeclaration(body)) {
+        this.customTypes[body.name.getText()] = body.type.getText();
+      }
+
       if (!ts.isClassDeclaration(body)) return;
 
       if (
@@ -709,6 +790,12 @@ export default class Compiler {
       this.pushVoid('main:');
       this.routeAbiMethods();
     }
+
+    Object.keys(this.compilerSubroutines).forEach((sub) => {
+      if (this.teal.includes(`callsub ${sub}`)) {
+        this.teal.splice(2, 0, ...this.compilerSubroutines[sub]());
+      }
+    });
 
     this.teal = await Promise.all(
       this.teal.map(async (t) => {
@@ -838,6 +925,22 @@ export default class Compiler {
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
+    let isTopLevelNode = false;
+
+    if (
+      !ts.isClassDeclaration(node)
+      && !ts.isMethodDeclaration(node)
+      && !ts.isBlock(node)
+      && !ts.isExpressionStatement(node)
+      && !ts.isNonNullExpression(node)
+    ) {
+      if (this.nodeDepth === 0) {
+        this.topLevelNode = node;
+        isTopLevelNode = true;
+      }
+      this.nodeDepth += 1;
+    }
+
     try {
       if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
       else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
@@ -846,6 +949,9 @@ export default class Compiler {
       else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
       else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
+      else if (ts.isNonNullExpression(node)) this.processNode(node.expression);
+      else if (ts.isObjectLiteralExpression(node)) this.processObjectLiteralExpression(node);
+      else if (node.kind === 108) this.lastType = 'this';
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
@@ -865,7 +971,7 @@ export default class Compiler {
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
-      else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]}`);
+      else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
 
@@ -884,6 +990,28 @@ export default class Compiler {
 
       throw e;
     }
+
+    if (isTopLevelNode) this.nodeDepth = 0;
+  }
+
+  private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
+    const type = this.typeHint;
+    if (type === undefined) throw new Error();
+    const typeArray: string[] = [];
+    const valueArray: string[] = [];
+
+    node.properties.forEach((p) => {
+      if (!ts.isPropertyAssignment(p)) throw new Error();
+      const r = this.getObjectTypeAndIndex(type, p.name.getText());
+      typeArray[r.index] = r.type;
+      valueArray[r.index] = p.initializer.getText();
+    });
+
+    this.typeHint = `[${typeArray.join(',')}]`;
+    const tupleNode = stringToExpression(`[${valueArray.join(',')}]`);
+    if (!ts.isArrayLiteralExpression(tupleNode)) throw new Error();
+    this.processArrayLiteralExpression(tupleNode);
+    this.lastType = type.replace(/\s+/g, ' ');
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
@@ -902,13 +1030,15 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private getTypes(typeString: string): string[] {
-    const abiType = getABIType(typeString);
+  private getTypes(typeString: string): {static: string[], dynamic: string[]} {
+    const abiType = this.getABIType(typeString);
     const typeNode = stringToExpression(abiType);
     const staticLengthRegex = /(\[\d+\])+$/;
-    const types: string[] = [];
+    const types: {static: string[], dynamic: string[]} = { static: [], dynamic: [] };
 
-    if (abiType.match(staticLengthRegex)) {
+    if (abiType === 'string') {
+      types.dynamic.push('string');
+    } else if (abiType.match(staticLengthRegex)) {
       const baseType = abiType.replace(staticLengthRegex, '');
 
       let count: number = 1;
@@ -916,18 +1046,23 @@ export default class Compiler {
         count *= parseInt(n, 10);
       });
 
-      types.push(...Array(count).fill(this.getTypes(baseType)));
+      types.static.push(...Array(count).fill(this.getTypes(baseType).static));
     } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
       typeNode.elements.forEach((e) => {
-        types.push(...this.getTypes(e.getText()));
+        const innerTypes = this.getTypes(e.getText());
+        types.static.push(...innerTypes.static);
+        types.dynamic.push(...innerTypes.dynamic);
       });
     } else if (ts.isIdentifier(typeNode)) {
-      types.push(typeNode.getText());
-    } else {
-      throw new Error();
-    }
+      types.static.push(typeNode.getText());
+    } else if (ts.isElementAccessExpression(typeNode)) {
+      const dynamicArrayRegex = /\[\]$/;
+      const baseType = typeString.replace(dynamicArrayRegex, '');
+      if (baseType.match(dynamicArrayRegex)) throw new Error('Nested dynamic types not supported');
+      types.dynamic.push(baseType);
+    } else throw new Error(`${ts.SyntaxKind[typeNode.kind]} ${typeNode.getText()}`);
 
-    return types.flat();
+    return { static: types.static.flat(), dynamic: types.dynamic };
   }
 
   private getArrayNodes(node: ts.ArrayLiteralExpression): ts.Node[] {
@@ -944,49 +1079,192 @@ export default class Compiler {
     return nodes.flat();
   }
 
+  private processStaticArrayElement(
+    e: ts.Node,
+    type: string,
+    isLast: boolean,
+    context: {bytesOnStack: boolean, hexString: string},
+  ) {
+    const length = getTypeLength(type);
+
+    if (ts.isNumericLiteral(e)) {
+      context.hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
+
+      if (isLast) {
+        this.pushVoid(`byte 0x${context.hexString}`);
+        if (context.bytesOnStack) this.pushVoid('concat');
+      }
+
+      return;
+    }
+
+    if (context.hexString.length > 0) {
+      this.pushVoid(`byte 0x${context.hexString}`);
+      if (context.bytesOnStack) this.pushVoid('concat');
+      context.bytesOnStack = true;
+
+      context.hexString = '';
+    }
+
+    this.processNode(e);
+    if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+    if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
+      this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(e));
+    }
+
+    if (context.bytesOnStack) this.pushVoid('concat');
+
+    context.bytesOnStack = true;
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     const types = this.getTypes(this.typeHint!);
     const nodes = this.getArrayNodes(node);
 
+    const context = { bytesOnStack: false, hexString: '' };
+    if (types.static.length === 0 && types.dynamic.length === 1) {
+      const baseType = types.dynamic[0];
+
+      if (baseType.startsWith('[')) {
+        const innerTypes = this.getTypes(baseType).static;
+        context.hexString = (nodes.length / innerTypes.length).toString(16).padStart(4, '0');
+
+        nodes.forEach((e, i) => {
+          this.processStaticArrayElement(
+            e,
+            innerTypes[i % innerTypes.length],
+            i === nodes.length - 1,
+            context,
+          );
+        });
+      } else {
+        context.hexString = (nodes.length).toString(16).padStart(4, '0');
+
+        nodes.forEach((e, i) => {
+          this.processStaticArrayElement(e, baseType, i === nodes.length - 1, context);
+        });
+      }
+
+      this.lastType = this.getABIType(this.typeHint!);
+      return;
+    }
+
+    // Process static elements
     // TODO: Throw error if size is wrong
-
-    let hexString = '';
-    let bytesOnStack = false;
-    nodes.forEach((e, i) => {
-      const length = getTypeLength(types[i]);
-
-      if (ts.isNumericLiteral(e)) {
-        hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
-
-        if (i === nodes.length - 1) {
-          this.pushVoid(`byte 0x${hexString}`);
-          if (bytesOnStack) this.pushVoid('concat');
-        }
-
-        return;
-      }
-
-      if (hexString.length > 0) {
-        this.pushVoid(`byte 0x${hexString}`);
-        if (bytesOnStack) this.pushVoid('concat');
-        bytesOnStack = true;
-
-        hexString = '';
-      }
-
-      this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) {
-        this.fixBitWidth(parseInt(types[i].match(/\d+/)![0], 10));
-      }
-
-      if (bytesOnStack) this.pushVoid('concat');
-
-      bytesOnStack = true;
+    nodes.slice(0, types.static.length).forEach((e, i) => {
+      this.processStaticArrayElement(
+        e,
+        types.static[i],
+        i === types.static.length - 1,
+        context,
+      );
     });
 
-    this.lastType = getABIType(this.typeHint!);
+    if (types.dynamic.length === 0) {
+      this.lastType = this.getABIType(this.typeHint!);
+      return;
+    }
+
+    // Process dynamic elements
+    // TODO: Optimize this when there are literal dynamic elements
+    const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
+
+    if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
+
+    const headEnd = staticLen + (2 * types.dynamic.length);
+    this.pushLines(
+      `store ${scratch.staticElements}`,
+      `byte 0x${headEnd.toString(16).padStart(4, '0')} // head end`,
+      `store ${scratch.dynamicHead}`,
+      `int ${headEnd}`,
+      `store ${scratch.dynamicHeadOffset}`,
+      'byte 0x',
+      `store ${scratch.dynamicElements}`,
+    );
+
+    node.elements.slice(-types.dynamic.length).forEach((e, i) => {
+      if (ts.isArrayLiteralExpression(e)) {
+        const baseType = types.dynamic[i];
+        const innerTypes = this.getTypes(baseType);
+        const innerNodes = this.getArrayNodes(e);
+
+        innerNodes.forEach((n, j) => {
+          const type = innerTypes.static[j % innerTypes.static.length];
+
+          this.processNode(n);
+          if (isNumeric(this.lastType)) this.pushVoid('itob');
+
+          if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
+            this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(n));
+          }
+
+          if (j) this.pushVoid('concat');
+        });
+
+        this.pushLines(
+          `byte 0x${e.elements.length.toString(16).padStart(4, '0')}`,
+          'swap',
+          'concat',
+        );
+      } else if (types.dynamic[i] === 'string') {
+        if (ts.isStringLiteral(e)) {
+          const len = e.text.length.toString(16).padStart(4, '0');
+          const val = Buffer.from(e.text, 'utf-8').toString('hex');
+          this.push(`byte 0x${len}${val} // ${e.text}`, 'string');
+        } else this.processNode(e);
+
+        if (this.lastType === StackType.bytes) {
+          this.pushLines(
+            'dup',
+            'len',
+            'itob',
+            'extract 6 2',
+            'swap',
+            'concat',
+          );
+          this.lastType = 'string';
+        }
+      } else {
+        this.processNode(e);
+        const expectedType = `${types.dynamic[i]}[]`;
+        if (expectedType !== this.lastType) throw new Error(`Expected type of ${expectedType}, but got ${this.lastType}`);
+      }
+
+      // update head if not last element
+      if (i !== types.dynamic.length - 1) {
+        this.pushLines(
+          'dup',
+          'len',
+          `load ${scratch.dynamicHeadOffset}`,
+          '+',
+          'dup',
+          `store ${scratch.dynamicHeadOffset}`,
+          'itob',
+          'extract 6 2',
+          `load ${scratch.dynamicHead}`,
+          'swap',
+          'concat',
+          `store ${scratch.dynamicHead}`,
+        );
+      }
+
+      this.pushLines(
+        `load ${scratch.dynamicElements}`,
+        'swap',
+        'concat',
+        `store ${scratch.dynamicElements}`,
+      );
+    });
+
+    this.pushLines(
+      `load ${scratch.staticElements}`,
+      `load ${scratch.dynamicHead}`,
+      `load ${scratch.dynamicElements}`,
+      'concat',
+      'concat',
+    );
+    this.lastType = this.getABIType(this.typeHint!);
   }
 
   private getAccessChain(
@@ -1002,6 +1280,178 @@ export default class Compiler {
     return chain;
   }
 
+  private updateValue(node: ts.Node) {
+    // Add back to frame/storage if necessary
+    if (ts.isIdentifier(node)) {
+      const name = node.getText();
+      const { index, type } = this.frame[name];
+      this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+    } else if (
+      ts.isCallExpression(node)
+                && ts.isPropertyAccessExpression(node.expression)
+                && ts.isPropertyAccessExpression(node.expression.expression)
+                && Object.keys(this.storageProps).includes(
+                  node.expression.expression?.name?.getText(),
+                )
+    ) {
+      const storageProp = this.storageProps[
+        node.expression.expression.name.getText()
+      ];
+
+      this.storageFunctions[storageProp.type].put(node);
+    } else {
+      throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
+    }
+  }
+
+  private compilerSubroutines: {[name: string]: () => string[]} = {
+    updateDynamicElement: () => {
+      const frame = {
+        newArray: '-8 // newArray', // already on stack
+        startOfHeads: '-2 // startOfHeads', // startOfHeads
+        totalHeadLength: '-3 // totalHeadLength', // types.dynamic.length * 2;
+        lastDynamicElement: '-4 // lastDynamicElement', // dynamicTypeIndex === types.dynamic.length - 1
+        firstDynamicElement: '-5 // firstDynamicElement', // dynamicTypeIndex === 0
+        headUpdateBitmask: '-6 // headUpdateBitmask', // `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
+        fullHeadBitmask: '-7 // fullHeadBitmask', // `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
+        headEnd: '-1 // headEnd', // startOfHeads + totalHeadLength
+      };
+
+      const subTeal = [
+        'updateDynamicElement:',
+        'proto 8 1',
+        `frame_dig ${frame.newArray}`,
+      ];
+
+      subTeal.push(
+        `store ${scratch.newArray}`,
+        // get static part of tuple
+        `load ${scratch.fullTuple}`,
+        'int 0',
+        `frame_dig ${frame.startOfHeads}`,
+        'extract3',
+        `store ${scratch.staticPartOfTuple}`,
+        // get dynamic heads
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.startOfHeads}`,
+        `frame_dig ${frame.totalHeadLength}`,
+        'extract3 ',
+        `store ${scratch.dynamicHeads}`,
+        'byte 0x',
+        'dup',
+        `store ${scratch.valuesAfterArray}`,
+        `store ${scratch.valuesBeforeArray}`,
+
+        // Get values AFTER the updated array
+        `frame_dig ${frame.lastDynamicElement}`,
+        'bnz skip_values_after_array',
+        `load ${scratch.fullTuple}`,
+        `load ${scratch.arrayOffset}`,
+        `load ${scratch.fullArrayLength}`,
+        '+',
+        `load ${scratch.fullTuple}`,
+        'len',
+        'substring3',
+        `store ${scratch.valuesAfterArray}`,
+        'skip_values_after_array:',
+        // Get values BEFORE the updated array
+        `frame_dig ${frame.firstDynamicElement}`,
+        'bnz skip_values_before_array',
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.headEnd}`,
+        `load ${scratch.arrayOffset}`,
+        'substring3',
+        `store ${scratch.valuesBeforeArray}`,
+        'skip_values_before_array:',
+
+        // Update dynamic heads
+        `load ${scratch.dynamicHeads}`,
+        `frame_dig ${frame.headUpdateBitmask}`,
+
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        '>=',
+        'bnz skip_len_swap',
+        'swap',
+        'skip_len_swap:',
+        '-',
+
+        'itob',
+        'extract 6 2',
+        'dup',
+        'concat', // 4
+        'dup',
+        'concat', // 8
+        'dup',
+        'concat', // 16
+        'dup',
+        'concat', // 32
+        'dup',
+        'concat', // 64
+        'b&',
+
+        `load ${scratch.newArray}`,
+        'len',
+        `load ${scratch.fullArrayLength}`,
+        '>=', // if this is true, subtract
+        'bnz add_head',
+        'b-',
+        'b sub_or_add_head_end',
+        'add_head:',
+        'b+',
+        'sub_or_add_head_end:',
+
+        `frame_dig ${frame.fullHeadBitmask}`,
+        'b&',
+        `store ${scratch.dynamicHeads}`,
+        // form new array
+        `load ${scratch.staticPartOfTuple}`,
+        `load ${scratch.dynamicHeads}`,
+        `load ${scratch.valuesBeforeArray}`,
+        `load ${scratch.newArray}`,
+        `load ${scratch.valuesAfterArray}`,
+        'concat',
+        'concat',
+        'concat',
+        'concat',
+        'retsub',
+      );
+
+      return subTeal;
+    },
+    preArrayAccess: () => {
+      const frame = {
+        headOffset: '-1 // head offset',
+        typeLength: '-2 // type length',
+        fullTuple: '-3 // full tuple',
+      };
+
+      return [
+        'preArrayAccess:',
+        'proto 3 0',
+        `frame_dig ${frame.fullTuple}`,
+        `store ${scratch.fullTuple}`,
+        `load ${scratch.fullTuple}`,
+        `frame_dig ${frame.headOffset}`,
+        'extract_uint16 // extract array offset',
+        `store ${scratch.arrayOffset}`,
+        `load ${scratch.fullTuple}`,
+        `load ${scratch.arrayOffset}`,
+        'extract_uint16 // extract array length',
+        `frame_dig ${frame.typeLength}`,
+        '* // array size',
+        'int 2',
+        '+ // array size + len',
+        `store ${scratch.fullArrayLength}`,
+        'retsub',
+      ];
+    },
+  };
+
   private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
 
@@ -1010,6 +1460,82 @@ export default class Compiler {
     let intsOnStack = false;
 
     this.processNode(chain[0].expression);
+    if (this.customTypes[this.lastType]) {
+      this.lastType = this.customTypes[this.lastType];
+    }
+
+    const lastTypeExpression = stringToExpression(this.lastType);
+
+    if (ts.isArrayLiteralExpression(lastTypeExpression)) {
+      const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
+      const accessedType = lastTypeExpression.elements[accessor].getText();
+
+      if (accessedType.endsWith('[]') || accessedType === 'string') {
+        const types = this.getTypes(this.lastType);
+
+        const numStaticElements = lastTypeExpression.elements.length - types.dynamic.length;
+        const dynamicTypeIndex = accessor - numStaticElements;
+
+        let headOffset = 0;
+        headOffset += types.static.reduce((a, b) => a + getTypeLength(b), 0);
+
+        const startOfHeads = headOffset;
+
+        headOffset += (dynamicTypeIndex) * 2;
+
+        this.pushLines(
+          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
+          `int ${headOffset} // head offset`,
+          'callsub preArrayAccess',
+        );
+
+        if (newValue === undefined) {
+          this.pushLines(
+            `load ${scratch.fullTuple}`,
+            `load ${scratch.arrayOffset}`,
+            `load ${scratch.fullArrayLength}`,
+            'extract3',
+          );
+
+          if (accessedType === 'string') {
+            this.push('extract 2 0 // extract bytes from string', 'bytes');
+          } else this.lastType = accessedType;
+        } else {
+          if (ts.isStringLiteral(newValue)) {
+            const len = newValue.text.length.toString(16).padStart(4, '0');
+            const val = Buffer.from(newValue.text, 'utf-8').toString('hex');
+            this.push(`byte 0x${len}${val} // ${newValue.text}`, 'string');
+          } else this.processNode(newValue);
+
+          if (this.lastType === StackType.bytes) {
+            this.pushLines(
+              'dup',
+              'len',
+              'itob',
+              'extract 6 2',
+              'swap',
+              'concat',
+            );
+          }
+
+          const totalHeadLength = types.dynamic.length * 2;
+          this.pushLines(
+            `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
+            `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)} // head update bitmask`,
+            `int ${dynamicTypeIndex === 0 ? 1 : 0} // is first dynamic element`,
+            `int ${dynamicTypeIndex === types.dynamic.length - 1 ? 1 : 0} // is last dynamic element`,
+            `int ${totalHeadLength} // total head length`,
+            `int ${startOfHeads} // startOfHeads`,
+            `int ${startOfHeads + totalHeadLength} // head end`,
+            'callsub updateDynamicElement',
+          );
+
+          this.updateValue(chain[0].expression);
+        }
+
+        return;
+      }
+    }
 
     chain.forEach((e) => {
       const baseExpressionType = this.getStackTypeFromNode(e.expression);
@@ -1030,6 +1556,14 @@ export default class Compiler {
           this.pushLines(`int ${getTypeLength(type)}`, '*');
           intsOnStack = true;
         }
+      } else if (baseExpressionType.match(/\[\]$/)) {
+        type = baseExpressionType.replace(/\[\]$/, '');
+
+        this.processNode(e.argumentExpression);
+
+        this.pushLines(`int ${getTypeLength(type)}`, '*', 'int 2', '+');
+
+        intsOnStack = true;
       } else if (baseExpressionType.startsWith('[')) {
         const typeExpression = stringToExpression(baseExpressionType);
         if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
@@ -1039,13 +1573,13 @@ export default class Compiler {
 
         innerTypes.forEach((t, i) => {
           if (i < accessor) {
-            offset += getTypeLength(getABIType(t));
-          } else if (i === accessor) type = getABIType(t);
+            offset += getTypeLength(this.getABIType(t));
+          } else if (i === accessor) type = this.getABIType(t);
         });
-      } else throw new Error(`HERE ${e.getText()}  ${baseExpressionType}`);
+      } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
     });
 
-    if (offset) this.pushLines(`int ${offset}`);
+    if (offset || !intsOnStack) this.pushLines(`int ${offset} // offset`);
     if (intsOnStack && offset) this.pushVoid('+');
 
     if (newValue === undefined) {
@@ -1057,26 +1591,7 @@ export default class Compiler {
       if (isNumeric(this.lastType)) this.pushVoid('itob');
       this.pushVoid('replace3');
 
-      // Add back to frame/storage if necessary
-      if (ts.isIdentifier(chain[0].expression)) {
-        const name = chain[0].expression.getText();
-        const { index } = this.frame[name];
-        this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
-      } else if (
-        ts.isCallExpression(chain[0].expression)
-                && ts.isPropertyAccessExpression(chain[0].expression.expression)
-                && ts.isPropertyAccessExpression(chain[0].expression.expression.expression)
-                && Object.keys(this.storageProps).includes(
-                  chain[0].expression.expression.expression?.name?.getText(),
-                )
-      ) {
-        const storageProp = this.storageProps[
-          chain[0].expression.expression.expression.name.getText()
-        ];
-        this.storageFunctions[storageProp.type].put(chain[0].expression);
-      } else {
-        throw new Error(`Can't update ${ts.SyntaxKind[chain[0].expression.kind]} array`);
-      }
+      this.updateValue(chain[0].expression);
     }
   }
 
@@ -1102,7 +1617,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
-    const returnType = getABIType(node.type!.getText());
+    const returnType = this.getABIType(node.type!.getText());
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
@@ -1154,6 +1669,17 @@ export default class Compiler {
 
         // eslint-disable-next-line no-console
         console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
+      } else if ([returnType, this.lastType].includes('string') && [returnType, this.lastType].includes('bytes')) {
+        if (returnType === 'string') {
+          this.pushLines(
+            'dup',
+            'len',
+            'itob',
+            'extract 6 2',
+            'swap',
+            'concat',
+          );
+        } else this.pushVoid('extract 2 0');
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType)) {
       this.pushVoid('itob');
@@ -1191,11 +1717,11 @@ export default class Compiler {
     return chain;
   }
 
-  private fixBitWidth(desiredWidth: number) {
+  private fixBitWidth(desiredWidth: number, warn: boolean = true) {
     const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
 
     // eslint-disable-next-line no-console
-    if (lastBitWidth > desiredWidth) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
+    if (lastBitWidth > desiredWidth && warn) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
 
     if (lastBitWidth < desiredWidth) {
       this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
@@ -1227,7 +1753,19 @@ export default class Compiler {
         this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processStaticArray(node.left, node.right);
+      } else if (ts.isPropertyAccessExpression(node.left)) {
+        const expressionType = this.getStackTypeFromNode(node.left.expression);
+
+        if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+          const { index } = this.getObjectTypeAndIndex(expressionType, node.left.name.getText());
+          const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
+          if (!ts.isElementAccessExpression(expr)) throw new Error();
+          this.processStaticArray(expr, node.right);
+          return;
+        }
       }
+
+      // TODO: Type check
 
       this.typeHint = undefined;
       return;
@@ -1279,6 +1817,12 @@ export default class Compiler {
   }
 
   private processIdentifier(node: ts.Identifier) {
+    // should only be true when calling getStackTypeFromNode
+    if (node.getText() === 'globals') {
+      this.lastType = 'globals';
+      return;
+    }
+
     if (this.contractClasses.includes(node.getText())) {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
@@ -1296,18 +1840,18 @@ export default class Compiler {
       this.processNode(a);
     });
 
-    this.lastType = getABIType(node.expression.getText());
+    this.lastType = this.getABIType(node.expression.getText());
   }
 
   private processTSAsExpression(node: ts.AsExpression) {
     this.processNode(node.expression);
 
-    const type = getABIType(node.type.getText());
+    const type = this.getABIType(node.type.getText());
     if (type.match(/uint\d+$/) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid('itob');
-      this.fixBitWidth(typeBitWidth);
+      this.fixBitWidth(typeBitWidth, !ts.isNumericLiteral(node.expression));
     }
 
     this.lastType = type;
@@ -1377,7 +1921,167 @@ export default class Compiler {
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
-      } else throw new Error(`${methodName} is undefined`);
+      }
+    } else if (methodName === 'push') {
+      const preType = this.lastType;
+      this.processNode(node.expression.expression);
+      if (!this.lastType.endsWith('[]')) throw new Error('Cannot only push to dynamic array');
+      this.pushLines(
+        'dup', // [a, a]
+        'int 0',
+        'extract_uint16',
+        'int 1',
+        '+',
+        'itob',
+        'extract 6 2', // [a, len]
+        'swap', // [len, a]
+        'extract 2 0', // [len, aElems]
+        'concat', // [newA]
+      );
+      this.processNode(node.arguments[0]);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      this.pushVoid('concat');
+
+      this.updateValue(node.expression.expression);
+
+      this.lastType = preType;
+    } else if (methodName === 'pop') {
+      this.processNode(node.expression.expression);
+      const poppedType = this.lastType.replace(/\[\]$/, '');
+      if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
+
+      const typeLength = getTypeLength(this.lastType.replace(/\[\]$/, ''));
+      this.pushLines(
+        'dup', // [a, a]
+        'int 0',
+        'extract_uint16',
+        'int 1',
+        '-',
+        'itob',
+        'extract 6 2', // [a, len]
+        'swap', // [len, a]
+        'extract 2 0', // [len, aElems]
+        'concat', // [newA]
+        'dup',
+        'len',
+        `int ${typeLength}`,
+        '-',
+        'int 0',
+        'swap',
+        'extract3',
+      );
+
+      // only get the popped element if we're expecting a return value
+      if (this.topLevelNode !== node) {
+        this.pushLines(
+          'dup',
+          'len',
+          `int ${typeLength}`,
+        );
+
+        this.processNode(node.expression.expression);
+
+        this.pushLines(
+          'cover 2',
+          'extract3',
+          'swap',
+        );
+      }
+
+      this.updateValue(node.expression.expression);
+
+      this.lastType = poppedType;
+    } else if (methodName === 'splice') {
+      this.processNode(node.expression.expression);
+      if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+      const elementType = this.lastType.replace(/\[\]$/, '');
+
+      // get new len
+      this.pushLines(
+        'int 0',
+        'extract_uint16',
+      );
+      // `int ${parseInt(node.arguments[1].getText(), 10)}`
+      this.processNode(node.arguments[1]);
+      this.pushLines(
+        '-',
+        'itob',
+        'extract 6 2',
+      );
+
+      // TODO: Optimize for literals
+      // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
+      // const spliceStart = spliceIndex * getTypeLength(elementType);
+      this.processNode(node.arguments[0]);
+      this.pushLines(
+        `int ${getTypeLength(elementType)}`,
+        '*',
+        'int 2',
+        '+',
+        `store ${scratch.spliceStart}`,
+      );
+
+      // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
+      // const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
+      this.processNode(node.arguments[1]);
+      this.pushLines(
+        `int ${getTypeLength(elementType)}`,
+        '*',
+        `int ${getTypeLength(elementType)}`,
+        '+',
+        `store ${scratch.spliceByteLength}`,
+      );
+
+      // extract first part
+      this.processNode(node.expression.expression);
+      this.pushLines(
+        'int 2',
+        `load ${scratch.spliceStart}`,
+        'substring3',
+      );
+
+      // extract second part
+      this.processNode(node.expression.expression);
+      this.pushLines(
+        // get end
+        'dup',
+        'len',
+        // get start (end of splice)
+        `load ${scratch.spliceStart}`,
+        `load ${scratch.spliceByteLength}`,
+        '+',
+        `int ${getTypeLength(elementType)}`,
+        '-',
+        'swap',
+        // extract second part
+        'substring3',
+        // concat everything
+        'concat',
+        'concat',
+      );
+
+      if (this.topLevelNode !== node) {
+        // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
+        this.processNode(node.arguments[1]);
+        this.pushLines(
+          'itob',
+          'extract 6 2',
+        );
+        this.processNode(node.expression.expression);
+        this.pushLines(
+          `load ${scratch.spliceStart}`,
+          // `int ${spliceByteLength - getTypeLength(elementType)}`,
+          `load ${scratch.spliceByteLength}`,
+          `int ${getTypeLength(elementType)}`,
+          '-',
+          'extract3',
+          'concat',
+          'swap',
+        );
+      }
+
+      this.updateValue(node.expression.expression);
+      this.lastType = `${elementType}[]`;
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid('byte 0x');
@@ -1462,47 +2166,59 @@ export default class Compiler {
 
     const klass = node.initializer.expression.getText();
 
-    if (['BoxMap', 'GlobalMap', 'LocalMap'].includes(klass)) {
-      const props: StorageProp = {
-        type: klass.toLocaleLowerCase().replace('map', ''),
-        keyType: getABIType(node.initializer.typeArguments![0].getText()),
-        valueType: getABIType(node.initializer.typeArguments![1].getText()),
-      };
+    if (['BoxMap', 'GlobalMap', 'LocalMap', 'BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
+      let props: StorageProp;
+
+      if (klass.includes('Map')) {
+        props = {
+          type: klass.toLocaleLowerCase().replace('map', ''),
+          keyType: this.getABIType(node.initializer.typeArguments![0].getText()),
+          valueType: this.getABIType(node.initializer.typeArguments![1].getText()),
+        };
+      } else {
+        props = {
+          type: klass.toLocaleLowerCase().replace('map', '').replace('reference', ''),
+          keyType: 'bytes',
+          valueType: this.getABIType(node.initializer.typeArguments![0].getText()),
+        };
+      }
+
+      if (props.type === 'box' && this.isDynamicType(props.valueType)) {
+        props.dynamicSize = true;
+      }
 
       if (node.initializer?.arguments?.[0] !== undefined) {
         if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
 
-        const arg = node.initializer.arguments[0];
-        const sizeProp = arg.properties.find(
-          (p) => p.name?.getText() === 'defaultSize',
-        );
-        if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+        node.initializer.arguments[0].properties.forEach((p) => {
+          if (!ts.isPropertyAssignment(p)) throw new Error();
+          const name = p.name?.getText();
+
+          switch (name) {
+            case 'key':
+              if (klass.includes('Map')) throw new Error(`${name} only applies to storage references`);
+              if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage key must be string');
+              props.key = p.initializer.text;
+              break;
+            case 'defaultSize':
+              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
+              props.defaultSize = parseInt(p.initializer.getText(), 10);
+              break;
+            case 'dynamicSize':
+              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
+              if (!this.isDynamicType(props.valueType)) throw new Error(`${name} only applies to dynamic types`);
+
+              props.dynamicSize = p.initializer.getText() === 'true';
+              break;
+            default:
+              throw new Error(`Unknown property ${name}`);
+          }
+        });
       }
 
-      this.storageProps[node.name.getText()] = props;
-    } else if (['BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
-      if (node.initializer?.arguments?.[0] === undefined) throw new Error('Storage reference must include an argument');
-      if (!ts.isObjectLiteralExpression(node.initializer.arguments[0])) throw new Error('Expected object literal');
-
-      const arg = node.initializer.arguments[0];
-      const keyProp = arg.properties.find(
-        (p) => p.name?.getText() === 'key',
-      );
-
-      if (keyProp === undefined) throw new Error('Must provide a key for storage reference');
-      if (!ts.isPropertyAssignment(keyProp) || !ts.isStringLiteral(keyProp.initializer)) throw new Error('Key must be a string literal');
-
-      const props: StorageProp = {
-        type: klass.toLowerCase().replace('reference', ''),
-        key: keyProp.initializer.text,
-        keyType: 'string',
-        valueType: getABIType(node.initializer.typeArguments![0].getText()),
-      };
-
-      const sizeProp = arg.properties.find(
-        (p) => p.name?.getText() === 'defaultSize',
-      );
-      if (sizeProp) props.defaultSize = parseInt(sizeProp.name!.getText(), 10);
+      if (!props.key && klass.includes('Reference')) {
+        props.key = node.name.getText();
+      }
 
       this.storageProps[node.name.getText()] = props;
     } else {
@@ -1526,6 +2242,13 @@ export default class Compiler {
     chain.forEach((n) => {
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
+        return;
+      }
+
+      const expressionType = this.getStackTypeFromNode(n.expression);
+      if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+        const { index } = this.getObjectTypeAndIndex(expressionType, n.name.getText());
+        this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
         return;
       }
 
@@ -1576,13 +2299,13 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
 
-      let type = getABIType(p.type.getText());
+      let type = this.getABIType(p.type.getText());
 
       if (type.startsWith('Static')) {
-        type = getABIType(type);
+        type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace('string', 'bytes') };
       this.frameIndex -= 1;
     });
 
@@ -1694,7 +2417,7 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.parameters).reverse().forEach((p) => {
-      const type = getABIType(p!.type!.getText());
+      const type = this.getABIType(p!.type!.getText());
       let abiType = type;
 
       if (type.includes('txn')) {
@@ -1721,9 +2444,11 @@ export default class Compiler {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
+      } else if (type === 'string') {
+        this.pushVoid('extract 2 0');
       }
 
-      args.push({ name: p.name.getText(), type: getABIType(abiType), desc: '' });
+      args.push({ name: p.name.getText(), type: this.getABIType(abiType), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
@@ -1813,7 +2538,7 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => getABITupleString(getABIType(t.getText())),
+        (t) => getABITupleString(this.getABIType(t.getText())),
       );
 
       let returnType = node.typeArguments![1].getText();
@@ -1848,7 +2573,7 @@ export default class Compiler {
       } else if (key === 'methodArgs') {
         if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
         const argTypes = node.typeArguments[0].elements.map(
-          (t) => getABIType(t.getText()),
+          (t) => this.getABIType(t.getText()),
         );
 
         let accountIndex = 1;
@@ -1908,7 +2633,7 @@ export default class Compiler {
         'extract 4 0',
       );
 
-      const returnType = getABIType(node.typeArguments![1].getText());
+      const returnType = this.getABIType(node.typeArguments![1].getText());
       if (isNumeric(returnType)) this.pushVoid('btoi');
       this.lastType = returnType;
     } else if (node.expression.getText() === 'sendAssetCreation') {
@@ -1999,8 +2724,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      // eslint-disable-next-line no-console
-      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      // console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

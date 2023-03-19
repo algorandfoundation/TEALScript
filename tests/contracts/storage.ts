@@ -16,9 +16,9 @@ class StorageTest extends Contract {
 
   localMap = new LocalMap<bytes, bytes>();
 
-  boxRef = new BoxReference<bytes>({ key: 'foo' });
+  boxRef = new BoxReference<bytes>({ key: 'foo', dynamicSize: false });
 
-  boxMap = new BoxMap<bytes, bytes>();
+  boxMap = new BoxMap<bytes, bytes>({ dynamicSize: false });
 
   globalRefPut(): void {
     this.globalRef.put('bar');

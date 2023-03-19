@@ -7,29 +7,50 @@ import { expect } from 'chai';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import Compiler from '../src/lib/compiler';
 
-['Master', 'Vault'].forEach((className) => {
-  describe(`ARC12 ${className}`, function () {
+function exampleTest(
+  testName: string,
+  sourcePath: string,
+  artifactsPath: string,
+  className: string,
+) {
+  describe(`${testName} ${className}`, function () {
     before(async function () {
-      const content = fs.readFileSync('examples/arc12/arc12.ts', 'utf-8');
-      this.compiler = new Compiler(content, className, 'examples/arc12/arc12.ts');
+      const content = fs.readFileSync(sourcePath, 'utf-8');
+      this.compiler = new Compiler(content, className, sourcePath);
       await this.compiler.compile();
       await this.compiler.algodCompile();
     });
 
     it('Generates TEAL', function () {
-      expect(this.compiler.approvalProgram()).to.equal(fs.readFileSync(`examples/arc12/${className}.approval.teal`, 'utf-8'));
+      expect(this.compiler.approvalProgram()).to.equal(fs.readFileSync(`${artifactsPath}.approval.teal`, 'utf-8'));
     });
 
     it('Generates Sourcemap', function () {
-      expect(this.compiler.pcToLine).to.deep.equal(JSON.parse(fs.readFileSync(`examples/arc12/${className}.src_map.json`, 'utf-8')));
+      expect(this.compiler.pcToLine).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}.src_map.json`, 'utf-8')));
     });
 
     it('Generates ABI JSON', function () {
-      expect(this.compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`examples/arc12/${className}.abi.json`, 'utf-8')));
+      expect(this.compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}.abi.json`, 'utf-8')));
     });
 
     it('Generates App Spec', function () {
-      expect(this.compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`examples/arc12/${className}.json`, 'utf-8')));
+      expect(this.compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}.json`, 'utf-8')));
     });
   });
+}
+
+exampleTest('AMM', 'examples/amm/amm.ts', 'examples/amm/tealscript_artifacts/ConstantProductAMM', 'ConstantProductAMM');
+
+['Master', 'Vault'].forEach((className) => {
+  exampleTest('ARC12', 'examples/arc12/arc12.ts', `examples/arc12/${className}`, className);
 });
+
+exampleTest('Auction', 'examples/auction/auction.ts', 'examples/auction/tealscript_artifacts/Auction', 'Auction');
+
+['FactoryCaller', 'NFTFactory'].forEach((className) => {
+  exampleTest('Inner Transactions', 'examples/itxns/itxns.ts', `examples/itxns/artifacts/${className}`, className);
+});
+
+exampleTest('Simple', 'examples/simple/simple.ts', 'examples/simple/artifacts/Simple', 'Simple');
+
+exampleTest('Tuple In Box', 'examples/tuple_in_box/app.ts', 'examples/tuple_in_box/tealscript_artifacts/ContactsApp', 'ContactsApp');
