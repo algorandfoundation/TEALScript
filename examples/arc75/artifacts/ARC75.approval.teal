@@ -79,7 +79,7 @@ sendMBRPayment:
 	itxn_submit
 	retsub
 
-abi_route_addCollectionToWhiteList:
+abi_route_addAppToWhiteList:
 	txn OnCompletion
 	int NoOp
 	==
@@ -94,14 +94,14 @@ abi_route_addCollectionToWhiteList:
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
-	callsub addCollectionToWhiteList
+	callsub addAppToWhiteList
 	int 1
 	return
 
-addCollectionToWhiteList:
+addAppToWhiteList:
 	proto 8 0
 
-	// examples/arc75/arc75.ts:39
+	// examples/arc75/arc75.ts:40
 	// preMBR = this.app.address.minBalance
 	txna Applications 0
 	app_params_get AppAddress
@@ -110,10 +110,10 @@ addCollectionToWhiteList:
 	assert
 	frame_bury -5 // preMBR: uint64
 
-	// examples/arc75/arc75.ts:40
-	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc }
+	// examples/arc75/arc75.ts:41
+	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
 	txn Sender
-	frame_dig -2 // id: uint16
+	frame_dig -2 // boxIndex: uint16
 	concat
 	store 11 // static elements
 	byte 0x0024 // head end
@@ -141,7 +141,7 @@ addCollectionToWhiteList:
 	frame_bury -6 // whitelist: Whitelist
 
 	// if0_condition
-	// examples/arc75/arc75.ts:42
+	// examples/arc75/arc75.ts:43
 	// this.whitelist.exists(whitelist)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
@@ -150,8 +150,8 @@ addCollectionToWhiteList:
 	bz if0_else
 
 	// if0_consequent
-	// examples/arc75/arc75.ts:43
-	// this.whitelist.get(whitelist).push(collection)
+	// examples/arc75/arc75.ts:44
+	// this.whitelist.get(whitelist).push(appID)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
@@ -165,7 +165,7 @@ addCollectionToWhiteList:
 	swap
 	extract 2 0
 	concat
-	frame_dig -3 // collection: uint64
+	frame_dig -3 // appID: uint64
 	itob
 	concat
 	frame_dig -6 // whitelist: Whitelist
@@ -177,15 +177,15 @@ addCollectionToWhiteList:
 	b if0_end
 
 if0_else:
-	// examples/arc75/arc75.ts:45
-	// newWhitelist: uint64[] = [collection]
+	// examples/arc75/arc75.ts:46
+	// newWhitelist: uint64[] = [appID]
 	byte 0x0001
-	frame_dig -3 // collection: uint64
+	frame_dig -3 // appID: uint64
 	itob
 	concat
 	frame_bury -7 // newWhitelist: uint64[]
 
-	// examples/arc75/arc75.ts:46
+	// examples/arc75/arc75.ts:47
 	// this.whitelist.put(whitelist, newWhitelist)
 	frame_dig -6 // whitelist: Whitelist
 	dup
@@ -195,7 +195,7 @@ if0_else:
 	box_put
 
 if0_end:
-	// examples/arc75/arc75.ts:49
+	// examples/arc75/arc75.ts:50
 	// this.verifyMBRPayment(payment, preMBR)
 	byte 0x
 	dupn 1
@@ -204,7 +204,7 @@ if0_end:
 	callsub verifyMBRPayment
 	retsub
 
-abi_route_setCollectionWhitelist:
+abi_route_setAppWhitelist:
 	txn OnCompletion
 	int NoOp
 	==
@@ -215,14 +215,14 @@ abi_route_setCollectionWhitelist:
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
-	callsub setCollectionWhitelist
+	callsub setAppWhitelist
 	int 1
 	return
 
-setCollectionWhitelist:
+setAppWhitelist:
 	proto 6 0
 
-	// examples/arc75/arc75.ts:61
+	// examples/arc75/arc75.ts:62
 	// preMBR = this.app.address.minBalance
 	txna Applications 0
 	app_params_get AppAddress
@@ -231,10 +231,10 @@ setCollectionWhitelist:
 	assert
 	frame_bury -4 // preMBR: uint64
 
-	// examples/arc75/arc75.ts:62
-	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc }
+	// examples/arc75/arc75.ts:63
+	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
 	txn Sender
-	frame_dig -2 // id: uint16
+	frame_dig -2 // boxIndex: uint16
 	concat
 	store 11 // static elements
 	byte 0x0024 // head end
@@ -261,22 +261,22 @@ setCollectionWhitelist:
 	concat
 	frame_bury -5 // whitelist: Whitelist
 
-	// examples/arc75/arc75.ts:64
+	// examples/arc75/arc75.ts:65
 	// this.whitelist.delete(whitelist)
 	frame_dig -5 // whitelist: Whitelist
 	box_del
 
-	// examples/arc75/arc75.ts:66
-	// this.whitelist.put(whitelist, collections)
+	// examples/arc75/arc75.ts:67
+	// this.whitelist.put(whitelist, appIDs)
 	frame_dig -5 // whitelist: Whitelist
 	dup
 	box_del
 	pop
-	frame_dig -3 // collections: uint64[]
+	frame_dig -3 // appIDs: uint64[]
 	box_put
 
 	// if1_condition
-	// examples/arc75/arc75.ts:68
+	// examples/arc75/arc75.ts:69
 	// preMBR > this.app.address.minBalance
 	frame_dig -4 // preMBR: uint64
 	txna Applications 0
@@ -288,7 +288,7 @@ setCollectionWhitelist:
 	bz if1_else
 
 	// if1_consequent
-	// examples/arc75/arc75.ts:69
+	// examples/arc75/arc75.ts:70
 	// this.sendMBRPayment(preMBR)
 	byte 0x
 	dupn 1
@@ -297,7 +297,7 @@ setCollectionWhitelist:
 	b if1_end
 
 if1_else:
-	// examples/arc75/arc75.ts:71
+	// examples/arc75/arc75.ts:72
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
 	byte 0x
 	dupn 1
@@ -327,7 +327,7 @@ abi_route_deleteWhitelist:
 deleteWhitelist:
 	proto 5 0
 
-	// examples/arc75/arc75.ts:82
+	// examples/arc75/arc75.ts:84
 	// preMBR = this.app.address.minBalance
 	txna Applications 0
 	app_params_get AppAddress
@@ -336,10 +336,10 @@ deleteWhitelist:
 	assert
 	frame_bury -3 // preMBR: uint64
 
-	// examples/arc75/arc75.ts:83
-	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc }
+	// examples/arc75/arc75.ts:85
+	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
 	txn Sender
-	frame_dig -2 // id: uint16
+	frame_dig -2 // boxIndex: uint16
 	concat
 	store 11 // static elements
 	byte 0x0024 // head end
@@ -366,12 +366,12 @@ deleteWhitelist:
 	concat
 	frame_bury -4 // whitelist: Whitelist
 
-	// examples/arc75/arc75.ts:85
+	// examples/arc75/arc75.ts:87
 	// this.whitelist.delete(whitelist)
 	frame_dig -4 // whitelist: Whitelist
 	box_del
 
-	// examples/arc75/arc75.ts:87
+	// examples/arc75/arc75.ts:89
 	// this.sendMBRPayment(preMBR)
 	byte 0x
 	dupn 1
@@ -379,7 +379,7 @@ deleteWhitelist:
 	callsub sendMBRPayment
 	retsub
 
-abi_route_deleteCollectionFromWhitelist:
+abi_route_deleteAppFromWhitelist:
 	txn OnCompletion
 	int NoOp
 	==
@@ -393,14 +393,14 @@ abi_route_deleteCollectionFromWhitelist:
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
-	callsub deleteCollectionFromWhitelist
+	callsub deleteAppFromWhitelist
 	int 1
 	return
 
-deleteCollectionFromWhitelist:
+deleteAppFromWhitelist:
 	proto 8 0
 
-	// examples/arc75/arc75.ts:99
+	// examples/arc75/arc75.ts:101
 	// preMBR = this.app.address.minBalance
 	txna Applications 0
 	app_params_get AppAddress
@@ -409,10 +409,10 @@ deleteCollectionFromWhitelist:
 	assert
 	frame_bury -5 // preMBR: uint64
 
-	// examples/arc75/arc75.ts:100
-	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc }
+	// examples/arc75/arc75.ts:102
+	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
 	txn Sender
-	frame_dig -2 // id: uint16
+	frame_dig -2 // boxIndex: uint16
 	concat
 	store 11 // static elements
 	byte 0x0024 // head end
@@ -439,7 +439,7 @@ deleteCollectionFromWhitelist:
 	concat
 	frame_bury -6 // whitelist: Whitelist
 
-	// examples/arc75/arc75.ts:102
+	// examples/arc75/arc75.ts:104
 	// spliced = this.whitelist.get(whitelist).splice(index, 1)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
@@ -503,8 +503,8 @@ deleteCollectionFromWhitelist:
 	box_put
 	frame_bury -7 // spliced: uint64[]
 
-	// examples/arc75/arc75.ts:104
-	// assert(spliced[0] === collection)
+	// examples/arc75/arc75.ts:106
+	// assert(spliced[0] === appID)
 	frame_dig -7 // spliced: uint64[]
 	int 0
 	int 8
@@ -514,11 +514,11 @@ deleteCollectionFromWhitelist:
 	int 8
 	extract3
 	btoi
-	frame_dig -3 // collection: uint64
+	frame_dig -3 // appID: uint64
 	==
 	assert
 
-	// examples/arc75/arc75.ts:106
+	// examples/arc75/arc75.ts:108
 	// this.sendMBRPayment(preMBR)
 	byte 0x
 	dupn 1
@@ -536,9 +536,9 @@ main:
 	match bare_route_create
 
 route_abi:
-	method "addCollectionToWhiteList(string,uint16,uint64,pay)void"
-	method "setCollectionWhitelist(string,uint16,uint64[])void"
+	method "addAppToWhiteList(string,uint16,uint64,pay)void"
+	method "setAppWhitelist(string,uint16,uint64[])void"
 	method "deleteWhitelist(string,uint16)void"
-	method "deleteCollectionFromWhitelist(string,uint16,uint64,uint64)void"
+	method "deleteAppFromWhitelist(string,uint16,uint64,uint64)void"
 	txna ApplicationArgs 0
-	match abi_route_addCollectionToWhiteList abi_route_setCollectionWhitelist abi_route_deleteWhitelist abi_route_deleteCollectionFromWhitelist
+	match abi_route_addAppToWhiteList abi_route_setAppWhitelist abi_route_deleteWhitelist abi_route_deleteAppFromWhitelist

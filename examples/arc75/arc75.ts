@@ -28,21 +28,22 @@ class ARC75 extends Contract {
   }
 
   /**
-   * Add collection to whitelist box
+   * Add app to whitelist box
    *
-   * @param id - The id of the senders's whitelist to add the collection to
-   * @param collection - The app ID of the ARC72 contract for the collection
+   * @param arc - The ARC the whitelist corresponds to
+   * @param boxIndex - The index of the whitelist box to add the app to
+   * @param appID - The app ID to add to the whitelist
    * @param payment - The payment transaction to cover the MBR change
    *
    */
-  addCollectionToWhiteList(arc: string, id: uint16, collection: uint64, payment: PayTxn): void {
+  addAppToWhiteList(arc: string, boxIndex: uint16, appID: uint64, payment: PayTxn): void {
     const preMBR = this.app.address.minBalance;
-    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
     if (this.whitelist.exists(whitelist)) {
-      this.whitelist.get(whitelist).push(collection);
+      this.whitelist.get(whitelist).push(appID);
     } else {
-      const newWhitelist: uint64[] = [collection];
+      const newWhitelist: uint64[] = [appID];
       this.whitelist.put(whitelist, newWhitelist);
     }
 
@@ -50,20 +51,20 @@ class ARC75 extends Contract {
   }
 
   /**
-   * Sets a collection whitelist for the sender. Should only be used when adding/removing
-   * more than one collection
+   * Sets a app whitelist for the sender. Should only be used when adding/removing
+   * more than one app
    *
-   * @param id - The id of the sender's whitelist to set
-   * @param collections - Array of app IDs that signify the whitelisted collections
+   * @param boxIndex - The index of the whitelist box to put the app IDs in
+   * @param appIDs - Array of app IDs that signify the whitelisted apps
    *
    */
-  setCollectionWhitelist(arc: string, id: uint16, collections: uint64[]): void {
+  setAppWhitelist(arc: string, boxIndex: uint16, appIDs: uint64[]): void {
     const preMBR = this.app.address.minBalance;
-    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
     this.whitelist.delete(whitelist);
 
-    this.whitelist.put(whitelist, collections);
+    this.whitelist.put(whitelist, appIDs);
 
     if (preMBR > this.app.address.minBalance) {
       this.sendMBRPayment(preMBR);
@@ -73,14 +74,15 @@ class ARC75 extends Contract {
   }
 
   /**
-   * Deletes a collection whitelist for the sender
+   * Deletes a app whitelist for the sender
    *
-   * @param id - The id of the sender's whitelist to delete
+   * @param arc - The ARC the whitelist corresponds to
+   * @param boxIndex - The index of the whitelist box to delete
    *
    */
-  deleteWhitelist(arc: string, id: uint16): void {
+  deleteWhitelist(arc: string, boxIndex: uint16): void {
     const preMBR = this.app.address.minBalance;
-    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
     this.whitelist.delete(whitelist);
 
@@ -88,20 +90,20 @@ class ARC75 extends Contract {
   }
 
   /**
-   * Deletes a collection from a whitelist for the sender
+   * Deletes a app from a whitelist for the sender
    *
-   * @param id - The id of the sender's whitelist to delete from
-   * @param collection - The app ID of the ARC72 contract for the collection
-   * @param index - The index of the collection in the whitelist
+   * @param boxIndex - The index of the whitelist box to delete from
+   * @param appID - The app ID to delete from the whitelist
+   * @param index - The index of the app in the whitelist
    *
    */
-  deleteCollectionFromWhitelist(arc: string, id: uint16, collection: uint64, index: uint64): void {
+  deleteAppFromWhitelist(arc: string, boxIndex: uint16, appID: uint64, index: uint64): void {
     const preMBR = this.app.address.minBalance;
-    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
     const spliced = this.whitelist.get(whitelist).splice(index, 1);
 
-    assert(spliced[0] === collection);
+    assert(spliced[0] === appID);
 
     this.sendMBRPayment(preMBR);
   }

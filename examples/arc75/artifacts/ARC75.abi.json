@@ -3,7 +3,7 @@
   "desc": "",
   "methods": [
     {
-      "name": "addCollectionToWhiteList",
+      "name": "addAppToWhiteList",
       "args": [
         {
           "name": "arc",
@@ -11,12 +11,12 @@
           "desc": ""
         },
         {
-          "name": "id",
+          "name": "boxIndex",
           "type": "uint16",
           "desc": ""
         },
         {
-          "name": "collection",
+          "name": "appID",
           "type": "uint64",
           "desc": ""
         },
@@ -33,7 +33,7 @@
       }
     },
     {
-      "name": "setCollectionWhitelist",
+      "name": "setAppWhitelist",
       "args": [
         {
           "name": "arc",
@@ -41,12 +41,12 @@
           "desc": ""
         },
         {
-          "name": "id",
+          "name": "boxIndex",
           "type": "uint16",
           "desc": ""
         },
         {
-          "name": "collections",
+          "name": "appIDs",
           "type": "uint64[]",
           "desc": ""
         }
@@ -66,7 +66,7 @@
           "desc": ""
         },
         {
-          "name": "id",
+          "name": "boxIndex",
           "type": "uint16",
           "desc": ""
         }
@@ -78,7 +78,7 @@
       }
     },
     {
-      "name": "deleteCollectionFromWhitelist",
+      "name": "deleteAppFromWhitelist",
       "args": [
         {
           "name": "arc",
@@ -86,12 +86,12 @@
           "desc": ""
         },
         {
-          "name": "id",
+          "name": "boxIndex",
           "type": "uint16",
           "desc": ""
         },
         {
-          "name": "collection",
+          "name": "appID",
           "type": "uint64",
           "desc": ""
         },
