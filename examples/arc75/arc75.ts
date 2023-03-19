@@ -1,11 +1,14 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
 
 import { Contract } from '../../src/lib/index';
 
+type Whitelist = {account: Account, boxIndex: uint16, arc: string};
+
 // eslint-disable-next-line no-unused-vars
 class ARC75 extends Contract {
-  whitelist = new BoxMap<[Account, uint16], uint64[]>({ defaultSize: 10 });
+  whitelist = new BoxMap<Whitelist, uint64[]>({ defaultSize: 10 });
 
   @createApplication
   create(): void {}
@@ -32,19 +35,15 @@ class ARC75 extends Contract {
    * @param payment - The payment transaction to cover the MBR change
    *
    */
-  addCollectionToWhiteList(id: uint16, collection: uint64, payment: PayTxn): void {
+  addCollectionToWhiteList(arc: string, id: uint16, collection: uint64, payment: PayTxn): void {
     const preMBR = this.app.address.minBalance;
-    const key: [Account, uint16] = [this.txn.sender, id];
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
 
-    if (this.whitelist.exists(key)) {
-      const whitelist = this.whitelist.get(key);
-      this.whitelist.delete(key);
-
-      whitelist.push(collection);
-      this.whitelist.put(key, whitelist);
+    if (this.whitelist.exists(whitelist)) {
+      this.whitelist.get(whitelist).push(collection);
     } else {
-      const whitelist: uint64[] = [collection];
-      this.whitelist.put(key, whitelist);
+      const newWhitelist: uint64[] = [collection];
+      this.whitelist.put(whitelist, newWhitelist);
     }
 
     this.verifyMBRPayment(payment, preMBR);
@@ -58,13 +57,13 @@ class ARC75 extends Contract {
    * @param collections - Array of app IDs that signify the whitelisted collections
    *
    */
-  setCollectionWhitelist(id: uint16, collections: uint64[]): void {
+  setCollectionWhitelist(arc: string, id: uint16, collections: uint64[]): void {
     const preMBR = this.app.address.minBalance;
-    const key: [Account, uint16] = [this.txn.sender, id];
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
 
-    this.whitelist.delete(key);
+    this.whitelist.delete(whitelist);
 
-    this.whitelist.put(key, collections);
+    this.whitelist.put(whitelist, collections);
 
     if (preMBR > this.app.address.minBalance) {
       this.sendMBRPayment(preMBR);
@@ -79,11 +78,11 @@ class ARC75 extends Contract {
    * @param id - The id of the sender's whitelist to delete
    *
    */
-  deleteWhitelist(id: uint16): void {
+  deleteWhitelist(arc: string, id: uint16): void {
     const preMBR = this.app.address.minBalance;
-    const key: [Account, uint16] = [this.txn.sender, id];
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
 
-    this.whitelist.delete(key);
+    this.whitelist.delete(whitelist);
 
     this.sendMBRPayment(preMBR);
   }
@@ -96,16 +95,11 @@ class ARC75 extends Contract {
    * @param index - The index of the collection in the whitelist
    *
    */
-  deleteCollectionFromWhitelist(id: uint16, collection: uint64, index: uint64): void {
+  deleteCollectionFromWhitelist(arc: string, id: uint16, collection: uint64, index: uint64): void {
     const preMBR = this.app.address.minBalance;
-    const key: [Account, uint16] = [this.txn.sender, id];
+    const whitelist: Whitelist = { account: this.txn.sender, boxIndex: id, arc: arc };
 
-    const whitelist = this.whitelist.get(key);
-    this.whitelist.delete(key);
-
-    const spliced = whitelist.splice(index, 1);
-
-    this.whitelist.put(key, whitelist);
+    const spliced = this.whitelist.get(whitelist).splice(index, 1);
 
     assert(spliced[0] === collection);
 

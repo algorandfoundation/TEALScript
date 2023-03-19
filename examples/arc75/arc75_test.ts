@@ -7,22 +7,23 @@ import algosdk from 'algosdk';
 import { ARC75 } from './arc75_client';
 
 let appClient: ARC75;
+const ARC = 'ARCX';
 
-function getBoxRef(id: number) {
-  const keyType = algosdk.ABIType.from('(address,uint16)');
+function getBoxRef(id: number, arc: string) {
+  const keyType = algosdk.ABIType.from('(address,uint16,string)');
 
   return {
     appIndex: 0,
-    name: keyType.encode([appClient.sender, BigInt(id)]),
+    name: keyType.encode([appClient.sender, BigInt(id), arc]),
   };
 }
 
-async function getBoxValue(id: number) {
+async function getBoxValue(id: number, arc: string) {
   const valueType = algosdk.ABIType.from('uint64[]');
-  return valueType.decode(await appClient.getApplicationBox(getBoxRef(id).name));
+  return valueType.decode(await appClient.getApplicationBox(getBoxRef(id, arc).name));
 }
 
-async function addCollection(mbr: number, id: number, collection: number) {
+async function addCollection(mbr: number, id: number, collection: number, arc: string) {
   const payment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
     from: appClient.sender,
     to: appClient.appAddress,
@@ -32,12 +33,13 @@ async function addCollection(mbr: number, id: number, collection: number) {
 
   await appClient.addCollectionToWhiteList(
     {
+      arc: ARC,
       id: BigInt(id),
       collection: BigInt(collection),
       payment,
     },
     {
-      boxes: [getBoxRef(id)],
+      boxes: [getBoxRef(id, arc)],
     },
   );
 }
@@ -61,11 +63,11 @@ async function setCollections(mbr: number, id: number, collections: number[]) {
   atc.addMethodCall({
     appID: appClient.appId,
     method: algosdk.getMethodByName(appClient.methods, 'setCollectionWhitelist'),
-    methodArgs: [BigInt(id), collections.map((c) => BigInt(c))],
+    methodArgs: [ARC, BigInt(id), collections.map((c) => BigInt(c))],
     sender: appClient.sender,
     signer: appClient.signer,
     suggestedParams: sp,
-    boxes: [getBoxRef(id)],
+    boxes: [getBoxRef(id, ARC)],
   });
 
   await atc.execute(appClient.client, 3);
@@ -101,35 +103,35 @@ describe('ABI', function () {
   });
 
   it('initializeWithAdd', async function () {
-    await addCollection(20100, id, 11);
-    const boxValue = await getBoxValue(id);
+    await addCollection(23300, id, 11, ARC);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(11)]);
   });
 
   it('mutliAdd', async function () {
-    await addCollection(20100, id, 11);
-    await addCollection(3200, id, 22);
-    const boxValue = await getBoxValue(id);
+    await addCollection(23300, id, 11, ARC);
+    await addCollection(3200, id, 22, ARC);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(11), BigInt(22)]);
   });
 
   it('initializeWithSet', async function () {
-    await setCollections(20100, id, [11]);
+    await setCollections(23300, id, [11]);
 
-    const boxValue = await getBoxValue(id);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(11)]);
   });
 
   it('addTwoWithSet', async function () {
-    await setCollections(20100, id, [11]);
+    await setCollections(23300, id, [11]);
     await setCollections(3200 * 2, id, [11, 22, 33]);
 
-    const boxValue = await getBoxValue(id);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
   it('removeWithSet', async function () {
-    await setCollections(20100 + 3200 * 2, id, [11, 22, 33]);
+    await setCollections(23300 + 3200 * 2, id, [11, 22, 33]);
 
     const preBalance = (
       await clients.sandboxAlgod().accountInformation(appClient.sender).do()
@@ -141,7 +143,7 @@ describe('ABI', function () {
       await clients.sandboxAlgod().accountInformation(appClient.sender).do()
     ).amount;
 
-    const boxValue = await getBoxValue(id);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(44)]);
     expect(balance - preBalance).to.equal(3200 * 2 - 2_000);
   });
@@ -151,12 +153,12 @@ describe('ABI', function () {
       await clients.sandboxAlgod().accountInformation(appClient.sender).do()
     ).amount;
 
-    await setCollections(20100 + 3200 * 2, id, [11, 22, 33]);
+    await setCollections(23300 + 3200 * 2, id, [11, 22, 33]);
 
     await appClient.deleteWhitelist(
-      { id: BigInt(id) },
+      { arc: ARC, id: BigInt(id) },
       {
-        boxes: [getBoxRef(id)],
+        boxes: [getBoxRef(id, ARC)],
         suggestedParams: {
           ...(await appClient.client.getTransactionParams().do()),
           fee: 2_000,
@@ -173,16 +175,18 @@ describe('ABI', function () {
   });
 
   it('deleteCollection', async function () {
-    await setCollections(20100 + 3200 * 2, id, [11, 22, 33]);
+    await setCollections(23300 + 3200 * 2, id, [11, 22, 33]);
 
     const preBalance = (
       await clients.sandboxAlgod().accountInformation(appClient.sender).do()
     ).amount;
 
     await appClient.deleteCollectionFromWhitelist(
-      { id: BigInt(id), collection: BigInt(22), index: BigInt(1) },
       {
-        boxes: [getBoxRef(id)],
+        arc: ARC, id: BigInt(id), collection: BigInt(22), index: BigInt(1),
+      },
+      {
+        boxes: [getBoxRef(id, ARC)],
         suggestedParams: {
           ...(await appClient.client.getTransactionParams().do()),
           fee: 2_000,
@@ -195,7 +199,7 @@ describe('ABI', function () {
       await clients.sandboxAlgod().accountInformation(appClient.sender).do()
     ).amount;
 
-    const boxValue = await getBoxValue(id);
+    const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).to.deep.equal([BigInt(11), BigInt(33)]);
 
     expect(balance - preBalance).to.equal(3_200 - 2_000);

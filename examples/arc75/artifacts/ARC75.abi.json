@@ -6,6 +6,11 @@
       "name": "addCollectionToWhiteList",
       "args": [
         {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
           "name": "id",
           "type": "uint16",
           "desc": ""
@@ -31,6 +36,11 @@
       "name": "setCollectionWhitelist",
       "args": [
         {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
           "name": "id",
           "type": "uint16",
           "desc": ""
@@ -51,6 +61,11 @@
       "name": "deleteWhitelist",
       "args": [
         {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
           "name": "id",
           "type": "uint16",
           "desc": ""
@@ -65,6 +80,11 @@
     {
       "name": "deleteCollectionFromWhitelist",
       "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
         {
           "name": "id",
           "type": "uint16",
