@@ -10,7 +10,7 @@
     "simple-run": "npx tsx examples/simple/index.ts",
     "simple": "yarn simple-gen && yarn simple-run",
     "test": "yarn pre-test && nyc --reporter=html mocha --timeout 10000 -r ts-node/register --exclude 'tests/examples.test.ts' 'tests/**/*.test.ts'",
-    "test-examples": "mocha --timeout 10000 -r ts-node/register 'tests/examples.test.ts'",
+    "test-example-artifacts": "mocha --timeout 10000 -r ts-node/register 'tests/examples.test.ts'",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
@@ -20,12 +20,14 @@
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
     "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.ts examples/amm/tealscript_artifacts",
     "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.ts",
+    "compile-arc75": "tsx src/bin/tealscript.ts examples/arc75/arc75.ts examples/arc75/artifacts",
     "compile-auction": "tsx ./src/bin/tealscript.ts examples/auction/auction.ts examples/auction/tealscript_artifacts",
     "compile-itxns": "tsx ./src/bin/tealscript.ts examples/itxns/itxns.ts examples/itxns/artifacts && beaker generate examples/itxns/artifacts/FactoryCaller.json examples/itxns/beaker-client && tsx examples/itxns/demo.ts",
     "compile-simple": "tsx ./src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts",
     "compile-tuple_in_box": "tsx ./src/bin/tealscript.ts examples/tuple_in_box/app.ts examples/tuple_in_box/tealscript_artifacts",
     "run-tuple_in_box": "yarn compile-tuple_in_box && beaker generate ./examples/tuple_in_box/tealscript_artifacts/ContactsApp.json ./examples/tuple_in_box/tealscript_artifacts && tsx ./examples/tuple_in_box/client.ts",
-    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box"
+    "test-arc75": "yarn compile-arc75 && beaker generate examples/arc75/artifacts/ARC75.json examples/arc75/ && mocha --timeout 10000 -r ts-node/register 'examples/arc75/arc75_test.ts'",
+    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box"
   },
   "dependencies": {
     "algosdk": "^2.0.0",

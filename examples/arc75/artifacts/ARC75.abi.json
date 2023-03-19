@@ -1,0 +1,91 @@
+{
+  "name": "ARC75",
+  "desc": "",
+  "methods": [
+    {
+      "name": "addCollectionToWhiteList",
+      "args": [
+        {
+          "name": "id",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "collection",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "payment",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "setCollectionWhitelist",
+      "args": [
+        {
+          "name": "id",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "collections",
+          "type": "uint64[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteWhitelist",
+      "args": [
+        {
+          "name": "id",
+          "type": "uint16",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteCollectionFromWhitelist",
+      "args": [
+        {
+          "name": "id",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "collection",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "index",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}
