@@ -1,0 +1,111 @@
+{
+  "name": "ARC75",
+  "desc": "",
+  "methods": [
+    {
+      "name": "addAppToWhiteList",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "appID",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "payment",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "setAppWhitelist",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "appIDs",
+          "type": "uint64[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteWhitelist",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteAppFromWhitelist",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": ""
+        },
+        {
+          "name": "appID",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "index",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

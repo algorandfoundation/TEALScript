@@ -45,6 +45,8 @@ exampleTest('AMM', 'examples/amm/amm.ts', 'examples/amm/tealscript_artifacts/Con
   exampleTest('ARC12', 'examples/arc12/arc12.ts', `examples/arc12/${className}`, className);
 });
 
+exampleTest('ARC75', 'examples/arc75/arc75.ts', 'examples/arc75/artifacts/ARC75', 'ARC75');
+
 exampleTest('Auction', 'examples/auction/auction.ts', 'examples/auction/tealscript_artifacts/Auction', 'Auction');
 
 ['FactoryCaller', 'NFTFactory'].forEach((className) => {
