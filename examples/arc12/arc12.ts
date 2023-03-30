@@ -151,7 +151,7 @@ class Master extends Contract {
     /// Create the vault
     sendMethodCall<[Account, Account], void>({
       name: 'create',
-      OnCompletion: 'NoOp',
+      onCompletion: 'NoOp',
       fee: 0,
       methodArgs: [receiver, this.txn.sender],
       clearStateProgram: this.app.clearStateProgram,
@@ -211,7 +211,7 @@ class Master extends Contract {
     /// Call delete on the vault
     sendAppCall({
       applicationID: vault,
-      OnCompletion: 'DeleteApplication',
+      onCompletion: 'DeleteApplication',
       fee: 0,
     });
 

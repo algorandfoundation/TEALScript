@@ -33,7 +33,7 @@ mintAndGetAsset:
 	itxn_field TypeEnum
 
 	// examples/itxns/itxns.ts:39
-	// OnCompletion: 'NoOp'
+	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
@@ -105,7 +105,7 @@ mintAndGetAsset:
 	itxn_field ApplicationArgs
 
 	// examples/itxns/itxns.ts:57
-	// OnCompletion: 'NoOp'
+	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
@@ -185,7 +185,7 @@ mintAndGetAsset:
 	itxn_field Fee
 
 	// examples/itxns/itxns.ts:73
-	// OnCompletion: 'NoOp'
+	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 	itxn_submit

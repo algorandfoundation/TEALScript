@@ -36,7 +36,7 @@ class FactoryCaller extends Contract {
 
   mintAndGetAsset(): Asset {
     sendAppCall({
-      OnCompletion: 'NoOp',
+      onCompletion: 'NoOp',
       fee: 0,
       clearStateProgram: this.app.clearStateProgram,
       approvalProgram: NFTFactory,
@@ -54,7 +54,7 @@ class FactoryCaller extends Contract {
       applicationID: factoryApp,
       name: 'createNFT',
       methodArgs: ['My NFT', 'MNFT'],
-      OnCompletion: 'NoOp',
+      onCompletion: 'NoOp',
       fee: 0,
     });
 
@@ -70,7 +70,7 @@ class FactoryCaller extends Contract {
       name: 'transferNFT',
       methodArgs: [createdAsset, this.app.address],
       fee: 0,
-      OnCompletion: 'NoOp',
+      onCompletion: 'NoOp',
     });
 
     return createdAsset;

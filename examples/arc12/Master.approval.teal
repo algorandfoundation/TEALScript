@@ -89,7 +89,7 @@ createVault:
 	itxn_field ApplicationArgs
 
 	// examples/arc12/arc12.ts:154
-	// OnCompletion: 'NoOp'
+	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
@@ -420,7 +420,7 @@ deleteVault:
 	itxn_field ApplicationID
 
 	// examples/arc12/arc12.ts:214
-	// OnCompletion: 'DeleteApplication'
+	// onCompletion: 'DeleteApplication'
 	int DeleteApplication
 	itxn_field OnCompletion
 

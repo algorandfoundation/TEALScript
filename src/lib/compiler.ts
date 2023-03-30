@@ -2566,7 +2566,7 @@ export default class Compiler {
       this.addSourceComment(p, true);
       this.pushComments(p);
 
-      if (key === 'OnCompletion') {
+      if (key === 'onCompletion') {
         if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer)) throw new Error('OnCompletion key must be a string');
         this.pushVoid(`int ${p.initializer.text}`);
         this.pushVoid('itxn_field OnCompletion');

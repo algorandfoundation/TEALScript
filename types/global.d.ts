@@ -2,11 +2,79 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-classes-per-file */
 
+// https://stackoverflow.com/a/69288824
+private type Expand<T> = T extends (...args: infer A) => infer R
+? (...args: Expand<A>) => Expand<R>
+: T extends infer O
+? { [K in keyof O]: O[K] }
+: never;
+
 declare type byte<N = void> = string
+
 declare type uint8<N = void> = N extends number ? number[] : number;
 declare type uint16<N = void> = N extends number ? number[] : number;
+declare type uint24<N = void> = N extends number ? number[] : number;
+declare type uint32<N = void> = N extends number ? number[] : number;
+declare type uint40<N = void> = N extends number ? number[] : number;
+declare type uint48<N = void> = N extends number ? number[] : number;
+declare type uint56<N = void> = N extends number ? number[] : number;
 declare type uint64<N = void> = N extends number ? number[] : number;
+declare type uint72<N = void> = N extends number ? number[] : number;
+declare type uint80<N = void> = N extends number ? number[] : number;
+declare type uint88<N = void> = N extends number ? number[] : number;
+declare type uint96<N = void> = N extends number ? number[] : number;
+declare type uint104<N = void> = N extends number ? number[] : number;
+declare type uint112<N = void> = N extends number ? number[] : number;
+declare type uint120<N = void> = N extends number ? number[] : number;
+declare type uint128<N = void> = N extends number ? number[] : number;
+declare type uint136<N = void> = N extends number ? number[] : number;
+declare type uint144<N = void> = N extends number ? number[] : number;
+declare type uint152<N = void> = N extends number ? number[] : number;
+declare type uint160<N = void> = N extends number ? number[] : number;
+declare type uint168<N = void> = N extends number ? number[] : number;
+declare type uint176<N = void> = N extends number ? number[] : number;
+declare type uint184<N = void> = N extends number ? number[] : number;
+declare type uint192<N = void> = N extends number ? number[] : number;
+declare type uint200<N = void> = N extends number ? number[] : number;
+declare type uint208<N = void> = N extends number ? number[] : number;
+declare type uint216<N = void> = N extends number ? number[] : number;
+declare type uint224<N = void> = N extends number ? number[] : number;
+declare type uint232<N = void> = N extends number ? number[] : number;
+declare type uint240<N = void> = N extends number ? number[] : number;
+declare type uint248<N = void> = N extends number ? number[] : number;
 declare type uint256<N = void> = N extends number ? number[] : number;
+declare type uint264<N = void> = N extends number ? number[] : number;
+declare type uint272<N = void> = N extends number ? number[] : number;
+declare type uint280<N = void> = N extends number ? number[] : number;
+declare type uint288<N = void> = N extends number ? number[] : number;
+declare type uint296<N = void> = N extends number ? number[] : number;
+declare type uint304<N = void> = N extends number ? number[] : number;
+declare type uint312<N = void> = N extends number ? number[] : number;
+declare type uint320<N = void> = N extends number ? number[] : number;
+declare type uint328<N = void> = N extends number ? number[] : number;
+declare type uint336<N = void> = N extends number ? number[] : number;
+declare type uint344<N = void> = N extends number ? number[] : number;
+declare type uint352<N = void> = N extends number ? number[] : number;
+declare type uint360<N = void> = N extends number ? number[] : number;
+declare type uint368<N = void> = N extends number ? number[] : number;
+declare type uint376<N = void> = N extends number ? number[] : number;
+declare type uint384<N = void> = N extends number ? number[] : number;
+declare type uint392<N = void> = N extends number ? number[] : number;
+declare type uint400<N = void> = N extends number ? number[] : number;
+declare type uint408<N = void> = N extends number ? number[] : number;
+declare type uint416<N = void> = N extends number ? number[] : number;
+declare type uint424<N = void> = N extends number ? number[] : number;
+declare type uint432<N = void> = N extends number ? number[] : number;
+declare type uint440<N = void> = N extends number ? number[] : number;
+declare type uint448<N = void> = N extends number ? number[] : number;
+declare type uint456<N = void> = N extends number ? number[] : number;
+declare type uint464<N = void> = N extends number ? number[] : number;
+declare type uint472<N = void> = N extends number ? number[] : number;
+declare type uint480<N = void> = N extends number ? number[] : number;
+declare type uint488<N = void> = N extends number ? number[] : number;
+declare type uint496<N = void> = N extends number ? number[] : number;
+declare type uint504<N = void> = N extends number ? number[] : number;
+declare type uint512<N = void> = N extends number ? number[] : number;
 
 declare type ufixed64x2<N = void> = N extends number ? number[] : number;
 
@@ -83,11 +151,25 @@ type BytesLike = bytes | Account
 declare class Application {
   constructor(id: uint64)
 
-  address: Account;
+  readonly approvalProgram: bytes;
 
-  clearStateProgram: bytes;
+  readonly clearStateProgram: bytes;
 
-  global(key: BytesLike): any
+  readonly globalNumUint: uint64;
+
+  readonly globalNumByteSlice: uint64;
+
+  readonly localNumUint: uint64;
+
+  readonly localNumByteSlice: uint64;
+
+  readonly extraProgramPages: uint64;
+
+  readonly creator: Account;
+
+  readonly address: Account;
+
+  global(key: BytesLike): BytesLike | IntLike
 }
 
 declare class BoxMap<KeyType, ValueType> {
@@ -171,6 +253,12 @@ interface CommonTransactionParams {
   note?: string
 }
 
+interface OnChainTransactionParams extends CommonTransactionParams {
+  groupIndex: uint64,
+  createdAssetID: Asset,
+  createdApplicationID: Application,
+}
+
 interface AssetTransferParams extends CommonTransactionParams {
   xferAsset: Asset
   assetAmount: uint64
@@ -196,7 +284,7 @@ interface PaymentParams extends CommonTransactionParams {
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
-  OnCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Account[]
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
@@ -218,21 +306,7 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
-interface ThisTxnParams {
-  fee: uint64
-  sender: Account
-  rekeyTo?: Account
-  note?: bytes
-  applicationID: Application
-  OnCompletion: bytes
-  approvalProgram?: bytes
-  clearStateProgram?: bytes
-  globalNumByteSlice?: uint64
-  globalNumUint?: uint64
-  localNumByteSlice?: uint64
-  localNumUint?: uint64
-  groupIndex: uint64
-}
+type ThisTxnParams = OnChainTransactionParams & AppParams & Required<{sender: Account}>
 
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
 
@@ -257,12 +331,13 @@ declare const globals: {
 declare function method(signature: string): bytes
 declare function addr(address: string): Account
 
-declare function sendPayment(params: PaymentParams): void
-declare function sendAppCall(params: AppParams): void
-declare function sendAssetTransfer(params: AssetTransferParams): void
-declare function sendAssetCreation(params: AssetCreateParams): Asset
-// eslint-disable-next-line max-len
-declare function sendMethodCall<ArgsType, ReturnType>(params: MethodCallParams<ArgsType>): ReturnType
+declare function sendPayment(params: Expand<PaymentParams>): void
+declare function sendAppCall(params: Expand<AppParams>): void
+declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void
+declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset
+declare function sendMethodCall<ArgsType, ReturnType>(
+  params: Expand<MethodCallParams<ArgsType>>
+): ReturnType
 declare function btoi(byteslice: BytesLike): uint64
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
