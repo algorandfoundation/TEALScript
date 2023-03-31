@@ -150,6 +150,8 @@ declare class Account {
   assetFrozen(asa: Asset): uint64
 }
 
+type Address = Account
+
 type BytesLike = bytes | Account
 
 declare class Application {

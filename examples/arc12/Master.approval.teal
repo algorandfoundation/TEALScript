@@ -386,16 +386,16 @@ deleteVault:
 	assert
 
 	// examples/arc12/arc12.ts:206
-	// vaultCreator = vault.global('creator') as Account
+	// vaultCreator = vault.global('creator') as Address
 	frame_dig -1 // vault: application
 	byte "creator"
 	app_global_get_ex
 	assert
-	frame_bury -3 // vaultCreator: account
+	frame_bury -3 // vaultCreator: address
 
 	// examples/arc12/arc12.ts:207
 	// assert(vaultCreator === creator)
-	frame_dig -3 // vaultCreator: account
+	frame_dig -3 // vaultCreator: address
 	frame_dig -2 // creator: account
 	==
 	assert
@@ -444,7 +444,7 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:222
 	// receiver: vaultCreator
-	frame_dig -3 // vaultCreator: account
+	frame_dig -3 // vaultCreator: address
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:223

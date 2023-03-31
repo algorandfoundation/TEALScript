@@ -12,7 +12,7 @@ class CounterApp extends Contract {
     counter = new GlobalReference<number>();
 
     // A counter for a specific account incremented on each call stored in a box
-    accountCounters = new BoxMap<Account, number>();
+    accountCounters = new BoxMap<Address, number>();
 
     @create
     create(): void {
