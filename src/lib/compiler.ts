@@ -2240,6 +2240,13 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n) => {
+      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
+        if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
+          this.push('int 0', this.getABIType(n.expression.getText()));
+        } else throw new Error();
+        return;
+      }
+
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
         return;

@@ -12,7 +12,7 @@ create:
 	proto 1 0
 
 	// examples/arc12/arc12.ts:140
-	// assert(this.txn.applicationID === new Application(0))
+	// assert(this.txn.applicationID === Application.zeroIndex)
 	txn ApplicationID
 	int 0
 	==

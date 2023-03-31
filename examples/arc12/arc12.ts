@@ -137,7 +137,7 @@ class Master extends Contract {
 
   @createApplication
   create(): void {
-    assert(this.txn.applicationID === new Application(0));
+    assert(this.txn.applicationID === Application.zeroIndex);
   }
 
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
