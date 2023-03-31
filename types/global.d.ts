@@ -345,7 +345,7 @@ declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset
  * Calling a method and getting the return value
  * ```ts
  * // call createNFT(string,string)uint64
- * (const createdAsset = sendMethodCall<[string, string], Asset>({
+ * const createdAsset = sendMethodCall<[string, string], Asset>({
  *     applicationID: factoryApp,
  *     name: 'createNFT',
  *     methodArgs: ['My NFT', 'MNFT'],
