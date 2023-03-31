@@ -84,6 +84,8 @@ declare type StaticArray<T, N extends number> = T[]
 declare class Asset {
   constructor(id: uint64)
 
+  static readonly zeroIndex: Asset;
+
   readonly total: uint64;
 
   readonly decimals: uint64;
@@ -111,6 +113,8 @@ declare class Asset {
 
 declare class Account {
   constructor(id: uint64)
+
+  static readonly zeroAddress: Account;
 
   readonly balance: uint64;
 
@@ -150,6 +154,8 @@ type BytesLike = bytes | Account
 
 declare class Application {
   constructor(id: uint64)
+
+  static readonly zeroIndex: Application;
 
   readonly approvalProgram: bytes;
 

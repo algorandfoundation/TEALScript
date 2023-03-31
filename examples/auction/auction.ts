@@ -22,7 +22,7 @@ class Auction extends Contract {
     this.auctionEnd.put(0);
     this.highestBid.put(0);
     this.asaAmt.put(0);
-    this.asa.put(new Asset(0));
+    this.asa.put(Asset.zeroIndex);
 
     // Use zero address rather than an empty string for Account type safety
     this.highestBidder.put(globals.zeroAddress);
@@ -33,7 +33,7 @@ class Auction extends Contract {
     assert(this.txn.sender === globals.creatorAddress);
 
     /// Verify a ASA hasn't already been opted into
-    assert(this.asa.get() === new Asset(0));
+    assert(this.asa.get() === Asset.zeroIndex);
 
     /// Save ASA ID in global state
     this.asa.put(asset);

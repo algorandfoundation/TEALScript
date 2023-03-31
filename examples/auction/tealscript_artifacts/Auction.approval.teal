@@ -30,7 +30,7 @@ create:
 	app_global_put
 
 	// examples/auction/auction.ts:25
-	// this.asa.put(new Asset(0))
+	// this.asa.put(Asset.zeroIndex)
 	byte "asa"
 	int 0
 	app_global_put
@@ -69,7 +69,7 @@ optIntoAsset:
 
 	// Verify a ASA hasn't already been opted into
 	// examples/auction/auction.ts:36
-	// assert(this.asa.get() === new Asset(0))
+	// assert(this.asa.get() === Asset.zeroIndex)
 	byte "asa"
 	app_global_get
 	int 0
