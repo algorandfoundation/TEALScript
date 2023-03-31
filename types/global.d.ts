@@ -302,7 +302,9 @@ declare type AssetTransferTxn = Required<AssetTransferParams>
 declare type AppCallTxn = Required<AppParams>
 
 interface MethodCallParams<ArgsType> extends AppParams {
+  /** ABI method arguments */
   methodArgs?: ArgsType
+  /** Name of the ABI method */
   name: string
 }
 
@@ -335,6 +337,31 @@ declare function sendPayment(params: Expand<PaymentParams>): void
 declare function sendAppCall(params: Expand<AppParams>): void
 declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void
 declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset
+/**
+ * Sends ABI method call. The two type arguments in combination with the
+ * name argument are used to form the the method signature to ensure typesafety.
+ *
+ * @example
+ * Calling a method and getting the return value
+ * ```ts
+ * // call createNFT(string,string)uint64
+ * (const createdAsset = sendMethodCall<[string, string], Asset>({
+ *     applicationID: factoryApp,
+ *     name: 'createNFT',
+ *     methodArgs: ['My NFT', 'MNFT'],
+ *     onCompletion: 'NoOp',
+ *     fee: 0,
+ * });
+ * ```
+ *
+ * @returns The return value of the method call
+ *
+ * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
+ * @typeParam ReturnType - The return type of the method
+ *
+ * @param params - The parameters of the method call
+ *
+ */
 declare function sendMethodCall<ArgsType, ReturnType>(
   params: Expand<MethodCallParams<ArgsType>>
 ): ReturnType
