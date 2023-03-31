@@ -1,10 +1,11 @@
 ## Classes and Functions
-| PyTeal   | TEALScript                        |
-| -------- | --------------------------------- |
-| `Txn`    | {@link Contract.txn  | this.txn}  |
-| `Global` | {@link globals}                   |
-| `Itxn`   | {@link Contract.itxn | this.itxn} |
-| `Assert` | {@link assert}                    |
+| PyTeal       | TEALScript                              |
+| ------------ | --------------------------------------- |
+| `Txn`        | {@link Contract.txn this.txn}           |
+| `Global`     | {@link globals}                         |
+| `Itxn`       | {@link Contract.itxn this.itxn}         |
+| `Assert`     | {@link assert}                          |
+| `NamedTuple` | See Objects section {@page abi.md here} |
 
 ## Maybe Values
 
