@@ -100,21 +100,21 @@ declare class Asset {
 
   readonly metadataHash: string;
 
-  readonly manager: Account;
+  readonly manager: Address;
 
-  readonly reserve: Account;
+  readonly reserve: Address;
 
-  readonly freeze: Account;
+  readonly freeze: Address;
 
-  readonly clawback: Account;
+  readonly clawback: Address;
 
-  readonly creator: Account;
+  readonly creator: Address;
 }
 
-declare class Account {
+declare class Address {
   constructor(id: uint64)
 
-  static readonly zeroAddress: Account;
+  static readonly zeroAddress: Address;
 
   readonly balance: uint64;
 
@@ -125,7 +125,7 @@ declare class Account {
   readonly totalAssets: uint64;
 
   // eslint-disable-next-line no-use-before-define
-  readonly authAddr: Account;
+  readonly authAddr: Address;
 
   readonly totalNumUint: uint64;
 
@@ -150,9 +150,9 @@ declare class Account {
   assetFrozen(asa: Asset): uint64
 }
 
-type Address = Account
+type Account = Address
 
-type BytesLike = bytes | Account
+type BytesLike = bytes | Address
 
 declare class Application {
   constructor(id: uint64)
@@ -173,9 +173,9 @@ declare class Application {
 
   readonly extraProgramPages: uint64;
 
-  readonly creator: Account;
+  readonly creator: Address;
 
-  readonly address: Account;
+  readonly address: Address;
 
   global(key: BytesLike): BytesLike | IntLike
 }
@@ -231,33 +231,33 @@ declare class GlobalReference<ValueType> {
 declare class LocalMap<KeyType, ValueType> {
   constructor()
 
-  get(account: Account, key: KeyType): ValueType
+  get(account: Address, key: KeyType): ValueType
 
-  exists(account: Account, key: KeyType): uint64
+  exists(account: Address, key: KeyType): uint64
 
-  delete(account: Account, key: KeyType): void
+  delete(account: Address, key: KeyType): void
 
-  put(account: Account, key: KeyType, value: ValueType): void
+  put(account: Address, key: KeyType, value: ValueType): void
 }
 
 declare class LocalReference<ValueType> {
   constructor(options?: { key?: string })
 
-  get(account: Account): ValueType
+  get(account: Address): ValueType
 
-  exists(account: Account): uint64
+  exists(account: Address): uint64
 
-  delete(account: Account): void
+  delete(account: Address): void
 
-  put(account: Account, value: ValueType): void
+  put(account: Address, value: ValueType): void
 }
 
 type IntLike = uint64 | Asset | Application | boolean
 
 interface CommonTransactionParams {
   fee: uint64
-  sender?: Account
-  rekeyTo?: Account
+  sender?: Address
+  rekeyTo?: Address
   note?: string
 }
 
@@ -270,9 +270,9 @@ interface OnChainTransactionParams extends CommonTransactionParams {
 interface AssetTransferParams extends CommonTransactionParams {
   xferAsset: Asset
   assetAmount: uint64
-  assetSender?: Account
-  assetReceiver: Account
-  assetCloseTo?: Account
+  assetSender?: Address
+  assetReceiver: Address
+  assetCloseTo?: Address
 }
 
 interface AssetCreateParams extends CommonTransactionParams {
@@ -280,20 +280,20 @@ interface AssetCreateParams extends CommonTransactionParams {
   configAssetUnitName?: bytes
   configAssetTotal: uint64
   configAssetDecimals: uint64
-  configAssetManager?: Account
-  configAssetReserve?: Account
+  configAssetManager?: Address
+  configAssetReserve?: Address
 }
 
 interface PaymentParams extends CommonTransactionParams {
   amount: uint64
-  receiver: Account
-  closeRemainderTo?: Account
+  receiver: Address
+  closeRemainderTo?: Address
 }
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
   onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
-  accounts?: Account[]
+  accounts?: Address[]
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
@@ -316,7 +316,7 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
-type ThisTxnParams = OnChainTransactionParams & AppParams & Required<{sender: Account}>
+type ThisTxnParams = OnChainTransactionParams & AppParams & Required<{sender: Address}>
 
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
 
@@ -324,22 +324,22 @@ declare const globals: {
   minTxnFee: uint64
   minBalance: uint64
   maxTxnLife: uint64
-  zeroAddress: Account
+  zeroAddress: Address
   groupSize: uint64
   logicSigVersion: uint64
   round: uint64
   latestTimestamp: uint64
   currentApplicationID: Application
-  creatorAddress: Account
-  currentApplicationAddress: Account
+  creatorAddress: Address
+  currentApplicationAddress: Address
   groupID: bytes
   opcodeBudget: uint64
   callerApplicationID: Application
-  callerApplicationAddress: Account
+  callerApplicationAddress: Address
 };
 
 declare function method(signature: string): bytes
-declare function addr(address: string): Account
+declare function addr(address: string): Address
 
 declare function sendPayment(params: Expand<PaymentParams>): void
 declare function sendAppCall(params: Expand<AppParams>): void
