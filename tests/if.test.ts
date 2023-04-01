@@ -2,11 +2,13 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { getMethodTeal } from './common';
+import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/if.ts', 'IfTest', methodName);
 }
+
+artifactsTest('IfTest', 'tests/contracts/if.ts', 'tests/contracts/', 'IfTest');
 
 describe('If', function () {
   it('singleIf', async function () {

@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
@@ -11,19 +12,19 @@ class NFTFactory extends Contract {
 
   createNFT(name: string, unitName: string): Asset {
     return sendAssetCreation({
-      configAssetName: name,
-      configAssetUnitName: unitName,
-      configAssetTotal: 1,
-      configAssetDecimals: 0,
+      name: name,
+      unitName: unitName,
+      total: 1,
+      decimals: 0,
       fee: 0,
     });
   }
 
   transferNFT(asset: Asset, receiver: Account): void {
     sendAssetTransfer({
-      assetReceiver: receiver,
-      assetAmount: 1,
-      xferAsset: asset,
+      receiver: receiver,
+      amount: 1,
+      asset: asset,
       fee: 0,
     });
   }
@@ -59,9 +60,9 @@ class FactoryCaller extends Contract {
     });
 
     sendAssetTransfer({
-      assetReceiver: this.app.address,
-      assetAmount: 0,
-      xferAsset: createdAsset,
+      receiver: this.app.address,
+      amount: 0,
+      asset: createdAsset,
       fee: 0,
     });
 

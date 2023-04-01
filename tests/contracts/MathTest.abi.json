@@ -1,0 +1,195 @@
+{
+  "name": "MathTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "u64plus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u64minus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u64mul",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u64div",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u256plus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u256minus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u256mul",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u256div",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint256",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "u64Return256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint256",
+        "desc": ""
+      }
+    },
+    {
+      "name": "maxU64",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

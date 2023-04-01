@@ -2,11 +2,13 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { getMethodTeal } from './common';
+import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/binary.ts', 'BinaryTest', methodName);
 }
+
+artifactsTest('BinaryTest', 'tests/contracts/binary.ts', 'tests/contracts/', 'BinaryTest');
 
 describe('Binary Expressions', function () {
   it('&&', async function () {

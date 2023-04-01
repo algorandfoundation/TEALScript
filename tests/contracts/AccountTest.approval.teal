@@ -1,0 +1,433 @@
+#pragma version 8
+	b main
+
+abi_route_hasAsset:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub hasAsset
+	int 1
+	return
+
+hasAsset:
+	proto 2 0
+
+	// tests/contracts/account.ts:12
+	// assert(a.hasAsset(new Asset(123)))
+	frame_dig -1 // a: account
+	int 123
+	asset_holding_get AssetBalance
+	swap
+	pop
+	assert
+	retsub
+
+abi_route_assetBalance:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub assetBalance
+	int 1
+	return
+
+assetBalance:
+	proto 2 0
+
+	// tests/contracts/account.ts:16
+	// assert(a.assetBalance(new Asset(123)))
+	frame_dig -1 // a: account
+	int 123
+	asset_holding_get AssetBalance
+	assert
+	assert
+	retsub
+
+abi_route_assetFrozen:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub assetFrozen
+	int 1
+	return
+
+assetFrozen:
+	proto 2 0
+
+	// tests/contracts/account.ts:20
+	// assert(a.assetFrozen(new Asset(123)))
+	frame_dig -1 // a: account
+	int 123
+	asset_holding_get AssetFrozen
+	assert
+	assert
+	retsub
+
+abi_route_hasBalance:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub hasBalance
+	int 1
+	return
+
+hasBalance:
+	proto 2 0
+
+	// tests/contracts/account.ts:24
+	// assert(a.hasBalance)
+	frame_dig -1 // a: account
+	acct_params_get AcctBalance
+	swap
+	pop
+	assert
+	retsub
+
+abi_route_balance:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub balance
+	int 1
+	return
+
+balance:
+	proto 2 0
+
+	// tests/contracts/account.ts:28
+	// assert(a.balance)
+	frame_dig -1 // a: account
+	acct_params_get AcctBalance
+	assert
+	assert
+	retsub
+
+abi_route_minBalance:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub minBalance
+	int 1
+	return
+
+minBalance:
+	proto 2 0
+
+	// tests/contracts/account.ts:32
+	// assert(a.minBalance)
+	frame_dig -1 // a: account
+	acct_params_get AcctMinBalance
+	assert
+	assert
+	retsub
+
+abi_route_authAddr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub authAddr
+	int 1
+	return
+
+authAddr:
+	proto 2 0
+
+	// tests/contracts/account.ts:36
+	// log(a.authAddr)
+	frame_dig -1 // a: account
+	acct_params_get AcctAuthAddr
+	assert
+	log
+	retsub
+
+abi_route_totalNumUint:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalNumUint
+	int 1
+	return
+
+totalNumUint:
+	proto 2 0
+
+	// tests/contracts/account.ts:40
+	// assert(a.totalNumUint)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalNumUint
+	assert
+	assert
+	retsub
+
+abi_route_totalNumByteSlice:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalNumByteSlice
+	int 1
+	return
+
+totalNumByteSlice:
+	proto 2 0
+
+	// tests/contracts/account.ts:44
+	// assert(a.totalNumByteSlice)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalNumByteSlice
+	assert
+	assert
+	retsub
+
+abi_route_totalExtraAppPages:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalExtraAppPages
+	int 1
+	return
+
+totalExtraAppPages:
+	proto 2 0
+
+	// tests/contracts/account.ts:48
+	// assert(a.totalExtraAppPages)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalExtraAppPages
+	assert
+	assert
+	retsub
+
+abi_route_totalAppsCreated:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalAppsCreated
+	int 1
+	return
+
+totalAppsCreated:
+	proto 2 0
+
+	// tests/contracts/account.ts:52
+	// assert(a.totalAppsCreated)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalAppsCreated
+	assert
+	assert
+	retsub
+
+abi_route_totalAppsOptedIn:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalAppsOptedIn
+	int 1
+	return
+
+totalAppsOptedIn:
+	proto 2 0
+
+	// tests/contracts/account.ts:56
+	// assert(a.totalAppsOptedIn)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalAppsOptedIn
+	assert
+	assert
+	retsub
+
+abi_route_totalAssetsCreated:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalAssetsCreated
+	int 1
+	return
+
+totalAssetsCreated:
+	proto 2 0
+
+	// tests/contracts/account.ts:60
+	// assert(a.totalAssetsCreated)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalAssetsCreated
+	assert
+	assert
+	retsub
+
+abi_route_totalAssets:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalAssets
+	int 1
+	return
+
+totalAssets:
+	proto 2 0
+
+	// tests/contracts/account.ts:64
+	// assert(a.totalAssets)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalAssets
+	assert
+	assert
+	retsub
+
+abi_route_totalBoxes:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalBoxes
+	int 1
+	return
+
+totalBoxes:
+	proto 2 0
+
+	// tests/contracts/account.ts:68
+	// assert(a.totalBoxes)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalBoxes
+	assert
+	assert
+	retsub
+
+abi_route_totalBoxBytes:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub totalBoxBytes
+	int 1
+	return
+
+totalBoxBytes:
+	proto 2 0
+
+	// tests/contracts/account.ts:72
+	// assert(a.totalBoxBytes)
+	frame_dig -1 // a: account
+	acct_params_get AcctTotalBoxBytes
+	assert
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	int 1
+	match 
+
+route_abi:
+	method "hasAsset(account)void"
+	method "assetBalance(account)void"
+	method "assetFrozen(account)void"
+	method "hasBalance(account)void"
+	method "balance(account)void"
+	method "minBalance(account)void"
+	method "authAddr(account)void"
+	method "totalNumUint(account)void"
+	method "totalNumByteSlice(account)void"
+	method "totalExtraAppPages(account)void"
+	method "totalAppsCreated(account)void"
+	method "totalAppsOptedIn(account)void"
+	method "totalAssetsCreated(account)void"
+	method "totalAssets(account)void"
+	method "totalBoxes(account)void"
+	method "totalBoxBytes(account)void"
+	txna ApplicationArgs 0
+	match abi_route_hasAsset abi_route_assetBalance abi_route_assetFrozen abi_route_hasBalance abi_route_balance abi_route_minBalance abi_route_authAddr abi_route_totalNumUint abi_route_totalNumByteSlice abi_route_totalExtraAppPages abi_route_totalAppsCreated abi_route_totalAppsOptedIn abi_route_totalAssetsCreated abi_route_totalAssets abi_route_totalBoxes abi_route_totalBoxBytes

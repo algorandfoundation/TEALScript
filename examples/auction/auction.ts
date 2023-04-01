@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
@@ -40,9 +41,9 @@ class Auction extends Contract {
 
     /// Submit opt-in transaction: 0 asset transfer to self
     sendAssetTransfer({
-      assetReceiver: this.app.address,
-      xferAsset: asset,
-      assetAmount: 0,
+      receiver: this.app.address,
+      asset: asset,
+      amount: 0,
       fee: 0,
     });
   }
@@ -103,11 +104,11 @@ class Auction extends Contract {
     // assert(globals.latestTimestamp > this.auctionEnd.get());
     /// Send ASA to highest bidder
     sendAssetTransfer({
-      assetReceiver: this.highestBidder.get(),
-      xferAsset: this.asa.get(),
-      assetAmount: this.asaAmt.get(),
+      receiver: this.highestBidder.get(),
+      asset: this.asa.get(),
+      amount: this.asaAmt.get(),
       fee: 0,
-      assetCloseTo: assetCreator,
+      closeTo: assetCreator,
     });
   }
 

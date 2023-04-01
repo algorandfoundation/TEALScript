@@ -88,65 +88,65 @@ assetCreation:
 	itxn_field Fee
 
 	// tests/contracts/itxns.ts:26
-	// configAssetName: 'name'
+	// name: 'name'
 	byte "name"
 	itxn_field ConfigAssetName
 
 	// tests/contracts/itxns.ts:27
-	// configAssetUnitName: 'unit'
+	// unitName: 'unit'
 	byte "unit"
 	itxn_field ConfigAssetUnitName
 
 	// tests/contracts/itxns.ts:28
-	// configAssetTotal: 1
+	// total: 1
 	int 1
 	itxn_field ConfigAssetTotal
 
 	// tests/contracts/itxns.ts:29
-	// configAssetDecimals: 0
+	// decimals: 0
 	int 0
 	itxn_field ConfigAssetDecimals
 
 	// tests/contracts/itxns.ts:30
-	// configAssetManager: this.app.address
+	// manager: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetManager
 
 	// tests/contracts/itxns.ts:31
-	// configAssetReserve: this.app.address
+	// reserve: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetReserve
 
 	// tests/contracts/itxns.ts:32
-	// configAssetFreeze: this.app.address
+	// freeze: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetFreeze
 
 	// tests/contracts/itxns.ts:33
-	// configAssetClawback: this.app.address
+	// clawback: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetClawback
 
 	// tests/contracts/itxns.ts:34
-	// configAssetDefaultFrozen: 0
+	// defaultFrozen: 0
 	int 0
 	itxn_field ConfigAssetDefaultFrozen
 
 	// tests/contracts/itxns.ts:35
-	// configAssetURL: 'url'
+	// url: 'url'
 	byte "url"
 	itxn_field ConfigAssetURL
 
 	// tests/contracts/itxns.ts:36
-	// configAssetMetadataHash: 'hash'
+	// metadataHash: 'hash'
 	byte "hash"
 	itxn_field ConfigAssetMetadataHash
 	itxn_submit
@@ -275,33 +275,33 @@ assetConfig:
 	itxn_field TypeEnum
 
 	// tests/contracts/itxns.ts:61
-	// configAsset: Asset.zeroIndex
+	// asset: Asset.zeroIndex
 	int 0
 	itxn_field ConfigAsset
 
 	// tests/contracts/itxns.ts:62
-	// configAssetManager: this.app.address
+	// manager: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetManager
 
 	// tests/contracts/itxns.ts:63
-	// configAssetReserve: this.app.address
+	// reserve: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetReserve
 
 	// tests/contracts/itxns.ts:64
-	// configAssetFreeze: this.app.address
+	// freeze: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetFreeze
 
 	// tests/contracts/itxns.ts:65
-	// configAssetClawback: this.app.address
+	// clawback: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -379,19 +379,19 @@ assetTransfer:
 	itxn_field TypeEnum
 
 	// tests/contracts/itxns.ts:81
-	// assetAmount: 1
+	// amount: 1
 	int 1
 	itxn_field AssetAmount
 
 	// tests/contracts/itxns.ts:82
-	// assetCloseTo: this.app.address
+	// closeTo: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetCloseTo
 
 	// tests/contracts/itxns.ts:83
-	// assetReceiver: this.app.address
+	// receiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -405,7 +405,7 @@ assetTransfer:
 	itxn_field AssetSender
 
 	// tests/contracts/itxns.ts:85
-	// xferAsset: Asset.zeroIndex
+	// asset: Asset.zeroIndex
 	int 0
 	itxn_field XferAsset
 
