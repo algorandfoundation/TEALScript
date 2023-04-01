@@ -275,6 +275,14 @@ interface AssetTransferParams extends CommonTransactionParams {
   assetCloseTo?: Address
 }
 
+interface AssetConfigParams extends CommonTransactionParams {
+  configAsset: Asset
+  configAssetManager?: Address
+  configAssetReserve?: Address
+  configAssetFreeze?: Address
+  configAssetClawback?: Address
+}
+
 interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
@@ -282,6 +290,17 @@ interface AssetCreateParams extends CommonTransactionParams {
   configAssetDecimals: uint64
   configAssetManager?: Address
   configAssetReserve?: Address
+  configAssetFreeze?: Address
+  configAssetClawback?: Address
+  configAssetDefaultFrozen?: uint64
+  configAssetURL?: bytes
+  configAssetMetadataHash?: bytes
+}
+
+interface AssetFreezeParams extends CommonTransactionParams {
+  freezeAsset: Asset
+  freezeAssetAccount: Address
+  freezeAssetFrozen: uint64
 }
 
 interface PaymentParams extends CommonTransactionParams {
@@ -297,17 +316,38 @@ interface AppParams extends CommonTransactionParams {
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
-  applications?: Array<uint64 | Application>
-  assets?: Array<uint64 | Asset>
+  applications?: Array<Application>
+  assets?: Array<Asset>
   globalNumByteSlice?: uint64
   globalNumUint?: uint64
   localNumByteSlice?: uint64
   localNumUint?: uint64
 }
 
+interface KeyRegParams extends CommonTransactionParams {
+  votePk?: bytes
+  selectionPK?: bytes
+  stateProofPk?: bytes
+  voteFirst?: uint64
+  voteLast?: uint64
+  voteKeyDilution?: uint64
+}
+
+interface OnlineKeyRegParams extends CommonTransactionParams {
+  votePK: bytes
+  selectionPK: bytes
+  stateProofPK: bytes
+  voteFirst: uint64
+  voteLast: uint64
+  voteKeyDilution: uint64
+}
+
 declare type PayTxn = Required<PaymentParams>
 declare type AssetTransferTxn = Required<AssetTransferParams>
 declare type AppCallTxn = Required<AppParams>
+declare type KeyRegTxn = Required<KeyRegParams>
+declare type AssetConfigTxn = Required<AssetConfigParams>
+declare type AssetFreezeTxn = Required<AssetFreezeParams>
 
 interface MethodCallParams<ArgsType> extends AppParams {
   /** ABI method arguments */
@@ -345,6 +385,11 @@ declare function sendPayment(params: Expand<PaymentParams>): void
 declare function sendAppCall(params: Expand<AppParams>): void
 declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void
 declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset
+declare function sendOnlineKeyRegistration(params: Expand<OnlineKeyRegParams>): void
+declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionParams>): void
+declare function sendAssetConfig(params: Expand<AssetConfigParams>): void
+declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
+
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.

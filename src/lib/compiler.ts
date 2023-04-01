@@ -128,6 +128,10 @@ const TXN_METHODS = [
   'sendMethodCall',
   'sendAssetTransfer',
   'sendAssetCreation',
+  'sendAssetFreeze',
+  'sendAssetConfig',
+  'sendOnlineKeyRegistration',
+  'sendOfflineKeyRegistration',
 ];
 
 const CONTRACT_SUBCLASS = 'Contract';
@@ -2525,6 +2529,13 @@ export default class Compiler {
       case 'sendAssetCreation':
       case 'sendAssetConfig':
         txnType = TransactionType.AssetConfigTx;
+        break;
+      case 'sendAssetFreeze':
+        txnType = TransactionType.AssetFreezeTx;
+        break;
+      case 'sendOfflineKeyRegistration':
+      case 'sendOnlineKeyRegistration':
+        txnType = TransactionType.KeyRegistrationTx;
         break;
       default:
         throw new Error(`Invalid transaction call ${node.expression.getText()}`);
