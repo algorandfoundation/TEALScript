@@ -2636,26 +2636,7 @@ export default class Compiler {
         });
       } else if (ts.isPropertyAssignment(p)) {
         this.processNode(p.initializer);
-
-        const commonParams = ['Fee', 'Sender', 'RekeyTo', 'Note'];
-        let field = capitalizeFirstChar(key);
-
-        if (txnType === TransactionType.AssetConfigTx) {
-          if (field === 'Asset') {
-            field = 'ConfigAsset';
-          } else if (field === 'Url') {
-            field = 'ConfigAssetURL';
-          } else if (!commonParams.includes(field)) {
-            field = `ConfigAsset${field}`;
-          }
-        } else if (txnType === TransactionType.AssetTransferTx) {
-          if (field === 'Asset') {
-            field = 'XferAsset';
-          } else if (!commonParams.includes(field) && field !== 'AssetSender') {
-            field = `Asset${field}`;
-          }
-        }
-        this.pushVoid(`itxn_field ${field}`);
+        this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
       } else {
         throw new Error(`Cannot process transaction property: ${p.getText()}`);
       }

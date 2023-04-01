@@ -268,33 +268,33 @@ interface OnChainTransactionParams extends CommonTransactionParams {
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
-  asset: Asset
-  amount: uint64
+  xferAsset: Asset
+  assetAmount: uint64
   assetSender?: Address
-  receiver: Address
-  closeTo?: Address
+  assetReceiver: Address
+  assetCloseTo?: Address
 }
 
 interface AssetConfigParams extends CommonTransactionParams {
-  asset: Asset
-  manager?: Address
-  reserve?: Address
-  freeze?: Address
-  clawback?: Address
+  configAsset: Asset
+  configAssetManager?: Address
+  configAssetReserve?: Address
+  configAssetFreeze?: Address
+  configAssetClawback?: Address
 }
 
 interface AssetCreateParams extends CommonTransactionParams {
-  name?: bytes
-  unitName?: bytes
-  total: uint64
-  decimals: uint64
-  manager?: Address
-  reserve?: Address
-  freeze?: Address
-  clawback?: Address
-  defaultFrozen?: uint64
-  url?: bytes
-  metadataHash?: bytes
+  configAssetName?: bytes
+  configAssetUnitName?: bytes
+  configAssetTotal: uint64
+  configAssetDecimals: uint64
+  configAssetManager?: Address
+  configAssetReserve?: Address
+  configAssetFreeze?: Address
+  configAssetClawback?: Address
+  configAssetDefaultFrozen?: uint64
+  configAssetURL?: bytes
+  configAssetMetadataHash?: bytes
 }
 
 interface AssetFreezeParams extends CommonTransactionParams {

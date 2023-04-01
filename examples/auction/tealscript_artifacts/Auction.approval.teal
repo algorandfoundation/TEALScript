@@ -91,19 +91,19 @@ optIntoAsset:
 	itxn_field TypeEnum
 
 	// examples/auction/auction.ts:44
-	// receiver: this.app.address
+	// assetReceiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetReceiver
 
 	// examples/auction/auction.ts:45
-	// asset: asset
+	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
 	// examples/auction/auction.ts:46
-	// amount: 0
+	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
@@ -348,19 +348,19 @@ claim_asset:
 	itxn_field TypeEnum
 
 	// examples/auction/auction.ts:107
-	// receiver: this.highestBidder.get()
+	// assetReceiver: this.highestBidder.get()
 	byte "highestBidder"
 	app_global_get
 	itxn_field AssetReceiver
 
 	// examples/auction/auction.ts:108
-	// asset: this.asa.get()
+	// xferAsset: this.asa.get()
 	byte "asa"
 	app_global_get
 	itxn_field XferAsset
 
 	// examples/auction/auction.ts:109
-	// amount: this.asaAmt.get()
+	// assetAmount: this.asaAmt.get()
 	byte "asaAmt"
 	app_global_get
 	itxn_field AssetAmount
@@ -371,7 +371,7 @@ claim_asset:
 	itxn_field Fee
 
 	// examples/auction/auction.ts:111
-	// closeTo: assetCreator
+	// assetCloseTo: assetCreator
 	frame_dig -2 // assetCreator: account
 	itxn_field AssetCloseTo
 	itxn_submit

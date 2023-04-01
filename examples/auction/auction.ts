@@ -41,9 +41,9 @@ class Auction extends Contract {
 
     /// Submit opt-in transaction: 0 asset transfer to self
     sendAssetTransfer({
-      receiver: this.app.address,
-      asset: asset,
-      amount: 0,
+      assetReceiver: this.app.address,
+      xferAsset: asset,
+      assetAmount: 0,
       fee: 0,
     });
   }
@@ -104,11 +104,11 @@ class Auction extends Contract {
     // assert(globals.latestTimestamp > this.auctionEnd.get());
     /// Send ASA to highest bidder
     sendAssetTransfer({
-      receiver: this.highestBidder.get(),
-      asset: this.asa.get(),
-      amount: this.asaAmt.get(),
+      assetReceiver: this.highestBidder.get(),
+      xferAsset: this.asa.get(),
+      assetAmount: this.asaAmt.get(),
       fee: 0,
-      closeTo: assetCreator,
+      assetCloseTo: assetCreator,
     });
   }
 

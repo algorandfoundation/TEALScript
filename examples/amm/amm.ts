@@ -27,21 +27,21 @@ class ConstantProductAMM extends Contract {
     // Unit name asserts not needed since it's done automatically by Asset.unitName
 
     return sendAssetCreation({
-      name: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName))),
-      unitName: 'dpt',
-      total: 1_000_000,
-      decimals: 3,
-      manager: this.app.address,
-      reserve: this.app.address,
+      configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName))),
+      configAssetUnitName: 'dpt',
+      configAssetTotal: 1_000_000,
+      configAssetDecimals: 3,
+      configAssetManager: this.app.address,
+      configAssetReserve: this.app.address,
       fee: 0,
     });
   }
 
   private doAxfer(receiver: Account, asset: Asset, amount: uint64): void {
     sendAssetTransfer({
-      receiver: receiver,
-      asset: asset,
-      amount: amount,
+      assetReceiver: receiver,
+      xferAsset: asset,
+      assetAmount: amount,
       fee: 0,
     });
   }

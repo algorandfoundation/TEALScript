@@ -23,17 +23,17 @@ class ItxnsTest extends Contract {
   assetCreation(): Asset {
     return sendAssetCreation({
       fee: 0,
-      name: 'name',
-      unitName: 'unit',
-      total: 1,
-      decimals: 0,
-      manager: this.app.address,
-      reserve: this.app.address,
-      freeze: this.app.address,
-      clawback: this.app.address,
-      defaultFrozen: 0,
-      url: 'url',
-      metadataHash: 'hash',
+      configAssetName: 'name',
+      configAssetUnitName: 'unit',
+      configAssetTotal: 1,
+      configAssetDecimals: 0,
+      configAssetManager: this.app.address,
+      configAssetReserve: this.app.address,
+      configAssetFreeze: this.app.address,
+      configAssetClawback: this.app.address,
+      configAssetDefaultFrozen: 0,
+      configAssetURL: 'url',
+      configAssetMetadataHash: 'hash',
     });
   }
 
@@ -58,11 +58,11 @@ class ItxnsTest extends Contract {
 
   assetConfig(): void {
     sendAssetConfig({
-      asset: Asset.zeroIndex,
-      manager: this.app.address,
-      reserve: this.app.address,
-      freeze: this.app.address,
-      clawback: this.app.address,
+      configAsset: Asset.zeroIndex,
+      configAssetManager: this.app.address,
+      configAssetReserve: this.app.address,
+      configAssetFreeze: this.app.address,
+      configAssetClawback: this.app.address,
       fee: 0,
     });
   }
@@ -78,11 +78,11 @@ class ItxnsTest extends Contract {
 
   assetTransfer(): void {
     sendAssetTransfer({
-      amount: 1,
-      closeTo: this.app.address,
-      receiver: this.app.address,
+      assetAmount: 1,
+      assetCloseTo: this.app.address,
+      assetReceiver: this.app.address,
       assetSender: this.app.address,
-      asset: Asset.zeroIndex,
+      xferAsset: Asset.zeroIndex,
       fee: 0,
     });
   }

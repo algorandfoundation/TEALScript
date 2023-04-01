@@ -28,7 +28,7 @@ doCreatePoolToken:
 	itxn_field TypeEnum
 
 	// examples/amm/amm.ts:30
-	// name: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName)))
+	// configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName)))
 	byte "DPT-"
 	frame_dig -1 // aAsset: asset
 	asset_params_get AssetUnitName
@@ -43,29 +43,29 @@ doCreatePoolToken:
 	itxn_field ConfigAssetName
 
 	// examples/amm/amm.ts:31
-	// unitName: 'dpt'
+	// configAssetUnitName: 'dpt'
 	byte "dpt"
 	itxn_field ConfigAssetUnitName
 
 	// examples/amm/amm.ts:32
-	// total: 1_000_000
+	// configAssetTotal: 1_000_000
 	int 1_000_000
 	itxn_field ConfigAssetTotal
 
 	// examples/amm/amm.ts:33
-	// decimals: 3
+	// configAssetDecimals: 3
 	int 3
 	itxn_field ConfigAssetDecimals
 
 	// examples/amm/amm.ts:34
-	// manager: this.app.address
+	// configAssetManager: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetManager
 
 	// examples/amm/amm.ts:35
-	// reserve: this.app.address
+	// configAssetReserve: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -94,17 +94,17 @@ doAxfer:
 	itxn_field TypeEnum
 
 	// examples/amm/amm.ts:42
-	// receiver: receiver
+	// assetReceiver: receiver
 	frame_dig -1 // receiver: account
 	itxn_field AssetReceiver
 
 	// examples/amm/amm.ts:43
-	// asset: asset
+	// xferAsset: asset
 	frame_dig -2 // asset: asset
 	itxn_field XferAsset
 
 	// examples/amm/amm.ts:44
-	// amount: amount
+	// assetAmount: amount
 	frame_dig -3 // amount: uint64
 	itxn_field AssetAmount
 

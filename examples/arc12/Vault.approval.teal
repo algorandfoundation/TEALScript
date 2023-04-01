@@ -172,22 +172,22 @@ reject:
 	itxn_field TypeEnum
 
 	// examples/arc12/arc12.ts:50
-	// receiver: asaCreator
+	// assetReceiver: asaCreator
 	frame_dig -1 // asaCreator: account
 	itxn_field AssetReceiver
 
 	// examples/arc12/arc12.ts:51
-	// asset: asa
+	// xferAsset: asa
 	frame_dig -3 // asa: asset
 	itxn_field XferAsset
 
 	// examples/arc12/arc12.ts:52
-	// amount: 0
+	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
 	// examples/arc12/arc12.ts:53
-	// closeTo: asaCreator
+	// assetCloseTo: asaCreator
 	frame_dig -1 // asaCreator: account
 	itxn_field AssetCloseTo
 
@@ -349,12 +349,12 @@ optIn:
 	itxn_field TypeEnum
 
 	// examples/arc12/arc12.ts:89
-	// receiver: globals.currentApplicationAddress
+	// assetReceiver: globals.currentApplicationAddress
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
 	// examples/arc12/arc12.ts:90
-	// amount: 0
+	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
@@ -364,7 +364,7 @@ optIn:
 	itxn_field Fee
 
 	// examples/arc12/arc12.ts:92
-	// asset: asa
+	// xferAsset: asa
 	frame_dig -1 // asa: asset
 	itxn_field XferAsset
 	itxn_submit
@@ -461,7 +461,7 @@ claim:
 	itxn_field TypeEnum
 
 	// examples/arc12/arc12.ts:110
-	// receiver: this.txn.sender
+	// assetReceiver: this.txn.sender
 	txn Sender
 	itxn_field AssetReceiver
 
@@ -471,7 +471,7 @@ claim:
 	itxn_field Fee
 
 	// examples/arc12/arc12.ts:112
-	// amount: globals.currentApplicationAddress.assetBalance(asa)
+	// assetAmount: globals.currentApplicationAddress.assetBalance(asa)
 	global CurrentApplicationAddress
 	frame_dig -1 // asa: asset
 	asset_holding_get AssetBalance
@@ -479,12 +479,12 @@ claim:
 	itxn_field AssetAmount
 
 	// examples/arc12/arc12.ts:113
-	// asset: asa
+	// xferAsset: asa
 	frame_dig -1 // asa: asset
 	itxn_field XferAsset
 
 	// examples/arc12/arc12.ts:114
-	// closeTo: this.txn.sender
+	// assetCloseTo: this.txn.sender
 	txn Sender
 	itxn_field AssetCloseTo
 	itxn_submit

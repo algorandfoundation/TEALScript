@@ -129,19 +129,19 @@ mintAndGetAsset:
 	itxn_field TypeEnum
 
 	// examples/itxns/itxns.ts:63
-	// receiver: this.app.address
+	// assetReceiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetReceiver
 
 	// examples/itxns/itxns.ts:64
-	// amount: 0
+	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
 	// examples/itxns/itxns.ts:65
-	// asset: createdAsset
+	// xferAsset: createdAsset
 	frame_dig -2 // createdAsset: asset
 	itxn_field XferAsset
 

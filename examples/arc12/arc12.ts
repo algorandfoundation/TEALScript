@@ -47,10 +47,10 @@ class Vault extends Contract {
 
     /// Send asset back to creator since they are guranteed to be opted in
     sendAssetTransfer({
-      receiver: asaCreator,
-      asset: asa,
-      amount: 0,
-      closeTo: asaCreator,
+      assetReceiver: asaCreator,
+      xferAsset: asa,
+      assetAmount: 0,
+      assetCloseTo: asaCreator,
       fee: 0,
     });
 
@@ -86,10 +86,10 @@ class Vault extends Contract {
 
     /// Opt vault into asa
     sendAssetTransfer({
-      receiver: globals.currentApplicationAddress,
-      amount: 0,
+      assetReceiver: globals.currentApplicationAddress,
+      assetAmount: 0,
       fee: 0,
-      asset: asa,
+      xferAsset: asa,
     });
 
     assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr);
@@ -107,11 +107,11 @@ class Vault extends Contract {
 
     /// Transfer all of the asset to the receiver
     sendAssetTransfer({
-      receiver: this.txn.sender,
+      assetReceiver: this.txn.sender,
       fee: 0,
-      amount: globals.currentApplicationAddress.assetBalance(asa),
-      asset: asa,
-      closeTo: this.txn.sender,
+      assetAmount: globals.currentApplicationAddress.assetBalance(asa),
+      xferAsset: asa,
+      assetCloseTo: this.txn.sender,
     });
 
     /// Send MBR to the funder

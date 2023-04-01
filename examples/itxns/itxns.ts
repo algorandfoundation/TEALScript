@@ -12,19 +12,19 @@ class NFTFactory extends Contract {
 
   createNFT(name: string, unitName: string): Asset {
     return sendAssetCreation({
-      name: name,
-      unitName: unitName,
-      total: 1,
-      decimals: 0,
+      configAssetName: name,
+      configAssetUnitName: unitName,
+      configAssetTotal: 1,
+      configAssetDecimals: 0,
       fee: 0,
     });
   }
 
   transferNFT(asset: Asset, receiver: Account): void {
     sendAssetTransfer({
-      receiver: receiver,
-      amount: 1,
-      asset: asset,
+      assetReceiver: receiver,
+      assetAmount: 1,
+      xferAsset: asset,
       fee: 0,
     });
   }
@@ -60,9 +60,9 @@ class FactoryCaller extends Contract {
     });
 
     sendAssetTransfer({
-      receiver: this.app.address,
-      amount: 0,
-      asset: createdAsset,
+      assetReceiver: this.app.address,
+      assetAmount: 0,
+      xferAsset: createdAsset,
       fee: 0,
     });
 
