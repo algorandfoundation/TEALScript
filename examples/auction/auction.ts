@@ -7,7 +7,7 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Auction extends Contract {
-  highestBidder = new GlobalReference<Account>({ key: 'highestBidder' });
+  highestBidder = new GlobalReference<Address>({ key: 'highestBidder' });
 
   auctionEnd = new GlobalReference<uint64>({ key: 'auctionEnd' });
 

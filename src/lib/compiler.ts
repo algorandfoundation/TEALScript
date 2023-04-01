@@ -84,6 +84,7 @@ function getTypeLength(type: string): number {
     case 'string':
     case 'bytes':
       return 1;
+    case 'address':
     case 'account':
       return 32;
     default:
@@ -117,7 +118,7 @@ enum TransactionType {
 // eslint-disable-next-line no-shadow
 enum ForeignType {
   Asset = 'asset',
-  Account = 'account',
+  Address = 'address',
   Application = 'application',
 }
 
@@ -133,45 +134,45 @@ const CONTRACT_SUBCLASS = 'Contract';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Account
-  AcctAuthAddr: ForeignType.Account,
+  AcctAuthAddr: ForeignType.Address,
   // Application
-  AppCreator: ForeignType.Account,
-  AppAddress: ForeignType.Account,
-  AssetManager: ForeignType.Account,
-  AssetReserve: ForeignType.Account,
-  AssetFreeze: ForeignType.Account,
-  AssetClawback: ForeignType.Account,
-  AssetCreator: ForeignType.Account,
+  AppCreator: ForeignType.Address,
+  AppAddress: ForeignType.Address,
+  AssetManager: ForeignType.Address,
+  AssetReserve: ForeignType.Address,
+  AssetFreeze: ForeignType.Address,
+  AssetClawback: ForeignType.Address,
+  AssetCreator: ForeignType.Address,
   // Global
-  ZeroAddress: ForeignType.Account,
+  ZeroAddress: ForeignType.Address,
   CurrentApplicationID: ForeignType.Application,
-  CreatorAddress: ForeignType.Account,
-  CurrentApplicationAddress: ForeignType.Account,
+  CreatorAddress: ForeignType.Address,
+  CurrentApplicationAddress: ForeignType.Address,
   CallerApplicationID: ForeignType.Application,
-  CallerApplicationAddress: ForeignType.Account,
+  CallerApplicationAddress: ForeignType.Address,
   // Txn
-  Sender: ForeignType.Account,
-  Receiver: ForeignType.Account,
-  CloseRemainderTo: ForeignType.Account,
+  Sender: ForeignType.Address,
+  Receiver: ForeignType.Address,
+  CloseRemainderTo: ForeignType.Address,
   XferAsset: ForeignType.Asset,
-  AssetSender: ForeignType.Account,
-  AssetReceiver: ForeignType.Account,
-  AssetCloseTo: ForeignType.Account,
+  AssetSender: ForeignType.Address,
+  AssetReceiver: ForeignType.Address,
+  AssetCloseTo: ForeignType.Address,
   ApplicationID: ForeignType.Application,
-  RekeyTo: ForeignType.Account,
+  RekeyTo: ForeignType.Address,
   ConfigAsset: ForeignType.Asset,
-  ConfigAssetManager: ForeignType.Account,
-  ConfigAssetReserve: ForeignType.Account,
-  ConfigAssetFreeze: ForeignType.Account,
-  ConfigAssetClawback: ForeignType.Account,
+  ConfigAssetManager: ForeignType.Address,
+  ConfigAssetReserve: ForeignType.Address,
+  ConfigAssetFreeze: ForeignType.Address,
+  ConfigAssetClawback: ForeignType.Address,
   FreezeAsset: ForeignType.Asset,
-  FreezeAssetAccount: ForeignType.Account,
+  FreezeAssetAccount: ForeignType.Address,
   CreatedAssetID: ForeignType.Asset,
   CreatedApplicationID: ForeignType.Application,
   ApplicationArgs: `ImmediateArray: ${StackType.bytes}`,
   Applications: `ImmediateArray: ${ForeignType.Application}`,
   Assets: `ImmediateArray: ${ForeignType.Asset}`,
-  Accounts: `ImmediateArray: ${ForeignType.Account}`,
+  Accounts: `ImmediateArray: ${ForeignType.Address}`,
 };
 
 interface OpSpec {
@@ -1780,7 +1781,8 @@ export default class Compiler {
     const leftType = this.lastType;
     this.processNode(node.right);
 
-    if (leftType !== this.lastType) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
+    const aTypes = ['account', ForeignType.Address];
+    if (leftType !== this.lastType && !(aTypes.includes(leftType) && aTypes.includes(this.lastType))) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
 
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
@@ -1915,7 +1917,7 @@ export default class Compiler {
         // TODO: add pseudo op type parsing/assertion to handle this
         // not currently exported in langspeg.json
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
-        this.push(`addr ${node.arguments[0].text}`, ForeignType.Account);
+        this.push(`addr ${node.arguments[0].text}`, ForeignType.Address);
       } else if (['method'].includes(methodName)) {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
@@ -2573,7 +2575,7 @@ export default class Compiler {
       this.addSourceComment(p, true);
       this.pushComments(p);
 
-      if (key === 'OnCompletion') {
+      if (key === 'onCompletion') {
         if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer)) throw new Error('OnCompletion key must be a string');
         this.pushVoid(`int ${p.initializer.text}`);
         this.pushVoid('itxn_field OnCompletion');
@@ -2590,7 +2592,7 @@ export default class Compiler {
         if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
 
         p.initializer.elements.forEach((e, i: number) => {
-          if (argTypes[i] === ForeignType.Account) {
+          if (argTypes[i] === 'account') {
             this.processNode(e);
             this.pushVoid('itxn_field Accounts');
             this.pushVoid(`int ${accountIndex}`);
@@ -2683,6 +2685,8 @@ export default class Compiler {
     let type = calleeType;
     if (type.includes('txn') && !['itxn', 'txn'].includes(type)) {
       type = 'gtxns';
+    } else if (type === ForeignType.Address) {
+      type = 'account';
     }
 
     if (!name.startsWith('has')) {

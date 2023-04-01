@@ -8,7 +8,7 @@ type Contact = { name: string, company: string };
 
 // eslint-disable-next-line no-unused-vars
 class ContactsApp extends Contract {
-  contacts = new BoxMap<Account, Contact>();
+  contacts = new BoxMap<Address, Contact>();
 
   myContact = new GlobalReference<Contact>();
 
