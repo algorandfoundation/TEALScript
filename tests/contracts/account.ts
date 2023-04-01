@@ -33,9 +33,7 @@ class AccountTest extends Contract {
   }
 
   authAddr(a: Account): void {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    assert(a.authAddr);
+    log(a.authAddr);
   }
 
   totalNumUint(a: Account): void {

@@ -1,0 +1,578 @@
+#pragma version 8
+	b main
+
+abi_route_payment:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub payment
+	int 1
+	return
+
+payment:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:10
+	// sendPayment(
+	itxn_begin
+	int pay
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:12
+	// amount: 100
+	int 100
+	itxn_field Amount
+
+	// tests/contracts/itxns.ts:13
+	// receiver: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field Receiver
+
+	// tests/contracts/itxns.ts:14
+	// closeRemainderTo: globals.zeroAddress
+	global ZeroAddress
+	itxn_field CloseRemainderTo
+
+	// tests/contracts/itxns.ts:15
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// tests/contracts/itxns.ts:16
+	// sender: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field Sender
+
+	// tests/contracts/itxns.ts:17
+	// rekeyTo: globals.zeroAddress
+	global ZeroAddress
+	itxn_field RekeyTo
+
+	// tests/contracts/itxns.ts:18
+	// note: 'Hello World!'
+	byte "Hello World!"
+	itxn_field Note
+	itxn_submit
+	retsub
+
+abi_route_assetCreation:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub assetCreation
+	int 1
+	return
+
+assetCreation:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:24
+	// return sendAssetCreation({
+	itxn_begin
+	int acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:25
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// tests/contracts/itxns.ts:26
+	// name: 'name'
+	byte "name"
+	itxn_field ConfigAssetName
+
+	// tests/contracts/itxns.ts:27
+	// unitName: 'unit'
+	byte "unit"
+	itxn_field ConfigAssetUnitName
+
+	// tests/contracts/itxns.ts:28
+	// total: 1
+	int 1
+	itxn_field ConfigAssetTotal
+
+	// tests/contracts/itxns.ts:29
+	// decimals: 0
+	int 0
+	itxn_field ConfigAssetDecimals
+
+	// tests/contracts/itxns.ts:30
+	// manager: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetManager
+
+	// tests/contracts/itxns.ts:31
+	// reserve: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetReserve
+
+	// tests/contracts/itxns.ts:32
+	// freeze: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetFreeze
+
+	// tests/contracts/itxns.ts:33
+	// clawback: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetClawback
+
+	// tests/contracts/itxns.ts:34
+	// defaultFrozen: 0
+	int 0
+	itxn_field ConfigAssetDefaultFrozen
+
+	// tests/contracts/itxns.ts:35
+	// url: 'url'
+	byte "url"
+	itxn_field ConfigAssetURL
+
+	// tests/contracts/itxns.ts:36
+	// metadataHash: 'hash'
+	byte "hash"
+	itxn_field ConfigAssetMetadataHash
+	itxn_submit
+	itxn CreatedAssetID
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_appCall:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub appCall
+	int 1
+	return
+
+appCall:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:41
+	// sendAppCall({
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:42
+	// accounts: [this.app.address]
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field Accounts
+
+	// tests/contracts/itxns.ts:43
+	// applicationArgs: ['arg1', 'arg2']
+	byte "arg1"
+	itxn_field ApplicationArgs
+	byte "arg2"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.ts:44
+	// applicationID: this.app
+	txna Applications 0
+	itxn_field ApplicationID
+
+	// tests/contracts/itxns.ts:45
+	// applications: [this.app]
+	txna Applications 0
+	itxn_field Applications
+
+	// tests/contracts/itxns.ts:46
+	// approvalProgram: 'approval'
+	byte "approval"
+	itxn_field ApprovalProgram
+
+	// tests/contracts/itxns.ts:47
+	// assets: [Asset.zeroIndex]
+	int 0
+	itxn_field Assets
+
+	// tests/contracts/itxns.ts:48
+	// clearStateProgram: 'clear'
+	byte "clear"
+	itxn_field ClearStateProgram
+
+	// tests/contracts/itxns.ts:49
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// tests/contracts/itxns.ts:50
+	// globalNumByteSlice: 1
+	int 1
+	itxn_field GlobalNumByteSlice
+
+	// tests/contracts/itxns.ts:51
+	// globalNumUint: 1
+	int 1
+	itxn_field GlobalNumUint
+
+	// tests/contracts/itxns.ts:52
+	// localNumByteSlice: 1
+	int 1
+	itxn_field LocalNumByteSlice
+
+	// tests/contracts/itxns.ts:53
+	// localNumUint: 1
+	int 1
+	itxn_field LocalNumUint
+
+	// tests/contracts/itxns.ts:54
+	// note: 'note'
+	byte "note"
+	itxn_field Note
+
+	// tests/contracts/itxns.ts:55
+	// onCompletion: 'NoOp'
+	int NoOp
+	itxn_field OnCompletion
+	itxn_submit
+	retsub
+
+abi_route_assetConfig:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub assetConfig
+	int 1
+	return
+
+assetConfig:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:60
+	// sendAssetConfig({
+	itxn_begin
+	int acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:61
+	// asset: Asset.zeroIndex
+	int 0
+	itxn_field ConfigAsset
+
+	// tests/contracts/itxns.ts:62
+	// manager: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetManager
+
+	// tests/contracts/itxns.ts:63
+	// reserve: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetReserve
+
+	// tests/contracts/itxns.ts:64
+	// freeze: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetFreeze
+
+	// tests/contracts/itxns.ts:65
+	// clawback: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field ConfigAssetClawback
+
+	// tests/contracts/itxns.ts:66
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+abi_route_assetFreeze:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub assetFreeze
+	int 1
+	return
+
+assetFreeze:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:71
+	// sendAssetFreeze({
+	itxn_begin
+	int afrz
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:72
+	// freezeAssetFrozen: 1
+	int 1
+	itxn_field FreezeAssetFrozen
+
+	// tests/contracts/itxns.ts:73
+	// freezeAssetAccount: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field FreezeAssetAccount
+
+	// tests/contracts/itxns.ts:74
+	// freezeAsset: Asset.zeroIndex
+	int 0
+	itxn_field FreezeAsset
+
+	// tests/contracts/itxns.ts:75
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+abi_route_assetTransfer:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub assetTransfer
+	int 1
+	return
+
+assetTransfer:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:80
+	// sendAssetTransfer({
+	itxn_begin
+	int axfer
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:81
+	// amount: 1
+	int 1
+	itxn_field AssetAmount
+
+	// tests/contracts/itxns.ts:82
+	// closeTo: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field AssetCloseTo
+
+	// tests/contracts/itxns.ts:83
+	// receiver: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field AssetReceiver
+
+	// tests/contracts/itxns.ts:84
+	// assetSender: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field AssetSender
+
+	// tests/contracts/itxns.ts:85
+	// asset: Asset.zeroIndex
+	int 0
+	itxn_field XferAsset
+
+	// tests/contracts/itxns.ts:86
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+abi_route_methodCall:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub methodCall
+	int 1
+	return
+
+methodCall:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:91
+	// return sendMethodCall<[Application, Asset], Asset>({
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	method "method(application,asset)uint64"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.ts:93
+	// methodArgs: [this.app, Asset.zeroIndex]
+	txna Applications 0
+	itxn_field Applications
+	int 1
+	itob
+	itxn_field ApplicationArgs
+	int 0
+	itxn_field Assets
+	int 0
+	itob
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.ts:94
+	// onCompletion: 'NoOp'
+	int NoOp
+	itxn_field OnCompletion
+
+	// tests/contracts/itxns.ts:95
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	itxn NumLogs
+	int 1
+	-
+	itxnas Logs
+	extract 4 0
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_onlineKeyRegistration:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub onlineKeyRegistration
+	int 1
+	return
+
+onlineKeyRegistration:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:100
+	// sendOnlineKeyRegistration({
+	itxn_begin
+	int keyreg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:101
+	// selectionPK: 'pk'
+	byte "pk"
+	itxn_field SelectionPK
+
+	// tests/contracts/itxns.ts:102
+	// stateProofPK: 'pk'
+	byte "pk"
+	itxn_field StateProofPK
+
+	// tests/contracts/itxns.ts:103
+	// voteFirst: 1
+	int 1
+	itxn_field VoteFirst
+
+	// tests/contracts/itxns.ts:104
+	// voteKeyDilution: 1
+	int 1
+	itxn_field VoteKeyDilution
+
+	// tests/contracts/itxns.ts:105
+	// voteLast: 1
+	int 1
+	itxn_field VoteLast
+
+	// tests/contracts/itxns.ts:106
+	// votePK: 'pk'
+	byte "pk"
+	itxn_field VotePK
+
+	// tests/contracts/itxns.ts:107
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+abi_route_offlineKeyRegistration:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub offlineKeyRegistration
+	int 1
+	return
+
+offlineKeyRegistration:
+	proto 1 0
+
+	// tests/contracts/itxns.ts:112
+	// sendOfflineKeyRegistration({
+	itxn_begin
+	int keyreg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.ts:113
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	int 1
+	match 
+
+route_abi:
+	method "payment()void"
+	method "assetCreation()uint64"
+	method "appCall()void"
+	method "assetConfig()void"
+	method "assetFreeze()void"
+	method "assetTransfer()void"
+	method "methodCall()uint64"
+	method "onlineKeyRegistration()void"
+	method "offlineKeyRegistration()void"
+	txna ApplicationArgs 0
+	match abi_route_payment abi_route_assetCreation abi_route_appCall abi_route_assetConfig abi_route_assetFreeze abi_route_assetTransfer abi_route_methodCall abi_route_onlineKeyRegistration abi_route_offlineKeyRegistration

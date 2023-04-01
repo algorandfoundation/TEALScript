@@ -2,11 +2,13 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { getMethodTeal } from './common';
+import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/math.ts', 'MathTest', methodName);
 }
+
+artifactsTest('MathTest', 'tests/contracts/math.ts', 'tests/contracts/', 'MathTest');
 
 describe('Math', function () {
   it('uint64 +', async function () {

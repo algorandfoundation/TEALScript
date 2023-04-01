@@ -128,6 +128,10 @@ const TXN_METHODS = [
   'sendMethodCall',
   'sendAssetTransfer',
   'sendAssetCreation',
+  'sendAssetFreeze',
+  'sendAssetConfig',
+  'sendOnlineKeyRegistration',
+  'sendOfflineKeyRegistration',
 ];
 
 const CONTRACT_SUBCLASS = 'Contract';
@@ -2526,6 +2530,13 @@ export default class Compiler {
       case 'sendAssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
+      case 'sendAssetFreeze':
+        txnType = TransactionType.AssetFreezeTx;
+        break;
+      case 'sendOfflineKeyRegistration':
+      case 'sendOnlineKeyRegistration':
+        txnType = TransactionType.KeyRegistrationTx;
+        break;
       default:
         throw new Error(`Invalid transaction call ${node.expression.getText()}`);
     }
@@ -2541,7 +2552,7 @@ export default class Compiler {
 
     );
 
-    if (nameProp) {
+    if (nameProp && txnType === TransactionType.ApplicationCallTx) {
       if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer)) throw new Error('Method call name key must be a string');
 
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
@@ -2568,7 +2579,7 @@ export default class Compiler {
 
       if (key === undefined) throw new Error('Key must be defined');
 
-      if (key === 'name') {
+      if (key === 'name' && txnType === TransactionType.ApplicationCallTx) {
         return;
       }
 
@@ -2625,7 +2636,26 @@ export default class Compiler {
         });
       } else if (ts.isPropertyAssignment(p)) {
         this.processNode(p.initializer);
-        this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
+
+        const commonParams = ['Fee', 'Sender', 'RekeyTo', 'Note'];
+        let field = capitalizeFirstChar(key);
+
+        if (txnType === TransactionType.AssetConfigTx) {
+          if (field === 'Asset') {
+            field = 'ConfigAsset';
+          } else if (field === 'Url') {
+            field = 'ConfigAssetURL';
+          } else if (!commonParams.includes(field)) {
+            field = `ConfigAsset${field}`;
+          }
+        } else if (txnType === TransactionType.AssetTransferTx) {
+          if (field === 'Asset') {
+            field = 'XferAsset';
+          } else if (!commonParams.includes(field) && field !== 'AssetSender') {
+            field = `Asset${field}`;
+          }
+        }
+        this.pushVoid(`itxn_field ${field}`);
       } else {
         throw new Error(`Cannot process transaction property: ${p.getText()}`);
       }

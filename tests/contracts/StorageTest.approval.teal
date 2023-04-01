@@ -1,0 +1,590 @@
+#pragma version 8
+	b main
+
+abi_route_globalRefPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalRefPut
+	int 1
+	return
+
+globalRefPut:
+	proto 1 0
+
+	// tests/contracts/storage.ts:24
+	// this.globalRef.put('bar')
+	byte "foo"
+	byte "bar"
+	app_global_put
+	retsub
+
+abi_route_globalRefGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalRefGet
+	int 1
+	return
+
+globalRefGet:
+	proto 1 0
+
+	// tests/contracts/storage.ts:28
+	// assert(this.globalRef.get() === 'bar')
+	byte "foo"
+	app_global_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_globalRefDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalRefDelete
+	int 1
+	return
+
+globalRefDelete:
+	proto 1 0
+
+	// tests/contracts/storage.ts:32
+	// this.globalRef.delete()
+	byte "foo"
+	app_global_del
+	retsub
+
+abi_route_globalRefExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalRefExists
+	int 1
+	return
+
+globalRefExists:
+	proto 1 0
+
+	// tests/contracts/storage.ts:36
+	// this.globalRef.exists()
+	txna Applications 0
+	byte "foo"
+	app_global_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_localRefPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localRefPut
+	int 1
+	return
+
+localRefPut:
+	proto 2 0
+
+	// tests/contracts/storage.ts:40
+	// this.localRef.put(a, 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	byte "bar"
+	app_local_put
+	retsub
+
+abi_route_localRefGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localRefGet
+	int 1
+	return
+
+localRefGet:
+	proto 2 0
+
+	// tests/contracts/storage.ts:44
+	// assert(this.localRef.get(a) === 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_localRefDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localRefDelete
+	int 1
+	return
+
+localRefDelete:
+	proto 2 0
+
+	// tests/contracts/storage.ts:48
+	// this.localRef.delete(a)
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_del
+	retsub
+
+abi_route_localRefExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localRefExists
+	int 1
+	return
+
+localRefExists:
+	proto 2 0
+
+	// tests/contracts/storage.ts:52
+	// this.localRef.exists(a)
+	frame_dig -1 // a: account
+	txna Applications 0
+	byte "foo"
+	app_local_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_boxRefPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxRefPut
+	int 1
+	return
+
+boxRefPut:
+	proto 1 0
+
+	// tests/contracts/storage.ts:56
+	// this.boxRef.put('bar')
+	byte "foo"
+	byte "bar"
+	box_put
+	retsub
+
+abi_route_boxRefGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxRefGet
+	int 1
+	return
+
+boxRefGet:
+	proto 1 0
+
+	// tests/contracts/storage.ts:60
+	// assert(this.boxRef.get() === 'bar')
+	byte "foo"
+	box_get
+	assert
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_boxRefDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxRefDelete
+	int 1
+	return
+
+boxRefDelete:
+	proto 1 0
+
+	// tests/contracts/storage.ts:64
+	// this.boxRef.delete()
+	byte "foo"
+	box_del
+	retsub
+
+abi_route_boxRefExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxRefExists
+	int 1
+	return
+
+boxRefExists:
+	proto 1 0
+
+	// tests/contracts/storage.ts:68
+	// this.boxRef.exists()
+	byte "foo"
+	box_get
+	swap
+	pop
+	retsub
+
+abi_route_globalMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalMapPut
+	int 1
+	return
+
+globalMapPut:
+	proto 1 0
+
+	// tests/contracts/storage.ts:72
+	// this.globalMap.put('foo', 'bar')
+	byte "foo"
+	byte "bar"
+	app_global_put
+	retsub
+
+abi_route_globalMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalMapGet
+	int 1
+	return
+
+globalMapGet:
+	proto 1 0
+
+	// tests/contracts/storage.ts:76
+	// assert(this.globalMap.get('foo') === 'bar')
+	byte "foo"
+	app_global_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_globalMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalMapDelete
+	int 1
+	return
+
+globalMapDelete:
+	proto 1 0
+
+	// tests/contracts/storage.ts:80
+	// this.globalMap.delete('foo')
+	byte "foo"
+	app_global_del
+	retsub
+
+abi_route_globalMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub globalMapExists
+	int 1
+	return
+
+globalMapExists:
+	proto 1 0
+
+	// tests/contracts/storage.ts:84
+	// this.globalMap.exists('foo')
+	txna Applications 0
+	byte "foo"
+	app_global_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_localMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapPut
+	int 1
+	return
+
+localMapPut:
+	proto 2 0
+
+	// tests/contracts/storage.ts:88
+	// this.localMap.put(a, 'foo', 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	byte "bar"
+	app_local_put
+	retsub
+
+abi_route_localMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapGet
+	int 1
+	return
+
+localMapGet:
+	proto 2 0
+
+	// tests/contracts/storage.ts:92
+	// assert(this.localMap.get(a, 'foo') === 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_localMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapDelete
+	int 1
+	return
+
+localMapDelete:
+	proto 2 0
+
+	// tests/contracts/storage.ts:96
+	// this.localMap.delete(a, 'foo')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_del
+	retsub
+
+abi_route_localMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapExists
+	int 1
+	return
+
+localMapExists:
+	proto 2 0
+
+	// tests/contracts/storage.ts:100
+	// this.localMap.exists(a, 'foo')
+	frame_dig -1 // a: account
+	txna Applications 0
+	byte "foo"
+	app_local_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_boxMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxMapPut
+	int 1
+	return
+
+boxMapPut:
+	proto 1 0
+
+	// tests/contracts/storage.ts:104
+	// this.boxMap.put('foo', 'bar')
+	byte "foo"
+	byte "bar"
+	box_put
+	retsub
+
+abi_route_boxMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxMapGet
+	int 1
+	return
+
+boxMapGet:
+	proto 1 0
+
+	// tests/contracts/storage.ts:108
+	// assert(this.boxMap.get('foo') === 'bar')
+	byte "foo"
+	box_get
+	assert
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_boxMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxMapDelete
+	int 1
+	return
+
+boxMapDelete:
+	proto 1 0
+
+	// tests/contracts/storage.ts:112
+	// this.boxMap.delete('foo')
+	byte "foo"
+	box_del
+	retsub
+
+abi_route_boxMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub boxMapExists
+	int 1
+	return
+
+boxMapExists:
+	proto 1 0
+
+	// tests/contracts/storage.ts:116
+	// this.boxMap.exists('foo')
+	byte "foo"
+	box_get
+	swap
+	pop
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	int 1
+	match 
+
+route_abi:
+	method "globalRefPut()void"
+	method "globalRefGet()void"
+	method "globalRefDelete()void"
+	method "globalRefExists()void"
+	method "localRefPut(account)void"
+	method "localRefGet(account)void"
+	method "localRefDelete(account)void"
+	method "localRefExists(account)void"
+	method "boxRefPut()void"
+	method "boxRefGet()void"
+	method "boxRefDelete()void"
+	method "boxRefExists()void"
+	method "globalMapPut()void"
+	method "globalMapGet()void"
+	method "globalMapDelete()void"
+	method "globalMapExists()void"
+	method "localMapPut(account)void"
+	method "localMapGet(account)void"
+	method "localMapDelete(account)void"
+	method "localMapExists(account)void"
+	method "boxMapPut()void"
+	method "boxMapGet()void"
+	method "boxMapDelete()void"
+	method "boxMapExists()void"
+	txna ApplicationArgs 0
+	match abi_route_globalRefPut abi_route_globalRefGet abi_route_globalRefDelete abi_route_globalRefExists abi_route_localRefPut abi_route_localRefGet abi_route_localRefDelete abi_route_localRefExists abi_route_boxRefPut abi_route_boxRefGet abi_route_boxRefDelete abi_route_boxRefExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists

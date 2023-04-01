@@ -1,0 +1,171 @@
+{
+  "name": "BinaryTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "and",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "or",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "equal",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "notEqual",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "bitAnd",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "bitOr",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "bitXor",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "combo",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "c",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

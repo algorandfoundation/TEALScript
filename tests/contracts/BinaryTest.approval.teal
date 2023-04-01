@@ -1,0 +1,248 @@
+#pragma version 8
+	b main
+
+abi_route_and:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub and
+	int 1
+	return
+
+and:
+	proto 3 0
+
+	// tests/contracts/binary.ts:13
+	// assert(a && b)
+	frame_dig -1 // a: uint64
+	dup
+	bz skip_and0
+	frame_dig -2 // b: uint64
+	&&
+
+skip_and0:
+	assert
+	retsub
+
+abi_route_or:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub or
+	int 1
+	return
+
+or:
+	proto 3 0
+
+	// tests/contracts/binary.ts:17
+	// assert(a || b)
+	frame_dig -1 // a: uint64
+	dup
+	bnz skip_or0
+	frame_dig -2 // b: uint64
+	||
+
+skip_or0:
+	assert
+	retsub
+
+abi_route_equal:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub equal
+	int 1
+	return
+
+equal:
+	proto 3 0
+
+	// tests/contracts/binary.ts:21
+	// assert(a === b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	==
+	assert
+	retsub
+
+abi_route_notEqual:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub notEqual
+	int 1
+	return
+
+notEqual:
+	proto 3 0
+
+	// tests/contracts/binary.ts:25
+	// assert(a !== b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	!=
+	assert
+	retsub
+
+abi_route_bitAnd:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitAnd
+	int 1
+	return
+
+bitAnd:
+	proto 3 0
+
+	// tests/contracts/binary.ts:29
+	// assert(a & b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	&
+	assert
+	retsub
+
+abi_route_bitOr:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitOr
+	int 1
+	return
+
+bitOr:
+	proto 3 0
+
+	// tests/contracts/binary.ts:33
+	// assert(a | b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	|
+	assert
+	retsub
+
+abi_route_bitXor:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitXor
+	int 1
+	return
+
+bitXor:
+	proto 3 0
+
+	// tests/contracts/binary.ts:37
+	// assert(a ^ b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	^
+	assert
+	retsub
+
+abi_route_combo:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 3
+	btoi
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub combo
+	int 1
+	return
+
+combo:
+	proto 4 0
+
+	// tests/contracts/binary.ts:41
+	// assert(a || (b && c))
+	frame_dig -1 // a: uint64
+	dup
+	bnz skip_or1
+	frame_dig -2 // b: uint64
+	dup
+	bz skip_and1
+	frame_dig -3 // c: uint64
+	&&
+
+skip_and1:
+	||
+
+skip_or1:
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	int 1
+	match 
+
+route_abi:
+	method "and(uint64,uint64)void"
+	method "or(uint64,uint64)void"
+	method "equal(uint64,uint64)void"
+	method "notEqual(uint64,uint64)void"
+	method "bitAnd(uint64,uint64)void"
+	method "bitOr(uint64,uint64)void"
+	method "bitXor(uint64,uint64)void"
+	method "combo(uint64,uint64,uint64)void"
+	txna ApplicationArgs 0
+	match abi_route_and abi_route_or abi_route_equal abi_route_notEqual abi_route_bitAnd abi_route_bitOr abi_route_bitXor abi_route_combo

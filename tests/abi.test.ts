@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { sandbox, clients } from 'beaker-ts';
 import algosdk from 'algosdk';
 import { AbiTest } from './contracts/clients/abitest_client';
+import { artifactsTest } from './common';
 
 let appClient: AbiTest;
 
@@ -30,6 +31,8 @@ async function dryrun(methodName: string) {
     { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
   ));
 }
+
+artifactsTest('AbiTest', 'tests/contracts/abi.ts', 'tests/contracts/', 'AbiTest');
 
 describe('ABI', function () {
   before(async function () {

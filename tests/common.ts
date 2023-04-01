@@ -1,5 +1,9 @@
+/* eslint-disable mocha/no-exports */
+/* eslint-disable mocha/no-mocha-arrows */
+/* eslint-disable func-names */
+
 import fs from 'fs';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+import { expect } from 'chai';
 import Compiler from '../src/lib/compiler';
 
 export async function getMethodTeal(
@@ -18,4 +22,36 @@ export async function getMethodTeal(
 
 export function lowerFirstChar(str: string) {
   return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
+}
+
+export function artifactsTest(
+  testName: string,
+  sourcePath: string,
+  artifactsPath: string,
+  className: string,
+) {
+  describe(`${testName} ${className} Artifacts`, () => {
+    before(async function () {
+      const content = fs.readFileSync(sourcePath, 'utf-8');
+      this.compiler = new Compiler(content, className, sourcePath);
+      await this.compiler.compile();
+      await this.compiler.algodCompile();
+    });
+
+    it('Generates TEAL', function () {
+      expect(this.compiler.approvalProgram()).to.equal(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
+    });
+
+    it('Generates Sourcemap', function () {
+      expect(this.compiler.pcToLine).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.src_map.json`, 'utf-8')));
+    });
+
+    it('Generates ABI JSON', function () {
+      expect(this.compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
+    });
+
+    it('Generates App Spec', function () {
+      expect(this.compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
+    });
+  });
 }
