@@ -1,0 +1,1 @@
+To compile `itxns.ts`, generate the beaker-ts client, and run `demo.ts` run `yarn itxns`

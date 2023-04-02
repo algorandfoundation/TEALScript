@@ -1,0 +1,3607 @@
+#pragma version 8
+	b main
+
+preArrayAccess:
+	proto 3 0
+	frame_dig -3 // full tuple
+	store 0 // full tuple
+	load 0 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	frame_dig -2 // type length
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	retsub
+
+updateDynamicElement:
+	proto 8 1
+	frame_dig -8 // newArray
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	frame_dig -2 // startOfHeads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	frame_dig -2 // startOfHeads
+	frame_dig -3 // totalHeadLength
+	extract3 
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	frame_dig -4 // lastDynamicElement
+	bnz skip_values_after_array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+
+skip_values_after_array:
+	frame_dig -5 // firstDynamicElement
+	bnz skip_values_before_array
+	load 0 // full tuple
+	frame_dig -1 // headEnd
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+
+skip_values_before_array:
+	load 4 // dynamic heads
+	frame_dig -6 // headUpdateBitmask
+	load 6 // new array
+	len
+	load 2 // full array length
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz skip_len_swap
+	swap
+
+skip_len_swap:
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	b&
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz add_head
+	b-
+	b sub_or_add_head_end
+
+add_head:
+	b+
+
+sub_or_add_head_end:
+	frame_dig -7 // fullHeadBitmask
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	retsub
+
+bare_route_create:
+	byte 0x
+	dupn 1
+	callsub create
+	int 1
+	return
+
+create:
+	proto 1 0
+	retsub
+
+bare_route_optIn:
+	byte 0x
+	dupn 1
+	callsub optIn
+	int 1
+	return
+
+optIn:
+	proto 1 0
+	retsub
+
+abi_route_staticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub staticArray
+	int 1
+	return
+
+staticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:35
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:37
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnStaticArray
+	int 1
+	return
+
+returnStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:41
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:43
+	// return a;
+	frame_dig -1 // a: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	callsub staticArrayArg
+	int 1
+	return
+
+staticArrayArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:47
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_nonLiteralStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 5
+	callsub nonLiteralStaticArrayElements
+	int 1
+	return
+
+nonLiteralStaticArrayElements:
+	proto 5 0
+
+	// tests/contracts/abi.ts:51
+	// n1 = 11
+	int 11
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.ts:52
+	// n2 = 22
+	int 22
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.ts:53
+	// n3 = 33
+	int 33
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.ts:54
+	// a: StaticArray<uint64, 3> = [n1, n2, n3]
+	frame_dig -1 // n1: uint64
+	itob
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	frame_bury -4 // a: uint64[3]
+
+	// tests/contracts/abi.ts:56
+	// return a[1];
+	frame_dig -4 // a: uint64[3]
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_mixedStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 5
+	callsub mixedStaticArrayElements
+	int 1
+	return
+
+mixedStaticArrayElements:
+	proto 5 0
+
+	// tests/contracts/abi.ts:60
+	// n1 = 3
+	int 3
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.ts:61
+	// n2 = 4
+	int 4
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.ts:62
+	// n3 = 5
+	int 5
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.ts:63
+	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
+	byte 0x000000000000000000000000000000010000000000000002
+	frame_dig -1 // n1: uint64
+	itob
+	concat
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	byte 0x000000000000000600000000000000070000000000000008
+	concat
+	frame_bury -4 // a: uint64[9]
+
+	// tests/contracts/abi.ts:65
+	// return a[1] + a[4] + a[7];
+	frame_dig -4 // a: uint64[9]
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	frame_dig -4 // a: uint64[9]
+	int 32 // offset
+	int 8
+	extract3
+	btoi
+	+
+	frame_dig -4 // a: uint64[9]
+	int 56 // offset
+	int 8
+	extract3
+	btoi
+	+
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_nonLiteralStaticArrayAccess:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub nonLiteralStaticArrayAccess
+	int 1
+	return
+
+nonLiteralStaticArrayAccess:
+	proto 3 0
+
+	// tests/contracts/abi.ts:69
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:70
+	// n = 2
+	int 2
+	frame_bury -2 // n: uint64
+
+	// tests/contracts/abi.ts:72
+	// return a[n];
+	frame_dig -1 // a: uint64[3]
+	frame_dig -2 // n: uint64
+	int 8
+	*
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_setStaticArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub setStaticArrayElement
+	int 1
+	return
+
+setStaticArrayElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:76
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:78
+	// a[1] = 222
+	frame_dig -1 // a: uint64[3]
+	int 8 // offset
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:80
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticArrayInStorageRef:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub staticArrayInStorageRef
+	int 1
+	return
+
+staticArrayInStorageRef:
+	proto 3 0
+
+	// tests/contracts/abi.ts:84
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:86
+	// this.gRef.put(a)
+	byte "gRef"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:87
+	// this.lRef.put(this.txn.sender, a)
+	txn Sender
+	byte "lRef"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:88
+	// this.bRef.put(a)
+	byte "bRef"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:90
+	// ret: StaticArray<uint64, 3> = [
+	byte "gRef"
+	app_global_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	txn Sender
+	byte "lRef"
+	app_local_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	byte "bRef"
+	box_get
+	assert
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:96
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateStaticArrayInStorageRef:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub updateStaticArrayInStorageRef
+	int 1
+	return
+
+updateStaticArrayInStorageRef:
+	proto 3 0
+
+	// tests/contracts/abi.ts:100
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:102
+	// this.gRef.put(a)
+	byte "gRef"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:103
+	// this.lRef.put(this.txn.sender, a)
+	txn Sender
+	byte "lRef"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:104
+	// this.bRef.put(a)
+	byte "bRef"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:106
+	// this.gRef.get()[1] = 111
+	byte "gRef"
+	app_global_get
+	int 8 // offset
+	int 111
+	itob
+	replace3
+	byte "gRef"
+	swap
+	app_global_put
+
+	// tests/contracts/abi.ts:107
+	// this.lRef.get(this.txn.sender)[1] = 222
+	txn Sender
+	byte "lRef"
+	app_local_get
+	int 8 // offset
+	int 222
+	itob
+	replace3
+	txn Sender
+	byte "lRef"
+	uncover 2
+	app_local_put
+
+	// tests/contracts/abi.ts:108
+	// this.bRef.get()[1] = 333
+	byte "bRef"
+	box_get
+	assert
+	int 8 // offset
+	int 333
+	itob
+	replace3
+	byte "bRef"
+	swap
+	box_put
+
+	// tests/contracts/abi.ts:110
+	// ret: StaticArray<uint64, 3> = [
+	byte "gRef"
+	app_global_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	txn Sender
+	byte "lRef"
+	app_local_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	byte "bRef"
+	box_get
+	assert
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:116
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticArrayInStorageMap:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub staticArrayInStorageMap
+	int 1
+	return
+
+staticArrayInStorageMap:
+	proto 3 0
+
+	// tests/contracts/abi.ts:120
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:122
+	// this.gMap.put('gMap', a)
+	byte "gMap"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:123
+	// this.lMap.put(this.txn.sender, 'lMap', a)
+	txn Sender
+	byte "lMap"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:124
+	// this.bMap.put('bMap', a)
+	byte "bMap"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:126
+	// ret: StaticArray<uint64, 3> = [
+	byte "gMap"
+	app_global_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	txn Sender
+	byte "lMap"
+	app_local_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	byte "bMap"
+	box_get
+	assert
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:132
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateStaticArrayInStorageMap:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub updateStaticArrayInStorageMap
+	int 1
+	return
+
+updateStaticArrayInStorageMap:
+	proto 3 0
+
+	// tests/contracts/abi.ts:136
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	byte 0x000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.ts:138
+	// this.gMap.put('gMap', a)
+	byte "gMap"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.ts:139
+	// this.lMap.put(this.txn.sender, 'lMap', a)
+	txn Sender
+	byte "lMap"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.ts:140
+	// this.bMap.put('bMap', a)
+	byte "bMap"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.ts:142
+	// this.gMap.get('gMap')[1] = 1111
+	byte "gMap"
+	app_global_get
+	int 8 // offset
+	int 1111
+	itob
+	replace3
+	byte "gMap"
+	swap
+	app_global_put
+
+	// tests/contracts/abi.ts:143
+	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
+	txn Sender
+	byte "lMap"
+	app_local_get
+	int 8 // offset
+	int 2222
+	itob
+	replace3
+	txn Sender
+	byte "lMap"
+	uncover 2
+	app_local_put
+
+	// tests/contracts/abi.ts:144
+	// this.bMap.get('bMap')[1] = 3333
+	byte "bMap"
+	box_get
+	assert
+	int 8 // offset
+	int 3333
+	itob
+	replace3
+	byte "bMap"
+	swap
+	box_put
+
+	// tests/contracts/abi.ts:146
+	// ret: StaticArray<uint64, 3> = [
+	byte "gMap"
+	app_global_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	txn Sender
+	byte "lMap"
+	app_local_get
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	byte "bMap"
+	box_get
+	assert
+	int 8 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.ts:152
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_nestedStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub nestedStaticArray
+	int 1
+	return
+
+nestedStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:156
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:158
+	// return a[1][1];
+	frame_dig -1 // a: uint64[3][3]
+	int 32 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateNestedStaticArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateNestedStaticArrayElement
+	int 1
+	return
+
+updateNestedStaticArrayElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:162
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:164
+	// a[1][1] = 555
+	frame_dig -1 // a: uint64[3][3]
+	int 32 // offset
+	int 555
+	itob
+	replace3
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:166
+	// return a[1][1];
+	frame_dig -1 // a: uint64[3][3]
+	int 32 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateNestedStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateNestedStaticArray
+	int 1
+	return
+
+updateNestedStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:170
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:172
+	// a[1] = [444, 555, 666]
+	frame_dig -1 // a: uint64[3][3]
+	int 24 // offset
+	byte 0x00000000000001bc000000000000022b000000000000029a
+	replace3
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.ts:174
+	// return a[1][1];
+	frame_dig -1 // a: uint64[3][3]
+	int 32 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_threeDimensionalUint16Array:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub threeDimensionalUint16Array
+	int 1
+	return
+
+threeDimensionalUint16Array:
+	proto 2 0
+
+	// tests/contracts/abi.ts:178
+	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
+	byte 0x000b00160021002c00370042004d0058
+	frame_bury -1 // a: uint16[2][2][2]
+
+	// tests/contracts/abi.ts:182
+	// a[1][1] = [777, 888]
+	frame_dig -1 // a: uint16[2][2][2]
+	int 12 // offset
+	byte 0x03090378
+	replace3
+	frame_bury -1 // a: uint16[2][2][2]
+
+	// tests/contracts/abi.ts:184
+	// return a[1][1][1];
+	frame_dig -1 // a: uint16[2][2][2]
+	int 14 // offset
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_simpleTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub simpleTuple
+	int 1
+	return
+
+simpleTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:188
+	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
+	byte 0x000000000000000b00160000000000000021002c
+	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
+
+	// tests/contracts/abi.ts:190
+	// return a[3];
+	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
+	int 18 // offset
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arrayInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub arrayInTuple
+	int 1
+	return
+
+arrayInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:194
+	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
+	byte 0x000000000000000b00160000000000000021000000000000002c0037
+	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
+
+	// tests/contracts/abi.ts:198
+	// return a[2][1];
+	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
+	int 18 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_tupleInArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub tupleInArray
+	int 1
+	return
+
+tupleInArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:202
+	// a: StaticArray<[uint64, uint16], 2> = [
+	byte 0x000000000000000b00160000000000000021002c
+	frame_bury -1 // a: [uint64,uint16][2]
+
+	// tests/contracts/abi.ts:206
+	// return a[1][1];
+	frame_dig -1 // a: [uint64,uint16][2]
+	int 18 // offset
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_tupleInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub tupleInTuple
+	int 1
+	return
+
+tupleInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:210
+	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+	byte 0x000b00160000000000000021002c00370000000000000042
+	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+
+	// tests/contracts/abi.ts:214
+	// return a[3][1];
+	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	int 16 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_shortTypeNotation:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub shortTypeNotation
+	int 1
+	return
+
+shortTypeNotation:
+	proto 2 0
+
+	// tests/contracts/abi.ts:218
+	// a: [uint16<2>, uint64<2>, uint16<2>] = [
+	byte 0x000b00160000000000000021000000000000002c00370042
+	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
+
+	// tests/contracts/abi.ts:222
+	// return a[2][1];
+	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
+	int 22 // offset
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_disgusting:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub disgusting
+	int 1
+	return
+
+disgusting:
+	proto 2 0
+
+	// tests/contracts/abi.ts:226
+	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+	byte 0x000b00160000000000000021002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063006f00de000000000000014d01bc000000000000022b000000000000029a0000000000000309000000000000037800000000000003e7
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.ts:231
+	// a[1][3][1] = [8888, 9999]
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	int 92 // offset
+	byte 0x00000000000022b8000000000000270f
+	replace3
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.ts:232
+	// return a[1][3][1][0];
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	int 92 // offset
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnTuple
+	int 1
+	return
+
+returnTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:236
+	// a: [uint64, uint16, uint64] = [11, 22, 33]
+	byte 0x000000000000000b00160000000000000021
+	frame_bury -1 // a: [uint64,uint16,uint64]
+
+	// tests/contracts/abi.ts:237
+	// return a;
+	frame_dig -1 // a: [uint64,uint16,uint64]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_tupleArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	callsub tupleArg
+	int 1
+	return
+
+tupleArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:241
+	// return a[1];
+	frame_dig -1 // a: [uint64,uint16,uint64]
+	int 8 // offset
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub dynamicArray
+	int 1
+	return
+
+dynamicArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:245
+	// a: uint64[] = [11, 22, 33]
+	byte 0x0003000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:247
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 1
+	int 8
+	*
+	int 2
+	+
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnDynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnDynamicArray
+	int 1
+	return
+
+returnDynamicArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:251
+	// a: uint64[] = [11, 22, 33]
+	byte 0x0003000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:252
+	// return a;
+	frame_dig -1 // a: uint64[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	callsub dynamicArrayArg
+	int 1
+	return
+
+dynamicArrayArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:256
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 1
+	int 8
+	*
+	int 2
+	+
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateDynamicArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateDynamicArrayElement
+	int 1
+	return
+
+updateDynamicArrayElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:260
+	// a: uint64[] = [11, 22, 33]
+	byte 0x0003000000000000000b00000000000000160000000000000021
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:262
+	// a[1] = 222
+	frame_dig -1 // a: uint64[]
+	int 1
+	int 8
+	*
+	int 2
+	+
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:264
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	int 1
+	int 8
+	*
+	int 2
+	+
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicTupleArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub dynamicTupleArray
+	int 1
+	return
+
+dynamicTupleArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:268
+	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
+	byte 0x0002000b00000000000000160021000000000000002c
+	frame_bury -1 // a: [uint16,uint64][]
+
+	// tests/contracts/abi.ts:270
+	// return a[1][1];
+	frame_dig -1 // a: [uint16,uint64][]
+	int 1
+	int 10
+	*
+	int 2
+	+
+	int 2 // offset
+	+
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnTupleWithDyamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnTupleWithDyamicArray
+	int 1
+	return
+
+returnTupleWithDyamicArray:
+	proto 2 0
+
+	// tests/contracts/abi.ts:274
+	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
+	byte 0x00000000000000010002
+	store 11 // static elements
+	byte 0x000e // head end
+	store 8 // dynamic head
+	int 14
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 3
+	itob
+	int 4
+	itob
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 6 0
+	int 6
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
+
+	// tests/contracts/abi.ts:276
+	// return a;
+	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnDynamicArrayFromTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub returnDynamicArrayFromTuple
+	int 1
+	return
+
+returnDynamicArrayFromTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:280
+	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
+	byte 0x010002
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 7 0
+	int 4
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 6 0
+	int 6
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 7
+	itob
+	extract 7 0
+	int 8
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:282
+	// return a[4];
+	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	int 1 // type length
+	int 7 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateDynamicArrayInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateDynamicArrayInTuple
+	int 1
+	return
+
+updateDynamicArrayInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:286
+	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
+	byte 0x09
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 8
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 7
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:288
+	// a[0] = 99 as uint8
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 0 // offset
+	int 99
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:289
+	// a[1] = [10, 11]
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 2 // type length
+	int 1 // head offset
+	callsub preArrayAccess
+	byte 0x0002000a000b
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x0000FFFFFFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:290
+	// a[2] = [12, 13]
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 1 // type length
+	int 3 // head offset
+	callsub preArrayAccess
+	byte 0x00020c0d
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x00000000FFFFFFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:291
+	// a[3] = [14, 15]
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 2 // type length
+	int 5 // head offset
+	callsub preArrayAccess
+	byte 0x0002000e000f
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x000000000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:292
+	// a[4] = [16, 17]
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	int 1 // type length
+	int 7 // head offset
+	callsub preArrayAccess
+	byte 0x00021011
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x0000000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:294
+	// return a;
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_nonLiteralDynamicElementInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub nonLiteralDynamicElementInTuple
+	int 1
+	return
+
+nonLiteralDynamicElementInTuple:
+	proto 3 0
+
+	// tests/contracts/abi.ts:298
+	// e: uint16[] = [5, 6]
+	byte 0x000200050006
+	frame_bury -1 // e: uint16[]
+
+	// tests/contracts/abi.ts:299
+	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
+	byte 0x010002
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 7 0
+	int 4
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	frame_dig -1 // e: uint16[]
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 7
+	itob
+	extract 7 0
+	int 8
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:301
+	// return a;
+	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arrayPush:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub arrayPush
+	int 1
+	return
+
+arrayPush:
+	proto 2 0
+
+	// tests/contracts/abi.ts:305
+	// a: uint16[] = [1, 2]
+	byte 0x000200010002
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:307
+	// a.push(3 as uint16)
+	frame_dig -1 // a: uint16[]
+	dup
+	int 0
+	extract_uint16
+	int 1
+	+
+	itob
+	extract 6 2
+	swap
+	extract 2 0
+	concat
+	int 3
+	itob
+	extract 6 0
+	concat
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:309
+	// return a;
+	frame_dig -1 // a: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arrayPop:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub arrayPop
+	int 1
+	return
+
+arrayPop:
+	proto 2 0
+
+	// tests/contracts/abi.ts:313
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:315
+	// a.pop()
+	frame_dig -1 // a: uint16[]
+	dup
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	swap
+	extract 2 0
+	concat
+	dup
+	len
+	int 2
+	-
+	int 0
+	swap
+	extract3
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:317
+	// return a;
+	frame_dig -1 // a: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arrayPopValue:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub arrayPopValue
+	int 1
+	return
+
+arrayPopValue:
+	proto 3 0
+
+	// tests/contracts/abi.ts:321
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:323
+	// v = a.pop()!
+	frame_dig -1 // a: uint16[]
+	dup
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	swap
+	extract 2 0
+	concat
+	dup
+	len
+	int 2
+	-
+	int 0
+	swap
+	extract3
+	dup
+	len
+	int 2
+	frame_dig -1 // a: uint16[]
+	cover 2
+	extract3
+	swap
+	frame_bury -1 // a: uint16[]
+	frame_bury -2 // v: uint16
+
+	// tests/contracts/abi.ts:325
+	// return v;
+	frame_dig -2 // v: uint16
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arraySplice:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub arraySplice
+	int 1
+	return
+
+arraySplice:
+	proto 2 0
+
+	// tests/contracts/abi.ts:329
+	// a: uint64[] = [1, 2, 3]
+	byte 0x0003000000000000000100000000000000020000000000000003
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:331
+	// a.splice(1, 1)
+	frame_dig -1 // a: uint64[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 1
+	int 8
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 8
+	*
+	int 8
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint64[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint64[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 8
+	-
+	swap
+	substring3
+	concat
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.ts:333
+	// return a;
+	frame_dig -1 // a: uint64[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_arraySpliceValue:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 5
+	callsub arraySpliceValue
+	int 1
+	return
+
+arraySpliceValue:
+	proto 5 0
+
+	// tests/contracts/abi.ts:337
+	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	byte 0x000a000100020003000400050006000700080009000a
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:339
+	// i = 1
+	int 1
+	frame_bury -2 // i: uint64
+
+	// tests/contracts/abi.ts:340
+	// l = 7
+	int 7
+	frame_bury -3 // l: uint64
+
+	// tests/contracts/abi.ts:341
+	// v = a.splice(i, l)
+	frame_dig -1 // a: uint16[]
+	int 0
+	extract_uint16
+	frame_dig -3 // l: uint64
+	-
+	itob
+	extract 6 2
+	frame_dig -2 // i: uint64
+	int 2
+	*
+	int 2
+	+
+	store 12 // splice start
+	frame_dig -3 // l: uint64
+	int 2
+	*
+	int 2
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint16[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint16[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 2
+	-
+	swap
+	substring3
+	concat
+	concat
+	frame_dig -3 // l: uint64
+	itob
+	extract 6 2
+	frame_dig -1 // a: uint16[]
+	load 12 // splice start
+	load 13 // splice byte length
+	int 2
+	-
+	extract3
+	concat
+	swap
+	frame_bury -1 // a: uint16[]
+	frame_bury -4 // v: uint16[]
+
+	// tests/contracts/abi.ts:343
+	// return v;
+	frame_dig -4 // v: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub dynamicArrayElements
+	int 1
+	return
+
+dynamicArrayElements:
+	proto 3 0
+
+	// tests/contracts/abi.ts:347
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:348
+	// newA: uint16[] = [a[0], a[1], a[2]]
+	byte 0x0003
+	frame_dig -1 // a: uint16[]
+	int 0
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_dig -1 // a: uint16[]
+	int 1
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_dig -1 // a: uint16[]
+	int 2
+	int 2
+	*
+	int 2
+	+
+	int 2
+	extract3
+	concat
+	frame_bury -2 // newA: uint16[]
+
+	// tests/contracts/abi.ts:350
+	// return newA;
+	frame_dig -2 // newA: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_spliceLastElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub spliceLastElement
+	int 1
+	return
+
+spliceLastElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:354
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:356
+	// a.splice(2, 1)
+	frame_dig -1 // a: uint16[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 2
+	int 2
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 2
+	*
+	int 2
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint16[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint16[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 2
+	-
+	swap
+	substring3
+	concat
+	concat
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:358
+	// return a;
+	frame_dig -1 // a: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_spliceLastElementValue:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub spliceLastElementValue
+	int 1
+	return
+
+spliceLastElementValue:
+	proto 3 0
+
+	// tests/contracts/abi.ts:362
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:364
+	// v = a.splice(2, 1)
+	frame_dig -1 // a: uint16[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 2
+	int 2
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 2
+	*
+	int 2
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint16[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint16[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 2
+	-
+	swap
+	substring3
+	concat
+	concat
+	int 1
+	itob
+	extract 6 2
+	frame_dig -1 // a: uint16[]
+	load 12 // splice start
+	load 13 // splice byte length
+	int 2
+	-
+	extract3
+	concat
+	swap
+	frame_bury -1 // a: uint16[]
+	frame_bury -2 // v: uint16[]
+
+	// tests/contracts/abi.ts:366
+	// return v;
+	frame_dig -2 // v: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_spliceFirstElement:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub spliceFirstElement
+	int 1
+	return
+
+spliceFirstElement:
+	proto 2 0
+
+	// tests/contracts/abi.ts:370
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:372
+	// a.splice(0, 1)
+	frame_dig -1 // a: uint16[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 0
+	int 2
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 2
+	*
+	int 2
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint16[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint16[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 2
+	-
+	swap
+	substring3
+	concat
+	concat
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:374
+	// return a;
+	frame_dig -1 // a: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_spliceFirstElementValue:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 3
+	callsub spliceFirstElementValue
+	int 1
+	return
+
+spliceFirstElementValue:
+	proto 3 0
+
+	// tests/contracts/abi.ts:378
+	// a: uint16[] = [1, 2, 3]
+	byte 0x0003000100020003
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.ts:380
+	// v = a.splice(0, 1)
+	frame_dig -1 // a: uint16[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 0
+	int 2
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 2
+	*
+	int 2
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint16[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint16[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 2
+	-
+	swap
+	substring3
+	concat
+	concat
+	int 1
+	itob
+	extract 6 2
+	frame_dig -1 // a: uint16[]
+	load 12 // splice start
+	load 13 // splice byte length
+	int 2
+	-
+	extract3
+	concat
+	swap
+	frame_bury -1 // a: uint16[]
+	frame_bury -2 // v: uint16[]
+
+	// tests/contracts/abi.ts:382
+	// return v;
+	frame_dig -2 // v: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_stringReturn:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	callsub stringReturn
+	int 1
+	return
+
+stringReturn:
+	proto 1 0
+
+	// tests/contracts/abi.ts:386
+	// return 'Hello World!';
+	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_stringArg:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub stringArg
+	int 1
+	return
+
+stringArg:
+	proto 2 0
+
+	// tests/contracts/abi.ts:390
+	// assert(s === 'Hello World!')
+	frame_dig -1 // s: bytes
+	byte "Hello World!"
+	==
+	assert
+	retsub
+
+abi_route_stringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub stringInTuple
+	int 1
+	return
+
+stringInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:394
+	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0008 // head end
+	store 8 // dynamic head
+	int 8
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 2
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
+
+	// tests/contracts/abi.ts:396
+	// return a;
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_accesStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub accesStringInTuple
+	int 1
+	return
+
+accesStringInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:400
+	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0008 // head end
+	store 8 // dynamic head
+	int 8
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 2
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
+
+	// tests/contracts/abi.ts:402
+	// assert(a[2] === 'Hello World!')
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	int 1 // type length
+	int 4 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	byte "Hello World!"
+	==
+	assert
+
+	// tests/contracts/abi.ts:404
+	// return a[2];
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	int 1 // type length
+	int 4 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateStringInTuple
+	int 1
+	return
+
+updateStringInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:408
+	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
+	byte 0x09
+	store 11 // static elements
+	byte 0x0009 // head end
+	store 8 // dynamic head
+	int 9
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 8
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	byte 0x000348693f // Hi?
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 5
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:410
+	// a[0] = 99 as uint8
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 0 // offset
+	int 99
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:411
+	// a[1] = [10, 11]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 2 // type length
+	int 1 // head offset
+	callsub preArrayAccess
+	byte 0x0002000a000b
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x0000FFFFFFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:412
+	// a[2] = 'Hello World!'
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 1 // type length
+	int 3 // head offset
+	callsub preArrayAccess
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x00000000FFFFFFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:413
+	// a[3] = [14, 15]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 2 // type length
+	int 5 // head offset
+	callsub preArrayAccess
+	byte 0x0002000e000f
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x000000000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:414
+	// a[4] = [16, 17]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	int 1 // type length
+	int 7 // head offset
+	callsub preArrayAccess
+	byte 0x00021011
+	byte 0xFFFFFFFFFFFFFFFF
+	byte 0x0000000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 8 // total head length
+	int 1 // startOfHeads
+	int 9 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.ts:416
+	// return a;
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateTupleWithOnlyDynamicTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateTupleWithOnlyDynamicTypes
+	int 1
+	return
+
+updateTupleWithOnlyDynamicTypes:
+	proto 2 0
+
+	// tests/contracts/abi.ts:420
+	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
+	byte 0x // no static elements
+	store 11 // static elements
+	byte 0x0006 // head end
+	store 8 // dynamic head
+	int 6
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 1
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 2
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:422
+	// a[0] = [4, 5]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 0 // head offset
+	callsub preArrayAccess
+	byte 0x000200040005
+	byte 0xFFFFFFFFFFFF
+	byte 0x0000FFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:423
+	// a[1] = [6, 7]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	byte 0x000200060007
+	byte 0xFFFFFFFFFFFF
+	byte 0x00000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:424
+	// a[2] = [8, 9]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 4 // head offset
+	callsub preArrayAccess
+	byte 0x000200080009
+	byte 0xFFFFFFFFFFFF
+	byte 0x000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:426
+	// return a;
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_shortenDynamicElementInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub shortenDynamicElementInTuple
+	int 1
+	return
+
+shortenDynamicElementInTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:430
+	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
+	byte 0x // no static elements
+	store 11 // static elements
+	byte 0x0006 // head end
+	store 8 // dynamic head
+	int 6
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 2
+	itob
+	extract 6 0
+	int 3
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	int 3
+	itob
+	extract 6 0
+	int 4
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:432
+	// a[0] = [5]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 0 // head offset
+	callsub preArrayAccess
+	byte 0x00010005
+	byte 0xFFFFFFFFFFFF
+	byte 0x0000FFFFFFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:433
+	// a[1] = [6]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	byte 0x00010006
+	byte 0xFFFFFFFFFFFF
+	byte 0x00000000FFFF // head update bitmask
+	int 0 // is first dynamic element
+	int 0 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:434
+	// a[2] = [7]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	int 2 // type length
+	int 4 // head offset
+	callsub preArrayAccess
+	byte 0x00010007
+	byte 0xFFFFFFFFFFFF
+	byte 0x000000000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 6 // total head length
+	int 0 // startOfHeads
+	int 6 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.ts:436
+	// return a;
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_namedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub namedTuple
+	int 1
+	return
+
+namedTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:440
+	// a: {
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.ts:448
+	// return a.bar;
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateNamedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub updateNamedTuple
+	int 1
+	return
+
+updateNamedTuple:
+	proto 2 0
+
+	// tests/contracts/abi.ts:452
+	// a: {
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	byte 0x000348693f // Hi?
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.ts:460
+	// a.bar = 'Hello World!'
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	byte 0xFFFF
+	byte 0x0000 // head update bitmask
+	int 1 // is first dynamic element
+	int 1 // is last dynamic element
+	int 2 // total head length
+	int 2 // startOfHeads
+	int 4 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.ts:462
+	// return a.bar;
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_customTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	callsub customTypes
+	int 1
+	return
+
+customTypes:
+	proto 2 0
+
+	// tests/contracts/abi.ts:466
+	// aa: CustomType = {
+	byte 0x0001
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	byte 0x000348693f // Hi?
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.ts:471
+	// aa.bar = 'Hello World!'
+	frame_dig -1 // aa: CustomType
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	byte 0x000c48656c6c6f20576f726c6421 // Hello World!
+	byte 0xFFFF
+	byte 0x0000 // head update bitmask
+	int 1 // is first dynamic element
+	int 1 // is last dynamic element
+	int 2 // total head length
+	int 2 // startOfHeads
+	int 4 // head end
+	callsub updateDynamicElement
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.ts:473
+	// return aa.bar;
+	frame_dig -1 // aa: CustomType
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
+	int OptIn
+	txn OnCompletion
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	int 1
+	match bare_route_create bare_route_optIn
+
+route_abi:
+	method "staticArray()uint64"
+	method "returnStaticArray()uint64[3]"
+	method "staticArrayArg(uint64[3])uint64"
+	method "nonLiteralStaticArrayElements()uint64"
+	method "mixedStaticArrayElements()uint64"
+	method "nonLiteralStaticArrayAccess()uint64"
+	method "setStaticArrayElement()uint64"
+	method "staticArrayInStorageRef()uint64[3]"
+	method "updateStaticArrayInStorageRef()uint64[3]"
+	method "staticArrayInStorageMap()uint64[3]"
+	method "updateStaticArrayInStorageMap()uint64[3]"
+	method "nestedStaticArray()uint64"
+	method "updateNestedStaticArrayElement()uint64"
+	method "updateNestedStaticArray()uint64"
+	method "threeDimensionalUint16Array()uint16"
+	method "simpleTuple()uint16"
+	method "arrayInTuple()uint64"
+	method "tupleInArray()uint16"
+	method "tupleInTuple()uint64"
+	method "shortTypeNotation()uint16"
+	method "disgusting()uint64"
+	method "returnTuple()(uint64,uint16,uint64)"
+	method "tupleArg((uint64,uint16,uint64))uint16"
+	method "dynamicArray()uint64"
+	method "returnDynamicArray()uint64[]"
+	method "dynamicArrayArg(uint64[])uint64"
+	method "updateDynamicArrayElement()uint64"
+	method "dynamicTupleArray()uint64"
+	method "returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])"
+	method "returnDynamicArrayFromTuple()uint8[]"
+	method "updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])"
+	method "nonLiteralDynamicElementInTuple()(uint8,uint16,uint8[],uint16[],uint8[])"
+	method "arrayPush()uint16[]"
+	method "arrayPop()uint16[]"
+	method "arrayPopValue()uint16"
+	method "arraySplice()uint64[]"
+	method "arraySpliceValue()uint16[]"
+	method "dynamicArrayElements()uint16[]"
+	method "spliceLastElement()uint16[]"
+	method "spliceLastElementValue()uint16[]"
+	method "spliceFirstElement()uint16[]"
+	method "spliceFirstElementValue()uint16[]"
+	method "stringReturn()string"
+	method "stringArg(string)void"
+	method "stringInTuple()(uint16,uint8[],string,uint8[])"
+	method "accesStringInTuple()string"
+	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
+	method "updateTupleWithOnlyDynamicTypes()(uint16[],uint16[],uint16[])"
+	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
+	method "namedTuple()string"
+	method "updateNamedTuple()string"
+	method "customTypes()string"
+	txna ApplicationArgs 0
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes

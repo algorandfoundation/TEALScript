@@ -1,0 +1,460 @@
+#pragma version 8
+	b main
+
+preArrayAccess:
+	proto 3 0
+	frame_dig -3 // full tuple
+	store 0 // full tuple
+	load 0 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract array offset
+	store 1 // array offset
+	load 0 // full tuple
+	load 1 // array offset
+	extract_uint16 // extract array length
+	frame_dig -2 // type length
+	* // array size
+	int 2
+	+ // array size + len
+	store 2 // full array length
+	retsub
+
+updateDynamicElement:
+	proto 8 1
+	frame_dig -8 // newArray
+	store 6 // new array
+	load 0 // full tuple
+	int 0
+	frame_dig -2 // startOfHeads
+	extract3
+	store 3 // static part of tuple
+	load 0 // full tuple
+	frame_dig -2 // startOfHeads
+	frame_dig -3 // totalHeadLength
+	extract3 
+	store 4 // dynamic heads
+	byte 0x
+	dup
+	store 5 // values after array
+	store 7 // values before array
+	frame_dig -4 // lastDynamicElement
+	bnz skip_values_after_array
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	+
+	load 0 // full tuple
+	len
+	substring3
+	store 5 // values after array
+
+skip_values_after_array:
+	frame_dig -5 // firstDynamicElement
+	bnz skip_values_before_array
+	load 0 // full tuple
+	frame_dig -1 // headEnd
+	load 1 // array offset
+	substring3
+	store 7 // values before array
+
+skip_values_before_array:
+	load 4 // dynamic heads
+	frame_dig -6 // headUpdateBitmask
+	load 6 // new array
+	len
+	load 2 // full array length
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz skip_len_swap
+	swap
+
+skip_len_swap:
+	-
+	itob
+	extract 6 2
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	dup
+	concat
+	b&
+	load 6 // new array
+	len
+	load 2 // full array length
+	>=
+	bnz add_head
+	b-
+	b sub_or_add_head_end
+
+add_head:
+	b+
+
+sub_or_add_head_end:
+	frame_dig -7 // fullHeadBitmask
+	b&
+	store 4 // dynamic heads
+	load 3 // static part of tuple
+	load 4 // dynamic heads
+	load 7 // values before array
+	load 6 // new array
+	load 5 // values after array
+	concat
+	concat
+	concat
+	concat
+	retsub
+
+bare_route_create:
+	byte 0x
+	dupn 1
+	callsub create
+	int 1
+	return
+
+create:
+	proto 1 0
+	retsub
+
+abi_route_setMyContact:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub setMyContact
+	int 1
+	return
+
+setMyContact:
+	proto 4 0
+
+	// examples/tuple_in_box/app.ts:19
+	// contact: Contact = { name: name, company: company }
+	byte 0x // no static elements
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	frame_dig -1 // name: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	frame_dig -2 // company: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -3 // contact: Contact
+
+	// examples/tuple_in_box/app.ts:21
+	// this.myContact.put(contact)
+	byte "myContact"
+	frame_dig -3 // contact: Contact
+	app_global_put
+
+	// examples/tuple_in_box/app.ts:22
+	// this.contacts.put(this.txn.sender, contact)
+	txn Sender
+	dup
+	box_del
+	pop
+	frame_dig -3 // contact: Contact
+	box_put
+	retsub
+
+abi_route_addContact:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 2
+	txna ApplicationArgs 3
+	btoi
+	txnas Accounts
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub addContact
+	int 1
+	return
+
+addContact:
+	proto 5 0
+
+	// examples/tuple_in_box/app.ts:26
+	// contact: Contact = { name: name, company: company }
+	byte 0x // no static elements
+	store 11 // static elements
+	byte 0x0004 // head end
+	store 8 // dynamic head
+	int 4
+	store 9 // dynamic head offset
+	byte 0x
+	store 10 // dynamic elements
+	frame_dig -1 // name: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	dup
+	len
+	load 9 // dynamic head offset
+	+
+	dup
+	store 9 // dynamic head offset
+	itob
+	extract 6 2
+	load 8 // dynamic head
+	swap
+	concat
+	store 8 // dynamic head
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	frame_dig -2 // company: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	load 10 // dynamic elements
+	swap
+	concat
+	store 10 // dynamic elements
+	load 11 // static elements
+	load 8 // dynamic head
+	load 10 // dynamic elements
+	concat
+	concat
+	frame_bury -4 // contact: Contact
+
+	// examples/tuple_in_box/app.ts:27
+	// this.contacts.put(address, contact)
+	frame_dig -3 // address: account
+	dup
+	box_del
+	pop
+	frame_dig -4 // contact: Contact
+	box_put
+	retsub
+
+abi_route_updateContactField:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 3
+	btoi
+	txnas Accounts
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub updateContactField
+	int 1
+	return
+
+updateContactField:
+	proto 4 0
+
+	// if0_condition
+	// examples/tuple_in_box/app.ts:31
+	// field === 'name'
+	frame_dig -1 // field: bytes
+	byte "name"
+	==
+	bz if0_elseif1_condition
+
+	// if0_consequent
+	// examples/tuple_in_box/app.ts:32
+	// this.contacts.get(address).name = value
+	// examples/tuple_in_box/app.ts:1
+	// this.contacts.get(address)
+	frame_dig -3 // address: account
+	box_get
+	assert
+	int 1 // type length
+	int 0 // head offset
+	callsub preArrayAccess
+	frame_dig -2 // value: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0xFFFFFFFF
+	byte 0x0000FFFF // head update bitmask
+	int 1 // is first dynamic element
+	int 0 // is last dynamic element
+	int 4 // total head length
+	int 0 // startOfHeads
+	int 4 // head end
+	callsub updateDynamicElement
+	frame_dig -3 // address: account
+	dup
+	box_del
+	pop
+	swap
+	box_put
+	b if0_end
+
+if0_elseif1_condition:
+	// examples/tuple_in_box/app.ts:33
+	// field === 'company'
+	frame_dig -1 // field: bytes
+	byte "company"
+	==
+	bz if0_else
+
+	// if0_elseif1_consequent
+	// examples/tuple_in_box/app.ts:34
+	// this.contacts.get(address).company = value
+	// examples/tuple_in_box/app.ts:1
+	// this.contacts.get(address)
+	frame_dig -3 // address: account
+	box_get
+	assert
+	int 1 // type length
+	int 2 // head offset
+	callsub preArrayAccess
+	frame_dig -2 // value: bytes
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0xFFFFFFFF
+	byte 0x00000000 // head update bitmask
+	int 0 // is first dynamic element
+	int 1 // is last dynamic element
+	int 4 // total head length
+	int 0 // startOfHeads
+	int 4 // head end
+	callsub updateDynamicElement
+	frame_dig -3 // address: account
+	dup
+	box_del
+	pop
+	swap
+	box_put
+	b if0_end
+
+if0_else:
+	// examples/tuple_in_box/app.ts:35
+	// err()
+	err
+
+if0_end:
+	retsub
+
+abi_route_verifyContactName:
+	txn OnCompletion
+	int NoOp
+	==
+	assert
+	byte 0x
+	dupn 1
+	txna ApplicationArgs 2
+	btoi
+	txnas Accounts
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub verifyContactName
+	int 1
+	return
+
+verifyContactName:
+	proto 3 0
+
+	// examples/tuple_in_box/app.ts:39
+	// assert(this.contacts.get(address).name === name)
+	frame_dig -2 // address: account
+	box_get
+	assert
+	frame_dig -2 // address: account
+	box_get
+	assert
+	int 1 // type length
+	int 0 // head offset
+	callsub preArrayAccess
+	load 0 // full tuple
+	load 1 // array offset
+	load 2 // full array length
+	extract3
+	extract 2 0 // extract bytes from string
+	frame_dig -1 // name: bytes
+	==
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+	txn ApplicationID
+	int 0
+	==
+	int 1
+	match bare_route_create
+
+route_abi:
+	method "setMyContact(string,string)void"
+	method "addContact(string,string,account)void"
+	method "updateContactField(string,string,account)void"
+	method "verifyContactName(string,account)void"
+	txna ApplicationArgs 0
+	match abi_route_setMyContact abi_route_addContact abi_route_updateContactField abi_route_verifyContactName

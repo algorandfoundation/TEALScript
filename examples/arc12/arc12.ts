@@ -6,13 +6,13 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Vault extends Contract {
-  creator = new GlobalReference<Account>({ key: 'creator' });
+  creator = new GlobalReference<Address>({ key: 'creator' });
 
   master = new GlobalReference<Application>({ key: 'master' });
 
-  receiver = new GlobalReference<Account>({ key: 'receiver' });
+  receiver = new GlobalReference<Address>({ key: 'receiver' });
 
-  funderMap = new BoxMap<Asset, Account>({ defaultSize: 32 });
+  funderMap = new BoxMap<Asset, Address>({ defaultSize: 32 });
 
   private closeAcct(vaultCreator: Account): void {
     assert(vaultCreator === this.creator.get());
@@ -133,11 +133,11 @@ class Vault extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class Master extends Contract {
-  vaultMap = new BoxMap<Account, Application>({ defaultSize: 8 });
+  vaultMap = new BoxMap<Address, Application>({ defaultSize: 8 });
 
   @createApplication
   create(): void {
-    assert(this.txn.applicationID === new Application(0));
+    assert(this.txn.applicationID === Application.zeroIndex);
   }
 
   createVault(receiver: Account, mbrPayment: PayTxn): Application {
@@ -151,7 +151,7 @@ class Master extends Contract {
     /// Create the vault
     sendMethodCall<[Account, Account], void>({
       name: 'create',
-      OnCompletion: 'NoOp',
+      onCompletion: 'NoOp',
       fee: 0,
       methodArgs: [receiver, this.txn.sender],
       clearStateProgram: this.app.clearStateProgram,
@@ -193,7 +193,7 @@ class Master extends Contract {
     return this.vaultMap.get(receiver);
   }
 
-  getVaultAddr(receiver: Account): Account {
+  getVaultAddr(receiver: Account): Address {
     return this.vaultMap.get(receiver).address;
   }
 
@@ -203,7 +203,7 @@ class Master extends Contract {
     assert(this.txn.fee === 0);
     assert(vault === this.vaultMap.get(this.txn.sender));
 
-    const vaultCreator = vault.global('creator') as Account;
+    const vaultCreator = vault.global('creator') as Address;
     assert(vaultCreator === creator);
 
     const preDeleteMBR = globals.currentApplicationAddress.minBalance;
@@ -211,7 +211,7 @@ class Master extends Contract {
     /// Call delete on the vault
     sendAppCall({
       applicationID: vault,
-      OnCompletion: 'DeleteApplication',
+      onCompletion: 'DeleteApplication',
       fee: 0,
     });
 

@@ -1,0 +1,96 @@
+{
+  "name": "ContactsApp",
+  "desc": "",
+  "methods": [
+    {
+      "name": "setMyContact",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "company",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "addContact",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "company",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "address",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateContactField",
+      "args": [
+        {
+          "name": "field",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "address",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyContactName",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "address",
+          "type": "account",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

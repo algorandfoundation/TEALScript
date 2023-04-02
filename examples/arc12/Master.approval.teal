@@ -2,15 +2,17 @@
 	b main
 
 bare_route_create:
+	byte 0x
+	dupn 1
 	callsub create
 	int 1
 	return
 
 create:
-	proto 0 0
+	proto 1 0
 
 	// examples/arc12/arc12.ts:140
-	// assert(this.txn.applicationID === new Application(0))
+	// assert(this.txn.applicationID === Application.zeroIndex)
 	txn ApplicationID
 	int 0
 	==
@@ -22,22 +24,24 @@ abi_route_createVault:
 	int NoOp
 	==
 	assert
-	txna ApplicationArgs 1
-	btoi
-	txnas Accounts
+	byte 0x
+	dupn 3
 	txn GroupIndex
 	int 1
 	-
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
 	callsub createVault
 	int 1
 	return
 
 createVault:
-	proto 2 0
+	proto 5 0
 
 	// examples/arc12/arc12.ts:144
 	// assert(!this.vaultMap.exists(receiver))
-	frame_dig -2 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -46,7 +50,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:145
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
-	frame_dig -1 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
@@ -54,7 +58,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:146
 	// assert(mbrPayment.sender === this.txn.sender)
-	frame_dig -1 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Sender
 	txn Sender
 	==
@@ -62,7 +66,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:147
 	// assert(mbrPayment.closeRemainderTo === globals.zeroAddress)
-	frame_dig -1 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns CloseRemainderTo
 	global ZeroAddress
 	==
@@ -73,7 +77,7 @@ createVault:
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	store 0 // preCreateMBR: uint64
+	frame_bury -3 // preCreateMBR: uint64
 
 	// Create the vault
 	// examples/arc12/arc12.ts:152
@@ -85,7 +89,7 @@ createVault:
 	itxn_field ApplicationArgs
 
 	// examples/arc12/arc12.ts:154
-	// OnCompletion: 'NoOp'
+	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
@@ -96,7 +100,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:156
 	// methodArgs: [receiver, this.txn.sender]
-	frame_dig -2 // receiver: Account
+	frame_dig -1 // receiver: account
 	itxn_field Accounts
 	int 1
 	itob
@@ -116,7 +120,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:158
 	// approvalProgram: Vault
-	byte b64 CCADAAEEJgMHY3JlYXRvcghyZWNlaXZlcgZtYXN0ZXJCAhqKAQCL/yhkEkSxI7IQi/+yBzIKcwFEsggisgExALIJszEWIwg1ADQAOBgqZBJENAA5GgCABJtKZKUSRDQAOTIBNjIAEkSJMRkiEkQ2GgEXwBw2GgIXwByIAAIjQ4oCACiL/2cpi/5nKjINZ4kxGSISRDYaARfAHDYaAhfAHDYaAxfAMDYaBBfAHIgAAiNDigQAMQApZBJEi/2AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRDUBsSSyEIv8shSL/rIRIrISi/yyFSKyAbOL/ha8NAEyCnMBRAk1ArEjshCL/bIHNAIxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEABYv/iP7liTEZIhJENhoBF8AwMRYjCYgAAiNDigIAi/4WvkxIFESL/zgAMQASRIv/OAcyChJEMgpzAUQ1A4v+FjEAv7EkshAyCrIUIrISIrIBi/6yEbOL/zgIMgpzAUQ0AwkSRIkxGSISRDYaARfAMDYaAhfAHDYaAxfAHIgAAiNDigMAi/0WvkxIRIv/i/0WvkQSRDEAKWQSRChki/4SRDIKcwFENQSL/Ra8sSSyEDEAshQisgEyCov9cABEshKL/bIRMQCyFbOxI7IQi/+yBzQEMgpzAUQJsggisgGzMgpzCUQiEkEABYv+iP3+iYgAAiNDigAAMgpzAExIFEQxADIJEkSJMRtAAA+BBTEZEjEYIhMQI44B/9WABMExXFmABI9MVj2ABHGXm0CABCkcUWI2GgCOBP3z/hn+yf8n
+	byte b64 CCADAAEEJgQAB2NyZWF0b3IIcmVjZWl2ZXIGbWFzdGVyQgIvigMAi/8pZBJEsSOyEIv/sgcyCnMBRLIIIrIBMQCyCbMxFiMIjP6L/jgYK2QSRIv+ORoAgASbSmSlEkSL/jkyATYyABJEiTEZIhJEKEcBNhoCF8AcNhoBF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEkQoRwM2GgQXwBw2GgMXwDA2GgIXwBw2GgEXwByIAAIjQ4oHADEAKmQSRIv+gCDH/M2yWPDUGJwr+LbWjuaXUIZCsK0AHzH8uRjDVLqFmhJEMgpzAUSM+7EkshCL/7IUi/2yESKyEov/shUisgGzi/0WvIv7MgpzAUQJjPqxI7IQi/6yB4v6MQEJsggisgGzsSOyEDEAsgcxAbIIIrIBszIKcwlEIhJBAAgoRwKL/Ij+3IkxGSISRChHAjEWIwk2GgEXwDCIAAIjQ4oEAIv/Fr5MSBREi/44ADEAEkSL/jgHMgoSRDIKcwFEjP2L/xYxAL+xJLIQMgqyFCKyEiKyAYv/shGzi/44CDIKcwFEi/0JEkSJMRkiEkQoRwI2GgMXwBw2GgIXwBw2GgEXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwKL/oj97IkoRwGIAAIjQ4oBADIKcwBMSBREMQAyCRJEiTEbQAAPgQUxGRIxGCITECOOAf/SgATBMVxZgASPTFY9gARxl5tAgAQpHFFiNhoAjgT93v4H/r3/Hg==
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.ts:159
@@ -133,7 +137,7 @@ createVault:
 	// examples/arc12/arc12.ts:163
 	// vault = this.itxn.createdApplicationID
 	itxn CreatedApplicationID
-	store 1 // vault: Application
+	frame_bury -4 // vault: application
 
 	// Fund the vault with account MBR
 	// examples/arc12/arc12.ts:166
@@ -144,7 +148,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:167
 	// receiver: vault.address
-	load 1 // vault: Application
+	frame_dig -4 // vault: application
 	app_params_get AppAddress
 	assert
 	itxn_field Receiver
@@ -162,19 +166,19 @@ createVault:
 
 	// examples/arc12/arc12.ts:172
 	// this.vaultMap.put(receiver, vault)
-	frame_dig -2 // receiver: Account
-	load 1 // vault: Application
+	frame_dig -1 // receiver: account
+	frame_dig -4 // vault: application
 	itob
 	box_put
 
 	// examples/arc12/arc12.ts:175
 	// assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance)
-	frame_dig -1 // mbrPayment: PayTxn
+	frame_dig -2 // mbrPayment: paytxn
 	gtxns Amount
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	load 0 // preCreateMBR: uint64
+	frame_dig -3 // preCreateMBR: uint64
 	-
 	global MinBalance
 	+
@@ -183,7 +187,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:177
 	// return vault;
-	load 1 // vault: Application
+	frame_dig -4 // vault: application
 	itob
 	byte 0x151f7c75
 	swap
@@ -196,25 +200,27 @@ abi_route_verifyAxfer:
 	int NoOp
 	==
 	assert
-	txna ApplicationArgs 1
-	btoi
-	txnas Accounts
-	txn GroupIndex
-	int 1
-	-
+	byte 0x
+	dupn 1
 	txna ApplicationArgs 2
 	btoi
 	txnas Applications
+	txn GroupIndex
+	int 1
+	-
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
 	callsub verifyAxfer
 	int 1
 	return
 
 verifyAxfer:
-	proto 3 0
+	proto 4 0
 
 	// examples/arc12/arc12.ts:181
 	// assert(this.vaultMap.exists(receiver))
-	frame_dig -3 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -222,19 +228,19 @@ verifyAxfer:
 
 	// examples/arc12/arc12.ts:183
 	// assert(this.vaultMap.get(receiver) === vault)
-	frame_dig -3 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
-	frame_dig -1 // vault: Application
+	frame_dig -3 // vault: application
 	==
 	assert
 
 	// examples/arc12/arc12.ts:184
 	// assert(vaultAxfer.assetReceiver === vault.address)
-	frame_dig -2 // vaultAxfer: AssetTransferTxn
+	frame_dig -2 // vaultAxfer: assettransfertxn
 	gtxns AssetReceiver
-	frame_dig -1 // vault: Application
+	frame_dig -3 // vault: application
 	app_params_get AppAddress
 	assert
 	==
@@ -242,7 +248,7 @@ verifyAxfer:
 
 	// examples/arc12/arc12.ts:185
 	// assert(vaultAxfer.assetCloseTo === globals.zeroAddress)
-	frame_dig -2 // vaultAxfer: AssetTransferTxn
+	frame_dig -2 // vaultAxfer: assettransfertxn
 	gtxns AssetCloseTo
 	global ZeroAddress
 	==
@@ -254,6 +260,8 @@ abi_route_hasVault:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -262,11 +270,11 @@ abi_route_hasVault:
 	return
 
 hasVault:
-	proto 1 0
+	proto 2 0
 
 	// examples/arc12/arc12.ts:189
 	// return this.vaultMap.exists(receiver);
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	swap
 	pop
@@ -282,6 +290,8 @@ abi_route_getVaultId:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -290,11 +300,11 @@ abi_route_getVaultId:
 	return
 
 getVaultId:
-	proto 1 0
+	proto 2 0
 
 	// examples/arc12/arc12.ts:193
 	// return this.vaultMap.get(receiver);
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
@@ -310,6 +320,8 @@ abi_route_getVaultAddr:
 	int NoOp
 	==
 	assert
+	byte 0x
+	dupn 1
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -318,11 +330,11 @@ abi_route_getVaultAddr:
 	return
 
 getVaultAddr:
-	proto 1 0
+	proto 2 0
 
 	// examples/arc12/arc12.ts:197
 	// return this.vaultMap.get(receiver).address;
-	frame_dig -1 // receiver: Account
+	frame_dig -1 // receiver: account
 	box_get
 	assert
 	btoi
@@ -339,18 +351,20 @@ abi_route_deleteVault:
 	int NoOp
 	==
 	assert
-	txna ApplicationArgs 1
-	btoi
-	txnas Applications
+	byte 0x
+	dupn 3
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
+	txna ApplicationArgs 1
+	btoi
+	txnas Applications
 	callsub deleteVault
 	int 1
 	return
 
 deleteVault:
-	proto 2 0
+	proto 5 0
 
 	// The fee needs to be 0 because all of the fees need to paid by the vault call
 	// This ensures the sender will be refunded for all fees if they are rejecting the last ASA
@@ -363,7 +377,7 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:204
 	// assert(vault === this.vaultMap.get(this.txn.sender))
-	frame_dig -2 // vault: Application
+	frame_dig -1 // vault: application
 	txn Sender
 	box_get
 	assert
@@ -372,17 +386,17 @@ deleteVault:
 	assert
 
 	// examples/arc12/arc12.ts:206
-	// vaultCreator = vault.global('creator') as Account
-	frame_dig -2 // vault: Application
+	// vaultCreator = vault.global('creator') as Address
+	frame_dig -1 // vault: application
 	byte "creator"
 	app_global_get_ex
 	assert
-	store 2 // vaultCreator: Account
+	frame_bury -3 // vaultCreator: address
 
 	// examples/arc12/arc12.ts:207
 	// assert(vaultCreator === creator)
-	load 2 // vaultCreator: Account
-	frame_dig -1 // creator: Account
+	frame_dig -3 // vaultCreator: address
+	frame_dig -2 // creator: account
 	==
 	assert
 
@@ -391,7 +405,7 @@ deleteVault:
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	store 3 // preDeleteMBR: uint64
+	frame_bury -4 // preDeleteMBR: uint64
 
 	// Call delete on the vault
 	// examples/arc12/arc12.ts:212
@@ -402,11 +416,11 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:213
 	// applicationID: vault
-	frame_dig -2 // vault: Application
+	frame_dig -1 // vault: application
 	itxn_field ApplicationID
 
 	// examples/arc12/arc12.ts:214
-	// OnCompletion: 'DeleteApplication'
+	// onCompletion: 'DeleteApplication'
 	int DeleteApplication
 	itxn_field OnCompletion
 
@@ -430,12 +444,12 @@ deleteVault:
 
 	// examples/arc12/arc12.ts:222
 	// receiver: vaultCreator
-	load 2 // vaultCreator: Account
+	frame_dig -3 // vaultCreator: address
 	itxn_field Receiver
 
 	// examples/arc12/arc12.ts:223
 	// amount: preDeleteMBR - globals.currentApplicationAddress.minBalance
-	load 3 // preDeleteMBR: uint64
+	frame_dig -4 // preDeleteMBR: uint64
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
