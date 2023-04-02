@@ -271,7 +271,9 @@ export default class Compiler {
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
-  private bareMethods: { name: string, predicates: string[] }[] = [];
+  private bareOnCompletes: string[] = [];
+
+  private bareCreate: boolean = false;
 
   abi: {
     name: string,
@@ -871,19 +873,20 @@ export default class Compiler {
     this.pushVoid('txn NumAppArgs');
     this.pushVoid('bnz route_abi');
 
-    // Route the bare methods with no args
-    this.bareMethods.forEach((m) => {
-      m.predicates.forEach((p: string) => {
-        this.pushVoid(p);
-      });
-    });
+    if (this.bareCreate) {
+      this.pushLines('txn ApplicationID', 'int 0', '==', 'bnz bare_route_create');
+    }
 
-    this.pushVoid('int 1');
-    this.pushVoid(
-      `match ${this.bareMethods
-        .map((m) => `bare_route_${m.name}`)
-        .join(' ')}`,
-    );
+    // Route the bare methods with no args
+    if (this.bareOnCompletes.length > 0) {
+      this.bareOnCompletes.forEach((oc) => {
+        this.pushLines('txn OnCompletion', `int ${oc}`, '==');
+      });
+
+      this.pushVoid('int 1');
+
+      this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
+    }
 
     this.pushVoid('route_abi:');
     // Route the abi methods with args
@@ -2338,7 +2341,7 @@ export default class Compiler {
     this.compilingApproval = true;
   }
 
-  private processBareMethod(fn: ts.MethodDeclaration) {
+  private processRoutableMethod(fn: ts.MethodDeclaration) {
     let allowCreate: boolean = false;
     let isClearState: boolean = false;
     const allowedOnCompletes: string[] = [];
@@ -2376,53 +2379,41 @@ export default class Compiler {
       return;
     }
 
-    this.pushVoid(`bare_route_${this.currentSubroutine.name}:`);
-    this.pushVoid('byte 0x');
-    this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
-    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
-    this.pushVoid('int 1');
-    this.pushVoid('return');
+    const argCount = fn.parameters.length;
 
-    const predicates: string[] = [];
+    const bareMethod: boolean = argCount === 0
+      && !!this.currentSubroutine.decorators?.length
+      && this.currentSubroutine.returnType === 'void';
+
+    // bare method
+    if (bareMethod) {
+      allowedOnCompletes.forEach((oc, i) => {
+        if (this.bareOnCompletes.includes(oc)) throw new Error(`Duplicate ${oc} decorator defined`);
+        this.bareOnCompletes.push(oc);
+        this.pushVoid(`bare_route_${oc}:`);
+      });
+
+      if (allowCreate) {
+        if (this.bareCreate) throw new Error('Duplicate create decorator defined');
+        this.bareCreate = true;
+        this.pushVoid('bare_route_create:');
+      }
+    } else this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
+
+    if (allowedOnCompletes.length === 0) allowedOnCompletes.push('NoOp');
+
     allowedOnCompletes.forEach((oc, i) => {
-      predicates.push(`int ${oc}`);
-      predicates.push('txn OnCompletion');
-      predicates.push('==');
-      if (i > 0) predicates.push('||');
+      this.pushLines('txn OnCompletion', `int ${oc}`, '==');
+      if (i > 0) this.pushVoid('||');
     });
 
     // if not a create, dont allow it
-    predicates.push('txn ApplicationID');
-    predicates.push('int 0');
-    predicates.push(allowCreate ? '==' : '!=');
-    if (allowedOnCompletes.length > 0) predicates.push('&&');
-
-    this.bareMethods.push({
-      name: this.currentSubroutine.name,
-      predicates,
-    });
-    this.processSubroutine(fn);
-  }
-
-  private processRoutableMethod(fn: ts.MethodDeclaration) {
-    const argCount = fn.parameters.length;
-
-    const bareDecorators = this.currentSubroutine.decorators?.length || 0;
-
-    // bare method
-    if (argCount === 0 && bareDecorators > 0) {
-      this.processBareMethod(fn);
-      return;
-    }
-
-    this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
-    const args: {name: string, type: string, desc: string}[] = [];
-
-    this.pushVoid('txn OnCompletion');
-    this.pushVoid('int NoOp');
-    this.pushVoid('==');
+    this.pushLines('txn ApplicationID', 'int 0');
+    this.pushVoid(allowCreate ? '==' : '!=');
+    if (allowedOnCompletes.length > 0) this.pushVoid('&&');
     this.pushVoid('assert');
 
+    const args: {name: string, type: string, desc: string}[] = [];
     this.pushVoid('byte 0x');
     this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
 
@@ -2468,12 +2459,14 @@ export default class Compiler {
       .replace(/asset|application/, 'uint64')
       .replace('account', 'address');
 
-    this.abi.methods.push({
-      name: this.currentSubroutine.name,
-      args: args.reverse(),
-      desc: '',
-      returns: { type: returnType, desc: '' },
-    });
+    if (!bareMethod) {
+      this.abi.methods.push({
+        name: this.currentSubroutine.name,
+        args: args.reverse(),
+        desc: '',
+        returns: { type: returnType, desc: '' },
+      });
+    }
 
     this.pushVoid(`callsub ${this.currentSubroutine.name}`);
     this.pushVoid('int 1');

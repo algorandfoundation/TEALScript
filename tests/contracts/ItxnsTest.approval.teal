@@ -5,6 +5,10 @@ abi_route_payment:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -66,6 +70,10 @@ abi_route_assetCreation:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -162,6 +170,10 @@ abi_route_appCall:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -258,6 +270,10 @@ abi_route_assetConfig:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -318,6 +334,10 @@ abi_route_assetFreeze:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -362,6 +382,10 @@ abi_route_assetTransfer:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -420,6 +444,10 @@ abi_route_methodCall:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -478,6 +506,10 @@ abi_route_onlineKeyRegistration:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -535,6 +567,10 @@ abi_route_offlineKeyRegistration:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -561,8 +597,6 @@ offlineKeyRegistration:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int 1
-	match 
 
 route_abi:
 	method "payment()void"

@@ -5,6 +5,10 @@ abi_route_and:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -35,6 +39,10 @@ abi_route_or:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -65,6 +73,10 @@ abi_route_equal:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -91,6 +103,10 @@ abi_route_notEqual:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -117,6 +133,10 @@ abi_route_bitAnd:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -143,6 +163,10 @@ abi_route_bitOr:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -169,6 +193,10 @@ abi_route_bitXor:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -195,6 +223,10 @@ abi_route_combo:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -232,8 +264,6 @@ skip_or1:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int 1
-	match 
 
 route_abi:
 	method "and(uint64,uint64)void"

@@ -5,6 +5,10 @@ abi_route_globalRefPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -26,6 +30,10 @@ abi_route_globalRefGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -49,6 +57,10 @@ abi_route_globalRefDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -69,6 +81,10 @@ abi_route_globalRefExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -92,6 +108,10 @@ abi_route_localRefPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -117,6 +137,10 @@ abi_route_localRefGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -144,6 +168,10 @@ abi_route_localRefDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -168,6 +196,10 @@ abi_route_localRefExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -195,6 +227,10 @@ abi_route_boxRefPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -216,6 +252,10 @@ abi_route_boxRefGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -240,6 +280,10 @@ abi_route_boxRefDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -260,6 +304,10 @@ abi_route_boxRefExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -282,6 +330,10 @@ abi_route_globalMapPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -303,6 +355,10 @@ abi_route_globalMapGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -326,6 +382,10 @@ abi_route_globalMapDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -346,6 +406,10 @@ abi_route_globalMapExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -369,6 +433,10 @@ abi_route_localMapPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -394,6 +462,10 @@ abi_route_localMapGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -421,6 +493,10 @@ abi_route_localMapDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -445,6 +521,10 @@ abi_route_localMapExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -472,6 +552,10 @@ abi_route_boxMapPut:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -493,6 +577,10 @@ abi_route_boxMapGet:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -517,6 +605,10 @@ abi_route_boxMapDelete:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -537,6 +629,10 @@ abi_route_boxMapExists:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -558,8 +654,6 @@ boxMapExists:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int 1
-	match 
 
 route_abi:
 	method "globalRefPut()void"

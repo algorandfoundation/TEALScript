@@ -2,6 +2,14 @@
 	b main
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -83,6 +91,10 @@ abi_route_addAppToWhiteList:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 4
@@ -208,6 +220,10 @@ abi_route_setAppWhitelist:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -314,6 +330,10 @@ abi_route_deleteWhitelist:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -383,6 +403,10 @@ abi_route_deleteAppFromWhitelist:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 4
@@ -532,8 +556,7 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int 1
-	match bare_route_create
+	bnz bare_route_create
 
 route_abi:
 	method "addAppToWhiteList(string,uint16,uint64,pay)void"

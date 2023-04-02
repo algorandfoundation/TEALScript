@@ -2,6 +2,14 @@
 	b main
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -46,6 +54,10 @@ abi_route_optIntoAsset:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -118,6 +130,10 @@ abi_route_startAuction:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -215,6 +231,10 @@ abi_route_bid:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -300,6 +320,10 @@ abi_route_claimBid:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -324,6 +348,10 @@ abi_route_claim_asset:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -377,7 +405,15 @@ claim_asset:
 	itxn_submit
 	retsub
 
-bare_route_delete:
+bare_route_DeleteApplication:
+	txn OnCompletion
+	int DeleteApplication
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub delete
@@ -421,15 +457,12 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int DeleteApplication
+	bnz bare_route_create
 	txn OnCompletion
+	int DeleteApplication
 	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
 	int 1
-	match bare_route_create bare_route_delete
+	match bare_route_DeleteApplication
 
 route_abi:
 	method "optIntoAsset(asset)void"

@@ -2,6 +2,14 @@
 	b main
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -23,6 +31,10 @@ abi_route_createVault:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -120,7 +132,7 @@ createVault:
 
 	// examples/arc12/arc12.ts:158
 	// approvalProgram: Vault
-	byte b64 CCADAAEEJgQAB2NyZWF0b3IIcmVjZWl2ZXIGbWFzdGVyQgIvigMAi/8pZBJEsSOyEIv/sgcyCnMBRLIIIrIBMQCyCbMxFiMIjP6L/jgYK2QSRIv+ORoAgASbSmSlEkSL/jkyATYyABJEiTEZIhJEKEcBNhoCF8AcNhoBF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEkQoRwM2GgQXwBw2GgMXwDA2GgIXwBw2GgEXwByIAAIjQ4oHADEAKmQSRIv+gCDH/M2yWPDUGJwr+LbWjuaXUIZCsK0AHzH8uRjDVLqFmhJEMgpzAUSM+7EkshCL/7IUi/2yESKyEov/shUisgGzi/0WvIv7MgpzAUQJjPqxI7IQi/6yB4v6MQEJsggisgGzsSOyEDEAsgcxAbIIIrIBszIKcwlEIhJBAAgoRwKL/Ij+3IkxGSISRChHAjEWIwk2GgEXwDCIAAIjQ4oEAIv/Fr5MSBREi/44ADEAEkSL/jgHMgoSRDIKcwFEjP2L/xYxAL+xJLIQMgqyFCKyEiKyAYv/shGzi/44CDIKcwFEi/0JEkSJMRkiEkQoRwI2GgMXwBw2GgIXwBw2GgEXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwKL/oj97IkoRwGIAAIjQ4oBADIKcwBMSBREMQAyCRJEiTEbQAAPgQUxGRIxGCITECOOAf/SgATBMVxZgASPTFY9gARxl5tAgAQpHFFiNhoAjgT93v4H/r3/Hg==
+	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICTYoDAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBEKEcBNhoCF8AcNhoBF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChHAzYaBBfAHDYaAxfAMDYaAhfAHDYaARfAHIgAAiNDigcAMQAqZBJEi/6AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRIz7sSSyEIv/shSL/bIRIrISi/+yFSKyAbOL/Ra8i/syCnMBRAmM+rEjshCL/rIHi/oxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEACChHAov8iP7SiTEZIhIxGCITEEQoRwIxFiMJNhoBF8AwiAACI0OKBACL/xa+TEgURIv+OAAxABJEi/44BzIKEkQyCnMBRIz9i/8WMQC/sSSyEDIKshQishIisgGL/7IRs4v+OAgyCnMBRIv9CRJEiTEZIhIxGCITEEQoRwI2GgMXwBw2GgIXwBw2GgEXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwKL/oj92IkxGSUSMRgiExBEKEcBiAACI0OKAQAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/zoAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/cb99P6v/xU=
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.ts:159
@@ -199,6 +211,10 @@ abi_route_verifyAxfer:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -259,6 +275,10 @@ abi_route_hasVault:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -289,6 +309,10 @@ abi_route_getVaultId:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -319,6 +343,10 @@ abi_route_getVaultAddr:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -350,6 +378,10 @@ abi_route_deleteVault:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -469,8 +501,7 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int 1
-	match bare_route_create
+	bnz bare_route_create
 
 route_abi:
 	method "createVault(account,pay)uint64"

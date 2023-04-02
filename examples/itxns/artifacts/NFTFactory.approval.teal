@@ -2,6 +2,14 @@
 	b main
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -16,6 +24,10 @@ abi_route_createNFT:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -73,6 +85,10 @@ abi_route_transferNFT:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -123,8 +139,7 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int 1
-	match bare_route_create
+	bnz bare_route_create
 
 route_abi:
 	method "createNFT(string,string)uint64"

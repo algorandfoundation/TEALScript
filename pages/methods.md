@@ -54,7 +54,15 @@ doMath(a: number, b: number, operation: string): number {
 ```
 
 ## Decorators
-TEALScript provides some decorators to define a create method or alllow specific on-complete values. These decorators can be stacked, meaning one method can support multiple on-complete. By default all methods will only allow the `NoOp` on-complete.
+TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes). If the method has no arguments and void return, the method will be a bare method for the given actions. Otherwise, the decorated method will be the ONLY method that can handle the given action.
+
+* {@link createApplication}
+* {@link optIn}
+* {@link updateApplication}
+* {@link deleteApplication}
+* {@link noOp}
+* {@link clearState} 
+* {@link closeOut}
 
 ### Examples
 #### Create

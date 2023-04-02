@@ -1,7 +1,15 @@
 #pragma version 8
 	b main
 
-bare_route_createApp:
+bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub createApp
@@ -16,6 +24,10 @@ abi_route_incr:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -42,6 +54,10 @@ abi_route_decr:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -68,6 +84,10 @@ abi_route_add:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -97,6 +117,10 @@ abi_route_sub:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -128,8 +152,7 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int 1
-	match bare_route_createApp
+	bnz bare_route_create
 
 route_abi:
 	method "incr(uint64)void"
