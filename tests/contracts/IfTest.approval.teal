@@ -5,6 +5,10 @@ abi_route_singleIf:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -35,6 +39,10 @@ abi_route_ifElse:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -72,6 +80,10 @@ abi_route_ifElseIf:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -116,6 +128,10 @@ abi_route_ifElseIfElse:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -167,6 +183,10 @@ abi_route_ifElseIfElseIf:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -225,6 +245,10 @@ abi_route_ifElseIfElseIfElse:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -289,8 +313,6 @@ if5_end:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int 1
-	match 
 
 route_abi:
 	method "singleIf()void"

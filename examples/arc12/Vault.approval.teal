@@ -81,6 +81,10 @@ abi_route_create:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	==
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -120,6 +124,10 @@ abi_route_reject:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -285,6 +293,10 @@ abi_route_optIn:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -386,6 +398,10 @@ abi_route_claim:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -537,7 +553,15 @@ claim:
 if1_end:
 	retsub
 
-bare_route_delete:
+bare_route_DeleteApplication:
+	txn OnCompletion
+	int DeleteApplication
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub delete
@@ -567,15 +591,11 @@ delete:
 main:
 	txn NumAppArgs
 	bnz route_abi
-	int DeleteApplication
 	txn OnCompletion
+	int DeleteApplication
 	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
 	int 1
-	match bare_route_delete
+	match bare_route_DeleteApplication
 
 route_abi:
 	method "create(account,account)void"

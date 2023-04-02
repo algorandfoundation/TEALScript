@@ -112,6 +112,14 @@ sub_or_add_head_end:
 	retsub
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -122,7 +130,15 @@ create:
 	proto 1 0
 	retsub
 
-bare_route_optIn:
+bare_route_OptIn:
+	txn OnCompletion
+	int OptIn
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub optIn
@@ -137,6 +153,10 @@ abi_route_staticArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -170,6 +190,10 @@ abi_route_returnStaticArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -198,6 +222,10 @@ abi_route_staticArrayArg:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -227,6 +255,10 @@ abi_route_nonLiteralStaticArrayElements:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 5
@@ -282,6 +314,10 @@ abi_route_mixedStaticArrayElements:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 5
@@ -353,6 +389,10 @@ abi_route_nonLiteralStaticArrayAccess:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -393,6 +433,10 @@ abi_route_setStaticArrayElement:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -435,6 +479,10 @@ abi_route_staticArrayInStorageRef:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -511,6 +559,10 @@ abi_route_updateStaticArrayInStorageRef:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -626,6 +678,10 @@ abi_route_staticArrayInStorageMap:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -702,6 +758,10 @@ abi_route_updateStaticArrayInStorageMap:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -817,6 +877,10 @@ abi_route_nestedStaticArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -850,6 +914,10 @@ abi_route_updateNestedStaticArrayElement:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -892,6 +960,10 @@ abi_route_updateNestedStaticArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -933,6 +1005,10 @@ abi_route_threeDimensionalUint16Array:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -974,6 +1050,10 @@ abi_route_simpleTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1007,6 +1087,10 @@ abi_route_arrayInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1040,6 +1124,10 @@ abi_route_tupleInArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1073,6 +1161,10 @@ abi_route_tupleInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1106,6 +1198,10 @@ abi_route_shortTypeNotation:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1139,6 +1235,10 @@ abi_route_disgusting:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1180,6 +1280,10 @@ abi_route_returnTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1208,6 +1312,10 @@ abi_route_tupleArg:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -1237,6 +1345,10 @@ abi_route_dynamicArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1274,6 +1386,10 @@ abi_route_returnDynamicArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1302,6 +1418,10 @@ abi_route_dynamicArrayArg:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -1335,6 +1455,10 @@ abi_route_updateDynamicArrayElement:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1385,6 +1509,10 @@ abi_route_dynamicTupleArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1424,6 +1552,10 @@ abi_route_returnTupleWithDyamicArray:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1502,6 +1634,10 @@ abi_route_returnDynamicArrayFromTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1615,6 +1751,10 @@ abi_route_updateDynamicArrayInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1809,6 +1949,10 @@ abi_route_nonLiteralDynamicElementInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -1911,6 +2055,10 @@ abi_route_arrayPush:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -1958,6 +2106,10 @@ abi_route_arrayPop:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2008,6 +2160,10 @@ abi_route_arrayPopValue:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -2068,6 +2224,10 @@ abi_route_arraySplice:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2135,6 +2295,10 @@ abi_route_arraySpliceValue:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 5
@@ -2224,6 +2388,10 @@ abi_route_dynamicArrayElements:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -2284,6 +2452,10 @@ abi_route_spliceLastElement:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2351,6 +2523,10 @@ abi_route_spliceLastElementValue:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -2430,6 +2606,10 @@ abi_route_spliceFirstElement:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2497,6 +2677,10 @@ abi_route_spliceFirstElementValue:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -2576,6 +2760,10 @@ abi_route_stringReturn:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -2605,6 +2793,10 @@ abi_route_stringArg:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 1
@@ -2629,6 +2821,10 @@ abi_route_stringInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2718,6 +2914,10 @@ abi_route_accesStringInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -2836,6 +3036,10 @@ abi_route_updateStringInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3025,6 +3229,10 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3170,6 +3378,10 @@ abi_route_shortenDynamicElementInTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3327,6 +3539,10 @@ abi_route_namedTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3386,6 +3602,10 @@ abi_route_updateNamedTuple:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3462,6 +3682,10 @@ abi_route_customTypes:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 2
@@ -3540,15 +3764,12 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int OptIn
+	bnz bare_route_create
 	txn OnCompletion
+	int OptIn
 	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
 	int 1
-	match bare_route_create bare_route_optIn
+	match bare_route_OptIn
 
 route_abi:
 	method "staticArray()uint64"

@@ -2,6 +2,14 @@
 	b main
 
 bare_route_create:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	==
+	&&
+	assert
 	byte 0x
 	dupn 1
 	callsub create
@@ -16,6 +24,10 @@ abi_route_mintAndGetAsset:
 	txn OnCompletion
 	int NoOp
 	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
 	assert
 	byte 0x
 	dupn 3
@@ -51,7 +63,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.ts:43
 	// approvalProgram: NFTFactory
-	byte b64 CCACAQAmAQBCAH0oRwGIAAIiQ4oBAIkxGSMSRChHATYaAlcCADYaAVcCAIgAAiJDigMAsYEDshCL/7Imi/6yJSKyIiOyIyOyAbO0PBaABBUffHVMULCJMRkjEkQoRwE2GgIXwBw2GgEXwDCIAAIiQ4oDALGBBLIQi/6yFCKyEov/shEjsgGziTEbQAAJMRgjEiKOAf91gATSAkxzgARIIWZwNhoAjgL/bP+s
+	byte b64 CCACAAEmAQBCAJExGSISMRgiEhBEKEcBiAACI0OKAQCJMRkiEjEYIhMQRChHATYaAlcCADYaAVcCAIgAAiNDigMAsYEDshCL/7Imi/6yJSOyIiKyIyKyAbO0PBaABBUffHVMULCJMRkiEjEYIhMQRChHATYaAhfAHDYaARfAMIgAAiNDigMAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9jgATSAkxzgARIIWZwNhoAjgL/ZP+p
 	itxn_field ApprovalProgram
 	itxn_submit
 
@@ -206,8 +218,7 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	int 1
-	match bare_route_create
+	bnz bare_route_create
 
 route_abi:
 	method "mintAndGetAsset()uint64"

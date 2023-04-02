@@ -18,7 +18,7 @@ class Auction extends Contract {
 
   asa = new GlobalReference<Asset>({ key: 'asa' });
 
-  @createApplication
+  @handle.createApplication
   create(): void {
     this.auctionEnd.put(0);
     this.highestBid.put(0);
@@ -112,7 +112,7 @@ class Auction extends Contract {
     });
   }
 
-  @deleteApplication
+  @handle.deleteApplication
   delete(): void {
     sendPayment({
       fee: 0,
