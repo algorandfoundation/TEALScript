@@ -33,7 +33,7 @@ class Vault extends Contract {
     assert(deleteVaultTxn.applications[1] === this.app);
   }
 
-  @createApplication
+  @handle.createApplication
   create(receiver: Account, sender: Account): void {
     this.creator.put(sender);
     this.receiver.put(receiver);
@@ -124,7 +124,7 @@ class Vault extends Contract {
     if (globals.currentApplicationAddress.totalAssets === 0) this.closeAcct(creator);
   }
 
-  @deleteApplication
+  @handle.deleteApplication
   delete(): void {
     assert(!globals.currentApplicationAddress.hasBalance);
     assert(this.txn.sender === globals.creatorAddress);
@@ -135,7 +135,7 @@ class Vault extends Contract {
 class Master extends Contract {
   vaultMap = new BoxMap<Address, Application>({ defaultSize: 8 });
 
-  @createApplication
+  @handle.createApplication
   create(): void {
     assert(this.txn.applicationID === Application.zeroIndex);
   }

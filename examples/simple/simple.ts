@@ -9,7 +9,7 @@ import { Contract } from '../../src/lib/index';
 export default class Simple extends Contract {
   counter = new GlobalReference<uint64>({ key: 'counter' });
 
-  @createApplication
+  @handle.createApplication
   createApp(): void { }
 
   incr(i: uint64): void {
@@ -28,7 +28,7 @@ export default class Simple extends Contract {
     return a - b;
   }
 
-  @clearState
+  @handle.clearState
   clearState(): void {
     this.counter.put(this.counter.get() + 1);
   }

@@ -12,7 +12,7 @@ class ContactsApp extends Contract {
 
   myContact = new GlobalReference<Contact>();
 
-  @createApplication
+  @handle.createApplication
   create(): void {}
 
   setMyContact(name: string, company: string): void {

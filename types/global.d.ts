@@ -453,16 +453,18 @@ declare function sha3_256(arg0: BytesLike)
 
 declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
 
-function decoratorFunction (
+declare type decorator = (
   target: Object,
   key: string | symbol,
   descriptor: PropertyDescriptor
-): PropertyDescriptor
+) => PropertyDescriptor
 
-declare const clearState = decoratorFunction;
-declare const createApplication = decoratorFunction;
-declare const noOp = decoratorFunction;
-declare const optIn = decoratorFunction;
-declare const closeOut = decoratorFunction;
-declare const updateApplication = decoratorFunction;
-declare const deleteApplication = decoratorFunction;
+declare const handle: {
+  clearState: decorator;
+  noOp: decorator;
+  optIn: decorator;
+  closeOut: decorator;
+  updateApplication: decorator;
+  deleteApplication: decorator;
+  createApplication: decorator;
+ };

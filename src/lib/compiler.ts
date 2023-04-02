@@ -1639,7 +1639,12 @@ export default class Compiler {
     }
 
     this.currentSubroutine.decorators = (ts.getDecorators(node) || []).map(
-      (d) => d.expression.getText(),
+      (d) => {
+        const err = new Error(`Unknown decorator ${d.expression.getText()}`);
+        if (!ts.isPropertyAccessExpression(d.expression)) throw err;
+        if (d.expression.expression.getText() !== 'handle') throw err;
+        return d.expression.name.getText();
+      },
     );
 
     this.processRoutableMethod(node);

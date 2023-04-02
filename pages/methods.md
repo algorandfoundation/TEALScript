@@ -54,18 +54,11 @@ doMath(a: number, b: number, operation: string): number {
 ```
 
 ## Decorators
-TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes). If the method has no arguments and void return, the method will be a bare method for the given actions. Otherwise, the decorated method will be the ONLY method that can handle the given action.
+TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes) via ${@link handle}. If the method has no arguments and void return, the method will be a bare method for the given action(s). Otherwise, the decorated method will be the ONLY method that can handle the given action.
 
-* {@link createApplication}
-* {@link optIn}
-* {@link updateApplication}
-* {@link deleteApplication}
-* {@link noOp}
-* {@link clearState} 
-* {@link closeOut}
 
 ### Examples
-#### Create
+#### Bare Create
 ```ts
 @createApplication
 create(): void {
@@ -73,6 +66,13 @@ create(): void {
 }
 ```
 
+#### Non-Bare Create
+```ts
+@createApplication
+create(name: string): void {
+  log("This app has been created by " + name + "!")
+}
+```
 #### Delete and Update
 `modifyApp` will allow both delete AND update on-completes.
 

@@ -25,10 +25,10 @@ class AbiTest extends Contract {
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
-  @createApplication
+  @handle.createApplication
   create(): void {}
 
-  @optIn
+  @handle.optIn
   optIn(): void {}
 
   staticArray(): uint64 {
