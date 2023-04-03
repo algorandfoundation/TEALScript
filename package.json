@@ -1,8 +1,15 @@
 {
   "name": "@algorandfoundation/tealscript",
   "version": "0.8.0",
+  "homepage": "https://github.com/algorand-devrel/TEALScript",
+  "bugs": {
+    "url": "https://github.com/algorand-devrel/TEALScript/issues"
+  },
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
+  "bin": {
+    "tealscript": "dist/bin/tealscript.js"
+  },
   "scripts": {
     "simple-gen-artifacts": "ts-node src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts/",
     "simple-gen-client": "npx beaker-ts -- generate examples/simple/artifacts/Simple.json examples/simple/",
@@ -55,8 +62,5 @@
     "tsx": "^3.12.3",
     "typedoc": "^0.23.23",
     "typedoc-plugin-merge-modules": "^4.0.1"
-  },
-  "bin": {
-    "tealscript": "dist/bin/tealscript.js"
   }
 }
