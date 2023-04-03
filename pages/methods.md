@@ -54,7 +54,7 @@ doMath(a: number, b: number, operation: string): number {
 ```
 
 ## Decorators
-TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes) via ${@link handle}. If the method has no arguments and void return, the method will be a bare method for the given action(s). Otherwise, the decorated method will be the ONLY method that can handle the given action.
+TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes) via {@link handle}. If the method has no arguments and void return, the method will be a bare method for the given action(s). Otherwise, the decorated method will be the ONLY method that can handle the given action.
 
 
 ### Examples

@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/binary.ts', 'BinaryTest', methodName);
+  return getMethodTeal('tests/contracts/binary.algo.ts', 'BinaryTest', methodName);
 }
 
-artifactsTest('BinaryTest', 'tests/contracts/binary.ts', 'tests/contracts/', 'BinaryTest');
+artifactsTest('BinaryTest', 'tests/contracts/binary.algo.ts', 'tests/contracts/', 'BinaryTest');
 
 describe('Binary Expressions', function () {
   it('&&', async function () {

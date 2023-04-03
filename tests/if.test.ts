@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/if.ts', 'IfTest', methodName);
+  return getMethodTeal('tests/contracts/if.algo.ts', 'IfTest', methodName);
 }
 
-artifactsTest('IfTest', 'tests/contracts/if.ts', 'tests/contracts/', 'IfTest');
+artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/', 'IfTest');
 
 describe('If', function () {
   it('singleIf', async function () {

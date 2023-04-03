@@ -38,57 +38,57 @@ abi_route_mintAndGetAsset:
 mintAndGetAsset:
 	proto 3 0
 
-	// examples/itxns/itxns.ts:39
+	// examples/itxns/itxns.algo.ts:34
 	// sendAppCall({
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.ts:40
+	// examples/itxns/itxns.algo.ts:35
 	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
-	// examples/itxns/itxns.ts:41
+	// examples/itxns/itxns.algo.ts:36
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/itxns/itxns.ts:42
+	// examples/itxns/itxns.algo.ts:37
 	// clearStateProgram: this.app.clearStateProgram
 	txna Applications 0
 	app_params_get AppClearStateProgram
 	assert
 	itxn_field ClearStateProgram
 
-	// examples/itxns/itxns.ts:43
+	// examples/itxns/itxns.algo.ts:38
 	// approvalProgram: NFTFactory
 	byte b64 CCACAAEmAQBCAJExGSISMRgiEhBEKEcBiAACI0OKAQCJMRkiEjEYIhMQRChHATYaAlcCADYaAVcCAIgAAiNDigMAsYEDshCL/7Imi/6yJSOyIiKyIyKyAbO0PBaABBUffHVMULCJMRkiEjEYIhMQRChHATYaAhfAHDYaARfAMIgAAiNDigMAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9jgATSAkxzgARIIWZwNhoAjgL/ZP+p
 	itxn_field ApprovalProgram
 	itxn_submit
 
-	// examples/itxns/itxns.ts:46
+	// examples/itxns/itxns.algo.ts:41
 	// factoryApp = this.itxn.createdApplicationID
 	itxn CreatedApplicationID
 	frame_bury -1 // factoryApp: application
 
-	// examples/itxns/itxns.ts:48
+	// examples/itxns/itxns.algo.ts:43
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.ts:49
+	// examples/itxns/itxns.algo.ts:44
 	// amount: 200_000
 	int 200_000
 	itxn_field Amount
 
-	// examples/itxns/itxns.ts:50
+	// examples/itxns/itxns.algo.ts:45
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/itxns/itxns.ts:51
+	// examples/itxns/itxns.algo.ts:46
 	// receiver: factoryApp.address
 	frame_dig -1 // factoryApp: application
 	app_params_get AppAddress
@@ -96,7 +96,7 @@ mintAndGetAsset:
 	itxn_field Receiver
 	itxn_submit
 
-	// examples/itxns/itxns.ts:54
+	// examples/itxns/itxns.algo.ts:49
 	// createdAsset = sendMethodCall<[string, string], Asset>({
 	itxn_begin
 	int appl
@@ -104,24 +104,24 @@ mintAndGetAsset:
 	method "createNFT(string,string)uint64"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.ts:55
+	// examples/itxns/itxns.algo.ts:50
 	// applicationID: factoryApp
 	frame_dig -1 // factoryApp: application
 	itxn_field ApplicationID
 
-	// examples/itxns/itxns.ts:57
+	// examples/itxns/itxns.algo.ts:52
 	// methodArgs: ['My NFT', 'MNFT']
 	byte "My NFT"
 	itxn_field ApplicationArgs
 	byte "MNFT"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.ts:58
+	// examples/itxns/itxns.algo.ts:53
 	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 
-	// examples/itxns/itxns.ts:59
+	// examples/itxns/itxns.algo.ts:54
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -134,36 +134,36 @@ mintAndGetAsset:
 	btoi
 	frame_bury -2 // createdAsset: asset
 
-	// examples/itxns/itxns.ts:62
+	// examples/itxns/itxns.algo.ts:57
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.ts:63
+	// examples/itxns/itxns.algo.ts:58
 	// assetReceiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.ts:64
+	// examples/itxns/itxns.algo.ts:59
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.ts:65
+	// examples/itxns/itxns.algo.ts:60
 	// xferAsset: createdAsset
 	frame_dig -2 // createdAsset: asset
 	itxn_field XferAsset
 
-	// examples/itxns/itxns.ts:66
+	// examples/itxns/itxns.algo.ts:61
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 
-	// examples/itxns/itxns.ts:69
+	// examples/itxns/itxns.algo.ts:64
 	// sendMethodCall<[Asset, Account], void>({
 	itxn_begin
 	int appl
@@ -171,12 +171,12 @@ mintAndGetAsset:
 	method "transferNFT(asset,account)void"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.ts:70
+	// examples/itxns/itxns.algo.ts:65
 	// applicationID: factoryApp
 	frame_dig -1 // factoryApp: application
 	itxn_field ApplicationID
 
-	// examples/itxns/itxns.ts:72
+	// examples/itxns/itxns.algo.ts:67
 	// methodArgs: [createdAsset, this.app.address]
 	frame_dig -2 // createdAsset: asset
 	itxn_field Assets
@@ -191,18 +191,18 @@ mintAndGetAsset:
 	itob
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.ts:73
+	// examples/itxns/itxns.algo.ts:68
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/itxns/itxns.ts:74
+	// examples/itxns/itxns.algo.ts:69
 	// onCompletion: 'NoOp'
 	int NoOp
 	itxn_field OnCompletion
 	itxn_submit
 
-	// examples/itxns/itxns.ts:77
+	// examples/itxns/itxns.algo.ts:72
 	// return createdAsset;
 	frame_dig -2 // createdAsset: asset
 	itob

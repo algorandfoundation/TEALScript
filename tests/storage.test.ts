@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/storage.ts', 'StorageTest', methodName);
+  return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
 }
 
-artifactsTest('StorageTest', 'tests/contracts/storage.ts', 'tests/contracts/', 'StorageTest');
+artifactsTest('StorageTest', 'tests/contracts/storage.algo.ts', 'tests/contracts/', 'StorageTest');
 
 const ops: {[type: string]: {[method: string]: string}} = {
   global: {

@@ -32,7 +32,7 @@ async function dryrun(methodName: string) {
   ));
 }
 
-artifactsTest('AbiTest', 'tests/contracts/abi.ts', 'tests/contracts/', 'AbiTest');
+artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/', 'AbiTest');
 
 describe('ABI', function () {
   before(async function () {

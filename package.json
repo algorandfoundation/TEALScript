@@ -1,8 +1,15 @@
 {
-  "name": "@joe-p/tealscript",
-  "version": "0.8.0",
+  "name": "@algorandfoundation/tealscript",
+  "version": "0.8.1",
+  "homepage": "https://github.com/algorand-devrel/TEALScript",
+  "bugs": {
+    "url": "https://github.com/algorand-devrel/TEALScript/issues"
+  },
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
+  "bin": {
+    "tealscript": "dist/bin/tealscript.js"
+  },
   "scripts": {
     "simple-gen-artifacts": "ts-node src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts/",
     "simple-gen-client": "npx beaker-ts -- generate examples/simple/artifacts/Simple.json examples/simple/",
@@ -15,24 +22,21 @@
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
     "prepack": "tsc",
-    "compile-tests": "for f in tests/contracts/*.ts; do echo $f && ts-node src/bin/tealscript.ts $f; done",
+    "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f; done",
     "generate-test-clients": "for f in tests/contracts/AbiTest.json; do npx beaker-ts generate $f tests/contracts/clients/; done",
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
-    "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.ts examples/amm/tealscript_artifacts",
-    "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.ts",
-    "compile-arc75": "tsx src/bin/tealscript.ts examples/arc75/arc75.ts examples/arc75/artifacts",
-    "compile-auction": "tsx ./src/bin/tealscript.ts examples/auction/auction.ts examples/auction/tealscript_artifacts",
-    "compile-itxns": "tsx ./src/bin/tealscript.ts examples/itxns/itxns.ts examples/itxns/artifacts && beaker generate examples/itxns/artifacts/FactoryCaller.json examples/itxns/beaker-client && tsx examples/itxns/demo.ts",
-    "compile-simple": "tsx ./src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts",
-    "compile-tuple_in_box": "tsx ./src/bin/tealscript.ts examples/tuple_in_box/app.ts examples/tuple_in_box/tealscript_artifacts",
+    "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
+    "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.algo.ts",
+    "compile-arc75": "tsx src/bin/tealscript.ts examples/arc75/arc75.algo.ts examples/arc75/artifacts",
+    "compile-auction": "tsx ./src/bin/tealscript.ts examples/auction/auction.algo.ts examples/auction/tealscript_artifacts",
+    "compile-itxns": "tsx ./src/bin/tealscript.ts examples/itxns/itxns.algo.ts examples/itxns/artifacts && beaker generate examples/itxns/artifacts/FactoryCaller.json examples/itxns/beaker-client && tsx examples/itxns/demo.ts",
+    "compile-simple": "tsx ./src/bin/tealscript.ts examples/simple/simple.algo.ts examples/simple/artifacts",
+    "compile-tuple_in_box": "tsx ./src/bin/tealscript.ts examples/tuple_in_box/app.algo.ts examples/tuple_in_box/tealscript_artifacts",
     "run-tuple_in_box": "yarn compile-tuple_in_box && beaker generate ./examples/tuple_in_box/tealscript_artifacts/ContactsApp.json ./examples/tuple_in_box/tealscript_artifacts && tsx ./examples/tuple_in_box/client.ts",
     "test-arc75": "yarn compile-arc75 && beaker generate examples/arc75/artifacts/ARC75.json examples/arc75/ && mocha --timeout 10000 -r ts-node/register 'examples/arc75/arc75_test.ts'",
     "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box"
   },
   "dependencies": {
-    "algosdk": "^2.0.0",
-    "beaker-ts": "^0.0.70",
-    "eslint": "^8.28.0",
     "node-fetch": "2",
     "typescript": "^4.9.3",
     "vlq": "^2.0.4"
@@ -45,7 +49,10 @@
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
+    "algosdk": "^2.2.0",
+    "beaker-ts": "0.0.70",
     "chai": "^4.3.7",
+    "eslint": "^8.37.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-mocha": "^10.1.0",
@@ -55,8 +62,5 @@
     "tsx": "^3.12.3",
     "typedoc": "^0.23.23",
     "typedoc-plugin-merge-modules": "^4.0.1"
-  },
-  "bin": {
-    "tealscript": "dist/bin/tealscript.js"
   }
 }

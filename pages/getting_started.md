@@ -1,13 +1,13 @@
 ## Installing TEALScript
 
-TEALScript can be installed from npm via `npm install @joe-p/tealscript`. 
+TEALScript can be installed from npm via `npm install @algorandfoundation/tealscript`. 
 
 ## Writing First Contract
 
 To write your first smart contract, import the {@link Contract} class and create a new class that extends {@link Contract}.
 
 ```ts
-import { Contract } from '@joe-p/tealscript';
+import { Contract } from '@algorandfoundation/tealscript';
 
 class FirstContract extends Contract {
 ```
@@ -15,7 +15,7 @@ class FirstContract extends Contract {
 This is where all of the method definitions will go. You can then write a method that is typed and written like a regular TypeScript method:
 
 ```ts
-import { Contract } from '@joe-p/tealscript';
+import { Contract } from '@algorandfoundation/tealscript';
 
 class FirstContract extends Contract {
   add(a: uint64, b: uint64): uint64 {
@@ -35,12 +35,33 @@ To learn more about method definitions and decorators for specific smart contrac
 
 ## ESLint
 
+**Note:** This is assuming you are extending the `airbnb-base`. Other standards might have additional rules that need to be disabled or modified.
+
 If you are using ESLint, the following rules must be disabled: 
 
 | ESLint Rule              | Reason                                                            |
 | ------------------------ | ----------------------------------------------------------------- |
 | `object-shorthand`       | Object shorthand is not yet supported by TEALScript               |
-| ` no-undef`              | The global TEALScript functions are not actually defined anywhere |
+| `no-undef`               | The global TEALScript functions are not actually defined anywhere |
 | `class-methods-use-this` | Not all methods will actually use `this`                          |
+| `max-classes-per-file`   | Multiple contracts can be defined in a single file                |
+| `no-bitwise`             | Bitwise operations are supported by TEALScript                    |
 
-**Note:** This is assuming you are following the `airbnb` standard. Other standards might have additional rules that need to be disabled or modified.
+## .eslintrc.js
+
+Rather than disabling these directly in the file, you can also create some rule overrides in your `.eslintrc.js`. For example, if you end all of your TEALScript contracts with `.algo.ts` you can add this to your config:
+
+```js
+overrides: [
+    {
+      files: ['*.algo.ts'],
+      rules: {
+        'object-shorthand': 'off',
+        'class-methods-use-this': 'off',
+        'no-undef': 'off',
+        'max-classes-per-file': 'off',
+        'no-bitwise': 'off',
+      },
+    }
+  ],
+```

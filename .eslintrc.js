@@ -35,4 +35,22 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.algo.ts'],
+      rules: {
+        'object-shorthand': 'off',
+        'class-methods-use-this': 'off',
+        'no-undef': 'off',
+        'max-classes-per-file': 'off',
+        'no-bitwise': 'off',
+      },
+    },
+    {
+      files: ['examples/**/*.ts'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
 };

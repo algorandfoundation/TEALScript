@@ -1,7 +1,3 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-undef */
-
 import { Contract } from '../../src/lib/index';
 
 type Contact = { name: string, company: string };

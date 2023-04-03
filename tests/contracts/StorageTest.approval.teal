@@ -19,7 +19,7 @@ abi_route_globalRefPut:
 globalRefPut:
 	proto 1 0
 
-	// tests/contracts/storage.ts:24
+	// tests/contracts/storage.algo.ts:18
 	// this.globalRef.put('bar')
 	byte "foo"
 	byte "bar"
@@ -44,7 +44,7 @@ abi_route_globalRefGet:
 globalRefGet:
 	proto 1 0
 
-	// tests/contracts/storage.ts:28
+	// tests/contracts/storage.algo.ts:22
 	// assert(this.globalRef.get() === 'bar')
 	byte "foo"
 	app_global_get
@@ -71,7 +71,7 @@ abi_route_globalRefDelete:
 globalRefDelete:
 	proto 1 0
 
-	// tests/contracts/storage.ts:32
+	// tests/contracts/storage.algo.ts:26
 	// this.globalRef.delete()
 	byte "foo"
 	app_global_del
@@ -95,7 +95,7 @@ abi_route_globalRefExists:
 globalRefExists:
 	proto 1 0
 
-	// tests/contracts/storage.ts:36
+	// tests/contracts/storage.algo.ts:30
 	// this.globalRef.exists()
 	txna Applications 0
 	byte "foo"
@@ -125,7 +125,7 @@ abi_route_localRefPut:
 localRefPut:
 	proto 2 0
 
-	// tests/contracts/storage.ts:40
+	// tests/contracts/storage.algo.ts:34
 	// this.localRef.put(a, 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
@@ -154,7 +154,7 @@ abi_route_localRefGet:
 localRefGet:
 	proto 2 0
 
-	// tests/contracts/storage.ts:44
+	// tests/contracts/storage.algo.ts:38
 	// assert(this.localRef.get(a) === 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
@@ -185,7 +185,7 @@ abi_route_localRefDelete:
 localRefDelete:
 	proto 2 0
 
-	// tests/contracts/storage.ts:48
+	// tests/contracts/storage.algo.ts:42
 	// this.localRef.delete(a)
 	frame_dig -1 // a: account
 	byte "foo"
@@ -213,7 +213,7 @@ abi_route_localRefExists:
 localRefExists:
 	proto 2 0
 
-	// tests/contracts/storage.ts:52
+	// tests/contracts/storage.algo.ts:46
 	// this.localRef.exists(a)
 	frame_dig -1 // a: account
 	txna Applications 0
@@ -241,7 +241,7 @@ abi_route_boxRefPut:
 boxRefPut:
 	proto 1 0
 
-	// tests/contracts/storage.ts:56
+	// tests/contracts/storage.algo.ts:50
 	// this.boxRef.put('bar')
 	byte "foo"
 	byte "bar"
@@ -266,7 +266,7 @@ abi_route_boxRefGet:
 boxRefGet:
 	proto 1 0
 
-	// tests/contracts/storage.ts:60
+	// tests/contracts/storage.algo.ts:54
 	// assert(this.boxRef.get() === 'bar')
 	byte "foo"
 	box_get
@@ -294,7 +294,7 @@ abi_route_boxRefDelete:
 boxRefDelete:
 	proto 1 0
 
-	// tests/contracts/storage.ts:64
+	// tests/contracts/storage.algo.ts:58
 	// this.boxRef.delete()
 	byte "foo"
 	box_del
@@ -318,7 +318,7 @@ abi_route_boxRefExists:
 boxRefExists:
 	proto 1 0
 
-	// tests/contracts/storage.ts:68
+	// tests/contracts/storage.algo.ts:62
 	// this.boxRef.exists()
 	byte "foo"
 	box_get
@@ -344,7 +344,7 @@ abi_route_globalMapPut:
 globalMapPut:
 	proto 1 0
 
-	// tests/contracts/storage.ts:72
+	// tests/contracts/storage.algo.ts:66
 	// this.globalMap.put('foo', 'bar')
 	byte "foo"
 	byte "bar"
@@ -369,7 +369,7 @@ abi_route_globalMapGet:
 globalMapGet:
 	proto 1 0
 
-	// tests/contracts/storage.ts:76
+	// tests/contracts/storage.algo.ts:70
 	// assert(this.globalMap.get('foo') === 'bar')
 	byte "foo"
 	app_global_get
@@ -396,7 +396,7 @@ abi_route_globalMapDelete:
 globalMapDelete:
 	proto 1 0
 
-	// tests/contracts/storage.ts:80
+	// tests/contracts/storage.algo.ts:74
 	// this.globalMap.delete('foo')
 	byte "foo"
 	app_global_del
@@ -420,7 +420,7 @@ abi_route_globalMapExists:
 globalMapExists:
 	proto 1 0
 
-	// tests/contracts/storage.ts:84
+	// tests/contracts/storage.algo.ts:78
 	// this.globalMap.exists('foo')
 	txna Applications 0
 	byte "foo"
@@ -450,7 +450,7 @@ abi_route_localMapPut:
 localMapPut:
 	proto 2 0
 
-	// tests/contracts/storage.ts:88
+	// tests/contracts/storage.algo.ts:82
 	// this.localMap.put(a, 'foo', 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
@@ -479,7 +479,7 @@ abi_route_localMapGet:
 localMapGet:
 	proto 2 0
 
-	// tests/contracts/storage.ts:92
+	// tests/contracts/storage.algo.ts:86
 	// assert(this.localMap.get(a, 'foo') === 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
@@ -510,7 +510,7 @@ abi_route_localMapDelete:
 localMapDelete:
 	proto 2 0
 
-	// tests/contracts/storage.ts:96
+	// tests/contracts/storage.algo.ts:90
 	// this.localMap.delete(a, 'foo')
 	frame_dig -1 // a: account
 	byte "foo"
@@ -538,7 +538,7 @@ abi_route_localMapExists:
 localMapExists:
 	proto 2 0
 
-	// tests/contracts/storage.ts:100
+	// tests/contracts/storage.algo.ts:94
 	// this.localMap.exists(a, 'foo')
 	frame_dig -1 // a: account
 	txna Applications 0
@@ -566,7 +566,7 @@ abi_route_boxMapPut:
 boxMapPut:
 	proto 1 0
 
-	// tests/contracts/storage.ts:104
+	// tests/contracts/storage.algo.ts:98
 	// this.boxMap.put('foo', 'bar')
 	byte "foo"
 	byte "bar"
@@ -591,7 +591,7 @@ abi_route_boxMapGet:
 boxMapGet:
 	proto 1 0
 
-	// tests/contracts/storage.ts:108
+	// tests/contracts/storage.algo.ts:102
 	// assert(this.boxMap.get('foo') === 'bar')
 	byte "foo"
 	box_get
@@ -619,7 +619,7 @@ abi_route_boxMapDelete:
 boxMapDelete:
 	proto 1 0
 
-	// tests/contracts/storage.ts:112
+	// tests/contracts/storage.algo.ts:106
 	// this.boxMap.delete('foo')
 	byte "foo"
 	box_del
@@ -643,7 +643,7 @@ abi_route_boxMapExists:
 boxMapExists:
 	proto 1 0
 
-	// tests/contracts/storage.ts:116
+	// tests/contracts/storage.algo.ts:110
 	// this.boxMap.exists('foo')
 	byte "foo"
 	box_get

@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/math.ts', 'MathTest', methodName);
+  return getMethodTeal('tests/contracts/math.algo.ts', 'MathTest', methodName);
 }
 
-artifactsTest('MathTest', 'tests/contracts/math.ts', 'tests/contracts/', 'MathTest');
+artifactsTest('MathTest', 'tests/contracts/math.algo.ts', 'tests/contracts/', 'MathTest');
 
 describe('Math', function () {
   it('uint64 +', async function () {

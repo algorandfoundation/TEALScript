@@ -1,7 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
-
 import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars

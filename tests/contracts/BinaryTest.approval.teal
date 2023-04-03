@@ -23,7 +23,7 @@ abi_route_and:
 and:
 	proto 3 0
 
-	// tests/contracts/binary.ts:13
+	// tests/contracts/binary.algo.ts:6
 	// assert(a && b)
 	frame_dig -1 // a: uint64
 	dup
@@ -57,7 +57,7 @@ abi_route_or:
 or:
 	proto 3 0
 
-	// tests/contracts/binary.ts:17
+	// tests/contracts/binary.algo.ts:10
 	// assert(a || b)
 	frame_dig -1 // a: uint64
 	dup
@@ -91,7 +91,7 @@ abi_route_equal:
 equal:
 	proto 3 0
 
-	// tests/contracts/binary.ts:21
+	// tests/contracts/binary.algo.ts:14
 	// assert(a === b)
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -121,7 +121,7 @@ abi_route_notEqual:
 notEqual:
 	proto 3 0
 
-	// tests/contracts/binary.ts:25
+	// tests/contracts/binary.algo.ts:18
 	// assert(a !== b)
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -151,7 +151,7 @@ abi_route_bitAnd:
 bitAnd:
 	proto 3 0
 
-	// tests/contracts/binary.ts:29
+	// tests/contracts/binary.algo.ts:22
 	// assert(a & b)
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -181,7 +181,7 @@ abi_route_bitOr:
 bitOr:
 	proto 3 0
 
-	// tests/contracts/binary.ts:33
+	// tests/contracts/binary.algo.ts:26
 	// assert(a | b)
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -211,7 +211,7 @@ abi_route_bitXor:
 bitXor:
 	proto 3 0
 
-	// tests/contracts/binary.ts:37
+	// tests/contracts/binary.algo.ts:30
 	// assert(a ^ b)
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -243,7 +243,7 @@ abi_route_combo:
 combo:
 	proto 4 0
 
-	// tests/contracts/binary.ts:41
+	// tests/contracts/binary.algo.ts:34
 	// assert(a || (b && c))
 	frame_dig -1 // a: uint64
 	dup
