@@ -35,4 +35,12 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['examples/**/*.ts'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
 };
