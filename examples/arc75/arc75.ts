@@ -8,7 +8,7 @@ type Whitelist = {account: Address, boxIndex: uint16, arc: string};
 
 // eslint-disable-next-line no-unused-vars
 class ARC75 extends Contract {
-  whitelist = new BoxMap<Whitelist, uint64[]>({ defaultSize: 10 });
+  whitelist = new BoxMap<Whitelist, uint64[]>();
 
   @handle.createApplication
   create(): void {}
