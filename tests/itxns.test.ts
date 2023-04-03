@@ -4,4 +4,4 @@
 /* eslint-disable prefer-arrow-callback */
 import { artifactsTest } from './common';
 
-artifactsTest('ItxnsTest', 'tests/contracts/itxns.ts', 'tests/contracts/', 'ItxnsTest');
+artifactsTest('ItxnsTest', 'tests/contracts/itxns.algo.ts', 'tests/contracts/', 'ItxnsTest');

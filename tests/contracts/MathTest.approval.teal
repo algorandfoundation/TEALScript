@@ -23,7 +23,7 @@ abi_route_u64plus:
 u64plus:
 	proto 3 0
 
-	// tests/contracts/math.ts:12
+	// tests/contracts/math.algo.ts:6
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -57,7 +57,7 @@ abi_route_u64minus:
 u64minus:
 	proto 3 0
 
-	// tests/contracts/math.ts:16
+	// tests/contracts/math.algo.ts:10
 	// return a - b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -91,7 +91,7 @@ abi_route_u64mul:
 u64mul:
 	proto 3 0
 
-	// tests/contracts/math.ts:20
+	// tests/contracts/math.algo.ts:14
 	// return a * b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -125,7 +125,7 @@ abi_route_u64div:
 u64div:
 	proto 3 0
 
-	// tests/contracts/math.ts:24
+	// tests/contracts/math.algo.ts:18
 	// return a / b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -157,7 +157,7 @@ abi_route_u256plus:
 u256plus:
 	proto 3 0
 
-	// tests/contracts/math.ts:28
+	// tests/contracts/math.algo.ts:22
 	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -190,7 +190,7 @@ abi_route_u256minus:
 u256minus:
 	proto 3 0
 
-	// tests/contracts/math.ts:32
+	// tests/contracts/math.algo.ts:26
 	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -223,7 +223,7 @@ abi_route_u256mul:
 u256mul:
 	proto 3 0
 
-	// tests/contracts/math.ts:36
+	// tests/contracts/math.algo.ts:30
 	// return a * b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -256,7 +256,7 @@ abi_route_u256div:
 u256div:
 	proto 3 0
 
-	// tests/contracts/math.ts:40
+	// tests/contracts/math.algo.ts:34
 	// return a / b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -291,7 +291,7 @@ abi_route_u64Return256:
 u64Return256:
 	proto 3 0
 
-	// tests/contracts/math.ts:44
+	// tests/contracts/math.algo.ts:38
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -323,7 +323,7 @@ abi_route_maxU64:
 maxU64:
 	proto 1 0
 
-	// tests/contracts/math.ts:49
+	// tests/contracts/math.algo.ts:43
 	// assert(18_446_744_073_709_551_615)
 	int 18_446_744_073_709_551_615
 	assert

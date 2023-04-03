@@ -1,9 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-undef */
-/* eslint-disable max-classes-per-file */
-/* eslint-disable no-unused-vars */
-
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { Contract } from '../../src/lib/index';
 
 export default class Simple extends Contract {

@@ -1,7 +1,3 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable no-undef */
-/* eslint-disable class-methods-use-this */
-
 import { Contract } from '../../src/lib/index';
 
 type Whitelist = {account: Address, boxIndex: uint16, arc: string};

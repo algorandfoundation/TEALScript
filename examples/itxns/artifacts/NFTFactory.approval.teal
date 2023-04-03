@@ -42,33 +42,33 @@ abi_route_createNFT:
 createNFT:
 	proto 3 0
 
-	// examples/itxns/itxns.ts:14
+	// examples/itxns/itxns.algo.ts:9
 	// return sendAssetCreation({
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.ts:15
+	// examples/itxns/itxns.algo.ts:10
 	// configAssetName: name
 	frame_dig -1 // name: bytes
 	itxn_field ConfigAssetName
 
-	// examples/itxns/itxns.ts:16
+	// examples/itxns/itxns.algo.ts:11
 	// configAssetUnitName: unitName
 	frame_dig -2 // unitName: bytes
 	itxn_field ConfigAssetUnitName
 
-	// examples/itxns/itxns.ts:17
+	// examples/itxns/itxns.algo.ts:12
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
 
-	// examples/itxns/itxns.ts:18
+	// examples/itxns/itxns.algo.ts:13
 	// configAssetDecimals: 0
 	int 0
 	itxn_field ConfigAssetDecimals
 
-	// examples/itxns/itxns.ts:19
+	// examples/itxns/itxns.algo.ts:14
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -105,28 +105,28 @@ abi_route_transferNFT:
 transferNFT:
 	proto 3 0
 
-	// examples/itxns/itxns.ts:24
+	// examples/itxns/itxns.algo.ts:19
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.ts:25
+	// examples/itxns/itxns.algo.ts:20
 	// assetReceiver: receiver
 	frame_dig -2 // receiver: account
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.ts:26
+	// examples/itxns/itxns.algo.ts:21
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.ts:27
+	// examples/itxns/itxns.algo.ts:22
 	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
-	// examples/itxns/itxns.ts:28
+	// examples/itxns/itxns.algo.ts:23
 	// fee: 0
 	int 0
 	itxn_field Fee

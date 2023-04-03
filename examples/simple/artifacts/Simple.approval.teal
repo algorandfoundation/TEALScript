@@ -40,7 +40,7 @@ abi_route_incr:
 incr:
 	proto 2 0
 
-	// examples/simple/simple.ts:16
+	// examples/simple/simple.algo.ts:10
 	// this.counter.put(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -70,7 +70,7 @@ abi_route_decr:
 decr:
 	proto 2 0
 
-	// examples/simple/simple.ts:20
+	// examples/simple/simple.algo.ts:14
 	// this.counter.put(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -100,7 +100,7 @@ abi_route_add:
 add:
 	proto 3 0
 
-	// examples/simple/simple.ts:24
+	// examples/simple/simple.algo.ts:18
 	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -133,7 +133,7 @@ abi_route_sub:
 sub:
 	proto 3 0
 
-	// examples/simple/simple.ts:28
+	// examples/simple/simple.algo.ts:22
 	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
