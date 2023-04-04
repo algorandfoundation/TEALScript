@@ -82,7 +82,7 @@ declare type bytes = string
 declare type StaticArray<T, N extends number> = T[]
 
 declare class Asset {
-  constructor(id: uint64)
+  static fromIndex(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
 
@@ -112,7 +112,7 @@ declare class Asset {
 }
 
 declare class Address {
-  constructor(id: uint64)
+  static fromBytes(addr: BytesLike): Address;
 
   static readonly zeroAddress: Address;
 
@@ -155,7 +155,7 @@ type Account = Address
 type BytesLike = bytes | Address
 
 declare class Application {
-  constructor(id: uint64)
+  static fromIndex(appID: uint64)
 
   static readonly zeroIndex: Application;
 
