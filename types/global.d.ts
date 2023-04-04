@@ -421,7 +421,6 @@ declare function sendMethodCall<ArgsType, ReturnType>(
 declare function btoi(byteslice: BytesLike): uint64
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
-declare function err()
 declare function sha256(arg0: BytesLike)
 declare function keccak256(arg0: BytesLike)
 declare function sha512_256(arg0: BytesLike)

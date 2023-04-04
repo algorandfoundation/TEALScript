@@ -21,3 +21,5 @@ artifactsTest('Auction', 'examples/auction/auction.algo.ts', 'examples/auction/t
 artifactsTest('Simple', 'examples/simple/simple.algo.ts', 'examples/simple/artifacts/', 'Simple');
 
 artifactsTest('Tuple In Box', 'examples/tuple_in_box/app.algo.ts', 'examples/tuple_in_box/tealscript_artifacts/', 'ContactsApp');
+
+artifactsTest('Calculator', 'examples/calculator/calculator.algo.ts', 'examples/calculator/artifacts/', 'Calculator');

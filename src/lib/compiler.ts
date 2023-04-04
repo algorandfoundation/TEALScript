@@ -712,6 +712,8 @@ export default class Compiler {
   private getABIType(type: string): string {
     if (this.customTypes[type]) return type;
     const abiType = type.toLowerCase();
+    if (type === 'number') return 'uint64';
+
     const typeNode = stringToExpression(type) as ts.Expression;
 
     if (abiType.match(/<\d+>$/)) {
@@ -930,6 +932,14 @@ export default class Compiler {
     });
   }
 
+  private processThrowStatement(node: ts.ThrowStatement) {
+    if (!ts.isCallExpression(node.expression)) throw Error('Must throw Error');
+    if (node.expression.expression.getText() !== 'Error') throw Error('Must throw Error');
+
+    if (node.expression.arguments.length) this.pushVoid(`err // ${node.expression.arguments[0].getText()}`);
+    else this.pushVoid('err');
+  }
+
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
@@ -960,6 +970,7 @@ export default class Compiler {
       else if (ts.isNonNullExpression(node)) this.processNode(node.expression);
       else if (ts.isObjectLiteralExpression(node)) this.processObjectLiteralExpression(node);
       else if (node.kind === 108) this.lastType = 'this';
+      else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);

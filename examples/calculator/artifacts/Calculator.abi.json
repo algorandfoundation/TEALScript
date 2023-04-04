@@ -1,0 +1,31 @@
+{
+  "name": "Calculator",
+  "desc": "",
+  "methods": [
+    {
+      "name": "doMath",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "operation",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    }
+  ]
+}

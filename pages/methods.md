@@ -34,22 +34,20 @@ A method defined with the `private` keyword will only be accessible within the c
 In this example, there is a single public ABI method `doMath` which will then call the `add` or `subtract` subroutines depending on the method given. `doMath` is the only method that is externally callable.
 
 ```ts
-private add (a: number, b: number): number {
-  return a + b
+private getSum (a: number, b: number): number {
+    return a + b
 }
 
-private subtract (a: number, b: number): number {
-  return a - b
+private getDifference (a: number, b: number): number {
+    return a >= b ? a - b : b - a 
 }
 
 doMath(a: number, b: number, operation: string): number {
-  if (operation === '+') {
-    this.add(a, b)
-  } else if (operation === '-') {
-    this.subtract(a, b) 
-  } else {
-    err()
-  }
+    if (operation === 'sum') {
+        return this.getSum(a, b)
+    } else if (operation === 'difference') {
+        return this.getDifference(a, b) 
+    } else throw Error('Invalid operation')
 }
 ```
 
@@ -60,7 +58,7 @@ TEALScript provides some decorators to allow for the handling of specific action
 ### Examples
 #### Bare Create
 ```ts
-@createApplication
+@handle.createApplication
 create(): void {
   log("This app has been created!")
 }
@@ -68,7 +66,7 @@ create(): void {
 
 #### Non-Bare Create
 ```ts
-@createApplication
+@handle.createApplication
 create(name: string): void {
   log("This app has been created by " + name + "!")
 }
@@ -77,8 +75,8 @@ create(name: string): void {
 `modifyApp` will allow both delete AND update on-completes.
 
 ```ts
-@updateApplication
-@deleteApplication
+@handle.updateApplication
+@handle.deleteApplication
 modifyApp(): void {
   assert(globals.creatorAddress === this.txn.sender)
   log("App is being modified!")
