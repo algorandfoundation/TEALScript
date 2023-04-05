@@ -269,11 +269,11 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	assert
 	txn OnCompletion
 	int NoOp
 	==
-	assert
+	&&
+	return
 
 route_abi:
 	method "and(uint64,uint64)void"

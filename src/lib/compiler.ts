@@ -896,11 +896,11 @@ export default class Compiler {
         'txn ApplicationID',
         'int 0',
         '==',
-        'assert',
         'txn OnCompletion',
         'int NoOp',
         '==',
-        'assert',
+        '&&',
+        'return',
       );
     }
 

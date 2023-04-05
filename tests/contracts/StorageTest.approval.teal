@@ -659,11 +659,11 @@ main:
 	txn ApplicationID
 	int 0
 	==
-	assert
 	txn OnCompletion
 	int NoOp
 	==
-	assert
+	&&
+	return
 
 route_abi:
 	method "globalRefPut()void"
