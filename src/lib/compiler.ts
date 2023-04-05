@@ -261,6 +261,10 @@ export default class Compiler {
 
   private ternaryCount: number = 0;
 
+  private whileCount: number = 0;
+
+  private forCount: number = 0;
+
   filename?: string;
 
   content: string;
@@ -954,6 +958,34 @@ export default class Compiler {
     else this.pushVoid('err');
   }
 
+  private processWhileStatement(node: ts.WhileStatement) {
+    this.pushVoid(`while_${this.whileCount}:`);
+    this.processNode(node.expression);
+    this.pushVoid(`bz while_${this.whileCount}_end`);
+
+    this.processNode(node.statement);
+    this.pushVoid(`b while_${this.whileCount}`);
+    this.pushVoid(`while_${this.whileCount}_end:`);
+
+    this.whileCount += 1;
+  }
+
+  private processForStatement(node: ts.ForStatement) {
+    this.processNode(node.initializer!);
+
+    this.pushVoid(`for_${this.forCount}:`);
+    this.processNode(node.condition!);
+    this.pushVoid(`bz for_${this.forCount}_end`);
+
+    this.processNode(node.statement);
+
+    this.processNode(node.incrementor!);
+    this.pushVoid(`b for_${this.forCount}`);
+    this.pushVoid(`for_${this.forCount}_end:`);
+
+    this.forCount += 1;
+  }
+
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
@@ -985,6 +1017,8 @@ export default class Compiler {
       else if (ts.isObjectLiteralExpression(node)) this.processObjectLiteralExpression(node);
       else if (node.kind === 108) this.lastType = 'this';
       else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
+      else if (ts.isWhileStatement(node)) this.processWhileStatement(node);
+      else if (ts.isForStatement(node)) this.processForStatement(node);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);

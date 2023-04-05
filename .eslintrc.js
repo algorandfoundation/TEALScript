@@ -44,6 +44,7 @@ module.exports = {
         'no-undef': 'off',
         'max-classes-per-file': 'off',
         'no-bitwise': 'off',
+        'operator-assignment': 'off',
       },
     },
     {

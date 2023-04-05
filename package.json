@@ -24,7 +24,7 @@
     "docs": "typedoc",
     "prepack": "tsc",
     "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f; done",
-    "generate-test-clients": "for f in tests/contracts/AbiTest.json; do npx beaker-ts generate $f tests/contracts/clients/; done",
+    "generate-test-clients": "contracts=(AbiTest LoopsTest); for c in ${contracts[@]}; do npx beaker-ts generate tests/contracts/$c.json tests/contracts/clients/; done",
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
     "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
     "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.algo.ts",
