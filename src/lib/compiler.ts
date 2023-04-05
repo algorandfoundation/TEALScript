@@ -275,6 +275,8 @@ export default class Compiler {
 
   private bareCreate: boolean = false;
 
+  private handledActions: string[] = [];
+
   abi: {
     name: string,
     desc: string,
@@ -1654,7 +1656,12 @@ export default class Compiler {
         const err = new Error(`Unknown decorator ${d.expression.getText()}`);
         if (!ts.isPropertyAccessExpression(d.expression)) throw err;
         if (d.expression.expression.getText() !== 'handle') throw err;
-        return d.expression.name.getText();
+
+        const handledAction = d.expression.name.getText();
+        if (this.handledActions.includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
+
+        this.handledActions.push(handledAction);
+        return handledAction;
       },
     );
 
@@ -2404,13 +2411,11 @@ export default class Compiler {
     // bare method
     if (bareMethod) {
       allowedOnCompletes.forEach((oc, i) => {
-        if (this.bareOnCompletes.includes(oc)) throw new Error(`Duplicate ${oc} decorator defined`);
         this.bareOnCompletes.push(oc);
         this.pushVoid(`bare_route_${oc}:`);
       });
 
       if (allowCreate) {
-        if (this.bareCreate) throw new Error('Duplicate create decorator defined');
         this.bareCreate = true;
         this.pushVoid('bare_route_create:');
       }
