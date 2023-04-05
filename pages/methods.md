@@ -34,20 +34,26 @@ A method defined with the `private` keyword will only be accessible within the c
 In this example, there is a single public ABI method `doMath` which will then call the `add` or `subtract` subroutines depending on the method given. `doMath` is the only method that is externally callable.
 
 ```ts
-private getSum (a: number, b: number): number {
-    return a + b
-}
+class Calculator extends Contract {
+  private getSum(a: number, b: number): number {
+    return a + b;
+  }
 
-private getDifference (a: number, b: number): number {
-    return a >= b ? a - b : b - a 
-}
+  private getDifference(a: number, b: number): number {
+    return a >= b ? a - b : b - a;
+  }
 
-doMath(a: number, b: number, operation: string): number {
+  doMath(a: number, b: number, operation: string): number {
+    let result: number;
+
     if (operation === 'sum') {
-        return this.getSum(a, b)
+      result = this.getSum(a, b);
     } else if (operation === 'difference') {
-        return this.getDifference(a, b) 
-    } else throw Error('Invalid operation')
+      result = this.getDifference(a, b);
+    } else throw Error('Invalid operation');
+
+    return result;
+  }
 }
 ```
 

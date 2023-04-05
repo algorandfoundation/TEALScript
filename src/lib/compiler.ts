@@ -1784,6 +1784,7 @@ export default class Compiler {
       if (ts.isIdentifier(node.left)) {
         const name = node.left.getText();
         const target = this.frame[name];
+        this.processNode(node.right);
         this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processStaticArray(node.left, node.right);
@@ -1917,7 +1918,7 @@ export default class Compiler {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
         index: this.frameIndex,
-        type: node.type.getText(),
+        type: this.getABIType(node.type.getText()),
       };
     }
 

@@ -53,7 +53,7 @@ abi_route_doMath:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 2
 	txna ApplicationArgs 3
 	extract 2 0
 	txna ApplicationArgs 2
@@ -65,57 +65,61 @@ abi_route_doMath:
 	return
 
 doMath:
-	proto 4 0
+	proto 5 0
 
-	// if0_condition
 	// examples/calculator/calculator.algo.ts:14
+	// result: number
+	// if0_condition
+	// examples/calculator/calculator.algo.ts:16
 	// operation === 'sum'
 	frame_dig -3 // operation: bytes
 	byte "sum"
 	==
-	bz if0_end
+	bz if0_elseif1_condition
 
 	// if0_consequent
-	// examples/calculator/calculator.algo.ts:15
-	// return this.getSum(a, b);
+	// examples/calculator/calculator.algo.ts:17
+	// result = this.getSum(a, b)
 	byte 0x
 	dupn 1
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
+	frame_bury -4 // result: uint64
+	b if0_end
 
-if0_end:
-	// if1_condition
-	// examples/calculator/calculator.algo.ts:16
+if0_elseif1_condition:
+	// examples/calculator/calculator.algo.ts:18
 	// operation === 'difference'
 	frame_dig -3 // operation: bytes
 	byte "difference"
 	==
-	bz if1_end
+	bz if0_else
 
-	// if1_consequent
-	// examples/calculator/calculator.algo.ts:17
-	// return this.getDifference(a, b);
+	// if0_elseif1_consequent
+	// examples/calculator/calculator.algo.ts:19
+	// result = this.getDifference(a, b)
 	byte 0x
 	dupn 1
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference
+	frame_bury -4 // result: uint64
+	b if0_end
+
+if0_else:
+	err // 'Invalid operation'
+
+if0_end:
+	// examples/calculator/calculator.algo.ts:22
+	// return result;
+	frame_dig -4 // result: uint64
 	itob
 	byte 0x151f7c75
 	swap
 	concat
 	log
 	retsub
-
-if1_end:
-	err // 'Invalid operation'
 
 main:
 	txn NumAppArgs
