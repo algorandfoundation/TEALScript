@@ -598,6 +598,12 @@ main:
 	txn NumAppArgs
 	bnz route_abi
 
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	assert
+
 route_abi:
 	method "payment()void"
 	method "assetCreation()uint64"

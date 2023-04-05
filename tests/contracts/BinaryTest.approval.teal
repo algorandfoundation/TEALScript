@@ -265,6 +265,12 @@ main:
 	txn NumAppArgs
 	bnz route_abi
 
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	assert
+
 route_abi:
 	method "and(uint64,uint64)void"
 	method "or(uint64,uint64)void"

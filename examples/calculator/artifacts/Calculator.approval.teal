@@ -88,6 +88,7 @@ doMath:
 	swap
 	concat
 	log
+	retsub
 
 if0_end:
 	// if1_condition
@@ -111,14 +112,20 @@ if0_end:
 	swap
 	concat
 	log
+	retsub
 
 if1_end:
 	err // 'Invalid operation'
-	retsub
 
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	assert
 
 route_abi:
 	method "doMath(uint64,uint64,string)uint64"

@@ -333,6 +333,12 @@ main:
 	txn NumAppArgs
 	bnz route_abi
 
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	assert
+
 route_abi:
 	method "u64plus(uint64,uint64)uint64"
 	method "u64minus(uint64,uint64)uint64"

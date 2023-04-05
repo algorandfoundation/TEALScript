@@ -890,6 +890,8 @@ export default class Compiler {
       this.pushVoid('int 1');
 
       this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
+    } else if (!this.handledActions.includes('createApplication')) {
+      this.pushLines('// default createApplication', 'txn ApplicationID', 'int 0', '==', 'assert');
     }
 
     this.pushVoid('route_abi:');
@@ -1724,6 +1726,7 @@ export default class Compiler {
     this.pushVoid('swap');
     this.pushVoid('concat');
     this.pushVoid('log');
+    this.pushVoid('retsub');
   }
 
   private getBaseArrayNode(
@@ -2350,7 +2353,7 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    this.pushVoid('retsub');
+    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid('retsub');
     this.frame = lastFrame;
     this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1;
   }
