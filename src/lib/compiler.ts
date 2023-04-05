@@ -891,7 +891,17 @@ export default class Compiler {
 
       this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
     } else if (!this.handledActions.includes('createApplication')) {
-      this.pushLines('// default createApplication', 'txn ApplicationID', 'int 0', '==', 'assert');
+      this.pushLines(
+        '// default createApplication',
+        'txn ApplicationID',
+        'int 0',
+        '==',
+        'assert',
+        'txn OnCompletion',
+        'int NoOp',
+        '==',
+        'assert',
+      );
     }
 
     this.pushVoid('route_abi:');

@@ -660,6 +660,10 @@ main:
 	int 0
 	==
 	assert
+	txn OnCompletion
+	int NoOp
+	==
+	assert
 
 route_abi:
 	method "globalRefPut()void"

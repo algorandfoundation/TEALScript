@@ -338,6 +338,10 @@ main:
 	int 0
 	==
 	assert
+	txn OnCompletion
+	int NoOp
+	==
+	assert
 
 route_abi:
 	method "u64plus(uint64,uint64)uint64"

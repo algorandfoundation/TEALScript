@@ -479,6 +479,10 @@ main:
 	int 0
 	==
 	assert
+	txn OnCompletion
+	int NoOp
+	==
+	assert
 
 route_abi:
 	method "hasAsset(account)void"

@@ -270,6 +270,10 @@ main:
 	int 0
 	==
 	assert
+	txn OnCompletion
+	int NoOp
+	==
+	assert
 
 route_abi:
 	method "and(uint64,uint64)void"

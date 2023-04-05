@@ -130,6 +130,10 @@ main:
 	int 0
 	==
 	assert
+	txn OnCompletion
+	int NoOp
+	==
+	assert
 
 route_abi:
 	method "doMath(uint64,uint64,string)uint64"
