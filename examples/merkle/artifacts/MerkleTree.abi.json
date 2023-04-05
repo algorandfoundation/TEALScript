@@ -1,0 +1,71 @@
+{
+  "name": "MerkleTree",
+  "desc": "",
+  "methods": [
+    {
+      "name": "verify",
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes",
+          "desc": ""
+        },
+        {
+          "name": "path",
+          "type": "byte[33][3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "appendLeaf",
+      "args": [
+        {
+          "name": "data",
+          "type": "bytes",
+          "desc": ""
+        },
+        {
+          "name": "path",
+          "type": "byte[33][3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateLeaft",
+      "args": [
+        {
+          "name": "oldData",
+          "type": "bytes",
+          "desc": ""
+        },
+        {
+          "name": "newData",
+          "type": "bytes",
+          "desc": ""
+        },
+        {
+          "name": "path",
+          "type": "byte[33][3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}
