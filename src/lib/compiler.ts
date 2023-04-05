@@ -81,6 +81,7 @@ function getTypeLength(type: string): number {
     case 'asset':
     case 'application':
       return 8;
+    case 'byte':
     case 'string':
     case 'bytes':
       return 1;
@@ -2561,7 +2562,7 @@ export default class Compiler {
       );
     }
 
-    this.pushVoid(line.join(' '));
+    this.push(line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
   }
 
   private processStorageCall(node: ts.CallExpression) {
