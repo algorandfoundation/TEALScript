@@ -54,28 +54,15 @@ hashConcat:
 	sha256
 	retsub
 
-isRightSibling:
-	proto 2 1
-
-	// examples/merkle/merkle.algo.ts:24
-	// return getbyte(sibling, 0) === 170;
-	frame_dig -1 // sibling: bytes
-	int 0
-	getbyte
-	int 170
-	==
-	itob
-	retsub
-
 calcRoot:
 	proto 6 1
 
-	// examples/merkle/merkle.algo.ts:28
+	// examples/merkle/merkle.algo.ts:24
 	// result = leaf
 	frame_dig -1 // leaf: bytes
 	frame_bury -3 // result: bytes
 
-	// examples/merkle/merkle.algo.ts:30
+	// examples/merkle/merkle.algo.ts:26
 	// i = 0
 	int 0
 	frame_bury -4 // i: uint64
@@ -86,7 +73,7 @@ for_1:
 	<
 	bz for_1_end
 
-	// examples/merkle/merkle.algo.ts:31
+	// examples/merkle/merkle.algo.ts:27
 	// elem = path[i]
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -4 // i: uint64
@@ -97,16 +84,17 @@ for_1:
 	frame_bury -5 // elem: byte[33]
 
 	// if0_condition
-	// examples/merkle/merkle.algo.ts:33
-	// this.isRightSibling(elem)
-	byte 0x
-	dupn 0
+	// examples/merkle/merkle.algo.ts:29
+	// getbyte(elem, 0) === 170
 	frame_dig -5 // elem: byte[33]
-	callsub isRightSibling
+	int 0
+	getbyte
+	int 170
+	==
 	bz if0_else
 
 	// if0_consequent
-	// examples/merkle/merkle.algo.ts:34
+	// examples/merkle/merkle.algo.ts:30
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
 	byte 0x
 	dupn 0
@@ -120,7 +108,7 @@ for_1:
 	b if0_end
 
 if0_else:
-	// examples/merkle/merkle.algo.ts:36
+	// examples/merkle/merkle.algo.ts:32
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
 	byte 0x
 	dupn 0
@@ -133,7 +121,7 @@ if0_else:
 	frame_bury -3 // result: bytes
 
 if0_end:
-	// examples/merkle/merkle.algo.ts:30
+	// examples/merkle/merkle.algo.ts:26
 	// i = i + 1
 	frame_dig -4 // i: uint64
 	int 1
@@ -142,7 +130,7 @@ if0_end:
 	b for_1
 
 for_1_end:
-	// examples/merkle/merkle.algo.ts:40
+	// examples/merkle/merkle.algo.ts:36
 	// return result;
 	frame_dig -3 // result: bytes
 	retsub
@@ -165,7 +153,7 @@ bare_route_DeleteApplication:
 delete:
 	proto 1 0
 
-	// examples/merkle/merkle.algo.ts:45
+	// examples/merkle/merkle.algo.ts:41
 	// assert(this.txn.sender === this.app.creator)
 	txn Sender
 	txna Applications 0
@@ -193,7 +181,7 @@ bare_route_create:
 create:
 	proto 1 0
 
-	// examples/merkle/merkle.algo.ts:50
+	// examples/merkle/merkle.algo.ts:46
 	// this.root.put(this.calcInitRoot())
 	byte "root"
 	byte 0x
@@ -223,7 +211,7 @@ abi_route_verify:
 verify:
 	proto 3 0
 
-	// examples/merkle/merkle.algo.ts:54
+	// examples/merkle/merkle.algo.ts:50
 	// assert(this.root.get() === this.calcRoot(sha256(data), path))
 	byte "root"
 	app_global_get
@@ -258,14 +246,14 @@ abi_route_appendLeaf:
 appendLeaf:
 	proto 3 0
 
-	// examples/merkle/merkle.algo.ts:58
+	// examples/merkle/merkle.algo.ts:54
 	// assert(data !== '')
 	frame_dig -1 // data: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:59
+	// examples/merkle/merkle.algo.ts:55
 	// assert(this.root.get() === this.calcRoot(sha256(''), path))
 	byte "root"
 	app_global_get
@@ -278,7 +266,7 @@ appendLeaf:
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:61
+	// examples/merkle/merkle.algo.ts:57
 	// this.root.put(this.calcRoot(sha256(data), path))
 	byte "root"
 	byte 0x
@@ -289,7 +277,7 @@ appendLeaf:
 	callsub calcRoot
 	app_global_put
 
-	// examples/merkle/merkle.algo.ts:63
+	// examples/merkle/merkle.algo.ts:59
 	// this.size.put(this.size.get() + 1)
 	byte "size"
 	byte "size"
@@ -299,7 +287,7 @@ appendLeaf:
 	app_global_put
 	retsub
 
-abi_route_updateLeaft:
+abi_route_updateLeaf:
 	txn OnCompletion
 	int NoOp
 	==
@@ -315,21 +303,21 @@ abi_route_updateLeaft:
 	extract 2 0
 	txna ApplicationArgs 1
 	extract 2 0
-	callsub updateLeaft
+	callsub updateLeaf
 	int 1
 	return
 
-updateLeaft:
+updateLeaf:
 	proto 4 0
 
-	// examples/merkle/merkle.algo.ts:67
+	// examples/merkle/merkle.algo.ts:63
 	// assert(newData !== '')
 	frame_dig -2 // newData: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:68
+	// examples/merkle/merkle.algo.ts:64
 	// assert(this.root.get() === this.calcRoot(sha256(oldData), path))
 	byte "root"
 	app_global_get
@@ -342,7 +330,7 @@ updateLeaft:
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:70
+	// examples/merkle/merkle.algo.ts:66
 	// this.root.put(this.calcRoot(sha256(newData), path))
 	byte "root"
 	byte 0x
@@ -370,6 +358,6 @@ main:
 route_abi:
 	method "verify(byte[],byte[33][3])void"
 	method "appendLeaf(byte[],byte[33][3])void"
-	method "updateLeaft(byte[],byte[],byte[33][3])void"
+	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
-	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaft
+	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf
