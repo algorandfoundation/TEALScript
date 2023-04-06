@@ -11,7 +11,7 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub create
 	int 1
 	return
@@ -97,7 +97,7 @@ abi_route_addAppToWhiteList:
 	&&
 	assert
 	byte 0x
-	dupn 4
+	dupn 3
 	txn GroupIndex
 	int 1
 	-
@@ -210,7 +210,7 @@ if0_end:
 	// examples/arc75/arc75.algo.ts:46
 	// this.verifyMBRPayment(payment, preMBR)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -5 // preMBR: uint64
 	frame_dig -4 // payment: paytxn
 	callsub verifyMBRPayment
@@ -226,7 +226,7 @@ abi_route_setAppWhitelist:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 2
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -307,7 +307,7 @@ setAppWhitelist:
 	// examples/arc75/arc75.algo.ts:66
 	// this.sendMBRPayment(preMBR)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -4 // preMBR: uint64
 	callsub sendMBRPayment
 	b if1_end
@@ -316,7 +316,7 @@ if1_else:
 	// examples/arc75/arc75.algo.ts:68
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -4 // preMBR: uint64
 	txn GroupIndex
 	int 1
@@ -336,7 +336,7 @@ abi_route_deleteWhitelist:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 2
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -394,7 +394,7 @@ deleteWhitelist:
 	// examples/arc75/arc75.algo.ts:85
 	// this.sendMBRPayment(preMBR)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -3 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
@@ -409,7 +409,7 @@ abi_route_deleteAppFromWhitelist:
 	&&
 	assert
 	byte 0x
-	dupn 4
+	dupn 3
 	txna ApplicationArgs 4
 	btoi
 	txna ApplicationArgs 3
@@ -545,7 +545,7 @@ deleteAppFromWhitelist:
 	// examples/arc75/arc75.algo.ts:104
 	// this.sendMBRPayment(preMBR)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -5 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub

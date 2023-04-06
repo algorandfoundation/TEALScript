@@ -53,7 +53,7 @@ abi_route_doMath:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 3
 	extract 2 0
 	txna ApplicationArgs 2
@@ -81,7 +81,7 @@ doMath:
 	// examples/calculator/calculator.algo.ts:17
 	// result = this.getSum(a, b)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
@@ -100,7 +100,7 @@ if0_elseif1_condition:
 	// examples/calculator/calculator.algo.ts:19
 	// result = this.getDifference(a, b)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference

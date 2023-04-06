@@ -11,7 +11,7 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub create
 	int 1
 	return
@@ -30,7 +30,7 @@ abi_route_createNFT:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -91,7 +91,7 @@ abi_route_transferNFT:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts

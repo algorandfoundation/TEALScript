@@ -11,7 +11,7 @@ abi_route_globalRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalRefPut
 	int 1
 	return
@@ -36,7 +36,7 @@ abi_route_globalRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalRefGet
 	int 1
 	return
@@ -63,7 +63,7 @@ abi_route_globalRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalRefDelete
 	int 1
 	return
@@ -87,7 +87,7 @@ abi_route_globalRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalRefExists
 	int 1
 	return
@@ -114,7 +114,7 @@ abi_route_localRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -143,7 +143,7 @@ abi_route_localRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -174,7 +174,7 @@ abi_route_localRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -202,7 +202,7 @@ abi_route_localRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -233,7 +233,7 @@ abi_route_boxRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxRefPut
 	int 1
 	return
@@ -258,7 +258,7 @@ abi_route_boxRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxRefGet
 	int 1
 	return
@@ -286,7 +286,7 @@ abi_route_boxRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxRefDelete
 	int 1
 	return
@@ -310,7 +310,7 @@ abi_route_boxRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxRefExists
 	int 1
 	return
@@ -336,7 +336,7 @@ abi_route_globalMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalMapPut
 	int 1
 	return
@@ -361,7 +361,7 @@ abi_route_globalMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalMapGet
 	int 1
 	return
@@ -388,7 +388,7 @@ abi_route_globalMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalMapDelete
 	int 1
 	return
@@ -412,7 +412,7 @@ abi_route_globalMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub globalMapExists
 	int 1
 	return
@@ -439,7 +439,7 @@ abi_route_localMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -468,7 +468,7 @@ abi_route_localMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -499,7 +499,7 @@ abi_route_localMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -527,7 +527,7 @@ abi_route_localMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -558,7 +558,7 @@ abi_route_boxMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxMapPut
 	int 1
 	return
@@ -583,7 +583,7 @@ abi_route_boxMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxMapGet
 	int 1
 	return
@@ -611,7 +611,7 @@ abi_route_boxMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxMapDelete
 	int 1
 	return
@@ -635,7 +635,7 @@ abi_route_boxMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub boxMapExists
 	int 1
 	return
