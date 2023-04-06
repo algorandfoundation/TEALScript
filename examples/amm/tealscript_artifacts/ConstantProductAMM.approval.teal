@@ -86,10 +86,6 @@ doCreatePoolToken:
 	itxn_submit
 	itxn CreatedAssetID
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 doAxfer:
@@ -148,10 +144,6 @@ tokensToMintIntial:
 	*
 	sqrt
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 tokensToMint:
@@ -216,10 +208,6 @@ ternary0_end:
 	!
 	assert
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 computeRatio:
@@ -251,10 +239,6 @@ computeRatio:
 	!
 	assert
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 tokensToBurn:
@@ -274,10 +258,6 @@ tokensToBurn:
 	!
 	assert
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 tokensToSwap:
@@ -319,10 +299,6 @@ tokensToSwap:
 	!
 	assert
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_set_governor:

@@ -10,10 +10,6 @@ getSum:
 	frame_dig -2 // b: uint64
 	+
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 getDifference:
@@ -37,10 +33,6 @@ ternary0_false:
 
 ternary0_end:
 	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_doMath:
