@@ -81,6 +81,7 @@ function getTypeLength(type: string): number {
     case 'asset':
     case 'application':
       return 8;
+    case 'byte':
     case 'string':
     case 'bytes':
       return 1;
@@ -1766,11 +1767,15 @@ export default class Compiler {
       this.pushVoid('b&');
     }
 
-    this.pushVoid('byte 0x151f7c75');
-    this.pushVoid('swap');
-    this.pushVoid('concat');
-    this.pushVoid('log');
-    this.pushVoid('retsub');
+    if (this.abi.methods.find((m) => m.name === name)) {
+      this.pushVoid('byte 0x151f7c75');
+      this.pushVoid('swap');
+      this.pushVoid('concat');
+      this.pushVoid('log');
+      this.pushVoid('retsub');
+    } else {
+      this.pushVoid('retsub');
+    }
   }
 
   private getBaseArrayNode(
@@ -2519,9 +2524,11 @@ export default class Compiler {
         this.pushVoid('-');
       } else if (type === 'string') {
         this.pushVoid('extract 2 0');
+      } else if (type === 'bytes') {
+        this.pushVoid('extract 2 0');
       }
 
-      args.push({ name: p.name.getText(), type: this.getABIType(abiType), desc: '' });
+      args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
@@ -2561,7 +2568,7 @@ export default class Compiler {
       );
     }
 
-    this.pushVoid(line.join(' '));
+    this.push(line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
   }
 
   private processStorageCall(node: ts.CallExpression) {
