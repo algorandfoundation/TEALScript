@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { sandbox, clients } from 'beaker-ts';
 import fs from 'fs';
 import { MerkleTree } from './artifacts/merkletree_client';
@@ -6,7 +8,6 @@ async function getRecords(fname: string): Promise<Uint8Array[][]> {
   const rawRecords: string[][] = fs.readFileSync(fname, 'utf8').split('\n').map((line) => line.trim().split(','));
 
   const records: Uint8Array[][] = [];
-  // eslint-disable-next-line no-restricted-syntax
   for (const record of rawRecords) {
     if (record.length === 4) {
       const [data, ...path] = record;
@@ -39,32 +40,28 @@ async function main() {
   console.log(`root match: ${root === expectedRoot}, root: ${root}, expected: ${expectedRoot}`);
 
   const recordsToAppend = await getRecords('examples/merkle/append.csv');
-  // eslint-disable-next-line no-restricted-syntax
   for (const record of recordsToAppend) {
-    const result = appClient.appendLeaf({ data: record[0], path: record.slice(1) });
+    const result = await appClient.appendLeaf({ data: record[0], path: record.slice(1) });
     console.log(result);
   }
 
   const recordsToVerify = await getRecords('examples/merkle/verify_appends.csv');
-  // eslint-disable-next-line no-restricted-syntax
   for (const record of recordsToVerify) {
-    const result = appClient.verify({ data: record[0], path: record.slice(1) });
+    const result = await appClient.verify({ data: record[0], path: record.slice(1) });
     console.log(result);
   }
 
   const recordsToUpdate = await getRecords('examples/merkle/update.csv');
-  // eslint-disable-next-line no-restricted-syntax
   for (const record of recordsToUpdate) {
-    const result = appClient.updateLeaft({
+    const result = await appClient.updateLeaft({
       oldData: record[0], newData: record[1], path: record.slice(2),
     });
     console.log(result);
   }
 
   const recordsToVerifyAgain = await getRecords('examples/merkle/verify_updates.csv');
-  // eslint-disable-next-line no-restricted-syntax
   for (const record of recordsToVerifyAgain) {
-    const result = appClient.verify({ data: record[0], path: record.slice(1) });
+    const result = await appClient.verify({ data: record[0], path: record.slice(1) });
     console.log(result);
   }
 }
