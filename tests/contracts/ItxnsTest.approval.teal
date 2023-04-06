@@ -11,7 +11,7 @@ abi_route_payment:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub payment
 	int 1
 	return
@@ -76,7 +76,7 @@ abi_route_assetCreation:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub assetCreation
 	int 1
 	return
@@ -176,7 +176,7 @@ abi_route_appCall:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub appCall
 	int 1
 	return
@@ -276,7 +276,7 @@ abi_route_assetConfig:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub assetConfig
 	int 1
 	return
@@ -340,7 +340,7 @@ abi_route_assetFreeze:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub assetFreeze
 	int 1
 	return
@@ -388,7 +388,7 @@ abi_route_assetTransfer:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub assetTransfer
 	int 1
 	return
@@ -450,7 +450,7 @@ abi_route_methodCall:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub methodCall
 	int 1
 	return
@@ -512,7 +512,7 @@ abi_route_onlineKeyRegistration:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub onlineKeyRegistration
 	int 1
 	return
@@ -573,7 +573,7 @@ abi_route_offlineKeyRegistration:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub offlineKeyRegistration
 	int 1
 	return

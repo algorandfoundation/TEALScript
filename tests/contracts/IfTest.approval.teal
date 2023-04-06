@@ -11,7 +11,7 @@ abi_route_singleIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub singleIf
 	int 1
 	return
@@ -45,7 +45,7 @@ abi_route_ifElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub ifElse
 	int 1
 	return
@@ -86,7 +86,7 @@ abi_route_ifElseIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub ifElseIf
 	int 1
 	return
@@ -134,7 +134,7 @@ abi_route_ifElseIfElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub ifElseIfElse
 	int 1
 	return
@@ -189,7 +189,7 @@ abi_route_ifElseIfElseIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub ifElseIfElseIf
 	int 1
 	return
@@ -251,7 +251,7 @@ abi_route_ifElseIfElseIfElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub ifElseIfElseIfElse
 	int 1
 	return

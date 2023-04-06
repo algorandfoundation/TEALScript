@@ -823,7 +823,7 @@ export default class Compiler {
 
         if (t.startsWith('PENDING_DUPN')) {
           const method = t.split(' ')[1];
-          return `dupn ${this.frameSize[method] - this.subroutines[method].args}`;
+          return `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`;
         }
 
         if (t.startsWith('PENDING_PROTO')) {

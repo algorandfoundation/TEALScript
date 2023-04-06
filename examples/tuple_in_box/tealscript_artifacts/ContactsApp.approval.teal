@@ -121,7 +121,7 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub create
 	int 1
 	return
@@ -140,7 +140,7 @@ abi_route_setMyContact:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -229,7 +229,7 @@ abi_route_addContact:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -315,7 +315,7 @@ abi_route_updateContactField:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -432,7 +432,7 @@ abi_route_verifyContactName:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts

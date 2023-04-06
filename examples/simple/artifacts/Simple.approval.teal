@@ -11,7 +11,7 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub createApp
 	int 1
 	return
@@ -30,7 +30,7 @@ abi_route_incr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	callsub incr
@@ -60,7 +60,7 @@ abi_route_decr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 1
 	btoi
 	callsub decr
@@ -90,7 +90,7 @@ abi_route_add:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub add
@@ -123,7 +123,7 @@ abi_route_sub:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub sub

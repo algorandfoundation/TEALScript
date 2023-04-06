@@ -11,7 +11,7 @@ abi_route_whileLoop:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub whileLoop
 	int 1
 	return
@@ -59,7 +59,7 @@ abi_route_forLoop:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 2
 	callsub forLoop
 	int 1
 	return
