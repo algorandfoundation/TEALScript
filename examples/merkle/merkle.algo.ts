@@ -20,17 +20,13 @@ class MerkleTree extends Contract {
     return sha256(concat(left, right));
   }
 
-  private isRightSibling(sibling: bytes): boolean {
-    return getbyte(sibling, 0) === 170;
-  }
-
   private calcRoot(leaf: bytes, path: StaticArray<byte<33>, 3>): bytes {
     let result = leaf;
 
     for (let i = 0; i < 3; i = i + 1) {
       const elem = path[i];
 
-      if (this.isRightSibling(elem)) {
+      if (getbyte(elem, 0) === 170) {
         result = this.hashConcat(result, extract3(elem, 1, 32));
       } else {
         result = this.hashConcat(extract3(elem, 1, 32), result);
