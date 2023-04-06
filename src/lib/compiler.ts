@@ -719,6 +719,7 @@ export default class Compiler {
   private getABIType(type: string): string {
     if (this.customTypes[type]) return type;
     const abiType = type.toLowerCase();
+    if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
 
     const typeNode = stringToExpression(type) as ts.Expression;
