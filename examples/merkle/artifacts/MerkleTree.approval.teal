@@ -299,7 +299,7 @@ appendLeaf:
 	app_global_put
 	retsub
 
-abi_route_updateLeaft:
+abi_route_updateLeaf:
 	txn OnCompletion
 	int NoOp
 	==
@@ -315,11 +315,11 @@ abi_route_updateLeaft:
 	extract 2 0
 	txna ApplicationArgs 1
 	extract 2 0
-	callsub updateLeaft
+	callsub updateLeaf
 	int 1
 	return
 
-updateLeaft:
+updateLeaf:
 	proto 4 0
 
 	// examples/merkle/merkle.algo.ts:67
@@ -370,6 +370,6 @@ main:
 route_abi:
 	method "verify(byte[],byte[33][3])void"
 	method "appendLeaf(byte[],byte[33][3])void"
-	method "updateLeaft(byte[],byte[],byte[33][3])void"
+	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
-	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaft
+	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf

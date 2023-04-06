@@ -63,7 +63,7 @@ class MerkleTree extends Contract {
     this.size.put(this.size.get() + 1);
   }
 
-  updateLeaft(oldData: bytes, newData: bytes, path: StaticArray<byte<33>, 3>): void {
+  updateLeaf(oldData: bytes, newData: bytes, path: StaticArray<byte<33>, 3>): void {
     assert(newData !== '');
     assert(this.root.get() === this.calcRoot(sha256(oldData), path));
 

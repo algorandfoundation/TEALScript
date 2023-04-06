@@ -53,7 +53,7 @@ async function main() {
 
   const recordsToUpdate = await getRecords('examples/merkle/update.csv');
   for (const record of recordsToUpdate) {
-    const result = await appClient.updateLeaft({
+    const result = await appClient.updateLeaf({
       oldData: record[0], newData: record[1], path: record.slice(2),
     });
     console.log(result);
