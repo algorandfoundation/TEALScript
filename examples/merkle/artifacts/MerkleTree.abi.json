@@ -7,7 +7,7 @@
       "args": [
         {
           "name": "data",
-          "type": "bytes",
+          "type": "byte[]",
           "desc": ""
         },
         {
@@ -27,7 +27,7 @@
       "args": [
         {
           "name": "data",
-          "type": "bytes",
+          "type": "byte[]",
           "desc": ""
         },
         {
@@ -47,12 +47,12 @@
       "args": [
         {
           "name": "oldData",
-          "type": "bytes",
+          "type": "byte[]",
           "desc": ""
         },
         {
           "name": "newData",
-          "type": "bytes",
+          "type": "byte[]",
           "desc": ""
         },
         {

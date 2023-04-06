@@ -7,7 +7,7 @@ class MerkleTree extends Contract {
   size = new GlobalReference<uint64>();
 
   private calcInitRoot(): bytes {
-    let result: bytes = '';
+    let result = sha256('');
 
     for (let i = 0; i < 3; i = i + 1) {
       result = sha256(concat(result, result));
