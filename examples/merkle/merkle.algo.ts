@@ -1,6 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
-type Path = StaticArray<byte<33>, 3>
+type Branch = byte<33>
+type Path = StaticArray<Branch, 3>
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
@@ -22,7 +23,7 @@ class MerkleTree extends Contract {
     return sha256(concat(left, right));
   }
 
-  private isRightSibling(elem: byte<33>): boolean {
+  private isRightSibling(elem: Branch): boolean {
     return getbyte(elem, 0) === 170;
   }
 
