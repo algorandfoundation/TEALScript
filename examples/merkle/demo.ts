@@ -42,13 +42,13 @@ async function main() {
   const recordsToAppend = await getRecords('examples/merkle/append.csv');
   for (const record of recordsToAppend) {
     const result = await appClient.appendLeaf({ data: record[0], path: record.slice(1) });
-    console.log(result);
+    console.log(`Appended ${record[0]} in ${result.txID}`);
   }
 
   const recordsToVerify = await getRecords('examples/merkle/verify_appends.csv');
   for (const record of recordsToVerify) {
     const result = await appClient.verify({ data: record[0], path: record.slice(1) });
-    console.log(result);
+    console.log(`Verified ${record[0]} in ${result.txID}`);
   }
 
   const recordsToUpdate = await getRecords('examples/merkle/update.csv');
@@ -56,13 +56,13 @@ async function main() {
     const result = await appClient.updateLeaf({
       oldData: record[0], newData: record[1], path: record.slice(2),
     });
-    console.log(result);
+    console.log(`Updated ${record[0]} to ${record[1]} in ${result.txID}`);
   }
 
   const recordsToVerifyAgain = await getRecords('examples/merkle/verify_updates.csv');
   for (const record of recordsToVerifyAgain) {
     const result = await appClient.verify({ data: record[0], path: record.slice(1) });
-    console.log(result);
+    console.log(`Verified ${record[0]} in ${result.txID}`);
   }
 }
 
