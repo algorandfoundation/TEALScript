@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+/* eslint-disable no-console */
 import { sandbox, clients } from 'beaker-ts';
 import fs from 'fs';
 import { MerkleTree } from './artifacts/merkletree_client';
