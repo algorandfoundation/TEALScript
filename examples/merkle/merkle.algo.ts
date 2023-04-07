@@ -1,5 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
+type Path = StaticArray<byte<33>, 3>
+
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
   root = new GlobalReference<bytes>();
@@ -24,7 +26,7 @@ class MerkleTree extends Contract {
     return getbyte(elem, 0) === 170;
   }
 
-  private calcRoot(leaf: bytes, path: StaticArray<byte<33>, 3>): bytes {
+  private calcRoot(leaf: bytes, path: Path): bytes {
     let result = leaf;
 
     for (let i = 0; i < 3; i = i + 1) {
@@ -50,11 +52,11 @@ class MerkleTree extends Contract {
     this.root.put(this.calcInitRoot());
   }
 
-  verify(data: bytes, path: StaticArray<byte<33>, 3>): void {
+  verify(data: bytes, path: Path): void {
     assert(this.root.get() === this.calcRoot(sha256(data), path));
   }
 
-  appendLeaf(data: bytes, path: StaticArray<byte<33>, 3>): void {
+  appendLeaf(data: bytes, path: Path): void {
     assert(data !== '');
     assert(this.root.get() === this.calcRoot(sha256(''), path));
 
@@ -63,7 +65,7 @@ class MerkleTree extends Contract {
     this.size.put(this.size.get() + 1);
   }
 
-  updateLeaf(oldData: bytes, newData: bytes, path: StaticArray<byte<33>, 3>): void {
+  updateLeaf(oldData: bytes, newData: bytes, path: Path): void {
     assert(newData !== '');
     assert(this.root.get() === this.calcRoot(sha256(oldData), path));
 
