@@ -1,5 +1,9 @@
 import { Contract } from '../../src/lib/index';
 
+const TOTAL_SUPPLY = 10_000_000_000;
+const SCALE = 1_000;
+const FEE = 5;
+
 // eslint-disable-next-line no-unused-vars
 class ConstantProductAMM extends Contract {
   governor = new GlobalReference<Address>({ key: 'g' });
@@ -23,7 +27,7 @@ class ConstantProductAMM extends Contract {
     return sendAssetCreation({
       configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName))),
       configAssetUnitName: 'dpt',
-      configAssetTotal: 1_000_000,
+      configAssetTotal: TOTAL_SUPPLY,
       configAssetDecimals: 3,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
@@ -55,17 +59,17 @@ class ConstantProductAMM extends Contract {
     aAmount: uint64,
     bAmount: uint64,
   ): uint64 {
-    const aRatio = wideRatio([aAmount, 1_000], [aSupply]);
-    const bRatio = wideRatio([bAmount, 1_000], [bSupply]);
+    const aRatio = wideRatio([aAmount, SCALE], [aSupply]);
+    const bRatio = wideRatio([bAmount, SCALE], [bSupply]);
 
     const ratio = aRatio < bRatio ? aRatio : bRatio;
 
-    return wideRatio([ratio, issued], [1_000]);
+    return wideRatio([ratio, issued], [SCALE]);
   }
 
   private computeRatio(): uint64 {
     return wideRatio(
-      [this.app.address.assetBalance(this.assetA.get()), 1_000],
+      [this.app.address.assetBalance(this.assetA.get()), SCALE],
       [this.app.address.assetBalance(this.assetB.get())],
     );
   }
@@ -75,10 +79,10 @@ class ConstantProductAMM extends Contract {
   }
 
   private tokensToSwap(inAmount: uint64, inSupply: uint64, outSupply: uint64): uint64 {
-    const factor = 1_000 - 5;
+    const factor = SCALE - FEE;
     return wideRatio(
       [inAmount, factor, outSupply],
-      [(inSupply * 1_000) + (inAmount * factor)],
+      [(inSupply * SCALE) + (inAmount * factor)],
     );
   }
 
@@ -134,10 +138,8 @@ class ConstantProductAMM extends Contract {
     ) {
       this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount);
     } else {
-      // TODO: Compiler constants
-
       const toMint = this.tokensToMint(
-        10_000_000_000 - this.app.address.assetBalance(poolAsset),
+        TOTAL_SUPPLY - this.app.address.assetBalance(poolAsset),
         this.app.address.assetBalance(aAsset) - aXfer.assetAmount,
         this.app.address.assetBalance(bAsset) - bXfer.assetAmount,
         aXfer.assetAmount,
@@ -168,7 +170,7 @@ class ConstantProductAMM extends Contract {
     assert(poolXfer.assetAmount > 0);
     assert(poolXfer.sender === this.txn.sender);
 
-    const issued = 10_000_000_000
+    const issued = TOTAL_SUPPLY
      - (this.app.address.assetBalance(poolAsset)
      - poolXfer.assetAmount);
 

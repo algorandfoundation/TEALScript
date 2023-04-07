@@ -313,6 +313,8 @@ export default class Compiler {
 
   private typeHint?: string;
 
+  private constants: {[name: string]: ts.Node};
+
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
   } = {
@@ -684,6 +686,7 @@ export default class Compiler {
     this.content = content;
     this.name = className;
     this.sourceFile = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
+    this.constants = {};
   }
 
   getOpParamObjects(op: string) {
@@ -780,6 +783,13 @@ export default class Compiler {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
         this.customTypes[body.name.getText()] = body.type.getText();
+      }
+
+      if (ts.isVariableStatement(body)) {
+        if (body.declarationList.flags !== ts.NodeFlags.Const) throw new Error('Top-level variables must be constants');
+        body.declarationList.declarations.forEach((d) => {
+          this.constants[d.name.getText()] = d.initializer!;
+        });
       }
 
       if (!ts.isClassDeclaration(body)) return;
@@ -1918,6 +1928,12 @@ export default class Compiler {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
     }
+
+    if (this.constants[node.getText()]) {
+      this.processNode(this.constants[node.getText()]);
+      return;
+    }
+
     const target = this.frame[node.getText()];
 
     this.push(
