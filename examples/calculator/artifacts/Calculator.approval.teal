@@ -2,18 +2,17 @@
 	b main
 
 getSum:
-	proto 3 1
+	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:6
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	+
-	itob
 	retsub
 
 getDifference:
-	proto 3 1
+	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:10
 	// return a >= b ? a - b : b - a;
@@ -32,7 +31,6 @@ ternary0_false:
 	-
 
 ternary0_end:
-	itob
 	retsub
 
 abi_route_doMath:
@@ -45,7 +43,7 @@ abi_route_doMath:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 3
 	extract 2 0
 	txna ApplicationArgs 2
@@ -57,7 +55,7 @@ abi_route_doMath:
 	return
 
 doMath:
-	proto 5 0
+	proto 4 0
 
 	// examples/calculator/calculator.algo.ts:14
 	// result: number
@@ -73,7 +71,7 @@ doMath:
 	// examples/calculator/calculator.algo.ts:17
 	// result = this.getSum(a, b)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
@@ -92,7 +90,7 @@ if0_elseif1_condition:
 	// examples/calculator/calculator.algo.ts:19
 	// result = this.getDifference(a, b)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference

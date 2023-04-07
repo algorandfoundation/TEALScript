@@ -11,13 +11,13 @@ abi_route_globalRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalRefPut
 	int 1
 	return
 
 globalRefPut:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:18
 	// this.globalRef.put('bar')
@@ -36,13 +36,13 @@ abi_route_globalRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalRefGet
 	int 1
 	return
 
 globalRefGet:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:22
 	// assert(this.globalRef.get() === 'bar')
@@ -63,13 +63,13 @@ abi_route_globalRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalRefDelete
 	int 1
 	return
 
 globalRefDelete:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:26
 	// this.globalRef.delete()
@@ -87,13 +87,13 @@ abi_route_globalRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalRefExists
 	int 1
 	return
 
 globalRefExists:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:30
 	// this.globalRef.exists()
@@ -114,7 +114,7 @@ abi_route_localRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -123,7 +123,7 @@ abi_route_localRefPut:
 	return
 
 localRefPut:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:34
 	// this.localRef.put(a, 'bar')
@@ -143,7 +143,7 @@ abi_route_localRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -152,7 +152,7 @@ abi_route_localRefGet:
 	return
 
 localRefGet:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:38
 	// assert(this.localRef.get(a) === 'bar')
@@ -174,7 +174,7 @@ abi_route_localRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -183,7 +183,7 @@ abi_route_localRefDelete:
 	return
 
 localRefDelete:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:42
 	// this.localRef.delete(a)
@@ -202,7 +202,7 @@ abi_route_localRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -211,7 +211,7 @@ abi_route_localRefExists:
 	return
 
 localRefExists:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:46
 	// this.localRef.exists(a)
@@ -233,13 +233,13 @@ abi_route_boxRefPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxRefPut
 	int 1
 	return
 
 boxRefPut:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:50
 	// this.boxRef.put('bar')
@@ -258,13 +258,13 @@ abi_route_boxRefGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxRefGet
 	int 1
 	return
 
 boxRefGet:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:54
 	// assert(this.boxRef.get() === 'bar')
@@ -286,13 +286,13 @@ abi_route_boxRefDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxRefDelete
 	int 1
 	return
 
 boxRefDelete:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:58
 	// this.boxRef.delete()
@@ -310,13 +310,13 @@ abi_route_boxRefExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxRefExists
 	int 1
 	return
 
 boxRefExists:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:62
 	// this.boxRef.exists()
@@ -336,13 +336,13 @@ abi_route_globalMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalMapPut
 	int 1
 	return
 
 globalMapPut:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:66
 	// this.globalMap.put('foo', 'bar')
@@ -361,13 +361,13 @@ abi_route_globalMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalMapGet
 	int 1
 	return
 
 globalMapGet:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:70
 	// assert(this.globalMap.get('foo') === 'bar')
@@ -388,13 +388,13 @@ abi_route_globalMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalMapDelete
 	int 1
 	return
 
 globalMapDelete:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:74
 	// this.globalMap.delete('foo')
@@ -412,13 +412,13 @@ abi_route_globalMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub globalMapExists
 	int 1
 	return
 
 globalMapExists:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:78
 	// this.globalMap.exists('foo')
@@ -439,7 +439,7 @@ abi_route_localMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -448,7 +448,7 @@ abi_route_localMapPut:
 	return
 
 localMapPut:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:82
 	// this.localMap.put(a, 'foo', 'bar')
@@ -468,7 +468,7 @@ abi_route_localMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -477,7 +477,7 @@ abi_route_localMapGet:
 	return
 
 localMapGet:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:86
 	// assert(this.localMap.get(a, 'foo') === 'bar')
@@ -499,7 +499,7 @@ abi_route_localMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -508,7 +508,7 @@ abi_route_localMapDelete:
 	return
 
 localMapDelete:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:90
 	// this.localMap.delete(a, 'foo')
@@ -527,7 +527,7 @@ abi_route_localMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -536,7 +536,7 @@ abi_route_localMapExists:
 	return
 
 localMapExists:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/storage.algo.ts:94
 	// this.localMap.exists(a, 'foo')
@@ -558,13 +558,13 @@ abi_route_boxMapPut:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxMapPut
 	int 1
 	return
 
 boxMapPut:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:98
 	// this.boxMap.put('foo', 'bar')
@@ -583,13 +583,13 @@ abi_route_boxMapGet:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxMapGet
 	int 1
 	return
 
 boxMapGet:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:102
 	// assert(this.boxMap.get('foo') === 'bar')
@@ -611,13 +611,13 @@ abi_route_boxMapDelete:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxMapDelete
 	int 1
 	return
 
 boxMapDelete:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:106
 	// this.boxMap.delete('foo')
@@ -635,13 +635,13 @@ abi_route_boxMapExists:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub boxMapExists
 	int 1
 	return
 
 boxMapExists:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/storage.algo.ts:110
 	// this.boxMap.exists('foo')
