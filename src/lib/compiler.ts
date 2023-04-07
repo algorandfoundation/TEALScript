@@ -41,58 +41,6 @@ function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
 }
 
-function getTypeLength(type: string): number {
-  const typeNode = stringToExpression(type) as ts.Expression;
-  if (type.toLowerCase().startsWith('staticarray')) {
-    if (ts.isExpressionWithTypeArguments(typeNode)) {
-      const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
-
-      return length * getTypeLength(innerType.getText());
-    }
-  }
-
-  if (type.match(/\[\d+]$/)) {
-    const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
-    const length = parseInt(lenStr, 10);
-    const innerType = type.replace(/\[\d+]$/, '');
-    return getTypeLength(innerType) * length;
-  }
-
-  if (type.startsWith('[')) {
-    const tNode = stringToExpression(type);
-    if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
-    let totalLength = 0;
-    const types = tNode.elements.forEach((t) => {
-      totalLength += getTypeLength(t.getText());
-    });
-
-    return totalLength;
-  }
-
-  if (type.match(/<\d+>$/)) {
-    return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * getTypeLength(type.match(/\w+/)![0]);
-  }
-
-  if (type.match(/uint\d+$/)) {
-    return parseInt(type.slice(4), 10) / 8;
-  }
-  switch (type) {
-    case 'asset':
-    case 'application':
-      return 8;
-    case 'byte':
-    case 'string':
-    case 'bytes':
-      return 1;
-    case 'address':
-    case 'account':
-      return 32;
-    default:
-      throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
-  }
-}
-
 // Represents the stack types available in the AVM
 // eslint-disable-next-line no-shadow
 enum StackType {
@@ -719,6 +667,71 @@ export default class Compiler {
     return type.includes('[]') || type.includes('string') || type.includes('bytes');
   }
 
+  private getTypeLength(type: string): number {
+    const typeNode = stringToExpression(type) as ts.Expression;
+    if (type.toLowerCase().startsWith('staticarray')) {
+      if (ts.isExpressionWithTypeArguments(typeNode)) {
+        const innerType = typeNode!.typeArguments![0];
+        const length = this.getStaticArrayLength(typeNode);
+
+        return length * this.getTypeLength(innerType.getText());
+      }
+    }
+
+    if (type.match(/\[\d+]$/)) {
+      const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
+      const length = parseInt(lenStr, 10);
+      const innerType = type.replace(/\[\d+]$/, '');
+      return this.getTypeLength(innerType) * length;
+    }
+
+    if (type.startsWith('[')) {
+      const tNode = stringToExpression(type);
+      if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
+      let totalLength = 0;
+      const types = tNode.elements.forEach((t) => {
+        totalLength += this.getTypeLength(t.getText());
+      });
+
+      return totalLength;
+    }
+
+    if (type.match(/<\d+>$/)) {
+      return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * this.getTypeLength(type.match(/\w+/)![0]);
+    }
+
+    if (type.match(/uint\d+$/)) {
+      return parseInt(type.slice(4), 10) / 8;
+    }
+    switch (type) {
+      case 'asset':
+      case 'application':
+        return 8;
+      case 'byte':
+      case 'string':
+      case 'bytes':
+        return 1;
+      case 'address':
+      case 'account':
+        return 32;
+      default:
+        throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
+    }
+  }
+
+  private getStaticArrayLength(node: ts.ExpressionWithTypeArguments): number {
+    if (node.typeArguments === undefined || node.typeArguments.length !== 2) throw new Error();
+    const lengthNode = node.typeArguments[1];
+
+    if (ts.isLiteralTypeNode(lengthNode)) return parseInt(lengthNode.getText(), 10);
+    if (ts.isTypeQueryNode(lengthNode)) {
+      const value = this.constants[lengthNode.exprName.getText()];
+      return parseInt(value.getText(), 10);
+    }
+
+    throw Error(ts.SyntaxKind[lengthNode.kind]);
+  }
+
   private getABIType(type: string): string {
     if (this.customTypes[type]) return this.getABIType(this.customTypes[type]);
     const abiType = type.toLowerCase();
@@ -734,7 +747,7 @@ export default class Compiler {
     if (abiType.startsWith('static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
       const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+      const length = this.getStaticArrayLength(typeNode);
 
       return `${this.getABIType(innerType.getText())}[${length}]`;
     }
@@ -1167,7 +1180,7 @@ export default class Compiler {
     isLast: boolean,
     context: {bytesOnStack: boolean, hexString: string},
   ) {
-    const length = getTypeLength(type);
+    const length = this.getTypeLength(type);
 
     if (ts.isNumericLiteral(e)) {
       context.hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
@@ -1250,7 +1263,7 @@ export default class Compiler {
 
     // Process dynamic elements
     // TODO: Optimize this when there are literal dynamic elements
-    const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
+    const staticLen = types.static.map((m) => this.getTypeLength(m)).reduce((a, b) => a + b, 0);
 
     if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
 
@@ -1559,14 +1572,14 @@ export default class Compiler {
         const dynamicTypeIndex = accessor - numStaticElements;
 
         let headOffset = 0;
-        headOffset += types.static.reduce((a, b) => a + getTypeLength(b), 0);
+        headOffset += types.static.reduce((a, b) => a + this.getTypeLength(b), 0);
 
         const startOfHeads = headOffset;
 
         headOffset += (dynamicTypeIndex) * 2;
 
         this.pushLines(
-          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
+          `int ${this.getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
           `int ${headOffset} // head offset`,
           'callsub preArrayAccess',
         );
@@ -1626,7 +1639,7 @@ export default class Compiler {
         type = baseExpressionType.replace(/\[\d+\]$/, '');
 
         if (ts.isNumericLiteral(e.argumentExpression)) {
-          offset += getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
+          offset += this.getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
         } else {
           this.processNode(e.argumentExpression);
 
@@ -1635,7 +1648,7 @@ export default class Compiler {
             intsOnStack = false;
           }
 
-          this.pushLines(`int ${getTypeLength(type)}`, '*');
+          this.pushLines(`int ${this.getTypeLength(type)}`, '*');
           intsOnStack = true;
         }
       } else if (baseExpressionType.match(/\[\]$/)) {
@@ -1643,7 +1656,7 @@ export default class Compiler {
 
         this.processNode(e.argumentExpression);
 
-        this.pushLines(`int ${getTypeLength(type)}`, '*', 'int 2', '+');
+        this.pushLines(`int ${this.getTypeLength(type)}`, '*', 'int 2', '+');
 
         intsOnStack = true;
       } else if (baseExpressionType.startsWith('[')) {
@@ -1655,7 +1668,7 @@ export default class Compiler {
 
         innerTypes.forEach((t, i) => {
           if (i < accessor) {
-            offset += getTypeLength(this.getABIType(t));
+            offset += this.getTypeLength(this.getABIType(t));
           } else if (i === accessor) type = this.getABIType(t);
         });
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
@@ -1665,7 +1678,7 @@ export default class Compiler {
     if (intsOnStack && offset) this.pushVoid('+');
 
     if (newValue === undefined) {
-      this.pushVoid(`int ${getTypeLength(type)}`);
+      this.pushVoid(`int ${this.getTypeLength(type)}`);
       this.push('extract3', type);
       if (isNumeric(type)) this.push('btoi', type);
     } else {
@@ -2057,7 +2070,7 @@ export default class Compiler {
       const poppedType = this.lastType.replace(/\[\]$/, '');
       if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
 
-      const typeLength = getTypeLength(this.lastType.replace(/\[\]$/, ''));
+      const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
       this.pushLines(
         'dup', // [a, a]
         'int 0',
@@ -2118,10 +2131,10 @@ export default class Compiler {
 
       // TODO: Optimize for literals
       // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
-      // const spliceStart = spliceIndex * getTypeLength(elementType);
+      // const spliceStart = spliceIndex * this.getTypeLength(elementType);
       this.processNode(node.arguments[0]);
       this.pushLines(
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '*',
         'int 2',
         '+',
@@ -2129,12 +2142,12 @@ export default class Compiler {
       );
 
       // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
-      // const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
+      // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
       this.processNode(node.arguments[1]);
       this.pushLines(
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '*',
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '+',
         `store ${scratch.spliceByteLength}`,
       );
@@ -2157,7 +2170,7 @@ export default class Compiler {
         `load ${scratch.spliceStart}`,
         `load ${scratch.spliceByteLength}`,
         '+',
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '-',
         'swap',
         // extract second part
@@ -2177,9 +2190,9 @@ export default class Compiler {
         this.processNode(node.expression.expression);
         this.pushLines(
           `load ${scratch.spliceStart}`,
-          // `int ${spliceByteLength - getTypeLength(elementType)}`,
+          // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
           `load ${scratch.spliceByteLength}`,
-          `int ${getTypeLength(elementType)}`,
+          `int ${this.getTypeLength(elementType)}`,
           '-',
           'extract3',
           'concat',
