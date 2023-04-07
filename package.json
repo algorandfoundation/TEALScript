@@ -34,7 +34,10 @@
     "compile-simple": "tsx ./src/bin/tealscript.ts examples/simple/simple.algo.ts examples/simple/artifacts",
     "compile-tuple_in_box": "tsx ./src/bin/tealscript.ts examples/tuple_in_box/app.algo.ts examples/tuple_in_box/tealscript_artifacts",
     "compile-calculator": "tsx ./src/bin/tealscript.ts examples/calculator/calculator.algo.ts examples/calculator/artifacts",
+    "compile-merkle": "tsx ./src/bin/tealscript.ts examples/merkle/merkle.algo.ts examples/merkle/artifacts",
+    "run-merkle": "yarn compile-merkle && beaker generate examples/merkle/artifacts/MerkleTree.json examples/merkle/artifacts && tsx examples/merkle/demo.ts",
     "run-tuple_in_box": "yarn compile-tuple_in_box && beaker generate ./examples/tuple_in_box/tealscript_artifacts/ContactsApp.json ./examples/tuple_in_box/tealscript_artifacts && tsx ./examples/tuple_in_box/client.ts",
+    "run-examples": "yarn run-merkle && yarn run-tuple_in_box",
     "test-arc75": "yarn compile-arc75 && beaker generate examples/arc75/artifacts/ARC75.json examples/arc75/ && mocha --timeout 10000 -r ts-node/register 'examples/arc75/arc75_test.ts'",
     "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator"
   },

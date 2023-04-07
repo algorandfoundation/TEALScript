@@ -626,6 +626,12 @@ export default class Compiler {
 
       this.lastType = 'uint64';
     },
+    hex: (node: ts.CallExpression) => {
+      if (node.arguments.length !== 1) throw new Error();
+      if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
+
+      this.push(`byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+    },
 
   };
 
