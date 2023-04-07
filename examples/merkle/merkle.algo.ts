@@ -5,7 +5,7 @@ const EMPTY_HASH = sha256('');
 const RIGHT_SIBLING_PREFIX = 170;
 
 type Branch = byte<33>
-type Path = StaticArray<Branch, 3>
+type Path = StaticArray<Branch, typeof TREE_DEPTH>
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
