@@ -451,6 +451,7 @@ declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
 
 declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
+declare function hex(input: string): bytes
 
 declare type decorator = (
   target: Object,

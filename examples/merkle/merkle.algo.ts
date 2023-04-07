@@ -1,7 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
 const TREE_DEPTH = 3;
-const EMPTY_HASH = sha256('');
+const EMPTY_HASH = hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
 const RIGHT_SIBLING_PREFIX = 170;
 
 type Branch = byte<33>
