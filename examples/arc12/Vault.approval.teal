@@ -2,7 +2,7 @@
 	b main
 
 closeAcct:
-	proto 3 0
+	proto 2 0
 
 	// examples/arc12/arc12.algo.ts:14
 	// assert(vaultCreator === this.creator.get())
@@ -87,7 +87,7 @@ abi_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -99,7 +99,7 @@ abi_route_create:
 	return
 
 create:
-	proto 3 0
+	proto 2 0
 
 	// examples/arc12/arc12.algo.ts:34
 	// this.creator.put(sender)
@@ -130,7 +130,7 @@ abi_route_reject:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	txna ApplicationArgs 4
 	btoi
 	txnas Accounts
@@ -148,7 +148,7 @@ abi_route_reject:
 	return
 
 reject:
-	proto 7 0
+	proto 6 0
 
 	// examples/arc12/arc12.algo.ts:40
 	// assert(this.txn.sender === this.receiver.get())
@@ -282,7 +282,7 @@ reject:
 	// examples/arc12/arc12.algo.ts:71
 	// this.closeAcct(vaultCreator)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -4 // vaultCreator: account
 	callsub closeAcct
 
@@ -299,7 +299,7 @@ abi_route_optIn:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txn GroupIndex
 	int 1
 	-
@@ -311,7 +311,7 @@ abi_route_optIn:
 	return
 
 optIn:
-	proto 4 0
+	proto 3 0
 
 	// examples/arc12/arc12.algo.ts:75
 	// assert(!this.funderMap.exists(asa))
@@ -404,7 +404,7 @@ abi_route_claim:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -419,7 +419,7 @@ abi_route_claim:
 	return
 
 claim:
-	proto 5 0
+	proto 4 0
 
 	// examples/arc12/arc12.algo.ts:95
 	// assert(this.funderMap.exists(asa))
@@ -546,7 +546,7 @@ claim:
 	// examples/arc12/arc12.algo.ts:120
 	// this.closeAcct(creator)
 	byte 0x
-	dupn 1
+	dupn 0
 	frame_dig -2 // creator: account
 	callsub closeAcct
 
@@ -563,13 +563,13 @@ bare_route_DeleteApplication:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub delete
 	int 1
 	return
 
 delete:
-	proto 1 0
+	proto 0 0
 
 	// examples/arc12/arc12.algo.ts:125
 	// assert(!globals.currentApplicationAddress.hasBalance)

@@ -121,13 +121,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 	retsub
 
 abi_route_setMyContact:
@@ -140,7 +140,7 @@ abi_route_setMyContact:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -150,7 +150,7 @@ abi_route_setMyContact:
 	return
 
 setMyContact:
-	proto 4 0
+	proto 3 0
 
 	// examples/tuple_in_box/app.algo.ts:15
 	// contact: Contact = { name: name, company: company }
@@ -229,7 +229,7 @@ abi_route_addContact:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -242,7 +242,7 @@ abi_route_addContact:
 	return
 
 addContact:
-	proto 5 0
+	proto 4 0
 
 	// examples/tuple_in_box/app.algo.ts:22
 	// contact: Contact = { name: name, company: company }
@@ -315,7 +315,7 @@ abi_route_updateContactField:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -328,7 +328,7 @@ abi_route_updateContactField:
 	return
 
 updateContactField:
-	proto 4 0
+	proto 3 0
 
 	// if0_condition
 	// examples/tuple_in_box/app.algo.ts:27
@@ -432,7 +432,7 @@ abi_route_verifyContactName:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -443,7 +443,7 @@ abi_route_verifyContactName:
 	return
 
 verifyContactName:
-	proto 3 0
+	proto 2 0
 
 	// examples/tuple_in_box/app.algo.ts:35
 	// assert(this.contacts.get(address).name === name)

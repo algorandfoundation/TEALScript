@@ -121,13 +121,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 	retsub
 
 bare_route_OptIn:
@@ -140,13 +140,13 @@ bare_route_OptIn:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub optIn
 	int 1
 	return
 
 optIn:
-	proto 1 0
+	proto 0 0
 	retsub
 
 abi_route_staticArray:
@@ -159,13 +159,13 @@ abi_route_staticArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub staticArray
 	int 1
 	return
 
 staticArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:35
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -196,13 +196,13 @@ abi_route_returnStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub returnStaticArray
 	int 1
 	return
 
 returnStaticArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:41
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -228,14 +228,14 @@ abi_route_staticArrayArg:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	callsub staticArrayArg
 	int 1
 	return
 
 staticArrayArg:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:47
 	// return a[1];
@@ -261,13 +261,13 @@ abi_route_nonLiteralStaticArrayElements:
 	&&
 	assert
 	byte 0x
-	dupn 4
+	dupn 3
 	callsub nonLiteralStaticArrayElements
 	int 1
 	return
 
 nonLiteralStaticArrayElements:
-	proto 5 0
+	proto 4 0
 
 	// tests/contracts/abi.algo.ts:51
 	// n1 = 11
@@ -320,13 +320,13 @@ abi_route_mixedStaticArrayElements:
 	&&
 	assert
 	byte 0x
-	dupn 4
+	dupn 3
 	callsub mixedStaticArrayElements
 	int 1
 	return
 
 mixedStaticArrayElements:
-	proto 5 0
+	proto 4 0
 
 	// tests/contracts/abi.algo.ts:60
 	// n1 = 3
@@ -395,13 +395,13 @@ abi_route_nonLiteralStaticArrayAccess:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub nonLiteralStaticArrayAccess
 	int 1
 	return
 
 nonLiteralStaticArrayAccess:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:69
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -439,13 +439,13 @@ abi_route_setStaticArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub setStaticArrayElement
 	int 1
 	return
 
 setStaticArrayElement:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:76
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -485,13 +485,13 @@ abi_route_staticArrayInStorageRef:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub staticArrayInStorageRef
 	int 1
 	return
 
 staticArrayInStorageRef:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:84
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -565,13 +565,13 @@ abi_route_updateStaticArrayInStorageRef:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub updateStaticArrayInStorageRef
 	int 1
 	return
 
 updateStaticArrayInStorageRef:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:100
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -684,13 +684,13 @@ abi_route_staticArrayInStorageMap:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub staticArrayInStorageMap
 	int 1
 	return
 
 staticArrayInStorageMap:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:120
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -764,13 +764,13 @@ abi_route_updateStaticArrayInStorageMap:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub updateStaticArrayInStorageMap
 	int 1
 	return
 
 updateStaticArrayInStorageMap:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:136
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -883,13 +883,13 @@ abi_route_nestedStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub nestedStaticArray
 	int 1
 	return
 
 nestedStaticArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:156
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
@@ -920,13 +920,13 @@ abi_route_updateNestedStaticArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateNestedStaticArrayElement
 	int 1
 	return
 
 updateNestedStaticArrayElement:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:162
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
@@ -966,13 +966,13 @@ abi_route_updateNestedStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateNestedStaticArray
 	int 1
 	return
 
 updateNestedStaticArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:170
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
@@ -1011,13 +1011,13 @@ abi_route_threeDimensionalUint16Array:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub threeDimensionalUint16Array
 	int 1
 	return
 
 threeDimensionalUint16Array:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:178
 	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
@@ -1056,13 +1056,13 @@ abi_route_simpleTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub simpleTuple
 	int 1
 	return
 
 simpleTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:188
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
@@ -1093,13 +1093,13 @@ abi_route_arrayInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub arrayInTuple
 	int 1
 	return
 
 arrayInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:194
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
@@ -1130,13 +1130,13 @@ abi_route_tupleInArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub tupleInArray
 	int 1
 	return
 
 tupleInArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:202
 	// a: StaticArray<[uint64, uint16], 2> = [
@@ -1167,13 +1167,13 @@ abi_route_tupleInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub tupleInTuple
 	int 1
 	return
 
 tupleInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:210
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
@@ -1204,13 +1204,13 @@ abi_route_shortTypeNotation:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub shortTypeNotation
 	int 1
 	return
 
 shortTypeNotation:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:218
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
@@ -1241,13 +1241,13 @@ abi_route_disgusting:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub disgusting
 	int 1
 	return
 
 disgusting:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:226
 	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
@@ -1286,13 +1286,13 @@ abi_route_returnTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub returnTuple
 	int 1
 	return
 
 returnTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:236
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
@@ -1318,14 +1318,14 @@ abi_route_tupleArg:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	callsub tupleArg
 	int 1
 	return
 
 tupleArg:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:241
 	// return a[1];
@@ -1351,13 +1351,13 @@ abi_route_dynamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub dynamicArray
 	int 1
 	return
 
 dynamicArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:245
 	// a: uint64[] = [11, 22, 33]
@@ -1392,13 +1392,13 @@ abi_route_returnDynamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub returnDynamicArray
 	int 1
 	return
 
 returnDynamicArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:251
 	// a: uint64[] = [11, 22, 33]
@@ -1424,14 +1424,14 @@ abi_route_dynamicArrayArg:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	callsub dynamicArrayArg
 	int 1
 	return
 
 dynamicArrayArg:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:256
 	// return a[1];
@@ -1461,13 +1461,13 @@ abi_route_updateDynamicArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateDynamicArrayElement
 	int 1
 	return
 
 updateDynamicArrayElement:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:260
 	// a: uint64[] = [11, 22, 33]
@@ -1515,13 +1515,13 @@ abi_route_dynamicTupleArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub dynamicTupleArray
 	int 1
 	return
 
 dynamicTupleArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:268
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
@@ -1558,13 +1558,13 @@ abi_route_returnTupleWithDyamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub returnTupleWithDyamicArray
 	int 1
 	return
 
 returnTupleWithDyamicArray:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:274
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
@@ -1640,13 +1640,13 @@ abi_route_returnDynamicArrayFromTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub returnDynamicArrayFromTuple
 	int 1
 	return
 
 returnDynamicArrayFromTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:280
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
@@ -1757,13 +1757,13 @@ abi_route_updateDynamicArrayInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateDynamicArrayInTuple
 	int 1
 	return
 
 updateDynamicArrayInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:286
 	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
@@ -1955,13 +1955,13 @@ abi_route_nonLiteralDynamicElementInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub nonLiteralDynamicElementInTuple
 	int 1
 	return
 
 nonLiteralDynamicElementInTuple:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:298
 	// e: uint16[] = [5, 6]
@@ -2061,13 +2061,13 @@ abi_route_arrayPush:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub arrayPush
 	int 1
 	return
 
 arrayPush:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:305
 	// a: uint16[] = [1, 2]
@@ -2112,13 +2112,13 @@ abi_route_arrayPop:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub arrayPop
 	int 1
 	return
 
 arrayPop:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:313
 	// a: uint16[] = [1, 2, 3]
@@ -2166,13 +2166,13 @@ abi_route_arrayPopValue:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub arrayPopValue
 	int 1
 	return
 
 arrayPopValue:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:321
 	// a: uint16[] = [1, 2, 3]
@@ -2230,13 +2230,13 @@ abi_route_arraySplice:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub arraySplice
 	int 1
 	return
 
 arraySplice:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:329
 	// a: uint64[] = [1, 2, 3]
@@ -2301,13 +2301,13 @@ abi_route_arraySpliceValue:
 	&&
 	assert
 	byte 0x
-	dupn 4
+	dupn 3
 	callsub arraySpliceValue
 	int 1
 	return
 
 arraySpliceValue:
-	proto 5 0
+	proto 4 0
 
 	// tests/contracts/abi.algo.ts:337
 	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -2394,13 +2394,13 @@ abi_route_dynamicArrayElements:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub dynamicArrayElements
 	int 1
 	return
 
 dynamicArrayElements:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:347
 	// a: uint16[] = [1, 2, 3]
@@ -2458,13 +2458,13 @@ abi_route_spliceLastElement:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub spliceLastElement
 	int 1
 	return
 
 spliceLastElement:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:354
 	// a: uint16[] = [1, 2, 3]
@@ -2529,13 +2529,13 @@ abi_route_spliceLastElementValue:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub spliceLastElementValue
 	int 1
 	return
 
 spliceLastElementValue:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:362
 	// a: uint16[] = [1, 2, 3]
@@ -2612,13 +2612,13 @@ abi_route_spliceFirstElement:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub spliceFirstElement
 	int 1
 	return
 
 spliceFirstElement:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:370
 	// a: uint16[] = [1, 2, 3]
@@ -2683,13 +2683,13 @@ abi_route_spliceFirstElementValue:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub spliceFirstElementValue
 	int 1
 	return
 
 spliceFirstElementValue:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:378
 	// a: uint16[] = [1, 2, 3]
@@ -2766,13 +2766,13 @@ abi_route_stringReturn:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub stringReturn
 	int 1
 	return
 
 stringReturn:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/abi.algo.ts:386
 	// return 'Hello World!';
@@ -2799,7 +2799,7 @@ abi_route_stringArg:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub stringArg
@@ -2807,7 +2807,7 @@ abi_route_stringArg:
 	return
 
 stringArg:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:390
 	// assert(s === 'Hello World!')
@@ -2827,13 +2827,13 @@ abi_route_stringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub stringInTuple
 	int 1
 	return
 
 stringInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:394
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
@@ -2920,13 +2920,13 @@ abi_route_accesStringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub accesStringInTuple
 	int 1
 	return
 
 accesStringInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:400
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
@@ -3042,13 +3042,13 @@ abi_route_updateStringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateStringInTuple
 	int 1
 	return
 
 updateStringInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:408
 	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
@@ -3235,13 +3235,13 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateTupleWithOnlyDynamicTypes
 	int 1
 	return
 
 updateTupleWithOnlyDynamicTypes:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:420
 	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
@@ -3384,13 +3384,13 @@ abi_route_shortenDynamicElementInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub shortenDynamicElementInTuple
 	int 1
 	return
 
 shortenDynamicElementInTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:430
 	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
@@ -3545,13 +3545,13 @@ abi_route_namedTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub namedTuple
 	int 1
 	return
 
 namedTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:440
 	// a: {
@@ -3608,13 +3608,13 @@ abi_route_updateNamedTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub updateNamedTuple
 	int 1
 	return
 
 updateNamedTuple:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:452
 	// a: {
@@ -3688,13 +3688,13 @@ abi_route_customTypes:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub customTypes
 	int 1
 	return
 
 customTypes:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:466
 	// aa: CustomType = {

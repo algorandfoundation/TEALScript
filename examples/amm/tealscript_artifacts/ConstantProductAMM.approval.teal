@@ -11,13 +11,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 
 	// examples/amm/amm.algo.ts:17
 	// this.governor.put(this.txn.sender)
@@ -27,7 +27,7 @@ create:
 	retsub
 
 doCreatePoolToken:
-	proto 3 1
+	proto 2 1
 
 	// examples/amm/amm.algo.ts:23
 	// return sendAssetCreation({
@@ -85,11 +85,10 @@ doCreatePoolToken:
 	itxn_field Fee
 	itxn_submit
 	itxn CreatedAssetID
-	itob
 	retsub
 
 doAxfer:
-	proto 4 0
+	proto 3 0
 
 	// examples/amm/amm.algo.ts:35
 	// sendAssetTransfer({
@@ -120,12 +119,12 @@ doAxfer:
 	retsub
 
 doOptIn:
-	proto 2 0
+	proto 1 0
 
 	// examples/amm/amm.algo.ts:44
 	// this.doAxfer(this.app.address, asset, 0)
 	byte 0x
-	dupn 0
+	pop
 	int 0
 	frame_dig -1 // asset: asset
 	txna Applications 0
@@ -135,7 +134,7 @@ doOptIn:
 	retsub
 
 tokensToMintIntial:
-	proto 3 1
+	proto 2 1
 
 	// examples/amm/amm.algo.ts:48
 	// return sqrt(aAmount * bAmount);
@@ -143,11 +142,10 @@ tokensToMintIntial:
 	frame_dig -2 // bAmount: uint64
 	*
 	sqrt
-	itob
 	retsub
 
 tokensToMint:
-	proto 9 1
+	proto 8 1
 
 	// examples/amm/amm.algo.ts:58
 	// aRatio = wideRatio([aAmount, 1_000], [aSupply])
@@ -207,11 +205,10 @@ ternary0_end:
 	swap
 	!
 	assert
-	itob
 	retsub
 
 computeRatio:
-	proto 1 1
+	proto 0 1
 
 	// examples/amm/amm.algo.ts:67
 	// return wideRatio(
@@ -238,11 +235,10 @@ computeRatio:
 	swap
 	!
 	assert
-	itob
 	retsub
 
 tokensToBurn:
-	proto 4 1
+	proto 3 1
 
 	// examples/amm/amm.algo.ts:74
 	// return wideRatio([supply, amount], [issued]);
@@ -257,11 +253,10 @@ tokensToBurn:
 	swap
 	!
 	assert
-	itob
 	retsub
 
 tokensToSwap:
-	proto 5 1
+	proto 4 1
 
 	// examples/amm/amm.algo.ts:78
 	// factor = 1_000 - 5
@@ -298,7 +293,6 @@ tokensToSwap:
 	swap
 	!
 	assert
-	itob
 	retsub
 
 abi_route_set_governor:
@@ -311,7 +305,7 @@ abi_route_set_governor:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -320,7 +314,7 @@ abi_route_set_governor:
 	return
 
 set_governor:
-	proto 2 0
+	proto 1 0
 
 	// examples/amm/amm.algo.ts:86
 	// assert(this.txn.sender === this.governor.get())
@@ -347,7 +341,7 @@ abi_route_bootstrap:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
@@ -362,7 +356,7 @@ abi_route_bootstrap:
 	return
 
 bootstrap:
-	proto 4 0
+	proto 3 0
 
 	// examples/amm/amm.algo.ts:91
 	// assert(this.txn.sender === this.governor.get())
@@ -420,7 +414,7 @@ bootstrap:
 	// this.poolToken.put(this.doCreatePoolToken(aAsset, bAsset))
 	byte "p"
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -3 // bAsset: asset
 	frame_dig -2 // aAsset: asset
 	callsub doCreatePoolToken
@@ -429,14 +423,14 @@ bootstrap:
 	// examples/amm/amm.algo.ts:102
 	// this.doOptIn(aAsset)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -2 // aAsset: asset
 	callsub doOptIn
 
 	// examples/amm/amm.algo.ts:103
 	// this.doOptIn(bAsset)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -3 // bAsset: asset
 	callsub doOptIn
 
@@ -461,7 +455,7 @@ abi_route_mint:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
@@ -482,7 +476,7 @@ abi_route_mint:
 	return
 
 mint:
-	proto 7 0
+	proto 6 0
 
 	// well formed mint
 	// examples/amm/amm.algo.ts:116
@@ -612,7 +606,7 @@ skip_and1:
 	// examples/amm/amm.algo.ts:135
 	// this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -2 // bXfer: assettransfertxn
 	gtxns AssetAmount
 	frame_dig -1 // aXfer: assettransfertxn
@@ -624,7 +618,7 @@ if0_else:
 	// examples/amm/amm.algo.ts:139
 	// toMint = this.tokensToMint(
 	byte 0x
-	dupn 3
+	dupn 2
 	frame_dig -2 // bXfer: assettransfertxn
 	gtxns AssetAmount
 	frame_dig -1 // aXfer: assettransfertxn
@@ -668,7 +662,7 @@ if0_else:
 	// examples/amm/amm.algo.ts:149
 	// this.doAxfer(this.txn.sender, poolAsset, toMint)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -6 // toMint: uint64
 	frame_dig -3 // poolAsset: asset
 	txn Sender
@@ -687,7 +681,7 @@ abi_route_burn:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 2
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
@@ -705,7 +699,7 @@ abi_route_burn:
 	return
 
 burn:
-	proto 8 0
+	proto 7 0
 
 	// well formed burn
 	// examples/amm/amm.algo.ts:160
@@ -793,7 +787,7 @@ burn:
 	// examples/amm/amm.algo.ts:175
 	// aAmt = this.tokensToBurn(
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -1 // poolXfer: assettransfertxn
 	gtxns AssetAmount
 	txna Applications 0
@@ -809,7 +803,7 @@ burn:
 	// examples/amm/amm.algo.ts:181
 	// bAmt = this.tokensToBurn(
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -1 // poolXfer: assettransfertxn
 	gtxns AssetAmount
 	txna Applications 0
@@ -825,7 +819,7 @@ burn:
 	// examples/amm/amm.algo.ts:187
 	// this.doAxfer(this.txn.sender, aAsset, aAmt)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -6 // aAmt: uint64
 	frame_dig -3 // aAsset: asset
 	txn Sender
@@ -834,7 +828,7 @@ burn:
 	// examples/amm/amm.algo.ts:188
 	// this.doAxfer(this.txn.sender, bAsset, bAmt)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -7 // bAmt: uint64
 	frame_dig -4 // bAsset: asset
 	txn Sender
@@ -844,7 +838,7 @@ burn:
 	// this.ratio.put(this.computeRatio())
 	byte "r"
 	byte 0x
-	dupn 0
+	pop
 	callsub computeRatio
 	app_global_put
 	retsub
@@ -859,7 +853,7 @@ abi_route_swap:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 2
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
@@ -874,7 +868,7 @@ abi_route_swap:
 	return
 
 swap:
-	proto 7 0
+	proto 6 0
 
 	// well formed swap
 	// examples/amm/amm.algo.ts:195
@@ -952,7 +946,7 @@ ternary1_end:
 	// examples/amm/amm.algo.ts:209
 	// toSwap = this.tokensToSwap(
 	byte 0x
-	dupn 1
+	dupn 0
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -983,7 +977,7 @@ ternary1_end:
 	// examples/amm/amm.algo.ts:217
 	// this.doAxfer(this.txn.sender, outId, toSwap)
 	byte 0x
-	dupn 0
+	pop
 	frame_dig -6 // toSwap: uint64
 	frame_dig -4 // outId: asset
 	txn Sender
@@ -993,7 +987,7 @@ ternary1_end:
 	// this.ratio.put(this.computeRatio())
 	byte "r"
 	byte 0x
-	dupn 0
+	pop
 	callsub computeRatio
 	app_global_put
 	retsub

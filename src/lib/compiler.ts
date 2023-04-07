@@ -719,6 +719,7 @@ export default class Compiler {
   private getABIType(type: string): string {
     if (this.customTypes[type]) return type;
     const abiType = type.toLowerCase();
+    if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
 
     const typeNode = stringToExpression(type) as ts.Expression;
@@ -824,6 +825,9 @@ export default class Compiler {
 
         if (t.startsWith('PENDING_DUPN')) {
           const method = t.split(' ')[1];
+          const nonArgFrameSize = this.frameSize[method] - this.subroutines[method].args;
+
+          if (nonArgFrameSize === 0) return 'pop';
           return `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`;
         }
 
@@ -1733,6 +1737,8 @@ export default class Compiler {
 
     const { returnType, name } = this.currentSubroutine;
 
+    const isAbiMethod = this.abi.methods.find((m) => m.name === name);
+
     // Automatically convert to larger int IF the types dont match
     if (returnType !== this.lastType) {
       if (this.lastType?.match(/uint\d+$/)) {
@@ -1759,15 +1765,15 @@ export default class Compiler {
           );
         } else this.pushVoid('extract 2 0');
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
-    } else if (isNumeric(returnType)) {
+    } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid('itob');
-    } else if (returnType.match(/uint\d+$/)) {
+    } else if (returnType.match(/uint\d+$/) && returnType !== StackType.uint64) {
       const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
       this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
       this.pushVoid('b&');
     }
 
-    if (this.abi.methods.find((m) => m.name === name)) {
+    if (isAbiMethod) {
       this.pushVoid('byte 0x151f7c75');
       this.pushVoid('swap');
       this.pushVoid('concat');
@@ -2405,7 +2411,7 @@ export default class Compiler {
 
     if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid('retsub');
     this.frame = lastFrame;
-    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1;
+    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1 - 1;
   }
 
   private processClearState(fn: ts.MethodDeclaration) {

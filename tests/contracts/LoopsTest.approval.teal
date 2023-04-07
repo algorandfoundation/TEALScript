@@ -11,13 +11,13 @@ abi_route_whileLoop:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dupn 0
 	callsub whileLoop
 	int 1
 	return
 
 whileLoop:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/loops.algo.ts:6
 	// i = 0
@@ -59,13 +59,13 @@ abi_route_forLoop:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 1
 	callsub forLoop
 	int 1
 	return
 
 forLoop:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/loops.algo.ts:16
 	// i = 0

@@ -11,13 +11,13 @@ abi_route_payment:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub payment
 	int 1
 	return
 
 payment:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:6
 	// sendPayment(
@@ -76,13 +76,13 @@ abi_route_assetCreation:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub assetCreation
 	int 1
 	return
 
 assetCreation:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:20
 	// return sendAssetCreation({
@@ -176,13 +176,13 @@ abi_route_appCall:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub appCall
 	int 1
 	return
 
 appCall:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:37
 	// sendAppCall({
@@ -276,13 +276,13 @@ abi_route_assetConfig:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub assetConfig
 	int 1
 	return
 
 assetConfig:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:56
 	// sendAssetConfig({
@@ -340,13 +340,13 @@ abi_route_assetFreeze:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub assetFreeze
 	int 1
 	return
 
 assetFreeze:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:67
 	// sendAssetFreeze({
@@ -388,13 +388,13 @@ abi_route_assetTransfer:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub assetTransfer
 	int 1
 	return
 
 assetTransfer:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:76
 	// sendAssetTransfer({
@@ -450,13 +450,13 @@ abi_route_methodCall:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub methodCall
 	int 1
 	return
 
 methodCall:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:87
 	// return sendMethodCall<[Application, Asset], Asset>({
@@ -512,13 +512,13 @@ abi_route_onlineKeyRegistration:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub onlineKeyRegistration
 	int 1
 	return
 
 onlineKeyRegistration:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:96
 	// sendOnlineKeyRegistration({
@@ -573,13 +573,13 @@ abi_route_offlineKeyRegistration:
 	&&
 	assert
 	byte 0x
-	dupn 0
+	pop
 	callsub offlineKeyRegistration
 	int 1
 	return
 
 offlineKeyRegistration:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:108
 	// sendOfflineKeyRegistration({
