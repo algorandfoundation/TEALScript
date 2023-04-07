@@ -1,5 +1,9 @@
 import { Contract } from '../../src/lib/index';
 
+const TREE_DEPTH = 3;
+const EMPTY_HASH = sha256('');
+const RIGHT_SIBLING_PREFIX = 170;
+
 type Branch = byte<33>
 type Path = StaticArray<Branch, 3>
 
@@ -10,9 +14,9 @@ class MerkleTree extends Contract {
   size = new GlobalReference<uint64>();
 
   private calcInitRoot(): bytes {
-    let result = sha256('');
+    let result = EMPTY_HASH;
 
-    for (let i = 0; i < 3; i = i + 1) {
+    for (let i = 0; i < TREE_DEPTH; i = i + 1) {
       result = sha256(concat(result, result));
     }
 
@@ -24,13 +28,13 @@ class MerkleTree extends Contract {
   }
 
   private isRightSibling(elem: Branch): boolean {
-    return getbyte(elem, 0) === 170;
+    return getbyte(elem, 0) === RIGHT_SIBLING_PREFIX;
   }
 
   private calcRoot(leaf: bytes, path: Path): bytes {
     let result = leaf;
 
-    for (let i = 0; i < 3; i = i + 1) {
+    for (let i = 0; i < TREE_DEPTH; i = i + 1) {
       const elem = path[i];
 
       if (this.isRightSibling(elem)) {
@@ -59,7 +63,7 @@ class MerkleTree extends Contract {
 
   appendLeaf(data: bytes, path: Path): void {
     assert(data !== '');
-    assert(this.root.get() === this.calcRoot(sha256(''), path));
+    assert(this.root.get() === this.calcRoot(EMPTY_HASH, path));
 
     this.root.put(this.calcRoot(sha256(data), path));
 
