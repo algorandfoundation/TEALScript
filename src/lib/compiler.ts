@@ -717,7 +717,7 @@ export default class Compiler {
   }
 
   private getABIType(type: string): string {
-    if (this.customTypes[type]) return type;
+    if (this.customTypes[type]) return this.getABIType(this.customTypes[type]);
     const abiType = type.toLowerCase();
     if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
@@ -1826,7 +1826,7 @@ export default class Compiler {
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
-    return type;
+    return this.customTypes[type] || type;
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
