@@ -474,7 +474,11 @@ class AbiTest extends Contract {
   }
 
   staticStringArrayArg(a: StaticArray<string, 3>): string {
-  // staticStringArrayArg(a: [string, string, string]): string {
     return a[1];
+  }
+
+  dynamicAccessOfDynamicElementInStaticArray(a: StaticArray<string, 3>): string {
+    const i = 1;
+    return a[i];
   }
 }

@@ -508,6 +508,21 @@
         "type": "string",
         "desc": ""
       }
+    },
+    {
+      "name": "dynamicAccessOfDynamicElementInStaticArray",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
     }
   ]
 }

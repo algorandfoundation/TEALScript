@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts from 'typescript';
+import ts, { getEffectiveTypeParameterDeclarations } from 'typescript';
 import * as langspec from '../langspec.json';
 
 function stringToExpression(str: string): ts.Expression {
@@ -1568,6 +1568,8 @@ export default class Compiler {
       this.lastType = this.customTypes[this.lastType];
     }
 
+    let staticArrayType = '';
+
     if (this.lastType.match(/\[\d+\]$/)) {
       const baseType = this.lastType.replace(/\[\d+\]$/, '');
       if (this.isDynamicType(baseType)) {
@@ -1575,14 +1577,18 @@ export default class Compiler {
 
         // TODO figure out where string is getting converted to bytes
         this.lastType = `[${new Array(length).fill(baseType).join(',')}]`.replace(/bytes/g, 'string');
+        staticArrayType = baseType.replace(/bytes/g, 'string');
       }
     }
 
     const lastTypeExpression = stringToExpression(this.lastType);
 
     if (ts.isArrayLiteralExpression(lastTypeExpression)) {
+      const isLiteralAccessor = ts.isNumericLiteral(chain[0].argumentExpression);
       const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
-      const accessedType = lastTypeExpression.elements[accessor].getText();
+
+      const accessedType = isLiteralAccessor
+        ? lastTypeExpression.elements[accessor].getText() : staticArrayType;
 
       if (accessedType.endsWith('[]') || accessedType === 'string') {
         const types = this.getTypes(this.lastType);
@@ -1597,11 +1603,16 @@ export default class Compiler {
 
         headOffset += (dynamicTypeIndex) * 2;
 
-        this.pushLines(
-          `int ${this.getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
-          `int ${headOffset} // head offset`,
-          'callsub preArrayAccess',
-        );
+        this.pushVoid(`int ${this.getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`);
+
+        if (isLiteralAccessor) {
+          this.pushVoid(`int ${headOffset} // head offset`);
+        } else {
+          this.processNode(chain[0].argumentExpression);
+          this.pushLines('int 2', '* // head offset');
+        }
+
+        this.pushVoid('callsub preArrayAccess');
 
         if (newValue === undefined) {
           this.pushLines(
@@ -1636,8 +1647,8 @@ export default class Compiler {
           this.pushLines(
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
             `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)} // head update bitmask`,
-            `int ${dynamicTypeIndex === 0 ? 1 : 0} // is first dynamic element`,
-            `int ${dynamicTypeIndex === types.dynamic.length - 1 ? 1 : 0} // is last dynamic element`,
+            `int ${(!isLiteralAccessor || dynamicTypeIndex === 0) ? 1 : 0} // is first dynamic element`,
+            `int ${(!isLiteralAccessor || dynamicTypeIndex === types.dynamic.length - 1) ? 1 : 0} // is last dynamic element`,
             `int ${totalHeadLength} // total head length`,
             `int ${startOfHeads} // startOfHeads`,
             `int ${startOfHeads + totalHeadLength} // head end`,
