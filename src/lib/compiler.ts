@@ -1793,9 +1793,14 @@ export default class Compiler {
     this.addSourceComment(node);
     const { returnType, name } = this.currentSubroutine;
 
+    if (returnType === 'void') {
+      this.pushVoid('retsub');
+      return;
+    }
+
     this.typeHint = returnType;
 
-    if (node.expression !== undefined) this.processNode(node.expression);
+    this.processNode(node.expression!);
 
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
