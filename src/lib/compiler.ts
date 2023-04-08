@@ -772,30 +772,26 @@ export default class Compiler {
     return abiType;
   }
 
-  private getObjectTypeAndIndex(givenType: string, key: string): {type: string; index: number} {
+  private getObjectTypes(givenType: string): Record<string, string> {
     let type = givenType;
 
     if (this.customTypes[type]) {
       type = this.customTypes[type];
     }
 
-    const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
 
-    let retVal = { type: '', index: 0 };
+    if (!ts.isTypeAliasDeclaration(typeAliasDeclaration)) throw new Error();
+    if (!ts.isTypeLiteralNode(typeAliasDeclaration.type)) throw new Error();
 
-    statement.forEachChild((n) => {
-      if (!ts.isVariableDeclarationList(n)) throw new Error();
-      n.declarations.forEach((d) => {
-        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+    const types: Record<string, string> = {};
+    typeAliasDeclaration.type.members.forEach((m) => {
+      if (!ts.isPropertySignature(m)) throw new Error();
 
-        d.type.members.forEach((m, i) => {
-          if (!ts.isPropertySignature(m)) throw new Error();
-          if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
-        });
-      });
+      types[m.name.getText()] = m.type!.getText();
     });
 
-    return retVal;
+    return types;
   }
 
   async compile() {
@@ -1098,14 +1094,14 @@ export default class Compiler {
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
     const type = this.typeHint;
     if (type === undefined) throw new Error();
-    const typeArray: string[] = [];
     const valueArray: string[] = [];
+
+    const objTypes = this.getObjectTypes(type);
+    const typeArray = Object.values(objTypes);
 
     node.properties.forEach((p) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
-      const r = this.getObjectTypeAndIndex(type, p.name.getText());
-      typeArray[r.index] = r.type;
-      valueArray[r.index] = p.initializer.getText();
+      valueArray[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer.getText();
     });
 
     this.typeHint = `[${typeArray.join(',')}]`;
@@ -1876,7 +1872,9 @@ export default class Compiler {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
 
         if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-          const { index } = this.getObjectTypeAndIndex(expressionType, node.left.name.getText());
+          const index = Object.keys(this.getObjectTypes(expressionType))
+            .indexOf(node.left.name.getText());
+
           const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
           if (!ts.isElementAccessExpression(expr)) throw new Error();
           this.processStaticArray(expr, node.right);
@@ -2380,7 +2378,7 @@ export default class Compiler {
 
       const expressionType = this.getStackTypeFromNode(n.expression);
       if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-        const { index } = this.getObjectTypeAndIndex(expressionType, n.name.getText());
+        const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
         this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
         return;
       }
