@@ -4,15 +4,6 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
-// This is seperate from this.getABIType because the bracket notation
-// is useful for parsing, but the ABI/appspec JSON need the parens
-function getABITupleString(str: string) {
-  const trailingBrakcet = /(?<!\[\d*)]/;
-  const leadingBracket = /\[(?!\d*])/;
-
-  return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
-}
-
 function stringToExpression(str: string): ts.Expression {
   if (str.startsWith('{')) {
     const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
@@ -739,7 +730,8 @@ export default class Compiler {
   }
 
   private getABIType(type: string): string {
-    if (this.customTypes[type]) return this.getABIType(this.customTypes[type]);
+    if (this.customTypes[type]) return type;
+
     const abiType = type.toLowerCase();
     if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
@@ -770,6 +762,21 @@ export default class Compiler {
     }
 
     return abiType;
+  }
+
+  // This is seperate from this.getABIType because the bracket notation
+  // is useful for parsing, but the ABI/appspec JSON need the parens
+  private getABITupleString(str: string) {
+    let tupleStr = str.toLowerCase();
+    if (tupleStr.startsWith('{')) {
+      const types = Object.values(this.getObjectTypes(tupleStr));
+      tupleStr = `(${types.join(',')})`;
+    }
+
+    const trailingBrakcet = /(?<!\[\d*)]/;
+    const leadingBracket = /\[(?!\d*])/;
+
+    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
   }
 
   private getObjectTypes(givenType: string): Record<string, string> {
@@ -868,8 +875,8 @@ export default class Compiler {
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
-      args: m.args.map((a) => ({ ...a, type: getABITupleString(a.type) })),
-      returns: { ...m.returns, type: getABITupleString(m.returns.type) },
+      args: m.args.map((a) => ({ ...a, type: this.getABITupleString(a.type) })),
+      returns: { ...m.returns, type: this.getABITupleString(m.returns.type) },
     }));
   }
 
@@ -888,7 +895,7 @@ export default class Compiler {
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
-    const abiArgs = args.map((a) => getABITupleString(a));
+    const abiArgs = args.map((a) => this.getABITupleString(a));
 
     let abiReturns = returns;
 
@@ -903,7 +910,7 @@ export default class Compiler {
         break;
     }
 
-    const sig = `${name}(${abiArgs.join(',')})${getABITupleString(abiReturns)}`;
+    const sig = `${name}(${abiArgs.join(',')})${this.getABITupleString(abiReturns)}`;
     this.pushVoid(`method "${sig}"`);
   }
 
@@ -1635,7 +1642,12 @@ export default class Compiler {
     }
 
     chain.forEach((e) => {
-      const baseExpressionType = this.getStackTypeFromNode(e.expression);
+      let baseExpressionType = this.getStackTypeFromNode(e.expression);
+
+      if (baseExpressionType.match(/^{/)) {
+        const types = Object.values(this.getObjectTypes(baseExpressionType));
+        baseExpressionType = `[${types.join(',')}]`;
+      }
 
       if (baseExpressionType.match(/\[\d+\]$/)) {
         type = baseExpressionType.replace(/\[\d+\]$/, '');
@@ -1758,9 +1770,11 @@ export default class Compiler {
 
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
-    if (node.expression !== undefined) this.processNode(node.expression);
-
     const { returnType, name } = this.currentSubroutine;
+
+    this.typeHint = returnType;
+
+    if (node.expression !== undefined) this.processNode(node.expression);
 
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
@@ -1807,6 +1821,8 @@ export default class Compiler {
     } else {
       this.pushVoid('retsub');
     }
+
+    this.typeHint = undefined;
   }
 
   private getBaseArrayNode(
@@ -2666,7 +2682,7 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => getABITupleString(this.getABIType(t.getText())),
+        (t) => this.getABITupleString(this.getABIType(t.getText())),
       );
 
       let returnType = node.typeArguments![1].getText();
