@@ -1568,6 +1568,16 @@ export default class Compiler {
       this.lastType = this.customTypes[this.lastType];
     }
 
+    if (this.lastType.match(/\[\d+\]$/)) {
+      const baseType = this.lastType.replace(/\[\d+\]$/, '');
+      if (this.isDynamicType(baseType)) {
+        const length = parseInt(this.lastType.match(/\[\d+\]/)!.at(-1)!.match(/\d+/)![0], 10);
+
+        // TODO figure out where string is getting converted to bytes
+        this.lastType = `[${new Array(length).fill(baseType).join(',')}]`.replace(/bytes/g, 'string');
+      }
+    }
+
     const lastTypeExpression = stringToExpression(this.lastType);
 
     if (ts.isArrayLiteralExpression(lastTypeExpression)) {
@@ -2452,7 +2462,7 @@ export default class Compiler {
         type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace('string', 'bytes') };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace(/^string/, 'bytes') };
       this.frameIndex -= 1;
     });
 
@@ -2870,7 +2880,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      // console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }
