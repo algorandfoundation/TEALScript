@@ -664,7 +664,9 @@ export default class Compiler {
     return type.includes('[]') || type.includes('string') || type.includes('bytes');
   }
 
-  private getTypeLength(type: string): number {
+  private getTypeLength(inputType: string): number {
+    const type = this.getABIType(inputType);
+
     const typeNode = stringToExpression(type) as ts.Expression;
     if (type.toLowerCase().startsWith('staticarray')) {
       if (ts.isExpressionWithTypeArguments(typeNode)) {
@@ -730,19 +732,18 @@ export default class Compiler {
   }
 
   private getABIType(type: string): string {
-    if (this.customTypes[type]) return type;
+    const abiType = this.customTypes[type] ? this.customTypes[type] : type;
 
-    const abiType = type.toLowerCase();
     if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
 
-    const typeNode = stringToExpression(type) as ts.Expression;
+    const typeNode = stringToExpression(abiType) as ts.Expression;
 
     if (abiType.match(/<\d+>$/)) {
       return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
     }
 
-    if (abiType.startsWith('static')) {
+    if (abiType.startsWith('Static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
       const innerType = typeNode!.typeArguments![0];
       const length = this.getStaticArrayLength(typeNode);
@@ -755,13 +756,18 @@ export default class Compiler {
       return `${this.getABIType(baseType)}[]`;
     }
 
+    if (abiType.match(/\[\d+\]$/)) {
+      const baseType = abiType.replace(/\[\d+\]$/, '');
+      return `${this.getABIType(baseType)}${abiType.match(/\[\d+\]$/)![0]}`;
+    }
+
     if (abiType.startsWith('[')) {
       if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
 
       return `[${typeNode.elements.map((t) => this.getABIType(t.getText())).join(',')}]`;
     }
 
-    return abiType;
+    return abiType.toLowerCase();
   }
 
   // This is seperate from this.getABIType because the bracket notation
@@ -1664,6 +1670,7 @@ export default class Compiler {
 
     chain.forEach((e) => {
       let baseExpressionType = this.getStackTypeFromNode(e.expression);
+      baseExpressionType = this.getABIType(baseExpressionType);
 
       if (baseExpressionType.match(/^{/)) {
         const types = Object.values(this.getObjectTypes(baseExpressionType));
@@ -2896,7 +2903,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      // console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

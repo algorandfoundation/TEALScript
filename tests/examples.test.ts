@@ -23,3 +23,5 @@ artifactsTest('Simple', 'examples/simple/simple.algo.ts', 'examples/simple/artif
 artifactsTest('Tuple In Box', 'examples/tuple_in_box/app.algo.ts', 'examples/tuple_in_box/tealscript_artifacts/', 'ContactsApp');
 
 artifactsTest('Calculator', 'examples/calculator/calculator.algo.ts', 'examples/calculator/artifacts/', 'Calculator');
+
+artifactsTest('MerkleTree', 'examples/merkle/merkle.algo.ts', 'examples/merkle/artifacts/', 'MerkleTree');
