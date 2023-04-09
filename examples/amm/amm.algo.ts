@@ -25,7 +25,7 @@ class ConstantProductAMM extends Contract {
     // Unit name asserts not needed since it's done automatically by Asset.unitName
 
     return sendAssetCreation({
-      configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName))),
+      configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName,
       configAssetUnitName: 'dpt',
       configAssetTotal: TOTAL_SUPPLY,
       configAssetDecimals: 3,

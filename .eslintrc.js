@@ -45,6 +45,7 @@ module.exports = {
         'max-classes-per-file': 'off',
         'no-bitwise': 'off',
         'operator-assignment': 'off',
+        'prefer-template': 'off',
       },
     },
     {

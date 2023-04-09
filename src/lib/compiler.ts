@@ -1946,6 +1946,11 @@ export default class Compiler {
     const leftType = this.lastType;
     this.processNode(node.right);
 
+    if (node.operatorToken.getText() === '+' && leftType === StackType.bytes) {
+      this.push('concat', StackType.bytes);
+      return;
+    }
+
     const aTypes = ['account', ForeignType.Address];
     if (leftType !== this.lastType && !(aTypes.includes(leftType) && aTypes.includes(this.lastType))) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
 

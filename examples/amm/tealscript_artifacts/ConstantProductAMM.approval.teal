@@ -36,17 +36,17 @@ doCreatePoolToken:
 	itxn_field TypeEnum
 
 	// examples/amm/amm.algo.ts:28
-	// configAssetName: concat('DPT-', concat(aAsset.unitName, concat('-', bAsset.unitName)))
+	// configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName
 	byte "DPT-"
 	frame_dig -1 // aAsset: asset
 	asset_params_get AssetUnitName
 	assert
+	concat
 	byte "-"
+	concat
 	frame_dig -2 // bAsset: asset
 	asset_params_get AssetUnitName
 	assert
-	concat
-	concat
 	concat
 	itxn_field ConfigAssetName
 

@@ -63,7 +63,7 @@ class MyContract extends Contract {
   foo(n: uint8, name: string): uint8 {
     const obj: MyType = {
         num: n,
-        message: concat('Hello, ', name),
+        message: 'Hello, ' + name,
         threeNumbers: [n, n + 1, n + 2]
     }
 

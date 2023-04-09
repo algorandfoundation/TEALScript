@@ -23,7 +23,7 @@ for_0:
 	bz for_0_end
 
 	// examples/merkle/merkle.algo.ts:20
-	// result = sha256(concat(result, result))
+	// result = sha256(result + result)
 	frame_dig -1 // result: bytes
 	frame_dig -1 // result: bytes
 	concat
@@ -48,7 +48,7 @@ hashConcat:
 	proto 2 1
 
 	// examples/merkle/merkle.algo.ts:27
-	// return sha256(concat(left, right));
+	// return sha256(left + right);
 	frame_dig -1 // left: bytes
 	frame_dig -2 // right: bytes
 	concat

@@ -17,14 +17,14 @@ class MerkleTree extends Contract {
     let result = EMPTY_HASH;
 
     for (let i = 0; i < TREE_DEPTH; i = i + 1) {
-      result = sha256(concat(result, result));
+      result = sha256(result + result);
     }
 
     return result;
   }
 
   private hashConcat(left: bytes, right: bytes): bytes {
-    return sha256(concat(left, right));
+    return sha256(left + right);
   }
 
   private isRightSibling(elem: Branch): boolean {
