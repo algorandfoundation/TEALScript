@@ -2100,6 +2100,9 @@ export default class Compiler {
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
+    } else if (methodName === 'fromIndex') {
+      this.processNode(node.arguments[0]);
+      this.lastType = this.getABIType(node.expression.expression.getText());
     } else if (methodName === 'push') {
       const preType = this.lastType;
       this.processNode(node.expression.expression);
@@ -2421,7 +2424,7 @@ export default class Compiler {
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
           this.push('int 0', this.getABIType(n.expression.getText()));
-        } else throw new Error();
+        } else if (n.name.getText() !== 'fromIndex') throw new Error();
         return;
       }
 
