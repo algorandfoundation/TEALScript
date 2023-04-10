@@ -62,6 +62,16 @@ enum ForeignType {
   Application = 'application',
 }
 
+const TXN_TYPES = [
+  'txn',
+  'pay',
+  'keyreg',
+  'acfg',
+  'axfer',
+  'afrz',
+  'appl',
+];
+
 const TXN_METHODS = [
   'sendPayment',
   'sendAppCall',
@@ -733,6 +743,18 @@ export default class Compiler {
 
   private getABIType(type: string): string {
     const abiType = this.customTypes[type] ? this.customTypes[type] : type;
+
+    const txnTypes: Record<string, string> = {
+      Transaction: 'txn',
+      AppCallTxn: 'appl',
+      AssetConfigTxn: 'acfg',
+      AssetFreezeTxn: 'afrz',
+      AssetTransferTxn: 'axfer',
+      KeyRegTxn: 'keyreg',
+      PayTxn: 'pay',
+    };
+
+    if (txnTypes[type]) return txnTypes[type];
 
     if (type === 'boolean') return 'uint64';
     if (type === 'number') return 'uint64';
@@ -1737,7 +1759,7 @@ export default class Compiler {
     if (baseType === 'txnGroup') {
       this.processNode(node.expression);
       this.processNode(node.argumentExpression);
-      this.lastType = 'grouptxn';
+      this.lastType = 'txn';
       return;
     }
 
@@ -2471,7 +2493,7 @@ export default class Compiler {
         return;
       }
 
-      this.tealFunction(this.lastType, n.name.getText());
+      this.tealFunction(this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
     });
   }
 
@@ -2592,20 +2614,9 @@ export default class Compiler {
 
     new Array(...fn.parameters).reverse().forEach((p) => {
       const type = this.getABIType(p!.type!.getText());
-      let abiType = type;
+      const abiType = type;
 
-      if (type.includes('txn')) {
-        switch (type) {
-          case 'paytxn':
-            abiType = TransactionType.PaymentTx;
-            break;
-          case 'assettransfertxn':
-            abiType = TransactionType.AssetTransferTx;
-            break;
-          default:
-            break;
-        }
-      } else {
+      if (!TXN_TYPES.includes(type)) {
         this.pushVoid(`txna ApplicationArgs ${nonTxnArgCount -= 1}`);
       }
 
@@ -2857,9 +2868,14 @@ export default class Compiler {
     return chain;
   }
 
-  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
+  private tealFunction(
+    calleeType: string,
+    name: string,
+    checkArgs: boolean = false,
+    thisTxn: boolean = false,
+  ): void {
     let type = calleeType;
-    if (type.includes('txn') && !['itxn', 'txn'].includes(type)) {
+    if (TXN_TYPES.includes(type) && !thisTxn) {
       type = 'gtxns';
     } else if (type === ForeignType.Address) {
       type = 'account';

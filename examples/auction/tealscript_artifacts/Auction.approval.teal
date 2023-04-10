@@ -137,9 +137,6 @@ abi_route_startAuction:
 	assert
 	byte 0x
 	pop
-	txn GroupIndex
-	int 1
-	-
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -170,7 +167,7 @@ startAuction:
 	// Verify axfer
 	// examples/auction/auction.algo.ts:52
 	// assert(axfer.assetReceiver === this.app.address)
-	frame_dig -3 // axfer: assettransfertxn
+	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
 	txna Applications 0
 	app_params_get AppAddress
@@ -182,7 +179,7 @@ startAuction:
 	// examples/auction/auction.algo.ts:55
 	// this.asaAmt.put(axfer.assetAmount)
 	byte "asaAmt"
-	frame_dig -3 // axfer: assettransfertxn
+	frame_dig -3 // axfer: axfer
 	gtxns AssetAmount
 	app_global_put
 
@@ -241,9 +238,6 @@ abi_route_bid:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
-	txn GroupIndex
-	int 1
-	-
 	callsub bid
 	int 1
 	return
@@ -263,7 +257,7 @@ bid:
 	// Verify payment transaction
 	// examples/auction/auction.algo.ts:77
 	// assert(payment.amount > this.highestBid.get())
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Amount
 	byte "highestBid"
 	app_global_get
@@ -273,7 +267,7 @@ bid:
 	// examples/auction/auction.algo.ts:78
 	// assert(this.txn.sender === payment.sender)
 	txn Sender
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Sender
 	==
 	assert
@@ -304,14 +298,14 @@ if0_end:
 	// examples/auction/auction.algo.ts:86
 	// this.highestBid.put(payment.amount)
 	byte "highestBid"
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Amount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:87
 	// this.highestBidder.put(payment.sender)
 	byte "highestBidder"
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Sender
 	app_global_put
 	retsub

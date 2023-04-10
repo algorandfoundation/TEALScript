@@ -481,4 +481,31 @@ class AbiTest extends Contract {
     const i = 1;
     return a[i];
   }
+
+  /*
+  //     const txnTypes: Record<string, string> = {
+    Transaction: 'txn',
+    AppCallTxn: 'appl',
+    AssetConfigTxn: 'acfg',
+    AssetFreezeTxn: 'afrz',
+    AssetTransferTxn: 'axfer',
+    KeyRegistrationTxn: 'keyreg',
+    PaymentTxn: 'pay',
+  };
+  */
+
+  txnTypes(
+    t: Txn,
+    a: AppCallTxn,
+    ac: AssetConfigTxn,
+    af: AssetFreezeTxn,
+    at: AssetTransferTxn,
+    kr: KeyRegTxn,
+    p: PayTxn,
+  ): void {
+    assert(t.sender === a.sender);
+    assert(ac.sender === af.sender);
+    assert(at.sender === kr.sender);
+    assert(p.sender === t.sender);
+  }
 }

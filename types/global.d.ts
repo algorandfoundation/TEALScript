@@ -370,7 +370,7 @@ interface MethodCallParams<ArgsType> extends AppParams {
 
 type ThisTxnParams = AppOnChainTransactionParams
 
-type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
+type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
 
 declare const globals: {
   minTxnFee: uint64

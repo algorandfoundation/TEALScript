@@ -12,7 +12,7 @@ export default class Contract {
 
   txn!: Expand<ThisTxnParams>;
 
-  txnGroup!: Transaction[];
+  txnGroup!: Txn[];
 
   app!: Application;
 }

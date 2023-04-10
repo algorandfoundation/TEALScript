@@ -48,12 +48,12 @@ closeAcct:
 	txn GroupIndex
 	int 1
 	+
-	frame_bury -2 // deleteVaultTxn: grouptxn
+	frame_bury -2 // deleteVaultTxn: txn
 
 	// Ensure Master.deleteVault is being called for this vault
 	// examples/arc12/arc12.algo.ts:27
 	// assert(deleteVaultTxn.applicationID === this.master.get())
-	frame_dig -2 // deleteVaultTxn: grouptxn
+	frame_dig -2 // deleteVaultTxn: txn
 	gtxns ApplicationID
 	byte "master"
 	app_global_get
@@ -62,7 +62,7 @@ closeAcct:
 
 	// examples/arc12/arc12.algo.ts:28
 	// assert(deleteVaultTxn.applicationArgs[0] === method('deleteVault(application,account)void'))
-	frame_dig -2 // deleteVaultTxn: grouptxn
+	frame_dig -2 // deleteVaultTxn: txn
 	gtxns ApplicationArgs 0
 	method "deleteVault(application,account)void"
 	==
@@ -70,7 +70,7 @@ closeAcct:
 
 	// examples/arc12/arc12.algo.ts:29
 	// assert(deleteVaultTxn.applications[1] === this.app)
-	frame_dig -2 // deleteVaultTxn: grouptxn
+	frame_dig -2 // deleteVaultTxn: txn
 	gtxns Applications 1
 	txna Applications 0
 	==
@@ -300,9 +300,6 @@ abi_route_optIn:
 	assert
 	byte 0x
 	dupn 0
-	txn GroupIndex
-	int 1
-	-
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -325,7 +322,7 @@ optIn:
 
 	// examples/arc12/arc12.algo.ts:76
 	// assert(mbrPayment.sender === this.txn.sender)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Sender
 	txn Sender
 	==
@@ -333,7 +330,7 @@ optIn:
 
 	// examples/arc12/arc12.algo.ts:77
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
@@ -383,7 +380,7 @@ optIn:
 
 	// examples/arc12/arc12.algo.ts:91
 	// assert(mbrPayment.amount === globals.currentApplicationAddress.minBalance - preMbr)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Amount
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
