@@ -261,10 +261,22 @@ interface CommonTransactionParams {
   note?: string
 }
 
-interface OnChainTransactionParams extends CommonTransactionParams {
+interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
   groupIndex: uint64,
+  txID: string,
+}
+
+interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   createdAssetID: Asset,
   createdApplicationID: Application,
+  lastLog: bytes,
+  numAppArgs: uint64,
+  numAccounts: uint64,
+  numAssets: uint64,
+  numApplicatons: uint64,
+  numLogs: uint64,
+  numApprovalProgrammPages: uint64,
+  numClearStateProgramPages: uint64,
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
@@ -344,7 +356,7 @@ interface OnlineKeyRegParams extends CommonTransactionParams {
 
 declare type PayTxn = Required<PaymentParams>
 declare type AssetTransferTxn = Required<AssetTransferParams>
-declare type AppCallTxn = Required<AppParams>
+declare type AppCallTxn = AppOnChainTransactionParams & Required<AppParams>
 declare type KeyRegTxn = Required<KeyRegParams>
 declare type AssetConfigTxn = Required<AssetConfigParams>
 declare type AssetFreezeTxn = Required<AssetFreezeParams>
@@ -356,7 +368,7 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
-type ThisTxnParams = OnChainTransactionParams & AppParams & Required<{sender: Address}>
+type ThisTxnParams = AppOnChainTransactionParams
 
 type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
 
