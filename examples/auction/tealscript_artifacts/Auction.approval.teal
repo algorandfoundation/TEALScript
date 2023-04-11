@@ -137,6 +137,9 @@ abi_route_startAuction:
 	assert
 	byte 0x
 	pop
+	txn GroupIndex
+	int 1
+	-
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -238,6 +241,9 @@ abi_route_bid:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
+	txn GroupIndex
+	int 1
+	-
 	callsub bid
 	int 1
 	return

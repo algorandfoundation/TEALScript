@@ -300,6 +300,9 @@ abi_route_optIn:
 	assert
 	byte 0x
 	dupn 0
+	txn GroupIndex
+	int 1
+	-
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets

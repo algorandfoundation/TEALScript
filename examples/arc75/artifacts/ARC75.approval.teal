@@ -98,6 +98,9 @@ abi_route_addAppToWhiteList:
 	assert
 	byte 0x
 	dupn 2
+	txn GroupIndex
+	int 1
+	-
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2

@@ -2625,7 +2625,7 @@ export default class Compiler {
       } else if (isRefType(type)) {
         this.pushVoid('btoi');
         this.pushVoid(`txnas ${capitalizeFirstChar(type)}s`);
-      } else if (type.includes('txn')) {
+      } else if (TXN_TYPES.includes(type)) {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');

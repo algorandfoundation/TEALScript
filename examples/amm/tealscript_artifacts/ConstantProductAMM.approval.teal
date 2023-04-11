@@ -348,6 +348,9 @@ abi_route_bootstrap:
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+	txn GroupIndex
+	int 1
+	-
 	callsub bootstrap
 	int 1
 	return
@@ -462,6 +465,12 @@ abi_route_mint:
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+	txn GroupIndex
+	int 1
+	-
+	txn GroupIndex
+	int 2
+	-
 	callsub mint
 	int 1
 	return
@@ -682,6 +691,9 @@ abi_route_burn:
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+	txn GroupIndex
+	int 1
+	-
 	callsub burn
 	int 1
 	return
@@ -848,6 +860,9 @@ abi_route_swap:
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+	txn GroupIndex
+	int 1
+	-
 	callsub swap
 	int 1
 	return
