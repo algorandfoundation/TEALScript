@@ -3,7 +3,7 @@
 
 export default class Contract {
   itxn!: Expand<
-    OnChainTransactionParams &
+    AppOnChainTransactionParams &
     Partial<AppParams> &
     Partial<PaymentParams> &
     Partial<AssetCreateParams> &
@@ -12,7 +12,7 @@ export default class Contract {
 
   txn!: Expand<ThisTxnParams>;
 
-  txnGroup!: Transaction[];
+  txnGroup!: Txn[];
 
   app!: Application;
 }

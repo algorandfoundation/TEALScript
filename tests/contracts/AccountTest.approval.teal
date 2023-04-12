@@ -11,7 +11,7 @@ abi_route_hasAsset:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -20,7 +20,7 @@ abi_route_hasAsset:
 	return
 
 hasAsset:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:6
 	// assert(a.hasAsset(new Asset(123)))
@@ -42,7 +42,7 @@ abi_route_assetBalance:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -51,7 +51,7 @@ abi_route_assetBalance:
 	return
 
 assetBalance:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:10
 	// assert(a.assetBalance(new Asset(123)))
@@ -72,7 +72,7 @@ abi_route_assetFrozen:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -81,7 +81,7 @@ abi_route_assetFrozen:
 	return
 
 assetFrozen:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:14
 	// assert(a.assetFrozen(new Asset(123)))
@@ -102,7 +102,7 @@ abi_route_hasBalance:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -111,7 +111,7 @@ abi_route_hasBalance:
 	return
 
 hasBalance:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:18
 	// assert(a.hasBalance)
@@ -132,7 +132,7 @@ abi_route_balance:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -141,7 +141,7 @@ abi_route_balance:
 	return
 
 balance:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:22
 	// assert(a.balance)
@@ -161,7 +161,7 @@ abi_route_minBalance:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -170,7 +170,7 @@ abi_route_minBalance:
 	return
 
 minBalance:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:26
 	// assert(a.minBalance)
@@ -190,7 +190,7 @@ abi_route_authAddr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -199,7 +199,7 @@ abi_route_authAddr:
 	return
 
 authAddr:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:30
 	// log(a.authAddr)
@@ -219,7 +219,7 @@ abi_route_totalNumUint:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -228,7 +228,7 @@ abi_route_totalNumUint:
 	return
 
 totalNumUint:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:34
 	// assert(a.totalNumUint)
@@ -248,7 +248,7 @@ abi_route_totalNumByteSlice:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -257,7 +257,7 @@ abi_route_totalNumByteSlice:
 	return
 
 totalNumByteSlice:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:38
 	// assert(a.totalNumByteSlice)
@@ -277,7 +277,7 @@ abi_route_totalExtraAppPages:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -286,7 +286,7 @@ abi_route_totalExtraAppPages:
 	return
 
 totalExtraAppPages:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:42
 	// assert(a.totalExtraAppPages)
@@ -306,7 +306,7 @@ abi_route_totalAppsCreated:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -315,7 +315,7 @@ abi_route_totalAppsCreated:
 	return
 
 totalAppsCreated:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:46
 	// assert(a.totalAppsCreated)
@@ -335,7 +335,7 @@ abi_route_totalAppsOptedIn:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -344,7 +344,7 @@ abi_route_totalAppsOptedIn:
 	return
 
 totalAppsOptedIn:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:50
 	// assert(a.totalAppsOptedIn)
@@ -364,7 +364,7 @@ abi_route_totalAssetsCreated:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -373,7 +373,7 @@ abi_route_totalAssetsCreated:
 	return
 
 totalAssetsCreated:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:54
 	// assert(a.totalAssetsCreated)
@@ -393,7 +393,7 @@ abi_route_totalAssets:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -402,7 +402,7 @@ abi_route_totalAssets:
 	return
 
 totalAssets:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:58
 	// assert(a.totalAssets)
@@ -422,7 +422,7 @@ abi_route_totalBoxes:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -431,7 +431,7 @@ abi_route_totalBoxes:
 	return
 
 totalBoxes:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:62
 	// assert(a.totalBoxes)
@@ -451,7 +451,7 @@ abi_route_totalBoxBytes:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -460,7 +460,7 @@ abi_route_totalBoxBytes:
 	return
 
 totalBoxBytes:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/account.algo.ts:66
 	// assert(a.totalBoxBytes)
@@ -473,6 +473,16 @@ totalBoxBytes:
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
 
 route_abi:
 	method "hasAsset(account)void"

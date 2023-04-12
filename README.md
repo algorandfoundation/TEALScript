@@ -34,11 +34,15 @@ class Calculator extends Contract {
   }
 
   doMath(a: number, b: number, operation: string): number {
+    let result: number;
+
     if (operation === 'sum') {
-      return this.getSum(a, b);
-    } if (operation === 'difference') {
-      return this.getDifference(a, b);
-    } throw Error('Invalid operation');
+      result = this.getSum(a, b);
+    } else if (operation === 'difference') {
+      result = this.getDifference(a, b);
+    } else throw Error('Invalid operation');
+
+    return result;
   }
 }
 ```

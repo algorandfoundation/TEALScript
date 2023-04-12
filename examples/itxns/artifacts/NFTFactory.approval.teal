@@ -11,13 +11,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 	retsub
 
 abi_route_createNFT:
@@ -30,7 +30,7 @@ abi_route_createNFT:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -40,7 +40,7 @@ abi_route_createNFT:
 	return
 
 createNFT:
-	proto 3 0
+	proto 2 0
 
 	// examples/itxns/itxns.algo.ts:9
 	// return sendAssetCreation({
@@ -91,7 +91,7 @@ abi_route_transferNFT:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -103,7 +103,7 @@ abi_route_transferNFT:
 	return
 
 transferNFT:
-	proto 3 0
+	proto 2 0
 
 	// examples/itxns/itxns.algo.ts:19
 	// sendAssetTransfer({

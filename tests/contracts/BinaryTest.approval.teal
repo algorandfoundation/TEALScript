@@ -11,7 +11,7 @@ abi_route_and:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -21,7 +21,7 @@ abi_route_and:
 	return
 
 and:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:6
 	// assert(a && b)
@@ -45,7 +45,7 @@ abi_route_or:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -55,7 +55,7 @@ abi_route_or:
 	return
 
 or:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:10
 	// assert(a || b)
@@ -79,7 +79,7 @@ abi_route_equal:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -89,7 +89,7 @@ abi_route_equal:
 	return
 
 equal:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:14
 	// assert(a === b)
@@ -109,7 +109,7 @@ abi_route_notEqual:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -119,7 +119,7 @@ abi_route_notEqual:
 	return
 
 notEqual:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:18
 	// assert(a !== b)
@@ -139,7 +139,7 @@ abi_route_bitAnd:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -149,7 +149,7 @@ abi_route_bitAnd:
 	return
 
 bitAnd:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:22
 	// assert(a & b)
@@ -169,7 +169,7 @@ abi_route_bitOr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -179,7 +179,7 @@ abi_route_bitOr:
 	return
 
 bitOr:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:26
 	// assert(a | b)
@@ -199,7 +199,7 @@ abi_route_bitXor:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -209,7 +209,7 @@ abi_route_bitXor:
 	return
 
 bitXor:
-	proto 3 0
+	proto 2 0
 
 	// tests/contracts/binary.algo.ts:30
 	// assert(a ^ b)
@@ -229,7 +229,7 @@ abi_route_combo:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2
@@ -241,7 +241,7 @@ abi_route_combo:
 	return
 
 combo:
-	proto 4 0
+	proto 3 0
 
 	// tests/contracts/binary.algo.ts:34
 	// assert(a || (b && c))
@@ -264,6 +264,16 @@ skip_or1:
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
 
 route_abi:
 	method "and(uint64,uint64)void"

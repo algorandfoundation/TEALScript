@@ -11,13 +11,13 @@ abi_route_singleIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub singleIf
 	int 1
 	return
 
 singleIf:
-	proto 1 0
+	proto 0 0
 
 	// if0_condition
 	// tests/contracts/if.algo.ts:6
@@ -45,13 +45,13 @@ abi_route_ifElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub ifElse
 	int 1
 	return
 
 ifElse:
-	proto 1 0
+	proto 0 0
 
 	// if1_condition
 	// tests/contracts/if.algo.ts:12
@@ -86,13 +86,13 @@ abi_route_ifElseIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub ifElseIf
 	int 1
 	return
 
 ifElseIf:
-	proto 1 0
+	proto 0 0
 
 	// if2_condition
 	// tests/contracts/if.algo.ts:20
@@ -134,13 +134,13 @@ abi_route_ifElseIfElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub ifElseIfElse
 	int 1
 	return
 
 ifElseIfElse:
-	proto 1 0
+	proto 0 0
 
 	// if3_condition
 	// tests/contracts/if.algo.ts:28
@@ -189,13 +189,13 @@ abi_route_ifElseIfElseIf:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub ifElseIfElseIf
 	int 1
 	return
 
 ifElseIfElseIf:
-	proto 1 0
+	proto 0 0
 
 	// if4_condition
 	// tests/contracts/if.algo.ts:38
@@ -251,13 +251,13 @@ abi_route_ifElseIfElseIfElse:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub ifElseIfElseIfElse
 	int 1
 	return
 
 ifElseIfElseIfElse:
-	proto 1 0
+	proto 0 0
 
 	// if5_condition
 	// tests/contracts/if.algo.ts:48
@@ -313,6 +313,16 @@ if5_end:
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
 
 route_abi:
 	method "singleIf()void"

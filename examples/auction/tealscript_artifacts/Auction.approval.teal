@@ -11,13 +11,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 
 	// examples/auction/auction.algo.ts:17
 	// this.auctionEnd.put(0)
@@ -60,7 +60,7 @@ abi_route_optIntoAsset:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -69,7 +69,7 @@ abi_route_optIntoAsset:
 	return
 
 optIntoAsset:
-	proto 2 0
+	proto 1 0
 
 	// Only allow app creator to opt the app account into a ASA
 	// examples/auction/auction.algo.ts:28
@@ -136,7 +136,7 @@ abi_route_startAuction:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txn GroupIndex
 	int 1
 	-
@@ -149,7 +149,7 @@ abi_route_startAuction:
 	return
 
 startAuction:
-	proto 4 0
+	proto 3 0
 
 	// examples/auction/auction.algo.ts:46
 	// assert(this.txn.sender === globals.creatorAddress)
@@ -170,7 +170,7 @@ startAuction:
 	// Verify axfer
 	// examples/auction/auction.algo.ts:52
 	// assert(axfer.assetReceiver === this.app.address)
-	frame_dig -3 // axfer: assettransfertxn
+	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
 	txna Applications 0
 	app_params_get AppAddress
@@ -182,7 +182,7 @@ startAuction:
 	// examples/auction/auction.algo.ts:55
 	// this.asaAmt.put(axfer.assetAmount)
 	byte "asaAmt"
-	frame_dig -3 // axfer: assettransfertxn
+	frame_dig -3 // axfer: axfer
 	gtxns AssetAmount
 	app_global_put
 
@@ -202,7 +202,7 @@ startAuction:
 	retsub
 
 pay:
-	proto 3 0
+	proto 2 0
 
 	// examples/auction/auction.algo.ts:61
 	// sendPayment({
@@ -237,7 +237,7 @@ abi_route_bid:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -249,7 +249,7 @@ abi_route_bid:
 	return
 
 bid:
-	proto 3 0
+	proto 2 0
 
 	// Ensure auction hasn't ended
 	// examples/auction/auction.algo.ts:74
@@ -263,7 +263,7 @@ bid:
 	// Verify payment transaction
 	// examples/auction/auction.algo.ts:77
 	// assert(payment.amount > this.highestBid.get())
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Amount
 	byte "highestBid"
 	app_global_get
@@ -273,7 +273,7 @@ bid:
 	// examples/auction/auction.algo.ts:78
 	// assert(this.txn.sender === payment.sender)
 	txn Sender
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Sender
 	==
 	assert
@@ -292,7 +292,7 @@ bid:
 	// examples/auction/auction.algo.ts:82
 	// this.pay(this.highestBidder.get(), this.highestBid.get())
 	byte 0x
-	dupn 1
+	pop
 	byte "highestBid"
 	app_global_get
 	byte "highestBidder"
@@ -304,14 +304,14 @@ if0_end:
 	// examples/auction/auction.algo.ts:86
 	// this.highestBid.put(payment.amount)
 	byte "highestBid"
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Amount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:87
 	// this.highestBidder.put(payment.sender)
 	byte "highestBidder"
-	frame_dig -1 // payment: paytxn
+	frame_dig -1 // payment: pay
 	gtxns Sender
 	app_global_put
 	retsub
@@ -326,18 +326,18 @@ abi_route_claimBid:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub claimBid
 	int 1
 	return
 
 claimBid:
-	proto 1 0
+	proto 0 0
 
 	// examples/auction/auction.algo.ts:93
 	// this.pay(globals.creatorAddress, this.highestBid.get())
 	byte 0x
-	dupn 1
+	pop
 	byte "highestBid"
 	app_global_get
 	global CreatorAddress
@@ -354,7 +354,7 @@ abi_route_claim_asset:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -366,7 +366,7 @@ abi_route_claim_asset:
 	return
 
 claim_asset:
-	proto 3 0
+	proto 2 0
 
 	// Send ASA to highest bidder
 	// examples/auction/auction.algo.ts:100
@@ -415,13 +415,13 @@ bare_route_DeleteApplication:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub delete
 	int 1
 	return
 
 delete:
-	proto 1 0
+	proto 0 0
 
 	// examples/auction/auction.algo.ts:111
 	// sendPayment({

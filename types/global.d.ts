@@ -261,10 +261,22 @@ interface CommonTransactionParams {
   note?: string
 }
 
-interface OnChainTransactionParams extends CommonTransactionParams {
+interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
   groupIndex: uint64,
+  txID: string,
+}
+
+interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   createdAssetID: Asset,
   createdApplicationID: Application,
+  lastLog: bytes,
+  numAppArgs: uint64,
+  numAccounts: uint64,
+  numAssets: uint64,
+  numApplicatons: uint64,
+  numLogs: uint64,
+  numApprovalProgrammPages: uint64,
+  numClearStateProgramPages: uint64,
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
@@ -344,7 +356,7 @@ interface OnlineKeyRegParams extends CommonTransactionParams {
 
 declare type PayTxn = Required<PaymentParams>
 declare type AssetTransferTxn = Required<AssetTransferParams>
-declare type AppCallTxn = Required<AppParams>
+declare type AppCallTxn = AppOnChainTransactionParams & Required<AppParams>
 declare type KeyRegTxn = Required<KeyRegParams>
 declare type AssetConfigTxn = Required<AssetConfigParams>
 declare type AssetFreezeTxn = Required<AssetFreezeParams>
@@ -356,9 +368,9 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
-type ThisTxnParams = OnChainTransactionParams & AppParams & Required<{sender: Address}>
+type ThisTxnParams = AppOnChainTransactionParams
 
-type Transaction = PayTxn & AssetTransferTxn & AppCallTxn
+type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
 
 declare const globals: {
   minTxnFee: uint64
@@ -434,7 +446,7 @@ declare function concat(arg0: BytesLike, arg1: BytesLike)
 declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function getbit(arg0: BytesLike, arg1: IntLike)
 declare function setbit(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbyte(arg0: BytesLike, arg1: IntLike)
+declare function getbyte(arg0: BytesLike, arg1: IntLike): uint64
 declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract_uint16(arg0: BytesLike, arg1: IntLike)
@@ -451,6 +463,7 @@ declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
 
 declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
+declare function hex(input: string): bytes
 
 declare type decorator = (
   target: Object,

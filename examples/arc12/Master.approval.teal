@@ -11,13 +11,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub create
 	int 1
 	return
 
 create:
-	proto 1 0
+	proto 0 0
 
 	// examples/arc12/arc12.algo.ts:136
 	// assert(this.txn.applicationID === Application.zeroIndex)
@@ -37,7 +37,7 @@ abi_route_createVault:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 1
 	txn GroupIndex
 	int 1
 	-
@@ -49,7 +49,7 @@ abi_route_createVault:
 	return
 
 createVault:
-	proto 5 0
+	proto 4 0
 
 	// examples/arc12/arc12.algo.ts:140
 	// assert(!this.vaultMap.exists(receiver))
@@ -62,7 +62,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:141
 	// assert(mbrPayment.receiver === globals.currentApplicationAddress)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
@@ -70,7 +70,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:142
 	// assert(mbrPayment.sender === this.txn.sender)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Sender
 	txn Sender
 	==
@@ -78,7 +78,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:143
 	// assert(mbrPayment.closeRemainderTo === globals.zeroAddress)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns CloseRemainderTo
 	global ZeroAddress
 	==
@@ -132,7 +132,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:154
 	// approvalProgram: Vault
-	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICTYoDAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBEKEcBNhoCF8AcNhoBF8AciAACI0OKAwApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChHAzYaBBfAHDYaAxfAMDYaAhfAHDYaARfAHIgAAiNDigcAMQAqZBJEi/6AIMf8zbJY8NQYnCv4ttaO5pdQhkKwrQAfMfy5GMNUuoWaEkQyCnMBRIz7sSSyEIv/shSL/bIRIrISi/+yFSKyAbOL/Ra8i/syCnMBRAmM+rEjshCL/rIHi/oxAQmyCCKyAbOxI7IQMQCyBzEBsggisgGzMgpzCUQiEkEACChHAov8iP7SiTEZIhIxGCITEEQoRwIxFiMJNhoBF8AwiAACI0OKBACL/xa+TEgURIv+OAAxABJEi/44BzIKEkQyCnMBRIz9i/8WMQC/sSSyEDIKshQishIisgGL/7IRs4v+OAgyCnMBRIv9CRJEiTEZIhIxGCITEEQoRwI2GgMXwBw2GgIXwBw2GgEXwDCIAAIjQ4oFAIv/Fr5MSESL/Yv/Fr5EEkQxACpkEkQpZIv+EkQyCnMBRIz8i/8WvLEkshAxALIUIrIBMgqL/3AARLISi/+yETEAshWzsSOyEIv9sgeL/DIKcwFECbIIIrIBszIKcwlEIhJBAAgoRwKL/oj92IkxGSUSMRgiExBEKEcBiAACI0OKAQAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/zoAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/cb99P6v/xU=
+	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICS4oCAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBEKEg2GgIXwBw2GgEXwByIAAIjQ4oCACmL/mcqi/9nKzINZ4kxGSISMRgiExBEKEcBNhoEF8AcNhoDF8AwNhoCF8AcNhoBF8AciAACI0OKBgAxACpkEkSL/oAgx/zNsljw1BicK/i21o7ml1CGQrCtAB8x/LkYw1S6hZoSRDIKcwFEjPuxJLIQi/+yFIv9shEishKL/7IVIrIBs4v9FryL+zIKcwFECYz6sSOyEIv+sgeL+jEBCbIIIrIBs7EjshAxALIHMQGyCCKyAbMyCnMJRCISQQAIKEcAi/yI/tOJMRkiEjEYIhMQRChHADEWIwk2GgEXwDCIAAIjQ4oDAIv/Fr5MSBREi/44ADEAEkSL/jgHMgoSRDIKcwFEjP2L/xYxAL+xJLIQMgqyFCKyEiKyAYv/shGzi/44CDIKcwFEi/0JEkSJMRkiEjEYIhMQRChHADYaAxfAHDYaAhfAHDYaARfAMIgAAiNDigQAi/8WvkxIRIv9i/8WvkQSRDEAKmQSRClki/4SRDIKcwFEjPyL/xa8sSSyEDEAshQisgEyCov/cABEshKL/7IRMQCyFbOxI7IQi/2yB4v8MgpzAUQJsggisgGzMgpzCUQiEkEACChHAIv+iP3ZiTEZJRIxGCITEEQoSIgAAiNDigAAMgpzAExIFEQxADIJEkSJMRtAAAkxGSUSI44B/8+ABMExXFmABI9MVj2ABHGXm0CABCkcUWI2GgCOBP3I/fX+sP8W
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.algo.ts:155
@@ -185,7 +185,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:171
 	// assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance)
-	frame_dig -2 // mbrPayment: paytxn
+	frame_dig -2 // mbrPayment: pay
 	gtxns Amount
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
@@ -217,7 +217,7 @@ abi_route_verifyAxfer:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Applications
@@ -232,7 +232,7 @@ abi_route_verifyAxfer:
 	return
 
 verifyAxfer:
-	proto 4 0
+	proto 3 0
 
 	// examples/arc12/arc12.algo.ts:177
 	// assert(this.vaultMap.exists(receiver))
@@ -254,7 +254,7 @@ verifyAxfer:
 
 	// examples/arc12/arc12.algo.ts:180
 	// assert(vaultAxfer.assetReceiver === vault.address)
-	frame_dig -2 // vaultAxfer: assettransfertxn
+	frame_dig -2 // vaultAxfer: axfer
 	gtxns AssetReceiver
 	frame_dig -3 // vault: application
 	app_params_get AppAddress
@@ -264,7 +264,7 @@ verifyAxfer:
 
 	// examples/arc12/arc12.algo.ts:181
 	// assert(vaultAxfer.assetCloseTo === globals.zeroAddress)
-	frame_dig -2 // vaultAxfer: assettransfertxn
+	frame_dig -2 // vaultAxfer: axfer
 	gtxns AssetCloseTo
 	global ZeroAddress
 	==
@@ -281,7 +281,7 @@ abi_route_hasVault:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -290,7 +290,7 @@ abi_route_hasVault:
 	return
 
 hasVault:
-	proto 2 0
+	proto 1 0
 
 	// examples/arc12/arc12.algo.ts:185
 	// return this.vaultMap.exists(receiver);
@@ -315,7 +315,7 @@ abi_route_getVaultId:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -324,7 +324,7 @@ abi_route_getVaultId:
 	return
 
 getVaultId:
-	proto 2 0
+	proto 1 0
 
 	// examples/arc12/arc12.algo.ts:189
 	// return this.vaultMap.get(receiver);
@@ -349,7 +349,7 @@ abi_route_getVaultAddr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -358,7 +358,7 @@ abi_route_getVaultAddr:
 	return
 
 getVaultAddr:
-	proto 2 0
+	proto 1 0
 
 	// examples/arc12/arc12.algo.ts:193
 	// return this.vaultMap.get(receiver).address;
@@ -384,7 +384,7 @@ abi_route_deleteVault:
 	&&
 	assert
 	byte 0x
-	dupn 3
+	dupn 1
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -396,7 +396,7 @@ abi_route_deleteVault:
 	return
 
 deleteVault:
-	proto 5 0
+	proto 4 0
 
 	// The fee needs to be 0 because all of the fees need to paid by the vault call
 	// This ensures the sender will be refunded for all fees if they are rejecting the last ASA

@@ -75,7 +75,7 @@ async function setApps(mbr: number, boxIndex: number, appIDs: number[]) {
 
 let id = 0;
 
-describe('ABI', function () {
+describe('ARC75', function () {
   before(async function () {
     const acct = (await sandbox.getAccounts()).pop()!;
 

@@ -1,17 +1,8 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts from 'typescript';
+import ts, { getEffectiveTypeParameterDeclarations } from 'typescript';
 import * as langspec from '../langspec.json';
-
-// This is seperate from this.getABIType because the bracket notation
-// is useful for parsing, but the ABI/appspec JSON need the parens
-function getABITupleString(str: string) {
-  const trailingBrakcet = /(?<!\[\d*)]/;
-  const leadingBracket = /\[(?!\d*])/;
-
-  return str.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
-}
 
 function stringToExpression(str: string): ts.Expression {
   if (str.startsWith('{')) {
@@ -39,57 +30,6 @@ function stringToExpression(str: string): ts.Expression {
 
 function capitalizeFirstChar(str: string) {
   return `${str.charAt(0).toUpperCase() + str.slice(1)}`;
-}
-
-function getTypeLength(type: string): number {
-  const typeNode = stringToExpression(type) as ts.Expression;
-  if (type.toLowerCase().startsWith('staticarray')) {
-    if (ts.isExpressionWithTypeArguments(typeNode)) {
-      const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
-
-      return length * getTypeLength(innerType.getText());
-    }
-  }
-
-  if (type.match(/\[\d+]$/)) {
-    const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
-    const length = parseInt(lenStr, 10);
-    const innerType = type.replace(/\[\d+]$/, '');
-    return getTypeLength(innerType) * length;
-  }
-
-  if (type.startsWith('[')) {
-    const tNode = stringToExpression(type);
-    if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
-    let totalLength = 0;
-    const types = tNode.elements.forEach((t) => {
-      totalLength += getTypeLength(t.getText());
-    });
-
-    return totalLength;
-  }
-
-  if (type.match(/<\d+>$/)) {
-    return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * getTypeLength(type.match(/\w+/)![0]);
-  }
-
-  if (type.match(/uint\d+$/)) {
-    return parseInt(type.slice(4), 10) / 8;
-  }
-  switch (type) {
-    case 'asset':
-    case 'application':
-      return 8;
-    case 'string':
-    case 'bytes':
-      return 1;
-    case 'address':
-    case 'account':
-      return 32;
-    default:
-      throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
-  }
 }
 
 // Represents the stack types available in the AVM
@@ -121,6 +61,16 @@ enum ForeignType {
   Address = 'address',
   Application = 'application',
 }
+
+const TXN_TYPES = [
+  'txn',
+  'pay',
+  'keyreg',
+  'acfg',
+  'axfer',
+  'afrz',
+  'appl',
+];
 
 const TXN_METHODS = [
   'sendPayment',
@@ -261,6 +211,10 @@ export default class Compiler {
 
   private ternaryCount: number = 0;
 
+  private whileCount: number = 0;
+
+  private forCount: number = 0;
+
   filename?: string;
 
   content: string;
@@ -274,6 +228,8 @@ export default class Compiler {
   private bareOnCompletes: string[] = [];
 
   private bareCreate: boolean = false;
+
+  private handledActions: string[] = [];
 
   abi: {
     name: string,
@@ -305,6 +261,8 @@ export default class Compiler {
   private comments: number[] = [];
 
   private typeHint?: string;
+
+  private constants: {[name: string]: ts.Node};
 
   private readonly OP_PARAMS: {
     [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
@@ -669,6 +627,12 @@ export default class Compiler {
 
       this.lastType = 'uint64';
     },
+    hex: (node: ts.CallExpression) => {
+      if (node.arguments.length !== 1) throw new Error();
+      if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
+
+      this.push(`byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+    },
 
   };
 
@@ -677,6 +641,7 @@ export default class Compiler {
     this.content = content;
     this.name = className;
     this.sourceFile = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
+    this.constants = {};
   }
 
   getOpParamObjects(op: string) {
@@ -709,21 +674,101 @@ export default class Compiler {
     return type.includes('[]') || type.includes('string') || type.includes('bytes');
   }
 
-  private getABIType(type: string): string {
-    if (this.customTypes[type]) return type;
-    const abiType = type.toLowerCase();
-    if (type === 'number') return 'uint64';
+  private getTypeLength(inputType: string): number {
+    const type = this.getABIType(inputType);
 
     const typeNode = stringToExpression(type) as ts.Expression;
+    if (type.toLowerCase().startsWith('staticarray')) {
+      if (ts.isExpressionWithTypeArguments(typeNode)) {
+        const innerType = typeNode!.typeArguments![0];
+        const length = this.getStaticArrayLength(typeNode);
+
+        return length * this.getTypeLength(innerType.getText());
+      }
+    }
+
+    if (type.match(/\[\d+]$/)) {
+      const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
+      const length = parseInt(lenStr, 10);
+      const innerType = type.replace(/\[\d+]$/, '');
+      return this.getTypeLength(innerType) * length;
+    }
+
+    if (type.startsWith('[')) {
+      const tNode = stringToExpression(type);
+      if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
+      let totalLength = 0;
+      const types = tNode.elements.forEach((t) => {
+        totalLength += this.getTypeLength(t.getText());
+      });
+
+      return totalLength;
+    }
+
+    if (type.match(/<\d+>$/)) {
+      return parseInt(type.match(/<\d+>$/)![0].match(/\d+/)![0], 10) * this.getTypeLength(type.match(/\w+/)![0]);
+    }
+
+    if (type.match(/uint\d+$/)) {
+      return parseInt(type.slice(4), 10) / 8;
+    }
+    switch (type) {
+      case 'asset':
+      case 'application':
+        return 8;
+      case 'byte':
+      case 'string':
+      case 'bytes':
+        return 1;
+      case 'address':
+      case 'account':
+        return 32;
+      default:
+        throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
+    }
+  }
+
+  private getStaticArrayLength(node: ts.ExpressionWithTypeArguments): number {
+    if (node.typeArguments === undefined || node.typeArguments.length !== 2) throw new Error();
+    const lengthNode = node.typeArguments[1];
+
+    if (ts.isLiteralTypeNode(lengthNode)) return parseInt(lengthNode.getText(), 10);
+    if (ts.isTypeQueryNode(lengthNode)) {
+      const value = this.constants[lengthNode.exprName.getText()];
+      return parseInt(value.getText(), 10);
+    }
+
+    throw Error(ts.SyntaxKind[lengthNode.kind]);
+  }
+
+  private getABIType(type: string): string {
+    const abiType = this.customTypes[type] ? this.customTypes[type] : type;
+
+    const txnTypes: Record<string, string> = {
+      Transaction: 'txn',
+      AppCallTxn: 'appl',
+      AssetConfigTxn: 'acfg',
+      AssetFreezeTxn: 'afrz',
+      AssetTransferTxn: 'axfer',
+      KeyRegTxn: 'keyreg',
+      PayTxn: 'pay',
+    };
+
+    if (txnTypes[type]) return txnTypes[type];
+
+    if (type === 'boolean') return 'uint64';
+    if (type === 'number') return 'uint64';
+
+    const typeNode = stringToExpression(abiType) as ts.Expression;
 
     if (abiType.match(/<\d+>$/)) {
       return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
     }
 
-    if (abiType.startsWith('static')) {
+    if (abiType.startsWith('Static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
       const innerType = typeNode!.typeArguments![0];
-      const length = parseInt(typeNode!.typeArguments![1].getText(), 10);
+      const length = this.getStaticArrayLength(typeNode);
 
       return `${this.getABIType(innerType.getText())}[${length}]`;
     }
@@ -733,45 +778,68 @@ export default class Compiler {
       return `${this.getABIType(baseType)}[]`;
     }
 
+    if (abiType.match(/\[\d+\]$/)) {
+      const baseType = abiType.replace(/\[\d+\]$/, '');
+      return `${this.getABIType(baseType)}${abiType.match(/\[\d+\]$/)![0]}`;
+    }
+
     if (abiType.startsWith('[')) {
       if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
 
       return `[${typeNode.elements.map((t) => this.getABIType(t.getText())).join(',')}]`;
     }
 
-    return abiType;
+    return abiType.toLowerCase();
   }
 
-  private getObjectTypeAndIndex(givenType: string, key: string): {type: string; index: number} {
+  // This is seperate from this.getABIType because the bracket notation
+  // is useful for parsing, but the ABI/appspec JSON need the parens
+  private getABITupleString(str: string) {
+    let tupleStr = str.toLowerCase();
+    if (tupleStr.startsWith('{')) {
+      const types = Object.values(this.getObjectTypes(tupleStr));
+      tupleStr = `(${types.join(',')})`;
+    }
+
+    const trailingBrakcet = /(?<!\[\d*)]/;
+    const leadingBracket = /\[(?!\d*])/;
+
+    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
+  }
+
+  private getObjectTypes(givenType: string): Record<string, string> {
     let type = givenType;
 
     if (this.customTypes[type]) {
       type = this.customTypes[type];
     }
 
-    const statement = ts.createSourceFile('', `const dummy: ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
 
-    let retVal = { type: '', index: 0 };
+    if (!ts.isTypeAliasDeclaration(typeAliasDeclaration)) throw new Error();
+    if (!ts.isTypeLiteralNode(typeAliasDeclaration.type)) throw new Error();
 
-    statement.forEachChild((n) => {
-      if (!ts.isVariableDeclarationList(n)) throw new Error();
-      n.declarations.forEach((d) => {
-        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+    const types: Record<string, string> = {};
+    typeAliasDeclaration.type.members.forEach((m) => {
+      if (!ts.isPropertySignature(m)) throw new Error();
 
-        d.type.members.forEach((m, i) => {
-          if (!ts.isPropertySignature(m)) throw new Error();
-          if (m.name.getText() === key) retVal = { index: i, type: m.type!.getText() };
-        });
-      });
+      types[m.name.getText()] = m.type!.getText();
     });
 
-    return retVal;
+    return types;
   }
 
   async compile() {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
         this.customTypes[body.name.getText()] = body.type.getText();
+      }
+
+      if (ts.isVariableStatement(body)) {
+        if (body.declarationList.flags !== ts.NodeFlags.Const) throw new Error('Top-level variables must be constants');
+        body.declarationList.declarations.forEach((d) => {
+          this.constants[d.name.getText()] = d.initializer!;
+        });
       }
 
       if (!ts.isClassDeclaration(body)) return;
@@ -817,7 +885,10 @@ export default class Compiler {
 
         if (t.startsWith('PENDING_DUPN')) {
           const method = t.split(' ')[1];
-          return `dupn ${this.frameSize[method] - this.subroutines[method].args}`;
+          const nonArgFrameSize = this.frameSize[method] - this.subroutines[method].args;
+
+          if (nonArgFrameSize === 0) return 'pop';
+          return `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`;
         }
 
         if (t.startsWith('PENDING_PROTO')) {
@@ -832,8 +903,8 @@ export default class Compiler {
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
-      args: m.args.map((a) => ({ ...a, type: getABITupleString(a.type) })),
-      returns: { ...m.returns, type: getABITupleString(m.returns.type) },
+      args: m.args.map((a) => ({ ...a, type: this.getABITupleString(a.type) })),
+      returns: { ...m.returns, type: this.getABITupleString(m.returns.type) },
     }));
   }
 
@@ -852,7 +923,7 @@ export default class Compiler {
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
-    const abiArgs = args.map((a) => getABITupleString(a));
+    const abiArgs = args.map((a) => this.getABITupleString(a));
 
     let abiReturns = returns;
 
@@ -867,7 +938,7 @@ export default class Compiler {
         break;
     }
 
-    const sig = `${name}(${abiArgs.join(',')})${getABITupleString(abiReturns)}`;
+    const sig = `${name}(${abiArgs.join(',')})${this.getABITupleString(abiReturns)}`;
     this.pushVoid(`method "${sig}"`);
   }
 
@@ -888,6 +959,18 @@ export default class Compiler {
       this.pushVoid('int 1');
 
       this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
+    } else if (!this.handledActions.includes('createApplication')) {
+      this.pushLines(
+        '// default createApplication',
+        'txn ApplicationID',
+        'int 0',
+        '==',
+        'txn OnCompletion',
+        'int NoOp',
+        '==',
+        '&&',
+        'return',
+      );
     }
 
     this.pushVoid('route_abi:');
@@ -940,6 +1023,34 @@ export default class Compiler {
     else this.pushVoid('err');
   }
 
+  private processWhileStatement(node: ts.WhileStatement) {
+    this.pushVoid(`while_${this.whileCount}:`);
+    this.processNode(node.expression);
+    this.pushVoid(`bz while_${this.whileCount}_end`);
+
+    this.processNode(node.statement);
+    this.pushVoid(`b while_${this.whileCount}`);
+    this.pushVoid(`while_${this.whileCount}_end:`);
+
+    this.whileCount += 1;
+  }
+
+  private processForStatement(node: ts.ForStatement) {
+    this.processNode(node.initializer!);
+
+    this.pushVoid(`for_${this.forCount}:`);
+    this.processNode(node.condition!);
+    this.pushVoid(`bz for_${this.forCount}_end`);
+
+    this.processNode(node.statement);
+
+    this.processNode(node.incrementor!);
+    this.pushVoid(`b for_${this.forCount}`);
+    this.pushVoid(`for_${this.forCount}_end:`);
+
+    this.forCount += 1;
+  }
+
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
@@ -971,6 +1082,8 @@ export default class Compiler {
       else if (ts.isObjectLiteralExpression(node)) this.processObjectLiteralExpression(node);
       else if (node.kind === 108) this.lastType = 'this';
       else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
+      else if (ts.isWhileStatement(node)) this.processWhileStatement(node);
+      else if (ts.isForStatement(node)) this.processForStatement(node);
 
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
@@ -1016,14 +1129,14 @@ export default class Compiler {
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
     const type = this.typeHint;
     if (type === undefined) throw new Error();
-    const typeArray: string[] = [];
     const valueArray: string[] = [];
+
+    const objTypes = this.getObjectTypes(type);
+    const typeArray = Object.values(objTypes);
 
     node.properties.forEach((p) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
-      const r = this.getObjectTypeAndIndex(type, p.name.getText());
-      typeArray[r.index] = r.type;
-      valueArray[r.index] = p.initializer.getText();
+      valueArray[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer.getText();
     });
 
     this.typeHint = `[${typeArray.join(',')}]`;
@@ -1104,7 +1217,7 @@ export default class Compiler {
     isLast: boolean,
     context: {bytesOnStack: boolean, hexString: string},
   ) {
-    const length = getTypeLength(type);
+    const length = this.getTypeLength(type);
 
     if (ts.isNumericLiteral(e)) {
       context.hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
@@ -1187,7 +1300,7 @@ export default class Compiler {
 
     // Process dynamic elements
     // TODO: Optimize this when there are literal dynamic elements
-    const staticLen = types.static.map((m) => getTypeLength(m)).reduce((a, b) => a + b, 0);
+    const staticLen = types.static.map((m) => this.getTypeLength(m)).reduce((a, b) => a + b, 0);
 
     if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
 
@@ -1483,11 +1596,27 @@ export default class Compiler {
       this.lastType = this.customTypes[this.lastType];
     }
 
+    let staticArrayType = '';
+
+    if (this.lastType.match(/\[\d+\]$/)) {
+      const baseType = this.lastType.replace(/\[\d+\]$/, '');
+      if (this.isDynamicType(baseType)) {
+        const length = parseInt(this.lastType.match(/\[\d+\]/)!.at(-1)!.match(/\d+/)![0], 10);
+
+        // TODO figure out where string is getting converted to bytes
+        this.lastType = `[${new Array(length).fill(baseType).join(',')}]`.replace(/bytes/g, 'string');
+        staticArrayType = baseType.replace(/bytes/g, 'string');
+      }
+    }
+
     const lastTypeExpression = stringToExpression(this.lastType);
 
     if (ts.isArrayLiteralExpression(lastTypeExpression)) {
+      const isLiteralAccessor = ts.isNumericLiteral(chain[0].argumentExpression);
       const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
-      const accessedType = lastTypeExpression.elements[accessor].getText();
+
+      const accessedType = isLiteralAccessor
+        ? lastTypeExpression.elements[accessor].getText() : staticArrayType;
 
       if (accessedType.endsWith('[]') || accessedType === 'string') {
         const types = this.getTypes(this.lastType);
@@ -1496,17 +1625,22 @@ export default class Compiler {
         const dynamicTypeIndex = accessor - numStaticElements;
 
         let headOffset = 0;
-        headOffset += types.static.reduce((a, b) => a + getTypeLength(b), 0);
+        headOffset += types.static.reduce((a, b) => a + this.getTypeLength(b), 0);
 
         const startOfHeads = headOffset;
 
         headOffset += (dynamicTypeIndex) * 2;
 
-        this.pushLines(
-          `int ${getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`,
-          `int ${headOffset} // head offset`,
-          'callsub preArrayAccess',
-        );
+        this.pushVoid(`int ${this.getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`);
+
+        if (isLiteralAccessor) {
+          this.pushVoid(`int ${headOffset} // head offset`);
+        } else {
+          this.processNode(chain[0].argumentExpression);
+          this.pushLines('int 2', '* // head offset');
+        }
+
+        this.pushVoid('callsub preArrayAccess');
 
         if (newValue === undefined) {
           this.pushLines(
@@ -1541,8 +1675,8 @@ export default class Compiler {
           this.pushLines(
             `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
             `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)} // head update bitmask`,
-            `int ${dynamicTypeIndex === 0 ? 1 : 0} // is first dynamic element`,
-            `int ${dynamicTypeIndex === types.dynamic.length - 1 ? 1 : 0} // is last dynamic element`,
+            `int ${(!isLiteralAccessor || dynamicTypeIndex === 0) ? 1 : 0} // is first dynamic element`,
+            `int ${(!isLiteralAccessor || dynamicTypeIndex === types.dynamic.length - 1) ? 1 : 0} // is last dynamic element`,
             `int ${totalHeadLength} // total head length`,
             `int ${startOfHeads} // startOfHeads`,
             `int ${startOfHeads + totalHeadLength} // head end`,
@@ -1557,13 +1691,19 @@ export default class Compiler {
     }
 
     chain.forEach((e) => {
-      const baseExpressionType = this.getStackTypeFromNode(e.expression);
+      let baseExpressionType = this.getStackTypeFromNode(e.expression);
+      baseExpressionType = this.getABIType(baseExpressionType);
+
+      if (baseExpressionType.match(/^{/)) {
+        const types = Object.values(this.getObjectTypes(baseExpressionType));
+        baseExpressionType = `[${types.join(',')}]`;
+      }
 
       if (baseExpressionType.match(/\[\d+\]$/)) {
         type = baseExpressionType.replace(/\[\d+\]$/, '');
 
         if (ts.isNumericLiteral(e.argumentExpression)) {
-          offset += getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
+          offset += this.getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
         } else {
           this.processNode(e.argumentExpression);
 
@@ -1572,7 +1712,7 @@ export default class Compiler {
             intsOnStack = false;
           }
 
-          this.pushLines(`int ${getTypeLength(type)}`, '*');
+          this.pushLines(`int ${this.getTypeLength(type)}`, '*');
           intsOnStack = true;
         }
       } else if (baseExpressionType.match(/\[\]$/)) {
@@ -1580,7 +1720,7 @@ export default class Compiler {
 
         this.processNode(e.argumentExpression);
 
-        this.pushLines(`int ${getTypeLength(type)}`, '*', 'int 2', '+');
+        this.pushLines(`int ${this.getTypeLength(type)}`, '*', 'int 2', '+');
 
         intsOnStack = true;
       } else if (baseExpressionType.startsWith('[')) {
@@ -1592,7 +1732,7 @@ export default class Compiler {
 
         innerTypes.forEach((t, i) => {
           if (i < accessor) {
-            offset += getTypeLength(this.getABIType(t));
+            offset += this.getTypeLength(this.getABIType(t));
           } else if (i === accessor) type = this.getABIType(t);
         });
       } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
@@ -1602,7 +1742,7 @@ export default class Compiler {
     if (intsOnStack && offset) this.pushVoid('+');
 
     if (newValue === undefined) {
-      this.pushVoid(`int ${getTypeLength(type)}`);
+      this.pushVoid(`int ${this.getTypeLength(type)}`);
       this.push('extract3', type);
       if (isNumeric(type)) this.push('btoi', type);
     } else {
@@ -1619,7 +1759,7 @@ export default class Compiler {
     if (baseType === 'txnGroup') {
       this.processNode(node.expression);
       this.processNode(node.argumentExpression);
-      this.lastType = 'grouptxn';
+      this.lastType = 'txn';
       return;
     }
 
@@ -1654,7 +1794,12 @@ export default class Compiler {
         const err = new Error(`Unknown decorator ${d.expression.getText()}`);
         if (!ts.isPropertyAccessExpression(d.expression)) throw err;
         if (d.expression.expression.getText() !== 'handle') throw err;
-        return d.expression.name.getText();
+
+        const handledAction = d.expression.name.getText();
+        if (this.handledActions.includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
+
+        this.handledActions.push(handledAction);
+        return handledAction;
       },
     );
 
@@ -1675,9 +1820,18 @@ export default class Compiler {
 
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
-    if (node.expression !== undefined) this.processNode(node.expression);
-
     const { returnType, name } = this.currentSubroutine;
+
+    if (returnType === 'void') {
+      this.pushVoid('retsub');
+      return;
+    }
+
+    this.typeHint = returnType;
+
+    this.processNode(node.expression!);
+
+    const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
     // Automatically convert to larger int IF the types dont match
     if (returnType !== this.lastType) {
@@ -1705,18 +1859,25 @@ export default class Compiler {
           );
         } else this.pushVoid('extract 2 0');
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
-    } else if (isNumeric(returnType)) {
+    } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid('itob');
-    } else if (returnType.match(/uint\d+$/)) {
+    } else if (returnType.match(/uint\d+$/) && returnType !== StackType.uint64) {
       const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
       this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
       this.pushVoid('b&');
     }
 
-    this.pushVoid('byte 0x151f7c75');
-    this.pushVoid('swap');
-    this.pushVoid('concat');
-    this.pushVoid('log');
+    if (isAbiMethod) {
+      this.pushVoid('byte 0x151f7c75');
+      this.pushVoid('swap');
+      this.pushVoid('concat');
+      this.pushVoid('log');
+      this.pushVoid('retsub');
+    } else {
+      this.pushVoid('retsub');
+    }
+
+    this.typeHint = undefined;
   }
 
   private getBaseArrayNode(
@@ -1761,7 +1922,7 @@ export default class Compiler {
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
-    return type;
+    return this.customTypes[type] || type;
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
@@ -1774,6 +1935,7 @@ export default class Compiler {
       if (ts.isIdentifier(node.left)) {
         const name = node.left.getText();
         const target = this.frame[name];
+        this.processNode(node.right);
         this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processStaticArray(node.left, node.right);
@@ -1781,7 +1943,9 @@ export default class Compiler {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
 
         if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-          const { index } = this.getObjectTypeAndIndex(expressionType, node.left.name.getText());
+          const index = Object.keys(this.getObjectTypes(expressionType))
+            .indexOf(node.left.name.getText());
+
           const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
           if (!ts.isElementAccessExpression(expr)) throw new Error();
           this.processStaticArray(expr, node.right);
@@ -1803,6 +1967,11 @@ export default class Compiler {
     this.processNode(node.left);
     const leftType = this.lastType;
     this.processNode(node.right);
+
+    if (node.operatorToken.getText() === '+' && leftType === StackType.bytes) {
+      this.push('concat', StackType.bytes);
+      return;
+    }
 
     const aTypes = ['account', ForeignType.Address];
     if (leftType !== this.lastType && !(aTypes.includes(leftType) && aTypes.includes(this.lastType))) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
@@ -1852,6 +2021,12 @@ export default class Compiler {
       this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
       return;
     }
+
+    if (this.constants[node.getText()]) {
+      this.processNode(this.constants[node.getText()]);
+      return;
+    }
+
     const target = this.frame[node.getText()];
 
     this.push(
@@ -1907,7 +2082,7 @@ export default class Compiler {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
         index: this.frameIndex,
-        type: node.type.getText(),
+        type: this.getABIType(node.type.getText()),
       };
     }
 
@@ -1947,6 +2122,9 @@ export default class Compiler {
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
+    } else if (methodName === 'fromIndex') {
+      this.processNode(node.arguments[0]);
+      this.lastType = this.getABIType(node.expression.expression.getText());
     } else if (methodName === 'push') {
       const preType = this.lastType;
       this.processNode(node.expression.expression);
@@ -1975,7 +2153,7 @@ export default class Compiler {
       const poppedType = this.lastType.replace(/\[\]$/, '');
       if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
 
-      const typeLength = getTypeLength(this.lastType.replace(/\[\]$/, ''));
+      const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
       this.pushLines(
         'dup', // [a, a]
         'int 0',
@@ -2036,10 +2214,10 @@ export default class Compiler {
 
       // TODO: Optimize for literals
       // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
-      // const spliceStart = spliceIndex * getTypeLength(elementType);
+      // const spliceStart = spliceIndex * this.getTypeLength(elementType);
       this.processNode(node.arguments[0]);
       this.pushLines(
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '*',
         'int 2',
         '+',
@@ -2047,12 +2225,12 @@ export default class Compiler {
       );
 
       // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
-      // const spliceByteLength = (spliceElementLength + 1) * getTypeLength(elementType);
+      // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
       this.processNode(node.arguments[1]);
       this.pushLines(
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '*',
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '+',
         `store ${scratch.spliceByteLength}`,
       );
@@ -2075,7 +2253,7 @@ export default class Compiler {
         `load ${scratch.spliceStart}`,
         `load ${scratch.spliceByteLength}`,
         '+',
-        `int ${getTypeLength(elementType)}`,
+        `int ${this.getTypeLength(elementType)}`,
         '-',
         'swap',
         // extract second part
@@ -2095,9 +2273,9 @@ export default class Compiler {
         this.processNode(node.expression.expression);
         this.pushLines(
           `load ${scratch.spliceStart}`,
-          // `int ${spliceByteLength - getTypeLength(elementType)}`,
+          // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
           `load ${scratch.spliceByteLength}`,
-          `int ${getTypeLength(elementType)}`,
+          `int ${this.getTypeLength(elementType)}`,
           '-',
           'extract3',
           'concat',
@@ -2268,7 +2446,7 @@ export default class Compiler {
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
           this.push('int 0', this.getABIType(n.expression.getText()));
-        } else throw new Error();
+        } else if (n.name.getText() !== 'fromIndex') throw new Error();
         return;
       }
 
@@ -2279,7 +2457,7 @@ export default class Compiler {
 
       const expressionType = this.getStackTypeFromNode(n.expression);
       if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-        const { index } = this.getObjectTypeAndIndex(expressionType, n.name.getText());
+        const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
         this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
         return;
       }
@@ -2315,7 +2493,7 @@ export default class Compiler {
         return;
       }
 
-      this.tealFunction(this.lastType, n.name.getText());
+      this.tealFunction(this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
     });
   }
 
@@ -2337,15 +2515,15 @@ export default class Compiler {
         type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace('string', 'bytes') };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace(/^string/, 'bytes') };
       this.frameIndex -= 1;
     });
 
     this.processNode(fn.body!);
 
-    this.pushVoid('retsub');
+    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid('retsub');
     this.frame = lastFrame;
-    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1;
+    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1 - 1;
   }
 
   private processClearState(fn: ts.MethodDeclaration) {
@@ -2404,13 +2582,11 @@ export default class Compiler {
     // bare method
     if (bareMethod) {
       allowedOnCompletes.forEach((oc, i) => {
-        if (this.bareOnCompletes.includes(oc)) throw new Error(`Duplicate ${oc} decorator defined`);
         this.bareOnCompletes.push(oc);
         this.pushVoid(`bare_route_${oc}:`);
       });
 
       if (allowCreate) {
-        if (this.bareCreate) throw new Error('Duplicate create decorator defined');
         this.bareCreate = true;
         this.pushVoid('bare_route_create:');
       }
@@ -2438,20 +2614,9 @@ export default class Compiler {
 
     new Array(...fn.parameters).reverse().forEach((p) => {
       const type = this.getABIType(p!.type!.getText());
-      let abiType = type;
+      const abiType = type;
 
-      if (type.includes('txn')) {
-        switch (type) {
-          case 'paytxn':
-            abiType = TransactionType.PaymentTx;
-            break;
-          case 'assettransfertxn':
-            abiType = TransactionType.AssetTransferTx;
-            break;
-          default:
-            break;
-        }
-      } else {
+      if (!TXN_TYPES.includes(type)) {
         this.pushVoid(`txna ApplicationArgs ${nonTxnArgCount -= 1}`);
       }
 
@@ -2460,15 +2625,17 @@ export default class Compiler {
       } else if (isRefType(type)) {
         this.pushVoid('btoi');
         this.pushVoid(`txnas ${capitalizeFirstChar(type)}s`);
-      } else if (type.includes('txn')) {
+      } else if (TXN_TYPES.includes(type)) {
         this.pushVoid('txn GroupIndex');
         this.pushVoid(`int ${(gtxnIndex += 1)}`);
         this.pushVoid('-');
       } else if (type === 'string') {
         this.pushVoid('extract 2 0');
+      } else if (type === 'bytes') {
+        this.pushVoid('extract 2 0');
       }
 
-      args.push({ name: p.name.getText(), type: this.getABIType(abiType), desc: '' });
+      args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returnType
@@ -2508,7 +2675,7 @@ export default class Compiler {
       );
     }
 
-    this.pushVoid(line.join(' '));
+    this.push(line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
   }
 
   private processStorageCall(node: ts.CallExpression) {
@@ -2567,7 +2734,7 @@ export default class Compiler {
       if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
       const argTypes = node.typeArguments[0].elements.map(
-        (t) => getABITupleString(this.getABIType(t.getText())),
+        (t) => this.getABITupleString(this.getABIType(t.getText())),
       );
 
       let returnType = node.typeArguments![1].getText();
@@ -2701,9 +2868,14 @@ export default class Compiler {
     return chain;
   }
 
-  private tealFunction(calleeType: string, name: string, checkArgs: boolean = false): void {
+  private tealFunction(
+    calleeType: string,
+    name: string,
+    checkArgs: boolean = false,
+    thisTxn: boolean = false,
+  ): void {
     let type = calleeType;
-    if (type.includes('txn') && !['itxn', 'txn'].includes(type)) {
+    if (TXN_TYPES.includes(type) && !thisTxn) {
       type = 'gtxns';
     } else if (type === ForeignType.Address) {
       type = 'account';

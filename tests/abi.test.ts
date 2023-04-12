@@ -378,4 +378,14 @@ describe('ABI', function () {
     const ret = await appClient.customTypes();
     expect(ret.returnValue).to.equal('Hello World!');
   });
+
+  it('staticStringArrayArg', async function () {
+    const ret = await appClient.staticStringArrayArg({ a: ['Hello', 'World', '!'] });
+    expect(ret.returnValue).to.deep.equal('World');
+  });
+
+  it('dynamicAccessOfDynamicElementInStaticArray', async function () {
+    const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
+    expect(ret.returnValue).to.deep.equal('World');
+  });
 });

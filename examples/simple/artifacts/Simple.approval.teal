@@ -11,13 +11,13 @@ bare_route_create:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	callsub createApp
 	int 1
 	return
 
 createApp:
-	proto 1 0
+	proto 0 0
 	retsub
 
 abi_route_incr:
@@ -30,7 +30,7 @@ abi_route_incr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	callsub incr
@@ -38,7 +38,7 @@ abi_route_incr:
 	return
 
 incr:
-	proto 2 0
+	proto 1 0
 
 	// examples/simple/simple.algo.ts:10
 	// this.counter.put(this.counter.get() + i)
@@ -60,7 +60,7 @@ abi_route_decr:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 1
 	btoi
 	callsub decr
@@ -68,7 +68,7 @@ abi_route_decr:
 	return
 
 decr:
-	proto 2 0
+	proto 1 0
 
 	// examples/simple/simple.algo.ts:14
 	// this.counter.put(this.counter.get() - i)
@@ -90,7 +90,7 @@ abi_route_add:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub add
@@ -98,7 +98,7 @@ abi_route_add:
 	return
 
 add:
-	proto 3 0
+	proto 2 0
 
 	// examples/simple/simple.algo.ts:18
 	// return a + b;
@@ -123,7 +123,7 @@ abi_route_sub:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub sub
@@ -131,7 +131,7 @@ abi_route_sub:
 	return
 
 sub:
-	proto 3 0
+	proto 2 0
 
 	// examples/simple/simple.algo.ts:22
 	// return a - b;

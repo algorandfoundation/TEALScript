@@ -493,6 +493,81 @@
         "type": "string",
         "desc": ""
       }
+    },
+    {
+      "name": "staticStringArrayArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "dynamicAccessOfDynamicElementInStaticArray",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "txnTypes",
+      "args": [
+        {
+          "name": "t",
+          "type": "txn",
+          "desc": ""
+        },
+        {
+          "name": "a",
+          "type": "appl",
+          "desc": ""
+        },
+        {
+          "name": "ac",
+          "type": "acfg",
+          "desc": ""
+        },
+        {
+          "name": "af",
+          "type": "afrz",
+          "desc": ""
+        },
+        {
+          "name": "at",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "kr",
+          "type": "keyreg",
+          "desc": ""
+        },
+        {
+          "name": "p",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }
