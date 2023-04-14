@@ -43,7 +43,6 @@ abi_route_doMath:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	txna ApplicationArgs 3
 	extract 2 0
 	txna ApplicationArgs 2

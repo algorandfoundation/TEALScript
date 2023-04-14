@@ -187,7 +187,7 @@ create:
 	// this.root.put(this.calcInitRoot())
 	byte "root"
 	byte 0x
-	dupn 1
+	dup
 	callsub calcInitRoot
 	app_global_put
 	retsub

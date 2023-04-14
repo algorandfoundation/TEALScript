@@ -222,7 +222,7 @@ abi_route_setAppWhitelist:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -328,7 +328,7 @@ abi_route_deleteWhitelist:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0

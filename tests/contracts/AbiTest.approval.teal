@@ -155,7 +155,6 @@ abi_route_staticArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub staticArray
 	int 1
 	return
@@ -192,7 +191,6 @@ abi_route_returnStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub returnStaticArray
 	int 1
 	return
@@ -389,7 +387,7 @@ abi_route_nonLiteralStaticArrayAccess:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub nonLiteralStaticArrayAccess
 	int 1
 	return
@@ -433,7 +431,6 @@ abi_route_setStaticArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub setStaticArrayElement
 	int 1
 	return
@@ -479,7 +476,7 @@ abi_route_staticArrayInStorageRef:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub staticArrayInStorageRef
 	int 1
 	return
@@ -559,7 +556,7 @@ abi_route_updateStaticArrayInStorageRef:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub updateStaticArrayInStorageRef
 	int 1
 	return
@@ -678,7 +675,7 @@ abi_route_staticArrayInStorageMap:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub staticArrayInStorageMap
 	int 1
 	return
@@ -758,7 +755,7 @@ abi_route_updateStaticArrayInStorageMap:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub updateStaticArrayInStorageMap
 	int 1
 	return
@@ -877,7 +874,6 @@ abi_route_nestedStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub nestedStaticArray
 	int 1
 	return
@@ -914,7 +910,6 @@ abi_route_updateNestedStaticArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateNestedStaticArrayElement
 	int 1
 	return
@@ -960,7 +955,6 @@ abi_route_updateNestedStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateNestedStaticArray
 	int 1
 	return
@@ -1005,7 +999,6 @@ abi_route_threeDimensionalUint16Array:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub threeDimensionalUint16Array
 	int 1
 	return
@@ -1050,7 +1043,6 @@ abi_route_simpleTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub simpleTuple
 	int 1
 	return
@@ -1087,7 +1079,6 @@ abi_route_arrayInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub arrayInTuple
 	int 1
 	return
@@ -1124,7 +1115,6 @@ abi_route_tupleInArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub tupleInArray
 	int 1
 	return
@@ -1161,7 +1151,6 @@ abi_route_tupleInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub tupleInTuple
 	int 1
 	return
@@ -1198,7 +1187,6 @@ abi_route_shortTypeNotation:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub shortTypeNotation
 	int 1
 	return
@@ -1235,7 +1223,6 @@ abi_route_disgusting:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub disgusting
 	int 1
 	return
@@ -1280,7 +1267,6 @@ abi_route_returnTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub returnTuple
 	int 1
 	return
@@ -1343,7 +1329,6 @@ abi_route_dynamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub dynamicArray
 	int 1
 	return
@@ -1384,7 +1369,6 @@ abi_route_returnDynamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub returnDynamicArray
 	int 1
 	return
@@ -1451,7 +1435,6 @@ abi_route_updateDynamicArrayElement:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateDynamicArrayElement
 	int 1
 	return
@@ -1505,7 +1488,6 @@ abi_route_dynamicTupleArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub dynamicTupleArray
 	int 1
 	return
@@ -1548,7 +1530,6 @@ abi_route_returnTupleWithDyamicArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub returnTupleWithDyamicArray
 	int 1
 	return
@@ -1630,7 +1611,6 @@ abi_route_returnDynamicArrayFromTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub returnDynamicArrayFromTuple
 	int 1
 	return
@@ -1747,7 +1727,6 @@ abi_route_updateDynamicArrayInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateDynamicArrayInTuple
 	int 1
 	return
@@ -1945,7 +1924,7 @@ abi_route_nonLiteralDynamicElementInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub nonLiteralDynamicElementInTuple
 	int 1
 	return
@@ -2051,7 +2030,6 @@ abi_route_arrayPush:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub arrayPush
 	int 1
 	return
@@ -2102,7 +2080,6 @@ abi_route_arrayPop:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub arrayPop
 	int 1
 	return
@@ -2156,7 +2133,7 @@ abi_route_arrayPopValue:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub arrayPopValue
 	int 1
 	return
@@ -2220,7 +2197,6 @@ abi_route_arraySplice:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub arraySplice
 	int 1
 	return
@@ -2384,7 +2360,7 @@ abi_route_dynamicArrayElements:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub dynamicArrayElements
 	int 1
 	return
@@ -2448,7 +2424,6 @@ abi_route_spliceLastElement:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub spliceLastElement
 	int 1
 	return
@@ -2519,7 +2494,7 @@ abi_route_spliceLastElementValue:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub spliceLastElementValue
 	int 1
 	return
@@ -2602,7 +2577,6 @@ abi_route_spliceFirstElement:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub spliceFirstElement
 	int 1
 	return
@@ -2673,7 +2647,7 @@ abi_route_spliceFirstElementValue:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub spliceFirstElementValue
 	int 1
 	return
@@ -2813,7 +2787,6 @@ abi_route_stringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub stringInTuple
 	int 1
 	return
@@ -2906,7 +2879,6 @@ abi_route_accesStringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub accesStringInTuple
 	int 1
 	return
@@ -3028,7 +3000,6 @@ abi_route_updateStringInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateStringInTuple
 	int 1
 	return
@@ -3221,7 +3192,6 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateTupleWithOnlyDynamicTypes
 	int 1
 	return
@@ -3370,7 +3340,6 @@ abi_route_shortenDynamicElementInTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub shortenDynamicElementInTuple
 	int 1
 	return
@@ -3531,7 +3500,6 @@ abi_route_namedTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub namedTuple
 	int 1
 	return
@@ -3594,7 +3562,6 @@ abi_route_updateNamedTuple:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub updateNamedTuple
 	int 1
 	return
@@ -3674,7 +3641,6 @@ abi_route_customTypes:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	callsub customTypes
 	int 1
 	return
@@ -3794,7 +3760,6 @@ abi_route_dynamicAccessOfDynamicElementInStaticArray:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	txna ApplicationArgs 1
 	callsub dynamicAccessOfDynamicElementInStaticArray
 	int 1
