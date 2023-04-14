@@ -28,7 +28,7 @@ abi_route_mintAndGetAsset:
 	&&
 	assert
 	byte 0x
-	dupn 1
+	dup
 	callsub mintAndGetAsset
 	int 1
 	return

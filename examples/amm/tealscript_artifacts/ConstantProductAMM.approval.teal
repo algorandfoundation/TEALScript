@@ -441,7 +441,6 @@ abi_route_mint:
 	&&
 	assert
 	byte 0x
-	dupn 0
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
@@ -918,7 +917,6 @@ ternary1_end:
 	// examples/amm/amm.algo.ts:211
 	// toSwap = this.tokensToSwap(
 	byte 0x
-	dupn 0
 	txna Applications 0
 	app_params_get AppAddress
 	assert

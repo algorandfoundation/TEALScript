@@ -888,6 +888,9 @@ export default class Compiler {
           const nonArgFrameSize = this.frameSize[method] - this.subroutines[method].args;
 
           if (nonArgFrameSize === 0) return [];
+
+          if (nonArgFrameSize === 1) return ['byte 0x'];
+          if (nonArgFrameSize === 2) return ['byte 0x', 'dup'];
           return ['byte 0x', `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`];
         }
 
