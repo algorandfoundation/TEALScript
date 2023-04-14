@@ -99,8 +99,6 @@ for_1:
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:40
 	// this.isRightSibling(elem)
-	byte 0x
-	pop
 	frame_dig -5 // elem: byte[33]
 	callsub isRightSibling
 	bz if0_else
@@ -108,8 +106,6 @@ for_1:
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:41
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
-	byte 0x
-	pop
 	frame_dig -5 // elem: byte[33]
 	int 1
 	int 32
@@ -122,8 +118,6 @@ for_1:
 if0_else:
 	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
-	byte 0x
-	pop
 	frame_dig -3 // result: bytes
 	frame_dig -5 // elem: byte[33]
 	int 1
@@ -156,8 +150,6 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub delete
 	int 1
 	return
@@ -184,8 +176,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -211,8 +201,6 @@ abi_route_verify:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -246,8 +234,6 @@ abi_route_appendLeaf:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -310,8 +296,6 @@ abi_route_updateLeaf:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	extract 2 0

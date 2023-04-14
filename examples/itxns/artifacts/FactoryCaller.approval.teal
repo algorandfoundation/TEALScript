@@ -10,8 +10,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -63,7 +61,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:38
 	// approvalProgram: NFTFactory
-	byte b64 CCACAAEmAQBCAI4xGSISMRgiEhBEKEiIAAIjQ4oAAIkxGSISMRgiExBEKEg2GgJXAgA2GgFXAgCIAAIjQ4oCALGBA7IQi/+yJov+siUjsiIisiMisgGztDwWgAQVH3x1TFCwiTEZIhIxGCITEEQoSDYaAhfAHDYaARfAMIgAAiNDigIAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9mgATSAkxzgARIIWZwNhoAjgL/Zv+q
+	byte b64 CCACAAFCAIgxGSISMRgiEhBEiAACI0OKAACJMRkiEjEYIhMQRDYaAlcCADYaAVcCAIgAAiNDigIAsYEDshCL/7Imi/6yJSOyIiKyIyKyAbO0PBaABBUffHVMULCJMRkiEjEYIhMQRDYaAhfAHDYaARfAMIgAAiNDigIAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9sgATSAkxzgARIIWZwNhoAjgL/av+s
 	itxn_field ApprovalProgram
 	itxn_submit
 

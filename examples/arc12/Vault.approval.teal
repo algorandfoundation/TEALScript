@@ -86,8 +86,6 @@ abi_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -562,8 +560,6 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub delete
 	int 1
 	return

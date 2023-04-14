@@ -10,8 +10,6 @@ abi_route_and:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -44,8 +42,6 @@ abi_route_or:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -78,8 +74,6 @@ abi_route_equal:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -108,8 +102,6 @@ abi_route_notEqual:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -138,8 +130,6 @@ abi_route_bitAnd:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -168,8 +158,6 @@ abi_route_bitOr:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -198,8 +186,6 @@ abi_route_bitXor:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -228,8 +214,6 @@ abi_route_combo:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2

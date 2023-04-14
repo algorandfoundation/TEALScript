@@ -10,8 +10,6 @@ abi_route_u64plus:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -44,8 +42,6 @@ abi_route_u64minus:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -78,8 +74,6 @@ abi_route_u64mul:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -112,8 +106,6 @@ abi_route_u64div:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -146,8 +138,6 @@ abi_route_u256plus:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256plus
@@ -179,8 +169,6 @@ abi_route_u256minus:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256minus
@@ -212,8 +200,6 @@ abi_route_u256mul:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256mul
@@ -245,8 +231,6 @@ abi_route_u256div:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256div
@@ -278,8 +262,6 @@ abi_route_u64Return256:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -314,8 +296,6 @@ abi_route_maxU64:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub maxU64
 	int 1
 	return

@@ -10,8 +10,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -209,8 +207,6 @@ if0_else:
 if0_end:
 	// examples/arc75/arc75.algo.ts:46
 	// this.verifyMBRPayment(payment, preMBR)
-	byte 0x
-	pop
 	frame_dig -5 // preMBR: uint64
 	frame_dig -4 // payment: pay
 	callsub verifyMBRPayment
@@ -306,8 +302,6 @@ setAppWhitelist:
 	// if1_consequent
 	// examples/arc75/arc75.algo.ts:66
 	// this.sendMBRPayment(preMBR)
-	byte 0x
-	pop
 	frame_dig -4 // preMBR: uint64
 	callsub sendMBRPayment
 	b if1_end
@@ -315,8 +309,6 @@ setAppWhitelist:
 if1_else:
 	// examples/arc75/arc75.algo.ts:68
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
-	byte 0x
-	pop
 	frame_dig -4 // preMBR: uint64
 	txn GroupIndex
 	int 1
@@ -393,8 +385,6 @@ deleteWhitelist:
 
 	// examples/arc75/arc75.algo.ts:85
 	// this.sendMBRPayment(preMBR)
-	byte 0x
-	pop
 	frame_dig -3 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
@@ -544,8 +534,6 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:104
 	// this.sendMBRPayment(preMBR)
-	byte 0x
-	pop
 	frame_dig -5 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub

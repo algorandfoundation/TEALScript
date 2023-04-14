@@ -10,8 +10,6 @@ abi_route_hasAsset:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -41,8 +39,6 @@ abi_route_assetBalance:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -71,8 +67,6 @@ abi_route_assetFrozen:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -101,8 +95,6 @@ abi_route_hasBalance:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -131,8 +123,6 @@ abi_route_balance:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -160,8 +150,6 @@ abi_route_minBalance:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -189,8 +177,6 @@ abi_route_authAddr:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -218,8 +204,6 @@ abi_route_totalNumUint:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -247,8 +231,6 @@ abi_route_totalNumByteSlice:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -276,8 +258,6 @@ abi_route_totalExtraAppPages:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -305,8 +285,6 @@ abi_route_totalAppsCreated:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -334,8 +312,6 @@ abi_route_totalAppsOptedIn:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -363,8 +339,6 @@ abi_route_totalAssetsCreated:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -392,8 +366,6 @@ abi_route_totalAssets:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -421,8 +393,6 @@ abi_route_totalBoxes:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -450,8 +420,6 @@ abi_route_totalBoxBytes:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts

@@ -10,8 +10,6 @@ abi_route_payment:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub payment
 	int 1
 	return
@@ -75,8 +73,6 @@ abi_route_assetCreation:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub assetCreation
 	int 1
 	return
@@ -175,8 +171,6 @@ abi_route_appCall:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub appCall
 	int 1
 	return
@@ -275,8 +269,6 @@ abi_route_assetConfig:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub assetConfig
 	int 1
 	return
@@ -339,8 +331,6 @@ abi_route_assetFreeze:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub assetFreeze
 	int 1
 	return
@@ -387,8 +377,6 @@ abi_route_assetTransfer:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub assetTransfer
 	int 1
 	return
@@ -449,8 +437,6 @@ abi_route_methodCall:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub methodCall
 	int 1
 	return
@@ -511,8 +497,6 @@ abi_route_onlineKeyRegistration:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub onlineKeyRegistration
 	int 1
 	return
@@ -572,8 +556,6 @@ abi_route_offlineKeyRegistration:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub offlineKeyRegistration
 	int 1
 	return

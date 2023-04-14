@@ -10,8 +10,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -29,8 +27,6 @@ abi_route_createNFT:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -90,8 +86,6 @@ abi_route_transferNFT:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
