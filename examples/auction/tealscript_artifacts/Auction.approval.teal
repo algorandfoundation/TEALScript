@@ -10,8 +10,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -59,8 +57,6 @@ abi_route_optIntoAsset:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -135,8 +131,6 @@ abi_route_startAuction:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txn GroupIndex
 	int 1
 	-
@@ -236,8 +230,6 @@ abi_route_bid:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -291,8 +283,6 @@ bid:
 	// if0_consequent
 	// examples/auction/auction.algo.ts:82
 	// this.pay(this.highestBidder.get(), this.highestBid.get())
-	byte 0x
-	pop
 	byte "highestBid"
 	app_global_get
 	byte "highestBidder"
@@ -325,8 +315,6 @@ abi_route_claimBid:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub claimBid
 	int 1
 	return
@@ -336,8 +324,6 @@ claimBid:
 
 	// examples/auction/auction.algo.ts:93
 	// this.pay(globals.creatorAddress, this.highestBid.get())
-	byte 0x
-	pop
 	byte "highestBid"
 	app_global_get
 	global CreatorAddress
@@ -353,8 +339,6 @@ abi_route_claim_asset:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -414,8 +398,6 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub delete
 	int 1
 	return

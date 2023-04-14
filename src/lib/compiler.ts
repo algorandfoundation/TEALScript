@@ -874,7 +874,7 @@ export default class Compiler {
       }
     });
 
-    this.teal = await Promise.all(
+    this.teal = (await Promise.all(
       this.teal.map(async (t) => {
         if (t.startsWith('PENDING_COMPILE')) {
           const c = new Compiler(this.content, t.split(' ')[1], this.filename);
@@ -887,8 +887,8 @@ export default class Compiler {
           const method = t.split(' ')[1];
           const nonArgFrameSize = this.frameSize[method] - this.subroutines[method].args;
 
-          if (nonArgFrameSize === 0) return 'pop';
-          return `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`;
+          if (nonArgFrameSize === 0) return [];
+          return ['byte 0x', `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`];
         }
 
         if (t.startsWith('PENDING_PROTO')) {
@@ -899,7 +899,7 @@ export default class Compiler {
 
         return t;
       }),
-    );
+    )).flat();
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
@@ -2287,7 +2287,6 @@ export default class Compiler {
       this.lastType = `${elementType}[]`;
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
-      this.pushVoid('byte 0x');
       this.pushVoid(`PENDING_DUPN: ${methodName}`);
       new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
@@ -2606,7 +2605,6 @@ export default class Compiler {
     this.pushVoid('assert');
 
     const args: {name: string, type: string, desc: string}[] = [];
-    this.pushVoid('byte 0x');
     this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
 
     let nonTxnArgCount = argCount - fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length + 1;

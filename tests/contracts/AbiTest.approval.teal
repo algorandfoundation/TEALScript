@@ -120,8 +120,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -139,8 +137,6 @@ bare_route_OptIn:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub optIn
 	int 1
 	return
@@ -227,8 +223,6 @@ abi_route_staticArrayArg:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	callsub staticArrayArg
 	int 1
@@ -1317,8 +1311,6 @@ abi_route_tupleArg:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	callsub tupleArg
 	int 1
@@ -1423,8 +1415,6 @@ abi_route_dynamicArrayArg:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	callsub dynamicArrayArg
 	int 1
@@ -2765,8 +2755,6 @@ abi_route_stringReturn:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	callsub stringReturn
 	int 1
 	return
@@ -2798,8 +2786,6 @@ abi_route_stringArg:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub stringArg
@@ -3767,8 +3753,6 @@ abi_route_staticStringArrayArg:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	callsub staticStringArrayArg
 	int 1
@@ -3858,8 +3842,6 @@ abi_route_txnTypes:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txn GroupIndex
 	int 1
 	-

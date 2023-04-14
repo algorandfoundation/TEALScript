@@ -10,8 +10,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -123,8 +121,6 @@ doOptIn:
 
 	// examples/amm/amm.algo.ts:48
 	// this.doAxfer(this.app.address, asset, 0)
-	byte 0x
-	pop
 	int 0
 	frame_dig -1 // asset: asset
 	txna Applications 0
@@ -304,8 +300,6 @@ abi_route_set_governor:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -340,8 +334,6 @@ abi_route_bootstrap:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
@@ -413,8 +405,6 @@ bootstrap:
 	// examples/amm/amm.algo.ts:104
 	// this.poolToken.put(this.doCreatePoolToken(aAsset, bAsset))
 	byte "p"
-	byte 0x
-	pop
 	frame_dig -3 // bAsset: asset
 	frame_dig -2 // aAsset: asset
 	callsub doCreatePoolToken
@@ -422,15 +412,11 @@ bootstrap:
 
 	// examples/amm/amm.algo.ts:106
 	// this.doOptIn(aAsset)
-	byte 0x
-	pop
 	frame_dig -2 // aAsset: asset
 	callsub doOptIn
 
 	// examples/amm/amm.algo.ts:107
 	// this.doOptIn(bAsset)
-	byte 0x
-	pop
 	frame_dig -3 // bAsset: asset
 	callsub doOptIn
 
@@ -605,8 +591,6 @@ skip_and1:
 	// if0_consequent
 	// examples/amm/amm.algo.ts:139
 	// this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount)
-	byte 0x
-	pop
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount
 	frame_dig -1 // aXfer: axfer
@@ -661,8 +645,6 @@ if0_else:
 
 	// examples/amm/amm.algo.ts:151
 	// this.doAxfer(this.txn.sender, poolAsset, toMint)
-	byte 0x
-	pop
 	frame_dig -6 // toMint: uint64
 	frame_dig -3 // poolAsset: asset
 	txn Sender
@@ -786,8 +768,6 @@ burn:
 
 	// examples/amm/amm.algo.ts:177
 	// aAmt = this.tokensToBurn(
-	byte 0x
-	pop
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -802,8 +782,6 @@ burn:
 
 	// examples/amm/amm.algo.ts:183
 	// bAmt = this.tokensToBurn(
-	byte 0x
-	pop
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -818,8 +796,6 @@ burn:
 
 	// examples/amm/amm.algo.ts:189
 	// this.doAxfer(this.txn.sender, aAsset, aAmt)
-	byte 0x
-	pop
 	frame_dig -6 // aAmt: uint64
 	frame_dig -3 // aAsset: asset
 	txn Sender
@@ -827,8 +803,6 @@ burn:
 
 	// examples/amm/amm.algo.ts:190
 	// this.doAxfer(this.txn.sender, bAsset, bAmt)
-	byte 0x
-	pop
 	frame_dig -7 // bAmt: uint64
 	frame_dig -4 // bAsset: asset
 	txn Sender
@@ -837,8 +811,6 @@ burn:
 	// examples/amm/amm.algo.ts:192
 	// this.ratio.put(this.computeRatio())
 	byte "r"
-	byte 0x
-	pop
 	callsub computeRatio
 	app_global_put
 	retsub
@@ -976,8 +948,6 @@ ternary1_end:
 
 	// examples/amm/amm.algo.ts:219
 	// this.doAxfer(this.txn.sender, outId, toSwap)
-	byte 0x
-	pop
 	frame_dig -6 // toSwap: uint64
 	frame_dig -4 // outId: asset
 	txn Sender
@@ -986,8 +956,6 @@ ternary1_end:
 	// examples/amm/amm.algo.ts:221
 	// this.ratio.put(this.computeRatio())
 	byte "r"
-	byte 0x
-	pop
 	callsub computeRatio
 	app_global_put
 	retsub

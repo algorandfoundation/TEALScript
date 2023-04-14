@@ -120,8 +120,6 @@ bare_route_create:
 	==
 	&&
 	assert
-	byte 0x
-	pop
 	callsub create
 	int 1
 	return
@@ -314,8 +312,6 @@ abi_route_updateContactField:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 3
 	btoi
 	txnas Accounts
@@ -431,8 +427,6 @@ abi_route_verifyContactName:
 	!=
 	&&
 	assert
-	byte 0x
-	pop
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
