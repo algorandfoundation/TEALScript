@@ -724,6 +724,7 @@ export default class Compiler {
       case 'account':
         return 32;
       default:
+        if (this.isDynamicType(type)) return 2;
         throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
     }
   }
@@ -1165,55 +1166,6 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private getTypes(typeString: string): {static: string[], dynamic: string[]} {
-    const abiType = this.getABIType(typeString);
-    const typeNode = stringToExpression(abiType);
-    const staticLengthRegex = /(\[\d+\])+$/;
-    const types: {static: string[], dynamic: string[]} = { static: [], dynamic: [] };
-
-    if (abiType === 'string') {
-      types.dynamic.push('string');
-    } else if (abiType.match(staticLengthRegex)) {
-      const baseType = abiType.replace(staticLengthRegex, '');
-
-      let count: number = 1;
-      abiType.match(staticLengthRegex)![0].match(/\d+/g)!.forEach((n) => {
-        count *= parseInt(n, 10);
-      });
-
-      types.static.push(...Array(count).fill(this.getTypes(baseType).static));
-    } else if (ts.isTupleTypeNode(typeNode) || ts.isArrayLiteralExpression(typeNode)) {
-      typeNode.elements.forEach((e) => {
-        const innerTypes = this.getTypes(e.getText());
-        types.static.push(...innerTypes.static);
-        types.dynamic.push(...innerTypes.dynamic);
-      });
-    } else if (ts.isIdentifier(typeNode)) {
-      types.static.push(typeNode.getText());
-    } else if (ts.isElementAccessExpression(typeNode)) {
-      const dynamicArrayRegex = /\[\]$/;
-      const baseType = typeString.replace(dynamicArrayRegex, '');
-      if (baseType.match(dynamicArrayRegex)) throw new Error('Nested dynamic types not supported');
-      types.dynamic.push(baseType);
-    } else throw new Error(`${ts.SyntaxKind[typeNode.kind]} ${typeNode.getText()}`);
-
-    return { static: types.static.flat(), dynamic: types.dynamic };
-  }
-
-  private getArrayNodes(node: ts.ArrayLiteralExpression): ts.Node[] {
-    const nodes: ts.Node[] = [];
-
-    node.elements.forEach((e) => {
-      if (ts.isArrayLiteralExpression(e)) {
-        nodes.push(...this.getArrayNodes(e));
-      } else {
-        nodes.push(e);
-      }
-    });
-
-    return nodes.flat();
-  }
-
   private processStaticArrayElement(
     e: ts.Node,
     type: string,
@@ -1253,153 +1205,49 @@ export default class Compiler {
     context.bytesOnStack = true;
   }
 
+  private getArrayTypes(elements: number): string[] {
+    if (this.typeHint === undefined) throw new Error('Type hint is undefined');
+    const typeHintNode = stringToExpression(this.getABIType(this.typeHint));
+
+    if (ts.isElementAccessExpression(typeHintNode)) {
+      const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
+      const type = typeHintNode.expression.getText().replace(/\[\]$/, '');
+
+      if (length && length !== elements) throw new Error(`Array length mismatch: ${length} !== ${elements}`);
+
+      return new Array(elements).fill(type);
+    }
+
+    if (ts.isArrayLiteralExpression(typeHintNode)) {
+      return typeHintNode.elements.map((e) => this.getABIType(e.getText()));
+    }
+
+    if (ts.isIdentifier(typeHintNode)) {
+      return new Array(elements).fill(this.typeHint);
+    }
+
+    throw new Error(typeHintNode.getText());
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
-    const types = this.getTypes(this.typeHint!);
-    const nodes = this.getArrayNodes(node);
+    if (this.typeHint === undefined) throw new Error('Type hint is undefined');
+    let { typeHint } = this;
 
-    const context = { bytesOnStack: false, hexString: '' };
-    if (types.static.length === 0 && types.dynamic.length === 1) {
-      const baseType = types.dynamic[0];
+    if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-      if (baseType.startsWith('[')) {
-        const innerTypes = this.getTypes(baseType).static;
-        context.hexString = (nodes.length / innerTypes.length).toString(16).padStart(4, '0');
-
-        nodes.forEach((e, i) => {
-          this.processStaticArrayElement(
-            e,
-            innerTypes[i % innerTypes.length],
-            i === nodes.length - 1,
-            context,
-          );
-        });
-      } else {
-        context.hexString = (nodes.length).toString(16).padStart(4, '0');
-
-        nodes.forEach((e, i) => {
-          this.processStaticArrayElement(e, baseType, i === nodes.length - 1, context);
-        });
-      }
-
-      this.lastType = this.getABIType(this.typeHint!);
-      return;
-    }
-
-    // Process static elements
-    // TODO: Throw error if size is wrong
-    nodes.slice(0, types.static.length).forEach((e, i) => {
-      this.processStaticArrayElement(
-        e,
-        types.static[i],
-        i === types.static.length - 1,
-        context,
-      );
+    const types = this.getArrayTypes(node.elements.length);
+    node.elements.forEach((e, i) => {
+      this.typeHint = types[i];
+      this.processNode(e);
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      if (this.lastType.match(/uint\d+$/)) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+      if (i) this.pushVoid('concat');
     });
 
-    if (types.dynamic.length === 0) {
-      this.lastType = this.getABIType(this.typeHint!);
-      return;
+    if (this.getABIType(typeHint).endsWith('[]')) {
+      this.pushLines(`byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
     }
-
-    // Process dynamic elements
-    // TODO: Optimize this when there are literal dynamic elements
-    const staticLen = types.static.map((m) => this.getTypeLength(m)).reduce((a, b) => a + b, 0);
-
-    if (staticLen === 0) this.pushVoid('byte 0x // no static elements');
-
-    const headEnd = staticLen + (2 * types.dynamic.length);
-    this.pushLines(
-      `store ${scratch.staticElements}`,
-      `byte 0x${headEnd.toString(16).padStart(4, '0')} // head end`,
-      `store ${scratch.dynamicHead}`,
-      `int ${headEnd}`,
-      `store ${scratch.dynamicHeadOffset}`,
-      'byte 0x',
-      `store ${scratch.dynamicElements}`,
-    );
-
-    node.elements.slice(-types.dynamic.length).forEach((e, i) => {
-      if (ts.isArrayLiteralExpression(e)) {
-        const baseType = types.dynamic[i];
-        const innerTypes = this.getTypes(baseType);
-        const innerNodes = this.getArrayNodes(e);
-
-        innerNodes.forEach((n, j) => {
-          const type = innerTypes.static[j % innerTypes.static.length];
-
-          this.processNode(n);
-          if (isNumeric(this.lastType)) this.pushVoid('itob');
-
-          if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
-            this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(n));
-          }
-
-          if (j) this.pushVoid('concat');
-        });
-
-        this.pushLines(
-          `byte 0x${e.elements.length.toString(16).padStart(4, '0')}`,
-          'swap',
-          'concat',
-        );
-      } else if (types.dynamic[i] === 'string') {
-        if (ts.isStringLiteral(e)) {
-          const len = e.text.length.toString(16).padStart(4, '0');
-          const val = Buffer.from(e.text, 'utf-8').toString('hex');
-          this.push(`byte 0x${len}${val} // ${e.text}`, 'string');
-        } else this.processNode(e);
-
-        if (this.lastType === StackType.bytes) {
-          this.pushLines(
-            'dup',
-            'len',
-            'itob',
-            'extract 6 2',
-            'swap',
-            'concat',
-          );
-          this.lastType = 'string';
-        }
-      } else {
-        this.processNode(e);
-        const expectedType = `${types.dynamic[i]}[]`;
-        if (expectedType !== this.lastType) throw new Error(`Expected type of ${expectedType}, but got ${this.lastType}`);
-      }
-
-      // update head if not last element
-      if (i !== types.dynamic.length - 1) {
-        this.pushLines(
-          'dup',
-          'len',
-          `load ${scratch.dynamicHeadOffset}`,
-          '+',
-          'dup',
-          `store ${scratch.dynamicHeadOffset}`,
-          'itob',
-          'extract 6 2',
-          `load ${scratch.dynamicHead}`,
-          'swap',
-          'concat',
-          `store ${scratch.dynamicHead}`,
-        );
-      }
-
-      this.pushLines(
-        `load ${scratch.dynamicElements}`,
-        'swap',
-        'concat',
-        `store ${scratch.dynamicElements}`,
-      );
-    });
-
-    this.pushLines(
-      `load ${scratch.staticElements}`,
-      `load ${scratch.dynamicHead}`,
-      `load ${scratch.dynamicElements}`,
-      'concat',
-      'concat',
-    );
-    this.lastType = this.getABIType(this.typeHint!);
+    this.lastType = this.getABIType(typeHint);
   }
 
   private getAccessChain(
@@ -1440,320 +1288,60 @@ export default class Compiler {
   }
 
   private compilerSubroutines: {[name: string]: () => string[]} = {
-    updateDynamicElement: () => {
-      const frame = {
-        newArray: '-8 // newArray', // already on stack
-        startOfHeads: '-2 // startOfHeads', // startOfHeads
-        totalHeadLength: '-3 // totalHeadLength', // types.dynamic.length * 2;
-        lastDynamicElement: '-4 // lastDynamicElement', // dynamicTypeIndex === types.dynamic.length - 1
-        firstDynamicElement: '-5 // firstDynamicElement', // dynamicTypeIndex === 0
-        headUpdateBitmask: '-6 // headUpdateBitmask', // `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)}`,
-        fullHeadBitmask: '-7 // fullHeadBitmask', // `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
-        headEnd: '-1 // headEnd', // startOfHeads + totalHeadLength
-      };
 
-      const subTeal = [
-        'updateDynamicElement:',
-        'proto 8 1',
-        `frame_dig ${frame.newArray}`,
-      ];
-
-      subTeal.push(
-        `store ${scratch.newArray}`,
-        // get static part of tuple
-        `load ${scratch.fullTuple}`,
-        'int 0',
-        `frame_dig ${frame.startOfHeads}`,
-        'extract3',
-        `store ${scratch.staticPartOfTuple}`,
-        // get dynamic heads
-        `load ${scratch.fullTuple}`,
-        `frame_dig ${frame.startOfHeads}`,
-        `frame_dig ${frame.totalHeadLength}`,
-        'extract3 ',
-        `store ${scratch.dynamicHeads}`,
-        'byte 0x',
-        'dup',
-        `store ${scratch.valuesAfterArray}`,
-        `store ${scratch.valuesBeforeArray}`,
-
-        // Get values AFTER the updated array
-        `frame_dig ${frame.lastDynamicElement}`,
-        'bnz skip_values_after_array',
-        `load ${scratch.fullTuple}`,
-        `load ${scratch.arrayOffset}`,
-        `load ${scratch.fullArrayLength}`,
-        '+',
-        `load ${scratch.fullTuple}`,
-        'len',
-        'substring3',
-        `store ${scratch.valuesAfterArray}`,
-        'skip_values_after_array:',
-        // Get values BEFORE the updated array
-        `frame_dig ${frame.firstDynamicElement}`,
-        'bnz skip_values_before_array',
-        `load ${scratch.fullTuple}`,
-        `frame_dig ${frame.headEnd}`,
-        `load ${scratch.arrayOffset}`,
-        'substring3',
-        `store ${scratch.valuesBeforeArray}`,
-        'skip_values_before_array:',
-
-        // Update dynamic heads
-        `load ${scratch.dynamicHeads}`,
-        `frame_dig ${frame.headUpdateBitmask}`,
-
-        `load ${scratch.newArray}`,
-        'len',
-        `load ${scratch.fullArrayLength}`,
-        `load ${scratch.newArray}`,
-        'len',
-        `load ${scratch.fullArrayLength}`,
-        '>=',
-        'bnz skip_len_swap',
-        'swap',
-        'skip_len_swap:',
-        '-',
-
-        'itob',
-        'extract 6 2',
-        'dup',
-        'concat', // 4
-        'dup',
-        'concat', // 8
-        'dup',
-        'concat', // 16
-        'dup',
-        'concat', // 32
-        'dup',
-        'concat', // 64
-        'b&',
-
-        `load ${scratch.newArray}`,
-        'len',
-        `load ${scratch.fullArrayLength}`,
-        '>=', // if this is true, subtract
-        'bnz add_head',
-        'b-',
-        'b sub_or_add_head_end',
-        'add_head:',
-        'b+',
-        'sub_or_add_head_end:',
-
-        `frame_dig ${frame.fullHeadBitmask}`,
-        'b&',
-        `store ${scratch.dynamicHeads}`,
-        // form new array
-        `load ${scratch.staticPartOfTuple}`,
-        `load ${scratch.dynamicHeads}`,
-        `load ${scratch.valuesBeforeArray}`,
-        `load ${scratch.newArray}`,
-        `load ${scratch.valuesAfterArray}`,
-        'concat',
-        'concat',
-        'concat',
-        'concat',
-        'retsub',
-      );
-
-      return subTeal;
-    },
-    preArrayAccess: () => {
-      const frame = {
-        headOffset: '-1 // head offset',
-        typeLength: '-2 // type length',
-        fullTuple: '-3 // full tuple',
-      };
-
-      return [
-        'preArrayAccess:',
-        'proto 3 0',
-        `frame_dig ${frame.fullTuple}`,
-        `store ${scratch.fullTuple}`,
-        `load ${scratch.fullTuple}`,
-        `frame_dig ${frame.headOffset}`,
-        'extract_uint16 // extract array offset',
-        `store ${scratch.arrayOffset}`,
-        `load ${scratch.fullTuple}`,
-        `load ${scratch.arrayOffset}`,
-        'extract_uint16 // extract array length',
-        `frame_dig ${frame.typeLength}`,
-        '* // array size',
-        'int 2',
-        '+ // array size + len',
-        `store ${scratch.fullArrayLength}`,
-        'retsub',
-      ];
-    },
   };
 
-  private processStaticArray(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
+  private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
-
-    let offset = 0;
-    let type: string = '';
-    let intsOnStack = false;
-
     this.processNode(chain[0].expression);
-    if (this.customTypes[this.lastType]) {
-      this.lastType = this.customTypes[this.lastType];
-    }
+    let elementType: string = '';
+    let elementLength: number = 0;
 
-    let staticArrayType = '';
+    chain.forEach((e, i) => {
+      const isStatic = this.lastType.match(/\[\d+\]$/);
+      const isTuple = this.lastType.startsWith('[');
+      const isDynamicArray = this.lastType.endsWith('[]');
 
-    if (this.lastType.match(/\[\d+\]$/)) {
-      const baseType = this.lastType.replace(/\[\d+\]$/, '');
-      if (this.isDynamicType(baseType)) {
-        const length = parseInt(this.lastType.match(/\[\d+\]/)!.at(-1)!.match(/\d+/)![0], 10);
+      if (isStatic || isDynamicArray) {
+        elementType = this.lastType.replace(/\[\d*\]$/, '');
 
-        // TODO figure out where string is getting converted to bytes
-        this.lastType = `[${new Array(length).fill(baseType).join(',')}]`.replace(/bytes/g, 'string');
-        staticArrayType = baseType.replace(/bytes/g, 'string');
-      }
-    }
+        elementLength = this.getTypeLength(elementType);
+        this.processNode(e.argumentExpression!);
 
-    const lastTypeExpression = stringToExpression(this.lastType);
+        this.pushVoid(`int ${elementLength} // element length`);
+        if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
+        this.pushLines('* // element offset');
+      } else if (isTuple) {
+        const expr = stringToExpression(this.lastType);
+        if (!ts.isArrayLiteralExpression(expr)) throw new Error();
 
-    if (ts.isArrayLiteralExpression(lastTypeExpression)) {
-      const isLiteralAccessor = ts.isNumericLiteral(chain[0].argumentExpression);
-      const accessor = parseInt(chain[0].argumentExpression.getText(), 10);
+        if (!ts.isNumericLiteral(e.argumentExpression!)) throw new Error('Tuple must be accessed by numeric literal');
 
-      const accessedType = isLiteralAccessor
-        ? lastTypeExpression.elements[accessor].getText() : staticArrayType;
-
-      if (accessedType.endsWith('[]') || accessedType === 'string') {
-        const types = this.getTypes(this.lastType);
-
-        const numStaticElements = lastTypeExpression.elements.length - types.dynamic.length;
-        const dynamicTypeIndex = accessor - numStaticElements;
-
-        let headOffset = 0;
-        headOffset += types.static.reduce((a, b) => a + this.getTypeLength(b), 0);
-
-        const startOfHeads = headOffset;
-
-        headOffset += (dynamicTypeIndex) * 2;
-
-        this.pushVoid(`int ${this.getTypeLength(accessedType.replace(/\[\]$/, ''))} // type length`);
-
-        if (isLiteralAccessor) {
-          this.pushVoid(`int ${headOffset} // head offset`);
-        } else {
-          this.processNode(chain[0].argumentExpression);
-          this.pushLines('int 2', '* // head offset');
-        }
-
-        this.pushVoid('callsub preArrayAccess');
-
-        if (newValue === undefined) {
-          this.pushLines(
-            `load ${scratch.fullTuple}`,
-            `load ${scratch.arrayOffset}`,
-            `load ${scratch.fullArrayLength}`,
-            'extract3',
-          );
-
-          if (accessedType === 'string') {
-            this.push('extract 2 0 // extract bytes from string', 'bytes');
-          } else this.lastType = accessedType;
-        } else {
-          if (ts.isStringLiteral(newValue)) {
-            const len = newValue.text.length.toString(16).padStart(4, '0');
-            const val = Buffer.from(newValue.text, 'utf-8').toString('hex');
-            this.push(`byte 0x${len}${val} // ${newValue.text}`, 'string');
-          } else this.processNode(newValue);
-
-          if (this.lastType === StackType.bytes) {
-            this.pushLines(
-              'dup',
-              'len',
-              'itob',
-              'extract 6 2',
-              'swap',
-              'concat',
-            );
-          }
-
-          const totalHeadLength = types.dynamic.length * 2;
-          this.pushLines(
-            `byte 0x${'FFFF'.repeat(types.dynamic.length)}`,
-            `byte 0x${'0000'.repeat(types.dynamic.slice(0, dynamicTypeIndex + 1).length) + 'FFFF'.repeat(types.dynamic.slice(dynamicTypeIndex + 1).length)} // head update bitmask`,
-            `int ${(!isLiteralAccessor || dynamicTypeIndex === 0) ? 1 : 0} // is first dynamic element`,
-            `int ${(!isLiteralAccessor || dynamicTypeIndex === types.dynamic.length - 1) ? 1 : 0} // is last dynamic element`,
-            `int ${totalHeadLength} // total head length`,
-            `int ${startOfHeads} // startOfHeads`,
-            `int ${startOfHeads + totalHeadLength} // head end`,
-            'callsub updateDynamicElement',
-          );
-
-          this.updateValue(chain[0].expression);
-        }
-
-        return;
-      }
-    }
-
-    chain.forEach((e) => {
-      let baseExpressionType = this.getStackTypeFromNode(e.expression);
-      baseExpressionType = this.getABIType(baseExpressionType);
-
-      if (baseExpressionType.match(/^{/)) {
-        const types = Object.values(this.getObjectTypes(baseExpressionType));
-        baseExpressionType = `[${types.join(',')}]`;
-      }
-
-      if (baseExpressionType.match(/\[\d+\]$/)) {
-        type = baseExpressionType.replace(/\[\d+\]$/, '');
-
-        if (ts.isNumericLiteral(e.argumentExpression)) {
-          offset += this.getTypeLength(type) * parseInt(e.argumentExpression.getText(), 10);
-        } else {
-          this.processNode(e.argumentExpression);
-
-          if (intsOnStack) {
-            this.pushVoid('+');
-            intsOnStack = false;
-          }
-
-          this.pushLines(`int ${this.getTypeLength(type)}`, '*');
-          intsOnStack = true;
-        }
-      } else if (baseExpressionType.match(/\[\]$/)) {
-        type = baseExpressionType.replace(/\[\]$/, '');
-
-        this.processNode(e.argumentExpression);
-
-        this.pushLines(`int ${this.getTypeLength(type)}`, '*', 'int 2', '+');
-
-        intsOnStack = true;
-      } else if (baseExpressionType.startsWith('[')) {
-        const typeExpression = stringToExpression(baseExpressionType);
-        if (!ts.isArrayLiteralExpression(typeExpression)) throw new Error();
-
-        const innerTypes = typeExpression.elements.map((t) => t.getText());
         const accessor = parseInt(e.argumentExpression.getText(), 10);
 
-        innerTypes.forEach((t, i) => {
-          if (i < accessor) {
-            offset += this.getTypeLength(this.getABIType(t));
-          } else if (i === accessor) type = this.getABIType(t);
-        });
-      } else throw new Error(`${e.getText()}  ${baseExpressionType}`);
+        const tupleTypes = expr.elements.map((t) => t.getText());
+        elementType = tupleTypes[accessor];
+
+        const priorTypeLength = expr.elements.slice(0, accessor)
+          .map((t) => this.getTypeLength(t.getText()))
+          .reduce((sum, n) => sum + n, 0);
+
+        this.pushLines(`int ${priorTypeLength}`);
+      } else throw new Error(this.lastType);
+
+      this.lastType = elementType;
+      if (i) this.pushVoid('+');
     });
 
-    if (offset || !intsOnStack) this.pushLines(`int ${offset} // offset`);
-    if (intsOnStack && offset) this.pushVoid('+');
-
-    if (newValue === undefined) {
-      this.pushVoid(`int ${this.getTypeLength(type)}`);
-      this.push('extract3', type);
-      if (isNumeric(type)) this.push('btoi', type);
-    } else {
+    if (newValue) {
       this.processNode(newValue);
       if (isNumeric(this.lastType)) this.pushVoid('itob');
       this.pushVoid('replace3');
-
       this.updateValue(chain[0].expression);
+    } else {
+      this.pushLines(`int ${this.getTypeLength(elementType)}`, 'extract3');
+      if (isNumeric(elementType)) this.pushVoid('btoi');
+      this.lastType = elementType;
     }
   }
 
@@ -1772,7 +1360,7 @@ export default class Compiler {
       return;
     }
 
-    this.processStaticArray(node);
+    this.processArrayAccess(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -1941,7 +1529,7 @@ export default class Compiler {
         this.processNode(node.right);
         this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
-        this.processStaticArray(node.left, node.right);
+        this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
 
@@ -1951,7 +1539,7 @@ export default class Compiler {
 
           const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
           if (!ts.isElementAccessExpression(expr)) throw new Error();
-          this.processStaticArray(expr, node.right);
+          this.processArrayAccess(expr, node.right);
           return;
         }
       }
@@ -2928,7 +2516,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      // console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

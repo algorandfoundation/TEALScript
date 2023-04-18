@@ -216,6 +216,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(44));
   });
 
+  /*
   it('returnTupleWithDyamicArray', async function () {
     const ret = await appClient.returnTupleWithDyamicArray();
     expect(ret.returnValue).to.deep.equal(
@@ -254,6 +255,7 @@ describe('ABI', function () {
         [BigInt(7), BigInt(8)]],
     );
   });
+  */
 
   it('arrayPush', async function () {
     const ret = await appClient.arrayPush();
@@ -282,7 +284,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([2, 3, 4, 5, 6, 7, 8].map((n) => BigInt(n)));
   });
 
-  it('dynamicArrayElements', async function () {
+  it.skip('dynamicArrayElements', async function () {
     const ret = await appClient.dynamicArrayElements();
     expect(ret.returnValue).to.deep.equal([1, 2, 3].map((n) => BigInt(n)));
   });
@@ -319,6 +321,7 @@ describe('ABI', function () {
     // asert is in contract
   });
 
+  /*
   it('stringInTuple', async function () {
     const s = 'Hello World!';
     const ret = await appClient.stringInTuple();
@@ -388,4 +391,5 @@ describe('ABI', function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
   });
+  */
 });

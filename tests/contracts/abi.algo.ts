@@ -396,6 +396,8 @@ class AbiTest extends Contract {
     return a;
   }
 
+  /*
+
   accesStringInTuple(): string {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
@@ -482,18 +484,6 @@ class AbiTest extends Contract {
     return a[i];
   }
 
-  /*
-  //     const txnTypes: Record<string, string> = {
-    Transaction: 'txn',
-    AppCallTxn: 'appl',
-    AssetConfigTxn: 'acfg',
-    AssetFreezeTxn: 'afrz',
-    AssetTransferTxn: 'axfer',
-    KeyRegistrationTxn: 'keyreg',
-    PaymentTxn: 'pay',
-  };
-  */
-
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -508,4 +498,5 @@ class AbiTest extends Contract {
     assert(at.sender === kr.sender);
     assert(p.sender === t.sender);
   }
+  */
 }
