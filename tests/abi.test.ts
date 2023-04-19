@@ -216,7 +216,6 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(44));
   });
 
-  /*
   it('returnTupleWithDyamicArray', async function () {
     const ret = await appClient.returnTupleWithDyamicArray();
     expect(ret.returnValue).to.deep.equal(
@@ -255,7 +254,6 @@ describe('ABI', function () {
         [BigInt(7), BigInt(8)]],
     );
   });
-  */
 
   it('arrayPush', async function () {
     const ret = await appClient.arrayPush();

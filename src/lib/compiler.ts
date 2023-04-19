@@ -168,18 +168,9 @@ function isRefType(t: string): boolean {
 }
 
 const scratch = {
-  fullTuple: '0 // full tuple',
-  arrayOffset: '1 // array offset',
-  fullArrayLength: '2 // full array length',
-  staticPartOfTuple: '3 // static part of tuple',
-  dynamicHeads: '4 // dynamic heads',
-  valuesAfterArray: '5 // values after array',
-  newArray: '6 // new array',
-  valuesBeforeArray: '7 // values before array',
-  dynamicHead: '8 // dynamic head',
-  dynamicHeadOffset: '9 // dynamic head offset',
-  dynamicElements: '10 // dynamic elements',
-  staticElements: '11 // static elements',
+  tupleHead: '0 // tuple head',
+  tupleTail: '1 // tuple tail',
+  headOffset: '2 // head offset',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
 };
@@ -1229,9 +1220,69 @@ export default class Compiler {
     throw new Error(typeHintNode.getText());
   }
 
+  private processTuple(node: ts.ArrayLiteralExpression) {
+    if (this.typeHint === undefined) throw new Error('Type hint is undefined');
+    let { typeHint } = this;
+
+    if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
+
+    const types = this.getArrayTypes(node.elements.length);
+    const headLength = types.reduce((sum, t) => sum + this.getTypeLength(t), 0);
+    this.pushLines(
+      'byte 0x',
+      'dup',
+      `store ${scratch.tupleHead}`,
+      `store ${scratch.tupleTail}`,
+      `byte 0x${headLength.toString(16).padStart(4, '0')}`,
+      `store ${scratch.headOffset}`,
+    );
+
+    node.elements.forEach((e, i) => {
+      this.typeHint = types[i];
+      this.pushLines(`load ${scratch.tupleHead}`);
+
+      if (this.isDynamicType(types[i])) {
+        this.pushLines(`load ${scratch.headOffset}`, 'concat', `store ${scratch.tupleHead}`);
+        this.processNode(e);
+
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+
+        this.pushLines(
+          'dup',
+          'len',
+          `load ${scratch.headOffset}`,
+          'btoi',
+          '+',
+          'itob',
+          'extract 6 2',
+          `store ${scratch.headOffset}`,
+          `load ${scratch.tupleTail}`,
+          'swap',
+          'concat',
+          `store ${scratch.tupleTail}`,
+        );
+      } else {
+        this.processNode(e);
+
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+        this.pushLines('concat', `store ${scratch.tupleHead}`);
+      }
+    });
+
+    this.pushLines(`load ${scratch.tupleHead}`, `load ${scratch.tupleTail}`, 'concat');
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
+
+    if (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/)) {
+      this.processTuple(node);
+      this.lastType = this.getABIType(typeHint);
+      return;
+    }
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 

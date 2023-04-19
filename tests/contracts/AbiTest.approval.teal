@@ -1224,18 +1224,36 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:188
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0014
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 33
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 44
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
@@ -1272,21 +1290,39 @@ arrayInTuple:
 
 	// tests/contracts/abi.algo.ts:194
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x001c
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 33
 	itob
 	int 44
 	itob
 	concat
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 55
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
@@ -1327,17 +1363,45 @@ tupleInArray:
 
 	// tests/contracts/abi.algo.ts:202
 	// a: StaticArray<[uint64, uint16], 2> = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 33
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 44
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	concat
 	frame_bury -1 // a: [uint64,uint16][2]
@@ -1379,26 +1443,72 @@ tupleInTuple:
 
 	// tests/contracts/abi.algo.ts:210
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0018
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 33
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 44
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 55
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 66
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
@@ -1437,6 +1547,13 @@ shortTypeNotation:
 
 	// tests/contracts/abi.algo.ts:218
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0018
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
 	extract 6 0
@@ -1444,12 +1561,17 @@ shortTypeNotation:
 	itob
 	extract 6 0
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 33
 	itob
 	int 44
 	itob
 	concat
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 55
 	itob
 	extract 6 0
@@ -1457,6 +1579,10 @@ shortTypeNotation:
 	itob
 	extract 6 0
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 
@@ -1497,6 +1623,13 @@ disgusting:
 
 	// tests/contracts/abi.algo.ts:226
 	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0036
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
 	extract 6 0
@@ -1504,16 +1637,37 @@ disgusting:
 	itob
 	extract 6 0
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 33
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 44
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 55
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 66
 	itob
 	int 77
@@ -1526,6 +1680,17 @@ disgusting:
 	concat
 	concat
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0036
+	store 2 // head offset
+	load 0 // tuple head
 	int 111
 	itob
 	extract 6 0
@@ -1533,16 +1698,37 @@ disgusting:
 	itob
 	extract 6 0
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 333
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 444
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 555
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 666
 	itob
 	int 777
@@ -1554,6 +1740,10 @@ disgusting:
 	itob
 	concat
 	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	concat
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
@@ -1623,14 +1813,30 @@ returnTuple:
 
 	// tests/contracts/abi.algo.ts:236
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0012
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 33
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
@@ -1882,17 +2088,45 @@ dynamicTupleArray:
 
 	// tests/contracts/abi.algo.ts:268
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 11
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 22
 	itob
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
 	int 33
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 44
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	concat
 	byte 0x0002
@@ -1939,12 +2173,27 @@ returnTupleWithDyamicArray:
 
 	// tests/contracts/abi.algo.ts:274
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000e
+	store 2 // head offset
+	load 0 // tuple head
 	int 1
 	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 2
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 3
 	itob
 	int 4
@@ -1953,7 +2202,22 @@ returnTupleWithDyamicArray:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 5
 	itob
 	extract 6 0
@@ -1964,6 +2228,20 @@ returnTupleWithDyamicArray:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
 
@@ -1995,13 +2273,28 @@ returnDynamicArrayFromTuple:
 
 	// tests/contracts/abi.algo.ts:280
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0009
+	store 2 // head offset
+	load 0 // tuple head
 	int 1
 	itob
 	extract 7 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 2
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 3
 	itob
 	extract 7 0
@@ -2012,7 +2305,22 @@ returnDynamicArrayFromTuple:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 5
 	itob
 	extract 6 0
@@ -2023,7 +2331,22 @@ returnDynamicArrayFromTuple:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 7
 	itob
 	extract 7 0
@@ -2034,6 +2357,20 @@ returnDynamicArrayFromTuple:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
@@ -2068,36 +2405,108 @@ updateDynamicArrayInTuple:
 
 	// tests/contracts/abi.algo.ts:286
 	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0009
+	store 2 // head offset
+	load 0 // tuple head
 	int 9
 	itob
 	extract 7 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 8
 	itob
 	extract 6 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 7
 	itob
 	extract 7 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 6
 	itob
 	extract 6 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 5
 	itob
 	extract 7 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
@@ -2222,13 +2631,28 @@ nonLiteralDynamicElementInTuple:
 
 	// tests/contracts/abi.algo.ts:299
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0009
+	store 2 // head offset
+	load 0 // tuple head
 	int 1
 	itob
 	extract 7 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	int 2
 	itob
 	extract 6 0
 	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 3
 	itob
 	extract 7 0
@@ -2239,9 +2663,39 @@ nonLiteralDynamicElementInTuple:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // e: uint16[]
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 7
 	itob
 	extract 7 0
@@ -2252,6 +2706,20 @@ nonLiteralDynamicElementInTuple:
 	byte 0x0002
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
@@ -3192,24 +3660,81 @@ stringInTuple:
 
 	// tests/contracts/abi.algo.ts:394
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0007
+	store 2 // head offset
+	load 0 // tuple head
 	int 1
 	itob
 	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 2
 	itob
 	extract 7 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	byte "Hello World!"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
 	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	int 3
 	itob
 	extract 7 0
 	byte 0x0001
 	swap
 	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
 
