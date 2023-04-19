@@ -2378,7 +2378,21 @@ returnDynamicArrayFromTuple:
 	// return a[4];
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	int 7
+	swap
+	dupn 2
+	uncover 3
 	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
 	extract3
 	byte 0x151f7c75
 	swap
