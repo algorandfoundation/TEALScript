@@ -1240,7 +1240,7 @@ export default class Compiler {
       this.typeHint = types[i];
       this.processNode(e);
       if (isNumeric(this.lastType)) this.pushVoid('itob');
-      if (this.lastType.match(/uint\d+$/)) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
       if (i) this.pushVoid('concat');
     });
 
@@ -1309,8 +1309,8 @@ export default class Compiler {
         this.processNode(e.argumentExpression!);
 
         this.pushVoid(`int ${elementLength} // element length`);
-        if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
         this.pushLines('* // element offset');
+        if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
       } else if (isTuple) {
         const expr = stringToExpression(this.lastType);
         if (!ts.isArrayLiteralExpression(expr)) throw new Error();

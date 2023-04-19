@@ -56,14 +56,11 @@ staticArray:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -104,14 +101,11 @@ returnStaticArray:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -194,14 +188,11 @@ nonLiteralStaticArrayElements:
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
-	extract 0 0
 	frame_dig -2 // n2: uint64
 	itob
-	extract 0 0
 	concat
 	frame_dig -3 // n3: uint64
 	itob
-	extract 0 0
 	concat
 	frame_bury -4 // a: uint64[3]
 
@@ -258,38 +249,29 @@ mixedStaticArrayElements:
 	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	int 0
 	itob
-	extract 0 0
 	int 1
 	itob
-	extract 0 0
 	concat
 	int 2
 	itob
-	extract 0 0
 	concat
 	frame_dig -1 // n1: uint64
 	itob
-	extract 0 0
 	concat
 	frame_dig -2 // n2: uint64
 	itob
-	extract 0 0
 	concat
 	frame_dig -3 // n3: uint64
 	itob
-	extract 0 0
 	concat
 	int 6
 	itob
-	extract 0 0
 	concat
 	int 7
 	itob
-	extract 0 0
 	concat
 	int 8
 	itob
-	extract 0 0
 	concat
 	frame_bury -4 // a: uint64[9]
 
@@ -347,14 +329,11 @@ nonLiteralStaticArrayAccess:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -400,14 +379,11 @@ setStaticArrayElement:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -460,14 +436,11 @@ staticArrayInStorageRef:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -501,7 +474,6 @@ staticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	txn Sender
 	byte "lRef"
 	app_local_get
@@ -512,7 +484,6 @@ staticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	byte "bRef"
 	box_get
@@ -524,7 +495,6 @@ staticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	frame_bury -2 // ret: uint64[3]
 
@@ -559,14 +529,11 @@ updateStaticArrayInStorageRef:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -645,7 +612,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	txn Sender
 	byte "lRef"
 	app_local_get
@@ -656,7 +622,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	byte "bRef"
 	box_get
@@ -668,7 +633,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	frame_bury -2 // ret: uint64[3]
 
@@ -703,14 +667,11 @@ staticArrayInStorageMap:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -744,7 +705,6 @@ staticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	txn Sender
 	byte "lMap"
 	app_local_get
@@ -755,7 +715,6 @@ staticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	byte "bMap"
 	box_get
@@ -767,7 +726,6 @@ staticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	frame_bury -2 // ret: uint64[3]
 
@@ -802,14 +760,11 @@ updateStaticArrayInStorageMap:
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: uint64[3]
 
@@ -888,7 +843,6 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	txn Sender
 	byte "lMap"
 	app_local_get
@@ -899,7 +853,6 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	byte "bMap"
 	box_get
@@ -911,7 +864,6 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
-	extract 0 0
 	concat
 	frame_bury -2 // ret: uint64[3]
 
@@ -945,37 +897,28 @@ nestedStaticArray:
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	int 44
 	itob
-	extract 0 0
 	int 55
 	itob
-	extract 0 0
 	concat
 	int 66
 	itob
-	extract 0 0
 	concat
 	concat
 	int 77
 	itob
-	extract 0 0
 	int 88
 	itob
-	extract 0 0
 	concat
 	int 99
 	itob
-	extract 0 0
 	concat
 	concat
 	frame_bury -1 // a: uint64[3][3]
@@ -1021,37 +964,28 @@ updateNestedStaticArrayElement:
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	int 44
 	itob
-	extract 0 0
 	int 55
 	itob
-	extract 0 0
 	concat
 	int 66
 	itob
-	extract 0 0
 	concat
 	concat
 	int 77
 	itob
-	extract 0 0
 	int 88
 	itob
-	extract 0 0
 	concat
 	int 99
 	itob
-	extract 0 0
 	concat
 	concat
 	frame_bury -1 // a: uint64[3][3]
@@ -1112,37 +1046,28 @@ updateNestedStaticArray:
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	int 44
 	itob
-	extract 0 0
 	int 55
 	itob
-	extract 0 0
 	concat
 	int 66
 	itob
-	extract 0 0
 	concat
 	concat
 	int 77
 	itob
-	extract 0 0
 	int 88
 	itob
-	extract 0 0
 	concat
 	int 99
 	itob
-	extract 0 0
 	concat
 	concat
 	frame_bury -1 // a: uint64[3][3]
@@ -1155,14 +1080,11 @@ updateNestedStaticArray:
 	* // element offset
 	int 444
 	itob
-	extract 0 0
 	int 555
 	itob
-	extract 0 0
 	concat
 	int 666
 	itob
-	extract 0 0
 	concat
 	replace3
 	frame_bury -1 // a: uint64[3][3]
@@ -1304,14 +1226,12 @@ simpleTuple:
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
 	extract 6 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	int 44
 	itob
@@ -1354,17 +1274,14 @@ arrayInTuple:
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
 	extract 6 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	int 44
 	itob
-	extract 0 0
 	concat
 	concat
 	int 55
@@ -1412,14 +1329,12 @@ tupleInArray:
 	// a: StaticArray<[uint64, uint16], 2> = [
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
 	extract 6 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	int 44
 	itob
 	extract 6 0
@@ -1473,7 +1388,6 @@ tupleInTuple:
 	concat
 	int 33
 	itob
-	extract 0 0
 	int 44
 	itob
 	extract 6 0
@@ -1484,7 +1398,6 @@ tupleInTuple:
 	extract 6 0
 	int 66
 	itob
-	extract 0 0
 	concat
 	concat
 	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
@@ -1533,10 +1446,8 @@ shortTypeNotation:
 	concat
 	int 33
 	itob
-	extract 0 0
 	int 44
 	itob
-	extract 0 0
 	concat
 	concat
 	int 55
@@ -1595,29 +1506,23 @@ disgusting:
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	int 44
 	itob
 	extract 6 0
 	int 55
 	itob
-	extract 0 0
 	concat
 	concat
 	int 66
 	itob
-	extract 0 0
 	int 77
 	itob
-	extract 0 0
 	concat
 	int 88
 	itob
-	extract 0 0
 	int 99
 	itob
-	extract 0 0
 	concat
 	concat
 	concat
@@ -1630,29 +1535,23 @@ disgusting:
 	concat
 	int 333
 	itob
-	extract 0 0
 	concat
 	int 444
 	itob
 	extract 6 0
 	int 555
 	itob
-	extract 0 0
 	concat
 	concat
 	int 666
 	itob
-	extract 0 0
 	int 777
 	itob
-	extract 0 0
 	concat
 	int 888
 	itob
-	extract 0 0
 	int 999
 	itob
-	extract 0 0
 	concat
 	concat
 	concat
@@ -1673,10 +1572,8 @@ disgusting:
 	+
 	int 8888
 	itob
-	extract 0 0
 	int 9999
 	itob
-	extract 0 0
 	concat
 	replace3
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
@@ -1728,14 +1625,12 @@ returnTuple:
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
 	extract 6 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
@@ -1800,14 +1695,11 @@ dynamicArray:
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	byte 0x0003
 	swap
@@ -1819,9 +1711,9 @@ dynamicArray:
 	frame_dig -1 // a: uint64[]
 	int 1
 	int 8 // element length
+	* // element offset
 	int 2
 	+ // add two for length
-	* // element offset
 	int 8
 	extract3
 	btoi
@@ -1853,14 +1745,11 @@ returnDynamicArray:
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	byte 0x0003
 	swap
@@ -1898,9 +1787,9 @@ dynamicArrayArg:
 	frame_dig -1 // a: uint64[]
 	int 1
 	int 8 // element length
+	* // element offset
 	int 2
 	+ // add two for length
-	* // element offset
 	int 8
 	extract3
 	btoi
@@ -1932,14 +1821,11 @@ updateDynamicArrayElement:
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
-	extract 0 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
-	extract 0 0
 	concat
 	byte 0x0003
 	swap
@@ -1951,9 +1837,9 @@ updateDynamicArrayElement:
 	frame_dig -1 // a: uint64[]
 	int 1
 	int 8 // element length
+	* // element offset
 	int 2
 	+ // add two for length
-	* // element offset
 	int 222
 	itob
 	replace3
@@ -1964,9 +1850,9 @@ updateDynamicArrayElement:
 	frame_dig -1 // a: uint64[]
 	int 1
 	int 8 // element length
+	* // element offset
 	int 2
 	+ // add two for length
-	* // element offset
 	int 8
 	extract3
 	btoi
@@ -2001,14 +1887,12 @@ dynamicTupleArray:
 	extract 6 0
 	int 22
 	itob
-	extract 0 0
 	concat
 	int 33
 	itob
 	extract 6 0
 	int 44
 	itob
-	extract 0 0
 	concat
 	concat
 	byte 0x0002
@@ -2021,9 +1905,9 @@ dynamicTupleArray:
 	frame_dig -1 // a: [uint16,uint64][]
 	int 1
 	int 10 // element length
+	* // element offset
 	int 2
 	+ // add two for length
-	* // element offset
 	int 2
 	+
 	int 8
@@ -2057,17 +1941,14 @@ returnTupleWithDyamicArray:
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
 	int 1
 	itob
-	extract 0 0
 	int 2
 	itob
 	extract 6 0
 	concat
 	int 3
 	itob
-	extract 0 0
 	int 4
 	itob
-	extract 0 0
 	concat
 	byte 0x0002
 	swap
@@ -2606,14 +2487,11 @@ arraySplice:
 	// a: uint64[] = [1, 2, 3]
 	int 1
 	itob
-	extract 0 0
 	int 2
 	itob
-	extract 0 0
 	concat
 	int 3
 	itob
-	extract 0 0
 	concat
 	byte 0x0003
 	swap
@@ -2843,31 +2721,28 @@ dynamicArrayElements:
 	frame_dig -1 // a: uint16[]
 	int 0
 	int 2 // element length
-	int 2
-	+ // add two for length
 	* // element offset
 	int 2
+	+ // add two for length
+	int 2
 	extract3
-	extract 0 0
 	frame_dig -1 // a: uint16[]
 	int 1
 	int 2 // element length
-	int 2
-	+ // add two for length
 	* // element offset
 	int 2
+	+ // add two for length
+	int 2
 	extract3
-	extract 0 0
 	concat
 	frame_dig -1 // a: uint16[]
 	int 2
 	int 2 // element length
-	int 2
-	+ // add two for length
 	* // element offset
 	int 2
+	+ // add two for length
+	int 2
 	extract3
-	extract 0 0
 	concat
 	byte 0x0003
 	swap
