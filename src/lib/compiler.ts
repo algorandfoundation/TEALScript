@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { getEffectiveTypeParameterDeclarations } from 'typescript';
+import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
 function stringToExpression(str: string): ts.Expression {
@@ -1342,6 +1342,27 @@ export default class Compiler {
 
   };
 
+  private extractDynamicTupleElement(elementType: string) {
+    this.pushLines(
+      'swap',
+      'dupn 2',
+      'uncover 3',
+      `int ${this.getTypeLength(elementType)}`,
+      'extract3',
+      'btoi // start of dynamic array',
+      'dup',
+      'cover 2 // duplicate start for later',
+      'int 2',
+      'extract3 // extract length of array',
+      'btoi',
+      `int ${this.getTypeLength(elementType.replace(/\[\d*\]$/, ''))}`,
+      '* // get array length',
+      'int 2',
+      '+ // add two for length',
+      'extract3',
+    );
+  }
+
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
@@ -1391,27 +1412,10 @@ export default class Compiler {
       this.updateValue(chain[0].expression);
     } else {
       if (this.isDynamicType(elementType)) {
-        // Offset is on stack now
-        // Read length to get end offset
-        this.pushLines(
-          'swap',
-          'dupn 2',
-          'uncover 3',
-          `int ${this.getTypeLength(elementType)}`,
-          'extract3',
-          'btoi // start of dynamic array',
-          'dup',
-          'cover 2 // duplicate start for later',
-          'int 2',
-          'extract3 // extract length of array',
-          'btoi',
-          `int ${this.getTypeLength(elementType.replace(/\[\d*\]$/, ''))}`,
-          '* // get array length',
-          'int 2',
-          '+ // add two for length',
-          'extract3',
-        );
-      } else this.pushLines(`int ${this.getTypeLength(elementType)}`, 'extract3');
+        this.extractDynamicTupleElement(elementType);
+      } else {
+        this.pushLines(`int ${this.getTypeLength(elementType)}`, 'extract3');
+      }
 
       if (isNumeric(elementType)) this.pushVoid('btoi');
       this.lastType = elementType;
