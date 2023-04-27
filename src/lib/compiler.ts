@@ -1475,12 +1475,14 @@ export default class Compiler {
     let accessor = 0;
 
     chain.forEach((e, i) => {
-      const isStatic = this.lastType.match(/\[\d+\]$/);
-      const isTuple = this.lastType.startsWith('[');
-      const isDynamicArray = this.lastType.endsWith('[]');
+      const previouslyAccessedType = this.getABIType(this.lastType);
+
+      const isStatic = previouslyAccessedType.match(/\[\d+\]$/);
+      const isTuple = previouslyAccessedType.startsWith('[') || previouslyAccessedType.startsWith('{');
+      const isDynamicArray = previouslyAccessedType.endsWith('[]');
 
       if (isStatic || isDynamicArray) {
-        elementType = this.lastType.replace(/\[\d*\]$/, '');
+        elementType = previouslyAccessedType.replace(/\[\d*\]$/, '');
 
         elementLength = this.getTypeLength(elementType);
         this.processNode(e.argumentExpression!);
@@ -1489,7 +1491,7 @@ export default class Compiler {
         this.pushLines('* // element offset');
         if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
       } else if (isTuple) {
-        const expr = stringToExpression(this.lastType);
+        const expr = stringToExpression(previouslyAccessedType);
         if (!ts.isArrayLiteralExpression(expr)) throw new Error();
 
         if (!ts.isNumericLiteral(e.argumentExpression!)) throw new Error('Tuple must be accessed by numeric literal');
@@ -1530,7 +1532,8 @@ export default class Compiler {
       }
 
       if (isNumeric(elementType)) this.pushVoid('btoi');
-      this.lastType = elementType;
+      if (elementType === 'string') this.pushVoid('extract 2 0');
+      this.lastType = elementType.replace('string', 'bytes');
     }
   }
 

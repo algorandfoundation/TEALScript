@@ -400,8 +400,6 @@ class AbiTest extends Contract {
     return a;
   }
 
-  /*
-
   accesStringInTuple(): string {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
@@ -488,6 +486,7 @@ class AbiTest extends Contract {
     return a[i];
   }
 
+  /*
   txnTypes(
     t: Txn,
     a: AppCallTxn,

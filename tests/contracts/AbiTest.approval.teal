@@ -3737,6 +3737,1750 @@ stringInTuple:
 	log
 	retsub
 
+abi_route_accesStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub accesStringInTuple
+	int 1
+	return
+
+accesStringInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:404
+	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0007
+	store 2 // head offset
+	load 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 2
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	byte "Hello World!"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 3
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
+
+	// tests/contracts/abi.algo.ts:406
+	// assert(a[2] === 'Hello World!')
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	dup
+	store 3 // full tuple
+	int 4
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	byte "Hello World!"
+	==
+	assert
+
+	// tests/contracts/abi.algo.ts:408
+	// return a[2];
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	dup
+	store 3 // full tuple
+	int 4
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub updateStringInTuple
+	int 1
+	return
+
+updateStringInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:412
+	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0008
+	store 2 // head offset
+	load 0 // tuple head
+	int 9
+	itob
+	extract 7 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 8
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	byte "Hi?"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 5
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:414
+	// a[0] = 99 as uint8
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	dup
+	store 3 // full tuple
+	int 0
+	int 99
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:415
+	// a[1] = [10, 11]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	dup
+	store 3 // full tuple
+	int 1
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 10
+	itob
+	extract 6 0
+	int 11
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 3 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 3 // replace dynamic array offset
+	store 3 // full tuple
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 6 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 6 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:416
+	// a[2] = 'Hello World!'
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	dup
+	store 3 // full tuple
+	int 3
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	byte "Hello World!"
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 3 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 3 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 6 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 6 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:417
+	// a[3] = [14, 15]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	dup
+	store 3 // full tuple
+	int 4
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 14
+	itob
+	extract 6 0
+	int 15
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 6 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 6 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:418
+	// a[4] = [16, 17]
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	dup
+	store 3 // full tuple
+	int 6
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 16
+	itob
+	extract 7 0
+	int 17
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 6 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 6 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	load 3 // full tuple
+	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:420
+	// return a;
+	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateTupleWithOnlyDynamicTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub updateTupleWithOnlyDynamicTypes
+	int 1
+	return
+
+updateTupleWithOnlyDynamicTypes:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:424
+	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0006
+	store 2 // head offset
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 2
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 3
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:426
+	// a[0] = [4, 5]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 0
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 4
+	itob
+	extract 6 0
+	int 5
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 2 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 2 // replace dynamic array offset
+	store 3 // full tuple
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:427
+	// a[1] = [6, 7]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 6
+	itob
+	extract 6 0
+	int 7
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:428
+	// a[2] = [8, 9]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 4
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 8
+	itob
+	extract 6 0
+	int 9
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:430
+	// return a;
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_shortenDynamicElementInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub shortenDynamicElementInTuple
+	int 1
+	return
+
+shortenDynamicElementInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:434
+	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0006
+	store 2 // head offset
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 2
+	itob
+	extract 6 0
+	int 3
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	int 3
+	itob
+	extract 6 0
+	int 4
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:436
+	// a[0] = [5]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 0
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 5
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 2 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 2 // replace dynamic array offset
+	store 3 // full tuple
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:437
+	// a[1] = [6]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 4 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	+ // add difference to offset
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 4 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:438
+	// a[2] = [7]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	dup
+	store 3 // full tuple
+	int 4
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 2
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	int 7
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 4 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	load 3 // full tuple
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:440
+	// return a;
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_namedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub namedTuple
+	int 1
+	return
+
+namedTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:444
+	// a: {
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0003
+	store 2 // head offset
+	load 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	byte "Hello World!"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.algo.ts:452
+	// return a.bar;
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_updateNamedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub updateNamedTuple
+	int 1
+	return
+
+updateNamedTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:456
+	// a: {
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0003
+	store 2 // head offset
+	load 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	byte "Hi?"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.algo.ts:464
+	// a.bar = 'Hello World!'
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	byte "Hello World!"
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	load 3 // full tuple
+	frame_bury -1 // a: { foo: uint16, bar: string, }
+
+	// tests/contracts/abi.algo.ts:466
+	// return a.bar;
+	frame_dig -1 // a: { foo: uint16, bar: string, }
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_customTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub customTypes
+	int 1
+	return
+
+customTypes:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:470
+	// aa: CustomType = {
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0003
+	store 2 // head offset
+	load 0 // tuple head
+	int 1
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
+	byte "Hi?"
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
+	swap
+	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.algo.ts:475
+	// aa.bar = 'Hello World!'
+	frame_dig -1 // aa: CustomType
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
+	byte "Hello World!"
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	- // get length difference
+	load 3 // full tuple
+	frame_bury -1 // aa: CustomType
+
+	// tests/contracts/abi.algo.ts:477
+	// return aa.bar;
+	frame_dig -1 // aa: CustomType
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_staticStringArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	txna ApplicationArgs 1
+	callsub staticStringArrayArg
+	int 1
+	return
+
+staticStringArrayArg:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:481
+	// return a[1];
+	frame_dig -1 // a: bytes[3]
+	int 1
+	int 1 // element length
+	* // element offset
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_dynamicAccessOfDynamicElementInStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	txna ApplicationArgs 1
+	callsub dynamicAccessOfDynamicElementInStaticArray
+	int 1
+	return
+
+dynamicAccessOfDynamicElementInStaticArray:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:485
+	// i = 1
+	int 1
+	frame_bury -2 // i: uint64
+
+	// tests/contracts/abi.algo.ts:486
+	// return a[i];
+	frame_dig -1 // a: bytes[3]
+	frame_dig -2 // i: uint64
+	int 1 // element length
+	* // element offset
+	swap
+	dupn 2
+	uncover 3
+	int 1
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -3794,5 +5538,14 @@ route_abi:
 	method "stringReturn()string"
 	method "stringArg(string)void"
 	method "stringInTuple()(uint16,uint8[],string,uint8[])"
+	method "accesStringInTuple()string"
+	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
+	method "updateTupleWithOnlyDynamicTypes()(uint16[],uint16[],uint16[])"
+	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
+	method "namedTuple()string"
+	method "updateNamedTuple()string"
+	method "customTypes()string"
+	method "staticStringArrayArg(string[3])string"
+	method "dynamicAccessOfDynamicElementInStaticArray(string[3])string"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_shortTypeNotation abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_shortTypeNotation abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes abi_route_staticStringArrayArg abi_route_dynamicAccessOfDynamicElementInStaticArray
