@@ -1231,7 +1231,11 @@ export default class Compiler {
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
     const types = this.getArrayTypes(node.elements.length);
-    const headLength = types.reduce((sum, t) => sum + this.getTypeLength(t), 0);
+    const headLength = types.reduce((sum, t) => {
+      const length = this.isDynamicType(t) ? 2 : this.getTypeLength(t);
+      return sum + length;
+    }, 0);
+
     this.pushLines(
       'byte 0x',
       'dup',
@@ -1249,8 +1253,16 @@ export default class Compiler {
         this.pushLines(`load ${scratch.headOffset}`, 'concat', `store ${scratch.tupleHead}`);
         this.processNode(e);
 
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
-        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+        if (types[i] === 'bytes' || types[i] === 'string') {
+          this.pushLines(
+            'dup',
+            'len',
+            'itob',
+            'extract 6 2',
+            'swap',
+            'concat',
+          );
+        }
 
         this.pushLines(
           'dup',

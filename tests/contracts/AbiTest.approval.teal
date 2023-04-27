@@ -3654,7 +3654,7 @@ stringInTuple:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0007
+	byte 0x0008
 	store 2 // head offset
 	load 0 // tuple head
 	int 1
@@ -3689,6 +3689,12 @@ stringInTuple:
 	concat
 	store 0 // tuple head
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset
@@ -3760,7 +3766,7 @@ accesStringInTuple:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0007
+	byte 0x0008
 	store 2 // head offset
 	load 0 // tuple head
 	int 1
@@ -3795,6 +3801,12 @@ accesStringInTuple:
 	concat
 	store 0 // tuple head
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset
@@ -3919,7 +3931,7 @@ updateStringInTuple:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0008
+	byte 0x0009
 	store 2 // head offset
 	load 0 // tuple head
 	int 9
@@ -3954,6 +3966,12 @@ updateStringInTuple:
 	concat
 	store 0 // tuple head
 	byte "Hi?"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset
@@ -5032,7 +5050,7 @@ namedTuple:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0003
+	byte 0x0004
 	store 2 // head offset
 	load 0 // tuple head
 	int 1
@@ -5045,6 +5063,12 @@ namedTuple:
 	concat
 	store 0 // tuple head
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset
@@ -5118,7 +5142,7 @@ updateNamedTuple:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0003
+	byte 0x0004
 	store 2 // head offset
 	load 0 // tuple head
 	int 1
@@ -5131,6 +5155,12 @@ updateNamedTuple:
 	concat
 	store 0 // tuple head
 	byte "Hi?"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset
@@ -5257,7 +5287,7 @@ customTypes:
 	dup
 	store 0 // tuple head
 	store 1 // tuple tail
-	byte 0x0003
+	byte 0x0004
 	store 2 // head offset
 	load 0 // tuple head
 	int 1
@@ -5270,6 +5300,12 @@ customTypes:
 	concat
 	store 0 // tuple head
 	byte "Hi?"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	dup
 	len
 	load 2 // head offset

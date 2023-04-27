@@ -321,7 +321,6 @@ describe('ABI', function () {
     // asert is in contract
   });
 
-  /*
   it('stringInTuple', async function () {
     const s = 'Hello World!';
     const ret = await appClient.stringInTuple();
@@ -391,5 +390,4 @@ describe('ABI', function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
   });
-  */
 });
