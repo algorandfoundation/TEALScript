@@ -1447,7 +1447,7 @@ export default class Compiler {
       'swap',
       'dupn 2',
       'uncover 3',
-      `int ${this.getTypeLength(elementType)}`,
+      'int 2',
       'extract3',
       'btoi // start of dynamic array',
       'dup',
@@ -1516,7 +1516,7 @@ export default class Compiler {
         elementType = tupleTypes[accessor];
 
         const priorTypeLength = expr.elements.slice(0, accessor)
-          .map((t) => this.getTypeLength(t.getText()))
+          .map((t) => (this.isDynamicType(t.getText()) ? 2 : this.getTypeLength(t.getText())))
           .reduce((sum, n) => sum + n, 0);
 
         this.pushLines(`int ${priorTypeLength}`);

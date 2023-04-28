@@ -3855,7 +3855,7 @@ accesStringInTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -3882,7 +3882,7 @@ accesStringInTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -4151,7 +4151,7 @@ updateStringInTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -4224,7 +4224,7 @@ updateStringInTuple:
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
 	store 3 // full tuple
-	int 4
+	int 5
 	swap
 	dupn 2
 	uncover 3
@@ -4299,7 +4299,7 @@ updateStringInTuple:
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
 	store 3 // full tuple
-	int 6
+	int 7
 	swap
 	dupn 2
 	uncover 3
@@ -5093,7 +5093,7 @@ namedTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5185,7 +5185,7 @@ updateNamedTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5238,7 +5238,7 @@ updateNamedTuple:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5330,7 +5330,7 @@ customTypes:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5383,7 +5383,7 @@ customTypes:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5435,7 +5435,7 @@ staticStringArrayArg:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
@@ -5492,7 +5492,7 @@ dynamicAccessOfDynamicElementInStaticArray:
 	swap
 	dupn 2
 	uncover 3
-	int 1
+	int 2
 	extract3
 	btoi // start of dynamic array
 	dup
