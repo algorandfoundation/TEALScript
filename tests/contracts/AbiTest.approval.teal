@@ -5457,9 +5457,11 @@ staticStringArrayArg:
 	// tests/contracts/abi.algo.ts:481
 	// return a[1];
 	frame_dig -1 // a: bytes[3]
+	dup
+	store 3 // full tuple
 	int 1
-	int 1 // element length
-	* // element offset
+	int 2
+	*
 	swap
 	dupn 2
 	uncover 3
@@ -5476,6 +5478,7 @@ staticStringArrayArg:
 	int 2
 	+ // add two for length
 	extract3
+	extract 2 0
 	dup
 	len
 	itob
@@ -5514,9 +5517,11 @@ dynamicAccessOfDynamicElementInStaticArray:
 	// tests/contracts/abi.algo.ts:486
 	// return a[i];
 	frame_dig -1 // a: bytes[3]
+	dup
+	store 3 // full tuple
 	frame_dig -2 // i: uint64
-	int 1 // element length
-	* // element offset
+	int 2
+	*
 	swap
 	dupn 2
 	uncover 3
@@ -5533,6 +5538,7 @@ dynamicAccessOfDynamicElementInStaticArray:
 	int 2
 	+ // add two for length
 	extract3
+	extract 2 0
 	dup
 	len
 	itob

@@ -8,12 +8,13 @@ import { artifactsTest } from './common';
 
 let appClient: AbiTest;
 
-// eslint-disable-next-line no-unused-vars
-async function dryrun(methodName: string) {
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+async function dryrun(methodName: string, methodArgs: any = []) {
   const atc = new algosdk.AtomicTransactionComposer();
   atc.addMethodCall({
     appID: appClient.appId,
     method: algosdk.getMethodByName(appClient.methods, methodName),
+    methodArgs,
     sender: appClient.sender,
     signer: appClient.signer,
     suggestedParams: await appClient.getSuggestedParams(),

@@ -1481,7 +1481,18 @@ export default class Compiler {
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
-    const parentType = this.getABIType(this.lastType);
+    let parentType = this.getABIType(this.lastType);
+    let isStaticArrayOfDynamicType = false;
+
+    if (parentType.match(/\[\d+\]$/)) {
+      const baseType = parentType.replace(/\[\d+\]$/, '');
+      const length = parseInt(parentType.match(/\d+/)!.at(-1)!, 10);
+      if (this.isDynamicType(baseType)) {
+        parentType = `[${new Array(length).fill(baseType).join(',')}]`;
+        isStaticArrayOfDynamicType = true;
+      }
+    }
+
     if (parentType.startsWith('[') || parentType.startsWith('{')) this.pushLines('dup', `store ${scratch.fullTuple}`);
 
     let elementType: string = '';
@@ -1490,7 +1501,7 @@ export default class Compiler {
     let accessor = 0;
 
     chain.forEach((e, i) => {
-      const previouslyAccessedType = this.getABIType(this.lastType);
+      const previouslyAccessedType = i === 0 ? parentType : this.getABIType(this.lastType);
 
       const isStatic = previouslyAccessedType.match(/\[\d+\]$/);
       const isTuple = previouslyAccessedType.startsWith('[') || previouslyAccessedType.startsWith('{');
@@ -1505,6 +1516,14 @@ export default class Compiler {
         this.pushVoid(`int ${elementLength} // element length`);
         this.pushLines('* // element offset');
         if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
+      } else if (isStaticArrayOfDynamicType) {
+        elementType = this.lastType.replace(/\[\d+\]$/, '');
+
+        this.processNode(e.argumentExpression);
+        this.pushLines(
+          'int 2',
+          '*',
+        );
       } else if (isTuple) {
         const expr = stringToExpression(previouslyAccessedType);
         if (!ts.isArrayLiteralExpression(expr)) throw new Error();
@@ -1547,7 +1566,7 @@ export default class Compiler {
       }
 
       if (isNumeric(elementType)) this.pushVoid('btoi');
-      if (elementType === 'string') this.pushVoid('extract 2 0');
+      if (['string', 'bytes'].includes(elementType)) this.pushVoid('extract 2 0');
       this.lastType = elementType.replace('string', 'bytes');
     }
   }
