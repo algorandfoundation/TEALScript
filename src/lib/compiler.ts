@@ -175,6 +175,7 @@ const scratch = {
   oldTupleElement: '4 // old tuple element',
   oldElementLength: '5 // old element length',
   newTupleElement: '6 // new tuple element',
+  subtractHeadDifference: '7 // subtract head difference',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
 };
@@ -209,6 +210,8 @@ export default class Compiler {
   private whileCount: number = 0;
 
   private forCount: number = 0;
+
+  private elementUpdateCount: number = 0;
 
   filename?: string;
 
@@ -1420,8 +1423,29 @@ export default class Compiler {
       `load ${scratch.newTupleElement}`,
       'len // length of new element',
       `load ${scratch.oldElementLength}`,
+      '<',
+
+      `bnz swapped_difference_${this.elementUpdateCount}`,
+      `load ${scratch.newTupleElement}`,
+      'len // length of new element',
+      `load ${scratch.oldElementLength}`,
+      'int 1',
+      `store ${scratch.subtractHeadDifference}`,
+      `b get_difference_${this.elementUpdateCount}`,
+
+      `swapped_difference_${this.elementUpdateCount}:`,
+      `load ${scratch.oldElementLength}`,
+      `load ${scratch.newTupleElement}`,
+      'len // length of new element',
+      'int 0',
+      `store ${scratch.subtractHeadDifference}`,
+
+      `get_difference_${this.elementUpdateCount}:`,
       '- // get length difference',
+
     );
+
+    let headCount = 0;
 
     dynamicHeads.forEach(({ index, offset }) => {
       if (index <= accessor) return;
@@ -1431,7 +1455,18 @@ export default class Compiler {
         `load ${scratch.fullTuple}`,
         `int ${offset} // dynamic array offset`,
         'extract_uint16 // extract dynamic array offset',
+
+        `load ${scratch.subtractHeadDifference}`,
+        `bz subtract_head_difference_${this.elementUpdateCount}_${headCount}`,
         '+ // add difference to offset',
+        `b end_calc_new_head_${this.elementUpdateCount}_${headCount}`,
+
+        `subtract_head_difference_${this.elementUpdateCount}_${headCount}:`,
+        'swap',
+        '- // subtract difference from offet',
+
+        `end_calc_new_head_${this.elementUpdateCount}_${headCount}:`,
+
         'itob // convert to bytes',
         'extract 6 2 // convert to uint16',
         `load ${scratch.fullTuple}`,
@@ -1439,7 +1474,11 @@ export default class Compiler {
         `replace ${offset} // replace dynamic array offset`,
         `store ${scratch.fullTuple}`,
       );
+
+      headCount += 1;
     });
+
+    this.elementUpdateCount += 1;
 
     this.pushVoid(`load ${scratch.fullTuple}`);
   }

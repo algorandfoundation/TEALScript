@@ -1,116 +1,6 @@
 #pragma version 8
 	b main
 
-preArrayAccess:
-	proto 3 0
-	frame_dig -3 // full tuple
-	store 0 // full tuple
-	load 0 // full tuple
-	frame_dig -1 // head offset
-	extract_uint16 // extract array offset
-	store 1 // array offset
-	load 0 // full tuple
-	load 1 // array offset
-	extract_uint16 // extract array length
-	frame_dig -2 // type length
-	* // array size
-	int 2
-	+ // array size + len
-	store 2 // full array length
-	retsub
-
-updateDynamicElement:
-	proto 8 1
-	frame_dig -8 // newArray
-	store 6 // new array
-	load 0 // full tuple
-	int 0
-	frame_dig -2 // startOfHeads
-	extract3
-	store 3 // static part of tuple
-	load 0 // full tuple
-	frame_dig -2 // startOfHeads
-	frame_dig -3 // totalHeadLength
-	extract3 
-	store 4 // dynamic heads
-	byte 0x
-	dup
-	store 5 // values after array
-	store 7 // values before array
-	frame_dig -4 // lastDynamicElement
-	bnz skip_values_after_array
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
-	+
-	load 0 // full tuple
-	len
-	substring3
-	store 5 // values after array
-
-skip_values_after_array:
-	frame_dig -5 // firstDynamicElement
-	bnz skip_values_before_array
-	load 0 // full tuple
-	frame_dig -1 // headEnd
-	load 1 // array offset
-	substring3
-	store 7 // values before array
-
-skip_values_before_array:
-	load 4 // dynamic heads
-	frame_dig -6 // headUpdateBitmask
-	load 6 // new array
-	len
-	load 2 // full array length
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz skip_len_swap
-	swap
-
-skip_len_swap:
-	-
-	itob
-	extract 6 2
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	dup
-	concat
-	b&
-	load 6 // new array
-	len
-	load 2 // full array length
-	>=
-	bnz add_head
-	b-
-	b sub_or_add_head_end
-
-add_head:
-	b+
-
-sub_or_add_head_end:
-	frame_dig -7 // fullHeadBitmask
-	b&
-	store 4 // dynamic heads
-	load 3 // static part of tuple
-	load 4 // dynamic heads
-	load 7 // values before array
-	load 6 // new array
-	load 5 // values after array
-	concat
-	concat
-	concat
-	concat
-	retsub
-
 bare_route_create:
 	txn OnCompletion
 	int NoOp
@@ -151,14 +41,16 @@ setMyContact:
 
 	// examples/tuple_in_box/app.algo.ts:15
 	// contact: Contact = { name: name, company: company }
-	byte 0x // no static elements
-	store 11 // static elements
-	byte 0x0004 // head end
-	store 8 // dynamic head
-	int 4
-	store 9 // dynamic head offset
 	byte 0x
-	store 10 // dynamic elements
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0004
+	store 2 // head offset
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // name: bytes
 	dup
 	len
@@ -168,20 +60,20 @@ setMyContact:
 	concat
 	dup
 	len
-	load 9 // dynamic head offset
+	load 2 // head offset
+	btoi
 	+
-	dup
-	store 9 // dynamic head offset
 	itob
 	extract 6 2
-	load 8 // dynamic head
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 8 // dynamic head
-	load 10 // dynamic elements
-	swap
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
 	concat
-	store 10 // dynamic elements
+	store 0 // tuple head
 	frame_dig -2 // company: bytes
 	dup
 	len
@@ -189,14 +81,20 @@ setMyContact:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -3 // contact: Contact
 
@@ -242,14 +140,16 @@ addContact:
 
 	// examples/tuple_in_box/app.algo.ts:22
 	// contact: Contact = { name: name, company: company }
-	byte 0x // no static elements
-	store 11 // static elements
-	byte 0x0004 // head end
-	store 8 // dynamic head
-	int 4
-	store 9 // dynamic head offset
 	byte 0x
-	store 10 // dynamic elements
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0004
+	store 2 // head offset
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // name: bytes
 	dup
 	len
@@ -259,20 +159,20 @@ addContact:
 	concat
 	dup
 	len
-	load 9 // dynamic head offset
+	load 2 // head offset
+	btoi
 	+
-	dup
-	store 9 // dynamic head offset
 	itob
 	extract 6 2
-	load 8 // dynamic head
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 8 // dynamic head
-	load 10 // dynamic elements
-	swap
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 2 // head offset
 	concat
-	store 10 // dynamic elements
+	store 0 // tuple head
 	frame_dig -2 // company: bytes
 	dup
 	len
@@ -280,14 +180,20 @@ addContact:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -4 // contact: Contact
 
@@ -340,9 +246,29 @@ updateContactField:
 	frame_dig -3 // address: account
 	box_get
 	assert
-	int 1 // type length
-	int 0 // head offset
-	callsub preArrayAccess
+	dup
+	store 3 // full tuple
+	int 0
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -350,14 +276,69 @@ updateContactField:
 	extract 6 2
 	swap
 	concat
-	byte 0xFFFFFFFF
-	byte 0x0000FFFF // head update bitmask
-	int 1 // is first dynamic element
-	int 0 // is last dynamic element
-	int 4 // total head length
-	int 0 // startOfHeads
-	int 4 // head end
-	callsub updateDynamicElement
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 0 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	<
+	bnz swapped_difference_0
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference_0
+
+swapped_difference_0:
+	load 5 // old element length
+	load 6 // new tuple element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference_0:
+	- // get length difference
+	dup // duplicate length difference
+	load 3 // full tuple
+	int 2 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	load 7 // subtract head difference
+	bz subtract_head_difference_0_0
+	+ // add difference to offset
+	b end_calc_new_head_0_0
+
+subtract_head_difference_0_0:
+	swap
+	- // subtract difference from offet
+
+end_calc_new_head_0_0:
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	replace 2 // replace dynamic array offset
+	store 3 // full tuple
+	load 3 // full tuple
 	frame_dig -3 // address: account
 	dup
 	box_del
@@ -382,9 +363,29 @@ if0_elseif1_condition:
 	frame_dig -3 // address: account
 	box_get
 	assert
-	int 1 // type length
-	int 2 // head offset
-	callsub preArrayAccess
+	dup
+	store 3 // full tuple
+	int 2
+	swap
+	dupn 2
+	uncover 3
+	int 2
+	extract3
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	store 4 // old tuple element
+	load 4 // old tuple element
+	len // length of old element
+	store 5 // old element length
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -392,14 +393,49 @@ if0_elseif1_condition:
 	extract 6 2
 	swap
 	concat
-	byte 0xFFFFFFFF
-	byte 0x00000000 // head update bitmask
-	int 0 // is first dynamic element
-	int 1 // is last dynamic element
-	int 4 // total head length
-	int 0 // startOfHeads
-	int 4 // head end
-	callsub updateDynamicElement
+	store 6 // new tuple element
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	int 2 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	<
+	bnz swapped_difference_1
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference_1
+
+swapped_difference_1:
+	load 5 // old element length
+	load 6 // new tuple element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference_1:
+	- // get length difference
+	load 3 // full tuple
 	frame_dig -3 // address: account
 	dup
 	box_del
@@ -445,14 +481,26 @@ verifyContactName:
 	frame_dig -2 // address: account
 	box_get
 	assert
-	int 1 // type length
-	int 0 // head offset
-	callsub preArrayAccess
-	load 0 // full tuple
-	load 1 // array offset
-	load 2 // full array length
+	dup
+	store 3 // full tuple
+	int 0
+	swap
+	dupn 2
+	uncover 3
+	int 2
 	extract3
-	extract 2 0 // extract bytes from string
+	btoi // start of dynamic array
+	dup
+	cover 2 // duplicate start for later
+	int 2
+	extract3 // extract length of array
+	btoi
+	int 1
+	* // get array length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
 	frame_dig -1 // name: bytes
 	==
 	assert

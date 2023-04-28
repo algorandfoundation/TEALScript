@@ -122,16 +122,24 @@ addAppToWhiteList:
 
 	// examples/arc75/arc75.algo.ts:37
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0024
+	store 2 // head offset
+	load 0 // tuple head
 	txn Sender
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	frame_dig -2 // boxIndex: uint16
 	concat
-	store 11 // static elements
-	byte 0x0024 // head end
-	store 8 // dynamic head
-	int 36
-	store 9 // dynamic head offset
-	byte 0x
-	store 10 // dynamic elements
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // arc: bytes
 	dup
 	len
@@ -139,14 +147,20 @@ addAppToWhiteList:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -6 // whitelist: Whitelist
 
@@ -189,9 +203,10 @@ addAppToWhiteList:
 if0_else:
 	// examples/arc75/arc75.algo.ts:42
 	// newWhitelist: uint64[] = [appID]
-	byte 0x0001
 	frame_dig -3 // appID: uint64
 	itob
+	byte 0x0001
+	swap
 	concat
 	frame_bury -7 // newWhitelist: uint64[]
 
@@ -245,16 +260,24 @@ setAppWhitelist:
 
 	// examples/arc75/arc75.algo.ts:59
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0024
+	store 2 // head offset
+	load 0 // tuple head
 	txn Sender
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	frame_dig -2 // boxIndex: uint16
 	concat
-	store 11 // static elements
-	byte 0x0024 // head end
-	store 8 // dynamic head
-	int 36
-	store 9 // dynamic head offset
-	byte 0x
-	store 10 // dynamic elements
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // arc: bytes
 	dup
 	len
@@ -262,14 +285,20 @@ setAppWhitelist:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -5 // whitelist: Whitelist
 
@@ -350,16 +379,24 @@ deleteWhitelist:
 
 	// examples/arc75/arc75.algo.ts:81
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0024
+	store 2 // head offset
+	load 0 // tuple head
 	txn Sender
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	frame_dig -2 // boxIndex: uint16
 	concat
-	store 11 // static elements
-	byte 0x0024 // head end
-	store 8 // dynamic head
-	int 36
-	store 9 // dynamic head offset
-	byte 0x
-	store 10 // dynamic elements
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // arc: bytes
 	dup
 	len
@@ -367,14 +404,20 @@ deleteWhitelist:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -4 // whitelist: Whitelist
 
@@ -425,16 +468,24 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:98
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0024
+	store 2 // head offset
+	load 0 // tuple head
 	txn Sender
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
 	frame_dig -2 // boxIndex: uint16
 	concat
-	store 11 // static elements
-	byte 0x0024 // head end
-	store 8 // dynamic head
-	int 36
-	store 9 // dynamic head offset
-	byte 0x
-	store 10 // dynamic elements
+	store 0 // tuple head
+	load 0 // tuple head
+	load 2 // head offset
+	concat
+	store 0 // tuple head
 	frame_dig -1 // arc: bytes
 	dup
 	len
@@ -442,14 +493,20 @@ deleteAppFromWhitelist:
 	extract 6 2
 	swap
 	concat
-	load 10 // dynamic elements
+	dup
+	len
+	load 2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	store 2 // head offset
+	load 1 // tuple tail
 	swap
 	concat
-	store 10 // dynamic elements
-	load 11 // static elements
-	load 8 // dynamic head
-	load 10 // dynamic elements
-	concat
+	store 1 // tuple tail
+	load 0 // tuple head
+	load 1 // tuple tail
 	concat
 	frame_bury -6 // whitelist: Whitelist
 
@@ -521,10 +578,10 @@ deleteAppFromWhitelist:
 	// assert(spliced[0] === appID)
 	frame_dig -7 // spliced: uint64[]
 	int 0
-	int 8
-	*
+	int 8 // element length
+	* // element offset
 	int 2
-	+
+	+ // add two for length
 	int 8
 	extract3
 	btoi
