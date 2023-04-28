@@ -4119,25 +4119,25 @@ updateStringInTuple:
 	store 3 // full tuple
 	dup // duplicate length difference
 	load 3 // full tuple
-	int 4 // dynamic array offset
+	int 5 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	+ // add difference to offset
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
 	load 3 // full tuple
 	swap
-	replace 4 // replace dynamic array offset
+	replace 5 // replace dynamic array offset
 	store 3 // full tuple
 	dup // duplicate length difference
 	load 3 // full tuple
-	int 6 // dynamic array offset
+	int 7 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	+ // add difference to offset
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
 	load 3 // full tuple
 	swap
-	replace 6 // replace dynamic array offset
+	replace 7 // replace dynamic array offset
 	store 3 // full tuple
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
@@ -4169,6 +4169,12 @@ updateStringInTuple:
 	len // length of old element
 	store 5 // old element length
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	store 6 // new tuple element
 	load 3 // full tuple
 	load 3 // full tuple
@@ -4196,25 +4202,25 @@ updateStringInTuple:
 	- // get length difference
 	dup // duplicate length difference
 	load 3 // full tuple
-	int 4 // dynamic array offset
+	int 5 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	+ // add difference to offset
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
 	load 3 // full tuple
 	swap
-	replace 4 // replace dynamic array offset
+	replace 5 // replace dynamic array offset
 	store 3 // full tuple
 	dup // duplicate length difference
 	load 3 // full tuple
-	int 6 // dynamic array offset
+	int 7 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	+ // add difference to offset
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
 	load 3 // full tuple
 	swap
-	replace 6 // replace dynamic array offset
+	replace 7 // replace dynamic array offset
 	store 3 // full tuple
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
@@ -4258,7 +4264,7 @@ updateStringInTuple:
 	store 6 // new tuple element
 	load 3 // full tuple
 	load 3 // full tuple
-	int 4 // head offset
+	int 5 // head offset
 	extract_uint16 // extract dynamic array offset of element
 	int 0
 	swap
@@ -4267,7 +4273,7 @@ updateStringInTuple:
 	concat
 	load 3 // full tuple
 	load 3 // full tuple
-	int 4 // head offset
+	int 5 // head offset
 	extract_uint16 // extract dynamic array offset of element
 	load 5 // old element length
 	+
@@ -4282,14 +4288,14 @@ updateStringInTuple:
 	- // get length difference
 	dup // duplicate length difference
 	load 3 // full tuple
-	int 6 // dynamic array offset
+	int 7 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	+ // add difference to offset
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
 	load 3 // full tuple
 	swap
-	replace 6 // replace dynamic array offset
+	replace 7 // replace dynamic array offset
 	store 3 // full tuple
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
@@ -4333,7 +4339,7 @@ updateStringInTuple:
 	store 6 // new tuple element
 	load 3 // full tuple
 	load 3 // full tuple
-	int 6 // head offset
+	int 7 // head offset
 	extract_uint16 // extract dynamic array offset of element
 	int 0
 	swap
@@ -4342,7 +4348,7 @@ updateStringInTuple:
 	concat
 	load 3 // full tuple
 	load 3 // full tuple
-	int 6 // head offset
+	int 7 // head offset
 	extract_uint16 // extract dynamic array offset of element
 	load 5 // old element length
 	+
@@ -5203,6 +5209,12 @@ updateNamedTuple:
 	len // length of old element
 	store 5 // old element length
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	store 6 // new tuple element
 	load 3 // full tuple
 	load 3 // full tuple
@@ -5348,6 +5360,12 @@ customTypes:
 	len // length of old element
 	store 5 // old element length
 	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	store 6 // new tuple element
 	load 3 // full tuple
 	load 3 // full tuple

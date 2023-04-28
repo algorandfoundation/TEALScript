@@ -719,7 +719,6 @@ export default class Compiler {
       case 'account':
         return 32;
       default:
-        if (this.isDynamicType(type)) return 2;
         throw new Error(`Unknown type ${JSON.stringify(type, null, 2)}`);
     }
   }
@@ -1378,6 +1377,9 @@ export default class Compiler {
     // Get new element
     this.processNode(newValue);
     if (isNumeric(this.lastType)) this.pushVoid('itob');
+    if (['bytes', 'string'].includes(this.lastType)) {
+      this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
+    }
     this.pushLines(`store ${scratch.newTupleElement}`);
 
     const headOffset = dynamicHeads.find((dh) => dh.index === accessor)!.offset;
@@ -1470,7 +1472,7 @@ export default class Compiler {
     node.elements.forEach((typeNode, index) => {
       const type = typeNode.getText();
       if (this.isDynamicType(type)) dynamicHeads.push({ index, offset });
-      offset += this.getTypeLength(type);
+      offset += this.isDynamicType(type) ? 2 : this.getTypeLength(type);
     });
 
     return dynamicHeads;
