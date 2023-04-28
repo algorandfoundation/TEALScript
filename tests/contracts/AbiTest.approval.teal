@@ -5095,6 +5095,8 @@ namedTuple:
 	// tests/contracts/abi.algo.ts:452
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
+	dup
+	store 3 // full tuple
 	int 2
 	swap
 	dupn 2
@@ -5187,6 +5189,8 @@ updateNamedTuple:
 	// tests/contracts/abi.algo.ts:464
 	// a.bar = 'Hello World!'
 	frame_dig -1 // a: { foo: uint16, bar: string, }
+	dup
+	store 3 // full tuple
 	int 2
 	swap
 	dupn 2
@@ -5246,6 +5250,8 @@ updateNamedTuple:
 	// tests/contracts/abi.algo.ts:466
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
+	dup
+	store 3 // full tuple
 	int 2
 	swap
 	dupn 2
@@ -5338,6 +5344,8 @@ customTypes:
 	// tests/contracts/abi.algo.ts:475
 	// aa.bar = 'Hello World!'
 	frame_dig -1 // aa: CustomType
+	dup
+	store 3 // full tuple
 	int 2
 	swap
 	dupn 2
@@ -5397,6 +5405,8 @@ customTypes:
 	// tests/contracts/abi.algo.ts:477
 	// return aa.bar;
 	frame_dig -1 // aa: CustomType
+	dup
+	store 3 // full tuple
 	int 2
 	swap
 	dupn 2

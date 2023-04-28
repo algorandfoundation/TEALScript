@@ -1481,7 +1481,8 @@ export default class Compiler {
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
-    if (this.lastType.startsWith('[')) this.pushLines('dup', `store ${scratch.fullTuple}`);
+    const parentType = this.getABIType(this.lastType);
+    if (parentType.startsWith('[') || parentType.startsWith('{')) this.pushLines('dup', `store ${scratch.fullTuple}`);
 
     let elementType: string = '';
     let elementLength: number = 0;
