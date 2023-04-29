@@ -1,9 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
-
 import { Contract } from '../../src/lib/index';
 
 type CustomType = {
@@ -206,7 +200,6 @@ class AbiTest extends Contract {
     return a[1][1];
   }
 
-  /*
   tupleInTuple(): uint64 {
     const a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
       11, 22, [33, 44], [55, 66],
@@ -214,7 +207,6 @@ class AbiTest extends Contract {
 
     return a[3][1];
   }
-  */
 
   shortTypeNotation(): uint16 {
     const a: [uint16<2>, uint64<2>, uint16<2>] = [
@@ -224,7 +216,6 @@ class AbiTest extends Contract {
     return a[2][1];
   }
 
-  /*
   disgusting(): uint64 {
     const a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
       [[11, 22], 33, [44, 55], [[66, 77], [88, 99]]],
@@ -234,7 +225,6 @@ class AbiTest extends Contract {
     a[1][3][1] = [8888, 9999];
     return a[1][3][1][0]; // 8888
   }
-  */
 
   returnTuple(): [uint64, uint16, uint64] {
     const a: [uint64, uint16, uint64] = [11, 22, 33];

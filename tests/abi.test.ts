@@ -164,9 +164,9 @@ describe('ABI', function () {
   });
 
   // eslint-disable-next-line mocha/no-skipped-tests
-  it.skip('tupleInTuple', async function () {
-    // const ret = await appClient.tupleInTuple();
-    // expect(ret.returnValue).to.equal(BigInt(66));
+  it('tupleInTuple', async function () {
+    const ret = await appClient.tupleInTuple();
+    expect(ret.returnValue).to.equal(BigInt(66));
   });
 
   it('shortTypeNotation', async function () {
@@ -175,9 +175,9 @@ describe('ABI', function () {
   });
 
   // eslint-disable-next-line mocha/no-skipped-tests
-  it.skip('disgusting', async function () {
-    // const ret = await appClient.disgusting();
-    // expect(ret.returnValue).to.equal(BigInt(8888));
+  it('disgusting', async function () {
+    const ret = await appClient.disgusting();
+    expect(ret.returnValue).to.equal(BigInt(8888));
   });
 
   it('returnTuple', async function () {

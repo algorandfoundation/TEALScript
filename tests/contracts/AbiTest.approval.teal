@@ -123,7 +123,7 @@ abi_route_staticArray:
 staticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:35
+	// tests/contracts/abi.algo.ts:29
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -135,7 +135,7 @@ staticArray:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:37
+	// tests/contracts/abi.algo.ts:31
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 1
@@ -168,7 +168,7 @@ abi_route_returnStaticArray:
 returnStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:41
+	// tests/contracts/abi.algo.ts:35
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -180,7 +180,7 @@ returnStaticArray:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:43
+	// tests/contracts/abi.algo.ts:37
 	// return a;
 	frame_dig -1 // a: uint64[3]
 	byte 0x151f7c75
@@ -206,7 +206,7 @@ abi_route_staticArrayArg:
 staticArrayArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:47
+	// tests/contracts/abi.algo.ts:41
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 1
@@ -240,22 +240,22 @@ abi_route_nonLiteralStaticArrayElements:
 nonLiteralStaticArrayElements:
 	proto 4 0
 
-	// tests/contracts/abi.algo.ts:51
+	// tests/contracts/abi.algo.ts:45
 	// n1 = 11
 	int 11
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.algo.ts:52
+	// tests/contracts/abi.algo.ts:46
 	// n2 = 22
 	int 22
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.algo.ts:53
+	// tests/contracts/abi.algo.ts:47
 	// n3 = 33
 	int 33
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.algo.ts:54
+	// tests/contracts/abi.algo.ts:48
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
@@ -267,7 +267,7 @@ nonLiteralStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:56
+	// tests/contracts/abi.algo.ts:50
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
 	int 1
@@ -301,22 +301,22 @@ abi_route_mixedStaticArrayElements:
 mixedStaticArrayElements:
 	proto 4 0
 
-	// tests/contracts/abi.algo.ts:60
+	// tests/contracts/abi.algo.ts:54
 	// n1 = 3
 	int 3
 	frame_bury -1 // n1: uint64
 
-	// tests/contracts/abi.algo.ts:61
+	// tests/contracts/abi.algo.ts:55
 	// n2 = 4
 	int 4
 	frame_bury -2 // n2: uint64
 
-	// tests/contracts/abi.algo.ts:62
+	// tests/contracts/abi.algo.ts:56
 	// n3 = 5
 	int 5
 	frame_bury -3 // n3: uint64
 
-	// tests/contracts/abi.algo.ts:63
+	// tests/contracts/abi.algo.ts:57
 	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	int 0
 	itob
@@ -346,7 +346,7 @@ mixedStaticArrayElements:
 	concat
 	frame_bury -4 // a: uint64[9]
 
-	// tests/contracts/abi.algo.ts:65
+	// tests/contracts/abi.algo.ts:59
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
 	int 1
@@ -396,7 +396,7 @@ abi_route_nonLiteralStaticArrayAccess:
 nonLiteralStaticArrayAccess:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:69
+	// tests/contracts/abi.algo.ts:63
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -408,12 +408,12 @@ nonLiteralStaticArrayAccess:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:70
+	// tests/contracts/abi.algo.ts:64
 	// n = 2
 	int 2
 	frame_bury -2 // n: uint64
 
-	// tests/contracts/abi.algo.ts:72
+	// tests/contracts/abi.algo.ts:66
 	// return a[n];
 	frame_dig -1 // a: uint64[3]
 	frame_dig -2 // n: uint64
@@ -446,7 +446,7 @@ abi_route_setStaticArrayElement:
 setStaticArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:76
+	// tests/contracts/abi.algo.ts:70
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -458,7 +458,7 @@ setStaticArrayElement:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:78
+	// tests/contracts/abi.algo.ts:72
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
 	int 1
@@ -469,7 +469,7 @@ setStaticArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:80
+	// tests/contracts/abi.algo.ts:74
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
 	int 1
@@ -503,7 +503,7 @@ abi_route_staticArrayInStorageRef:
 staticArrayInStorageRef:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:84
+	// tests/contracts/abi.algo.ts:78
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -515,26 +515,26 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:86
+	// tests/contracts/abi.algo.ts:80
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:87
+	// tests/contracts/abi.algo.ts:81
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:88
+	// tests/contracts/abi.algo.ts:82
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:90
+	// tests/contracts/abi.algo.ts:84
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
@@ -569,7 +569,7 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:96
+	// tests/contracts/abi.algo.ts:90
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -596,7 +596,7 @@ abi_route_updateStaticArrayInStorageRef:
 updateStaticArrayInStorageRef:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:100
+	// tests/contracts/abi.algo.ts:94
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -608,26 +608,26 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:102
+	// tests/contracts/abi.algo.ts:96
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:103
+	// tests/contracts/abi.algo.ts:97
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:104
+	// tests/contracts/abi.algo.ts:98
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:106
+	// tests/contracts/abi.algo.ts:100
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
@@ -641,7 +641,7 @@ updateStaticArrayInStorageRef:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:107
+	// tests/contracts/abi.algo.ts:101
 	// this.lRef.get(this.txn.sender)[1] = 222
 	txn Sender
 	byte "lRef"
@@ -657,7 +657,7 @@ updateStaticArrayInStorageRef:
 	uncover 2
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:108
+	// tests/contracts/abi.algo.ts:102
 	// this.bRef.get()[1] = 333
 	byte "bRef"
 	box_get
@@ -672,7 +672,7 @@ updateStaticArrayInStorageRef:
 	swap
 	box_put
 
-	// tests/contracts/abi.algo.ts:110
+	// tests/contracts/abi.algo.ts:104
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
@@ -707,7 +707,7 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:116
+	// tests/contracts/abi.algo.ts:110
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -734,7 +734,7 @@ abi_route_staticArrayInStorageMap:
 staticArrayInStorageMap:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:120
+	// tests/contracts/abi.algo.ts:114
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -746,26 +746,26 @@ staticArrayInStorageMap:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:122
+	// tests/contracts/abi.algo.ts:116
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:123
+	// tests/contracts/abi.algo.ts:117
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:124
+	// tests/contracts/abi.algo.ts:118
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:126
+	// tests/contracts/abi.algo.ts:120
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
@@ -800,7 +800,7 @@ staticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:132
+	// tests/contracts/abi.algo.ts:126
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -827,7 +827,7 @@ abi_route_updateStaticArrayInStorageMap:
 updateStaticArrayInStorageMap:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:136
+	// tests/contracts/abi.algo.ts:130
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -839,26 +839,26 @@ updateStaticArrayInStorageMap:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:138
+	// tests/contracts/abi.algo.ts:132
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:139
+	// tests/contracts/abi.algo.ts:133
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:140
+	// tests/contracts/abi.algo.ts:134
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:142
+	// tests/contracts/abi.algo.ts:136
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
@@ -872,7 +872,7 @@ updateStaticArrayInStorageMap:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:143
+	// tests/contracts/abi.algo.ts:137
 	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
 	txn Sender
 	byte "lMap"
@@ -888,7 +888,7 @@ updateStaticArrayInStorageMap:
 	uncover 2
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:144
+	// tests/contracts/abi.algo.ts:138
 	// this.bMap.get('bMap')[1] = 3333
 	byte "bMap"
 	box_get
@@ -903,7 +903,7 @@ updateStaticArrayInStorageMap:
 	swap
 	box_put
 
-	// tests/contracts/abi.algo.ts:146
+	// tests/contracts/abi.algo.ts:140
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
@@ -938,7 +938,7 @@ updateStaticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:152
+	// tests/contracts/abi.algo.ts:146
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -964,7 +964,7 @@ abi_route_nestedStaticArray:
 nestedStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:156
+	// tests/contracts/abi.algo.ts:150
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -994,7 +994,7 @@ nestedStaticArray:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:158
+	// tests/contracts/abi.algo.ts:152
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 1
@@ -1031,7 +1031,7 @@ abi_route_updateNestedStaticArrayElement:
 updateNestedStaticArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:162
+	// tests/contracts/abi.algo.ts:156
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -1061,7 +1061,7 @@ updateNestedStaticArrayElement:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:164
+	// tests/contracts/abi.algo.ts:158
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
 	int 1
@@ -1076,7 +1076,7 @@ updateNestedStaticArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:166
+	// tests/contracts/abi.algo.ts:160
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 1
@@ -1113,7 +1113,7 @@ abi_route_updateNestedStaticArray:
 updateNestedStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:170
+	// tests/contracts/abi.algo.ts:164
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -1143,7 +1143,7 @@ updateNestedStaticArray:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:172
+	// tests/contracts/abi.algo.ts:166
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
 	int 1
@@ -1160,7 +1160,7 @@ updateNestedStaticArray:
 	replace3
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:174
+	// tests/contracts/abi.algo.ts:168
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
 	int 1
@@ -1197,7 +1197,7 @@ abi_route_threeDimensionalUint16Array:
 threeDimensionalUint16Array:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:178
+	// tests/contracts/abi.algo.ts:172
 	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
 	int 11
 	itob
@@ -1232,7 +1232,7 @@ threeDimensionalUint16Array:
 	concat
 	frame_bury -1 // a: uint16[2][2][2]
 
-	// tests/contracts/abi.algo.ts:182
+	// tests/contracts/abi.algo.ts:176
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
 	int 1
@@ -1252,7 +1252,7 @@ threeDimensionalUint16Array:
 	replace3
 	frame_bury -1 // a: uint16[2][2][2]
 
-	// tests/contracts/abi.algo.ts:184
+	// tests/contracts/abi.algo.ts:178
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
 	int 1
@@ -1293,7 +1293,7 @@ abi_route_simpleTuple:
 simpleTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:188
+	// tests/contracts/abi.algo.ts:182
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
 	byte 0x
 	dup
@@ -1328,7 +1328,7 @@ simpleTuple:
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
-	// tests/contracts/abi.algo.ts:190
+	// tests/contracts/abi.algo.ts:184
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
 	dup
@@ -1361,7 +1361,7 @@ abi_route_arrayInTuple:
 arrayInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:194
+	// tests/contracts/abi.algo.ts:188
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
 	byte 0x
 	dup
@@ -1399,7 +1399,7 @@ arrayInTuple:
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
-	// tests/contracts/abi.algo.ts:198
+	// tests/contracts/abi.algo.ts:192
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
 	dup
@@ -1436,7 +1436,7 @@ abi_route_tupleInArray:
 tupleInArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:202
+	// tests/contracts/abi.algo.ts:196
 	// a: StaticArray<[uint64, uint16], 2> = [
 	byte 0x
 	dup
@@ -1481,7 +1481,7 @@ tupleInArray:
 	concat
 	frame_bury -1 // a: [uint64,uint16][2]
 
-	// tests/contracts/abi.algo.ts:206
+	// tests/contracts/abi.algo.ts:200
 	// return a[1][1];
 	frame_dig -1 // a: [uint64,uint16][2]
 	dup
@@ -1495,6 +1495,112 @@ tupleInArray:
 	extract3
 	byte 0xFFFF
 	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_tupleInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub tupleInTuple
+	int 1
+	return
+
+tupleInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:204
+	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0018
+	store 2 // head offset
+	load 0 // tuple head
+	int 11
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 22
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
+	int 33
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 44
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
+	int 55
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 66
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+
+	// tests/contracts/abi.algo.ts:208
+	// return a[3][1];
+	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	dup
+	store 3 // full tuple
+	int 14
+	int 2
+	+
+	int 8
+	extract3
+	btoi
+	itob
 	byte 0x151f7c75
 	swap
 	concat
@@ -1518,7 +1624,7 @@ abi_route_shortTypeNotation:
 shortTypeNotation:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:220
+	// tests/contracts/abi.algo.ts:212
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
 	byte 0x
 	dup
@@ -1559,7 +1665,7 @@ shortTypeNotation:
 	concat
 	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 
-	// tests/contracts/abi.algo.ts:224
+	// tests/contracts/abi.algo.ts:216
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
 	dup
@@ -1573,6 +1679,200 @@ shortTypeNotation:
 	extract3
 	byte 0xFFFF
 	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_disgusting:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub disgusting
+	int 1
+	return
+
+disgusting:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:220
+	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0036
+	store 2 // head offset
+	load 0 // tuple head
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 33
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
+	int 44
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 55
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 66
+	itob
+	int 77
+	itob
+	concat
+	int 88
+	itob
+	int 99
+	itob
+	concat
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x0036
+	store 2 // head offset
+	load 0 // tuple head
+	int 111
+	itob
+	extract 6 0
+	int 222
+	itob
+	extract 6 0
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 333
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	byte 0x
+	dup
+	store 0 // tuple head
+	store 1 // tuple tail
+	byte 0x000a
+	store 2 // head offset
+	load 0 // tuple head
+	int 444
+	itob
+	extract 6 0
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 555
+	itob
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	int 666
+	itob
+	int 777
+	itob
+	concat
+	int 888
+	itob
+	int 999
+	itob
+	concat
+	concat
+	concat
+	store 0 // tuple head
+	load 0 // tuple head
+	load 1 // tuple tail
+	concat
+	concat
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.algo.ts:225
+	// a[1][3][1] = [8888, 9999]
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	dup
+	store 3 // full tuple
+	int 1
+	int 54 // element length
+	* // element offset
+	int 22
+	+
+	int 1
+	int 16 // element length
+	* // element offset
+	+
+	int 8888
+	itob
+	int 9999
+	itob
+	concat
+	replace3
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.algo.ts:226
+	// return a[1][3][1][0];
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	dup
+	store 3 // full tuple
+	int 1
+	int 54 // element length
+	* // element offset
+	int 22
+	+
+	int 1
+	int 16 // element length
+	* // element offset
+	+
+	int 0
+	int 8 // element length
+	* // element offset
+	+
+	int 8
+	extract3
+	btoi
+	itob
 	byte 0x151f7c75
 	swap
 	concat
@@ -1596,7 +1896,7 @@ abi_route_returnTuple:
 returnTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:240
+	// tests/contracts/abi.algo.ts:230
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
 	byte 0x
 	dup
@@ -1625,7 +1925,7 @@ returnTuple:
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
-	// tests/contracts/abi.algo.ts:241
+	// tests/contracts/abi.algo.ts:231
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	byte 0x151f7c75
@@ -1651,7 +1951,7 @@ abi_route_tupleArg:
 tupleArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:245
+	// tests/contracts/abi.algo.ts:235
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	dup
@@ -1684,7 +1984,7 @@ abi_route_dynamicArray:
 dynamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:249
+	// tests/contracts/abi.algo.ts:239
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -1699,7 +1999,7 @@ dynamicArray:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:251
+	// tests/contracts/abi.algo.ts:241
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1734,7 +2034,7 @@ abi_route_returnDynamicArray:
 returnDynamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:255
+	// tests/contracts/abi.algo.ts:245
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -1749,7 +2049,7 @@ returnDynamicArray:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:256
+	// tests/contracts/abi.algo.ts:246
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -1775,7 +2075,7 @@ abi_route_dynamicArrayArg:
 dynamicArrayArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:260
+	// tests/contracts/abi.algo.ts:250
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1810,7 +2110,7 @@ abi_route_updateDynamicArrayElement:
 updateDynamicArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:264
+	// tests/contracts/abi.algo.ts:254
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -1825,7 +2125,7 @@ updateDynamicArrayElement:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:266
+	// tests/contracts/abi.algo.ts:256
 	// a[1] = 222
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1838,7 +2138,7 @@ updateDynamicArrayElement:
 	replace3
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:268
+	// tests/contracts/abi.algo.ts:258
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	int 1
@@ -1873,7 +2173,7 @@ abi_route_dynamicTupleArray:
 dynamicTupleArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:272
+	// tests/contracts/abi.algo.ts:262
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
 	byte 0x
 	dup
@@ -1921,7 +2221,7 @@ dynamicTupleArray:
 	concat
 	frame_bury -1 // a: [uint16,uint64][]
 
-	// tests/contracts/abi.algo.ts:274
+	// tests/contracts/abi.algo.ts:264
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint64][]
 	dup
@@ -1960,7 +2260,7 @@ abi_route_returnTupleWithDyamicArray:
 returnTupleWithDyamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:278
+	// tests/contracts/abi.algo.ts:268
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
 	byte 0x
 	dup
@@ -2034,7 +2334,7 @@ returnTupleWithDyamicArray:
 	concat
 	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:280
+	// tests/contracts/abi.algo.ts:270
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
 	byte 0x151f7c75
@@ -2060,7 +2360,7 @@ abi_route_returnDynamicArrayFromTuple:
 returnDynamicArrayFromTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:284
+	// tests/contracts/abi.algo.ts:274
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
 	byte 0x
 	dup
@@ -2163,7 +2463,7 @@ returnDynamicArrayFromTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:286
+	// tests/contracts/abi.algo.ts:276
 	// return a[4];
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	dup
@@ -2208,7 +2508,7 @@ abi_route_updateDynamicArrayInTuple:
 updateDynamicArrayInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:290
+	// tests/contracts/abi.algo.ts:280
 	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
 	byte 0x
 	dup
@@ -2315,7 +2615,7 @@ updateDynamicArrayInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:292
+	// tests/contracts/abi.algo.ts:282
 	// a[0] = 99 as uint8
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	dup
@@ -2327,7 +2627,7 @@ updateDynamicArrayInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:293
+	// tests/contracts/abi.algo.ts:283
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	dup
@@ -2377,7 +2677,7 @@ updateDynamicArrayInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:294
+	// tests/contracts/abi.algo.ts:284
 	// a[2] = [12, 13]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	dup
@@ -2424,7 +2724,7 @@ updateDynamicArrayInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:295
+	// tests/contracts/abi.algo.ts:285
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	dup
@@ -2468,7 +2768,7 @@ updateDynamicArrayInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:296
+	// tests/contracts/abi.algo.ts:286
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	dup
@@ -2509,7 +2809,7 @@ updateDynamicArrayInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:298
+	// tests/contracts/abi.algo.ts:288
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
@@ -2536,7 +2836,7 @@ abi_route_nonLiteralDynamicElementInTuple:
 nonLiteralDynamicElementInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:302
+	// tests/contracts/abi.algo.ts:292
 	// e: uint16[] = [5, 6]
 	int 5
 	itob
@@ -2550,7 +2850,7 @@ nonLiteralDynamicElementInTuple:
 	concat
 	frame_bury -1 // e: uint16[]
 
-	// tests/contracts/abi.algo.ts:303
+	// tests/contracts/abi.algo.ts:293
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
 	byte 0x
 	dup
@@ -2644,7 +2944,7 @@ nonLiteralDynamicElementInTuple:
 	concat
 	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:305
+	// tests/contracts/abi.algo.ts:295
 	// return a;
 	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
@@ -2670,7 +2970,7 @@ abi_route_arrayPush:
 arrayPush:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:309
+	// tests/contracts/abi.algo.ts:299
 	// a: uint16[] = [1, 2]
 	int 1
 	itob
@@ -2684,7 +2984,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:311
+	// tests/contracts/abi.algo.ts:301
 	// a.push(3 as uint16)
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2703,7 +3003,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:313
+	// tests/contracts/abi.algo.ts:303
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2729,7 +3029,7 @@ abi_route_arrayPop:
 arrayPop:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:317
+	// tests/contracts/abi.algo.ts:307
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -2747,7 +3047,7 @@ arrayPop:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:319
+	// tests/contracts/abi.algo.ts:309
 	// a.pop()
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2769,7 +3069,7 @@ arrayPop:
 	extract3
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:321
+	// tests/contracts/abi.algo.ts:311
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2796,7 +3096,7 @@ abi_route_arrayPopValue:
 arrayPopValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:325
+	// tests/contracts/abi.algo.ts:315
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -2814,7 +3114,7 @@ arrayPopValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:327
+	// tests/contracts/abi.algo.ts:317
 	// v = a.pop()!
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2844,7 +3144,7 @@ arrayPopValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16
 
-	// tests/contracts/abi.algo.ts:329
+	// tests/contracts/abi.algo.ts:319
 	// return v;
 	frame_dig -2 // v: uint16
 	byte 0xFFFF
@@ -2872,7 +3172,7 @@ abi_route_arraySplice:
 arraySplice:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:333
+	// tests/contracts/abi.algo.ts:323
 	// a: uint64[] = [1, 2, 3]
 	int 1
 	itob
@@ -2887,7 +3187,7 @@ arraySplice:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:335
+	// tests/contracts/abi.algo.ts:325
 	// a.splice(1, 1)
 	frame_dig -1 // a: uint64[]
 	int 0
@@ -2926,7 +3226,7 @@ arraySplice:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:337
+	// tests/contracts/abi.algo.ts:327
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -2953,7 +3253,7 @@ abi_route_arraySpliceValue:
 arraySpliceValue:
 	proto 4 0
 
-	// tests/contracts/abi.algo.ts:341
+	// tests/contracts/abi.algo.ts:331
 	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	int 1
 	itob
@@ -2999,17 +3299,17 @@ arraySpliceValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:343
+	// tests/contracts/abi.algo.ts:333
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.algo.ts:344
+	// tests/contracts/abi.algo.ts:334
 	// l = 7
 	int 7
 	frame_bury -3 // l: uint64
 
-	// tests/contracts/abi.algo.ts:345
+	// tests/contracts/abi.algo.ts:335
 	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3060,7 +3360,7 @@ arraySpliceValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -4 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:347
+	// tests/contracts/abi.algo.ts:337
 	// return v;
 	frame_dig -4 // v: uint16[]
 	byte 0x151f7c75
@@ -3087,7 +3387,7 @@ abi_route_dynamicArrayElements:
 dynamicArrayElements:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:351
+	// tests/contracts/abi.algo.ts:341
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3105,7 +3405,7 @@ dynamicArrayElements:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:352
+	// tests/contracts/abi.algo.ts:342
 	// newA: uint16[] = [a[0], a[1], a[2]]
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3138,7 +3438,7 @@ dynamicArrayElements:
 	concat
 	frame_bury -2 // newA: uint16[]
 
-	// tests/contracts/abi.algo.ts:354
+	// tests/contracts/abi.algo.ts:344
 	// return newA;
 	frame_dig -2 // newA: uint16[]
 	byte 0x151f7c75
@@ -3164,7 +3464,7 @@ abi_route_spliceLastElement:
 spliceLastElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:358
+	// tests/contracts/abi.algo.ts:348
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3182,7 +3482,7 @@ spliceLastElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:360
+	// tests/contracts/abi.algo.ts:350
 	// a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3221,7 +3521,7 @@ spliceLastElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:362
+	// tests/contracts/abi.algo.ts:352
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -3248,7 +3548,7 @@ abi_route_spliceLastElementValue:
 spliceLastElementValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:366
+	// tests/contracts/abi.algo.ts:356
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3266,7 +3566,7 @@ spliceLastElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:368
+	// tests/contracts/abi.algo.ts:358
 	// v = a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3317,7 +3617,7 @@ spliceLastElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:370
+	// tests/contracts/abi.algo.ts:360
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -3343,7 +3643,7 @@ abi_route_spliceFirstElement:
 spliceFirstElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:374
+	// tests/contracts/abi.algo.ts:364
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3361,7 +3661,7 @@ spliceFirstElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:376
+	// tests/contracts/abi.algo.ts:366
 	// a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3400,7 +3700,7 @@ spliceFirstElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:378
+	// tests/contracts/abi.algo.ts:368
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -3427,7 +3727,7 @@ abi_route_spliceFirstElementValue:
 spliceFirstElementValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:382
+	// tests/contracts/abi.algo.ts:372
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3445,7 +3745,7 @@ spliceFirstElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:384
+	// tests/contracts/abi.algo.ts:374
 	// v = a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3496,7 +3796,7 @@ spliceFirstElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:386
+	// tests/contracts/abi.algo.ts:376
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -3521,7 +3821,7 @@ abi_route_stringReturn:
 stringReturn:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:390
+	// tests/contracts/abi.algo.ts:380
 	// return 'Hello World!';
 	byte "Hello World!"
 	dup
@@ -3554,7 +3854,7 @@ abi_route_stringArg:
 stringArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:394
+	// tests/contracts/abi.algo.ts:384
 	// assert(s === 'Hello World!')
 	frame_dig -1 // s: bytes
 	byte "Hello World!"
@@ -3579,7 +3879,7 @@ abi_route_stringInTuple:
 stringInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:398
+	// tests/contracts/abi.algo.ts:388
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
 	byte 0x
 	dup
@@ -3665,7 +3965,7 @@ stringInTuple:
 	concat
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
 
-	// tests/contracts/abi.algo.ts:400
+	// tests/contracts/abi.algo.ts:390
 	// return a;
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	byte 0x151f7c75
@@ -3691,7 +3991,7 @@ abi_route_accesStringInTuple:
 accesStringInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:404
+	// tests/contracts/abi.algo.ts:394
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
 	byte 0x
 	dup
@@ -3777,7 +4077,7 @@ accesStringInTuple:
 	concat
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
 
-	// tests/contracts/abi.algo.ts:406
+	// tests/contracts/abi.algo.ts:396
 	// assert(a[2] === 'Hello World!')
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	dup
@@ -3804,7 +4104,7 @@ accesStringInTuple:
 	==
 	assert
 
-	// tests/contracts/abi.algo.ts:408
+	// tests/contracts/abi.algo.ts:398
 	// return a[2];
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	dup
@@ -3856,7 +4156,7 @@ abi_route_updateStringInTuple:
 updateStringInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:412
+	// tests/contracts/abi.algo.ts:402
 	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
 	byte 0x
 	dup
@@ -3964,7 +4264,7 @@ updateStringInTuple:
 	concat
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:414
+	// tests/contracts/abi.algo.ts:404
 	// a[0] = 99 as uint8
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
@@ -3976,7 +4276,7 @@ updateStringInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:415
+	// tests/contracts/abi.algo.ts:405
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
@@ -4026,7 +4326,7 @@ updateStringInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:416
+	// tests/contracts/abi.algo.ts:406
 	// a[2] = 'Hello World!'
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
@@ -4070,7 +4370,7 @@ updateStringInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:417
+	// tests/contracts/abi.algo.ts:407
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
@@ -4114,7 +4414,7 @@ updateStringInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:418
+	// tests/contracts/abi.algo.ts:408
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	dup
@@ -4155,7 +4455,7 @@ updateStringInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:420
+	// tests/contracts/abi.algo.ts:410
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	byte 0x151f7c75
@@ -4181,7 +4481,7 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 updateTupleWithOnlyDynamicTypes:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:424
+	// tests/contracts/abi.algo.ts:414
 	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
 	byte 0x
 	dup
@@ -4260,7 +4560,7 @@ updateTupleWithOnlyDynamicTypes:
 	concat
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:426
+	// tests/contracts/abi.algo.ts:416
 	// a[0] = [4, 5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4307,7 +4607,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:427
+	// tests/contracts/abi.algo.ts:417
 	// a[1] = [6, 7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4351,7 +4651,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:428
+	// tests/contracts/abi.algo.ts:418
 	// a[2] = [8, 9]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4392,7 +4692,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:430
+	// tests/contracts/abi.algo.ts:420
 	// return a;
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	byte 0x151f7c75
@@ -4418,7 +4718,7 @@ abi_route_shortenDynamicElementInTuple:
 shortenDynamicElementInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:434
+	// tests/contracts/abi.algo.ts:424
 	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
 	byte 0x
 	dup
@@ -4509,7 +4809,7 @@ shortenDynamicElementInTuple:
 	concat
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:436
+	// tests/contracts/abi.algo.ts:426
 	// a[0] = [5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4552,7 +4852,7 @@ shortenDynamicElementInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:437
+	// tests/contracts/abi.algo.ts:427
 	// a[1] = [6]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4592,7 +4892,7 @@ shortenDynamicElementInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:438
+	// tests/contracts/abi.algo.ts:428
 	// a[2] = [7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	dup
@@ -4629,7 +4929,7 @@ shortenDynamicElementInTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:440
+	// tests/contracts/abi.algo.ts:430
 	// return a;
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	byte 0x151f7c75
@@ -4655,7 +4955,7 @@ abi_route_namedTuple:
 namedTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:444
+	// tests/contracts/abi.algo.ts:434
 	// a: {
 	byte 0x
 	dup
@@ -4697,7 +4997,7 @@ namedTuple:
 	concat
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.algo.ts:452
+	// tests/contracts/abi.algo.ts:442
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	dup
@@ -4749,7 +5049,7 @@ abi_route_updateNamedTuple:
 updateNamedTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:456
+	// tests/contracts/abi.algo.ts:446
 	// a: {
 	byte 0x
 	dup
@@ -4791,7 +5091,7 @@ updateNamedTuple:
 	concat
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.algo.ts:464
+	// tests/contracts/abi.algo.ts:454
 	// a.bar = 'Hello World!'
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	dup
@@ -4829,7 +5129,7 @@ updateNamedTuple:
 	load 3 // full tuple
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
-	// tests/contracts/abi.algo.ts:466
+	// tests/contracts/abi.algo.ts:456
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	dup
@@ -4881,7 +5181,7 @@ abi_route_customTypes:
 customTypes:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:470
+	// tests/contracts/abi.algo.ts:460
 	// aa: CustomType = {
 	byte 0x
 	dup
@@ -4923,7 +5223,7 @@ customTypes:
 	concat
 	frame_bury -1 // aa: CustomType
 
-	// tests/contracts/abi.algo.ts:475
+	// tests/contracts/abi.algo.ts:465
 	// aa.bar = 'Hello World!'
 	frame_dig -1 // aa: CustomType
 	dup
@@ -4961,7 +5261,7 @@ customTypes:
 	load 3 // full tuple
 	frame_bury -1 // aa: CustomType
 
-	// tests/contracts/abi.algo.ts:477
+	// tests/contracts/abi.algo.ts:467
 	// return aa.bar;
 	frame_dig -1 // aa: CustomType
 	dup
@@ -5013,7 +5313,7 @@ abi_route_staticStringArrayArg:
 staticStringArrayArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:481
+	// tests/contracts/abi.algo.ts:471
 	// return a[1];
 	frame_dig -1 // a: bytes[3]
 	dup
@@ -5068,12 +5368,12 @@ abi_route_dynamicAccessOfDynamicElementInStaticArray:
 dynamicAccessOfDynamicElementInStaticArray:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:485
+	// tests/contracts/abi.algo.ts:475
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.algo.ts:486
+	// tests/contracts/abi.algo.ts:476
 	// return a[i];
 	frame_dig -1 // a: bytes[3]
 	dup
@@ -5142,7 +5442,9 @@ route_abi:
 	method "simpleTuple()uint16"
 	method "arrayInTuple()uint64"
 	method "tupleInArray()uint16"
+	method "tupleInTuple()uint64"
 	method "shortTypeNotation()uint16"
+	method "disgusting()uint64"
 	method "returnTuple()(uint64,uint16,uint64)"
 	method "tupleArg((uint64,uint16,uint64))uint16"
 	method "dynamicArray()uint64"
@@ -5177,4 +5479,4 @@ route_abi:
 	method "staticStringArrayArg(string[3])string"
 	method "dynamicAccessOfDynamicElementInStaticArray(string[3])string"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_shortTypeNotation abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes abi_route_staticStringArrayArg abi_route_dynamicAccessOfDynamicElementInStaticArray
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes abi_route_staticStringArrayArg abi_route_dynamicAccessOfDynamicElementInStaticArray
