@@ -292,8 +292,6 @@ updateContactField:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	frame_dig -2 // value: bytes
 	dup
@@ -352,8 +350,6 @@ if0_elseif1_condition:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	frame_dig -2 // value: bytes
 	dup

@@ -169,7 +169,6 @@ function isRefType(t: string): boolean {
 
 const scratch = {
   fullTuple: '3 // full tuple',
-  oldTupleElement: '4 // old tuple element',
   subtractHeadDifference: '7 // subtract head difference',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
@@ -1443,13 +1442,7 @@ export default class Compiler {
   ) {
     // Get old element
     this.extractDynamicTupleElement(elementType);
-    this.pushLines(`store ${scratch.oldTupleElement}`);
-
-    // Get old element length
-    this.pushLines(
-      `load ${scratch.oldTupleElement}`,
-      'len // length of old element',
-    );
+    this.pushLines('len // length of old element');
 
     // Get new element
     this.processNode(newValue);

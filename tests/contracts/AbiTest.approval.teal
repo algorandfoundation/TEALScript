@@ -2381,8 +2381,6 @@ updateDynamicArrayInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 10
 	itob
@@ -2431,8 +2429,6 @@ updateDynamicArrayInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 12
 	itob
@@ -2478,8 +2474,6 @@ updateDynamicArrayInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 14
 	itob
@@ -2522,8 +2516,6 @@ updateDynamicArrayInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 16
 	itob
@@ -3809,8 +3801,6 @@ updateStringInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 10
 	itob
@@ -3859,8 +3849,6 @@ updateStringInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	byte "Hello World!"
 	dup
@@ -3903,8 +3891,6 @@ updateStringInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 14
 	itob
@@ -3947,8 +3933,6 @@ updateStringInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 16
 	itob
@@ -4044,8 +4028,6 @@ updateTupleWithOnlyDynamicTypes:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 4
 	itob
@@ -4091,8 +4073,6 @@ updateTupleWithOnlyDynamicTypes:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 6
 	itob
@@ -4135,8 +4115,6 @@ updateTupleWithOnlyDynamicTypes:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 8
 	itob
@@ -4244,8 +4222,6 @@ shortenDynamicElementInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 5
 	itob
@@ -4287,8 +4263,6 @@ shortenDynamicElementInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 6
 	itob
@@ -4327,8 +4301,6 @@ shortenDynamicElementInTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 7
 	itob
@@ -4484,8 +4456,6 @@ updateNamedTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	byte "Hello World!"
 	dup
@@ -4595,8 +4565,6 @@ customTypes:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	byte "Hello World!"
 	dup
@@ -5015,8 +4983,6 @@ updateDynamicArrayInMiddleOfTuple:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	int 4
 	itob
