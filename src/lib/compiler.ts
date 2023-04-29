@@ -168,9 +168,6 @@ function isRefType(t: string): boolean {
 }
 
 const scratch = {
-  tupleHead: '0 // tuple head',
-  tupleTail: '1 // tuple tail',
-  headOffset: '2 // head offset',
   fullTuple: '3 // full tuple',
   oldTupleElement: '4 // old tuple element',
   subtractHeadDifference: '7 // subtract head difference',
@@ -1195,58 +1192,36 @@ export default class Compiler {
       return sum + length;
     }, 0);
 
-    this.pushLines(
-      'byte 0x',
-      'dup',
-      `store ${scratch.tupleHead}`,
-      `store ${scratch.tupleTail}`,
-      `byte 0x${headLength.toString(16).padStart(4, '0')}`,
-      `store ${scratch.headOffset}`,
-    );
-
     node.elements.forEach((e, i) => {
       this.typeHint = types[i];
-      this.pushLines(`load ${scratch.tupleHead}`);
 
-      if (this.isDynamicType(types[i])) {
-        this.pushLines(`load ${scratch.headOffset}`, 'concat', `store ${scratch.tupleHead}`);
-        this.processNode(e);
+      if (i === 0) {
+        this.pushLines('byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
+      }
 
-        if (types[i] === 'bytes' || types[i] === 'string') {
-          this.pushLines(
-            'dup',
-            'len',
-            'itob',
-            'extract 6 2',
-            'swap',
-            'concat',
-          );
-        }
+      this.processNode(e);
 
+      if (types[i] === 'bytes' || types[i] === 'string') {
         this.pushLines(
           'dup',
           'len',
-          `load ${scratch.headOffset}`,
-          'btoi',
-          '+',
           'itob',
           'extract 6 2',
-          `store ${scratch.headOffset}`,
-          `load ${scratch.tupleTail}`,
           'swap',
           'concat',
-          `store ${scratch.tupleTail}`,
         );
-      } else {
-        this.processNode(e);
+      }
+      if (isNumeric(this.lastType)) this.pushVoid('itob');
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
 
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
-        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
-        this.pushLines('concat', `store ${scratch.tupleHead}`);
+      if (this.isDynamicType(types[i])) {
+        this.pushVoid('callsub process_dynamic_tuple_element');
+      } else {
+        this.pushVoid('callsub process_static_tuple_element');
       }
     });
 
-    this.pushLines(`load ${scratch.tupleHead}`, `load ${scratch.tupleTail}`, 'concat');
+    this.pushLines('pop // pop head offset', 'concat // concat head and tail');
   }
 
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
@@ -1314,6 +1289,57 @@ export default class Compiler {
   }
 
   private compilerSubroutines: {[name: string]: () => string[]} = {
+
+    process_static_tuple_element: () => {
+      const tupleHead = '-4 // tuple head';
+      const tupleTail = '-3 // tuple tail';
+      const headOffset = '-2 // head offset';
+      const element = '-1 // element';
+
+      return [
+        'process_static_tuple_element:',
+        'proto 4 3',
+        `frame_dig ${tupleHead}`,
+        `frame_dig ${element}`,
+        'concat',
+
+        `frame_dig ${tupleTail}`,
+        `frame_dig ${headOffset}`,
+        'retsub',
+      ];
+    },
+
+    process_dynamic_tuple_element: () => {
+      const tupleHead = '-4 // tuple head';
+      const tupleTail = '-3 // tuple tail';
+      const headOffset = '-2 // head offset';
+      const element = '-1 // element';
+
+      return [
+        'process_dynamic_tuple_element:',
+        'proto 4 3',
+        `frame_dig ${tupleHead}`,
+        `frame_dig ${headOffset}`, 'concat', `frame_bury ${tupleHead}`,
+        `frame_dig ${element}`,
+        'dup',
+        'len',
+        `frame_dig ${headOffset}`,
+        'btoi',
+        '+',
+        'itob',
+        'extract 6 2',
+        `frame_bury ${headOffset}`,
+        `frame_dig ${tupleTail}`,
+        'swap',
+        'concat',
+        `frame_bury ${tupleTail}`,
+
+        `frame_dig ${tupleHead}`,
+        `frame_dig ${tupleTail}`,
+        `frame_dig ${headOffset}`,
+        'retsub',
+      ];
+    },
 
     // -2: length difference
     // -1: offset
