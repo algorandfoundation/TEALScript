@@ -494,6 +494,14 @@ class AbiTest extends Contract {
     return a[1][1];
   }
 
+  updateDynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16] = [1, [2], 3];
+
+    a[1] = [4, 5];
+
+    return a;
+  }
+
   /*
   txnTypes(
     t: Txn,

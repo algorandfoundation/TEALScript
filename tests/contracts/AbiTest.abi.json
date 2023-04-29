@@ -550,6 +550,15 @@
         "type": "uint32",
         "desc": ""
       }
+    },
+    {
+      "name": "updateDynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,uint8[],uint16)",
+        "desc": ""
+      }
     }
   ]
 }

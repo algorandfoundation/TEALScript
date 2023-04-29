@@ -416,4 +416,15 @@ describe('ABI', function () {
       BigInt(33),
     );
   });
+
+  it('updateDynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.updateDynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        BigInt(1),
+        [BigInt(4), BigInt(5)],
+        BigInt(3),
+      ],
+    );
+  });
 });
