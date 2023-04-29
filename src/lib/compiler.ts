@@ -209,8 +209,6 @@ export default class Compiler {
 
   private forCount: number = 0;
 
-  private elementUpdateCount: number = 0;
-
   filename?: string;
 
   content: string;
@@ -1317,6 +1315,38 @@ export default class Compiler {
 
   private compilerSubroutines: {[name: string]: () => string[]} = {
 
+    // -2: length difference
+    // -1: offset
+    update_dynamic_head: () => [
+      'update_dynamic_head:',
+      'proto 2 0',
+      'frame_dig -2 // length difference',
+      `load ${scratch.fullTuple}`,
+      'frame_dig -1 // dynamic array offset',
+      'extract_uint16 // extract dynamic array offset',
+
+      `load ${scratch.subtractHeadDifference}`,
+      'bz subtract_head_difference',
+      '+ // add difference to offset',
+      'b end_calc_new_head',
+
+      'subtract_head_difference:',
+      'swap',
+      '- // subtract difference from offet',
+
+      'end_calc_new_head:',
+
+      'itob // convert to bytes',
+      'extract 6 2 // convert to uint16',
+      `load ${scratch.fullTuple}`,
+      'swap',
+      'frame_dig -1 // offset',
+      'swap',
+      'replace3 // update offset',
+      `store ${scratch.fullTuple}`,
+      'retsub',
+    ],
+
     // -3: oldElementLength
     // -2: newTupleElement
     // -1: headOffset
@@ -1406,40 +1436,13 @@ export default class Compiler {
 
     this.pushLines(`int ${headOffset}`, 'callsub update_dynamic_tuple_element');
 
-    let headCount = 0;
-
     dynamicHeads.forEach(({ index, offset }) => {
       if (index <= accessor) return;
 
-      this.pushLines(
-        'dup // duplicate length difference',
-        `load ${scratch.fullTuple}`,
-        `int ${offset} // dynamic array offset`,
-        'extract_uint16 // extract dynamic array offset',
-
-        `load ${scratch.subtractHeadDifference}`,
-        `bz subtract_head_difference_${this.elementUpdateCount}_${headCount}`,
-        '+ // add difference to offset',
-        `b end_calc_new_head_${this.elementUpdateCount}_${headCount}`,
-
-        `subtract_head_difference_${this.elementUpdateCount}_${headCount}:`,
-        'swap',
-        '- // subtract difference from offet',
-
-        `end_calc_new_head_${this.elementUpdateCount}_${headCount}:`,
-
-        'itob // convert to bytes',
-        'extract 6 2 // convert to uint16',
-        `load ${scratch.fullTuple}`,
-        'swap',
-        `replace ${offset} // replace dynamic array offset`,
-        `store ${scratch.fullTuple}`,
-      );
-
-      headCount += 1;
+      this.pushLines('dup // dup length difference', `int ${offset}`, 'callsub update_dynamic_head');
     });
 
-    this.elementUpdateCount += 1;
+    this.pushVoid('pop // pop length difference');
 
     this.pushVoid(`load ${scratch.fullTuple}`);
   }

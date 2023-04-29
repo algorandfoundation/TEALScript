@@ -46,6 +46,32 @@ get_difference:
 	- // get length difference
 	retsub
 
+update_dynamic_head:
+	proto 2 0
+	frame_dig -2 // length difference
+	load 3 // full tuple
+	frame_dig -1 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	load 7 // subtract head difference
+	bz subtract_head_difference
+	+ // add difference to offset
+	b end_calc_new_head
+
+subtract_head_difference:
+	swap
+	- // subtract difference from offet
+
+end_calc_new_head:
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 3 // full tuple
+	swap
+	frame_dig -1 // offset
+	swap
+	replace3 // update offset
+	store 3 // full tuple
+	retsub
+
 bare_route_create:
 	txn OnCompletion
 	int NoOp
@@ -322,26 +348,10 @@ updateContactField:
 	concat
 	int 0
 	callsub update_dynamic_tuple_element
-	dup // duplicate length difference
-	load 3 // full tuple
-	int 2 // dynamic array offset
-	extract_uint16 // extract dynamic array offset
-	load 7 // subtract head difference
-	bz subtract_head_difference_0_0
-	+ // add difference to offset
-	b end_calc_new_head_0_0
-
-subtract_head_difference_0_0:
-	swap
-	- // subtract difference from offet
-
-end_calc_new_head_0_0:
-	itob // convert to bytes
-	extract 6 2 // convert to uint16
-	load 3 // full tuple
-	swap
-	replace 2 // replace dynamic array offset
-	store 3 // full tuple
+	dup // dup length difference
+	int 2
+	callsub update_dynamic_head
+	pop // pop length difference
 	load 3 // full tuple
 	frame_dig -3 // address: account
 	dup
@@ -398,6 +408,7 @@ if0_elseif1_condition:
 	concat
 	int 2
 	callsub update_dynamic_tuple_element
+	pop // pop length difference
 	load 3 // full tuple
 	frame_dig -3 // address: account
 	dup
