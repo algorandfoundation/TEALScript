@@ -8,8 +8,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Run sandbox
-      run: git clone https://github.com/algorand/sandbox && ./sandbox/sandbox up -v dev
+    - name: Run algokit localnet
+      run: pipx install algokit && algokit localnet start
 
     - name: Install modules
       run: yarn
