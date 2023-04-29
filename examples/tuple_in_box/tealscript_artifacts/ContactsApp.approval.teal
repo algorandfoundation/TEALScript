@@ -2,7 +2,7 @@
 	b main
 
 update_dynamic_tuple_element:
-	proto 1 1
+	proto 3 1
 	load 3 // full tuple
 	load 3 // full tuple
 	frame_dig -1 // head offset
@@ -10,39 +10,39 @@ update_dynamic_tuple_element:
 	int 0
 	swap
 	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
+	frame_dig -2 // new tuple element
 	concat
 	load 3 // full tuple
 	load 3 // full tuple
 	frame_dig -1 // head offset
 	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	+
 	load 3 // full tuple
 	len
 	substring3
 	concat
 	store 3 // full tuple
-	load 6 // new tuple element
+	frame_dig -2 // new tuple element
 	len // length of new element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	<
-	bnz swapped_difference_2
-	load 6 // new tuple element
+	bnz swapped_difference
+	frame_dig -2 // new tuple element
 	len // length of new element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	int 1
 	store 7 // subtract head difference
-	b get_difference_2
+	b get_difference
 
-swapped_difference_2:
-	load 5 // old element length
-	load 6 // new tuple element
+swapped_difference:
+	frame_dig -3 // old element length
+	frame_dig -2 // new tuple element
 	len // length of new element
 	int 0
 	store 7 // subtract head difference
 
-get_difference_2:
+get_difference:
 	- // get length difference
 	retsub
 
@@ -313,7 +313,6 @@ updateContactField:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -321,7 +320,6 @@ updateContactField:
 	extract 6 2
 	swap
 	concat
-	store 6 // new tuple element
 	int 0
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -391,7 +389,6 @@ if0_elseif1_condition:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -399,7 +396,6 @@ if0_elseif1_condition:
 	extract 6 2
 	swap
 	concat
-	store 6 // new tuple element
 	int 2
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple

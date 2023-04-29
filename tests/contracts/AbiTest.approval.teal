@@ -2,7 +2,7 @@
 	b main
 
 update_dynamic_tuple_element:
-	proto 1 1
+	proto 3 1
 	load 3 // full tuple
 	load 3 // full tuple
 	frame_dig -1 // head offset
@@ -10,39 +10,39 @@ update_dynamic_tuple_element:
 	int 0
 	swap
 	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
+	frame_dig -2 // new tuple element
 	concat
 	load 3 // full tuple
 	load 3 // full tuple
 	frame_dig -1 // head offset
 	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	+
 	load 3 // full tuple
 	len
 	substring3
 	concat
 	store 3 // full tuple
-	load 6 // new tuple element
+	frame_dig -2 // new tuple element
 	len // length of new element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	<
-	bnz swapped_difference_16
-	load 6 // new tuple element
+	bnz swapped_difference
+	frame_dig -2 // new tuple element
 	len // length of new element
-	load 5 // old element length
+	frame_dig -3 // old element length
 	int 1
 	store 7 // subtract head difference
-	b get_difference_16
+	b get_difference
 
-swapped_difference_16:
-	load 5 // old element length
-	load 6 // new tuple element
+swapped_difference:
+	frame_dig -3 // old element length
+	frame_dig -2 // new tuple element
 	len // length of new element
 	int 0
 	store 7 // subtract head difference
 
-get_difference_16:
+get_difference:
 	- // get length difference
 	retsub
 
@@ -2326,7 +2326,6 @@ updateDynamicArrayInTuple:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 10
 	itob
 	extract 6 0
@@ -2337,7 +2336,6 @@ updateDynamicArrayInTuple:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 1
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -2428,7 +2426,6 @@ end_calc_new_head_0_2:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 12
 	itob
 	extract 7 0
@@ -2439,7 +2436,6 @@ end_calc_new_head_0_2:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 3
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -2510,7 +2506,6 @@ end_calc_new_head_1_1:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 14
 	itob
 	extract 6 0
@@ -2521,7 +2516,6 @@ end_calc_new_head_1_1:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 5
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -2572,7 +2566,6 @@ end_calc_new_head_2_0:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 16
 	itob
 	extract 7 0
@@ -2583,7 +2576,6 @@ end_calc_new_head_2_0:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 7
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
@@ -4081,7 +4073,6 @@ updateStringInTuple:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 10
 	itob
 	extract 6 0
@@ -4092,7 +4083,6 @@ updateStringInTuple:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 1
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4183,7 +4173,6 @@ end_calc_new_head_4_2:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	byte "Hello World!"
 	dup
 	len
@@ -4191,7 +4180,6 @@ end_calc_new_head_4_2:
 	extract 6 2
 	swap
 	concat
-	store 6 // new tuple element
 	int 3
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4262,7 +4250,6 @@ end_calc_new_head_5_1:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 14
 	itob
 	extract 6 0
@@ -4273,7 +4260,6 @@ end_calc_new_head_5_1:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 5
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4324,7 +4310,6 @@ end_calc_new_head_6_0:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 16
 	itob
 	extract 7 0
@@ -4335,7 +4320,6 @@ end_calc_new_head_6_0:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 7
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
@@ -4471,7 +4455,6 @@ updateTupleWithOnlyDynamicTypes:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 4
 	itob
 	extract 6 0
@@ -4482,7 +4465,6 @@ updateTupleWithOnlyDynamicTypes:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 0
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4553,7 +4535,6 @@ end_calc_new_head_8_1:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 6
 	itob
 	extract 6 0
@@ -4564,7 +4545,6 @@ end_calc_new_head_8_1:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 2
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4615,7 +4595,6 @@ end_calc_new_head_9_0:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 8
 	itob
 	extract 6 0
@@ -4626,7 +4605,6 @@ end_calc_new_head_9_0:
 	byte 0x0002
 	swap
 	concat
-	store 6 // new tuple element
 	int 4
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
@@ -4774,14 +4752,12 @@ shortenDynamicElementInTuple:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 5
 	itob
 	extract 6 0
 	byte 0x0001
 	swap
 	concat
-	store 6 // new tuple element
 	int 0
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4852,14 +4828,12 @@ end_calc_new_head_11_1:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 6
 	itob
 	extract 6 0
 	byte 0x0001
 	swap
 	concat
-	store 6 // new tuple element
 	int 2
 	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
@@ -4910,14 +4884,12 @@ end_calc_new_head_12_0:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	int 7
 	itob
 	extract 6 0
 	byte 0x0001
 	swap
 	concat
-	store 6 // new tuple element
 	int 4
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
@@ -5110,7 +5082,6 @@ updateNamedTuple:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	byte "Hello World!"
 	dup
 	len
@@ -5118,7 +5089,6 @@ updateNamedTuple:
 	extract 6 2
 	swap
 	concat
-	store 6 // new tuple element
 	int 2
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
@@ -5243,7 +5213,6 @@ customTypes:
 	store 4 // old tuple element
 	load 4 // old tuple element
 	len // length of old element
-	store 5 // old element length
 	byte "Hello World!"
 	dup
 	len
@@ -5251,7 +5220,6 @@ customTypes:
 	extract 6 2
 	swap
 	concat
-	store 6 // new tuple element
 	int 2
 	callsub update_dynamic_tuple_element
 	load 3 // full tuple
