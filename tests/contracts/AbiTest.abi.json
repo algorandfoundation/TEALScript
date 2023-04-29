@@ -525,47 +525,38 @@
       }
     },
     {
-      "name": "txnTypes",
-      "args": [
-        {
-          "name": "t",
-          "type": "txn",
-          "desc": ""
-        },
-        {
-          "name": "a",
-          "type": "appl",
-          "desc": ""
-        },
-        {
-          "name": "ac",
-          "type": "acfg",
-          "desc": ""
-        },
-        {
-          "name": "af",
-          "type": "afrz",
-          "desc": ""
-        },
-        {
-          "name": "at",
-          "type": "axfer",
-          "desc": ""
-        },
-        {
-          "name": "kr",
-          "type": "keyreg",
-          "desc": ""
-        },
-        {
-          "name": "p",
-          "type": "pay",
-          "desc": ""
-        }
-      ],
+      "name": "dynamicArrayInMiddleOfTuple",
+      "args": [],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "(uint16,uint8[],uint16)",
+        "desc": ""
+      }
+    },
+    {
+      "name": "accessDynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint8[]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "accessDynamicArrayElementInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint32",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateDynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,uint8[],uint16)",
         "desc": ""
       }
     }
