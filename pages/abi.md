@@ -31,7 +31,7 @@ const staticUint8Array: uint8<3> = [1, 2, 3]
 
 ## Tuples
 
-Tuples are arrays with multiple types. They can contain both static and dynamic types, but dynamic types MUST come at the end of the tuple. TEALScript does not support nested tuples.
+Tuples are arrays with multiple types. TEALScript does not support nested dynamic tuples (yet).
 
 ### Example
 
@@ -41,7 +41,7 @@ const tuple: [uint8, uint64<3>, string] = [1, [2, 3, 4], 'Hello World!']
 
 ## Objects
 
-Objects are essentially tuples, but they are accessed via keys rather than numbers. This means they must follow the same rules as tuples: limited to 32 dynamic types, static types must come first (in type definition, assignment can occur in any order).
+Objects are essentially tuples, but they are accessed via keys rather than numbers.
 
 
 ### Example
