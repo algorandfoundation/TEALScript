@@ -28,7 +28,7 @@ class ContactsApp extends Contract {
       this.contacts.get(address).name = value;
     } else if (field === 'company') {
       this.contacts.get(address).company = value;
-    } else err();
+    } else throw Error('Invalid field');
   }
 
   verifyContactName(name: string, address: Account): void {

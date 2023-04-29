@@ -419,9 +419,7 @@ if0_elseif1_condition:
 	b if0_end
 
 if0_else:
-	// examples/tuple_in_box/app.algo.ts:31
-	// err()
-	err
+	err // 'Invalid field'
 
 if0_end:
 	retsub
