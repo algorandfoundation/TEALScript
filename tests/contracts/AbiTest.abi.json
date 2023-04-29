@@ -523,6 +523,33 @@
         "type": "string",
         "desc": ""
       }
+    },
+    {
+      "name": "dynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,uint8[],uint16)",
+        "desc": ""
+      }
+    },
+    {
+      "name": "accessDynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint8[]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "accessDynamicArrayElementInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint32",
+        "desc": ""
+      }
     }
   ]
 }

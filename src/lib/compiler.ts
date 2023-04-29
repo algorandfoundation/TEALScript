@@ -1447,7 +1447,7 @@ export default class Compiler {
     this.pushVoid(`load ${scratch.fullTuple}`);
   }
 
-  private extractDynamicTupleElement(elementType: string) {
+  private extractDynamicTupleElementOffset() {
     this.pushLines(
       'swap',
       'dupn 2',
@@ -1455,6 +1455,11 @@ export default class Compiler {
       'int 2',
       'extract3',
       'btoi // start of dynamic array',
+    );
+  }
+
+  private extractDynamicTupleElement(elementType: string) {
+    this.pushLines(
       'dup',
       'cover 2 // duplicate start for later',
       'int 2',
@@ -1548,6 +1553,8 @@ export default class Compiler {
       } else throw new Error(this.lastType);
 
       this.lastType = elementType;
+
+      if (this.isDynamicType(elementType)) this.extractDynamicTupleElementOffset();
       if (i) this.pushVoid('+');
     });
 

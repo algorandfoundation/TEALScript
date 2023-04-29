@@ -391,4 +391,29 @@ describe('ABI', function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
   });
+
+  it('dynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.dynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        BigInt(1),
+        [BigInt(2)],
+        BigInt(3),
+      ],
+    );
+  });
+
+  it('accessDynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.accessDynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(2)],
+    );
+  });
+
+  it('accessDynamicArrayElementInTuple', async function () {
+    const ret = await appClient.accessDynamicArrayElementInTuple();
+    expect(ret.returnValue).to.deep.equal(
+      BigInt(33),
+    );
+  });
 });
