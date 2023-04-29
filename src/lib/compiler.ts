@@ -1163,45 +1163,6 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private processStaticArrayElement(
-    e: ts.Node,
-    type: string,
-    isLast: boolean,
-    context: {bytesOnStack: boolean, hexString: string},
-  ) {
-    const length = this.getTypeLength(type);
-
-    if (ts.isNumericLiteral(e)) {
-      context.hexString += parseInt(e.getText(), 10).toString(16).padStart(length * 2, '0');
-
-      if (isLast) {
-        this.pushVoid(`byte 0x${context.hexString}`);
-        if (context.bytesOnStack) this.pushVoid('concat');
-      }
-
-      return;
-    }
-
-    if (context.hexString.length > 0) {
-      this.pushVoid(`byte 0x${context.hexString}`);
-      if (context.bytesOnStack) this.pushVoid('concat');
-      context.bytesOnStack = true;
-
-      context.hexString = '';
-    }
-
-    this.processNode(e);
-    if (isNumeric(this.lastType)) this.pushVoid('itob');
-
-    if (this.lastType.match(/uint\d+$/) && this.lastType !== type) {
-      this.fixBitWidth(parseInt(type.match(/\d+/)![0], 10), !ts.isNumericLiteral(e));
-    }
-
-    if (context.bytesOnStack) this.pushVoid('concat');
-
-    context.bytesOnStack = true;
-  }
-
   private getArrayTypes(elements: number): string[] {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     const typeHintNode = stringToExpression(this.getABIType(this.typeHint));
