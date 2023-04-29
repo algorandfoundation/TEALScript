@@ -1,9 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
-
 import { Contract } from '../../src/lib/index';
 
 type CustomType = {
@@ -482,18 +476,33 @@ class AbiTest extends Contract {
     return a[i];
   }
 
-  /*
-  //     const txnTypes: Record<string, string> = {
-    Transaction: 'txn',
-    AppCallTxn: 'appl',
-    AssetConfigTxn: 'acfg',
-    AssetFreezeTxn: 'afrz',
-    AssetTransferTxn: 'axfer',
-    KeyRegistrationTxn: 'keyreg',
-    PaymentTxn: 'pay',
-  };
-  */
+  dynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
+    return a;
+  }
+
+  accessDynamicArrayInMiddleOfTuple(): uint8[] {
+    const a: [uint16, uint8[], uint16] = [1, [2], 3];
+
+    return a[1];
+  }
+
+  accessDynamicArrayElementInTuple(): uint32 {
+    const a: [uint16, uint8[]] = [11, [22, 33, 44]];
+
+    return a[1][1];
+  }
+
+  updateDynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16] = [1, [2], 3];
+
+    a[1] = [4, 5];
+
+    return a;
+  }
+
+  /*
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -508,4 +517,5 @@ class AbiTest extends Contract {
     assert(at.sender === kr.sender);
     assert(p.sender === t.sender);
   }
+  */
 }

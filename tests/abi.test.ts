@@ -8,12 +8,13 @@ import { artifactsTest } from './common';
 
 let appClient: AbiTest;
 
-// eslint-disable-next-line no-unused-vars
-async function dryrun(methodName: string) {
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+async function dryrun(methodName: string, methodArgs: any = []) {
   const atc = new algosdk.AtomicTransactionComposer();
   atc.addMethodCall({
     appID: appClient.appId,
     method: algosdk.getMethodByName(appClient.methods, methodName),
+    methodArgs,
     sender: appClient.sender,
     signer: appClient.signer,
     suggestedParams: await appClient.getSuggestedParams(),
@@ -162,6 +163,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(44));
   });
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it('tupleInTuple', async function () {
     const ret = await appClient.tupleInTuple();
     expect(ret.returnValue).to.equal(BigInt(66));
@@ -172,6 +174,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(66));
   });
 
+  // eslint-disable-next-line mocha/no-skipped-tests
   it('disgusting', async function () {
     const ret = await appClient.disgusting();
     expect(ret.returnValue).to.equal(BigInt(8888));
@@ -387,5 +390,41 @@ describe('ABI', function () {
   it('dynamicAccessOfDynamicElementInStaticArray', async function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
+  });
+
+  it('dynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.dynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        BigInt(1),
+        [BigInt(2)],
+        BigInt(3),
+      ],
+    );
+  });
+
+  it('accessDynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.accessDynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [BigInt(2)],
+    );
+  });
+
+  it('accessDynamicArrayElementInTuple', async function () {
+    const ret = await appClient.accessDynamicArrayElementInTuple();
+    expect(ret.returnValue).to.deep.equal(
+      BigInt(33),
+    );
+  });
+
+  it('updateDynamicArrayInMiddleOfTuple', async function () {
+    const ret = await appClient.updateDynamicArrayInMiddleOfTuple();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        BigInt(1),
+        [BigInt(4), BigInt(5)],
+        BigInt(3),
+      ],
+    );
   });
 });

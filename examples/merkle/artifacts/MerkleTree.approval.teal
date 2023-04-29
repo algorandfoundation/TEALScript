@@ -90,8 +90,8 @@ for_1:
 	// elem = path[i]
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -4 // i: uint64
-	int 33
-	*
+	int 33 // element length
+	* // element offset
 	int 33
 	extract3
 	frame_bury -5 // elem: byte[33]
