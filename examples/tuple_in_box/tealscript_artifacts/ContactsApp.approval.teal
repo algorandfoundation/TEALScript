@@ -1,6 +1,51 @@
 #pragma version 8
 	b main
 
+update_dynamic_tuple_element:
+	proto 1 1
+	load 3 // full tuple
+	load 3 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	<
+	bnz swapped_difference_2
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference_2
+
+swapped_difference_2:
+	load 5 // old element length
+	load 6 // new tuple element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference_2:
+	- // get length difference
+	retsub
+
 bare_route_create:
 	txn OnCompletion
 	int NoOp
@@ -277,47 +322,8 @@ updateContactField:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
 	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_0
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_0
-
-swapped_difference_0:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_0:
-	- // get length difference
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 2 // dynamic array offset
@@ -394,47 +400,8 @@ if0_elseif1_condition:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_1
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_1
-
-swapped_difference_1:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_1:
-	- // get length difference
+	int 2
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_dig -3 // address: account
 	dup

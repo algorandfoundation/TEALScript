@@ -1,6 +1,51 @@
 #pragma version 8
 	b main
 
+update_dynamic_tuple_element:
+	proto 1 1
+	load 3 // full tuple
+	load 3 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	int 0
+	swap
+	extract3 // extract portion of tuple before element
+	load 6 // new tuple element
+	concat
+	load 3 // full tuple
+	load 3 // full tuple
+	frame_dig -1 // head offset
+	extract_uint16 // extract dynamic array offset of element
+	load 5 // old element length
+	+
+	load 3 // full tuple
+	len
+	substring3
+	concat
+	store 3 // full tuple
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	<
+	bnz swapped_difference_16
+	load 6 // new tuple element
+	len // length of new element
+	load 5 // old element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference_16
+
+swapped_difference_16:
+	load 5 // old element length
+	load 6 // new tuple element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference_16:
+	- // get length difference
+	retsub
+
 bare_route_create:
 	txn OnCompletion
 	int NoOp
@@ -2293,47 +2338,8 @@ updateDynamicArrayInTuple:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_0
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
 	int 1
-	store 7 // subtract head difference
-	b get_difference_0
-
-swapped_difference_0:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_0:
-	- // get length difference
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 3 // dynamic array offset
@@ -2434,47 +2440,8 @@ end_calc_new_head_0_2:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 3 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 3 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_1
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_1
-
-swapped_difference_1:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_1:
-	- // get length difference
+	int 3
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 5 // dynamic array offset
@@ -2555,47 +2522,8 @@ end_calc_new_head_1_1:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 5 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 5 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_2
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_2
-
-swapped_difference_2:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_2:
-	- // get length difference
+	int 5
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 7 // dynamic array offset
@@ -2656,47 +2584,8 @@ end_calc_new_head_2_0:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 7 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 7 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_3
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_3
-
-swapped_difference_3:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_3:
-	- // get length difference
+	int 7
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
@@ -4204,47 +4093,8 @@ updateStringInTuple:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_4
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
 	int 1
-	store 7 // subtract head difference
-	b get_difference_4
-
-swapped_difference_4:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_4:
-	- // get length difference
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 3 // dynamic array offset
@@ -4342,47 +4192,8 @@ end_calc_new_head_4_2:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 3 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 3 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_5
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_5
-
-swapped_difference_5:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_5:
-	- // get length difference
+	int 3
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 5 // dynamic array offset
@@ -4463,47 +4274,8 @@ end_calc_new_head_5_1:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 5 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 5 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_6
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_6
-
-swapped_difference_6:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_6:
-	- // get length difference
+	int 5
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 7 // dynamic array offset
@@ -4564,47 +4336,8 @@ end_calc_new_head_6_0:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 7 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 7 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_7
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_7
-
-swapped_difference_7:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_7:
-	- // get length difference
+	int 7
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
@@ -4750,47 +4483,8 @@ updateTupleWithOnlyDynamicTypes:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
 	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_8
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_8
-
-swapped_difference_8:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_8:
-	- // get length difference
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 2 // dynamic array offset
@@ -4871,47 +4565,8 @@ end_calc_new_head_8_1:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_9
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_9
-
-swapped_difference_9:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_9:
-	- // get length difference
+	int 2
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 4 // dynamic array offset
@@ -4972,47 +4627,8 @@ end_calc_new_head_9_0:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 4 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 4 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_10
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_10
-
-swapped_difference_10:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_10:
-	- // get length difference
+	int 4
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
@@ -5166,47 +4782,8 @@ shortenDynamicElementInTuple:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
 	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 0 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_11
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_11
-
-swapped_difference_11:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_11:
-	- // get length difference
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 2 // dynamic array offset
@@ -5283,47 +4860,8 @@ end_calc_new_head_11_1:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_12
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_12
-
-swapped_difference_12:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_12:
-	- // get length difference
+	int 2
+	callsub update_dynamic_tuple_element
 	dup // duplicate length difference
 	load 3 // full tuple
 	int 4 // dynamic array offset
@@ -5380,47 +4918,8 @@ end_calc_new_head_12_0:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 4 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 4 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_13
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_13
-
-swapped_difference_13:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_13:
-	- // get length difference
+	int 4
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
@@ -5620,47 +5119,8 @@ updateNamedTuple:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_14
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_14
-
-swapped_difference_14:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_14:
-	- // get length difference
+	int 2
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // a: { foo: uint16, bar: string, }
 
@@ -5792,47 +5252,8 @@ customTypes:
 	swap
 	concat
 	store 6 // new tuple element
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	load 6 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	int 2 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	load 5 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	<
-	bnz swapped_difference_15
-	load 6 // new tuple element
-	len // length of new element
-	load 5 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference_15
-
-swapped_difference_15:
-	load 5 // old element length
-	load 6 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference_15:
-	- // get length difference
+	int 2
+	callsub update_dynamic_tuple_element
 	load 3 // full tuple
 	frame_bury -1 // aa: CustomType
 

@@ -1319,6 +1319,64 @@ export default class Compiler {
 
   private compilerSubroutines: {[name: string]: () => string[]} = {
 
+    // -1: headOffset
+    update_dynamic_tuple_element: () => [
+      'update_dynamic_tuple_element:',
+      'proto 1 1',
+      // Update tail
+      // Before element
+      `load ${scratch.fullTuple}`,
+      `load ${scratch.fullTuple}`,
+      'frame_dig -1 // head offset',
+      'extract_uint16 // extract dynamic array offset of element',
+      'int 0',
+      'swap',
+      'extract3 // extract portion of tuple before element',
+
+      // New element
+      `load ${scratch.newTupleElement}`,
+      'concat',
+
+      // After element
+      `load ${scratch.fullTuple}`,
+      `load ${scratch.fullTuple}`,
+      'frame_dig -1 // head offset',
+      'extract_uint16 // extract dynamic array offset of element',
+      `load ${scratch.oldElementLength}`,
+      '+',
+      `load ${scratch.fullTuple}`,
+      'len',
+      'substring3',
+      'concat',
+      `store ${scratch.fullTuple}`,
+
+      /* Update heads */
+
+      // Get new element length
+      `load ${scratch.newTupleElement}`,
+      'len // length of new element',
+      `load ${scratch.oldElementLength}`,
+      '<',
+
+      `bnz swapped_difference_${this.elementUpdateCount}`,
+      `load ${scratch.newTupleElement}`,
+      'len // length of new element',
+      `load ${scratch.oldElementLength}`,
+      'int 1',
+      `store ${scratch.subtractHeadDifference}`,
+      `b get_difference_${this.elementUpdateCount}`,
+
+      `swapped_difference_${this.elementUpdateCount}:`,
+      `load ${scratch.oldElementLength}`,
+      `load ${scratch.newTupleElement}`,
+      'len // length of new element',
+      'int 0',
+      `store ${scratch.subtractHeadDifference}`,
+
+      `get_difference_${this.elementUpdateCount}:`,
+      '- // get length difference',
+      'retsub',
+    ],
   };
 
   private updateDynamicTupleElement(
@@ -1348,63 +1406,7 @@ export default class Compiler {
 
     const headOffset = dynamicHeads.find((dh) => dh.index === accessor)!.offset;
 
-    // Update tail
-    this.pushLines(
-      // Before element
-      `load ${scratch.fullTuple}`,
-      `load ${scratch.fullTuple}`,
-      `int ${headOffset} // head offset`,
-      'extract_uint16 // extract dynamic array offset of element',
-      'int 0',
-      'swap',
-      'extract3 // extract portion of tuple before element',
-
-      // New element
-      `load ${scratch.newTupleElement}`,
-      'concat',
-
-      // After element
-      `load ${scratch.fullTuple}`,
-      `load ${scratch.fullTuple}`,
-      `int ${headOffset} // head offset`,
-      'extract_uint16 // extract dynamic array offset of element',
-      `load ${scratch.oldElementLength}`,
-      '+',
-      `load ${scratch.fullTuple}`,
-      'len',
-      'substring3',
-      'concat',
-      `store ${scratch.fullTuple}`,
-    );
-
-    /* Update heads */
-
-    // Get new element length
-    this.pushLines(
-      `load ${scratch.newTupleElement}`,
-      'len // length of new element',
-      `load ${scratch.oldElementLength}`,
-      '<',
-
-      `bnz swapped_difference_${this.elementUpdateCount}`,
-      `load ${scratch.newTupleElement}`,
-      'len // length of new element',
-      `load ${scratch.oldElementLength}`,
-      'int 1',
-      `store ${scratch.subtractHeadDifference}`,
-      `b get_difference_${this.elementUpdateCount}`,
-
-      `swapped_difference_${this.elementUpdateCount}:`,
-      `load ${scratch.oldElementLength}`,
-      `load ${scratch.newTupleElement}`,
-      'len // length of new element',
-      'int 0',
-      `store ${scratch.subtractHeadDifference}`,
-
-      `get_difference_${this.elementUpdateCount}:`,
-      '- // get length difference',
-
-    );
+    this.pushLines(`int ${headOffset}`, 'callsub update_dynamic_tuple_element');
 
     let headCount = 0;
 
