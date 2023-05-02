@@ -96,23 +96,6 @@ process_dynamic_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-	callsub create
-	int 1
-	return
-
-create:
-	proto 0 0
-	retsub
-
 abi_route_setMyContact:
 	txn OnCompletion
 	int NoOp
@@ -134,7 +117,7 @@ abi_route_setMyContact:
 setMyContact:
 	proto 3 0
 
-	// examples/tuple_in_box/app.algo.ts:15
+	// examples/tuple_in_box/app.algo.ts:12
 	// contact: Contact = { name: name, company: company }
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -159,13 +142,13 @@ setMyContact:
 	concat // concat head and tail
 	frame_bury -3 // contact: Contact
 
-	// examples/tuple_in_box/app.algo.ts:17
+	// examples/tuple_in_box/app.algo.ts:14
 	// this.myContact.put(contact)
 	byte "myContact"
 	frame_dig -3 // contact: Contact
 	app_global_put
 
-	// examples/tuple_in_box/app.algo.ts:18
+	// examples/tuple_in_box/app.algo.ts:15
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	dup
@@ -197,7 +180,7 @@ abi_route_addContact:
 addContact:
 	proto 4 0
 
-	// examples/tuple_in_box/app.algo.ts:22
+	// examples/tuple_in_box/app.algo.ts:19
 	// contact: Contact = { name: name, company: company }
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -222,7 +205,7 @@ addContact:
 	concat // concat head and tail
 	frame_bury -4 // contact: Contact
 
-	// examples/tuple_in_box/app.algo.ts:23
+	// examples/tuple_in_box/app.algo.ts:20
 	// this.contacts.put(address, contact)
 	frame_dig -3 // address: address
 	dup
@@ -254,7 +237,7 @@ updateContactField:
 	proto 3 0
 
 	// if0_condition
-	// examples/tuple_in_box/app.algo.ts:27
+	// examples/tuple_in_box/app.algo.ts:24
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -262,7 +245,7 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// examples/tuple_in_box/app.algo.ts:28
+	// examples/tuple_in_box/app.algo.ts:25
 	// this.contacts.get(address).name = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
@@ -312,7 +295,7 @@ updateContactField:
 	b if0_end
 
 if0_elseif1_condition:
-	// examples/tuple_in_box/app.algo.ts:29
+	// examples/tuple_in_box/app.algo.ts:26
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -320,7 +303,7 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// examples/tuple_in_box/app.algo.ts:30
+	// examples/tuple_in_box/app.algo.ts:27
 	// this.contacts.get(address).company = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
@@ -391,7 +374,7 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 2 0
 
-	// examples/tuple_in_box/app.algo.ts:35
+	// examples/tuple_in_box/app.algo.ts:32
 	// assert(this.contacts.get(address).name === name)
 	frame_dig -2 // address: address
 	box_get
@@ -427,10 +410,16 @@ verifyContactName:
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
 	txn ApplicationID
 	int 0
 	==
-	bnz bare_route_create
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
 
 route_abi:
 	method "setMyContact(string,string)void"

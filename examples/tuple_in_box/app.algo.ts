@@ -8,9 +8,6 @@ class ContactsApp extends Contract {
 
   myContact = new GlobalReference<Contact>();
 
-  @handle.createApplication
-  create(): void {}
-
   setMyContact(name: string, company: string): void {
     const contact: Contact = { name: name, company: company };
 
