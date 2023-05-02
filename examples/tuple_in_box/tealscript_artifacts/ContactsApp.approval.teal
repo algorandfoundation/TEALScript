@@ -186,8 +186,6 @@ abi_route_addContact:
 	assert
 	byte 0x
 	txna ApplicationArgs 3
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -226,7 +224,7 @@ addContact:
 
 	// examples/tuple_in_box/app.algo.ts:23
 	// this.contacts.put(address, contact)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -244,8 +242,6 @@ abi_route_updateContactField:
 	&&
 	assert
 	txna ApplicationArgs 3
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -270,7 +266,7 @@ updateContactField:
 	// this.contacts.get(address).name = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	box_get
 	assert
 	dup
@@ -307,7 +303,7 @@ updateContactField:
 	callsub update_dynamic_head
 	pop // pop length difference
 	load 3 // full tuple
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -328,7 +324,7 @@ if0_elseif1_condition:
 	// this.contacts.get(address).company = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	box_get
 	assert
 	dup
@@ -362,7 +358,7 @@ if0_elseif1_condition:
 	callsub update_dynamic_tuple_element
 	pop // pop length difference
 	load 3 // full tuple
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -386,8 +382,6 @@ abi_route_verifyContactName:
 	&&
 	assert
 	txna ApplicationArgs 2
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub verifyContactName
@@ -399,10 +393,10 @@ verifyContactName:
 
 	// examples/tuple_in_box/app.algo.ts:35
 	// assert(this.contacts.get(address).name === name)
-	frame_dig -2 // address: account
+	frame_dig -2 // address: address
 	box_get
 	assert
-	frame_dig -2 // address: account
+	frame_dig -2 // address: address
 	box_get
 	assert
 	dup
@@ -440,8 +434,8 @@ main:
 
 route_abi:
 	method "setMyContact(string,string)void"
-	method "addContact(string,string,account)void"
-	method "updateContactField(string,string,account)void"
-	method "verifyContactName(string,account)void"
+	method "addContact(string,string,address)void"
+	method "updateContactField(string,string,address)void"
+	method "verifyContactName(string,address)void"
 	txna ApplicationArgs 0
 	match abi_route_setMyContact abi_route_addContact abi_route_updateContactField abi_route_verifyContactName
