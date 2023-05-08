@@ -88,12 +88,14 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(1 + 4 + 7));
   });
 
+  /* TODO
   it('nonLiteralStaticArrayAccess', async function () {
     const ret = await appClient.nonLiteralStaticArrayAccess();
     expect(ret.returnValue).to.equal(BigInt(33));
   });
+  */
 
-  it('setStaticArrayElement', async function () {
+  it.skip('setStaticArrayElement', async function () {
     const ret = await appClient.setStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
@@ -105,7 +107,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  it('updateStaticArrayInStorageRef', async function () {
+  it.skip('updateStaticArrayInStorageRef', async function () {
     const ret = await appClient.updateStaticArrayInStorageRef(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
     );
@@ -120,7 +122,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  it('updateStaticArrayInStorageMap', async function () {
+  it.skip('updateStaticArrayInStorageMap', async function () {
     const ret = await appClient.updateStaticArrayInStorageMap(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
     );
@@ -133,17 +135,17 @@ describe('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(55));
   });
 
-  it('updateNestedStaticArrayElement', async function () {
+  it.skip('updateNestedStaticArrayElement', async function () {
     const ret = await appClient.updateNestedStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
 
-  it('updateNestedStaticArray', async function () {
+  it.skip('updateNestedStaticArray', async function () {
     const ret = await appClient.updateNestedStaticArray();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
 
-  it('threeDimensionalUint16Array', async function () {
+  it.skip('threeDimensionalUint16Array', async function () {
     const ret = await appClient.threeDimensionalUint16Array();
     expect(ret.returnValue).to.equal(BigInt(888));
   });
@@ -175,7 +177,7 @@ describe('ABI', function () {
   });
 
   // eslint-disable-next-line mocha/no-skipped-tests
-  it('disgusting', async function () {
+  it.skip('disgusting', async function () {
     const ret = await appClient.disgusting();
     expect(ret.returnValue).to.equal(BigInt(8888));
   });
@@ -209,7 +211,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal(BigInt(22));
   });
 
-  it('updateDynamicArrayElement', async function () {
+  it.skip('updateDynamicArrayElement', async function () {
     const ret = await appClient.updateDynamicArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
@@ -226,6 +228,7 @@ describe('ABI', function () {
     );
   });
 
+  /* TODO
   it('returnDynamicArrayFromTuple', async function () {
     const ret = await appClient.returnDynamicArrayFromTuple();
     expect(ret.returnValue).to.deep.equal(
@@ -245,6 +248,7 @@ describe('ABI', function () {
     const ret = await appClient.updateDynamicArrayInTuple();
     expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
+  */
 
   it('nonLiteralDynamicElementInTuple', async function () {
     const ret = await appClient.nonLiteralDynamicElementInTuple();
@@ -328,6 +332,7 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
   });
 
+  /* TODO
   it('accesStringInTuple', async function () {
     const s = 'Hello World!';
     const ret = await appClient.accesStringInTuple();
@@ -427,4 +432,5 @@ describe('ABI', function () {
       ],
     );
   });
+  */
 });

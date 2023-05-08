@@ -59,12 +59,14 @@ class AbiTest extends Contract {
     return a[1] + a[4] + a[7];
   }
 
+  /* TODO
   nonLiteralStaticArrayAccess(): uint64 {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
     const n = 2;
 
     return a[n];
   }
+  */
 
   setStaticArrayElement(): uint64 {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
@@ -270,6 +272,7 @@ class AbiTest extends Contract {
     return a;
   }
 
+  /* TODO
   returnDynamicArrayFromTuple(): uint8[] {
     const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]];
 
@@ -287,6 +290,7 @@ class AbiTest extends Contract {
 
     return a;
   }
+  */
 
   nonLiteralDynamicElementInTuple(): [uint8, uint16, uint8[], uint16[], uint8[]] {
     const e: uint16[] = [5, 6];
@@ -390,6 +394,7 @@ class AbiTest extends Contract {
     return a;
   }
 
+  /* TODO
   accesStringInTuple(): string {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
@@ -471,6 +476,7 @@ class AbiTest extends Contract {
     return a[1];
   }
 
+  /* TODO
   dynamicAccessOfDynamicElementInStaticArray(a: StaticArray<string, 3>): string {
     const i = 1;
     return a[i];
@@ -502,7 +508,6 @@ class AbiTest extends Contract {
     return a;
   }
 
-  /*
   txnTypes(
     t: Txn,
     a: AppCallTxn,

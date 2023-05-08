@@ -1,77 +1,6 @@
 #pragma version 8
 	b main
 
-update_dynamic_tuple_element:
-	proto 3 1
-	load 3 // full tuple
-	load 3 // full tuple
-	frame_dig -1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	frame_dig -2 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	frame_dig -1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	frame_dig -3 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	frame_dig -2 // new tuple element
-	len // length of new element
-	frame_dig -3 // old element length
-	<
-	bnz swapped_difference
-	frame_dig -2 // new tuple element
-	len // length of new element
-	frame_dig -3 // old element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference
-
-swapped_difference:
-	frame_dig -3 // old element length
-	frame_dig -2 // new tuple element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference:
-	- // get length difference
-	retsub
-
-update_dynamic_head:
-	proto 2 0
-	frame_dig -2 // length difference
-	load 3 // full tuple
-	frame_dig -1 // dynamic array offset
-	extract_uint16 // extract dynamic array offset
-	load 7 // subtract head difference
-	bz subtract_head_difference
-	+ // add difference to offset
-	b end_calc_new_head
-
-subtract_head_difference:
-	swap
-	- // subtract difference from offet
-
-end_calc_new_head:
-	itob // convert to bytes
-	extract 6 2 // convert to uint16
-	load 3 // full tuple
-	swap
-	frame_dig -1 // offset
-	swap
-	replace3 // update offset
-	store 3 // full tuple
-	retsub
-
 process_dynamic_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
@@ -171,9 +100,12 @@ staticArray:
 	// tests/contracts/abi.algo.ts:31
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -242,9 +174,12 @@ staticArrayArg:
 	// tests/contracts/abi.algo.ts:41
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -303,9 +238,12 @@ nonLiteralStaticArrayElements:
 	// tests/contracts/abi.algo.ts:50
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -382,79 +320,37 @@ mixedStaticArrayElements:
 	// tests/contracts/abi.algo.ts:59
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 8
-	extract3
-	btoi
-	frame_dig -4 // a: uint64[9]
-	int 4
-	int 8 // element length
-	* // element offset
-	int 8
-	extract3
-	btoi
 	+
-	frame_dig -4 // a: uint64[9]
-	int 7
-	int 8 // element length
-	* // element offset
-	int 8
-	extract3
-	btoi
-	+
-	itob
-	byte 0x151f7c75
+	load 0 // full array
 	swap
-	concat
-	log
-	retsub
-
-abi_route_nonLiteralStaticArrayAccess:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	dup
-	callsub nonLiteralStaticArrayAccess
-	int 1
-	return
-
-nonLiteralStaticArrayAccess:
-	proto 2 0
-
-	// tests/contracts/abi.algo.ts:63
-	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
-	frame_bury -1 // a: uint64[3]
-
-	// tests/contracts/abi.algo.ts:64
-	// n = 2
-	int 2
-	frame_bury -2 // n: uint64
-
-	// tests/contracts/abi.algo.ts:66
-	// return a[n];
-	frame_dig -1 // a: uint64[3]
-	frame_dig -2 // n: uint64
-	int 8 // element length
-	* // element offset
 	int 8
 	extract3
 	btoi
+	frame_dig -4 // a: uint64[9]
+	store 0 // full array
+	int 0 // initial offset
+	int 32
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	+
+	frame_dig -4 // a: uint64[9]
+	store 0 // full array
+	int 0 // initial offset
+	int 56
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	+
 	itob
 	byte 0x151f7c75
 	swap
@@ -479,7 +375,7 @@ abi_route_setStaticArrayElement:
 setStaticArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:70
+	// tests/contracts/abi.algo.ts:72
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -491,23 +387,23 @@ setStaticArrayElement:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:72
+	// tests/contracts/abi.algo.ts:74
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8 // element length
-	* // element offset
-	int 222
-	itob
-	replace3
-	frame_bury -1 // a: uint64[3]
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:74
+	// tests/contracts/abi.algo.ts:76
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -536,7 +432,7 @@ abi_route_staticArrayInStorageRef:
 staticArrayInStorageRef:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:78
+	// tests/contracts/abi.algo.ts:80
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -548,32 +444,35 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:80
+	// tests/contracts/abi.algo.ts:82
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:81
+	// tests/contracts/abi.algo.ts:83
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:82
+	// tests/contracts/abi.algo.ts:84
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:84
+	// tests/contracts/abi.algo.ts:86
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -581,9 +480,12 @@ staticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -592,9 +494,12 @@ staticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -602,7 +507,7 @@ staticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:90
+	// tests/contracts/abi.algo.ts:92
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -629,7 +534,7 @@ abi_route_updateStaticArrayInStorageRef:
 updateStaticArrayInStorageRef:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:94
+	// tests/contracts/abi.algo.ts:96
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -641,77 +546,64 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:96
+	// tests/contracts/abi.algo.ts:98
 	// this.gRef.put(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:97
+	// tests/contracts/abi.algo.ts:99
 	// this.lRef.put(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:98
+	// tests/contracts/abi.algo.ts:100
 	// this.bRef.put(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:100
+	// tests/contracts/abi.algo.ts:102
 	// this.gRef.get()[1] = 111
 	byte "gRef"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
-	int 111
-	itob
-	replace3
-	byte "gRef"
-	swap
-	app_global_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:101
+	// tests/contracts/abi.algo.ts:103
 	// this.lRef.get(this.txn.sender)[1] = 222
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
-	int 222
-	itob
-	replace3
-	txn Sender
-	byte "lRef"
-	uncover 2
-	app_local_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:102
+	// tests/contracts/abi.algo.ts:104
 	// this.bRef.get()[1] = 333
 	byte "bRef"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
-	int 333
-	itob
-	replace3
-	byte "bRef"
-	swap
-	box_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:104
+	// tests/contracts/abi.algo.ts:106
 	// ret: StaticArray<uint64, 3> = [
 	byte "gRef"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -719,9 +611,12 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -730,9 +625,12 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -740,7 +638,7 @@ updateStaticArrayInStorageRef:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:110
+	// tests/contracts/abi.algo.ts:112
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -767,7 +665,7 @@ abi_route_staticArrayInStorageMap:
 staticArrayInStorageMap:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:114
+	// tests/contracts/abi.algo.ts:116
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -779,32 +677,35 @@ staticArrayInStorageMap:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:116
+	// tests/contracts/abi.algo.ts:118
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:117
+	// tests/contracts/abi.algo.ts:119
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:118
+	// tests/contracts/abi.algo.ts:120
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:120
+	// tests/contracts/abi.algo.ts:122
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -812,9 +713,12 @@ staticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -823,9 +727,12 @@ staticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -833,7 +740,7 @@ staticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:126
+	// tests/contracts/abi.algo.ts:128
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -860,7 +767,7 @@ abi_route_updateStaticArrayInStorageMap:
 updateStaticArrayInStorageMap:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:130
+	// tests/contracts/abi.algo.ts:132
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	int 11
 	itob
@@ -872,77 +779,64 @@ updateStaticArrayInStorageMap:
 	concat
 	frame_bury -1 // a: uint64[3]
 
-	// tests/contracts/abi.algo.ts:132
+	// tests/contracts/abi.algo.ts:134
 	// this.gMap.put('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:133
+	// tests/contracts/abi.algo.ts:135
 	// this.lMap.put(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
-	// tests/contracts/abi.algo.ts:134
+	// tests/contracts/abi.algo.ts:136
 	// this.bMap.put('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
-	// tests/contracts/abi.algo.ts:136
+	// tests/contracts/abi.algo.ts:138
 	// this.gMap.get('gMap')[1] = 1111
 	byte "gMap"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
-	int 1111
-	itob
-	replace3
-	byte "gMap"
-	swap
-	app_global_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:137
+	// tests/contracts/abi.algo.ts:139
 	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
-	int 2222
-	itob
-	replace3
-	txn Sender
-	byte "lMap"
-	uncover 2
-	app_local_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:138
+	// tests/contracts/abi.algo.ts:140
 	// this.bMap.get('bMap')[1] = 3333
 	byte "bMap"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
-	int 3333
-	itob
-	replace3
-	byte "bMap"
-	swap
-	box_put
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:140
+	// tests/contracts/abi.algo.ts:142
 	// ret: StaticArray<uint64, 3> = [
 	byte "gMap"
 	app_global_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -950,9 +844,12 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -961,9 +858,12 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -971,7 +871,7 @@ updateStaticArrayInStorageMap:
 	concat
 	frame_bury -2 // ret: uint64[3]
 
-	// tests/contracts/abi.algo.ts:146
+	// tests/contracts/abi.algo.ts:148
 	// return ret;
 	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
@@ -997,7 +897,7 @@ abi_route_nestedStaticArray:
 nestedStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:150
+	// tests/contracts/abi.algo.ts:152
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -1027,16 +927,17 @@ nestedStaticArray:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:152
+	// tests/contracts/abi.algo.ts:154
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // element length
-	* // element offset
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 24
 	+
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1064,7 +965,7 @@ abi_route_updateNestedStaticArrayElement:
 updateNestedStaticArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:156
+	// tests/contracts/abi.algo.ts:158
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -1094,31 +995,27 @@ updateNestedStaticArrayElement:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:158
+	// tests/contracts/abi.algo.ts:160
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // element length
-	* // element offset
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 24
 	+
-	int 555
-	itob
-	replace3
-	frame_bury -1 // a: uint64[3][3]
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:160
+	// tests/contracts/abi.algo.ts:162
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // element length
-	* // element offset
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 24
 	+
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1146,7 +1043,7 @@ abi_route_updateNestedStaticArray:
 updateNestedStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:164
+	// tests/contracts/abi.algo.ts:166
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
 	int 11
 	itob
@@ -1176,33 +1073,25 @@ updateNestedStaticArray:
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
-	// tests/contracts/abi.algo.ts:166
+	// tests/contracts/abi.algo.ts:168
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // element length
-	* // element offset
-	int 444
-	itob
-	int 555
-	itob
-	concat
-	int 666
-	itob
-	concat
-	replace3
-	frame_bury -1 // a: uint64[3][3]
+	store 0 // full array
+	int 0 // initial offset
+	int 24
+	+
 
-	// tests/contracts/abi.algo.ts:168
+	// tests/contracts/abi.algo.ts:170
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	int 1
-	int 24 // element length
-	* // element offset
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 24
 	+
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1230,7 +1119,7 @@ abi_route_threeDimensionalUint16Array:
 threeDimensionalUint16Array:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:172
+	// tests/contracts/abi.algo.ts:174
 	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
 	int 11
 	itob
@@ -1265,40 +1154,29 @@ threeDimensionalUint16Array:
 	concat
 	frame_bury -1 // a: uint16[2][2][2]
 
-	// tests/contracts/abi.algo.ts:176
+	// tests/contracts/abi.algo.ts:178
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
-	int 1
-	int 8 // element length
-	* // element offset
-	int 1
-	int 4 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
 	+
-	int 777
-	itob
-	extract 6 0
-	int 888
-	itob
-	extract 6 0
-	concat
-	replace3
-	frame_bury -1 // a: uint16[2][2][2]
+	int 4
+	+
 
-	// tests/contracts/abi.algo.ts:178
+	// tests/contracts/abi.algo.ts:180
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
-	int 1
-	int 8 // element length
-	* // element offset
-	int 1
-	int 4 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 8
 	+
-	int 1
-	int 2 // element length
-	* // element offset
+	int 4
 	+
+	int 2
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1326,7 +1204,7 @@ abi_route_simpleTuple:
 simpleTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:182
+	// tests/contracts/abi.algo.ts:184
 	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1349,12 +1227,15 @@ simpleTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
-	// tests/contracts/abi.algo.ts:184
+	// tests/contracts/abi.algo.ts:186
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 18
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1382,7 +1263,7 @@ abi_route_arrayInTuple:
 arrayInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:188
+	// tests/contracts/abi.algo.ts:190
 	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1408,16 +1289,17 @@ arrayInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
-	// tests/contracts/abi.algo.ts:192
+	// tests/contracts/abi.algo.ts:194
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 10
-	int 1
-	int 8 // element length
-	* // element offset
 	+
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1445,7 +1327,7 @@ abi_route_tupleInArray:
 tupleInArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:196
+	// tests/contracts/abi.algo.ts:198
 	// a: StaticArray<[uint64, uint16], 2> = [
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1474,16 +1356,17 @@ tupleInArray:
 	concat
 	frame_bury -1 // a: [uint64,uint16][2]
 
-	// tests/contracts/abi.algo.ts:200
+	// tests/contracts/abi.algo.ts:202
 	// return a[1][1];
 	frame_dig -1 // a: [uint64,uint16][2]
-	dup
-	store 3 // full tuple
-	int 1
-	int 10 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 10
+	+
 	int 8
 	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1511,7 +1394,7 @@ abi_route_tupleInTuple:
 tupleInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:204
+	// tests/contracts/abi.algo.ts:206
 	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1554,14 +1437,17 @@ tupleInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
-	// tests/contracts/abi.algo.ts:208
+	// tests/contracts/abi.algo.ts:210
 	// return a[3][1];
 	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 14
+	+
 	int 2
 	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1589,7 +1475,7 @@ abi_route_shortTypeNotation:
 shortTypeNotation:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:212
+	// tests/contracts/abi.algo.ts:214
 	// a: [uint16<2>, uint64<2>, uint16<2>] = [
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1620,16 +1506,17 @@ shortTypeNotation:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 
-	// tests/contracts/abi.algo.ts:216
+	// tests/contracts/abi.algo.ts:218
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 20
-	int 1
-	int 2 // element length
-	* // element offset
 	+
+	int 2
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1657,7 +1544,7 @@ abi_route_disgusting:
 disgusting:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:220
+	// tests/contracts/abi.algo.ts:222
 	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1744,46 +1631,33 @@ disgusting:
 	concat
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 
-	// tests/contracts/abi.algo.ts:225
+	// tests/contracts/abi.algo.ts:227
 	// a[1][3][1] = [8888, 9999]
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
-	dup
-	store 3 // full tuple
-	int 1
-	int 54 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 54
+	+
 	int 22
 	+
-	int 1
-	int 16 // element length
-	* // element offset
+	int 16
 	+
-	int 8888
-	itob
-	int 9999
-	itob
-	concat
-	replace3
-	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 
-	// tests/contracts/abi.algo.ts:226
+	// tests/contracts/abi.algo.ts:228
 	// return a[1][3][1][0];
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
-	dup
-	store 3 // full tuple
-	int 1
-	int 54 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
+	int 54
+	+
 	int 22
 	+
-	int 1
-	int 16 // element length
-	* // element offset
+	int 16
 	+
 	int 0
-	int 8 // element length
-	* // element offset
 	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1811,7 +1685,7 @@ abi_route_returnTuple:
 returnTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:230
+	// tests/contracts/abi.algo.ts:232
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -1830,7 +1704,7 @@ returnTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
-	// tests/contracts/abi.algo.ts:231
+	// tests/contracts/abi.algo.ts:233
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	byte 0x151f7c75
@@ -1856,12 +1730,15 @@ abi_route_tupleArg:
 tupleArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:235
+	// tests/contracts/abi.algo.ts:237
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 8
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	byte 0xFFFF
@@ -1889,7 +1766,7 @@ abi_route_dynamicArray:
 dynamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:239
+	// tests/contracts/abi.algo.ts:241
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -1904,14 +1781,17 @@ dynamicArray:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:241
+	// tests/contracts/abi.algo.ts:243
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -1939,7 +1819,7 @@ abi_route_returnDynamicArray:
 returnDynamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:245
+	// tests/contracts/abi.algo.ts:247
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -1954,7 +1834,7 @@ returnDynamicArray:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:246
+	// tests/contracts/abi.algo.ts:248
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -1980,14 +1860,17 @@ abi_route_dynamicArrayArg:
 dynamicArrayArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:250
+	// tests/contracts/abi.algo.ts:252
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -2015,7 +1898,7 @@ abi_route_updateDynamicArrayElement:
 updateDynamicArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:254
+	// tests/contracts/abi.algo.ts:256
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -2030,27 +1913,27 @@ updateDynamicArrayElement:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:256
+	// tests/contracts/abi.algo.ts:258
 	// a[1] = 222
 	frame_dig -1 // a: uint64[]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
-	int 222
-	itob
-	replace3
-	frame_bury -1 // a: uint64[]
+	int 8
+	+
 
-	// tests/contracts/abi.algo.ts:258
+	// tests/contracts/abi.algo.ts:260
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	int 1
-	int 8 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 8
+	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -2078,7 +1961,7 @@ abi_route_dynamicTupleArray:
 dynamicTupleArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:262
+	// tests/contracts/abi.algo.ts:264
 	// a: [uint16, uint64][] = [[11, 22], [33, 44]]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -2110,18 +1993,19 @@ dynamicTupleArray:
 	concat
 	frame_bury -1 // a: [uint16,uint64][]
 
-	// tests/contracts/abi.algo.ts:264
+	// tests/contracts/abi.algo.ts:266
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint64][]
-	dup
-	store 3 // full tuple
-	int 1
-	int 10 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 10
+	+
 	int 2
 	+
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi
@@ -2149,7 +2033,7 @@ abi_route_returnTupleWithDyamicArray:
 returnTupleWithDyamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:268
+	// tests/contracts/abi.algo.ts:270
 	// a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -2185,357 +2069,9 @@ returnTupleWithDyamicArray:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:270
+	// tests/contracts/abi.algo.ts:272
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_returnDynamicArrayFromTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub returnDynamicArrayFromTuple
-	int 1
-	return
-
-returnDynamicArrayFromTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:274
-	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0009 // initial head offset
-	int 1
-	itob
-	extract 7 0
-	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 3
-	itob
-	extract 7 0
-	int 4
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 5
-	itob
-	extract 6 0
-	int 6
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 7
-	itob
-	extract 7 0
-	int 8
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:276
-	// return a[4];
-	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 7
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_updateDynamicArrayInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub updateDynamicArrayInTuple
-	int 1
-	return
-
-updateDynamicArrayInTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:280
-	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0009 // initial head offset
-	int 9
-	itob
-	extract 7 0
-	callsub process_static_tuple_element
-	int 8
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 7
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 6
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 5
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:282
-	// a[0] = 99 as uint8
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 0
-	int 99
-	itob
-	extract 7 0
-	replace3
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:283
-	// a[1] = [10, 11]
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 1
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 10
-	itob
-	extract 6 0
-	int 11
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 1
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 3
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 5
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:284
-	// a[2] = [12, 13]
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 3
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 12
-	itob
-	extract 7 0
-	int 13
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 3
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 5
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:285
-	// a[3] = [14, 15]
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 5
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 14
-	itob
-	extract 6 0
-	int 15
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 5
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:286
-	// a[4] = [16, 17]
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 7
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 16
-	itob
-	extract 7 0
-	int 17
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 7
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:288
-	// return a;
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
 	swap
 	concat
@@ -2560,7 +2096,7 @@ abi_route_nonLiteralDynamicElementInTuple:
 nonLiteralDynamicElementInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:292
+	// tests/contracts/abi.algo.ts:296
 	// e: uint16[] = [5, 6]
 	int 5
 	itob
@@ -2574,7 +2110,7 @@ nonLiteralDynamicElementInTuple:
 	concat
 	frame_bury -1 // e: uint16[]
 
-	// tests/contracts/abi.algo.ts:293
+	// tests/contracts/abi.algo.ts:297
 	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -2615,7 +2151,7 @@ nonLiteralDynamicElementInTuple:
 	concat // concat head and tail
 	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:295
+	// tests/contracts/abi.algo.ts:299
 	// return a;
 	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
@@ -2641,7 +2177,7 @@ abi_route_arrayPush:
 arrayPush:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:299
+	// tests/contracts/abi.algo.ts:303
 	// a: uint16[] = [1, 2]
 	int 1
 	itob
@@ -2655,7 +2191,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:301
+	// tests/contracts/abi.algo.ts:305
 	// a.push(3 as uint16)
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2674,7 +2210,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:303
+	// tests/contracts/abi.algo.ts:307
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2700,7 +2236,7 @@ abi_route_arrayPop:
 arrayPop:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:307
+	// tests/contracts/abi.algo.ts:311
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -2718,7 +2254,7 @@ arrayPop:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:309
+	// tests/contracts/abi.algo.ts:313
 	// a.pop()
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2740,7 +2276,7 @@ arrayPop:
 	extract3
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:311
+	// tests/contracts/abi.algo.ts:315
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -2767,7 +2303,7 @@ abi_route_arrayPopValue:
 arrayPopValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:315
+	// tests/contracts/abi.algo.ts:319
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -2785,7 +2321,7 @@ arrayPopValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:317
+	// tests/contracts/abi.algo.ts:321
 	// v = a.pop()!
 	frame_dig -1 // a: uint16[]
 	dup
@@ -2815,7 +2351,7 @@ arrayPopValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16
 
-	// tests/contracts/abi.algo.ts:319
+	// tests/contracts/abi.algo.ts:323
 	// return v;
 	frame_dig -2 // v: uint16
 	byte 0xFFFF
@@ -2843,7 +2379,7 @@ abi_route_arraySplice:
 arraySplice:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:323
+	// tests/contracts/abi.algo.ts:327
 	// a: uint64[] = [1, 2, 3]
 	int 1
 	itob
@@ -2858,7 +2394,7 @@ arraySplice:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:325
+	// tests/contracts/abi.algo.ts:329
 	// a.splice(1, 1)
 	frame_dig -1 // a: uint64[]
 	int 0
@@ -2897,7 +2433,7 @@ arraySplice:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:327
+	// tests/contracts/abi.algo.ts:331
 	// return a;
 	frame_dig -1 // a: uint64[]
 	byte 0x151f7c75
@@ -2924,7 +2460,7 @@ abi_route_arraySpliceValue:
 arraySpliceValue:
 	proto 4 0
 
-	// tests/contracts/abi.algo.ts:331
+	// tests/contracts/abi.algo.ts:335
 	// a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	int 1
 	itob
@@ -2970,17 +2506,17 @@ arraySpliceValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:333
+	// tests/contracts/abi.algo.ts:337
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.algo.ts:334
+	// tests/contracts/abi.algo.ts:338
 	// l = 7
 	int 7
 	frame_bury -3 // l: uint64
 
-	// tests/contracts/abi.algo.ts:335
+	// tests/contracts/abi.algo.ts:339
 	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3031,7 +2567,7 @@ arraySpliceValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -4 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:337
+	// tests/contracts/abi.algo.ts:341
 	// return v;
 	frame_dig -4 // v: uint16[]
 	byte 0x151f7c75
@@ -3058,7 +2594,7 @@ abi_route_dynamicArrayElements:
 dynamicArrayElements:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:341
+	// tests/contracts/abi.algo.ts:345
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3076,31 +2612,40 @@ dynamicArrayElements:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:342
+	// tests/contracts/abi.algo.ts:346
 	// newA: uint16[] = [a[0], a[1], a[2]]
 	frame_dig -1 // a: uint16[]
-	int 0
-	int 2 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 0
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	frame_dig -1 // a: uint16[]
-	int 1
-	int 2 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 2
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	concat
 	frame_dig -1 // a: uint16[]
-	int 2
-	int 2 // element length
-	* // element offset
+	store 0 // full array
+	int 0 // initial offset
 	int 2
 	+ // add two for length
+	int 4
+	+
+	load 0 // full array
+	swap
 	int 2
 	extract3
 	concat
@@ -3109,7 +2654,7 @@ dynamicArrayElements:
 	concat
 	frame_bury -2 // newA: uint16[]
 
-	// tests/contracts/abi.algo.ts:344
+	// tests/contracts/abi.algo.ts:348
 	// return newA;
 	frame_dig -2 // newA: uint16[]
 	byte 0x151f7c75
@@ -3135,7 +2680,7 @@ abi_route_spliceLastElement:
 spliceLastElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:348
+	// tests/contracts/abi.algo.ts:352
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3153,7 +2698,7 @@ spliceLastElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:350
+	// tests/contracts/abi.algo.ts:354
 	// a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3192,7 +2737,7 @@ spliceLastElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:352
+	// tests/contracts/abi.algo.ts:356
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -3219,7 +2764,7 @@ abi_route_spliceLastElementValue:
 spliceLastElementValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:356
+	// tests/contracts/abi.algo.ts:360
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3237,7 +2782,7 @@ spliceLastElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:358
+	// tests/contracts/abi.algo.ts:362
 	// v = a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3288,7 +2833,7 @@ spliceLastElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:360
+	// tests/contracts/abi.algo.ts:364
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -3314,7 +2859,7 @@ abi_route_spliceFirstElement:
 spliceFirstElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:364
+	// tests/contracts/abi.algo.ts:368
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3332,7 +2877,7 @@ spliceFirstElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:366
+	// tests/contracts/abi.algo.ts:370
 	// a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3371,7 +2916,7 @@ spliceFirstElement:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:368
+	// tests/contracts/abi.algo.ts:372
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75
@@ -3398,7 +2943,7 @@ abi_route_spliceFirstElementValue:
 spliceFirstElementValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:372
+	// tests/contracts/abi.algo.ts:376
 	// a: uint16[] = [1, 2, 3]
 	int 1
 	itob
@@ -3416,7 +2961,7 @@ spliceFirstElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:374
+	// tests/contracts/abi.algo.ts:378
 	// v = a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -3467,7 +3012,7 @@ spliceFirstElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:376
+	// tests/contracts/abi.algo.ts:380
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
@@ -3492,7 +3037,7 @@ abi_route_stringReturn:
 stringReturn:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:380
+	// tests/contracts/abi.algo.ts:384
 	// return 'Hello World!';
 	byte "Hello World!"
 	dup
@@ -3525,7 +3070,7 @@ abi_route_stringArg:
 stringArg:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:384
+	// tests/contracts/abi.algo.ts:388
 	// assert(s === 'Hello World!')
 	frame_dig -1 // s: bytes
 	byte "Hello World!"
@@ -3550,7 +3095,7 @@ abi_route_stringInTuple:
 stringInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:388
+	// tests/contracts/abi.algo.ts:392
 	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -3584,1425 +3129,10 @@ stringInTuple:
 	pop // pop head offset
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
-
-	// tests/contracts/abi.algo.ts:390
-	// return a;
-	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_accesStringInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub accesStringInTuple
-	int 1
-	return
-
-accesStringInTuple:
-	proto 1 0
 
 	// tests/contracts/abi.algo.ts:394
-	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0008 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
-
-	// tests/contracts/abi.algo.ts:396
-	// assert(a[2] === 'Hello World!')
+	// return a;
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
-	dup
-	store 3 // full tuple
-	int 4
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	byte "Hello World!"
-	==
-	assert
-
-	// tests/contracts/abi.algo.ts:398
-	// return a[2];
-	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
-	dup
-	store 3 // full tuple
-	int 4
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_updateStringInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub updateStringInTuple
-	int 1
-	return
-
-updateStringInTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:402
-	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0009 // initial head offset
-	int 9
-	itob
-	extract 7 0
-	callsub process_static_tuple_element
-	int 8
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	byte "Hi?"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 6
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 5
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:404
-	// a[0] = 99 as uint8
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 0
-	int 99
-	itob
-	extract 7 0
-	replace3
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:405
-	// a[1] = [10, 11]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 1
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 10
-	itob
-	extract 6 0
-	int 11
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 1
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 3
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 5
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:406
-	// a[2] = 'Hello World!'
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 3
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	int 3
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 5
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:407
-	// a[3] = [14, 15]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 5
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 14
-	itob
-	extract 6 0
-	int 15
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 5
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 7
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:408
-	// a[4] = [16, 17]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	dup
-	store 3 // full tuple
-	int 7
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 16
-	itob
-	extract 7 0
-	int 17
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 7
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-
-	// tests/contracts/abi.algo.ts:410
-	// return a;
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_updateTupleWithOnlyDynamicTypes:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub updateTupleWithOnlyDynamicTypes
-	int 1
-	return
-
-updateTupleWithOnlyDynamicTypes:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:414
-	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 2
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:416
-	// a[0] = [4, 5]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 0
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 4
-	itob
-	extract 6 0
-	int 5
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 0
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 2
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 4
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:417
-	// a[1] = [6, 7]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 6
-	itob
-	extract 6 0
-	int 7
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 4
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:418
-	// a[2] = [8, 9]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 4
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 8
-	itob
-	extract 6 0
-	int 9
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 4
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:420
-	// return a;
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_shortenDynamicElementInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub shortenDynamicElementInTuple
-	int 1
-	return
-
-shortenDynamicElementInTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:424
-	// a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 2
-	itob
-	extract 6 0
-	int 3
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	int 4
-	itob
-	extract 6 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:426
-	// a[0] = [5]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 0
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 5
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	int 0
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 2
-	callsub update_dynamic_head
-	dup // dup length difference
-	int 4
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:427
-	// a[1] = [6]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 6
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
-	int 4
-	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:428
-	// a[2] = [7]
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	dup
-	store 3 // full tuple
-	int 4
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 2
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 7
-	itob
-	extract 6 0
-	byte 0x0001
-	swap
-	concat
-	int 4
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
-
-	// tests/contracts/abi.algo.ts:430
-	// return a;
-	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_namedTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub namedTuple
-	int 1
-	return
-
-namedTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:434
-	// a: {
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0004 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: { foo: uint16, bar: string, }
-
-	// tests/contracts/abi.algo.ts:442
-	// return a.bar;
-	frame_dig -1 // a: { foo: uint16, bar: string, }
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_updateNamedTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub updateNamedTuple
-	int 1
-	return
-
-updateNamedTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:446
-	// a: {
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0004 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	byte "Hi?"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: { foo: uint16, bar: string, }
-
-	// tests/contracts/abi.algo.ts:454
-	// a.bar = 'Hello World!'
-	frame_dig -1 // a: { foo: uint16, bar: string, }
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: { foo: uint16, bar: string, }
-
-	// tests/contracts/abi.algo.ts:456
-	// return a.bar;
-	frame_dig -1 // a: { foo: uint16, bar: string, }
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_customTypes:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub customTypes
-	int 1
-	return
-
-customTypes:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:460
-	// aa: CustomType = {
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0004 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	byte "Hi?"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // aa: CustomType
-
-	// tests/contracts/abi.algo.ts:465
-	// aa.bar = 'Hello World!'
-	frame_dig -1 // aa: CustomType
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // aa: CustomType
-
-	// tests/contracts/abi.algo.ts:467
-	// return aa.bar;
-	frame_dig -1 // aa: CustomType
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_staticStringArrayArg:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	txna ApplicationArgs 1
-	callsub staticStringArrayArg
-	int 1
-	return
-
-staticStringArrayArg:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:471
-	// return a[1];
-	frame_dig -1 // a: bytes[3]
-	dup
-	store 3 // full tuple
-	int 1
-	int 2
-	*
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_dynamicAccessOfDynamicElementInStaticArray:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	txna ApplicationArgs 1
-	callsub dynamicAccessOfDynamicElementInStaticArray
-	int 1
-	return
-
-dynamicAccessOfDynamicElementInStaticArray:
-	proto 2 0
-
-	// tests/contracts/abi.algo.ts:475
-	// i = 1
-	int 1
-	frame_bury -2 // i: uint64
-
-	// tests/contracts/abi.algo.ts:476
-	// return a[i];
-	frame_dig -1 // a: bytes[3]
-	dup
-	store 3 // full tuple
-	frame_dig -2 // i: uint64
-	int 2
-	*
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_dynamicArrayInMiddleOfTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub dynamicArrayInMiddleOfTuple
-	int 1
-	return
-
-dynamicArrayInMiddleOfTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:480
-	// a: [uint16, uint8[], uint16] = [1, [2], 3]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],uint16]
-
-	// tests/contracts/abi.algo.ts:482
-	// return a;
-	frame_dig -1 // a: [uint16,uint8[],uint16]
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_accessDynamicArrayInMiddleOfTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub accessDynamicArrayInMiddleOfTuple
-	int 1
-	return
-
-accessDynamicArrayInMiddleOfTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:486
-	// a: [uint16, uint8[], uint16] = [1, [2], 3]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],uint16]
-
-	// tests/contracts/abi.algo.ts:488
-	// return a[1];
-	frame_dig -1 // a: [uint16,uint8[],uint16]
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_accessDynamicArrayElementInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub accessDynamicArrayElementInTuple
-	int 1
-	return
-
-accessDynamicArrayElementInTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:492
-	// a: [uint16, uint8[]] = [11, [22, 33, 44]]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0004 // initial head offset
-	int 11
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 22
-	itob
-	extract 7 0
-	int 33
-	itob
-	extract 7 0
-	concat
-	int 44
-	itob
-	extract 7 0
-	concat
-	byte 0x0003
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[]]
-
-	// tests/contracts/abi.algo.ts:494
-	// return a[1][1];
-	frame_dig -1 // a: [uint16,uint8[]]
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	int 1
-	int 1 // element length
-	* // element offset
-	int 2
-	+ // add two for length
-	+
-	int 1
-	extract3
-	byte 0xFFFFFFFF
-	b&
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-abi_route_updateDynamicArrayInMiddleOfTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-	byte 0x
-	callsub updateDynamicArrayInMiddleOfTuple
-	int 1
-	return
-
-updateDynamicArrayInMiddleOfTuple:
-	proto 1 0
-
-	// tests/contracts/abi.algo.ts:498
-	// a: [uint16, uint8[], uint16] = [1, [2], 3]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 7 0
-	byte 0x0001
-	swap
-	concat
-	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],uint16]
-
-	// tests/contracts/abi.algo.ts:500
-	// a[1] = [4, 5]
-	frame_dig -1 // a: [uint16,uint8[],uint16]
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
-	int 2
-	+ // add two for length
-	extract3
-	len // length of old element
-	int 4
-	itob
-	extract 7 0
-	int 5
-	itob
-	extract 7 0
-	concat
-	byte 0x0002
-	swap
-	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
-	frame_bury -1 // a: [uint16,uint8[],uint16]
-
-	// tests/contracts/abi.algo.ts:502
-	// return a;
-	frame_dig -1 // a: [uint16,uint8[],uint16]
 	byte 0x151f7c75
 	swap
 	concat
@@ -5028,7 +3158,6 @@ route_abi:
 	method "staticArrayArg(uint64[3])uint64"
 	method "nonLiteralStaticArrayElements()uint64"
 	method "mixedStaticArrayElements()uint64"
-	method "nonLiteralStaticArrayAccess()uint64"
 	method "setStaticArrayElement()uint64"
 	method "staticArrayInStorageRef()uint64[3]"
 	method "updateStaticArrayInStorageRef()uint64[3]"
@@ -5052,8 +3181,6 @@ route_abi:
 	method "updateDynamicArrayElement()uint64"
 	method "dynamicTupleArray()uint64"
 	method "returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])"
-	method "returnDynamicArrayFromTuple()uint8[]"
-	method "updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])"
 	method "nonLiteralDynamicElementInTuple()(uint8,uint16,uint8[],uint16[],uint8[])"
 	method "arrayPush()uint16[]"
 	method "arrayPop()uint16[]"
@@ -5068,18 +3195,5 @@ route_abi:
 	method "stringReturn()string"
 	method "stringArg(string)void"
 	method "stringInTuple()(uint16,uint8[],string,uint8[])"
-	method "accesStringInTuple()string"
-	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
-	method "updateTupleWithOnlyDynamicTypes()(uint16[],uint16[],uint16[])"
-	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
-	method "namedTuple()string"
-	method "updateNamedTuple()string"
-	method "customTypes()string"
-	method "staticStringArrayArg(string[3])string"
-	method "dynamicAccessOfDynamicElementInStaticArray(string[3])string"
-	method "dynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)"
-	method "accessDynamicArrayInMiddleOfTuple()uint8[]"
-	method "accessDynamicArrayElementInTuple()uint32"
-	method "updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_nonLiteralStaticArrayAccess abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_updateDynamicArrayInTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_updateStringInTuple abi_route_updateTupleWithOnlyDynamicTypes abi_route_shortenDynamicElementInTuple abi_route_namedTuple abi_route_updateNamedTuple abi_route_customTypes abi_route_staticStringArrayArg abi_route_dynamicAccessOfDynamicElementInStaticArray abi_route_dynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayElementInTuple abi_route_updateDynamicArrayInMiddleOfTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple
