@@ -272,13 +272,13 @@ class AbiTest extends Contract {
     return a;
   }
 
-  /* TODO
   returnDynamicArrayFromTuple(): uint8[] {
     const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]];
 
     return a[4]; // [7, 8]
   }
 
+  /* TODO
   updateDynamicArrayInTuple(): [uint8, uint16[], uint8[], uint16[], uint8[]] {
     const a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]];
 
@@ -394,7 +394,6 @@ class AbiTest extends Contract {
     return a;
   }
 
-  /* TODO
   accesStringInTuple(): string {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
@@ -403,6 +402,7 @@ class AbiTest extends Contract {
     return a[2];
   }
 
+  /* TODO
   updateStringInTuple(): [uint8, uint16[], string, uint16[], uint8[]] {
     const a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]];
 

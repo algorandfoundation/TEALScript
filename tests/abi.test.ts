@@ -228,13 +228,14 @@ describe('ABI', function () {
     );
   });
 
-  /* TODO
   it('returnDynamicArrayFromTuple', async function () {
     const ret = await appClient.returnDynamicArrayFromTuple();
     expect(ret.returnValue).to.deep.equal(
       [BigInt(7), BigInt(8)],
     );
   });
+
+  /* TODO
 
   it('updateDynamicArrayInTuple', async function () {
     const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
@@ -332,13 +333,14 @@ describe('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
   });
 
-  /* TODO
   it('accesStringInTuple', async function () {
+    await dryrun('accesStringInTuple');
     const s = 'Hello World!';
     const ret = await appClient.accesStringInTuple();
     expect(ret.returnValue).to.equal(s);
   });
 
+  /* TODO
   it('updateStringInTuple', async function () {
     const a = [
       { old: BigInt(9), new: BigInt(99) },

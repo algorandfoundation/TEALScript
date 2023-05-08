@@ -103,7 +103,7 @@ staticArray:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -177,7 +177,7 @@ staticArrayArg:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -241,7 +241,7 @@ nonLiteralStaticArrayElements:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -323,7 +323,7 @@ mixedStaticArrayElements:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -333,7 +333,7 @@ mixedStaticArrayElements:
 	store 0 // full array
 	int 0 // initial offset
 	int 32
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -344,7 +344,7 @@ mixedStaticArrayElements:
 	store 0 // full array
 	int 0 // initial offset
 	int 56
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -393,7 +393,13 @@ setStaticArrayElement:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:76
 	// return a[1];
@@ -401,7 +407,7 @@ setStaticArrayElement:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -470,7 +476,7 @@ staticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -483,7 +489,7 @@ staticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -497,7 +503,7 @@ staticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -572,7 +578,15 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 111
+	itob
+	replace3
+	byte "gRef"
+	swap
+	app_global_put
 
 	// tests/contracts/abi.algo.ts:103
 	// this.lRef.get(this.txn.sender)[1] = 222
@@ -582,7 +596,16 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 222
+	itob
+	replace3
+	txn Sender
+	byte "lRef"
+	uncover 2
+	app_local_put
 
 	// tests/contracts/abi.algo.ts:104
 	// this.bRef.get()[1] = 333
@@ -592,7 +615,15 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 333
+	itob
+	replace3
+	byte "bRef"
+	swap
+	box_put
 
 	// tests/contracts/abi.algo.ts:106
 	// ret: StaticArray<uint64, 3> = [
@@ -601,7 +632,7 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -614,7 +645,7 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -628,7 +659,7 @@ updateStaticArrayInStorageRef:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -703,7 +734,7 @@ staticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -716,7 +747,7 @@ staticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -730,7 +761,7 @@ staticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -805,7 +836,15 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 1111
+	itob
+	replace3
+	byte "gMap"
+	swap
+	app_global_put
 
 	// tests/contracts/abi.algo.ts:139
 	// this.lMap.get(this.txn.sender, 'lMap')[1] = 2222
@@ -815,7 +854,16 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 2222
+	itob
+	replace3
+	txn Sender
+	byte "lMap"
+	uncover 2
+	app_local_put
 
 	// tests/contracts/abi.algo.ts:140
 	// this.bMap.get('bMap')[1] = 3333
@@ -825,7 +873,15 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 3333
+	itob
+	replace3
+	byte "bMap"
+	swap
+	box_put
 
 	// tests/contracts/abi.algo.ts:142
 	// ret: StaticArray<uint64, 3> = [
@@ -834,7 +890,7 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -847,7 +903,7 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -861,7 +917,7 @@ updateStaticArrayInStorageMap:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -933,9 +989,9 @@ nestedStaticArray:
 	store 0 // full array
 	int 0 // initial offset
 	int 24
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1001,9 +1057,15 @@ updateNestedStaticArrayElement:
 	store 0 // full array
 	int 0 // initial offset
 	int 24
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 555
+	itob
+	replace3
+	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:162
 	// return a[1][1];
@@ -1011,9 +1073,9 @@ updateNestedStaticArrayElement:
 	store 0 // full array
 	int 0 // initial offset
 	int 24
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1079,7 +1141,19 @@ updateNestedStaticArray:
 	store 0 // full array
 	int 0 // initial offset
 	int 24
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 444
+	itob
+	int 555
+	itob
+	concat
+	int 666
+	itob
+	concat
+	replace3
+	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:170
 	// return a[1][1];
@@ -1087,9 +1161,9 @@ updateNestedStaticArray:
 	store 0 // full array
 	int 0 // initial offset
 	int 24
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1160,9 +1234,20 @@ threeDimensionalUint16Array:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	int 4
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 777
+	itob
+	extract 6 0
+	int 888
+	itob
+	extract 6 0
+	concat
+	replace3
+	frame_bury -1 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.algo.ts:180
 	// return a[1][1][1];
@@ -1170,11 +1255,11 @@ threeDimensionalUint16Array:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	int 4
-	+
+	+ // add to current offset
 	int 2
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -1233,7 +1318,7 @@ simpleTuple:
 	store 0 // full array
 	int 0 // initial offset
 	int 18
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -1295,9 +1380,9 @@ arrayInTuple:
 	store 0 // full array
 	int 0 // initial offset
 	int 10
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1362,9 +1447,9 @@ tupleInArray:
 	store 0 // full array
 	int 0 // initial offset
 	int 10
-	+
+	+ // add to current offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -1443,9 +1528,9 @@ tupleInTuple:
 	store 0 // full array
 	int 0 // initial offset
 	int 14
-	+
+	+ // add to current offset
 	int 2
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1512,9 +1597,9 @@ shortTypeNotation:
 	store 0 // full array
 	int 0 // initial offset
 	int 20
-	+
+	+ // add to current offset
 	int 2
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -1637,11 +1722,20 @@ disgusting:
 	store 0 // full array
 	int 0 // initial offset
 	int 54
-	+
+	+ // add to current offset
 	int 22
-	+
+	+ // add to current offset
 	int 16
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 8888
+	itob
+	int 9999
+	itob
+	concat
+	replace3
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 
 	// tests/contracts/abi.algo.ts:228
 	// return a[1][3][1][0];
@@ -1649,13 +1743,13 @@ disgusting:
 	store 0 // full array
 	int 0 // initial offset
 	int 54
-	+
+	+ // add to current offset
 	int 22
-	+
+	+ // add to current offset
 	int 16
-	+
+	+ // add to current offset
 	int 0
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1736,7 +1830,7 @@ tupleArg:
 	store 0 // full array
 	int 0 // initial offset
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -1789,7 +1883,7 @@ dynamicArray:
 	int 2
 	+ // add two for length
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1868,7 +1962,7 @@ dynamicArrayArg:
 	int 2
 	+ // add two for length
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -1921,7 +2015,13 @@ updateDynamicArrayElement:
 	int 2
 	+ // add two for length
 	int 8
-	+
+	+ // add to current offset
+	load 0 // full array
+	swap
+	int 222
+	itob
+	replace3
+	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:260
 	// return a[1];
@@ -1931,7 +2031,7 @@ updateDynamicArrayElement:
 	int 2
 	+ // add two for length
 	int 8
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -2001,9 +2101,9 @@ dynamicTupleArray:
 	int 2
 	+ // add two for length
 	int 10
-	+
+	+ // add to current offset
 	int 2
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 8
@@ -2072,6 +2172,95 @@ returnTupleWithDyamicArray:
 	// tests/contracts/abi.algo.ts:272
 	// return a;
 	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_returnDynamicArrayFromTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub returnDynamicArrayFromTuple
+	int 1
+	return
+
+returnDynamicArrayFromTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:276
+	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0009 // initial head offset
+	int 1
+	itob
+	extract 7 0
+	callsub process_static_tuple_element
+	int 2
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 3
+	itob
+	extract 7 0
+	int 4
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 5
+	itob
+	extract 6 0
+	int 6
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 7
+	itob
+	extract 7 0
+	int 8
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+
+	// tests/contracts/abi.algo.ts:278
+	// return a[4];
+	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	store 0 // full array
+	int 0 // initial offset
+	dup // dup current offset
+	int 7 // dynamic head offset
+	+ // add dynamic head offset to current offset
+	+ // add to current offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	load 0 // full array
+	len
+	substring3
 	byte 0x151f7c75
 	swap
 	concat
@@ -2620,7 +2809,7 @@ dynamicArrayElements:
 	int 2
 	+ // add two for length
 	int 0
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -2631,7 +2820,7 @@ dynamicArrayElements:
 	int 2
 	+ // add two for length
 	int 2
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -2643,7 +2832,7 @@ dynamicArrayElements:
 	int 2
 	+ // add two for length
 	int 4
-	+
+	+ // add to current offset
 	load 0 // full array
 	swap
 	int 2
@@ -3139,6 +3328,120 @@ stringInTuple:
 	log
 	retsub
 
+abi_route_accesStringInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub accesStringInTuple
+	int 1
+	return
+
+accesStringInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:398
+	// a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0008 // initial head offset
+	int 1
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 2
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	byte "Hello World!"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 3
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
+
+	// tests/contracts/abi.algo.ts:400
+	// assert(a[2] === 'Hello World!')
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	store 0 // full array
+	int 0 // initial offset
+	dup // dup current offset
+	int 4 // dynamic head offset
+	+ // add dynamic head offset to current offset
+	+ // add to current offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	int 0 // initial offset for end
+	dup // dup current offset
+	int 6 // dynamic head offset
+	+ // add dynamic head offset to current offset
+	+ // add to current offset
+	load 0 // full array
+	swap
+	extract_uint16
+	substring3
+	extract 2 0
+	byte "Hello World!"
+	==
+	assert
+
+	// tests/contracts/abi.algo.ts:402
+	// return a[2];
+	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	store 0 // full array
+	int 0 // initial offset
+	dup // dup current offset
+	int 4 // dynamic head offset
+	+ // add dynamic head offset to current offset
+	+ // add to current offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	int 0 // initial offset for end
+	dup // dup current offset
+	int 6 // dynamic head offset
+	+ // add dynamic head offset to current offset
+	+ // add to current offset
+	load 0 // full array
+	swap
+	extract_uint16
+	substring3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -3181,6 +3484,7 @@ route_abi:
 	method "updateDynamicArrayElement()uint64"
 	method "dynamicTupleArray()uint64"
 	method "returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])"
+	method "returnDynamicArrayFromTuple()uint8[]"
 	method "nonLiteralDynamicElementInTuple()(uint8,uint16,uint8[],uint16[],uint8[])"
 	method "arrayPush()uint16[]"
 	method "arrayPop()uint16[]"
@@ -3195,5 +3499,6 @@ route_abi:
 	method "stringReturn()string"
 	method "stringArg(string)void"
 	method "stringInTuple()(uint16,uint8[],string,uint8[])"
+	method "accesStringInTuple()string"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple

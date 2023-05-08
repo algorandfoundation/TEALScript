@@ -19,6 +19,8 @@ type ElementInfo = {
   dynamicArrayElement?: ElementInfo
 
   arrayType: 'static' | 'dynamic' | 'tuple' | undefined
+
+  topAncestor?: ElementInfo
 }
 
 function stringToExpression(str: string): ts.Expression {
@@ -1515,6 +1517,7 @@ export default class Compiler {
     type: string,
     parent: ElementInfo | undefined = undefined,
     currentOffset: number = 0,
+    topAncestor: ElementInfo | undefined = undefined,
   ): ElementInfo {
     let arrayType: 'static' | 'dynamic' | 'tuple' | undefined;
 
@@ -1533,6 +1536,7 @@ export default class Compiler {
       offset: currentOffset,
       elementID: this.elementID += 1,
       arrayType,
+      topAncestor,
     };
 
     if (arrayType === 'tuple') {
@@ -1549,6 +1553,7 @@ export default class Compiler {
             this.getABIType(eType),
             currentElement,
             offset,
+            topAncestor || currentElement,
           ),
         );
 
@@ -1572,6 +1577,7 @@ export default class Compiler {
             arrayElementType,
             currentElement,
             offset,
+            topAncestor || currentElement,
           ),
         );
 
@@ -1584,10 +1590,35 @@ export default class Compiler {
         this.getABIType(type.replace(/\[\]$/, '')),
         currentElement,
         0,
+        topAncestor || currentElement,
       );
     }
 
     return currentElement;
+  }
+
+  private getElementEnd(elementInfo: ElementInfo, accessors: number[]) {
+    const parent = elementInfo.parent!;
+    const topAncestor = elementInfo.topAncestor!;
+
+    if (Number.isNaN(accessors.at(-1))) {
+      throw new Error('TODO: conditional check on-chain to check if accessor is last element');
+    }
+
+    const nextSiblingIndex = parent.children
+      .findIndex(((e) => e.elementID === elementInfo.elementID)) + 1;
+
+    const nextSibling = parent.children[nextSiblingIndex];
+
+    if (nextSibling) {
+      this.pushLines('int 0 // initial offset for end');
+      this.processAccessors(topAncestor, [...accessors.slice(0, -1), nextSiblingIndex]);
+      if (this.isDynamicType(nextSibling.type)) {
+        this.pushLines(`load ${scratch.fullArray}`, 'swap', 'extract_uint16');
+      }
+    } else {
+      this.pushLines(`load ${scratch.fullArray}`, 'len');
+    }
   }
 
   private processAccessors(elementInfo: ElementInfo, accessors: number[]) {
@@ -1607,7 +1638,7 @@ export default class Compiler {
           this.pushLines(
             'dup // dup current offset',
             `int ${currentElement.offset} // dynamic head offset`,
-            '+',
+            '+ // add dynamic head offset to current offset',
           );
 
           if (i < accessors.length - 1) {
@@ -1644,7 +1675,7 @@ export default class Compiler {
           this.pushLines(`int ${this.getTypeLength(currentElement.type) * accessor}`);
         }
       }
-      this.pushVoid('+');
+      this.pushVoid('+ // add to current offset');
       previousElement = currentElement;
     });
 
@@ -1659,27 +1690,40 @@ export default class Compiler {
 
     const parentType = this.getABIType(this.lastType);
 
-    const elementInfo = this.getArrayElementInfo(parentType);
+    const topLevelArray = this.getArrayElementInfo(parentType);
 
     const accessors = chain.map((e) => parseInt(e.argumentExpression.getText(), 10));
 
-    const element = this.processAccessors(elementInfo, accessors);
+    const element = this.processAccessors(topLevelArray, accessors);
 
     if (newValue) {
-      /* TODO
-      if (this.isDynamicType(elementType)) {
+      if (this.isDynamicType(element.type)) {
+        /* TODO
+
         this.updateDynamicTupleElement(elementType, newValue, dynamicHeads, accessor);
+        */
       } else {
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          'swap',
+        );
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid('itob');
         this.pushVoid('replace3');
       }
 
       this.updateValue(chain[0].expression);
-      */
     } else {
       if (this.isDynamicType(element.type)) {
-        throw new Error(`TODO: dynamic element access ${this.currentSubroutine.name}`);
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          `load ${scratch.fullArray}`,
+          'uncover 2',
+          'extract_uint16',
+        );
+
+        const nextElement = this.getElementEnd(element, accessors);
+        this.pushLines('substring3');
       } else {
         this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }

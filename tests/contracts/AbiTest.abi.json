@@ -273,6 +273,15 @@
       }
     },
     {
+      "name": "returnDynamicArrayFromTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint8[]",
+        "desc": ""
+      }
+    },
+    {
       "name": "nonLiteralDynamicElementInTuple",
       "args": [],
       "desc": "",
@@ -401,6 +410,15 @@
       "desc": "",
       "returns": {
         "type": "(uint16,uint8[],string,uint8[])",
+        "desc": ""
+      }
+    },
+    {
+      "name": "accesStringInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "string",
         "desc": ""
       }
     }
