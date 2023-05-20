@@ -72,21 +72,28 @@ end_calc_new_head:
 	store 3 // full tuple
 	retsub
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-	callsub create
-	int 1
-	return
-
-create:
-	proto 0 0
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
 	retsub
 
 abi_route_setMyContact:
@@ -110,18 +117,11 @@ abi_route_setMyContact:
 setMyContact:
 	proto 3 0
 
-	// examples/tuple_in_box/app.algo.ts:15
+	// examples/tuple_in_box/app.algo.ts:12
 	// contact: Contact = { name: name, company: company }
-	byte 0x
-	dup
-	store 0 // tuple head
-	store 1 // tuple tail
-	byte 0x0004
-	store 2 // head offset
-	load 0 // tuple head
-	load 2 // head offset
-	concat
-	store 0 // tuple head
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0004 // initial head offset
 	frame_dig -1 // name: bytes
 	dup
 	len
@@ -129,22 +129,7 @@ setMyContact:
 	extract 6 2
 	swap
 	concat
-	dup
-	len
-	load 2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	store 2 // head offset
-	load 1 // tuple tail
-	swap
-	concat
-	store 1 // tuple tail
-	load 0 // tuple head
-	load 2 // head offset
-	concat
-	store 0 // tuple head
+	callsub process_dynamic_tuple_element
 	frame_dig -2 // company: bytes
 	dup
 	len
@@ -152,30 +137,18 @@ setMyContact:
 	extract 6 2
 	swap
 	concat
-	dup
-	len
-	load 2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	store 2 // head offset
-	load 1 // tuple tail
-	swap
-	concat
-	store 1 // tuple tail
-	load 0 // tuple head
-	load 1 // tuple tail
-	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
 	frame_bury -3 // contact: Contact
 
-	// examples/tuple_in_box/app.algo.ts:17
+	// examples/tuple_in_box/app.algo.ts:14
 	// this.myContact.put(contact)
 	byte "myContact"
 	frame_dig -3 // contact: Contact
 	app_global_put
 
-	// examples/tuple_in_box/app.algo.ts:18
+	// examples/tuple_in_box/app.algo.ts:15
 	// this.contacts.put(this.txn.sender, contact)
 	txn Sender
 	dup
@@ -196,8 +169,6 @@ abi_route_addContact:
 	assert
 	byte 0x
 	txna ApplicationArgs 3
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -209,18 +180,11 @@ abi_route_addContact:
 addContact:
 	proto 4 0
 
-	// examples/tuple_in_box/app.algo.ts:22
+	// examples/tuple_in_box/app.algo.ts:19
 	// contact: Contact = { name: name, company: company }
-	byte 0x
-	dup
-	store 0 // tuple head
-	store 1 // tuple tail
-	byte 0x0004
-	store 2 // head offset
-	load 0 // tuple head
-	load 2 // head offset
-	concat
-	store 0 // tuple head
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0004 // initial head offset
 	frame_dig -1 // name: bytes
 	dup
 	len
@@ -228,22 +192,7 @@ addContact:
 	extract 6 2
 	swap
 	concat
-	dup
-	len
-	load 2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	store 2 // head offset
-	load 1 // tuple tail
-	swap
-	concat
-	store 1 // tuple tail
-	load 0 // tuple head
-	load 2 // head offset
-	concat
-	store 0 // tuple head
+	callsub process_dynamic_tuple_element
 	frame_dig -2 // company: bytes
 	dup
 	len
@@ -251,26 +200,14 @@ addContact:
 	extract 6 2
 	swap
 	concat
-	dup
-	len
-	load 2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	store 2 // head offset
-	load 1 // tuple tail
-	swap
-	concat
-	store 1 // tuple tail
-	load 0 // tuple head
-	load 1 // tuple tail
-	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
 	frame_bury -4 // contact: Contact
 
-	// examples/tuple_in_box/app.algo.ts:23
+	// examples/tuple_in_box/app.algo.ts:20
 	// this.contacts.put(address, contact)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -288,8 +225,6 @@ abi_route_updateContactField:
 	&&
 	assert
 	txna ApplicationArgs 3
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -302,7 +237,7 @@ updateContactField:
 	proto 3 0
 
 	// if0_condition
-	// examples/tuple_in_box/app.algo.ts:27
+	// examples/tuple_in_box/app.algo.ts:24
 	// field === 'name'
 	frame_dig -1 // field: bytes
 	byte "name"
@@ -310,11 +245,11 @@ updateContactField:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// examples/tuple_in_box/app.algo.ts:28
+	// examples/tuple_in_box/app.algo.ts:25
 	// this.contacts.get(address).name = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	box_get
 	assert
 	dup
@@ -336,8 +271,6 @@ updateContactField:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	frame_dig -2 // value: bytes
 	dup
@@ -353,7 +286,7 @@ updateContactField:
 	callsub update_dynamic_head
 	pop // pop length difference
 	load 3 // full tuple
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -362,7 +295,7 @@ updateContactField:
 	b if0_end
 
 if0_elseif1_condition:
-	// examples/tuple_in_box/app.algo.ts:29
+	// examples/tuple_in_box/app.algo.ts:26
 	// field === 'company'
 	frame_dig -1 // field: bytes
 	byte "company"
@@ -370,11 +303,11 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// examples/tuple_in_box/app.algo.ts:30
+	// examples/tuple_in_box/app.algo.ts:27
 	// this.contacts.get(address).company = value
 	// examples/tuple_in_box/app.algo.ts:1
 	// this.contacts.get(address)
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	box_get
 	assert
 	dup
@@ -396,8 +329,6 @@ if0_elseif1_condition:
 	int 2
 	+ // add two for length
 	extract3
-	store 4 // old tuple element
-	load 4 // old tuple element
 	len // length of old element
 	frame_dig -2 // value: bytes
 	dup
@@ -410,7 +341,7 @@ if0_elseif1_condition:
 	callsub update_dynamic_tuple_element
 	pop // pop length difference
 	load 3 // full tuple
-	frame_dig -3 // address: account
+	frame_dig -3 // address: address
 	dup
 	box_del
 	pop
@@ -434,8 +365,6 @@ abi_route_verifyContactName:
 	&&
 	assert
 	txna ApplicationArgs 2
-	btoi
-	txnas Accounts
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub verifyContactName
@@ -445,12 +374,12 @@ abi_route_verifyContactName:
 verifyContactName:
 	proto 2 0
 
-	// examples/tuple_in_box/app.algo.ts:35
+	// examples/tuple_in_box/app.algo.ts:32
 	// assert(this.contacts.get(address).name === name)
-	frame_dig -2 // address: account
+	frame_dig -2 // address: address
 	box_get
 	assert
-	frame_dig -2 // address: account
+	frame_dig -2 // address: address
 	box_get
 	assert
 	dup
@@ -481,15 +410,21 @@ verifyContactName:
 main:
 	txn NumAppArgs
 	bnz route_abi
+
+	// default createApplication
 	txn ApplicationID
 	int 0
 	==
-	bnz bare_route_create
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
 
 route_abi:
 	method "setMyContact(string,string)void"
-	method "addContact(string,string,account)void"
-	method "updateContactField(string,string,account)void"
-	method "verifyContactName(string,account)void"
+	method "addContact(string,string,address)void"
+	method "updateContactField(string,string,address)void"
+	method "verifyContactName(string,address)void"
 	txna ApplicationArgs 0
 	match abi_route_setMyContact abi_route_addContact abi_route_updateContactField abi_route_verifyContactName
