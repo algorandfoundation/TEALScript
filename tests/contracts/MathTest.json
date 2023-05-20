@@ -51,7 +51,9 @@
       }
     }
   },
-  "bare_call_config": {},
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
   "schema": {
     "local": {
       "declared": {},
