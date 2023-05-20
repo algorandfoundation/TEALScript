@@ -46,17 +46,27 @@ class ContactsApp(Application):
     def update_contact_field(
         self, field: abi.String, value: abi.String, address: abi.Address
     ):
+
         new_contact = Contact()
         old_contact = Contact()
-        old_company = abi.String()
 
+        # Using .store_into() allows us to store the value of a box into a ABI variable
+        # Instantiate old_company instance for use with store_into
+        old_company = abi.String()
         update_name = Seq(
+            # Save the value of self.contacts[address] into old_contact
             (self.contacts[address].store_into(old_contact)),
+            # Save the value of old_contact.company into old_company
             (old_contact.company.store_into(old_company)),
+            # Create a new Contact instance, set the name to value, and set the company to old_company
+            # Note we can't update the field of an existing NamedTuple (at least not easily)
             new_contact.set(value, old_company),
             self.contacts[address].set(new_contact),
         )
 
+        # Using .use() allows us to use the value of a box in a lambda function
+        # .use() is often shorter than store_into, but store_into is useful if you need to use the value multiple times throughout a Seq
+        # Note we don't need to manually instantiate an instance of old_name
         update_company = Seq(
             (self.contacts[address].store_into(old_contact)),
             old_contact.name.use(lambda old_name: new_contact.set(old_name, value)),
