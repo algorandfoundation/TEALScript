@@ -219,7 +219,7 @@ export default class Compiler {
 
   private bareCreate: boolean = false;
 
-  private handledActions: string[] = [];
+  private handledActions: {[method: string]: string[]} = {};
 
   abi: {
     name: string,
@@ -952,7 +952,7 @@ export default class Compiler {
       this.pushVoid('int 1');
 
       this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
-    } else if (!this.handledActions.includes('createApplication')) {
+    } else if (!Object.values(this.handledActions).flat().includes('createApplication')) {
       this.pushLines(
         '// default createApplication',
         'txn ApplicationID',
@@ -1635,6 +1635,7 @@ export default class Compiler {
       return;
     }
 
+    this.handledActions[this.currentSubroutine.name] = [];
     this.currentSubroutine.decorators = (ts.getDecorators(node) || []).map(
       (d) => {
         const err = new Error(`Unknown decorator ${d.expression.getText()}`);
@@ -1642,9 +1643,9 @@ export default class Compiler {
         if (d.expression.expression.getText() !== 'handle') throw err;
 
         const handledAction = d.expression.name.getText();
-        if (this.handledActions.includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
+        if (Object.values(this.handledActions).flat().includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
 
-        this.handledActions.push(handledAction);
+        this.handledActions[this.currentSubroutine.name].push(handledAction);
         return handledAction;
       },
     );
@@ -2863,8 +2864,12 @@ export default class Compiler {
       }
     }
 
-    return {
-      hints: {},
+    const hints: {[signature: string]: {'call_config': {[action: string]: string}}} = {};
+    const bareCallConfig: {[action: string]: string} = {};
+
+    const appSpec = {
+      hints,
+      bare_call_config: bareCallConfig,
       schema: {
         local: { declared: localDeclared, reserved: {} },
         global: { declared: globalDeclared, reserved: {} },
@@ -2873,6 +2878,33 @@ export default class Compiler {
       source: { approval, clear },
       contract: this.abi,
     };
+
+    this.abi.methods.forEach((m) => {
+      const signature = `${m.name}(${m.args.map((a) => a.type).join(',')})${m.returns.type}`;
+
+      hints[signature] = {
+        call_config: {},
+      };
+
+      if (this.handledActions[m.name].length === 0) {
+        hints[signature].call_config.no_op = 'CALL';
+      } else {
+        this.handledActions[m.name].forEach((a) => {
+          hints[signature].call_config[a] = 'CALL';
+        });
+      }
+    });
+
+    this.bareOnCompletes.forEach((oc) => {
+      if (oc === 'DeleteApplication') bareCallConfig.delete_application = 'CALL';
+      if (oc === 'UpdateApplication') bareCallConfig.update_application = 'CALL';
+      if (oc === 'CloseOut') bareCallConfig.close_out = 'CALL';
+      if (oc === 'OptIn') bareCallConfig.opt_in = 'CALL';
+    });
+
+    if (this.bareCreate) bareCallConfig.no_op = 'CREATE';
+
+    return appSpec;
   }
 
   approvalProgram(): string {
