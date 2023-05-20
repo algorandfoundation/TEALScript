@@ -21,6 +21,8 @@ type ElementInfo = {
   arrayType: 'static' | 'dynamic' | 'tuple' | undefined
 
   topAncestor?: ElementInfo
+
+  allElements: ElementInfo[]
 }
 
 function stringToExpression(str: string): ts.Expression {
@@ -1518,6 +1520,7 @@ export default class Compiler {
     parent: ElementInfo | undefined = undefined,
     currentOffset: number = 0,
     topAncestor: ElementInfo | undefined = undefined,
+    allElements: ElementInfo[] = [],
   ): ElementInfo {
     let arrayType: 'static' | 'dynamic' | 'tuple' | undefined;
 
@@ -1537,7 +1540,10 @@ export default class Compiler {
       elementID: this.elementID += 1,
       arrayType,
       topAncestor,
+      allElements,
     };
+
+    allElements.push(currentElement);
 
     if (arrayType === 'tuple') {
       let offset = 0;
@@ -1548,14 +1554,16 @@ export default class Compiler {
       tupleExpr.elements.forEach((e, i) => {
         const eType = e.getText();
 
-        currentElement.children.push(
-          this.getArrayElementInfo(
-            this.getABIType(eType),
-            currentElement,
-            offset,
-            topAncestor || currentElement,
-          ),
+        const childElement = this.getArrayElementInfo(
+          this.getABIType(eType),
+          currentElement,
+          offset,
+          topAncestor || currentElement,
+          allElements,
         );
+
+        currentElement.children.push(childElement);
+        allElements.push(childElement);
 
         if (this.isDynamicType(eType)) {
           offset += 2;
@@ -1572,14 +1580,16 @@ export default class Compiler {
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < length; i++) {
-        currentElement.children.push(
-          this.getArrayElementInfo(
-            arrayElementType,
-            currentElement,
-            offset,
-            topAncestor || currentElement,
-          ),
+        const childElement = this.getArrayElementInfo(
+          arrayElementType,
+          currentElement,
+          offset,
+          topAncestor || currentElement,
+          allElements,
         );
+
+        currentElement.children.push(childElement);
+        allElements.push(childElement);
 
         offset += this.isDynamicType(arrayElementType) ? 2 : this.getTypeLength(arrayElementType);
       }
@@ -1591,13 +1601,14 @@ export default class Compiler {
         currentElement,
         0,
         topAncestor || currentElement,
+        allElements,
       );
     }
 
     return currentElement;
   }
 
-  private getElementEnd(elementInfo: ElementInfo, accessors: number[]) {
+  private getDynamicElementEnd(elementInfo: ElementInfo, accessors: number[]) {
     const parent = elementInfo.parent!;
     const topAncestor = elementInfo.topAncestor!;
 
@@ -1605,20 +1616,40 @@ export default class Compiler {
       throw new Error('TODO: conditional check on-chain to check if accessor is last element');
     }
 
-    const nextSiblingIndex = parent.children
-      .findIndex(((e) => e.elementID === elementInfo.elementID)) + 1;
+    // If there is another dynamic element in the same tuple, get the tail offset
 
-    const nextSibling = parent.children[nextSiblingIndex];
+    let pastCurrentSibling = false;
+    const nextDynamicSiblingIndex = parent.children.findIndex((e) => {
+      if (pastCurrentSibling && this.isDynamicType(e.type)) return true;
+      if (e.elementID === elementInfo.elementID) pastCurrentSibling = true;
+      return false;
+    });
 
-    if (nextSibling) {
+    const nextDynamicSibling = parent.children[nextDynamicSiblingIndex];
+
+    if (nextDynamicSibling) {
       this.pushLines('int 0 // initial offset for end');
-      this.processAccessors(topAncestor, [...accessors.slice(0, -1), nextSiblingIndex]);
-      if (this.isDynamicType(nextSibling.type)) {
-        this.pushLines(`load ${scratch.fullArray}`, 'swap', 'extract_uint16');
+      this.processAccessors(topAncestor, [...accessors.slice(0, -1), nextDynamicSiblingIndex]);
+      if (this.isDynamicType(nextDynamicSibling.type)) {
+        this.pushLines(`load ${scratch.fullArray}`, 'swap', 'extract_uint16 // extract next dynamic sibling tail offset');
       }
-    } else {
-      this.pushLines(`load ${scratch.fullArray}`, 'len');
+
+      return;
     }
+
+    const { allElements } = elementInfo.topAncestor!;
+    const nextElement = allElements
+      .find((_, i) => allElements[i - 1].elementID === elementInfo.elementID);
+
+    if (nextElement) {
+
+    }
+
+    // If there are no more elements in the parent tuple, get the end of the parent tuple
+    this.pushLines(
+      `load ${scratch.fullArray}`,
+      'len',
+    );
   }
 
   private processAccessors(elementInfo: ElementInfo, accessors: number[]) {
@@ -1722,7 +1753,7 @@ export default class Compiler {
           'extract_uint16',
         );
 
-        const nextElement = this.getElementEnd(element, accessors);
+        const nextElement = this.getDynamicElementEnd(element, accessors);
         this.pushLines('substring3');
       } else {
         this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
