@@ -2902,7 +2902,7 @@ export default class Compiler {
       if (oc === 'OptIn') bareCallConfig.opt_in = 'CALL';
     });
 
-    if (this.bareCreate) bareCallConfig.no_op = 'CREATE';
+    if (this.bareCreate || !Object.values(this.handledActions).flat().includes('createApplication')) bareCallConfig.no_op = 'CREATE';
 
     return appSpec;
   }
