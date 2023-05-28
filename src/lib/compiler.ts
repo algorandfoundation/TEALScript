@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { Type } from 'typescript';
+import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
 function stringToExpression(str: string): ts.Expression {
