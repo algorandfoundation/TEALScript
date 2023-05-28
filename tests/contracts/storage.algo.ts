@@ -14,6 +14,12 @@ class StorageTest extends Contract {
 
   boxMap = new BoxMap<bytes, bytes>({ dynamicSize: false });
 
+  boxMapWithPrefix = new BoxMap<bytes, bytes>({ prefix: 'f' });
+
+  prefix(): void {
+    this.boxMapWithPrefix.put('oo', 'bar');
+  }
+
   globalRefPut(): void {
     this.globalRef.put('bar');
   }
