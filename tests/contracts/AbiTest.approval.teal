@@ -3747,6 +3747,81 @@ accessDynamicArrayElementInTuple:
 	log
 	retsub
 
+abi_route_nestedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub nestedTuple
+	int 1
+	return
+
+nestedTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:533
+	// a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0006 // initial head offset
+	int 11
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0003 // initial head offset
+	int 22
+	itob
+	extract 7 0
+	callsub process_static_tuple_element
+	byte "foo"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_dynamic_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0004 // initial head offset
+	int 33
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	byte "bar"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16,[uint8,string],[uint16,string]]
+
+	// tests/contracts/abi.algo.ts:535
+	// return a;
+	frame_dig -1 // a: [uint16,[uint8,string],[uint16,string]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -3810,5 +3885,6 @@ route_abi:
 	method "dynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)"
 	method "accessDynamicArrayInMiddleOfTuple()uint8[]"
 	method "accessDynamicArrayElementInTuple()uint32"
+	method "nestedTuple()(uint16,(uint8,string),(uint16,string))"
 	txna ApplicationArgs 0
-	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_namedTuple abi_route_staticStringArrayArg abi_route_dynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayElementInTuple
+	match abi_route_staticArray abi_route_returnStaticArray abi_route_staticArrayArg abi_route_nonLiteralStaticArrayElements abi_route_mixedStaticArrayElements abi_route_setStaticArrayElement abi_route_staticArrayInStorageRef abi_route_updateStaticArrayInStorageRef abi_route_staticArrayInStorageMap abi_route_updateStaticArrayInStorageMap abi_route_nestedStaticArray abi_route_updateNestedStaticArrayElement abi_route_updateNestedStaticArray abi_route_threeDimensionalUint16Array abi_route_simpleTuple abi_route_arrayInTuple abi_route_tupleInArray abi_route_tupleInTuple abi_route_shortTypeNotation abi_route_disgusting abi_route_returnTuple abi_route_tupleArg abi_route_dynamicArray abi_route_returnDynamicArray abi_route_dynamicArrayArg abi_route_updateDynamicArrayElement abi_route_dynamicTupleArray abi_route_returnTupleWithDyamicArray abi_route_returnDynamicArrayFromTuple abi_route_nonLiteralDynamicElementInTuple abi_route_arrayPush abi_route_arrayPop abi_route_arrayPopValue abi_route_arraySplice abi_route_arraySpliceValue abi_route_dynamicArrayElements abi_route_spliceLastElement abi_route_spliceLastElementValue abi_route_spliceFirstElement abi_route_spliceFirstElementValue abi_route_stringReturn abi_route_stringArg abi_route_stringInTuple abi_route_accesStringInTuple abi_route_namedTuple abi_route_staticStringArrayArg abi_route_dynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayInMiddleOfTuple abi_route_accessDynamicArrayElementInTuple abi_route_nestedTuple

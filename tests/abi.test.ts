@@ -438,4 +438,9 @@ describe.only('ABI', function () {
     );
   });
   */
+
+  it.only('nestedTuple', async function () {
+    const ret = await appClient.nestedTuple();
+    expect(ret.returnValue).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
+  });
 });

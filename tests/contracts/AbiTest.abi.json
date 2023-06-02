@@ -472,6 +472,15 @@
         "type": "uint32",
         "desc": ""
       }
+    },
+    {
+      "name": "nestedTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,(uint8,string),(uint16,string))",
+        "desc": ""
+      }
     }
   ]
 }

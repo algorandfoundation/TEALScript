@@ -814,8 +814,8 @@ export default class Compiler {
       tupleStr = `(${types.join(',')})`;
     }
 
-    const trailingBrakcet = /(?<!\[\d*)]/;
-    const leadingBracket = /\[(?!\d*])/;
+    const trailingBrakcet = /(?<!\[\d*)]/g;
+    const leadingBracket = /\[(?!\d*])/g;
 
     return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
   }
@@ -1636,6 +1636,10 @@ export default class Compiler {
 
       return;
     }
+
+    const parentIndex = parent.parent?.children.findIndex((e) => e.elementID === parent.elementID)!;
+
+    const uncle = parent.parent?.children[parentIndex + 1];
 
     // If there are no more elements in the top-level tuple, get the end of the top-level tuple
     this.pushLines(

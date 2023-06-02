@@ -528,4 +528,10 @@ class AbiTest extends Contract {
     assert(p.sender === t.sender);
   }
   */
+
+  nestedTuple(): [uint16, [uint8, string], [uint16, string]] {
+    const a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']];
+
+    return a;
+  }
 }
