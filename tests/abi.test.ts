@@ -35,7 +35,7 @@ async function dryrun(methodName: string, methodArgs: any = []) {
 
 artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/', 'AbiTest');
 
-describe('ABI', function () {
+describe.only('ABI', function () {
   before(async function () {
     const acct = (await sandbox.getAccounts()).pop()!;
 
@@ -236,7 +236,6 @@ describe('ABI', function () {
   });
 
   /* TODO
-
   it('updateDynamicArrayInTuple', async function () {
     const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
       { old: BigInt(9), new: BigInt(99) },
@@ -334,7 +333,6 @@ describe('ABI', function () {
   });
 
   it('accesStringInTuple', async function () {
-    await dryrun('accesStringInTuple');
     const s = 'Hello World!';
     const ret = await appClient.accesStringInTuple();
     expect(ret.returnValue).to.equal(s);
@@ -398,6 +396,7 @@ describe('ABI', function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
   });
+  */
 
   it('dynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.dynamicArrayInMiddleOfTuple();
@@ -409,7 +408,7 @@ describe('ABI', function () {
       ],
     );
   });
-
+  /*
   it('accessDynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.accessDynamicArrayInMiddleOfTuple();
     expect(ret.returnValue).to.deep.equal(

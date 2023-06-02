@@ -481,19 +481,20 @@ class AbiTest extends Contract {
     const i = 1;
     return a[i];
   }
+  */
 
   dynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
     return a;
   }
+  /* TODO
 
   accessDynamicArrayInMiddleOfTuple(): uint8[] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
     return a[1];
   }
-
   accessDynamicArrayElementInTuple(): uint32 {
     const a: [uint16, uint8[]] = [11, [22, 33, 44]];
 

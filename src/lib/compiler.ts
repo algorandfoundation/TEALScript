@@ -1637,15 +1637,7 @@ export default class Compiler {
       return;
     }
 
-    const { allElements } = elementInfo.topAncestor!;
-    const nextElement = allElements
-      .find((_, i) => allElements[i - 1].elementID === elementInfo.elementID);
-
-    if (nextElement) {
-
-    }
-
-    // If there are no more elements in the parent tuple, get the end of the parent tuple
+    // If there are no more elements in the top-level tuple, get the end of the top-level tuple
     this.pushLines(
       `load ${scratch.fullArray}`,
       'len',
