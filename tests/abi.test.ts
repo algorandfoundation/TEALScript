@@ -408,7 +408,7 @@ describe.only('ABI', function () {
       ],
     );
   });
-  /*
+
   it('accessDynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.accessDynamicArrayInMiddleOfTuple();
     expect(ret.returnValue).to.deep.equal(
@@ -423,6 +423,7 @@ describe.only('ABI', function () {
     );
   });
 
+  /*
   it('updateDynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.updateDynamicArrayInMiddleOfTuple();
     expect(ret.returnValue).to.deep.equal(
