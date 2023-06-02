@@ -434,6 +434,7 @@ class AbiTest extends Contract {
 
     return a;
   }
+  */
 
   namedTuple(): string {
     const a: {
@@ -447,6 +448,7 @@ class AbiTest extends Contract {
     return a.bar;
   }
 
+  /*
   updateNamedTuple(): string {
     const a: {
       foo: uint16,
