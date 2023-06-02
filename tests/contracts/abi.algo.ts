@@ -473,6 +473,7 @@ class AbiTest extends Contract {
 
     return aa.bar;
   }
+  */
 
   staticStringArrayArg(a: StaticArray<string, 3>): string {
     return a[1];

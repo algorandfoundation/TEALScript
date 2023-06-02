@@ -432,6 +432,21 @@
       }
     },
     {
+      "name": "staticStringArrayArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
       "name": "dynamicArrayInMiddleOfTuple",
       "args": [],
       "desc": "",
