@@ -102,8 +102,8 @@ staticArray:
 	frame_dig -1 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -176,8 +176,8 @@ staticArrayArg:
 	frame_dig -1 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -240,8 +240,8 @@ nonLiteralStaticArrayElements:
 	frame_dig -4 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -322,8 +322,8 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -332,8 +332,8 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 32
-	+ // add to current offset
+	int 32 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -343,8 +343,8 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 56
-	+ // add to current offset
+	int 56 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -392,8 +392,8 @@ setStaticArrayElement:
 	frame_dig -1 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 222
@@ -406,8 +406,8 @@ setStaticArrayElement:
 	frame_dig -1 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -475,8 +475,8 @@ staticArrayInStorageRef:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -488,8 +488,8 @@ staticArrayInStorageRef:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -502,8 +502,8 @@ staticArrayInStorageRef:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -577,8 +577,8 @@ updateStaticArrayInStorageRef:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 111
@@ -595,8 +595,8 @@ updateStaticArrayInStorageRef:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 222
@@ -614,8 +614,8 @@ updateStaticArrayInStorageRef:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 333
@@ -631,8 +631,8 @@ updateStaticArrayInStorageRef:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -644,8 +644,8 @@ updateStaticArrayInStorageRef:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -658,8 +658,8 @@ updateStaticArrayInStorageRef:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -733,8 +733,8 @@ staticArrayInStorageMap:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -746,8 +746,8 @@ staticArrayInStorageMap:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -760,8 +760,8 @@ staticArrayInStorageMap:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -835,8 +835,8 @@ updateStaticArrayInStorageMap:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 1111
@@ -853,8 +853,8 @@ updateStaticArrayInStorageMap:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2222
@@ -872,8 +872,8 @@ updateStaticArrayInStorageMap:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 3333
@@ -889,8 +889,8 @@ updateStaticArrayInStorageMap:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -902,8 +902,8 @@ updateStaticArrayInStorageMap:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -916,8 +916,8 @@ updateStaticArrayInStorageMap:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -988,10 +988,10 @@ nestedStaticArray:
 	frame_dig -1 // a: uint64[3][3]
 	store 0 // full array
 	int 0 // initial offset
-	int 24
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 24 // acc * typeLength
+	+
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1056,10 +1056,10 @@ updateNestedStaticArrayElement:
 	frame_dig -1 // a: uint64[3][3]
 	store 0 // full array
 	int 0 // initial offset
-	int 24
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 24 // acc * typeLength
+	+
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 555
@@ -1072,10 +1072,10 @@ updateNestedStaticArrayElement:
 	frame_dig -1 // a: uint64[3][3]
 	store 0 // full array
 	int 0 // initial offset
-	int 24
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 24 // acc * typeLength
+	+
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1140,8 +1140,8 @@ updateNestedStaticArray:
 	frame_dig -1 // a: uint64[3][3]
 	store 0 // full array
 	int 0 // initial offset
-	int 24
-	+ // add to current offset
+	int 24 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 444
@@ -1160,10 +1160,10 @@ updateNestedStaticArray:
 	frame_dig -1 // a: uint64[3][3]
 	store 0 // full array
 	int 0 // initial offset
-	int 24
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 24 // acc * typeLength
+	+
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1233,10 +1233,10 @@ threeDimensionalUint16Array:
 	frame_dig -1 // a: uint16[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
-	int 4
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
+	int 4 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 777
@@ -1254,12 +1254,12 @@ threeDimensionalUint16Array:
 	frame_dig -1 // a: uint16[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
-	int 4
-	+ // add to current offset
-	int 2
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
+	int 4 // acc * typeLength
+	+
+	int 2 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -1317,8 +1317,8 @@ simpleTuple:
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
 	store 0 // full array
 	int 0 // initial offset
-	int 18
-	+ // add to current offset
+	int 18 // headOffset
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -1379,10 +1379,10 @@ arrayInTuple:
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
 	store 0 // full array
 	int 0 // initial offset
-	int 10
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 10 // headOffset
+	+
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1446,10 +1446,10 @@ tupleInArray:
 	frame_dig -1 // a: [uint64,uint16][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 10
-	+ // add to current offset
-	int 8
-	+ // add to current offset
+	int 10 // acc * typeLength
+	+
+	int 8 // headOffset
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -1527,10 +1527,10 @@ tupleInTuple:
 	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 	store 0 // full array
 	int 0 // initial offset
-	int 14
-	+ // add to current offset
-	int 2
-	+ // add to current offset
+	int 14 // headOffset
+	+
+	int 2 // headOffset
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1596,10 +1596,10 @@ shortTypeNotation:
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
 	store 0 // full array
 	int 0 // initial offset
-	int 20
-	+ // add to current offset
-	int 2
-	+ // add to current offset
+	int 20 // headOffset
+	+
+	int 2 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -1721,12 +1721,12 @@ disgusting:
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 54
-	+ // add to current offset
-	int 22
-	+ // add to current offset
-	int 16
-	+ // add to current offset
+	int 54 // acc * typeLength
+	+
+	int 22 // headOffset
+	+
+	int 16 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8888
@@ -1742,14 +1742,14 @@ disgusting:
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 54
-	+ // add to current offset
-	int 22
-	+ // add to current offset
-	int 16
-	+ // add to current offset
-	int 0
-	+ // add to current offset
+	int 54 // acc * typeLength
+	+
+	int 22 // headOffset
+	+
+	int 16 // acc * typeLength
+	+
+	int 0 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1829,8 +1829,8 @@ tupleArg:
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	store 0 // full array
 	int 0 // initial offset
-	int 8
-	+ // add to current offset
+	int 8 // headOffset
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -1880,10 +1880,8 @@ dynamicArray:
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -1959,10 +1957,8 @@ dynamicArrayArg:
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -2012,10 +2008,8 @@ updateDynamicArrayElement:
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 222
@@ -2028,10 +2022,8 @@ updateDynamicArrayElement:
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 8
-	+ // add to current offset
+	int 8 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -2098,12 +2090,10 @@ dynamicTupleArray:
 	frame_dig -1 // a: [uint16,uint64][]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 10
-	+ // add to current offset
-	int 2
-	+ // add to current offset
+	int 10 // acc * typeLength
+	+
+	int 2 // headOffset
+	+
 	load 0 // full array
 	swap
 	int 8
@@ -2250,16 +2240,12 @@ returnDynamicArrayFromTuple:
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 7 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
+	int 7 // headOffset
+	+
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	load 0 // full array
-	len
 	substring3
 	byte 0x151f7c75
 	swap
@@ -2806,10 +2792,8 @@ dynamicArrayElements:
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 0
-	+ // add to current offset
+	int 0 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -2817,10 +2801,8 @@ dynamicArrayElements:
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 2
-	+ // add to current offset
+	int 2 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -2829,10 +2811,8 @@ dynamicArrayElements:
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	+ // add two for length
-	int 4
-	+ // add to current offset
+	int 4 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 2
@@ -3385,22 +3365,12 @@ accesStringInTuple:
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 4 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
+	int 4 // headOffset
+	+
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	int 0 // initial offset for end
-	dup // dup current offset
-	int 6 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
-	load 0 // full array
-	swap
-	extract_uint16 // extract next dynamic sibling tail offset
 	substring3
 	extract 2 0
 	byte "Hello World!"
@@ -3412,22 +3382,12 @@ accesStringInTuple:
 	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 4 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
+	int 4 // headOffset
+	+
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	int 0 // initial offset for end
-	dup // dup current offset
-	int 6 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
-	load 0 // full array
-	swap
-	extract_uint16 // extract next dynamic sibling tail offset
 	substring3
 	extract 2 0
 	dup
@@ -3485,16 +3445,14 @@ namedTuple:
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 2 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
+	int 2 // acc * 2
+	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	load 0 // full array
-	len
 	substring3
 	extract 2 0
 	dup
@@ -3531,22 +3489,14 @@ staticStringArrayArg:
 	frame_dig -1 // a: bytes[3]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 2 // dynamic head offset
+	int 2 // acc * 2
 	+
-	+ // add to current offset
+	int 2
+	+ // add two for length
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	int 0 // initial offset for end
-	dup // dup current offset
-	int 4 // dynamic head offset
-	+
-	+ // add to current offset
-	load 0 // full array
-	swap
-	extract_uint16 // extract next dynamic sibling tail offset
 	substring3
 	extract 2 0
 	dup
@@ -3657,16 +3607,12 @@ accessDynamicArrayInMiddleOfTuple:
 	frame_dig -1 // a: [uint16,uint8[],uint16]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 2 // dynamic head offset
-	+ // add dynamic head offset to current offset
-	+ // add to current offset
+	int 2 // headOffset
+	+
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	load 0 // full array
-	len
 	substring3
 	byte 0x151f7c75
 	swap
@@ -3724,17 +3670,13 @@ accessDynamicArrayElementInTuple:
 	frame_dig -1 // a: [uint16,uint8[]]
 	store 0 // full array
 	int 0 // initial offset
-	dup // dup current offset
-	int 2 // dynamic head offset
-	+ // add dynamic head offset to current offset
+	int 2 // headOffset
+	+
 	load 0 // full array
-	swap
+	uncover 2
 	extract_uint16
-	+ // add to current offset
-	int 2
-	+ // add two for length
-	int 1
-	+ // add to current offset
+	int 1 // acc * typeLength
+	+
 	load 0 // full array
 	swap
 	int 1
