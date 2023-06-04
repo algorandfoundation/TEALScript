@@ -1,8 +1,35 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
+
+class TupleElement extends Array {
+  type: string;
+
+  headOffset: number;
+
+  arrayType: 'tuple' | 'dynamic' | 'static' | undefined;
+
+  staticLength: number = 0;
+
+  constructor(type: string, headOffset: number) {
+    super();
+
+    this.type = type;
+    this.headOffset = headOffset;
+
+    if (type.startsWith('[')) {
+      this.arrayType = 'tuple';
+    } else if (type.match(/\[\d+]$/)) {
+      this.arrayType = 'static';
+      this.staticLength = parseInt(type.match(/\[\d+]$/)![0].match(/\d+/)![0], 10);
+    } else if (type.endsWith('[]')) {
+      this.arrayType = 'dynamic';
+    }
+  }
+}
 
 type ElementInfo = {
   parent?: ElementInfo
@@ -1245,11 +1272,49 @@ export default class Compiler {
     this.pushLines('pop // pop head offset', 'concat // concat head and tail');
   }
 
+  private getTupleElement(type: string): TupleElement {
+    const expr = stringToExpression(type);
+
+    const elem: TupleElement = new TupleElement(this.getABIType(type), 0);
+
+    let offset = 0;
+
+    if (ts.isArrayLiteralExpression(expr)) {
+      expr.elements.forEach((e) => {
+        const abiType = this.getABIType(e.getText());
+
+        if (ts.isArrayLiteralExpression(e)) {
+          const t = new TupleElement(abiType, offset);
+          t.push(...this.getTupleElement(abiType));
+          elem.push(t);
+        } else if (abiType.match(/\[\d*\]$/)) {
+          const baseType = abiType.replace(/\[\d*\]$/, '');
+          const t = new TupleElement(abiType, offset);
+          t.push(this.getTupleElement(baseType));
+          elem.push(t);
+        } else elem.push(new TupleElement(abiType, offset));
+
+        if (this.isDynamicType(abiType)) {
+          offset += 2;
+        } else {
+          offset += this.getTypeLength(abiType);
+        }
+      });
+    } else if (type.match(/\[\d*\]$/)) {
+      const baseType = type.replace(/\[\d*\]$/, '');
+      elem.push(this.getTupleElement(baseType));
+    } else elem.push(type);
+
+    return elem;
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
     if (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/)) {
+      const t = this.getTupleElement(typeHint);
+      console.log(t);
       this.processTuple(node);
       this.lastType = this.getABIType(typeHint);
       return;
