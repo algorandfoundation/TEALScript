@@ -2,7 +2,6 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
-import { start } from 'repl';
 import * as langspec from '../langspec.json';
 
 type ElementInfo = {
