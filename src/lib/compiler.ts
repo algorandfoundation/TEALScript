@@ -5,7 +5,8 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
-class TupleElement extends Array {
+// eslint-disable-next-line no-use-before-define
+class TupleElement extends Array<TupleElement> {
   type: string;
 
   headOffset: number;
@@ -14,11 +15,21 @@ class TupleElement extends Array {
 
   staticLength: number = 0;
 
+  id: number;
+
+  // eslint-disable-next-line no-use-before-define
+  parent?: TupleElement;
+
+  static idCounter = 0;
+
   constructor(type: string, headOffset: number) {
     super();
 
+    this.id = TupleElement.idCounter;
     this.type = type;
     this.headOffset = headOffset;
+
+    TupleElement.idCounter += 1;
 
     if (type.match(/\[\d+]$/)) {
       this.arrayType = 'static';
@@ -29,26 +40,11 @@ class TupleElement extends Array {
       this.arrayType = 'tuple';
     }
   }
-}
 
-type ElementInfo = {
-  parent?: ElementInfo
-
-  children: ElementInfo[]
-
-  offset: number
-
-  type: string
-
-  elementID: number
-
-  dynamicArrayElement?: ElementInfo
-
-  arrayType: 'static' | 'dynamic' | 'tuple' | undefined
-
-  topAncestor?: ElementInfo
-
-  allElements: ElementInfo[]
+  add(...elements: TupleElement[]) {
+    elements.forEach((e: TupleElement) => { e.parent = this; });
+    return this.push(...elements);
+  }
 }
 
 function stringToExpression(str: string): ts.Expression {
@@ -1285,14 +1281,14 @@ export default class Compiler {
 
         if (ts.isArrayLiteralExpression(e)) {
           const t = new TupleElement(abiType, offset);
-          t.push(...this.getTupleElement(abiType));
-          elem.push(t);
+          t.add(...this.getTupleElement(abiType));
+          elem.add(t);
         } else if (abiType.match(/\[\d*\]$/)) {
           const baseType = abiType.replace(/\[\d*\]$/, '');
           const t = new TupleElement(abiType, offset);
-          t.push(this.getTupleElement(baseType));
-          elem.push(t);
-        } else elem.push(new TupleElement(abiType, offset));
+          t.add(this.getTupleElement(baseType));
+          elem.add(t);
+        } else elem.add(new TupleElement(abiType, offset));
 
         if (this.isDynamicType(abiType)) {
           offset += 2;
@@ -1302,8 +1298,8 @@ export default class Compiler {
       });
     } else if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
-      elem.push(this.getTupleElement(baseType));
-    } else elem.push(type);
+      elem.add(this.getTupleElement(baseType));
+    }
 
     return elem;
   }
@@ -1625,6 +1621,49 @@ export default class Compiler {
     });
 
     return previousTupleElement;
+  }
+
+  private getParentChain(elem: TupleElement, chain: TupleElement[] = []) {
+    chain.push(elem);
+
+    if (elem.parent) {
+      this.getParentChain(elem.parent, chain);
+    }
+
+    return chain.reverse();
+  }
+
+  private getNextElement(elem: TupleElement): TupleElement | undefined {
+    const { parent } = elem;
+
+    if (parent === undefined) return undefined;
+
+    const grandParent = parent.parent;
+
+    if (grandParent === undefined) return undefined;
+
+    const parentIndex = grandParent.findIndex((e) => e.id === parent.id);
+    const nextUncle = grandParent.slice(parentIndex)[0];
+
+    if (!nextUncle) return this.getNextElement(parent);
+
+    return nextUncle;
+  }
+
+  private getElementEnd(elem: TupleElement) {
+    /*
+    if there is a next dynamic sibling element:
+      get the head offset of the next dynamic sibling element
+    if there is a next cousin element:
+      get the head offset of the next cousin element
+    */
+
+    const parent = elem.parent!;
+
+    if (elem.arrayType === 'tuple') {
+      const elemIndex = parent.findIndex((e) => e.id === elem.id);
+      const dynamicSibling = parent.slice(elemIndex).find((e) => this.isDynamicType(e.type));
+    }
   }
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
