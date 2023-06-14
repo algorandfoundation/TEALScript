@@ -1650,20 +1650,33 @@ export default class Compiler {
     return nextUncle;
   }
 
-  private getElementEnd(elem: TupleElement) {
-    /*
-    if there is a next dynamic sibling element:
-      get the head offset of the next dynamic sibling element
-    if there is a next cousin element:
-      get the head offset of the next cousin element
-    */
-
+  private getElementEnd(elem: TupleElement, accessors: number[]) {
     const parent = elem.parent!;
 
-    if (elem.arrayType === 'tuple') {
+    if (parent.arrayType === 'tuple') {
       const elemIndex = parent.findIndex((e) => e.id === elem.id);
       const dynamicSibling = parent.slice(elemIndex).find((e) => this.isDynamicType(e.type));
+
+      if (dynamicSibling) {
+        // eslint-disable-next-line no-param-reassign
+        accessors[accessors.length - 1] += 1;
+        this.getElementEnd(dynamicSibling, accessors);
+        return;
+      }
+    } else if (parent.arrayType === 'dynamic') {
+      // get the head of the parent, extract_uint16
+      this.getElementHead(parent, accessors.slice(0, accessors.length - 1));
+      // extract uint16 to get the length
+      this.pushLines('extract_uint16, extract_uint16 // get length', 'btoi');
+      // see if acc is less than length
+      // if so, add two to current head and extract_uint16
+      // else TBD
+    } else if (parent.arrayType === 'static') {
+      // if acc < elem.staticLength, add two to current head and extract_uint16
+      // else TBD
     }
+
+    const nextElement = this.getNextElement(elem);
   }
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
