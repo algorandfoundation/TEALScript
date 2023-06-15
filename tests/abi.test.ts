@@ -142,7 +142,7 @@ describe.only('ABI', function () {
   });
   */
 
-  it.skip('setStaticArrayElement', async function () {
+  it('setStaticArrayElement', async function () {
     const ret = await appClient.setStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
@@ -154,7 +154,7 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  it.skip('updateStaticArrayInStorageRef', async function () {
+  it('updateStaticArrayInStorageRef', async function () {
     const ret = await appClient.updateStaticArrayInStorageRef(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
     );
@@ -169,7 +169,7 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  it.skip('updateStaticArrayInStorageMap', async function () {
+  it('updateStaticArrayInStorageMap', async function () {
     const ret = await appClient.updateStaticArrayInStorageMap(
       { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
     );
@@ -182,17 +182,17 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(55));
   });
 
-  it.skip('updateNestedStaticArrayElement', async function () {
+  it('updateNestedStaticArrayElement', async function () {
     const ret = await appClient.updateNestedStaticArrayElement();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
 
-  it.skip('updateNestedStaticArray', async function () {
+  it('updateNestedStaticArray', async function () {
     const ret = await appClient.updateNestedStaticArray();
     expect(ret.returnValue).to.equal(BigInt(555));
   });
 
-  it.skip('threeDimensionalUint16Array', async function () {
+  it('threeDimensionalUint16Array', async function () {
     const ret = await appClient.threeDimensionalUint16Array();
     expect(ret.returnValue).to.equal(BigInt(888));
   });
@@ -224,7 +224,7 @@ describe.only('ABI', function () {
   });
 
   // eslint-disable-next-line mocha/no-skipped-tests
-  it.skip('disgusting', async function () {
+  it('disgusting', async function () {
     const ret = await appClient.disgusting();
     expect(ret.returnValue).to.equal(BigInt(8888));
   });
@@ -258,7 +258,7 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.deep.equal(BigInt(22));
   });
 
-  it.skip('updateDynamicArrayElement', async function () {
+  it('updateDynamicArrayElement', async function () {
     const ret = await appClient.updateDynamicArrayElement();
     expect(ret.returnValue).to.equal(BigInt(222));
   });
@@ -486,7 +486,7 @@ describe.only('ABI', function () {
   });
   */
 
-  it.only('nestedTuple', async function () {
+  it('nestedTuple', async function () {
     const ret = await appClient.nestedTuple();
     expect(ret.returnValue).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
   });

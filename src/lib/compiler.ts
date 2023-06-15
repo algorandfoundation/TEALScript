@@ -1602,7 +1602,7 @@ export default class Compiler {
         );
       }
 
-      if (previousTupleElement.arrayType !== 'tuple' && this.isDynamicType(elem.type)) {
+      if (previousTupleElement.arrayType === 'dynamic') {
         this.pushLines(
           'int 2',
           '+ // add two for length',
@@ -1612,7 +1612,7 @@ export default class Compiler {
       if (this.isDynamicType(elem.type) && i !== accessors.length - 1) {
         this.pushLines(
           `load ${scratch.fullArray}`,
-          'uncover 2',
+          'swap',
           'extract_uint16',
         );
       }
@@ -1650,6 +1650,7 @@ export default class Compiler {
     return nextUncle;
   }
 
+  /*
   private getElementEnd(elem: TupleElement, accessors: number[]) {
     const parent = elem.parent!;
 
@@ -1678,6 +1679,7 @@ export default class Compiler {
 
     const nextElement = this.getNextElement(elem);
   }
+  */
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
@@ -1719,8 +1721,23 @@ export default class Compiler {
           'extract_uint16',
         );
 
-        // TODO: Get end
-        this.pushLines('substring3');
+        const baseType = element.type.replace(/\[\d*\]/, '');
+
+        if (!['string', 'bytes'].includes(element.type) && this.isDynamicType(baseType)) {
+          throw new Error(`Cannot access nested dynamic array element: ${element.type}`);
+        }
+
+        this.pushLines(
+          'dup // duplicate start of element',
+          `load ${scratch.fullArray}`,
+          'swap',
+          'extract_uint16 // get number of elements',
+          `int ${this.getTypeLength(baseType)} // get type length`,
+          '* // multiply by type length',
+          'int 2',
+          '+ // add two for length',
+          'extract3',
+        );
       } else {
         this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }

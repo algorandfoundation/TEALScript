@@ -1882,6 +1882,8 @@ dynamicArray:
 	int 0 // initial offset
 	int 8 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 8
@@ -1959,6 +1961,8 @@ dynamicArrayArg:
 	int 0 // initial offset
 	int 8 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 8
@@ -2010,6 +2014,8 @@ updateDynamicArrayElement:
 	int 0 // initial offset
 	int 8 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 222
@@ -2024,6 +2030,8 @@ updateDynamicArrayElement:
 	int 0 // initial offset
 	int 8 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 8
@@ -2092,6 +2100,8 @@ dynamicTupleArray:
 	int 0 // initial offset
 	int 10 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	int 2 // headOffset
 	+
 	load 0 // full array
@@ -2246,7 +2256,15 @@ returnDynamicArrayFromTuple:
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -2794,6 +2812,8 @@ dynamicArrayElements:
 	int 0 // initial offset
 	int 0 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
@@ -2803,6 +2823,8 @@ dynamicArrayElements:
 	int 0 // initial offset
 	int 2 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
@@ -2813,6 +2835,8 @@ dynamicArrayElements:
 	int 0 // initial offset
 	int 4 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
@@ -3371,7 +3395,15 @@ accesStringInTuple:
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	extract 2 0
 	byte "Hello World!"
 	==
@@ -3388,7 +3420,15 @@ accesStringInTuple:
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	extract 2 0
 	dup
 	len
@@ -3447,13 +3487,19 @@ namedTuple:
 	int 0 // initial offset
 	int 2 // acc * 2
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	extract 2 0
 	dup
 	len
@@ -3491,13 +3537,19 @@ staticStringArrayArg:
 	int 0 // initial offset
 	int 2 // acc * 2
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	extract 2 0
 	dup
 	len
@@ -3613,7 +3665,15 @@ accessDynamicArrayInMiddleOfTuple:
 	load 0 // full array
 	uncover 2
 	extract_uint16
-	substring3
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -3673,10 +3733,12 @@ accessDynamicArrayElementInTuple:
 	int 2 // headOffset
 	+
 	load 0 // full array
-	uncover 2
+	swap
 	extract_uint16
 	int 1 // acc * typeLength
 	+
+	int 2
+	+ // add two for length
 	load 0 // full array
 	swap
 	int 1
