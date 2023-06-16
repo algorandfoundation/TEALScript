@@ -1695,6 +1695,33 @@ export default class Compiler {
 
     const element = this.getElementHead(topLevelTuple, accessors);
 
+    const baseType = element.type.replace(/\[\d*\]/, '');
+
+    if (this.isDynamicType(element.type)) {
+      if (!['string', 'bytes'].includes(element.type) && this.isDynamicType(baseType)) {
+        throw new Error(`Cannot access nested dynamic array element: ${element.type}`);
+      }
+
+      this.pushLines(
+        `load ${scratch.fullArray}`,
+        `load ${scratch.fullArray}`,
+        'uncover 2',
+        'extract_uint16',
+      );
+
+      this.pushLines(
+        'dup // duplicate start of element',
+        `load ${scratch.fullArray}`,
+        'swap',
+        'extract_uint16 // get number of elements',
+        `int ${this.getTypeLength(baseType)} // get type length`,
+        '* // multiply by type length',
+        'int 2',
+        '+ // add two for length',
+        'extract3',
+      );
+    }
+
     if (newValue) {
       if (this.isDynamicType(element.type)) {
         /* TODO
@@ -1713,32 +1740,7 @@ export default class Compiler {
 
       this.updateValue(chain[0].expression);
     } else {
-      if (this.isDynamicType(element.type)) {
-        this.pushLines(
-          `load ${scratch.fullArray}`,
-          `load ${scratch.fullArray}`,
-          'uncover 2',
-          'extract_uint16',
-        );
-
-        const baseType = element.type.replace(/\[\d*\]/, '');
-
-        if (!['string', 'bytes'].includes(element.type) && this.isDynamicType(baseType)) {
-          throw new Error(`Cannot access nested dynamic array element: ${element.type}`);
-        }
-
-        this.pushLines(
-          'dup // duplicate start of element',
-          `load ${scratch.fullArray}`,
-          'swap',
-          'extract_uint16 // get number of elements',
-          `int ${this.getTypeLength(baseType)} // get type length`,
-          '* // multiply by type length',
-          'int 2',
-          '+ // add two for length',
-          'extract3',
-        );
-      } else {
+      if (!this.isDynamicType(element.type)) {
         this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }
 
