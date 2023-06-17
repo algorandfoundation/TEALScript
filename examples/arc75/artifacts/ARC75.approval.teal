@@ -518,11 +518,16 @@ deleteAppFromWhitelist:
 	// examples/arc75/arc75.algo.ts:102
 	// assert(spliced[0] === appID)
 	frame_dig -7 // spliced: uint64[]
+	store 0 // full array
+	int 0 // initial offset
 	int 0
-	int 8 // element length
-	* // element offset
+	int 8
+	* // acc * typeLength
+	+
 	int 2
 	+ // add two for length
+	load 0 // full array
+	swap
 	int 8
 	extract3
 	btoi

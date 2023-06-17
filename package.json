@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorand-devrel/TEALScript",
   "bugs": {
@@ -39,7 +39,8 @@
     "run-tuple_in_box": "yarn compile-tuple_in_box && beaker generate ./examples/tuple_in_box/tealscript_artifacts/ContactsApp.json ./examples/tuple_in_box/tealscript_artifacts && tsx ./examples/tuple_in_box/client.ts",
     "run-examples": "yarn run-merkle && yarn run-tuple_in_box",
     "test-arc75": "yarn compile-arc75 && beaker generate examples/arc75/artifacts/ARC75.json examples/arc75/ && mocha --timeout 10000 -r ts-node/register 'examples/arc75/arc75_test.ts'",
-    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle"
+    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle",
+    "pre-commit": "yarn lint && yarn test && yarn test-example-artifacts && yarn run-examples"
   },
   "dependencies": {
     "node-fetch": "2",

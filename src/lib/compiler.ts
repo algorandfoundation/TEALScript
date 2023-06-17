@@ -1,8 +1,53 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
+
+// eslint-disable-next-line no-use-before-define
+class TupleElement extends Array<TupleElement> {
+  type!: string;
+
+  headOffset!: number;
+
+  arrayType: 'tuple' | 'dynamic' | 'static' | undefined;
+
+  staticLength: number = 0;
+
+  id!: number;
+
+  // eslint-disable-next-line no-use-before-define
+  parent?: TupleElement;
+
+  static idCounter = 0;
+
+  constructor(type: string, headOffset: number) {
+    super();
+
+    if (typeof type === 'number') return;
+
+    this.id = TupleElement.idCounter;
+    this.type = type;
+    this.headOffset = headOffset;
+
+    TupleElement.idCounter += 1;
+
+    if (type.match(/\[\d+]$/)) {
+      this.arrayType = 'static';
+      this.staticLength = parseInt(type.match(/\[\d+]$/)![0].match(/\d+/)![0], 10);
+    } else if (type.endsWith('[]')) {
+      this.arrayType = 'dynamic';
+    } else if (type.startsWith('[') || type.startsWith('{')) {
+      this.arrayType = 'tuple';
+    }
+  }
+
+  add(...elements: TupleElement[]) {
+    elements.forEach((e: TupleElement) => { e.parent = this; });
+    return this.push(...elements);
+  }
+}
 
 function stringToExpression(str: string): ts.Expression {
   if (str.startsWith('{')) {
@@ -169,7 +214,12 @@ function isRefType(t: string): boolean {
 }
 
 const scratch = {
-  fullTuple: '3 // full tuple',
+  fullArray: '0 // full array',
+  elementStart: '1 // element start',
+  elementLength: '2 // element length',
+  newElement: '3 // new element',
+  elementHeadOffset: '4 // element head offset',
+  lengthDifference: '5 // length difference',
   subtractHeadDifference: '7 // subtract head difference',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
@@ -191,8 +241,6 @@ export default class Compiler {
   } = { global: [], local: [], box: [] };
 
   private customTypes: {[name: string] : string} = {};
-
-  private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private frameIndex: number = 0;
 
@@ -338,7 +386,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
@@ -358,7 +406,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         this.pushVoid('txna Applications 0');
@@ -430,7 +478,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
@@ -452,7 +500,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
         this.processNode(node.arguments[0]);
         this.pushVoid('txna Applications 0');
@@ -525,7 +573,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
@@ -545,7 +593,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, prefix,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
@@ -719,10 +767,9 @@ export default class Compiler {
       const tNode = stringToExpression(type);
       if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
       let totalLength = 0;
-      const types = tNode.elements.forEach((t) => {
+      tNode.elements.forEach((t) => {
         totalLength += this.getTypeLength(t.getText());
       });
-
       return totalLength;
     }
 
@@ -822,8 +869,8 @@ export default class Compiler {
       tupleStr = `(${types.join(',')})`;
     }
 
-    const trailingBrakcet = /(?<!\[\d*)]/;
-    const leadingBracket = /\[(?!\d*])/;
+    const trailingBrakcet = /(?<!\[\d*)]/g;
+    const leadingBracket = /\[(?!\d*])/g;
 
     return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
   }
@@ -1186,7 +1233,7 @@ export default class Compiler {
     lines.forEach((l) => this.push(l, 'void'));
   }
 
-  private getArrayTypes(elements: number): string[] {
+  private getarrayElementTypes(elements: number): string[] {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     const typeHintNode = stringToExpression(this.getABIType(this.typeHint));
 
@@ -1216,7 +1263,7 @@ export default class Compiler {
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-    const types = this.getArrayTypes(node.elements.length);
+    const types = this.getarrayElementTypes(node.elements.length);
     const headLength = types.reduce((sum, t) => {
       const length = this.isDynamicType(t) ? 2 : this.getTypeLength(t);
       return sum + length;
@@ -1254,19 +1301,60 @@ export default class Compiler {
     this.pushLines('pop // pop head offset', 'concat // concat head and tail');
   }
 
+  private getTupleElement(type: string): TupleElement {
+    const expr = stringToExpression(type);
+
+    const elem: TupleElement = new TupleElement(this.getABIType(type), 0);
+
+    let offset = 0;
+
+    if (ts.isArrayLiteralExpression(expr)) {
+      expr.elements.forEach((e) => {
+        const abiType = this.getABIType(e.getText());
+
+        if (ts.isArrayLiteralExpression(e)) {
+          const t = new TupleElement(abiType, offset);
+          t.add(...this.getTupleElement(abiType));
+          elem.add(t);
+        } else if (abiType.match(/\[\d*\]$/)) {
+          const baseType = abiType.replace(/\[\d*\]$/, '');
+          const t = new TupleElement(abiType, offset);
+          t.add(this.getTupleElement(baseType));
+          elem.add(t);
+        } else elem.add(new TupleElement(abiType, offset));
+
+        if (this.isDynamicType(abiType)) {
+          offset += 2;
+        } else {
+          offset += this.getTypeLength(abiType);
+        }
+      });
+    } else if (type.match(/\[\d*\]$/)) {
+      const baseType = type.replace(/\[\d*\]$/, '');
+      elem.add(this.getTupleElement(baseType));
+    }
+
+    return elem;
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
-    if (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/)) {
+    const baseType = typeHint.replace(/\[\d*\]$/, '');
+
+    if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
       this.processTuple(node);
+      if (this.getABIType(typeHint).endsWith('[]')) {
+        this.pushLines(`byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+      }
       this.lastType = this.getABIType(typeHint);
       return;
     }
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-    const types = this.getArrayTypes(node.elements.length);
+    const types = this.getarrayElementTypes(node.elements.length);
     node.elements.forEach((e, i) => {
       this.typeHint = types[i];
       this.processNode(e);
@@ -1377,7 +1465,7 @@ export default class Compiler {
       'update_dynamic_head:',
       'proto 2 0',
       'frame_dig -2 // length difference',
-      `load ${scratch.fullTuple}`,
+      `load ${scratch.fullArray}`,
       'frame_dig -1 // dynamic array offset',
       'extract_uint16 // extract dynamic array offset',
 
@@ -1394,224 +1482,230 @@ export default class Compiler {
 
       'itob // convert to bytes',
       'extract 6 2 // convert to uint16',
-      `load ${scratch.fullTuple}`,
+      `load ${scratch.fullArray}`,
       'swap',
       'frame_dig -1 // offset',
       'swap',
       'replace3 // update offset',
-      `store ${scratch.fullTuple}`,
+      `store ${scratch.fullArray}`,
       'retsub',
     ],
 
-    // -3: oldElementLength
-    // -2: newTupleElement
-    // -1: headOffset
-    update_dynamic_tuple_element: () => [
-      'update_dynamic_tuple_element:',
-      'proto 3 1',
-      // Update tail
-      // Before element
-      `load ${scratch.fullTuple}`,
-      `load ${scratch.fullTuple}`,
-      'frame_dig -1 // head offset',
-      'extract_uint16 // extract dynamic array offset of element',
-      'int 0',
-      'swap',
-      'extract3 // extract portion of tuple before element',
-
-      // New element
-      'frame_dig -2 // new tuple element',
-      'concat',
-
-      // After element
-      `load ${scratch.fullTuple}`,
-      `load ${scratch.fullTuple}`,
-      'frame_dig -1 // head offset',
-      'extract_uint16 // extract dynamic array offset of element',
-      'frame_dig -3 // old element length',
-      '+',
-      `load ${scratch.fullTuple}`,
-      'len',
-      'substring3',
-      'concat',
-      `store ${scratch.fullTuple}`,
-
-      /* Update heads */
-
+    get_length_difference: () => [
+      'get_length_difference:',
       // Get new element length
-      'frame_dig -2 // new tuple element',
+      `load ${scratch.newElement}`,
       'len // length of new element',
-      'frame_dig -3 // old element length',
+      `load ${scratch.elementLength}`,
       '<',
 
       'bnz swapped_difference',
-      'frame_dig -2 // new tuple element',
+      `load ${scratch.newElement}`,
       'len // length of new element',
-      'frame_dig -3 // old element length',
+      `load ${scratch.elementLength}`,
       'int 1',
       `store ${scratch.subtractHeadDifference}`,
       'b get_difference',
 
       'swapped_difference:',
-      'frame_dig -3 // old element length',
-      'frame_dig -2 // new tuple element',
+      `load ${scratch.elementLength}`,
+      `load ${scratch.newElement}`,
       'len // length of new element',
       'int 0',
       `store ${scratch.subtractHeadDifference}`,
 
       'get_difference:',
       '- // get length difference',
+      `store ${scratch.lengthDifference}`,
       'retsub',
     ],
   };
 
-  private updateDynamicTupleElement(
-    elementType: string,
-    newValue: ts.Node,
-    dynamicHeads: {index: number, offset: number}[],
-    accessor: number,
-  ) {
-    // Get old element
-    this.extractDynamicTupleElement(elementType);
-    this.pushLines('len // length of old element');
+  private getElementHead(topLevelTuple: TupleElement, accessors: ts.Expression[]) {
+    let previousTupleElement = topLevelTuple;
 
-    // Get new element
-    this.processNode(newValue);
-    if (isNumeric(this.lastType)) this.pushVoid('itob');
-    if (['bytes', 'string'].includes(this.lastType)) {
-      this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
-    }
+    // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
+    accessors.forEach((acc, i) => {
+      const accNumber = parseInt(acc.getText(), 10);
 
-    const headOffset = dynamicHeads.find((dh) => dh.index === accessor)!.offset;
+      const elem: TupleElement = Number.isNaN(accNumber)
+        ? previousTupleElement[0] : previousTupleElement[accNumber] || previousTupleElement[0];
 
-    this.pushLines(`int ${headOffset}`, 'callsub update_dynamic_tuple_element');
+      // Element in tuple
+      if (previousTupleElement.arrayType === 'tuple') {
+        this.pushLines(
+          `int ${elem.headOffset} // headOffset`,
+          '+',
+        );
+      // Dynamic element in static or dynamic array
+      } else if (this.isDynamicType(elem.type)) {
+        this.processNode(acc);
+        this.pushLines(
+          // `int ${accNumber * 2} // acc * 2`,
+          'int 2',
+          '* // acc * 2',
+          '+',
+        );
+      // Static element in array
+      } else {
+        this.processNode(acc);
 
-    dynamicHeads.forEach(({ index, offset }) => {
-      if (index <= accessor) return;
+        this.pushLines(
+          // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
+          `int ${this.getTypeLength(elem.type)}`,
+          '* // acc * typeLength',
+          '+',
+        );
+      }
 
-      this.pushLines('dup // dup length difference', `int ${offset}`, 'callsub update_dynamic_head');
+      if (previousTupleElement.arrayType === 'dynamic') {
+        this.pushLines(
+          'int 2',
+          '+ // add two for length',
+        );
+      }
+
+      if (this.isDynamicType(elem.type) && i !== accessors.length - 1) {
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          'swap',
+          'extract_uint16',
+        );
+      }
+
+      previousTupleElement = elem;
     });
 
-    this.pushVoid('pop // pop length difference');
-
-    this.pushVoid(`load ${scratch.fullTuple}`);
-  }
-
-  private extractDynamicTupleElementOffset() {
-    this.pushLines(
-      'swap',
-      'dupn 2',
-      'uncover 3',
-      'int 2',
-      'extract3',
-      'btoi // start of dynamic array',
-    );
-  }
-
-  private extractDynamicTupleElement(elementType: string) {
-    this.pushLines(
-      'dup',
-      'cover 2 // duplicate start for later',
-      'int 2',
-      'extract3 // extract length of array',
-      'btoi',
-      `int ${this.getTypeLength(elementType.replace(/\[\d*\]$/, ''))}`,
-      '* // get array length',
-      'int 2',
-      '+ // add two for length',
-      'extract3',
-    );
-  }
-
-  private getDynamicHeads(node: ts.ArrayLiteralExpression): {index: number, offset: number}[] {
-    const dynamicHeads: {index: number, offset: number}[] = [];
-    let offset = 0;
-
-    node.elements.forEach((typeNode, index) => {
-      const type = typeNode.getText();
-      if (this.isDynamicType(type)) dynamicHeads.push({ index, offset });
-      offset += this.isDynamicType(type) ? 2 : this.getTypeLength(type);
-    });
-
-    return dynamicHeads;
+    return previousTupleElement;
   }
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
-    let parentType = this.getABIType(this.lastType);
-    let isStaticArrayOfDynamicType = false;
 
-    if (parentType.match(/\[\d+\]$/)) {
-      const baseType = parentType.replace(/\[\d+\]$/, '');
-      const length = parseInt(parentType.match(/\d+/)!.at(-1)!, 10);
-      if (this.isDynamicType(baseType)) {
-        parentType = `[${new Array(length).fill(baseType).join(',')}]`;
-        isStaticArrayOfDynamicType = true;
+    this.pushLines(`store ${scratch.fullArray}`, 'int 0 // initial offset');
+
+    const parentType = this.getABIType(this.lastType);
+
+    const topLevelTuple = this.getTupleElement(parentType);
+
+    const accessors = chain.map((e) => e.argumentExpression);
+
+    const element = this.getElementHead(topLevelTuple, accessors);
+
+    const baseType = element.type.replace(/\[\d*\]/, '');
+
+    if (this.isDynamicType(element.type)) {
+      if (!['string', 'bytes'].includes(element.type) && this.isDynamicType(baseType)) {
+        throw new Error(`Cannot access nested dynamic array element: ${element.type}`);
       }
-    }
 
-    if (parentType.startsWith('[') || parentType.startsWith('{')) this.pushLines('dup', `store ${scratch.fullTuple}`);
+      if (newValue) {
+        this.pushLines(
+          'dup',
+          `store ${scratch.elementHeadOffset}`,
+        );
+      }
 
-    let elementType: string = '';
-    let elementLength: number = 0;
-    let dynamicHeads: {index: number, offset: number}[] = [];
-    let accessor = 0;
+      this.pushLines(
+        `load ${scratch.fullArray}`,
+        `load ${scratch.fullArray}`,
+        'uncover 2',
+        'extract_uint16',
+      );
 
-    chain.forEach((e, i) => {
-      const previouslyAccessedType = i === 0 ? parentType : this.getABIType(this.lastType);
-
-      const isStatic = previouslyAccessedType.match(/\[\d+\]$/);
-      const isTuple = previouslyAccessedType.startsWith('[') || previouslyAccessedType.startsWith('{');
-      const isDynamicArray = previouslyAccessedType.endsWith('[]');
-
-      if (isStatic || isDynamicArray) {
-        elementType = previouslyAccessedType.replace(/\[\d*\]$/, '');
-
-        elementLength = this.getTypeLength(elementType);
-        this.processNode(e.argumentExpression!);
-
-        this.pushVoid(`int ${elementLength} // element length`);
-        this.pushLines('* // element offset');
-        if (isDynamicArray) this.pushLines('int 2', '+ // add two for length');
-      } else if (isStaticArrayOfDynamicType) {
-        elementType = this.lastType.replace(/\[\d+\]$/, '');
-
-        this.processNode(e.argumentExpression);
+      if (element.parent!.type.endsWith('[]')) {
         this.pushLines(
           'int 2',
-          '*',
+          '+ // add two for length',
         );
-      } else if (isTuple) {
-        const expr = stringToExpression(previouslyAccessedType);
-        if (!ts.isArrayLiteralExpression(expr)) throw new Error();
+      }
 
-        if (!ts.isNumericLiteral(e.argumentExpression!)) throw new Error('Tuple must be accessed by numeric literal');
+      if (newValue) {
+        this.pushLines(
+          'dup',
+          `store ${scratch.elementStart}`,
+        );
+      }
 
-        dynamicHeads = this.getDynamicHeads(expr);
+      this.pushLines(
+        'dup // duplicate start of element',
+        `load ${scratch.fullArray}`,
+        'swap',
+        'extract_uint16 // get number of elements',
+        `int ${this.getTypeLength(baseType)} // get type length`,
+        '* // multiply by type length',
+        'int 2',
+        '+ // add two for length',
+      );
 
-        accessor = parseInt(e.argumentExpression.getText(), 10);
-
-        const tupleTypes = expr.elements.map((t) => t.getText());
-        elementType = tupleTypes[accessor];
-
-        const priorTypeLength = expr.elements.slice(0, accessor)
-          .map((t) => (this.isDynamicType(t.getText()) ? 2 : this.getTypeLength(t.getText())))
-          .reduce((sum, n) => sum + n, 0);
-
-        this.pushLines(`int ${priorTypeLength}`);
-      } else throw new Error(this.lastType);
-
-      this.lastType = elementType;
-
-      if (this.isDynamicType(elementType)) this.extractDynamicTupleElementOffset();
-      if (i) this.pushVoid('+');
-    });
+      this.pushVoid(newValue ? `store ${scratch.elementLength}` : 'extract3');
+    }
 
     if (newValue) {
-      if (this.isDynamicType(elementType)) {
-        this.updateDynamicTupleElement(elementType, newValue, dynamicHeads, accessor);
+      if (this.isDynamicType(element.type)) {
+        if (element.parent?.arrayType !== 'tuple') {
+          throw new Error(
+            'Updating nested dynamic array elements not yet supported. The entire array must be overwritten to change a value',
+          );
+        }
+        // Get pre element
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          'int 0',
+          `load ${scratch.elementStart}`,
+          'substring3',
+        );
+
+        // Get new element
+        this.processNode(newValue);
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        if (['bytes', 'string'].includes(this.lastType)) {
+          this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
+        }
+        this.pushLines('dup', `store ${scratch.newElement}`);
+
+        // Get post element
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          `load ${scratch.elementStart}`,
+          `load ${scratch.elementLength}`,
+          '+ // get end of Element',
+          `load ${scratch.fullArray}`,
+          'len',
+          'substring3',
+        );
+
+        // Form new tuple
+        this.pushLines('concat', 'concat', `store ${scratch.fullArray}`);
+
+        // Get length difference
+        this.pushLines('callsub get_length_difference');
+
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+
+        const nextDynamicSiblings = element.parent!
+          .slice(elementIndex + 1)
+          .filter((e) => this.isDynamicType(e.type));
+
+        const headDiffs = nextDynamicSiblings.map((e) => e.headOffset - element.headOffset);
+
+        headDiffs.forEach((diff) => {
+          this.pushLines(
+            `load ${scratch.lengthDifference}`,
+            `load ${scratch.elementHeadOffset}`,
+            `int ${diff}`,
+            '+ // head ofset',
+            'callsub update_dynamic_head',
+          );
+        });
+
+        this.pushVoid(`load ${scratch.fullArray}`);
       } else {
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          'swap',
+        );
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid('itob');
         this.pushVoid('replace3');
@@ -1619,15 +1713,13 @@ export default class Compiler {
 
       this.updateValue(chain[0].expression);
     } else {
-      if (this.isDynamicType(elementType)) {
-        this.extractDynamicTupleElement(elementType);
-      } else {
-        this.pushLines(`int ${this.getTypeLength(elementType)}`, 'extract3');
+      if (!this.isDynamicType(element.type)) {
+        this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }
 
-      if (isNumeric(elementType)) this.pushVoid('btoi');
-      if (['string', 'bytes'].includes(elementType)) this.pushVoid('extract 2 0');
-      this.lastType = elementType.replace('string', 'bytes');
+      if (isNumeric(element.type)) this.pushVoid('btoi');
+      if (['string', 'bytes'].includes(element.type)) this.pushVoid('extract 2 0');
+      this.lastType = element.type.replace('string', 'bytes');
     }
   }
 
@@ -1756,28 +1848,6 @@ export default class Compiler {
     }
 
     this.typeHint = undefined;
-  }
-
-  private getBaseArrayNode(
-    node: ts.ElementAccessExpression,
-  ): ts.Node {
-    if (ts.isElementAccessExpression(node.expression)) {
-      return this.getBaseArrayNode(node.expression);
-    }
-    return node.expression;
-  }
-
-  private getArrayNodeChain(
-    node: ts.ElementAccessExpression,
-    depth: number,
-    chain: ts.ElementAccessExpression[] = [],
-  ): ts.ElementAccessExpression[] {
-    if (chain.length !== depth) {
-      if (!ts.isElementAccessExpression(node.expression)) throw new Error(`${depth}`);
-      chain.push(node);
-      this.getArrayNodeChain(node.expression, depth, chain);
-    }
-    return chain;
   }
 
   private fixBitWidth(desiredWidth: number, warn: boolean = true) {
@@ -3005,4 +3075,62 @@ export default class Compiler {
 
     return output;
   }
+
+  /* These are some methods that were started to get the end of a nested tuple element
+  private getParentChain(elem: TupleElement, chain: TupleElement[] = []) {
+    chain.push(elem);
+
+    if (elem.parent) {
+      this.getParentChain(elem.parent, chain);
+    }
+
+    return chain.reverse();
+  }
+
+  private getNextElement(elem: TupleElement): TupleElement | undefined {
+    const { parent } = elem;
+
+    if (parent === undefined) return undefined;
+
+    const grandParent = parent.parent;
+
+    if (grandParent === undefined) return undefined;
+
+    const parentIndex = grandParent.findIndex((e) => e.id === parent.id);
+    const nextUncle = grandParent.slice(parentIndex)[0];
+
+    if (!nextUncle) return this.getNextElement(parent);
+
+    return nextUncle;
+  }
+
+  private getElementEnd(elem: TupleElement, accessors: number[]) {
+    const parent = elem.parent!;
+
+    if (parent.arrayType === 'tuple') {
+      const elemIndex = parent.findIndex((e) => e.id === elem.id);
+      const dynamicSibling = parent.slice(elemIndex).find((e) => this.isDynamicType(e.type));
+
+      if (dynamicSibling) {
+        // eslint-disable-next-line no-param-reassign
+        accessors[accessors.length - 1] += 1;
+        this.getElementEnd(dynamicSibling, accessors);
+        return;
+      }
+    } else if (parent.arrayType === 'dynamic') {
+      // get the head of the parent, extract_uint16
+      this.getElementHead(parent, accessors.slice(0, accessors.length - 1));
+      // extract uint16 to get the length
+      this.pushLines('extract_uint16, extract_uint16 // get length', 'btoi');
+      // see if acc is less than length
+      // if so, add two to current head and extract_uint16
+      // else TBD
+    } else if (parent.arrayType === 'static') {
+      // if acc < elem.staticLength, add two to current head and extract_uint16
+      // else TBD
+    }
+
+    const nextElement = this.getNextElement(elem);
+  }
+  */
 }

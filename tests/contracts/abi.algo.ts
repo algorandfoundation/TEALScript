@@ -502,7 +502,7 @@ class AbiTest extends Contract {
     return a;
   }
 
-  /*
+  /* TODO
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -518,4 +518,24 @@ class AbiTest extends Contract {
     assert(p.sender === t.sender);
   }
   */
+
+  nestedTuple(): [uint16, [uint8, string], [uint16, string]] {
+    const a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']];
+
+    return a;
+  }
+
+  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16, uint8[], uint16] = [1, [2, 3, 4], 5, [6, 7, 8], 9];
+
+    a[1] = [10, 11, 12];
+
+    return a;
+  }
+
+  accessDynamicStringArray(): string {
+    const a: string[] = ['Hello', 'World', '!'];
+
+    return a[1];
+  }
 }
