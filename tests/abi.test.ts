@@ -82,7 +82,7 @@ async function dryrun(methodName: string, methodArgs: any = []) {
 }
 artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/', 'AbiTest');
 
-describe.only('ABI', function () {
+describe('ABI', function () {
   before(async function () {
     const acct = (await sandbox.getAccounts()).pop()!;
 

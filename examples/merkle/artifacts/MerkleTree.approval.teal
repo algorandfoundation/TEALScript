@@ -89,9 +89,14 @@ for_1:
 	// examples/merkle/merkle.algo.ts:38
 	// elem = path[i]
 	frame_dig -2 // path: byte[33][3]
+	store 0 // full array
+	int 0 // initial offset
 	frame_dig -4 // i: uint64
-	int 33 // element length
-	* // element offset
+	int 33
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
 	int 33
 	extract3
 	frame_bury -5 // elem: byte[33]

@@ -1,55 +1,35 @@
 #pragma version 8
 	b main
 
-update_dynamic_tuple_element:
-	proto 3 1
-	load 3 // full tuple
-	load 3 // full tuple
-	frame_dig -1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	int 0
-	swap
-	extract3 // extract portion of tuple before element
-	frame_dig -2 // new tuple element
-	concat
-	load 3 // full tuple
-	load 3 // full tuple
-	frame_dig -1 // head offset
-	extract_uint16 // extract dynamic array offset of element
-	frame_dig -3 // old element length
-	+
-	load 3 // full tuple
-	len
-	substring3
-	concat
-	store 3 // full tuple
-	frame_dig -2 // new tuple element
+get_length_difference:
+	load 3 // new element
 	len // length of new element
-	frame_dig -3 // old element length
+	load 2 // element length
 	<
 	bnz swapped_difference
-	frame_dig -2 // new tuple element
+	load 3 // new element
 	len // length of new element
-	frame_dig -3 // old element length
+	load 2 // element length
 	int 1
 	store 7 // subtract head difference
 	b get_difference
 
 swapped_difference:
-	frame_dig -3 // old element length
-	frame_dig -2 // new tuple element
+	load 2 // element length
+	load 3 // new element
 	len // length of new element
 	int 0
 	store 7 // subtract head difference
 
 get_difference:
 	- // get length difference
+	store 5 // length difference
 	retsub
 
 update_dynamic_head:
 	proto 2 0
 	frame_dig -2 // length difference
-	load 3 // full tuple
+	load 0 // full array
 	frame_dig -1 // dynamic array offset
 	extract_uint16 // extract dynamic array offset
 	load 7 // subtract head difference
@@ -64,12 +44,12 @@ subtract_head_difference:
 end_calc_new_head:
 	itob // convert to bytes
 	extract 6 2 // convert to uint16
-	load 3 // full tuple
+	load 0 // full array
 	swap
 	frame_dig -1 // offset
 	swap
 	replace3 // update offset
-	store 3 // full tuple
+	store 0 // full array
 	retsub
 
 process_dynamic_tuple_element:
@@ -252,26 +232,33 @@ updateContactField:
 	frame_dig -3 // address: address
 	box_get
 	assert
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 0
-	swap
-	dupn 2
-	uncover 3
 	int 2
-	extract3
-	btoi // start of dynamic array
+	* // acc * 2
+	+
 	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
 	int 2
 	+ // add two for length
-	extract3
-	len // length of old element
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -279,13 +266,25 @@ updateContactField:
 	extract 6 2
 	swap
 	concat
-	int 0
-	callsub update_dynamic_tuple_element
-	dup // dup length difference
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 5 // length difference
+	load 4 // element head offset
 	int 2
+	+ // head ofset
 	callsub update_dynamic_head
-	pop // pop length difference
-	load 3 // full tuple
+	load 0 // full array
 	frame_dig -3 // address: address
 	dup
 	box_del
@@ -310,26 +309,33 @@ if0_elseif1_condition:
 	frame_dig -3 // address: address
 	box_get
 	assert
-	dup
-	store 3 // full tuple
-	int 2
-	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
+	store 0 // full array
+	int 0 // initial offset
 	int 1
-	* // get array length
+	int 2
+	* // acc * 2
+	+
+	dup
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
 	int 2
 	+ // add two for length
-	extract3
-	len // length of old element
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
 	frame_dig -2 // value: bytes
 	dup
 	len
@@ -337,10 +343,20 @@ if0_elseif1_condition:
 	extract 6 2
 	swap
 	concat
-	int 2
-	callsub update_dynamic_tuple_element
-	pop // pop length difference
-	load 3 // full tuple
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 0 // full array
 	frame_dig -3 // address: address
 	dup
 	box_del
@@ -382,22 +398,22 @@ verifyContactName:
 	frame_dig -2 // address: address
 	box_get
 	assert
-	dup
-	store 3 // full tuple
+	store 0 // full array
+	int 0 // initial offset
 	int 0
+	int 2
+	* // acc * 2
+	+
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup // duplicate start of element
+	load 0 // full array
 	swap
-	dupn 2
-	uncover 3
-	int 2
-	extract3
-	btoi // start of dynamic array
-	dup
-	cover 2 // duplicate start for later
-	int 2
-	extract3 // extract length of array
-	btoi
-	int 1
-	* // get array length
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
 	int 2
 	+ // add two for length
 	extract3
