@@ -269,8 +269,6 @@ export default class Compiler {
 
   private handledActions: string[] = [];
 
-  private elementID: number = 0;
-
   abi: {
     name: string,
     desc: string,
@@ -377,7 +375,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
 
         if (key) {
@@ -395,7 +393,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
 
         this.pushVoid('txna Applications 0');
@@ -461,7 +459,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
@@ -481,7 +479,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
         this.processNode(node.arguments[0]);
         this.pushVoid('txna Applications 0');
@@ -548,7 +546,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
 
         if (key) {
@@ -566,7 +564,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          keyType, key,
         } = this.storageProps[name];
 
         if (key) {
@@ -738,10 +736,9 @@ export default class Compiler {
       const tNode = stringToExpression(type);
       if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
       let totalLength = 0;
-      const types = tNode.elements.forEach((t) => {
+      tNode.elements.forEach((t) => {
         totalLength += this.getTypeLength(t.getText());
       });
-
       return totalLength;
     }
 
@@ -1458,67 +1455,6 @@ export default class Compiler {
       'retsub',
     ],
 
-    // -3: oldElementLength
-    // -2: newTupleElement
-    // -1: headOffset
-    update_dynamic_tuple_element: () => [
-      'update_dynamic_tuple_element:',
-      'proto 3 1',
-      // Update tail
-      // Before element
-      `load ${scratch.fullArray}`,
-      `load ${scratch.fullArray}`,
-      'frame_dig -1 // head offset',
-      'extract_uint16 // extract dynamic array offset of element',
-      'int 0',
-      'swap',
-      'extract3 // extract portion of tuple before element',
-
-      // New element
-      'frame_dig -2 // new tuple element',
-      'concat',
-
-      // After element
-      `load ${scratch.fullArray}`,
-      `load ${scratch.fullArray}`,
-      'frame_dig -1 // head offset',
-      'extract_uint16 // extract dynamic array offset of element',
-      'frame_dig -3 // old element length',
-      '+',
-      `load ${scratch.fullArray}`,
-      'len',
-      'substring3',
-      'concat',
-      `store ${scratch.fullArray}`,
-
-      /* Update heads */
-
-      // Get new element length
-      'frame_dig -2 // new tuple element',
-      'len // length of new element',
-      'frame_dig -3 // old element length',
-      '<',
-
-      'bnz swapped_difference',
-      'frame_dig -2 // new tuple element',
-      'len // length of new element',
-      'frame_dig -3 // old element length',
-      'int 1',
-      `store ${scratch.subtractHeadDifference}`,
-      'b get_difference',
-
-      'swapped_difference:',
-      'frame_dig -3 // old element length',
-      'frame_dig -2 // new tuple element',
-      'len // length of new element',
-      'int 0',
-      `store ${scratch.subtractHeadDifference}`,
-
-      'get_difference:',
-      '- // get length difference',
-      'retsub',
-    ],
-
     get_length_difference: () => [
       'get_length_difference:',
       // Get new element length
@@ -1547,66 +1483,7 @@ export default class Compiler {
       `store ${scratch.lengthDifference}`,
       'retsub',
     ],
-
   };
-
-  private updateDynamicTupleElement(
-    elementType: string,
-    newValue: ts.Node,
-    dynamicHeads: {index: number, offset: number}[],
-    accessor: number,
-  ) {
-    // Get old element
-    this.extractDynamicTupleElement(elementType);
-    this.pushLines('len // length of old element');
-
-    // Get new element
-    this.processNode(newValue);
-    if (isNumeric(this.lastType)) this.pushVoid('itob');
-    if (['bytes', 'string'].includes(this.lastType)) {
-      this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
-    }
-
-    const headOffset = dynamicHeads.find((dh) => dh.index === accessor)!.offset;
-
-    this.pushLines(`int ${headOffset}`, 'callsub update_dynamic_tuple_element');
-
-    dynamicHeads.forEach(({ index, offset }) => {
-      if (index <= accessor) return;
-
-      this.pushLines('dup // dup length difference', `int ${offset}`, 'callsub update_dynamic_head');
-    });
-
-    this.pushVoid('pop // pop length difference');
-
-    this.pushVoid(`load ${scratch.fullArray}`);
-  }
-
-  private extractDynamicTupleElementOffset() {
-    this.pushLines(
-      'swap',
-      'dupn 2',
-      'uncover 3',
-      'int 2',
-      'extract3',
-      'btoi // start of dynamic array',
-    );
-  }
-
-  private extractDynamicTupleElement(elementType: string) {
-    this.pushLines(
-      'dup',
-      'cover 2 // duplicate start for later',
-      'int 2',
-      'extract3 // extract length of array',
-      'btoi',
-      `int ${this.getTypeLength(elementType.replace(/\[\d*\]$/, ''))}`,
-      '* // get array length',
-      'int 2',
-      '+ // add two for length',
-      'extract3',
-    );
-  }
 
   private getElementHead(topLevelTuple: TupleElement, accessors: ts.Expression[]) {
     let previousTupleElement = topLevelTuple;
@@ -1665,64 +1542,6 @@ export default class Compiler {
 
     return previousTupleElement;
   }
-
-  private getParentChain(elem: TupleElement, chain: TupleElement[] = []) {
-    chain.push(elem);
-
-    if (elem.parent) {
-      this.getParentChain(elem.parent, chain);
-    }
-
-    return chain.reverse();
-  }
-
-  private getNextElement(elem: TupleElement): TupleElement | undefined {
-    const { parent } = elem;
-
-    if (parent === undefined) return undefined;
-
-    const grandParent = parent.parent;
-
-    if (grandParent === undefined) return undefined;
-
-    const parentIndex = grandParent.findIndex((e) => e.id === parent.id);
-    const nextUncle = grandParent.slice(parentIndex)[0];
-
-    if (!nextUncle) return this.getNextElement(parent);
-
-    return nextUncle;
-  }
-
-  /*
-  private getElementEnd(elem: TupleElement, accessors: number[]) {
-    const parent = elem.parent!;
-
-    if (parent.arrayType === 'tuple') {
-      const elemIndex = parent.findIndex((e) => e.id === elem.id);
-      const dynamicSibling = parent.slice(elemIndex).find((e) => this.isDynamicType(e.type));
-
-      if (dynamicSibling) {
-        // eslint-disable-next-line no-param-reassign
-        accessors[accessors.length - 1] += 1;
-        this.getElementEnd(dynamicSibling, accessors);
-        return;
-      }
-    } else if (parent.arrayType === 'dynamic') {
-      // get the head of the parent, extract_uint16
-      this.getElementHead(parent, accessors.slice(0, accessors.length - 1));
-      // extract uint16 to get the length
-      this.pushLines('extract_uint16, extract_uint16 // get length', 'btoi');
-      // see if acc is less than length
-      // if so, add two to current head and extract_uint16
-      // else TBD
-    } else if (parent.arrayType === 'static') {
-      // if acc < elem.staticLength, add two to current head and extract_uint16
-      // else TBD
-    }
-
-    const nextElement = this.getNextElement(elem);
-  }
-  */
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
@@ -1980,28 +1799,6 @@ export default class Compiler {
     }
 
     this.typeHint = undefined;
-  }
-
-  private getBaseArrayNode(
-    node: ts.ElementAccessExpression,
-  ): ts.Node {
-    if (ts.isElementAccessExpression(node.expression)) {
-      return this.getBaseArrayNode(node.expression);
-    }
-    return node.expression;
-  }
-
-  private getArrayNodeChain(
-    node: ts.ElementAccessExpression,
-    depth: number,
-    chain: ts.ElementAccessExpression[] = [],
-  ): ts.ElementAccessExpression[] {
-    if (chain.length !== depth) {
-      if (!ts.isElementAccessExpression(node.expression)) throw new Error(`${depth}`);
-      chain.push(node);
-      this.getArrayNodeChain(node.expression, depth, chain);
-    }
-    return chain;
   }
 
   private fixBitWidth(desiredWidth: number, warn: boolean = true) {
@@ -3186,4 +2983,62 @@ export default class Compiler {
 
     return output;
   }
+
+  /* These are some methods that were started to get the end of a nested tuple element
+  private getParentChain(elem: TupleElement, chain: TupleElement[] = []) {
+    chain.push(elem);
+
+    if (elem.parent) {
+      this.getParentChain(elem.parent, chain);
+    }
+
+    return chain.reverse();
+  }
+
+  private getNextElement(elem: TupleElement): TupleElement | undefined {
+    const { parent } = elem;
+
+    if (parent === undefined) return undefined;
+
+    const grandParent = parent.parent;
+
+    if (grandParent === undefined) return undefined;
+
+    const parentIndex = grandParent.findIndex((e) => e.id === parent.id);
+    const nextUncle = grandParent.slice(parentIndex)[0];
+
+    if (!nextUncle) return this.getNextElement(parent);
+
+    return nextUncle;
+  }
+
+  private getElementEnd(elem: TupleElement, accessors: number[]) {
+    const parent = elem.parent!;
+
+    if (parent.arrayType === 'tuple') {
+      const elemIndex = parent.findIndex((e) => e.id === elem.id);
+      const dynamicSibling = parent.slice(elemIndex).find((e) => this.isDynamicType(e.type));
+
+      if (dynamicSibling) {
+        // eslint-disable-next-line no-param-reassign
+        accessors[accessors.length - 1] += 1;
+        this.getElementEnd(dynamicSibling, accessors);
+        return;
+      }
+    } else if (parent.arrayType === 'dynamic') {
+      // get the head of the parent, extract_uint16
+      this.getElementHead(parent, accessors.slice(0, accessors.length - 1));
+      // extract uint16 to get the length
+      this.pushLines('extract_uint16, extract_uint16 // get length', 'btoi');
+      // see if acc is less than length
+      // if so, add two to current head and extract_uint16
+      // else TBD
+    } else if (parent.arrayType === 'static') {
+      // if acc < elem.staticLength, add two to current head and extract_uint16
+      // else TBD
+    }
+
+    const nextElement = this.getNextElement(elem);
+  }
+  */
 }
