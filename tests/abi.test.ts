@@ -3,10 +3,58 @@
 import { expect } from 'chai';
 import { sandbox, clients } from 'beaker-ts';
 import algosdk from 'algosdk';
+import fs from 'fs';
 import { AbiTest } from './contracts/clients/abitest_client';
 import { artifactsTest } from './common';
+import srcMap from './contracts/AbiTest.src_map.json';
 
 let appClient: AbiTest;
+
+function formatTrace(input: string): string {
+  const lines = input.replace(/ {2}/g, '').split('\n');
+  const maxFirstColumnLength = 5;
+  const maxSecondColumnLength = 5;
+  const maxThirdColumnLength = 50;
+
+  // Align the first two columns and join them back with the rest of the columns
+  const alignedLines = lines.map((line) => {
+    if (!line.includes('|')) return line;
+
+    const columns = line.split('|');
+
+    const firstColumn = columns[0]
+      .trim()
+      .padEnd(maxFirstColumnLength)
+      .slice(0, maxFirstColumnLength);
+
+    const secondColumn = columns[1]
+      .trim()
+      .padEnd(maxSecondColumnLength)
+      .slice(0, maxSecondColumnLength);
+
+    const pc = firstColumn.trim();
+
+    const tealLine = (srcMap as {[pc: string]: number})[pc];
+
+    const approval = fs.readFileSync('./tests/contracts/AbiTest.approval.teal', 'utf8');
+
+    const srcLine = tealLine && (!columns[2].includes('!!')) ? approval.split('\n')[tealLine].trim() : columns[2];
+
+    const thirdColumn = srcLine
+      .trim()
+      .padEnd(maxThirdColumnLength)
+      .slice(0, maxThirdColumnLength);
+
+    // remove long lines
+    if (srcLine.startsWith('method')) return undefined;
+    if (srcLine.startsWith('txna ApplicationArgs 0')) return undefined;
+    if (srcLine.startsWith('match')) return undefined;
+
+    return `${firstColumn} |${secondColumn} |${thirdColumn} |${columns.slice(4).join('|')}`;
+  });
+
+  return alignedLines.filter((l) => l !== undefined).join('\n');
+}
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
 async function dryrun(methodName: string, methodArgs: any = []) {
@@ -26,13 +74,12 @@ async function dryrun(methodName: string, methodArgs: any = []) {
     client: appClient.client,
     txns: [{ txn: txns[0], sig: sigs[0] }],
   });
-  const drrTxn = new algosdk.DryrunResult(await appClient.client.dryrun(dr).do()).txns[0];
-  // eslint-disable-next-line no-console
-  console.log(drrTxn.appTrace(
-    { maxValueWidth: process.stdout.columns / 3, topOfStackFirst: true },
-  ));
-}
 
+  const drrTxn = new algosdk.DryrunResult(await appClient.client.dryrun(dr).do()).txns[0];
+
+  // eslint-disable-next-line no-console
+  console.log(formatTrace(drrTxn.appTrace({ maxValueWidth: -1, topOfStackFirst: true })));
+}
 artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/', 'AbiTest');
 
 describe('ABI', function () {
@@ -426,5 +473,30 @@ describe('ABI', function () {
         BigInt(3),
       ],
     );
+  });
+
+  it('nestedTuple', async function () {
+    const ret = await appClient.nestedTuple();
+    expect(ret.returnValue).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
+  });
+
+  // updateDynamicElementInTupleWithSameLength
+
+  it('updateDynamicElementInTupleWithSameLength', async function () {
+    const ret = await appClient.updateDynamicElementInTupleWithSameLength();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        1n,
+        [10n, 11n, 12n],
+        5n,
+        [6n, 7n, 8n],
+        9n,
+      ],
+    );
+  });
+
+  it('accessDynamicStringArray', async function () {
+    const ret = await appClient.accessDynamicStringArray();
+    expect(ret.returnValue).to.deep.equal('World');
   });
 });
