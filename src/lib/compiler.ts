@@ -38,7 +38,7 @@ class TupleElement extends Array<TupleElement> {
       this.staticLength = parseInt(type.match(/\[\d+]$/)![0].match(/\d+/)![0], 10);
     } else if (type.endsWith('[]')) {
       this.arrayType = 'dynamic';
-    } else if (type.startsWith('[')) {
+    } else if (type.startsWith('[') || type.startsWith('{')) {
       this.arrayType = 'tuple';
     }
   }
@@ -1644,6 +1644,11 @@ export default class Compiler {
 
     if (newValue) {
       if (this.isDynamicType(element.type)) {
+        if (element.parent?.arrayType !== 'tuple') {
+          throw new Error(
+            'Updating nested dynamic array elements not yet supported. The entire array must be overwritten to change a value',
+          );
+        }
         // Get pre element
         this.pushLines(
           `load ${scratch.fullArray}`,

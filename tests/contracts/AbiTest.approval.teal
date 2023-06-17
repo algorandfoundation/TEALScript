@@ -4824,9 +4824,7 @@ namedTuple:
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	load 0 // full array
 	load 0 // full array
@@ -4897,9 +4895,7 @@ updateNamedTuple:
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	dup
 	store 4 // element head offset
@@ -4950,9 +4946,7 @@ updateNamedTuple:
 	frame_dig -1 // a: { foo: uint16, bar: string, }
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	load 0 // full array
 	load 0 // full array
@@ -5023,9 +5017,7 @@ customTypes:
 	frame_dig -1 // aa: CustomType
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	dup
 	store 4 // element head offset
@@ -5076,9 +5068,7 @@ customTypes:
 	frame_dig -1 // aa: CustomType
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	load 0 // full array
 	load 0 // full array
