@@ -234,9 +234,7 @@ updateContactField:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 0
-	int 2
-	* // acc * 2
+	int 0 // headOffset
 	+
 	dup
 	store 4 // element head offset
@@ -311,9 +309,7 @@ if0_elseif1_condition:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // headOffset
 	+
 	dup
 	store 4 // element head offset
@@ -400,9 +396,7 @@ verifyContactName:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 0
-	int 2
-	* // acc * 2
+	int 0 // headOffset
 	+
 	load 0 // full array
 	load 0 // full array
