@@ -9,7 +9,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/account.algo.ts', 'AccountTest', methodName);
 }
 
-artifactsTest('AccountTest', 'tests/contracts/account.algo.ts', 'tests/contracts/', 'AccountTest');
+artifactsTest('AccountTest', 'tests/contracts/account.algo.ts', 'tests/contracts/artifacts/', 'AccountTest');
 
 describe('Account', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe

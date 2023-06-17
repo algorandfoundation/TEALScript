@@ -8,7 +8,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/if.algo.ts', 'IfTest', methodName);
 }
 
-artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/', 'IfTest');
+artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
 
 describe('If', function () {
   it('singleIf', async function () {

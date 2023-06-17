@@ -23,7 +23,7 @@
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
     "prepack": "tsc",
-    "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f; done",
+    "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f tests/contracts/artifacts; done",
     "generate-test-clients": "contracts=(AbiTest LoopsTest); for c in ${contracts[@]}; do npx beaker-ts generate tests/contracts/$c.json tests/contracts/clients/; done",
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
     "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",

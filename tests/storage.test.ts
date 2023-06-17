@@ -8,7 +8,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
 }
 
-artifactsTest('StorageTest', 'tests/contracts/storage.algo.ts', 'tests/contracts/', 'StorageTest');
+artifactsTest('StorageTest', 'tests/contracts/storage.algo.ts', 'tests/contracts/artifacts/', 'StorageTest');
 
 const ops: {[type: string]: {[method: string]: string}} = {
   global: {

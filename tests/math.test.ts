@@ -8,7 +8,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/math.algo.ts', 'MathTest', methodName);
 }
 
-artifactsTest('MathTest', 'tests/contracts/math.algo.ts', 'tests/contracts/', 'MathTest');
+artifactsTest('MathTest', 'tests/contracts/math.algo.ts', 'tests/contracts/artifacts/', 'MathTest');
 
 describe('Math', function () {
   it('uint64 +', async function () {

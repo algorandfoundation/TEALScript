@@ -8,7 +8,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/binary.algo.ts', 'BinaryTest', methodName);
 }
 
-artifactsTest('BinaryTest', 'tests/contracts/binary.algo.ts', 'tests/contracts/', 'BinaryTest');
+artifactsTest('BinaryTest', 'tests/contracts/binary.algo.ts', 'tests/contracts/artifacts/', 'BinaryTest');
 
 describe('Binary Expressions', function () {
   it('&&', async function () {

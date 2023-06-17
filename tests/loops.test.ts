@@ -7,7 +7,7 @@ import { artifactsTest } from './common';
 
 let appClient: LoopsTest;
 
-artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/', 'LoopsTest');
+artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
 
 describe('LoopsTest', function () {
   before(async function () {

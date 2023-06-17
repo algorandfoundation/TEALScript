@@ -6,7 +6,7 @@ import algosdk from 'algosdk';
 import fs from 'fs';
 import { AbiTest } from './contracts/clients/abitest_client';
 import { artifactsTest } from './common';
-import srcMap from './contracts/AbiTest.src_map.json';
+import srcMap from './contracts/artifacts/AbiTest.src_map.json';
 
 let appClient: AbiTest;
 
@@ -36,7 +36,7 @@ function formatTrace(input: string): string {
 
     const tealLine = (srcMap as {[pc: string]: number})[pc];
 
-    const approval = fs.readFileSync('./tests/contracts/AbiTest.approval.teal', 'utf8');
+    const approval = fs.readFileSync('./tests/contracts/artifacts/AbiTest.approval.teal', 'utf8');
 
     const srcLine = tealLine && (!columns[2].includes('!!')) ? approval.split('\n')[tealLine].trim() : columns[2];
 
@@ -80,7 +80,7 @@ async function dryrun(methodName: string, methodArgs: any = []) {
   // eslint-disable-next-line no-console
   console.log(formatTrace(drrTxn.appTrace({ maxValueWidth: -1, topOfStackFirst: true })));
 }
-artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/', 'AbiTest');
+artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/artifacts', 'AbiTest');
 
 describe('ABI', function () {
   before(async function () {
