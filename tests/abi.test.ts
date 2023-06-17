@@ -494,4 +494,9 @@ describe('ABI', function () {
       ],
     );
   });
+
+  it('accessDynamicStringArray', async function () {
+    const ret = await appClient.accessDynamicStringArray();
+    expect(ret.returnValue).to.deep.equal('World');
+  });
 });

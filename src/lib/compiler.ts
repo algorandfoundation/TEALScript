@@ -1341,8 +1341,13 @@ export default class Compiler {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
-    if (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/)) {
+    const baseType = typeHint.replace(/\[\d*\]$/, '');
+
+    if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
       this.processTuple(node);
+      if (this.getABIType(typeHint).endsWith('[]')) {
+        this.pushLines(`byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+      }
       this.lastType = this.getABIType(typeHint);
       return;
     }
@@ -1608,6 +1613,13 @@ export default class Compiler {
         'uncover 2',
         'extract_uint16',
       );
+
+      if (element.parent!.type.endsWith('[]')) {
+        this.pushLines(
+          'int 2',
+          '+ // add two for length',
+        );
+      }
 
       if (newValue) {
         this.pushLines(

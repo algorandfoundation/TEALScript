@@ -532,4 +532,10 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  accessDynamicStringArray(): string {
+    const a: string[] = ['Hello', 'World', '!'];
+
+    return a[1];
+  }
 }
