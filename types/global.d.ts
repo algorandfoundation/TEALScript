@@ -181,7 +181,7 @@ declare class Application {
 }
 
 declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number, dynamicSize?: boolean })
+  constructor(options?: { defaultSize?: number, dynamicSize?: boolean, prefix?: string })
 
   get(key: KeyType): ValueType
 

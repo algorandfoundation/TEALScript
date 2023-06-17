@@ -195,6 +195,7 @@ interface StorageProp {
   keyType: string;
   valueType: string;
   dynamicSize?: boolean;
+  prefix?: string;
 }
 
 interface Subroutine {
@@ -233,6 +234,12 @@ export default class Compiler {
 
   generatedClearTeal: string = '';
 
+  private mapKeyTypes: {
+    global: string[]
+    local: string[]
+    box: string[]
+  } = { global: [], local: [], box: [] };
+
   private customTypes: {[name: string] : string} = {};
 
   private frameIndex: number = 0;
@@ -267,7 +274,7 @@ export default class Compiler {
 
   private bareCreate: boolean = false;
 
-  private handledActions: string[] = [];
+  private handledActions: {[method: string]: string[]} = {};
 
   abi: {
     name: string,
@@ -335,14 +342,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.push('app_global_get', valueType);
@@ -353,14 +362,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         if (node.arguments[key ? 0 : 1]) {
@@ -375,14 +386,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.pushVoid('app_global_del');
@@ -393,7 +406,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         this.pushVoid('txna Applications 0');
@@ -401,8 +414,10 @@ export default class Compiler {
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.hasMaybeValue('app_global_get_ex');
@@ -415,7 +430,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
@@ -423,8 +438,10 @@ export default class Compiler {
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[1]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.push('app_local_get', valueType);
@@ -435,7 +452,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
@@ -443,8 +460,10 @@ export default class Compiler {
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[1]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         if (node.arguments[key ? 1 : 2]) {
@@ -459,7 +478,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         this.processNode(node.arguments[0]);
@@ -467,8 +486,10 @@ export default class Compiler {
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[1]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.pushVoid('app_local_del');
@@ -479,7 +500,7 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
         this.processNode(node.arguments[0]);
         this.pushVoid('txna Applications 0');
@@ -487,8 +508,10 @@ export default class Compiler {
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[1]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.hasMaybeValue('app_local_get_ex');
@@ -501,14 +524,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key,
+          valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.maybeValue('box_get', valueType);
@@ -520,14 +545,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          valueType, keyType, key, dynamicSize,
+          valueType, keyType, key, dynamicSize, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         if (dynamicSize) this.pushLines('dup', 'box_del', 'pop');
@@ -546,14 +573,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.pushVoid('box_del');
@@ -564,14 +593,16 @@ export default class Compiler {
         const name = node.expression.expression.name.getText();
 
         const {
-          keyType, key,
+          keyType, key, prefix,
         } = this.storageProps[name];
 
         if (key) {
           this.pushVoid(`byte "${key}"`);
         } else {
+          if (prefix) this.pushVoid(`byte "${prefix}"`);
           this.processNode(node.arguments[0]);
           if (isNumeric(keyType)) this.pushVoid('itob');
+          if (prefix) this.pushVoid('concat');
         }
 
         this.hasMaybeValue('box_get');
@@ -999,7 +1030,7 @@ export default class Compiler {
       this.pushVoid('int 1');
 
       this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
-    } else if (!this.handledActions.includes('createApplication')) {
+    } else if (!Object.values(this.handledActions).flat().includes('createApplication')) {
       this.pushLines(
         '// default createApplication',
         'txn ApplicationID',
@@ -1710,6 +1741,7 @@ export default class Compiler {
       return;
     }
 
+    this.handledActions[this.currentSubroutine.name] = [];
     this.currentSubroutine.decorators = (ts.getDecorators(node) || []).map(
       (d) => {
         const err = new Error(`Unknown decorator ${d.expression.getText()}`);
@@ -1717,9 +1749,9 @@ export default class Compiler {
         if (d.expression.expression.getText() !== 'handle') throw err;
 
         const handledAction = d.expression.name.getText();
-        if (this.handledActions.includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
+        if (Object.values(this.handledActions).flat().includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
 
-        this.handledActions.push(handledAction);
+        this.handledActions[this.currentSubroutine.name].push(handledAction);
         return handledAction;
       },
     );
@@ -2269,16 +2301,17 @@ export default class Compiler {
 
     if (['BoxMap', 'GlobalMap', 'LocalMap', 'BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
       let props: StorageProp;
+      const type = klass.toLocaleLowerCase().replace('map', '').replace('reference', '');
 
       if (klass.includes('Map')) {
         props = {
-          type: klass.toLocaleLowerCase().replace('map', ''),
+          type,
           keyType: this.getABIType(node.initializer.typeArguments![0].getText()),
           valueType: this.getABIType(node.initializer.typeArguments![1].getText()),
         };
       } else {
         props = {
-          type: klass.toLocaleLowerCase().replace('map', '').replace('reference', ''),
+          type,
           keyType: 'bytes',
           valueType: this.getABIType(node.initializer.typeArguments![0].getText()),
         };
@@ -2311,6 +2344,11 @@ export default class Compiler {
 
               props.dynamicSize = p.initializer.getText() === 'true';
               break;
+            case 'prefix':
+              if (!klass.includes('Map')) throw new Error(`${name} only applies to storage maps`);
+              if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage prefix must be string');
+              props.prefix = p.initializer.text;
+              break;
             default:
               throw new Error(`Unknown property ${name}`);
           }
@@ -2319,6 +2357,12 @@ export default class Compiler {
 
       if (!props.key && klass.includes('Reference')) {
         props.key = node.name.getText();
+      }
+
+      if (klass.includes('Map') && !props.prefix) {
+        const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
+        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map`);
+        keyTypes.push(props.keyType);
       }
 
       this.storageProps[node.name.getText()] = props;
@@ -2916,8 +2960,12 @@ export default class Compiler {
       }
     }
 
-    return {
-      hints: {},
+    const hints: {[signature: string]: {'call_config': {[action: string]: string}}} = {};
+    const bareCallConfig: {[action: string]: string} = {};
+
+    const appSpec = {
+      hints,
+      bare_call_config: bareCallConfig,
       schema: {
         local: { declared: localDeclared, reserved: {} },
         global: { declared: globalDeclared, reserved: {} },
@@ -2926,6 +2974,33 @@ export default class Compiler {
       source: { approval, clear },
       contract: this.abi,
     };
+
+    this.abi.methods.forEach((m) => {
+      const signature = `${m.name}(${m.args.map((a) => a.type).join(',')})${m.returns.type}`;
+
+      hints[signature] = {
+        call_config: {},
+      };
+
+      if (this.handledActions[m.name].length === 0) {
+        hints[signature].call_config.no_op = 'CALL';
+      } else {
+        this.handledActions[m.name].forEach((a) => {
+          hints[signature].call_config[a] = 'CALL';
+        });
+      }
+    });
+
+    this.bareOnCompletes.forEach((oc) => {
+      if (oc === 'DeleteApplication') bareCallConfig.delete_application = 'CALL';
+      if (oc === 'UpdateApplication') bareCallConfig.update_application = 'CALL';
+      if (oc === 'CloseOut') bareCallConfig.close_out = 'CALL';
+      if (oc === 'OptIn') bareCallConfig.opt_in = 'CALL';
+    });
+
+    if (this.bareCreate || !Object.values(this.handledActions).flat().includes('createApplication')) bareCallConfig.no_op = 'CREATE';
+
+    return appSpec;
   }
 
   approvalProgram(): string {
