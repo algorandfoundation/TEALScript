@@ -282,7 +282,6 @@ describe.only('ABI', function () {
     );
   });
 
-  /* TODO
   it('updateDynamicArrayInTuple', async function () {
     const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
       { old: BigInt(9), new: BigInt(99) },
@@ -295,7 +294,6 @@ describe.only('ABI', function () {
     const ret = await appClient.updateDynamicArrayInTuple();
     expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
-  */
 
   it('nonLiteralDynamicElementInTuple', async function () {
     const ret = await appClient.nonLiteralDynamicElementInTuple();
@@ -385,7 +383,6 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.equal(s);
   });
 
-  /* TODO
   it('updateStringInTuple', async function () {
     const a = [
       { old: BigInt(9), new: BigInt(99) },
@@ -418,13 +415,12 @@ describe.only('ABI', function () {
         [BigInt(7)]],
     );
   });
-*/
+
   it('namedTuple', async function () {
     const ret = await appClient.namedTuple();
     expect(ret.returnValue).to.equal('Hello World!');
   });
 
-  /*
   it('updateNamedTuple', async function () {
     const ret = await appClient.updateNamedTuple();
     expect(ret.returnValue).to.equal('Hello World!');
@@ -435,7 +431,6 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.equal('Hello World!');
   });
 
-  */
   it('staticStringArrayArg', async function () {
     const ret = await appClient.staticStringArrayArg({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');

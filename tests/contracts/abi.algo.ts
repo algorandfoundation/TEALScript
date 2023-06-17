@@ -278,7 +278,6 @@ class AbiTest extends Contract {
     return a[4]; // [7, 8]
   }
 
-  /* TODO
   updateDynamicArrayInTuple(): [uint8, uint16[], uint8[], uint16[], uint8[]] {
     const a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]];
 
@@ -290,7 +289,6 @@ class AbiTest extends Contract {
 
     return a;
   }
-  */
 
   nonLiteralDynamicElementInTuple(): [uint8, uint16, uint8[], uint16[], uint8[]] {
     const e: uint16[] = [5, 6];
@@ -402,7 +400,6 @@ class AbiTest extends Contract {
     return a[2];
   }
 
-  /* TODO
   updateStringInTuple(): [uint8, uint16[], string, uint16[], uint8[]] {
     const a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]];
 
@@ -434,7 +431,6 @@ class AbiTest extends Contract {
 
     return a;
   }
-  */
 
   namedTuple(): string {
     const a: {
@@ -448,7 +444,6 @@ class AbiTest extends Contract {
     return a.bar;
   }
 
-  /*
   updateNamedTuple(): string {
     const a: {
       foo: uint16,
@@ -473,7 +468,6 @@ class AbiTest extends Contract {
 
     return aa.bar;
   }
-  */
 
   staticStringArrayArg(a: StaticArray<string, 3>): string {
     return a[1];

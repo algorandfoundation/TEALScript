@@ -282,6 +282,15 @@
       }
     },
     {
+      "name": "updateDynamicArrayInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint8,uint16[],uint8[],uint16[],uint8[])",
+        "desc": ""
+      }
+    },
+    {
       "name": "nonLiteralDynamicElementInTuple",
       "args": [],
       "desc": "",
@@ -423,7 +432,52 @@
       }
     },
     {
+      "name": "updateStringInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint8,uint16[],string,uint16[],uint8[])",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateTupleWithOnlyDynamicTypes",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16[],uint16[],uint16[])",
+        "desc": ""
+      }
+    },
+    {
+      "name": "shortenDynamicElementInTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16[],uint16[],uint16[])",
+        "desc": ""
+      }
+    },
+    {
       "name": "namedTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateNamedTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "customTypes",
       "args": [],
       "desc": "",
       "returns": {
