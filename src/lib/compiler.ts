@@ -2872,11 +2872,12 @@ export default class Compiler {
 
   async algodCompile(): Promise<string> {
     const response = await fetch(
-      'https://mainnet-api.algonode.cloud/v2/teal/compile?sourcemap=true',
+      'http://localhost:4001/v2/teal/compile?sourcemap=true',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
+          'X-Algo-API-Token': 'a'.repeat(64),
         },
         body: this.approvalProgram(),
       },
