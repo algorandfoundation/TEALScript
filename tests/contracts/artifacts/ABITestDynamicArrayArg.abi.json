@@ -1,0 +1,21 @@
+{
+  "name": "ABITestDynamicArrayArg",
+  "desc": "",
+  "methods": [
+    {
+      "name": "dynamicArrayArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    }
+  ]
+}

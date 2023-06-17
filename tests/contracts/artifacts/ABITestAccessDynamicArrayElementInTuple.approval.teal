@@ -1,0 +1,127 @@
+#pragma version 8
+	b main
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+abi_route_accessDynamicArrayElementInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub accessDynamicArrayElementInTuple
+	int 1
+	return
+
+accessDynamicArrayElementInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:638
+	// a: [uint16, uint8[]] = [11, [22, 33, 44]]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0004 // initial head offset
+	int 11
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 22
+	itob
+	extract 7 0
+	int 33
+	itob
+	extract 7 0
+	concat
+	int 44
+	itob
+	extract 7 0
+	concat
+	byte 0x0003
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16,uint8[]]
+
+	// tests/contracts/abi.algo.ts:640
+	// return a[1][1];
+	frame_dig -1 // a: [uint16,uint8[]]
+	store 0 // full array
+	int 0 // initial offset
+	int 2 // headOffset
+	+
+	load 0 // full array
+	swap
+	extract_uint16
+	int 1
+	int 1
+	* // acc * typeLength
+	+
+	int 2
+	+ // add two for length
+	load 0 // full array
+	swap
+	int 1
+	extract3
+	byte 0xFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "accessDynamicArrayElementInTuple()uint32"
+	txna ApplicationArgs 0
+	match abi_route_accessDynamicArrayElementInTuple

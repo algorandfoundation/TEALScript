@@ -1,0 +1,57 @@
+#pragma version 8
+	b main
+
+abi_route_tupleArg:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	txna ApplicationArgs 1
+	callsub tupleArg
+	int 1
+	return
+
+tupleArg:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:313
+	// return a[1];
+	frame_dig -1 // a: [uint64,uint16,uint64]
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "tupleArg((uint64,uint16,uint64))uint16"
+	txna ApplicationArgs 0
+	match abi_route_tupleArg

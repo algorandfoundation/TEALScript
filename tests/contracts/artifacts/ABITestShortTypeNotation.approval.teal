@@ -1,0 +1,101 @@
+#pragma version 8
+	b main
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+abi_route_shortTypeNotation:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub shortTypeNotation
+	int 1
+	return
+
+shortTypeNotation:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:284
+	// a: [uint16<2>, uint64<2>, uint16<2>] = [
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0018 // initial head offset
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat
+	callsub process_static_tuple_element
+	int 33
+	itob
+	int 44
+	itob
+	concat
+	callsub process_static_tuple_element
+	int 55
+	itob
+	extract 6 0
+	int 66
+	itob
+	extract 6 0
+	concat
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
+
+	// tests/contracts/abi.algo.ts:288
+	// return a[2][1];
+	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
+	store 0 // full array
+	int 0 // initial offset
+	int 20 // headOffset
+	+
+	int 1
+	int 2
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "shortTypeNotation()uint16"
+	txna ApplicationArgs 0
+	match abi_route_shortTypeNotation

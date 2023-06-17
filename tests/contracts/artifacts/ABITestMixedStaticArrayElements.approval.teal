@@ -1,0 +1,131 @@
+#pragma version 8
+	b main
+
+abi_route_mixedStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	dupn 3
+	callsub mixedStaticArrayElements
+	int 1
+	return
+
+mixedStaticArrayElements:
+	proto 4 0
+
+	// tests/contracts/abi.algo.ts:44
+	// n1 = 3
+	int 3
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.algo.ts:45
+	// n2 = 4
+	int 4
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.algo.ts:46
+	// n3 = 5
+	int 5
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.algo.ts:47
+	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
+	int 0
+	itob
+	int 1
+	itob
+	concat
+	int 2
+	itob
+	concat
+	frame_dig -1 // n1: uint64
+	itob
+	concat
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	int 6
+	itob
+	concat
+	int 7
+	itob
+	concat
+	int 8
+	itob
+	concat
+	frame_bury -4 // a: uint64[9]
+
+	// tests/contracts/abi.algo.ts:49
+	// return a[1] + a[4] + a[7];
+	frame_dig -4 // a: uint64[9]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	frame_dig -4 // a: uint64[9]
+	store 0 // full array
+	int 0 // initial offset
+	int 4
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	+
+	frame_dig -4 // a: uint64[9]
+	store 0 // full array
+	int 0 // initial offset
+	int 7
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	+
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "mixedStaticArrayElements()uint64"
+	txna ApplicationArgs 0
+	match abi_route_mixedStaticArrayElements

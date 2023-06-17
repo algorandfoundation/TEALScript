@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@algorandfoundation/algokit-utils@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@algorandfoundation/algokit-utils/-/algokit-utils-2.1.0.tgz#a7ff38b566bb489a8cdd41e1f06159a739191ade"
+  integrity sha512-YcB0vFLZheWLKrfVv0p6NbZMVTXgN3x8GNRETYLvw5+Br+LG7vBQl5/It18fuFaQNDxRJ4fo3tVgG1iBSHpzDg==
+  dependencies:
+    algosdk "^2.3.0"
+    algosdk2-2 "npm:algosdk@2.2.0"
+    buffer "^6.0.3"
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
@@ -913,10 +922,27 @@ algorand-walletconnect-qrcode-modal@^1.6.1:
     preact "10.4.1"
     qrcode "1.4.4"
 
-algosdk@^2.0.0, algosdk@^2.2.0:
+"algosdk2-2@npm:algosdk@2.2.0", algosdk@^2.0.0:
+  name algosdk2-2
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-2.2.0.tgz#12f80b5f68c955b338aa5b9d5fc6cbd64ce6ea7a"
   integrity sha512-FG3u/60DzjMK9Cffy9itst7WcfsTgZKfsD1r8pT33PfsA7r8NoXiUSL7cf0fNWFus6S3E14BpE2CY64VJ8KV1A==
+  dependencies:
+    algo-msgpack-with-bigint "^2.1.1"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.5"
+    hi-base32 "^0.5.1"
+    js-sha256 "^0.9.0"
+    js-sha3 "^0.8.0"
+    js-sha512 "^0.8.0"
+    json-bigint "^1.0.0"
+    tweetnacl "^1.0.3"
+    vlq "^2.0.4"
+
+algosdk@^2.3.0, algosdk@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-2.4.0.tgz#6519bbefb12ac5b0e2442463f181fefdce1cf2b0"
+  integrity sha512-sENe6IyUqvhQprfS/7gJAkPC5sX2LI5uc+gXaKNgzKp72UEyXYSoN3h4MZkOlCrOcTSWTJW7605tYgg8nFkflw==
   dependencies:
     algo-msgpack-with-bigint "^2.1.1"
     buffer "^6.0.3"

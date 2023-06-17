@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "spliceLastElementValue()uint16[]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3NwbGljZUxhc3RFbGVtZW50VmFsdWU6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCWJ5dGUgMHgKCWR1cAoJY2FsbHN1YiBzcGxpY2VMYXN0RWxlbWVudFZhbHVlCglpbnQgMQoJcmV0dXJuCgpzcGxpY2VMYXN0RWxlbWVudFZhbHVlOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ2OAoJLy8gYTogdWludDE2W10gPSBbMSwgMiwgM10KCWludCAxCglpdG9iCglleHRyYWN0IDYgMAoJaW50IDIKCWl0b2IKCWV4dHJhY3QgNiAwCgljb25jYXQKCWludCAzCglpdG9iCglleHRyYWN0IDYgMAoJY29uY2F0CglieXRlIDB4MDAwMwoJc3dhcAoJY29uY2F0CglmcmFtZV9idXJ5IC0xIC8vIGE6IHVpbnQxNltdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ3MAoJLy8gdiA9IGEuc3BsaWNlKDIsIDEpCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDE2W10KCWludCAwCglleHRyYWN0X3VpbnQxNgoJaW50IDEKCS0KCWl0b2IKCWV4dHJhY3QgNiAyCglpbnQgMgoJaW50IDIKCSoKCWludCAyCgkrCglzdG9yZSAxMiAvLyBzcGxpY2Ugc3RhcnQKCWludCAxCglpbnQgMgoJKgoJaW50IDIKCSsKCXN0b3JlIDEzIC8vIHNwbGljZSBieXRlIGxlbmd0aAoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQxNltdCglpbnQgMgoJbG9hZCAxMiAvLyBzcGxpY2Ugc3RhcnQKCXN1YnN0cmluZzMKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJZHVwCglsZW4KCWxvYWQgMTIgLy8gc3BsaWNlIHN0YXJ0Cglsb2FkIDEzIC8vIHNwbGljZSBieXRlIGxlbmd0aAoJKwoJaW50IDIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJY29uY2F0CglpbnQgMQoJaXRvYgoJZXh0cmFjdCA2IDIKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJbG9hZCAxMiAvLyBzcGxpY2Ugc3RhcnQKCWxvYWQgMTMgLy8gc3BsaWNlIGJ5dGUgbGVuZ3RoCglpbnQgMgoJLQoJZXh0cmFjdDMKCWNvbmNhdAoJc3dhcAoJZnJhbWVfYnVyeSAtMSAvLyBhOiB1aW50MTZbXQoJZnJhbWVfYnVyeSAtMiAvLyB2OiB1aW50MTZbXQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo0NzIKCS8vIHJldHVybiB2OwoJZnJhbWVfZGlnIC0yIC8vIHY6IHVpbnQxNltdCglieXRlIDB4MTUxZjdjNzUKCXN3YXAKCWNvbmNhdAoJbG9nCglyZXRzdWIKCm1haW46Cgl0eG4gTnVtQXBwQXJncwoJYm56IHJvdXRlX2FiaQoKCS8vIGRlZmF1bHQgY3JlYXRlQXBwbGljYXRpb24KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJPT0KCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJJiYKCXJldHVybgoKcm91dGVfYWJpOgoJbWV0aG9kICJzcGxpY2VMYXN0RWxlbWVudFZhbHVlKCl1aW50MTZbXSIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9zcGxpY2VMYXN0RWxlbWVudFZhbHVl",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestSpliceLastElementValue",
+    "desc": "",
+    "methods": [
+      {
+        "name": "spliceLastElementValue",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint16[]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

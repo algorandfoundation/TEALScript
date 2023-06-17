@@ -1,15 +1,16 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 import { expect } from 'chai';
-import { sandbox, clients } from 'beaker-ts';
-import algosdk from 'algosdk';
+import { sandbox } from 'beaker-ts';
 import fs from 'fs';
-import { AbiTest } from './contracts/clients/abitest_client';
-import { artifactsTest } from './common';
-import srcMap from './contracts/artifacts/AbiTest.src_map.json';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import path from 'path';
+import { artifactsTest, algodClient } from './common';
+import Compiler from '../src/lib/compiler';
 
-let appClient: AbiTest;
+const ARTIFACTS_PATH = path.join(__dirname, 'contracts', 'artifacts');
 
+/*
 function formatTrace(input: string): string {
   const lines = input.replace(/ {2}/g, '').split('\n');
   const maxFirstColumnLength = 5;
@@ -81,201 +82,182 @@ async function dryrun(methodName: string, methodArgs: any = []) {
   console.log(formatTrace(drrTxn.appTrace({ maxValueWidth: -1, topOfStackFirst: true })));
 }
 artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/artifacts', 'AbiTest');
+*/
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function runTests(name: string, methodArgs: any[] = []) {
+  const className = `ABITest${name.charAt(0).toUpperCase() + name.slice(1)}`;
+
+  const sender = (await sandbox.getAccounts()).pop()!;
+
+  const sourcePath = path.join('tests', 'contracts', 'abi.algo.ts');
+  const content = fs.readFileSync(sourcePath, 'utf-8');
+  const compiler = new Compiler(content, className, sourcePath);
+  await compiler.compile();
+  await compiler.algodCompile();
+
+  expect(compiler.approvalProgram()).to.equal(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8'));
+  expect(compiler.pcToLine).to.deep.equal(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.src_map.json`, 'utf-8')));
+  expect(compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.abi.json`, 'utf-8')));
+  expect(compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.json`, 'utf-8')));
+
+  const appClient = algokit.getAppClient(
+    {
+      app: JSON.stringify(compiler.appSpec()),
+      sender,
+      resolveBy: 'id',
+      id: 0,
+    },
+    algodClient,
+  );
+
+  await appClient.create({ sendParams: { suppressLog: true } });
+
+  const params = {
+    method: name,
+    methodArgs,
+    boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }, { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }],
+    sendParams: { suppressLog: true },
+  };
+
+  if (name.includes('Storage')) {
+    await appClient.fundAppAccount({
+      amount: algokit.microAlgos(127400),
+      sendParams: { suppressLog: true },
+    });
+    return (await appClient.optIn(params)).return?.returnValue;
+  }
+  return (await appClient.call(params)).return?.returnValue;
+}
 
 describe('ABI', function () {
-  before(async function () {
-    const acct = (await sandbox.getAccounts()).pop()!;
-
-    appClient = new AbiTest({
-      client: clients.sandboxAlgod(),
-      signer: acct.signer,
-      sender: acct.addr,
-    });
-
-    await appClient.create({ extraPages: 3 });
-    await appClient.optIn();
-
-    const atc = new algosdk.AtomicTransactionComposer();
-
-    const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      from: acct.addr,
-      to: appClient.appAddress,
-      amount: 127400,
-      suggestedParams: await clients.sandboxAlgod().getTransactionParams().do(),
-    });
-
-    atc.addTransaction({ txn, signer: acct.signer });
-    await atc.execute(clients.sandboxAlgod(), 3);
-  });
-
   it('staticArray', async function () {
-    const ret = await appClient.staticArray();
-    expect(ret.returnValue).to.equal(BigInt(22));
+    expect(await runTests('staticArray')).to.equal(BigInt(22));
   });
 
   it('returnStaticArray', async function () {
-    const ret = await appClient.returnStaticArray();
-    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
+    expect(await runTests('returnStaticArray')).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
   it('staticArrayArg', async function () {
-    const ret = await appClient.staticArrayArg({
-      a: [BigInt(11), BigInt(22), BigInt(33)],
-    });
-    expect(ret.returnValue).to.deep.equal(BigInt(22));
+    const ret = await runTests('staticArrayArg', [[BigInt(11), BigInt(22), BigInt(33)]]);
+    expect(ret).to.deep.equal(BigInt(22));
   });
 
   it('nonLiteralStaticArrayElements', async function () {
-    const ret = await appClient.nonLiteralStaticArrayElements();
-    expect(ret.returnValue).to.equal(BigInt(22));
+    expect(await runTests('nonLiteralStaticArrayElements')).to.equal(BigInt(22));
   });
 
   it('mixedStaticArrayElements', async function () {
-    const ret = await appClient.mixedStaticArrayElements();
-    expect(ret.returnValue).to.equal(BigInt(1 + 4 + 7));
+    expect(await runTests('mixedStaticArrayElements')).to.equal(BigInt(1 + 4 + 7));
   });
 
   it('nonLiteralStaticArrayAccess', async function () {
-    const ret = await appClient.nonLiteralStaticArrayAccess();
-    expect(ret.returnValue).to.equal(BigInt(33));
+    expect(await runTests('nonLiteralStaticArrayAccess')).to.equal(BigInt(33));
   });
 
   it('setStaticArrayElement', async function () {
-    const ret = await appClient.setStaticArrayElement();
-    expect(ret.returnValue).to.equal(BigInt(222));
+    expect(await runTests('setStaticArrayElement')).to.equal(BigInt(222));
   });
 
   it('staticArrayInStorageRef', async function () {
-    const ret = await appClient.staticArrayInStorageRef(
-      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
-    );
-    expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
+    const ret = await runTests('staticArrayInStorageRef');
+    expect(ret).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
   it('updateStaticArrayInStorageRef', async function () {
-    const ret = await appClient.updateStaticArrayInStorageRef(
-      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }] },
-    );
-
-    expect(ret.returnValue).to.deep.equal([BigInt(111), BigInt(222), BigInt(333)]);
+    const ret = await runTests('updateStaticArrayInStorageRef');
+    expect(ret).to.deep.equal([BigInt(111), BigInt(222), BigInt(333)]);
   });
 
   it('staticArrayInStorageMap', async function () {
-    const ret = await appClient.staticArrayInStorageMap(
-      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
-    );
-    expect(ret.returnValue).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
+    const ret = await runTests('staticArrayInStorageMap');
+    expect(ret).to.deep.equal([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
   it('updateStaticArrayInStorageMap', async function () {
-    const ret = await appClient.updateStaticArrayInStorageMap(
-      { boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }] },
-    );
-
-    expect(ret.returnValue).to.deep.equal([BigInt(1111), BigInt(2222), BigInt(3333)]);
+    const ret = await runTests('updateStaticArrayInStorageMap');
+    expect(ret).to.deep.equal([BigInt(1111), BigInt(2222), BigInt(3333)]);
   });
 
   it('nestedStaticArray', async function () {
-    const ret = await appClient.nestedStaticArray();
-    expect(ret.returnValue).to.equal(BigInt(55));
+    expect(await runTests('nestedStaticArray')).to.equal(BigInt(55));
   });
 
   it('updateNestedStaticArrayElement', async function () {
-    const ret = await appClient.updateNestedStaticArrayElement();
-    expect(ret.returnValue).to.equal(BigInt(555));
+    expect(await runTests('updateNestedStaticArrayElement')).to.equal(BigInt(555));
   });
 
   it('updateNestedStaticArray', async function () {
-    const ret = await appClient.updateNestedStaticArray();
-    expect(ret.returnValue).to.equal(BigInt(555));
+    expect(await runTests('updateNestedStaticArray')).to.equal(BigInt(555));
   });
 
   it('threeDimensionalUint16Array', async function () {
-    const ret = await appClient.threeDimensionalUint16Array();
-    expect(ret.returnValue).to.equal(BigInt(888));
+    expect(await runTests('threeDimensionalUint16Array')).to.equal(BigInt(888));
   });
 
   it('simpleTuple', async function () {
-    const ret = await appClient.simpleTuple();
-    expect(ret.returnValue).to.equal(BigInt(44));
+    expect(await runTests('simpleTuple')).to.equal(BigInt(44));
   });
 
   it('arrayInTuple', async function () {
-    const ret = await appClient.arrayInTuple();
-    expect(ret.returnValue).to.equal(BigInt(44));
+    expect(await runTests('arrayInTuple')).to.equal(BigInt(44));
   });
 
   it('tupleInArray', async function () {
-    const ret = await appClient.tupleInArray();
-    expect(ret.returnValue).to.equal(BigInt(44));
+    expect(await runTests('tupleInArray')).to.equal(BigInt(44));
   });
 
-  // eslint-disable-next-line mocha/no-skipped-tests
   it('tupleInTuple', async function () {
-    const ret = await appClient.tupleInTuple();
-    expect(ret.returnValue).to.equal(BigInt(66));
+    expect(await runTests('tupleInTuple')).to.equal(BigInt(66));
   });
 
   it('shortTypeNotation', async function () {
-    const ret = await appClient.shortTypeNotation();
-    expect(ret.returnValue).to.equal(BigInt(66));
+    expect(await runTests('shortTypeNotation')).to.equal(BigInt(66));
   });
 
-  // eslint-disable-next-line mocha/no-skipped-tests
   it('disgusting', async function () {
-    const ret = await appClient.disgusting();
-    expect(ret.returnValue).to.equal(BigInt(8888));
+    expect(await runTests('disgusting')).to.equal(BigInt(8888));
   });
 
   it('returnTuple', async function () {
-    const ret = await appClient.returnTuple();
-    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
+    expect(await runTests('returnTuple')).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
   it('tupleArg', async function () {
-    const ret = await appClient.tupleArg({
-      a: [BigInt(11), BigInt(22), BigInt(33)],
-    });
-    expect(ret.returnValue).to.deep.equal(BigInt(22));
+    const ret = await runTests('tupleArg', [[BigInt(11), BigInt(22), BigInt(33)]]);
+    expect(ret).to.deep.equal(BigInt(22));
   });
 
   it('dynamicArray', async function () {
-    const ret = await appClient.dynamicArray();
-    expect(ret.returnValue).to.equal(BigInt(22));
+    expect(await runTests('dynamicArray')).to.equal(BigInt(22));
   });
 
   it('returnDynamicArray', async function () {
-    const ret = await appClient.returnDynamicArray();
-    expect(ret.returnValue).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
+    expect(await runTests('returnDynamicArray')).to.deep.equal([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
   it('dynamicArrayArg', async function () {
-    const ret = await appClient.dynamicArrayArg({
-      a: [BigInt(11), BigInt(22), BigInt(33)],
-    });
-    expect(ret.returnValue).to.deep.equal(BigInt(22));
+    const ret = await runTests('dynamicArrayArg', [[BigInt(11), BigInt(22), BigInt(33)]]);
+    expect(ret).to.deep.equal(BigInt(22));
   });
 
   it('updateDynamicArrayElement', async function () {
-    const ret = await appClient.updateDynamicArrayElement();
-    expect(ret.returnValue).to.equal(BigInt(222));
+    expect(await runTests('updateDynamicArrayElement')).to.equal(BigInt(222));
   });
 
   it('dynamicTupleArray', async function () {
-    const ret = await appClient.dynamicTupleArray();
-    expect(ret.returnValue).to.equal(BigInt(44));
+    expect(await runTests('dynamicTupleArray')).to.equal(BigInt(44));
   });
 
   it('returnTupleWithDyamicArray', async function () {
-    const ret = await appClient.returnTupleWithDyamicArray();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('returnTupleWithDyamicArray')).to.deep.equal(
       [BigInt(1), BigInt(2), [BigInt(3), BigInt(4)], [BigInt(5), BigInt(6)]],
     );
   });
 
   it('returnDynamicArrayFromTuple', async function () {
-    const ret = await appClient.returnDynamicArrayFromTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('returnDynamicArrayFromTuple')).to.deep.equal(
       [BigInt(7), BigInt(8)],
     );
   });
@@ -289,13 +271,11 @@ describe('ABI', function () {
       { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
     ];
 
-    const ret = await appClient.updateDynamicArrayInTuple();
-    expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
+    expect(await runTests('updateDynamicArrayInTuple')).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
 
   it('nonLiteralDynamicElementInTuple', async function () {
-    const ret = await appClient.nonLiteralDynamicElementInTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('nonLiteralDynamicElementInTuple')).to.deep.equal(
       [
         BigInt(1),
         BigInt(2),
@@ -306,79 +286,66 @@ describe('ABI', function () {
   });
 
   it('arrayPush', async function () {
-    const ret = await appClient.arrayPush();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('arrayPush')).to.deep.equal(
       [BigInt(1), BigInt(2), BigInt(3)],
     );
   });
 
   it('arrayPop', async function () {
-    const ret = await appClient.arrayPop();
-    expect(ret.returnValue).to.deep.equal([BigInt(1), BigInt(2)]);
+    expect(await runTests('arrayPop')).to.deep.equal([BigInt(1), BigInt(2)]);
   });
 
   it('arrayPopValue', async function () {
-    const ret = await appClient.arrayPopValue();
-    expect(ret.returnValue).to.equal(BigInt(3));
+    expect(await runTests('arrayPopValue')).to.equal(BigInt(3));
   });
 
   it('arraySplice', async function () {
-    const ret = await appClient.arraySplice();
-    expect(ret.returnValue).to.deep.equal([1, 3].map((n) => BigInt(n)));
+    expect(await runTests('arraySplice')).to.deep.equal([1, 3].map((n) => BigInt(n)));
   });
 
   it('arraySpliceValue', async function () {
-    const ret = await appClient.arraySpliceValue();
-    expect(ret.returnValue).to.deep.equal([2, 3, 4, 5, 6, 7, 8].map((n) => BigInt(n)));
+    expect(await runTests('arraySpliceValue')).to.deep.equal([2, 3, 4, 5, 6, 7, 8].map((n) => BigInt(n)));
   });
 
   it('dynamicArrayElements', async function () {
-    const ret = await appClient.dynamicArrayElements();
-    expect(ret.returnValue).to.deep.equal([1, 2, 3].map((n) => BigInt(n)));
+    expect(await runTests('dynamicArrayElements')).to.deep.equal([1, 2, 3].map((n) => BigInt(n)));
   });
 
   it('spliceLastElement', async function () {
-    const ret = await appClient.spliceLastElement();
-    expect(ret.returnValue).to.deep.equal([1, 2].map((n) => BigInt(n)));
+    expect(await runTests('spliceLastElement')).to.deep.equal([1, 2].map((n) => BigInt(n)));
   });
 
   it('spliceLastElementValue', async function () {
-    const ret = await appClient.spliceLastElementValue();
-    expect(ret.returnValue).to.deep.equal([3].map((n) => BigInt(n)));
+    expect(await runTests('spliceLastElementValue')).to.deep.equal([3].map((n) => BigInt(n)));
   });
 
   it('spliceFirstElement', async function () {
-    const ret = await appClient.spliceFirstElement();
-    expect(ret.returnValue).to.deep.equal([2, 3].map((n) => BigInt(n)));
+    expect(await runTests('spliceFirstElement')).to.deep.equal([2, 3].map((n) => BigInt(n)));
   });
 
   it('spliceFirstElementValue', async function () {
-    const ret = await appClient.spliceFirstElementValue();
-    expect(ret.returnValue).to.deep.equal([1].map((n) => BigInt(n)));
+    expect(await runTests('spliceFirstElementValue')).to.deep.equal([1].map((n) => BigInt(n)));
   });
 
   it('stringReturn', async function () {
     const s = 'Hello World!';
-    const ret = await appClient.stringReturn();
-    expect(ret.returnValue).to.equal(s);
+    expect(await runTests('stringReturn')).to.equal(s);
   });
 
   it('stringArg', async function () {
     const s = 'Hello World!';
-    await appClient.stringArg({ s });
+    await runTests('stringArg', [s]);
     // asert is in contract
   });
 
   it('stringInTuple', async function () {
     const s = 'Hello World!';
-    const ret = await appClient.stringInTuple();
-    expect(ret.returnValue).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
+    expect(await runTests('stringInTuple')).to.deep.equal([BigInt(1), [BigInt(2)], s, [BigInt(3)]]);
   });
 
   it('accesStringInTuple', async function () {
     const s = 'Hello World!';
-    const ret = await appClient.accesStringInTuple();
-    expect(ret.returnValue).to.equal(s);
+    expect(await runTests('accesStringInTuple')).to.equal(s);
   });
 
   it('updateStringInTuple', async function () {
@@ -390,13 +357,11 @@ describe('ABI', function () {
       { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
     ];
 
-    const ret = await appClient.updateStringInTuple();
-    expect(ret.returnValue).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
+    expect(await runTests('updateStringInTuple')).to.deep.equal([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
   });
 
   it('updateTupleWithOnlyDynamicTypes', async function () {
-    const ret = await appClient.updateTupleWithOnlyDynamicTypes();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('updateTupleWithOnlyDynamicTypes')).to.deep.equal(
       [
         [BigInt(4), BigInt(5)],
         [BigInt(6), BigInt(7)],
@@ -405,8 +370,7 @@ describe('ABI', function () {
   });
 
   it('shortenDynamicElementInTuple', async function () {
-    const ret = await appClient.shortenDynamicElementInTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('shortenDynamicElementInTuple')).to.deep.equal(
       [
         [BigInt(5)],
         [BigInt(6)],
@@ -415,33 +379,29 @@ describe('ABI', function () {
   });
 
   it('namedTuple', async function () {
-    const ret = await appClient.namedTuple();
-    expect(ret.returnValue).to.equal('Hello World!');
+    expect(await runTests('namedTuple')).to.equal('Hello World!');
   });
 
   it('updateNamedTuple', async function () {
-    const ret = await appClient.updateNamedTuple();
-    expect(ret.returnValue).to.equal('Hello World!');
+    expect(await runTests('updateNamedTuple')).to.equal('Hello World!');
   });
 
   it('customTypes', async function () {
-    const ret = await appClient.customTypes();
-    expect(ret.returnValue).to.equal('Hello World!');
+    expect(await runTests('customTypes')).to.equal('Hello World!');
   });
 
   it('staticStringArrayArg', async function () {
-    const ret = await appClient.staticStringArrayArg({ a: ['Hello', 'World', '!'] });
-    expect(ret.returnValue).to.deep.equal('World');
+    const ret = await runTests('staticStringArrayArg', [['Hello', 'World', '!']]);
+    expect(ret).to.deep.equal('World');
   });
 
   it('dynamicAccessOfDynamicElementInStaticArray', async function () {
-    const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
-    expect(ret.returnValue).to.deep.equal('World');
+    const ret = await runTests('dynamicAccessOfDynamicElementInStaticArray', [['Hello', 'World', '!']]);
+    expect(ret).to.deep.equal('World');
   });
 
   it('dynamicArrayInMiddleOfTuple', async function () {
-    const ret = await appClient.dynamicArrayInMiddleOfTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('dynamicArrayInMiddleOfTuple')).to.deep.equal(
       [
         BigInt(1),
         [BigInt(2)],
@@ -451,22 +411,19 @@ describe('ABI', function () {
   });
 
   it('accessDynamicArrayInMiddleOfTuple', async function () {
-    const ret = await appClient.accessDynamicArrayInMiddleOfTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('accessDynamicArrayInMiddleOfTuple')).to.deep.equal(
       [BigInt(2)],
     );
   });
 
   it('accessDynamicArrayElementInTuple', async function () {
-    const ret = await appClient.accessDynamicArrayElementInTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('accessDynamicArrayElementInTuple')).to.deep.equal(
       BigInt(33),
     );
   });
 
   it('updateDynamicArrayInMiddleOfTuple', async function () {
-    const ret = await appClient.updateDynamicArrayInMiddleOfTuple();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('updateDynamicArrayInMiddleOfTuple')).to.deep.equal(
       [
         BigInt(1),
         [BigInt(4), BigInt(5)],
@@ -476,15 +433,11 @@ describe('ABI', function () {
   });
 
   it('nestedTuple', async function () {
-    const ret = await appClient.nestedTuple();
-    expect(ret.returnValue).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
+    expect(await runTests('nestedTuple')).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
   });
 
-  // updateDynamicElementInTupleWithSameLength
-
   it('updateDynamicElementInTupleWithSameLength', async function () {
-    const ret = await appClient.updateDynamicElementInTupleWithSameLength();
-    expect(ret.returnValue).to.deep.equal(
+    expect(await runTests('updateDynamicElementInTupleWithSameLength')).to.deep.equal(
       [
         1n,
         [10n, 11n, 12n],
@@ -496,7 +449,6 @@ describe('ABI', function () {
   });
 
   it('accessDynamicStringArray', async function () {
-    const ret = await appClient.accessDynamicStringArray();
-    expect(ret.returnValue).to.deep.equal('World');
+    expect(await runTests('accessDynamicStringArray')).to.deep.equal('World');
   });
 });

@@ -4,7 +4,11 @@
 
 import fs from 'fs';
 import { expect } from 'chai';
+import algosdk from 'algosdk';
 import Compiler from '../src/lib/compiler';
+
+export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
+export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
 
 export async function getMethodTeal(
   filename: string,

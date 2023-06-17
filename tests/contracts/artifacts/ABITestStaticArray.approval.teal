@@ -1,0 +1,71 @@
+#pragma version 8
+	b main
+
+abi_route_staticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub staticArray
+	int 1
+	return
+
+staticArray:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:11
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.algo.ts:13
+	// return a[1];
+	frame_dig -1 // a: uint64[3]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "staticArray()uint64"
+	txna ApplicationArgs 0
+	match abi_route_staticArray

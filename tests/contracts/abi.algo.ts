@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Contract } from '../../src/lib/index';
 
 type CustomType = {
@@ -5,8 +6,70 @@ type CustomType = {
   bar: string
 }
 
-// eslint-disable-next-line no-unused-vars
-class AbiTest extends Contract {
+class ABITestStaticArray extends Contract {
+  staticArray(): uint64 {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
+
+    return a[1];
+  }
+}
+
+class ABITestReturnStaticArray extends Contract {
+  returnStaticArray(): StaticArray<uint64, 3> {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
+
+    return a;
+  }
+}
+
+class ABITestStaticArrayArg extends Contract {
+  staticArrayArg(a: StaticArray<uint64, 3>): uint64 {
+    return a[1];
+  }
+}
+
+class ABITestNonLiteralStaticArrayElements extends Contract {
+  nonLiteralStaticArrayElements(): uint64 {
+    const n1 = 11;
+    const n2 = 22;
+    const n3 = 33;
+    const a: StaticArray<uint64, 3> = [n1, n2, n3];
+
+    return a[1];
+  }
+}
+
+class ABITestMixedStaticArrayElements extends Contract {
+  mixedStaticArrayElements(): uint64 {
+    const n1 = 3;
+    const n2 = 4;
+    const n3 = 5;
+    const a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
+
+    return a[1] + a[4] + a[7];
+  }
+}
+
+class ABITestNonLiteralStaticArrayAccess extends Contract {
+  nonLiteralStaticArrayAccess(): uint64 {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
+    const n = 2;
+
+    return a[n];
+  }
+}
+
+class ABITestSetStaticArrayElement extends Contract {
+  setStaticArrayElement(): uint64 {
+    const a: StaticArray<uint64, 3> = [11, 22, 33];
+
+    a[1] = 222;
+
+    return a[1];
+  }
+}
+
+class ABITestStaticArrayInStorageRef extends Contract {
   gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
 
   lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
@@ -19,61 +82,7 @@ class AbiTest extends Contract {
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
-  @handle.createApplication
-  create(): void {}
-
   @handle.optIn
-  optIn(): void {}
-
-  staticArray(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-
-    return a[1];
-  }
-
-  returnStaticArray(): StaticArray<uint64, 3> {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-
-    return a;
-  }
-
-  staticArrayArg(a: StaticArray<uint64, 3>): uint64 {
-    return a[1];
-  }
-
-  nonLiteralStaticArrayElements(): uint64 {
-    const n1 = 11;
-    const n2 = 22;
-    const n3 = 33;
-    const a: StaticArray<uint64, 3> = [n1, n2, n3];
-
-    return a[1];
-  }
-
-  mixedStaticArrayElements(): uint64 {
-    const n1 = 3;
-    const n2 = 4;
-    const n3 = 5;
-    const a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
-
-    return a[1] + a[4] + a[7];
-  }
-
-  nonLiteralStaticArrayAccess(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-    const n = 2;
-
-    return a[n];
-  }
-
-  setStaticArrayElement(): uint64 {
-    const a: StaticArray<uint64, 3> = [11, 22, 33];
-
-    a[1] = 222;
-
-    return a[1];
-  }
-
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -89,7 +98,22 @@ class AbiTest extends Contract {
 
     return ret;
   }
+}
 
+class ABITestUpdateStaticArrayInStorageRef extends Contract {
+  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+
+  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+
+  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+
+  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+
+  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+
+  @handle.optIn
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -109,7 +133,22 @@ class AbiTest extends Contract {
 
     return ret;
   }
+}
 
+class ABITestStaticArrayInStorageMap extends Contract {
+  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+
+  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+
+  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+
+  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+
+  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+
+  @handle.optIn
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -125,7 +164,22 @@ class AbiTest extends Contract {
 
     return ret;
   }
+}
 
+class ABITestUpdateStaticArrayInStorageMap extends Contract {
+  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+
+  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+
+  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+
+  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+
+  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+
+  @handle.optIn
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -145,13 +199,17 @@ class AbiTest extends Contract {
 
     return ret;
   }
+}
 
+class ABITestNestedStaticArray extends Contract {
   nestedStaticArray(): uint64 {
     const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
     return a[1][1];
   }
+}
 
+class ABITestUpdateNestedStaticArrayElement extends Contract {
   updateNestedStaticArrayElement(): uint64 {
     const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
@@ -159,7 +217,9 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+}
 
+class ABITestUpdateNestedStaticArray extends Contract {
   updateNestedStaticArray(): uint64 {
     const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
 
@@ -167,7 +227,9 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+}
 
+class ABITestThreeDimensionalUint16Array extends Contract {
   threeDimensionalUint16Array(): uint16 {
     const a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
       [[11, 22], [33, 44]], [[55, 66], [77, 88]],
@@ -177,13 +239,17 @@ class AbiTest extends Contract {
 
     return a[1][1][1];
   }
+}
 
+class ABITestSimpleTuple extends Contract {
   simpleTuple(): uint16 {
     const a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44];
 
     return a[3];
   }
+}
 
+class ABITestArrayInTuple extends Contract {
   arrayInTuple(): uint64 {
     const a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
       11, 22, [33, 44], 55,
@@ -191,7 +257,9 @@ class AbiTest extends Contract {
 
     return a[2][1];
   }
+}
 
+class ABITestTupleInArray extends Contract {
   tupleInArray(): uint16 {
     const a: StaticArray<[uint64, uint16], 2> = [
       [11, 22], [33, 44],
@@ -199,7 +267,9 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
+}
 
+class ABITestTupleInTuple extends Contract {
   tupleInTuple(): uint64 {
     const a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
       11, 22, [33, 44], [55, 66],
@@ -207,7 +277,9 @@ class AbiTest extends Contract {
 
     return a[3][1];
   }
+}
 
+class ABITestShortTypeNotation extends Contract {
   shortTypeNotation(): uint16 {
     const a: [uint16<2>, uint64<2>, uint16<2>] = [
       [11, 22], [33, 44], [55, 66],
@@ -215,7 +287,9 @@ class AbiTest extends Contract {
 
     return a[2][1];
   }
+}
 
+class ABITestDisgusting extends Contract {
   disgusting(): uint64 {
     const a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
       [[11, 22], 33, [44, 55], [[66, 77], [88, 99]]],
@@ -225,31 +299,43 @@ class AbiTest extends Contract {
     a[1][3][1] = [8888, 9999];
     return a[1][3][1][0]; // 8888
   }
+}
 
+class ABITestReturnTuple extends Contract {
   returnTuple(): [uint64, uint16, uint64] {
     const a: [uint64, uint16, uint64] = [11, 22, 33];
     return a;
   }
+}
 
+class ABITestTupleArg extends Contract {
   tupleArg(a: [uint64, uint16, uint64]): uint16 {
     return a[1];
   }
+}
 
+class ABITestDynamicArray extends Contract {
   dynamicArray(): uint64 {
     const a: uint64[] = [11, 22, 33];
 
     return a[1];
   }
+}
 
+class ABITestReturnDynamicArray extends Contract {
   returnDynamicArray(): uint64[] {
     const a: uint64[] = [11, 22, 33];
     return a;
   }
+}
 
+class ABITestDynamicArrayArg extends Contract {
   dynamicArrayArg(a: uint64[]): uint64 {
     return a[1];
   }
+}
 
+class ABITestUpdateDynamicArrayElement extends Contract {
   updateDynamicArrayElement(): uint64 {
     const a: uint64[] = [11, 22, 33];
 
@@ -257,25 +343,33 @@ class AbiTest extends Contract {
 
     return a[1];
   }
+}
 
+class ABITestDynamicTupleArray extends Contract {
   dynamicTupleArray(): uint64 {
     const a: [uint16, uint64][] = [[11, 22], [33, 44]];
 
     return a[1][1];
   }
+}
 
+class ABITestReturnTupleWithDyamicArray extends Contract {
   returnTupleWithDyamicArray(): [uint64, uint16, uint64[], uint16[]] {
     const a: [uint64, uint16, uint64[], uint16[]] = [1, 2, [3, 4], [5, 6]];
 
     return a;
   }
+}
 
+class ABITestReturnDynamicArrayFromTuple extends Contract {
   returnDynamicArrayFromTuple(): uint8[] {
     const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]];
 
     return a[4]; // [7, 8]
   }
+}
 
+class ABITestUpdateDynamicArrayInTuple extends Contract {
   updateDynamicArrayInTuple(): [uint8, uint16[], uint8[], uint16[], uint8[]] {
     const a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]];
 
@@ -287,14 +381,18 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestNonLiteralDynamicElementInTuple extends Contract {
   nonLiteralDynamicElementInTuple(): [uint8, uint16, uint8[], uint16[], uint8[]] {
     const e: uint16[] = [5, 6];
     const a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]];
 
     return a;
   }
+}
 
+class ABITestArrayPush extends Contract {
   arrayPush(): uint16[] {
     const a: uint16[] = [1, 2];
 
@@ -302,7 +400,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestArrayPop extends Contract {
   arrayPop(): uint16[] {
     const a: uint16[] = [1, 2, 3];
 
@@ -310,7 +410,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestArrayPopValue extends Contract {
   arrayPopValue(): uint16 {
     const a: uint16[] = [1, 2, 3];
 
@@ -318,7 +420,9 @@ class AbiTest extends Contract {
 
     return v;
   }
+}
 
+class ABITestArraySplice extends Contract {
   arraySplice(): uint64[] {
     const a: uint64[] = [1, 2, 3];
 
@@ -326,7 +430,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestArraySpliceValue extends Contract {
   arraySpliceValue(): uint16[] {
     const a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -336,14 +442,18 @@ class AbiTest extends Contract {
 
     return v;
   }
+}
 
+class ABITestDynamicArrayElements extends Contract {
   dynamicArrayElements(): uint16[] {
     const a: uint16[] = [1, 2, 3];
     const newA: uint16[] = [a[0], a[1], a[2]];
 
     return newA;
   }
+}
 
+class ABITestSpliceLastElement extends Contract {
   spliceLastElement(): uint16[] {
     const a: uint16[] = [1, 2, 3];
 
@@ -351,7 +461,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestSpliceLastElementValue extends Contract {
   spliceLastElementValue(): uint16[] {
     const a: uint16[] = [1, 2, 3];
 
@@ -359,7 +471,9 @@ class AbiTest extends Contract {
 
     return v;
   }
+}
 
+class ABITestSpliceFirstElement extends Contract {
   spliceFirstElement(): uint16[] {
     const a: uint16[] = [1, 2, 3];
 
@@ -367,7 +481,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestSpliceFirstElementValue extends Contract {
   spliceFirstElementValue(): uint16[] {
     const a: uint16[] = [1, 2, 3];
 
@@ -375,21 +491,29 @@ class AbiTest extends Contract {
 
     return v;
   }
+}
 
+class ABITestStringReturn extends Contract {
   stringReturn(): string {
     return 'Hello World!';
   }
+}
 
+class ABITestStringArg extends Contract {
   stringArg(s: string): void {
     assert(s === 'Hello World!');
   }
+}
 
+class ABITestStringInTuple extends Contract {
   stringInTuple(): [uint16, uint8[], string, uint8[]] {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
     return a;
   }
+}
 
+class ABITestAccesStringInTuple extends Contract {
   accesStringInTuple(): string {
     const a: [uint16, uint8[], string, uint8[]] = [1, [2], 'Hello World!', [3]];
 
@@ -397,7 +521,9 @@ class AbiTest extends Contract {
 
     return a[2];
   }
+}
 
+class ABITestUpdateStringInTuple extends Contract {
   updateStringInTuple(): [uint8, uint16[], string, uint16[], uint8[]] {
     const a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]];
 
@@ -409,7 +535,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestUpdateTupleWithOnlyDynamicTypes extends Contract {
   updateTupleWithOnlyDynamicTypes(): [uint16[], uint16[], uint16[]] {
     const a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]];
 
@@ -419,7 +547,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestShortenDynamicElementInTuple extends Contract {
   shortenDynamicElementInTuple(): [uint16[], uint16[], uint16[]] {
     const a: [uint16[], uint16[], uint16[]] = [[1, 2], [2, 3], [3, 4]];
 
@@ -429,7 +559,9 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
+class ABITestNamedTuple extends Contract {
   namedTuple(): string {
     const a: {
       foo: uint16,
@@ -441,7 +573,9 @@ class AbiTest extends Contract {
 
     return a.bar;
   }
+}
 
+class ABITestUpdateNamedTuple extends Contract {
   updateNamedTuple(): string {
     const a: {
       foo: uint16,
@@ -455,7 +589,9 @@ class AbiTest extends Contract {
 
     return a.bar;
   }
+}
 
+class ABITestCustomTypes extends Contract {
   customTypes(): string {
     const aa: CustomType = {
       foo: 1,
@@ -466,34 +602,46 @@ class AbiTest extends Contract {
 
     return aa.bar;
   }
+}
 
+class ABITestStaticStringArrayArg extends Contract {
   staticStringArrayArg(a: StaticArray<string, 3>): string {
     return a[1];
   }
+}
 
+class ABITestDynamicAccessOfDynamicElementInStaticArray extends Contract {
   dynamicAccessOfDynamicElementInStaticArray(a: StaticArray<string, 3>): string {
     const i = 1;
     return a[i];
   }
+}
 
+class ABITestDynamicArrayInMiddleOfTuple extends Contract {
   dynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
     return a;
   }
+}
 
+class ABITestAccessDynamicArrayInMiddleOfTuple extends Contract {
   accessDynamicArrayInMiddleOfTuple(): uint8[] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
     return a[1];
   }
+}
 
+class ABITestAccessDynamicArrayElementInTuple extends Contract {
   accessDynamicArrayElementInTuple(): uint32 {
     const a: [uint16, uint8[]] = [11, [22, 33, 44]];
 
     return a[1][1];
   }
+}
 
+class ABITestUpdateDynamicArrayInMiddleOfTuple extends Contract {
   updateDynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
 
@@ -501,8 +649,36 @@ class AbiTest extends Contract {
 
     return a;
   }
+}
 
-  /* TODO
+class ABITestNestedTuple extends Contract {
+  nestedTuple(): [uint16, [uint8, string], [uint16, string]] {
+    const a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']];
+
+    return a;
+  }
+}
+
+class ABITestUpdateDynamicElementInTupleWithSameLength extends Contract {
+  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16, uint8[], uint16] = [1, [2, 3, 4], 5, [6, 7, 8], 9];
+
+    a[1] = [10, 11, 12];
+
+    return a;
+  }
+}
+
+class ABITestAccessDynamicStringArray extends Contract {
+  accessDynamicStringArray(): string {
+    const a: string[] = ['Hello', 'World', '!'];
+
+    return a[1];
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+/* TODO
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -517,25 +693,4 @@ class AbiTest extends Contract {
     assert(at.sender === kr.sender);
     assert(p.sender === t.sender);
   }
-  */
-
-  nestedTuple(): [uint16, [uint8, string], [uint16, string]] {
-    const a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']];
-
-    return a;
-  }
-
-  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16, uint8[], uint16] {
-    const a: [uint16, uint8[], uint16, uint8[], uint16] = [1, [2, 3, 4], 5, [6, 7, 8], 9];
-
-    a[1] = [10, 11, 12];
-
-    return a;
-  }
-
-  accessDynamicStringArray(): string {
-    const a: string[] = ['Hello', 'World', '!'];
-
-    return a[1];
-  }
-}
+*/
