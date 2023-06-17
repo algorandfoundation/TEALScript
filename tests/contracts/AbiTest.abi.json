@@ -481,6 +481,15 @@
         "type": "(uint16,(uint8,string),(uint16,string))",
         "desc": ""
       }
+    },
+    {
+      "name": "updateDynamicElementInTupleWithSameLength",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,uint8[],uint16)",
+        "desc": ""
+      }
     }
   ]
 }

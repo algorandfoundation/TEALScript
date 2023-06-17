@@ -212,6 +212,9 @@ function isRefType(t: string): boolean {
 
 const scratch = {
   fullArray: '0 // full array',
+  elementStart: '1 // element start',
+  elementLength: '2 // element length',
+  newElement: '3 // new element',
   subtractHeadDifference: '7 // subtract head difference',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
@@ -227,8 +230,6 @@ export default class Compiler {
   generatedClearTeal: string = '';
 
   private customTypes: {[name: string] : string} = {};
-
-  private scratch: {[name: string] :{index: number; type: string}} = {};
 
   private frameIndex: number = 0;
 
@@ -1709,6 +1710,13 @@ export default class Compiler {
         'extract_uint16',
       );
 
+      if (newValue) {
+        this.pushLines(
+          'dup',
+          `store ${scratch.elementStart}`,
+        );
+      }
+
       this.pushLines(
         'dup // duplicate start of element',
         `load ${scratch.fullArray}`,
@@ -1718,16 +1726,42 @@ export default class Compiler {
         '* // multiply by type length',
         'int 2',
         '+ // add two for length',
-        'extract3',
       );
+
+      this.pushVoid(newValue ? `store ${scratch.elementLength}` : 'extract3');
     }
 
     if (newValue) {
       if (this.isDynamicType(element.type)) {
-        /* TODO
+        // Get pre element
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          'int 0',
+          `load ${scratch.elementStart}`,
+          'substring3',
+        );
 
-        this.updateDynamicTupleElement(elementType, newValue, dynamicHeads, accessor);
-        */
+        // Get new element
+        this.processNode(newValue);
+        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        if (['bytes', 'string'].includes(this.lastType)) {
+          this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
+        }
+        this.pushLines('dup', `store ${scratch.newElement}`);
+
+        // Get post element
+        this.pushLines(
+          `load ${scratch.fullArray}`,
+          `load ${scratch.elementStart}`,
+          `load ${scratch.elementLength}`,
+          '+ // get end of Element',
+          `load ${scratch.fullArray}`,
+          'len',
+          'substring3',
+        );
+
+        // Concatenate
+        this.pushLines('concat', 'concat');
       } else {
         this.pushLines(
           `load ${scratch.fullArray}`,

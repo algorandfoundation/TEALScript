@@ -490,4 +490,17 @@ describe.only('ABI', function () {
     const ret = await appClient.nestedTuple();
     expect(ret.returnValue).to.deep.equal([11n, [22n, 'foo'], [33n, 'bar']]);
   });
+
+  // updateDynamicElementInTupleWithSameLength
+
+  it('updateDynamicElementInTupleWithSameLength', async function () {
+    const ret = await appClient.updateDynamicElementInTupleWithSameLength();
+    expect(ret.returnValue).to.deep.equal(
+      [
+        1n,
+        [6n, 7n, 8n],
+        5n,
+      ],
+    );
+  });
 });

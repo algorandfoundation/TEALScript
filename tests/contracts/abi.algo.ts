@@ -534,4 +534,12 @@ class AbiTest extends Contract {
 
     return a;
   }
+
+  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16] = [1, [2, 3, 4], 5];
+
+    a[1] = [6, 7, 8];
+
+    return a;
+  }
 }
