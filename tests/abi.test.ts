@@ -473,7 +473,6 @@ describe.only('ABI', function () {
     );
   });
 
-  /*
   it('updateDynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.updateDynamicArrayInMiddleOfTuple();
     expect(ret.returnValue).to.deep.equal(
@@ -484,7 +483,6 @@ describe.only('ABI', function () {
       ],
     );
   });
-  */
 
   it('nestedTuple', async function () {
     const ret = await appClient.nestedTuple();
@@ -498,8 +496,10 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.deep.equal(
       [
         1n,
-        [6n, 7n, 8n],
+        [10n, 11n, 12n],
         5n,
+        [6n, 7n, 8n],
+        9n,
       ],
     );
   });

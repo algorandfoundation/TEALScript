@@ -503,7 +503,6 @@ class AbiTest extends Contract {
 
     return a[1][1];
   }
-  /* TODO
 
   updateDynamicArrayInMiddleOfTuple(): [uint16, uint8[], uint16] {
     const a: [uint16, uint8[], uint16] = [1, [2], 3];
@@ -513,6 +512,7 @@ class AbiTest extends Contract {
     return a;
   }
 
+  /* TODO
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -535,10 +535,10 @@ class AbiTest extends Contract {
     return a;
   }
 
-  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16] {
-    const a: [uint16, uint8[], uint16] = [1, [2, 3, 4], 5];
+  updateDynamicElementInTupleWithSameLength(): [uint16, uint8[], uint16, uint8[], uint16] {
+    const a: [uint16, uint8[], uint16, uint8[], uint16] = [1, [2, 3, 4], 5, [6, 7, 8], 9];
 
-    a[1] = [6, 7, 8];
+    a[1] = [10, 11, 12];
 
     return a;
   }

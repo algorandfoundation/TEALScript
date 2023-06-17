@@ -7,15 +7,15 @@ import * as langspec from '../langspec.json';
 
 // eslint-disable-next-line no-use-before-define
 class TupleElement extends Array<TupleElement> {
-  type: string;
+  type!: string;
 
-  headOffset: number;
+  headOffset!: number;
 
   arrayType: 'tuple' | 'dynamic' | 'static' | undefined;
 
   staticLength: number = 0;
 
-  id: number;
+  id!: number;
 
   // eslint-disable-next-line no-use-before-define
   parent?: TupleElement;
@@ -24,6 +24,8 @@ class TupleElement extends Array<TupleElement> {
 
   constructor(type: string, headOffset: number) {
     super();
+
+    if (typeof type === 'number') return;
 
     this.id = TupleElement.idCounter;
     this.type = type;
@@ -215,6 +217,8 @@ const scratch = {
   elementStart: '1 // element start',
   elementLength: '2 // element length',
   newElement: '3 // new element',
+  elementHeadOffset: '4 // element head offset',
+  lengthDifference: '5 // length difference',
   subtractHeadDifference: '7 // subtract head difference',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
@@ -1514,6 +1518,36 @@ export default class Compiler {
       '- // get length difference',
       'retsub',
     ],
+
+    get_length_difference: () => [
+      'get_length_difference:',
+      // Get new element length
+      `load ${scratch.newElement}`,
+      'len // length of new element',
+      `load ${scratch.elementLength}`,
+      '<',
+
+      'bnz swapped_difference',
+      `load ${scratch.newElement}`,
+      'len // length of new element',
+      `load ${scratch.elementLength}`,
+      'int 1',
+      `store ${scratch.subtractHeadDifference}`,
+      'b get_difference',
+
+      'swapped_difference:',
+      `load ${scratch.elementLength}`,
+      `load ${scratch.newElement}`,
+      'len // length of new element',
+      'int 0',
+      `store ${scratch.subtractHeadDifference}`,
+
+      'get_difference:',
+      '- // get length difference',
+      `store ${scratch.lengthDifference}`,
+      'retsub',
+    ],
+
   };
 
   private updateDynamicTupleElement(
@@ -1703,6 +1737,13 @@ export default class Compiler {
         throw new Error(`Cannot access nested dynamic array element: ${element.type}`);
       }
 
+      if (newValue) {
+        this.pushLines(
+          'dup',
+          `store ${scratch.elementHeadOffset}`,
+        );
+      }
+
       this.pushLines(
         `load ${scratch.fullArray}`,
         `load ${scratch.fullArray}`,
@@ -1760,8 +1801,31 @@ export default class Compiler {
           'substring3',
         );
 
-        // Concatenate
-        this.pushLines('concat', 'concat');
+        // Form new tuple
+        this.pushLines('concat', 'concat', `store ${scratch.fullArray}`);
+
+        // Get length difference
+        this.pushLines('callsub get_length_difference');
+
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+
+        const nextDynamicSiblings = element.parent!
+          .slice(elementIndex + 1)
+          .filter((e) => this.isDynamicType(e.type));
+
+        const headDiffs = nextDynamicSiblings.map((e) => e.headOffset - element.headOffset);
+
+        headDiffs.forEach((diff) => {
+          this.pushLines(
+            `load ${scratch.lengthDifference}`,
+            `load ${scratch.elementHeadOffset}`,
+            `int ${diff}`,
+            '+ // head ofset',
+            'callsub update_dynamic_head',
+          );
+        });
+
+        this.pushVoid(`load ${scratch.fullArray}`);
       } else {
         this.pushLines(
           `load ${scratch.fullArray}`,

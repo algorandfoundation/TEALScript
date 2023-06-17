@@ -474,6 +474,15 @@
       }
     },
     {
+      "name": "updateDynamicArrayInMiddleOfTuple",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint16,uint8[],uint16)",
+        "desc": ""
+      }
+    },
+    {
       "name": "nestedTuple",
       "args": [],
       "desc": "",
@@ -487,7 +496,7 @@
       "args": [],
       "desc": "",
       "returns": {
-        "type": "(uint16,uint8[],uint16)",
+        "type": "(uint16,uint8[],uint16,uint8[],uint16)",
         "desc": ""
       }
     }
