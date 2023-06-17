@@ -1608,14 +1608,15 @@ export default class Compiler {
     );
   }
 
-  private getElementHead(topLevelTuple: TupleElement, accessors: number[]) {
+  private getElementHead(topLevelTuple: TupleElement, accessors: ts.Expression[]) {
     let previousTupleElement = topLevelTuple;
 
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
-      if (Number.isNaN(acc)) throw Error('TODO: Implement non-literal access');
+      const accNumber = parseInt(acc.getText(), 10);
 
-      const elem: TupleElement = previousTupleElement[acc] || previousTupleElement[0];
+      const elem: TupleElement = Number.isNaN(accNumber)
+        ? previousTupleElement[0] : previousTupleElement[accNumber] || previousTupleElement[0];
 
       // Element in tuple
       if (previousTupleElement.arrayType === 'tuple') {
@@ -1625,14 +1626,21 @@ export default class Compiler {
         );
       // Dynamic element in static or dynamic array
       } else if (this.isDynamicType(elem.type)) {
+        this.processNode(acc);
         this.pushLines(
-          `int ${acc * 2} // acc * 2`,
+          // `int ${accNumber * 2} // acc * 2`,
+          'int 2',
+          '* // acc * 2',
           '+',
         );
       // Static element in array
       } else {
+        this.processNode(acc);
+
         this.pushLines(
-          `int ${acc * this.getTypeLength(elem.type)} // acc * typeLength`,
+          // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
+          `int ${this.getTypeLength(elem.type)}`,
+          '* // acc * typeLength',
           '+',
         );
       }
@@ -1726,7 +1734,7 @@ export default class Compiler {
 
     const topLevelTuple = this.getTupleElement(parentType);
 
-    const accessors = chain.map((e) => parseInt(e.argumentExpression.getText(), 10));
+    const accessors = chain.map((e) => e.argumentExpression);
 
     const element = this.getElementHead(topLevelTuple, accessors);
 

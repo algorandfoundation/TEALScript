@@ -135,12 +135,10 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.equal(BigInt(1 + 4 + 7));
   });
 
-  /* TODO
   it('nonLiteralStaticArrayAccess', async function () {
     const ret = await appClient.nonLiteralStaticArrayAccess();
     expect(ret.returnValue).to.equal(BigInt(33));
   });
-  */
 
   it('setStaticArrayElement', async function () {
     const ret = await appClient.setStaticArrayElement();
@@ -436,12 +434,10 @@ describe.only('ABI', function () {
     expect(ret.returnValue).to.deep.equal('World');
   });
 
-  /*
   it('dynamicAccessOfDynamicElementInStaticArray', async function () {
     const ret = await appClient.dynamicAccessOfDynamicElementInStaticArray({ a: ['Hello', 'World', '!'] });
     expect(ret.returnValue).to.deep.equal('World');
   });
-  */
 
   it('dynamicArrayInMiddleOfTuple', async function () {
     const ret = await appClient.dynamicArrayInMiddleOfTuple();

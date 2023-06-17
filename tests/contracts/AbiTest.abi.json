@@ -54,6 +54,15 @@
       }
     },
     {
+      "name": "nonLiteralStaticArrayAccess",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
       "name": "setStaticArrayElement",
       "args": [],
       "desc": "",
@@ -487,6 +496,21 @@
     },
     {
       "name": "staticStringArrayArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[3]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "dynamicAccessOfDynamicElementInStaticArray",
       "args": [
         {
           "name": "a",
