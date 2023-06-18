@@ -85,7 +85,7 @@ artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/artifac
 */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function runTests(name: string, methodArgs: any[] = []) {
+async function runTests(name: string, methodArgs: any[] = [], skipCall: boolean = false) {
   const className = `ABITest${name.charAt(0).toUpperCase() + name.slice(1)}`;
 
   const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
@@ -112,6 +112,8 @@ async function runTests(name: string, methodArgs: any[] = []) {
   );
 
   await appClient.create({ sendParams: { suppressLog: true } });
+
+  if (skipCall) return undefined;
 
   const params = {
     method: name,
@@ -450,5 +452,9 @@ describe('ABI', function () {
 
   test.concurrent('accessDynamicStringArray', async function () {
     expect(await runTests('accessDynamicStringArray')).toEqual('World');
+  });
+
+  test.concurrent('txnTypes', async function () {
+    await runTests('txnTypes', [], true);
   });
 });

@@ -1,0 +1,95 @@
+#pragma version 8
+	b main
+
+abi_route_txnTypes:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	txn GroupIndex
+	int 1
+	-
+	txn GroupIndex
+	int 2
+	-
+	txn GroupIndex
+	int 3
+	-
+	txn GroupIndex
+	int 4
+	-
+	txn GroupIndex
+	int 5
+	-
+	txn GroupIndex
+	int 6
+	-
+	txn GroupIndex
+	int 7
+	-
+	callsub txnTypes
+	int 1
+	return
+
+txnTypes:
+	proto 7 0
+
+	// tests/contracts/abi.algo.ts:690
+	// assert(t.sender === a.sender)
+	frame_dig -1 // t: txn
+	gtxns Sender
+	frame_dig -2 // a: appl
+	gtxns Sender
+	==
+	assert
+
+	// tests/contracts/abi.algo.ts:691
+	// assert(ac.sender === af.sender)
+	frame_dig -3 // ac: acfg
+	gtxns Sender
+	frame_dig -4 // af: afrz
+	gtxns Sender
+	==
+	assert
+
+	// tests/contracts/abi.algo.ts:692
+	// assert(at.sender === kr.sender)
+	frame_dig -5 // at: axfer
+	gtxns Sender
+	frame_dig -6 // kr: keyreg
+	gtxns Sender
+	==
+	assert
+
+	// tests/contracts/abi.algo.ts:693
+	// assert(p.sender === t.sender)
+	frame_dig -7 // p: pay
+	gtxns Sender
+	frame_dig -1 // t: txn
+	gtxns Sender
+	==
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void"
+	txna ApplicationArgs 0
+	match abi_route_txnTypes

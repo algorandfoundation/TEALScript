@@ -677,8 +677,7 @@ class ABITestAccessDynamicStringArray extends Contract {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-/* TODO
+class ABITestTxnTypes extends Contract {
   txnTypes(
     t: Txn,
     a: AppCallTxn,
@@ -693,4 +692,4 @@ class ABITestAccessDynamicStringArray extends Contract {
     assert(at.sender === kr.sender);
     assert(p.sender === t.sender);
   }
-*/
+}
