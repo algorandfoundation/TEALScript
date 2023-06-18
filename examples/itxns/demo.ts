@@ -1,50 +1,42 @@
 /* eslint-disable no-console */
 
-import { AtomicTransactionComposer } from 'algosdk';
-import * as bkr from 'beaker-ts';
 import * as algosdk from 'algosdk';
-import { FactoryCaller } from './beaker-client/factorycaller_client';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { FactoryCallerClient } from './FactoryCallerClient';
 
 (async () => {
-  const client = bkr.clients.sandboxAlgod();
-  const account = (await bkr.sandbox.getAccounts())[0];
+  const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+  const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
+  const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-  const factoryCaller = new FactoryCaller({
-    client,
-    sender: account.addr,
-    signer: account.signer,
-  });
+  const factoryCaller = new FactoryCallerClient(
+    {
+      sender,
+      resolveBy: 'id',
+      id: 0,
+    },
+    algodClient,
+  );
 
-  await factoryCaller.create();
+  const { appAddress } = await factoryCaller.appClient.create();
 
-  const atc = new AtomicTransactionComposer();
-  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    suggestedParams: await factoryCaller.getSuggestedParams(),
-    from: account.addr,
-    to: factoryCaller.appAddress,
-    amount: 500_000,
-  });
+  await factoryCaller.appClient.fundAppAccount(algokit.microAlgos(500_000));
 
-  atc.addTransaction({ txn, signer: account.signer });
+  const asset = Number((await factoryCaller.mintAndGetAsset(
+    {},
+    {
+      sendParams: { fee: algokit.microAlgos(8_000) },
+    },
+  )).return?.valueOf());
 
-  await atc.execute(factoryCaller.client, 3);
-
-  const sp = await factoryCaller.getSuggestedParams();
-  sp.fee = 8_000;
-  sp.flatFee = true;
-
-  const asset = (await factoryCaller.mintAndGetAsset({
-    suggestedParams: sp,
-  })).returnValue;
-
-  const assetHolding = await factoryCaller.client.accountAssetInformation(
-    factoryCaller.appAddress,
-    asset!.valueOf() as number,
+  const assetHolding = await algodClient.accountAssetInformation(
+    appAddress,
+    asset,
   ).do();
 
   console.log(`factoryCaller asset holding: ${JSON.stringify(assetHolding)}`);
 
-  const assetInfo = await factoryCaller.client.getAssetByID(asset!.valueOf() as number).do();
+  const assetInfo = await algodClient.getAssetByID(asset).do();
 
   console.log(`Asset info: ${JSON.stringify(assetInfo)}`);
 })();

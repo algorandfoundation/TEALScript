@@ -4,39 +4,46 @@
 import {
   expect, test, describe, beforeAll, beforeEach,
 } from '@jest/globals';
-import { sandbox, clients } from 'beaker-ts';
 import algosdk from 'algosdk';
-import { ARC75 } from './arc75_client';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { Arc75Client } from './ARC75Client';
 
-let appClient: ARC75;
+let arc75: Arc75Client;
 const ARC = 'ARCX';
+let senderAddr: string;
+let appId: number | bigint;
+let appAddress: string;
+let signer: algosdk.TransactionSigner;
+
+const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
 function getBoxRef(boxIndex: number, arc: string) {
   const keyType = algosdk.ABIType.from('(address,uint16,string)');
 
   return {
     appIndex: 0,
-    name: keyType.encode([appClient.sender, BigInt(boxIndex), arc]),
+    name: keyType.encode([senderAddr, BigInt(boxIndex), arc]),
   };
 }
 
 async function getBoxValue(boxIndex: number, arc: string) {
   const valueType = algosdk.ABIType.from('uint64[]');
-  return valueType.decode(await appClient.getApplicationBox(getBoxRef(boxIndex, arc).name));
+  return valueType.decode(await arc75.appClient.getBoxValue(getBoxRef(boxIndex, arc).name));
 }
 
 async function addApp(mbr: number, boxIndex: number, appID: number, arc: string) {
   const payment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    from: appClient.sender,
-    to: appClient.appAddress,
+    from: senderAddr,
+    to: appAddress,
     amount: mbr,
-    suggestedParams: await clients.sandboxAlgod().getTransactionParams().do(),
+    suggestedParams: await algodClient.getTransactionParams().do(),
   });
 
-  await appClient.addAppToWhiteList(
+  await arc75.addAppToWhiteList(
     {
       arc: ARC,
-      boxIndex: BigInt(boxIndex),
+      boxIndex,
       appID: BigInt(appID),
       payment,
     },
@@ -47,57 +54,69 @@ async function addApp(mbr: number, boxIndex: number, appID: number, arc: string)
 }
 
 async function setApps(mbr: number, boxIndex: number, appIDs: number[]) {
-  const suggestedParams = await appClient.client.getTransactionParams().do();
+  const suggestedParams = await algodClient.getTransactionParams().do();
   const atc = new algosdk.AtomicTransactionComposer();
 
   if (mbr) {
     const payment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      from: appClient.sender,
-      to: appClient.appAddress,
+      from: senderAddr,
+      to: appAddress,
       amount: mbr,
       suggestedParams,
     });
 
-    atc.addTransaction({ txn: payment, signer: appClient.signer });
+    atc.addTransaction({ txn: payment, signer });
   }
 
   const sp = { ...suggestedParams, fee: 2_000, flatFee: true };
   atc.addMethodCall({
-    appID: appClient.appId,
-    method: algosdk.getMethodByName(appClient.methods, 'setAppWhitelist'),
+    appID: Number(appId),
+    method: arc75.appClient.getABIMethod('setAppWhitelist')!,
     methodArgs: [ARC, BigInt(boxIndex), appIDs.map((c) => BigInt(c))],
-    sender: appClient.sender,
-    signer: appClient.signer,
+    sender: senderAddr,
+    signer,
     suggestedParams: sp,
     boxes: [getBoxRef(boxIndex, ARC)],
   });
 
-  await atc.execute(appClient.client, 3);
+  await atc.execute(algodClient, 3);
 }
 
 let id = 0;
 
 describe('ARC75', function () {
   beforeAll(async function () {
-    const acct = (await sandbox.getAccounts()).pop()!;
+    const acct = algosdk.generateAccount();
 
-    appClient = new ARC75({
-      client: clients.sandboxAlgod(),
-      signer: acct.signer,
-      sender: acct.addr,
-    });
+    await algokit.ensureFunded(
+      { accountToFund: acct, minSpendingBalance: algokit.microAlgos(1_000_000) },
+      algodClient,
+      kmdClient,
+    );
+    senderAddr = acct.addr;
 
-    await appClient.create();
+    signer = algosdk.makeBasicAccountTransactionSigner(acct);
+
+    arc75 = new Arc75Client(
+      {
+        sender: { signer, addr: acct.addr },
+        resolveBy: 'id',
+        id: 0,
+      },
+      algodClient,
+    );
+
+    ({ appAddress, appId } = await arc75.appClient.create());
 
     const atc = new algosdk.AtomicTransactionComposer();
     const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: acct.addr,
-      to: appClient.appAddress,
+      to: appAddress,
       amount: 100_000,
-      suggestedParams: await clients.sandboxAlgod().getTransactionParams().do(),
+      suggestedParams: await algodClient.getTransactionParams().do(),
     });
-    atc.addTransaction({ txn, signer: acct.signer });
-    await atc.execute(clients.sandboxAlgod(), 3);
+    atc.addTransaction({ txn, signer });
+    await atc.execute(algodClient, 3);
   });
 
   beforeEach(function () {
@@ -135,47 +154,39 @@ describe('ARC75', function () {
   test('removeWithSet', async function () {
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
-    /*
     const preBalance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
-    */
 
     await setApps(0, id, [44]);
 
-    /*
     const balance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
-    */
 
     const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).toEqual([BigInt(44)]);
-    // TODO: use new account to prevent balance race conditions
-    // expect(balance - preBalance).toEqual(3200 * 2 - 2_000);
+
+    expect(balance - preBalance).toEqual(3200 * 2 - 2_000);
   });
 
   test('deleteWhitelist', async function () {
     const preBalance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
 
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
-    await appClient.deleteWhitelist(
-      { arc: ARC, boxIndex: BigInt(id) },
+    await arc75.deleteWhitelist(
+      { arc: ARC, boxIndex: id },
       {
         boxes: [getBoxRef(id, ARC)],
-        suggestedParams: {
-          ...(await appClient.client.getTransactionParams().do()),
-          fee: 2_000,
-          flatFee: true,
-        },
+        sendParams: { fee: algokit.microAlgos(2_000) },
       },
     );
 
     const balance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
 
     expect(preBalance - balance).toEqual(5_000);
@@ -185,25 +196,21 @@ describe('ARC75', function () {
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
     const preBalance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
 
-    await appClient.deleteAppFromWhitelist(
+    await arc75.deleteAppFromWhitelist(
       {
-        arc: ARC, boxIndex: BigInt(id), appID: BigInt(22), index: BigInt(1),
+        arc: ARC, boxIndex: id, appID: BigInt(22), index: BigInt(1),
       },
       {
         boxes: [getBoxRef(id, ARC)],
-        suggestedParams: {
-          ...(await appClient.client.getTransactionParams().do()),
-          fee: 2_000,
-          flatFee: true,
-        },
+        sendParams: { fee: algokit.microAlgos(2_000) },
       },
     );
 
     const balance = (
-      await clients.sandboxAlgod().accountInformation(appClient.sender).do()
+      await algodClient.accountInformation(senderAddr).do()
     ).amount;
 
     const boxValue = await getBoxValue(id, ARC);
