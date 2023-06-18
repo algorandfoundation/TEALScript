@@ -42,13 +42,13 @@
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples"
   },
   "dependencies": {
-    "@algorandfoundation/algokit-utils": "^2.1.0",
-    "algosdk": "^2.4.0",
     "node-fetch": "2",
     "typescript": "^4.9.3",
     "vlq": "^2.0.4"
   },
   "devDependencies": {
+    "algosdk": "^2.4.0",
+    "@algorandfoundation/algokit-utils": "^2.1.0",
     "@jest/globals": "^29.5.0",
     "@knodes/typedoc-plugin-pages": "^0.23.1",
     "@types/node": "^18.11.9",
