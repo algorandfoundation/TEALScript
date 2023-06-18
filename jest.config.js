@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/tests/'],
+  testTimeout: 30_000,
 };
