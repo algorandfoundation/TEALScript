@@ -13,7 +13,6 @@
   },
   "scripts": {
     "simple-gen-artifacts": "ts-node src/bin/tealscript.ts examples/simple/simple.ts examples/simple/artifacts/",
-    "simple-gen-client": "npx beaker-ts -- generate examples/simple/artifacts/Simple.json examples/simple/",
     "simple-gen": "yarn simple-gen-artifacts && yarn simple-gen-client && yarn fix",
     "simple-run": "npx tsx examples/simple/index.ts",
     "simple": "yarn simple-gen && yarn simple-run",
@@ -23,7 +22,6 @@
     "docs": "typedoc",
     "prepack": "tsc",
     "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f tests/contracts/artifacts; done",
-    "generate-test-clients": "contracts=(AbiTest LoopsTest); for c in ${contracts[@]}; do npx beaker-ts generate tests/contracts/$c.json tests/contracts/clients/; done",
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
     "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
     "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.algo.ts",
@@ -47,7 +45,6 @@
     "vlq": "^2.0.4"
   },
   "devDependencies": {
-    "algosdk": "^2.4.0",
     "@algorandfoundation/algokit-utils": "^2.1.0",
     "@jest/globals": "^29.5.0",
     "@knodes/typedoc-plugin-pages": "^0.23.1",
@@ -55,7 +52,7 @@
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
-    "beaker-ts": "0.0.70",
+    "algosdk": "^2.4.0",
     "eslint": "^8.37.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",

@@ -9,13 +9,14 @@ import Compiler from '../src/lib/compiler';
 
 export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
 export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
 export async function getMethodTeal(
   filename: string,
   className: string,
   methodName: string,
 ): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className);
+  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, '', true);
   await compiler.compile();
   const { teal } = compiler;
 
@@ -35,7 +36,7 @@ export function artifactsTest(
   className: string,
 ) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, sourcePath);
+  const compiler = new Compiler(content, className, sourcePath, true);
   describe(`${testName} ${className} Artifacts`, () => {
     beforeAll(async () => {
       await compiler.compile();

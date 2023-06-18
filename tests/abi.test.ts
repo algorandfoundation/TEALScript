@@ -1,11 +1,10 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { sandbox } from 'beaker-ts';
 import fs from 'fs';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import path from 'path';
 import { describe, test, expect } from '@jest/globals';
-import { algodClient } from './common';
+import { algodClient, kmdClient } from './common';
 import Compiler from '../src/lib/compiler';
 
 const ARTIFACTS_PATH = path.join(__dirname, 'contracts', 'artifacts');
@@ -89,11 +88,11 @@ artifactsTest('AbiTest', 'tests/contracts/abi.algo.ts', 'tests/contracts/artifac
 async function runTests(name: string, methodArgs: any[] = []) {
   const className = `ABITest${name.charAt(0).toUpperCase() + name.slice(1)}`;
 
-  const sender = (await sandbox.getAccounts()).pop()!;
+  const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
   const sourcePath = path.join('tests', 'contracts', 'abi.algo.ts');
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, sourcePath);
+  const compiler = new Compiler(content, className, sourcePath, true);
   await compiler.compile();
   await compiler.algodCompile();
 
