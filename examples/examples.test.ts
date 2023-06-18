@@ -1,8 +1,7 @@
-/* eslint-disable mocha/max-top-level-suites */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { artifactsTest } from './common';
+import { artifactsTest } from '../tests/common';
 
 artifactsTest('AMM', 'examples/amm/amm.algo.ts', 'examples/amm/tealscript_artifacts/', 'ConstantProductAMM');
 

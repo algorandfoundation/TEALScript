@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
+import { expect, test, describe } from '@jest/globals';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { getMethodTeal, artifactsTest } from './common';
 
@@ -11,9 +11,9 @@ async function getTeal(methodName: string) {
 artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
 
 describe('If', function () {
-  it('singleIf', async function () {
+  test('singleIf', async function () {
     const teal = await getTeal('singleIf');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if0_condition',
         '// assert(1)',
@@ -29,9 +29,9 @@ describe('If', function () {
     );
   });
 
-  it('ifElse', async function () {
+  test('ifElse', async function () {
     const teal = await getTeal('ifElse');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if1_condition',
         '// assert(1)',
@@ -52,9 +52,9 @@ describe('If', function () {
     );
   });
 
-  it('ifElseIf', async function () {
+  test('ifElseIf', async function () {
     const teal = await getTeal('ifElseIf');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if2_condition',
         '// assert(1)',
@@ -80,9 +80,9 @@ describe('If', function () {
     );
   });
 
-  it('ifElseIfElse', async function () {
+  test('ifElseIfElse', async function () {
     const teal = await getTeal('ifElseIfElse');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if3_condition',
         '// assert(1)',
@@ -113,9 +113,9 @@ describe('If', function () {
     );
   });
 
-  it('ifElseIfElseIf', async function () {
+  test('ifElseIfElseIf', async function () {
     const teal = await getTeal('ifElseIfElseIf');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if4_condition',
         '// assert(1)',
@@ -151,9 +151,9 @@ describe('If', function () {
     );
   });
 
-  it('ifElseIfElseIfElse', async function () {
+  test('ifElseIfElseIfElse', async function () {
     const teal = await getTeal('ifElseIfElseIfElse');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// if5_condition',
         '// assert(1)',

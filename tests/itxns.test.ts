@@ -1,4 +1,3 @@
-/* eslint-disable mocha/max-top-level-suites */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */

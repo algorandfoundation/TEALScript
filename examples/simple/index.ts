@@ -32,5 +32,5 @@ import { Simple as Client } from './simple_client';
   // TODO: Make this actual test
   if (
     counter !== 3 || addResult.value !== 123n + 456n || subResult.value !== 5n - 3n
-  ) process.exit(1);
+  ) process.extest(1);
 }());

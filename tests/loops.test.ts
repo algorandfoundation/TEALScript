@@ -1,6 +1,8 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
+import {
+  expect, describe, test, beforeAll,
+} from '@jest/globals';
 import { sandbox, clients } from 'beaker-ts';
 import { LoopsTest } from './contracts/clients/loopstest_client';
 import { artifactsTest } from './common';
@@ -10,7 +12,7 @@ let appClient: LoopsTest;
 artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
 
 describe('LoopsTest', function () {
-  before(async function () {
+  beforeAll(async function () {
     const acct = (await sandbox.getAccounts()).pop()!;
 
     appClient = new LoopsTest({
@@ -22,13 +24,13 @@ describe('LoopsTest', function () {
     await appClient.create();
   });
 
-  it('whileLoop', async function () {
+  test('whileLoop', async function () {
     const ret = await appClient.whileLoop();
-    expect(ret.returnValue).to.equal(BigInt(10));
+    expect(ret.returnValue).toEqual(BigInt(10));
   });
 
-  it('forLoop', async function () {
+  test('forLoop', async function () {
     const ret = await appClient.forLoop();
-    expect(ret.returnValue).to.equal(BigInt(10));
+    expect(ret.returnValue).toEqual(BigInt(10));
   });
 });
