@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+import { describe, test, expect } from '@jest/globals';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
@@ -34,9 +33,8 @@ const ops: {[type: string]: {[method: string]: string}} = {
 ['global', 'local', 'box'].forEach((storageType) => {
   ['Ref', 'Map'].forEach((storageClass) => {
     describe(`${storageType}${storageClass}`, function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
       ['Put', 'Get', 'Delete', 'Exists'].forEach((method) => {
-        it(`${storageType}${storageClass}${method}`, async function () {
+        test(`${storageType}${storageClass}${method}`, async function () {
           const teal = await getTeal(`${storageType}${storageClass}${method}`);
           const expectedTeal: string[] = [];
 
@@ -64,7 +62,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
             expectedTeal.push('assert');
           }
 
-          expect(teal.slice(1)).to.deep.equal(expectedTeal);
+          expect(teal.slice(1)).toEqual(expectedTeal);
         });
       });
     });

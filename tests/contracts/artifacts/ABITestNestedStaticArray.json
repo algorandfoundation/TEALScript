@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "nestedStaticArray()uint64": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX25lc3RlZFN0YXRpY0FycmF5OgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CglieXRlIDB4CgljYWxsc3ViIG5lc3RlZFN0YXRpY0FycmF5CglpbnQgMQoJcmV0dXJuCgpuZXN0ZWRTdGF0aWNBcnJheToKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czoyMDYKCS8vIGE6IFN0YXRpY0FycmF5PFN0YXRpY0FycmF5PHVpbnQ2NCwgMz4sIDM+ID0gW1sxMSwgMjIsIDMzXSwgWzQ0LCA1NSwgNjZdLCBbNzcsIDg4LCA5OV1dCglpbnQgMTEKCWl0b2IKCWludCAyMgoJaXRvYgoJY29uY2F0CglpbnQgMzMKCWl0b2IKCWNvbmNhdAoJaW50IDQ0CglpdG9iCglpbnQgNTUKCWl0b2IKCWNvbmNhdAoJaW50IDY2CglpdG9iCgljb25jYXQKCWNvbmNhdAoJaW50IDc3CglpdG9iCglpbnQgODgKCWl0b2IKCWNvbmNhdAoJaW50IDk5CglpdG9iCgljb25jYXQKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMSAvLyBhOiB1aW50NjRbM11bM10KCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6MjA4CgkvLyByZXR1cm4gYVsxXVsxXTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjRbM11bM10KCXN0b3JlIDAgLy8gZnVsbCBhcnJheQoJaW50IDAgLy8gaW5pdGlhbCBvZmZzZXQKCWludCAxCglpbnQgMjQKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJaW50IDEKCWludCA4CgkqIC8vIGFjYyAqIHR5cGVMZW5ndGgKCSsKCWxvYWQgMCAvLyBmdWxsIGFycmF5Cglzd2FwCglpbnQgOAoJZXh0cmFjdDMKCWJ0b2kKCWl0b2IKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgIm5lc3RlZFN0YXRpY0FycmF5KCl1aW50NjQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfbmVzdGVkU3RhdGljQXJyYXk=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestNestedStaticArray",
+    "desc": "",
+    "methods": [
+      {
+        "name": "nestedStaticArray",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint64",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

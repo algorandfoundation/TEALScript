@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+import { expect, test, describe } from '@jest/globals';
 import { getMethodTeal, lowerFirstChar, artifactsTest } from './common';
 import * as langspec from '../src/langspec.json';
 
@@ -12,12 +11,11 @@ async function getTeal(methodName: string) {
 artifactsTest('AccountTest', 'tests/contracts/account.algo.ts', 'tests/contracts/artifacts/', 'AccountTest');
 
 describe('Account', function () {
-  // eslint-disable-next-line mocha/no-setup-in-describe
   langspec.Ops.find((op) => op.Name === 'acct_params_get')!.ArgEnum!.forEach((a) => {
     const fn = lowerFirstChar(a.replace('Acct', ''));
-    it(fn, async function () {
+    test(fn, async function () {
       if (fn === 'authAddr') {
-        expect(await getTeal(fn)).to.deep.equal([
+        expect(await getTeal(fn)).toEqual([
           `// log(a.${fn})`,
           'frame_dig -1 // a: account',
           `acct_params_get ${a}`,
@@ -25,7 +23,7 @@ describe('Account', function () {
           'log',
         ]);
       } else {
-        expect(await getTeal(fn)).to.deep.equal([
+        expect(await getTeal(fn)).toEqual([
           `// assert(a.${fn})`,
           'frame_dig -1 // a: account',
           `acct_params_get ${a}`,
@@ -36,8 +34,8 @@ describe('Account', function () {
     });
   });
 
-  it('assetBalance', async function () {
-    expect(await getTeal('assetBalance')).to.deep.equal([
+  test('assetBalance', async function () {
+    expect(await getTeal('assetBalance')).toEqual([
       '// assert(a.assetBalance(new Asset(123)))',
       'frame_dig -1 // a: account',
       'int 123',
@@ -47,8 +45,8 @@ describe('Account', function () {
     ]);
   });
 
-  it('assetFrozen', async function () {
-    expect(await getTeal('assetFrozen')).to.deep.equal([
+  test('assetFrozen', async function () {
+    expect(await getTeal('assetFrozen')).toEqual([
       '// assert(a.assetFrozen(new Asset(123)))',
       'frame_dig -1 // a: account',
       'int 123',
@@ -58,8 +56,8 @@ describe('Account', function () {
     ]);
   });
 
-  it('hasAsset', async function () {
-    expect(await getTeal('hasAsset')).to.deep.equal([
+  test('hasAsset', async function () {
+    expect(await getTeal('hasAsset')).toEqual([
       '// assert(a.hasAsset(new Asset(123)))',
       'frame_dig -1 // a: account',
       'int 123',

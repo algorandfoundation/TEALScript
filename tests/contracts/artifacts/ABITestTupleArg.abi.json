@@ -1,0 +1,21 @@
+{
+  "name": "ABITestTupleArg",
+  "desc": "",
+  "methods": [
+    {
+      "name": "tupleArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "(uint64,uint16,uint64)",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint16",
+        "desc": ""
+      }
+    }
+  ]
+}

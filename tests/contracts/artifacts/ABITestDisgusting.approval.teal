@@ -1,0 +1,190 @@
+#pragma version 8
+	b main
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+abi_route_disgusting:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub disgusting
+	int 1
+	return
+
+disgusting:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:294
+	// a: StaticArray<[uint16<2>, uint64, [uint16, uint64], StaticArray<uint64<2>, 2>], 2> = [
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0036 // initial head offset
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat
+	callsub process_static_tuple_element
+	int 33
+	itob
+	callsub process_static_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x000a // initial head offset
+	int 44
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 55
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_static_tuple_element
+	int 66
+	itob
+	int 77
+	itob
+	concat
+	int 88
+	itob
+	int 99
+	itob
+	concat
+	concat
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0036 // initial head offset
+	int 111
+	itob
+	extract 6 0
+	int 222
+	itob
+	extract 6 0
+	concat
+	callsub process_static_tuple_element
+	int 333
+	itob
+	callsub process_static_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x000a // initial head offset
+	int 444
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 555
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_static_tuple_element
+	int 666
+	itob
+	int 777
+	itob
+	concat
+	int 888
+	itob
+	int 999
+	itob
+	concat
+	concat
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	concat
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.algo.ts:299
+	// a[1][3][1] = [8888, 9999]
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 54
+	* // acc * typeLength
+	+
+	int 22 // headOffset
+	+
+	int 1
+	int 16
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8888
+	itob
+	int 9999
+	itob
+	concat
+	replace3
+	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+
+	// tests/contracts/abi.algo.ts:300
+	// return a[1][3][1][0];
+	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 54
+	* // acc * typeLength
+	+
+	int 22 // headOffset
+	+
+	int 1
+	int 16
+	* // acc * typeLength
+	+
+	int 0
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "disgusting()uint64"
+	txna ApplicationArgs 0
+	match abi_route_disgusting

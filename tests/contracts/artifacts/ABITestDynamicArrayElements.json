@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "dynamicArrayElements()uint16[]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2R5bmFtaWNBcnJheUVsZW1lbnRzOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CglieXRlIDB4CglkdXAKCWNhbGxzdWIgZHluYW1pY0FycmF5RWxlbWVudHMKCWludCAxCglyZXR1cm4KCmR5bmFtaWNBcnJheUVsZW1lbnRzOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ0OQoJLy8gYTogdWludDE2W10gPSBbMSwgMiwgM10KCWludCAxCglpdG9iCglleHRyYWN0IDYgMAoJaW50IDIKCWl0b2IKCWV4dHJhY3QgNiAwCgljb25jYXQKCWludCAzCglpdG9iCglleHRyYWN0IDYgMAoJY29uY2F0CglieXRlIDB4MDAwMwoJc3dhcAoJY29uY2F0CglmcmFtZV9idXJ5IC0xIC8vIGE6IHVpbnQxNltdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ1MAoJLy8gbmV3QTogdWludDE2W10gPSBbYVswXSwgYVsxXSwgYVsyXV0KCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJaW50IDAKCWludCAyCgkqIC8vIGFjYyAqIHR5cGVMZW5ndGgKCSsKCWludCAyCgkrIC8vIGFkZCB0d28gZm9yIGxlbmd0aAoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAyCglleHRyYWN0MwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQxNltdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglpbnQgMQoJaW50IDIKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJaW50IDIKCSsgLy8gYWRkIHR3byBmb3IgbGVuZ3RoCglsb2FkIDAgLy8gZnVsbCBhcnJheQoJc3dhcAoJaW50IDIKCWV4dHJhY3QzCgljb25jYXQKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJaW50IDIKCWludCAyCgkqIC8vIGFjYyAqIHR5cGVMZW5ndGgKCSsKCWludCAyCgkrIC8vIGFkZCB0d28gZm9yIGxlbmd0aAoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAyCglleHRyYWN0MwoJY29uY2F0CglieXRlIDB4MDAwMwoJc3dhcAoJY29uY2F0CglmcmFtZV9idXJ5IC0yIC8vIG5ld0E6IHVpbnQxNltdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ1MgoJLy8gcmV0dXJuIG5ld0E7CglmcmFtZV9kaWcgLTIgLy8gbmV3QTogdWludDE2W10KCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgImR5bmFtaWNBcnJheUVsZW1lbnRzKCl1aW50MTZbXSIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9keW5hbWljQXJyYXlFbGVtZW50cw==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestDynamicArrayElements",
+    "desc": "",
+    "methods": [
+      {
+        "name": "dynamicArrayElements",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint16[]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

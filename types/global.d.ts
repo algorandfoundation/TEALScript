@@ -444,8 +444,8 @@ declare function divmodw(arg0: IntLike, arg1: IntLike, arg2: IntLike, arg3: IntL
 declare function assert(arg0: IntLike)
 declare function concat(arg0: BytesLike, arg1: BytesLike)
 declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbit(arg0: BytesLike, arg1: IntLike)
-declare function setbit(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
+declare function getbtest(arg0: BytesLike, arg1: IntLike)
+declare function setbtest(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function getbyte(arg0: BytesLike, arg1: IntLike): uint64
 declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)

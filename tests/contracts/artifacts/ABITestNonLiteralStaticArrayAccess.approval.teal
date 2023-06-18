@@ -1,0 +1,77 @@
+#pragma version 8
+	b main
+
+abi_route_nonLiteralStaticArrayAccess:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	dup
+	callsub nonLiteralStaticArrayAccess
+	int 1
+	return
+
+nonLiteralStaticArrayAccess:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:55
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.algo.ts:56
+	// n = 2
+	int 2
+	frame_bury -2 // n: uint64
+
+	// tests/contracts/abi.algo.ts:58
+	// return a[n];
+	frame_dig -1 // a: uint64[3]
+	store 0 // full array
+	int 0 // initial offset
+	frame_dig -2 // n: uint64
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "nonLiteralStaticArrayAccess()uint64"
+	txna ApplicationArgs 0
+	match abi_route_nonLiteralStaticArrayAccess

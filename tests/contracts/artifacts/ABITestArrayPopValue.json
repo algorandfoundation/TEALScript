@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "arrayPopValue()uint16": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2FycmF5UG9wVmFsdWU6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCWJ5dGUgMHgKCWR1cAoJY2FsbHN1YiBhcnJheVBvcFZhbHVlCglpbnQgMQoJcmV0dXJuCgphcnJheVBvcFZhbHVlOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQxNwoJLy8gYTogdWludDE2W10gPSBbMSwgMiwgM10KCWludCAxCglpdG9iCglleHRyYWN0IDYgMAoJaW50IDIKCWl0b2IKCWV4dHJhY3QgNiAwCgljb25jYXQKCWludCAzCglpdG9iCglleHRyYWN0IDYgMAoJY29uY2F0CglieXRlIDB4MDAwMwoJc3dhcAoJY29uY2F0CglmcmFtZV9idXJ5IC0xIC8vIGE6IHVpbnQxNltdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQxOQoJLy8gdiA9IGEucG9wKCkhCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDE2W10KCWR1cAoJaW50IDAKCWV4dHJhY3RfdWludDE2CglpbnQgMQoJLQoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWV4dHJhY3QgMiAwCgljb25jYXQKCWR1cAoJbGVuCglpbnQgMgoJLQoJaW50IDAKCXN3YXAKCWV4dHJhY3QzCglkdXAKCWxlbgoJaW50IDIKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJY292ZXIgMgoJZXh0cmFjdDMKCXN3YXAKCWZyYW1lX2J1cnkgLTEgLy8gYTogdWludDE2W10KCWZyYW1lX2J1cnkgLTIgLy8gdjogdWludDE2CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQyMQoJLy8gcmV0dXJuIHY7CglmcmFtZV9kaWcgLTIgLy8gdjogdWludDE2CglieXRlIDB4RkZGRgoJYiYKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgImFycmF5UG9wVmFsdWUoKXVpbnQxNiIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9hcnJheVBvcFZhbHVl",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestArrayPopValue",
+    "desc": "",
+    "methods": [
+      {
+        "name": "arrayPopValue",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint16",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

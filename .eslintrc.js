@@ -6,7 +6,6 @@ module.exports = {
   },
   extends: [
     'airbnb-base',
-    'plugin:mocha/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
@@ -18,7 +17,6 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
-    'mocha',
   ],
   rules: {
     '@typescript-eslint/no-explicit-any': 'error',

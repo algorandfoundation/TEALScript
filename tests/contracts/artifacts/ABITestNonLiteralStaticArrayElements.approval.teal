@@ -1,0 +1,87 @@
+#pragma version 8
+	b main
+
+abi_route_nonLiteralStaticArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	dupn 3
+	callsub nonLiteralStaticArrayElements
+	int 1
+	return
+
+nonLiteralStaticArrayElements:
+	proto 4 0
+
+	// tests/contracts/abi.algo.ts:33
+	// n1 = 11
+	int 11
+	frame_bury -1 // n1: uint64
+
+	// tests/contracts/abi.algo.ts:34
+	// n2 = 22
+	int 22
+	frame_bury -2 // n2: uint64
+
+	// tests/contracts/abi.algo.ts:35
+	// n3 = 33
+	int 33
+	frame_bury -3 // n3: uint64
+
+	// tests/contracts/abi.algo.ts:36
+	// a: StaticArray<uint64, 3> = [n1, n2, n3]
+	frame_dig -1 // n1: uint64
+	itob
+	frame_dig -2 // n2: uint64
+	itob
+	concat
+	frame_dig -3 // n3: uint64
+	itob
+	concat
+	frame_bury -4 // a: uint64[3]
+
+	// tests/contracts/abi.algo.ts:38
+	// return a[1];
+	frame_dig -4 // a: uint64[3]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "nonLiteralStaticArrayElements()uint64"
+	txna ApplicationArgs 0
+	match abi_route_nonLiteralStaticArrayElements

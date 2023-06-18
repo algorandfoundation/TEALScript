@@ -1,9 +1,10 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
-import { sandbox, clients } from 'beaker-ts';
 import fs from 'fs';
-import { MerkleTree } from './artifacts/merkletree_client';
+import algosdk from 'algosdk';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { MerkleTreeClient } from './MerkleTreeClient';
 
 async function getRecords(fname: string): Promise<Uint8Array[][]> {
   const rawRecords: string[][] = fs.readFileSync(fname, 'utf8').split('\n').map((line) => line.trim().split(','));
@@ -22,19 +23,24 @@ async function getRecords(fname: string): Promise<Uint8Array[][]> {
 }
 
 async function main() {
-  const acct = (await sandbox.getAccounts()).pop()!;
+  const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+  const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
-  const appClient = new MerkleTree({
-    client: clients.sandboxAlgod(),
-    signer: acct.signer,
-    sender: acct.addr,
-  });
+  const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-  await appClient.create();
+  const merkleTree = new MerkleTreeClient(
+    {
+      sender,
+      resolveBy: 'id',
+      id: 0,
+    },
+    algodClient,
+  );
+  await merkleTree.appClient.create();
 
-  const rawState = await appClient.getApplicationState(true);
-  const rootKey = Buffer.from('root', 'utf8').toString('hex');
-  const root = Buffer.from(rawState[rootKey] as Uint8Array).toString('hex');
+  const state = await merkleTree.appClient.getGlobalState();
+  // @ts-ignore
+  const root = Buffer.from(state.root.valueRaw).toString('hex');
 
   const expectedRoot = '80d1bf4dd6c1f75bba022337a3f0842078f5c2e7f3f59dfd33ccbb8e963367b2';
 
@@ -42,28 +48,39 @@ async function main() {
 
   const recordsToAppend = await getRecords('examples/merkle/append.csv');
   for (const record of recordsToAppend) {
-    const result = await appClient.appendLeaf({ data: record[0], path: record.slice(1) });
-    console.log(`Appended ${record[0]} in ${result.txID}`);
+    const result = await merkleTree.appendLeaf({
+      data: record[0],
+      path: record.slice(1) as [Uint8Array, Uint8Array, Uint8Array],
+    });
+    console.log(`Appended ${record[0]} in ${result.transaction.txID()}`);
   }
 
   const recordsToVerify = await getRecords('examples/merkle/verify_appends.csv');
   for (const record of recordsToVerify) {
-    const result = await appClient.verify({ data: record[0], path: record.slice(1) });
-    console.log(`Verified ${record[0]} in ${result.txID}`);
+    const result = await merkleTree.verify({
+      data: record[0],
+      path: record.slice(1) as [Uint8Array, Uint8Array, Uint8Array],
+    });
+    console.log(`Verified ${record[0]} in ${result.transaction.txID()}`);
   }
 
   const recordsToUpdate = await getRecords('examples/merkle/update.csv');
   for (const record of recordsToUpdate) {
-    const result = await appClient.updateLeaf({
-      oldData: record[0], newData: record[1], path: record.slice(2),
+    const result = await merkleTree.updateLeaf({
+      oldData: record[0],
+      newData: record[1],
+      path: record.slice(2) as [Uint8Array, Uint8Array, Uint8Array],
     });
-    console.log(`Updated ${record[0]} to ${record[1]} in ${result.txID}`);
+    console.log(`Updated ${record[0]} to ${record[1]} in ${result.transaction.txID()}`);
   }
 
   const recordsToVerifyAgain = await getRecords('examples/merkle/verify_updates.csv');
   for (const record of recordsToVerifyAgain) {
-    const result = await appClient.verify({ data: record[0], path: record.slice(1) });
-    console.log(`Verified ${record[0]} in ${result.txID}`);
+    const result = await merkleTree.verify({
+      data: record[0],
+      path: record.slice(1) as [Uint8Array, Uint8Array, Uint8Array],
+    });
+    console.log(`Verified ${record[0]} in ${result.transaction.txID()}`);
   }
 }
 

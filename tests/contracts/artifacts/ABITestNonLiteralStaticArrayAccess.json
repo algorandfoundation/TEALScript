@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "nonLiteralStaticArrayAccess()uint64": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX25vbkxpdGVyYWxTdGF0aWNBcnJheUFjY2VzczoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJZHVwCgljYWxsc3ViIG5vbkxpdGVyYWxTdGF0aWNBcnJheUFjY2VzcwoJaW50IDEKCXJldHVybgoKbm9uTGl0ZXJhbFN0YXRpY0FycmF5QWNjZXNzOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjU1CgkvLyBhOiBTdGF0aWNBcnJheTx1aW50NjQsIDM+ID0gWzExLCAyMiwgMzNdCglpbnQgMTEKCWl0b2IKCWludCAyMgoJaXRvYgoJY29uY2F0CglpbnQgMzMKCWl0b2IKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMSAvLyBhOiB1aW50NjRbM10KCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6NTYKCS8vIG4gPSAyCglpbnQgMgoJZnJhbWVfYnVyeSAtMiAvLyBuOiB1aW50NjQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6NTgKCS8vIHJldHVybiBhW25dOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NFszXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJZnJhbWVfZGlnIC0yIC8vIG46IHVpbnQ2NAoJaW50IDgKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCA4CglleHRyYWN0MwoJYnRvaQoJaXRvYgoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAibm9uTGl0ZXJhbFN0YXRpY0FycmF5QWNjZXNzKCl1aW50NjQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfbm9uTGl0ZXJhbFN0YXRpY0FycmF5QWNjZXNz",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestNonLiteralStaticArrayAccess",
+    "desc": "",
+    "methods": [
+      {
+        "name": "nonLiteralStaticArrayAccess",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint64",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

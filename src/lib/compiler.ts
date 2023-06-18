@@ -260,7 +260,7 @@ export default class Compiler {
 
   private forCount: number = 0;
 
-  filename?: string;
+  filename: string;
 
   content: string;
 
@@ -705,12 +705,25 @@ export default class Compiler {
 
   };
 
-  constructor(content: string, className: string, filename?: string) {
+  private disableWarnings: boolean;
+
+  constructor(
+    content: string,
+    className: string,
+    filename: string = '',
+    disableWarnings: boolean = false,
+  ) {
     this.filename = filename;
     this.content = content;
     this.name = className;
-    this.sourceFile = ts.createSourceFile(this.filename || '', this.content, ts.ScriptTarget.ES2019, true);
+    this.sourceFile = ts.createSourceFile(
+      this.filename,
+      this.content,
+      ts.ScriptTarget.ES2019,
+      true,
+    );
     this.constants = {};
+    this.disableWarnings = disableWarnings;
   }
 
   getOpParamObjects(op: string) {
@@ -1816,7 +1829,7 @@ export default class Compiler {
         this.pushVoid('b&');
 
         // eslint-disable-next-line no-console
-        console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
+        if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
       } else if ([returnType, this.lastType].includes('string') && [returnType, this.lastType].includes('bytes')) {
         if (returnType === 'string') {
           this.pushLines(
@@ -1854,7 +1867,7 @@ export default class Compiler {
     const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
 
     // eslint-disable-next-line no-console
-    if (lastBitWidth > desiredWidth && warn) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
+    if (lastBitWidth > desiredWidth && warn && !this.disableWarnings) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
 
     if (lastBitWidth < desiredWidth) {
       this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
@@ -2925,7 +2938,7 @@ export default class Compiler {
 
     const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
 
-    if (this.filename) { this.pushVoid(`// ${this.filename}:${lineNum}`); }
+    if (this.filename.length > 0) { this.pushVoid(`// ${this.filename}:${lineNum}`); }
     this.pushVoid(`// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
