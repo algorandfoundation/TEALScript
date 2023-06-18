@@ -1,6 +1,5 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   expect, test, describe, beforeAll, beforeEach,
 } from '@jest/globals';

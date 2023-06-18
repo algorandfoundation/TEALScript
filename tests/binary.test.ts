@@ -1,6 +1,5 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { test, expect, describe } from '@jest/globals';
 import { getMethodTeal, artifactsTest } from './common';
 

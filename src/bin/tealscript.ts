@@ -3,7 +3,6 @@
 import path from 'path';
 import * as fs from 'fs';
 import ts from 'typescript';
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import Compiler from '../lib/compiler';
 
 const filename = process.argv[2];

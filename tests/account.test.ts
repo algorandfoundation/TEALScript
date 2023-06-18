@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 import { expect, test, describe } from '@jest/globals';
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import { getMethodTeal, lowerFirstChar, artifactsTest } from './common';
 import * as langspec from '../src/langspec.json';
 

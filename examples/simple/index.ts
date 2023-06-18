@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable func-names */
-/* eslint-disable import/no-unresolved, import/extensions */
 import algosdk from 'algosdk';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { SimpleClient } from './SimpleClient';
