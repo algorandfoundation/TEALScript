@@ -12,7 +12,8 @@
     "tealscript": "dist/bin/tealscript.js"
   },
   "scripts": {
-    "test": "jest --coverage tests/",
+    "test": "jest tests/",
+    "test-coverage": "jest --coverage tests/",
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
