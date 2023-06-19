@@ -3024,12 +3024,12 @@ export default class Compiler {
     }
 
     const tealSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.filename}.approval.teal`,
+      file: `${this.name}.approval.teal`,
       sourceRoot: '',
     });
 
     const pcSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.filename}.approval.teal`,
+      file: `${this.name}.approval.teal`,
       sourceRoot: '',
     });
 
