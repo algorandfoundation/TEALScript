@@ -10,6 +10,8 @@ abi_route_staticArrayArg:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	callsub staticArrayArg
 	int 1
@@ -57,3 +59,4 @@ route_abi:
 	method "staticArrayArg(uint64[3])uint64"
 	txna ApplicationArgs 0
 	match abi_route_staticArrayArg
+	err

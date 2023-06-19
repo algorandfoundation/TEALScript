@@ -10,6 +10,8 @@ abi_route_u64plus:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -42,6 +44,8 @@ abi_route_u64minus:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -74,6 +78,8 @@ abi_route_u64mul:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -106,6 +112,8 @@ abi_route_u64div:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -138,6 +146,8 @@ abi_route_u256plus:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256plus
@@ -169,6 +179,8 @@ abi_route_u256minus:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256minus
@@ -200,6 +212,8 @@ abi_route_u256mul:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256mul
@@ -231,6 +245,8 @@ abi_route_u256div:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256div
@@ -262,6 +278,8 @@ abi_route_u64Return256:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -296,6 +314,8 @@ abi_route_maxU64:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub maxU64
 	int 1
 	return
@@ -336,3 +356,4 @@ route_abi:
 	method "maxU64()void"
 	txna ApplicationArgs 0
 	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64
+	err

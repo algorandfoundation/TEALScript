@@ -10,8 +10,7 @@ abi_route_spliceFirstElementValue:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub spliceFirstElementValue
 	int 1
 	return
@@ -115,3 +114,4 @@ route_abi:
 	method "spliceFirstElementValue()uint16[]"
 	txna ApplicationArgs 0
 	match abi_route_spliceFirstElementValue
+	err

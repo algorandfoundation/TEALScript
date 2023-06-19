@@ -1,15 +1,6 @@
 #pragma version 8
 	b main
 
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
-
 abi_route_simpleTuple:
 	txn OnCompletion
 	int NoOp
@@ -87,3 +78,13 @@ route_abi:
 	method "simpleTuple()uint16"
 	txna ApplicationArgs 0
 	match abi_route_simpleTuple
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

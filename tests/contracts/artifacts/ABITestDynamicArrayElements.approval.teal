@@ -10,8 +10,7 @@ abi_route_dynamicArrayElements:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub dynamicArrayElements
 	int 1
 	return
@@ -112,3 +111,4 @@ route_abi:
 	method "dynamicArrayElements()uint16[]"
 	txna ApplicationArgs 0
 	match abi_route_dynamicArrayElements
+	err

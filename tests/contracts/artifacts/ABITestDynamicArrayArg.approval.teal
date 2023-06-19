@@ -10,6 +10,8 @@ abi_route_dynamicArrayArg:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	callsub dynamicArrayArg
 	int 1
@@ -59,3 +61,4 @@ route_abi:
 	method "dynamicArrayArg(uint64[])uint64"
 	txna ApplicationArgs 0
 	match abi_route_dynamicArrayArg
+	err

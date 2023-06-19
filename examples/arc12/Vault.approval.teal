@@ -86,6 +86,8 @@ abi_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -127,8 +129,7 @@ abi_route_reject:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	txna ApplicationArgs 4
 	btoi
 	txnas Accounts
@@ -556,6 +557,8 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub delete
 	int 1
 	return
@@ -596,3 +599,4 @@ route_abi:
 	method "claim(asset,account,account)void"
 	txna ApplicationArgs 0
 	match abi_route_create abi_route_reject abi_route_optIn abi_route_claim
+	err

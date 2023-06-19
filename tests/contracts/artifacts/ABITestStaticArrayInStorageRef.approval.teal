@@ -10,8 +10,7 @@ abi_route_staticArrayInStorageRef:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub staticArrayInStorageRef
 	int 1
 	return
@@ -127,3 +126,4 @@ route_abi:
 	method "staticArrayInStorageRef()uint64[3]"
 	txna ApplicationArgs 0
 	match abi_route_staticArrayInStorageRef
+	err

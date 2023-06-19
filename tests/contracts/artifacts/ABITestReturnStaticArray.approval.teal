@@ -57,3 +57,4 @@ route_abi:
 	method "returnStaticArray()uint64[3]"
 	txna ApplicationArgs 0
 	match abi_route_returnStaticArray
+	err

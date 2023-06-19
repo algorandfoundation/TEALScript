@@ -10,6 +10,8 @@ abi_route_hasAsset:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -39,6 +41,8 @@ abi_route_assetBalance:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -67,6 +71,8 @@ abi_route_assetFrozen:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -95,6 +101,8 @@ abi_route_hasBalance:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -123,6 +131,8 @@ abi_route_balance:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -150,6 +160,8 @@ abi_route_minBalance:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -177,6 +189,8 @@ abi_route_authAddr:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -204,6 +218,8 @@ abi_route_totalNumUint:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -231,6 +247,8 @@ abi_route_totalNumByteSlice:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -258,6 +276,8 @@ abi_route_totalExtraAppPages:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -285,6 +305,8 @@ abi_route_totalAppsCreated:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -312,6 +334,8 @@ abi_route_totalAppsOptedIn:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -339,6 +363,8 @@ abi_route_totalAssetsCreated:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -366,6 +392,8 @@ abi_route_totalAssets:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -393,6 +421,8 @@ abi_route_totalBoxes:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -420,6 +450,8 @@ abi_route_totalBoxBytes:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -471,3 +503,4 @@ route_abi:
 	method "totalBoxBytes(account)void"
 	txna ApplicationArgs 0
 	match abi_route_hasAsset abi_route_assetBalance abi_route_assetFrozen abi_route_hasBalance abi_route_balance abi_route_minBalance abi_route_authAddr abi_route_totalNumUint abi_route_totalNumByteSlice abi_route_totalExtraAppPages abi_route_totalAppsCreated abi_route_totalAppsOptedIn abi_route_totalAssetsCreated abi_route_totalAssets abi_route_totalBoxes abi_route_totalBoxBytes
+	err

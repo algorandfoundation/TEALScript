@@ -10,6 +10,8 @@ abi_route_txnTypes:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txn GroupIndex
 	int 1
 	-
@@ -93,3 +95,4 @@ route_abi:
 	method "txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void"
 	txna ApplicationArgs 0
 	match abi_route_txnTypes
+	err

@@ -10,6 +10,8 @@ abi_route_prefix:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub prefix
 	int 1
 	return
@@ -38,6 +40,8 @@ abi_route_globalRefPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalRefPut
 	int 1
 	return
@@ -61,6 +65,8 @@ abi_route_globalRefGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalRefGet
 	int 1
 	return
@@ -86,6 +92,8 @@ abi_route_globalRefDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalRefDelete
 	int 1
 	return
@@ -108,6 +116,8 @@ abi_route_globalRefExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalRefExists
 	int 1
 	return
@@ -133,6 +143,8 @@ abi_route_localRefPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -160,6 +172,8 @@ abi_route_localRefGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -189,6 +203,8 @@ abi_route_localRefDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -215,6 +231,8 @@ abi_route_localRefExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -244,6 +262,8 @@ abi_route_boxRefPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxRefPut
 	int 1
 	return
@@ -267,6 +287,8 @@ abi_route_boxRefGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxRefGet
 	int 1
 	return
@@ -293,6 +315,8 @@ abi_route_boxRefDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxRefDelete
 	int 1
 	return
@@ -315,6 +339,8 @@ abi_route_boxRefExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxRefExists
 	int 1
 	return
@@ -339,6 +365,8 @@ abi_route_globalMapPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalMapPut
 	int 1
 	return
@@ -362,6 +390,8 @@ abi_route_globalMapGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalMapGet
 	int 1
 	return
@@ -387,6 +417,8 @@ abi_route_globalMapDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalMapDelete
 	int 1
 	return
@@ -409,6 +441,8 @@ abi_route_globalMapExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub globalMapExists
 	int 1
 	return
@@ -434,6 +468,8 @@ abi_route_localMapPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -461,6 +497,8 @@ abi_route_localMapGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -490,6 +528,8 @@ abi_route_localMapDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -516,6 +556,8 @@ abi_route_localMapExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -545,6 +587,8 @@ abi_route_boxMapPut:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxMapPut
 	int 1
 	return
@@ -568,6 +612,8 @@ abi_route_boxMapGet:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxMapGet
 	int 1
 	return
@@ -594,6 +640,8 @@ abi_route_boxMapDelete:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxMapDelete
 	int 1
 	return
@@ -616,6 +664,8 @@ abi_route_boxMapExists:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub boxMapExists
 	int 1
 	return
@@ -673,3 +723,4 @@ route_abi:
 	method "boxMapExists()void"
 	txna ApplicationArgs 0
 	match abi_route_prefix abi_route_globalRefPut abi_route_globalRefGet abi_route_globalRefDelete abi_route_globalRefExists abi_route_localRefPut abi_route_localRefGet abi_route_localRefDelete abi_route_localRefExists abi_route_boxRefPut abi_route_boxRefGet abi_route_boxRefDelete abi_route_boxRefExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists
+	err

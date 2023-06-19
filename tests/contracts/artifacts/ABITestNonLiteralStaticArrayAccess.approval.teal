@@ -10,8 +10,7 @@ abi_route_nonLiteralStaticArrayAccess:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub nonLiteralStaticArrayAccess
 	int 1
 	return
@@ -75,3 +74,4 @@ route_abi:
 	method "nonLiteralStaticArrayAccess()uint64"
 	txna ApplicationArgs 0
 	match abi_route_nonLiteralStaticArrayAccess
+	err

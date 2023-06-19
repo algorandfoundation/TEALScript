@@ -10,8 +10,7 @@ abi_route_updateStaticArrayInStorageRef:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub updateStaticArrayInStorageRef
 	int 1
 	return
@@ -187,3 +186,4 @@ route_abi:
 	method "updateStaticArrayInStorageRef()uint64[3]"
 	txna ApplicationArgs 0
 	match abi_route_updateStaticArrayInStorageRef
+	err

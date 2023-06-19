@@ -1,30 +1,6 @@
 #pragma version 8
 	b main
 
-process_dynamic_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -2 // head offset
-	concat
-	frame_bury -4 // tuple head
-	frame_dig -1 // element
-	dup
-	len
-	frame_dig -2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	frame_bury -2 // head offset
-	frame_dig -3 // tuple tail
-	swap
-	concat
-	frame_bury -3 // tuple tail
-	frame_dig -4 // tuple head
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
-
 abi_route_accessDynamicStringArray:
 	txn OnCompletion
 	int NoOp
@@ -135,3 +111,28 @@ route_abi:
 	method "accessDynamicStringArray()string"
 	txna ApplicationArgs 0
 	match abi_route_accessDynamicStringArray
+	err
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

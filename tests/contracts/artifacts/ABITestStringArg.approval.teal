@@ -10,6 +10,8 @@ abi_route_stringArg:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub stringArg
@@ -45,3 +47,4 @@ route_abi:
 	method "stringArg(string)void"
 	txna ApplicationArgs 0
 	match abi_route_stringArg
+	err

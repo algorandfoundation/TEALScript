@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -121,6 +123,7 @@ doOptIn:
 
 	// examples/amm/amm.algo.ts:48
 	// this.doAxfer(this.app.address, asset, 0)
+	// no dupn needed
 	int 0
 	frame_dig -1 // asset: asset
 	txna Applications 0
@@ -300,6 +303,8 @@ abi_route_set_governor:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -334,6 +339,8 @@ abi_route_bootstrap:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
@@ -405,6 +412,8 @@ bootstrap:
 	// examples/amm/amm.algo.ts:104
 	// this.poolToken.put(this.doCreatePoolToken(aAsset, bAsset))
 	byte "p"
+
+	// no dupn needed
 	frame_dig -3 // bAsset: asset
 	frame_dig -2 // aAsset: asset
 	callsub doCreatePoolToken
@@ -412,11 +421,13 @@ bootstrap:
 
 	// examples/amm/amm.algo.ts:106
 	// this.doOptIn(aAsset)
+	// no dupn needed
 	frame_dig -2 // aAsset: asset
 	callsub doOptIn
 
 	// examples/amm/amm.algo.ts:107
 	// this.doOptIn(bAsset)
+	// no dupn needed
 	frame_dig -3 // bAsset: asset
 	callsub doOptIn
 
@@ -590,6 +601,7 @@ skip_and1:
 	// if0_consequent
 	// examples/amm/amm.algo.ts:139
 	// this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount)
+	// no dupn needed
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount
 	frame_dig -1 // aXfer: axfer
@@ -644,6 +656,7 @@ if0_else:
 
 	// examples/amm/amm.algo.ts:151
 	// this.doAxfer(this.txn.sender, poolAsset, toMint)
+	// no dupn needed
 	frame_dig -6 // toMint: uint64
 	frame_dig -3 // poolAsset: asset
 	txn Sender
@@ -767,6 +780,7 @@ burn:
 
 	// examples/amm/amm.algo.ts:177
 	// aAmt = this.tokensToBurn(
+	// no dupn needed
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -781,6 +795,7 @@ burn:
 
 	// examples/amm/amm.algo.ts:183
 	// bAmt = this.tokensToBurn(
+	// no dupn needed
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -795,6 +810,7 @@ burn:
 
 	// examples/amm/amm.algo.ts:189
 	// this.doAxfer(this.txn.sender, aAsset, aAmt)
+	// no dupn needed
 	frame_dig -6 // aAmt: uint64
 	frame_dig -3 // aAsset: asset
 	txn Sender
@@ -802,6 +818,7 @@ burn:
 
 	// examples/amm/amm.algo.ts:190
 	// this.doAxfer(this.txn.sender, bAsset, bAmt)
+	// no dupn needed
 	frame_dig -7 // bAmt: uint64
 	frame_dig -4 // bAsset: asset
 	txn Sender
@@ -810,6 +827,8 @@ burn:
 	// examples/amm/amm.algo.ts:192
 	// this.ratio.put(this.computeRatio())
 	byte "r"
+
+	// no dupn needed
 	callsub computeRatio
 	app_global_put
 	retsub
@@ -946,6 +965,7 @@ ternary1_end:
 
 	// examples/amm/amm.algo.ts:219
 	// this.doAxfer(this.txn.sender, outId, toSwap)
+	// no dupn needed
 	frame_dig -6 // toSwap: uint64
 	frame_dig -4 // outId: asset
 	txn Sender
@@ -954,6 +974,8 @@ ternary1_end:
 	// examples/amm/amm.algo.ts:221
 	// this.ratio.put(this.computeRatio())
 	byte "r"
+
+	// no dupn needed
 	callsub computeRatio
 	app_global_put
 	retsub
@@ -974,3 +996,4 @@ route_abi:
 	method "swap(axfer,asset,asset)void"
 	txna ApplicationArgs 0
 	match abi_route_set_governor abi_route_bootstrap abi_route_mint abi_route_burn abi_route_swap
+	err
