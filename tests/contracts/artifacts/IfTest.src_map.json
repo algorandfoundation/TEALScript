@@ -1,357 +1,4202 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 0,
-  "13": 0,
-  "14": 0,
-  "15": 0,
-  "16": 0,
-  "17": 0,
-  "18": 0,
-  "19": 0,
-  "20": 0,
-  "21": 0,
-  "22": 0,
-  "23": 0,
-  "24": 0,
-  "25": 0,
-  "26": 0,
-  "27": 0,
-  "28": 0,
-  "29": 0,
-  "30": 0,
-  "31": 0,
-  "32": 0,
-  "33": 0,
-  "34": 0,
-  "35": 0,
-  "36": 0,
-  "37": 0,
-  "38": 0,
-  "39": 0,
-  "40": 0,
-  "41": 0,
-  "42": 0,
-  "43": 0,
-  "44": 0,
-  "45": 0,
-  "46": 0,
-  "47": 0,
-  "48": 1,
-  "49": 1,
-  "50": 1,
-  "51": 4,
-  "52": 4,
-  "53": 5,
-  "54": 6,
-  "55": 7,
-  "56": 7,
-  "57": 8,
-  "58": 9,
-  "59": 10,
-  "60": 11,
-  "61": 14,
-  "62": 14,
-  "63": 14,
-  "64": 15,
-  "65": 16,
-  "66": 19,
-  "67": 19,
-  "68": 19,
-  "69": 24,
-  "70": 25,
-  "71": 26,
-  "72": 26,
-  "73": 26,
-  "74": 31,
-  "75": 32,
-  "76": 35,
-  "77": 38,
-  "78": 38,
-  "79": 39,
-  "80": 40,
-  "81": 41,
-  "82": 41,
-  "83": 42,
-  "84": 43,
-  "85": 44,
-  "86": 45,
-  "87": 48,
-  "88": 48,
-  "89": 48,
-  "90": 49,
-  "91": 50,
-  "92": 53,
-  "93": 53,
-  "94": 53,
-  "95": 58,
-  "96": 59,
-  "97": 60,
-  "98": 60,
-  "99": 60,
-  "100": 65,
-  "101": 66,
-  "102": 67,
-  "103": 67,
-  "104": 67,
-  "105": 72,
-  "106": 73,
-  "107": 76,
-  "108": 79,
-  "109": 79,
-  "110": 80,
-  "111": 81,
-  "112": 82,
-  "113": 82,
-  "114": 83,
-  "115": 84,
-  "116": 85,
-  "117": 86,
-  "118": 89,
-  "119": 89,
-  "120": 89,
-  "121": 90,
-  "122": 91,
-  "123": 94,
-  "124": 94,
-  "125": 94,
-  "126": 99,
-  "127": 100,
-  "128": 101,
-  "129": 101,
-  "130": 101,
-  "131": 106,
-  "132": 107,
-  "133": 108,
-  "134": 108,
-  "135": 108,
-  "136": 113,
-  "137": 114,
-  "138": 115,
-  "139": 115,
-  "140": 115,
-  "141": 120,
-  "142": 121,
-  "143": 124,
-  "144": 127,
-  "145": 127,
-  "146": 128,
-  "147": 129,
-  "148": 130,
-  "149": 130,
-  "150": 131,
-  "151": 132,
-  "152": 133,
-  "153": 134,
-  "154": 137,
-  "155": 137,
-  "156": 137,
-  "157": 138,
-  "158": 139,
-  "159": 142,
-  "160": 142,
-  "161": 142,
-  "162": 147,
-  "163": 148,
-  "164": 149,
-  "165": 149,
-  "166": 149,
-  "167": 154,
-  "168": 155,
-  "169": 156,
-  "170": 156,
-  "171": 156,
-  "172": 161,
-  "173": 162,
-  "174": 163,
-  "175": 163,
-  "176": 163,
-  "177": 168,
-  "178": 169,
-  "179": 170,
-  "180": 170,
-  "181": 170,
-  "182": 175,
-  "183": 176,
-  "184": 179,
-  "185": 182,
-  "186": 182,
-  "187": 183,
-  "188": 184,
-  "189": 185,
-  "190": 185,
-  "191": 186,
-  "192": 187,
-  "193": 188,
-  "194": 189,
-  "195": 192,
-  "196": 192,
-  "197": 192,
-  "198": 193,
-  "199": 194,
-  "200": 197,
-  "201": 197,
-  "202": 197,
-  "203": 202,
-  "204": 203,
-  "205": 204,
-  "206": 204,
-  "207": 204,
-  "208": 209,
-  "209": 210,
-  "210": 211,
-  "211": 211,
-  "212": 211,
-  "213": 216,
-  "214": 217,
-  "215": 218,
-  "216": 218,
-  "217": 218,
-  "218": 223,
-  "219": 223,
-  "220": 224,
-  "221": 225,
-  "222": 225,
-  "223": 225,
-  "224": 230,
-  "225": 231,
-  "226": 232,
-  "227": 232,
-  "228": 232,
-  "229": 237,
-  "230": 237,
-  "231": 238,
-  "232": 241,
-  "233": 244,
-  "234": 244,
-  "235": 245,
-  "236": 246,
-  "237": 247,
-  "238": 247,
-  "239": 248,
-  "240": 249,
-  "241": 250,
-  "242": 251,
-  "243": 254,
-  "244": 254,
-  "245": 254,
-  "246": 255,
-  "247": 256,
-  "248": 259,
-  "249": 259,
-  "250": 259,
-  "251": 264,
-  "252": 265,
-  "253": 266,
-  "254": 266,
-  "255": 266,
-  "256": 271,
-  "257": 272,
-  "258": 273,
-  "259": 273,
-  "260": 273,
-  "261": 278,
-  "262": 279,
-  "263": 280,
-  "264": 280,
-  "265": 280,
-  "266": 285,
-  "267": 285,
-  "268": 286,
-  "269": 287,
-  "270": 287,
-  "271": 287,
-  "272": 292,
-  "273": 293,
-  "274": 294,
-  "275": 294,
-  "276": 294,
-  "277": 299,
-  "278": 299,
-  "279": 300,
-  "280": 301,
-  "281": 301,
-  "282": 301,
-  "283": 306,
-  "284": 307,
-  "285": 310,
-  "286": 313,
-  "287": 313,
-  "288": 314,
-  "289": 314,
-  "290": 314,
-  "291": 317,
-  "292": 317,
-  "293": 318,
-  "294": 319,
-  "295": 320,
-  "296": 320,
-  "297": 321,
-  "298": 322,
-  "299": 323,
-  "300": 324,
-  "301": 327,
-  "302": 327,
-  "303": 327,
-  "304": 327,
-  "305": 327,
-  "306": 327,
-  "307": 328,
-  "308": 328,
-  "309": 328,
-  "310": 328,
-  "311": 328,
-  "312": 328,
-  "313": 329,
-  "314": 329,
-  "315": 329,
-  "316": 329,
-  "317": 329,
-  "318": 329,
-  "319": 330,
-  "320": 330,
-  "321": 330,
-  "322": 330,
-  "323": 330,
-  "324": 330,
-  "325": 331,
-  "326": 331,
-  "327": 331,
-  "328": 331,
-  "329": 331,
-  "330": 331,
-  "331": 332,
-  "332": 332,
-  "333": 332,
-  "334": 332,
-  "335": 332,
-  "336": 332,
-  "337": 333,
-  "338": 333,
-  "339": 333,
-  "340": 334,
-  "341": 334,
-  "342": 334,
-  "343": 334,
-  "344": 334,
-  "345": 334,
-  "346": 334,
-  "347": 334,
-  "348": 334,
-  "349": 334,
-  "350": 334,
-  "351": 334,
-  "352": 334,
-  "353": 334,
-  "354": 335
-}
+[
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 19,
+    "pc": 68
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 60
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 52
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 53
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 6,
+    "pc": 54
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 7,
+    "pc": 56
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 8,
+    "pc": 57
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 9,
+    "pc": 58
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 10,
+    "pc": 59
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 12,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 25,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 15,
+    "pc": 64
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 16,
+    "pc": 65
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 5
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 8
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 18,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 8
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 19,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 15
+      },
+      "end": {
+        "line": 5,
+        "character": 16
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 8
+      },
+      "end": {
+        "line": 5,
+        "character": 14
+      }
+    },
+    "teal": 73,
+    "pc": 106
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 5
+      }
+    },
+    "teal": 132,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 5
+      }
+    },
+    "teal": 23,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 6,
+        "character": 6
+      },
+      "end": {
+        "line": 6,
+        "character": 15
+      }
+    },
+    "teal": 24,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 6,
+        "character": 6
+      },
+      "end": {
+        "line": 6,
+        "character": 15
+      }
+    },
+    "teal": 25,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 6,
+        "character": 10
+      },
+      "end": {
+        "line": 6,
+        "character": 14
+      }
+    },
+    "teal": 26,
+    "pc": 73
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 6,
+        "character": 6
+      },
+      "end": {
+        "line": 6,
+        "character": 9
+      }
+    },
+    "teal": 27,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 7,
+        "character": 5
+      }
+    },
+    "teal": 53,
+    "pc": 94
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 8,
+        "character": 3
+      }
+    },
+    "teal": 81,
+    "pc": 111
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 46,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 39,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 32,
+    "pc": 75
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 33,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 51,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 35,
+    "pc": 76
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 36,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 45,
+    "pc": 86
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 38,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 39,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 40,
+    "pc": 80
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 41,
+    "pc": 82
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 42,
+    "pc": 83
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 43,
+    "pc": 84
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 44,
+    "pc": 85
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 45,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 8
+      },
+      "end": {
+        "line": 11,
+        "character": 17
+      }
+    },
+    "teal": 46,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 8
+      },
+      "end": {
+        "line": 11,
+        "character": 17
+      }
+    },
+    "teal": 47,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 15
+      },
+      "end": {
+        "line": 11,
+        "character": 16
+      }
+    },
+    "teal": 59,
+    "pc": 96
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 8
+      },
+      "end": {
+        "line": 11,
+        "character": 14
+      }
+    },
+    "teal": 49,
+    "pc": 90
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 50,
+    "pc": 91
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 51,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 6
+      },
+      "end": {
+        "line": 12,
+        "character": 15
+      }
+    },
+    "teal": 52,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 6
+      },
+      "end": {
+        "line": 12,
+        "character": 15
+      }
+    },
+    "teal": 53,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 10
+      },
+      "end": {
+        "line": 12,
+        "character": 14
+      }
+    },
+    "teal": 54,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 6
+      },
+      "end": {
+        "line": 12,
+        "character": 9
+      }
+    },
+    "teal": 121,
+    "pc": 142
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 179,
+    "pc": 184
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 85,
+    "pc": 116
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 6
+      },
+      "end": {
+        "line": 14,
+        "character": 17
+      }
+    },
+    "teal": 58,
+    "pc": 95
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 6
+      },
+      "end": {
+        "line": 14,
+        "character": 17
+      }
+    },
+    "teal": 59,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 10
+      },
+      "end": {
+        "line": 14,
+        "character": 16
+      }
+    },
+    "teal": 60,
+    "pc": 99
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 6
+      },
+      "end": {
+        "line": 14,
+        "character": 9
+      }
+    },
+    "teal": 61,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 4
+      },
+      "end": {
+        "line": 15,
+        "character": 5
+      }
+    },
+    "teal": 92,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 16,
+        "character": 3
+      }
+    },
+    "teal": 138,
+    "pc": 157
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 79,
+    "pc": 109
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 80,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 66,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 67,
+    "pc": 104
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 68,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 70,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 86,
+    "pc": 117
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 87,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 73,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 74,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 195,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 76,
+    "pc": 107
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 77,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 139,
+    "pc": 158
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 79,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 8
+      },
+      "end": {
+        "line": 19,
+        "character": 17
+      }
+    },
+    "teal": 80,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 8
+      },
+      "end": {
+        "line": 19,
+        "character": 17
+      }
+    },
+    "teal": 81,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 15
+      },
+      "end": {
+        "line": 19,
+        "character": 16
+      }
+    },
+    "teal": 82,
+    "pc": 113
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 8
+      },
+      "end": {
+        "line": 19,
+        "character": 14
+      }
+    },
+    "teal": 83,
+    "pc": 114
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 84,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 85,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 6
+      },
+      "end": {
+        "line": 20,
+        "character": 15
+      }
+    },
+    "teal": 86,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 6
+      },
+      "end": {
+        "line": 20,
+        "character": 15
+      }
+    },
+    "teal": 87,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 10
+      },
+      "end": {
+        "line": 20,
+        "character": 14
+      }
+    },
+    "teal": 329,
+    "pc": 318
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 6
+      },
+      "end": {
+        "line": 20,
+        "character": 9
+      }
+    },
+    "teal": 159,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 90,
+    "pc": 121
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 91,
+    "pc": 122
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 15
+      },
+      "end": {
+        "line": 21,
+        "character": 24
+      }
+    },
+    "teal": 92,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 15
+      },
+      "end": {
+        "line": 21,
+        "character": 24
+      }
+    },
+    "teal": 93,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 22
+      },
+      "end": {
+        "line": 21,
+        "character": 23
+      }
+    },
+    "teal": 94,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 15
+      },
+      "end": {
+        "line": 21,
+        "character": 21
+      }
+    },
+    "teal": 95,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 295,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 97,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 6
+      },
+      "end": {
+        "line": 22,
+        "character": 20
+      }
+    },
+    "teal": 98,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 6
+      },
+      "end": {
+        "line": 22,
+        "character": 20
+      }
+    },
+    "teal": 99,
+    "pc": 126
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 10
+      },
+      "end": {
+        "line": 22,
+        "character": 19
+      }
+    },
+    "teal": 100,
+    "pc": 127
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 6
+      },
+      "end": {
+        "line": 22,
+        "character": 9
+      }
+    },
+    "teal": 101,
+    "pc": 130
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 5
+      }
+    },
+    "teal": 102,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 125,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 127,
+    "pc": 145
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 225,
+    "pc": 223
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 327,
+    "pc": 306
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 107,
+    "pc": 132
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 108,
+    "pc": 135
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 109,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 133,
+    "pc": 152
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 111,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 197,
+    "pc": 202
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 113,
+    "pc": 136
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 114,
+    "pc": 137
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 115,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 116,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 171,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 173,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 119,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 8
+      },
+      "end": {
+        "line": 27,
+        "character": 17
+      }
+    },
+    "teal": 120,
+    "pc": 141
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 8
+      },
+      "end": {
+        "line": 27,
+        "character": 17
+      }
+    },
+    "teal": 121,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 15
+      },
+      "end": {
+        "line": 27,
+        "character": 16
+      }
+    },
+    "teal": 122,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 8
+      },
+      "end": {
+        "line": 27,
+        "character": 14
+      }
+    },
+    "teal": 217,
+    "pc": 214
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 124,
+    "pc": 143
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 125,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 6
+      },
+      "end": {
+        "line": 28,
+        "character": 15
+      }
+    },
+    "teal": 126,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 6
+      },
+      "end": {
+        "line": 28,
+        "character": 15
+      }
+    },
+    "teal": 127,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 10
+      },
+      "end": {
+        "line": 28,
+        "character": 14
+      }
+    },
+    "teal": 128,
+    "pc": 146
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 6
+      },
+      "end": {
+        "line": 28,
+        "character": 9
+      }
+    },
+    "teal": 129,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 130,
+    "pc": 149
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 131,
+    "pc": 150
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 15
+      },
+      "end": {
+        "line": 29,
+        "character": 24
+      }
+    },
+    "teal": 132,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 15
+      },
+      "end": {
+        "line": 29,
+        "character": 24
+      }
+    },
+    "teal": 133,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 22
+      },
+      "end": {
+        "line": 29,
+        "character": 23
+      }
+    },
+    "teal": 134,
+    "pc": 153
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 15
+      },
+      "end": {
+        "line": 29,
+        "character": 21
+      }
+    },
+    "teal": 135,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 286,
+    "pc": 268
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 137,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 6
+      },
+      "end": {
+        "line": 30,
+        "character": 20
+      }
+    },
+    "teal": 138,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 6
+      },
+      "end": {
+        "line": 30,
+        "character": 20
+      }
+    },
+    "teal": 139,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 10
+      },
+      "end": {
+        "line": 30,
+        "character": 19
+      }
+    },
+    "teal": 140,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 6
+      },
+      "end": {
+        "line": 30,
+        "character": 9
+      }
+    },
+    "teal": 247,
+    "pc": 238
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 142,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 143,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 6
+      },
+      "end": {
+        "line": 32,
+        "character": 17
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 6
+      },
+      "end": {
+        "line": 32,
+        "character": 17
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 10
+      },
+      "end": {
+        "line": 32,
+        "character": 16
+      }
+    },
+    "teal": 255,
+    "pc": 246
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 6
+      },
+      "end": {
+        "line": 32,
+        "character": 9
+      }
+    },
+    "teal": 308,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 5
+      }
+    },
+    "teal": 148,
+    "pc": 163
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 149,
+    "pc": 166
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 183,
+    "pc": 187
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 184,
+    "pc": 188
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 185,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 224,
+    "pc": 220
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 155,
+    "pc": 168
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 156,
+    "pc": 171
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 157,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 190,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 159,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 334,
+    "pc": 353
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 335,
+    "pc": 354
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 162,
+    "pc": 173
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 163,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 164,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 165,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 8
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 166,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 8
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 167,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 15
+      },
+      "end": {
+        "line": 37,
+        "character": 16
+      }
+    },
+    "teal": 294,
+    "pc": 276
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 8
+      },
+      "end": {
+        "line": 37,
+        "character": 14
+      }
+    },
+    "teal": 169,
+    "pc": 178
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 170,
+    "pc": 181
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 171,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 6
+      },
+      "end": {
+        "line": 38,
+        "character": 15
+      }
+    },
+    "teal": 172,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 6
+      },
+      "end": {
+        "line": 38,
+        "character": 15
+      }
+    },
+    "teal": 173,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 10
+      },
+      "end": {
+        "line": 38,
+        "character": 14
+      }
+    },
+    "teal": 302,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 6
+      },
+      "end": {
+        "line": 38,
+        "character": 9
+      }
+    },
+    "teal": 211,
+    "pc": 212
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 176,
+    "pc": 183
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 177,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 15
+      },
+      "end": {
+        "line": 39,
+        "character": 24
+      }
+    },
+    "teal": 178,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 15
+      },
+      "end": {
+        "line": 39,
+        "character": 24
+      }
+    },
+    "teal": 179,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 22
+      },
+      "end": {
+        "line": 39,
+        "character": 23
+      }
+    },
+    "teal": 180,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 15
+      },
+      "end": {
+        "line": 39,
+        "character": 21
+      }
+    },
+    "teal": 218,
+    "pc": 217
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 182,
+    "pc": 186
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 183,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 6
+      },
+      "end": {
+        "line": 40,
+        "character": 22
+      }
+    },
+    "teal": 184,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 6
+      },
+      "end": {
+        "line": 40,
+        "character": 22
+      }
+    },
+    "teal": 185,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 10
+      },
+      "end": {
+        "line": 40,
+        "character": 21
+      }
+    },
+    "teal": 186,
+    "pc": 191
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 6
+      },
+      "end": {
+        "line": 40,
+        "character": 9
+      }
+    },
+    "teal": 187,
+    "pc": 192
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 188,
+    "pc": 193
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 189,
+    "pc": 194
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 15
+      },
+      "end": {
+        "line": 41,
+        "character": 24
+      }
+    },
+    "teal": 190,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 15
+      },
+      "end": {
+        "line": 41,
+        "character": 24
+      }
+    },
+    "teal": 191,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 22
+      },
+      "end": {
+        "line": 41,
+        "character": 23
+      }
+    },
+    "teal": 231,
+    "pc": 225
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 15
+      },
+      "end": {
+        "line": 41,
+        "character": 21
+      }
+    },
+    "teal": 193,
+    "pc": 198
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 194,
+    "pc": 199
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 195,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 6
+      },
+      "end": {
+        "line": 42,
+        "character": 22
+      }
+    },
+    "teal": 196,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 6
+      },
+      "end": {
+        "line": 42,
+        "character": 22
+      }
+    },
+    "teal": 197,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 10
+      },
+      "end": {
+        "line": 42,
+        "character": 21
+      }
+    },
+    "teal": 198,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 6
+      },
+      "end": {
+        "line": 42,
+        "character": 9
+      }
+    },
+    "teal": 287,
+    "pc": 271
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 5
+      }
+    },
+    "teal": 290,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 242,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 293,
+    "pc": 273
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 203,
+    "pc": 204
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 204,
+    "pc": 207
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 205,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 248,
+    "pc": 239
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 249,
+    "pc": 240
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 300,
+    "pc": 279
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 301,
+    "pc": 282
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 210,
+    "pc": 209
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 211,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 212,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 307,
+    "pc": 284
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 214,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 311,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 313,
+    "pc": 287
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 217,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 8
+      },
+      "end": {
+        "line": 47,
+        "character": 17
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 8
+      },
+      "end": {
+        "line": 47,
+        "character": 17
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 15
+      },
+      "end": {
+        "line": 47,
+        "character": 16
+      }
+    },
+    "teal": 319,
+    "pc": 294
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 8
+      },
+      "end": {
+        "line": 47,
+        "character": 14
+      }
+    },
+    "teal": 320,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 321,
+    "pc": 297
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 223,
+    "pc": 219
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 15
+      }
+    },
+    "teal": 224,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 15
+      }
+    },
+    "teal": 225,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 10
+      },
+      "end": {
+        "line": 48,
+        "character": 14
+      }
+    },
+    "teal": 226,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 9
+      }
+    },
+    "teal": 328,
+    "pc": 312
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 228,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 331,
+    "pc": 330
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 15
+      },
+      "end": {
+        "line": 49,
+        "character": 24
+      }
+    },
+    "teal": 230,
+    "pc": 224
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 15
+      },
+      "end": {
+        "line": 49,
+        "character": 24
+      }
+    },
+    "teal": 231,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 22
+      },
+      "end": {
+        "line": 49,
+        "character": 23
+      }
+    },
+    "teal": 232,
+    "pc": 228
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 15
+      },
+      "end": {
+        "line": 49,
+        "character": 21
+      }
+    },
+    "teal": 233,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 336,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 235,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 6
+      },
+      "end": {
+        "line": 50,
+        "character": 22
+      }
+    },
+    "teal": 236,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 6
+      },
+      "end": {
+        "line": 50,
+        "character": 22
+      }
+    },
+    "teal": 237,
+    "pc": 230
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 10
+      },
+      "end": {
+        "line": 50,
+        "character": 21
+      }
+    },
+    "teal": 238,
+    "pc": 231
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 6
+      },
+      "end": {
+        "line": 50,
+        "character": 9
+      }
+    },
+    "teal": 239,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 288,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 241,
+    "pc": 232
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 15
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 242,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 15
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 243,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 22
+      },
+      "end": {
+        "line": 51,
+        "character": 23
+      }
+    },
+    "teal": 244,
+    "pc": 234
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 15
+      },
+      "end": {
+        "line": 51,
+        "character": 21
+      }
+    },
+    "teal": 245,
+    "pc": 235
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 246,
+    "pc": 236
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 247,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 6
+      },
+      "end": {
+        "line": 52,
+        "character": 22
+      }
+    },
+    "teal": 248,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 6
+      },
+      "end": {
+        "line": 52,
+        "character": 22
+      }
+    },
+    "teal": 249,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 10
+      },
+      "end": {
+        "line": 52,
+        "character": 21
+      }
+    },
+    "teal": 250,
+    "pc": 241
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 6
+      },
+      "end": {
+        "line": 52,
+        "character": 9
+      }
+    },
+    "teal": 251,
+    "pc": 242
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 252,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 11
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 304,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 6
+      },
+      "end": {
+        "line": 54,
+        "character": 17
+      }
+    },
+    "teal": 254,
+    "pc": 245
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 6
+      },
+      "end": {
+        "line": 54,
+        "character": 17
+      }
+    },
+    "teal": 255,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 10
+      },
+      "end": {
+        "line": 54,
+        "character": 16
+      }
+    },
+    "teal": 256,
+    "pc": 247
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 6
+      },
+      "end": {
+        "line": 54,
+        "character": 9
+      }
+    },
+    "teal": 257,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 5
+      }
+    },
+    "teal": 310,
+    "pc": 285
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 259,
+    "pc": 250
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 260,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 314,
+    "pc": 290
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 315,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 263,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 318,
+    "pc": 293
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 265,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 266,
+    "pc": 255
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 267,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 322,
+    "pc": 298
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 323,
+    "pc": 299
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 324,
+    "pc": 300
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 325,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 272,
+    "pc": 257
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 273,
+    "pc": 260
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 274,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 330,
+    "pc": 324
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 276,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 332,
+    "pc": 336
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 333,
+    "pc": 339
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 279,
+    "pc": 262
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 280,
+    "pc": 265
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/if.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 281,
+    "pc": 0
+  }
+]

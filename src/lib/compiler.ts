@@ -248,7 +248,7 @@ export default class Compiler {
     box: string[]
   } = { global: [], local: [], box: [] };
 
-  private srcMap: {tealscript: SourceInfo, teal: number, pc: number}[] = [];
+  srcMap: {source: SourceInfo, teal: number, pc: number}[] = [];
 
   private customTypes: {[name: string] : string} = {};
 
@@ -320,7 +320,7 @@ export default class Compiler {
   private constants: {[name: string]: ts.Node};
 
   private readonly OP_PARAMS: {
-    [type: string]: {name: string, type?: string, args: number, fn: () => void}[]
+    [type: string]: {name: string, type?: string, args: number, fn: (node: ts.Node) => void}[]
   } = {
       account: [
         ...this.getOpParamObjects('acct_params_get'),
@@ -332,9 +332,8 @@ export default class Compiler {
           name: 'Global',
           type: 'any',
           args: 2,
-          fn: () => {
-            // TODO:NONODE
-            this.maybeValue(this.lastNode, 'app_global_get_ex', StackType.bytes);
+          fn: (node: ts.Node) => {
+            this.maybeValue(node, 'app_global_get_ex', StackType.bytes);
           },
         },
       ],
@@ -751,9 +750,9 @@ export default class Compiler {
         || opSpec.ArgEnumTypes![i].replace('B', StackType.bytes).replace('U', StackType.uint64);
 
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
-        fn = () => this.push(this.lastNode, `${op} ${arg}`, type);
+        fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, type);
       } else {
-        fn = () => this.maybeValue(this.lastNode, `${op} ${arg}`, type);
+        fn = (node: ts.Node) => this.maybeValue(node, `${op} ${arg}`, type);
       }
       return {
         name: arg,
@@ -1007,7 +1006,7 @@ export default class Compiler {
 
   private push(node: ts.Node, teal: string, type: string) {
     this.srcMap.push({
-      tealscript: {
+      source: {
         filename: this.filename,
         start: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()),
         end: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd()),
@@ -1918,12 +1917,14 @@ export default class Compiler {
   }
 
   private getStackTypeFromNode(node: ts.Node) {
+    const preSrcMap = this.srcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
     this.processNode(node);
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
+    this.srcMap = preSrcMap;
     return this.customTypes[type] || type;
   }
 
@@ -2305,7 +2306,7 @@ export default class Compiler {
       this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
       new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
-      this.push(node, `callsub ${methodName}`, this.subroutines[methodName].returnType);
+      this.push(node.expression, `callsub ${methodName}`, this.subroutines[methodName].returnType);
     } else if (
       ts.isPropertyAccessExpression(node.expression.expression)
       && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
@@ -2502,7 +2503,7 @@ export default class Compiler {
         switch (n.name.getText()) {
           case 'app':
             this.lastType = 'application';
-            this.pushVoid(n.expression, 'txna Applications 0');
+            this.pushVoid(n, 'txna Applications 0');
             break;
           default:
             this.lastType = n.name.getText();
@@ -2919,7 +2920,7 @@ export default class Compiler {
       if (!paramObj) throw new Error(`Unknown method: ${type}.${name}`);
 
       if (!checkArgs || paramObj.args === 1) {
-        paramObj.fn();
+        paramObj.fn(node);
       }
       return;
     }
@@ -2978,6 +2979,11 @@ export default class Compiler {
       if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
 
       this.lineToPc[lastLine].push(pc);
+
+      // eslint-disable-next-line no-loop-func
+      const srcLine = this.srcMap.find((s) => s.teal === lastLine);
+
+      if (srcLine) srcLine.pc = pc;
       this.pcToLine[pc] = lastLine;
     }
 
@@ -3143,7 +3149,7 @@ export default class Compiler {
 
       const thisLine = this.srcMap.find((s) => s.teal === i);
       if (thisLine) {
-        thisLine!.pc = output.length;
+        thisLine!.teal = output.length;
       }
     });
 

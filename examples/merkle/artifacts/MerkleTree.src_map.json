@@ -1,484 +1,4952 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 0,
-  "13": 0,
-  "14": 0,
-  "15": 0,
-  "16": 0,
-  "17": 0,
-  "18": 0,
-  "19": 0,
-  "20": 0,
-  "21": 0,
-  "22": 0,
-  "23": 0,
-  "24": 0,
-  "25": 0,
-  "26": 0,
-  "27": 0,
-  "28": 0,
-  "29": 0,
-  "30": 0,
-  "31": 0,
-  "32": 0,
-  "33": 0,
-  "34": 0,
-  "35": 0,
-  "36": 0,
-  "37": 0,
-  "38": 0,
-  "39": 0,
-  "40": 0,
-  "41": 0,
-  "42": 0,
-  "43": 0,
-  "44": 0,
-  "45": 0,
-  "46": 0,
-  "47": 0,
-  "48": 0,
-  "49": 0,
-  "50": 0,
-  "51": 0,
-  "52": 0,
-  "53": 0,
-  "54": 0,
-  "55": 1,
-  "56": 1,
-  "57": 1,
-  "58": 4,
-  "59": 4,
-  "60": 4,
-  "61": 10,
-  "62": 11,
-  "63": 11,
-  "64": 15,
-  "65": 16,
-  "66": 16,
-  "67": 19,
-  "68": 19,
-  "69": 20,
-  "70": 21,
-  "71": 22,
-  "72": 22,
-  "73": 22,
-  "74": 26,
-  "75": 26,
-  "76": 27,
-  "77": 27,
-  "78": 28,
-  "79": 29,
-  "80": 30,
-  "81": 30,
-  "82": 34,
-  "83": 34,
-  "84": 35,
-  "85": 36,
-  "86": 37,
-  "87": 37,
-  "88": 38,
-  "89": 38,
-  "90": 38,
-  "91": 43,
-  "92": 43,
-  "93": 44,
-  "94": 47,
-  "95": 47,
-  "96": 47,
-  "97": 51,
-  "98": 51,
-  "99": 52,
-  "100": 52,
-  "101": 53,
-  "102": 54,
-  "103": 55,
-  "104": 58,
-  "105": 58,
-  "106": 58,
-  "107": 62,
-  "108": 62,
-  "109": 63,
-  "110": 64,
-  "111": 65,
-  "112": 65,
-  "113": 65,
-  "114": 66,
-  "115": 67,
-  "116": 70,
-  "117": 70,
-  "118": 70,
-  "119": 74,
-  "120": 74,
-  "121": 75,
-  "122": 75,
-  "123": 79,
-  "124": 80,
-  "125": 80,
-  "126": 83,
-  "127": 83,
-  "128": 84,
-  "129": 85,
-  "130": 86,
-  "131": 86,
-  "132": 86,
-  "133": 90,
-  "134": 90,
-  "135": 91,
-  "136": 91,
-  "137": 92,
-  "138": 93,
-  "139": 93,
-  "140": 94,
-  "141": 95,
-  "142": 96,
-  "143": 97,
-  "144": 97,
-  "145": 98,
-  "146": 99,
-  "147": 100,
-  "148": 101,
-  "149": 101,
-  "150": 107,
-  "151": 107,
-  "152": 108,
-  "153": 108,
-  "154": 108,
-  "155": 109,
-  "156": 109,
-  "157": 109,
-  "158": 115,
-  "159": 115,
-  "160": 116,
-  "161": 117,
-  "162": 117,
-  "163": 118,
-  "164": 119,
-  "165": 119,
-  "166": 120,
-  "167": 120,
-  "168": 120,
-  "169": 121,
-  "170": 121,
-  "171": 122,
-  "172": 122,
-  "173": 122,
-  "174": 128,
-  "175": 128,
-  "176": 129,
-  "177": 129,
-  "178": 130,
-  "179": 131,
-  "180": 131,
-  "181": 132,
-  "182": 133,
-  "183": 133,
-  "184": 133,
-  "185": 134,
-  "186": 134,
-  "187": 139,
-  "188": 139,
-  "189": 140,
-  "190": 141,
-  "191": 142,
-  "192": 142,
-  "193": 143,
-  "194": 143,
-  "195": 143,
-  "196": 148,
-  "197": 148,
-  "198": 149,
-  "199": 152,
-  "200": 152,
-  "201": 153,
-  "202": 153,
-  "203": 154,
-  "204": 155,
-  "205": 155,
-  "206": 156,
-  "207": 157,
-  "208": 158,
-  "209": 159,
-  "210": 162,
-  "211": 162,
-  "212": 162,
-  "213": 163,
-  "214": 164,
-  "215": 167,
-  "216": 167,
-  "217": 167,
-  "218": 171,
-  "219": 171,
-  "220": 172,
-  "221": 172,
-  "222": 172,
-  "223": 173,
-  "224": 173,
-  "225": 174,
-  "226": 175,
-  "227": 176,
-  "228": 177,
-  "229": 180,
-  "230": 180,
-  "231": 181,
-  "232": 182,
-  "233": 183,
-  "234": 183,
-  "235": 184,
-  "236": 185,
-  "237": 186,
-  "238": 187,
-  "239": 190,
-  "240": 190,
-  "241": 190,
-  "242": 191,
-  "243": 192,
-  "244": 195,
-  "245": 195,
-  "246": 195,
-  "247": 199,
-  "248": 200,
-  "249": 200,
-  "250": 201,
-  "251": 201,
-  "252": 201,
-  "253": 202,
-  "254": 203,
-  "255": 206,
-  "256": 206,
-  "257": 207,
-  "258": 208,
-  "259": 209,
-  "260": 209,
-  "261": 210,
-  "262": 211,
-  "263": 212,
-  "264": 213,
-  "265": 216,
-  "266": 216,
-  "267": 216,
-  "268": 217,
-  "269": 217,
-  "270": 217,
-  "271": 218,
-  "272": 218,
-  "273": 218,
-  "274": 219,
-  "275": 219,
-  "276": 219,
-  "277": 220,
-  "278": 221,
-  "279": 224,
-  "280": 224,
-  "281": 224,
-  "282": 228,
-  "283": 229,
-  "284": 230,
-  "285": 231,
-  "286": 231,
-  "287": 232,
-  "288": 232,
-  "289": 233,
-  "290": 233,
-  "291": 234,
-  "292": 235,
-  "293": 235,
-  "294": 235,
-  "295": 236,
-  "296": 237,
-  "297": 238,
-  "298": 241,
-  "299": 241,
-  "300": 242,
-  "301": 243,
-  "302": 244,
-  "303": 244,
-  "304": 245,
-  "305": 246,
-  "306": 247,
-  "307": 248,
-  "308": 251,
-  "309": 251,
-  "310": 251,
-  "311": 252,
-  "312": 252,
-  "313": 252,
-  "314": 253,
-  "315": 253,
-  "316": 253,
-  "317": 254,
-  "318": 254,
-  "319": 254,
-  "320": 255,
-  "321": 256,
-  "322": 259,
-  "323": 259,
-  "324": 259,
-  "325": 263,
-  "326": 263,
-  "327": 264,
-  "328": 265,
-  "329": 266,
-  "330": 270,
-  "331": 271,
-  "332": 272,
-  "333": 273,
-  "334": 273,
-  "335": 274,
-  "336": 274,
-  "337": 278,
-  "338": 279,
-  "339": 279,
-  "340": 279,
-  "341": 280,
-  "342": 281,
-  "343": 285,
-  "344": 286,
-  "345": 287,
-  "346": 287,
-  "347": 288,
-  "348": 288,
-  "349": 289,
-  "350": 289,
-  "351": 290,
-  "352": 291,
-  "353": 291,
-  "354": 291,
-  "355": 292,
-  "356": 296,
-  "357": 297,
-  "358": 298,
-  "359": 299,
-  "360": 300,
-  "361": 301,
-  "362": 302,
-  "363": 305,
-  "364": 305,
-  "365": 306,
-  "366": 307,
-  "367": 308,
-  "368": 308,
-  "369": 309,
-  "370": 310,
-  "371": 311,
-  "372": 312,
-  "373": 315,
-  "374": 315,
-  "375": 315,
-  "376": 316,
-  "377": 316,
-  "378": 316,
-  "379": 317,
-  "380": 317,
-  "381": 317,
-  "382": 318,
-  "383": 318,
-  "384": 318,
-  "385": 319,
-  "386": 319,
-  "387": 319,
-  "388": 320,
-  "389": 320,
-  "390": 320,
-  "391": 321,
-  "392": 322,
-  "393": 325,
-  "394": 325,
-  "395": 325,
-  "396": 329,
-  "397": 329,
-  "398": 330,
-  "399": 331,
-  "400": 332,
-  "401": 336,
-  "402": 337,
-  "403": 338,
-  "404": 339,
-  "405": 339,
-  "406": 340,
-  "407": 340,
-  "408": 341,
-  "409": 341,
-  "410": 342,
-  "411": 343,
-  "412": 343,
-  "413": 343,
-  "414": 344,
-  "415": 345,
-  "416": 349,
-  "417": 350,
-  "418": 351,
-  "419": 351,
-  "420": 352,
-  "421": 352,
-  "422": 353,
-  "423": 353,
-  "424": 354,
-  "425": 355,
-  "426": 355,
-  "427": 355,
-  "428": 356,
-  "429": 357,
-  "430": 360,
-  "431": 360,
-  "432": 361,
-  "433": 361,
-  "434": 361,
-  "435": 362,
-  "436": 362,
-  "437": 363,
-  "438": 364,
-  "439": 365,
-  "440": 365,
-  "441": 365,
-  "442": 366,
-  "443": 366,
-  "444": 367,
-  "445": 367,
-  "446": 368,
-  "447": 369,
-  "448": 370,
-  "449": 370,
-  "450": 370,
-  "451": 370,
-  "452": 373,
-  "453": 373,
-  "454": 373,
-  "455": 373,
-  "456": 373,
-  "457": 373,
-  "458": 374,
-  "459": 374,
-  "460": 374,
-  "461": 374,
-  "462": 374,
-  "463": 374,
-  "464": 375,
-  "465": 375,
-  "466": 375,
-  "467": 375,
-  "468": 375,
-  "469": 375,
-  "470": 376,
-  "471": 376,
-  "472": 376,
-  "473": 377,
-  "474": 377,
-  "475": 377,
-  "476": 377,
-  "477": 377,
-  "478": 377,
-  "479": 377,
-  "480": 377,
-  "481": 378
-}
+[
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 15,
+        "character": 2
+      },
+      "end": {
+        "line": 23,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 60
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 15,
+        "character": 2
+      },
+      "end": {
+        "line": 23,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 8
+      },
+      "end": {
+        "line": 16,
+        "character": 27
+      }
+    },
+    "teal": 4,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 8
+      },
+      "end": {
+        "line": 16,
+        "character": 27
+      }
+    },
+    "teal": 5,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 19
+      },
+      "end": {
+        "line": 3,
+        "character": 90
+      }
+    },
+    "teal": 6,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 19
+      },
+      "end": {
+        "line": 3,
+        "character": 90
+      }
+    },
+    "teal": 7,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 23
+      },
+      "end": {
+        "line": 3,
+        "character": 89
+      }
+    },
+    "teal": 11,
+    "pc": 63
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 8
+      },
+      "end": {
+        "line": 16,
+        "character": 27
+      }
+    },
+    "teal": 27,
+    "pc": 77
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 13
+      },
+      "end": {
+        "line": 18,
+        "character": 18
+      }
+    },
+    "teal": 10,
+    "pc": 61
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 13
+      },
+      "end": {
+        "line": 18,
+        "character": 18
+      }
+    },
+    "teal": 11,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 17
+      },
+      "end": {
+        "line": 18,
+        "character": 18
+      }
+    },
+    "teal": 12,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 13
+      },
+      "end": {
+        "line": 18,
+        "character": 18
+      }
+    },
+    "teal": 35,
+    "pc": 84
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 4
+      },
+      "end": {
+        "line": 20,
+        "character": 5
+      }
+    },
+    "teal": 19,
+    "pc": 68
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 20
+      },
+      "end": {
+        "line": 18,
+        "character": 21
+      }
+    },
+    "teal": 20,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 2,
+        "character": 19
+      },
+      "end": {
+        "line": 2,
+        "character": 20
+      }
+    },
+    "teal": 16,
+    "pc": 66
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 22
+      },
+      "end": {
+        "line": 18,
+        "character": 23
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 4
+      },
+      "end": {
+        "line": 20,
+        "character": 5
+      }
+    },
+    "teal": 117,
+    "pc": 162
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 38
+      }
+    },
+    "teal": 19,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 38
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 12
+      }
+    },
+    "teal": 21,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 22
+      },
+      "end": {
+        "line": 19,
+        "character": 28
+      }
+    },
+    "teal": 21,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 31
+      },
+      "end": {
+        "line": 19,
+        "character": 37
+      }
+    },
+    "teal": 22,
+    "pc": 73
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 29
+      },
+      "end": {
+        "line": 19,
+        "character": 30
+      }
+    },
+    "teal": 23,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 15
+      },
+      "end": {
+        "line": 19,
+        "character": 21
+      }
+    },
+    "teal": 225,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 38
+      }
+    },
+    "teal": 87,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 36
+      },
+      "end": {
+        "line": 18,
+        "character": 45
+      }
+    },
+    "teal": 26,
+    "pc": 75
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 36
+      },
+      "end": {
+        "line": 18,
+        "character": 45
+      }
+    },
+    "teal": 27,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 36
+      },
+      "end": {
+        "line": 18,
+        "character": 37
+      }
+    },
+    "teal": 28,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 40
+      },
+      "end": {
+        "line": 18,
+        "character": 41
+      }
+    },
+    "teal": 28,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 44
+      },
+      "end": {
+        "line": 18,
+        "character": 45
+      }
+    },
+    "teal": 29,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 42
+      },
+      "end": {
+        "line": 18,
+        "character": 43
+      }
+    },
+    "teal": 30,
+    "pc": 81
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 36
+      },
+      "end": {
+        "line": 18,
+        "character": 45
+      }
+    },
+    "teal": 31,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 4
+      },
+      "end": {
+        "line": 20,
+        "character": 5
+      }
+    },
+    "teal": 59,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 4
+      },
+      "end": {
+        "line": 20,
+        "character": 5
+      }
+    },
+    "teal": 41,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 18
+      }
+    },
+    "teal": 34,
+    "pc": 83
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 18
+      }
+    },
+    "teal": 35,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 11
+      },
+      "end": {
+        "line": 22,
+        "character": 17
+      }
+    },
+    "teal": 36,
+    "pc": 85
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 18
+      }
+    },
+    "teal": 37,
+    "pc": 87
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 2
+      },
+      "end": {
+        "line": 27,
+        "character": 3
+      }
+    },
+    "teal": 38,
+    "pc": 90
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 2
+      },
+      "end": {
+        "line": 27,
+        "character": 3
+      }
+    },
+    "teal": 39,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 32
+      }
+    },
+    "teal": 40,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 32
+      }
+    },
+    "teal": 41,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 18
+      },
+      "end": {
+        "line": 26,
+        "character": 22
+      }
+    },
+    "teal": 64,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 25
+      },
+      "end": {
+        "line": 26,
+        "character": 30
+      }
+    },
+    "teal": 344,
+    "pc": 414
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 23
+      },
+      "end": {
+        "line": 26,
+        "character": 24
+      }
+    },
+    "teal": 44,
+    "pc": 93
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 11
+      },
+      "end": {
+        "line": 26,
+        "character": 17
+      }
+    },
+    "teal": 45,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 32
+      }
+    },
+    "teal": 193,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 2
+      },
+      "end": {
+        "line": 31,
+        "character": 3
+      }
+    },
+    "teal": 47,
+    "pc": 96
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 2
+      },
+      "end": {
+        "line": 31,
+        "character": 3
+      }
+    },
+    "teal": 48,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 4
+      },
+      "end": {
+        "line": 30,
+        "character": 53
+      }
+    },
+    "teal": 49,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 4
+      },
+      "end": {
+        "line": 30,
+        "character": 53
+      }
+    },
+    "teal": 50,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 19
+      },
+      "end": {
+        "line": 30,
+        "character": 23
+      }
+    },
+    "teal": 63,
+    "pc": 109
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 25
+      },
+      "end": {
+        "line": 30,
+        "character": 26
+      }
+    },
+    "teal": 52,
+    "pc": 100
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 11
+      },
+      "end": {
+        "line": 30,
+        "character": 18
+      }
+    },
+    "teal": 53,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 29
+      },
+      "end": {
+        "line": 4,
+        "character": 32
+      }
+    },
+    "teal": 54,
+    "pc": 102
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 28
+      },
+      "end": {
+        "line": 30,
+        "character": 31
+      }
+    },
+    "teal": 55,
+    "pc": 103
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 4
+      },
+      "end": {
+        "line": 30,
+        "character": 53
+      }
+    },
+    "teal": 56,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 2
+      },
+      "end": {
+        "line": 47,
+        "character": 3
+      }
+    },
+    "teal": 86,
+    "pc": 132
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 2
+      },
+      "end": {
+        "line": 47,
+        "character": 3
+      }
+    },
+    "teal": 58,
+    "pc": 106
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 8
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 59,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 8
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 60,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 17
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 333,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 8
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 93,
+    "pc": 139
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 13
+      },
+      "end": {
+        "line": 36,
+        "character": 18
+      }
+    },
+    "teal": 63,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 13
+      },
+      "end": {
+        "line": 36,
+        "character": 18
+      }
+    },
+    "teal": 64,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 17
+      },
+      "end": {
+        "line": 36,
+        "character": 18
+      }
+    },
+    "teal": 65,
+    "pc": 113
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 13
+      },
+      "end": {
+        "line": 36,
+        "character": 18
+      }
+    },
+    "teal": 66,
+    "pc": 114
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 4
+      },
+      "end": {
+        "line": 44,
+        "character": 5
+      }
+    },
+    "teal": 67,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 20
+      },
+      "end": {
+        "line": 36,
+        "character": 21
+      }
+    },
+    "teal": 68,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 2,
+        "character": 19
+      },
+      "end": {
+        "line": 2,
+        "character": 20
+      }
+    },
+    "teal": 230,
+    "pc": 284
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 22
+      },
+      "end": {
+        "line": 36,
+        "character": 23
+      }
+    },
+    "teal": 70,
+    "pc": 118
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 4
+      },
+      "end": {
+        "line": 44,
+        "character": 5
+      }
+    },
+    "teal": 71,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 12
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 72,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 12
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 73,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 23
+      }
+    },
+    "teal": 244,
+    "pc": 303
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 23
+      }
+    },
+    "teal": 74,
+    "pc": 120
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 75,
+    "pc": 122
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 76,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 24
+      },
+      "end": {
+        "line": 37,
+        "character": 25
+      }
+    },
+    "teal": 94,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 24
+      },
+      "end": {
+        "line": 37,
+        "character": 25
+      }
+    },
+    "teal": 95,
+    "pc": 141
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 24
+      },
+      "end": {
+        "line": 37,
+        "character": 25
+      }
+    },
+    "teal": 96,
+    "pc": 142
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 24
+      },
+      "end": {
+        "line": 37,
+        "character": 25
+      }
+    },
+    "teal": 80,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 81,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 118,
+    "pc": 163
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 83,
+    "pc": 127
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 19
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 84,
+    "pc": 128
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 12
+      },
+      "end": {
+        "line": 37,
+        "character": 26
+      }
+    },
+    "teal": 85,
+    "pc": 129
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 86,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 10
+      },
+      "end": {
+        "line": 39,
+        "character": 35
+      }
+    },
+    "teal": 87,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 10
+      },
+      "end": {
+        "line": 39,
+        "character": 35
+      }
+    },
+    "teal": 88,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 10
+      },
+      "end": {
+        "line": 39,
+        "character": 35
+      }
+    },
+    "teal": 89,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 30
+      },
+      "end": {
+        "line": 39,
+        "character": 34
+      }
+    },
+    "teal": 108,
+    "pc": 154
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 10
+      },
+      "end": {
+        "line": 39,
+        "character": 29
+      }
+    },
+    "teal": 91,
+    "pc": 136
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 92,
+    "pc": 137
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 93,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 8
+      },
+      "end": {
+        "line": 40,
+        "character": 63
+      }
+    },
+    "teal": 94,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 8
+      },
+      "end": {
+        "line": 40,
+        "character": 63
+      }
+    },
+    "teal": 95,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 8
+      },
+      "end": {
+        "line": 40,
+        "character": 14
+      }
+    },
+    "teal": 96,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 17
+      },
+      "end": {
+        "line": 40,
+        "character": 63
+      }
+    },
+    "teal": 96,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 50
+      },
+      "end": {
+        "line": 40,
+        "character": 54
+      }
+    },
+    "teal": 97,
+    "pc": 144
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 56
+      },
+      "end": {
+        "line": 40,
+        "character": 57
+      }
+    },
+    "teal": 98,
+    "pc": 145
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 59
+      },
+      "end": {
+        "line": 40,
+        "character": 61
+      }
+    },
+    "teal": 99,
+    "pc": 146
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 41
+      },
+      "end": {
+        "line": 40,
+        "character": 49
+      }
+    },
+    "teal": 100,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 33
+      },
+      "end": {
+        "line": 40,
+        "character": 39
+      }
+    },
+    "teal": 101,
+    "pc": 149
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 17
+      },
+      "end": {
+        "line": 40,
+        "character": 32
+      }
+    },
+    "teal": 102,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 8
+      },
+      "end": {
+        "line": 40,
+        "character": 63
+      }
+    },
+    "teal": 168,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 125,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 8
+      },
+      "end": {
+        "line": 42,
+        "character": 63
+      }
+    },
+    "teal": 106,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 8
+      },
+      "end": {
+        "line": 42,
+        "character": 63
+      }
+    },
+    "teal": 107,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 8
+      },
+      "end": {
+        "line": 42,
+        "character": 14
+      }
+    },
+    "teal": 108,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 17
+      },
+      "end": {
+        "line": 42,
+        "character": 63
+      }
+    },
+    "teal": 108,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 56
+      },
+      "end": {
+        "line": 42,
+        "character": 62
+      }
+    },
+    "teal": 109,
+    "pc": 157
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 42
+      },
+      "end": {
+        "line": 42,
+        "character": 46
+      }
+    },
+    "teal": 110,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 48
+      },
+      "end": {
+        "line": 42,
+        "character": 49
+      }
+    },
+    "teal": 288,
+    "pc": 348
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 51
+      },
+      "end": {
+        "line": 42,
+        "character": 53
+      }
+    },
+    "teal": 289,
+    "pc": 350
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 33
+      },
+      "end": {
+        "line": 42,
+        "character": 41
+      }
+    },
+    "teal": 337,
+    "pc": 402
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 17
+      },
+      "end": {
+        "line": 42,
+        "character": 32
+      }
+    },
+    "teal": 184,
+    "pc": 235
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 8
+      },
+      "end": {
+        "line": 42,
+        "character": 63
+      }
+    },
+    "teal": 253,
+    "pc": 316
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 6
+      },
+      "end": {
+        "line": 43,
+        "character": 7
+      }
+    },
+    "teal": 116,
+    "pc": 160
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 36
+      },
+      "end": {
+        "line": 36,
+        "character": 45
+      }
+    },
+    "teal": 117,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 36
+      },
+      "end": {
+        "line": 36,
+        "character": 45
+      }
+    },
+    "teal": 118,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 36
+      },
+      "end": {
+        "line": 36,
+        "character": 37
+      }
+    },
+    "teal": 119,
+    "pc": 165
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 40
+      },
+      "end": {
+        "line": 36,
+        "character": 41
+      }
+    },
+    "teal": 119,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 44
+      },
+      "end": {
+        "line": 36,
+        "character": 45
+      }
+    },
+    "teal": 120,
+    "pc": 168
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 42
+      },
+      "end": {
+        "line": 36,
+        "character": 43
+      }
+    },
+    "teal": 121,
+    "pc": 170
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 36
+      },
+      "end": {
+        "line": 36,
+        "character": 45
+      }
+    },
+    "teal": 122,
+    "pc": 173
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 4
+      },
+      "end": {
+        "line": 44,
+        "character": 5
+      }
+    },
+    "teal": 123,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 4
+      },
+      "end": {
+        "line": 44,
+        "character": 5
+      }
+    },
+    "teal": 368,
+    "pc": 446
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 4
+      },
+      "end": {
+        "line": 46,
+        "character": 18
+      }
+    },
+    "teal": 125,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 4
+      },
+      "end": {
+        "line": 46,
+        "character": 18
+      }
+    },
+    "teal": 126,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 11
+      },
+      "end": {
+        "line": 46,
+        "character": 17
+      }
+    },
+    "teal": 376,
+    "pc": 472
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 4
+      },
+      "end": {
+        "line": 46,
+        "character": 18
+      }
+    },
+    "teal": 282,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 129,
+    "pc": 177
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 130,
+    "pc": 178
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 131,
+    "pc": 180
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 132,
+    "pc": 181
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 133,
+    "pc": 184
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 134,
+    "pc": 186
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 135,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 254,
+    "pc": 319
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 137,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 138,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 224,
+    "pc": 281
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 140,
+    "pc": 189
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 141,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 142,
+    "pc": 192
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 143,
+    "pc": 195
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 48
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 48
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 20
+      },
+      "end": {
+        "line": 51,
+        "character": 26
+      }
+    },
+    "teal": 146,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 31
+      },
+      "end": {
+        "line": 51,
+        "character": 39
+      }
+    },
+    "teal": 237,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 31
+      },
+      "end": {
+        "line": 51,
+        "character": 39
+      }
+    },
+    "teal": 238,
+    "pc": 297
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 40
+      },
+      "end": {
+        "line": 51,
+        "character": 47
+      }
+    },
+    "teal": 148,
+    "pc": 197
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 40
+      },
+      "end": {
+        "line": 51,
+        "character": 47
+      }
+    },
+    "teal": 149,
+    "pc": 198
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 27
+      },
+      "end": {
+        "line": 51,
+        "character": 30
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 10
+      }
+    },
+    "teal": 243,
+    "pc": 301
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 152,
+    "pc": 200
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 153,
+    "pc": 202
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 154,
+    "pc": 203
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 155,
+    "pc": 205
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 156,
+    "pc": 206
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 157,
+    "pc": 207
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 158,
+    "pc": 208
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 159,
+    "pc": 209
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 160,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 345,
+    "pc": 415
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 162,
+    "pc": 212
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 163,
+    "pc": 213
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 164,
+    "pc": 214
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 165,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 358,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 167,
+    "pc": 217
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 4
+      },
+      "end": {
+        "line": 56,
+        "character": 38
+      }
+    },
+    "teal": 168,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 4
+      },
+      "end": {
+        "line": 56,
+        "character": 38
+      }
+    },
+    "teal": 169,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 4
+      },
+      "end": {
+        "line": 56,
+        "character": 17
+      }
+    },
+    "teal": 366,
+    "pc": 443
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 18
+      },
+      "end": {
+        "line": 56,
+        "character": 37
+      }
+    },
+    "teal": 367,
+    "pc": 445
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 18
+      },
+      "end": {
+        "line": 56,
+        "character": 35
+      }
+    },
+    "teal": 172,
+    "pc": 222
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 56,
+        "character": 4
+      },
+      "end": {
+        "line": 56,
+        "character": 17
+      }
+    },
+    "teal": 173,
+    "pc": 224
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 57,
+        "character": 3
+      }
+    },
+    "teal": 174,
+    "pc": 225
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 175,
+    "pc": 226
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 176,
+    "pc": 227
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 177,
+    "pc": 228
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 178,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 332,
+    "pc": 400
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 180,
+    "pc": 230
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 181,
+    "pc": 231
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 182,
+    "pc": 232
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 183,
+    "pc": 234
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 184,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 22
+      },
+      "end": {
+        "line": 59,
+        "character": 32
+      }
+    },
+    "teal": 185,
+    "pc": 236
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 9
+      },
+      "end": {
+        "line": 59,
+        "character": 20
+      }
+    },
+    "teal": 186,
+    "pc": 237
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 9
+      },
+      "end": {
+        "line": 59,
+        "character": 20
+      }
+    },
+    "teal": 187,
+    "pc": 238
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 188,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 346,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 301,
+    "pc": 361
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 191,
+    "pc": 242
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 192,
+    "pc": 243
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 4
+      },
+      "end": {
+        "line": 60,
+        "character": 65
+      }
+    },
+    "teal": 193,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 4
+      },
+      "end": {
+        "line": 60,
+        "character": 65
+      }
+    },
+    "teal": 194,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 11
+      },
+      "end": {
+        "line": 60,
+        "character": 24
+      }
+    },
+    "teal": 195,
+    "pc": 246
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 11
+      },
+      "end": {
+        "line": 60,
+        "character": 24
+      }
+    },
+    "teal": 196,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 31
+      },
+      "end": {
+        "line": 60,
+        "character": 64
+      }
+    },
+    "teal": 231,
+    "pc": 286
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 59
+      },
+      "end": {
+        "line": 60,
+        "character": 63
+      }
+    },
+    "teal": 271,
+    "pc": 331
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 52
+      },
+      "end": {
+        "line": 60,
+        "character": 56
+      }
+    },
+    "teal": 365,
+    "pc": 441
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 45
+      },
+      "end": {
+        "line": 60,
+        "character": 51
+      }
+    },
+    "teal": 200,
+    "pc": 249
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 31
+      },
+      "end": {
+        "line": 60,
+        "character": 44
+      }
+    },
+    "teal": 201,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 27
+      },
+      "end": {
+        "line": 60,
+        "character": 30
+      }
+    },
+    "teal": 202,
+    "pc": 253
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 4
+      },
+      "end": {
+        "line": 60,
+        "character": 10
+      }
+    },
+    "teal": 203,
+    "pc": 254
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 2
+      },
+      "end": {
+        "line": 61,
+        "character": 3
+      }
+    },
+    "teal": 204,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 373,
+    "pc": 457
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 206,
+    "pc": 256
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 207,
+    "pc": 257
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 208,
+    "pc": 258
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 209,
+    "pc": 260
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 210,
+    "pc": 261
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 211,
+    "pc": 262
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 212,
+    "pc": 263
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 213,
+    "pc": 264
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 214,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 26
+      },
+      "end": {
+        "line": 63,
+        "character": 36
+      }
+    },
+    "teal": 215,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 13
+      },
+      "end": {
+        "line": 63,
+        "character": 24
+      }
+    },
+    "teal": 340,
+    "pc": 407
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 13
+      },
+      "end": {
+        "line": 63,
+        "character": 24
+      }
+    },
+    "teal": 217,
+    "pc": 270
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 218,
+    "pc": 273
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 219,
+    "pc": 276
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 220,
+    "pc": 277
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 221,
+    "pc": 278
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 222,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 64,
+        "character": 23
+      }
+    },
+    "teal": 350,
+    "pc": 417
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 64,
+        "character": 23
+      }
+    },
+    "teal": 224,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 11
+      },
+      "end": {
+        "line": 64,
+        "character": 15
+      }
+    },
+    "teal": 225,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 20
+      },
+      "end": {
+        "line": 64,
+        "character": 22
+      }
+    },
+    "teal": 355,
+    "pc": 427
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 16
+      },
+      "end": {
+        "line": 64,
+        "character": 19
+      }
+    },
+    "teal": 356,
+    "pc": 428
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 64,
+        "character": 10
+      }
+    },
+    "teal": 357,
+    "pc": 429
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 4
+      },
+      "end": {
+        "line": 65,
+        "character": 63
+      }
+    },
+    "teal": 229,
+    "pc": 283
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 4
+      },
+      "end": {
+        "line": 65,
+        "character": 63
+      }
+    },
+    "teal": 230,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 11
+      },
+      "end": {
+        "line": 65,
+        "character": 24
+      }
+    },
+    "teal": 231,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 11
+      },
+      "end": {
+        "line": 65,
+        "character": 24
+      }
+    },
+    "teal": 232,
+    "pc": 288
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 31
+      },
+      "end": {
+        "line": 65,
+        "character": 62
+      }
+    },
+    "teal": 233,
+    "pc": 290
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 57
+      },
+      "end": {
+        "line": 65,
+        "character": 61
+      }
+    },
+    "teal": 234,
+    "pc": 291
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 19
+      },
+      "end": {
+        "line": 3,
+        "character": 90
+      }
+    },
+    "teal": 235,
+    "pc": 294
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 19
+      },
+      "end": {
+        "line": 3,
+        "character": 90
+      }
+    },
+    "teal": 236,
+    "pc": 295
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 3,
+        "character": 23
+      },
+      "end": {
+        "line": 3,
+        "character": 89
+      }
+    },
+    "teal": 237,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 31
+      },
+      "end": {
+        "line": 65,
+        "character": 44
+      }
+    },
+    "teal": 238,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 27
+      },
+      "end": {
+        "line": 65,
+        "character": 30
+      }
+    },
+    "teal": 239,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 4
+      },
+      "end": {
+        "line": 65,
+        "character": 10
+      }
+    },
+    "teal": 375,
+    "pc": 469
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 52
+      }
+    },
+    "teal": 241,
+    "pc": 299
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 52
+      }
+    },
+    "teal": 242,
+    "pc": 300
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 17
+      }
+    },
+    "teal": 243,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 18
+      },
+      "end": {
+        "line": 67,
+        "character": 51
+      }
+    },
+    "teal": 244,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 46
+      },
+      "end": {
+        "line": 67,
+        "character": 50
+      }
+    },
+    "teal": 245,
+    "pc": 304
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 39
+      },
+      "end": {
+        "line": 67,
+        "character": 43
+      }
+    },
+    "teal": 246,
+    "pc": 305
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 32
+      },
+      "end": {
+        "line": 67,
+        "character": 38
+      }
+    },
+    "teal": 247,
+    "pc": 306
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 18
+      },
+      "end": {
+        "line": 67,
+        "character": 31
+      }
+    },
+    "teal": 248,
+    "pc": 307
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 17
+      }
+    },
+    "teal": 249,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 4
+      },
+      "end": {
+        "line": 69,
+        "character": 38
+      }
+    },
+    "teal": 338,
+    "pc": 403
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 4
+      },
+      "end": {
+        "line": 69,
+        "character": 38
+      }
+    },
+    "teal": 339,
+    "pc": 405
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 4
+      },
+      "end": {
+        "line": 69,
+        "character": 17
+      }
+    },
+    "teal": 252,
+    "pc": 313
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 18
+      },
+      "end": {
+        "line": 69,
+        "character": 31
+      }
+    },
+    "teal": 253,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 18
+      },
+      "end": {
+        "line": 69,
+        "character": 31
+      }
+    },
+    "teal": 254,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 36
+      },
+      "end": {
+        "line": 69,
+        "character": 37
+      }
+    },
+    "teal": 255,
+    "pc": 320
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 34
+      },
+      "end": {
+        "line": 69,
+        "character": 35
+      }
+    },
+    "teal": 256,
+    "pc": 321
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 69,
+        "character": 4
+      },
+      "end": {
+        "line": 69,
+        "character": 17
+      }
+    },
+    "teal": 257,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 2
+      },
+      "end": {
+        "line": 70,
+        "character": 3
+      }
+    },
+    "teal": 300,
+    "pc": 360
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 259,
+    "pc": 324
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 260,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 351,
+    "pc": 419
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 353,
+    "pc": 423
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 354,
+    "pc": 424
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 264,
+    "pc": 327
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 265,
+    "pc": 328
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 266,
+    "pc": 329
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 267,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 360,
+    "pc": 431
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 45
+      },
+      "end": {
+        "line": 72,
+        "character": 55
+      }
+    },
+    "teal": 361,
+    "pc": 434
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 29
+      },
+      "end": {
+        "line": 72,
+        "character": 43
+      }
+    },
+    "teal": 362,
+    "pc": 436
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 29
+      },
+      "end": {
+        "line": 72,
+        "character": 43
+      }
+    },
+    "teal": 271,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 13
+      },
+      "end": {
+        "line": 72,
+        "character": 27
+      }
+    },
+    "teal": 272,
+    "pc": 332
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 13
+      },
+      "end": {
+        "line": 72,
+        "character": 27
+      }
+    },
+    "teal": 273,
+    "pc": 334
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 274,
+    "pc": 336
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 275,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 369,
+    "pc": 447
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 370,
+    "pc": 451
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 371,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 4
+      },
+      "end": {
+        "line": 73,
+        "character": 26
+      }
+    },
+    "teal": 279,
+    "pc": 340
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 4
+      },
+      "end": {
+        "line": 73,
+        "character": 26
+      }
+    },
+    "teal": 280,
+    "pc": 341
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 11
+      },
+      "end": {
+        "line": 73,
+        "character": 18
+      }
+    },
+    "teal": 281,
+    "pc": 342
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 23
+      },
+      "end": {
+        "line": 73,
+        "character": 25
+      }
+    },
+    "teal": 282,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 19
+      },
+      "end": {
+        "line": 73,
+        "character": 22
+      }
+    },
+    "teal": 283,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 4
+      },
+      "end": {
+        "line": 73,
+        "character": 10
+      }
+    },
+    "teal": 330,
+    "pc": 398
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 68
+      }
+    },
+    "teal": 331,
+    "pc": 399
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 68
+      }
+    },
+    "teal": 286,
+    "pc": 344
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 11
+      },
+      "end": {
+        "line": 74,
+        "character": 24
+      }
+    },
+    "teal": 287,
+    "pc": 346
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 11
+      },
+      "end": {
+        "line": 74,
+        "character": 24
+      }
+    },
+    "teal": 288,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 31
+      },
+      "end": {
+        "line": 74,
+        "character": 67
+      }
+    },
+    "teal": 289,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 62
+      },
+      "end": {
+        "line": 74,
+        "character": 66
+      }
+    },
+    "teal": 290,
+    "pc": 351
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 52
+      },
+      "end": {
+        "line": 74,
+        "character": 59
+      }
+    },
+    "teal": 291,
+    "pc": 354
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 45
+      },
+      "end": {
+        "line": 74,
+        "character": 51
+      }
+    },
+    "teal": 292,
+    "pc": 355
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 31
+      },
+      "end": {
+        "line": 74,
+        "character": 44
+      }
+    },
+    "teal": 293,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 27
+      },
+      "end": {
+        "line": 74,
+        "character": 30
+      }
+    },
+    "teal": 341,
+    "pc": 409
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 10
+      }
+    },
+    "teal": 342,
+    "pc": 410
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 55
+      }
+    },
+    "teal": 343,
+    "pc": 413
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 55
+      }
+    },
+    "teal": 297,
+    "pc": 357
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 17
+      }
+    },
+    "teal": 298,
+    "pc": 358
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 18
+      },
+      "end": {
+        "line": 76,
+        "character": 54
+      }
+    },
+    "teal": 299,
+    "pc": 359
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 49
+      },
+      "end": {
+        "line": 76,
+        "character": 53
+      }
+    },
+    "teal": 300,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 39
+      },
+      "end": {
+        "line": 76,
+        "character": 46
+      }
+    },
+    "teal": 301,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 32
+      },
+      "end": {
+        "line": 76,
+        "character": 38
+      }
+    },
+    "teal": 302,
+    "pc": 362
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 18
+      },
+      "end": {
+        "line": 76,
+        "character": 31
+      }
+    },
+    "teal": 303,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 17
+      }
+    },
+    "teal": 352,
+    "pc": 421
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 305,
+    "pc": 364
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 306,
+    "pc": 365
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 307,
+    "pc": 366
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 308,
+    "pc": 368
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 309,
+    "pc": 369
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 310,
+    "pc": 370
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 311,
+    "pc": 371
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 312,
+    "pc": 372
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 313,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 363,
+    "pc": 437
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 364,
+    "pc": 438
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 316,
+    "pc": 378
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 317,
+    "pc": 381
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 318,
+    "pc": 384
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 319,
+    "pc": 387
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 320,
+    "pc": 390
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 321,
+    "pc": 391
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 322,
+    "pc": 392
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 323,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/merkle/merkle.algo.ts",
+      "start": {
+        "line": 72,
+        "character": 2
+      },
+      "end": {
+        "line": 77,
+        "character": 3
+      }
+    },
+    "teal": 374,
+    "pc": 463
+  }
+]

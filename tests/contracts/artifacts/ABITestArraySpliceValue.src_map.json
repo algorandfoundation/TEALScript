@@ -1,224 +1,2147 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 1,
-  "8": 1,
-  "9": 1,
-  "10": 4,
-  "11": 4,
-  "12": 5,
-  "13": 6,
-  "14": 7,
-  "15": 7,
-  "16": 8,
-  "17": 9,
-  "18": 10,
-  "19": 11,
-  "20": 12,
-  "21": 12,
-  "22": 13,
-  "23": 13,
-  "24": 14,
-  "25": 14,
-  "26": 14,
-  "27": 15,
-  "28": 16,
-  "29": 19,
-  "30": 19,
-  "31": 19,
-  "32": 23,
-  "33": 24,
-  "34": 25,
-  "35": 25,
-  "36": 25,
-  "37": 26,
-  "38": 27,
-  "39": 28,
-  "40": 28,
-  "41": 28,
-  "42": 29,
-  "43": 30,
-  "44": 30,
-  "45": 31,
-  "46": 32,
-  "47": 32,
-  "48": 32,
-  "49": 33,
-  "50": 34,
-  "51": 34,
-  "52": 35,
-  "53": 36,
-  "54": 36,
-  "55": 36,
-  "56": 37,
-  "57": 38,
-  "58": 38,
-  "59": 39,
-  "60": 40,
-  "61": 40,
-  "62": 40,
-  "63": 41,
-  "64": 42,
-  "65": 42,
-  "66": 43,
-  "67": 44,
-  "68": 44,
-  "69": 44,
-  "70": 45,
-  "71": 46,
-  "72": 47,
-  "73": 48,
-  "74": 48,
-  "75": 48,
-  "76": 49,
-  "77": 50,
-  "78": 50,
-  "79": 51,
-  "80": 52,
-  "81": 52,
-  "82": 52,
-  "83": 53,
-  "84": 54,
-  "85": 54,
-  "86": 55,
-  "87": 56,
-  "88": 56,
-  "89": 56,
-  "90": 57,
-  "91": 58,
-  "92": 58,
-  "93": 59,
-  "94": 60,
-  "95": 60,
-  "96": 60,
-  "97": 61,
-  "98": 62,
-  "99": 62,
-  "100": 62,
-  "101": 62,
-  "102": 63,
-  "103": 64,
-  "104": 65,
-  "105": 65,
-  "106": 69,
-  "107": 70,
-  "108": 70,
-  "109": 74,
-  "110": 75,
-  "111": 75,
-  "112": 79,
-  "113": 79,
-  "114": 80,
-  "115": 81,
-  "116": 82,
-  "117": 82,
-  "118": 83,
-  "119": 84,
-  "120": 85,
-  "121": 85,
-  "122": 85,
-  "123": 86,
-  "124": 86,
-  "125": 87,
-  "126": 88,
-  "127": 89,
-  "128": 90,
-  "129": 91,
-  "130": 91,
-  "131": 92,
-  "132": 92,
-  "133": 93,
-  "134": 94,
-  "135": 95,
-  "136": 96,
-  "137": 97,
-  "138": 97,
-  "139": 98,
-  "140": 98,
-  "141": 99,
-  "142": 100,
-  "143": 100,
-  "144": 101,
-  "145": 102,
-  "146": 102,
-  "147": 103,
-  "148": 104,
-  "149": 105,
-  "150": 105,
-  "151": 106,
-  "152": 106,
-  "153": 107,
-  "154": 108,
-  "155": 109,
-  "156": 110,
-  "157": 111,
-  "158": 112,
-  "159": 113,
-  "160": 114,
-  "161": 114,
-  "162": 115,
-  "163": 116,
-  "164": 116,
-  "165": 116,
-  "166": 117,
-  "167": 117,
-  "168": 118,
-  "169": 118,
-  "170": 119,
-  "171": 119,
-  "172": 120,
-  "173": 121,
-  "174": 122,
-  "175": 123,
-  "176": 124,
-  "177": 125,
-  "178": 125,
-  "179": 126,
-  "180": 126,
-  "181": 130,
-  "182": 130,
-  "183": 131,
-  "184": 131,
-  "185": 131,
-  "186": 131,
-  "187": 131,
-  "188": 131,
-  "189": 132,
-  "190": 133,
-  "191": 134,
-  "192": 135,
-  "193": 138,
-  "194": 138,
-  "195": 139,
-  "196": 139,
-  "197": 139,
-  "198": 142,
-  "199": 142,
-  "200": 143,
-  "201": 144,
-  "202": 145,
-  "203": 145,
-  "204": 146,
-  "205": 147,
-  "206": 148,
-  "207": 149,
-  "208": 152,
-  "209": 152,
-  "210": 152,
-  "211": 152,
-  "212": 152,
-  "213": 152,
-  "214": 153,
-  "215": 153,
-  "216": 153,
-  "217": 154,
-  "218": 154,
-  "219": 154,
-  "220": 154,
-  "221": 155
-}
+[
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 19,
+    "pc": 31
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 64,
+    "pc": 103
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 11
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 12
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 6,
+    "pc": 13
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 7,
+    "pc": 15
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 8,
+    "pc": 16
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 9,
+    "pc": 17
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 10,
+    "pc": 18
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 19
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 12,
+    "pc": 21
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 13,
+    "pc": 23
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 14,
+    "pc": 26
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 15,
+    "pc": 27
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 435,
+        "character": 2
+      },
+      "end": {
+        "line": 443,
+        "character": 3
+      }
+    },
+    "teal": 16,
+    "pc": 28
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 10
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 10
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 18,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 25
+      },
+      "end": {
+        "line": 436,
+        "character": 26
+      }
+    },
+    "teal": 19,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 25
+      },
+      "end": {
+        "line": 436,
+        "character": 26
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 25
+      },
+      "end": {
+        "line": 436,
+        "character": 26
+      }
+    },
+    "teal": 154,
+    "pc": 220
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 28
+      },
+      "end": {
+        "line": 436,
+        "character": 29
+      }
+    },
+    "teal": 71,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 28
+      },
+      "end": {
+        "line": 436,
+        "character": 29
+      }
+    },
+    "teal": 63,
+    "pc": 102
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 28
+      },
+      "end": {
+        "line": 436,
+        "character": 29
+      }
+    },
+    "teal": 24,
+    "pc": 33
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 25,
+    "pc": 36
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 31
+      },
+      "end": {
+        "line": 436,
+        "character": 32
+      }
+    },
+    "teal": 26,
+    "pc": 37
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 31
+      },
+      "end": {
+        "line": 436,
+        "character": 32
+      }
+    },
+    "teal": 27,
+    "pc": 38
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 31
+      },
+      "end": {
+        "line": 436,
+        "character": 32
+      }
+    },
+    "teal": 28,
+    "pc": 41
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 29,
+    "pc": 42
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 34
+      },
+      "end": {
+        "line": 436,
+        "character": 35
+      }
+    },
+    "teal": 30,
+    "pc": 44
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 34
+      },
+      "end": {
+        "line": 436,
+        "character": 35
+      }
+    },
+    "teal": 31,
+    "pc": 45
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 34
+      },
+      "end": {
+        "line": 436,
+        "character": 35
+      }
+    },
+    "teal": 32,
+    "pc": 48
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 33,
+    "pc": 49
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 37
+      },
+      "end": {
+        "line": 436,
+        "character": 38
+      }
+    },
+    "teal": 34,
+    "pc": 51
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 37
+      },
+      "end": {
+        "line": 436,
+        "character": 38
+      }
+    },
+    "teal": 35,
+    "pc": 52
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 37
+      },
+      "end": {
+        "line": 436,
+        "character": 38
+      }
+    },
+    "teal": 36,
+    "pc": 55
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 37,
+    "pc": 56
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 40
+      },
+      "end": {
+        "line": 436,
+        "character": 41
+      }
+    },
+    "teal": 38,
+    "pc": 58
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 40
+      },
+      "end": {
+        "line": 436,
+        "character": 41
+      }
+    },
+    "teal": 39,
+    "pc": 59
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 40
+      },
+      "end": {
+        "line": 436,
+        "character": 41
+      }
+    },
+    "teal": 40,
+    "pc": 62
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 41,
+    "pc": 63
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 43
+      },
+      "end": {
+        "line": 436,
+        "character": 44
+      }
+    },
+    "teal": 42,
+    "pc": 65
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 43
+      },
+      "end": {
+        "line": 436,
+        "character": 44
+      }
+    },
+    "teal": 43,
+    "pc": 66
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 43
+      },
+      "end": {
+        "line": 436,
+        "character": 44
+      }
+    },
+    "teal": 44,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 45,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 46
+      },
+      "end": {
+        "line": 436,
+        "character": 47
+      }
+    },
+    "teal": 46,
+    "pc": 71
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 46
+      },
+      "end": {
+        "line": 436,
+        "character": 47
+      }
+    },
+    "teal": 47,
+    "pc": 72
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 46
+      },
+      "end": {
+        "line": 436,
+        "character": 47
+      }
+    },
+    "teal": 48,
+    "pc": 75
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 49,
+    "pc": 76
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 49
+      },
+      "end": {
+        "line": 436,
+        "character": 50
+      }
+    },
+    "teal": 50,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 49
+      },
+      "end": {
+        "line": 436,
+        "character": 50
+      }
+    },
+    "teal": 51,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 49
+      },
+      "end": {
+        "line": 436,
+        "character": 50
+      }
+    },
+    "teal": 52,
+    "pc": 82
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 53,
+    "pc": 83
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 52
+      },
+      "end": {
+        "line": 436,
+        "character": 54
+      }
+    },
+    "teal": 54,
+    "pc": 85
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 52
+      },
+      "end": {
+        "line": 436,
+        "character": 54
+      }
+    },
+    "teal": 55,
+    "pc": 86
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 52
+      },
+      "end": {
+        "line": 436,
+        "character": 54
+      }
+    },
+    "teal": 56,
+    "pc": 89
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 57,
+    "pc": 90
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 58,
+    "pc": 92
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 59,
+    "pc": 93
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 24
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 60,
+    "pc": 96
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 436,
+        "character": 10
+      },
+      "end": {
+        "line": 436,
+        "character": 55
+      }
+    },
+    "teal": 61,
+    "pc": 97
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 438,
+        "character": 10
+      },
+      "end": {
+        "line": 438,
+        "character": 15
+      }
+    },
+    "teal": 62,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 438,
+        "character": 10
+      },
+      "end": {
+        "line": 438,
+        "character": 15
+      }
+    },
+    "teal": 63,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 438,
+        "character": 14
+      },
+      "end": {
+        "line": 438,
+        "character": 15
+      }
+    },
+    "teal": 64,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 438,
+        "character": 10
+      },
+      "end": {
+        "line": 438,
+        "character": 15
+      }
+    },
+    "teal": 65,
+    "pc": 105
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 439,
+        "character": 10
+      },
+      "end": {
+        "line": 439,
+        "character": 15
+      }
+    },
+    "teal": 66,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 439,
+        "character": 10
+      },
+      "end": {
+        "line": 439,
+        "character": 15
+      }
+    },
+    "teal": 67,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 439,
+        "character": 14
+      },
+      "end": {
+        "line": 439,
+        "character": 15
+      }
+    },
+    "teal": 68,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 439,
+        "character": 10
+      },
+      "end": {
+        "line": 439,
+        "character": 15
+      }
+    },
+    "teal": 132,
+    "pc": 189
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 10
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 70,
+    "pc": 108
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 10
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 71,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 15
+      }
+    },
+    "teal": 72,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 122,
+    "pc": 174
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 26
+      },
+      "end": {
+        "line": 440,
+        "character": 27
+      }
+    },
+    "teal": 75,
+    "pc": 111
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 76,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 155,
+    "pc": 221
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 156,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 23
+      },
+      "end": {
+        "line": 440,
+        "character": 24
+      }
+    },
+    "teal": 121,
+    "pc": 173
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 80,
+    "pc": 114
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 81,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 82,
+    "pc": 117
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 83,
+    "pc": 118
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 84,
+    "pc": 119
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 26
+      },
+      "end": {
+        "line": 440,
+        "character": 27
+      }
+    },
+    "teal": 85,
+    "pc": 122
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 86,
+    "pc": 124
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 87,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 88,
+    "pc": 126
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 89,
+    "pc": 127
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 90,
+    "pc": 128
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 15
+      }
+    },
+    "teal": 91,
+    "pc": 130
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 92,
+    "pc": 132
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 93,
+    "pc": 133
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 94,
+    "pc": 134
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 15
+      }
+    },
+    "teal": 95,
+    "pc": 135
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 96,
+    "pc": 136
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 97,
+    "pc": 138
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 98,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 99,
+    "pc": 141
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 100,
+    "pc": 143
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 101,
+    "pc": 144
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 102,
+    "pc": 146
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 103,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 104,
+    "pc": 148
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 105,
+    "pc": 150
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 106,
+    "pc": 152
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 26
+      },
+      "end": {
+        "line": 440,
+        "character": 27
+      }
+    },
+    "teal": 107,
+    "pc": 153
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 108,
+    "pc": 154
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 109,
+    "pc": 155
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 15
+      }
+    },
+    "teal": 110,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 111,
+    "pc": 157
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 112,
+    "pc": 158
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 113,
+    "pc": 159
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 114,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 115,
+    "pc": 162
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 116,
+    "pc": 165
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 117,
+    "pc": 167
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 14
+      },
+      "end": {
+        "line": 440,
+        "character": 15
+      }
+    },
+    "teal": 118,
+    "pc": 169
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 440,
+        "character": 10
+      },
+      "end": {
+        "line": 440,
+        "character": 28
+      }
+    },
+    "teal": 119,
+    "pc": 171
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 120,
+    "pc": 172
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 121,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 11
+      },
+      "end": {
+        "line": 442,
+        "character": 12
+      }
+    },
+    "teal": 122,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 123,
+    "pc": 175
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 124,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 125,
+    "pc": 178
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 126,
+    "pc": 180
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 442,
+        "character": 4
+      },
+      "end": {
+        "line": 442,
+        "character": 13
+      }
+    },
+    "teal": 127,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 146,
+    "pc": 204
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 148,
+    "pc": 206
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 149,
+    "pc": 207
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 131,
+    "pc": 188
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 132,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 133,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 134,
+    "pc": 191
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 135,
+    "pc": 192
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 136,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 147,
+    "pc": 205
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 138,
+    "pc": 194
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 139,
+    "pc": 197
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 140,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 152,
+    "pc": 213
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 153,
+    "pc": 216
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 143,
+    "pc": 200
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/abi.algo.ts",
+      "start": {
+        "line": 679,
+        "character": 0
+      },
+      "end": {
+        "line": 694,
+        "character": 1
+      }
+    },
+    "teal": 144,
+    "pc": 201
+  }
+]

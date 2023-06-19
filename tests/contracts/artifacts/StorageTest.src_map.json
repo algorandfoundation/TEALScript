@@ -1,891 +1,9317 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 0,
-  "13": 0,
-  "14": 0,
-  "15": 1,
-  "16": 1,
-  "17": 1,
-  "18": 4,
-  "19": 4,
-  "20": 5,
-  "21": 6,
-  "22": 7,
-  "23": 7,
-  "24": 8,
-  "25": 9,
-  "26": 10,
-  "27": 11,
-  "28": 14,
-  "29": 14,
-  "30": 14,
-  "31": 15,
-  "32": 16,
-  "33": 19,
-  "34": 19,
-  "35": 19,
-  "36": 23,
-  "37": 23,
-  "38": 23,
-  "39": 24,
-  "40": 24,
-  "41": 24,
-  "42": 24,
-  "43": 25,
-  "44": 26,
-  "45": 27,
-  "46": 28,
-  "47": 29,
-  "48": 30,
-  "49": 31,
-  "50": 34,
-  "51": 34,
-  "52": 35,
-  "53": 36,
-  "54": 37,
-  "55": 37,
-  "56": 38,
-  "57": 39,
-  "58": 40,
-  "59": 41,
-  "60": 44,
-  "61": 44,
-  "62": 44,
-  "63": 45,
-  "64": 46,
-  "65": 49,
-  "66": 49,
-  "67": 49,
-  "68": 53,
-  "69": 54,
-  "70": 55,
-  "71": 56,
-  "72": 59,
-  "73": 59,
-  "74": 60,
-  "75": 61,
-  "76": 62,
-  "77": 62,
-  "78": 63,
-  "79": 64,
-  "80": 65,
-  "81": 66,
-  "82": 69,
-  "83": 69,
-  "84": 69,
-  "85": 70,
-  "86": 71,
-  "87": 74,
-  "88": 74,
-  "89": 74,
-  "90": 78,
-  "91": 79,
-  "92": 80,
-  "93": 81,
-  "94": 82,
-  "95": 83,
-  "96": 86,
-  "97": 86,
-  "98": 87,
-  "99": 88,
-  "100": 89,
-  "101": 89,
-  "102": 90,
-  "103": 91,
-  "104": 92,
-  "105": 93,
-  "106": 96,
-  "107": 96,
-  "108": 96,
-  "109": 97,
-  "110": 98,
-  "111": 101,
-  "112": 101,
-  "113": 101,
-  "114": 105,
-  "115": 106,
-  "116": 107,
-  "117": 110,
-  "118": 110,
-  "119": 111,
-  "120": 112,
-  "121": 113,
-  "122": 113,
-  "123": 114,
-  "124": 115,
-  "125": 116,
-  "126": 117,
-  "127": 120,
-  "128": 120,
-  "129": 120,
-  "130": 121,
-  "131": 122,
-  "132": 125,
-  "133": 125,
-  "134": 125,
-  "135": 129,
-  "136": 129,
-  "137": 129,
-  "138": 130,
-  "139": 131,
-  "140": 132,
-  "141": 133,
-  "142": 134,
-  "143": 137,
-  "144": 137,
-  "145": 138,
-  "146": 139,
-  "147": 140,
-  "148": 140,
-  "149": 141,
-  "150": 142,
-  "151": 143,
-  "152": 144,
-  "153": 147,
-  "154": 147,
-  "155": 147,
-  "156": 148,
-  "157": 149,
-  "158": 149,
-  "159": 150,
-  "160": 150,
-  "161": 150,
-  "162": 151,
-  "163": 152,
-  "164": 155,
-  "165": 155,
-  "166": 155,
-  "167": 159,
-  "168": 159,
-  "169": 160,
-  "170": 161,
-  "171": 162,
-  "172": 163,
-  "173": 166,
-  "174": 166,
-  "175": 167,
-  "176": 168,
-  "177": 169,
-  "178": 169,
-  "179": 170,
-  "180": 171,
-  "181": 172,
-  "182": 173,
-  "183": 176,
-  "184": 176,
-  "185": 176,
-  "186": 177,
-  "187": 178,
-  "188": 178,
-  "189": 179,
-  "190": 179,
-  "191": 179,
-  "192": 180,
-  "193": 181,
-  "194": 184,
-  "195": 184,
-  "196": 184,
-  "197": 188,
-  "198": 188,
-  "199": 189,
-  "200": 190,
-  "201": 191,
-  "202": 192,
-  "203": 193,
-  "204": 194,
-  "205": 197,
-  "206": 197,
-  "207": 198,
-  "208": 199,
-  "209": 200,
-  "210": 200,
-  "211": 201,
-  "212": 202,
-  "213": 203,
-  "214": 204,
-  "215": 207,
-  "216": 207,
-  "217": 207,
-  "218": 208,
-  "219": 209,
-  "220": 209,
-  "221": 210,
-  "222": 210,
-  "223": 210,
-  "224": 211,
-  "225": 212,
-  "226": 215,
-  "227": 215,
-  "228": 215,
-  "229": 219,
-  "230": 219,
-  "231": 220,
-  "232": 221,
-  "233": 222,
-  "234": 225,
-  "235": 225,
-  "236": 226,
-  "237": 227,
-  "238": 228,
-  "239": 228,
-  "240": 229,
-  "241": 230,
-  "242": 231,
-  "243": 232,
-  "244": 235,
-  "245": 235,
-  "246": 235,
-  "247": 236,
-  "248": 237,
-  "249": 237,
-  "250": 238,
-  "251": 238,
-  "252": 238,
-  "253": 239,
-  "254": 240,
-  "255": 243,
-  "256": 243,
-  "257": 243,
-  "258": 247,
-  "259": 247,
-  "260": 248,
-  "261": 248,
-  "262": 248,
-  "263": 249,
-  "264": 250,
-  "265": 251,
-  "266": 252,
-  "267": 253,
-  "268": 256,
-  "269": 256,
-  "270": 257,
-  "271": 258,
-  "272": 259,
-  "273": 259,
-  "274": 260,
-  "275": 261,
-  "276": 262,
-  "277": 263,
-  "278": 266,
-  "279": 266,
-  "280": 266,
-  "281": 267,
-  "282": 268,
-  "283": 271,
-  "284": 271,
-  "285": 271,
-  "286": 275,
-  "287": 276,
-  "288": 277,
-  "289": 278,
-  "290": 281,
-  "291": 281,
-  "292": 282,
-  "293": 283,
-  "294": 284,
-  "295": 284,
-  "296": 285,
-  "297": 286,
-  "298": 287,
-  "299": 288,
-  "300": 291,
-  "301": 291,
-  "302": 291,
-  "303": 292,
-  "304": 293,
-  "305": 296,
-  "306": 296,
-  "307": 296,
-  "308": 300,
-  "309": 301,
-  "310": 302,
-  "311": 303,
-  "312": 304,
-  "313": 305,
-  "314": 306,
-  "315": 309,
-  "316": 309,
-  "317": 310,
-  "318": 311,
-  "319": 312,
-  "320": 312,
-  "321": 313,
-  "322": 314,
-  "323": 315,
-  "324": 316,
-  "325": 319,
-  "326": 319,
-  "327": 319,
-  "328": 320,
-  "329": 321,
-  "330": 324,
-  "331": 324,
-  "332": 324,
-  "333": 328,
-  "334": 329,
-  "335": 330,
-  "336": 333,
-  "337": 333,
-  "338": 334,
-  "339": 335,
-  "340": 336,
-  "341": 336,
-  "342": 337,
-  "343": 338,
-  "344": 339,
-  "345": 340,
-  "346": 343,
-  "347": 343,
-  "348": 343,
-  "349": 344,
-  "350": 345,
-  "351": 348,
-  "352": 348,
-  "353": 348,
-  "354": 352,
-  "355": 353,
-  "356": 354,
-  "357": 355,
-  "358": 356,
-  "359": 359,
-  "360": 359,
-  "361": 360,
-  "362": 361,
-  "363": 362,
-  "364": 362,
-  "365": 363,
-  "366": 364,
-  "367": 365,
-  "368": 366,
-  "369": 369,
-  "370": 369,
-  "371": 369,
-  "372": 370,
-  "373": 371,
-  "374": 374,
-  "375": 374,
-  "376": 374,
-  "377": 378,
-  "378": 379,
-  "379": 380,
-  "380": 381,
-  "381": 384,
-  "382": 384,
-  "383": 385,
-  "384": 386,
-  "385": 387,
-  "386": 387,
-  "387": 388,
-  "388": 389,
-  "389": 390,
-  "390": 391,
-  "391": 394,
-  "392": 394,
-  "393": 394,
-  "394": 395,
-  "395": 396,
-  "396": 399,
-  "397": 399,
-  "398": 399,
-  "399": 403,
-  "400": 404,
-  "401": 405,
-  "402": 406,
-  "403": 407,
-  "404": 408,
-  "405": 411,
-  "406": 411,
-  "407": 412,
-  "408": 413,
-  "409": 414,
-  "410": 414,
-  "411": 415,
-  "412": 416,
-  "413": 417,
-  "414": 418,
-  "415": 421,
-  "416": 421,
-  "417": 421,
-  "418": 422,
-  "419": 423,
-  "420": 426,
-  "421": 426,
-  "422": 426,
-  "423": 430,
-  "424": 431,
-  "425": 432,
-  "426": 435,
-  "427": 435,
-  "428": 436,
-  "429": 437,
-  "430": 438,
-  "431": 438,
-  "432": 439,
-  "433": 440,
-  "434": 441,
-  "435": 442,
-  "436": 445,
-  "437": 445,
-  "438": 445,
-  "439": 446,
-  "440": 447,
-  "441": 450,
-  "442": 450,
-  "443": 450,
-  "444": 454,
-  "445": 454,
-  "446": 454,
-  "447": 455,
-  "448": 456,
-  "449": 457,
-  "450": 458,
-  "451": 459,
-  "452": 462,
-  "453": 462,
-  "454": 463,
-  "455": 464,
-  "456": 465,
-  "457": 465,
-  "458": 466,
-  "459": 467,
-  "460": 468,
-  "461": 469,
-  "462": 472,
-  "463": 472,
-  "464": 472,
-  "465": 473,
-  "466": 474,
-  "467": 474,
-  "468": 475,
-  "469": 475,
-  "470": 475,
-  "471": 476,
-  "472": 477,
-  "473": 480,
-  "474": 480,
-  "475": 480,
-  "476": 484,
-  "477": 484,
-  "478": 485,
-  "479": 486,
-  "480": 487,
-  "481": 488,
-  "482": 491,
-  "483": 491,
-  "484": 492,
-  "485": 493,
-  "486": 494,
-  "487": 494,
-  "488": 495,
-  "489": 496,
-  "490": 497,
-  "491": 498,
-  "492": 501,
-  "493": 501,
-  "494": 501,
-  "495": 502,
-  "496": 503,
-  "497": 503,
-  "498": 504,
-  "499": 504,
-  "500": 504,
-  "501": 505,
-  "502": 506,
-  "503": 509,
-  "504": 509,
-  "505": 509,
-  "506": 513,
-  "507": 513,
-  "508": 514,
-  "509": 515,
-  "510": 516,
-  "511": 517,
-  "512": 518,
-  "513": 519,
-  "514": 522,
-  "515": 522,
-  "516": 523,
-  "517": 524,
-  "518": 525,
-  "519": 525,
-  "520": 526,
-  "521": 527,
-  "522": 528,
-  "523": 529,
-  "524": 532,
-  "525": 532,
-  "526": 532,
-  "527": 533,
-  "528": 534,
-  "529": 534,
-  "530": 535,
-  "531": 535,
-  "532": 535,
-  "533": 536,
-  "534": 537,
-  "535": 540,
-  "536": 540,
-  "537": 540,
-  "538": 544,
-  "539": 544,
-  "540": 545,
-  "541": 546,
-  "542": 547,
-  "543": 550,
-  "544": 550,
-  "545": 551,
-  "546": 552,
-  "547": 553,
-  "548": 553,
-  "549": 554,
-  "550": 555,
-  "551": 556,
-  "552": 557,
-  "553": 560,
-  "554": 560,
-  "555": 560,
-  "556": 561,
-  "557": 562,
-  "558": 562,
-  "559": 563,
-  "560": 563,
-  "561": 563,
-  "562": 564,
-  "563": 565,
-  "564": 568,
-  "565": 568,
-  "566": 568,
-  "567": 572,
-  "568": 572,
-  "569": 573,
-  "570": 573,
-  "571": 573,
-  "572": 574,
-  "573": 575,
-  "574": 576,
-  "575": 577,
-  "576": 578,
-  "577": 581,
-  "578": 581,
-  "579": 582,
-  "580": 583,
-  "581": 584,
-  "582": 584,
-  "583": 585,
-  "584": 586,
-  "585": 587,
-  "586": 588,
-  "587": 591,
-  "588": 591,
-  "589": 591,
-  "590": 592,
-  "591": 593,
-  "592": 596,
-  "593": 596,
-  "594": 596,
-  "595": 600,
-  "596": 601,
-  "597": 602,
-  "598": 603,
-  "599": 606,
-  "600": 606,
-  "601": 607,
-  "602": 608,
-  "603": 609,
-  "604": 609,
-  "605": 610,
-  "606": 611,
-  "607": 612,
-  "608": 613,
-  "609": 616,
-  "610": 616,
-  "611": 616,
-  "612": 617,
-  "613": 618,
-  "614": 621,
-  "615": 621,
-  "616": 621,
-  "617": 625,
-  "618": 626,
-  "619": 627,
-  "620": 628,
-  "621": 629,
-  "622": 630,
-  "623": 631,
-  "624": 634,
-  "625": 634,
-  "626": 635,
-  "627": 636,
-  "628": 637,
-  "629": 637,
-  "630": 638,
-  "631": 639,
-  "632": 640,
-  "633": 641,
-  "634": 644,
-  "635": 644,
-  "636": 644,
-  "637": 645,
-  "638": 646,
-  "639": 649,
-  "640": 649,
-  "641": 649,
-  "642": 653,
-  "643": 654,
-  "644": 655,
-  "645": 658,
-  "646": 658,
-  "647": 659,
-  "648": 660,
-  "649": 661,
-  "650": 661,
-  "651": 662,
-  "652": 663,
-  "653": 664,
-  "654": 665,
-  "655": 668,
-  "656": 668,
-  "657": 668,
-  "658": 669,
-  "659": 670,
-  "660": 673,
-  "661": 673,
-  "662": 673,
-  "663": 677,
-  "664": 678,
-  "665": 679,
-  "666": 680,
-  "667": 681,
-  "668": 684,
-  "669": 684,
-  "670": 685,
-  "671": 685,
-  "672": 685,
-  "673": 688,
-  "674": 688,
-  "675": 689,
-  "676": 690,
-  "677": 691,
-  "678": 691,
-  "679": 692,
-  "680": 693,
-  "681": 694,
-  "682": 695,
-  "683": 698,
-  "684": 698,
-  "685": 698,
-  "686": 698,
-  "687": 698,
-  "688": 698,
-  "689": 699,
-  "690": 699,
-  "691": 699,
-  "692": 699,
-  "693": 699,
-  "694": 699,
-  "695": 700,
-  "696": 700,
-  "697": 700,
-  "698": 700,
-  "699": 700,
-  "700": 700,
-  "701": 701,
-  "702": 701,
-  "703": 701,
-  "704": 701,
-  "705": 701,
-  "706": 701,
-  "707": 702,
-  "708": 702,
-  "709": 702,
-  "710": 702,
-  "711": 702,
-  "712": 702,
-  "713": 703,
-  "714": 703,
-  "715": 703,
-  "716": 703,
-  "717": 703,
-  "718": 703,
-  "719": 704,
-  "720": 704,
-  "721": 704,
-  "722": 704,
-  "723": 704,
-  "724": 704,
-  "725": 705,
-  "726": 705,
-  "727": 705,
-  "728": 705,
-  "729": 705,
-  "730": 705,
-  "731": 706,
-  "732": 706,
-  "733": 706,
-  "734": 706,
-  "735": 706,
-  "736": 706,
-  "737": 707,
-  "738": 707,
-  "739": 707,
-  "740": 707,
-  "741": 707,
-  "742": 707,
-  "743": 708,
-  "744": 708,
-  "745": 708,
-  "746": 708,
-  "747": 708,
-  "748": 708,
-  "749": 709,
-  "750": 709,
-  "751": 709,
-  "752": 709,
-  "753": 709,
-  "754": 709,
-  "755": 710,
-  "756": 710,
-  "757": 710,
-  "758": 710,
-  "759": 710,
-  "760": 710,
-  "761": 711,
-  "762": 711,
-  "763": 711,
-  "764": 711,
-  "765": 711,
-  "766": 711,
-  "767": 712,
-  "768": 712,
-  "769": 712,
-  "770": 712,
-  "771": 712,
-  "772": 712,
-  "773": 713,
-  "774": 713,
-  "775": 713,
-  "776": 713,
-  "777": 713,
-  "778": 713,
-  "779": 714,
-  "780": 714,
-  "781": 714,
-  "782": 714,
-  "783": 714,
-  "784": 714,
-  "785": 715,
-  "786": 715,
-  "787": 715,
-  "788": 715,
-  "789": 715,
-  "790": 715,
-  "791": 716,
-  "792": 716,
-  "793": 716,
-  "794": 716,
-  "795": 716,
-  "796": 716,
-  "797": 717,
-  "798": 717,
-  "799": 717,
-  "800": 717,
-  "801": 717,
-  "802": 717,
-  "803": 718,
-  "804": 718,
-  "805": 718,
-  "806": 718,
-  "807": 718,
-  "808": 718,
-  "809": 719,
-  "810": 719,
-  "811": 719,
-  "812": 719,
-  "813": 719,
-  "814": 719,
-  "815": 720,
-  "816": 720,
-  "817": 720,
-  "818": 720,
-  "819": 720,
-  "820": 720,
-  "821": 721,
-  "822": 721,
-  "823": 721,
-  "824": 721,
-  "825": 721,
-  "826": 721,
-  "827": 722,
-  "828": 722,
-  "829": 722,
-  "830": 722,
-  "831": 722,
-  "832": 722,
-  "833": 723,
-  "834": 723,
-  "835": 723,
-  "836": 724,
-  "837": 724,
-  "838": 724,
-  "839": 724,
-  "840": 724,
-  "841": 724,
-  "842": 724,
-  "843": 724,
-  "844": 724,
-  "845": 724,
-  "846": 724,
-  "847": 724,
-  "848": 724,
-  "849": 724,
-  "850": 724,
-  "851": 724,
-  "852": 724,
-  "853": 724,
-  "854": 724,
-  "855": 724,
-  "856": 724,
-  "857": 724,
-  "858": 724,
-  "859": 724,
-  "860": 724,
-  "861": 724,
-  "862": 724,
-  "863": 724,
-  "864": 724,
-  "865": 724,
-  "866": 724,
-  "867": 724,
-  "868": 724,
-  "869": 724,
-  "870": 724,
-  "871": 724,
-  "872": 724,
-  "873": 724,
-  "874": 724,
-  "875": 724,
-  "876": 724,
-  "877": 724,
-  "878": 724,
-  "879": 724,
-  "880": 724,
-  "881": 724,
-  "882": 724,
-  "883": 724,
-  "884": 724,
-  "885": 724,
-  "886": 724,
-  "887": 724,
-  "888": 725
-}
+[
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 364,
+    "pc": 366
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 27
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 19
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 20
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 6,
+    "pc": 21
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 7,
+    "pc": 23
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 8,
+    "pc": 24
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 9,
+    "pc": 25
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 10,
+    "pc": 26
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 12,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 227,
+    "pc": 237
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 15,
+    "pc": 31
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 16,
+    "pc": 32
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 42
+      }
+    },
+    "teal": 17,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 42
+      }
+    },
+    "teal": 18,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 30
+      },
+      "end": {
+        "line": 19,
+        "character": 34
+      }
+    },
+    "teal": 19,
+    "pc": 35
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 30
+      },
+      "end": {
+        "line": 19,
+        "character": 34
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 30
+      },
+      "end": {
+        "line": 19,
+        "character": 34
+      }
+    },
+    "teal": 37,
+    "pc": 55
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 29
+      }
+    },
+    "teal": 64,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 29
+      }
+    },
+    "teal": 411,
+    "pc": 406
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 29
+      }
+    },
+    "teal": 24,
+    "pc": 42
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 36
+      },
+      "end": {
+        "line": 19,
+        "character": 41
+      }
+    },
+    "teal": 25,
+    "pc": 43
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 29
+      }
+    },
+    "teal": 26,
+    "pc": 44
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 27,
+    "pc": 45
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 28,
+    "pc": 46
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 29,
+    "pc": 47
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 30,
+    "pc": 48
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 31,
+    "pc": 49
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 32,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 65,
+    "pc": 80
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 34,
+    "pc": 51
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 35,
+    "pc": 52
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 36,
+    "pc": 53
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 37,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 38,
+    "pc": 56
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 39,
+    "pc": 57
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 40,
+    "pc": 58
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 41,
+    "pc": 59
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 42,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 29
+      }
+    },
+    "teal": 43,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 29
+      }
+    },
+    "teal": 44,
+    "pc": 62
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 22
+      }
+    },
+    "teal": 45,
+    "pc": 63
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 23
+      },
+      "end": {
+        "line": 23,
+        "character": 28
+      }
+    },
+    "teal": 46,
+    "pc": 64
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 23,
+        "character": 22
+      }
+    },
+    "teal": 47,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 24,
+        "character": 3
+      }
+    },
+    "teal": 133,
+    "pc": 141
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 49,
+    "pc": 67
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 50,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 233,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 88,
+    "pc": 99
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 149,
+    "pc": 158
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 54,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 55,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 56,
+    "pc": 71
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 57,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 58,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 59,
+    "pc": 73
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 60,
+    "pc": 74
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 61,
+    "pc": 75
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 62,
+    "pc": 77
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 63,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 42
+      }
+    },
+    "teal": 64,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 42
+      }
+    },
+    "teal": 65,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 29
+      }
+    },
+    "teal": 66,
+    "pc": 81
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 29
+      }
+    },
+    "teal": 67,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 36
+      },
+      "end": {
+        "line": 27,
+        "character": 41
+      }
+    },
+    "teal": 81,
+    "pc": 93
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 32
+      },
+      "end": {
+        "line": 27,
+        "character": 35
+      }
+    },
+    "teal": 691,
+    "pc": 678
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 10
+      }
+    },
+    "teal": 70,
+    "pc": 85
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 71,
+    "pc": 86
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 72,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 87,
+    "pc": 98
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 74,
+    "pc": 89
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 75,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 107,
+    "pc": 116
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 108,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 655,
+    "pc": 644
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 79,
+    "pc": 91
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 80,
+    "pc": 92
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 81,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 82,
+    "pc": 94
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 83,
+    "pc": 95
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 84,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 101,
+    "pc": 113
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 86,
+    "pc": 97
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 27
+      }
+    },
+    "teal": 87,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 27
+      }
+    },
+    "teal": 88,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 25
+      }
+    },
+    "teal": 89,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 25
+      }
+    },
+    "teal": 90,
+    "pc": 102
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 91,
+    "pc": 103
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 92,
+    "pc": 104
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 93,
+    "pc": 105
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 94,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 134,
+    "pc": 142
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 684,
+    "pc": 669
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 97,
+    "pc": 109
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 98,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 99,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 314,
+    "pc": 322
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 101,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 102,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 200,
+    "pc": 210
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 723,
+    "pc": 835
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 629,
+    "pc": 621
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 106,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 27
+      }
+    },
+    "teal": 107,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 27
+      }
+    },
+    "teal": 108,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 25
+      }
+    },
+    "teal": 248,
+    "pc": 262
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 25
+      }
+    },
+    "teal": 110,
+    "pc": 118
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 25
+      }
+    },
+    "teal": 111,
+    "pc": 119
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 25
+      }
+    },
+    "teal": 112,
+    "pc": 120
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 25
+      }
+    },
+    "teal": 113,
+    "pc": 122
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 114,
+    "pc": 123
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 115,
+    "pc": 124
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 116,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 117,
+    "pc": 126
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 118,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 708,
+    "pc": 748
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 272,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 121,
+    "pc": 130
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 122,
+    "pc": 131
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 123,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 124,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 14
+      },
+      "end": {
+        "line": 38,
+        "character": 24
+      }
+    },
+    "teal": 125,
+    "pc": 134
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 14
+      },
+      "end": {
+        "line": 38,
+        "character": 24
+      }
+    },
+    "teal": 126,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 14
+      },
+      "end": {
+        "line": 38,
+        "character": 24
+      }
+    },
+    "teal": 640,
+    "pc": 632
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 209,
+    "pc": 220
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 210,
+    "pc": 223
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 130,
+    "pc": 138
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 131,
+    "pc": 139
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 132,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 31
+      }
+    },
+    "teal": 133,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 31
+      }
+    },
+    "teal": 134,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 22
+      },
+      "end": {
+        "line": 39,
+        "character": 23
+      }
+    },
+    "teal": 135,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 21
+      }
+    },
+    "teal": 685,
+    "pc": 672
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 25
+      },
+      "end": {
+        "line": 39,
+        "character": 30
+      }
+    },
+    "teal": 137,
+    "pc": 144
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 21
+      }
+    },
+    "teal": 138,
+    "pc": 145
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 40,
+        "character": 3
+      }
+    },
+    "teal": 139,
+    "pc": 146
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 140,
+    "pc": 148
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 141,
+    "pc": 149
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 142,
+    "pc": 150
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 143,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 144,
+    "pc": 152
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 278,
+    "pc": 289
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 279,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 148,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 149,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 14
+      },
+      "end": {
+        "line": 42,
+        "character": 24
+      }
+    },
+    "teal": 150,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 14
+      },
+      "end": {
+        "line": 42,
+        "character": 24
+      }
+    },
+    "teal": 151,
+    "pc": 162
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 14
+      },
+      "end": {
+        "line": 42,
+        "character": 24
+      }
+    },
+    "teal": 152,
+    "pc": 163
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 153,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 292,
+    "pc": 303
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 155,
+    "pc": 166
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 156,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 185,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 42
+      }
+    },
+    "teal": 158,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 42
+      }
+    },
+    "teal": 159,
+    "pc": 168
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 29
+      },
+      "end": {
+        "line": 43,
+        "character": 30
+      }
+    },
+    "teal": 160,
+    "pc": 169
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 28
+      }
+    },
+    "teal": 161,
+    "pc": 170
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 11
+      },
+      "end": {
+        "line": 43,
+        "character": 28
+      }
+    },
+    "teal": 162,
+    "pc": 171
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 36
+      },
+      "end": {
+        "line": 43,
+        "character": 41
+      }
+    },
+    "teal": 163,
+    "pc": 172
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 32
+      },
+      "end": {
+        "line": 43,
+        "character": 35
+      }
+    },
+    "teal": 164,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 43,
+        "character": 4
+      },
+      "end": {
+        "line": 43,
+        "character": 10
+      }
+    },
+    "teal": 698,
+    "pc": 688
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 2
+      },
+      "end": {
+        "line": 44,
+        "character": 3
+      }
+    },
+    "teal": 166,
+    "pc": 174
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 167,
+    "pc": 175
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 168,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 169,
+    "pc": 178
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 170,
+    "pc": 179
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 171,
+    "pc": 180
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 172,
+    "pc": 181
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 173,
+    "pc": 182
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 174,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 630,
+    "pc": 622
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 176,
+    "pc": 185
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 17
+      },
+      "end": {
+        "line": 46,
+        "character": 27
+      }
+    },
+    "teal": 177,
+    "pc": 186
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 17
+      },
+      "end": {
+        "line": 46,
+        "character": 27
+      }
+    },
+    "teal": 178,
+    "pc": 188
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 17
+      },
+      "end": {
+        "line": 46,
+        "character": 27
+      }
+    },
+    "teal": 179,
+    "pc": 191
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 180,
+    "pc": 192
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 181,
+    "pc": 193
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 182,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 662,
+    "pc": 651
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 184,
+    "pc": 196
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 47,
+        "character": 27
+      }
+    },
+    "teal": 185,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 47,
+        "character": 27
+      }
+    },
+    "teal": 186,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 25
+      },
+      "end": {
+        "line": 47,
+        "character": 26
+      }
+    },
+    "teal": 678,
+    "pc": 664
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 47,
+        "character": 24
+      }
+    },
+    "teal": 679,
+    "pc": 665
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 4
+      },
+      "end": {
+        "line": 47,
+        "character": 24
+      }
+    },
+    "teal": 189,
+    "pc": 199
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 2
+      },
+      "end": {
+        "line": 48,
+        "character": 3
+      }
+    },
+    "teal": 190,
+    "pc": 200
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 191,
+    "pc": 201
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 192,
+    "pc": 202
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 193,
+    "pc": 203
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 194,
+    "pc": 204
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 195,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 436,
+    "pc": 428
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 197,
+    "pc": 206
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 198,
+    "pc": 207
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 199,
+    "pc": 208
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 200,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 17
+      },
+      "end": {
+        "line": 50,
+        "character": 27
+      }
+    },
+    "teal": 201,
+    "pc": 211
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 17
+      },
+      "end": {
+        "line": 50,
+        "character": 27
+      }
+    },
+    "teal": 202,
+    "pc": 212
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 17
+      },
+      "end": {
+        "line": 50,
+        "character": 27
+      }
+    },
+    "teal": 203,
+    "pc": 213
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 204,
+    "pc": 214
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 205,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 634,
+    "pc": 625
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 335,
+    "pc": 339
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 208,
+    "pc": 218
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 27
+      }
+    },
+    "teal": 209,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 27
+      }
+    },
+    "teal": 210,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 25
+      },
+      "end": {
+        "line": 51,
+        "character": 26
+      }
+    },
+    "teal": 211,
+    "pc": 224
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 212,
+    "pc": 225
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 213,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 477,
+    "pc": 472
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 215,
+    "pc": 228
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 51,
+        "character": 4
+      },
+      "end": {
+        "line": 51,
+        "character": 24
+      }
+    },
+    "teal": 216,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 50,
+        "character": 2
+      },
+      "end": {
+        "line": 52,
+        "character": 3
+      }
+    },
+    "teal": 254,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 674,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 576,
+    "pc": 574
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 220,
+    "pc": 231
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 221,
+    "pc": 232
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 222,
+    "pc": 233
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 223,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 686,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 225,
+    "pc": 235
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 226,
+    "pc": 236
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 227,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 228,
+    "pc": 239
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 229,
+    "pc": 240
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 230,
+    "pc": 241
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 231,
+    "pc": 242
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 232,
+    "pc": 243
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 55,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 26
+      }
+    },
+    "teal": 233,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 55,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 26
+      }
+    },
+    "teal": 234,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 55,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 19
+      }
+    },
+    "teal": 721,
+    "pc": 826
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 55,
+        "character": 20
+      },
+      "end": {
+        "line": 55,
+        "character": 25
+      }
+    },
+    "teal": 236,
+    "pc": 247
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 55,
+        "character": 4
+      },
+      "end": {
+        "line": 55,
+        "character": 19
+      }
+    },
+    "teal": 237,
+    "pc": 249
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 2
+      },
+      "end": {
+        "line": 56,
+        "character": 3
+      }
+    },
+    "teal": 238,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 239,
+    "pc": 253
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 240,
+    "pc": 254
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 241,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 462,
+    "pc": 453
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 243,
+    "pc": 257
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 244,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 641,
+    "pc": 633
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 642,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 646,
+    "pc": 638
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 248,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 249,
+    "pc": 263
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 250,
+    "pc": 264
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 251,
+    "pc": 265
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 252,
+    "pc": 266
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 253,
+    "pc": 267
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 4
+      },
+      "end": {
+        "line": 59,
+        "character": 39
+      }
+    },
+    "teal": 254,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 4
+      },
+      "end": {
+        "line": 59,
+        "character": 39
+      }
+    },
+    "teal": 255,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 11
+      },
+      "end": {
+        "line": 59,
+        "character": 26
+      }
+    },
+    "teal": 256,
+    "pc": 269
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 11
+      },
+      "end": {
+        "line": 59,
+        "character": 26
+      }
+    },
+    "teal": 257,
+    "pc": 270
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 11
+      },
+      "end": {
+        "line": 59,
+        "character": 26
+      }
+    },
+    "teal": 258,
+    "pc": 271
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 33
+      },
+      "end": {
+        "line": 59,
+        "character": 38
+      }
+    },
+    "teal": 259,
+    "pc": 273
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 29
+      },
+      "end": {
+        "line": 59,
+        "character": 32
+      }
+    },
+    "teal": 260,
+    "pc": 274
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 4
+      },
+      "end": {
+        "line": 59,
+        "character": 10
+      }
+    },
+    "teal": 261,
+    "pc": 275
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 2
+      },
+      "end": {
+        "line": 60,
+        "character": 3
+      }
+    },
+    "teal": 262,
+    "pc": 276
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 263,
+    "pc": 277
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 264,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 365,
+    "pc": 367
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 696,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 267,
+    "pc": 281
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 268,
+    "pc": 282
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 269,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 707,
+    "pc": 742
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 271,
+    "pc": 285
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 272,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 320,
+    "pc": 328
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 321,
+    "pc": 329
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 718,
+    "pc": 808
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 276,
+    "pc": 287
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 277,
+    "pc": 288
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 4
+      },
+      "end": {
+        "line": 63,
+        "character": 24
+      }
+    },
+    "teal": 278,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 4
+      },
+      "end": {
+        "line": 63,
+        "character": 24
+      }
+    },
+    "teal": 279,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 4
+      },
+      "end": {
+        "line": 63,
+        "character": 22
+      }
+    },
+    "teal": 628,
+    "pc": 620
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 63,
+        "character": 4
+      },
+      "end": {
+        "line": 63,
+        "character": 22
+      }
+    },
+    "teal": 281,
+    "pc": 291
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 62,
+        "character": 2
+      },
+      "end": {
+        "line": 64,
+        "character": 3
+      }
+    },
+    "teal": 282,
+    "pc": 292
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 283,
+    "pc": 293
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 284,
+    "pc": 295
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 285,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 286,
+    "pc": 297
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 287,
+    "pc": 298
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 288,
+    "pc": 299
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 289,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 647,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 341,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 292,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 293,
+    "pc": 304
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 294,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 659,
+    "pc": 647
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 296,
+    "pc": 307
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 297,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 24
+      }
+    },
+    "teal": 298,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 24
+      }
+    },
+    "teal": 299,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 22
+      }
+    },
+    "teal": 673,
+    "pc": 662
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 22
+      }
+    },
+    "teal": 301,
+    "pc": 309
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 22
+      }
+    },
+    "teal": 302,
+    "pc": 310
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 4
+      },
+      "end": {
+        "line": 67,
+        "character": 22
+      }
+    },
+    "teal": 303,
+    "pc": 311
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 2
+      },
+      "end": {
+        "line": 68,
+        "character": 3
+      }
+    },
+    "teal": 304,
+    "pc": 312
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 305,
+    "pc": 313
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 306,
+    "pc": 314
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 307,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 426,
+    "pc": 422
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 309,
+    "pc": 316
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 310,
+    "pc": 317
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 311,
+    "pc": 318
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 312,
+    "pc": 320
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 313,
+    "pc": 321
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 314,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 315,
+    "pc": 323
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 316,
+    "pc": 324
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 317,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 711,
+    "pc": 766
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 712,
+    "pc": 772
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 71,
+        "character": 4
+      },
+      "end": {
+        "line": 71,
+        "character": 36
+      }
+    },
+    "teal": 320,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 71,
+        "character": 4
+      },
+      "end": {
+        "line": 71,
+        "character": 36
+      }
+    },
+    "teal": 321,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 71,
+        "character": 23
+      },
+      "end": {
+        "line": 71,
+        "character": 28
+      }
+    },
+    "teal": 322,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 71,
+        "character": 30
+      },
+      "end": {
+        "line": 71,
+        "character": 35
+      }
+    },
+    "teal": 525,
+    "pc": 519
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 71,
+        "character": 4
+      },
+      "end": {
+        "line": 71,
+        "character": 22
+      }
+    },
+    "teal": 324,
+    "pc": 332
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 2
+      },
+      "end": {
+        "line": 72,
+        "character": 3
+      }
+    },
+    "teal": 325,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 384,
+    "pc": 382
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 385,
+    "pc": 383
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 627,
+    "pc": 619
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 329,
+    "pc": 334
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 330,
+    "pc": 335
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 331,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 631,
+    "pc": 623
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 333,
+    "pc": 337
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 334,
+    "pc": 338
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 335,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 336,
+    "pc": 341
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 337,
+    "pc": 342
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 338,
+    "pc": 343
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 339,
+    "pc": 344
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 340,
+    "pc": 345
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 47
+      }
+    },
+    "teal": 341,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 47
+      }
+    },
+    "teal": 342,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 30
+      },
+      "end": {
+        "line": 75,
+        "character": 35
+      }
+    },
+    "teal": 654,
+    "pc": 643
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 11
+      },
+      "end": {
+        "line": 75,
+        "character": 29
+      }
+    },
+    "teal": 344,
+    "pc": 349
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 41
+      },
+      "end": {
+        "line": 75,
+        "character": 46
+      }
+    },
+    "teal": 345,
+    "pc": 350
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 37
+      },
+      "end": {
+        "line": 75,
+        "character": 40
+      }
+    },
+    "teal": 346,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 10
+      }
+    },
+    "teal": 661,
+    "pc": 650
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 2
+      },
+      "end": {
+        "line": 76,
+        "character": 3
+      }
+    },
+    "teal": 348,
+    "pc": 353
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 349,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 569,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 486,
+    "pc": 479
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 487,
+    "pc": 480
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 353,
+    "pc": 355
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 354,
+    "pc": 356
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 355,
+    "pc": 357
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 356,
+    "pc": 358
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 357,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 358,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 359,
+    "pc": 360
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 360,
+    "pc": 361
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 361,
+    "pc": 362
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 362,
+    "pc": 364
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 363,
+    "pc": 365
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 79,
+        "character": 4
+      },
+      "end": {
+        "line": 79,
+        "character": 32
+      }
+    },
+    "teal": 364,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 79,
+        "character": 4
+      },
+      "end": {
+        "line": 79,
+        "character": 32
+      }
+    },
+    "teal": 365,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 79,
+        "character": 26
+      },
+      "end": {
+        "line": 79,
+        "character": 31
+      }
+    },
+    "teal": 366,
+    "pc": 368
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 79,
+        "character": 4
+      },
+      "end": {
+        "line": 79,
+        "character": 25
+      }
+    },
+    "teal": 367,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 2
+      },
+      "end": {
+        "line": 80,
+        "character": 3
+      }
+    },
+    "teal": 701,
+    "pc": 706
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 435,
+    "pc": 427
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 370,
+    "pc": 372
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 371,
+    "pc": 373
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 372,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 710,
+    "pc": 760
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 374,
+    "pc": 376
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 375,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 713,
+    "pc": 778
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 714,
+    "pc": 784
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 378,
+    "pc": 377
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 379,
+    "pc": 378
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 380,
+    "pc": 379
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 381,
+    "pc": 380
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 382,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 725,
+    "pc": 888
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 32
+      }
+    },
+    "teal": 384,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 32
+      }
+    },
+    "teal": 385,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 25
+      }
+    },
+    "teal": 386,
+    "pc": 384
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 26
+      },
+      "end": {
+        "line": 83,
+        "character": 31
+      }
+    },
+    "teal": 387,
+    "pc": 386
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 25
+      }
+    },
+    "teal": 388,
+    "pc": 387
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 25
+      }
+    },
+    "teal": 389,
+    "pc": 388
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 83,
+        "character": 25
+      }
+    },
+    "teal": 390,
+    "pc": 389
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 82,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 3
+      }
+    },
+    "teal": 391,
+    "pc": 390
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 392,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 463,
+    "pc": 454
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 639,
+    "pc": 631
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 395,
+    "pc": 394
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 396,
+    "pc": 395
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 397,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 645,
+    "pc": 637
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 399,
+    "pc": 398
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 400,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 401,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 14
+      },
+      "end": {
+        "line": 86,
+        "character": 24
+      }
+    },
+    "teal": 555,
+    "pc": 550
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 14
+      },
+      "end": {
+        "line": 86,
+        "character": 24
+      }
+    },
+    "teal": 556,
+    "pc": 551
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 14
+      },
+      "end": {
+        "line": 86,
+        "character": 24
+      }
+    },
+    "teal": 404,
+    "pc": 400
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 405,
+    "pc": 401
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 406,
+    "pc": 402
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 407,
+    "pc": 403
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 408,
+    "pc": 404
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 409,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 4
+      },
+      "end": {
+        "line": 87,
+        "character": 38
+      }
+    },
+    "teal": 410,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 4
+      },
+      "end": {
+        "line": 87,
+        "character": 38
+      }
+    },
+    "teal": 411,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 22
+      },
+      "end": {
+        "line": 87,
+        "character": 23
+      }
+    },
+    "teal": 412,
+    "pc": 407
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 25
+      },
+      "end": {
+        "line": 87,
+        "character": 30
+      }
+    },
+    "teal": 413,
+    "pc": 408
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 32
+      },
+      "end": {
+        "line": 87,
+        "character": 37
+      }
+    },
+    "teal": 414,
+    "pc": 410
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 4
+      },
+      "end": {
+        "line": 87,
+        "character": 21
+      }
+    },
+    "teal": 415,
+    "pc": 411
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 2
+      },
+      "end": {
+        "line": 88,
+        "character": 3
+      }
+    },
+    "teal": 416,
+    "pc": 412
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 417,
+    "pc": 413
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 418,
+    "pc": 414
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 419,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 680,
+    "pc": 666
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 682,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 422,
+    "pc": 418
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 423,
+    "pc": 419
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 424,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 585,
+    "pc": 583
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 426,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 14
+      },
+      "end": {
+        "line": 90,
+        "character": 24
+      }
+    },
+    "teal": 427,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 14
+      },
+      "end": {
+        "line": 90,
+        "character": 24
+      }
+    },
+    "teal": 692,
+    "pc": 679
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 14
+      },
+      "end": {
+        "line": 90,
+        "character": 24
+      }
+    },
+    "teal": 504,
+    "pc": 500
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 695,
+    "pc": 682
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 431,
+    "pc": 424
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 432,
+    "pc": 425
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 433,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 510,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 4
+      },
+      "end": {
+        "line": 91,
+        "character": 49
+      }
+    },
+    "teal": 435,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 4
+      },
+      "end": {
+        "line": 91,
+        "character": 49
+      }
+    },
+    "teal": 436,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 29
+      },
+      "end": {
+        "line": 91,
+        "character": 30
+      }
+    },
+    "teal": 437,
+    "pc": 429
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 32
+      },
+      "end": {
+        "line": 91,
+        "character": 37
+      }
+    },
+    "teal": 438,
+    "pc": 431
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 11
+      },
+      "end": {
+        "line": 91,
+        "character": 28
+      }
+    },
+    "teal": 439,
+    "pc": 432
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 43
+      },
+      "end": {
+        "line": 91,
+        "character": 48
+      }
+    },
+    "teal": 440,
+    "pc": 433
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 39
+      },
+      "end": {
+        "line": 91,
+        "character": 42
+      }
+    },
+    "teal": 441,
+    "pc": 434
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 91,
+        "character": 4
+      },
+      "end": {
+        "line": 91,
+        "character": 10
+      }
+    },
+    "teal": 442,
+    "pc": 435
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 2
+      },
+      "end": {
+        "line": 92,
+        "character": 3
+      }
+    },
+    "teal": 443,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 716,
+    "pc": 796
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 717,
+    "pc": 802
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 446,
+    "pc": 439
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 447,
+    "pc": 440
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 448,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 722,
+    "pc": 832
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 450,
+    "pc": 443
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 451,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 726,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 453,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 17
+      },
+      "end": {
+        "line": 94,
+        "character": 27
+      }
+    },
+    "teal": 626,
+    "pc": 618
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 17
+      },
+      "end": {
+        "line": 94,
+        "character": 27
+      }
+    },
+    "teal": 455,
+    "pc": 447
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 17
+      },
+      "end": {
+        "line": 94,
+        "character": 27
+      }
+    },
+    "teal": 456,
+    "pc": 448
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 457,
+    "pc": 449
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 458,
+    "pc": 450
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 459,
+    "pc": 451
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 460,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 635,
+    "pc": 626
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 34
+      }
+    },
+    "teal": 462,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 34
+      }
+    },
+    "teal": 463,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 25
+      },
+      "end": {
+        "line": 95,
+        "character": 26
+      }
+    },
+    "teal": 464,
+    "pc": 455
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 28
+      },
+      "end": {
+        "line": 95,
+        "character": 33
+      }
+    },
+    "teal": 465,
+    "pc": 457
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 24
+      }
+    },
+    "teal": 466,
+    "pc": 458
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 2
+      },
+      "end": {
+        "line": 96,
+        "character": 3
+      }
+    },
+    "teal": 467,
+    "pc": 459
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 468,
+    "pc": 460
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 469,
+    "pc": 461
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 470,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 649,
+    "pc": 641
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 650,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 473,
+    "pc": 465
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 474,
+    "pc": 467
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 475,
+    "pc": 470
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 476,
+    "pc": 471
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 477,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 17
+      },
+      "end": {
+        "line": 98,
+        "character": 27
+      }
+    },
+    "teal": 478,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 17
+      },
+      "end": {
+        "line": 98,
+        "character": 27
+      }
+    },
+    "teal": 660,
+    "pc": 648
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 17
+      },
+      "end": {
+        "line": 98,
+        "character": 27
+      }
+    },
+    "teal": 480,
+    "pc": 475
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 481,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 663,
+    "pc": 652
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 664,
+    "pc": 653
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 666,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 485,
+    "pc": 478
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 34
+      }
+    },
+    "teal": 486,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 34
+      }
+    },
+    "teal": 487,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 25
+      },
+      "end": {
+        "line": 99,
+        "character": 26
+      }
+    },
+    "teal": 488,
+    "pc": 481
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 24
+      }
+    },
+    "teal": 489,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 28
+      },
+      "end": {
+        "line": 99,
+        "character": 33
+      }
+    },
+    "teal": 575,
+    "pc": 573
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 24
+      }
+    },
+    "teal": 491,
+    "pc": 483
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 24
+      }
+    },
+    "teal": 492,
+    "pc": 484
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 4
+      },
+      "end": {
+        "line": 99,
+        "character": 24
+      }
+    },
+    "teal": 493,
+    "pc": 485
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 98,
+        "character": 2
+      },
+      "end": {
+        "line": 100,
+        "character": 3
+      }
+    },
+    "teal": 494,
+    "pc": 487
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 495,
+    "pc": 488
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 496,
+    "pc": 489
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 497,
+    "pc": 490
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 498,
+    "pc": 491
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 499,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 689,
+    "pc": 675
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 690,
+    "pc": 676
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 502,
+    "pc": 495
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 503,
+    "pc": 497
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 504,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 505,
+    "pc": 501
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 506,
+    "pc": 502
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 507,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 700,
+    "pc": 700
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 509,
+    "pc": 505
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 103,
+        "character": 4
+      },
+      "end": {
+        "line": 103,
+        "character": 33
+      }
+    },
+    "teal": 510,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 103,
+        "character": 4
+      },
+      "end": {
+        "line": 103,
+        "character": 33
+      }
+    },
+    "teal": 511,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 103,
+        "character": 20
+      },
+      "end": {
+        "line": 103,
+        "character": 25
+      }
+    },
+    "teal": 705,
+    "pc": 730
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 103,
+        "character": 27
+      },
+      "end": {
+        "line": 103,
+        "character": 32
+      }
+    },
+    "teal": 706,
+    "pc": 736
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 103,
+        "character": 4
+      },
+      "end": {
+        "line": 103,
+        "character": 19
+      }
+    },
+    "teal": 514,
+    "pc": 508
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 102,
+        "character": 2
+      },
+      "end": {
+        "line": 104,
+        "character": 3
+      }
+    },
+    "teal": 515,
+    "pc": 509
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 516,
+    "pc": 510
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 517,
+    "pc": 511
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 518,
+    "pc": 512
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 519,
+    "pc": 513
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 520,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 715,
+    "pc": 790
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 522,
+    "pc": 515
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 523,
+    "pc": 516
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 524,
+    "pc": 517
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 525,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 526,
+    "pc": 520
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 527,
+    "pc": 521
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 528,
+    "pc": 522
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 529,
+    "pc": 523
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 530,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 4
+      },
+      "end": {
+        "line": 107,
+        "character": 44
+      }
+    },
+    "teal": 531,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 4
+      },
+      "end": {
+        "line": 107,
+        "character": 44
+      }
+    },
+    "teal": 532,
+    "pc": 526
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 27
+      },
+      "end": {
+        "line": 107,
+        "character": 32
+      }
+    },
+    "teal": 533,
+    "pc": 527
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 11
+      },
+      "end": {
+        "line": 107,
+        "character": 26
+      }
+    },
+    "teal": 534,
+    "pc": 529
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 11
+      },
+      "end": {
+        "line": 107,
+        "character": 26
+      }
+    },
+    "teal": 535,
+    "pc": 532
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 38
+      },
+      "end": {
+        "line": 107,
+        "character": 43
+      }
+    },
+    "teal": 536,
+    "pc": 533
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 34
+      },
+      "end": {
+        "line": 107,
+        "character": 37
+      }
+    },
+    "teal": 537,
+    "pc": 534
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 4
+      },
+      "end": {
+        "line": 107,
+        "character": 10
+      }
+    },
+    "teal": 538,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 2
+      },
+      "end": {
+        "line": 108,
+        "character": 3
+      }
+    },
+    "teal": 632,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 540,
+    "pc": 537
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 541,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 636,
+    "pc": 627
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 637,
+    "pc": 629
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 638,
+    "pc": 630
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 545,
+    "pc": 540
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 546,
+    "pc": 541
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 547,
+    "pc": 542
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 548,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 549,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 550,
+    "pc": 544
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 551,
+    "pc": 545
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 552,
+    "pc": 546
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 553,
+    "pc": 548
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 554,
+    "pc": 549
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 111,
+        "character": 4
+      },
+      "end": {
+        "line": 111,
+        "character": 29
+      }
+    },
+    "teal": 555,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 111,
+        "character": 4
+      },
+      "end": {
+        "line": 111,
+        "character": 29
+      }
+    },
+    "teal": 556,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 111,
+        "character": 23
+      },
+      "end": {
+        "line": 111,
+        "character": 28
+      }
+    },
+    "teal": 557,
+    "pc": 552
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 111,
+        "character": 4
+      },
+      "end": {
+        "line": 111,
+        "character": 22
+      }
+    },
+    "teal": 558,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 110,
+        "character": 2
+      },
+      "end": {
+        "line": 112,
+        "character": 3
+      }
+    },
+    "teal": 656,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 658,
+    "pc": 646
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 561,
+    "pc": 556
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 562,
+    "pc": 558
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 563,
+    "pc": 561
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 564,
+    "pc": 562
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 565,
+    "pc": 563
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 566,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 665,
+    "pc": 654
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 568,
+    "pc": 566
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 569,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 669,
+    "pc": 658
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 670,
+    "pc": 659
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 671,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 573,
+    "pc": 571
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 574,
+    "pc": 572
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 4
+      },
+      "end": {
+        "line": 115,
+        "character": 29
+      }
+    },
+    "teal": 575,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 4
+      },
+      "end": {
+        "line": 115,
+        "character": 29
+      }
+    },
+    "teal": 576,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 23
+      },
+      "end": {
+        "line": 115,
+        "character": 28
+      }
+    },
+    "teal": 577,
+    "pc": 575
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 4
+      },
+      "end": {
+        "line": 115,
+        "character": 22
+      }
+    },
+    "teal": 578,
+    "pc": 576
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 4
+      },
+      "end": {
+        "line": 115,
+        "character": 22
+      }
+    },
+    "teal": 579,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 4
+      },
+      "end": {
+        "line": 115,
+        "character": 22
+      }
+    },
+    "teal": 681,
+    "pc": 667
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 581,
+    "pc": 578
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 582,
+    "pc": 579
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 583,
+    "pc": 580
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 584,
+    "pc": 582
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 585,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 586,
+    "pc": 584
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 587,
+    "pc": 585
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 588,
+    "pc": 586
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 589,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 693,
+    "pc": 680
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 694,
+    "pc": 681
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 592,
+    "pc": 590
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 593,
+    "pc": 591
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 594,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 699,
+    "pc": 694
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 596,
+    "pc": 594
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 597,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 702,
+    "pc": 712
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 703,
+    "pc": 718
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 704,
+    "pc": 724
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 601,
+    "pc": 596
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 602,
+    "pc": 597
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 603,
+    "pc": 598
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 604,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 709,
+    "pc": 754
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 606,
+    "pc": 600
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 607,
+    "pc": 601
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 608,
+    "pc": 602
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 609,
+    "pc": 604
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 610,
+    "pc": 605
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 611,
+    "pc": 606
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 612,
+    "pc": 607
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 613,
+    "pc": 608
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 614,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 719,
+    "pc": 814
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 720,
+    "pc": 820
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 617,
+    "pc": 612
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 618,
+    "pc": 613
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 619,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 724,
+    "pc": 887
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 621,
+    "pc": 616
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/storage.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 2
+      },
+      "end": {
+        "line": 116,
+        "character": 3
+      }
+    },
+    "teal": 622,
+    "pc": 0
+  }
+]

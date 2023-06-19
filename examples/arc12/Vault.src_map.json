@@ -1,665 +1,8132 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 0,
-  "13": 0,
-  "14": 0,
-  "15": 0,
-  "16": 0,
-  "17": 0,
-  "18": 0,
-  "19": 0,
-  "20": 0,
-  "21": 0,
-  "22": 0,
-  "23": 0,
-  "24": 0,
-  "25": 0,
-  "26": 0,
-  "27": 0,
-  "28": 0,
-  "29": 0,
-  "30": 0,
-  "31": 0,
-  "32": 0,
-  "33": 0,
-  "34": 1,
-  "35": 1,
-  "36": 1,
-  "37": 4,
-  "38": 4,
-  "39": 4,
-  "40": 8,
-  "41": 8,
-  "42": 9,
-  "43": 10,
-  "44": 11,
-  "45": 12,
-  "46": 17,
-  "47": 18,
-  "48": 19,
-  "49": 19,
-  "50": 23,
-  "51": 23,
-  "52": 24,
-  "53": 24,
-  "54": 28,
-  "55": 28,
-  "56": 29,
-  "57": 29,
-  "58": 30,
-  "59": 31,
-  "60": 31,
-  "61": 35,
-  "62": 36,
-  "63": 36,
-  "64": 41,
-  "65": 41,
-  "66": 42,
-  "67": 42,
-  "68": 43,
-  "69": 47,
-  "70": 47,
-  "71": 48,
-  "72": 49,
-  "73": 50,
-  "74": 50,
-  "75": 55,
-  "76": 55,
-  "77": 56,
-  "78": 56,
-  "79": 57,
-  "80": 58,
-  "81": 59,
-  "82": 60,
-  "83": 64,
-  "84": 64,
-  "85": 65,
-  "86": 65,
-  "87": 65,
-  "88": 66,
-  "89": 66,
-  "90": 66,
-  "91": 66,
-  "92": 66,
-  "93": 66,
-  "94": 67,
-  "95": 68,
-  "96": 72,
-  "97": 72,
-  "98": 73,
-  "99": 73,
-  "100": 73,
-  "101": 74,
-  "102": 74,
-  "103": 74,
-  "104": 75,
-  "105": 76,
-  "106": 77,
-  "107": 80,
-  "108": 80,
-  "109": 81,
-  "110": 82,
-  "111": 83,
-  "112": 83,
-  "113": 84,
-  "114": 85,
-  "115": 86,
-  "116": 87,
-  "117": 90,
-  "118": 90,
-  "119": 90,
-  "120": 91,
-  "121": 92,
-  "122": 92,
-  "123": 93,
-  "124": 93,
-  "125": 93,
-  "126": 94,
-  "127": 95,
-  "128": 95,
-  "129": 96,
-  "130": 96,
-  "131": 96,
-  "132": 97,
-  "133": 98,
-  "134": 101,
-  "135": 101,
-  "136": 101,
-  "137": 105,
-  "138": 106,
-  "139": 106,
-  "140": 107,
-  "141": 111,
-  "142": 112,
-  "143": 112,
-  "144": 113,
-  "145": 117,
-  "146": 118,
-  "147": 118,
-  "148": 119,
-  "149": 120,
-  "150": 123,
-  "151": 123,
-  "152": 124,
-  "153": 125,
-  "154": 126,
-  "155": 126,
-  "156": 127,
-  "157": 128,
-  "158": 129,
-  "159": 130,
-  "160": 131,
-  "161": 131,
-  "162": 132,
-  "163": 132,
-  "164": 132,
-  "165": 133,
-  "166": 134,
-  "167": 134,
-  "168": 135,
-  "169": 135,
-  "170": 135,
-  "171": 136,
-  "172": 137,
-  "173": 137,
-  "174": 138,
-  "175": 138,
-  "176": 138,
-  "177": 139,
-  "178": 140,
-  "179": 140,
-  "180": 141,
-  "181": 141,
-  "182": 141,
-  "183": 142,
-  "184": 143,
-  "185": 143,
-  "186": 144,
-  "187": 144,
-  "188": 144,
-  "189": 145,
-  "190": 146,
-  "191": 149,
-  "192": 149,
-  "193": 149,
-  "194": 153,
-  "195": 153,
-  "196": 154,
-  "197": 155,
-  "198": 156,
-  "199": 157,
-  "200": 161,
-  "201": 161,
-  "202": 162,
-  "203": 162,
-  "204": 162,
-  "205": 162,
-  "206": 162,
-  "207": 162,
-  "208": 162,
-  "209": 162,
-  "210": 162,
-  "211": 162,
-  "212": 162,
-  "213": 162,
-  "214": 162,
-  "215": 162,
-  "216": 162,
-  "217": 162,
-  "218": 162,
-  "219": 162,
-  "220": 162,
-  "221": 162,
-  "222": 162,
-  "223": 162,
-  "224": 162,
-  "225": 162,
-  "226": 162,
-  "227": 162,
-  "228": 162,
-  "229": 162,
-  "230": 162,
-  "231": 162,
-  "232": 162,
-  "233": 162,
-  "234": 162,
-  "235": 162,
-  "236": 163,
-  "237": 164,
-  "238": 168,
-  "239": 168,
-  "240": 169,
-  "241": 169,
-  "242": 170,
-  "243": 171,
-  "244": 171,
-  "245": 176,
-  "246": 177,
-  "247": 178,
-  "248": 178,
-  "249": 182,
-  "250": 182,
-  "251": 183,
-  "252": 183,
-  "253": 187,
-  "254": 187,
-  "255": 188,
-  "256": 188,
-  "257": 192,
-  "258": 193,
-  "259": 193,
-  "260": 197,
-  "261": 197,
-  "262": 198,
-  "263": 198,
-  "264": 202,
-  "265": 203,
-  "266": 203,
-  "267": 204,
-  "268": 208,
-  "269": 208,
-  "270": 209,
-  "271": 210,
-  "272": 214,
-  "273": 214,
-  "274": 215,
-  "275": 215,
-  "276": 216,
-  "277": 216,
-  "278": 217,
-  "279": 218,
-  "280": 219,
-  "281": 219,
-  "282": 224,
-  "283": 225,
-  "284": 226,
-  "285": 226,
-  "286": 230,
-  "287": 230,
-  "288": 231,
-  "289": 231,
-  "290": 235,
-  "291": 235,
-  "292": 236,
-  "293": 236,
-  "294": 237,
-  "295": 238,
-  "296": 238,
-  "297": 242,
-  "298": 243,
-  "299": 243,
-  "300": 244,
-  "301": 249,
-  "302": 250,
-  "303": 251,
-  "304": 251,
-  "305": 255,
-  "306": 255,
-  "307": 256,
-  "308": 256,
-  "309": 260,
-  "310": 260,
-  "311": 261,
-  "312": 261,
-  "313": 265,
-  "314": 266,
-  "315": 266,
-  "316": 267,
-  "317": 272,
-  "318": 272,
-  "319": 273,
-  "320": 273,
-  "321": 274,
-  "322": 275,
-  "323": 276,
-  "324": 277,
-  "325": 277,
-  "326": 277,
-  "327": 282,
-  "328": 283,
-  "329": 283,
-  "330": 284,
-  "331": 284,
-  "332": 284,
-  "333": 287,
-  "334": 290,
-  "335": 290,
-  "336": 291,
-  "337": 292,
-  "338": 293,
-  "339": 293,
-  "340": 294,
-  "341": 295,
-  "342": 296,
-  "343": 297,
-  "344": 298,
-  "345": 299,
-  "346": 299,
-  "347": 300,
-  "348": 301,
-  "349": 302,
-  "350": 302,
-  "351": 302,
-  "352": 303,
-  "353": 304,
-  "354": 304,
-  "355": 305,
-  "356": 305,
-  "357": 305,
-  "358": 306,
-  "359": 307,
-  "360": 310,
-  "361": 310,
-  "362": 310,
-  "363": 314,
-  "364": 314,
-  "365": 315,
-  "366": 316,
-  "367": 317,
-  "368": 318,
-  "369": 319,
-  "370": 320,
-  "371": 324,
-  "372": 324,
-  "373": 325,
-  "374": 325,
-  "375": 326,
-  "376": 326,
-  "377": 327,
-  "378": 328,
-  "379": 332,
-  "380": 332,
-  "381": 333,
-  "382": 333,
-  "383": 334,
-  "384": 334,
-  "385": 335,
-  "386": 336,
-  "387": 340,
-  "388": 340,
-  "389": 341,
-  "390": 341,
-  "391": 342,
-  "392": 343,
-  "393": 343,
-  "394": 347,
-  "395": 347,
-  "396": 348,
-  "397": 349,
-  "398": 349,
-  "399": 350,
-  "400": 355,
-  "401": 356,
-  "402": 357,
-  "403": 357,
-  "404": 361,
-  "405": 361,
-  "406": 362,
-  "407": 362,
-  "408": 366,
-  "409": 367,
-  "410": 367,
-  "411": 371,
-  "412": 372,
-  "413": 372,
-  "414": 376,
-  "415": 376,
-  "416": 377,
-  "417": 377,
-  "418": 378,
-  "419": 382,
-  "420": 382,
-  "421": 383,
-  "422": 383,
-  "423": 384,
-  "424": 384,
-  "425": 385,
-  "426": 385,
-  "427": 386,
-  "428": 387,
-  "429": 387,
-  "430": 388,
-  "431": 389,
-  "432": 390,
-  "433": 391,
-  "434": 394,
-  "435": 394,
-  "436": 395,
-  "437": 396,
-  "438": 397,
-  "439": 397,
-  "440": 398,
-  "441": 399,
-  "442": 400,
-  "443": 401,
-  "444": 402,
-  "445": 403,
-  "446": 403,
-  "447": 403,
-  "448": 404,
-  "449": 405,
-  "450": 405,
-  "451": 406,
-  "452": 406,
-  "453": 406,
-  "454": 407,
-  "455": 408,
-  "456": 408,
-  "457": 409,
-  "458": 409,
-  "459": 409,
-  "460": 410,
-  "461": 411,
-  "462": 411,
-  "463": 412,
-  "464": 412,
-  "465": 412,
-  "466": 413,
-  "467": 414,
-  "468": 417,
-  "469": 417,
-  "470": 417,
-  "471": 421,
-  "472": 421,
-  "473": 422,
-  "474": 423,
-  "475": 424,
-  "476": 425,
-  "477": 426,
-  "478": 430,
-  "479": 430,
-  "480": 431,
-  "481": 431,
-  "482": 432,
-  "483": 433,
-  "484": 434,
-  "485": 435,
-  "486": 436,
-  "487": 440,
-  "488": 440,
-  "489": 441,
-  "490": 442,
-  "491": 443,
-  "492": 444,
-  "493": 448,
-  "494": 449,
-  "495": 450,
-  "496": 450,
-  "497": 451,
-  "498": 452,
-  "499": 456,
-  "500": 456,
-  "501": 457,
-  "502": 457,
-  "503": 458,
-  "504": 459,
-  "505": 459,
-  "506": 463,
-  "507": 463,
-  "508": 464,
-  "509": 465,
-  "510": 470,
-  "511": 471,
-  "512": 472,
-  "513": 472,
-  "514": 476,
-  "515": 476,
-  "516": 477,
-  "517": 477,
-  "518": 481,
-  "519": 482,
-  "520": 482,
-  "521": 486,
-  "522": 486,
-  "523": 487,
-  "524": 487,
-  "525": 488,
-  "526": 488,
-  "527": 489,
-  "528": 490,
-  "529": 490,
-  "530": 494,
-  "531": 494,
-  "532": 495,
-  "533": 495,
-  "534": 499,
-  "535": 499,
-  "536": 500,
-  "537": 500,
-  "538": 501,
-  "539": 506,
-  "540": 507,
-  "541": 508,
-  "542": 508,
-  "543": 512,
-  "544": 512,
-  "545": 513,
-  "546": 513,
-  "547": 517,
-  "548": 517,
-  "549": 518,
-  "550": 518,
-  "551": 519,
-  "552": 519,
-  "553": 520,
-  "554": 521,
-  "555": 522,
-  "556": 522,
-  "557": 526,
-  "558": 527,
-  "559": 527,
-  "560": 528,
-  "561": 533,
-  "562": 533,
-  "563": 534,
-  "564": 534,
-  "565": 535,
-  "566": 536,
-  "567": 537,
-  "568": 538,
-  "569": 538,
-  "570": 538,
-  "571": 543,
-  "572": 544,
-  "573": 544,
-  "574": 545,
-  "575": 545,
-  "576": 545,
-  "577": 548,
-  "578": 551,
-  "579": 551,
-  "580": 552,
-  "581": 553,
-  "582": 554,
-  "583": 554,
-  "584": 555,
-  "585": 556,
-  "586": 557,
-  "587": 558,
-  "588": 561,
-  "589": 561,
-  "590": 561,
-  "591": 562,
-  "592": 563,
-  "593": 566,
-  "594": 566,
-  "595": 566,
-  "596": 570,
-  "597": 570,
-  "598": 571,
-  "599": 571,
-  "600": 572,
-  "601": 573,
-  "602": 574,
-  "603": 575,
-  "604": 579,
-  "605": 579,
-  "606": 580,
-  "607": 580,
-  "608": 581,
-  "609": 582,
-  "610": 583,
-  "611": 586,
-  "612": 586,
-  "613": 587,
-  "614": 587,
-  "615": 587,
-  "616": 588,
-  "617": 588,
-  "618": 589,
-  "619": 590,
-  "620": 591,
-  "621": 592,
-  "622": 592,
-  "623": 592,
-  "624": 592,
-  "625": 595,
-  "626": 595,
-  "627": 595,
-  "628": 595,
-  "629": 595,
-  "630": 595,
-  "631": 596,
-  "632": 596,
-  "633": 596,
-  "634": 596,
-  "635": 596,
-  "636": 596,
-  "637": 597,
-  "638": 597,
-  "639": 597,
-  "640": 597,
-  "641": 597,
-  "642": 597,
-  "643": 598,
-  "644": 598,
-  "645": 598,
-  "646": 598,
-  "647": 598,
-  "648": 598,
-  "649": 599,
-  "650": 599,
-  "651": 599,
-  "652": 600,
-  "653": 600,
-  "654": 600,
-  "655": 600,
-  "656": 600,
-  "657": 600,
-  "658": 600,
-  "659": 600,
-  "660": 600,
-  "661": 600,
-  "662": 601
-}
+[
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 29,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 39
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 29,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 47
+      }
+    },
+    "teal": 4,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 47
+      }
+    },
+    "teal": 5,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 11
+      },
+      "end": {
+        "line": 13,
+        "character": 23
+      }
+    },
+    "teal": 12,
+    "pc": 45
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 28
+      },
+      "end": {
+        "line": 13,
+        "character": 44
+      }
+    },
+    "teal": 13,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 28
+      },
+      "end": {
+        "line": 13,
+        "character": 44
+      }
+    },
+    "teal": 11,
+    "pc": 44
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 24
+      },
+      "end": {
+        "line": 13,
+        "character": 27
+      }
+    },
+    "teal": 9,
+    "pc": 42
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 10
+      }
+    },
+    "teal": 10,
+    "pc": 43
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 10
+      }
+    },
+    "teal": 11,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 12,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 13,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 18,
+    "pc": 47
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 37,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 31,
+    "pc": 60
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 6
+      },
+      "end": {
+        "line": 17,
+        "character": 28
+      }
+    },
+    "teal": 17,
+    "pc": 46
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 6
+      },
+      "end": {
+        "line": 17,
+        "character": 28
+      }
+    },
+    "teal": 18,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 16
+      },
+      "end": {
+        "line": 17,
+        "character": 28
+      }
+    },
+    "teal": 19,
+    "pc": 49
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 6
+      },
+      "end": {
+        "line": 17,
+        "character": 28
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 6
+      },
+      "end": {
+        "line": 18,
+        "character": 58
+      }
+    },
+    "teal": 21,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 6
+      },
+      "end": {
+        "line": 18,
+        "character": 58
+      }
+    },
+    "teal": 22,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 14
+      },
+      "end": {
+        "line": 18,
+        "character": 21
+      }
+    },
+    "teal": 44,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 14
+      },
+      "end": {
+        "line": 18,
+        "character": 21
+      }
+    },
+    "teal": 24,
+    "pc": 53
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 48
+      },
+      "end": {
+        "line": 18,
+        "character": 58
+      }
+    },
+    "teal": 24,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 48
+      },
+      "end": {
+        "line": 18,
+        "character": 58
+      }
+    },
+    "teal": 25,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 6
+      },
+      "end": {
+        "line": 18,
+        "character": 58
+      }
+    },
+    "teal": 32,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 12
+      }
+    },
+    "teal": 27,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 12
+      }
+    },
+    "teal": 28,
+    "pc": 55
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 11
+      },
+      "end": {
+        "line": 19,
+        "character": 12
+      }
+    },
+    "teal": 29,
+    "pc": 57
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 6
+      },
+      "end": {
+        "line": 19,
+        "character": 12
+      }
+    },
+    "teal": 30,
+    "pc": 58
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 6
+      },
+      "end": {
+        "line": 21,
+        "character": 39
+      }
+    },
+    "teal": 31,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 6
+      },
+      "end": {
+        "line": 21,
+        "character": 39
+      }
+    },
+    "teal": 32,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 6
+      },
+      "end": {
+        "line": 21,
+        "character": 39
+      }
+    },
+    "teal": 33,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 33
+      },
+      "end": {
+        "line": 21,
+        "character": 39
+      }
+    },
+    "teal": 138,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 6
+      },
+      "end": {
+        "line": 21,
+        "character": 39
+      }
+    },
+    "teal": 43,
+    "pc": 68
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 4
+      },
+      "end": {
+        "line": 22,
+        "character": 6
+      }
+    },
+    "teal": 36,
+    "pc": 63
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 10
+      },
+      "end": {
+        "line": 24,
+        "character": 65
+      }
+    },
+    "teal": 37,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 10
+      },
+      "end": {
+        "line": 24,
+        "character": 65
+      }
+    },
+    "teal": 38,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 50
+      },
+      "end": {
+        "line": 24,
+        "character": 60
+      }
+    },
+    "teal": 132,
+    "pc": 164
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 63
+      },
+      "end": {
+        "line": 24,
+        "character": 64
+      }
+    },
+    "teal": 59,
+    "pc": 81
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 61
+      },
+      "end": {
+        "line": 24,
+        "character": 62
+      }
+    },
+    "teal": 60,
+    "pc": 82
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 10
+      },
+      "end": {
+        "line": 24,
+        "character": 65
+      }
+    },
+    "teal": 42,
+    "pc": 67
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 10
+      },
+      "end": {
+        "line": 24,
+        "character": 65
+      }
+    },
+    "teal": 43,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 62
+      }
+    },
+    "teal": 44,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 62
+      }
+    },
+    "teal": 45,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 11
+      },
+      "end": {
+        "line": 26,
+        "character": 25
+      }
+    },
+    "teal": 94,
+    "pc": 126
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 11
+      },
+      "end": {
+        "line": 26,
+        "character": 39
+      }
+    },
+    "teal": 46,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 26
+      },
+      "end": {
+        "line": 26,
+        "character": 39
+      }
+    },
+    "teal": 131,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 44
+      },
+      "end": {
+        "line": 26,
+        "character": 59
+      }
+    },
+    "teal": 48,
+    "pc": 71
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 44
+      },
+      "end": {
+        "line": 26,
+        "character": 59
+      }
+    },
+    "teal": 49,
+    "pc": 72
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 40
+      },
+      "end": {
+        "line": 26,
+        "character": 43
+      }
+    },
+    "teal": 50,
+    "pc": 74
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 4
+      },
+      "end": {
+        "line": 26,
+        "character": 10
+      }
+    },
+    "teal": 51,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 96
+      }
+    },
+    "teal": 52,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 96
+      }
+    },
+    "teal": 53,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 25
+      }
+    },
+    "teal": 145,
+    "pc": 189
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 41
+      }
+    },
+    "teal": 54,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 26
+      },
+      "end": {
+        "line": 27,
+        "character": 41
+      }
+    },
+    "teal": 169,
+    "pc": 241
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 25
+      }
+    },
+    "teal": 54,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 41
+      }
+    },
+    "teal": 54,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 26
+      },
+      "end": {
+        "line": 27,
+        "character": 41
+      }
+    },
+    "teal": 55,
+    "pc": 76
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 42
+      },
+      "end": {
+        "line": 27,
+        "character": 43
+      }
+    },
+    "teal": 55,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 56
+      },
+      "end": {
+        "line": 27,
+        "character": 94
+      }
+    },
+    "teal": 56,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 45
+      },
+      "end": {
+        "line": 27,
+        "character": 48
+      }
+    },
+    "teal": 57,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 10
+      }
+    },
+    "teal": 58,
+    "pc": 80
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 4
+      },
+      "end": {
+        "line": 28,
+        "character": 55
+      }
+    },
+    "teal": 59,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 4
+      },
+      "end": {
+        "line": 28,
+        "character": 55
+      }
+    },
+    "teal": 60,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 11
+      },
+      "end": {
+        "line": 28,
+        "character": 25
+      }
+    },
+    "teal": 61,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 11
+      },
+      "end": {
+        "line": 28,
+        "character": 38
+      }
+    },
+    "teal": 61,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 26
+      },
+      "end": {
+        "line": 28,
+        "character": 38
+      }
+    },
+    "teal": 139,
+    "pc": 177
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 11
+      },
+      "end": {
+        "line": 28,
+        "character": 25
+      }
+    },
+    "teal": 61,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 11
+      },
+      "end": {
+        "line": 28,
+        "character": 38
+      }
+    },
+    "teal": 61,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 26
+      },
+      "end": {
+        "line": 28,
+        "character": 38
+      }
+    },
+    "teal": 62,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 39
+      },
+      "end": {
+        "line": 28,
+        "character": 40
+      }
+    },
+    "teal": 62,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 46
+      },
+      "end": {
+        "line": 28,
+        "character": 54
+      }
+    },
+    "teal": 88,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 42
+      },
+      "end": {
+        "line": 28,
+        "character": 45
+      }
+    },
+    "teal": 76,
+    "pc": 105
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 4
+      },
+      "end": {
+        "line": 28,
+        "character": 10
+      }
+    },
+    "teal": 65,
+    "pc": 87
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 29,
+        "character": 3
+      }
+    },
+    "teal": 66,
+    "pc": 93
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 67,
+    "pc": 94
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 68,
+    "pc": 95
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 69,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 178,
+    "pc": 248
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 98,
+    "pc": 133
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 99,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 73,
+    "pc": 100
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 74,
+    "pc": 103
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 75,
+    "pc": 104
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 76,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 28
+      },
+      "end": {
+        "line": 32,
+        "character": 43
+      }
+    },
+    "teal": 77,
+    "pc": 106
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 28
+      },
+      "end": {
+        "line": 32,
+        "character": 43
+      }
+    },
+    "teal": 78,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 28
+      },
+      "end": {
+        "line": 32,
+        "character": 43
+      }
+    },
+    "teal": 93,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 9
+      },
+      "end": {
+        "line": 32,
+        "character": 26
+      }
+    },
+    "teal": 80,
+    "pc": 108
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 9
+      },
+      "end": {
+        "line": 32,
+        "character": 26
+      }
+    },
+    "teal": 81,
+    "pc": 109
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 9
+      },
+      "end": {
+        "line": 32,
+        "character": 26
+      }
+    },
+    "teal": 82,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 83,
+    "pc": 112
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 84,
+    "pc": 113
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 85,
+    "pc": 114
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 86,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 87,
+    "pc": 116
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 28
+      }
+    },
+    "teal": 88,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 28
+      }
+    },
+    "teal": 89,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 20
+      }
+    },
+    "teal": 144,
+    "pc": 188
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 21
+      },
+      "end": {
+        "line": 33,
+        "character": 27
+      }
+    },
+    "teal": 91,
+    "pc": 120
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 20
+      }
+    },
+    "teal": 92,
+    "pc": 122
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 4
+      },
+      "end": {
+        "line": 34,
+        "character": 31
+      }
+    },
+    "teal": 93,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 4
+      },
+      "end": {
+        "line": 34,
+        "character": 31
+      }
+    },
+    "teal": 94,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 4
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 95,
+    "pc": 128
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 22
+      },
+      "end": {
+        "line": 34,
+        "character": 30
+      }
+    },
+    "teal": 96,
+    "pc": 131
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 34,
+        "character": 4
+      },
+      "end": {
+        "line": 34,
+        "character": 21
+      }
+    },
+    "teal": 97,
+    "pc": 132
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 48
+      }
+    },
+    "teal": 98,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 48
+      }
+    },
+    "teal": 99,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 19
+      }
+    },
+    "teal": 183,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 20
+      },
+      "end": {
+        "line": 35,
+        "character": 27
+      }
+    },
+    "teal": 101,
+    "pc": 136
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 35,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 19
+      }
+    },
+    "teal": 102,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 2
+      },
+      "end": {
+        "line": 36,
+        "character": 3
+      }
+    },
+    "teal": 404,
+    "pc": 448
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 164,
+    "pc": 237
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 165,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 106,
+    "pc": 139
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 107,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 108,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 231,
+    "pc": 289
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 172,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 112,
+    "pc": 143
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 113,
+    "pc": 144
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 60
+      },
+      "end": {
+        "line": 38,
+        "character": 81
+      }
+    },
+    "teal": 114,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 60
+      },
+      "end": {
+        "line": 38,
+        "character": 81
+      }
+    },
+    "teal": 285,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 60
+      },
+      "end": {
+        "line": 38,
+        "character": 81
+      }
+    },
+    "teal": 156,
+    "pc": 198
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 48
+      },
+      "end": {
+        "line": 38,
+        "character": 58
+      }
+    },
+    "teal": 157,
+    "pc": 199
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 48
+      },
+      "end": {
+        "line": 38,
+        "character": 58
+      }
+    },
+    "teal": 118,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 48
+      },
+      "end": {
+        "line": 38,
+        "character": 58
+      }
+    },
+    "teal": 119,
+    "pc": 148
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 30
+      },
+      "end": {
+        "line": 38,
+        "character": 46
+      }
+    },
+    "teal": 120,
+    "pc": 149
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 30
+      },
+      "end": {
+        "line": 38,
+        "character": 46
+      }
+    },
+    "teal": 121,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 30
+      },
+      "end": {
+        "line": 38,
+        "character": 46
+      }
+    },
+    "teal": 405,
+    "pc": 450
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 9
+      },
+      "end": {
+        "line": 38,
+        "character": 28
+      }
+    },
+    "teal": 123,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 9
+      },
+      "end": {
+        "line": 38,
+        "character": 28
+      }
+    },
+    "teal": 124,
+    "pc": 152
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 9
+      },
+      "end": {
+        "line": 38,
+        "character": 28
+      }
+    },
+    "teal": 125,
+    "pc": 153
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 126,
+    "pc": 155
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 127,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 128,
+    "pc": 157
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 129,
+    "pc": 158
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 130,
+    "pc": 159
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 51
+      }
+    },
+    "teal": 131,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 51
+      }
+    },
+    "teal": 132,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 20
+      },
+      "end": {
+        "line": 39,
+        "character": 26
+      }
+    },
+    "teal": 133,
+    "pc": 165
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 31
+      },
+      "end": {
+        "line": 39,
+        "character": 48
+      }
+    },
+    "teal": 134,
+    "pc": 167
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 31
+      },
+      "end": {
+        "line": 39,
+        "character": 48
+      }
+    },
+    "teal": 135,
+    "pc": 170
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 27
+      },
+      "end": {
+        "line": 39,
+        "character": 30
+      }
+    },
+    "teal": 136,
+    "pc": 171
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 39,
+        "character": 4
+      },
+      "end": {
+        "line": 39,
+        "character": 10
+      }
+    },
+    "teal": 137,
+    "pc": 173
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 4
+      },
+      "end": {
+        "line": 40,
+        "character": 90
+      }
+    },
+    "teal": 138,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 4
+      },
+      "end": {
+        "line": 40,
+        "character": 90
+      }
+    },
+    "teal": 139,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 11
+      },
+      "end": {
+        "line": 40,
+        "character": 18
+      }
+    },
+    "teal": 140,
+    "pc": 179
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 28
+      },
+      "end": {
+        "line": 40,
+        "character": 88
+      }
+    },
+    "teal": 141,
+    "pc": 182
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 19
+      },
+      "end": {
+        "line": 40,
+        "character": 22
+      }
+    },
+    "teal": 142,
+    "pc": 183
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 4
+      },
+      "end": {
+        "line": 40,
+        "character": 10
+      }
+    },
+    "teal": 143,
+    "pc": 185
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 10
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 10
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 19
+      },
+      "end": {
+        "line": 41,
+        "character": 26
+      }
+    },
+    "teal": 146,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 19
+      },
+      "end": {
+        "line": 41,
+        "character": 26
+      }
+    },
+    "teal": 147,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 53
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 147,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 53
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 232,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 10
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 149,
+    "pc": 193
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 41,
+        "character": 10
+      },
+      "end": {
+        "line": 41,
+        "character": 63
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 151,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 152,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 177,
+    "pc": 246
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 154,
+    "pc": 196
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 155,
+    "pc": 197
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 45,
+        "character": 6
+      },
+      "end": {
+        "line": 45,
+        "character": 31
+      }
+    },
+    "teal": 156,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 45,
+        "character": 6
+      },
+      "end": {
+        "line": 45,
+        "character": 31
+      }
+    },
+    "teal": 157,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 45,
+        "character": 21
+      },
+      "end": {
+        "line": 45,
+        "character": 31
+      }
+    },
+    "teal": 158,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 45,
+        "character": 6
+      },
+      "end": {
+        "line": 45,
+        "character": 31
+      }
+    },
+    "teal": 534,
+    "pc": 564
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 6
+      },
+      "end": {
+        "line": 46,
+        "character": 20
+      }
+    },
+    "teal": 160,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 6
+      },
+      "end": {
+        "line": 46,
+        "character": 20
+      }
+    },
+    "teal": 161,
+    "pc": 201
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 17
+      },
+      "end": {
+        "line": 46,
+        "character": 20
+      }
+    },
+    "teal": 162,
+    "pc": 235
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 46,
+        "character": 6
+      },
+      "end": {
+        "line": 46,
+        "character": 20
+      }
+    },
+    "teal": 163,
+    "pc": 236
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 6
+      },
+      "end": {
+        "line": 47,
+        "character": 20
+      }
+    },
+    "teal": 164,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 6
+      },
+      "end": {
+        "line": 47,
+        "character": 20
+      }
+    },
+    "teal": 165,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 19
+      },
+      "end": {
+        "line": 47,
+        "character": 20
+      }
+    },
+    "teal": 225,
+    "pc": 283
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 47,
+        "character": 6
+      },
+      "end": {
+        "line": 47,
+        "character": 20
+      }
+    },
+    "teal": 226,
+    "pc": 285
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 30
+      }
+    },
+    "teal": 168,
+    "pc": 239
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 30
+      }
+    },
+    "teal": 169,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 20
+      },
+      "end": {
+        "line": 48,
+        "character": 30
+      }
+    },
+    "teal": 170,
+    "pc": 242
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 48,
+        "character": 6
+      },
+      "end": {
+        "line": 48,
+        "character": 30
+      }
+    },
+    "teal": 171,
+    "pc": 244
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 6
+      },
+      "end": {
+        "line": 49,
+        "character": 12
+      }
+    },
+    "teal": 172,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 6
+      },
+      "end": {
+        "line": 49,
+        "character": 12
+      }
+    },
+    "teal": 173,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 11
+      },
+      "end": {
+        "line": 49,
+        "character": 12
+      }
+    },
+    "teal": 277,
+    "pc": 326
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 49,
+        "character": 6
+      },
+      "end": {
+        "line": 49,
+        "character": 12
+      }
+    },
+    "teal": 278,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 44,
+        "character": 4
+      },
+      "end": {
+        "line": 50,
+        "character": 6
+      }
+    },
+    "teal": 239,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 4
+      },
+      "end": {
+        "line": 52,
+        "character": 30
+      }
+    },
+    "teal": 177,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 4
+      },
+      "end": {
+        "line": 52,
+        "character": 30
+      }
+    },
+    "teal": 178,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 26
+      },
+      "end": {
+        "line": 52,
+        "character": 29
+      }
+    },
+    "teal": 179,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 26
+      },
+      "end": {
+        "line": 52,
+        "character": 29
+      }
+    },
+    "teal": 522,
+    "pc": 556
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 52,
+        "character": 4
+      },
+      "end": {
+        "line": 52,
+        "character": 25
+      }
+    },
+    "teal": 211,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 10
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 182,
+    "pc": 250
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 10
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 183,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 19
+      },
+      "end": {
+        "line": 54,
+        "character": 25
+      }
+    },
+    "teal": 184,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 28
+      },
+      "end": {
+        "line": 54,
+        "character": 35
+      }
+    },
+    "teal": 399,
+    "pc": 441
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 28
+      },
+      "end": {
+        "line": 54,
+        "character": 35
+      }
+    },
+    "teal": 217,
+    "pc": 278
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 62
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 186,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 62
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 218,
+    "pc": 279
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 26
+      },
+      "end": {
+        "line": 54,
+        "character": 27
+      }
+    },
+    "teal": 188,
+    "pc": 256
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 10
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 189,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 54,
+        "character": 10
+      },
+      "end": {
+        "line": 54,
+        "character": 72
+      }
+    },
+    "teal": 190,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 191,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 192,
+    "pc": 257
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 193,
+    "pc": 259
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 194,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 310,
+    "pc": 362
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 6
+      },
+      "end": {
+        "line": 58,
+        "character": 23
+      }
+    },
+    "teal": 196,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 6
+      },
+      "end": {
+        "line": 58,
+        "character": 23
+      }
+    },
+    "teal": 197,
+    "pc": 261
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 16
+      },
+      "end": {
+        "line": 58,
+        "character": 23
+      }
+    },
+    "teal": 198,
+    "pc": 263
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 58,
+        "character": 6
+      },
+      "end": {
+        "line": 58,
+        "character": 23
+      }
+    },
+    "teal": 199,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 6
+      },
+      "end": {
+        "line": 59,
+        "character": 35
+      }
+    },
+    "teal": 200,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 6
+      },
+      "end": {
+        "line": 59,
+        "character": 35
+      }
+    },
+    "teal": 201,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 14
+      },
+      "end": {
+        "line": 59,
+        "character": 20
+      }
+    },
+    "teal": 321,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 32
+      },
+      "end": {
+        "line": 59,
+        "character": 35
+      }
+    },
+    "teal": 203,
+    "pc": 266
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 21
+      },
+      "end": {
+        "line": 59,
+        "character": 22
+      }
+    },
+    "teal": 204,
+    "pc": 267
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 59,
+        "character": 6
+      },
+      "end": {
+        "line": 59,
+        "character": 35
+      }
+    },
+    "teal": 205,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 6
+      },
+      "end": {
+        "line": 60,
+        "character": 12
+      }
+    },
+    "teal": 206,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 6
+      },
+      "end": {
+        "line": 60,
+        "character": 12
+      }
+    },
+    "teal": 207,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 11
+      },
+      "end": {
+        "line": 60,
+        "character": 12
+      }
+    },
+    "teal": 284,
+    "pc": 332
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 60,
+        "character": 6
+      },
+      "end": {
+        "line": 60,
+        "character": 12
+      }
+    },
+    "teal": 209,
+    "pc": 270
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 210,
+    "pc": 271
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 57,
+        "character": 4
+      },
+      "end": {
+        "line": 61,
+        "character": 6
+      }
+    },
+    "teal": 211,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 212,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 213,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 459,
+    "pc": 505
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 215,
+    "pc": 275
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 216,
+    "pc": 277
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 6
+      },
+      "end": {
+        "line": 65,
+        "character": 31
+      }
+    },
+    "teal": 217,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 6
+      },
+      "end": {
+        "line": 65,
+        "character": 31
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 25
+      },
+      "end": {
+        "line": 65,
+        "character": 31
+      }
+    },
+    "teal": 219,
+    "pc": 281
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 65,
+        "character": 6
+      },
+      "end": {
+        "line": 65,
+        "character": 31
+      }
+    },
+    "teal": 220,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 6
+      },
+      "end": {
+        "line": 66,
+        "character": 26
+      }
+    },
+    "teal": 221,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 6
+      },
+      "end": {
+        "line": 66,
+        "character": 26
+      }
+    },
+    "teal": 222,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 23
+      },
+      "end": {
+        "line": 66,
+        "character": 26
+      }
+    },
+    "teal": 304,
+    "pc": 354
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 66,
+        "character": 6
+      },
+      "end": {
+        "line": 66,
+        "character": 26
+      }
+    },
+    "teal": 305,
+    "pc": 357
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 6
+      },
+      "end": {
+        "line": 67,
+        "character": 12
+      }
+    },
+    "teal": 225,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 6
+      },
+      "end": {
+        "line": 67,
+        "character": 12
+      }
+    },
+    "teal": 226,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 11
+      },
+      "end": {
+        "line": 67,
+        "character": 12
+      }
+    },
+    "teal": 227,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 67,
+        "character": 6
+      },
+      "end": {
+        "line": 67,
+        "character": 12
+      }
+    },
+    "teal": 362,
+    "pc": 407
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 64,
+        "character": 4
+      },
+      "end": {
+        "line": 68,
+        "character": 6
+      }
+    },
+    "teal": 268,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 4
+      },
+      "end": {
+        "line": 70,
+        "character": 90
+      }
+    },
+    "teal": 230,
+    "pc": 287
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 8
+      },
+      "end": {
+        "line": 70,
+        "character": 59
+      }
+    },
+    "teal": 231,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 8
+      },
+      "end": {
+        "line": 70,
+        "character": 59
+      }
+    },
+    "teal": 232,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 8
+      },
+      "end": {
+        "line": 70,
+        "character": 15
+      }
+    },
+    "teal": 318,
+    "pc": 368
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 8
+      },
+      "end": {
+        "line": 70,
+        "character": 15
+      }
+    },
+    "teal": 581,
+    "pc": 608
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 42
+      },
+      "end": {
+        "line": 70,
+        "character": 53
+      }
+    },
+    "teal": 234,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 42
+      },
+      "end": {
+        "line": 70,
+        "character": 53
+      }
+    },
+    "teal": 582,
+    "pc": 609
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 58
+      },
+      "end": {
+        "line": 70,
+        "character": 59
+      }
+    },
+    "teal": 236,
+    "pc": 293
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 54
+      },
+      "end": {
+        "line": 70,
+        "character": 57
+      }
+    },
+    "teal": 237,
+    "pc": 294
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 4
+      },
+      "end": {
+        "line": 70,
+        "character": 90
+      }
+    },
+    "teal": 238,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 4
+      },
+      "end": {
+        "line": 70,
+        "character": 90
+      }
+    },
+    "teal": 239,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 61
+      },
+      "end": {
+        "line": 70,
+        "character": 89
+      }
+    },
+    "teal": 240,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 61
+      },
+      "end": {
+        "line": 70,
+        "character": 89
+      }
+    },
+    "teal": 241,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 61
+      },
+      "end": {
+        "line": 70,
+        "character": 89
+      }
+    },
+    "teal": 444,
+    "pc": 492
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 76
+      },
+      "end": {
+        "line": 70,
+        "character": 88
+      }
+    },
+    "teal": 243,
+    "pc": 299
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 61
+      },
+      "end": {
+        "line": 70,
+        "character": 75
+      }
+    },
+    "teal": 244,
+    "pc": 300
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 70,
+        "character": 4
+      },
+      "end": {
+        "line": 70,
+        "character": 90
+      }
+    },
+    "teal": 245,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 38,
+        "character": 2
+      },
+      "end": {
+        "line": 71,
+        "character": 3
+      }
+    },
+    "teal": 523,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 453,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 291,
+    "pc": 336
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 292,
+    "pc": 337
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 250,
+    "pc": 302
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 251,
+    "pc": 304
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 252,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 400,
+    "pc": 442
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 297,
+    "pc": 343
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 298,
+    "pc": 344
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 256,
+    "pc": 308
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 20
+      },
+      "end": {
+        "line": 73,
+        "character": 38
+      }
+    },
+    "teal": 257,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 20
+      },
+      "end": {
+        "line": 73,
+        "character": 38
+      }
+    },
+    "teal": 406,
+    "pc": 453
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 20
+      },
+      "end": {
+        "line": 73,
+        "character": 38
+      }
+    },
+    "teal": 546,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 8
+      },
+      "end": {
+        "line": 73,
+        "character": 18
+      }
+    },
+    "teal": 303,
+    "pc": 352
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 8
+      },
+      "end": {
+        "line": 73,
+        "character": 18
+      }
+    },
+    "teal": 261,
+    "pc": 312
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 8
+      },
+      "end": {
+        "line": 73,
+        "character": 18
+      }
+    },
+    "teal": 262,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 554,
+    "pc": 583
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 555,
+    "pc": 584
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 414,
+    "pc": 467
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 266,
+    "pc": 315
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 267,
+    "pc": 316
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 39
+      }
+    },
+    "teal": 268,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 39
+      }
+    },
+    "teal": 269,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 34
+      },
+      "end": {
+        "line": 74,
+        "character": 37
+      }
+    },
+    "teal": 425,
+    "pc": 476
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 34
+      },
+      "end": {
+        "line": 74,
+        "character": 37
+      }
+    },
+    "teal": 426,
+    "pc": 477
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 12
+      },
+      "end": {
+        "line": 74,
+        "character": 33
+      }
+    },
+    "teal": 317,
+    "pc": 367
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 12
+      },
+      "end": {
+        "line": 74,
+        "character": 33
+      }
+    },
+    "teal": 273,
+    "pc": 320
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 12
+      },
+      "end": {
+        "line": 74,
+        "character": 33
+      }
+    },
+    "teal": 274,
+    "pc": 321
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 12
+      },
+      "end": {
+        "line": 74,
+        "character": 38
+      }
+    },
+    "teal": 275,
+    "pc": 322
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 74,
+        "character": 4
+      },
+      "end": {
+        "line": 74,
+        "character": 10
+      }
+    },
+    "teal": 276,
+    "pc": 323
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 49
+      }
+    },
+    "teal": 277,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 49
+      }
+    },
+    "teal": 278,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 11
+      },
+      "end": {
+        "line": 75,
+        "character": 21
+      }
+    },
+    "teal": 379,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 11
+      },
+      "end": {
+        "line": 75,
+        "character": 28
+      }
+    },
+    "teal": 279,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 22
+      },
+      "end": {
+        "line": 75,
+        "character": 28
+      }
+    },
+    "teal": 326,
+    "pc": 376
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 42
+      },
+      "end": {
+        "line": 75,
+        "character": 48
+      }
+    },
+    "teal": 327,
+    "pc": 377
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 29
+      },
+      "end": {
+        "line": 75,
+        "character": 32
+      }
+    },
+    "teal": 597,
+    "pc": 642
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 75,
+        "character": 4
+      },
+      "end": {
+        "line": 75,
+        "character": 10
+      }
+    },
+    "teal": 283,
+    "pc": 329
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 69
+      }
+    },
+    "teal": 284,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 69
+      }
+    },
+    "teal": 285,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 11
+      },
+      "end": {
+        "line": 76,
+        "character": 21
+      }
+    },
+    "teal": 521,
+    "pc": 554
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 11
+      },
+      "end": {
+        "line": 76,
+        "character": 30
+      }
+    },
+    "teal": 286,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 22
+      },
+      "end": {
+        "line": 76,
+        "character": 30
+      }
+    },
+    "teal": 287,
+    "pc": 333
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 35
+      },
+      "end": {
+        "line": 76,
+        "character": 42
+      }
+    },
+    "teal": 288,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 31
+      },
+      "end": {
+        "line": 76,
+        "character": 34
+      }
+    },
+    "teal": 452,
+    "pc": 498
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 76,
+        "character": 4
+      },
+      "end": {
+        "line": 76,
+        "character": 10
+      }
+    },
+    "teal": 290,
+    "pc": 335
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 10
+      },
+      "end": {
+        "line": 78,
+        "character": 63
+      }
+    },
+    "teal": 291,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 10
+      },
+      "end": {
+        "line": 78,
+        "character": 63
+      }
+    },
+    "teal": 292,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 19
+      },
+      "end": {
+        "line": 78,
+        "character": 26
+      }
+    },
+    "teal": 293,
+    "pc": 339
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 19
+      },
+      "end": {
+        "line": 78,
+        "character": 26
+      }
+    },
+    "teal": 294,
+    "pc": 340
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 53
+      },
+      "end": {
+        "line": 78,
+        "character": 63
+      }
+    },
+    "teal": 294,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 53
+      },
+      "end": {
+        "line": 78,
+        "character": 63
+      }
+    },
+    "teal": 295,
+    "pc": 341
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 78,
+        "character": 10
+      },
+      "end": {
+        "line": 78,
+        "character": 63
+      }
+    },
+    "teal": 296,
+    "pc": 342
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 4
+      },
+      "end": {
+        "line": 80,
+        "character": 44
+      }
+    },
+    "teal": 297,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 4
+      },
+      "end": {
+        "line": 80,
+        "character": 44
+      }
+    },
+    "teal": 298,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 23
+      },
+      "end": {
+        "line": 80,
+        "character": 26
+      }
+    },
+    "teal": 299,
+    "pc": 346
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 23
+      },
+      "end": {
+        "line": 80,
+        "character": 26
+      }
+    },
+    "teal": 300,
+    "pc": 347
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 37
+      },
+      "end": {
+        "line": 80,
+        "character": 43
+      }
+    },
+    "teal": 301,
+    "pc": 348
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 4
+      },
+      "end": {
+        "line": 80,
+        "character": 22
+      }
+    },
+    "teal": 302,
+    "pc": 351
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 80,
+        "character": 4
+      },
+      "end": {
+        "line": 80,
+        "character": 22
+      }
+    },
+    "teal": 303,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 304,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 305,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 306,
+    "pc": 358
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 307,
+    "pc": 359
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 308,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 84,
+        "character": 6
+      },
+      "end": {
+        "line": 84,
+        "character": 54
+      }
+    },
+    "teal": 309,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 84,
+        "character": 6
+      },
+      "end": {
+        "line": 84,
+        "character": 54
+      }
+    },
+    "teal": 310,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 84,
+        "character": 21
+      },
+      "end": {
+        "line": 84,
+        "character": 28
+      }
+    },
+    "teal": 311,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 84,
+        "character": 6
+      },
+      "end": {
+        "line": 84,
+        "character": 54
+      }
+    },
+    "teal": 363,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 85,
+        "character": 6
+      },
+      "end": {
+        "line": 85,
+        "character": 20
+      }
+    },
+    "teal": 313,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 85,
+        "character": 6
+      },
+      "end": {
+        "line": 85,
+        "character": 20
+      }
+    },
+    "teal": 314,
+    "pc": 364
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 85,
+        "character": 19
+      },
+      "end": {
+        "line": 85,
+        "character": 20
+      }
+    },
+    "teal": 315,
+    "pc": 365
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 85,
+        "character": 6
+      },
+      "end": {
+        "line": 85,
+        "character": 20
+      }
+    },
+    "teal": 316,
+    "pc": 366
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 6
+      },
+      "end": {
+        "line": 86,
+        "character": 12
+      }
+    },
+    "teal": 317,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 6
+      },
+      "end": {
+        "line": 86,
+        "character": 12
+      }
+    },
+    "teal": 318,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 11
+      },
+      "end": {
+        "line": 86,
+        "character": 12
+      }
+    },
+    "teal": 319,
+    "pc": 369
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 86,
+        "character": 6
+      },
+      "end": {
+        "line": 86,
+        "character": 12
+      }
+    },
+    "teal": 320,
+    "pc": 370
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 6
+      },
+      "end": {
+        "line": 87,
+        "character": 20
+      }
+    },
+    "teal": 321,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 6
+      },
+      "end": {
+        "line": 87,
+        "character": 20
+      }
+    },
+    "teal": 322,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 17
+      },
+      "end": {
+        "line": 87,
+        "character": 20
+      }
+    },
+    "teal": 436,
+    "pc": 486
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 87,
+        "character": 6
+      },
+      "end": {
+        "line": 87,
+        "character": 20
+      }
+    },
+    "teal": 589,
+    "pc": 618
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 83,
+        "character": 4
+      },
+      "end": {
+        "line": 88,
+        "character": 6
+      }
+    },
+    "teal": 325,
+    "pc": 374
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 4
+      },
+      "end": {
+        "line": 90,
+        "character": 87
+      }
+    },
+    "teal": 326,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 4
+      },
+      "end": {
+        "line": 90,
+        "character": 87
+      }
+    },
+    "teal": 327,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 11
+      },
+      "end": {
+        "line": 90,
+        "character": 21
+      }
+    },
+    "teal": 328,
+    "pc": 378
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 11
+      },
+      "end": {
+        "line": 90,
+        "character": 28
+      }
+    },
+    "teal": 328,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 22
+      },
+      "end": {
+        "line": 90,
+        "character": 28
+      }
+    },
+    "teal": 329,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 33
+      },
+      "end": {
+        "line": 90,
+        "character": 40
+      }
+    },
+    "teal": 445,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 33
+      },
+      "end": {
+        "line": 90,
+        "character": 40
+      }
+    },
+    "teal": 386,
+    "pc": 427
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 67
+      },
+      "end": {
+        "line": 90,
+        "character": 77
+      }
+    },
+    "teal": 331,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 67
+      },
+      "end": {
+        "line": 90,
+        "character": 77
+      }
+    },
+    "teal": 387,
+    "pc": 429
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 80
+      },
+      "end": {
+        "line": 90,
+        "character": 86
+      }
+    },
+    "teal": 333,
+    "pc": 382
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 78
+      },
+      "end": {
+        "line": 90,
+        "character": 79
+      }
+    },
+    "teal": 334,
+    "pc": 384
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 29
+      },
+      "end": {
+        "line": 90,
+        "character": 32
+      }
+    },
+    "teal": 335,
+    "pc": 385
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 90,
+        "character": 4
+      },
+      "end": {
+        "line": 90,
+        "character": 10
+      }
+    },
+    "teal": 336,
+    "pc": 386
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 73,
+        "character": 2
+      },
+      "end": {
+        "line": 91,
+        "character": 3
+      }
+    },
+    "teal": 337,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 394,
+    "pc": 435
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 457,
+    "pc": 502
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 458,
+    "pc": 503
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 341,
+    "pc": 390
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 342,
+    "pc": 391
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 343,
+    "pc": 393
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 344,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 538,
+    "pc": 570
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 539,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 466,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 38
+      },
+      "end": {
+        "line": 93,
+        "character": 59
+      }
+    },
+    "teal": 348,
+    "pc": 396
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 38
+      },
+      "end": {
+        "line": 93,
+        "character": 59
+      }
+    },
+    "teal": 349,
+    "pc": 398
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 38
+      },
+      "end": {
+        "line": 93,
+        "character": 59
+      }
+    },
+    "teal": 350,
+    "pc": 399
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 20
+      },
+      "end": {
+        "line": 93,
+        "character": 36
+      }
+    },
+    "teal": 351,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 20
+      },
+      "end": {
+        "line": 93,
+        "character": 36
+      }
+    },
+    "teal": 548,
+    "pc": 577
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 20
+      },
+      "end": {
+        "line": 93,
+        "character": 36
+      }
+    },
+    "teal": 549,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 8
+      },
+      "end": {
+        "line": 93,
+        "character": 18
+      }
+    },
+    "teal": 410,
+    "pc": 460
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 8
+      },
+      "end": {
+        "line": 93,
+        "character": 18
+      }
+    },
+    "teal": 411,
+    "pc": 462
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 8
+      },
+      "end": {
+        "line": 93,
+        "character": 18
+      }
+    },
+    "teal": 356,
+    "pc": 401
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 357,
+    "pc": 403
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 358,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 415,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 483,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 418,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 4
+      },
+      "end": {
+        "line": 94,
+        "character": 38
+      }
+    },
+    "teal": 362,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 4
+      },
+      "end": {
+        "line": 94,
+        "character": 38
+      }
+    },
+    "teal": 363,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 33
+      },
+      "end": {
+        "line": 94,
+        "character": 36
+      }
+    },
+    "teal": 489,
+    "pc": 527
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 33
+      },
+      "end": {
+        "line": 94,
+        "character": 36
+      }
+    },
+    "teal": 490,
+    "pc": 529
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 11
+      },
+      "end": {
+        "line": 94,
+        "character": 32
+      }
+    },
+    "teal": 571,
+    "pc": 599
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 11
+      },
+      "end": {
+        "line": 94,
+        "character": 32
+      }
+    },
+    "teal": 367,
+    "pc": 410
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 11
+      },
+      "end": {
+        "line": 94,
+        "character": 32
+      }
+    },
+    "teal": 368,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 94,
+        "character": 4
+      },
+      "end": {
+        "line": 94,
+        "character": 10
+      }
+    },
+    "teal": 575,
+    "pc": 603
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 52
+      }
+    },
+    "teal": 370,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 52
+      }
+    },
+    "teal": 371,
+    "pc": 411
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 11
+      },
+      "end": {
+        "line": 95,
+        "character": 23
+      }
+    },
+    "teal": 372,
+    "pc": 413
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 47
+      },
+      "end": {
+        "line": 95,
+        "character": 50
+      }
+    },
+    "teal": 373,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 47
+      },
+      "end": {
+        "line": 95,
+        "character": 50
+      }
+    },
+    "teal": 583,
+    "pc": 610
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 28
+      },
+      "end": {
+        "line": 95,
+        "character": 46
+      }
+    },
+    "teal": 434,
+    "pc": 484
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 28
+      },
+      "end": {
+        "line": 95,
+        "character": 46
+      }
+    },
+    "teal": 435,
+    "pc": 485
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 24
+      },
+      "end": {
+        "line": 95,
+        "character": 27
+      }
+    },
+    "teal": 377,
+    "pc": 417
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 95,
+        "character": 4
+      },
+      "end": {
+        "line": 95,
+        "character": 10
+      }
+    },
+    "teal": 378,
+    "pc": 418
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 4
+      },
+      "end": {
+        "line": 96,
+        "character": 51
+      }
+    },
+    "teal": 379,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 4
+      },
+      "end": {
+        "line": 96,
+        "character": 51
+      }
+    },
+    "teal": 380,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 20
+      },
+      "end": {
+        "line": 96,
+        "character": 26
+      }
+    },
+    "teal": 441,
+    "pc": 489
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 31
+      },
+      "end": {
+        "line": 96,
+        "character": 48
+      }
+    },
+    "teal": 596,
+    "pc": 636
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 31
+      },
+      "end": {
+        "line": 96,
+        "character": 48
+      }
+    },
+    "teal": 383,
+    "pc": 422
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 27
+      },
+      "end": {
+        "line": 96,
+        "character": 30
+      }
+    },
+    "teal": 384,
+    "pc": 424
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 96,
+        "character": 4
+      },
+      "end": {
+        "line": 96,
+        "character": 10
+      }
+    },
+    "teal": 385,
+    "pc": 426
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 4
+      },
+      "end": {
+        "line": 97,
+        "character": 42
+      }
+    },
+    "teal": 386,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 4
+      },
+      "end": {
+        "line": 97,
+        "character": 42
+      }
+    },
+    "teal": 387,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 11
+      },
+      "end": {
+        "line": 97,
+        "character": 27
+      }
+    },
+    "teal": 388,
+    "pc": 430
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 11
+      },
+      "end": {
+        "line": 97,
+        "character": 27
+      }
+    },
+    "teal": 389,
+    "pc": 431
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 34
+      },
+      "end": {
+        "line": 97,
+        "character": 41
+      }
+    },
+    "teal": 390,
+    "pc": 432
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 30
+      },
+      "end": {
+        "line": 97,
+        "character": 33
+      }
+    },
+    "teal": 391,
+    "pc": 433
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 97,
+        "character": 4
+      },
+      "end": {
+        "line": 97,
+        "character": 10
+      }
+    },
+    "teal": 392,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 10
+      },
+      "end": {
+        "line": 99,
+        "character": 67
+      }
+    },
+    "teal": 393,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 10
+      },
+      "end": {
+        "line": 99,
+        "character": 67
+      }
+    },
+    "teal": 394,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 23
+      },
+      "end": {
+        "line": 99,
+        "character": 30
+      }
+    },
+    "teal": 395,
+    "pc": 436
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 23
+      },
+      "end": {
+        "line": 99,
+        "character": 30
+      }
+    },
+    "teal": 396,
+    "pc": 437
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 57
+      },
+      "end": {
+        "line": 99,
+        "character": 67
+      }
+    },
+    "teal": 396,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 57
+      },
+      "end": {
+        "line": 99,
+        "character": 67
+      }
+    },
+    "teal": 397,
+    "pc": 439
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 99,
+        "character": 10
+      },
+      "end": {
+        "line": 99,
+        "character": 67
+      }
+    },
+    "teal": 398,
+    "pc": 440
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 4
+      },
+      "end": {
+        "line": 101,
+        "character": 30
+      }
+    },
+    "teal": 399,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 4
+      },
+      "end": {
+        "line": 101,
+        "character": 30
+      }
+    },
+    "teal": 400,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 26
+      },
+      "end": {
+        "line": 101,
+        "character": 29
+      }
+    },
+    "teal": 401,
+    "pc": 443
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 26
+      },
+      "end": {
+        "line": 101,
+        "character": 29
+      }
+    },
+    "teal": 402,
+    "pc": 444
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 4
+      },
+      "end": {
+        "line": 101,
+        "character": 25
+      }
+    },
+    "teal": 403,
+    "pc": 447
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 101,
+        "character": 4
+      },
+      "end": {
+        "line": 101,
+        "character": 25
+      }
+    },
+    "teal": 404,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 405,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 406,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 407,
+    "pc": 454
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 408,
+    "pc": 456
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 409,
+    "pc": 459
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 105,
+        "character": 6
+      },
+      "end": {
+        "line": 105,
+        "character": 36
+      }
+    },
+    "teal": 410,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 105,
+        "character": 6
+      },
+      "end": {
+        "line": 105,
+        "character": 36
+      }
+    },
+    "teal": 411,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 105,
+        "character": 30
+      },
+      "end": {
+        "line": 105,
+        "character": 36
+      }
+    },
+    "teal": 412,
+    "pc": 465
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 105,
+        "character": 6
+      },
+      "end": {
+        "line": 105,
+        "character": 36
+      }
+    },
+    "teal": 413,
+    "pc": 466
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 6
+      },
+      "end": {
+        "line": 106,
+        "character": 12
+      }
+    },
+    "teal": 414,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 6
+      },
+      "end": {
+        "line": 106,
+        "character": 12
+      }
+    },
+    "teal": 415,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 11
+      },
+      "end": {
+        "line": 106,
+        "character": 12
+      }
+    },
+    "teal": 559,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 106,
+        "character": 6
+      },
+      "end": {
+        "line": 106,
+        "character": 12
+      }
+    },
+    "teal": 417,
+    "pc": 470
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 6
+      },
+      "end": {
+        "line": 107,
+        "character": 70
+      }
+    },
+    "teal": 418,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 6
+      },
+      "end": {
+        "line": 107,
+        "character": 70
+      }
+    },
+    "teal": 419,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 19
+      },
+      "end": {
+        "line": 107,
+        "character": 26
+      }
+    },
+    "teal": 566,
+    "pc": 595
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 66
+      },
+      "end": {
+        "line": 107,
+        "character": 69
+      }
+    },
+    "teal": 567,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 19
+      },
+      "end": {
+        "line": 107,
+        "character": 65
+      }
+    },
+    "teal": 422,
+    "pc": 473
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 19
+      },
+      "end": {
+        "line": 107,
+        "character": 65
+      }
+    },
+    "teal": 423,
+    "pc": 474
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 107,
+        "character": 6
+      },
+      "end": {
+        "line": 107,
+        "character": 70
+      }
+    },
+    "teal": 424,
+    "pc": 475
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 108,
+        "character": 6
+      },
+      "end": {
+        "line": 108,
+        "character": 20
+      }
+    },
+    "teal": 425,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 108,
+        "character": 6
+      },
+      "end": {
+        "line": 108,
+        "character": 20
+      }
+    },
+    "teal": 426,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 108,
+        "character": 17
+      },
+      "end": {
+        "line": 108,
+        "character": 20
+      }
+    },
+    "teal": 427,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 108,
+        "character": 6
+      },
+      "end": {
+        "line": 108,
+        "character": 20
+      }
+    },
+    "teal": 576,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 109,
+        "character": 6
+      },
+      "end": {
+        "line": 109,
+        "character": 35
+      }
+    },
+    "teal": 429,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 109,
+        "character": 6
+      },
+      "end": {
+        "line": 109,
+        "character": 35
+      }
+    },
+    "teal": 430,
+    "pc": 479
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 109,
+        "character": 29
+      },
+      "end": {
+        "line": 109,
+        "character": 35
+      }
+    },
+    "teal": 431,
+    "pc": 481
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 109,
+        "character": 6
+      },
+      "end": {
+        "line": 109,
+        "character": 35
+      }
+    },
+    "teal": 432,
+    "pc": 482
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 433,
+    "pc": 483
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 104,
+        "character": 4
+      },
+      "end": {
+        "line": 110,
+        "character": 6
+      }
+    },
+    "teal": 434,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 435,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 436,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 437,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 590,
+    "pc": 619
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 591,
+    "pc": 620
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 6
+      },
+      "end": {
+        "line": 114,
+        "character": 28
+      }
+    },
+    "teal": 440,
+    "pc": 488
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 6
+      },
+      "end": {
+        "line": 114,
+        "character": 28
+      }
+    },
+    "teal": 441,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 16
+      },
+      "end": {
+        "line": 114,
+        "character": 28
+      }
+    },
+    "teal": 442,
+    "pc": 490
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 114,
+        "character": 6
+      },
+      "end": {
+        "line": 114,
+        "character": 28
+      }
+    },
+    "teal": 443,
+    "pc": 491
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 6
+      },
+      "end": {
+        "line": 115,
+        "character": 71
+      }
+    },
+    "teal": 444,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 6
+      },
+      "end": {
+        "line": 115,
+        "character": 71
+      }
+    },
+    "teal": 445,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 14
+      },
+      "end": {
+        "line": 115,
+        "character": 24
+      }
+    },
+    "teal": 601,
+    "pc": 662
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 27
+      },
+      "end": {
+        "line": 115,
+        "character": 34
+      }
+    },
+    "teal": 602,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 27
+      },
+      "end": {
+        "line": 115,
+        "character": 34
+      }
+    },
+    "teal": 520,
+    "pc": 553
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 61
+      },
+      "end": {
+        "line": 115,
+        "character": 71
+      }
+    },
+    "teal": 448,
+    "pc": 493
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 61
+      },
+      "end": {
+        "line": 115,
+        "character": 71
+      }
+    },
+    "teal": 449,
+    "pc": 494
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 25
+      },
+      "end": {
+        "line": 115,
+        "character": 26
+      }
+    },
+    "teal": 450,
+    "pc": 496
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 115,
+        "character": 6
+      },
+      "end": {
+        "line": 115,
+        "character": 71
+      }
+    },
+    "teal": 451,
+    "pc": 497
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 116,
+        "character": 6
+      },
+      "end": {
+        "line": 116,
+        "character": 12
+      }
+    },
+    "teal": 452,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 116,
+        "character": 6
+      },
+      "end": {
+        "line": 116,
+        "character": 12
+      }
+    },
+    "teal": 453,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 116,
+        "character": 11
+      },
+      "end": {
+        "line": 116,
+        "character": 12
+      }
+    },
+    "teal": 527,
+    "pc": 559
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 116,
+        "character": 6
+      },
+      "end": {
+        "line": 116,
+        "character": 12
+      }
+    },
+    "teal": 528,
+    "pc": 560
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 113,
+        "character": 4
+      },
+      "end": {
+        "line": 117,
+        "character": 6
+      }
+    },
+    "teal": 529,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 4
+      },
+      "end": {
+        "line": 119,
+        "character": 85
+      }
+    },
+    "teal": 457,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 8
+      },
+      "end": {
+        "line": 119,
+        "character": 59
+      }
+    },
+    "teal": 458,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 8
+      },
+      "end": {
+        "line": 119,
+        "character": 59
+      }
+    },
+    "teal": 459,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 8
+      },
+      "end": {
+        "line": 119,
+        "character": 15
+      }
+    },
+    "teal": 460,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 8
+      },
+      "end": {
+        "line": 119,
+        "character": 15
+      }
+    },
+    "teal": 535,
+    "pc": 565
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 42
+      },
+      "end": {
+        "line": 119,
+        "character": 53
+      }
+    },
+    "teal": 461,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 42
+      },
+      "end": {
+        "line": 119,
+        "character": 53
+      }
+    },
+    "teal": 536,
+    "pc": 566
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 58
+      },
+      "end": {
+        "line": 119,
+        "character": 59
+      }
+    },
+    "teal": 537,
+    "pc": 567
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 54
+      },
+      "end": {
+        "line": 119,
+        "character": 57
+      }
+    },
+    "teal": 464,
+    "pc": 508
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 4
+      },
+      "end": {
+        "line": 119,
+        "character": 85
+      }
+    },
+    "teal": 465,
+    "pc": 509
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 4
+      },
+      "end": {
+        "line": 119,
+        "character": 85
+      }
+    },
+    "teal": 466,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 61
+      },
+      "end": {
+        "line": 119,
+        "character": 84
+      }
+    },
+    "teal": 467,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 61
+      },
+      "end": {
+        "line": 119,
+        "character": 84
+      }
+    },
+    "teal": 468,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 61
+      },
+      "end": {
+        "line": 119,
+        "character": 84
+      }
+    },
+    "teal": 544,
+    "pc": 573
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 76
+      },
+      "end": {
+        "line": 119,
+        "character": 83
+      }
+    },
+    "teal": 545,
+    "pc": 576
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 61
+      },
+      "end": {
+        "line": 119,
+        "character": 75
+      }
+    },
+    "teal": 471,
+    "pc": 511
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 119,
+        "character": 4
+      },
+      "end": {
+        "line": 119,
+        "character": 85
+      }
+    },
+    "teal": 472,
+    "pc": 513
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 93,
+        "character": 2
+      },
+      "end": {
+        "line": 120,
+        "character": 3
+      }
+    },
+    "teal": 473,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 551,
+    "pc": 579
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 552,
+    "pc": 580
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 553,
+    "pc": 581
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 477,
+    "pc": 517
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 478,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 556,
+    "pc": 585
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 557,
+    "pc": 586
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 558,
+    "pc": 587
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 482,
+    "pc": 520
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 483,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 562,
+    "pc": 591
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 563,
+    "pc": 592
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 564,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 487,
+    "pc": 524
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 488,
+    "pc": 526
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 4
+      },
+      "end": {
+        "line": 124,
+        "character": 57
+      }
+    },
+    "teal": 489,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 4
+      },
+      "end": {
+        "line": 124,
+        "character": 57
+      }
+    },
+    "teal": 490,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 12
+      },
+      "end": {
+        "line": 124,
+        "character": 19
+      }
+    },
+    "teal": 491,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 12
+      },
+      "end": {
+        "line": 124,
+        "character": 19
+      }
+    },
+    "teal": 572,
+    "pc": 600
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 46
+      },
+      "end": {
+        "line": 124,
+        "character": 56
+      }
+    },
+    "teal": 492,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 46
+      },
+      "end": {
+        "line": 124,
+        "character": 56
+      }
+    },
+    "teal": 573,
+    "pc": 601
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 46
+      },
+      "end": {
+        "line": 124,
+        "character": 56
+      }
+    },
+    "teal": 574,
+    "pc": 602
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 12
+      },
+      "end": {
+        "line": 124,
+        "character": 56
+      }
+    },
+    "teal": 495,
+    "pc": 533
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 124,
+        "character": 4
+      },
+      "end": {
+        "line": 124,
+        "character": 10
+      }
+    },
+    "teal": 496,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 4
+      },
+      "end": {
+        "line": 125,
+        "character": 54
+      }
+    },
+    "teal": 497,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 4
+      },
+      "end": {
+        "line": 125,
+        "character": 54
+      }
+    },
+    "teal": 498,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 20
+      },
+      "end": {
+        "line": 125,
+        "character": 26
+      }
+    },
+    "teal": 580,
+    "pc": 607
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 31
+      },
+      "end": {
+        "line": 125,
+        "character": 38
+      }
+    },
+    "teal": 500,
+    "pc": 537
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 27
+      },
+      "end": {
+        "line": 125,
+        "character": 30
+      }
+    },
+    "teal": 501,
+    "pc": 538
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 125,
+        "character": 4
+      },
+      "end": {
+        "line": 125,
+        "character": 10
+      }
+    },
+    "teal": 502,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 122,
+        "character": 2
+      },
+      "end": {
+        "line": 126,
+        "character": 3
+      }
+    },
+    "teal": 584,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 586,
+    "pc": 612
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 587,
+    "pc": 615
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 588,
+    "pc": 617
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 507,
+    "pc": 540
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 508,
+    "pc": 542
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 509,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 592,
+    "pc": 624
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 593,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 595,
+    "pc": 630
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 513,
+    "pc": 546
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 514,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 598,
+    "pc": 648
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 599,
+    "pc": 651
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 600,
+    "pc": 661
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 518,
+    "pc": 550
+  },
+  {
+    "source": {
+      "filename": "examples/arc12/arc12.algo.ts",
+      "start": {
+        "line": 130,
+        "character": 0
+      },
+      "end": {
+        "line": 222,
+        "character": 1
+      }
+    },
+    "teal": 519,
+    "pc": 552
+  }
+]

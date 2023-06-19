@@ -36,7 +36,7 @@ src.statements.forEach(async (body) => {
     fs.writeFileSync(approvalTealPath, compiler.approvalProgram());
     fs.writeFileSync(clearTealPath, compiler.clearProgram());
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
-    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.pcToLine, null, 2));
+    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
     fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
   }
 });

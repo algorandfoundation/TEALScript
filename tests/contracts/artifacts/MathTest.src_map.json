@@ -1,513 +1,4712 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 0,
-  "13": 0,
-  "14": 0,
-  "15": 0,
-  "16": 0,
-  "17": 0,
-  "18": 0,
-  "19": 0,
-  "20": 0,
-  "21": 0,
-  "22": 0,
-  "23": 0,
-  "24": 0,
-  "25": 0,
-  "26": 0,
-  "27": 0,
-  "28": 0,
-  "29": 0,
-  "30": 0,
-  "31": 0,
-  "32": 0,
-  "33": 0,
-  "34": 0,
-  "35": 0,
-  "36": 0,
-  "37": 0,
-  "38": 0,
-  "39": 0,
-  "40": 0,
-  "41": 0,
-  "42": 0,
-  "43": 0,
-  "44": 0,
-  "45": 1,
-  "46": 1,
-  "47": 1,
-  "48": 4,
-  "49": 4,
-  "50": 5,
-  "51": 6,
-  "52": 7,
-  "53": 7,
-  "54": 8,
-  "55": 9,
-  "56": 10,
-  "57": 11,
-  "58": 14,
-  "59": 14,
-  "60": 14,
-  "61": 15,
-  "62": 16,
-  "63": 16,
-  "64": 16,
-  "65": 17,
-  "66": 18,
-  "67": 18,
-  "68": 18,
-  "69": 19,
-  "70": 20,
-  "71": 23,
-  "72": 23,
-  "73": 23,
-  "74": 27,
-  "75": 27,
-  "76": 28,
-  "77": 28,
-  "78": 29,
-  "79": 30,
-  "80": 31,
-  "81": 32,
-  "82": 33,
-  "83": 34,
-  "84": 35,
-  "85": 38,
-  "86": 38,
-  "87": 39,
-  "88": 40,
-  "89": 41,
-  "90": 41,
-  "91": 42,
-  "92": 43,
-  "93": 44,
-  "94": 45,
-  "95": 48,
-  "96": 48,
-  "97": 48,
-  "98": 49,
-  "99": 50,
-  "100": 50,
-  "101": 50,
-  "102": 51,
-  "103": 52,
-  "104": 52,
-  "105": 52,
-  "106": 53,
-  "107": 54,
-  "108": 57,
-  "109": 57,
-  "110": 57,
-  "111": 61,
-  "112": 61,
-  "113": 62,
-  "114": 62,
-  "115": 63,
-  "116": 64,
-  "117": 65,
-  "118": 66,
-  "119": 67,
-  "120": 68,
-  "121": 69,
-  "122": 72,
-  "123": 72,
-  "124": 73,
-  "125": 74,
-  "126": 75,
-  "127": 75,
-  "128": 76,
-  "129": 77,
-  "130": 78,
-  "131": 79,
-  "132": 82,
-  "133": 82,
-  "134": 82,
-  "135": 83,
-  "136": 84,
-  "137": 84,
-  "138": 84,
-  "139": 85,
-  "140": 86,
-  "141": 86,
-  "142": 86,
-  "143": 87,
-  "144": 88,
-  "145": 91,
-  "146": 91,
-  "147": 91,
-  "148": 95,
-  "149": 95,
-  "150": 96,
-  "151": 96,
-  "152": 97,
-  "153": 98,
-  "154": 99,
-  "155": 100,
-  "156": 101,
-  "157": 102,
-  "158": 103,
-  "159": 106,
-  "160": 106,
-  "161": 107,
-  "162": 108,
-  "163": 109,
-  "164": 109,
-  "165": 110,
-  "166": 111,
-  "167": 112,
-  "168": 113,
-  "169": 116,
-  "170": 116,
-  "171": 116,
-  "172": 117,
-  "173": 118,
-  "174": 118,
-  "175": 118,
-  "176": 119,
-  "177": 120,
-  "178": 120,
-  "179": 120,
-  "180": 121,
-  "181": 122,
-  "182": 125,
-  "183": 125,
-  "184": 125,
-  "185": 129,
-  "186": 129,
-  "187": 130,
-  "188": 130,
-  "189": 131,
-  "190": 132,
-  "191": 133,
-  "192": 134,
-  "193": 135,
-  "194": 136,
-  "195": 137,
-  "196": 140,
-  "197": 140,
-  "198": 141,
-  "199": 142,
-  "200": 143,
-  "201": 143,
-  "202": 144,
-  "203": 145,
-  "204": 146,
-  "205": 147,
-  "206": 150,
-  "207": 150,
-  "208": 150,
-  "209": 151,
-  "210": 151,
-  "211": 151,
-  "212": 152,
-  "213": 152,
-  "214": 152,
-  "215": 153,
-  "216": 154,
-  "217": 157,
-  "218": 157,
-  "219": 157,
-  "220": 161,
-  "221": 161,
-  "222": 162,
-  "223": 162,
-  "224": 163,
-  "225": 164,
-  "226": 165,
-  "227": 166,
-  "228": 167,
-  "229": 168,
-  "230": 169,
-  "231": 170,
-  "232": 173,
-  "233": 173,
-  "234": 174,
-  "235": 175,
-  "236": 176,
-  "237": 176,
-  "238": 177,
-  "239": 178,
-  "240": 179,
-  "241": 180,
-  "242": 183,
-  "243": 183,
-  "244": 183,
-  "245": 184,
-  "246": 184,
-  "247": 184,
-  "248": 185,
-  "249": 185,
-  "250": 185,
-  "251": 186,
-  "252": 187,
-  "253": 190,
-  "254": 190,
-  "255": 190,
-  "256": 194,
-  "257": 194,
-  "258": 195,
-  "259": 195,
-  "260": 196,
-  "261": 197,
-  "262": 198,
-  "263": 199,
-  "264": 200,
-  "265": 201,
-  "266": 202,
-  "267": 203,
-  "268": 206,
-  "269": 206,
-  "270": 207,
-  "271": 208,
-  "272": 209,
-  "273": 209,
-  "274": 210,
-  "275": 211,
-  "276": 212,
-  "277": 213,
-  "278": 216,
-  "279": 216,
-  "280": 216,
-  "281": 217,
-  "282": 217,
-  "283": 217,
-  "284": 218,
-  "285": 218,
-  "286": 218,
-  "287": 219,
-  "288": 220,
-  "289": 223,
-  "290": 223,
-  "291": 223,
-  "292": 227,
-  "293": 227,
-  "294": 228,
-  "295": 228,
-  "296": 229,
-  "297": 230,
-  "298": 231,
-  "299": 232,
-  "300": 233,
-  "301": 234,
-  "302": 235,
-  "303": 236,
-  "304": 239,
-  "305": 239,
-  "306": 240,
-  "307": 241,
-  "308": 242,
-  "309": 242,
-  "310": 243,
-  "311": 244,
-  "312": 245,
-  "313": 246,
-  "314": 249,
-  "315": 249,
-  "316": 249,
-  "317": 250,
-  "318": 250,
-  "319": 250,
-  "320": 251,
-  "321": 251,
-  "322": 251,
-  "323": 252,
-  "324": 253,
-  "325": 256,
-  "326": 256,
-  "327": 256,
-  "328": 260,
-  "329": 260,
-  "330": 261,
-  "331": 261,
-  "332": 262,
-  "333": 263,
-  "334": 264,
-  "335": 265,
-  "336": 266,
-  "337": 267,
-  "338": 268,
-  "339": 269,
-  "340": 272,
-  "341": 272,
-  "342": 273,
-  "343": 274,
-  "344": 275,
-  "345": 275,
-  "346": 276,
-  "347": 277,
-  "348": 278,
-  "349": 279,
-  "350": 282,
-  "351": 282,
-  "352": 282,
-  "353": 283,
-  "354": 284,
-  "355": 284,
-  "356": 284,
-  "357": 285,
-  "358": 286,
-  "359": 286,
-  "360": 286,
-  "361": 287,
-  "362": 288,
-  "363": 291,
-  "364": 291,
-  "365": 291,
-  "366": 295,
-  "367": 295,
-  "368": 296,
-  "369": 296,
-  "370": 297,
-  "371": 298,
-  "372": 299,
-  "373": 300,
-  "374": 301,
-  "375": 302,
-  "376": 303,
-  "377": 304,
-  "378": 305,
-  "379": 308,
-  "380": 308,
-  "381": 309,
-  "382": 310,
-  "383": 311,
-  "384": 311,
-  "385": 312,
-  "386": 313,
-  "387": 314,
-  "388": 315,
-  "389": 318,
-  "390": 318,
-  "391": 318,
-  "392": 319,
-  "393": 320,
-  "394": 323,
-  "395": 323,
-  "396": 323,
-  "397": 327,
-  "398": 327,
-  "399": 327,
-  "400": 327,
-  "401": 327,
-  "402": 327,
-  "403": 327,
-  "404": 327,
-  "405": 327,
-  "406": 327,
-  "407": 327,
-  "408": 328,
-  "409": 329,
-  "410": 332,
-  "411": 332,
-  "412": 333,
-  "413": 333,
-  "414": 333,
-  "415": 336,
-  "416": 336,
-  "417": 337,
-  "418": 338,
-  "419": 339,
-  "420": 339,
-  "421": 340,
-  "422": 341,
-  "423": 342,
-  "424": 343,
-  "425": 346,
-  "426": 346,
-  "427": 346,
-  "428": 346,
-  "429": 346,
-  "430": 346,
-  "431": 347,
-  "432": 347,
-  "433": 347,
-  "434": 347,
-  "435": 347,
-  "436": 347,
-  "437": 348,
-  "438": 348,
-  "439": 348,
-  "440": 348,
-  "441": 348,
-  "442": 348,
-  "443": 349,
-  "444": 349,
-  "445": 349,
-  "446": 349,
-  "447": 349,
-  "448": 349,
-  "449": 350,
-  "450": 350,
-  "451": 350,
-  "452": 350,
-  "453": 350,
-  "454": 350,
-  "455": 351,
-  "456": 351,
-  "457": 351,
-  "458": 351,
-  "459": 351,
-  "460": 351,
-  "461": 352,
-  "462": 352,
-  "463": 352,
-  "464": 352,
-  "465": 352,
-  "466": 352,
-  "467": 353,
-  "468": 353,
-  "469": 353,
-  "470": 353,
-  "471": 353,
-  "472": 353,
-  "473": 354,
-  "474": 354,
-  "475": 354,
-  "476": 354,
-  "477": 354,
-  "478": 354,
-  "479": 355,
-  "480": 355,
-  "481": 355,
-  "482": 355,
-  "483": 355,
-  "484": 355,
-  "485": 356,
-  "486": 356,
-  "487": 356,
-  "488": 357,
-  "489": 357,
-  "490": 357,
-  "491": 357,
-  "492": 357,
-  "493": 357,
-  "494": 357,
-  "495": 357,
-  "496": 357,
-  "497": 357,
-  "498": 357,
-  "499": 357,
-  "500": 357,
-  "501": 357,
-  "502": 357,
-  "503": 357,
-  "504": 357,
-  "505": 357,
-  "506": 357,
-  "507": 357,
-  "508": 357,
-  "509": 357,
-  "510": 358
-}
+[
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 21,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 57
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 49
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 50
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 6,
+    "pc": 51
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 7,
+    "pc": 53
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 8,
+    "pc": 54
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 9,
+    "pc": 55
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 10,
+    "pc": 56
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 21
+      },
+      "end": {
+        "line": 4,
+        "character": 30
+      }
+    },
+    "teal": 12,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 21
+      },
+      "end": {
+        "line": 4,
+        "character": 30
+      }
+    },
+    "teal": 52,
+    "pc": 105
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 10
+      },
+      "end": {
+        "line": 4,
+        "character": 19
+      }
+    },
+    "teal": 316,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 10
+      },
+      "end": {
+        "line": 4,
+        "character": 19
+      }
+    },
+    "teal": 15,
+    "pc": 61
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 16,
+    "pc": 64
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 17,
+    "pc": 65
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 18,
+    "pc": 68
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 19,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 4,
+        "character": 2
+      },
+      "end": {
+        "line": 6,
+        "character": 3
+      }
+    },
+    "teal": 20,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 21,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 22,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 11
+      },
+      "end": {
+        "line": 5,
+        "character": 12
+      }
+    },
+    "teal": 23,
+    "pc": 73
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 15
+      },
+      "end": {
+        "line": 5,
+        "character": 16
+      }
+    },
+    "teal": 24,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 13
+      },
+      "end": {
+        "line": 5,
+        "character": 14
+      }
+    },
+    "teal": 41,
+    "pc": 90
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 11
+      },
+      "end": {
+        "line": 5,
+        "character": 16
+      }
+    },
+    "teal": 131,
+    "pc": 189
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 51,
+    "pc": 102
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 28,
+    "pc": 77
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 29,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 30,
+    "pc": 79
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 5,
+        "character": 4
+      },
+      "end": {
+        "line": 5,
+        "character": 17
+      }
+    },
+    "teal": 31,
+    "pc": 80
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 32,
+    "pc": 81
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 33,
+    "pc": 82
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 34,
+    "pc": 83
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 35,
+    "pc": 84
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 36,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 101,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 38,
+    "pc": 86
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 39,
+    "pc": 87
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 40,
+    "pc": 88
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 41,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 22
+      },
+      "end": {
+        "line": 8,
+        "character": 31
+      }
+    },
+    "teal": 42,
+    "pc": 91
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 22
+      },
+      "end": {
+        "line": 8,
+        "character": 31
+      }
+    },
+    "teal": 43,
+    "pc": 92
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 11
+      },
+      "end": {
+        "line": 8,
+        "character": 20
+      }
+    },
+    "teal": 44,
+    "pc": 93
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 11
+      },
+      "end": {
+        "line": 8,
+        "character": 20
+      }
+    },
+    "teal": 45,
+    "pc": 94
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 46,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 111,
+    "pc": 166
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 112,
+    "pc": 167
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 49,
+    "pc": 98
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 8,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 3
+      }
+    },
+    "teal": 50,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 51,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 52,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 11
+      },
+      "end": {
+        "line": 9,
+        "character": 12
+      }
+    },
+    "teal": 53,
+    "pc": 106
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 15
+      },
+      "end": {
+        "line": 9,
+        "character": 16
+      }
+    },
+    "teal": 54,
+    "pc": 107
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 13
+      },
+      "end": {
+        "line": 9,
+        "character": 14
+      }
+    },
+    "teal": 55,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 11
+      },
+      "end": {
+        "line": 9,
+        "character": 16
+      }
+    },
+    "teal": 169,
+    "pc": 230
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 57,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 58,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 342,
+    "pc": 423
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 344,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 9,
+        "character": 4
+      },
+      "end": {
+        "line": 9,
+        "character": 17
+      }
+    },
+    "teal": 349,
+    "pc": 448
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 62,
+    "pc": 114
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 63,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 64,
+    "pc": 116
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 65,
+    "pc": 117
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 66,
+    "pc": 118
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 67,
+    "pc": 119
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 68,
+    "pc": 120
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 69,
+    "pc": 121
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 70,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 71,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 20
+      },
+      "end": {
+        "line": 12,
+        "character": 29
+      }
+    },
+    "teal": 72,
+    "pc": 123
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 20
+      },
+      "end": {
+        "line": 12,
+        "character": 29
+      }
+    },
+    "teal": 73,
+    "pc": 124
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 9
+      },
+      "end": {
+        "line": 12,
+        "character": 18
+      }
+    },
+    "teal": 74,
+    "pc": 125
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 9
+      },
+      "end": {
+        "line": 12,
+        "character": 18
+      }
+    },
+    "teal": 75,
+    "pc": 127
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 76,
+    "pc": 128
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 77,
+    "pc": 129
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 78,
+    "pc": 130
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 79,
+    "pc": 131
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 12,
+        "character": 2
+      },
+      "end": {
+        "line": 14,
+        "character": 3
+      }
+    },
+    "teal": 80,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 81,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 82,
+    "pc": 134
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 11
+      },
+      "end": {
+        "line": 13,
+        "character": 12
+      }
+    },
+    "teal": 83,
+    "pc": 135
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 15
+      },
+      "end": {
+        "line": 13,
+        "character": 16
+      }
+    },
+    "teal": 84,
+    "pc": 138
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 13
+      },
+      "end": {
+        "line": 13,
+        "character": 14
+      }
+    },
+    "teal": 85,
+    "pc": 139
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 11
+      },
+      "end": {
+        "line": 13,
+        "character": 16
+      }
+    },
+    "teal": 86,
+    "pc": 142
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 87,
+    "pc": 143
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 88,
+    "pc": 144
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 89,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 343,
+    "pc": 424
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 17
+      }
+    },
+    "teal": 91,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 92,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 140,
+    "pc": 197
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 357,
+    "pc": 509
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 359,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 96,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 97,
+    "pc": 152
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 98,
+    "pc": 153
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 99,
+    "pc": 154
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 100,
+    "pc": 155
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 101,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 20
+      },
+      "end": {
+        "line": 16,
+        "character": 29
+      }
+    },
+    "teal": 102,
+    "pc": 157
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 20
+      },
+      "end": {
+        "line": 16,
+        "character": 29
+      }
+    },
+    "teal": 103,
+    "pc": 158
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 9
+      },
+      "end": {
+        "line": 16,
+        "character": 18
+      }
+    },
+    "teal": 104,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 9
+      },
+      "end": {
+        "line": 16,
+        "character": 18
+      }
+    },
+    "teal": 347,
+    "pc": 436
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 106,
+    "pc": 160
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 107,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 108,
+    "pc": 162
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 109,
+    "pc": 164
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 16,
+        "character": 2
+      },
+      "end": {
+        "line": 18,
+        "character": 3
+      }
+    },
+    "teal": 110,
+    "pc": 165
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 111,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 112,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 11
+      },
+      "end": {
+        "line": 17,
+        "character": 12
+      }
+    },
+    "teal": 113,
+    "pc": 168
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 15
+      },
+      "end": {
+        "line": 17,
+        "character": 16
+      }
+    },
+    "teal": 114,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 13
+      },
+      "end": {
+        "line": 17,
+        "character": 14
+      }
+    },
+    "teal": 198,
+    "pc": 262
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 11
+      },
+      "end": {
+        "line": 17,
+        "character": 16
+      }
+    },
+    "teal": 341,
+    "pc": 422
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 117,
+    "pc": 172
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 118,
+    "pc": 175
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 119,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 120,
+    "pc": 179
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 4
+      },
+      "end": {
+        "line": 17,
+        "character": 17
+      }
+    },
+    "teal": 121,
+    "pc": 180
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 122,
+    "pc": 181
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 123,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 358,
+    "pc": 510
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 125,
+    "pc": 184
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 126,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 247,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 218,
+    "pc": 286
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 168,
+    "pc": 229
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 130,
+    "pc": 188
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 131,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 23
+      },
+      "end": {
+        "line": 20,
+        "character": 33
+      }
+    },
+    "teal": 132,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 11
+      },
+      "end": {
+        "line": 20,
+        "character": 21
+      }
+    },
+    "teal": 133,
+    "pc": 191
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 134,
+    "pc": 192
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 135,
+    "pc": 193
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 136,
+    "pc": 194
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 137,
+    "pc": 195
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 20,
+        "character": 2
+      },
+      "end": {
+        "line": 22,
+        "character": 3
+      }
+    },
+    "teal": 138,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 139,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 140,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 21,
+        "character": 12
+      }
+    },
+    "teal": 141,
+    "pc": 198
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 15
+      },
+      "end": {
+        "line": 21,
+        "character": 16
+      }
+    },
+    "teal": 142,
+    "pc": 199
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 13
+      },
+      "end": {
+        "line": 21,
+        "character": 14
+      }
+    },
+    "teal": 143,
+    "pc": 201
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 21,
+        "character": 16
+      }
+    },
+    "teal": 144,
+    "pc": 202
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 11
+      },
+      "end": {
+        "line": 21,
+        "character": 16
+      }
+    },
+    "teal": 145,
+    "pc": 203
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 146,
+    "pc": 204
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 147,
+    "pc": 205
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 148,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 330,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 21,
+        "character": 4
+      },
+      "end": {
+        "line": 21,
+        "character": 17
+      }
+    },
+    "teal": 334,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 151,
+    "pc": 211
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 152,
+    "pc": 214
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 153,
+    "pc": 215
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 154,
+    "pc": 216
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 155,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 346,
+    "pc": 430
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 157,
+    "pc": 219
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 158,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 350,
+    "pc": 454
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 160,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 24
+      },
+      "end": {
+        "line": 24,
+        "character": 34
+      }
+    },
+    "teal": 356,
+    "pc": 487
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 12
+      },
+      "end": {
+        "line": 24,
+        "character": 22
+      }
+    },
+    "teal": 162,
+    "pc": 223
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 163,
+    "pc": 224
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 164,
+    "pc": 225
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 165,
+    "pc": 226
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 166,
+    "pc": 227
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 2
+      },
+      "end": {
+        "line": 26,
+        "character": 3
+      }
+    },
+    "teal": 167,
+    "pc": 228
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 168,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 169,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 25,
+        "character": 12
+      }
+    },
+    "teal": 170,
+    "pc": 231
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 15
+      },
+      "end": {
+        "line": 25,
+        "character": 16
+      }
+    },
+    "teal": 171,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 13
+      },
+      "end": {
+        "line": 25,
+        "character": 14
+      }
+    },
+    "teal": 197,
+    "pc": 261
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 25,
+        "character": 16
+      }
+    },
+    "teal": 173,
+    "pc": 233
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 25,
+        "character": 16
+      }
+    },
+    "teal": 174,
+    "pc": 234
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 175,
+    "pc": 235
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 176,
+    "pc": 237
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 177,
+    "pc": 238
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 178,
+    "pc": 239
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 4
+      },
+      "end": {
+        "line": 25,
+        "character": 17
+      }
+    },
+    "teal": 179,
+    "pc": 240
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 180,
+    "pc": 241
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 181,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 352,
+    "pc": 466
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 355,
+    "pc": 484
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 184,
+    "pc": 247
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 185,
+    "pc": 250
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 186,
+    "pc": 251
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 187,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 188,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 189,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 22
+      },
+      "end": {
+        "line": 28,
+        "character": 32
+      }
+    },
+    "teal": 190,
+    "pc": 255
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 10
+      },
+      "end": {
+        "line": 28,
+        "character": 20
+      }
+    },
+    "teal": 191,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 285,
+    "pc": 357
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 286,
+    "pc": 360
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 328,
+    "pc": 408
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 195,
+    "pc": 259
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 28,
+        "character": 2
+      },
+      "end": {
+        "line": 30,
+        "character": 3
+      }
+    },
+    "teal": 196,
+    "pc": 260
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 197,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 198,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 29,
+        "character": 12
+      }
+    },
+    "teal": 199,
+    "pc": 263
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 15
+      },
+      "end": {
+        "line": 29,
+        "character": 16
+      }
+    },
+    "teal": 200,
+    "pc": 264
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 13
+      },
+      "end": {
+        "line": 29,
+        "character": 14
+      }
+    },
+    "teal": 201,
+    "pc": 265
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 29,
+        "character": 16
+      }
+    },
+    "teal": 202,
+    "pc": 266
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 11
+      },
+      "end": {
+        "line": 29,
+        "character": 16
+      }
+    },
+    "teal": 203,
+    "pc": 267
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 204,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 348,
+    "pc": 442
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 206,
+    "pc": 269
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 207,
+    "pc": 270
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 29,
+        "character": 4
+      },
+      "end": {
+        "line": 29,
+        "character": 17
+      }
+    },
+    "teal": 208,
+    "pc": 271
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 209,
+    "pc": 273
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 210,
+    "pc": 274
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 211,
+    "pc": 275
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 212,
+    "pc": 276
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 213,
+    "pc": 277
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 214,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 279,
+    "pc": 349
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 319,
+    "pc": 392
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 217,
+    "pc": 283
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 22
+      },
+      "end": {
+        "line": 32,
+        "character": 32
+      }
+    },
+    "teal": 219,
+    "pc": 287
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 10
+      },
+      "end": {
+        "line": 32,
+        "character": 20
+      }
+    },
+    "teal": 220,
+    "pc": 288
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 221,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 329,
+    "pc": 409
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 223,
+    "pc": 291
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 224,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 32,
+        "character": 2
+      },
+      "end": {
+        "line": 34,
+        "character": 3
+      }
+    },
+    "teal": 257,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 226,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 227,
+    "pc": 293
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 12
+      }
+    },
+    "teal": 228,
+    "pc": 295
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 15
+      },
+      "end": {
+        "line": 33,
+        "character": 16
+      }
+    },
+    "teal": 229,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 13
+      },
+      "end": {
+        "line": 33,
+        "character": 14
+      }
+    },
+    "teal": 230,
+    "pc": 297
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 16
+      }
+    },
+    "teal": 231,
+    "pc": 298
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 11
+      },
+      "end": {
+        "line": 33,
+        "character": 16
+      }
+    },
+    "teal": 232,
+    "pc": 299
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 233,
+    "pc": 300
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 234,
+    "pc": 301
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 235,
+    "pc": 302
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 236,
+    "pc": 303
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 33,
+        "character": 4
+      },
+      "end": {
+        "line": 33,
+        "character": 17
+      }
+    },
+    "teal": 237,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 354,
+    "pc": 478
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 239,
+    "pc": 305
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 240,
+    "pc": 306
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 241,
+    "pc": 307
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 242,
+    "pc": 309
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 243,
+    "pc": 310
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 244,
+    "pc": 311
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 245,
+    "pc": 312
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 246,
+    "pc": 313
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 247,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 26
+      },
+      "end": {
+        "line": 36,
+        "character": 35
+      }
+    },
+    "teal": 323,
+    "pc": 396
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 26
+      },
+      "end": {
+        "line": 36,
+        "character": 35
+      }
+    },
+    "teal": 324,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 15
+      },
+      "end": {
+        "line": 36,
+        "character": 24
+      }
+    },
+    "teal": 250,
+    "pc": 319
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 15
+      },
+      "end": {
+        "line": 36,
+        "character": 24
+      }
+    },
+    "teal": 251,
+    "pc": 322
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 252,
+    "pc": 323
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 253,
+    "pc": 324
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 254,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 333,
+    "pc": 414
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 36,
+        "character": 2
+      },
+      "end": {
+        "line": 38,
+        "character": 3
+      }
+    },
+    "teal": 256,
+    "pc": 327
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 257,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 258,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 11
+      },
+      "end": {
+        "line": 37,
+        "character": 12
+      }
+    },
+    "teal": 339,
+    "pc": 420
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 15
+      },
+      "end": {
+        "line": 37,
+        "character": 16
+      }
+    },
+    "teal": 340,
+    "pc": 421
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 13
+      },
+      "end": {
+        "line": 37,
+        "character": 14
+      }
+    },
+    "teal": 261,
+    "pc": 331
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 11
+      },
+      "end": {
+        "line": 37,
+        "character": 16
+      }
+    },
+    "teal": 262,
+    "pc": 332
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 11
+      },
+      "end": {
+        "line": 37,
+        "character": 16
+      }
+    },
+    "teal": 263,
+    "pc": 333
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 11
+      },
+      "end": {
+        "line": 37,
+        "character": 16
+      }
+    },
+    "teal": 264,
+    "pc": 334
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 265,
+    "pc": 335
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 266,
+    "pc": 336
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 267,
+    "pc": 337
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 268,
+    "pc": 338
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 37,
+        "character": 4
+      },
+      "end": {
+        "line": 37,
+        "character": 17
+      }
+    },
+    "teal": 269,
+    "pc": 339
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 270,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 353,
+    "pc": 472
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 272,
+    "pc": 341
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 273,
+    "pc": 342
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 274,
+    "pc": 343
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 275,
+    "pc": 345
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 276,
+    "pc": 346
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 277,
+    "pc": 347
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 278,
+    "pc": 348
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 279,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 280,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 320,
+    "pc": 393
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 321,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 283,
+    "pc": 353
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 284,
+    "pc": 356
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 4
+      },
+      "end": {
+        "line": 42,
+        "character": 38
+      }
+    },
+    "teal": 285,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 4
+      },
+      "end": {
+        "line": 42,
+        "character": 38
+      }
+    },
+    "teal": 286,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 11
+      },
+      "end": {
+        "line": 42,
+        "character": 37
+      }
+    },
+    "teal": 287,
+    "pc": 361
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 42,
+        "character": 4
+      },
+      "end": {
+        "line": 42,
+        "character": 10
+      }
+    },
+    "teal": 288,
+    "pc": 362
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 289,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 332,
+    "pc": 411
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 291,
+    "pc": 365
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 292,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 293,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 337,
+    "pc": 417
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 338,
+    "pc": 418
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 296,
+    "pc": 369
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 297,
+    "pc": 370
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 298,
+    "pc": 371
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 299,
+    "pc": 372
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 300,
+    "pc": 373
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 301,
+    "pc": 374
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 302,
+    "pc": 375
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 303,
+    "pc": 376
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 304,
+    "pc": 377
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 305,
+    "pc": 378
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 306,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 351,
+    "pc": 460
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 308,
+    "pc": 380
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 309,
+    "pc": 381
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 310,
+    "pc": 382
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 311,
+    "pc": 384
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 312,
+    "pc": 385
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 313,
+    "pc": 386
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 314,
+    "pc": 387
+  },
+  {
+    "source": {
+      "filename": "tests/contracts/math.algo.ts",
+      "start": {
+        "line": 40,
+        "character": 2
+      },
+      "end": {
+        "line": 43,
+        "character": 3
+      }
+    },
+    "teal": 315,
+    "pc": 388
+  }
+]

@@ -1,637 +1,6377 @@
-{
-  "0": 0,
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0,
-  "5": 0,
-  "6": 0,
-  "7": 0,
-  "8": 0,
-  "9": 0,
-  "10": 0,
-  "11": 0,
-  "12": 1,
-  "13": 1,
-  "14": 1,
-  "15": 4,
-  "16": 4,
-  "17": 5,
-  "18": 6,
-  "19": 7,
-  "20": 7,
-  "21": 8,
-  "22": 9,
-  "23": 10,
-  "24": 11,
-  "25": 12,
-  "26": 13,
-  "27": 13,
-  "28": 13,
-  "29": 14,
-  "30": 14,
-  "31": 14,
-  "32": 15,
-  "33": 15,
-  "34": 15,
-  "35": 16,
-  "36": 16,
-  "37": 16,
-  "38": 17,
-  "39": 17,
-  "40": 17,
-  "41": 18,
-  "42": 19,
-  "43": 22,
-  "44": 22,
-  "45": 22,
-  "46": 26,
-  "47": 27,
-  "48": 28,
-  "49": 29,
-  "50": 29,
-  "51": 30,
-  "52": 31,
-  "53": 32,
-  "54": 33,
-  "55": 33,
-  "56": 33,
-  "57": 34,
-  "58": 35,
-  "59": 36,
-  "60": 36,
-  "61": 36,
-  "62": 37,
-  "63": 37,
-  "64": 38,
-  "65": 39,
-  "66": 40,
-  "67": 41,
-  "68": 41,
-  "69": 41,
-  "70": 42,
-  "71": 43,
-  "72": 44,
-  "73": 44,
-  "74": 44,
-  "75": 45,
-  "76": 46,
-  "77": 47,
-  "78": 47,
-  "79": 51,
-  "80": 51,
-  "81": 51,
-  "82": 51,
-  "83": 51,
-  "84": 51,
-  "85": 51,
-  "86": 51,
-  "87": 51,
-  "88": 51,
-  "89": 51,
-  "90": 52,
-  "91": 52,
-  "92": 53,
-  "93": 57,
-  "94": 57,
-  "95": 58,
-  "96": 59,
-  "97": 60,
-  "98": 61,
-  "99": 61,
-  "100": 62,
-  "101": 63,
-  "102": 66,
-  "103": 66,
-  "104": 67,
-  "105": 68,
-  "106": 69,
-  "107": 69,
-  "108": 70,
-  "109": 71,
-  "110": 72,
-  "111": 73,
-  "112": 74,
-  "113": 75,
-  "114": 75,
-  "115": 75,
-  "116": 76,
-  "117": 76,
-  "118": 76,
-  "119": 77,
-  "120": 77,
-  "121": 77,
-  "122": 78,
-  "123": 78,
-  "124": 78,
-  "125": 79,
-  "126": 79,
-  "127": 79,
-  "128": 80,
-  "129": 80,
-  "130": 80,
-  "131": 81,
-  "132": 82,
-  "133": 85,
-  "134": 85,
-  "135": 85,
-  "136": 89,
-  "137": 90,
-  "138": 91,
-  "139": 92,
-  "140": 92,
-  "141": 93,
-  "142": 94,
-  "143": 95,
-  "144": 96,
-  "145": 96,
-  "146": 96,
-  "147": 97,
-  "148": 98,
-  "149": 99,
-  "150": 99,
-  "151": 99,
-  "152": 100,
-  "153": 100,
-  "154": 101,
-  "155": 102,
-  "156": 103,
-  "157": 104,
-  "158": 104,
-  "159": 104,
-  "160": 105,
-  "161": 106,
-  "162": 107,
-  "163": 107,
-  "164": 107,
-  "165": 108,
-  "166": 109,
-  "167": 110,
-  "168": 110,
-  "169": 114,
-  "170": 114,
-  "171": 115,
-  "172": 116,
-  "173": 117,
-  "174": 118,
-  "175": 118,
-  "176": 119,
-  "177": 120,
-  "178": 123,
-  "179": 123,
-  "180": 124,
-  "181": 125,
-  "182": 126,
-  "183": 126,
-  "184": 127,
-  "185": 128,
-  "186": 129,
-  "187": 130,
-  "188": 133,
-  "189": 133,
-  "190": 133,
-  "191": 134,
-  "192": 134,
-  "193": 134,
-  "194": 135,
-  "195": 135,
-  "196": 135,
-  "197": 136,
-  "198": 136,
-  "199": 136,
-  "200": 137,
-  "201": 137,
-  "202": 137,
-  "203": 138,
-  "204": 138,
-  "205": 138,
-  "206": 139,
-  "207": 140,
-  "208": 143,
-  "209": 143,
-  "210": 143,
-  "211": 148,
-  "212": 148,
-  "213": 149,
-  "214": 149,
-  "215": 149,
-  "216": 149,
-  "217": 149,
-  "218": 149,
-  "219": 150,
-  "220": 151,
-  "221": 151,
-  "222": 151,
-  "223": 158,
-  "224": 158,
-  "225": 159,
-  "226": 160,
-  "227": 161,
-  "228": 161,
-  "229": 162,
-  "230": 163,
-  "231": 164,
-  "232": 165,
-  "233": 166,
-  "234": 166,
-  "235": 167,
-  "236": 167,
-  "237": 168,
-  "238": 168,
-  "239": 169,
-  "240": 169,
-  "241": 170,
-  "242": 171,
-  "243": 172,
-  "244": 172,
-  "245": 173,
-  "246": 174,
-  "247": 174,
-  "248": 175,
-  "249": 176,
-  "250": 177,
-  "251": 178,
-  "252": 179,
-  "253": 180,
-  "254": 181,
-  "255": 181,
-  "256": 182,
-  "257": 182,
-  "258": 183,
-  "259": 184,
-  "260": 184,
-  "261": 185,
-  "262": 186,
-  "263": 186,
-  "264": 187,
-  "265": 188,
-  "266": 189,
-  "267": 190,
-  "268": 190,
-  "269": 190,
-  "270": 191,
-  "271": 192,
-  "272": 193,
-  "273": 194,
-  "274": 194,
-  "275": 195,
-  "276": 195,
-  "277": 196,
-  "278": 196,
-  "279": 197,
-  "280": 197,
-  "281": 198,
-  "282": 199,
-  "283": 199,
-  "284": 200,
-  "285": 201,
-  "286": 202,
-  "287": 203,
-  "288": 204,
-  "289": 204,
-  "290": 205,
-  "291": 205,
-  "292": 205,
-  "293": 206,
-  "294": 206,
-  "295": 207,
-  "296": 207,
-  "297": 208,
-  "298": 209,
-  "299": 210,
-  "300": 210,
-  "301": 210,
-  "302": 211,
-  "303": 211,
-  "304": 212,
-  "305": 212,
-  "306": 213,
-  "307": 214,
-  "308": 215,
-  "309": 216,
-  "310": 217,
-  "311": 218,
-  "312": 218,
-  "313": 218,
-  "314": 223,
-  "315": 223,
-  "316": 224,
-  "317": 224,
-  "318": 224,
-  "319": 224,
-  "320": 224,
-  "321": 224,
-  "322": 224,
-  "323": 224,
-  "324": 224,
-  "325": 225,
-  "326": 226,
-  "327": 226,
-  "328": 226,
-  "329": 233,
-  "330": 233,
-  "331": 234,
-  "332": 235,
-  "333": 236,
-  "334": 236,
-  "335": 237,
-  "336": 238,
-  "337": 239,
-  "338": 240,
-  "339": 241,
-  "340": 241,
-  "341": 242,
-  "342": 242,
-  "343": 243,
-  "344": 243,
-  "345": 244,
-  "346": 244,
-  "347": 245,
-  "348": 246,
-  "349": 247,
-  "350": 247,
-  "351": 248,
-  "352": 249,
-  "353": 249,
-  "354": 250,
-  "355": 251,
-  "356": 252,
-  "357": 253,
-  "358": 254,
-  "359": 255,
-  "360": 256,
-  "361": 256,
-  "362": 257,
-  "363": 257,
-  "364": 258,
-  "365": 259,
-  "366": 259,
-  "367": 260,
-  "368": 261,
-  "369": 261,
-  "370": 262,
-  "371": 263,
-  "372": 264,
-  "373": 265,
-  "374": 265,
-  "375": 265,
-  "376": 266,
-  "377": 267,
-  "378": 268,
-  "379": 269,
-  "380": 269,
-  "381": 270,
-  "382": 270,
-  "383": 271,
-  "384": 271,
-  "385": 272,
-  "386": 272,
-  "387": 273,
-  "388": 274,
-  "389": 274,
-  "390": 275,
-  "391": 276,
-  "392": 277,
-  "393": 278,
-  "394": 279,
-  "395": 279,
-  "396": 280,
-  "397": 280,
-  "398": 280,
-  "399": 281,
-  "400": 281,
-  "401": 282,
-  "402": 282,
-  "403": 283,
-  "404": 284,
-  "405": 285,
-  "406": 286,
-  "407": 287,
-  "408": 288,
-  "409": 288,
-  "410": 288,
-  "411": 291,
-  "412": 294,
-  "413": 297,
-  "414": 297,
-  "415": 298,
-  "416": 299,
-  "417": 300,
-  "418": 300,
-  "419": 301,
-  "420": 302,
-  "421": 303,
-  "422": 304,
-  "423": 307,
-  "424": 307,
-  "425": 307,
-  "426": 308,
-  "427": 308,
-  "428": 308,
-  "429": 309,
-  "430": 309,
-  "431": 309,
-  "432": 310,
-  "433": 310,
-  "434": 310,
-  "435": 311,
-  "436": 312,
-  "437": 315,
-  "438": 315,
-  "439": 315,
-  "440": 319,
-  "441": 319,
-  "442": 320,
-  "443": 321,
-  "444": 322,
-  "445": 322,
-  "446": 323,
-  "447": 324,
-  "448": 325,
-  "449": 325,
-  "450": 326,
-  "451": 327,
-  "452": 328,
-  "453": 329,
-  "454": 329,
-  "455": 330,
-  "456": 330,
-  "457": 331,
-  "458": 331,
-  "459": 332,
-  "460": 333,
-  "461": 334,
-  "462": 334,
-  "463": 335,
-  "464": 336,
-  "465": 337,
-  "466": 338,
-  "467": 339,
-  "468": 340,
-  "469": 341,
-  "470": 342,
-  "471": 342,
-  "472": 342,
-  "473": 343,
-  "474": 343,
-  "475": 344,
-  "476": 345,
-  "477": 346,
-  "478": 349,
-  "479": 349,
-  "480": 350,
-  "481": 350,
-  "482": 350,
-  "483": 353,
-  "484": 353,
-  "485": 354,
-  "486": 355,
-  "487": 356,
-  "488": 356,
-  "489": 357,
-  "490": 358,
-  "491": 359,
-  "492": 360,
-  "493": 363,
-  "494": 363,
-  "495": 363,
-  "496": 363,
-  "497": 363,
-  "498": 363,
-  "499": 364,
-  "500": 364,
-  "501": 364,
-  "502": 364,
-  "503": 364,
-  "504": 364,
-  "505": 365,
-  "506": 365,
-  "507": 365,
-  "508": 365,
-  "509": 365,
-  "510": 365,
-  "511": 366,
-  "512": 366,
-  "513": 366,
-  "514": 366,
-  "515": 366,
-  "516": 366,
-  "517": 367,
-  "518": 367,
-  "519": 367,
-  "520": 368,
-  "521": 368,
-  "522": 368,
-  "523": 368,
-  "524": 368,
-  "525": 368,
-  "526": 368,
-  "527": 368,
-  "528": 368,
-  "529": 368,
-  "530": 369,
-  "531": 372,
-  "532": 372,
-  "533": 372,
-  "534": 373,
-  "535": 373,
-  "536": 374,
-  "537": 374,
-  "538": 375,
-  "539": 376,
-  "540": 376,
-  "541": 377,
-  "542": 377,
-  "543": 378,
-  "544": 379,
-  "545": 380,
-  "546": 380,
-  "547": 381,
-  "548": 382,
-  "549": 383,
-  "550": 384,
-  "551": 384,
-  "552": 384,
-  "553": 385,
-  "554": 385,
-  "555": 386,
-  "556": 386,
-  "557": 387,
-  "558": 388,
-  "559": 389,
-  "560": 389,
-  "561": 390,
-  "562": 390,
-  "563": 391,
-  "564": 391,
-  "565": 392,
-  "566": 392,
-  "567": 393,
-  "568": 396,
-  "569": 396,
-  "570": 396,
-  "571": 397,
-  "572": 397,
-  "573": 398,
-  "574": 398,
-  "575": 399,
-  "576": 399,
-  "577": 400,
-  "578": 401,
-  "579": 401,
-  "580": 402,
-  "581": 402,
-  "582": 402,
-  "583": 403,
-  "584": 404,
-  "585": 404,
-  "586": 404,
-  "587": 407,
-  "588": 408,
-  "589": 411,
-  "590": 412,
-  "591": 412,
-  "592": 412,
-  "593": 413,
-  "594": 413,
-  "595": 414,
-  "596": 415,
-  "597": 415,
-  "598": 416,
-  "599": 417,
-  "600": 418,
-  "601": 418,
-  "602": 419,
-  "603": 422,
-  "604": 422,
-  "605": 423,
-  "606": 424,
-  "607": 424,
-  "608": 425,
-  "609": 426,
-  "610": 426,
-  "611": 426,
-  "612": 427,
-  "613": 427,
-  "614": 428,
-  "615": 429,
-  "616": 429,
-  "617": 430,
-  "618": 431,
-  "619": 431,
-  "620": 432,
-  "621": 432,
-  "622": 432,
-  "623": 435,
-  "624": 435,
-  "625": 436,
-  "626": 436,
-  "627": 437,
-  "628": 438,
-  "629": 439,
-  "630": 439,
-  "631": 442,
-  "632": 443,
-  "633": 443,
-  "634": 444
-}
+[
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 104,
+    "pc": 159
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 22,
+    "pc": 45
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 4,
+    "pc": 16
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 5,
+    "pc": 17
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 6,
+    "pc": 18
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 7,
+    "pc": 20
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 8,
+    "pc": 21
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 9,
+    "pc": 22
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 10,
+    "pc": 23
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 11,
+    "pc": 24
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 29
+      },
+      "end": {
+        "line": 10,
+        "character": 44
+      }
+    },
+    "teal": 12,
+    "pc": 25
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 29
+      },
+      "end": {
+        "line": 10,
+        "character": 44
+      }
+    },
+    "teal": 13,
+    "pc": 28
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 15
+      },
+      "end": {
+        "line": 10,
+        "character": 27
+      }
+    },
+    "teal": 14,
+    "pc": 31
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 15
+      },
+      "end": {
+        "line": 10,
+        "character": 27
+      }
+    },
+    "teal": 15,
+    "pc": 34
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 16,
+    "pc": 37
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 17,
+    "pc": 40
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 18,
+    "pc": 41
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 19,
+    "pc": 42
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 20,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 10
+      },
+      "end": {
+        "line": 11,
+        "character": 61
+      }
+    },
+    "teal": 21,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 10
+      },
+      "end": {
+        "line": 11,
+        "character": 61
+      }
+    },
+    "teal": 22,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 23,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 80,
+    "pc": 130
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 45,
+    "pc": 75
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 46,
+    "pc": 76
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 27,
+    "pc": 47
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 28,
+    "pc": 48
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 29,
+    "pc": 50
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 30,
+    "pc": 51
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 31,
+    "pc": 52
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 32,
+    "pc": 53
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 33,
+    "pc": 56
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 34,
+    "pc": 57
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 35,
+    "pc": 58
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 36,
+    "pc": 61
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 37,
+    "pc": 63
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 38,
+    "pc": 64
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 39,
+    "pc": 65
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 40,
+    "pc": 66
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 41,
+    "pc": 69
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 42,
+    "pc": 70
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 43,
+    "pc": 71
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 11,
+        "character": 10
+      },
+      "end": {
+        "line": 11,
+        "character": 61
+      }
+    },
+    "teal": 44,
+    "pc": 74
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 31
+      }
+    },
+    "teal": 45,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 31
+      }
+    },
+    "teal": 46,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 22
+      }
+    },
+    "teal": 47,
+    "pc": 78
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 23
+      },
+      "end": {
+        "line": 13,
+        "character": 30
+      }
+    },
+    "teal": 48,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 13,
+        "character": 4
+      },
+      "end": {
+        "line": 13,
+        "character": 22
+      }
+    },
+    "teal": 141,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 47
+      }
+    },
+    "teal": 50,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 47
+      }
+    },
+    "teal": 51,
+    "pc": 89
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 31
+      },
+      "end": {
+        "line": 14,
+        "character": 37
+      }
+    },
+    "teal": 52,
+    "pc": 91
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 21
+      }
+    },
+    "teal": 53,
+    "pc": 92
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 21
+      }
+    },
+    "teal": 54,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 21
+      }
+    },
+    "teal": 143,
+    "pc": 210
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 39
+      },
+      "end": {
+        "line": 14,
+        "character": 46
+      }
+    },
+    "teal": 413,
+    "pc": 594
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 14,
+        "character": 4
+      },
+      "end": {
+        "line": 14,
+        "character": 21
+      }
+    },
+    "teal": 103,
+    "pc": 156
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 10,
+        "character": 2
+      },
+      "end": {
+        "line": 15,
+        "character": 3
+      }
+    },
+    "teal": 58,
+    "pc": 95
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 59,
+    "pc": 96
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 60,
+    "pc": 97
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 61,
+    "pc": 99
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 62,
+    "pc": 100
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 63,
+    "pc": 101
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 64,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 79,
+    "pc": 127
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 66,
+    "pc": 103
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 67,
+    "pc": 104
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 68,
+    "pc": 105
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 44
+      },
+      "end": {
+        "line": 17,
+        "character": 60
+      }
+    },
+    "teal": 69,
+    "pc": 107
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 27
+      },
+      "end": {
+        "line": 17,
+        "character": 42
+      }
+    },
+    "teal": 70,
+    "pc": 108
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 27
+      },
+      "end": {
+        "line": 17,
+        "character": 42
+      }
+    },
+    "teal": 71,
+    "pc": 109
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 13
+      },
+      "end": {
+        "line": 17,
+        "character": 25
+      }
+    },
+    "teal": 72,
+    "pc": 110
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 13
+      },
+      "end": {
+        "line": 17,
+        "character": 25
+      }
+    },
+    "teal": 73,
+    "pc": 111
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 74,
+    "pc": 112
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 75,
+    "pc": 115
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 76,
+    "pc": 118
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 77,
+    "pc": 121
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 78,
+    "pc": 124
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 10
+      },
+      "end": {
+        "line": 18,
+        "character": 61
+      }
+    },
+    "teal": 79,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 10
+      },
+      "end": {
+        "line": 18,
+        "character": 61
+      }
+    },
+    "teal": 80,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 81,
+    "pc": 131
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 82,
+    "pc": 132
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 83,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 121,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 85,
+    "pc": 135
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 86,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 212,
+    "pc": 305
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 139,
+    "pc": 206
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 140,
+    "pc": 207
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 90,
+    "pc": 137
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 1
+      },
+      "end": {
+        "line": 0,
+        "character": 5
+      }
+    },
+    "teal": 91,
+    "pc": 138
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 92,
+    "pc": 140
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 93,
+    "pc": 141
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 94,
+    "pc": 142
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 95,
+    "pc": 143
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 96,
+    "pc": 146
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 97,
+    "pc": 147
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 98,
+    "pc": 148
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 6
+      },
+      "end": {
+        "line": 0,
+        "character": 13
+      }
+    },
+    "teal": 99,
+    "pc": 151
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 100,
+    "pc": 153
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 14
+      }
+    },
+    "teal": 101,
+    "pc": 154
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 18,
+        "character": 10
+      },
+      "end": {
+        "line": 18,
+        "character": 61
+      }
+    },
+    "teal": 102,
+    "pc": 155
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 39
+      }
+    },
+    "teal": 103,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 39
+      }
+    },
+    "teal": 104,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 22
+      },
+      "end": {
+        "line": 19,
+        "character": 29
+      }
+    },
+    "teal": 105,
+    "pc": 160
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 21
+      }
+    },
+    "teal": 106,
+    "pc": 161
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 21
+      }
+    },
+    "teal": 107,
+    "pc": 164
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 21
+      }
+    },
+    "teal": 108,
+    "pc": 165
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 31
+      },
+      "end": {
+        "line": 19,
+        "character": 38
+      }
+    },
+    "teal": 109,
+    "pc": 166
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 19,
+        "character": 4
+      },
+      "end": {
+        "line": 19,
+        "character": 21
+      }
+    },
+    "teal": 110,
+    "pc": 168
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 17,
+        "character": 2
+      },
+      "end": {
+        "line": 20,
+        "character": 3
+      }
+    },
+    "teal": 111,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 295,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 428,
+    "pc": 614
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 429,
+    "pc": 616
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 115,
+    "pc": 171
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 116,
+    "pc": 172
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 117,
+    "pc": 173
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 118,
+    "pc": 175
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 119,
+    "pc": 176
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 120,
+    "pc": 177
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 121,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 51
+      },
+      "end": {
+        "line": 22,
+        "character": 67
+      }
+    },
+    "teal": 134,
+    "pc": 193
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 36
+      },
+      "end": {
+        "line": 22,
+        "character": 49
+      }
+    },
+    "teal": 123,
+    "pc": 179
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 36
+      },
+      "end": {
+        "line": 22,
+        "character": 49
+      }
+    },
+    "teal": 124,
+    "pc": 180
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 21
+      },
+      "end": {
+        "line": 22,
+        "character": 34
+      }
+    },
+    "teal": 125,
+    "pc": 181
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 21
+      },
+      "end": {
+        "line": 22,
+        "character": 34
+      }
+    },
+    "teal": 126,
+    "pc": 183
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 127,
+    "pc": 184
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 128,
+    "pc": 185
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 129,
+    "pc": 186
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 130,
+    "pc": 187
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 131,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 132,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 8
+      },
+      "end": {
+        "line": 23,
+        "character": 24
+      }
+    },
+    "teal": 133,
+    "pc": 190
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 8
+      },
+      "end": {
+        "line": 23,
+        "character": 24
+      }
+    },
+    "teal": 134,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 8
+      },
+      "end": {
+        "line": 23,
+        "character": 13
+      }
+    },
+    "teal": 135,
+    "pc": 196
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 18
+      },
+      "end": {
+        "line": 23,
+        "character": 24
+      }
+    },
+    "teal": 136,
+    "pc": 199
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 14
+      },
+      "end": {
+        "line": 23,
+        "character": 17
+      }
+    },
+    "teal": 137,
+    "pc": 202
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 138,
+    "pc": 205
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 139,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 140,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 141,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 24
+      },
+      "end": {
+        "line": 24,
+        "character": 31
+      }
+    },
+    "teal": 142,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 143,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 24
+      },
+      "end": {
+        "line": 24,
+        "character": 31
+      }
+    },
+    "teal": 415,
+    "pc": 597
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 206,
+    "pc": 294
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 207,
+    "pc": 296
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 146,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 147,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 423,
+    "pc": 605
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 149,
+    "pc": 218
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 146,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 147,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 148,
+    "pc": 212
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 149,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 150,
+    "pc": 219
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 151,
+    "pc": 222
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 152,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 213,
+    "pc": 306
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 214,
+    "pc": 307
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 215,
+    "pc": 308
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 216,
+    "pc": 309
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 328,
+    "pc": 452
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 286,
+    "pc": 406
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 159,
+    "pc": 225
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 160,
+    "pc": 226
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 161,
+    "pc": 228
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 162,
+    "pc": 229
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 163,
+    "pc": 230
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 164,
+    "pc": 231
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 165,
+    "pc": 232
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 32
+      }
+    },
+    "teal": 142,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 32
+      }
+    },
+    "teal": 143,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 24
+      },
+      "end": {
+        "line": 24,
+        "character": 31
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 6
+      },
+      "end": {
+        "line": 24,
+        "character": 23
+      }
+    },
+    "teal": 146,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 142,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 143,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 144,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 145,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 146,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 147,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 148,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 149,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 150,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 151,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 152,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 153,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 154,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 155,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 156,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 157,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 158,
+    "pc": 224
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 159,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 160,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 161,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 162,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 163,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 164,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 165,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 166,
+    "pc": 234
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 167,
+    "pc": 236
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 168,
+    "pc": 238
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 169,
+    "pc": 240
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 170,
+    "pc": 241
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 171,
+    "pc": 242
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 172,
+    "pc": 244
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 173,
+    "pc": 245
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 174,
+    "pc": 247
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 175,
+    "pc": 248
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 176,
+    "pc": 249
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 177,
+    "pc": 250
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 178,
+    "pc": 251
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 179,
+    "pc": 252
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 24,
+        "character": 40
+      },
+      "end": {
+        "line": 24,
+        "character": 45
+      }
+    },
+    "teal": 180,
+    "pc": 253
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 181,
+    "pc": 255
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 182,
+    "pc": 257
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 183,
+    "pc": 258
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 184,
+    "pc": 260
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 185,
+    "pc": 261
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 186,
+    "pc": 263
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 187,
+    "pc": 264
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 188,
+    "pc": 265
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 189,
+    "pc": 266
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 190,
+    "pc": 269
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 191,
+    "pc": 270
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 192,
+    "pc": 271
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 193,
+    "pc": 272
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 194,
+    "pc": 274
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 195,
+    "pc": 276
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 196,
+    "pc": 278
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 197,
+    "pc": 280
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 198,
+    "pc": 281
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 199,
+    "pc": 283
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 200,
+    "pc": 284
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 201,
+    "pc": 285
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 202,
+    "pc": 286
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 203,
+    "pc": 287
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 204,
+    "pc": 289
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 205,
+    "pc": 292
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 15
+      },
+      "end": {
+        "line": 25,
+        "character": 34
+      }
+    },
+    "teal": 206,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 15
+      },
+      "end": {
+        "line": 25,
+        "character": 34
+      }
+    },
+    "teal": 207,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 15
+      },
+      "end": {
+        "line": 25,
+        "character": 20
+      }
+    },
+    "teal": 208,
+    "pc": 297
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 25
+      },
+      "end": {
+        "line": 25,
+        "character": 34
+      }
+    },
+    "teal": 209,
+    "pc": 298
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 21
+      },
+      "end": {
+        "line": 25,
+        "character": 24
+      }
+    },
+    "teal": 210,
+    "pc": 301
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 211,
+    "pc": 303
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 212,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 213,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 214,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 24
+      },
+      "end": {
+        "line": 26,
+        "character": 31
+      }
+    },
+    "teal": 215,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 216,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 217,
+    "pc": 310
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 24
+      },
+      "end": {
+        "line": 26,
+        "character": 31
+      }
+    },
+    "teal": 218,
+    "pc": 313
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 414,
+    "pc": 595
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 220,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 221,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 417,
+    "pc": 599
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 220,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 221,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 222,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 418,
+    "pc": 601
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 224,
+    "pc": 324
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 225,
+    "pc": 325
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 226,
+    "pc": 328
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 227,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 431,
+    "pc": 619
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 432,
+    "pc": 622
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 433,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 436,
+    "pc": 626
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 437,
+    "pc": 627
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 439,
+    "pc": 630
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 234,
+    "pc": 331
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 235,
+    "pc": 332
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 236,
+    "pc": 334
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 237,
+    "pc": 335
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 238,
+    "pc": 336
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 32
+      }
+    },
+    "teal": 215,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 32
+      }
+    },
+    "teal": 216,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 24
+      },
+      "end": {
+        "line": 26,
+        "character": 31
+      }
+    },
+    "teal": 217,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 6
+      },
+      "end": {
+        "line": 26,
+        "character": 23
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 215,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 216,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 217,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 218,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 219,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 220,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 221,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 222,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 223,
+    "pc": 315
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 224,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 225,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 226,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 227,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 228,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 229,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 230,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 231,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 232,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 233,
+    "pc": 330
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 234,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 235,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 236,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 237,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 238,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 239,
+    "pc": 337
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 240,
+    "pc": 338
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 241,
+    "pc": 340
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 242,
+    "pc": 342
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 243,
+    "pc": 344
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 244,
+    "pc": 346
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 245,
+    "pc": 347
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 246,
+    "pc": 348
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 247,
+    "pc": 350
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 248,
+    "pc": 351
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 249,
+    "pc": 353
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 250,
+    "pc": 354
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 251,
+    "pc": 355
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 252,
+    "pc": 356
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 26,
+        "character": 43
+      },
+      "end": {
+        "line": 26,
+        "character": 48
+      }
+    },
+    "teal": 253,
+    "pc": 357
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 254,
+    "pc": 358
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 255,
+    "pc": 359
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 256,
+    "pc": 361
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 257,
+    "pc": 363
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 258,
+    "pc": 364
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 259,
+    "pc": 366
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 260,
+    "pc": 367
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 261,
+    "pc": 369
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 262,
+    "pc": 370
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 263,
+    "pc": 371
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 264,
+    "pc": 372
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 265,
+    "pc": 375
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 266,
+    "pc": 376
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 267,
+    "pc": 377
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 268,
+    "pc": 378
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 269,
+    "pc": 380
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 270,
+    "pc": 382
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 271,
+    "pc": 384
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 272,
+    "pc": 386
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 25,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 273,
+    "pc": 387
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 27,
+        "character": 11
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 274,
+    "pc": 389
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 23,
+        "character": 4
+      },
+      "end": {
+        "line": 27,
+        "character": 40
+      }
+    },
+    "teal": 275,
+    "pc": 390
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 22,
+        "character": 2
+      },
+      "end": {
+        "line": 28,
+        "character": 3
+      }
+    },
+    "teal": 276,
+    "pc": 391
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 277,
+    "pc": 392
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 278,
+    "pc": 393
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 279,
+    "pc": 395
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 280,
+    "pc": 398
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 281,
+    "pc": 400
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 282,
+    "pc": 402
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 283,
+    "pc": 403
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 284,
+    "pc": 404
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 285,
+    "pc": 405
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 286,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 34
+      },
+      "end": {
+        "line": 30,
+        "character": 50
+      }
+    },
+    "teal": 287,
+    "pc": 407
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 20
+      },
+      "end": {
+        "line": 30,
+        "character": 32
+      }
+    },
+    "teal": 288,
+    "pc": 410
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 20
+      },
+      "end": {
+        "line": 30,
+        "character": 32
+      }
+    },
+    "teal": 289,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 416,
+    "pc": 598
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 291,
+    "pc": 411
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 292,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 422,
+    "pc": 604
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 294,
+    "pc": 412
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 52
+      }
+    },
+    "teal": 295,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 52
+      }
+    },
+    "teal": 296,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 29
+      },
+      "end": {
+        "line": 31,
+        "character": 36
+      }
+    },
+    "teal": 297,
+    "pc": 414
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 11
+      },
+      "end": {
+        "line": 31,
+        "character": 28
+      }
+    },
+    "teal": 298,
+    "pc": 415
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 11
+      },
+      "end": {
+        "line": 31,
+        "character": 28
+      }
+    },
+    "teal": 299,
+    "pc": 416
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 29
+      },
+      "end": {
+        "line": 31,
+        "character": 36
+      }
+    },
+    "teal": 300,
+    "pc": 418
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 11
+      },
+      "end": {
+        "line": 31,
+        "character": 28
+      }
+    },
+    "teal": 301,
+    "pc": 419
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 11
+      },
+      "end": {
+        "line": 31,
+        "character": 28
+      }
+    },
+    "teal": 302,
+    "pc": 420
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 300,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 26
+      }
+    },
+    "teal": 301,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 302,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 303,
+    "pc": 421
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 304,
+    "pc": 422
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 18
+      },
+      "end": {
+        "line": 0,
+        "character": 25
+      }
+    },
+    "teal": 300,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 301,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 17
+      }
+    },
+    "teal": 302,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 303,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 304,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 305,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 27
+      },
+      "end": {
+        "line": 0,
+        "character": 28
+      }
+    },
+    "teal": 444,
+    "pc": 634
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 445,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 308,
+    "pc": 428
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 309,
+    "pc": 431
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 310,
+    "pc": 434
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 311,
+    "pc": 435
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 312,
+    "pc": 436
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 313,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 420,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 315,
+    "pc": 439
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 316,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 424,
+    "pc": 607
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 425,
+    "pc": 608
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 427,
+    "pc": 613
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 0,
+        "character": 29
+      }
+    },
+    "teal": 320,
+    "pc": 442
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 47
+      },
+      "end": {
+        "line": 31,
+        "character": 51
+      }
+    },
+    "teal": 321,
+    "pc": 443
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 43
+      },
+      "end": {
+        "line": 31,
+        "character": 46
+      }
+    },
+    "teal": 322,
+    "pc": 445
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 31,
+        "character": 4
+      },
+      "end": {
+        "line": 31,
+        "character": 10
+      }
+    },
+    "teal": 323,
+    "pc": 446
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 324,
+    "pc": 447
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 325,
+    "pc": 449
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 326,
+    "pc": 450
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 327,
+    "pc": 451
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 328,
+    "pc": 0
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 329,
+    "pc": 454
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 330,
+    "pc": 456
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 331,
+    "pc": 458
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 332,
+    "pc": 459
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 333,
+    "pc": 460
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 334,
+    "pc": 462
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 335,
+    "pc": 463
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 336,
+    "pc": 464
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 337,
+    "pc": 465
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 338,
+    "pc": 466
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 339,
+    "pc": 467
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 340,
+    "pc": 468
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 341,
+    "pc": 469
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 342,
+    "pc": 472
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 343,
+    "pc": 474
+  },
+  {
+    "source": {
+      "filename": "examples/tuple_in_box/app.algo.ts",
+      "start": {
+        "line": 30,
+        "character": 2
+      },
+      "end": {
+        "line": 32,
+        "character": 3
+      }
+    },
+    "teal": 344,
+    "pc": 475
+  }
+]
