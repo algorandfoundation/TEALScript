@@ -69,6 +69,7 @@ doMath:
 	// if0_consequent
 	// examples/calculator/calculator.algo.ts:17
 	// result = this.getSum(a, b)
+	// no dupn needed
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
@@ -86,6 +87,7 @@ if0_elseif1_condition:
 	// if0_elseif1_consequent
 	// examples/calculator/calculator.algo.ts:19
 	// result = this.getDifference(a, b)
+	// no dupn needed
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference
@@ -124,3 +126,4 @@ route_abi:
 	method "doMath(uint64,uint64,string)uint64"
 	txna ApplicationArgs 0
 	match abi_route_doMath
+	err

@@ -10,6 +10,8 @@ abi_route_singleIf:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub singleIf
 	int 1
 	return
@@ -42,6 +44,8 @@ abi_route_ifElse:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub ifElse
 	int 1
 	return
@@ -81,6 +85,8 @@ abi_route_ifElseIf:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub ifElseIf
 	int 1
 	return
@@ -127,6 +133,8 @@ abi_route_ifElseIfElse:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub ifElseIfElse
 	int 1
 	return
@@ -180,6 +188,8 @@ abi_route_ifElseIfElseIf:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub ifElseIfElseIf
 	int 1
 	return
@@ -240,6 +250,8 @@ abi_route_ifElseIfElseIfElse:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub ifElseIfElseIfElse
 	int 1
 	return
@@ -321,3 +333,4 @@ route_abi:
 	method "ifElseIfElseIfElse()void"
 	txna ApplicationArgs 0
 	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse
+	err

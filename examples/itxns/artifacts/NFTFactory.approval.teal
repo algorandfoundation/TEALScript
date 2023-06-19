@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -27,6 +29,8 @@ abi_route_createNFT:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -86,6 +90,8 @@ abi_route_transferNFT:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -140,3 +146,4 @@ route_abi:
 	method "transferNFT(asset,account)void"
 	txna ApplicationArgs 0
 	match abi_route_createNFT abi_route_transferNFT
+	err

@@ -1,81 +1,6 @@
 #pragma version 8
 	b main
 
-get_length_difference:
-	load 3 // new element
-	len // length of new element
-	load 2 // element length
-	<
-	bnz swapped_difference
-	load 3 // new element
-	len // length of new element
-	load 2 // element length
-	int 1
-	store 7 // subtract head difference
-	b get_difference
-
-swapped_difference:
-	load 2 // element length
-	load 3 // new element
-	len // length of new element
-	int 0
-	store 7 // subtract head difference
-
-get_difference:
-	- // get length difference
-	store 5 // length difference
-	retsub
-
-update_dynamic_head:
-	proto 2 0
-	frame_dig -2 // length difference
-	load 0 // full array
-	frame_dig -1 // dynamic array offset
-	extract_uint16 // extract dynamic array offset
-	load 7 // subtract head difference
-	bz subtract_head_difference
-	+ // add difference to offset
-	b end_calc_new_head
-
-subtract_head_difference:
-	swap
-	- // subtract difference from offet
-
-end_calc_new_head:
-	itob // convert to bytes
-	extract 6 2 // convert to uint16
-	load 0 // full array
-	swap
-	frame_dig -1 // offset
-	swap
-	replace3 // update offset
-	store 0 // full array
-	retsub
-
-process_dynamic_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -2 // head offset
-	concat
-	frame_bury -4 // tuple head
-	frame_dig -1 // element
-	dup
-	len
-	frame_dig -2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	frame_bury -2 // head offset
-	frame_dig -3 // tuple tail
-	swap
-	concat
-	frame_bury -3 // tuple tail
-	frame_dig -4 // tuple head
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
-
 abi_route_shortenDynamicElementInTuple:
 	txn OnCompletion
 	int NoOp
@@ -327,3 +252,79 @@ route_abi:
 	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
 	txna ApplicationArgs 0
 	match abi_route_shortenDynamicElementInTuple
+	err
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+update_dynamic_head:
+	proto 2 0
+	frame_dig -2 // length difference
+	load 0 // full array
+	frame_dig -1 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	load 7 // subtract head difference
+	bz subtract_head_difference
+	+ // add difference to offset
+	b end_calc_new_head
+
+subtract_head_difference:
+	swap
+	- // subtract difference from offet
+
+end_calc_new_head:
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 0 // full array
+	swap
+	frame_dig -1 // offset
+	swap
+	replace3 // update offset
+	store 0 // full array
+	retsub
+
+get_length_difference:
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	<
+	bnz swapped_difference
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference
+
+swapped_difference:
+	load 2 // element length
+	load 3 // new element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference:
+	- // get length difference
+	store 5 // length difference
+	retsub

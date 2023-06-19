@@ -10,6 +10,8 @@ abi_route_and:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -42,6 +44,8 @@ abi_route_or:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -74,6 +78,8 @@ abi_route_equal:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -102,6 +108,8 @@ abi_route_notEqual:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -130,6 +138,8 @@ abi_route_bitAnd:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -158,6 +168,8 @@ abi_route_bitOr:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -186,6 +198,8 @@ abi_route_bitXor:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -214,6 +228,8 @@ abi_route_combo:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2
@@ -270,3 +286,4 @@ route_abi:
 	method "combo(uint64,uint64,uint64)void"
 	txna ApplicationArgs 0
 	match abi_route_and abi_route_or abi_route_equal abi_route_notEqual abi_route_bitAnd abi_route_bitOr abi_route_bitXor abi_route_combo
+	err

@@ -10,6 +10,8 @@ abi_route_stringReturn:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub stringReturn
 	int 1
 	return
@@ -50,3 +52,4 @@ route_abi:
 	method "stringReturn()string"
 	txna ApplicationArgs 0
 	match abi_route_stringReturn
+	err

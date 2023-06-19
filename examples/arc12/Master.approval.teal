@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -34,8 +36,7 @@ abi_route_createVault:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	txn GroupIndex
 	int 1
 	-
@@ -130,7 +131,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:154
 	// approvalProgram: Vault
-	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICPooCAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBENhoCF8AcNhoBF8AciAACI0OKAgApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChJNhoEF8AcNhoDF8AwNhoCF8AcNhoBF8AciAACI0OKBgAxACpkEkSL/oAgx/zNsljw1BicK/i21o7ml1CGQrCtAB8x/LkYw1S6hZoSRDIKcwFEjPuxJLIQi/+yFIv9shEishKL/7IVIrIBs4v9FryL+zIKcwFECYz6sSOyEIv+sgeL+jEBCbIIIrIBs7EjshAxALIHMQGyCCKyAbMyCnMJRCISQQAGKIv8iP7YiTEZIhIxGCITEEQoMRYjCTYaARfAMIgAAiNDigMAi/8WvkxIFESL/jgAMQASRIv+OAcyChJEMgpzAUSM/Yv/FjEAv7EkshAyCrIUIrISIrIBi/+yEbOL/jgIMgpzAUSL/QkSRIkxGSISMRgiExBEKDYaAxfAHDYaAhfAHDYaARfAMIgAAiNDigQAi/8WvkxIRIv9i/8WvkQSRDEAKmQSRClki/4SRDIKcwFEjPyL/xa8sSSyEDEAshQisgEyCov/cABEshKL/7IRMQCyFbOxI7IQi/2yB4v8MgpzAUQJsggisgGzMgpzCUQiEkEABiiL/oj95IkxGSUSMRgiExBEiAACI0OKAAAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/0YAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/dX+AP64/xw=
+	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICPooCAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBENhoCF8AcNhoBF8AciAACI0OKAgApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChJNhoEF8AcNhoDF8AwNhoCF8AcNhoBF8AciAACI0OKBgAxACpkEkSL/oAgx/zNsljw1BicK/i21o7ml1CGQrCtAB8x/LkYw1S6hZoSRDIKcwFEjPuxJLIQi/+yFIv9shEishKL/7IVIrIBs4v9FryL+zIKcwFECYz6sSOyEIv+sgeL+jEBCbIIIrIBs7EjshAxALIHMQGyCCKyAbMyCnMJRCISQQAGKIv8iP7YiTEZIhIxGCITEEQoMRYjCTYaARfAMIgAAiNDigMAi/8WvkxIFESL/jgAMQASRIv+OAcyChJEMgpzAUSM/Yv/FjEAv7EkshAyCrIUIrISIrIBi/+yEbOL/jgIMgpzAUSL/QkSRIkxGSISMRgiExBEKDYaAxfAHDYaAhfAHDYaARfAMIgAAiNDigQAi/8WvkxIRIv9i/8WvkQSRDEAKmQSRClki/4SRDIKcwFEjPyL/xa8sSSyEDEAshQisgEyCov/cABEshKL/7IRMQCyFbOxI7IQi/2yB4v8MgpzAUQJsggisgGzMgpzCUQiEkEABiiL/oj95IkxGSUSMRgiExBEiAACI0OKAAAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/0YAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/dX+AP64/xwA
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.algo.ts:155
@@ -214,6 +215,8 @@ abi_route_verifyAxfer:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txnas Applications
@@ -276,6 +279,8 @@ abi_route_hasVault:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -308,6 +313,8 @@ abi_route_getVaultId:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -340,6 +347,8 @@ abi_route_getVaultAddr:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -373,8 +382,7 @@ abi_route_deleteVault:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -502,3 +510,4 @@ route_abi:
 	method "deleteVault(application,account)void"
 	txna ApplicationArgs 0
 	match abi_route_createVault abi_route_verifyAxfer abi_route_hasVault abi_route_getVaultId abi_route_getVaultAddr abi_route_deleteVault
+	err

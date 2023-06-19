@@ -85,3 +85,4 @@ route_abi:
 	method "setStaticArrayElement()uint64"
 	txna ApplicationArgs 0
 	match abi_route_setStaticArrayElement
+	err

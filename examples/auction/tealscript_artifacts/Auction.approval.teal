@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -57,6 +59,8 @@ abi_route_optIntoAsset:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -131,6 +135,8 @@ abi_route_startAuction:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txn GroupIndex
 	int 1
 	-
@@ -230,6 +236,8 @@ abi_route_bid:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -283,6 +291,7 @@ bid:
 	// if0_consequent
 	// examples/auction/auction.algo.ts:82
 	// this.pay(this.highestBidder.get(), this.highestBid.get())
+	// no dupn needed
 	byte "highestBid"
 	app_global_get
 	byte "highestBidder"
@@ -315,6 +324,8 @@ abi_route_claimBid:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub claimBid
 	int 1
 	return
@@ -324,6 +335,7 @@ claimBid:
 
 	// examples/auction/auction.algo.ts:93
 	// this.pay(globals.creatorAddress, this.highestBid.get())
+	// no dupn needed
 	byte "highestBid"
 	app_global_get
 	global CreatorAddress
@@ -339,6 +351,8 @@ abi_route_claim_asset:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
@@ -398,6 +412,8 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub delete
 	int 1
 	return
@@ -454,3 +470,4 @@ route_abi:
 	method "claim_asset(asset,account)void"
 	txna ApplicationArgs 0
 	match abi_route_optIntoAsset abi_route_startAuction abi_route_bid abi_route_claimBid abi_route_claim_asset
+	err

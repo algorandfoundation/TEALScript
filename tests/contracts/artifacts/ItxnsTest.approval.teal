@@ -10,6 +10,8 @@ abi_route_payment:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub payment
 	int 1
 	return
@@ -73,6 +75,8 @@ abi_route_assetCreation:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub assetCreation
 	int 1
 	return
@@ -171,6 +175,8 @@ abi_route_appCall:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub appCall
 	int 1
 	return
@@ -269,6 +275,8 @@ abi_route_assetConfig:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub assetConfig
 	int 1
 	return
@@ -331,6 +339,8 @@ abi_route_assetFreeze:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub assetFreeze
 	int 1
 	return
@@ -377,6 +387,8 @@ abi_route_assetTransfer:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub assetTransfer
 	int 1
 	return
@@ -437,6 +449,8 @@ abi_route_methodCall:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub methodCall
 	int 1
 	return
@@ -497,6 +511,8 @@ abi_route_onlineKeyRegistration:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub onlineKeyRegistration
 	int 1
 	return
@@ -556,6 +572,8 @@ abi_route_offlineKeyRegistration:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub offlineKeyRegistration
 	int 1
 	return
@@ -602,3 +620,4 @@ route_abi:
 	method "offlineKeyRegistration()void"
 	txna ApplicationArgs 0
 	match abi_route_payment abi_route_assetCreation abi_route_appCall abi_route_assetConfig abi_route_assetFreeze abi_route_assetTransfer abi_route_methodCall abi_route_onlineKeyRegistration abi_route_offlineKeyRegistration
+	err

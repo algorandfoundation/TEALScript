@@ -5,6 +5,12 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as langspec from '../langspec.json';
 
+export type SourceInfo = {
+  filename: string;
+  start: ts.LineAndCharacter;
+  end: ts.LineAndCharacter;
+};
+
 // eslint-disable-next-line no-use-before-define
 class TupleElement extends Array<TupleElement> {
   type!: string;
@@ -234,11 +240,15 @@ export default class Compiler {
 
   generatedClearTeal: string = '';
 
+  private lastNode!: ts.Node;
+
   private mapKeyTypes: {
     global: string[]
     local: string[]
     box: string[]
   } = { global: [], local: [], box: [] };
+
+  private srcMap: {tealscript: SourceInfo, teal: number, pc: number}[] = [];
 
   private customTypes: {[name: string] : string} = {};
 
@@ -323,7 +333,8 @@ export default class Compiler {
           type: 'any',
           args: 2,
           fn: () => {
-            this.maybeValue('app_global_get_ex', StackType.bytes);
+            // TODO:NONODE
+            this.maybeValue(this.lastNode, 'app_global_get_ex', StackType.bytes);
           },
         },
       ],
@@ -346,15 +357,15 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.expression, `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.push('app_global_get', valueType);
+        this.push(node.expression, 'app_global_get', valueType);
       },
       put: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -366,19 +377,19 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
-        } else this.pushVoid('swap'); // Used when updating storage array
+        } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
-        this.push('app_global_put', valueType);
+        this.push(node.expression, 'app_global_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -390,15 +401,15 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.pushVoid('app_global_del');
+        this.pushVoid(node.expression, 'app_global_del');
       },
       exists: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -409,18 +420,18 @@ export default class Compiler {
           keyType, key, prefix,
         } = this.storageProps[name];
 
-        this.pushVoid('txna Applications 0');
+        this.pushVoid(node.expression, 'txna Applications 0');
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.hasMaybeValue('app_global_get_ex');
+        this.hasMaybeValue(node.expression, 'app_global_get_ex');
       },
     },
     local: {
@@ -436,15 +447,15 @@ export default class Compiler {
         this.processNode(node.arguments[0]);
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
+          if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
 
-        this.push('app_local_get', valueType);
+        this.push(node.expression, 'app_local_get', valueType);
       },
       put: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -458,19 +469,19 @@ export default class Compiler {
         this.processNode(node.arguments[0]);
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
+          if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
 
         if (node.arguments[key ? 1 : 2]) {
           this.processNode(node.arguments[key ? 1 : 2]);
-        } else this.pushVoid('uncover 2'); // Used when updating storage array
+        } else this.pushVoid(node.expression, 'uncover 2'); // Used when updating storage array
 
-        this.push('app_local_put', valueType);
+        this.push(node.expression, 'app_local_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -484,15 +495,15 @@ export default class Compiler {
         this.processNode(node.arguments[0]);
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
+          if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
 
-        this.pushVoid('app_local_del');
+        this.pushVoid(node.expression, 'app_local_del');
       },
       exists: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -503,18 +514,18 @@ export default class Compiler {
           keyType, key, prefix,
         } = this.storageProps[name];
         this.processNode(node.arguments[0]);
-        this.pushVoid('txna Applications 0');
+        this.pushVoid(node.expression, 'txna Applications 0');
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
+          if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
 
-        this.hasMaybeValue('app_local_get_ex');
+        this.hasMaybeValue(node.expression, 'app_local_get_ex');
       },
     },
     box: {
@@ -528,16 +539,16 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.maybeValue('box_get', valueType);
-        if (isNumeric(valueType)) this.pushVoid('btoi');
+        this.maybeValue(node.expression, 'box_get', valueType);
+        if (isNumeric(valueType)) this.pushVoid(node.expression, 'btoi');
       },
       put: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -549,23 +560,23 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        if (dynamicSize) this.pushLines('dup', 'box_del', 'pop');
+        if (dynamicSize) this.pushLines(node.expression, 'dup', 'box_del', 'pop');
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
-        } else this.pushVoid('swap'); // Used when updating storage array
+        } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
-        if (isNumeric(valueType)) this.pushVoid('itob');
+        if (isNumeric(valueType)) this.pushVoid(node.expression, 'itob');
 
-        this.push('box_put', valueType);
+        this.push(node.expression, 'box_put', valueType);
       },
       delete: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -577,15 +588,15 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.pushVoid('box_del');
+        this.pushVoid(node.expression, 'box_del');
       },
       exists: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -597,15 +608,15 @@ export default class Compiler {
         } = this.storageProps[name];
 
         if (key) {
-          this.pushVoid(`byte "${key}"`);
+          this.pushVoid(node.expression, `byte "${key}"`);
         } else {
-          if (prefix) this.pushVoid(`byte "${prefix}"`);
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
-          if (isNumeric(keyType)) this.pushVoid('itob');
-          if (prefix) this.pushVoid('concat');
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.hasMaybeValue('box_get');
+        this.hasMaybeValue(node.expression, 'box_get');
       },
     },
   };
@@ -620,14 +631,14 @@ export default class Compiler {
 
   private topLevelNode!: ts.Node;
 
-  private multiplyWideRatioFactors(factors: ts.Expression[]) {
+  private multiplyWideRatioFactors(node: ts.Node, factors: ts.Expression[]) {
     if (factors.length === 1) {
-      this.pushVoid('int 0');
+      this.pushVoid(node, 'int 0');
       this.processNode(factors[0]);
     } else {
       this.processNode(factors[0]);
       this.processNode(factors[1]);
-      this.pushVoid('mulw');
+      this.pushVoid(node, 'mulw');
     }
 
     factors.slice(2).forEach((f) => {
@@ -662,6 +673,7 @@ export default class Compiler {
       */
 
       this.pushLines(
+        node,
         'uncover 2',
         'dig 1',
         '*',
@@ -682,10 +694,11 @@ export default class Compiler {
         || !ts.isArrayLiteralExpression(node.arguments[1])
       ) throw new Error();
 
-      this.multiplyWideRatioFactors(new Array(...node.arguments[0].elements));
-      this.multiplyWideRatioFactors(new Array(...node.arguments[1].elements));
+      this.multiplyWideRatioFactors(node, new Array(...node.arguments[0].elements));
+      this.multiplyWideRatioFactors(node, new Array(...node.arguments[1].elements));
 
       this.pushLines(
+        node,
         'divmodw',
         'pop',
         'pop',
@@ -700,7 +713,7 @@ export default class Compiler {
       if (node.arguments.length !== 1) throw new Error();
       if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
 
-      this.push(`byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+      this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
     },
 
   };
@@ -738,9 +751,9 @@ export default class Compiler {
         || opSpec.ArgEnumTypes![i].replace('B', StackType.bytes).replace('U', StackType.uint64);
 
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
-        fn = () => this.push(`${op} ${arg}`, type);
+        fn = () => this.push(this.lastNode, `${op} ${arg}`, type);
       } else {
-        fn = () => this.maybeValue(`${op} ${arg}`, type);
+        fn = () => this.maybeValue(this.lastNode, `${op} ${arg}`, type);
       }
       return {
         name: arg,
@@ -925,6 +938,8 @@ export default class Compiler {
 
       if (!ts.isClassDeclaration(body)) return;
 
+      this.lastNode = body;
+
       if (
         body.heritageClauses === undefined
         || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)
@@ -944,14 +959,12 @@ export default class Compiler {
       }
     });
 
-    if (!this.teal.includes('main:')) {
-      this.pushVoid('main:');
-      this.routeAbiMethods();
-    }
+    this.pushVoid(this.lastNode, 'main:');
+    this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
       if (this.teal.includes(`callsub ${sub}`)) {
-        this.teal.splice(2, 0, ...this.compilerSubroutines[sub]());
+        this.teal.push(...this.compilerSubroutines[sub]());
       }
     });
 
@@ -968,10 +981,10 @@ export default class Compiler {
           const method = t.split(' ')[1];
           const nonArgFrameSize = this.frameSize[method] - this.subroutines[method].args;
 
-          if (nonArgFrameSize === 0) return [];
+          if (nonArgFrameSize === 0) return '// no dupn needed';
 
-          if (nonArgFrameSize === 1) return ['byte 0x'];
-          if (nonArgFrameSize === 2) return ['byte 0x', 'dup'];
+          if (nonArgFrameSize === 1) return 'byte 0x';
+          if (nonArgFrameSize === 2) return 'byte 0x; dup';
           return ['byte 0x', `dupn ${this.frameSize[method] - this.subroutines[method].args - 1}`];
         }
 
@@ -992,7 +1005,19 @@ export default class Compiler {
     }));
   }
 
-  private push(teal: string, type: string) {
+  private push(node: ts.Node, teal: string, type: string) {
+    this.srcMap.push({
+      tealscript: {
+        filename: this.filename,
+        start: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()),
+        end: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd()),
+      },
+      teal: this.teal.length,
+      pc: 0,
+    });
+
+    this.lastNode = node;
+
     if (this.compilingApproval) {
       this.teal.push(teal);
       if (type !== 'void') this.lastType = type;
@@ -1002,8 +1027,8 @@ export default class Compiler {
     }
   }
 
-  private pushVoid(teal: string) {
-    this.push(teal, 'void');
+  private pushVoid(node: ts.Node, teal: string) {
+    this.push(node, teal, 'void');
   }
 
   private pushMethod(name: string, args: string[], returns: string) {
@@ -1023,28 +1048,29 @@ export default class Compiler {
     }
 
     const sig = `${name}(${abiArgs.join(',')})${this.getABITupleString(abiReturns)}`;
-    this.pushVoid(`method "${sig}"`);
+    this.pushVoid(this.lastNode, `method "${sig}"`);
   }
 
   private routeAbiMethods() {
-    this.pushVoid('txn NumAppArgs');
-    this.pushVoid('bnz route_abi');
+    this.pushVoid(this.lastNode, 'txn NumAppArgs');
+    this.pushVoid(this.lastNode, 'bnz route_abi');
 
     if (this.bareCreate) {
-      this.pushLines('txn ApplicationID', 'int 0', '==', 'bnz bare_route_create');
+      this.pushLines(this.lastNode, 'txn ApplicationID', 'int 0', '==', 'bnz bare_route_create');
     }
 
     // Route the bare methods with no args
     if (this.bareOnCompletes.length > 0) {
       this.bareOnCompletes.forEach((oc) => {
-        this.pushLines('txn OnCompletion', `int ${oc}`, '==');
+        this.pushLines(this.lastNode, 'txn OnCompletion', `int ${oc}`, '==');
       });
 
-      this.pushVoid('int 1');
+      this.pushVoid(this.lastNode, 'int 1');
 
-      this.pushVoid(`match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
+      this.pushVoid(this.lastNode, `match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
     } else if (!Object.values(this.handledActions).flat().includes('createApplication')) {
       this.pushLines(
+        this.lastNode,
         '// default createApplication',
         'txn ApplicationID',
         'int 0',
@@ -1057,7 +1083,7 @@ export default class Compiler {
       );
     }
 
-    this.pushVoid('route_abi:');
+    this.pushVoid(this.lastNode, 'route_abi:');
     // Route the abi methods with args
     this.abi.methods.forEach((m) => {
       this.pushMethod(
@@ -1066,23 +1092,26 @@ export default class Compiler {
         m.returns.type,
       );
     });
-    this.pushVoid('txna ApplicationArgs 0');
+    this.pushVoid(this.lastNode, 'txna ApplicationArgs 0');
     this.pushVoid(
+      this.lastNode,
       `match ${this.abi.methods
         .map((m) => `abi_route_${m.name}`)
         .join(' ')}`,
     );
+
+    this.pushVoid(this.lastNode, 'err');
   }
 
-  private maybeValue(opcode: string, type: string) {
-    this.pushVoid(opcode);
-    this.push('assert', type);
+  private maybeValue(node: ts.Node, opcode: string, type: string) {
+    this.pushVoid(node, opcode);
+    this.push(node, 'assert', type);
   }
 
-  private hasMaybeValue(opcode: string) {
-    this.pushVoid(opcode);
-    this.pushVoid('swap');
-    this.push('pop', StackType.uint64);
+  private hasMaybeValue(node: ts.Node, opcode: string) {
+    this.pushVoid(node, opcode);
+    this.pushVoid(node, 'swap');
+    this.push(node, 'pop', StackType.uint64);
   }
 
   private pushComments(node: ts.Node) {
@@ -1093,7 +1122,7 @@ export default class Compiler {
     commentRanges.forEach((c) => {
       const comment = this.sourceFile.text.slice(c.pos, c.end);
       if (comment.startsWith('///') && !this.comments.includes(c.pos)) {
-        this.pushVoid(comment.replace('///', '//'));
+        this.pushVoid(this.lastNode, comment.replace('///', '//'));
         this.comments.push(c.pos);
       }
     });
@@ -1103,18 +1132,18 @@ export default class Compiler {
     if (!ts.isCallExpression(node.expression)) throw Error('Must throw Error');
     if (node.expression.expression.getText() !== 'Error') throw Error('Must throw Error');
 
-    if (node.expression.arguments.length) this.pushVoid(`err // ${node.expression.arguments[0].getText()}`);
-    else this.pushVoid('err');
+    if (node.expression.arguments.length) this.pushVoid(node, `err // ${node.expression.arguments[0].getText()}`);
+    else this.pushVoid(node, 'err');
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
-    this.pushVoid(`while_${this.whileCount}:`);
+    this.pushVoid(node, `while_${this.whileCount}:`);
     this.processNode(node.expression);
-    this.pushVoid(`bz while_${this.whileCount}_end`);
+    this.pushVoid(node, `bz while_${this.whileCount}_end`);
 
     this.processNode(node.statement);
-    this.pushVoid(`b while_${this.whileCount}`);
-    this.pushVoid(`while_${this.whileCount}_end:`);
+    this.pushVoid(node, `b while_${this.whileCount}`);
+    this.pushVoid(node, `while_${this.whileCount}_end:`);
 
     this.whileCount += 1;
   }
@@ -1122,15 +1151,15 @@ export default class Compiler {
   private processForStatement(node: ts.ForStatement) {
     this.processNode(node.initializer!);
 
-    this.pushVoid(`for_${this.forCount}:`);
+    this.pushVoid(node, `for_${this.forCount}:`);
     this.processNode(node.condition!);
-    this.pushVoid(`bz for_${this.forCount}_end`);
+    this.pushVoid(node, `bz for_${this.forCount}_end`);
 
     this.processNode(node.statement);
 
     this.processNode(node.incrementor!);
-    this.pushVoid(`b for_${this.forCount}`);
-    this.pushVoid(`for_${this.forCount}_end:`);
+    this.pushVoid(node, `b for_${this.forCount}`);
+    this.pushVoid(node, `for_${this.forCount}_end:`);
 
     this.forCount += 1;
   }
@@ -1232,18 +1261,18 @@ export default class Compiler {
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
     this.processNode(node.condition);
-    this.pushVoid(`bz ternary${this.ternaryCount}_false`);
+    this.pushVoid(node, `bz ternary${this.ternaryCount}_false`);
     this.processNode(node.whenTrue);
-    this.pushVoid(`b ternary${this.ternaryCount}_end`);
-    this.pushVoid(`ternary${this.ternaryCount}_false:`);
+    this.pushVoid(node, `b ternary${this.ternaryCount}_end`);
+    this.pushVoid(node, `ternary${this.ternaryCount}_false:`);
     this.processNode(node.whenFalse);
-    this.pushVoid(`ternary${this.ternaryCount}_end:`);
+    this.pushVoid(node, `ternary${this.ternaryCount}_end:`);
 
     this.ternaryCount += 1;
   }
 
-  private pushLines(...lines: string[]) {
-    lines.forEach((l) => this.push(l, 'void'));
+  private pushLines(node: ts.Node, ...lines: string[]) {
+    lines.forEach((l) => this.push(node, l, 'void'));
   }
 
   private getarrayElementTypes(elements: number): string[] {
@@ -1286,13 +1315,14 @@ export default class Compiler {
       this.typeHint = types[i];
 
       if (i === 0) {
-        this.pushLines('byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
+        this.pushLines(node, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
 
       this.processNode(e);
 
       if (types[i] === 'bytes' || types[i] === 'string') {
         this.pushLines(
+          e,
           'dup',
           'len',
           'itob',
@@ -1301,17 +1331,17 @@ export default class Compiler {
           'concat',
         );
       }
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+      if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
 
       if (this.isDynamicType(types[i])) {
-        this.pushVoid('callsub process_dynamic_tuple_element');
+        this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       } else {
-        this.pushVoid('callsub process_static_tuple_element');
+        this.pushVoid(e, 'callsub process_static_tuple_element');
       }
     });
 
-    this.pushLines('pop // pop head offset', 'concat // concat head and tail');
+    this.pushLines(node, 'pop // pop head offset', 'concat // concat head and tail');
   }
 
   private getTupleElement(type: string): TupleElement {
@@ -1359,7 +1389,7 @@ export default class Compiler {
     if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
       this.processTuple(node);
       if (this.getABIType(typeHint).endsWith('[]')) {
-        this.pushLines(`byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+        this.pushLines(node, `byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
       }
       this.lastType = this.getABIType(typeHint);
       return;
@@ -1371,13 +1401,13 @@ export default class Compiler {
     node.elements.forEach((e, i) => {
       this.typeHint = types[i];
       this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
-      if (i) this.pushVoid('concat');
+      if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
+      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+      if (i) this.pushVoid(node, 'concat');
     });
 
     if (this.getABIType(typeHint).endsWith('[]')) {
-      this.pushLines(`byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+      this.pushLines(node, `byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
     }
     this.lastType = this.getABIType(typeHint);
   }
@@ -1400,7 +1430,7 @@ export default class Compiler {
     if (ts.isIdentifier(node)) {
       const name = node.getText();
       const { index, type } = this.frame[name];
-      this.pushVoid(`frame_bury ${index} // ${name}: ${type}`);
+      this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
     } else if (
       ts.isCallExpression(node)
                 && ts.isPropertyAccessExpression(node.expression)
@@ -1547,6 +1577,7 @@ export default class Compiler {
       // Element in tuple
       if (previousTupleElement.arrayType === 'tuple') {
         this.pushLines(
+          acc,
           `int ${elem.headOffset} // headOffset`,
           '+',
         );
@@ -1554,6 +1585,7 @@ export default class Compiler {
       } else if (this.isDynamicType(elem.type)) {
         this.processNode(acc);
         this.pushLines(
+          acc,
           // `int ${accNumber * 2} // acc * 2`,
           'int 2',
           '* // acc * 2',
@@ -1564,6 +1596,7 @@ export default class Compiler {
         this.processNode(acc);
 
         this.pushLines(
+          acc,
           // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
           `int ${this.getTypeLength(elem.type)}`,
           '* // acc * typeLength',
@@ -1573,6 +1606,7 @@ export default class Compiler {
 
       if (previousTupleElement.arrayType === 'dynamic') {
         this.pushLines(
+          acc,
           'int 2',
           '+ // add two for length',
         );
@@ -1580,6 +1614,7 @@ export default class Compiler {
 
       if (this.isDynamicType(elem.type) && i !== accessors.length - 1) {
         this.pushLines(
+          acc,
           `load ${scratch.fullArray}`,
           'swap',
           'extract_uint16',
@@ -1596,7 +1631,7 @@ export default class Compiler {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
 
-    this.pushLines(`store ${scratch.fullArray}`, 'int 0 // initial offset');
+    this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 
     const parentType = this.getABIType(this.lastType);
 
@@ -1615,12 +1650,14 @@ export default class Compiler {
 
       if (newValue) {
         this.pushLines(
+          node,
           'dup',
           `store ${scratch.elementHeadOffset}`,
         );
       }
 
       this.pushLines(
+        node,
         `load ${scratch.fullArray}`,
         `load ${scratch.fullArray}`,
         'uncover 2',
@@ -1629,6 +1666,7 @@ export default class Compiler {
 
       if (element.parent!.type.endsWith('[]')) {
         this.pushLines(
+          node,
           'int 2',
           '+ // add two for length',
         );
@@ -1636,12 +1674,14 @@ export default class Compiler {
 
       if (newValue) {
         this.pushLines(
+          node,
           'dup',
           `store ${scratch.elementStart}`,
         );
       }
 
       this.pushLines(
+        node,
         'dup // duplicate start of element',
         `load ${scratch.fullArray}`,
         'swap',
@@ -1652,7 +1692,7 @@ export default class Compiler {
         '+ // add two for length',
       );
 
-      this.pushVoid(newValue ? `store ${scratch.elementLength}` : 'extract3');
+      this.pushVoid(node, newValue ? `store ${scratch.elementLength}` : 'extract3');
     }
 
     if (newValue) {
@@ -1664,6 +1704,7 @@ export default class Compiler {
         }
         // Get pre element
         this.pushLines(
+          node,
           `load ${scratch.fullArray}`,
           'int 0',
           `load ${scratch.elementStart}`,
@@ -1672,14 +1713,15 @@ export default class Compiler {
 
         // Get new element
         this.processNode(newValue);
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
+        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
         if (['bytes', 'string'].includes(this.lastType)) {
-          this.pushLines('dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
+          this.pushLines(newValue, 'dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
         }
-        this.pushLines('dup', `store ${scratch.newElement}`);
+        this.pushLines(newValue, 'dup', `store ${scratch.newElement}`);
 
         // Get post element
         this.pushLines(
+          node,
           `load ${scratch.fullArray}`,
           `load ${scratch.elementStart}`,
           `load ${scratch.elementLength}`,
@@ -1690,10 +1732,10 @@ export default class Compiler {
         );
 
         // Form new tuple
-        this.pushLines('concat', 'concat', `store ${scratch.fullArray}`);
+        this.pushLines(node, 'concat', 'concat', `store ${scratch.fullArray}`);
 
         // Get length difference
-        this.pushLines('callsub get_length_difference');
+        this.pushLines(node, 'callsub get_length_difference');
 
         const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
 
@@ -1705,6 +1747,7 @@ export default class Compiler {
 
         headDiffs.forEach((diff) => {
           this.pushLines(
+            node,
             `load ${scratch.lengthDifference}`,
             `load ${scratch.elementHeadOffset}`,
             `int ${diff}`,
@@ -1713,25 +1756,26 @@ export default class Compiler {
           );
         });
 
-        this.pushVoid(`load ${scratch.fullArray}`);
+        this.pushVoid(node, `load ${scratch.fullArray}`);
       } else {
         this.pushLines(
+          node,
           `load ${scratch.fullArray}`,
           'swap',
         );
         this.processNode(newValue);
-        if (isNumeric(this.lastType)) this.pushVoid('itob');
-        this.pushVoid('replace3');
+        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
+        this.pushVoid(node, 'replace3');
       }
 
       this.updateValue(chain[0].expression);
     } else {
       if (!this.isDynamicType(element.type)) {
-        this.pushLines(`load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
+        this.pushLines(node, `load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }
 
-      if (isNumeric(element.type)) this.pushVoid('btoi');
-      if (['string', 'bytes'].includes(element.type)) this.pushVoid('extract 2 0');
+      if (isNumeric(element.type)) this.pushVoid(node, 'btoi');
+      if (['string', 'bytes'].includes(element.type)) this.pushVoid(node, 'extract 2 0');
       this.lastType = element.type.replace('string', 'bytes');
     }
   }
@@ -1747,7 +1791,7 @@ export default class Compiler {
 
     if (baseType.startsWith('ImmediateArray')) {
       this.processNode(node.expression);
-      this.push(`${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
+      this.push(node.argumentExpression, `${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
       return;
     }
 
@@ -1806,7 +1850,7 @@ export default class Compiler {
     const { returnType, name } = this.currentSubroutine;
 
     if (returnType === 'void') {
-      this.pushVoid('retsub');
+      this.pushVoid(node, 'retsub');
       return;
     }
 
@@ -1823,16 +1867,17 @@ export default class Compiler {
         const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
         if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
 
-        if (this.lastType === 'uint64') this.pushVoid('itob');
+        if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
 
-        this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
-        this.pushVoid('b&');
+        this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+        this.pushVoid(node.expression!, 'b&');
 
         // eslint-disable-next-line no-console
         if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
       } else if ([returnType, this.lastType].includes('string') && [returnType, this.lastType].includes('bytes')) {
         if (returnType === 'string') {
           this.pushLines(
+            node.expression!,
             'dup',
             'len',
             'itob',
@@ -1840,39 +1885,35 @@ export default class Compiler {
             'swap',
             'concat',
           );
-        } else this.pushVoid('extract 2 0');
+        } else this.pushVoid(node.expression!, 'extract 2 0');
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType) && isAbiMethod) {
-      this.pushVoid('itob');
+      this.pushVoid(node.expression!, 'itob');
     } else if (returnType.match(/uint\d+$/) && returnType !== StackType.uint64) {
       const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
-      this.pushVoid(`byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
-      this.pushVoid('b&');
+      this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
+      this.pushVoid(node.expression!, 'b&');
     }
 
     if (isAbiMethod) {
-      this.pushVoid('byte 0x151f7c75');
-      this.pushVoid('swap');
-      this.pushVoid('concat');
-      this.pushVoid('log');
-      this.pushVoid('retsub');
+      this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
     } else {
-      this.pushVoid('retsub');
+      this.pushVoid(node, 'retsub');
     }
 
     this.typeHint = undefined;
   }
 
-  private fixBitWidth(desiredWidth: number, warn: boolean = true) {
+  private fixBitWidth(node: ts.Node, desiredWidth: number, warn: boolean = true) {
     const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
 
     // eslint-disable-next-line no-console
     if (lastBitWidth > desiredWidth && warn && !this.disableWarnings) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
 
     if (lastBitWidth < desiredWidth) {
-      this.pushLines(`byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
+      this.pushLines(node, `byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
     } else {
-      this.pushVoid(`extract ${lastBitWidth / 8 - desiredWidth / 8} 0`);
+      this.pushVoid(node, `extract ${lastBitWidth / 8 - desiredWidth / 8} 0`);
     }
   }
 
@@ -1897,7 +1938,7 @@ export default class Compiler {
         const name = node.left.getText();
         const target = this.frame[name];
         this.processNode(node.right);
-        this.pushVoid(`frame_bury ${target.index} // ${name}: ${target.type}`);
+        this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
@@ -1930,7 +1971,7 @@ export default class Compiler {
     this.processNode(node.right);
 
     if (node.operatorToken.getText() === '+' && leftType === StackType.bytes) {
-      this.push('concat', StackType.bytes);
+      this.push(node.operatorToken, 'concat', StackType.bytes);
       return;
     }
 
@@ -1939,11 +1980,11 @@ export default class Compiler {
 
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
-      this.push(operator, StackType.uint64);
+      this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+/) || this.lastType.match(/uifxed\d+x\d+$/)) {
-      this.push(`b${operator}`, leftType);
+      this.push(node.operatorToken, `b${operator}`, leftType);
     } else {
-      this.push(operator, StackType.uint64);
+      this.push(node.operatorToken, operator, StackType.uint64);
     }
   }
 
@@ -1956,19 +1997,19 @@ export default class Compiler {
       label = `skip_and${this.andCount}`;
       this.andCount += 1;
 
-      this.pushVoid('dup');
-      this.pushVoid(`bz ${label}`);
+      this.pushVoid(node.operatorToken, 'dup');
+      this.pushVoid(node.operatorToken, `bz ${label}`);
     } else if (node.operatorToken.getText() === '||') {
       label = `skip_or${this.orCount}`;
       this.orCount += 1;
 
-      this.pushVoid('dup');
-      this.pushVoid(`bnz ${label}`);
+      this.pushVoid(node.operatorToken, 'dup');
+      this.pushVoid(node.operatorToken, `bnz ${label}`);
     }
 
     this.processNode(node.right);
-    this.push(node.operatorToken.getText(), StackType.uint64);
-    this.pushVoid(`${label!}:`);
+    this.push(node.operatorToken, node.operatorToken.getText(), StackType.uint64);
+    this.pushVoid(node.operatorToken, `${label!}:`);
   }
 
   private processIdentifier(node: ts.Identifier) {
@@ -1979,7 +2020,7 @@ export default class Compiler {
     }
 
     if (this.contractClasses.includes(node.getText())) {
-      this.pushVoid(`PENDING_COMPILE: ${node.getText()}`);
+      this.pushVoid(node, `PENDING_COMPILE: ${node.getText()}`);
       return;
     }
 
@@ -1991,6 +2032,7 @@ export default class Compiler {
     const target = this.frame[node.getText()];
 
     this.push(
+      node,
       `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
       target.type,
     );
@@ -2011,8 +2053,8 @@ export default class Compiler {
     if (type.match(/uint\d+$/) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
-      if (this.lastType === 'uint64') this.pushVoid('itob');
-      this.fixBitWidth(typeBitWidth, !ts.isNumericLiteral(node.expression));
+      if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
+      this.fixBitWidth(node, typeBitWidth, !ts.isNumericLiteral(node.expression));
     }
 
     this.lastType = type;
@@ -2038,7 +2080,7 @@ export default class Compiler {
         type: this.lastType,
       };
 
-      this.pushVoid(`frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
@@ -2076,10 +2118,10 @@ export default class Compiler {
         // TODO: add pseudo op type parsing/assertion to handle this
         // not currently exported in langspeg.json
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
-        this.push(`addr ${node.arguments[0].text}`, ForeignType.Address);
+        this.push(node.arguments[0], `addr ${node.arguments[0].text}`, ForeignType.Address);
       } else if (['method'].includes(methodName)) {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
-        this.push(`method "${node.arguments[0].text}"`, StackType.bytes);
+        this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
@@ -2091,6 +2133,7 @@ export default class Compiler {
       this.processNode(node.expression.expression);
       if (!this.lastType.endsWith('[]')) throw new Error('Cannot only push to dynamic array');
       this.pushLines(
+        node.expression,
         'dup', // [a, a]
         'int 0',
         'extract_uint16',
@@ -2103,8 +2146,8 @@ export default class Compiler {
         'concat', // [newA]
       );
       this.processNode(node.arguments[0]);
-      if (isNumeric(this.lastType)) this.pushVoid('itob');
-      this.pushVoid('concat');
+      if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
+      this.pushVoid(node, 'concat');
 
       this.updateValue(node.expression.expression);
 
@@ -2116,6 +2159,7 @@ export default class Compiler {
 
       const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
       this.pushLines(
+        node.expression,
         'dup', // [a, a]
         'int 0',
         'extract_uint16',
@@ -2138,6 +2182,7 @@ export default class Compiler {
       // only get the popped element if we're expecting a return value
       if (this.topLevelNode !== node) {
         this.pushLines(
+          node.expression,
           'dup',
           'len',
           `int ${typeLength}`,
@@ -2146,6 +2191,7 @@ export default class Compiler {
         this.processNode(node.expression.expression);
 
         this.pushLines(
+          node.expression,
           'cover 2',
           'extract3',
           'swap',
@@ -2162,12 +2208,14 @@ export default class Compiler {
 
       // get new len
       this.pushLines(
+        node,
         'int 0',
         'extract_uint16',
       );
       // `int ${parseInt(node.arguments[1].getText(), 10)}`
       this.processNode(node.arguments[1]);
       this.pushLines(
+        node,
         '-',
         'itob',
         'extract 6 2',
@@ -2178,6 +2226,7 @@ export default class Compiler {
       // const spliceStart = spliceIndex * this.getTypeLength(elementType);
       this.processNode(node.arguments[0]);
       this.pushLines(
+        node,
         `int ${this.getTypeLength(elementType)}`,
         '*',
         'int 2',
@@ -2189,6 +2238,7 @@ export default class Compiler {
       // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
       this.processNode(node.arguments[1]);
       this.pushLines(
+        node,
         `int ${this.getTypeLength(elementType)}`,
         '*',
         `int ${this.getTypeLength(elementType)}`,
@@ -2199,6 +2249,7 @@ export default class Compiler {
       // extract first part
       this.processNode(node.expression.expression);
       this.pushLines(
+        node,
         'int 2',
         `load ${scratch.spliceStart}`,
         'substring3',
@@ -2207,6 +2258,7 @@ export default class Compiler {
       // extract second part
       this.processNode(node.expression.expression);
       this.pushLines(
+        node,
         // get end
         'dup',
         'len',
@@ -2228,11 +2280,13 @@ export default class Compiler {
         // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
         this.processNode(node.arguments[1]);
         this.pushLines(
+          node,
           'itob',
           'extract 6 2',
         );
         this.processNode(node.expression.expression);
         this.pushLines(
+          node,
           `load ${scratch.spliceStart}`,
           // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
           `load ${scratch.spliceByteLength}`,
@@ -2248,10 +2302,10 @@ export default class Compiler {
       this.lastType = `${elementType}[]`;
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
-      this.pushVoid(`PENDING_DUPN: ${methodName}`);
+      this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
       new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
-      this.push(`callsub ${methodName}`, this.subroutines[methodName].returnType);
+      this.push(node, `callsub ${methodName}`, this.subroutines[methodName].returnType);
     } else if (
       ts.isPropertyAccessExpression(node.expression.expression)
       && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
@@ -2267,7 +2321,7 @@ export default class Compiler {
       node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
-      this.tealFunction(this.lastType, node.expression.name.getText());
+      this.tealFunction(node.expression, this.lastType, node.expression.name.getText());
     }
   }
 
@@ -2276,39 +2330,39 @@ export default class Compiler {
 
     if (elseIfCount === 0) {
       labelPrefix = `if${this.ifCount}`;
-      this.pushVoid(`// ${labelPrefix}_condition`);
+      this.pushVoid(node, `// ${labelPrefix}_condition`);
     } else {
       labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
-      this.pushVoid(`${labelPrefix}_condition:`);
+      this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
     this.addSourceComment(node.expression);
     this.processNode(node.expression);
 
     if (node.elseStatement == null) {
-      this.pushVoid(`bz if${this.ifCount}_end`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.pushVoid(node, `bz if${this.ifCount}_end`);
+      this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
     } else if (ts.isIfStatement(node.elseStatement)) {
-      this.pushVoid(`bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.pushVoid(node, `bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(`b if${this.ifCount}_end`);
+      this.pushVoid(node, `b if${this.ifCount}_end`);
       this.processIfStatement(node.elseStatement, elseIfCount + 1);
     } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
-      this.pushVoid(`bz if${this.ifCount}_else`);
-      this.pushVoid(`// ${labelPrefix}_consequent`);
+      this.pushVoid(node, `bz if${this.ifCount}_else`);
+      this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(`b if${this.ifCount}_end`);
-      this.pushVoid(`if${this.ifCount}_else:`);
+      this.pushVoid(node, `b if${this.ifCount}_end`);
+      this.pushVoid(node, `if${this.ifCount}_else:`);
       this.processNode(node.elseStatement);
     } else {
-      this.pushVoid(`bz if${this.ifCount}_end`);
+      this.pushVoid(node, `bz if${this.ifCount}_end`);
       this.processNode(node.elseStatement);
     }
 
     if (elseIfCount === 0) {
-      this.pushVoid(`if${this.ifCount}_end:`);
+      this.pushVoid(node, `if${this.ifCount}_end:`);
       this.ifCount += 1;
     }
   }
@@ -2317,7 +2371,7 @@ export default class Compiler {
     this.processNode(node.operand);
     switch (node.operator) {
       case 53:
-        this.pushVoid('!');
+        this.pushVoid(node.operand, '!');
         break;
       default:
         throw new Error(`Unsupported unary operator ${node.operator}`);
@@ -2403,9 +2457,9 @@ export default class Compiler {
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
     if (node.kind === ts.SyntaxKind.StringLiteral) {
-      this.push(`byte "${node.text}"`, StackType.bytes);
+      this.push(node, `byte "${node.text}"`, StackType.bytes);
     } else {
-      this.push(`int ${node.getText()}`, StackType.uint64);
+      this.push(node, `int ${node.getText()}`, StackType.uint64);
     }
   }
 
@@ -2417,7 +2471,7 @@ export default class Compiler {
     chain.forEach((n) => {
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
-          this.push('int 0', this.getABIType(n.expression.getText()));
+          this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
         } else if (n.name.getText() !== 'fromIndex') throw new Error();
         return;
       }
@@ -2435,7 +2489,7 @@ export default class Compiler {
       }
 
       if (n.expression.getText() === 'globals') {
-        this.tealFunction('global', n.name.getText());
+        this.tealFunction(n.expression, 'global', n.name.getText());
         return;
       }
 
@@ -2448,7 +2502,7 @@ export default class Compiler {
         switch (n.name.getText()) {
           case 'app':
             this.lastType = 'application';
-            this.pushVoid('txna Applications 0');
+            this.pushVoid(n.expression, 'txna Applications 0');
             break;
           default:
             this.lastType = n.name.getText();
@@ -2465,16 +2519,16 @@ export default class Compiler {
         return;
       }
 
-      this.tealFunction(this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
+      this.tealFunction(n.name, this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
     });
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    this.pushVoid(`${this.currentSubroutine.name}:`);
+    this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
-    this.pushVoid(`PENDING_PROTO: ${this.currentSubroutine.name}`);
+    this.pushVoid(fn, `PENDING_PROTO: ${this.currentSubroutine.name}`);
 
     this.frameIndex = -1;
     const params = new Array(...fn.parameters);
@@ -2493,7 +2547,7 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid('retsub');
+    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
     this.frame = lastFrame;
     this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1 - 1;
   }
@@ -2555,30 +2609,30 @@ export default class Compiler {
     if (bareMethod) {
       allowedOnCompletes.forEach((oc, i) => {
         this.bareOnCompletes.push(oc);
-        this.pushVoid(`bare_route_${oc}:`);
+        this.pushVoid(fn, `bare_route_${oc}:`);
       });
 
       if (allowCreate) {
         this.bareCreate = true;
-        this.pushVoid('bare_route_create:');
+        this.pushVoid(fn, 'bare_route_create:');
       }
-    } else this.pushVoid(`abi_route_${this.currentSubroutine.name}:`);
+    } else this.pushVoid(fn, `abi_route_${this.currentSubroutine.name}:`);
 
     if (allowedOnCompletes.length === 0) allowedOnCompletes.push('NoOp');
 
     allowedOnCompletes.forEach((oc, i) => {
-      this.pushLines('txn OnCompletion', `int ${oc}`, '==');
-      if (i > 0) this.pushVoid('||');
+      this.pushLines(fn, 'txn OnCompletion', `int ${oc}`, '==');
+      if (i > 0) this.pushVoid(fn, '||');
     });
 
     // if not a create, dont allow it
-    this.pushLines('txn ApplicationID', 'int 0');
-    this.pushVoid(allowCreate ? '==' : '!=');
-    if (allowedOnCompletes.length > 0) this.pushVoid('&&');
-    this.pushVoid('assert');
+    this.pushLines(fn, 'txn ApplicationID', 'int 0');
+    this.pushVoid(fn, allowCreate ? '==' : '!=');
+    if (allowedOnCompletes.length > 0) this.pushVoid(fn, '&&');
+    this.pushVoid(fn, 'assert');
 
     const args: {name: string, type: string, desc: string}[] = [];
-    this.pushVoid(`PENDING_DUPN: ${this.currentSubroutine.name}`);
+    this.pushVoid(fn, `PENDING_DUPN: ${this.currentSubroutine.name}`);
 
     let nonTxnArgCount = argCount - fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length + 1;
     let gtxnIndex = 0;
@@ -2588,22 +2642,22 @@ export default class Compiler {
       const abiType = type;
 
       if (!TXN_TYPES.includes(type)) {
-        this.pushVoid(`txna ApplicationArgs ${nonTxnArgCount -= 1}`);
+        this.pushVoid(p, `txna ApplicationArgs ${nonTxnArgCount -= 1}`);
       }
 
       if (type === StackType.uint64) {
-        this.pushVoid('btoi');
+        this.pushVoid(p, 'btoi');
       } else if (isRefType(type)) {
-        this.pushVoid('btoi');
-        this.pushVoid(`txnas ${capitalizeFirstChar(type)}s`);
+        this.pushVoid(p, 'btoi');
+        this.pushVoid(p, `txnas ${capitalizeFirstChar(type)}s`);
       } else if (TXN_TYPES.includes(type)) {
-        this.pushVoid('txn GroupIndex');
-        this.pushVoid(`int ${(gtxnIndex += 1)}`);
-        this.pushVoid('-');
+        this.pushVoid(p, 'txn GroupIndex');
+        this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
+        this.pushVoid(p, '-');
       } else if (type === 'string') {
-        this.pushVoid('extract 2 0');
+        this.pushVoid(p, 'extract 2 0');
       } else if (type === 'bytes') {
-        this.pushVoid('extract 2 0');
+        this.pushVoid(p, 'extract 2 0');
       }
 
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
@@ -2622,9 +2676,9 @@ export default class Compiler {
       });
     }
 
-    this.pushVoid(`callsub ${this.currentSubroutine.name}`);
-    this.pushVoid('int 1');
-    this.pushVoid('return');
+    this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
+    this.pushVoid(fn, 'int 1');
+    this.pushVoid(fn, 'return');
     this.processSubroutine(fn);
   }
 
@@ -2646,7 +2700,7 @@ export default class Compiler {
       );
     }
 
-    this.push(line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
+    this.push(node.expression, line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
   }
 
   private processStorageCall(node: ts.CallExpression) {
@@ -2688,9 +2742,9 @@ export default class Compiler {
         throw new Error(`Invalid transaction call ${node.expression.getText()}`);
     }
 
-    this.pushVoid('itxn_begin');
-    this.pushVoid(`int ${txnType}`);
-    this.pushVoid('itxn_field TypeEnum');
+    this.pushVoid(node, 'itxn_begin');
+    this.pushVoid(node, `int ${txnType}`);
+    this.pushVoid(node, 'itxn_field TypeEnum');
 
     if (!ts.isObjectLiteralExpression(node.arguments[0])) throw new Error('Transaction call argument must be an object');
 
@@ -2715,10 +2769,8 @@ export default class Compiler {
         .replace('account', 'address')
         .replace('application', 'uint64');
 
-      this.pushVoid(
-        `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`,
-      );
-      this.pushVoid('itxn_field ApplicationArgs');
+      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`);
+      this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
     node.arguments[0].properties.forEach((p) => {
@@ -2735,8 +2787,8 @@ export default class Compiler {
 
       if (key === 'onCompletion') {
         if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer)) throw new Error('OnCompletion key must be a string');
-        this.pushVoid(`int ${p.initializer.text}`);
-        this.pushVoid('itxn_field OnCompletion');
+        this.pushVoid(p.initializer, `int ${p.initializer.text}`);
+        this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
         if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
         const argTypes = node.typeArguments[0].elements.map(
@@ -2752,47 +2804,48 @@ export default class Compiler {
         p.initializer.elements.forEach((e, i: number) => {
           if (argTypes[i] === 'account') {
             this.processNode(e);
-            this.pushVoid('itxn_field Accounts');
-            this.pushVoid(`int ${accountIndex}`);
-            this.pushVoid('itob');
+            this.pushVoid(e, 'itxn_field Accounts');
+            this.pushVoid(e, `int ${accountIndex}`);
+            this.pushVoid(e, 'itob');
             accountIndex += 1;
           } else if (argTypes[i] === ForeignType.Asset) {
             this.processNode(e);
-            this.pushVoid('itxn_field Assets');
-            this.pushVoid(`int ${assetIndex}`);
-            this.pushVoid('itob');
+            this.pushVoid(e, 'itxn_field Assets');
+            this.pushVoid(e, `int ${assetIndex}`);
+            this.pushVoid(e, 'itob');
             assetIndex += 1;
           } else if (argTypes[i] === ForeignType.Application) {
             this.processNode(e);
-            this.pushVoid('itxn_field Applications');
-            this.pushVoid(`int ${appIndex}`);
-            this.pushVoid('itob');
+            this.pushVoid(e, 'itxn_field Applications');
+            this.pushVoid(e, `int ${appIndex}`);
+            this.pushVoid(e, 'itob');
             appIndex += 1;
           } else if (argTypes[i] === StackType.uint64) {
             this.processNode(e);
-            this.pushVoid('itob');
+            this.pushVoid(e, 'itob');
           } else {
             this.processNode(e);
           }
-          this.pushVoid('itxn_field ApplicationArgs');
+          this.pushVoid(e, 'itxn_field ApplicationArgs');
         });
       } else if (ts.isPropertyAssignment(p) && ts.isArrayLiteralExpression(p.initializer)) {
         p.initializer.elements.forEach((e) => {
           this.processNode(e);
-          this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}`);
         });
       } else if (ts.isPropertyAssignment(p)) {
         this.processNode(p.initializer);
-        this.pushVoid(`itxn_field ${capitalizeFirstChar(key)}`);
+        this.pushVoid(p, `itxn_field ${capitalizeFirstChar(key)}`);
       } else {
         throw new Error(`Cannot process transaction property: ${p.getText()}`);
       }
     });
 
-    this.pushVoid('itxn_submit');
+    this.pushVoid(node, 'itxn_submit');
 
     if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
       this.pushLines(
+        node.expression,
         'itxn NumLogs',
         'int 1',
         '-',
@@ -2801,10 +2854,10 @@ export default class Compiler {
       );
 
       const returnType = this.getABIType(node.typeArguments![1].getText());
-      if (isNumeric(returnType)) this.pushVoid('btoi');
+      if (isNumeric(returnType)) this.pushVoid(node.typeArguments![1], 'btoi');
       this.lastType = returnType;
     } else if (node.expression.getText() === 'sendAssetCreation') {
-      this.push('itxn CreatedAssetID', 'asset');
+      this.push(node.expression, 'itxn CreatedAssetID', 'asset');
     }
   }
 
@@ -2813,11 +2866,12 @@ export default class Compiler {
     const target = this.frame[name];
 
     this.push(
+      node,
       `frame_dig ${target.index} // ${name}: ${target.type}`,
       target.type,
     );
 
-    this.tealFunction(target.type, node.name.getText(), true);
+    this.tealFunction(node.name, target.type, node.name.getText(), true);
   }
 
   private getChain(
@@ -2840,6 +2894,7 @@ export default class Compiler {
   }
 
   private tealFunction(
+    node: ts.Node,
     calleeType: string,
     name: string,
     checkArgs: boolean = false,
@@ -2871,11 +2926,11 @@ export default class Compiler {
 
     switch (name) {
       case 'hasBalance':
-        this.hasMaybeValue('acct_params_get AcctBalance');
+        this.hasMaybeValue(node, 'acct_params_get AcctBalance');
         return;
       case 'hasAsset':
         if (!checkArgs) {
-          this.hasMaybeValue('asset_holding_get AssetBalance');
+          this.hasMaybeValue(node, 'asset_holding_get AssetBalance');
         }
         return;
       default:
@@ -2938,8 +2993,8 @@ export default class Compiler {
 
     const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
 
-    if (this.filename.length > 0) { this.pushVoid(`// ${this.filename}:${lineNum}`); }
-    this.pushVoid(`// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
+    if (this.filename.length > 0) { this.pushVoid(node, `// ${this.filename}:${lineNum}`); }
+    this.pushVoid(node, `// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
@@ -3064,7 +3119,7 @@ export default class Compiler {
 
     let lastIsLabel: boolean = false;
 
-    teal.forEach((t) => {
+    teal.forEach((t, i) => {
       if (t.startsWith('//')) {
         comments.push(t);
         return;
@@ -3084,6 +3139,11 @@ export default class Compiler {
         comments = [];
         output.push(`\t${t}`);
         lastIsLabel = false;
+      }
+
+      const thisLine = this.srcMap.find((s) => s.teal === i);
+      if (thisLine) {
+        thisLine!.pc = output.length;
       }
     });
 

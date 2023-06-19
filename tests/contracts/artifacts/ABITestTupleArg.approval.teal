@@ -10,6 +10,8 @@ abi_route_tupleArg:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	callsub tupleArg
 	int 1
@@ -55,3 +57,4 @@ route_abi:
 	method "tupleArg((uint64,uint16,uint64))uint16"
 	txna ApplicationArgs 0
 	match abi_route_tupleArg
+	err
