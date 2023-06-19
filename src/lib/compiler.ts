@@ -240,6 +240,19 @@ export default class Compiler {
 
   generatedClearTeal: string = '';
 
+  private frameInfo: {
+    [name: string]: {
+      start: number,
+      end: number,
+      frame: {
+        [index: number]: {
+          name: string,
+          type: string,
+        }
+      }
+    }
+  } = {};
+
   private lastNode!: ts.Node;
 
   private mapKeyTypes: {
@@ -2525,6 +2538,8 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
+    const frameStart = this.teal.length;
+
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
@@ -2549,6 +2564,20 @@ export default class Compiler {
     this.processNode(fn.body!);
 
     if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
+
+    this.frameInfo[this.currentSubroutine.name] = {
+      start: frameStart,
+      end: this.teal.length,
+      frame: {},
+    };
+
+    const currentFrame = this.frame;
+    const currentFrameInfo = this.frameInfo[this.currentSubroutine.name];
+
+    Object.keys(this.frame).forEach((name) => {
+      currentFrameInfo.frame[currentFrame[name].index] = { name, type: currentFrame[name].type };
+    });
+
     this.frame = lastFrame;
     this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1 - 1;
   }
