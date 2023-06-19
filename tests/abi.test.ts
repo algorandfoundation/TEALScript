@@ -97,7 +97,7 @@ async function runTests(name: string, methodArgs: any[] = [], skipCall: boolean 
   await compiler.algodCompile();
 
   expect(compiler.approvalProgram()).toEqual(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8'));
-  expect(compiler.pcToLine).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.src_map.json`, 'utf-8')));
+  expect(compiler.srcMaps).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.src_map.json`, 'utf-8')));
   expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.abi.json`, 'utf-8')));
   expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.json`, 'utf-8')));
 

@@ -3,6 +3,8 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
+import sourceMap from 'source-map';
+import path from 'path';
 import * as langspec from '../langspec.json';
 
 export type SourceInfo = {
@@ -261,7 +263,12 @@ export default class Compiler {
     box: string[]
   } = { global: [], local: [], box: [] };
 
-  srcMap: {source: SourceInfo, teal: number, pc: number}[] = [];
+  private rawSrcMap: {source: SourceInfo, teal: number, pc: number}[] = [];
+
+  srcMaps?: {
+    pc: sourceMap.RawSourceMap,
+    teal: sourceMap.RawSourceMap,
+  };
 
   private customTypes: {[name: string] : string} = {};
 
@@ -1018,7 +1025,7 @@ export default class Compiler {
   }
 
   private push(node: ts.Node, teal: string, type: string) {
-    this.srcMap.push({
+    this.rawSrcMap.push({
       source: {
         filename: this.filename,
         start: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()),
@@ -1930,14 +1937,14 @@ export default class Compiler {
   }
 
   private getStackTypeFromNode(node: ts.Node) {
-    const preSrcMap = this.srcMap;
+    const preSrcMap = this.rawSrcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
     this.processNode(node);
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
-    this.srcMap = preSrcMap;
+    this.rawSrcMap = preSrcMap;
     return this.customTypes[type] || type;
   }
 
@@ -3010,11 +3017,42 @@ export default class Compiler {
       this.lineToPc[lastLine].push(pc);
 
       // eslint-disable-next-line no-loop-func
-      const srcLine = this.srcMap.find((s) => s.teal === lastLine);
+      const srcLine = this.rawSrcMap.find((s) => s.teal === lastLine);
 
       if (srcLine) srcLine.pc = pc;
       this.pcToLine[pc] = lastLine;
     }
+
+    const tealSrcMap = new sourceMap.SourceMapGenerator({
+      file: `${this.filename}.approval.teal`,
+      sourceRoot: '',
+    });
+
+    const pcSrcMap = new sourceMap.SourceMapGenerator({
+      file: `${this.filename}.approval.teal`,
+      sourceRoot: '',
+    });
+
+    this.rawSrcMap.forEach((s) => {
+      // TODO: Figure out what causes these 0s
+      if (s.source.start.line === 0 || s.pc === 0) return;
+      tealSrcMap.addMapping({
+        source: path.basename(this.filename),
+        original: { line: s.source.start.line, column: s.source.start.character },
+        generated: { line: s.teal, column: 0 },
+      });
+
+      pcSrcMap.addMapping({
+        source: path.basename(this.filename),
+        original: { line: s.source.start.line, column: s.source.start.character },
+        generated: { line: s.pc, column: 0 },
+      });
+    });
+
+    this.srcMaps = {
+      pc: pcSrcMap.toJSON(),
+      teal: tealSrcMap.toJSON(),
+    };
 
     return json.result;
   }
@@ -3176,7 +3214,7 @@ export default class Compiler {
         lastIsLabel = false;
       }
 
-      const thisLine = this.srcMap.find((s) => s.teal === i);
+      const thisLine = this.rawSrcMap.find((s) => s.teal === i);
       if (thisLine) {
         thisLine!.teal = output.length;
       }
