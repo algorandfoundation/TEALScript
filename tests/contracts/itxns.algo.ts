@@ -29,7 +29,7 @@ class ItxnsTest extends Contract {
       configAssetClawback: this.app.address,
       configAssetDefaultFrozen: 0,
       configAssetURL: 'url',
-      configAssetMetadataHash: 'hash',
+      configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     });
   }
 
@@ -94,12 +94,12 @@ class ItxnsTest extends Contract {
 
   onlineKeyRegistration(): void {
     sendOnlineKeyRegistration({
-      selectionPK: 'pk',
-      stateProofPK: 'pk',
+      selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       voteFirst: 1,
       voteKeyDilution: 1,
       voteLast: 1,
-      votePK: 'pk',
+      votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       fee: 0,
     });
   }

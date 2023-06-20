@@ -154,8 +154,8 @@ assetCreation:
 	itxn_field ConfigAssetURL
 
 	// tests/contracts/itxns.algo.ts:32
-	// configAssetMetadataHash: 'hash'
-	byte "hash"
+	// configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field ConfigAssetMetadataHash
 	itxn_submit
 	itxn CreatedAssetID
@@ -527,13 +527,13 @@ onlineKeyRegistration:
 	itxn_field TypeEnum
 
 	// tests/contracts/itxns.algo.ts:97
-	// selectionPK: 'pk'
-	byte "pk"
+	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field SelectionPK
 
 	// tests/contracts/itxns.algo.ts:98
-	// stateProofPK: 'pk'
-	byte "pk"
+	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field StateProofPK
 
 	// tests/contracts/itxns.algo.ts:99
@@ -552,8 +552,8 @@ onlineKeyRegistration:
 	itxn_field VoteLast
 
 	// tests/contracts/itxns.algo.ts:102
-	// votePK: 'pk'
-	byte "pk"
+	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field VotePK
 
 	// tests/contracts/itxns.algo.ts:103
