@@ -19,7 +19,7 @@ shortTypeNotation:
 	proto 1 0
 
 	// tests/contracts/abi.algo.ts:284
-	// a: [uint16<2>, uint64<2>, uint16<2>] = [
+	// a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset

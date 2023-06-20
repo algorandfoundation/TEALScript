@@ -18,8 +18,8 @@ abi_route_nonLiteralDynamicElementInTuple:
 nonLiteralDynamicElementInTuple:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:388
-	// e: uint16[] = [5, 6]
+	// tests/contracts/abi.algo.ts:393
+	// e: uint<16>[] = [5, 6]
 	int 5
 	itob
 	extract 6 0
@@ -32,8 +32,8 @@ nonLiteralDynamicElementInTuple:
 	concat
 	frame_bury -1 // e: uint16[]
 
-	// tests/contracts/abi.algo.ts:389
-	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], e, [7, 8]]
+	// tests/contracts/abi.algo.ts:394
+	// a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]] = [1, 2, [3, 4], e, [7, 8]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
@@ -73,7 +73,7 @@ nonLiteralDynamicElementInTuple:
 	concat // concat head and tail
 	frame_bury -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:391
+	// tests/contracts/abi.algo.ts:396
 	// return a;
 	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75

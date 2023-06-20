@@ -874,10 +874,6 @@ export default class Compiler {
 
     const typeNode = stringToExpression(abiType) as ts.Expression;
 
-    if (abiType.match(/<\d+>$/)) {
-      return `${abiType.match(/\w+/)![0]}[${abiType.match(/<\d+>$/)![0].match(/\d+/)![0]}]`;
-    }
-
     if (abiType.startsWith('Static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
       const innerType = typeNode!.typeArguments![0];
@@ -900,6 +896,10 @@ export default class Compiler {
       if (!ts.isArrayLiteralExpression(typeNode)) throw new Error();
 
       return `[${typeNode.elements.map((t) => this.getABIType(t.getText())).join(',')}]`;
+    }
+
+    if (abiType.match(/>$/)) {
+      return abiType.replace(/ /g, '').replace(',', 'x').replace('<', '').replace('>', '');
     }
 
     return abiType.toLowerCase();

@@ -18,8 +18,8 @@ abi_route_accessDynamicArrayElementInTuple:
 accessDynamicArrayElementInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:638
-	// a: [uint16, uint8[]] = [11, [22, 33, 44]]
+	// tests/contracts/abi.algo.ts:643
+	// a: [uint<16>, uint<8>[]] = [11, [22, 33, 44]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset
@@ -46,7 +46,7 @@ accessDynamicArrayElementInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16,uint8[]]
 
-	// tests/contracts/abi.algo.ts:640
+	// tests/contracts/abi.algo.ts:645
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint8[]]
 	store 0 // full array

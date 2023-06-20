@@ -18,8 +18,8 @@ abi_route_spliceFirstElementValue:
 spliceFirstElementValue:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:488
-	// a: uint16[] = [1, 2, 3]
+	// tests/contracts/abi.algo.ts:493
+	// a: uint<16>[] = [1, 2, 3]
 	int 1
 	itob
 	extract 6 0
@@ -36,7 +36,7 @@ spliceFirstElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:490
+	// tests/contracts/abi.algo.ts:495
 	// v = a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
@@ -87,7 +87,7 @@ spliceFirstElementValue:
 	frame_bury -1 // a: uint16[]
 	frame_bury -2 // v: uint16[]
 
-	// tests/contracts/abi.algo.ts:492
+	// tests/contracts/abi.algo.ts:497
 	// return v;
 	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75

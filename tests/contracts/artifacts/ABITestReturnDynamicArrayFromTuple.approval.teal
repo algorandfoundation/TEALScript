@@ -18,8 +18,8 @@ abi_route_returnDynamicArrayFromTuple:
 returnDynamicArrayFromTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:366
-	// a: [uint8, uint16, uint8[], uint16[], uint8[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
+	// tests/contracts/abi.algo.ts:371
+	// a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
@@ -68,7 +68,7 @@ returnDynamicArrayFromTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:368
+	// tests/contracts/abi.algo.ts:373
 	// return a[4];
 	frame_dig -1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	store 0 // full array

@@ -18,8 +18,8 @@ abi_route_arrayPush:
 arrayPush:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:397
-	// a: uint16[] = [1, 2]
+	// tests/contracts/abi.algo.ts:402
+	// a: uint<16>[] = [1, 2]
 	int 1
 	itob
 	extract 6 0
@@ -32,8 +32,8 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:399
-	// a.push(3 as uint16)
+	// tests/contracts/abi.algo.ts:404
+	// a.push(3 as uint<16>)
 	frame_dig -1 // a: uint16[]
 	dup
 	int 0
@@ -51,7 +51,7 @@ arrayPush:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:401
+	// tests/contracts/abi.algo.ts:406
 	// return a;
 	frame_dig -1 // a: uint16[]
 	byte 0x151f7c75

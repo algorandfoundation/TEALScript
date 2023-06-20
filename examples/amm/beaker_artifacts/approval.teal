@@ -10,7 +10,7 @@ pushbytes 0x08a956f7 // "set_governor(account)void"
 ==
 bnz main_l11
 txna ApplicationArgs 0
-pushbytes 0x6b59d965 // "bootstrap(pay,asset,asset)uint64"
+pushbytes 0x6b59d965 // "bootstrap(pay,asset,asset)uint<64>"
 ==
 bnz main_l10
 txna ApplicationArgs 0

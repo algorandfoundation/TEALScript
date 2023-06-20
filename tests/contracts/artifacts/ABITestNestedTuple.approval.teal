@@ -18,8 +18,8 @@ abi_route_nestedTuple:
 nestedTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:656
-	// a: [uint16, [uint8, string], [uint16, string]] = [11, [22, 'foo'], [33, 'bar']]
+	// tests/contracts/abi.algo.ts:661
+	// a: [uint<16>, [uint<8>, string], [uint<16>, string]] = [11, [22, 'foo'], [33, 'bar']]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
@@ -67,7 +67,7 @@ nestedTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16,[uint8,string],[uint16,string]]
 
-	// tests/contracts/abi.algo.ts:658
+	// tests/contracts/abi.algo.ts:663
 	// return a;
 	frame_dig -1 // a: [uint16,[uint8,string],[uint16,string]]
 	byte 0x151f7c75

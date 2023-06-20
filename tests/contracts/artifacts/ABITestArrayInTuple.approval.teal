@@ -19,7 +19,7 @@ arrayInTuple:
 	proto 1 0
 
 	// tests/contracts/abi.algo.ts:254
-	// a: [uint64, uint16, StaticArray<uint64, 2>, uint16] = [
+	// a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x001c // initial head offset

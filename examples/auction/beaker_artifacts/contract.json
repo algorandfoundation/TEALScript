@@ -17,11 +17,11 @@
             "name": "start_auction",
             "args": [
                 {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "name": "starting_price"
                 },
                 {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "name": "length"
                 },
                 {

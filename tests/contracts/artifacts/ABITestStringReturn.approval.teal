@@ -19,7 +19,7 @@ abi_route_stringReturn:
 stringReturn:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:498
+	// tests/contracts/abi.algo.ts:503
 	// return 'Hello World!';
 	byte "Hello World!"
 	dup

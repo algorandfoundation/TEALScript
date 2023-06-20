@@ -19,7 +19,7 @@ simpleTuple:
 	proto 1 0
 
 	// tests/contracts/abi.algo.ts:246
-	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
+	// a: [uint64, uint<16>, uint64, uint<16>] = [11, 22, 33, 44]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0014 // initial head offset

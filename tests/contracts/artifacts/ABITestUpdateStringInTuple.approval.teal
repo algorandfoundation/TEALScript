@@ -18,8 +18,8 @@ abi_route_updateStringInTuple:
 updateStringInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:528
-	// a: [uint8, uint16[], string, uint16[], uint8[]] = [9, [8], 'Hi?', [6], [5]]
+	// tests/contracts/abi.algo.ts:533
+	// a: [uint<8>, uint<16>[], string, uint<16>[], uint<8>[]] = [9, [8], 'Hi?', [6], [5]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
@@ -60,8 +60,8 @@ updateStringInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:530
-	// a[0] = 99 as uint8
+	// tests/contracts/abi.algo.ts:535
+	// a[0] = 99 as uint<8>
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 0 // full array
 	int 0 // initial offset
@@ -75,7 +75,7 @@ updateStringInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:531
+	// tests/contracts/abi.algo.ts:536
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 0 // full array
@@ -144,7 +144,7 @@ updateStringInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:532
+	// tests/contracts/abi.algo.ts:537
 	// a[2] = 'Hello World!'
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 0 // full array
@@ -205,7 +205,7 @@ updateStringInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:533
+	// tests/contracts/abi.algo.ts:538
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 0 // full array
@@ -264,7 +264,7 @@ updateStringInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:534
+	// tests/contracts/abi.algo.ts:539
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 0 // full array
@@ -318,7 +318,7 @@ updateStringInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:536
+	// tests/contracts/abi.algo.ts:541
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	byte 0x151f7c75

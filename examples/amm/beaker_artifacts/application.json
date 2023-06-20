@@ -62,22 +62,22 @@
                     "descr": "The current governor of this contract, allowed to do admin type actions"
                 },
                 "asset_a": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "a",
                     "descr": "The asset id of asset A"
                 },
                 "asset_b": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "b",
                     "descr": "The asset id of asset B"
                 },
                 "pool_token": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "p",
                     "descr": "The asset id of the Pool Token, used to track share of pool the holder may recover"
                 },
                 "ratio": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "r",
                     "descr": "The ratio between assets (A/B)*Scale"
                 }
@@ -121,7 +121,7 @@
                     }
                 ],
                 "returns": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "desc": "The asset id of the pool token created."
                 },
                 "desc": "bootstraps the contract by opting into the assets and creating the pool token.\nNote this method will fail if it is attempted more than once on the same contract since the assets and pool token application state values are marked as static and cannot be overridden."

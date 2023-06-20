@@ -5,7 +5,7 @@
                 "no_op": "CALL"
             }
         },
-        "start_auction(uint64,uint64,axfer)void": {
+        "start_auction(uint<64>,uint<64>,axfer)void": {
             "call_config": {
                 "no_op": "CALL"
             }
@@ -44,22 +44,22 @@
         "global": {
             "declared": {
                 "asa": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "asa",
                     "descr": "ID of the ASA being auctioned"
                 },
                 "asa_amt": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "asa_amt",
                     "descr": "Total amount of ASA being auctioned"
                 },
                 "auction_end": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "auction_end",
                     "descr": "Timestamp of the end of the auction"
                 },
                 "highest_bid": {
-                    "type": "uint64",
+                    "type": "uint<64>",
                     "key": "highest_bid",
                     "descr": "Amount of the highest bid (uALGO)"
                 },
@@ -95,11 +95,11 @@
                 "name": "start_auction",
                 "args": [
                     {
-                        "type": "uint64",
+                        "type": "uint<64>",
                         "name": "starting_price"
                     },
                     {
-                        "type": "uint64",
+                        "type": "uint<64>",
                         "name": "length"
                     },
                     {

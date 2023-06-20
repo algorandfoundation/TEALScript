@@ -18,7 +18,7 @@ abi_route_namedTuple:
 namedTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:566
+	// tests/contracts/abi.algo.ts:571
 	// a: {
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -37,11 +37,11 @@ namedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: { foo: uint16, bar: string, }
+	frame_bury -1 // a: { foo: uint<16>, bar: string, }
 
-	// tests/contracts/abi.algo.ts:574
+	// tests/contracts/abi.algo.ts:579
 	// return a.bar;
-	frame_dig -1 // a: { foo: uint16, bar: string, }
+	frame_dig -1 // a: { foo: uint<16>, bar: string, }
 	store 0 // full array
 	int 0 // initial offset
 	int 2 // headOffset
