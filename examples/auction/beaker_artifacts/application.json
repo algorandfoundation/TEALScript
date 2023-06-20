@@ -44,22 +44,22 @@
         "global": {
             "declared": {
                 "asa": {
-                    "type": "uint<64>",
+                    "type": "uint64",
                     "key": "asa",
                     "descr": "ID of the ASA being auctioned"
                 },
                 "asa_amt": {
-                    "type": "uint<64>",
+                    "type": "uint64",
                     "key": "asa_amt",
                     "descr": "Total amount of ASA being auctioned"
                 },
                 "auction_end": {
-                    "type": "uint<64>",
+                    "type": "uint64",
                     "key": "auction_end",
                     "descr": "Timestamp of the end of the auction"
                 },
                 "highest_bid": {
-                    "type": "uint<64>",
+                    "type": "uint64",
                     "key": "highest_bid",
                     "descr": "Amount of the highest bid (uALGO)"
                 },
@@ -95,11 +95,11 @@
                 "name": "start_auction",
                 "args": [
                     {
-                        "type": "uint<64>",
+                        "type": "uint64",
                         "name": "starting_price"
                     },
                     {
-                        "type": "uint<64>",
+                        "type": "uint64",
                         "name": "length"
                     },
                     {
