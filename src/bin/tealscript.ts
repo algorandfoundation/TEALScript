@@ -3,7 +3,6 @@
 import path from 'path';
 import * as fs from 'fs';
 import ts from 'typescript';
-// eslint-disable-next-line import/no-unresolved, import/extensions
 import Compiler from '../lib/compiler';
 
 const filename = process.argv[2];
@@ -37,7 +36,7 @@ src.statements.forEach(async (body) => {
     fs.writeFileSync(approvalTealPath, compiler.approvalProgram());
     fs.writeFileSync(clearTealPath, compiler.clearProgram());
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
-    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.pcToLine, null, 2));
+    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMaps, null, 2));
     fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
   }
 });

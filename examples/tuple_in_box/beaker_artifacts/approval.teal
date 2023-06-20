@@ -294,10 +294,10 @@ frame_bury 1
 frame_dig 1
 frame_dig 1
 intc_0 // 0
-extract_uint16
+extract_uint<16>
 frame_dig 1
 pushint 2 // 2
-extract_uint16
+extract_uint<16>
 substring3
 frame_bury 7
 frame_dig 7
@@ -352,7 +352,7 @@ frame_bury 1
 frame_dig 1
 frame_dig 1
 pushint 2 // 2
-extract_uint16
+extract_uint<16>
 dig 1
 len
 substring3
@@ -415,10 +415,10 @@ frame_bury 0
 frame_dig 0
 frame_dig 0
 intc_0 // 0
-extract_uint16
+extract_uint<16>
 frame_dig 0
 pushint 2 // 2
-extract_uint16
+extract_uint<16>
 substring3
 frame_bury 1
 frame_dig 1

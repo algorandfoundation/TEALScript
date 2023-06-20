@@ -4,14 +4,14 @@ const TREE_DEPTH = 3;
 const EMPTY_HASH = hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855');
 const RIGHT_SIBLING_PREFIX = 170;
 
-type Branch = byte<33>
+type Branch = StaticArray<byte, 33>
 type Path = StaticArray<Branch, typeof TREE_DEPTH>
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
-  root = new GlobalReference<bytes>();
+  root = new GlobalStateKey<bytes>();
 
-  size = new GlobalReference<uint64>();
+  size = new GlobalStateKey<uint64>();
 
   private calcInitRoot(): bytes {
     let result = EMPTY_HASH;

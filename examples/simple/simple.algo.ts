@@ -1,7 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
 export default class Simple extends Contract {
-  counter = new GlobalReference<uint64>({ key: 'counter' });
+  counter = new GlobalStateKey<uint64>({ key: 'counter' });
 
   @handle.createApplication
   createApp(): void { }
@@ -14,11 +14,11 @@ export default class Simple extends Contract {
     this.counter.put(this.counter.get() - i);
   }
 
-  add(a: uint256, b: uint256): uint256 {
+  add(a: uint<256>, b: uint<256>): uint<256> {
     return a + b;
   }
 
-  sub(a: uint256, b: uint256): uint256 {
+  sub(a: uint<256>, b: uint<256>): uint<256> {
     return a - b;
   }
 

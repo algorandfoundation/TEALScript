@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -27,8 +29,7 @@ abi_route_mintAndGetAsset:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub mintAndGetAsset
 	int 1
 	return
@@ -61,7 +62,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:38
 	// approvalProgram: NFTFactory
-	byte b64 CCACAAFCAIgxGSISMRgiEhBEiAACI0OKAACJMRkiEjEYIhMQRDYaAlcCADYaAVcCAIgAAiNDigIAsYEDshCL/7Imi/6yJSOyIiKyIyKyAbO0PBaABBUffHVMULCJMRkiEjEYIhMQRDYaAhfAHDYaARfAMIgAAiNDigIAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9sgATSAkxzgARIIWZwNhoAjgL/av+s
+	byte b64 CCACAAFCAIgxGSISMRgiEhBEiAACI0OKAACJMRkiEjEYIhMQRDYaAlcCADYaAVcCAIgAAiNDigIAsYEDshCL/7Imi/6yJSOyIiKyIyKyAbO0PBaABBUffHVMULCJMRkiEjEYIhMQRDYaAhfAHDYaARfAMIgAAiNDigIAsYEEshCL/rIUI7ISi/+yESKyAbOJMRtAAAcxGCISQP9sgATSAkxzgARIIWZwNhoAjgL/av+sAA==
 	itxn_field ApprovalProgram
 	itxn_submit
 
@@ -222,3 +223,4 @@ route_abi:
 	method "mintAndGetAsset()uint64"
 	txna ApplicationArgs 0
 	match abi_route_mintAndGetAsset
+	err

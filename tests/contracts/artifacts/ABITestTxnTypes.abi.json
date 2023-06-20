@@ -1,0 +1,51 @@
+{
+  "name": "ABITestTxnTypes",
+  "desc": "",
+  "methods": [
+    {
+      "name": "txnTypes",
+      "args": [
+        {
+          "name": "t",
+          "type": "txn",
+          "desc": ""
+        },
+        {
+          "name": "a",
+          "type": "appl",
+          "desc": ""
+        },
+        {
+          "name": "ac",
+          "type": "acfg",
+          "desc": ""
+        },
+        {
+          "name": "af",
+          "type": "afrz",
+          "desc": ""
+        },
+        {
+          "name": "at",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
+          "name": "kr",
+          "type": "keyreg",
+          "desc": ""
+        },
+        {
+          "name": "p",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

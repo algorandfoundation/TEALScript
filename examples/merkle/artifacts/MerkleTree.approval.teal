@@ -104,6 +104,7 @@ for_1:
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:40
 	// this.isRightSibling(elem)
+	// no dupn needed
 	frame_dig -5 // elem: byte[33]
 	callsub isRightSibling
 	bz if0_else
@@ -111,6 +112,7 @@ for_1:
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:41
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
+	// no dupn needed
 	frame_dig -5 // elem: byte[33]
 	int 1
 	int 32
@@ -123,6 +125,7 @@ for_1:
 if0_else:
 	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
+	// no dupn needed
 	frame_dig -3 // result: bytes
 	frame_dig -5 // elem: byte[33]
 	int 1
@@ -155,6 +158,8 @@ bare_route_DeleteApplication:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	callsub delete
 	int 1
 	return
@@ -181,6 +186,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -191,8 +198,7 @@ create:
 	// examples/merkle/merkle.algo.ts:57
 	// this.root.put(this.calcInitRoot())
 	byte "root"
-	byte 0x
-	dup
+	byte 0x; dup
 	callsub calcInitRoot
 	app_global_put
 	retsub
@@ -206,6 +212,8 @@ abi_route_verify:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -239,6 +247,8 @@ abi_route_appendLeaf:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -301,6 +311,8 @@ abi_route_updateLeaf:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	extract 2 0
@@ -364,3 +376,4 @@ route_abi:
 	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
 	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf
+	err

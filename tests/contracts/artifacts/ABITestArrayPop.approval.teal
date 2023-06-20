@@ -1,0 +1,88 @@
+#pragma version 8
+	b main
+
+abi_route_arrayPop:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub arrayPop
+	int 1
+	return
+
+arrayPop:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:412
+	// a: uint<16>[] = [1, 2, 3]
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	int 3
+	itob
+	extract 6 0
+	concat
+	byte 0x0003
+	swap
+	concat
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.algo.ts:414
+	// a.pop()
+	frame_dig -1 // a: uint16[]
+	dup
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	swap
+	extract 2 0
+	concat
+	dup
+	len
+	int 2
+	-
+	int 0
+	swap
+	extract3
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.algo.ts:416
+	// return a;
+	frame_dig -1 // a: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "arrayPop()uint16[]"
+	txna ApplicationArgs 0
+	match abi_route_arrayPop
+	err

@@ -1,0 +1,130 @@
+#pragma version 8
+	b main
+
+abi_route_nestedTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub nestedTuple
+	int 1
+	return
+
+nestedTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:661
+	// a: [uint<16>, [uint<8>, string], [uint<16>, string]] = [11, [22, 'foo'], [33, 'bar']]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0006 // initial head offset
+	int 11
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0003 // initial head offset
+	int 22
+	itob
+	extract 7 0
+	callsub process_static_tuple_element
+	byte "foo"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_dynamic_tuple_element
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0004 // initial head offset
+	int 33
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	byte "bar"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16,[uint8,string],[uint16,string]]
+
+	// tests/contracts/abi.algo.ts:663
+	// return a;
+	frame_dig -1 // a: [uint16,[uint8,string],[uint16,string]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "nestedTuple()(uint16,(uint8,string),(uint16,string))"
+	txna ApplicationArgs 0
+	match abi_route_nestedTuple
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

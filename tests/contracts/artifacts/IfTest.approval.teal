@@ -1,0 +1,336 @@
+#pragma version 8
+	b main
+
+abi_route_singleIf:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub singleIf
+	int 1
+	return
+
+singleIf:
+	proto 0 0
+
+	// if0_condition
+	// tests/contracts/if.algo.ts:6
+	// assert(1)
+	int 1
+	assert
+	bz if0_end
+
+	// if0_consequent
+	// tests/contracts/if.algo.ts:7
+	// log('If')
+	byte "If"
+	log
+
+if0_end:
+	retsub
+
+abi_route_ifElse:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub ifElse
+	int 1
+	return
+
+ifElse:
+	proto 0 0
+
+	// if1_condition
+	// tests/contracts/if.algo.ts:12
+	// assert(1)
+	int 1
+	assert
+	bz if1_else
+
+	// if1_consequent
+	// tests/contracts/if.algo.ts:13
+	// log('If')
+	byte "If"
+	log
+	b if1_end
+
+if1_else:
+	// tests/contracts/if.algo.ts:15
+	// log('else')
+	byte "else"
+	log
+
+if1_end:
+	retsub
+
+abi_route_ifElseIf:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub ifElseIf
+	int 1
+	return
+
+ifElseIf:
+	proto 0 0
+
+	// if2_condition
+	// tests/contracts/if.algo.ts:20
+	// assert(1)
+	int 1
+	assert
+	bz if2_elseif1_condition
+
+	// if2_consequent
+	// tests/contracts/if.algo.ts:21
+	// log('If')
+	byte "If"
+	log
+	b if2_end
+
+if2_elseif1_condition:
+	// tests/contracts/if.algo.ts:22
+	// assert(2)
+	int 2
+	assert
+	bz if2_end
+
+	// if2_elseif1_consequent
+	// tests/contracts/if.algo.ts:23
+	// log('else if')
+	byte "else if"
+	log
+
+if2_end:
+	retsub
+
+abi_route_ifElseIfElse:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub ifElseIfElse
+	int 1
+	return
+
+ifElseIfElse:
+	proto 0 0
+
+	// if3_condition
+	// tests/contracts/if.algo.ts:28
+	// assert(1)
+	int 1
+	assert
+	bz if3_elseif1_condition
+
+	// if3_consequent
+	// tests/contracts/if.algo.ts:29
+	// log('If')
+	byte "If"
+	log
+	b if3_end
+
+if3_elseif1_condition:
+	// tests/contracts/if.algo.ts:30
+	// assert(2)
+	int 2
+	assert
+	bz if3_else
+
+	// if3_elseif1_consequent
+	// tests/contracts/if.algo.ts:31
+	// log('else if')
+	byte "else if"
+	log
+	b if3_end
+
+if3_else:
+	// tests/contracts/if.algo.ts:33
+	// log('else')
+	byte "else"
+	log
+
+if3_end:
+	retsub
+
+abi_route_ifElseIfElseIf:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub ifElseIfElseIf
+	int 1
+	return
+
+ifElseIfElseIf:
+	proto 0 0
+
+	// if4_condition
+	// tests/contracts/if.algo.ts:38
+	// assert(1)
+	int 1
+	assert
+	bz if4_elseif1_condition
+
+	// if4_consequent
+	// tests/contracts/if.algo.ts:39
+	// log('if')
+	byte "if"
+	log
+	b if4_end
+
+if4_elseif1_condition:
+	// tests/contracts/if.algo.ts:40
+	// assert(2)
+	int 2
+	assert
+	bz if4_elseif2_condition
+
+	// if4_elseif1_consequent
+	// tests/contracts/if.algo.ts:41
+	// log('else if 1')
+	byte "else if 1"
+	log
+	b if4_end
+
+if4_elseif2_condition:
+	// tests/contracts/if.algo.ts:42
+	// assert(3)
+	int 3
+	assert
+	bz if4_end
+
+	// if4_elseif2_consequent
+	// tests/contracts/if.algo.ts:43
+	// log('else if 2')
+	byte "else if 2"
+	log
+
+if4_end:
+	retsub
+
+abi_route_ifElseIfElseIfElse:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub ifElseIfElseIfElse
+	int 1
+	return
+
+ifElseIfElseIfElse:
+	proto 0 0
+
+	// if5_condition
+	// tests/contracts/if.algo.ts:48
+	// assert(1)
+	int 1
+	assert
+	bz if5_elseif1_condition
+
+	// if5_consequent
+	// tests/contracts/if.algo.ts:49
+	// log('if')
+	byte "if"
+	log
+	b if5_end
+
+if5_elseif1_condition:
+	// tests/contracts/if.algo.ts:50
+	// assert(2)
+	int 2
+	assert
+	bz if5_elseif2_condition
+
+	// if5_elseif1_consequent
+	// tests/contracts/if.algo.ts:51
+	// log('else if 1')
+	byte "else if 1"
+	log
+	b if5_end
+
+if5_elseif2_condition:
+	// tests/contracts/if.algo.ts:52
+	// assert(3)
+	int 3
+	assert
+	bz if5_else
+
+	// if5_elseif2_consequent
+	// tests/contracts/if.algo.ts:53
+	// log('else if 2')
+	byte "else if 2"
+	log
+	b if5_end
+
+if5_else:
+	// tests/contracts/if.algo.ts:55
+	// log('else')
+	byte "else"
+	log
+
+if5_end:
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "singleIf()void"
+	method "ifElse()void"
+	method "ifElseIf()void"
+	method "ifElseIfElse()void"
+	method "ifElseIfElseIf()void"
+	method "ifElseIfElseIfElse()void"
+	txna ApplicationArgs 0
+	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse
+	err

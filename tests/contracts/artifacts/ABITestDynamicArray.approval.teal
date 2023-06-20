@@ -1,0 +1,77 @@
+#pragma version 8
+	b main
+
+abi_route_dynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub dynamicArray
+	int 1
+	return
+
+dynamicArray:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:324
+	// a: uint64[] = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
+	byte 0x0003
+	swap
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.algo.ts:326
+	// return a[1];
+	frame_dig -1 // a: uint64[]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	int 2
+	+ // add two for length
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "dynamicArray()uint64"
+	txna ApplicationArgs 0
+	match abi_route_dynamicArray
+	err

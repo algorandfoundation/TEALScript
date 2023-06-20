@@ -10,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub createApp
 	int 1
 	return
@@ -27,6 +29,8 @@ abi_route_incr:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	callsub incr
@@ -55,6 +59,8 @@ abi_route_decr:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
 	callsub decr
@@ -83,6 +89,8 @@ abi_route_add:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub add
@@ -114,6 +122,8 @@ abi_route_sub:
 	!=
 	&&
 	assert
+
+	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub sub
@@ -151,3 +161,4 @@ route_abi:
 	method "sub(uint256,uint256)uint256"
 	txna ApplicationArgs 0
 	match abi_route_incr abi_route_decr abi_route_add abi_route_sub
+	err

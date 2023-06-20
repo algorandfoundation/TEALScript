@@ -1,0 +1,128 @@
+#pragma version 8
+	b main
+
+abi_route_threeDimensionalUint16Array:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub threeDimensionalUint16Array
+	int 1
+	return
+
+threeDimensionalUint16Array:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:234
+	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
+	int 11
+	itob
+	extract 6 0
+	int 22
+	itob
+	extract 6 0
+	concat
+	int 33
+	itob
+	extract 6 0
+	int 44
+	itob
+	extract 6 0
+	concat
+	concat
+	int 55
+	itob
+	extract 6 0
+	int 66
+	itob
+	extract 6 0
+	concat
+	int 77
+	itob
+	extract 6 0
+	int 88
+	itob
+	extract 6 0
+	concat
+	concat
+	concat
+	frame_bury -1 // a: uint16[2][2][2]
+
+	// tests/contracts/abi.algo.ts:238
+	// a[1][1] = [777, 888]
+	frame_dig -1 // a: uint16[2][2][2]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	int 1
+	int 4
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 777
+	itob
+	extract 6 0
+	int 888
+	itob
+	extract 6 0
+	concat
+	replace3
+	frame_bury -1 // a: uint16[2][2][2]
+
+	// tests/contracts/abi.algo.ts:240
+	// return a[1][1][1];
+	frame_dig -1 // a: uint16[2][2][2]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	int 1
+	int 4
+	* // acc * typeLength
+	+
+	int 1
+	int 2
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "threeDimensionalUint16Array()uint16"
+	txna ApplicationArgs 0
+	match abi_route_threeDimensionalUint16Array
+	err

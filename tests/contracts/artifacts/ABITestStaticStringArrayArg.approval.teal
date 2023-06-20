@@ -1,0 +1,76 @@
+#pragma version 8
+	b main
+
+abi_route_staticStringArrayArg:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	callsub staticStringArrayArg
+	int 1
+	return
+
+staticStringArrayArg:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:614
+	// return a[1];
+	frame_dig -1 // a: bytes[3]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 2
+	* // acc * 2
+	+
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "staticStringArrayArg(string[3])string"
+	txna ApplicationArgs 0
+	match abi_route_staticStringArrayArg
+	err

@@ -1,19 +1,18 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
-// eslint-disable-next-line import/no-unresolved, import/extensions
+import { test, expect, describe } from '@jest/globals';
 import { getMethodTeal, artifactsTest } from './common';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/binary.algo.ts', 'BinaryTest', methodName);
 }
 
-artifactsTest('BinaryTest', 'tests/contracts/binary.algo.ts', 'tests/contracts/', 'BinaryTest');
+artifactsTest('BinaryTest', 'tests/contracts/binary.algo.ts', 'tests/contracts/artifacts/', 'BinaryTest');
 
 describe('Binary Expressions', function () {
-  it('&&', async function () {
+  test('&&', async function () {
     const teal = await getTeal('and');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a && b)',
         'frame_dig -1 // a: uint64',
@@ -27,9 +26,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('||', async function () {
+  test('||', async function () {
     const teal = await getTeal('or');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a || b)',
         'frame_dig -1 // a: uint64',
@@ -43,9 +42,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('combo', async function () {
+  test('combo', async function () {
     const teal = await getTeal('combo');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a || (b && c))',
         'frame_dig -1 // a: uint64',
@@ -64,9 +63,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('==', async function () {
+  test('==', async function () {
     const teal = await getTeal('equal');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a === b)',
         'frame_dig -1 // a: uint64',
@@ -77,9 +76,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('!=', async function () {
+  test('!=', async function () {
     const teal = await getTeal('notEqual');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a !== b)',
         'frame_dig -1 // a: uint64',
@@ -90,9 +89,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('&', async function () {
+  test('&', async function () {
     const teal = await getTeal('bitAnd');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a & b)',
         'frame_dig -1 // a: uint64',
@@ -103,9 +102,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('|', async function () {
+  test('|', async function () {
     const teal = await getTeal('bitOr');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a | b)',
         'frame_dig -1 // a: uint64',
@@ -116,9 +115,9 @@ describe('Binary Expressions', function () {
     );
   });
 
-  it('^', async function () {
+  test('^', async function () {
     const teal = await getTeal('bitXor');
-    expect(teal).to.deep.equal(
+    expect(teal).toEqual(
       [
         '// assert(a ^ b)',
         'frame_dig -1 // a: uint64',

@@ -1,0 +1,129 @@
+#pragma version 8
+	b main
+
+abi_route_staticArrayInStorageMap:
+	txn OnCompletion
+	int OptIn
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x; dup
+	callsub staticArrayInStorageMap
+	int 1
+	return
+
+staticArrayInStorageMap:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:153
+	// a: StaticArray<uint64, 3> = [11, 22, 33]
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
+	frame_bury -1 // a: uint64[3]
+
+	// tests/contracts/abi.algo.ts:155
+	// this.gMap.put('gMap', a)
+	byte "gMap"
+	frame_dig -1 // a: uint64[3]
+	app_global_put
+
+	// tests/contracts/abi.algo.ts:156
+	// this.lMap.put(this.txn.sender, 'lMap', a)
+	txn Sender
+	byte "lMap"
+	frame_dig -1 // a: uint64[3]
+	app_local_put
+
+	// tests/contracts/abi.algo.ts:157
+	// this.bMap.put('bMap', a)
+	byte "bMap"
+	frame_dig -1 // a: uint64[3]
+	box_put
+
+	// tests/contracts/abi.algo.ts:159
+	// ret: StaticArray<uint64, 3> = [
+	byte "gMap"
+	app_global_get
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	txn Sender
+	byte "lMap"
+	app_local_get
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	byte "bMap"
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	concat
+	frame_bury -2 // ret: uint64[3]
+
+	// tests/contracts/abi.algo.ts:165
+	// return ret;
+	frame_dig -2 // ret: uint64[3]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "staticArrayInStorageMap()uint64[3]"
+	txna ApplicationArgs 0
+	match abi_route_staticArrayInStorageMap
+	err

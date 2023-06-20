@@ -4,7 +4,7 @@ TEALScript is a TypeScript compiler for generating TEAL. The goal is to enable d
 
 ## Documentation
 
-The documentation for the latest release can be viewed at [tealscript.netlify.app](https://tealscript.netlify.app/pages/getting_started.html) and can be generated locally with `yarn docs`
+The documentation for the latest release can be viewed at [tealscript.algo.xyz](https://tealscript.algo.xyz) and can be generated locally with `yarn docs`
 
 ## Status
 

@@ -1,0 +1,330 @@
+#pragma version 8
+	b main
+
+abi_route_shortenDynamicElementInTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub shortenDynamicElementInTuple
+	int 1
+	return
+
+shortenDynamicElementInTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:559
+	// a: [uint<16>[], uint<16>[], uint<16>[]] = [[1, 2], [2, 3], [3, 4]]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0006 // initial head offset
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 2
+	itob
+	extract 6 0
+	int 3
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 3
+	itob
+	extract 6 0
+	int 4
+	itob
+	extract 6 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:561
+	// a[0] = [5]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	dup
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 2 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
+	int 5
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 5 // length difference
+	load 4 // element head offset
+	int 2
+	+ // head ofset
+	callsub update_dynamic_head
+	load 5 // length difference
+	load 4 // element head offset
+	int 4
+	+ // head ofset
+	callsub update_dynamic_head
+	load 0 // full array
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:562
+	// a[1] = [6]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	store 0 // full array
+	int 0 // initial offset
+	int 2 // headOffset
+	+
+	dup
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 2 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
+	int 6
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 5 // length difference
+	load 4 // element head offset
+	int 2
+	+ // head ofset
+	callsub update_dynamic_head
+	load 0 // full array
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:563
+	// a[2] = [7]
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	store 0 // full array
+	int 0 // initial offset
+	int 4 // headOffset
+	+
+	dup
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 2 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
+	int 7
+	itob
+	extract 6 0
+	byte 0x0001
+	swap
+	concat
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 0 // full array
+	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
+
+	// tests/contracts/abi.algo.ts:565
+	// return a;
+	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])"
+	txna ApplicationArgs 0
+	match abi_route_shortenDynamicElementInTuple
+	err
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+update_dynamic_head:
+	proto 2 0
+	frame_dig -2 // length difference
+	load 0 // full array
+	frame_dig -1 // dynamic array offset
+	extract_uint16 // extract dynamic array offset
+	load 7 // subtract head difference
+	bz subtract_head_difference
+	+ // add difference to offset
+	b end_calc_new_head
+
+subtract_head_difference:
+	swap
+	- // subtract difference from offet
+
+end_calc_new_head:
+	itob // convert to bytes
+	extract 6 2 // convert to uint16
+	load 0 // full array
+	swap
+	frame_dig -1 // offset
+	swap
+	replace3 // update offset
+	store 0 // full array
+	retsub
+
+get_length_difference:
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	<
+	bnz swapped_difference
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference
+
+swapped_difference:
+	load 2 // element length
+	load 3 // new element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference:
+	- // get length difference
+	store 5 // length difference
+	retsub

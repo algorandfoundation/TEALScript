@@ -1,0 +1,114 @@
+#pragma version 8
+	b main
+
+abi_route_updateNestedStaticArrayElement:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub updateNestedStaticArrayElement
+	int 1
+	return
+
+updateNestedStaticArrayElement:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:214
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
+	int 44
+	itob
+	int 55
+	itob
+	concat
+	int 66
+	itob
+	concat
+	concat
+	int 77
+	itob
+	int 88
+	itob
+	concat
+	int 99
+	itob
+	concat
+	concat
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.algo.ts:216
+	// a[1][1] = 555
+	frame_dig -1 // a: uint64[3][3]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 24
+	* // acc * typeLength
+	+
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 555
+	itob
+	replace3
+	frame_bury -1 // a: uint64[3][3]
+
+	// tests/contracts/abi.algo.ts:218
+	// return a[1][1];
+	frame_dig -1 // a: uint64[3][3]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 24
+	* // acc * typeLength
+	+
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "updateNestedStaticArrayElement()uint64"
+	txna ApplicationArgs 0
+	match abi_route_updateNestedStaticArrayElement
+	err

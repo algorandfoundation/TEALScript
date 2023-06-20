@@ -1,0 +1,62 @@
+#pragma version 8
+	b main
+
+abi_route_ufixed:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x; dup
+	callsub ufixed
+	int 1
+	return
+
+ufixed:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:710
+	// a = 1.23 as ufixed<64, 2>
+	byte 0x0000000000000000000000000000007b
+	frame_bury -1 // a: ufixed64x2
+
+	// tests/contracts/abi.algo.ts:711
+	// b = 4.56 as ufixed<64, 2>
+	byte 0x000000000000000000000000000001c8
+	frame_bury -2 // b: ufixed64x2
+
+	// tests/contracts/abi.algo.ts:713
+	// return a + b;
+	frame_dig -1 // a: ufixed64x2
+	frame_dig -2 // b: ufixed64x2
+	b+
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "ufixed()ufixed64x2"
+	txna ApplicationArgs 0
+	match abi_route_ufixed
+	err

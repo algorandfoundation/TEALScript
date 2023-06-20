@@ -3,94 +3,255 @@
 /* eslint-disable max-classes-per-file */
 
 // https://stackoverflow.com/a/69288824
-private type Expand<T> = T extends (...args: infer A) => infer R
-? (...args: Expand<A>) => Expand<R>
-: T extends infer O
-? { [K in keyof O]: O[K] }
-: never;
+type Expand<T> = T extends (...args: infer A) => infer R
+  ? (...args: Expand<A>) => Expand<R>
+  : T extends infer O
+  ? { [K in keyof O]: O[K] }
+  : never;
 
-declare type byte<N = void> = string
+declare type widths = 8 |
+16 |
+24 |
+32 |
+40 |
+48 |
+56 |
+64 |
+72 |
+80 |
+88 |
+96 |
+104 |
+112 |
+120 |
+128 |
+136 |
+144 |
+152 |
+160 |
+168 |
+176 |
+184 |
+192 |
+200 |
+208 |
+216 |
+224 |
+232 |
+240 |
+248 |
+256 |
+264 |
+272 |
+280 |
+288 |
+296 |
+304 |
+312 |
+320 |
+328 |
+336 |
+344 |
+352 |
+360 |
+368 |
+376 |
+384 |
+392 |
+400 |
+408 |
+416 |
+424 |
+432 |
+440 |
+448 |
+456 |
+464 |
+472 |
+480 |
+488 |
+496 |
+504 |
+512
 
-declare type uint8<N = void> = N extends number ? number[] : number;
-declare type uint16<N = void> = N extends number ? number[] : number;
-declare type uint24<N = void> = N extends number ? number[] : number;
-declare type uint32<N = void> = N extends number ? number[] : number;
-declare type uint40<N = void> = N extends number ? number[] : number;
-declare type uint48<N = void> = N extends number ? number[] : number;
-declare type uint56<N = void> = N extends number ? number[] : number;
-declare type uint64<N = void> = N extends number ? number[] : number;
-declare type uint72<N = void> = N extends number ? number[] : number;
-declare type uint80<N = void> = N extends number ? number[] : number;
-declare type uint88<N = void> = N extends number ? number[] : number;
-declare type uint96<N = void> = N extends number ? number[] : number;
-declare type uint104<N = void> = N extends number ? number[] : number;
-declare type uint112<N = void> = N extends number ? number[] : number;
-declare type uint120<N = void> = N extends number ? number[] : number;
-declare type uint128<N = void> = N extends number ? number[] : number;
-declare type uint136<N = void> = N extends number ? number[] : number;
-declare type uint144<N = void> = N extends number ? number[] : number;
-declare type uint152<N = void> = N extends number ? number[] : number;
-declare type uint160<N = void> = N extends number ? number[] : number;
-declare type uint168<N = void> = N extends number ? number[] : number;
-declare type uint176<N = void> = N extends number ? number[] : number;
-declare type uint184<N = void> = N extends number ? number[] : number;
-declare type uint192<N = void> = N extends number ? number[] : number;
-declare type uint200<N = void> = N extends number ? number[] : number;
-declare type uint208<N = void> = N extends number ? number[] : number;
-declare type uint216<N = void> = N extends number ? number[] : number;
-declare type uint224<N = void> = N extends number ? number[] : number;
-declare type uint232<N = void> = N extends number ? number[] : number;
-declare type uint240<N = void> = N extends number ? number[] : number;
-declare type uint248<N = void> = N extends number ? number[] : number;
-declare type uint256<N = void> = N extends number ? number[] : number;
-declare type uint264<N = void> = N extends number ? number[] : number;
-declare type uint272<N = void> = N extends number ? number[] : number;
-declare type uint280<N = void> = N extends number ? number[] : number;
-declare type uint288<N = void> = N extends number ? number[] : number;
-declare type uint296<N = void> = N extends number ? number[] : number;
-declare type uint304<N = void> = N extends number ? number[] : number;
-declare type uint312<N = void> = N extends number ? number[] : number;
-declare type uint320<N = void> = N extends number ? number[] : number;
-declare type uint328<N = void> = N extends number ? number[] : number;
-declare type uint336<N = void> = N extends number ? number[] : number;
-declare type uint344<N = void> = N extends number ? number[] : number;
-declare type uint352<N = void> = N extends number ? number[] : number;
-declare type uint360<N = void> = N extends number ? number[] : number;
-declare type uint368<N = void> = N extends number ? number[] : number;
-declare type uint376<N = void> = N extends number ? number[] : number;
-declare type uint384<N = void> = N extends number ? number[] : number;
-declare type uint392<N = void> = N extends number ? number[] : number;
-declare type uint400<N = void> = N extends number ? number[] : number;
-declare type uint408<N = void> = N extends number ? number[] : number;
-declare type uint416<N = void> = N extends number ? number[] : number;
-declare type uint424<N = void> = N extends number ? number[] : number;
-declare type uint432<N = void> = N extends number ? number[] : number;
-declare type uint440<N = void> = N extends number ? number[] : number;
-declare type uint448<N = void> = N extends number ? number[] : number;
-declare type uint456<N = void> = N extends number ? number[] : number;
-declare type uint464<N = void> = N extends number ? number[] : number;
-declare type uint472<N = void> = N extends number ? number[] : number;
-declare type uint480<N = void> = N extends number ? number[] : number;
-declare type uint488<N = void> = N extends number ? number[] : number;
-declare type uint496<N = void> = N extends number ? number[] : number;
-declare type uint504<N = void> = N extends number ? number[] : number;
-declare type uint512<N = void> = N extends number ? number[] : number;
+declare type precisions = 1 |
+2 |
+3 |
+4 |
+5 |
+6 |
+7 |
+8 |
+9 |
+10 |
+11 |
+12 |
+13 |
+14 |
+15 |
+16 |
+17 |
+18 |
+19 |
+20 |
+21 |
+22 |
+23 |
+24 |
+25 |
+26 |
+27 |
+28 |
+29 |
+30 |
+31 |
+32 |
+33 |
+34 |
+35 |
+36 |
+37 |
+38 |
+39 |
+40 |
+41 |
+42 |
+43 |
+44 |
+45 |
+46 |
+47 |
+48 |
+49 |
+50 |
+51 |
+52 |
+53 |
+54 |
+55 |
+56 |
+57 |
+58 |
+59 |
+60 |
+61 |
+62 |
+63 |
+64 |
+65 |
+66 |
+67 |
+68 |
+69 |
+70 |
+71 |
+72 |
+73 |
+74 |
+75 |
+76 |
+77 |
+78 |
+79 |
+80 |
+81 |
+82 |
+83 |
+84 |
+85 |
+86 |
+87 |
+88 |
+89 |
+90 |
+91 |
+92 |
+93 |
+94 |
+95 |
+96 |
+97 |
+98 |
+99 |
+100 |
+101 |
+102 |
+103 |
+104 |
+105 |
+106 |
+107 |
+108 |
+109 |
+110 |
+111 |
+112 |
+113 |
+114 |
+115 |
+116 |
+117 |
+118 |
+119 |
+120 |
+121 |
+122 |
+123 |
+124 |
+125 |
+126 |
+127 |
+128 |
+129 |
+130 |
+131 |
+132 |
+133 |
+134 |
+135 |
+136 |
+137 |
+138 |
+139 |
+140 |
+141 |
+142 |
+143 |
+144 |
+145 |
+146 |
+147 |
+148 |
+149 |
+150 |
+151 |
+152 |
+153 |
+154 |
+155 |
+156 |
+157 |
+158 |
+159 |
+160
 
-declare type ufixed64x2<N = void> = N extends number ? number[] : number;
+declare type uint<N extends widths> = number
+declare type uint64 = uint<64>
+declare type ufixed<N extends widths, M extends precisions> = number
 
+declare type byte = string
 declare type bytes = string
-declare type StaticArray<T, N extends number> = T[]
 
 declare class Asset {
-  static fromIndex(index: uint64): Asset;
+  static fromIndex(index: uint<64>): Asset;
 
   static readonly zeroIndex: Asset;
 
-  readonly total: uint64;
+  readonly total: uint<64>;
 
-  readonly decimals: uint64;
+  readonly decimals: uint<64>;
 
-  readonly defaultFrozen: uint64;
+  readonly defaultFrozen: uint<64>;
 
   readonly name: string;
 
@@ -116,38 +277,38 @@ declare class Address {
 
   static readonly zeroAddress: Address;
 
-  readonly balance: uint64;
+  readonly balance: uint<64>;
 
-  readonly hasBalance: uint64;
+  readonly hasBalance: uint<64>;
 
-  readonly minBalance: uint64;
+  readonly minBalance: uint<64>;
 
-  readonly totalAssets: uint64;
+  readonly totalAssets: uint<64>;
 
   // eslint-disable-next-line no-use-before-define
   readonly authAddr: Address;
 
-  readonly totalNumUint: uint64;
+  readonly totalNumUint: uint<64>;
 
-  readonly totalNumByteSlice: uint64;
+  readonly totalNumByteSlice: uint<64>;
 
-  readonly totalExtraAppPages: uint64;
+  readonly totalExtraAppPages: uint<64>;
 
-  readonly totalAppsCreated: uint64;
+  readonly totalAppsCreated: uint<64>;
 
-  readonly totalAppsOptedIn: uint64;
+  readonly totalAppsOptedIn: uint<64>;
 
-  readonly totalAssetsCreated: uint64;
+  readonly totalAssetsCreated: uint<64>;
 
-  readonly totalBoxes: uint64;
+  readonly totalBoxes: uint<64>;
 
-  readonly totalBoxBytes: uint64;
+  readonly totalBoxBytes: uint<64>;
 
-  assetBalance(asa: Asset): uint64
+  assetBalance(asa: Asset): uint<64>
 
-  hasAsset(asa: Asset): uint64
+  hasAsset(asa: Asset): uint<64>
 
-  assetFrozen(asa: Asset): uint64
+  assetFrozen(asa: Asset): uint<64>
 }
 
 type Account = Address
@@ -155,7 +316,7 @@ type Account = Address
 type BytesLike = bytes | Address
 
 declare class Application {
-  static fromIndex(appID: uint64)
+  static fromIndex(appID: uint<64>)
 
   static readonly zeroIndex: Application;
 
@@ -163,15 +324,15 @@ declare class Application {
 
   readonly clearStateProgram: bytes;
 
-  readonly globalNumUint: uint64;
+  readonly globalNumUint: uint<64>;
 
-  readonly globalNumByteSlice: uint64;
+  readonly globalNumByteSlice: uint<64>;
 
-  readonly localNumUint: uint64;
+  readonly localNumUint: uint<64>;
 
-  readonly localNumByteSlice: uint64;
+  readonly localNumByteSlice: uint<64>;
 
-  readonly extraProgramPages: uint64;
+  readonly extraProgramPages: uint<64>;
 
   readonly creator: Address;
 
@@ -185,84 +346,84 @@ declare class BoxMap<KeyType, ValueType> {
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): uint64
+  exists(key: KeyType): uint<64>
 
   delete(key: KeyType): void
 
   put(key: KeyType, value: ValueType): void
 }
 
-declare class BoxReference<ValueType> {
+declare class BoxKey<ValueType> {
   constructor(options?: { defaultSize?: number, key?: string, dynamicSize?: boolean })
 
   get(): ValueType
 
-  exists(): uint64
+  exists(): uint<64>
 
   delete(): void
 
   put(value: ValueType): void
 }
 
-declare class GlobalMap<KeyType, ValueType> {
+declare class GlobalStateMap<KeyType, ValueType> {
   constructor()
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): uint64
+  exists(key: KeyType): uint<64>
 
   delete(key: KeyType): void
 
   put(key: KeyType, value: ValueType): void
 }
 
-declare class GlobalReference<ValueType> {
+declare class GlobalStateKey<ValueType> {
   constructor(options?: { key?: string })
 
   get(): ValueType
 
-  exists(): uint64
+  exists(): uint<64>
 
   delete(): void
 
   put(value: ValueType): void
 }
 
-declare class LocalMap<KeyType, ValueType> {
+declare class LocalStateMap<KeyType, ValueType> {
   constructor()
 
   get(account: Address, key: KeyType): ValueType
 
-  exists(account: Address, key: KeyType): uint64
+  exists(account: Address, key: KeyType): uint<64>
 
   delete(account: Address, key: KeyType): void
 
   put(account: Address, key: KeyType, value: ValueType): void
 }
 
-declare class LocalReference<ValueType> {
+declare class LocalStateKey<ValueType> {
   constructor(options?: { key?: string })
 
   get(account: Address): ValueType
 
-  exists(account: Address): uint64
+  exists(account: Address): uint<64>
 
   delete(account: Address): void
 
   put(account: Address, value: ValueType): void
 }
 
-type IntLike = uint64 | Asset | Application | boolean
+type IntLike = uint<64> | Asset | Application | boolean
 
 interface CommonTransactionParams {
-  fee: uint64
+  fee: uint<64>
   sender?: Address
   rekeyTo?: Address
   note?: string
 }
 
 interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
-  groupIndex: uint64,
+  groupIndex: uint<64>,
   txID: string,
 }
 
@@ -270,18 +431,18 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   createdAssetID: Asset,
   createdApplicationID: Application,
   lastLog: bytes,
-  numAppArgs: uint64,
-  numAccounts: uint64,
-  numAssets: uint64,
-  numApplicatons: uint64,
-  numLogs: uint64,
-  numApprovalProgrammPages: uint64,
-  numClearStateProgramPages: uint64,
+  numAppArgs: uint<64>,
+  numAccounts: uint<64>,
+  numAssets: uint<64>,
+  numApplicatons: uint<64>,
+  numLogs: uint<64>,
+  numApprovalProgrammPages: uint<64>,
+  numClearStateProgramPages: uint<64>,
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
   xferAsset: Asset
-  assetAmount: uint64
+  assetAmount: uint<64>
   assetSender?: Address
   assetReceiver: Address
   assetCloseTo?: Address
@@ -298,13 +459,13 @@ interface AssetConfigParams extends CommonTransactionParams {
 interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
-  configAssetTotal: uint64
-  configAssetDecimals: uint64
+  configAssetTotal: uint<64>
+  configAssetDecimals: uint<64>
   configAssetManager?: Address
   configAssetReserve?: Address
   configAssetFreeze?: Address
   configAssetClawback?: Address
-  configAssetDefaultFrozen?: uint64
+  configAssetDefaultFrozen?: uint<64>
   configAssetURL?: bytes
   configAssetMetadataHash?: bytes
 }
@@ -312,11 +473,11 @@ interface AssetCreateParams extends CommonTransactionParams {
 interface AssetFreezeParams extends CommonTransactionParams {
   freezeAsset: Asset
   freezeAssetAccount: Address
-  freezeAssetFrozen: uint64
+  freezeAssetFrozen: uint<64>
 }
 
 interface PaymentParams extends CommonTransactionParams {
-  amount: uint64
+  amount: uint<64>
   receiver: Address
   closeRemainderTo?: Address
 }
@@ -330,28 +491,28 @@ interface AppParams extends CommonTransactionParams {
   clearStateProgram?: bytes
   applications?: Array<Application>
   assets?: Array<Asset>
-  globalNumByteSlice?: uint64
-  globalNumUint?: uint64
-  localNumByteSlice?: uint64
-  localNumUint?: uint64
+  globalNumByteSlice?: uint<64>
+  globalNumUint?: uint<64>
+  localNumByteSlice?: uint<64>
+  localNumUint?: uint<64>
 }
 
 interface KeyRegParams extends CommonTransactionParams {
   votePk?: bytes
   selectionPK?: bytes
   stateProofPk?: bytes
-  voteFirst?: uint64
-  voteLast?: uint64
-  voteKeyDilution?: uint64
+  voteFirst?: uint<64>
+  voteLast?: uint<64>
+  voteKeyDilution?: uint<64>
 }
 
 interface OnlineKeyRegParams extends CommonTransactionParams {
   votePK: bytes
   selectionPK: bytes
   stateProofPK: bytes
-  voteFirst: uint64
-  voteLast: uint64
-  voteKeyDilution: uint64
+  voteFirst: uint<64>
+  voteLast: uint<64>
+  voteKeyDilution: uint<64>
 }
 
 declare type PayTxn = Required<PaymentParams>
@@ -373,19 +534,19 @@ type ThisTxnParams = AppOnChainTransactionParams
 type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
 
 declare const globals: {
-  minTxnFee: uint64
-  minBalance: uint64
-  maxTxnLife: uint64
+  minTxnFee: uint<64>
+  minBalance: uint<64>
+  maxTxnLife: uint<64>
   zeroAddress: Address
-  groupSize: uint64
-  logicSigVersion: uint64
-  round: uint64
-  latestTimestamp: uint64
+  groupSize: uint<64>
+  logicSigVersion: uint<64>
+  round: uint<64>
+  latestTimestamp: uint<64>
   currentApplicationID: Application
   creatorAddress: Address
   currentApplicationAddress: Address
   groupID: bytes
-  opcodeBudget: uint64
+  opcodeBudget: uint<64>
   callerApplicationID: Application
   callerApplicationAddress: Address
 };
@@ -409,7 +570,7 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
  * @example
  * Calling a method and getting the return value
  * ```ts
- * // call createNFT(string,string)uint64
+ * // call createNFT(string,string)uint<64>
  * const createdAsset = sendMethodCall<[string, string], Asset>({
  *     applicationID: factoryApp,
  *     name: 'createNFT',
@@ -430,7 +591,7 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 declare function sendMethodCall<ArgsType, ReturnType>(
   params: Expand<MethodCallParams<ArgsType>>
 ): ReturnType
-declare function btoi(byteslice: BytesLike): uint64
+declare function btoi(byteslice: BytesLike): uint<64>
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
 declare function sha256(arg0: BytesLike)
@@ -444,9 +605,9 @@ declare function divmodw(arg0: IntLike, arg1: IntLike, arg2: IntLike, arg3: IntL
 declare function assert(arg0: IntLike)
 declare function concat(arg0: BytesLike, arg1: BytesLike)
 declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbit(arg0: BytesLike, arg1: IntLike)
-declare function setbit(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbyte(arg0: BytesLike, arg1: IntLike): uint64
+declare function getbtest(arg0: BytesLike, arg1: IntLike)
+declare function setbtest(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
+declare function getbyte(arg0: BytesLike, arg1: IntLike): uint<64>
 declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract_uint16(arg0: BytesLike, arg1: IntLike)
@@ -462,7 +623,7 @@ declare function bsqrt(arg0: BytesLike)
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
 
-declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
+declare function wideRatio(numeratorFactors: uint<64>[], denominatorFactors: uint<64>[]): uint<64>
 declare function hex(input: string): bytes
 
 declare type decorator = (
@@ -480,3 +641,8 @@ declare const handle: {
   deleteApplication: decorator;
   createApplication: decorator;
  };
+
+type StaticArray<
+  T extends BytesLike | IntLike | StaticArray,
+  N extends number
+> = N extends 0 ? never[] : T[]

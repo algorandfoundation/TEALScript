@@ -10,7 +10,7 @@ class TestNegatives(ARC12TestClass):
     ):
         with pytest.raises(AlgodHTTPError) as e:
             self._claim(self.receiver)
-        assert e.match("opcodes=pop\n!\nassert\n")
+        assert e.match("opcodes=pop; !; assert")
 
     def test_wrong_claimer(
         self,
@@ -18,4 +18,4 @@ class TestNegatives(ARC12TestClass):
     ):
         with pytest.raises(AlgodHTTPError) as e:
             self._claim(self.random_acct)
-        assert e.match("opcodes=app_global_get\n==\nassert")
+        assert e.match("opcodes=app_global_get; ==; assert")

@@ -1,0 +1,114 @@
+#pragma version 8
+	b main
+
+abi_route_dynamicArrayElements:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x; dup
+	callsub dynamicArrayElements
+	int 1
+	return
+
+dynamicArrayElements:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:454
+	// a: uint<16>[] = [1, 2, 3]
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	int 3
+	itob
+	extract 6 0
+	concat
+	byte 0x0003
+	swap
+	concat
+	frame_bury -1 // a: uint16[]
+
+	// tests/contracts/abi.algo.ts:455
+	// newA: uint<16>[] = [a[0], a[1], a[2]]
+	frame_dig -1 // a: uint16[]
+	store 0 // full array
+	int 0 // initial offset
+	int 0
+	int 2
+	* // acc * typeLength
+	+
+	int 2
+	+ // add two for length
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	frame_dig -1 // a: uint16[]
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 2
+	* // acc * typeLength
+	+
+	int 2
+	+ // add two for length
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	concat
+	frame_dig -1 // a: uint16[]
+	store 0 // full array
+	int 0 // initial offset
+	int 2
+	int 2
+	* // acc * typeLength
+	+
+	int 2
+	+ // add two for length
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	concat
+	byte 0x0003
+	swap
+	concat
+	frame_bury -2 // newA: uint16[]
+
+	// tests/contracts/abi.algo.ts:457
+	// return newA;
+	frame_dig -2 // newA: uint16[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "dynamicArrayElements()uint16[]"
+	txna ApplicationArgs 0
+	match abi_route_dynamicArrayElements
+	err

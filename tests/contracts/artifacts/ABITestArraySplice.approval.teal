@@ -1,0 +1,102 @@
+#pragma version 8
+	b main
+
+abi_route_arraySplice:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub arraySplice
+	int 1
+	return
+
+arraySplice:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:432
+	// a: uint64[] = [1, 2, 3]
+	int 1
+	itob
+	int 2
+	itob
+	concat
+	int 3
+	itob
+	concat
+	byte 0x0003
+	swap
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.algo.ts:434
+	// a.splice(1, 1)
+	frame_dig -1 // a: uint64[]
+	int 0
+	extract_uint16
+	int 1
+	-
+	itob
+	extract 6 2
+	int 1
+	int 8
+	*
+	int 2
+	+
+	store 12 // splice start
+	int 1
+	int 8
+	*
+	int 8
+	+
+	store 13 // splice byte length
+	frame_dig -1 // a: uint64[]
+	int 2
+	load 12 // splice start
+	substring3
+	frame_dig -1 // a: uint64[]
+	dup
+	len
+	load 12 // splice start
+	load 13 // splice byte length
+	+
+	int 8
+	-
+	swap
+	substring3
+	concat
+	concat
+	frame_bury -1 // a: uint64[]
+
+	// tests/contracts/abi.algo.ts:436
+	// return a;
+	frame_dig -1 // a: uint64[]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "arraySplice()uint64[]"
+	txna ApplicationArgs 0
+	match abi_route_arraySplice
+	err

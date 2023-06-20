@@ -10,7 +10,7 @@ pushbytes 0x2826b202 // "opt_into_asset(asset)void"
 ==
 bnz main_l11
 txna ApplicationArgs 0
-pushbytes 0xf0aa7023 // "start_auction(uint64,uint64,axfer)void"
+pushbytes 0xf0aa7023 // "start_auction(uint<64>,uint<64>,axfer)void"
 ==
 bnz main_l10
 txna ApplicationArgs 0

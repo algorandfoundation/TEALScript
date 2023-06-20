@@ -1,34 +1,44 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect } from 'chai';
-import { sandbox, clients } from 'beaker-ts';
-import { LoopsTest } from './contracts/clients/loopstest_client';
-import { artifactsTest } from './common';
+import {
+  expect, describe, test, beforeAll,
+} from '@jest/globals';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
+import { artifactsTest, algodClient, kmdClient } from './common';
+import appSpec from './contracts/artifacts/LoopsTest.json';
 
-let appClient: LoopsTest;
+artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
 
-artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/', 'LoopsTest');
+let appClient: ApplicationClient;
 
 describe('LoopsTest', function () {
-  before(async function () {
-    const acct = (await sandbox.getAccounts()).pop()!;
+  beforeAll(async function () {
+    const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-    appClient = new LoopsTest({
-      client: clients.sandboxAlgod(),
-      signer: acct.signer,
-      sender: acct.addr,
-    });
+    appClient = algokit.getAppClient(
+      {
+        app: JSON.stringify(appSpec),
+        sender,
+        resolveBy: 'id',
+        id: 0,
+      },
+      algodClient,
+    );
 
-    await appClient.create();
+    await appClient.create({ sendParams: { suppressLog: true } });
   });
 
-  it('whileLoop', async function () {
-    const ret = await appClient.whileLoop();
-    expect(ret.returnValue).to.equal(BigInt(10));
+  test('whileLoop', async function () {
+    const ret = await appClient.call(
+      { method: 'whileLoop', methodArgs: [], sendParams: { suppressLog: true } },
+    );
+    expect(ret.return?.returnValue).toEqual(BigInt(10));
   });
 
-  it('forLoop', async function () {
-    const ret = await appClient.forLoop();
-    expect(ret.returnValue).to.equal(BigInt(10));
+  test('forLoop', async function () {
+    const ret = await appClient.call(
+      { method: 'forLoop', methodArgs: [], sendParams: { suppressLog: true } },
+    ); expect(ret.return?.returnValue).toEqual(BigInt(10));
   });
 });

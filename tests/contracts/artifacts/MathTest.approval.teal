@@ -1,0 +1,359 @@
+#pragma version 8
+	b main
+
+abi_route_u64plus:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub u64plus
+	int 1
+	return
+
+u64plus:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:6
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u64minus:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub u64minus
+	int 1
+	return
+
+u64minus:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:10
+	// return a - b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	-
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u64mul:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub u64mul
+	int 1
+	return
+
+u64mul:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:14
+	// return a * b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	*
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u64div:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub u64div
+	int 1
+	return
+
+u64div:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:18
+	// return a / b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	/
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u256plus:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	txna ApplicationArgs 1
+	callsub u256plus
+	int 1
+	return
+
+u256plus:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:22
+	// return a + b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u256minus:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	txna ApplicationArgs 1
+	callsub u256minus
+	int 1
+	return
+
+u256minus:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:26
+	// return a - b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b-
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u256mul:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	txna ApplicationArgs 1
+	callsub u256mul
+	int 1
+	return
+
+u256mul:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:30
+	// return a * b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b*
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u256div:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	txna ApplicationArgs 1
+	callsub u256div
+	int 1
+	return
+
+u256div:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:34
+	// return a / b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b/
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_u64Return256:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub u64Return256
+	int 1
+	return
+
+u64Return256:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:38
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	itob
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_maxU64:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub maxU64
+	int 1
+	return
+
+maxU64:
+	proto 0 0
+
+	// tests/contracts/math.algo.ts:43
+	// assert(18_446_744_073_709_551_615)
+	int 18_446_744_073_709_551_615
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "u64plus(uint64,uint64)uint64"
+	method "u64minus(uint64,uint64)uint64"
+	method "u64mul(uint64,uint64)uint64"
+	method "u64div(uint64,uint64)uint64"
+	method "u256plus(uint256,uint256)uint256"
+	method "u256minus(uint256,uint256)uint256"
+	method "u256mul(uint256,uint256)uint256"
+	method "u256div(uint256,uint256)uint256"
+	method "u64Return256(uint64,uint64)uint256"
+	method "maxU64()void"
+	txna ApplicationArgs 0
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64
+	err

@@ -1,0 +1,50 @@
+#pragma version 8
+	b main
+
+abi_route_stringArg:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub stringArg
+	int 1
+	return
+
+stringArg:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:509
+	// assert(s === 'Hello World!')
+	frame_dig -1 // s: bytes
+	byte "Hello World!"
+	==
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "stringArg(string)void"
+	txna ApplicationArgs 0
+	match abi_route_stringArg
+	err

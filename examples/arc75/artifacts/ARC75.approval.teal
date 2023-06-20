@@ -1,39 +1,6 @@
 #pragma version 8
 	b main
 
-process_dynamic_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -2 // head offset
-	concat
-	frame_bury -4 // tuple head
-	frame_dig -1 // element
-	dup
-	len
-	frame_dig -2 // head offset
-	btoi
-	+
-	itob
-	extract 6 2
-	frame_bury -2 // head offset
-	frame_dig -3 // tuple tail
-	swap
-	concat
-	frame_bury -3 // tuple tail
-	frame_dig -4 // tuple head
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
-
 bare_route_create:
 	txn OnCompletion
 	int NoOp
@@ -43,6 +10,8 @@ bare_route_create:
 	==
 	&&
 	assert
+
+	// no dupn needed
 	callsub create
 	int 1
 	return
@@ -232,6 +201,7 @@ if0_else:
 if0_end:
 	// examples/arc75/arc75.algo.ts:46
 	// this.verifyMBRPayment(payment, preMBR)
+	// no dupn needed
 	frame_dig -5 // preMBR: uint64
 	frame_dig -4 // payment: pay
 	callsub verifyMBRPayment
@@ -246,8 +216,7 @@ abi_route_setAppWhitelist:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -318,6 +287,7 @@ setAppWhitelist:
 	// if1_consequent
 	// examples/arc75/arc75.algo.ts:66
 	// this.sendMBRPayment(preMBR)
+	// no dupn needed
 	frame_dig -4 // preMBR: uint64
 	callsub sendMBRPayment
 	b if1_end
@@ -325,6 +295,7 @@ setAppWhitelist:
 if1_else:
 	// examples/arc75/arc75.algo.ts:68
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
+	// no dupn needed
 	frame_dig -4 // preMBR: uint64
 	txn GroupIndex
 	int 1
@@ -343,8 +314,7 @@ abi_route_deleteWhitelist:
 	!=
 	&&
 	assert
-	byte 0x
-	dup
+	byte 0x; dup
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -392,6 +362,7 @@ deleteWhitelist:
 
 	// examples/arc75/arc75.algo.ts:85
 	// this.sendMBRPayment(preMBR)
+	// no dupn needed
 	frame_dig -3 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
@@ -537,6 +508,7 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:104
 	// this.sendMBRPayment(preMBR)
+	// no dupn needed
 	frame_dig -5 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
@@ -556,3 +528,37 @@ route_abi:
 	method "deleteAppFromWhitelist(string,uint16,uint64,uint64)void"
 	txna ApplicationArgs 0
 	match abi_route_addAppToWhiteList abi_route_setAppWhitelist abi_route_deleteWhitelist abi_route_deleteAppFromWhitelist
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

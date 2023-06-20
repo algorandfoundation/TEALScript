@@ -1,0 +1,57 @@
+{
+  "hints": {
+    "dynamicAccessOfDynamicElementInStaticArray(string[3])string": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2R5bmFtaWNBY2Nlc3NPZkR5bmFtaWNFbGVtZW50SW5TdGF0aWNBcnJheToKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJY2FsbHN1YiBkeW5hbWljQWNjZXNzT2ZEeW5hbWljRWxlbWVudEluU3RhdGljQXJyYXkKCWludCAxCglyZXR1cm4KCmR5bmFtaWNBY2Nlc3NPZkR5bmFtaWNFbGVtZW50SW5TdGF0aWNBcnJheToKCXByb3RvIDIgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo2MjAKCS8vIGkgPSAxCglpbnQgMQoJZnJhbWVfYnVyeSAtMiAvLyBpOiB1aW50NjQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6NjIxCgkvLyByZXR1cm4gYVtpXTsKCWZyYW1lX2RpZyAtMSAvLyBhOiBieXRlc1szXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJZnJhbWVfZGlnIC0yIC8vIGk6IHVpbnQ2NAoJaW50IDIKCSogLy8gYWNjICogMgoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCWxvYWQgMCAvLyBmdWxsIGFycmF5Cgl1bmNvdmVyIDIKCWV4dHJhY3RfdWludDE2CglkdXAgLy8gZHVwbGljYXRlIHN0YXJ0IG9mIGVsZW1lbnQKCWxvYWQgMCAvLyBmdWxsIGFycmF5Cglzd2FwCglleHRyYWN0X3VpbnQxNiAvLyBnZXQgbnVtYmVyIG9mIGVsZW1lbnRzCglpbnQgMSAvLyBnZXQgdHlwZSBsZW5ndGgKCSogLy8gbXVsdGlwbHkgYnkgdHlwZSBsZW5ndGgKCWludCAyCgkrIC8vIGFkZCB0d28gZm9yIGxlbmd0aAoJZXh0cmFjdDMKCWV4dHJhY3QgMiAwCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAiZHluYW1pY0FjY2Vzc09mRHluYW1pY0VsZW1lbnRJblN0YXRpY0FycmF5KHN0cmluZ1szXSlzdHJpbmciCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfZHluYW1pY0FjY2Vzc09mRHluYW1pY0VsZW1lbnRJblN0YXRpY0FycmF5CgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestDynamicAccessOfDynamicElementInStaticArray",
+    "desc": "",
+    "methods": [
+      {
+        "name": "dynamicAccessOfDynamicElementInStaticArray",
+        "args": [
+          {
+            "name": "a",
+            "type": "string[3]",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "string",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

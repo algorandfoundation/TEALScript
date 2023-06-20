@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
-import * as bkr from 'beaker-ts';
-import * as algosdk from 'algosdk';
-import { ContactsApp } from './tealscript_artifacts/contactsapp_client';
+import algosdk from 'algosdk';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { ContactsAppClient } from './ContactsAppClient';
+
+const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
 function decodeContactsTuple(encodedTuple: Uint8Array) {
   const contactTupleType = algosdk.ABITupleType.from('(string,string)');
@@ -13,78 +16,68 @@ function decodeContactsTuple(encodedTuple: Uint8Array) {
   };
 }
 
-async function printContacts(appClient: ContactsApp) {
+async function printContacts(contacts: ContactsAppClient) {
   console.log('All Contacts:');
 
-  const addresses = await appClient.getApplicationBoxNames();
+  const addresses = await contacts.appClient.getBoxNames();
 
   const promises = addresses.map(async (address) => {
-    const encodedTuple = await appClient.getApplicationBox(address);
+    const encodedTuple = await contacts.appClient.getBoxValue(address);
     const decodedTuple = decodeContactsTuple(encodedTuple);
 
-    console.log(`  ${algosdk.encodeAddress(address)}: ${decodedTuple.name} (${decodedTuple.company})`);
+    console.log(`${algosdk.encodeAddress(address.nameRaw)}: ${decodedTuple.name} (${decodedTuple.company})`);
   });
 
   await Promise.all(promises);
 }
 
-async function fundApp(appClient: ContactsApp, amount: number) {
-  const suggestedParams = await appClient.getSuggestedParams();
-
-  const fundATC = new algosdk.AtomicTransactionComposer();
-
-  const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    suggestedParams,
-    from: appClient.sender,
-    to: appClient.appAddress,
-    amount,
-  });
-
-  fundATC.addTransaction({ txn, signer: appClient.signer });
-  await fundATC.execute(appClient.client, 3);
-}
-
 async function main() {
-  const accounts = await bkr.sandbox.getAccounts();
-  const alice = accounts[0];
-  const bob = accounts[1];
+  const alice = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-  const appClient = new ContactsApp({
-    client: bkr.clients.sandboxAlgod(),
-    sender: alice.addr,
-    signer: alice.signer,
-  });
+  const bob = algosdk.generateAccount();
 
-  await appClient.create();
+  const contacts = new ContactsAppClient(
+    {
+      sender: alice,
+      resolveBy: 'id',
+      id: 0,
+    },
+    algodClient,
+  );
 
-  await fundApp(appClient, 100_000);
+  await contacts.appClient.create();
 
-  await fundApp(appClient, 28100);
-  await appClient.setMyContact(
+  await contacts.appClient.fundAppAccount(algokit.microAlgos(100_000));
+
+  await contacts.appClient.fundAppAccount(algokit.microAlgos(28100));
+
+  await contacts.setMyContact(
     { name: 'Alice', company: 'Algorand Foundation' },
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(alice.addr).publicKey }] },
   );
 
-  const rawState = await appClient.getApplicationState(true);
+  const state = await contacts.appClient.getGlobalState();
 
-  const myContact = decodeContactsTuple(rawState[Buffer.from('myContact').toString('hex')] as Uint8Array);
+  // @ts-ignore
+  const myContact = decodeContactsTuple(state.myContact.valueRaw);
 
   console.log(`My Contact: ${JSON.stringify(myContact)}`);
-  await printContacts(appClient);
+  await printContacts(contacts);
 
   console.log('Adding Bob...');
 
-  await fundApp(appClient, 27300);
-  await appClient.addContact(
+  await contacts.appClient.fundAppAccount(algokit.microAlgos(27300));
+
+  await contacts.addContact(
     { name: 'Bob', company: 'Algorand Foundation', address: bob.addr },
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
   );
 
-  await printContacts(appClient);
+  await printContacts(contacts);
 
   console.log("Updating Bob's company...");
 
-  await appClient.updateContactField(
+  await contacts.updateContactField(
     {
       field: 'company',
       value: 'Algorand Inc',
@@ -95,20 +88,21 @@ async function main() {
     },
   );
 
-  await printContacts(appClient);
+  await printContacts(contacts);
 
   console.log("Updating Bob's name...");
 
-  await fundApp(appClient, 1200);
-  await appClient.updateContactField(
+  await contacts.appClient.fundAppAccount(algokit.microAlgos(1200));
+
+  await contacts.updateContactField(
     { field: 'name', value: 'Bob McBobface', address: bob.addr },
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
   );
 
-  await printContacts(appClient);
+  await printContacts(contacts);
   console.log("Verifying Bob's name...");
 
-  await appClient.verifyContactName(
+  await contacts.verifyContactName(
     { name: 'Bob McBobface', address: bob.addr },
     { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
   );

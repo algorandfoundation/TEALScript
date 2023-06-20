@@ -1,0 +1,726 @@
+#pragma version 8
+	b main
+
+abi_route_prefix:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub prefix
+	int 1
+	return
+
+prefix:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:20
+	// this.boxMapWithPrefix.put('oo', 'bar')
+	byte "f"
+	byte "oo"
+	concat
+	dup
+	box_del
+	pop
+	byte "bar"
+	box_put
+	retsub
+
+abi_route_globalKeyPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalKeyPut
+	int 1
+	return
+
+globalKeyPut:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:24
+	// this.globalKey.put('bar')
+	byte "foo"
+	byte "bar"
+	app_global_put
+	retsub
+
+abi_route_globalKeyGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalKeyGet
+	int 1
+	return
+
+globalKeyGet:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:28
+	// assert(this.globalKey.get() === 'bar')
+	byte "foo"
+	app_global_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_globalKeyDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalKeyDelete
+	int 1
+	return
+
+globalKeyDelete:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:32
+	// this.globalKey.delete()
+	byte "foo"
+	app_global_del
+	retsub
+
+abi_route_globalKeyExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalKeyExists
+	int 1
+	return
+
+globalKeyExists:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:36
+	// this.globalKey.exists()
+	txna Applications 0
+	byte "foo"
+	app_global_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_localKeyPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localKeyPut
+	int 1
+	return
+
+localKeyPut:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:40
+	// this.localKey.put(a, 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	byte "bar"
+	app_local_put
+	retsub
+
+abi_route_localKeyGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localKeyGet
+	int 1
+	return
+
+localKeyGet:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:44
+	// assert(this.localKey.get(a) === 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_localKeyDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localKeyDelete
+	int 1
+	return
+
+localKeyDelete:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:48
+	// this.localKey.delete(a)
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_del
+	retsub
+
+abi_route_localKeyExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localKeyExists
+	int 1
+	return
+
+localKeyExists:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:52
+	// this.localKey.exists(a)
+	frame_dig -1 // a: account
+	txna Applications 0
+	byte "foo"
+	app_local_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_boxKeyPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyPut
+	int 1
+	return
+
+boxKeyPut:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:56
+	// this.boxKey.put('bar')
+	byte "foo"
+	byte "bar"
+	box_put
+	retsub
+
+abi_route_boxKeyGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyGet
+	int 1
+	return
+
+boxKeyGet:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:60
+	// assert(this.boxKey.get() === 'bar')
+	byte "foo"
+	box_get
+	assert
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_boxKeyDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyDelete
+	int 1
+	return
+
+boxKeyDelete:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:64
+	// this.boxKey.delete()
+	byte "foo"
+	box_del
+	retsub
+
+abi_route_boxKeyExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyExists
+	int 1
+	return
+
+boxKeyExists:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:68
+	// this.boxKey.exists()
+	byte "foo"
+	box_get
+	swap
+	pop
+	retsub
+
+abi_route_globalMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalMapPut
+	int 1
+	return
+
+globalMapPut:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:72
+	// this.globalMap.put('foo', 'bar')
+	byte "foo"
+	byte "bar"
+	app_global_put
+	retsub
+
+abi_route_globalMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalMapGet
+	int 1
+	return
+
+globalMapGet:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:76
+	// assert(this.globalMap.get('foo') === 'bar')
+	byte "foo"
+	app_global_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_globalMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalMapDelete
+	int 1
+	return
+
+globalMapDelete:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:80
+	// this.globalMap.delete('foo')
+	byte "foo"
+	app_global_del
+	retsub
+
+abi_route_globalMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub globalMapExists
+	int 1
+	return
+
+globalMapExists:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:84
+	// this.globalMap.exists('foo')
+	txna Applications 0
+	byte "foo"
+	app_global_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_localMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapPut
+	int 1
+	return
+
+localMapPut:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:88
+	// this.localMap.put(a, 'foo', 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	byte "bar"
+	app_local_put
+	retsub
+
+abi_route_localMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapGet
+	int 1
+	return
+
+localMapGet:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:92
+	// assert(this.localMap.get(a, 'foo') === 'bar')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_get
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_localMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapDelete
+	int 1
+	return
+
+localMapDelete:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:96
+	// this.localMap.delete(a, 'foo')
+	frame_dig -1 // a: account
+	byte "foo"
+	app_local_del
+	retsub
+
+abi_route_localMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+	callsub localMapExists
+	int 1
+	return
+
+localMapExists:
+	proto 1 0
+
+	// tests/contracts/storage.algo.ts:100
+	// this.localMap.exists(a, 'foo')
+	frame_dig -1 // a: account
+	txna Applications 0
+	byte "foo"
+	app_local_get_ex
+	swap
+	pop
+	retsub
+
+abi_route_boxMapPut:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapPut
+	int 1
+	return
+
+boxMapPut:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:104
+	// this.boxMap.put('foo', 'bar')
+	byte "foo"
+	byte "bar"
+	box_put
+	retsub
+
+abi_route_boxMapGet:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapGet
+	int 1
+	return
+
+boxMapGet:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:108
+	// assert(this.boxMap.get('foo') === 'bar')
+	byte "foo"
+	box_get
+	assert
+	byte "bar"
+	==
+	assert
+	retsub
+
+abi_route_boxMapDelete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapDelete
+	int 1
+	return
+
+boxMapDelete:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:112
+	// this.boxMap.delete('foo')
+	byte "foo"
+	box_del
+	retsub
+
+abi_route_boxMapExists:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapExists
+	int 1
+	return
+
+boxMapExists:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:116
+	// this.boxMap.exists('foo')
+	byte "foo"
+	box_get
+	swap
+	pop
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "prefix()void"
+	method "globalKeyPut()void"
+	method "globalKeyGet()void"
+	method "globalKeyDelete()void"
+	method "globalKeyExists()void"
+	method "localKeyPut(account)void"
+	method "localKeyGet(account)void"
+	method "localKeyDelete(account)void"
+	method "localKeyExists(account)void"
+	method "boxKeyPut()void"
+	method "boxKeyGet()void"
+	method "boxKeyDelete()void"
+	method "boxKeyExists()void"
+	method "globalMapPut()void"
+	method "globalMapGet()void"
+	method "globalMapDelete()void"
+	method "globalMapExists()void"
+	method "localMapPut(account)void"
+	method "localMapGet(account)void"
+	method "localMapDelete(account)void"
+	method "localMapExists(account)void"
+	method "boxMapPut()void"
+	method "boxMapGet()void"
+	method "boxMapDelete()void"
+	method "boxMapExists()void"
+	txna ApplicationArgs 0
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists
+	err

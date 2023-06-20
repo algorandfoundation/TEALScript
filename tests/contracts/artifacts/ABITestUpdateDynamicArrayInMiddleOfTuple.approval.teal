@@ -1,0 +1,184 @@
+#pragma version 8
+	b main
+
+abi_route_updateDynamicArrayInMiddleOfTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub updateDynamicArrayInMiddleOfTuple
+	int 1
+	return
+
+updateDynamicArrayInMiddleOfTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:651
+	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0006 // initial head offset
+	int 1
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	int 2
+	itob
+	extract 7 0
+	byte 0x0001
+	swap
+	concat
+	callsub process_dynamic_tuple_element
+	int 3
+	itob
+	extract 6 0
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [uint16,uint8[],uint16]
+
+	// tests/contracts/abi.algo.ts:653
+	// a[1] = [4, 5]
+	frame_dig -1 // a: [uint16,uint8[],uint16]
+	store 0 // full array
+	int 0 // initial offset
+	int 2 // headOffset
+	+
+	dup
+	store 4 // element head offset
+	load 0 // full array
+	load 0 // full array
+	uncover 2
+	extract_uint16
+	dup
+	store 1 // element start
+	dup // duplicate start of element
+	load 0 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	store 2 // element length
+	load 0 // full array
+	int 0
+	load 1 // element start
+	substring3
+	int 4
+	itob
+	extract 7 0
+	int 5
+	itob
+	extract 7 0
+	concat
+	byte 0x0002
+	swap
+	concat
+	dup
+	store 3 // new element
+	load 0 // full array
+	load 1 // element start
+	load 2 // element length
+	+ // get end of Element
+	load 0 // full array
+	len
+	substring3
+	concat
+	concat
+	store 0 // full array
+	callsub get_length_difference
+	load 0 // full array
+	frame_bury -1 // a: [uint16,uint8[],uint16]
+
+	// tests/contracts/abi.algo.ts:655
+	// return a;
+	frame_dig -1 // a: [uint16,uint8[],uint16]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)"
+	txna ApplicationArgs 0
+	match abi_route_updateDynamicArrayInMiddleOfTuple
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+process_dynamic_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -2 // head offset
+	concat
+	frame_bury -4 // tuple head
+	frame_dig -1 // element
+	dup
+	len
+	frame_dig -2 // head offset
+	btoi
+	+
+	itob
+	extract 6 2
+	frame_bury -2 // head offset
+	frame_dig -3 // tuple tail
+	swap
+	concat
+	frame_bury -3 // tuple tail
+	frame_dig -4 // tuple head
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
+
+get_length_difference:
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	<
+	bnz swapped_difference
+	load 3 // new element
+	len // length of new element
+	load 2 // element length
+	int 1
+	store 7 // subtract head difference
+	b get_difference
+
+swapped_difference:
+	load 2 // element length
+	load 3 // new element
+	len // length of new element
+	int 0
+	store 7 // subtract head difference
+
+get_difference:
+	- // get length difference
+	store 5 // length difference
+	retsub

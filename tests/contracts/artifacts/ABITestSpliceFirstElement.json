@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "spliceFirstElement()uint16[]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3NwbGljZUZpcnN0RWxlbWVudDoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJY2FsbHN1YiBzcGxpY2VGaXJzdEVsZW1lbnQKCWludCAxCglyZXR1cm4KCnNwbGljZUZpcnN0RWxlbWVudDoKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo0ODMKCS8vIGE6IHVpbnQ8MTY+W10gPSBbMSwgMiwgM10KCWludCAxCglpdG9iCglleHRyYWN0IDYgMAoJaW50IDIKCWl0b2IKCWV4dHJhY3QgNiAwCgljb25jYXQKCWludCAzCglpdG9iCglleHRyYWN0IDYgMAoJY29uY2F0CglieXRlIDB4MDAwMwoJc3dhcAoJY29uY2F0CglmcmFtZV9idXJ5IC0xIC8vIGE6IHVpbnQxNltdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjQ4NQoJLy8gYS5zcGxpY2UoMCwgMSkKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJaW50IDAKCWV4dHJhY3RfdWludDE2CglpbnQgMQoJLQoJaXRvYgoJZXh0cmFjdCA2IDIKCWludCAwCglpbnQgMgoJKgoJaW50IDIKCSsKCXN0b3JlIDEyIC8vIHNwbGljZSBzdGFydAoJaW50IDEKCWludCAyCgkqCglpbnQgMgoJKwoJc3RvcmUgMTMgLy8gc3BsaWNlIGJ5dGUgbGVuZ3RoCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDE2W10KCWludCAyCglsb2FkIDEyIC8vIHNwbGljZSBzdGFydAoJc3Vic3RyaW5nMwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQxNltdCglkdXAKCWxlbgoJbG9hZCAxMiAvLyBzcGxpY2Ugc3RhcnQKCWxvYWQgMTMgLy8gc3BsaWNlIGJ5dGUgbGVuZ3RoCgkrCglpbnQgMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cgljb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gYTogdWludDE2W10KCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6NDg3CgkvLyByZXR1cm4gYTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbXQoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAic3BsaWNlRmlyc3RFbGVtZW50KCl1aW50MTZbXSIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9zcGxpY2VGaXJzdEVsZW1lbnQKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestSpliceFirstElement",
+    "desc": "",
+    "methods": [
+      {
+        "name": "spliceFirstElement",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint16[]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

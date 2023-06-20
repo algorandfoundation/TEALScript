@@ -1,17 +1,22 @@
-/* eslint-disable mocha/no-exports */
-/* eslint-disable mocha/no-mocha-arrows */
 /* eslint-disable func-names */
 
 import fs from 'fs';
-import { expect } from 'chai';
+import algosdk from 'algosdk';
+import {
+  expect, describe, test, beforeAll,
+} from '@jest/globals';
 import Compiler from '../src/lib/compiler';
+
+export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
+export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
+export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
 export async function getMethodTeal(
   filename: string,
   className: string,
   methodName: string,
 ): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className);
+  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, '', true);
   await compiler.compile();
   const { teal } = compiler;
 
@@ -30,28 +35,28 @@ export function artifactsTest(
   artifactsPath: string,
   className: string,
 ) {
+  const content = fs.readFileSync(sourcePath, 'utf-8');
+  const compiler = new Compiler(content, className, sourcePath, true);
   describe(`${testName} ${className} Artifacts`, () => {
-    before(async function () {
-      const content = fs.readFileSync(sourcePath, 'utf-8');
-      this.compiler = new Compiler(content, className, sourcePath);
-      await this.compiler.compile();
-      await this.compiler.algodCompile();
+    beforeAll(async () => {
+      await compiler.compile();
+      await compiler.algodCompile();
     });
 
-    it('Generates TEAL', function () {
-      expect(this.compiler.approvalProgram()).to.equal(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
+    test('Generates TEAL', () => {
+      expect(compiler.approvalProgram()).toEqual(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
     });
 
-    it('Generates Sourcemap', function () {
-      expect(this.compiler.pcToLine).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.src_map.json`, 'utf-8')));
+    test('Generates Sourcemap', () => {
+      expect(compiler.srcMaps).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.src_map.json`, 'utf-8')));
     });
 
-    it('Generates ABI JSON', function () {
-      expect(this.compiler.abi).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
+    test('Generates ABI JSON', () => {
+      expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
     });
 
-    it('Generates App Spec', function () {
-      expect(this.compiler.appSpec()).to.deep.equal(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
+    test('Generates App Spec', () => {
+      expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
     });
   });
 }

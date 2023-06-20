@@ -1,0 +1,289 @@
+#pragma version 8
+	b main
+
+abi_route_and:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub and
+	int 1
+	return
+
+and:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:6
+	// assert(a && b)
+	frame_dig -1 // a: uint64
+	dup
+	bz skip_and0
+	frame_dig -2 // b: uint64
+	&&
+
+skip_and0:
+	assert
+	retsub
+
+abi_route_or:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub or
+	int 1
+	return
+
+or:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:10
+	// assert(a || b)
+	frame_dig -1 // a: uint64
+	dup
+	bnz skip_or0
+	frame_dig -2 // b: uint64
+	||
+
+skip_or0:
+	assert
+	retsub
+
+abi_route_equal:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub equal
+	int 1
+	return
+
+equal:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:14
+	// assert(a === b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	==
+	assert
+	retsub
+
+abi_route_notEqual:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub notEqual
+	int 1
+	return
+
+notEqual:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:18
+	// assert(a !== b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	!=
+	assert
+	retsub
+
+abi_route_bitAnd:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitAnd
+	int 1
+	return
+
+bitAnd:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:22
+	// assert(a & b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	&
+	assert
+	retsub
+
+abi_route_bitOr:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitOr
+	int 1
+	return
+
+bitOr:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:26
+	// assert(a | b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	|
+	assert
+	retsub
+
+abi_route_bitXor:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub bitXor
+	int 1
+	return
+
+bitXor:
+	proto 2 0
+
+	// tests/contracts/binary.algo.ts:30
+	// assert(a ^ b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	^
+	assert
+	retsub
+
+abi_route_combo:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 3
+	btoi
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub combo
+	int 1
+	return
+
+combo:
+	proto 3 0
+
+	// tests/contracts/binary.algo.ts:34
+	// assert(a || (b && c))
+	frame_dig -1 // a: uint64
+	dup
+	bnz skip_or1
+	frame_dig -2 // b: uint64
+	dup
+	bz skip_and1
+	frame_dig -3 // c: uint64
+	&&
+
+skip_and1:
+	||
+
+skip_or1:
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "and(uint64,uint64)void"
+	method "or(uint64,uint64)void"
+	method "equal(uint64,uint64)void"
+	method "notEqual(uint64,uint64)void"
+	method "bitAnd(uint64,uint64)void"
+	method "bitOr(uint64,uint64)void"
+	method "bitXor(uint64,uint64)void"
+	method "combo(uint64,uint64,uint64)void"
+	txna ApplicationArgs 0
+	match abi_route_and abi_route_or abi_route_equal abi_route_notEqual abi_route_bitAnd abi_route_bitOr abi_route_bitXor abi_route_combo
+	err
