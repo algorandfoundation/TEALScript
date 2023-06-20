@@ -693,3 +693,12 @@ class ABITestTxnTypes extends Contract {
     assert(p.sender === t.sender);
   }
 }
+
+class ABITestUfixed extends Contract {
+  ufixed(): ufixed64x2 {
+    const a = 1.23 as ufixed64x2;
+    const b = 4.56 as ufixed64x2;
+
+    return a + b;
+  }
+}
