@@ -1908,8 +1908,11 @@ export default class Compiler {
       } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
     } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid(node.expression!, 'itob');
-    } else if (returnType.match(/uint\d+$/) && returnType !== StackType.uint64) {
-      const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
+    } else if (
+      (returnType.match(/uint\d+$/) && returnType !== StackType.uint64)
+      || (returnType.match(/ufixed\d+x\d+$/))
+    ) {
+      const returnBitWidth = parseInt(returnType.match(/\d+/)![0], 10);
       this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
       this.pushVoid(node.expression!, 'b&');
     }
@@ -1924,7 +1927,7 @@ export default class Compiler {
   }
 
   private fixBitWidth(node: ts.Node, desiredWidth: number, warn: boolean = true) {
-    const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
+    const lastBitWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
 
     // eslint-disable-next-line no-console
     if (lastBitWidth > desiredWidth && warn && !this.disableWarnings) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
@@ -2002,7 +2005,8 @@ export default class Compiler {
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
-    } else if (this.lastType.match(/uint\d+/) || this.lastType.match(/uifxed\d+x\d+$/)) {
+    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
+      // TODO: Overflow check?
       this.push(node.operatorToken, `b${operator}`, leftType);
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
@@ -2068,16 +2072,18 @@ export default class Compiler {
   }
 
   private processTSAsExpression(node: ts.AsExpression) {
+    this.typeHint = this.getABIType(node.type.getText());
     this.processNode(node.expression);
 
     const type = this.getABIType(node.type.getText());
-    if (type.match(/uint\d+$/) && type !== this.lastType) {
+    if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
       this.fixBitWidth(node, typeBitWidth, !ts.isNumericLiteral(node.expression));
     }
 
+    this.typeHint = undefined;
     this.lastType = type;
   }
 
@@ -2477,6 +2483,22 @@ export default class Compiler {
   }
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
+    if (this.typeHint?.startsWith('ufixed')) {
+      const match = this.typeHint.match(/\d+/g)!;
+      const n = parseInt(match[0], 10);
+      const m = parseInt(match[1], 10);
+
+      const numDecimals = node.getText().match(/(?<=\.)\d+/)![0].length;
+      const value = parseFloat(node.getText());
+
+      if (numDecimals > m) throw Error(`Value ${value} cannot be represented as ${this.typeHint}. A more precise type is required.`);
+
+      const fixedValue = Math.round(value * 10 ** m);
+
+      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 2, '0')}`, this.typeHint);
+      return;
+    }
+
     if (node.kind === ts.SyntaxKind.StringLiteral) {
       this.push(node, `byte "${node.text}"`, StackType.bytes);
     } else {
