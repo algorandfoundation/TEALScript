@@ -40,7 +40,7 @@ abi_route_txnTypes:
 txnTypes:
 	proto 7 0
 
-	// tests/contracts/abi.algo.ts:690
+	// tests/contracts/abi.algo.ts:701
 	// assert(t.sender === a.sender)
 	frame_dig -1 // t: txn
 	gtxns Sender
@@ -49,7 +49,7 @@ txnTypes:
 	==
 	assert
 
-	// tests/contracts/abi.algo.ts:691
+	// tests/contracts/abi.algo.ts:702
 	// assert(ac.sender === af.sender)
 	frame_dig -3 // ac: acfg
 	gtxns Sender
@@ -58,7 +58,7 @@ txnTypes:
 	==
 	assert
 
-	// tests/contracts/abi.algo.ts:692
+	// tests/contracts/abi.algo.ts:703
 	// assert(at.sender === kr.sender)
 	frame_dig -5 // at: axfer
 	gtxns Sender
@@ -67,7 +67,7 @@ txnTypes:
 	==
 	assert
 
-	// tests/contracts/abi.algo.ts:693
+	// tests/contracts/abi.algo.ts:704
 	// assert(p.sender === t.sender)
 	frame_dig -7 // p: pay
 	gtxns Sender

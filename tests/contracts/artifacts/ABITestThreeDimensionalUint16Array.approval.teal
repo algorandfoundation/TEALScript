@@ -19,7 +19,7 @@ threeDimensionalUint16Array:
 	proto 1 0
 
 	// tests/contracts/abi.algo.ts:234
-	// a: StaticArray<StaticArray<StaticArray<uint16, 2>, 2>, 2> = [
+	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
 	int 11
 	itob
 	extract 6 0

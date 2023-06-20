@@ -18,7 +18,7 @@ abi_route_customTypes:
 customTypes:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:596
+	// tests/contracts/abi.algo.ts:601
 	// aa: CustomType = {
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -39,7 +39,7 @@ customTypes:
 	concat // concat head and tail
 	frame_bury -1 // aa: CustomType
 
-	// tests/contracts/abi.algo.ts:601
+	// tests/contracts/abi.algo.ts:606
 	// aa.bar = 'Hello World!'
 	frame_dig -1 // aa: CustomType
 	store 0 // full array
@@ -90,7 +90,7 @@ customTypes:
 	load 0 // full array
 	frame_bury -1 // aa: CustomType
 
-	// tests/contracts/abi.algo.ts:603
+	// tests/contracts/abi.algo.ts:608
 	// return aa.bar;
 	frame_dig -1 // aa: CustomType
 	store 0 // full array

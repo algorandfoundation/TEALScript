@@ -18,7 +18,7 @@ abi_route_dynamicArray:
 dynamicArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:319
+	// tests/contracts/abi.algo.ts:324
 	// a: uint64[] = [11, 22, 33]
 	int 11
 	itob
@@ -33,7 +33,7 @@ dynamicArray:
 	concat
 	frame_bury -1 // a: uint64[]
 
-	// tests/contracts/abi.algo.ts:321
+	// tests/contracts/abi.algo.ts:326
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	store 0 // full array

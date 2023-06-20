@@ -18,8 +18,8 @@ abi_route_dynamicArrayElements:
 dynamicArrayElements:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:449
-	// a: uint16[] = [1, 2, 3]
+	// tests/contracts/abi.algo.ts:454
+	// a: uint<16>[] = [1, 2, 3]
 	int 1
 	itob
 	extract 6 0
@@ -36,8 +36,8 @@ dynamicArrayElements:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:450
-	// newA: uint16[] = [a[0], a[1], a[2]]
+	// tests/contracts/abi.algo.ts:455
+	// newA: uint<16>[] = [a[0], a[1], a[2]]
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
@@ -84,7 +84,7 @@ dynamicArrayElements:
 	concat
 	frame_bury -2 // newA: uint16[]
 
-	// tests/contracts/abi.algo.ts:452
+	// tests/contracts/abi.algo.ts:457
 	// return newA;
 	frame_dig -2 // newA: uint16[]
 	byte 0x151f7c75

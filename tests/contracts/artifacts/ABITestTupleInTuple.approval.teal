@@ -19,7 +19,7 @@ tupleInTuple:
 	proto 1 0
 
 	// tests/contracts/abi.algo.ts:274
-	// a: [uint16, uint16, [uint64, uint16], [uint16, uint64]] = [
+	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset

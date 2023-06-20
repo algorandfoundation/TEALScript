@@ -18,8 +18,8 @@ abi_route_updateDynamicArrayInTuple:
 updateDynamicArrayInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:374
-	// a: [uint8, uint16[], uint8[], uint16[], uint8[]] = [9, [8], [7], [6], [5]]
+	// tests/contracts/abi.algo.ts:379
+	// a: [uint<8>, uint<16>[], uint<8>[], uint<16>[], uint<8>[]] = [9, [8], [7], [6], [5]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
@@ -59,8 +59,8 @@ updateDynamicArrayInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:376
-	// a[0] = 99 as uint8
+	// tests/contracts/abi.algo.ts:381
+	// a[0] = 99 as uint<8>
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
 	int 0 // initial offset
@@ -74,7 +74,7 @@ updateDynamicArrayInTuple:
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:377
+	// tests/contracts/abi.algo.ts:382
 	// a[1] = [10, 11]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
@@ -143,7 +143,7 @@ updateDynamicArrayInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:378
+	// tests/contracts/abi.algo.ts:383
 	// a[2] = [12, 13]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
@@ -207,7 +207,7 @@ updateDynamicArrayInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:379
+	// tests/contracts/abi.algo.ts:384
 	// a[3] = [14, 15]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
@@ -266,7 +266,7 @@ updateDynamicArrayInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:380
+	// tests/contracts/abi.algo.ts:385
 	// a[4] = [16, 17]
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
@@ -320,7 +320,7 @@ updateDynamicArrayInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 
-	// tests/contracts/abi.algo.ts:382
+	// tests/contracts/abi.algo.ts:387
 	// return a;
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
