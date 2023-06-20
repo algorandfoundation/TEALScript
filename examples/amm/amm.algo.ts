@@ -6,15 +6,15 @@ const FEE = 5;
 
 // eslint-disable-next-line no-unused-vars
 class ConstantProductAMM extends Contract {
-  governor = new GlobalReference<Address>({ key: 'g' });
+  governor = new GlobalStateKey<Address>({ key: 'g' });
 
-  assetA = new GlobalReference<Asset>({ key: 'a' });
+  assetA = new GlobalStateKey<Asset>({ key: 'a' });
 
-  assetB = new GlobalReference<Asset>({ key: 'b' });
+  assetB = new GlobalStateKey<Asset>({ key: 'b' });
 
-  poolToken = new GlobalReference<Asset>({ key: 'p' });
+  poolToken = new GlobalStateKey<Asset>({ key: 'p' });
 
-  ratio = new GlobalReference<uint64>({ key: 'r' });
+  ratio = new GlobalStateKey<uint64>({ key: 'r' });
 
   @handle.createApplication
   create(): void {

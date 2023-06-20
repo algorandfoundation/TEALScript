@@ -1,7 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
 export default class Simple extends Contract {
-  counter = new GlobalReference<uint64>({ key: 'counter' });
+  counter = new GlobalStateKey<uint64>({ key: 'counter' });
 
   @handle.createApplication
   createApp(): void { }

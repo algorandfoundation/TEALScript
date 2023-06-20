@@ -31,7 +31,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
 };
 
 ['global', 'local', 'box'].forEach((storageType) => {
-  ['Ref', 'Map'].forEach((storageClass) => {
+  ['Key', 'Map'].forEach((storageClass) => {
     describe(`${storageType}${storageClass}`, function () {
       ['Put', 'Get', 'Delete', 'Exists'].forEach((method) => {
         test(`${storageType}${storageClass}${method}`, async function () {

@@ -9,9 +9,9 @@ type Path = StaticArray<Branch, typeof TREE_DEPTH>
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
-  root = new GlobalReference<bytes>();
+  root = new GlobalStateKey<bytes>();
 
-  size = new GlobalReference<uint64>();
+  size = new GlobalStateKey<uint64>();
 
   private calcInitRoot(): bytes {
     let result = EMPTY_HASH;

@@ -12,7 +12,7 @@
       }
     },
     {
-      "name": "globalRefPut",
+      "name": "globalKeyPut",
       "args": [],
       "desc": "",
       "returns": {
@@ -21,7 +21,7 @@
       }
     },
     {
-      "name": "globalRefGet",
+      "name": "globalKeyGet",
       "args": [],
       "desc": "",
       "returns": {
@@ -30,7 +30,7 @@
       }
     },
     {
-      "name": "globalRefDelete",
+      "name": "globalKeyDelete",
       "args": [],
       "desc": "",
       "returns": {
@@ -39,7 +39,7 @@
       }
     },
     {
-      "name": "globalRefExists",
+      "name": "globalKeyExists",
       "args": [],
       "desc": "",
       "returns": {
@@ -48,7 +48,7 @@
       }
     },
     {
-      "name": "localRefPut",
+      "name": "localKeyPut",
       "args": [
         {
           "name": "a",
@@ -63,7 +63,7 @@
       }
     },
     {
-      "name": "localRefGet",
+      "name": "localKeyGet",
       "args": [
         {
           "name": "a",
@@ -78,7 +78,7 @@
       }
     },
     {
-      "name": "localRefDelete",
+      "name": "localKeyDelete",
       "args": [
         {
           "name": "a",
@@ -93,7 +93,7 @@
       }
     },
     {
-      "name": "localRefExists",
+      "name": "localKeyExists",
       "args": [
         {
           "name": "a",
@@ -108,7 +108,7 @@
       }
     },
     {
-      "name": "boxRefPut",
+      "name": "boxKeyPut",
       "args": [],
       "desc": "",
       "returns": {
@@ -117,7 +117,7 @@
       }
     },
     {
-      "name": "boxRefGet",
+      "name": "boxKeyGet",
       "args": [],
       "desc": "",
       "returns": {
@@ -126,7 +126,7 @@
       }
     },
     {
-      "name": "boxRefDelete",
+      "name": "boxKeyDelete",
       "args": [],
       "desc": "",
       "returns": {
@@ -135,7 +135,7 @@
       }
     },
     {
-      "name": "boxRefExists",
+      "name": "boxKeyExists",
       "args": [],
       "desc": "",
       "returns": {

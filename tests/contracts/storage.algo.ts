@@ -2,15 +2,15 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class StorageTest extends Contract {
-  globalRef = new GlobalReference<bytes>({ key: 'foo' });
+  globalKey = new GlobalStateKey<bytes>({ key: 'foo' });
 
-  globalMap = new GlobalMap<bytes, bytes>();
+  globalMap = new GlobalStateMap<bytes, bytes>();
 
-  localRef = new LocalReference<bytes>({ key: 'foo' });
+  localKey = new LocalStateKey<bytes>({ key: 'foo' });
 
-  localMap = new LocalMap<bytes, bytes>();
+  localMap = new LocalStateMap<bytes, bytes>();
 
-  boxRef = new BoxReference<bytes>({ key: 'foo', dynamicSize: false });
+  boxKey = new BoxKey<bytes>({ key: 'foo', dynamicSize: false });
 
   boxMap = new BoxMap<bytes, bytes>({ dynamicSize: false });
 
@@ -20,52 +20,52 @@ class StorageTest extends Contract {
     this.boxMapWithPrefix.put('oo', 'bar');
   }
 
-  globalRefPut(): void {
-    this.globalRef.put('bar');
+  globalKeyPut(): void {
+    this.globalKey.put('bar');
   }
 
-  globalRefGet(): void {
-    assert(this.globalRef.get() === 'bar');
+  globalKeyGet(): void {
+    assert(this.globalKey.get() === 'bar');
   }
 
-  globalRefDelete(): void {
-    this.globalRef.delete();
+  globalKeyDelete(): void {
+    this.globalKey.delete();
   }
 
-  globalRefExists(): void {
-    this.globalRef.exists();
+  globalKeyExists(): void {
+    this.globalKey.exists();
   }
 
-  localRefPut(a: Account): void {
-    this.localRef.put(a, 'bar');
+  localKeyPut(a: Account): void {
+    this.localKey.put(a, 'bar');
   }
 
-  localRefGet(a: Account): void {
-    assert(this.localRef.get(a) === 'bar');
+  localKeyGet(a: Account): void {
+    assert(this.localKey.get(a) === 'bar');
   }
 
-  localRefDelete(a: Account): void {
-    this.localRef.delete(a);
+  localKeyDelete(a: Account): void {
+    this.localKey.delete(a);
   }
 
-  localRefExists(a: Account): void {
-    this.localRef.exists(a);
+  localKeyExists(a: Account): void {
+    this.localKey.exists(a);
   }
 
-  boxRefPut(): void {
-    this.boxRef.put('bar');
+  boxKeyPut(): void {
+    this.boxKey.put('bar');
   }
 
-  boxRefGet(): void {
-    assert(this.boxRef.get() === 'bar');
+  boxKeyGet(): void {
+    assert(this.boxKey.get() === 'bar');
   }
 
-  boxRefDelete(): void {
-    this.boxRef.delete();
+  boxKeyDelete(): void {
+    this.boxKey.delete();
   }
 
-  boxRefExists(): void {
-    this.boxRef.exists();
+  boxKeyExists(): void {
+    this.boxKey.exists();
   }
 
   globalMapPut(): void {

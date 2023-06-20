@@ -2410,9 +2410,9 @@ export default class Compiler {
 
     const klass = node.initializer.expression.getText();
 
-    if (['BoxMap', 'GlobalMap', 'LocalMap', 'BoxReference', 'GlobalReference', 'LocalReference'].includes(klass)) {
+    if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
       let props: StorageProp;
-      const type = klass.toLocaleLowerCase().replace('map', '').replace('reference', '');
+      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '');
 
       if (klass.includes('Map')) {
         props = {
@@ -2441,7 +2441,7 @@ export default class Compiler {
 
           switch (name) {
             case 'key':
-              if (klass.includes('Map')) throw new Error(`${name} only applies to storage references`);
+              if (klass.includes('Map')) throw new Error(`${name} only applies to storage keys`);
               if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage key must be string');
               props.key = p.initializer.text;
               break;
@@ -2466,7 +2466,7 @@ export default class Compiler {
         });
       }
 
-      if (!props.key && klass.includes('Reference')) {
+      if (!props.key && klass.includes('Key')) {
         props.key = node.name.getText();
       }
 

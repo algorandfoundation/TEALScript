@@ -2,15 +2,15 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Auction extends Contract {
-  highestBidder = new GlobalReference<Address>({ key: 'highestBidder' });
+  highestBidder = new GlobalStateKey<Address>({ key: 'highestBidder' });
 
-  auctionEnd = new GlobalReference<uint64>({ key: 'auctionEnd' });
+  auctionEnd = new GlobalStateKey<uint64>({ key: 'auctionEnd' });
 
-  highestBid = new GlobalReference<uint64>({ key: 'highestBid' });
+  highestBid = new GlobalStateKey<uint64>({ key: 'highestBid' });
 
-  asaAmt = new GlobalReference<uint64>({ key: 'asaAmt' });
+  asaAmt = new GlobalStateKey<uint64>({ key: 'asaAmt' });
 
-  asa = new GlobalReference<Asset>({ key: 'asa' });
+  asa = new GlobalStateKey<Asset>({ key: 'asa' });
 
   @handle.createApplication
   create(): void {

@@ -6,7 +6,7 @@ type Contact = { name: string, company: string };
 class ContactsApp extends Contract {
   contacts = new BoxMap<Address, Contact>();
 
-  myContact = new GlobalReference<Contact>();
+  myContact = new GlobalStateKey<Contact>();
 
   setMyContact(name: string, company: string): void {
     const contact: Contact = { name: name, company: company };
