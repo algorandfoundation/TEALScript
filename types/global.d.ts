@@ -3,11 +3,11 @@
 /* eslint-disable max-classes-per-file */
 
 // https://stackoverflow.com/a/69288824
-private type Expand<T> = T extends (...args: infer A) => infer R
-? (...args: Expand<A>) => Expand<R>
-: T extends infer O
-? { [K in keyof O]: O[K] }
-: never;
+type Expand<T> = T extends (...args: infer A) => infer R
+  ? (...args: Expand<A>) => Expand<R>
+  : T extends infer O
+  ? { [K in keyof O]: O[K] }
+  : never;
 
 declare type widths = 8 |
 16 |
@@ -610,9 +610,9 @@ declare function setbtest(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function getbyte(arg0: BytesLike, arg1: IntLike): uint<64>
 declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
 declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function extract_uint<16>(arg0: BytesLike, arg1: IntLike)
+declare function extract_uint16(arg0: BytesLike, arg1: IntLike)
 declare function extract_uint32(arg0: BytesLike, arg1: IntLike)
-declare function extract_uint<64>(arg0: BytesLike, arg1: IntLike)
+declare function extract_uint64(arg0: BytesLike, arg1: IntLike)
 declare function replace3(arg0: BytesLike, arg1: IntLike, arg2: BytesLike)
 declare function ed25519verify_bare(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike)
 declare function sqrt(arg0: IntLike)
@@ -642,4 +642,7 @@ declare const handle: {
   createApplication: decorator;
  };
 
- type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = N extends 0 ? never[] : T[]
+type StaticArray<
+  T extends BytesLike | IntLike | StaticArray,
+  N extends number
+> = N extends 0 ? never[] : T[]
