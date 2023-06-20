@@ -353,7 +353,7 @@ declare class BoxMap<KeyType, ValueType> {
   put(key: KeyType, value: ValueType): void
 }
 
-declare class BoxReference<ValueType> {
+declare class BoxKey<ValueType> {
   constructor(options?: { defaultSize?: number, key?: string, dynamicSize?: boolean })
 
   get(): ValueType
@@ -365,7 +365,7 @@ declare class BoxReference<ValueType> {
   put(value: ValueType): void
 }
 
-declare class GlobalMap<KeyType, ValueType> {
+declare class GlobalStateMap<KeyType, ValueType> {
   constructor()
 
   get(key: KeyType): ValueType
@@ -377,7 +377,7 @@ declare class GlobalMap<KeyType, ValueType> {
   put(key: KeyType, value: ValueType): void
 }
 
-declare class GlobalReference<ValueType> {
+declare class GlobalStateKey<ValueType> {
   constructor(options?: { key?: string })
 
   get(): ValueType
@@ -389,7 +389,7 @@ declare class GlobalReference<ValueType> {
   put(value: ValueType): void
 }
 
-declare class LocalMap<KeyType, ValueType> {
+declare class LocalStateMap<KeyType, ValueType> {
   constructor()
 
   get(account: Address, key: KeyType): ValueType
@@ -401,7 +401,7 @@ declare class LocalMap<KeyType, ValueType> {
   put(account: Address, key: KeyType, value: ValueType): void
 }
 
-declare class LocalReference<ValueType> {
+declare class LocalStateKey<ValueType> {
   constructor(options?: { key?: string })
 
   get(account: Address): ValueType

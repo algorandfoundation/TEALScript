@@ -2,11 +2,11 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Vault extends Contract {
-  creator = new GlobalReference<Address>({ key: 'creator' });
+  creator = new GlobalStateKey<Address>({ key: 'creator' });
 
-  master = new GlobalReference<Application>({ key: 'master' });
+  master = new GlobalStateKey<Application>({ key: 'master' });
 
-  receiver = new GlobalReference<Address>({ key: 'receiver' });
+  receiver = new GlobalStateKey<Address>({ key: 'receiver' });
 
   funderMap = new BoxMap<Asset, Address>({ defaultSize: 32 });
 

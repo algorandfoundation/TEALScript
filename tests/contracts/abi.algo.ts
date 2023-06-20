@@ -70,15 +70,15 @@ class ABITestSetStaticArrayElement extends Contract {
 }
 
 class ABITestStaticArrayInStorageRef extends Contract {
-  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
 
-  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
@@ -101,15 +101,15 @@ class ABITestStaticArrayInStorageRef extends Contract {
 }
 
 class ABITestUpdateStaticArrayInStorageRef extends Contract {
-  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
 
-  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
@@ -136,15 +136,15 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 }
 
 class ABITestStaticArrayInStorageMap extends Contract {
-  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
 
-  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 
@@ -167,15 +167,15 @@ class ABITestStaticArrayInStorageMap extends Contract {
 }
 
 class ABITestUpdateStaticArrayInStorageMap extends Contract {
-  gRef = new GlobalReference<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalReference<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxReference<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
 
-  lMap = new LocalMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
   bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
 

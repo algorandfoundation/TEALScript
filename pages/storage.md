@@ -9,7 +9,7 @@ For `Map` storage properties, the first argument to every method must always be 
 ```ts
 class CounterApp extends Contract {
     // A global counter incremeneted on each call stored in global state
-    counter = new GlobalReference<number>();
+    counter = new GlobalStateKey<number>();
 
     // A counter for a specific account incremented on each call stored in a box
     accountCounters = new BoxMap<Address, number>();

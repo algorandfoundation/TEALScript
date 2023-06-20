@@ -31,7 +31,7 @@ prefix:
 	box_put
 	retsub
 
-abi_route_globalRefPut:
+abi_route_globalKeyPut:
 	txn OnCompletion
 	int NoOp
 	==
@@ -42,21 +42,21 @@ abi_route_globalRefPut:
 	assert
 
 	// no dupn needed
-	callsub globalRefPut
+	callsub globalKeyPut
 	int 1
 	return
 
-globalRefPut:
+globalKeyPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:24
-	// this.globalRef.put('bar')
+	// this.globalKey.put('bar')
 	byte "foo"
 	byte "bar"
 	app_global_put
 	retsub
 
-abi_route_globalRefGet:
+abi_route_globalKeyGet:
 	txn OnCompletion
 	int NoOp
 	==
@@ -67,15 +67,15 @@ abi_route_globalRefGet:
 	assert
 
 	// no dupn needed
-	callsub globalRefGet
+	callsub globalKeyGet
 	int 1
 	return
 
-globalRefGet:
+globalKeyGet:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:28
-	// assert(this.globalRef.get() === 'bar')
+	// assert(this.globalKey.get() === 'bar')
 	byte "foo"
 	app_global_get
 	byte "bar"
@@ -83,7 +83,7 @@ globalRefGet:
 	assert
 	retsub
 
-abi_route_globalRefDelete:
+abi_route_globalKeyDelete:
 	txn OnCompletion
 	int NoOp
 	==
@@ -94,20 +94,20 @@ abi_route_globalRefDelete:
 	assert
 
 	// no dupn needed
-	callsub globalRefDelete
+	callsub globalKeyDelete
 	int 1
 	return
 
-globalRefDelete:
+globalKeyDelete:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:32
-	// this.globalRef.delete()
+	// this.globalKey.delete()
 	byte "foo"
 	app_global_del
 	retsub
 
-abi_route_globalRefExists:
+abi_route_globalKeyExists:
 	txn OnCompletion
 	int NoOp
 	==
@@ -118,15 +118,15 @@ abi_route_globalRefExists:
 	assert
 
 	// no dupn needed
-	callsub globalRefExists
+	callsub globalKeyExists
 	int 1
 	return
 
-globalRefExists:
+globalKeyExists:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:36
-	// this.globalRef.exists()
+	// this.globalKey.exists()
 	txna Applications 0
 	byte "foo"
 	app_global_get_ex
@@ -134,7 +134,7 @@ globalRefExists:
 	pop
 	retsub
 
-abi_route_localRefPut:
+abi_route_localKeyPut:
 	txn OnCompletion
 	int NoOp
 	==
@@ -148,22 +148,22 @@ abi_route_localRefPut:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
-	callsub localRefPut
+	callsub localKeyPut
 	int 1
 	return
 
-localRefPut:
+localKeyPut:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:40
-	// this.localRef.put(a, 'bar')
+	// this.localKey.put(a, 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	byte "bar"
 	app_local_put
 	retsub
 
-abi_route_localRefGet:
+abi_route_localKeyGet:
 	txn OnCompletion
 	int NoOp
 	==
@@ -177,15 +177,15 @@ abi_route_localRefGet:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
-	callsub localRefGet
+	callsub localKeyGet
 	int 1
 	return
 
-localRefGet:
+localKeyGet:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:44
-	// assert(this.localRef.get(a) === 'bar')
+	// assert(this.localKey.get(a) === 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_get
@@ -194,7 +194,7 @@ localRefGet:
 	assert
 	retsub
 
-abi_route_localRefDelete:
+abi_route_localKeyDelete:
 	txn OnCompletion
 	int NoOp
 	==
@@ -208,21 +208,21 @@ abi_route_localRefDelete:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
-	callsub localRefDelete
+	callsub localKeyDelete
 	int 1
 	return
 
-localRefDelete:
+localKeyDelete:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:48
-	// this.localRef.delete(a)
+	// this.localKey.delete(a)
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_del
 	retsub
 
-abi_route_localRefExists:
+abi_route_localKeyExists:
 	txn OnCompletion
 	int NoOp
 	==
@@ -236,15 +236,15 @@ abi_route_localRefExists:
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
-	callsub localRefExists
+	callsub localKeyExists
 	int 1
 	return
 
-localRefExists:
+localKeyExists:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:52
-	// this.localRef.exists(a)
+	// this.localKey.exists(a)
 	frame_dig -1 // a: account
 	txna Applications 0
 	byte "foo"
@@ -253,7 +253,7 @@ localRefExists:
 	pop
 	retsub
 
-abi_route_boxRefPut:
+abi_route_boxKeyPut:
 	txn OnCompletion
 	int NoOp
 	==
@@ -264,21 +264,21 @@ abi_route_boxRefPut:
 	assert
 
 	// no dupn needed
-	callsub boxRefPut
+	callsub boxKeyPut
 	int 1
 	return
 
-boxRefPut:
+boxKeyPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:56
-	// this.boxRef.put('bar')
+	// this.boxKey.put('bar')
 	byte "foo"
 	byte "bar"
 	box_put
 	retsub
 
-abi_route_boxRefGet:
+abi_route_boxKeyGet:
 	txn OnCompletion
 	int NoOp
 	==
@@ -289,15 +289,15 @@ abi_route_boxRefGet:
 	assert
 
 	// no dupn needed
-	callsub boxRefGet
+	callsub boxKeyGet
 	int 1
 	return
 
-boxRefGet:
+boxKeyGet:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:60
-	// assert(this.boxRef.get() === 'bar')
+	// assert(this.boxKey.get() === 'bar')
 	byte "foo"
 	box_get
 	assert
@@ -306,7 +306,7 @@ boxRefGet:
 	assert
 	retsub
 
-abi_route_boxRefDelete:
+abi_route_boxKeyDelete:
 	txn OnCompletion
 	int NoOp
 	==
@@ -317,20 +317,20 @@ abi_route_boxRefDelete:
 	assert
 
 	// no dupn needed
-	callsub boxRefDelete
+	callsub boxKeyDelete
 	int 1
 	return
 
-boxRefDelete:
+boxKeyDelete:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:64
-	// this.boxRef.delete()
+	// this.boxKey.delete()
 	byte "foo"
 	box_del
 	retsub
 
-abi_route_boxRefExists:
+abi_route_boxKeyExists:
 	txn OnCompletion
 	int NoOp
 	==
@@ -341,15 +341,15 @@ abi_route_boxRefExists:
 	assert
 
 	// no dupn needed
-	callsub boxRefExists
+	callsub boxKeyExists
 	int 1
 	return
 
-boxRefExists:
+boxKeyExists:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:68
-	// this.boxRef.exists()
+	// this.boxKey.exists()
 	byte "foo"
 	box_get
 	swap
@@ -697,18 +697,18 @@ main:
 
 route_abi:
 	method "prefix()void"
-	method "globalRefPut()void"
-	method "globalRefGet()void"
-	method "globalRefDelete()void"
-	method "globalRefExists()void"
-	method "localRefPut(account)void"
-	method "localRefGet(account)void"
-	method "localRefDelete(account)void"
-	method "localRefExists(account)void"
-	method "boxRefPut()void"
-	method "boxRefGet()void"
-	method "boxRefDelete()void"
-	method "boxRefExists()void"
+	method "globalKeyPut()void"
+	method "globalKeyGet()void"
+	method "globalKeyDelete()void"
+	method "globalKeyExists()void"
+	method "localKeyPut(account)void"
+	method "localKeyGet(account)void"
+	method "localKeyDelete(account)void"
+	method "localKeyExists(account)void"
+	method "boxKeyPut()void"
+	method "boxKeyGet()void"
+	method "boxKeyDelete()void"
+	method "boxKeyExists()void"
 	method "globalMapPut()void"
 	method "globalMapGet()void"
 	method "globalMapDelete()void"
@@ -722,5 +722,5 @@ route_abi:
 	method "boxMapDelete()void"
 	method "boxMapExists()void"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalRefPut abi_route_globalRefGet abi_route_globalRefDelete abi_route_globalRefExists abi_route_localRefPut abi_route_localRefGet abi_route_localRefDelete abi_route_localRefExists abi_route_boxRefPut abi_route_boxRefGet abi_route_boxRefDelete abi_route_boxRefExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists
 	err
