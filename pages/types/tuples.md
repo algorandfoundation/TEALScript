@@ -33,7 +33,7 @@ In TEALScript, arrays must ***always*** be defined with a typehint
 
 ### Nested Array Limitations
 
-Nested dynamic arrays do not updates. This means the entire array must be reconstructed, rather than using the aforementioned methods or updating individual elements. For this reason, it is strongly recommended to use `StaticArray`s whenever possible. See the examples below for clarity. 
+Nested dynamic array elements cannot be accessed or updated. This means to update a nested dynamic array, the entire array must be reconstructed, rather than using the aforementioned methods or updating individual elements. For this reason, it is strongly recommended to use `StaticArray`s whenever possible. See the examples below for clarity. 
 
 ### Examples
 
