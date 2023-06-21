@@ -8,7 +8,7 @@ class Vault extends Contract {
 
   receiver = new GlobalStateKey<Address>({ key: 'receiver' });
 
-  funderMap = new BoxMap<Asset, Address>({ defaultSize: 32 });
+  funderMap = new BoxMap<Asset, Address>();
 
   private closeAcct(vaultCreator: Account): void {
     assert(vaultCreator === this.creator.get());
@@ -129,7 +129,7 @@ class Vault extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class Master extends Contract {
-  vaultMap = new BoxMap<Address, Application>({ defaultSize: 8 });
+  vaultMap = new BoxMap<Address, Application>();
 
   @handle.createApplication
   create(): void {

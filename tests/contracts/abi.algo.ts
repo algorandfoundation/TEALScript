@@ -80,7 +80,7 @@ class ABITestStaticArrayInStorageRef extends Contract {
 
   lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
 
   @handle.optIn
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -111,7 +111,7 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 
   lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
 
   @handle.optIn
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -146,7 +146,7 @@ class ABITestStaticArrayInStorageMap extends Contract {
 
   lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
 
   @handle.optIn
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
@@ -177,7 +177,7 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
   lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>({ defaultSize: 4 });
+  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
 
   @handle.optIn
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {

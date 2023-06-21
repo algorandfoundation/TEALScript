@@ -342,7 +342,7 @@ declare class Application {
 }
 
 declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: { defaultSize?: number, dynamicSize?: boolean, prefix?: string })
+  constructor(options?: {dynamicSize?: boolean, prefix?: string })
 
   get(key: KeyType): ValueType
 
@@ -354,7 +354,7 @@ declare class BoxMap<KeyType, ValueType> {
 }
 
 declare class BoxKey<ValueType> {
-  constructor(options?: { defaultSize?: number, key?: string, dynamicSize?: boolean })
+  constructor(options?: { key?: string, dynamicSize?: boolean })
 
   get(): ValueType
 
