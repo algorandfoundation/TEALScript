@@ -51,7 +51,7 @@ You can cast types of one number to another (but only `uint` -> `uint` or `ufixe
 ```ts
 foo(): uint16 {
     const n: uint8 = 1
-    return n // Compiler will convert b (0x01) to uint16 (0x0001)
+    return n // Compiler will convert n (0x01) to uint16 (0x0001)
 }
 ```
 
@@ -59,7 +59,7 @@ foo(): uint16 {
 ```ts
 foo(): uint8 {
     const n: uint16 = 1
-    return n as uint8 // Compiler will convert b (0x0001) to uint8 (0x01)
+    return n as uint8 // Compiler will convert n (0x0001) to uint8 (0x01)
 }
 ```
 
