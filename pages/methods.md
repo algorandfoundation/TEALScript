@@ -56,35 +56,3 @@ class Calculator extends Contract {
   }
 }
 ```
-
-## Decorators
-TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes) via {@link handle}. If the method has no arguments and void return, the method will be a bare method for the given action(s). Otherwise, the decorated method will be the ONLY method that can handle the given action.
-
-
-### Examples
-#### Bare Create
-```ts
-@handle.createApplication
-create(): void {
-  log("This app has been created!")
-}
-```
-
-#### Non-Bare Create
-```ts
-@handle.createApplication
-create(name: string): void {
-  log("This app has been created by " + name + "!")
-}
-```
-#### Delete and Update
-`modifyApp` will allow both delete AND update on-completes.
-
-```ts
-@handle.updateApplication
-@handle.deleteApplication
-modifyApp(): void {
-  assert(globals.creatorAddress === this.txn.sender)
-  log("App is being modified!")
-}
-```

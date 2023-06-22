@@ -632,15 +632,21 @@ declare type decorator = (
   descriptor: PropertyDescriptor
 ) => PropertyDescriptor
 
-declare const handle: {
-  clearState: decorator;
-  noOp: decorator;
-  optIn: decorator;
-  closeOut: decorator;
-  updateApplication: decorator;
-  deleteApplication: decorator;
-  createApplication: decorator;
- };
+declare class handle {
+  static clearState: decorator;
+
+  static noOp: decorator;
+
+  static optIn: decorator;
+
+  static closeOut: decorator;
+
+  static updateApplication: decorator;
+
+  static deleteApplication: decorator;
+
+  static createApplication: decorator;
+}
 
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
