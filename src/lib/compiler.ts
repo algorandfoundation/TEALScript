@@ -199,7 +199,6 @@ interface OpSpec {
 interface StorageProp {
   type: string;
   key?: string;
-  defaultSize?: number;
   keyType: string;
   valueType: string;
   dynamicSize?: boolean;
@@ -2444,10 +2443,6 @@ export default class Compiler {
               if (klass.includes('Map')) throw new Error(`${name} only applies to storage keys`);
               if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage key must be string');
               props.key = p.initializer.text;
-              break;
-            case 'defaultSize':
-              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
-              props.defaultSize = parseInt(p.initializer.getText(), 10);
               break;
             case 'dynamicSize':
               if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
