@@ -1,6 +1,8 @@
 ## Array Referencing
 
-It is important to know that TEALScript currently passes arrays by **value**, whereas JavaScript engines typically pass arrays by **references**
+It is important to know that TEALScript currently passes arrays by **value**, whereas JavaScript engines typically pass arrays by **references**. 
+
+This behavior is expected to change by 1.0 release.
 
 ### Example
 
