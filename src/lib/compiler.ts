@@ -242,6 +242,8 @@ export default class Compiler {
 
   generatedClearTeal: string = '';
 
+  private lastFrameAccess?: string;
+
   private frameInfo: {
     [name: string]: {
       start: number,
@@ -296,7 +298,9 @@ export default class Compiler {
 
   private processErrorNodes: ts.Node[] = [];
 
-  private frame: {[name: string] :{index: number; type: string}} = {};
+  private frame: {[name: string] :{
+    index?: number; framePointer?: string; type: string}
+  } = {};
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
@@ -1542,8 +1546,15 @@ export default class Compiler {
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
       const name = node.getText();
-      const { index, type } = this.frame[name];
-      this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
+      const frameObj = this.frame[name];
+
+      if (frameObj.index !== undefined) {
+        const { index, type } = this.frame[name];
+        this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
+      } else {
+        const { index, type } = this.frame[this.frame[name].framePointer!];
+        this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
+      }
     } else if (
       ts.isCallExpression(node)
                 && ts.isPropertyAccessExpression(node.expression)
@@ -2152,9 +2163,11 @@ export default class Compiler {
 
     this.push(
       node,
-      `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
+      `frame_dig ${target.index || this.frame[target.framePointer!].index!} // ${node.getText()}: ${target.type}`,
       target.type,
     );
+
+    this.lastFrameAccess = node.getText();
   }
 
   private processNewExpression(node: ts.NewExpression) {
@@ -2194,7 +2207,18 @@ export default class Compiler {
     const name = node.name.getText();
 
     if (node.initializer) {
+      this.lastFrameAccess = undefined;
       this.processNode(node.initializer);
+
+      const abiType = this.getABIType(this.lastType);
+      if (ts.isIdentifier(node.initializer) && this.lastFrameAccess && (abiType.endsWith(']') || abiType.endsWith('}'))) {
+        this.frame[name] = {
+          framePointer: this.lastFrameAccess,
+          type: this.lastType,
+        };
+
+        return;
+      }
 
       this.frame[name] = {
         index: this.frameIndex,
@@ -2707,7 +2731,7 @@ export default class Compiler {
     const currentFrameInfo = this.frameInfo[this.currentSubroutine.name];
 
     Object.keys(this.frame).forEach((name) => {
-      currentFrameInfo.frame[currentFrame[name].index] = { name, type: currentFrame[name].type };
+      currentFrameInfo.frame[currentFrame[name].index!] = { name, type: currentFrame[name].type };
     });
 
     this.frame = lastFrame;

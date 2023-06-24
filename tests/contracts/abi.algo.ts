@@ -729,3 +729,13 @@ class ABITestStringLength extends Contract {
     return s.length;
   }
 }
+class ABITestArrayRef extends Contract {
+  arrayRef(): uint<8>[] {
+    const a: uint<8>[] = [1, 2, 3];
+    const b = a;
+
+    b[1] = 4 as uint<8>;
+
+    return a;
+  }
+}
