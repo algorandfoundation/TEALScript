@@ -739,3 +739,14 @@ class ABITestArrayRef extends Contract {
     return a;
   }
 }
+
+class ABITestNestedArrayRef extends Contract {
+  nestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+    const b = a[1];
+
+    b[1] = 5 as uint<8>;
+
+    return a;
+  }
+}

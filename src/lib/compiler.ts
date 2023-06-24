@@ -5,6 +5,7 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
+import { access } from 'fs';
 import * as langspec from '../langspec.json';
 import 'dotenv/config';
 
@@ -299,7 +300,7 @@ export default class Compiler {
   private processErrorNodes: ts.Node[] = [];
 
   private frame: {[name: string] :{
-    index?: number; framePointer?: string; type: string}
+    index?: number; framePointer?: string; type: string, accessors?: ts.Expression[]}
   } = {};
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
@@ -1755,13 +1756,23 @@ export default class Compiler {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
 
+    const accessors: ts.Expression[] = [];
+
+    const frame = this.frame[chain[0].expression.getText()];
+
+    if (frame?.accessors) {
+      frame.accessors!
+        .forEach((e) => accessors.push(e));
+    }
+
     this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 
-    const parentType = this.getABIType(this.lastType);
+    const parentType = frame?.framePointer
+      ? this.getABIType(this.frame[frame.framePointer!].type) : this.getABIType(this.lastType);
 
     const topLevelTuple = this.getTupleElement(parentType);
 
-    const accessors = chain.map((e) => e.argumentExpression);
+    chain.forEach((e) => accessors.push(e.argumentExpression));
 
     const element = this.getElementHead(topLevelTuple, accessors);
 
@@ -2213,6 +2224,17 @@ export default class Compiler {
       const abiType = this.getABIType(this.lastType);
       if (ts.isIdentifier(node.initializer) && this.lastFrameAccess && (abiType.endsWith(']') || abiType.endsWith('}'))) {
         this.frame[name] = {
+          framePointer: this.lastFrameAccess,
+          type: this.lastType,
+        };
+
+        return;
+      }
+
+      if (ts.isElementAccessExpression(node.initializer) && this.lastFrameAccess) {
+        const accessors = this.getAccessChain(node.initializer).map((e) => e.argumentExpression);
+        this.frame[name] = {
+          accessors,
           framePointer: this.lastFrameAccess,
           type: this.lastType,
         };

@@ -556,4 +556,11 @@ describe('ABI', function () {
     await dryrun(appClient, Number(appId), 'arrayRef');
     expect(await runMethod(appClient, 'arrayRef')).toEqual([1n, 4n, 3n]);
   });
+
+  test.concurrent('nestedArrayRef', async () => {
+    const { appClient, appId } = await compileAndCreate('nestedArrayRef');
+
+    await dryrun(appClient, Number(appId), 'nestedArrayRef');
+    expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+  });
 });
