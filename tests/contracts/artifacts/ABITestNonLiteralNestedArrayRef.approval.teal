@@ -1,0 +1,115 @@
+#pragma version 8
+	b main
+
+abi_route_nonLiteralNestedArrayRef:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	dupn 2
+	callsub nonLiteralNestedArrayRef
+	int 1
+	return
+
+nonLiteralNestedArrayRef:
+	proto 3 0
+
+	// tests/contracts/abi.algo.ts:741
+	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]]
+	int 1
+	itob
+	extract 7 0
+	int 2
+	itob
+	extract 7 0
+	concat
+	int 3
+	itob
+	extract 7 0
+	int 4
+	itob
+	extract 7 0
+	concat
+	concat
+	frame_bury -1 // a: uint8[2][2]
+
+	// tests/contracts/abi.algo.ts:743
+	// i = 1
+	int 1
+	frame_bury -2 // i: uint64
+
+	// tests/contracts/abi.algo.ts:744
+	// b = a[i]
+	frame_dig -1 // a: uint8[2][2]
+	store 0 // full array
+	int 0 // initial offset
+	frame_dig -2 // i: uint64
+	int 2
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
+	frame_dig -2 // i: uint64
+	frame_bury -3 // accessor: accessor//0//b
+
+	// tests/contracts/abi.algo.ts:746
+	// i = 1337
+	int 1337
+	frame_bury -2 // i: uint64
+
+	// tests/contracts/abi.algo.ts:748
+	// b[1] = 5 as uint<8>
+	frame_dig -1 // b: uint8[2]
+	store 0 // full array
+	int 0 // initial offset
+	frame_dig -3 // saved accessor: accessor//0//b
+	int 2
+	* // acc * typeLength
+	+
+	int 1
+	int 1
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 5
+	itob
+	extract 7 0
+	replace3
+	frame_bury -1 // b: uint8[2][2]
+
+	// tests/contracts/abi.algo.ts:750
+	// return a;
+	frame_dig -1 // a: uint8[2][2]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "nonLiteralNestedArrayRef()uint8[2][2]"
+	txna ApplicationArgs 0
+	match abi_route_nonLiteralNestedArrayRef
+	err

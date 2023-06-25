@@ -300,7 +300,7 @@ export default class Compiler {
   private processErrorNodes: ts.Node[] = [];
 
   private frame: {[name: string] :{
-    index?: number; framePointer?: string; type: string, accessors?: ts.Expression[]}
+    index?: number; framePointer?: string; type: string, accessors?: (ts.Expression | string)[]}
   } = {};
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
@@ -1689,11 +1689,34 @@ export default class Compiler {
     ],
   };
 
-  private getElementHead(topLevelTuple: TupleElement, accessors: ts.Expression[]) {
+  private getElementHead(
+    topLevelTuple: TupleElement,
+    accessors: (ts.Expression | string)[],
+    node: ts.Node,
+  ) {
     let previousTupleElement = topLevelTuple;
 
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
+      if (typeof (acc) === 'string') {
+        const elem = previousTupleElement[0];
+
+        const frame = this.frame[acc];
+
+        this.push(node, `frame_dig ${frame.index} // saved accessor: ${acc}`, StackType.uint64);
+
+        this.pushLines(
+          node,
+          // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
+          `int ${this.getTypeLength(elem.type)}`,
+          '* // acc * typeLength',
+          '+',
+        );
+
+        previousTupleElement = elem;
+        return;
+      }
+
       const accNumber = parseInt(acc.getText(), 10);
 
       const elem: TupleElement = Number.isNaN(accNumber)
@@ -1756,7 +1779,7 @@ export default class Compiler {
     const chain = this.getAccessChain(node).reverse();
     this.processNode(chain[0].expression);
 
-    const accessors: ts.Expression[] = [];
+    const accessors: (ts.Expression | string)[] = [];
 
     const frame = this.frame[chain[0].expression.getText()];
 
@@ -1774,7 +1797,7 @@ export default class Compiler {
 
     chain.forEach((e) => accessors.push(e.argumentExpression));
 
-    const element = this.getElementHead(topLevelTuple, accessors);
+    const element = this.getElementHead(topLevelTuple, accessors, node);
 
     const baseType = element.type.replace(/\[\d*\]/, '');
 
@@ -2220,6 +2243,7 @@ export default class Compiler {
     if (node.initializer) {
       this.lastFrameAccess = undefined;
       this.processNode(node.initializer);
+      const initializerType = this.lastType;
 
       const abiType = this.getABIType(this.lastType);
       if (ts.isIdentifier(node.initializer) && this.lastFrameAccess && (abiType.endsWith(']') || abiType.endsWith('}'))) {
@@ -2232,11 +2256,28 @@ export default class Compiler {
       }
 
       if (ts.isElementAccessExpression(node.initializer) && this.lastFrameAccess) {
-        const accessors = this.getAccessChain(node.initializer).map((e) => e.argumentExpression);
+        const accessChain = this.getAccessChain(node.initializer);
+        const accessors = accessChain.map((e, i) => {
+          if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
+
+          this.processNode(e.argumentExpression);
+          const accName = `accessor//${i}//${name}`;
+          this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
+
+          this.frame[accName] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+          };
+
+          this.frameIndex -= 1;
+
+          return accName;
+        });
+
         this.frame[name] = {
           accessors,
-          framePointer: this.lastFrameAccess,
-          type: this.lastType,
+          framePointer: accessChain[0].expression.getText(),
+          type: initializerType,
         };
 
         return;

@@ -558,9 +558,14 @@ describe('ABI', function () {
   });
 
   test.concurrent('nestedArrayRef', async () => {
-    const { appClient, appId } = await compileAndCreate('nestedArrayRef');
+    const { appClient } = await compileAndCreate('nestedArrayRef');
 
-    await dryrun(appClient, Number(appId), 'nestedArrayRef');
     expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+  });
+
+  test.concurrent('nonLiteralNestedArrayRef', async () => {
+    const { appClient } = await compileAndCreate('nonLiteralNestedArrayRef');
+
+    expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
   });
 });
