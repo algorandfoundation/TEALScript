@@ -721,3 +721,11 @@ class ABITestArrayLength extends Contract {
     return a.length;
   }
 }
+
+class ABITestStringLength extends Contract {
+  stringLength(): uint64 {
+    const s = 'foo bar';
+
+    return s.length;
+  }
+}

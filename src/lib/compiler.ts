@@ -2517,6 +2517,11 @@ export default class Compiler {
 
       if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
         this.processNode(n.expression);
+        if (this.lastType === StackType.bytes || this.lastType === 'string') {
+          this.push(n.name, 'len', StackType.uint64);
+          return;
+        }
+
         if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
         this.pushLines(n.name, 'extract 0 2', 'btoi');
         this.lastType = StackType.uint64;

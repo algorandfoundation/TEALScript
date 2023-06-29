@@ -542,4 +542,9 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('arrayLength');
     expect(await runMethod(appClient, 'arrayLength')).toEqual(BigInt(5));
   });
+
+  test.concurrent('stringLength', async () => {
+    const { appClient } = await compileAndCreate('stringLength');
+    expect(await runMethod(appClient, 'stringLength')).toEqual(BigInt(7));
+  });
 });
