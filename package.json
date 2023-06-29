@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorand-devrel/TEALScript",
   "bugs": {
@@ -39,6 +39,7 @@
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "node-fetch": "2",
     "source-map": "^0.7.4",
     "typescript": "^4.9.3",

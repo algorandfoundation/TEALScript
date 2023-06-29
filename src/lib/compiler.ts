@@ -6,6 +6,7 @@ import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as langspec from '../langspec.json';
+import 'dotenv/config';
 
 export type SourceInfo = {
   filename: string;
@@ -199,7 +200,6 @@ interface OpSpec {
 interface StorageProp {
   type: string;
   key?: string;
-  defaultSize?: number;
   keyType: string;
   valueType: string;
   dynamicSize?: boolean;
@@ -2445,10 +2445,6 @@ export default class Compiler {
               if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage key must be string');
               props.key = p.initializer.text;
               break;
-            case 'defaultSize':
-              if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
-              props.defaultSize = parseInt(p.initializer.getText(), 10);
-              break;
             case 'dynamicSize':
               if (props.type !== 'box') throw new Error(`${name} only applies to box storage`);
               if (!this.isDynamicType(props.valueType)) throw new Error(`${name} only applies to dynamic types`);
@@ -2512,10 +2508,23 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n) => {
-      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
+      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
         } else if (n.name.getText() !== 'fromIndex') throw new Error();
+        return;
+      }
+
+      if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
+        this.processNode(n.expression);
+        if (this.lastType === StackType.bytes || this.lastType === 'string') {
+          this.push(n.name, 'len', StackType.uint64);
+          return;
+        }
+
+        if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+        this.pushLines(n.name, 'extract 0 2', 'btoi');
+        this.lastType = StackType.uint64;
         return;
       }
 
@@ -2998,13 +3007,17 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<string> {
+    const algodServer = process.env.ALGOD_SERVER || 'http://localhost';
+    const algodPort = process.env.ALGOD_PORT || '4001';
+    const algodToken = process.env.ALGOD_TOKEN || 'a'.repeat(64);
+
     const response = await fetch(
-      'http://localhost:4001/v2/teal/compile?sourcemap=true',
+      `${algodServer}:${algodPort}/v2/teal/compile?sourcemap=true`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'X-Algo-API-Token': 'a'.repeat(64),
+          'X-Algo-API-Token': algodToken,
         },
         body: this.approvalProgram(),
       },

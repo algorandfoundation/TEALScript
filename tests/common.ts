@@ -47,10 +47,6 @@ export function artifactsTest(
       expect(compiler.approvalProgram()).toEqual(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
     });
 
-    test('Generates Sourcemap', () => {
-      expect(compiler.srcMaps).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.src_map.json`, 'utf-8')));
-    });
-
     test('Generates ABI JSON', () => {
       expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
     });

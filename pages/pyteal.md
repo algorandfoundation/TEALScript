@@ -5,7 +5,7 @@
 | `Global`     | {@link globals}                         |
 | `Itxn`       | {@link Contract.itxn this.itxn}         |
 | `Assert`     | {@link assert}                          |
-| `NamedTuple` | See Objects section {@page abi.md here} |
+| `NamedTuple` | See Objects section {@page types/tuples.md here} |
 
 ## Maybe Values
 

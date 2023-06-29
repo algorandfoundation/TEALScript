@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "stringLength()uint64": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3N0cmluZ0xlbmd0aDoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJY2FsbHN1YiBzdHJpbmdMZW5ndGgKCWludCAxCglyZXR1cm4KCnN0cmluZ0xlbmd0aDoKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo3MjcKCS8vIHMgPSAnZm9vIGJhcicKCWJ5dGUgImZvbyBiYXIiCglmcmFtZV9idXJ5IC0xIC8vIHM6IGJ5dGVzCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjcyOQoJLy8gcmV0dXJuIHMubGVuZ3RoOwoJZnJhbWVfZGlnIC0xIC8vIHM6IGJ5dGVzCglsZW4KCWl0b2IKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgInN0cmluZ0xlbmd0aCgpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX3N0cmluZ0xlbmd0aAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestStringLength",
+    "desc": "",
+    "methods": [
+      {
+        "name": "stringLength",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint64",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

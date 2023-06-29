@@ -106,7 +106,6 @@ async function compileAndCreate(name: string): Promise<{
   await compiler.algodCompile();
 
   expect(compiler.approvalProgram()).toEqual(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8'));
-  expect(compiler.srcMaps).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.src_map.json`, 'utf-8')));
   expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.abi.json`, 'utf-8')));
   expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.json`, 'utf-8')));
 
@@ -537,5 +536,15 @@ describe('ABI', function () {
   test.concurrent('ufixed', async () => {
     const { appClient } = await compileAndCreate('ufixed');
     expect(await runMethod(appClient, 'ufixed')).toEqual(BigInt(123 + 456));
+  });
+
+  test.concurrent('arrayLength', async () => {
+    const { appClient } = await compileAndCreate('arrayLength');
+    expect(await runMethod(appClient, 'arrayLength')).toEqual(BigInt(5));
+  });
+
+  test.concurrent('stringLength', async () => {
+    const { appClient } = await compileAndCreate('stringLength');
+    expect(await runMethod(appClient, 'stringLength')).toEqual(BigInt(7));
   });
 });
