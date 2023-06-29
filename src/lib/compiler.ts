@@ -6,6 +6,7 @@ import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as langspec from '../langspec.json';
+import 'dotenv/config';
 
 export type SourceInfo = {
   filename: string;
@@ -2993,13 +2994,17 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<string> {
+    const algodServer = process.env.ALGOD_SERVER || 'http://localhost';
+    const algodPort = process.env.ALGOD_PORT || '4001';
+    const algodToken = process.env.ALGOD_TOKEN || 'a'.repeat(64);
+
     const response = await fetch(
-      'http://localhost:4001/v2/teal/compile?sourcemap=true',
+      `${algodServer}:${algodPort}/v2/teal/compile?sourcemap=true`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'X-Algo-API-Token': 'a'.repeat(64),
+          'X-Algo-API-Token': algodToken,
         },
         body: this.approvalProgram(),
       },
