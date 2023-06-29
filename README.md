@@ -13,7 +13,6 @@ TEALScript is still very much a work in progress. The current version is `0.x.x`
 ### Missing Features
 
 * ABI boolean encoding/decoding
-* ABI ufixed encoding/decoding
 * More testing
 * More documentation
 
