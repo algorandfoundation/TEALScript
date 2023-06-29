@@ -2508,10 +2508,18 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n) => {
-      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application'].includes(n.expression.getText())) {
+      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
         } else if (n.name.getText() !== 'fromIndex') throw new Error();
+        return;
+      }
+
+      if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
+        this.processNode(n.expression);
+        if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+        this.pushLines(n.name, 'extract 0 2', 'btoi');
+        this.lastType = StackType.uint64;
         return;
       }
 

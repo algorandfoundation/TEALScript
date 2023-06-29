@@ -1,0 +1,77 @@
+#pragma version 8
+	b main
+
+abi_route_arrayLength:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub arrayLength
+	int 1
+	return
+
+arrayLength:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:719
+	// a: uint<8>[] = [11, 22, 33, 44, 55]
+	int 11
+	itob
+	extract 7 0
+	int 22
+	itob
+	extract 7 0
+	concat
+	int 33
+	itob
+	extract 7 0
+	concat
+	int 44
+	itob
+	extract 7 0
+	concat
+	int 55
+	itob
+	extract 7 0
+	concat
+	byte 0x0005
+	swap
+	concat
+	frame_bury -1 // a: uint8[]
+
+	// tests/contracts/abi.algo.ts:721
+	// return a.length;
+	frame_dig -1 // a: uint8[]
+	extract 0 2
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "arrayLength()uint64"
+	txna ApplicationArgs 0
+	match abi_route_arrayLength
+	err

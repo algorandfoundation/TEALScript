@@ -713,3 +713,11 @@ class ABITestUfixed extends Contract {
     return a + b;
   }
 }
+
+class ABITestArrayLength extends Contract {
+  arrayLength(): uint64 {
+    const a: uint<8>[] = [11, 22, 33, 44, 55];
+
+    return a.length;
+  }
+}
