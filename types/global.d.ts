@@ -351,6 +351,14 @@ declare class BoxMap<KeyType, ValueType> {
   delete(key: KeyType): void
 
   put(key: KeyType, value: ValueType): void
+
+  create(key: KeyType, size: uint64): void
+
+  replace(key: KeyType, offset: uint64, value: bytes): void
+
+  extract(key: KeyType, offset: uint64, length: uint64): bytes
+
+  length(key: KeyType): uint64
 }
 
 declare class BoxKey<ValueType> {
@@ -363,6 +371,14 @@ declare class BoxKey<ValueType> {
   delete(): void
 
   put(value: ValueType): void
+
+  create(size: uint64): void
+
+  replace(offset: uint64, value: bytes): void
+
+  extract(offset: uint64, length: uint64): bytes
+
+  length(): uint64
 }
 
 declare class GlobalStateMap<KeyType, ValueType> {

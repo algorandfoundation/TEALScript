@@ -548,6 +548,98 @@ export default class Compiler {
       },
     },
     box: {
+      create: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
+
+        const name = node.expression.expression.name.getText();
+
+        const {
+          keyType, key, prefix,
+        } = this.storageProps[name];
+
+        if (key) {
+          this.pushVoid(node.expression, `byte "${key}"`);
+        } else {
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+
+        this.pushVoid(node.expression, 'box_create');
+      },
+      extract: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
+
+        const name = node.expression.expression.name.getText();
+
+        const {
+          keyType, key, prefix,
+        } = this.storageProps[name];
+
+        if (key) {
+          this.pushVoid(node.expression, `byte "${key}"`);
+        } else {
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(node.arguments[key ? 1 : 2]);
+
+        this.push(node.expression, 'box_extract', StackType.bytes);
+      },
+      replace: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
+
+        const name = node.expression.expression.name.getText();
+
+        const {
+          keyType, key, prefix,
+        } = this.storageProps[name];
+
+        if (key) {
+          this.pushVoid(node.expression, `byte "${key}"`);
+        } else {
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
+        }
+
+        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(node.arguments[key ? 1 : 2]);
+
+        this.pushVoid(node.expression, 'box_replace');
+      },
+      length: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
+        if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
+
+        const name = node.expression.expression.name.getText();
+
+        const {
+          keyType, key, prefix,
+        } = this.storageProps[name];
+
+        if (key) {
+          this.pushVoid(node.expression, `byte "${key}"`);
+        } else {
+          if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
+          this.processNode(node.arguments[0]);
+          if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
+          if (prefix) this.pushVoid(node.arguments[0], 'concat');
+        }
+
+        this.maybeValue(node.expression, 'box_len', StackType.uint64);
+      },
       get: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
