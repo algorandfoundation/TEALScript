@@ -638,6 +638,7 @@ declare function expw(arg0: IntLike, arg1: IntLike)
 declare function bsqrt(arg0: BytesLike)
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
 declare function sha3_256(arg0: BytesLike)
+declare function bzero(size: IntLike): bytes
 
 declare function wideRatio(numeratorFactors: uint<64>[], denominatorFactors: uint<64>[]): uint<64>
 declare function hex(input: string): bytes
