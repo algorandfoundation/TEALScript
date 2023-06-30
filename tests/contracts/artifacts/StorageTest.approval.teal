@@ -681,6 +681,240 @@ boxMapExists:
 	pop
 	retsub
 
+abi_route_boxKeyCreate:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyCreate
+	int 1
+	return
+
+boxKeyCreate:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:120
+	// this.boxKey.create(1024)
+	byte "foo"
+	int 1024
+	box_create
+	retsub
+
+abi_route_boxMapCreate:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapCreate
+	int 1
+	return
+
+boxMapCreate:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:124
+	// this.boxMap.create('bar', 1024)
+	byte "bar"
+	int 1024
+	box_create
+	retsub
+
+abi_route_boxKeyLength:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyLength
+	int 1
+	return
+
+boxKeyLength:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:128
+	// return this.boxKey.length();
+	byte "foo"
+	box_len
+	assert
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_boxMapLength:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapLength
+	int 1
+	return
+
+boxMapLength:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:132
+	// return this.boxMap.length('bar');
+	byte "bar"
+	box_len
+	assert
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_boxKeyReplace:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyReplace
+	int 1
+	return
+
+boxKeyReplace:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:136
+	// this.boxKey.replace(0, 'abc')
+	byte "foo"
+	int 0
+	byte "abc"
+	box_replace
+	retsub
+
+abi_route_boxMapReplace:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapReplace
+	int 1
+	return
+
+boxMapReplace:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:140
+	// this.boxMap.replace('bar', 0, 'abc')
+	byte "bar"
+	int 0
+	byte "abc"
+	box_replace
+	retsub
+
+abi_route_boxKeyExtract:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxKeyExtract
+	int 1
+	return
+
+boxKeyExtract:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:144
+	// return this.boxKey.extract(0, 3);
+	byte "foo"
+	int 0
+	int 3
+	box_extract
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_boxMapExtract:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub boxMapExtract
+	int 1
+	return
+
+boxMapExtract:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:148
+	// return this.boxMap.extract('bar', 0, 3);
+	byte "bar"
+	int 0
+	int 3
+	box_extract
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -721,6 +955,14 @@ route_abi:
 	method "boxMapGet()void"
 	method "boxMapDelete()void"
 	method "boxMapExists()void"
+	method "boxKeyCreate()void"
+	method "boxMapCreate()void"
+	method "boxKeyLength()uint64"
+	method "boxMapLength()uint64"
+	method "boxKeyReplace()void"
+	method "boxMapReplace()void"
+	method "boxKeyExtract()string"
+	method "boxMapExtract()string"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract
 	err

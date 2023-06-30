@@ -115,4 +115,36 @@ class StorageTest extends Contract {
   boxMapExists(): void {
     this.boxMap.exists('foo');
   }
+
+  boxKeyCreate(): void {
+    this.boxKey.create(1024);
+  }
+
+  boxMapCreate(): void {
+    this.boxMap.create('bar', 1024);
+  }
+
+  boxKeyLength(): uint64 {
+    return this.boxKey.length();
+  }
+
+  boxMapLength(): uint64 {
+    return this.boxMap.length('bar');
+  }
+
+  boxKeyReplace(): void {
+    this.boxKey.replace(0, 'abc');
+  }
+
+  boxMapReplace(): void {
+    this.boxMap.replace('bar', 0, 'abc');
+  }
+
+  boxKeyExtract(): string {
+    return this.boxKey.extract(0, 3);
+  }
+
+  boxMapExtract(): string {
+    return this.boxMap.extract('bar', 0, 3);
+  }
 }
