@@ -29,13 +29,14 @@
     "compile-tuple_in_box": "tsx ./src/bin/tealscript.ts examples/tuple_in_box/app.algo.ts examples/tuple_in_box/tealscript_artifacts && algokitgen generate -a examples/tuple_in_box/tealscript_artifacts/ContactsApp.json -o examples/tuple_in_box/ContactsAppClient.ts",
     "compile-calculator": "tsx ./src/bin/tealscript.ts examples/calculator/calculator.algo.ts examples/calculator/artifacts",
     "compile-merkle": "tsx ./src/bin/tealscript.ts examples/merkle/merkle.algo.ts examples/merkle/artifacts && algokitgen generate -a examples/merkle/artifacts/MerkleTree.json -o examples/merkle/MerkleTreeClient.ts",
+    "compile-big_box": "tsx ./src/bin/tealscript.ts examples/big_box/big_box.algo.ts examples/big_box/artifacts",
     "run-merkle": "tsx examples/merkle/demo.ts",
     "run-tuple_in_box": "tsx ./examples/tuple_in_box/client.ts",
     "run-itxns": "tsx examples/itxns/demo.ts",
     "run-examples": "yarn run-merkle && yarn run-tuple_in_box && yarn run-itxns",
     "run-simple": "tsx examples/simple/index.ts",
-    "test-arc75": "jest examples/arc75/arc75.test.ts",
-    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle",
+    "test-examples": "jest examples/",
+    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box",
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples"
   },
   "dependencies": {
