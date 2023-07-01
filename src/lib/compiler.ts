@@ -949,6 +949,8 @@ export default class Compiler {
   private getABIType(type: string): string {
     const abiType = this.customTypes[type] ? this.customTypes[type] : type;
 
+    if (abiType.endsWith('}')) return abiType;
+
     const txnTypes: Record<string, string> = {
       Transaction: 'txn',
       AppCallTxn: 'appl',
@@ -3118,7 +3120,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
-      console.log(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }

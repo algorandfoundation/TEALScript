@@ -1,0 +1,396 @@
+#pragma version 8
+	b main
+
+abi_route_startUpload:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	dupn 3
+	txn GroupIndex
+	int 1
+	-
+	txna ApplicationArgs 3
+	btoi
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub startUpload
+	int 1
+	return
+
+startUpload:
+	proto 8 0
+
+	// examples/big_box/big_box.algo.ts:22
+	// startBox = this.currentIndex.get()
+	byte "currentIndex"
+	app_global_get
+	frame_bury -5 // startBox: uint64
+
+	// examples/big_box/big_box.algo.ts:23
+	// endBox = startBox + numBoxes - 1
+	frame_dig -5 // startBox: uint64
+	frame_dig -2 // numBoxes: uint64
+	+
+	int 1
+	-
+	frame_bury -6 // endBox: uint64
+
+	// examples/big_box/big_box.algo.ts:25
+	// dataInfo: DataInfo = {
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0019 // initial head offset
+	frame_dig -5 // startBox: uint64
+	itob
+	callsub process_static_tuple_element
+	frame_dig -6 // endBox: uint64
+	itob
+	callsub process_static_tuple_element
+	int 0
+	itob
+	extract 7 0
+	callsub process_static_tuple_element
+	frame_dig -3 // endBoxSize: uint64
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -7 // dataInfo: DataInfo
+
+	// examples/big_box/big_box.algo.ts:29
+	// assert(!this.info.exists(name))
+	frame_dig -1 // name: bytes
+	box_get
+	swap
+	pop
+	!
+	assert
+
+	// examples/big_box/big_box.algo.ts:31
+	// this.info.put(name, dataInfo)
+	frame_dig -1 // name: bytes
+	frame_dig -7 // dataInfo: DataInfo
+	box_put
+
+	// examples/big_box/big_box.algo.ts:33
+	// this.currentIndex.put(endBox + 1)
+	byte "currentIndex"
+	frame_dig -6 // endBox: uint64
+	int 1
+	+
+	app_global_put
+
+	// examples/big_box/big_box.algo.ts:35
+	// totalCost = numBoxes * COST_PER_BOX // cost of boxes
+	frame_dig -2 // numBoxes: uint64
+	int 2500
+	*
+	frame_dig -2 // numBoxes: uint64
+	int 1
+	-
+	int 32768
+	*
+	int 400
+	*
+	+
+	frame_dig -2 // numBoxes: uint64
+	int 64
+	*
+	int 400
+	*
+	+
+	frame_dig -3 // endBoxSize: uint64
+	int 400
+	*
+	+
+	frame_bury -8 // totalCost: uint64
+
+	// examples/big_box/big_box.algo.ts:40
+	// assert(mbrPayment.amount === totalCost)
+	frame_dig -4 // mbrPayment: pay
+	gtxns Amount
+	frame_dig -8 // totalCost: uint64
+	==
+	assert
+
+	// examples/big_box/big_box.algo.ts:41
+	// assert(mbrPayment.receiver === this.app.address)
+	frame_dig -4 // mbrPayment: pay
+	gtxns Receiver
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	==
+	assert
+	retsub
+
+abi_route_upload:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	txna ApplicationArgs 4
+	extract 2 0
+	txna ApplicationArgs 3
+	btoi
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub upload
+	int 1
+	return
+
+upload:
+	proto 5 0
+
+	// examples/big_box/big_box.algo.ts:45
+	// dataInfo = this.info.get(name)
+	frame_dig -1 // name: bytes
+	box_get
+	assert
+	frame_bury -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+
+	// examples/big_box/big_box.algo.ts:46
+	// assert(dataInfo.status === IN_PROGRESS)
+	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 1
+	extract3
+	int 0
+	itob
+	extract 7 0
+	b==
+	assert
+
+	// examples/big_box/big_box.algo.ts:47
+	// assert(dataInfo.start <= boxIndex && boxIndex <= dataInfo.end)
+	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	frame_dig -2 // boxIndex: uint64
+	<=
+	dup
+	bz skip_and0
+	frame_dig -2 // boxIndex: uint64
+	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	<=
+	&&
+
+skip_and0:
+	assert
+
+	// if0_condition
+	// examples/big_box/big_box.algo.ts:49
+	// offset === 0
+	frame_dig -3 // offset: uint64
+	int 0
+	==
+	bz if0_end
+
+	// if0_consequent
+	// examples/big_box/big_box.algo.ts:50
+	// this.dataBoxes.create(boxIndex, boxIndex === dataInfo.end ? dataInfo.endSize : MAX_BOX_SIZE)
+	frame_dig -2 // boxIndex: uint64
+	itob
+	frame_dig -2 // boxIndex: uint64
+	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	==
+	bz ternary0_false
+	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 17 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	b ternary0_end
+
+ternary0_false:
+	int 32768
+
+ternary0_end:
+	box_create
+
+if0_end:
+	// examples/big_box/big_box.algo.ts:53
+	// this.dataBoxes.replace(boxIndex, offset, data)
+	frame_dig -2 // boxIndex: uint64
+	itob
+	frame_dig -3 // offset: uint64
+	frame_dig -4 // data: bytes
+	box_replace
+	retsub
+
+abi_route_setStatus:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	txna ApplicationArgs 2
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub setStatus
+	int 1
+	return
+
+setStatus:
+	proto 3 0
+
+	// examples/big_box/big_box.algo.ts:57
+	// currentStatus = this.info.get(name).status
+	frame_dig -1 // name: bytes
+	box_get
+	assert
+	frame_dig -1 // name: bytes
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 1
+	extract3
+	frame_bury -3 // currentStatus: uint8
+
+	// examples/big_box/big_box.algo.ts:59
+	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
+	frame_dig -2 // status: uint8
+	int 1
+	itob
+	extract 7 0
+	b==
+	dup
+	bnz skip_or0
+	frame_dig -2 // status: uint8
+	int 2
+	itob
+	extract 7 0
+	b==
+	||
+
+skip_or0:
+	dup
+	bnz skip_or1
+	frame_dig -2 // status: uint8
+	int 0
+	itob
+	extract 7 0
+	b==
+	||
+
+skip_or1:
+	assert
+
+	// examples/big_box/big_box.algo.ts:60
+	// assert(currentStatus !== IMMUTABLE)
+	frame_dig -3 // currentStatus: uint8
+	int 2
+	itob
+	extract 7 0
+	b!=
+	assert
+
+	// examples/big_box/big_box.algo.ts:62
+	// this.info.get(name).status = status
+	// examples/big_box/big_box.algo.ts:1
+	// this.info.get(name)
+	frame_dig -1 // name: bytes
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
+	frame_dig -2 // status: uint8
+	replace3
+	frame_dig -1 // name: bytes
+	swap
+	box_put
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "startUpload(string,uint64,uint64,pay)void"
+	method "upload(string,uint64,uint64,byte[])void"
+	method "setStatus(string,uint8)void"
+	txna ApplicationArgs 0
+	match abi_route_startUpload abi_route_upload abi_route_setStatus
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub
