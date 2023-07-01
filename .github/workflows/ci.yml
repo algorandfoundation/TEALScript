@@ -1,7 +1,7 @@
 name: TEALScript CI
 on:
   pull_request:
-    branches: [ release, dev ]
+    branches: [ main, dev ]
 jobs:
   test:
     runs-on: ubuntu-latest
