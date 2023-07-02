@@ -781,3 +781,17 @@ class ABITestMultiNestedArrayRef extends Contract {
     return a;
   }
 }
+
+type ObjectRefType = { foo : StaticArray<StaticArray<uint<8>, 2>, 2>} ;
+
+class ABITestObjectArrayRef extends Contract {
+  objectArrayRef(): ObjectRefType {
+    const a: ObjectRefType = { foo: [[1, 2], [3, 4]] };
+    const b = a.foo;
+    const c = b[1];
+
+    c[1] = 5 as uint<8>;
+
+    return a;
+  }
+}

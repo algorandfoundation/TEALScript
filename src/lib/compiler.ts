@@ -919,6 +919,17 @@ export default class Compiler {
     if (type.match(/uint\d+$/)) {
       return parseInt(type.slice(4), 10) / 8;
     }
+
+    if (type.startsWith('{')) {
+      const types = Object.values(this.getObjectTypes(type));
+      let totalLength = 0;
+      types.forEach((t) => {
+        totalLength += this.getTypeLength(t);
+      });
+
+      return totalLength;
+    }
+
     switch (type) {
       case 'asset':
       case 'application':
@@ -1004,16 +1015,20 @@ export default class Compiler {
   // This is seperate from this.getABIType because the bracket notation
   // is useful for parsing, but the ABI/appspec JSON need the parens
   private getABITupleString(str: string) {
-    let tupleStr = str.toLowerCase();
+    let tupleStr = str;
+
     if (tupleStr.startsWith('{')) {
-      const types = Object.values(this.getObjectTypes(tupleStr));
+      const types = Object.values(this.getObjectTypes(tupleStr))
+        .map((t) => this.getABIType(t))
+        .map((t) => this.getABITupleString(t));
+
       tupleStr = `(${types.join(',')})`;
     }
 
     const trailingBrakcet = /(?<!\[\d*)]/g;
     const leadingBracket = /\[(?!\d*])/g;
 
-    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
+    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(').toLocaleLowerCase();
   }
 
   private getObjectTypes(givenType: string): Record<string, string> {
@@ -2061,7 +2076,9 @@ export default class Compiler {
             'concat',
           );
         } else this.pushVoid(node.expression!, 'extract 2 0');
-      } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+      } else if (this.customTypes[this.lastType] !== returnType) {
+        throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+      }
     } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid(node.expression!, 'itob');
     } else if (
@@ -2271,7 +2288,9 @@ export default class Compiler {
         };
 
         return;
-      } if (ts.isElementAccessExpression(node.initializer)) {
+      }
+
+      if (ts.isElementAccessExpression(node.initializer)) {
         const accessChain = this.getAccessChain(node.initializer);
         lastFrameAccess = accessChain[0].expression.getText();
 
@@ -2294,6 +2313,24 @@ export default class Compiler {
 
         this.frame[name] = {
           accessors,
+          framePointer: lastFrameAccess,
+          type: initializerType,
+        };
+
+        return;
+      }
+
+      if (ts.isPropertyAccessExpression(node.initializer)) {
+        // const chain = this.getChain(node.initializer);
+
+        lastFrameAccess = node.initializer.expression.getText();
+
+        const type = this.getStackTypeFromNode(node.initializer.expression);
+        const index = Object.keys(this.getObjectTypes(type))
+          .indexOf(node.initializer.name.getText());
+
+        this.frame[name] = {
+          accessors: [stringToExpression(index.toString())],
           framePointer: lastFrameAccess,
           type: initializerType,
         };

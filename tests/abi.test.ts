@@ -573,4 +573,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([[[1n, 2n], [3n, 4n]], [[5n, 6n], [7n, 9n]]]);
   });
+
+  test.concurrent('objectArrayRef', async () => {
+    const { appClient } = await compileAndCreate('objectArrayRef');
+
+    expect(await runMethod(appClient, 'objectArrayRef')).toEqual([[[1n, 2n], [3n, 5n]]]);
+  });
 });
