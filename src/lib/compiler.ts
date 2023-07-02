@@ -1540,6 +1540,25 @@ export default class Compiler {
     return chain;
   }
 
+  private followFramePointer(name: string): {
+    name: string, accessors: (ts.Expression | string)[]
+  } {
+    let currentFrameName = name;
+    let currentFrame = this.frame[name];
+    const accessors: (ts.Expression | string)[][] = [];
+
+    while (currentFrame.framePointer !== undefined) {
+      if (currentFrame.accessors) accessors.push(currentFrame.accessors);
+
+      currentFrameName = currentFrame.framePointer!;
+      currentFrame = this.frame[currentFrameName];
+    }
+
+    const flatAccessors = accessors.reverse().flat();
+
+    return { name: currentFrameName, accessors: flatAccessors };
+  }
+
   private updateValue(node: ts.Node) {
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
@@ -1550,7 +1569,8 @@ export default class Compiler {
         const { index, type } = this.frame[name];
         this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
       } else {
-        const { index, type } = this.frame[this.frame[name].framePointer!];
+        const pointerName = this.followFramePointer(name).name;
+        const { index, type } = this.frame[pointerName];
         this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
       }
     } else if (
@@ -1778,17 +1798,17 @@ export default class Compiler {
 
     const accessors: (ts.Expression | string)[] = [];
 
-    const frame = this.frame[chain[0].expression.getText()];
+    let frame = this.frame[chain[0].expression.getText()];
 
-    if (frame?.accessors) {
-      frame.accessors!
-        .forEach((e) => accessors.push(e));
+    if (frame && frame.index === undefined) {
+      const frameFollow = this.followFramePointer(chain[0].expression.getText());
+      frameFollow.accessors.forEach((e) => accessors.push(e));
+      frame = this.frame[frameFollow.name];
     }
 
     this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 
-    const parentType = frame?.framePointer
-      ? this.getABIType(this.frame[frame.framePointer!].type) : this.getABIType(this.lastType);
+    const parentType = frame ? this.getABIType(frame.type) : this.getABIType(this.lastType);
 
     const topLevelTuple = this.getTupleElement(parentType);
 
@@ -2194,7 +2214,7 @@ export default class Compiler {
 
     this.push(
       node,
-      `frame_dig ${target.index || this.frame[target.framePointer!].index!} // ${node.getText()}: ${target.type}`,
+      `frame_dig ${target.index || this.frame[this.followFramePointer(node.getText()).name].index!} // ${node.getText()}: ${target.type}`,
       target.type,
     );
   }
