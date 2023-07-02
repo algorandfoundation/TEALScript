@@ -19,7 +19,7 @@ abi_route_nonLiteralNestedArrayRef:
 nonLiteralNestedArrayRef:
 	proto 3 0
 
-	// tests/contracts/abi.algo.ts:741
+	// tests/contracts/abi.algo.ts:756
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]]
 	int 1
 	itob
@@ -38,12 +38,12 @@ nonLiteralNestedArrayRef:
 	concat
 	frame_bury -1 // a: uint8[2][2]
 
-	// tests/contracts/abi.algo.ts:743
+	// tests/contracts/abi.algo.ts:758
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.algo.ts:744
+	// tests/contracts/abi.algo.ts:759
 	// b = a[i]
 	frame_dig -1 // a: uint8[2][2]
 	store 0 // full array
@@ -59,12 +59,12 @@ nonLiteralNestedArrayRef:
 	frame_dig -2 // i: uint64
 	frame_bury -3 // accessor: accessor//0//b
 
-	// tests/contracts/abi.algo.ts:746
+	// tests/contracts/abi.algo.ts:761
 	// i = 1337
 	int 1337
 	frame_bury -2 // i: uint64
 
-	// tests/contracts/abi.algo.ts:748
+	// tests/contracts/abi.algo.ts:763
 	// b[1] = 5 as uint<8>
 	frame_dig -1 // b: uint8[2]
 	store 0 // full array
@@ -85,7 +85,7 @@ nonLiteralNestedArrayRef:
 	replace3
 	frame_bury -1 // b: uint8[2][2]
 
-	// tests/contracts/abi.algo.ts:750
+	// tests/contracts/abi.algo.ts:765
 	// return a;
 	frame_dig -1 // a: uint8[2][2]
 	byte 0x151f7c75

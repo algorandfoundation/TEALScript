@@ -18,7 +18,7 @@ abi_route_arrayRef:
 arrayRef:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:719
+	// tests/contracts/abi.algo.ts:734
 	// a: uint<8>[] = [1, 2, 3]
 	int 1
 	itob
@@ -36,11 +36,11 @@ arrayRef:
 	concat
 	frame_bury -1 // a: uint8[]
 
-	// tests/contracts/abi.algo.ts:720
+	// tests/contracts/abi.algo.ts:735
 	// b = a
 	frame_dig -1 // a: uint8[]
 
-	// tests/contracts/abi.algo.ts:722
+	// tests/contracts/abi.algo.ts:737
 	// b[1] = 4 as uint<8>
 	frame_dig -1 // b: uint8[]
 	store 0 // full array
@@ -59,7 +59,7 @@ arrayRef:
 	replace3
 	frame_bury -1 // b: uint8[]
 
-	// tests/contracts/abi.algo.ts:724
+	// tests/contracts/abi.algo.ts:739
 	// return a;
 	frame_dig -1 // a: uint8[]
 	byte 0x151f7c75

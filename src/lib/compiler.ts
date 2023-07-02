@@ -5,7 +5,6 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
-import { access } from 'fs';
 import * as langspec from '../langspec.json';
 import 'dotenv/config';
 
@@ -242,8 +241,6 @@ export default class Compiler {
   generatedTeal: string = '';
 
   generatedClearTeal: string = '';
-
-  private lastFrameAccess?: string;
 
   private frameInfo: {
     [name: string]: {
@@ -2200,8 +2197,6 @@ export default class Compiler {
       `frame_dig ${target.index || this.frame[target.framePointer!].index!} // ${node.getText()}: ${target.type}`,
       target.type,
     );
-
-    this.lastFrameAccess = node.getText();
   }
 
   private processNewExpression(node: ts.NewExpression) {
@@ -2241,22 +2236,25 @@ export default class Compiler {
     const name = node.name.getText();
 
     if (node.initializer) {
-      this.lastFrameAccess = undefined;
       this.processNode(node.initializer);
       const initializerType = this.lastType;
+      let lastFrameAccess: string | undefined;
 
-      const abiType = this.getABIType(this.lastType);
-      if (ts.isIdentifier(node.initializer) && this.lastFrameAccess && (abiType.endsWith(']') || abiType.endsWith('}'))) {
+      const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
+
+      if (ts.isIdentifier(node.initializer) && isArray) {
+        lastFrameAccess = node.initializer.getText();
+
         this.frame[name] = {
-          framePointer: this.lastFrameAccess,
-          type: this.lastType,
+          framePointer: lastFrameAccess,
+          type: initializerType,
         };
 
         return;
-      }
-
-      if (ts.isElementAccessExpression(node.initializer) && this.lastFrameAccess) {
+      } if (ts.isElementAccessExpression(node.initializer)) {
         const accessChain = this.getAccessChain(node.initializer);
+        lastFrameAccess = accessChain[0].expression.getText();
+
         const accessors = accessChain.map((e, i) => {
           if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
 
@@ -2276,7 +2274,7 @@ export default class Compiler {
 
         this.frame[name] = {
           accessors,
-          framePointer: accessChain[0].expression.getText(),
+          framePointer: lastFrameAccess,
           type: initializerType,
         };
 
@@ -2285,10 +2283,10 @@ export default class Compiler {
 
       this.frame[name] = {
         index: this.frameIndex,
-        type: this.lastType,
+        type: initializerType,
       };
 
-      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${initializerType}`);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
