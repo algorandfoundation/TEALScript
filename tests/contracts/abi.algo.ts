@@ -765,3 +765,19 @@ class ABITestNonLiteralNestedArrayRef extends Contract {
     return a;
   }
 }
+
+class ABITestMultiNestedArrayRef extends Contract {
+  multiNestedArrayRef(): StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> {
+    const a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
+      [[1, 2], [3, 4]],
+      [[5, 6], [7, 8]],
+    ];
+
+    const b = a[1];
+    const c = b[1];
+
+    c[1] = 9 as uint<8>;
+
+    return a;
+  }
+}

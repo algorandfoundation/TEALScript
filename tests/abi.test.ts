@@ -551,9 +551,8 @@ describe('ABI', function () {
     expect(await runMethod(appClient, 'stringLength')).toEqual(BigInt(7));
   });
   test.concurrent('arrayRef', async () => {
-    const { appClient, appId } = await compileAndCreate('arrayRef');
+    const { appClient } = await compileAndCreate('arrayRef');
 
-    await dryrun(appClient, Number(appId), 'arrayRef');
     expect(await runMethod(appClient, 'arrayRef')).toEqual([1n, 4n, 3n]);
   });
 
@@ -567,5 +566,11 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('nonLiteralNestedArrayRef');
 
     expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+  });
+
+  test.concurrent('multiNestedArrayRef', async () => {
+    const { appClient } = await compileAndCreate('multiNestedArrayRef');
+
+    expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([[[1n, 2n], [3n, 4n]], [[5n, 6n], [7n, 9n]]]);
   });
 });
