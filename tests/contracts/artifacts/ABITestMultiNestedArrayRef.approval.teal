@@ -55,39 +55,11 @@ multiNestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:776
 	// b = a[1]
-	frame_dig -1 // a: uint8[2][2][2]
-	store 0 // full array
-	int 0 // initial offset
-	int 1
-	int 4
-	* // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 4
-	extract3
-
 	// tests/contracts/abi.algo.ts:777
 	// c = b[1]
-	frame_dig -1 // b: uint8[2][2]
-	store 0 // full array
-	int 0 // initial offset
-	int 1
-	int 4
-	* // acc * typeLength
-	+
-	int 1
-	int 2
-	* // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 2
-	extract3
-
 	// tests/contracts/abi.algo.ts:779
 	// c[1] = 9 as uint<8>
-	frame_dig -1 // c: uint8[2]
+	frame_dig -1 // a: uint8[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
 	int 1

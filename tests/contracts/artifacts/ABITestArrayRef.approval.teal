@@ -36,13 +36,9 @@ arrayRef:
 	concat
 	frame_bury -1 // a: uint8[]
 
-	// tests/contracts/abi.algo.ts:735
-	// b = a
-	frame_dig -1 // a: uint8[]
-
 	// tests/contracts/abi.algo.ts:737
 	// b[1] = 4 as uint<8>
-	frame_dig -1 // b: uint8[]
+	frame_dig -1 // a: uint8[]
 	store 0 // full array
 	int 0 // initial offset
 	int 1

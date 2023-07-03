@@ -43,37 +43,11 @@ objectArrayRef:
 	concat // concat head and tail
 	frame_bury -1 // a: ObjectRefType
 
-	// tests/contracts/abi.algo.ts:790
-	// b = a.foo
-	frame_dig -1 // a: ObjectRefType
-	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	load 0 // full array
-	swap
-	int 4
-	extract3
-
 	// tests/contracts/abi.algo.ts:791
 	// c = b[1]
-	frame_dig -1 // b: uint8[2][2]
-	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	int 1
-	int 2
-	* // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 2
-	extract3
-
 	// tests/contracts/abi.algo.ts:793
 	// c[1] = 5 as uint<8>
-	frame_dig -1 // c: uint8[2]
+	frame_dig -1 // a: ObjectRefType
 	store 0 // full array
 	int 0 // initial offset
 	int 0 // headOffset
