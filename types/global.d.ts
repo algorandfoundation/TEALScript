@@ -350,7 +350,7 @@ declare class BoxMap<KeyType, ValueType> {
 
   delete(key: KeyType): void
 
-  put(key: KeyType, value: ValueType): void
+  set(key: KeyType, value: ValueType): void
 
   create(key: KeyType, size: uint64): void
 
@@ -370,7 +370,7 @@ declare class BoxKey<ValueType> {
 
   delete(): void
 
-  put(value: ValueType): void
+  set(value: ValueType): void
 
   create(size: uint64): void
 
@@ -390,7 +390,7 @@ declare class GlobalStateMap<KeyType, ValueType> {
 
   delete(key: KeyType): void
 
-  put(key: KeyType, value: ValueType): void
+  set(key: KeyType, value: ValueType): void
 }
 
 declare class GlobalStateKey<ValueType> {
@@ -402,7 +402,7 @@ declare class GlobalStateKey<ValueType> {
 
   delete(): void
 
-  put(value: ValueType): void
+  set(value: ValueType): void
 }
 
 declare class LocalStateMap<KeyType, ValueType> {
@@ -414,7 +414,7 @@ declare class LocalStateMap<KeyType, ValueType> {
 
   delete(account: Address, key: KeyType): void
 
-  put(account: Address, key: KeyType, value: ValueType): void
+  set(account: Address, key: KeyType, value: ValueType): void
 }
 
 declare class LocalStateKey<ValueType> {
@@ -426,7 +426,7 @@ declare class LocalStateKey<ValueType> {
 
   delete(account: Address): void
 
-  put(account: Address, value: ValueType): void
+  set(account: Address, value: ValueType): void
 }
 
 type IntLike = uint<64> | Asset | Application | boolean
