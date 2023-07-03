@@ -20,7 +20,7 @@ prefix:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:20
-	// this.boxMapWithPrefix.put('oo', 'bar')
+	// this.boxMapWithPrefix.set('oo', 'bar')
 	byte "f"
 	byte "oo"
 	concat
@@ -50,7 +50,7 @@ globalKeyPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:24
-	// this.globalKey.put('bar')
+	// this.globalKey.set('bar')
 	byte "foo"
 	byte "bar"
 	app_global_put
@@ -156,7 +156,7 @@ localKeyPut:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:40
-	// this.localKey.put(a, 'bar')
+	// this.localKey.set(a, 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	byte "bar"
@@ -272,7 +272,7 @@ boxKeyPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:56
-	// this.boxKey.put('bar')
+	// this.boxKey.set('bar')
 	byte "foo"
 	byte "bar"
 	box_put
@@ -375,7 +375,7 @@ globalMapPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:72
-	// this.globalMap.put('foo', 'bar')
+	// this.globalMap.set('foo', 'bar')
 	byte "foo"
 	byte "bar"
 	app_global_put
@@ -481,7 +481,7 @@ localMapPut:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:88
-	// this.localMap.put(a, 'foo', 'bar')
+	// this.localMap.set(a, 'foo', 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	byte "bar"
@@ -597,7 +597,7 @@ boxMapPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:104
-	// this.boxMap.put('foo', 'bar')
+	// this.boxMap.set('foo', 'bar')
 	byte "foo"
 	byte "bar"
 	box_put

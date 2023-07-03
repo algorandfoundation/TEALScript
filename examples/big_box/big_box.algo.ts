@@ -28,9 +28,9 @@ class BigBox extends Contract {
 
     assert(!this.info.exists(name));
 
-    this.info.put(name, dataInfo);
+    this.info.set(name, dataInfo);
 
-    this.currentIndex.put(endBox + 1);
+    this.currentIndex.set(endBox + 1);
 
     const totalCost = numBoxes * COST_PER_BOX // cost of boxes
     + (numBoxes - 1) * MAX_BOX_SIZE * COST_PER_BYTE // cost of data

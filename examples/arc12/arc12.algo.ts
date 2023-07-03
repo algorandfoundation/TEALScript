@@ -31,9 +31,9 @@ class Vault extends Contract {
 
   @handle.createApplication
   create(receiver: Account, sender: Account): void {
-    this.creator.put(sender);
-    this.receiver.put(receiver);
-    this.master.put(globals.callerApplicationID);
+    this.creator.set(sender);
+    this.receiver.set(receiver);
+    this.master.set(globals.callerApplicationID);
   }
 
   reject(asaCreator: Account, feeSink: Account, asa: Asset, vaultCreator: Account): void {
@@ -78,7 +78,7 @@ class Vault extends Contract {
 
     const preMbr = globals.currentApplicationAddress.minBalance;
 
-    this.funderMap.put(asa, this.txn.sender);
+    this.funderMap.set(asa, this.txn.sender);
 
     /// Opt vault into asa
     sendAssetTransfer({
@@ -165,7 +165,7 @@ class Master extends Contract {
       fee: 0,
     });
 
-    this.vaultMap.put(receiver, vault);
+    this.vaultMap.set(receiver, vault);
 
     // eslint-disable-next-line max-len
     assert(mbrPayment.amount === (globals.currentApplicationAddress.minBalance - preCreateMBR) + globals.minBalance);

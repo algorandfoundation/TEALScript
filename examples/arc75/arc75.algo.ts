@@ -40,7 +40,7 @@ class ARC75 extends Contract {
       this.whitelist.get(whitelist).push(appID);
     } else {
       const newWhitelist: uint64[] = [appID];
-      this.whitelist.put(whitelist, newWhitelist);
+      this.whitelist.set(whitelist, newWhitelist);
     }
 
     this.verifyMBRPayment(payment, preMBR);
@@ -60,7 +60,7 @@ class ARC75 extends Contract {
 
     this.whitelist.delete(whitelist);
 
-    this.whitelist.put(whitelist, appIDs);
+    this.whitelist.set(whitelist, appIDs);
 
     if (preMBR > this.app.address.minBalance) {
       this.sendMBRPayment(preMBR);

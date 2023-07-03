@@ -393,7 +393,7 @@ export default class Compiler {
 
         this.push(node.expression, 'app_global_get', valueType);
       },
-      put: (node: ts.CallExpression) => {
+      set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
@@ -483,7 +483,7 @@ export default class Compiler {
 
         this.push(node.expression, 'app_local_get', valueType);
       },
-      put: (node: ts.CallExpression) => {
+      set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
@@ -668,7 +668,7 @@ export default class Compiler {
         this.maybeValue(node.expression, 'box_get', valueType);
         if (isNumeric(valueType)) this.pushVoid(node.expression, 'btoi');
       },
-      put: (node: ts.CallExpression) => {
+      set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
@@ -1616,7 +1616,7 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].put(node);
+          this.storageFunctions[type].set(node);
         }
       }
     } else if (
@@ -1631,7 +1631,7 @@ export default class Compiler {
         node.expression.expression.name.getText()
       ];
 
-      this.storageFunctions[storageProp.type].put(node);
+      this.storageFunctions[storageProp.type].set(node);
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
     }

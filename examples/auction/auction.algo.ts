@@ -14,13 +14,13 @@ class Auction extends Contract {
 
   @handle.createApplication
   create(): void {
-    this.auctionEnd.put(0);
-    this.highestBid.put(0);
-    this.asaAmt.put(0);
-    this.asa.put(Asset.zeroIndex);
+    this.auctionEnd.set(0);
+    this.highestBid.set(0);
+    this.asaAmt.set(0);
+    this.asa.set(Asset.zeroIndex);
 
     // Use zero address rather than an empty string for Account type safety
-    this.highestBidder.put(globals.zeroAddress);
+    this.highestBidder.set(globals.zeroAddress);
   }
 
   optIntoAsset(asset: Asset): void {
@@ -31,7 +31,7 @@ class Auction extends Contract {
     assert(this.asa.get() === Asset.zeroIndex);
 
     /// Save ASA ID in global state
-    this.asa.put(asset);
+    this.asa.set(asset);
 
     /// Submit opt-in transaction: 0 asset transfer to self
     sendAssetTransfer({
@@ -52,9 +52,9 @@ class Auction extends Contract {
     assert(axfer.assetReceiver === this.app.address);
 
     /// Set global state
-    this.asaAmt.put(axfer.assetAmount);
-    this.auctionEnd.put(globals.latestTimestamp + length);
-    this.highestBid.put(startingPrice);
+    this.asaAmt.set(axfer.assetAmount);
+    this.auctionEnd.set(globals.latestTimestamp + length);
+    this.highestBid.set(startingPrice);
   }
 
   private pay(receiver: Account, amount: uint64): void {
@@ -83,8 +83,8 @@ class Auction extends Contract {
     }
 
     /// Set global state
-    this.highestBid.put(payment.amount);
-    this.highestBidder.put(payment.sender);
+    this.highestBid.set(payment.amount);
+    this.highestBidder.set(payment.sender);
   }
 
   claimBid(): void {

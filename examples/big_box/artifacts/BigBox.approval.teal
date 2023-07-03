@@ -68,20 +68,20 @@ startUpload:
 	// examples/big_box/big_box.algo.ts:29
 	// assert(!this.info.exists(name))
 	frame_dig -1 // name: bytes
-	box_get
+	box_len
 	swap
 	pop
 	!
 	assert
 
 	// examples/big_box/big_box.algo.ts:31
-	// this.info.put(name, dataInfo)
+	// this.info.set(name, dataInfo)
 	frame_dig -1 // name: bytes
 	frame_dig -7 // dataInfo: DataInfo
 	box_put
 
 	// examples/big_box/big_box.algo.ts:33
-	// this.currentIndex.put(endBox + 1)
+	// this.currentIndex.set(endBox + 1)
 	byte "currentIndex"
 	frame_dig -6 // endBox: uint64
 	int 1

@@ -31,20 +31,20 @@ staticArrayInStorageMap:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:155
-	// this.gMap.put('gMap', a)
+	// this.gMap.set('gMap', a)
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:156
-	// this.lMap.put(this.txn.sender, 'lMap', a)
+	// this.lMap.set(this.txn.sender, 'lMap', a)
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:157
-	// this.bMap.put('bMap', a)
+	// this.bMap.set('bMap', a)
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put

@@ -213,7 +213,7 @@ create:
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:57
-	// this.root.put(this.calcInitRoot())
+	// this.root.set(this.calcInitRoot())
 	byte "root"
 	byte 0x; dup
 	callsub calcInitRoot
@@ -299,7 +299,7 @@ appendLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:68
-	// this.root.put(this.calcRoot(sha256(data), path))
+	// this.root.set(this.calcRoot(sha256(data), path))
 	byte "root"
 	byte 0x
 	dupn 2
@@ -310,7 +310,7 @@ appendLeaf:
 	app_global_put
 
 	// examples/merkle/merkle.algo.ts:70
-	// this.size.put(this.size.get() + 1)
+	// this.size.set(this.size.get() + 1)
 	byte "size"
 	byte "size"
 	app_global_get
@@ -363,7 +363,7 @@ updateLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:77
-	// this.root.put(this.calcRoot(sha256(newData), path))
+	// this.root.set(this.calcRoot(sha256(newData), path))
 	byte "root"
 	byte 0x
 	dupn 2

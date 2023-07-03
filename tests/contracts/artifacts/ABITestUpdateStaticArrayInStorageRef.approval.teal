@@ -31,20 +31,20 @@ updateStaticArrayInStorageRef:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:120
-	// this.gRef.put(a)
+	// this.gRef.set(a)
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:121
-	// this.lRef.put(this.txn.sender, a)
+	// this.lRef.set(this.txn.sender, a)
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:122
-	// this.bRef.put(a)
+	// this.bRef.set(a)
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put

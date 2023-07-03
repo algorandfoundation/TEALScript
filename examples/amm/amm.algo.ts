@@ -18,7 +18,7 @@ class ConstantProductAMM extends Contract {
 
   @handle.createApplication
   create(): void {
-    this.governor.put(this.txn.sender);
+    this.governor.set(this.txn.sender);
   }
 
   private doCreatePoolToken(aAsset: Asset, bAsset: Asset): Asset {
@@ -88,7 +88,7 @@ class ConstantProductAMM extends Contract {
 
   set_governor(governor: Account): void {
     assert(this.txn.sender === this.governor.get());
-    this.governor.put(governor);
+    this.governor.set(governor);
   }
 
   bootstrap(seed: PayTxn, aAsset: Asset, bAsset: Asset): Asset {
@@ -99,9 +99,9 @@ class ConstantProductAMM extends Contract {
     assert(seed.amount >= 300_000);
     assert(aAsset < bAsset);
 
-    this.assetA.put(aAsset);
-    this.assetB.put(bAsset);
-    this.poolToken.put(this.doCreatePoolToken(aAsset, bAsset));
+    this.assetA.set(aAsset);
+    this.assetB.set(bAsset);
+    this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset));
 
     this.doOptIn(aAsset);
     this.doOptIn(bAsset);
@@ -189,7 +189,7 @@ class ConstantProductAMM extends Contract {
     this.doAxfer(this.txn.sender, aAsset, aAmt);
     this.doAxfer(this.txn.sender, bAsset, bAmt);
 
-    this.ratio.put(this.computeRatio());
+    this.ratio.set(this.computeRatio());
   }
 
   swap(swapXfer: AssetTransferTxn, aAsset: Asset, bAsset: Asset): void {
@@ -218,6 +218,6 @@ class ConstantProductAMM extends Contract {
 
     this.doAxfer(this.txn.sender, outId, toSwap);
 
-    this.ratio.put(this.computeRatio());
+    this.ratio.set(this.computeRatio());
   }
 }

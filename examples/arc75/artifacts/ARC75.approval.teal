@@ -147,7 +147,7 @@ addAppToWhiteList:
 	// examples/arc75/arc75.algo.ts:39
 	// this.whitelist.exists(whitelist)
 	frame_dig -6 // whitelist: Whitelist
-	box_get
+	box_len
 	swap
 	pop
 	bz if0_else
@@ -190,7 +190,7 @@ if0_else:
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:43
-	// this.whitelist.put(whitelist, newWhitelist)
+	// this.whitelist.set(whitelist, newWhitelist)
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
@@ -264,7 +264,7 @@ setAppWhitelist:
 	box_del
 
 	// examples/arc75/arc75.algo.ts:63
-	// this.whitelist.put(whitelist, appIDs)
+	// this.whitelist.set(whitelist, appIDs)
 	frame_dig -5 // whitelist: Whitelist
 	dup
 	box_del

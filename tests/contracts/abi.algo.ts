@@ -86,9 +86,9 @@ class ABITestStaticArrayInStorageRef extends Contract {
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.put(a);
-    this.lRef.put(this.txn.sender, a);
-    this.bRef.put(a);
+    this.gRef.set(a);
+    this.lRef.set(this.txn.sender, a);
+    this.bRef.set(a);
 
     const ret: StaticArray<uint64, 3> = [
       this.gRef.get()[1],
@@ -117,9 +117,9 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.put(a);
-    this.lRef.put(this.txn.sender, a);
-    this.bRef.put(a);
+    this.gRef.set(a);
+    this.lRef.set(this.txn.sender, a);
+    this.bRef.set(a);
 
     this.gRef.get()[1] = 111;
     this.lRef.get(this.txn.sender)[1] = 222;
@@ -152,9 +152,9 @@ class ABITestStaticArrayInStorageMap extends Contract {
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.put('gMap', a);
-    this.lMap.put(this.txn.sender, 'lMap', a);
-    this.bMap.put('bMap', a);
+    this.gMap.set('gMap', a);
+    this.lMap.set(this.txn.sender, 'lMap', a);
+    this.bMap.set('bMap', a);
 
     const ret: StaticArray<uint64, 3> = [
       this.gMap.get('gMap')[1],
@@ -183,9 +183,9 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.put('gMap', a);
-    this.lMap.put(this.txn.sender, 'lMap', a);
-    this.bMap.put('bMap', a);
+    this.gMap.set('gMap', a);
+    this.lMap.set(this.txn.sender, 'lMap', a);
+    this.bMap.set('bMap', a);
 
     this.gMap.get('gMap')[1] = 1111;
     this.lMap.get(this.txn.sender, 'lMap')[1] = 2222;

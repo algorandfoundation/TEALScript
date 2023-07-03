@@ -54,7 +54,7 @@ class MerkleTree extends Contract {
 
   @handle.createApplication
   create(): void {
-    this.root.put(this.calcInitRoot());
+    this.root.set(this.calcInitRoot());
   }
 
   verify(data: bytes, path: Path): void {
@@ -65,15 +65,15 @@ class MerkleTree extends Contract {
     assert(data !== '');
     assert(this.root.get() === this.calcRoot(EMPTY_HASH, path));
 
-    this.root.put(this.calcRoot(sha256(data), path));
+    this.root.set(this.calcRoot(sha256(data), path));
 
-    this.size.put(this.size.get() + 1);
+    this.size.set(this.size.get() + 1);
   }
 
   updateLeaf(oldData: bytes, newData: bytes, path: Path): void {
     assert(newData !== '');
     assert(this.root.get() === this.calcRoot(sha256(oldData), path));
 
-    this.root.put(this.calcRoot(sha256(newData), path));
+    this.root.set(this.calcRoot(sha256(newData), path));
   }
 }
