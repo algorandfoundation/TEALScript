@@ -729,3 +729,69 @@ class ABITestStringLength extends Contract {
     return s.length;
   }
 }
+class ABITestArrayRef extends Contract {
+  arrayRef(): uint<8>[] {
+    const a: uint<8>[] = [1, 2, 3];
+    const b = a;
+
+    b[1] = 4 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestNestedArrayRef extends Contract {
+  nestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+    const b = a[1];
+
+    b[1] = 5 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestNonLiteralNestedArrayRef extends Contract {
+  nonLiteralNestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+
+    let i = 1;
+    const b = a[i];
+
+    i = 1337;
+
+    b[1] = 5 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestMultiNestedArrayRef extends Contract {
+  multiNestedArrayRef(): StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> {
+    const a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
+      [[1, 2], [3, 4]],
+      [[5, 6], [7, 8]],
+    ];
+
+    const b = a[1];
+    const c = b[1];
+
+    c[1] = 9 as uint<8>;
+
+    return a;
+  }
+}
+
+type ObjectRefType = { foo : StaticArray<StaticArray<uint<8>, 2>, 2>} ;
+
+class ABITestObjectArrayRef extends Contract {
+  objectArrayRef(): ObjectRefType {
+    const a: ObjectRefType = { foo: [[1, 2], [3, 4]] };
+    const b = a.foo;
+    const c = b[1];
+
+    c[1] = 5 as uint<8>;
+
+    return a;
+  }
+}

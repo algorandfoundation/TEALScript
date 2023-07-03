@@ -37,14 +37,17 @@ function formatTrace(input: string): string {
       .padEnd(maxSecondColumnLength)
       .slice(0, maxSecondColumnLength);
 
-    // const pc = firstColumn.trim();
+    /*
+    const pc = firstColumn.trim();
 
     const tealLine = undefined; // (srcMap as {[pc: string]: number})[pc];
-
     const approval = fs.readFileSync('./tests/contracts/artifacts/AbiTest.approval.teal', 'utf8');
 
     const srcLine = tealLine
-      && (!columns[2].includes('!!')) ? approval.split('\n')[tealLine].trim() : columns[2];
+   && (!columns[2].includes('!!')) ? approval.split('\n')[tealLine].trim() : columns[2];
+   */
+
+    const srcLine = columns[2];
 
     const thirdColumn = srcLine
       .trim()
@@ -546,5 +549,34 @@ describe('ABI', function () {
   test.concurrent('stringLength', async () => {
     const { appClient } = await compileAndCreate('stringLength');
     expect(await runMethod(appClient, 'stringLength')).toEqual(BigInt(7));
+  });
+  test.concurrent('arrayRef', async () => {
+    const { appClient } = await compileAndCreate('arrayRef');
+
+    expect(await runMethod(appClient, 'arrayRef')).toEqual([1n, 4n, 3n]);
+  });
+
+  test.concurrent('nestedArrayRef', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayRef');
+
+    expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+  });
+
+  test.concurrent('nonLiteralNestedArrayRef', async () => {
+    const { appClient } = await compileAndCreate('nonLiteralNestedArrayRef');
+
+    expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+  });
+
+  test.concurrent('multiNestedArrayRef', async () => {
+    const { appClient } = await compileAndCreate('multiNestedArrayRef');
+
+    expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([[[1n, 2n], [3n, 4n]], [[5n, 6n], [7n, 9n]]]);
+  });
+
+  test.concurrent('objectArrayRef', async () => {
+    const { appClient } = await compileAndCreate('objectArrayRef');
+
+    expect(await runMethod(appClient, 'objectArrayRef')).toEqual([[[1n, 2n], [3n, 5n]]]);
   });
 });

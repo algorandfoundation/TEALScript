@@ -296,7 +296,14 @@ export default class Compiler {
 
   private processErrorNodes: ts.Node[] = [];
 
-  private frame: {[name: string] :{index: number; type: string}} = {};
+  private frame: {[name: string] :{
+    index?: number
+    framePointer?:string
+    type: string
+    accessors?: (ts.Expression | string)[]
+    storageExpression?: ts.CallExpression
+    }
+  } = {};
 
   private currentSubroutine: Subroutine = { name: '', returnType: '' };
 
@@ -917,6 +924,17 @@ export default class Compiler {
     if (type.match(/uint\d+$/)) {
       return parseInt(type.slice(4), 10) / 8;
     }
+
+    if (type.startsWith('{')) {
+      const types = Object.values(this.getObjectTypes(type));
+      let totalLength = 0;
+      types.forEach((t) => {
+        totalLength += this.getTypeLength(t);
+      });
+
+      return totalLength;
+    }
+
     switch (type) {
       case 'asset':
       case 'application':
@@ -947,7 +965,7 @@ export default class Compiler {
   }
 
   private getABIType(type: string): string {
-    const abiType = this.customTypes[type] ? this.customTypes[type] : type;
+    const abiType = this.customTypes[type] ? this.customTypes[type] : type.replace(/\s+/g, ' ');
 
     if (abiType.endsWith('}')) return abiType;
 
@@ -1002,16 +1020,20 @@ export default class Compiler {
   // This is seperate from this.getABIType because the bracket notation
   // is useful for parsing, but the ABI/appspec JSON need the parens
   private getABITupleString(str: string) {
-    let tupleStr = str.toLowerCase();
+    let tupleStr = str;
+
     if (tupleStr.startsWith('{')) {
-      const types = Object.values(this.getObjectTypes(tupleStr));
+      const types = Object.values(this.getObjectTypes(tupleStr))
+        .map((t) => this.getABIType(t))
+        .map((t) => this.getABITupleString(t));
+
       tupleStr = `(${types.join(',')})`;
     }
 
     const trailingBrakcet = /(?<!\[\d*)]/g;
     const leadingBracket = /\[(?!\d*])/g;
 
-    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(');
+    return tupleStr.replace(trailingBrakcet, ')').replace(leadingBracket, '(').toLocaleLowerCase();
   }
 
   private getObjectTypes(givenType: string): Record<string, string> {
@@ -1538,12 +1560,65 @@ export default class Compiler {
     return chain;
   }
 
+  private processFrame(
+    node: ts.Node,
+    inputName: string,
+    load: boolean,
+  ): {accessors: (ts.Expression | string)[], name: string, type: 'frame' | 'storage', storageExpression?: ts.CallExpression} {
+    let name = inputName;
+    let currentFrame = this.frame[inputName];
+    let type: 'frame' | 'storage' = 'frame';
+    let storageExpression: ts.CallExpression | undefined;
+
+    const accessors: (ts.Expression | string)[][] = [];
+
+    while (currentFrame.framePointer !== undefined) {
+      if (currentFrame.accessors) accessors.push(currentFrame.accessors);
+
+      name = currentFrame.framePointer!;
+      currentFrame = this.frame[name];
+    }
+
+    if (!load) return { name, type, accessors: accessors.reverse().flat() };
+
+    if (currentFrame.storageExpression !== undefined) {
+      if (currentFrame.accessors) accessors.push(currentFrame.accessors);
+      // eslint-disable-next-line prefer-destructuring
+      name = currentFrame.storageExpression.getText().split('.')[1];
+      type = 'storage';
+      storageExpression = currentFrame.storageExpression;
+      this.processNode(currentFrame.storageExpression);
+    } else {
+      this.push(
+        node,
+        `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.type}`,
+        currentFrame.type,
+      );
+    }
+
+    return { name, type, accessors: accessors.reverse().flat() };
+  }
+
   private updateValue(node: ts.Node) {
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
       const name = node.getText();
-      const { index, type } = this.frame[name];
-      this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
+      const frameObj = this.frame[name];
+
+      if (frameObj.index !== undefined) {
+        const { index, type } = this.frame[name];
+        this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
+      } else {
+        const processedFrame = this.processFrame(node, name, false);
+
+        if (processedFrame.type === 'frame') {
+          const frame = this.frame[processedFrame.name];
+          this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
+        } else {
+          const { type } = this.storageProps[processedFrame.name];
+          this.storageFunctions[type].put(node);
+        }
+      }
     } else if (
       ts.isCallExpression(node)
                 && ts.isPropertyAccessExpression(node.expression)
@@ -1677,11 +1752,34 @@ export default class Compiler {
     ],
   };
 
-  private getElementHead(topLevelTuple: TupleElement, accessors: ts.Expression[]) {
+  private getElementHead(
+    topLevelTuple: TupleElement,
+    accessors: (ts.Expression | string)[],
+    node: ts.Node,
+  ) {
     let previousTupleElement = topLevelTuple;
 
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
+      if (typeof (acc) === 'string') {
+        const elem = previousTupleElement[0];
+
+        const frame = this.frame[acc];
+
+        this.push(node, `frame_dig ${frame.index} // saved accessor: ${acc}`, StackType.uint64);
+
+        this.pushLines(
+          node,
+          // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
+          `int ${this.getTypeLength(elem.type)}`,
+          '* // acc * typeLength',
+          '+',
+        );
+
+        previousTupleElement = elem;
+        return;
+      }
+
       const accNumber = parseInt(acc.getText(), 10);
 
       const elem: TupleElement = Number.isNaN(accNumber)
@@ -1742,17 +1840,39 @@ export default class Compiler {
 
   private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
-    this.processNode(chain[0].expression);
+
+    const accessors: (ts.Expression | string)[] = [];
+
+    const frame = this.frame[chain[0].expression.getText()];
+
+    if (frame && frame.index === undefined) {
+      const frameFollow = this.processFrame(
+        chain[0].expression,
+        chain[0].expression.getText(),
+        true,
+      );
+
+      frameFollow.accessors.forEach((e) => accessors.push(e));
+    } else this.processNode(chain[0].expression);
+
+    chain.forEach((e) => accessors.push(e.argumentExpression));
+
+    this.processParentArrayAccess(node, accessors, chain[0].expression, newValue);
+  }
+
+  private processParentArrayAccess(
+    node: ts.Node,
+    accessors: (ts.Expression | string)[],
+    parentExpression: ts.Node,
+    newValue?: ts.Node,
+  ): void {
+    const parentType = this.getABIType(this.lastType);
 
     this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 
-    const parentType = this.getABIType(this.lastType);
-
     const topLevelTuple = this.getTupleElement(parentType);
 
-    const accessors = chain.map((e) => e.argumentExpression);
-
-    const element = this.getElementHead(topLevelTuple, accessors);
+    const element = this.getElementHead(topLevelTuple, accessors, node);
 
     const baseType = element.type.replace(/\[\d*\]/, '');
 
@@ -1881,7 +2001,7 @@ export default class Compiler {
         this.pushVoid(node, 'replace3');
       }
 
-      this.updateValue(chain[0].expression);
+      this.updateValue(parentExpression);
     } else {
       if (!this.isDynamicType(element.type)) {
         this.pushLines(node, `load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
@@ -1999,7 +2119,9 @@ export default class Compiler {
             'concat',
           );
         } else this.pushVoid(node.expression!, 'extract 2 0');
-      } else throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+      } else if (this.getABIType(this.lastType) !== returnType) {
+        throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
+      }
     } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid(node.expression!, 'itob');
     } else if (
@@ -2148,13 +2270,15 @@ export default class Compiler {
       return;
     }
 
-    const target = this.frame[node.getText()];
+    const processedFrame = this.processFrame(node, node.getText(), true);
 
-    this.push(
-      node,
-      `frame_dig ${target.index} // ${node.getText()}: ${target.type}`,
-      target.type,
-    );
+    if (processedFrame.accessors.length > 0) {
+      this.processParentArrayAccess(
+        node,
+        processedFrame.accessors,
+        processedFrame.storageExpression || node,
+      );
+    }
   }
 
   private processNewExpression(node: ts.NewExpression) {
@@ -2190,18 +2314,124 @@ export default class Compiler {
   }
 
   private processVariableDeclarator(node: ts.VariableDeclaration) {
-    this.addSourceComment(node);
     const name = node.name.getText();
 
     if (node.initializer) {
-      this.processNode(node.initializer);
+      let initializerType = this.typeHint || this.getStackTypeFromNode(node.initializer);
+
+      if (!this.customTypes[initializerType]) initializerType = this.getABIType(initializerType);
+
+      let lastFrameAccess: string | undefined;
+
+      const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
+
+      if (ts.isIdentifier(node.initializer) && isArray) {
+        lastFrameAccess = node.initializer.getText();
+
+        this.frame[name] = {
+          framePointer: lastFrameAccess,
+          type: initializerType,
+        };
+
+        return;
+      }
+
+      if (ts.isElementAccessExpression(node.initializer) && isArray) {
+        const accessChain = this.getAccessChain(node.initializer);
+        lastFrameAccess = accessChain[0].expression.getText();
+
+        const type = this.getStackTypeFromNode(accessChain[0].expression);
+
+        if (type.endsWith(']') || type.endsWith('}')) {
+          // Only add source comments if there will be generated TEAL
+          if (accessChain.find((e) => ts.isNumericLiteral(e.argumentExpression))) {
+            this.addSourceComment(node);
+          }
+          const accessors = accessChain.map((e, i) => {
+            if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
+
+            this.processNode(e.argumentExpression);
+            const accName = `accessor//${i}//${name}`;
+            this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
+
+            this.frame[accName] = {
+              index: this.frameIndex,
+              type: StackType.uint64,
+            };
+
+            this.frameIndex -= 1;
+
+            return accName;
+          });
+
+          if (lastFrameAccess.startsWith('this.')) {
+            if (!ts.isCallExpression(accessChain[0].expression)) throw new Error('Expected call expression');
+            this.frame[name] = {
+              accessors,
+              storageExpression: accessChain[0].expression,
+              type: initializerType,
+            };
+          } else {
+            this.frame[name] = {
+              accessors,
+              framePointer: lastFrameAccess,
+              type: initializerType,
+            };
+          }
+
+          return;
+        }
+      }
+
+      if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
+        // const chain = this.getChain(node.initializer);
+
+        lastFrameAccess = node.initializer.expression.getText();
+
+        const type = this.getStackTypeFromNode(node.initializer.expression);
+        if (type.endsWith(']') || type.endsWith('}')) {
+          const index = Object.keys(this.getObjectTypes(type))
+            .indexOf(node.initializer.name.getText());
+
+          if (lastFrameAccess.startsWith('this.')) {
+            if (!ts.isCallExpression(node.initializer.expression)) throw new Error('Expected call expression');
+
+            this.frame[name] = {
+              accessors: [stringToExpression(index.toString())],
+              storageExpression: node.initializer.expression,
+              type: initializerType,
+            };
+          } else {
+            this.frame[name] = {
+              accessors: [stringToExpression(index.toString())],
+              framePointer: lastFrameAccess,
+              type: initializerType,
+            };
+          }
+
+          return;
+        }
+      }
+
+      if (ts.isCallExpression(node.initializer) && isArray) {
+        this.frame[name] = {
+          storageExpression: node.initializer,
+          type: initializerType,
+        };
+
+        return;
+      }
 
       this.frame[name] = {
         index: this.frameIndex,
-        type: this.lastType,
+        type: initializerType,
       };
 
-      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${this.lastType}`);
+      this.addSourceComment(node);
+
+      this.typeHint = initializerType;
+      this.processNode(node.initializer);
+      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${initializerType}`);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
@@ -2707,7 +2937,7 @@ export default class Compiler {
     const currentFrameInfo = this.frameInfo[this.currentSubroutine.name];
 
     Object.keys(this.frame).forEach((name) => {
-      currentFrameInfo.frame[currentFrame[name].index] = { name, type: currentFrame[name].type };
+      currentFrameInfo.frame[currentFrame[name].index!] = { name, type: currentFrame[name].type };
     });
 
     this.frame = lastFrame;

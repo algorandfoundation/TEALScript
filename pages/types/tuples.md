@@ -1,32 +1,3 @@
-## Array Referencing
-
-It is important to know that TEALScript currently passes arrays by **value**, whereas JavaScript engines typically pass arrays by **references**. 
-
-This behavior is expected to change by 1.0 release.
-
-### Example
-
-#### TypeScript
-```ts
-const arrayOne: number[] = [1, 2]
-const arrayTwo = arrayOne
-arrayTwo.push(3)
-
-console.log(arrayOne) // [1, 2, 3]
-console.log(arrayTwo) // [1, 2, 3]
-```
-
-#### TEALScript
-
-```ts
-const arrayOne: number[] = [1, 2]
-const arrayTwo = arrayOne
-arrayTwo.push(3)
-
-log(arrayOne) // [1, 2] <= Note this does not have the 3!
-log(arrayTwo) // [1, 2, 3]
-```
-
 ## Dynamic Arrays
 
 Dynamic arrays are defined just like arrays in TypeScript. Dynamic arrays support `push`, `pop`, and `splice` and they function in the same way as the native JavaScript functions.
