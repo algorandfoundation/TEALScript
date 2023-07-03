@@ -626,7 +626,7 @@ export default class Compiler {
 
         this.pushVoid(node.expression, 'box_replace');
       },
-      length: (node: ts.CallExpression) => {
+      size: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
 

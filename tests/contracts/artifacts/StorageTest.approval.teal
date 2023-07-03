@@ -750,7 +750,7 @@ boxKeyLength:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:128
-	// return this.boxKey.length();
+	// return this.boxKey.size();
 	byte "foo"
 	box_len
 	assert
@@ -780,7 +780,7 @@ boxMapLength:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:132
-	// return this.boxMap.length('bar');
+	// return this.boxMap.size('bar');
 	byte "bar"
 	box_len
 	assert

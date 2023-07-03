@@ -125,11 +125,11 @@ class StorageTest extends Contract {
   }
 
   boxKeyLength(): uint64 {
-    return this.boxKey.length();
+    return this.boxKey.size();
   }
 
   boxMapLength(): uint64 {
-    return this.boxMap.length('bar');
+    return this.boxMap.size('bar');
   }
 
   boxKeyReplace(): void {

@@ -358,7 +358,7 @@ declare class BoxMap<KeyType, ValueType> {
 
   extract(key: KeyType, offset: uint64, length: uint64): bytes
 
-  length(key: KeyType): uint64
+  size(key: KeyType): uint64
 }
 
 declare class BoxKey<ValueType> {
@@ -378,7 +378,7 @@ declare class BoxKey<ValueType> {
 
   extract(offset: uint64, length: uint64): bytes
 
-  length(): uint64
+  size(): uint64
 }
 
 declare class GlobalStateMap<KeyType, ValueType> {
