@@ -36,7 +36,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
     Get: 'box_get',
     Put: 'box_put',
     Delete: 'box_del',
-    Exists: 'box_get',
+    Exists: 'box_len',
   },
 };
 

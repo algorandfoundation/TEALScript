@@ -351,7 +351,7 @@ boxKeyExists:
 	// tests/contracts/storage.algo.ts:68
 	// this.boxKey.exists()
 	byte "foo"
-	box_get
+	box_len
 	swap
 	pop
 	retsub
@@ -676,7 +676,7 @@ boxMapExists:
 	// tests/contracts/storage.algo.ts:116
 	// this.boxMap.exists('foo')
 	byte "foo"
-	box_get
+	box_len
 	swap
 	pop
 	retsub

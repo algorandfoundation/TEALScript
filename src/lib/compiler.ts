@@ -734,7 +734,7 @@ export default class Compiler {
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
-        this.hasMaybeValue(node.expression, 'box_get');
+        this.hasMaybeValue(node.expression, 'box_len');
       },
     },
   };
