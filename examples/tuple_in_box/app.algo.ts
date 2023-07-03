@@ -11,13 +11,13 @@ class ContactsApp extends Contract {
   setMyContact(name: string, company: string): void {
     const contact: Contact = { name: name, company: company };
 
-    this.myContact.put(contact);
-    this.contacts.put(this.txn.sender, contact);
+    this.myContact.set(contact);
+    this.contacts.set(this.txn.sender, contact);
   }
 
   addContact(name: string, company: string, address: Address): void {
     const contact: Contact = { name: name, company: company };
-    this.contacts.put(address, contact);
+    this.contacts.set(address, contact);
   }
 
   updateContactField(field: string, value: string, address: Address): void {

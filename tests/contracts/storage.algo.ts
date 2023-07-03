@@ -17,11 +17,11 @@ class StorageTest extends Contract {
   boxMapWithPrefix = new BoxMap<bytes, bytes>({ prefix: 'f' });
 
   prefix(): void {
-    this.boxMapWithPrefix.put('oo', 'bar');
+    this.boxMapWithPrefix.set('oo', 'bar');
   }
 
   globalKeyPut(): void {
-    this.globalKey.put('bar');
+    this.globalKey.set('bar');
   }
 
   globalKeyGet(): void {
@@ -37,7 +37,7 @@ class StorageTest extends Contract {
   }
 
   localKeyPut(a: Account): void {
-    this.localKey.put(a, 'bar');
+    this.localKey.set(a, 'bar');
   }
 
   localKeyGet(a: Account): void {
@@ -53,7 +53,7 @@ class StorageTest extends Contract {
   }
 
   boxKeyPut(): void {
-    this.boxKey.put('bar');
+    this.boxKey.set('bar');
   }
 
   boxKeyGet(): void {
@@ -69,7 +69,7 @@ class StorageTest extends Contract {
   }
 
   globalMapPut(): void {
-    this.globalMap.put('foo', 'bar');
+    this.globalMap.set('foo', 'bar');
   }
 
   globalMapGet(): void {
@@ -85,7 +85,7 @@ class StorageTest extends Contract {
   }
 
   localMapPut(a: Account): void {
-    this.localMap.put(a, 'foo', 'bar');
+    this.localMap.set(a, 'foo', 'bar');
   }
 
   localMapGet(a: Account): void {
@@ -101,7 +101,7 @@ class StorageTest extends Contract {
   }
 
   boxMapPut(): void {
-    this.boxMap.put('foo', 'bar');
+    this.boxMap.set('foo', 'bar');
   }
 
   boxMapGet(): void {
@@ -125,11 +125,11 @@ class StorageTest extends Contract {
   }
 
   boxKeyLength(): uint64 {
-    return this.boxKey.length();
+    return this.boxKey.size();
   }
 
   boxMapLength(): uint64 {
-    return this.boxMap.length('bar');
+    return this.boxMap.size('bar');
   }
 
   boxKeyReplace(): void {

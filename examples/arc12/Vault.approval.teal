@@ -102,19 +102,19 @@ create:
 	proto 2 0
 
 	// examples/arc12/arc12.algo.ts:34
-	// this.creator.put(sender)
+	// this.creator.set(sender)
 	byte "creator"
 	frame_dig -2 // sender: account
 	app_global_put
 
 	// examples/arc12/arc12.algo.ts:35
-	// this.receiver.put(receiver)
+	// this.receiver.set(receiver)
 	byte "receiver"
 	frame_dig -1 // receiver: account
 	app_global_put
 
 	// examples/arc12/arc12.algo.ts:36
-	// this.master.put(globals.callerApplicationID)
+	// this.master.set(globals.callerApplicationID)
 	byte "master"
 	global CallerApplicationID
 	app_global_put
@@ -314,7 +314,7 @@ optIn:
 	// assert(!this.funderMap.exists(asa))
 	frame_dig -1 // asa: asset
 	itob
-	box_get
+	box_len
 	swap
 	pop
 	!
@@ -344,7 +344,7 @@ optIn:
 	frame_bury -3 // preMbr: uint64
 
 	// examples/arc12/arc12.algo.ts:81
-	// this.funderMap.put(asa, this.txn.sender)
+	// this.funderMap.set(asa, this.txn.sender)
 	frame_dig -1 // asa: asset
 	itob
 	txn Sender
@@ -421,7 +421,7 @@ claim:
 	// assert(this.funderMap.exists(asa))
 	frame_dig -1 // asa: asset
 	itob
-	box_get
+	box_len
 	swap
 	pop
 	assert

@@ -68,20 +68,20 @@ startUpload:
 	// examples/big_box/big_box.algo.ts:29
 	// assert(!this.info.exists(name))
 	frame_dig -1 // name: bytes
-	box_get
+	box_len
 	swap
 	pop
 	!
 	assert
 
 	// examples/big_box/big_box.algo.ts:31
-	// this.info.put(name, dataInfo)
+	// this.info.set(name, dataInfo)
 	frame_dig -1 // name: bytes
 	frame_dig -7 // dataInfo: DataInfo
 	box_put
 
 	// examples/big_box/big_box.algo.ts:33
-	// this.currentIndex.put(endBox + 1)
+	// this.currentIndex.set(endBox + 1)
 	byte "currentIndex"
 	frame_dig -6 // endBox: uint64
 	int 1
@@ -141,7 +141,8 @@ abi_route_upload:
 	!=
 	&&
 	assert
-	byte 0x
+
+	// no dupn needed
 	txna ApplicationArgs 4
 	extract 2 0
 	txna ApplicationArgs 3
@@ -155,18 +156,13 @@ abi_route_upload:
 	return
 
 upload:
-	proto 5 0
-
-	// examples/big_box/big_box.algo.ts:45
-	// dataInfo = this.info.get(name)
-	frame_dig -1 // name: bytes
-	box_get
-	assert
-	frame_bury -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	proto 4 0
 
 	// examples/big_box/big_box.algo.ts:46
 	// assert(dataInfo.status === IN_PROGRESS)
-	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	frame_dig -1 // name: bytes
+	box_get
+	assert
 	store 0 // full array
 	int 0 // initial offset
 	int 16 // headOffset
@@ -183,7 +179,9 @@ upload:
 
 	// examples/big_box/big_box.algo.ts:47
 	// assert(dataInfo.start <= boxIndex && boxIndex <= dataInfo.end)
-	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	frame_dig -1 // name: bytes
+	box_get
+	assert
 	store 0 // full array
 	int 0 // initial offset
 	int 0 // headOffset
@@ -198,7 +196,9 @@ upload:
 	dup
 	bz skip_and0
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	frame_dig -1 // name: bytes
+	box_get
+	assert
 	store 0 // full array
 	int 0 // initial offset
 	int 8 // headOffset
@@ -228,7 +228,9 @@ skip_and0:
 	frame_dig -2 // boxIndex: uint64
 	itob
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	frame_dig -1 // name: bytes
+	box_get
+	assert
 	store 0 // full array
 	int 0 // initial offset
 	int 8 // headOffset
@@ -240,7 +242,9 @@ skip_and0:
 	btoi
 	==
 	bz ternary0_false
-	frame_dig -5 // dataInfo: {start: uint64, end: uint64, status: uint<8>, endSize: uint64}
+	frame_dig -1 // name: bytes
+	box_get
+	assert
 	store 0 // full array
 	int 0 // initial offset
 	int 17 // headOffset

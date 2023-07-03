@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "arrayRef()uint8[]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2FycmF5UmVmOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CglieXRlIDB4CgljYWxsc3ViIGFycmF5UmVmCglpbnQgMQoJcmV0dXJuCgphcnJheVJlZjoKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo3MzQKCS8vIGE6IHVpbnQ8OD5bXSA9IFsxLCAyLCAzXQoJaW50IDEKCWl0b2IKCWV4dHJhY3QgNyAwCglpbnQgMgoJaXRvYgoJZXh0cmFjdCA3IDAKCWNvbmNhdAoJaW50IDMKCWl0b2IKCWV4dHJhY3QgNyAwCgljb25jYXQKCWJ5dGUgMHgwMDAzCglzd2FwCgljb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gYTogdWludDhbXQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo3MzcKCS8vIGJbMV0gPSA0IGFzIHVpbnQ8OD4KCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50OFtdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglpbnQgMQoJaW50IDEKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJaW50IDIKCSsgLy8gYWRkIHR3byBmb3IgbGVuZ3RoCglsb2FkIDAgLy8gZnVsbCBhcnJheQoJc3dhcAoJaW50IDQKCWl0b2IKCWV4dHJhY3QgNyAwCglyZXBsYWNlMwoJZnJhbWVfYnVyeSAtMSAvLyBiOiB1aW50OFtdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjczOQoJLy8gcmV0dXJuIGE7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDhbXQoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAiYXJyYXlSZWYoKXVpbnQ4W10iCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfYXJyYXlSZWYKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestArrayRef",
+    "desc": "",
+    "methods": [
+      {
+        "name": "arrayRef",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint8[]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

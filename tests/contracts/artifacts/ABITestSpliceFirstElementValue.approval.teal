@@ -10,13 +10,13 @@ abi_route_spliceFirstElementValue:
 	!=
 	&&
 	assert
-	byte 0x; dup
+	byte 0x
 	callsub spliceFirstElementValue
 	int 1
 	return
 
 spliceFirstElementValue:
-	proto 2 0
+	proto 1 0
 
 	// tests/contracts/abi.algo.ts:493
 	// a: uint<16>[] = [1, 2, 3]
@@ -36,8 +36,10 @@ spliceFirstElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
+	// tests/contracts/abi.algo.ts:497
+	// return v;
 	// tests/contracts/abi.algo.ts:495
-	// v = a.splice(0, 1)
+	// a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
 	int 0
 	extract_uint16
@@ -85,11 +87,6 @@ spliceFirstElementValue:
 	concat
 	swap
 	frame_bury -1 // a: uint16[]
-	frame_bury -2 // v: uint16[]
-
-	// tests/contracts/abi.algo.ts:497
-	// return v;
-	frame_dig -2 // v: uint16[]
 	byte 0x151f7c75
 	swap
 	concat

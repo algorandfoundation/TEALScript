@@ -147,7 +147,7 @@ addAppToWhiteList:
 	// examples/arc75/arc75.algo.ts:39
 	// this.whitelist.exists(whitelist)
 	frame_dig -6 // whitelist: Whitelist
-	box_get
+	box_len
 	swap
 	pop
 	bz if0_else
@@ -190,7 +190,7 @@ if0_else:
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:43
-	// this.whitelist.put(whitelist, newWhitelist)
+	// this.whitelist.set(whitelist, newWhitelist)
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
@@ -264,7 +264,7 @@ setAppWhitelist:
 	box_del
 
 	// examples/arc75/arc75.algo.ts:63
-	// this.whitelist.put(whitelist, appIDs)
+	// this.whitelist.set(whitelist, appIDs)
 	frame_dig -5 // whitelist: Whitelist
 	dup
 	box_del
@@ -376,8 +376,7 @@ abi_route_deleteAppFromWhitelist:
 	!=
 	&&
 	assert
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	txna ApplicationArgs 4
 	btoi
 	txna ApplicationArgs 3
@@ -390,7 +389,7 @@ abi_route_deleteAppFromWhitelist:
 	return
 
 deleteAppFromWhitelist:
-	proto 7 0
+	proto 6 0
 
 	// examples/arc75/arc75.algo.ts:97
 	// preMBR = this.app.address.minBalance
@@ -422,8 +421,8 @@ deleteAppFromWhitelist:
 	concat // concat head and tail
 	frame_bury -6 // whitelist: Whitelist
 
-	// examples/arc75/arc75.algo.ts:100
-	// spliced = this.whitelist.get(whitelist).splice(index, 1)
+	// examples/arc75/arc75.algo.ts:102
+	// assert(spliced[0] === appID)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
@@ -484,11 +483,6 @@ deleteAppFromWhitelist:
 	pop
 	swap
 	box_put
-	frame_bury -7 // spliced: uint64[]
-
-	// examples/arc75/arc75.algo.ts:102
-	// assert(spliced[0] === appID)
-	frame_dig -7 // spliced: uint64[]
 	store 0 // full array
 	int 0 // initial offset
 	int 0

@@ -19,7 +19,7 @@ class MyApp extends Contract {
     someKey = new GlobalStateKey<string>()
 
     setSomeKey(value: string): void {
-        this.someKey.put(value) // On chain: "someKey" now contains value
+        this.someKey.set(value) // On chain: "someKey" now contains value
     }
 }
 ```
@@ -31,7 +31,7 @@ class MyApp extends Contract {
     someKey = new GlobalStateKey<string>({ key: 'sk' })
 
     setSomeKey(value: string): void {
-        this.someKey.put(value) // On chain: "sk" now contains value
+        this.someKey.set(value) // On chain: "sk" now contains value
     }
 }
 ```
@@ -49,7 +49,7 @@ class MyApp extends Contract {
     favoriteColor = new BoxMap<Address, string>()
 
     setColor(color: string) {
-        this.favoriteColor.put(this.txn.sender, color) // on chain: sender's address now points to their favorite color
+        this.favoriteColor.set(this.txn.sender, color) // on chain: sender's address now points to their favorite color
     }
 }
 ```
@@ -62,11 +62,11 @@ class MyApp extends Contract {
     favoriteNumber = new BoxMap<Address, string>({ prefix: 'n' })
 
     setColor(color: string): void {
-        this.favoriteColor.put(this.txn.sender, color) // on chain: ("c" + sender's address) now points to their favorite color
+        this.favoriteColor.set(this.txn.sender, color) // on chain: ("c" + sender's address) now points to their favorite color
     }
 
     setNumber(number: uint64): void {
-        this.favoriteNumber.put(this.txn.sender, number) // on chain: ("n" + sender's address) now points to their favorite number
+        this.favoriteNumber.set(this.txn.sender, number) // on chain: ("n" + sender's address) now points to their favorite number
     }
 }
 ```
@@ -84,4 +84,4 @@ class MyApp extends Contract {
 
 {@link BoxKey} and {@link BoxMap} have an additional option that is not applicable to global or local storage.
 
-`dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()` and `.put()`.
+`dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()` and `.set()`.

@@ -20,31 +20,31 @@ create:
 	proto 0 0
 
 	// examples/auction/auction.algo.ts:17
-	// this.auctionEnd.put(0)
+	// this.auctionEnd.set(0)
 	byte "auctionEnd"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:18
-	// this.highestBid.put(0)
+	// this.highestBid.set(0)
 	byte "highestBid"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:19
-	// this.asaAmt.put(0)
+	// this.asaAmt.set(0)
 	byte "asaAmt"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:20
-	// this.asa.put(Asset.zeroIndex)
+	// this.asa.set(Asset.zeroIndex)
 	byte "asa"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:23
-	// this.highestBidder.put(globals.zeroAddress)
+	// this.highestBidder.set(globals.zeroAddress)
 	byte "highestBidder"
 	global ZeroAddress
 	app_global_put
@@ -90,7 +90,7 @@ optIntoAsset:
 
 	// Save ASA ID in global state
 	// examples/auction/auction.algo.ts:34
-	// this.asa.put(asset)
+	// this.asa.set(asset)
 	byte "asa"
 	frame_dig -1 // asset: asset
 	app_global_put
@@ -180,14 +180,14 @@ startAuction:
 
 	// Set global state
 	// examples/auction/auction.algo.ts:55
-	// this.asaAmt.put(axfer.assetAmount)
+	// this.asaAmt.set(axfer.assetAmount)
 	byte "asaAmt"
 	frame_dig -3 // axfer: axfer
 	gtxns AssetAmount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:56
-	// this.auctionEnd.put(globals.latestTimestamp + length)
+	// this.auctionEnd.set(globals.latestTimestamp + length)
 	byte "auctionEnd"
 	global LatestTimestamp
 	frame_dig -2 // length: uint64
@@ -195,7 +195,7 @@ startAuction:
 	app_global_put
 
 	// examples/auction/auction.algo.ts:57
-	// this.highestBid.put(startingPrice)
+	// this.highestBid.set(startingPrice)
 	byte "highestBid"
 	frame_dig -1 // startingPrice: uint64
 	app_global_put
@@ -301,14 +301,14 @@ bid:
 if0_end:
 	// Set global state
 	// examples/auction/auction.algo.ts:86
-	// this.highestBid.put(payment.amount)
+	// this.highestBid.set(payment.amount)
 	byte "highestBid"
 	frame_dig -1 // payment: pay
 	gtxns Amount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:87
-	// this.highestBidder.put(payment.sender)
+	// this.highestBidder.set(payment.sender)
 	byte "highestBidder"
 	frame_dig -1 // payment: pay
 	gtxns Sender

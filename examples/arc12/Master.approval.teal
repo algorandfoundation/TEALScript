@@ -53,7 +53,7 @@ createVault:
 	// examples/arc12/arc12.algo.ts:140
 	// assert(!this.vaultMap.exists(receiver))
 	frame_dig -1 // receiver: account
-	box_get
+	box_len
 	swap
 	pop
 	!
@@ -131,7 +131,7 @@ createVault:
 
 	// examples/arc12/arc12.algo.ts:154
 	// approvalProgram: Vault
-	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICPooCAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBENhoCF8AcNhoBF8AciAACI0OKAgApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChJNhoEF8AcNhoDF8AwNhoCF8AcNhoBF8AciAACI0OKBgAxACpkEkSL/oAgx/zNsljw1BicK/i21o7ml1CGQrCtAB8x/LkYw1S6hZoSRDIKcwFEjPuxJLIQi/+yFIv9shEishKL/7IVIrIBs4v9FryL+zIKcwFECYz6sSOyEIv+sgeL+jEBCbIIIrIBs7EjshAxALIHMQGyCCKyAbMyCnMJRCISQQAGKIv8iP7YiTEZIhIxGCITEEQoMRYjCTYaARfAMIgAAiNDigMAi/8WvkxIFESL/jgAMQASRIv+OAcyChJEMgpzAUSM/Yv/FjEAv7EkshAyCrIUIrISIrIBi/+yEbOL/jgIMgpzAUSL/QkSRIkxGSISMRgiExBEKDYaAxfAHDYaAhfAHDYaARfAMIgAAiNDigQAi/8WvkxIRIv9i/8WvkQSRDEAKmQSRClki/4SRDIKcwFEjPyL/xa8sSSyEDEAshQisgEyCov/cABEshKL/7IRMQCyFbOxI7IQi/2yB4v8MgpzAUQJsggisgGzMgpzCUQiEkEABiiL/oj95IkxGSUSMRgiExBEiAACI0OKAAAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/0YAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/dX+AP64/xwA
+	byte b64 CCAEAAEEBSYEAAdjcmVhdG9yCHJlY2VpdmVyBm1hc3RlckICPooCAIv/KWQSRLEjshCL/7IHMgpzAUSyCCKyATEAsgmzMRYjCIz+i/44GCtkEkSL/jkaAIAEm0pkpRJEi/45MgE2MgASRIkxGSISMRgiEhBENhoCF8AcNhoBF8AciAACI0OKAgApi/5nKov/ZysyDWeJMRkiEjEYIhMQRChJNhoEF8AcNhoDF8AwNhoCF8AcNhoBF8AciAACI0OKBgAxACpkEkSL/oAgx/zNsljw1BicK/i21o7ml1CGQrCtAB8x/LkYw1S6hZoSRDIKcwFEjPuxJLIQi/+yFIv9shEishKL/7IVIrIBs4v9FryL+zIKcwFECYz6sSOyEIv+sgeL+jEBCbIIIrIBs7EjshAxALIHMQGyCCKyAbMyCnMJRCISQQAGKIv8iP7YiTEZIhIxGCITEEQoMRYjCTYaARfAMIgAAiNDigMAi/8WvUxIFESL/jgAMQASRIv+OAcyChJEMgpzAUSM/Yv/FjEAv7EkshAyCrIUIrISIrIBi/+yEbOL/jgIMgpzAUSL/QkSRIkxGSISMRgiExBEKDYaAxfAHDYaAhfAHDYaARfAMIgAAiNDigQAi/8WvUxIRIv9i/8WvkQSRDEAKmQSRClki/4SRDIKcwFEjPyL/xa8sSSyEDEAshQisgEyCov/cABEshKL/7IRMQCyFbOxI7IQi/2yB4v8MgpzAUQJsggisgGzMgpzCUQiEkEABiiL/oj95IkxGSUSMRgiExBEiAACI0OKAAAyCnMATEgURDEAMgkSRIkxG0AACTEZJRIjjgH/0YAEwTFcWYAEj0xWPYAEcZebQIAEKRxRYjYaAI4E/dX+AP64/xwA
 	itxn_field ApprovalProgram
 
 	// examples/arc12/arc12.algo.ts:155
@@ -176,7 +176,7 @@ createVault:
 	itxn_submit
 
 	// examples/arc12/arc12.algo.ts:168
-	// this.vaultMap.put(receiver, vault)
+	// this.vaultMap.set(receiver, vault)
 	frame_dig -1 // receiver: account
 	frame_dig -4 // vault: application
 	itob
@@ -236,7 +236,7 @@ verifyAxfer:
 	// examples/arc12/arc12.algo.ts:177
 	// assert(this.vaultMap.exists(receiver))
 	frame_dig -1 // receiver: account
-	box_get
+	box_len
 	swap
 	pop
 	assert
@@ -294,7 +294,7 @@ hasVault:
 	// examples/arc12/arc12.algo.ts:185
 	// return this.vaultMap.exists(receiver);
 	frame_dig -1 // receiver: account
-	box_get
+	box_len
 	swap
 	pop
 	itob

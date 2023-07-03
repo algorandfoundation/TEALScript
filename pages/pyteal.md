@@ -23,7 +23,7 @@ class BalanceApp extends Contract {
 
         // set counter to 1 if it doesn't already exist
         const newCounter = this.counters.exists(acct) ? this.counters.get(acct) + 1 : 1
-        this.counters.put(acct, newCounter)
+        this.counters.set(acct, newCounter)
     }
 }
 ```

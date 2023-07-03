@@ -48,13 +48,13 @@ setMyContact:
 	frame_bury -3 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:14
-	// this.myContact.put(contact)
+	// this.myContact.set(contact)
 	byte "myContact"
 	frame_dig -3 // contact: Contact
 	app_global_put
 
 	// examples/tuple_in_box/app.algo.ts:15
-	// this.contacts.put(this.txn.sender, contact)
+	// this.contacts.set(this.txn.sender, contact)
 	txn Sender
 	dup
 	box_del
@@ -111,7 +111,7 @@ addContact:
 	frame_bury -4 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:20
-	// this.contacts.put(address, contact)
+	// this.contacts.set(address, contact)
 	frame_dig -3 // address: address
 	dup
 	box_del

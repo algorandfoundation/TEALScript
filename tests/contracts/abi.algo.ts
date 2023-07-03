@@ -86,9 +86,9 @@ class ABITestStaticArrayInStorageRef extends Contract {
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.put(a);
-    this.lRef.put(this.txn.sender, a);
-    this.bRef.put(a);
+    this.gRef.set(a);
+    this.lRef.set(this.txn.sender, a);
+    this.bRef.set(a);
 
     const ret: StaticArray<uint64, 3> = [
       this.gRef.get()[1],
@@ -117,9 +117,9 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.put(a);
-    this.lRef.put(this.txn.sender, a);
-    this.bRef.put(a);
+    this.gRef.set(a);
+    this.lRef.set(this.txn.sender, a);
+    this.bRef.set(a);
 
     this.gRef.get()[1] = 111;
     this.lRef.get(this.txn.sender)[1] = 222;
@@ -152,9 +152,9 @@ class ABITestStaticArrayInStorageMap extends Contract {
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.put('gMap', a);
-    this.lMap.put(this.txn.sender, 'lMap', a);
-    this.bMap.put('bMap', a);
+    this.gMap.set('gMap', a);
+    this.lMap.set(this.txn.sender, 'lMap', a);
+    this.bMap.set('bMap', a);
 
     const ret: StaticArray<uint64, 3> = [
       this.gMap.get('gMap')[1],
@@ -183,9 +183,9 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.put('gMap', a);
-    this.lMap.put(this.txn.sender, 'lMap', a);
-    this.bMap.put('bMap', a);
+    this.gMap.set('gMap', a);
+    this.lMap.set(this.txn.sender, 'lMap', a);
+    this.bMap.set('bMap', a);
 
     this.gMap.get('gMap')[1] = 1111;
     this.lMap.get(this.txn.sender, 'lMap')[1] = 2222;
@@ -727,5 +727,71 @@ class ABITestStringLength extends Contract {
     const s = 'foo bar';
 
     return s.length;
+  }
+}
+class ABITestArrayRef extends Contract {
+  arrayRef(): uint<8>[] {
+    const a: uint<8>[] = [1, 2, 3];
+    const b = a;
+
+    b[1] = 4 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestNestedArrayRef extends Contract {
+  nestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+    const b = a[1];
+
+    b[1] = 5 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestNonLiteralNestedArrayRef extends Contract {
+  nonLiteralNestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+
+    let i = 1;
+    const b = a[i];
+
+    i = 1337;
+
+    b[1] = 5 as uint<8>;
+
+    return a;
+  }
+}
+
+class ABITestMultiNestedArrayRef extends Contract {
+  multiNestedArrayRef(): StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> {
+    const a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
+      [[1, 2], [3, 4]],
+      [[5, 6], [7, 8]],
+    ];
+
+    const b = a[1];
+    const c = b[1];
+
+    c[1] = 9 as uint<8>;
+
+    return a;
+  }
+}
+
+type ObjectRefType = { foo : StaticArray<StaticArray<uint<8>, 2>, 2>} ;
+
+class ABITestObjectArrayRef extends Contract {
+  objectArrayRef(): ObjectRefType {
+    const a: ObjectRefType = { foo: [[1, 2], [3, 4]] };
+    const b = a.foo;
+    const c = b[1];
+
+    c[1] = 5 as uint<8>;
+
+    return a;
   }
 }

@@ -20,7 +20,7 @@ create:
 	proto 0 0
 
 	// examples/amm/amm.algo.ts:21
-	// this.governor.put(this.txn.sender)
+	// this.governor.set(this.txn.sender)
 	byte "g"
 	txn Sender
 	app_global_put
@@ -181,14 +181,14 @@ tokensToMint:
 	frame_dig -6 // aRatio: uint64
 	frame_dig -7 // bRatio: uint64
 	<
-	bz ternary0_false
+	bz ternary1_false
 	frame_dig -6 // aRatio: uint64
-	b ternary0_end
+	b ternary1_end
 
-ternary0_false:
+ternary1_false:
 	frame_dig -7 // bRatio: uint64
 
-ternary0_end:
+ternary1_end:
 	frame_bury -8 // ratio: uint64
 
 	// examples/amm/amm.algo.ts:67
@@ -324,7 +324,7 @@ set_governor:
 	assert
 
 	// examples/amm/amm.algo.ts:91
-	// this.governor.put(governor)
+	// this.governor.set(governor)
 	byte "g"
 	frame_dig -1 // governor: account
 	app_global_put
@@ -398,19 +398,19 @@ bootstrap:
 	assert
 
 	// examples/amm/amm.algo.ts:102
-	// this.assetA.put(aAsset)
+	// this.assetA.set(aAsset)
 	byte "a"
 	frame_dig -2 // aAsset: asset
 	app_global_put
 
 	// examples/amm/amm.algo.ts:103
-	// this.assetB.put(bAsset)
+	// this.assetB.set(bAsset)
 	byte "b"
 	frame_dig -3 // bAsset: asset
 	app_global_put
 
 	// examples/amm/amm.algo.ts:104
-	// this.poolToken.put(this.doCreatePoolToken(aAsset, bAsset))
+	// this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset))
 	byte "p"
 
 	// no dupn needed
@@ -825,7 +825,7 @@ burn:
 	callsub doAxfer
 
 	// examples/amm/amm.algo.ts:192
-	// this.ratio.put(this.computeRatio())
+	// this.ratio.set(this.computeRatio())
 	byte "r"
 
 	// no dupn needed
@@ -917,14 +917,14 @@ skip_or0:
 	gtxns XferAsset
 	frame_dig -2 // aAsset: asset
 	==
-	bz ternary1_false
+	bz ternary3_false
 	frame_dig -2 // aAsset: asset
-	b ternary1_end
+	b ternary3_end
 
-ternary1_false:
+ternary3_false:
 	frame_dig -3 // bAsset: asset
 
-ternary1_end:
+ternary3_end:
 	frame_bury -4 // outId: asset
 
 	// examples/amm/amm.algo.ts:209
@@ -972,7 +972,7 @@ ternary1_end:
 	callsub doAxfer
 
 	// examples/amm/amm.algo.ts:221
-	// this.ratio.put(this.computeRatio())
+	// this.ratio.set(this.computeRatio())
 	byte "r"
 
 	// no dupn needed

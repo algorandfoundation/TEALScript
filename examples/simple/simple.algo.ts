@@ -7,11 +7,11 @@ export default class Simple extends Contract {
   createApp(): void { }
 
   incr(i: uint64): void {
-    this.counter.put(this.counter.get() + i);
+    this.counter.set(this.counter.get() + i);
   }
 
   decr(i: uint64): void {
-    this.counter.put(this.counter.get() - i);
+    this.counter.set(this.counter.get() - i);
   }
 
   add(a: uint<256>, b: uint<256>): uint<256> {
@@ -24,6 +24,6 @@ export default class Simple extends Contract {
 
   @handle.clearState
   clearState(): void {
-    this.counter.put(this.counter.get() + 1);
+    this.counter.set(this.counter.get() + 1);
   }
 }
