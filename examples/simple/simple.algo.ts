@@ -15,11 +15,11 @@ export default class Simple extends Contract {
   }
 
   add(a: uint<256>, b: uint<256>): uint<256> {
-    return a + b;
+    return (a + b) as uint<256>;
   }
 
   sub(a: uint<256>, b: uint<256>): uint<256> {
-    return a - b;
+    return (a - b) as uint<256>;
   }
 
   @handle.clearState

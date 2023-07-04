@@ -235,23 +235,26 @@ declare type precisions = 1 |
 159 |
 160
 
-declare type uint<N extends widths> = number
-declare type uint64 = uint<64>
-declare type ufixed<N extends widths, M extends precisions> = number
+// See https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
+type Brand<K, T> = K & { __brand: T }
 
-declare type byte = string
-declare type bytes = string
+declare type uint<N extends widths> = Brand<number, `uint${N}`>
+declare type uint64 = uint<64> | number
+declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>
+
+declare type byte = Brand<string, 'byte'>
+declare type bytes = Brand<string, 'bytes'> | string
 
 declare class Asset {
-  static fromIndex(index: uint<64>): Asset;
+  static fromIndex(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
 
-  readonly total: uint<64>;
+  readonly total: uint64;
 
-  readonly decimals: uint<64>;
+  readonly decimals: uint64;
 
-  readonly defaultFrozen: uint<64>;
+  readonly defaultFrozen: uint64;
 
   readonly name: string;
 
@@ -277,46 +280,46 @@ declare class Address {
 
   static readonly zeroAddress: Address;
 
-  readonly balance: uint<64>;
+  readonly balance: uint64;
 
-  readonly hasBalance: uint<64>;
+  readonly hasBalance: uint64;
 
-  readonly minBalance: uint<64>;
+  readonly minBalance: uint64;
 
-  readonly totalAssets: uint<64>;
+  readonly totalAssets: uint64;
 
   // eslint-disable-next-line no-use-before-define
   readonly authAddr: Address;
 
-  readonly totalNumUint: uint<64>;
+  readonly totalNumUint: uint64;
 
-  readonly totalNumByteSlice: uint<64>;
+  readonly totalNumByteSlice: uint64;
 
-  readonly totalExtraAppPages: uint<64>;
+  readonly totalExtraAppPages: uint64;
 
-  readonly totalAppsCreated: uint<64>;
+  readonly totalAppsCreated: uint64;
 
-  readonly totalAppsOptedIn: uint<64>;
+  readonly totalAppsOptedIn: uint64;
 
-  readonly totalAssetsCreated: uint<64>;
+  readonly totalAssetsCreated: uint64;
 
-  readonly totalBoxes: uint<64>;
+  readonly totalBoxes: uint64;
 
-  readonly totalBoxBytes: uint<64>;
+  readonly totalBoxBytes: uint64;
 
-  assetBalance(asa: Asset): uint<64>
+  assetBalance(asa: Asset): uint64
 
-  hasAsset(asa: Asset): uint<64>
+  hasAsset(asa: Asset): uint64
 
-  assetFrozen(asa: Asset): uint<64>
+  assetFrozen(asa: Asset): uint64
 }
 
 type Account = Address
 
-type BytesLike = bytes | Address
+type BytesLike = bytes | Address | string
 
 declare class Application {
-  static fromIndex(appID: uint<64>)
+  static fromIndex(appID: uint64)
 
   static readonly zeroIndex: Application;
 
@@ -324,15 +327,15 @@ declare class Application {
 
   readonly clearStateProgram: bytes;
 
-  readonly globalNumUint: uint<64>;
+  readonly globalNumUint: uint64;
 
-  readonly globalNumByteSlice: uint<64>;
+  readonly globalNumByteSlice: uint64;
 
-  readonly localNumUint: uint<64>;
+  readonly localNumUint: uint64;
 
-  readonly localNumByteSlice: uint<64>;
+  readonly localNumByteSlice: uint64;
 
-  readonly extraProgramPages: uint<64>;
+  readonly extraProgramPages: uint64;
 
   readonly creator: Address;
 
@@ -346,7 +349,7 @@ declare class BoxMap<KeyType, ValueType> {
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): uint<64>
+  exists(key: KeyType): uint64
 
   delete(key: KeyType): void
 
@@ -366,7 +369,7 @@ declare class BoxKey<ValueType> {
 
   get(): ValueType
 
-  exists(): uint<64>
+  exists(): uint64
 
   delete(): void
 
@@ -386,7 +389,7 @@ declare class GlobalStateMap<KeyType, ValueType> {
 
   get(key: KeyType): ValueType
 
-  exists(key: KeyType): uint<64>
+  exists(key: KeyType): uint64
 
   delete(key: KeyType): void
 
@@ -398,7 +401,7 @@ declare class GlobalStateKey<ValueType> {
 
   get(): ValueType
 
-  exists(): uint<64>
+  exists(): uint64
 
   delete(): void
 
@@ -410,7 +413,7 @@ declare class LocalStateMap<KeyType, ValueType> {
 
   get(account: Address, key: KeyType): ValueType
 
-  exists(account: Address, key: KeyType): uint<64>
+  exists(account: Address, key: KeyType): uint64
 
   delete(account: Address, key: KeyType): void
 
@@ -422,24 +425,24 @@ declare class LocalStateKey<ValueType> {
 
   get(account: Address): ValueType
 
-  exists(account: Address): uint<64>
+  exists(account: Address): uint64
 
   delete(account: Address): void
 
   set(account: Address, value: ValueType): void
 }
 
-type IntLike = uint<64> | Asset | Application | boolean
+type IntLike = uint64 | Asset | Application | boolean | number
 
 interface CommonTransactionParams {
-  fee: uint<64>
+  fee: uint64
   sender?: Address
   rekeyTo?: Address
   note?: string
 }
 
 interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
-  groupIndex: uint<64>,
+  groupIndex: uint64,
   txID: string,
 }
 
@@ -447,18 +450,19 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   createdAssetID: Asset,
   createdApplicationID: Application,
   lastLog: bytes,
-  numAppArgs: uint<64>,
-  numAccounts: uint<64>,
-  numAssets: uint<64>,
-  numApplicatons: uint<64>,
-  numLogs: uint<64>,
-  numApprovalProgrammPages: uint<64>,
-  numClearStateProgramPages: uint<64>,
+  applicationID: Application,
+  numAppArgs: uint64,
+  numAccounts: uint64,
+  numAssets: uint64,
+  numApplicatons: uint64,
+  numLogs: uint64,
+  numApprovalProgrammPages: uint64,
+  numClearStateProgramPages: uint64,
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
   xferAsset: Asset
-  assetAmount: uint<64>
+  assetAmount: uint64
   assetSender?: Address
   assetReceiver: Address
   assetCloseTo?: Address
@@ -475,13 +479,13 @@ interface AssetConfigParams extends CommonTransactionParams {
 interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
-  configAssetTotal: uint<64>
-  configAssetDecimals: uint<64>
+  configAssetTotal: uint64
+  configAssetDecimals: uint64
   configAssetManager?: Address
   configAssetReserve?: Address
   configAssetFreeze?: Address
   configAssetClawback?: Address
-  configAssetDefaultFrozen?: uint<64>
+  configAssetDefaultFrozen?: uint64
   configAssetURL?: bytes
   configAssetMetadataHash?: bytes
 }
@@ -489,11 +493,11 @@ interface AssetCreateParams extends CommonTransactionParams {
 interface AssetFreezeParams extends CommonTransactionParams {
   freezeAsset: Asset
   freezeAssetAccount: Address
-  freezeAssetFrozen: uint<64>
+  freezeAssetFrozen: uint64
 }
 
 interface PaymentParams extends CommonTransactionParams {
-  amount: uint<64>
+  amount: uint64
   receiver: Address
   closeRemainderTo?: Address
 }
@@ -507,28 +511,28 @@ interface AppParams extends CommonTransactionParams {
   clearStateProgram?: bytes
   applications?: Array<Application>
   assets?: Array<Asset>
-  globalNumByteSlice?: uint<64>
-  globalNumUint?: uint<64>
-  localNumByteSlice?: uint<64>
-  localNumUint?: uint<64>
+  globalNumByteSlice?: uint64
+  globalNumUint?: uint64
+  localNumByteSlice?: uint64
+  localNumUint?: uint64
 }
 
 interface KeyRegParams extends CommonTransactionParams {
   votePk?: bytes
   selectionPK?: bytes
   stateProofPk?: bytes
-  voteFirst?: uint<64>
-  voteLast?: uint<64>
-  voteKeyDilution?: uint<64>
+  voteFirst?: uint64
+  voteLast?: uint64
+  voteKeyDilution?: uint64
 }
 
 interface OnlineKeyRegParams extends CommonTransactionParams {
   votePK: bytes
   selectionPK: bytes
   stateProofPK: bytes
-  voteFirst: uint<64>
-  voteLast: uint<64>
-  voteKeyDilution: uint<64>
+  voteFirst: uint64
+  voteLast: uint64
+  voteKeyDilution: uint64
 }
 
 declare type PayTxn = Required<PaymentParams>
@@ -550,19 +554,19 @@ type ThisTxnParams = AppOnChainTransactionParams
 type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
 
 declare const globals: {
-  minTxnFee: uint<64>
-  minBalance: uint<64>
-  maxTxnLife: uint<64>
+  minTxnFee: uint64
+  minBalance: uint64
+  maxTxnLife: uint64
   zeroAddress: Address
-  groupSize: uint<64>
-  logicSigVersion: uint<64>
-  round: uint<64>
-  latestTimestamp: uint<64>
+  groupSize: uint64
+  logicSigVersion: uint64
+  round: uint64
+  latestTimestamp: uint64
   currentApplicationID: Application
   creatorAddress: Address
   currentApplicationAddress: Address
   groupID: bytes
-  opcodeBudget: uint<64>
+  opcodeBudget: uint64
   callerApplicationID: Application
   callerApplicationAddress: Address
 };
@@ -586,7 +590,7 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
  * @example
  * Calling a method and getting the return value
  * ```ts
- * // call createNFT(string,string)uint<64>
+ * // call createNFT(string,string)uint64
  * const createdAsset = sendMethodCall<[string, string], Asset>({
  *     applicationID: factoryApp,
  *     name: 'createNFT',
@@ -607,7 +611,7 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 declare function sendMethodCall<ArgsType, ReturnType>(
   params: Expand<MethodCallParams<ArgsType>>
 ): ReturnType
-declare function btoi(byteslice: BytesLike): uint<64>
+declare function btoi(byteslice: BytesLike): uint64
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
 declare function sha256(arg0: BytesLike): StaticArray<byte, 32>
@@ -636,7 +640,7 @@ declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike): uint64
 declare function sha3_256(arg0: BytesLike): StaticArray<byte, 32>
 declare function bzero(size: IntLike): bytes
 
-declare function wideRatio(numeratorFactors: uint<64>[], denominatorFactors: uint<64>[]): uint<64>
+declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
 declare function hex(input: string): bytes
 
 declare type decorator = (
@@ -664,4 +668,4 @@ declare class handle {
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number
-> = T extends byte ? string : (N extends 0 ? never[] : T[])
+> = Brand<T extends byte ? string : (N extends 0 ? never[] : T[]), `${T}[${N}]`>
