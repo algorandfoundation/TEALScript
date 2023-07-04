@@ -2216,7 +2216,9 @@ export default class Compiler {
 
       if (ts.isIdentifier(node.left)) {
         const name = node.left.getText();
-        const target = this.frame[name];
+        const processedFrame = this.processFrame(node.left, name, false);
+        const target = this.frame[processedFrame.name];
+
         this.processNode(node.right);
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
@@ -2250,7 +2252,7 @@ export default class Compiler {
     const leftType = this.lastType;
     this.processNode(node.right);
 
-    if (node.operatorToken.getText() === '+' && leftType === StackType.bytes) {
+    if (node.operatorToken.getText() === '+' && (leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
       this.push(node.operatorToken, 'concat', StackType.bytes);
       return;
     }
@@ -2365,7 +2367,11 @@ export default class Compiler {
 
       const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
 
-      if (ts.isIdentifier(node.initializer) && isArray) {
+      if (
+        ts.isIdentifier(node.initializer)
+        && !this.constants[node.initializer.getText()]
+        && isArray
+      ) {
         lastFrameAccess = node.initializer.getText();
 
         this.frame[name] = {
@@ -3132,7 +3138,11 @@ export default class Compiler {
       );
     }
 
-    this.push(node.expression, line.join(' '), opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes'));
+    let returnType = opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes');
+
+    if (opSpec.Name.endsWith('256')) returnType = 'byte[32]';
+
+    this.push(node.expression, line.join(' '), returnType);
   }
 
   private processStorageCall(node: ts.CallExpression) {

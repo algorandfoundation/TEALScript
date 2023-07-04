@@ -610,9 +610,9 @@ declare function sendMethodCall<ArgsType, ReturnType>(
 declare function btoi(byteslice: BytesLike): uint<64>
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
-declare function sha256(arg0: BytesLike): bytes
-declare function keccak256(arg0: BytesLike): bytes
-declare function sha512_256(arg0: BytesLike): bytes
+declare function sha256(arg0: BytesLike): StaticArray<byte, 32>
+declare function keccak256(arg0: BytesLike): StaticArray<byte, 32>
+declare function sha512_256(arg0: BytesLike): StaticArray<byte, 32>
 declare function ed25519verify(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike): uint64
 declare function len(arg0: BytesLike): uint64
 declare function assert(arg0: IntLike): void
@@ -633,7 +633,7 @@ declare function bitlen(arg0: BytesLike): uint64
 declare function exp(arg0: IntLike, arg1: IntLike): uint64
 declare function bsqrt(arg0: uint<widths>): uint<widths>
 declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike): uint64
-declare function sha3_256(arg0: BytesLike): bytes
+declare function sha3_256(arg0: BytesLike): StaticArray<byte, 32>
 declare function bzero(size: IntLike): bytes
 
 declare function wideRatio(numeratorFactors: uint<64>[], denominatorFactors: uint<64>[]): uint<64>
@@ -664,4 +664,4 @@ declare class handle {
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number
-> = N extends 0 ? never[] : T[]
+> = T extends byte ? string : (N extends 0 ? never[] : T[])
