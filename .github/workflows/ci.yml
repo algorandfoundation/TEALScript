@@ -17,6 +17,9 @@ jobs:
     - name: Run ESLint
       run: yarn run lint
 
+    - name: Run webpack smoketest
+      run: yarn run webpack-smoketest
+
     - name: Run tests
       run: yarn test
 
