@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.18.1",
+  "version": "0.19.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorand-devrel/TEALScript",
   "bugs": {
@@ -37,7 +37,8 @@
     "run-simple": "tsx examples/simple/index.ts",
     "test-examples": "jest examples/",
     "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box",
-    "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples"
+    "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
+    "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples && yarn webpack-smoketest"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -60,10 +61,14 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^29.5.0",
+    "path-browserify": "^1.0.1",
     "ts-jest": "^29.1.0",
+    "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.3",
     "typedoc": "^0.23.23",
-    "typedoc-plugin-merge-modules": "^4.0.1"
+    "typedoc-plugin-merge-modules": "^4.0.1",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   }
 }
