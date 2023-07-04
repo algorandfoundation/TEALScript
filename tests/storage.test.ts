@@ -87,7 +87,10 @@ describe('Box Ops', () => {
 
     const sourcePath = path.join('tests', 'contracts', 'storage.algo.ts');
     const content = fs.readFileSync(sourcePath, 'utf-8');
-    const compiler = new Compiler(content, className, sourcePath, true);
+    const compiler = new Compiler(content, className, {
+      filename: sourcePath,
+      disableWarnings: true,
+    });
     await compiler.compile();
     await compiler.algodCompile();
 

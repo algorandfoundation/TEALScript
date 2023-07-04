@@ -16,7 +16,7 @@ export async function getMethodTeal(
   className: string,
   methodName: string,
 ): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, '', true);
+  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, { disableWarnings: true });
   await compiler.compile();
   const { teal } = compiler;
 
@@ -36,7 +36,11 @@ export function artifactsTest(
   className: string,
 ) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, sourcePath, true);
+  const compiler = new Compiler(
+    content,
+    className,
+    { filename: sourcePath, disableWarnings: true },
+  );
   describe(`${testName} ${className} Artifacts`, () => {
     beforeAll(async () => {
       await compiler.compile();

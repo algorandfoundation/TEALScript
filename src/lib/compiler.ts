@@ -6,7 +6,6 @@ import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as langspec from '../langspec.json';
-import 'dotenv/config';
 
 export type SourceInfo = {
   filename: string;
@@ -838,13 +837,29 @@ export default class Compiler {
 
   private disableWarnings: boolean;
 
+  private algodServer: string;
+
+  private algodPort: number;
+
+  private algodToken: string;
+
   constructor(
     content: string,
     className: string,
-    filename: string = '',
-    disableWarnings: boolean = false,
+    options?: {
+      filename?: string,
+      disableWarnings?: boolean,
+      algodServer?: string,
+      algodToken?: string,
+      algodPort?: number,
+    },
   ) {
-    this.filename = filename;
+    this.disableWarnings = options?.disableWarnings || false;
+    this.algodServer = options?.algodServer || 'http://localhost';
+    this.algodPort = options?.algodPort || 4001;
+    this.algodToken = options?.algodToken || 'a'.repeat(64);
+    this.filename = options?.filename || '';
+
     this.content = content;
     this.name = className;
     this.sourceFile = ts.createSourceFile(
@@ -854,7 +869,6 @@ export default class Compiler {
       true,
     );
     this.constants = {};
-    this.disableWarnings = disableWarnings;
   }
 
   getOpParamObjects(op: string) {
@@ -1106,7 +1120,13 @@ export default class Compiler {
     this.teal = (await Promise.all(
       this.teal.map(async (t) => {
         if (t.startsWith('PENDING_COMPILE')) {
-          const c = new Compiler(this.content, t.split(' ')[1], this.filename);
+          const c = new Compiler(this.content, t.split(' ')[1], {
+            filename: this.filename,
+            algodPort: this.algodPort,
+            algodServer: this.algodServer,
+            algodToken: this.algodToken,
+            disableWarnings: this.disableWarnings,
+          });
           await c.compile();
           const program = await c.algodCompile();
           return `byte b64 ${program}`;
@@ -3331,17 +3351,13 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<string> {
-    const algodServer = process.env.ALGOD_SERVER || 'http://localhost';
-    const algodPort = process.env.ALGOD_PORT || '4001';
-    const algodToken = process.env.ALGOD_TOKEN || 'a'.repeat(64);
-
     const response = await fetch(
-      `${algodServer}:${algodPort}/v2/teal/compile?sourcemap=true`,
+      `${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'X-Algo-API-Token': algodToken,
+          'X-Algo-API-Token': this.algodToken,
         },
         body: this.approvalProgram(),
       },

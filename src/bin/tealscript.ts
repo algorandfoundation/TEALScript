@@ -4,6 +4,7 @@ import path from 'path';
 import * as fs from 'fs';
 import ts from 'typescript';
 import Compiler from '../lib/compiler';
+import 'dotenv/config';
 
 const filename = process.argv[2];
 const content = fs.readFileSync(filename, 'utf-8');
@@ -21,7 +22,17 @@ src.statements.forEach(async (body) => {
     const appPath = path.join(dir, `${name}.json`);
     const srcmapPath = path.join(dir, `${name}.src_map.json`);
 
-    const compiler = new Compiler(content, name, filename);
+    const compiler = new Compiler(
+      content,
+      name,
+      {
+        filename,
+        algodPort: process.env.ALGOD_PORT ? Number(process.env.ALGOD_PORT) : undefined,
+        algodServer: process.env.ALGOD_SERVER,
+        algodToken: process.env.ALGOD_TOKEN,
+        disableWarnings: true,
+      },
+    );
     await compiler.compile();
     await compiler.algodCompile();
 
