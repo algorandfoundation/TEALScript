@@ -7,6 +7,14 @@ import sourceMap from 'source-map';
 import path from 'path';
 import * as langspec from '../langspec.json';
 
+export type CompilerOptions = {
+  filename?: string,
+  disableWarnings?: boolean,
+  algodServer?: string,
+  algodToken?: string,
+  algodPort?: number,
+}
+
 export type SourceInfo = {
   filename: string;
   start: ts.LineAndCharacter;
@@ -846,13 +854,7 @@ export default class Compiler {
   constructor(
     content: string,
     className: string,
-    options?: {
-      filename?: string,
-      disableWarnings?: boolean,
-      algodServer?: string,
-      algodToken?: string,
-      algodPort?: number,
-    },
+    options?: CompilerOptions,
   ) {
     this.disableWarnings = options?.disableWarnings || false;
     this.algodServer = options?.algodServer || 'http://localhost';
@@ -869,6 +871,24 @@ export default class Compiler {
       true,
     );
     this.constants = {};
+  }
+
+  static compileAll(content: string, options: CompilerOptions): Promise<Compiler>[] {
+    const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2019, true);
+    const compilers = src.statements
+      .filter((body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract')
+      .map(async (body) => {
+        if (!ts.isClassDeclaration(body)) throw Error();
+        const name = body.name!.text;
+
+        const compiler = new Compiler(content, name, options);
+        await compiler.compile();
+        await compiler.algodCompile();
+
+        return compiler;
+      });
+
+    return compilers;
   }
 
   getOpParamObjects(op: string) {
