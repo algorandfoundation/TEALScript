@@ -4,14 +4,14 @@
 calcInitRoot:
 	proto 2 1
 
-	// examples/merkle/merkle.algo.ts:17
+	// examples/merkle/merkle.algo.ts:19
 	// result = EMPTY_HASH
-	// examples/merkle/merkle.algo.ts:4
+	// examples/merkle/merkle.algo.ts:6
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
 	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-	frame_bury -1 // result: bytes
+	frame_bury -1 // result: byte[32]
 
-	// examples/merkle/merkle.algo.ts:19
+	// examples/merkle/merkle.algo.ts:21
 	// i = 0
 	int 0
 	frame_bury -2 // i: uint64
@@ -22,15 +22,15 @@ for_0:
 	<
 	bz for_0_end
 
-	// examples/merkle/merkle.algo.ts:20
+	// examples/merkle/merkle.algo.ts:22
 	// result = sha256(result + result)
-	frame_dig -1 // result: bytes
-	frame_dig -1 // result: bytes
+	frame_dig -1 // result: byte[32]
+	frame_dig -1 // result: byte[32]
 	concat
 	sha256
-	frame_bury -1 // result: bytes
+	frame_bury -1 // result: byte[32]
 
-	// examples/merkle/merkle.algo.ts:19
+	// examples/merkle/merkle.algo.ts:21
 	// i = i + 1
 	frame_dig -2 // i: uint64
 	int 1
@@ -39,18 +39,18 @@ for_0:
 	b for_0
 
 for_0_end:
-	// examples/merkle/merkle.algo.ts:23
+	// examples/merkle/merkle.algo.ts:25
 	// return result;
-	frame_dig -1 // result: bytes
+	frame_dig -1 // result: byte[32]
 	retsub
 
 hashConcat:
 	proto 2 1
 
-	// examples/merkle/merkle.algo.ts:27
+	// examples/merkle/merkle.algo.ts:29
 	// return sha256(left + right);
-	frame_dig -1 // left: bytes
-	frame_dig -2 // right: bytes
+	frame_dig -1 // left: byte[32]
+	frame_dig -2 // right: byte[32]
 	concat
 	sha256
 	retsub
@@ -58,7 +58,7 @@ hashConcat:
 isRightSibling:
 	proto 1 1
 
-	// examples/merkle/merkle.algo.ts:31
+	// examples/merkle/merkle.algo.ts:33
 	// return getbyte(elem, 0) === RIGHT_SIBLING_PREFIX;
 	frame_dig -1 // elem: byte[33]
 	int 0
@@ -68,34 +68,29 @@ isRightSibling:
 	retsub
 
 calcRoot:
-	proto 5 1
+	proto 4 1
 
-	// examples/merkle/merkle.algo.ts:35
-	// result = leaf
-	frame_dig -1 // leaf: bytes
-	frame_bury -3 // result: bytes
-
-	// examples/merkle/merkle.algo.ts:37
+	// examples/merkle/merkle.algo.ts:39
 	// i = 0
 	int 0
-	frame_bury -4 // i: uint64
+	frame_bury -3 // i: uint64
 
 for_1:
-	frame_dig -4 // i: uint64
+	frame_dig -3 // i: uint64
 	int 3
 	<
 	bz for_1_end
-	frame_dig -4 // i: uint64
-	frame_bury -5 // accessor: accessor//0//elem
+	frame_dig -3 // i: uint64
+	frame_bury -4 // accessor: accessor//0//elem
 
 	// if0_condition
-	// examples/merkle/merkle.algo.ts:40
+	// examples/merkle/merkle.algo.ts:42
 	// this.isRightSibling(elem)
 	// no dupn needed
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
-	frame_dig -5 // saved accessor: accessor//0//elem
+	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -107,13 +102,13 @@ for_1:
 	bz if0_else
 
 	// if0_consequent
-	// examples/merkle/merkle.algo.ts:41
+	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
 	// no dupn needed
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
-	frame_dig -5 // saved accessor: accessor//0//elem
+	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -124,20 +119,20 @@ for_1:
 	int 1
 	int 32
 	extract3
-	frame_dig -3 // result: bytes
+	frame_dig -1 // leaf: byte[32]
 	callsub hashConcat
-	frame_bury -3 // result: bytes
+	frame_bury -1 // result: byte[32]
 	b if0_end
 
 if0_else:
-	// examples/merkle/merkle.algo.ts:43
+	// examples/merkle/merkle.algo.ts:45
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
 	// no dupn needed
-	frame_dig -3 // result: bytes
+	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
-	frame_dig -5 // saved accessor: accessor//0//elem
+	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -149,21 +144,21 @@ if0_else:
 	int 32
 	extract3
 	callsub hashConcat
-	frame_bury -3 // result: bytes
+	frame_bury -1 // result: byte[32]
 
 if0_end:
-	// examples/merkle/merkle.algo.ts:37
+	// examples/merkle/merkle.algo.ts:39
 	// i = i + 1
-	frame_dig -4 // i: uint64
+	frame_dig -3 // i: uint64
 	int 1
 	+
-	frame_bury -4 // i: uint64
+	frame_bury -3 // i: uint64
 	b for_1
 
 for_1_end:
-	// examples/merkle/merkle.algo.ts:47
+	// examples/merkle/merkle.algo.ts:49
 	// return result;
-	frame_dig -3 // result: bytes
+	frame_dig -1 // leaf: byte[32]
 	retsub
 
 bare_route_DeleteApplication:
@@ -184,7 +179,7 @@ bare_route_DeleteApplication:
 delete:
 	proto 0 0
 
-	// examples/merkle/merkle.algo.ts:52
+	// examples/merkle/merkle.algo.ts:54
 	// assert(this.txn.sender === this.app.creator)
 	txn Sender
 	txna Applications 0
@@ -212,7 +207,7 @@ bare_route_create:
 create:
 	proto 0 0
 
-	// examples/merkle/merkle.algo.ts:57
+	// examples/merkle/merkle.algo.ts:59
 	// this.root.set(this.calcInitRoot())
 	byte "root"
 	byte 0x; dup
@@ -241,12 +236,11 @@ abi_route_verify:
 verify:
 	proto 2 0
 
-	// examples/merkle/merkle.algo.ts:61
+	// examples/merkle/merkle.algo.ts:63
 	// assert(this.root.get() === this.calcRoot(sha256(data), path))
 	byte "root"
 	app_global_get
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -1 // data: bytes
 	sha256
@@ -276,40 +270,38 @@ abi_route_appendLeaf:
 appendLeaf:
 	proto 2 0
 
-	// examples/merkle/merkle.algo.ts:65
+	// examples/merkle/merkle.algo.ts:67
 	// assert(data !== '')
 	frame_dig -1 // data: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:66
+	// examples/merkle/merkle.algo.ts:68
 	// assert(this.root.get() === this.calcRoot(EMPTY_HASH, path))
 	byte "root"
 	app_global_get
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	frame_dig -2 // path: byte[33][3]
 
-	// examples/merkle/merkle.algo.ts:4
+	// examples/merkle/merkle.algo.ts:6
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
 	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 	callsub calcRoot
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:68
+	// examples/merkle/merkle.algo.ts:70
 	// this.root.set(this.calcRoot(sha256(data), path))
 	byte "root"
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -1 // data: bytes
 	sha256
 	callsub calcRoot
 	app_global_put
 
-	// examples/merkle/merkle.algo.ts:70
+	// examples/merkle/merkle.algo.ts:72
 	// this.size.set(this.size.get() + 1)
 	byte "size"
 	byte "size"
@@ -342,19 +334,18 @@ abi_route_updateLeaf:
 updateLeaf:
 	proto 3 0
 
-	// examples/merkle/merkle.algo.ts:74
+	// examples/merkle/merkle.algo.ts:76
 	// assert(newData !== '')
 	frame_dig -2 // newData: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:75
+	// examples/merkle/merkle.algo.ts:77
 	// assert(this.root.get() === this.calcRoot(sha256(oldData), path))
 	byte "root"
 	app_global_get
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	frame_dig -3 // path: byte[33][3]
 	frame_dig -1 // oldData: bytes
 	sha256
@@ -362,11 +353,10 @@ updateLeaf:
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:77
+	// examples/merkle/merkle.algo.ts:79
 	// this.root.set(this.calcRoot(sha256(newData), path))
 	byte "root"
-	byte 0x
-	dupn 2
+	byte 0x; dup
 	frame_dig -3 // path: byte[33][3]
 	frame_dig -2 // newData: bytes
 	sha256
