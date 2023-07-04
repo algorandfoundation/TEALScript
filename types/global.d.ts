@@ -610,34 +610,30 @@ declare function sendMethodCall<ArgsType, ReturnType>(
 declare function btoi(byteslice: BytesLike): uint<64>
 declare function itob(int: IntLike): bytes
 declare function log(content: BytesLike): void
-declare function sha256(arg0: BytesLike)
-declare function keccak256(arg0: BytesLike)
-declare function sha512_256(arg0: BytesLike)
-declare function ed25519verify(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike)
-declare function len(arg0: BytesLike)
-declare function mulw(arg0: IntLike, arg1: IntLike)
-declare function addw(arg0: IntLike, arg1: IntLike)
-declare function divmodw(arg0: IntLike, arg1: IntLike, arg2: IntLike, arg3: IntLike)
-declare function assert(arg0: IntLike)
-declare function concat(arg0: BytesLike, arg1: BytesLike)
-declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbtest(arg0: BytesLike, arg1: IntLike)
-declare function setbtest(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function getbyte(arg0: BytesLike, arg1: IntLike): uint<64>
-declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike)
-declare function extract_uint16(arg0: BytesLike, arg1: IntLike)
-declare function extract_uint32(arg0: BytesLike, arg1: IntLike)
-declare function extract_uint64(arg0: BytesLike, arg1: IntLike)
-declare function replace3(arg0: BytesLike, arg1: IntLike, arg2: BytesLike)
-declare function ed25519verify_bare(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike)
-declare function sqrt(arg0: IntLike)
-declare function bitlen(arg0: BytesLike)
-declare function exp(arg0: IntLike, arg1: IntLike)
-declare function expw(arg0: IntLike, arg1: IntLike)
-declare function bsqrt(arg0: BytesLike)
-declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike)
-declare function sha3_256(arg0: BytesLike)
+declare function sha256(arg0: BytesLike): bytes
+declare function keccak256(arg0: BytesLike): bytes
+declare function sha512_256(arg0: BytesLike): bytes
+declare function ed25519verify(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike): uint64
+declare function len(arg0: BytesLike): uint64
+declare function assert(arg0: IntLike): void
+declare function concat(arg0: BytesLike, arg1: BytesLike): bytes
+declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
+declare function getbit(arg0: BytesLike, arg1: IntLike): uint64
+declare function setbit(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
+declare function getbyte(arg0: BytesLike, arg1: IntLike): uint64
+declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
+declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
+declare function extract_uint16(arg0: BytesLike, arg1: IntLike): uint64
+declare function extract_uint32(arg0: BytesLike, arg1: IntLike): uint64
+declare function extract_uint64(arg0: BytesLike, arg1: IntLike): uint64
+declare function replace3(arg0: BytesLike, arg1: IntLike, arg2: BytesLike): bytes
+declare function ed25519verify_bare(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike): uint64
+declare function sqrt(arg0: IntLike): uint64
+declare function bitlen(arg0: BytesLike): uint64
+declare function exp(arg0: IntLike, arg1: IntLike): uint64
+declare function bsqrt(arg0: uint<widths>): uint<widths>
+declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike): uint64
+declare function sha3_256(arg0: BytesLike): bytes
 declare function bzero(size: IntLike): bytes
 
 declare function wideRatio(numeratorFactors: uint<64>[], denominatorFactors: uint<64>[]): uint<64>
