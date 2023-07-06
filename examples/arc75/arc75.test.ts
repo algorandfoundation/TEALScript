@@ -48,6 +48,7 @@ async function addApp(mbr: number, boxIndex: number, appID: number, arc: string)
     },
     {
       boxes: [getBoxRef(boxIndex, arc)],
+      sendParams: { suppressLog: true },
     },
   );
 }
@@ -88,7 +89,7 @@ describe('ARC75', function () {
     const acct = algosdk.generateAccount();
 
     await algokit.ensureFunded(
-      { accountToFund: acct, minSpendingBalance: algokit.microAlgos(1_000_000) },
+      { accountToFund: acct, minSpendingBalance: algokit.microAlgos(1_000_000), suppressLog: true },
       algodClient,
       kmdClient,
     );
@@ -105,7 +106,7 @@ describe('ARC75', function () {
       algodClient,
     );
 
-    ({ appAddress, appId } = await arc75.appClient.create());
+    ({ appAddress, appId } = await arc75.appClient.create({ sendParams: { suppressLog: true } }));
 
     const atc = new algosdk.AtomicTransactionComposer();
     const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
@@ -180,7 +181,7 @@ describe('ARC75', function () {
       { arc: ARC, boxIndex: id },
       {
         boxes: [getBoxRef(id, ARC)],
-        sendParams: { fee: algokit.microAlgos(2_000) },
+        sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
       },
     );
 
@@ -204,7 +205,7 @@ describe('ARC75', function () {
       },
       {
         boxes: [getBoxRef(id, ARC)],
-        sendParams: { fee: algokit.microAlgos(2_000) },
+        sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
       },
     );
 

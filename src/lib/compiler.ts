@@ -401,6 +401,7 @@ export default class Compiler {
         }
 
         this.push(node.expression, 'app_global_get', valueType);
+        if (this.isDynamicArrayOfStaticType(valueType)) this.push(node.expression, 'extract 2 0', valueType);
       },
       set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -423,7 +424,7 @@ export default class Compiler {
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
-          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
+          if (!['string', 'bytes', 'byte[]'].includes(valueType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
         } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
         this.push(node.expression, 'app_global_put', valueType);
@@ -496,6 +497,7 @@ export default class Compiler {
         }
 
         this.push(node.expression, 'app_local_get', valueType);
+        if (this.isDynamicArrayOfStaticType(valueType)) this.push(node.expression, 'extract 2 0', valueType);
       },
       set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -520,7 +522,7 @@ export default class Compiler {
 
         if (node.arguments[key ? 1 : 2]) {
           this.processNode(node.arguments[key ? 1 : 2]);
-          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 1 : 2], this.lastType);
+          if (!['string', 'bytes', 'byte[]'].includes(valueType)) this.potentialLengthPrefix(node.arguments[key ? 1 : 2], this.lastType);
         } else this.pushVoid(node.expression, 'uncover 2'); // Used when updating storage array
 
         this.push(node.expression, 'app_local_put', valueType);
@@ -689,7 +691,8 @@ export default class Compiler {
         }
 
         this.maybeValue(node.expression, 'box_get', valueType);
-        if (isNumeric(valueType)) this.pushVoid(node.expression, 'btoi');
+        if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
+        if (this.isDynamicArrayOfStaticType(valueType)) this.push(node.expression, 'extract 2 0', valueType);
       },
       set: (node: ts.CallExpression) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
@@ -715,7 +718,7 @@ export default class Compiler {
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
-          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
+          if (!['string', 'bytes', 'byte[]'].includes(valueType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
         } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
         if (isNumeric(valueType)) this.pushVoid(node.expression, 'itob');
@@ -1705,6 +1708,8 @@ export default class Compiler {
       const storageProp = this.storageProps[
         node.expression.expression.name.getText()
       ];
+
+      this.potentialLengthPrefix(node, storageProp.valueType);
 
       this.storageFunctions[storageProp.type].set(node);
     } else {

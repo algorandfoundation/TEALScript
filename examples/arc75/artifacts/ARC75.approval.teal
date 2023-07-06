@@ -134,8 +134,6 @@ addAppToWhiteList:
 	frame_dig -1 // arc: bytes
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -160,8 +158,17 @@ addAppToWhiteList:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	frame_dig -3 // appID: uint64
 	itob
+	concat
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
 	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
@@ -185,6 +192,14 @@ if0_else:
 	box_del
 	pop
 	frame_dig -7 // newWhitelist: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 
 if0_end:
@@ -239,8 +254,6 @@ setAppWhitelist:
 	frame_dig -1 // arc: bytes
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -262,6 +275,14 @@ setAppWhitelist:
 	box_del
 	pop
 	frame_dig -3 // appIDs: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 
 	// if1_condition
@@ -338,8 +359,6 @@ deleteWhitelist:
 	frame_dig -1 // arc: bytes
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -406,8 +425,6 @@ deleteAppFromWhitelist:
 	frame_dig -1 // arc: bytes
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -422,6 +439,7 @@ deleteAppFromWhitelist:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	int 1
 	frame_dig -4 // index: uint64
 	int 8
@@ -436,12 +454,14 @@ deleteAppFromWhitelist:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	int 0
 	load 12 // splice start
 	substring3
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	dup
 	len
 	load 12 // splice start
@@ -455,12 +475,21 @@ deleteAppFromWhitelist:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	load 12 // splice start
 	load 13 // splice byte length
 	int 8
 	-
 	extract3
 	swap
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
