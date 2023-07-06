@@ -40,9 +40,9 @@ class MerkleTree extends Contract {
       const elem = path[i];
 
       if (this.isRightSibling(elem)) {
-        result = this.hashConcat(result, extract3(elem, 1, 32) as byte32);
+        result = this.hashConcat(result, extract3(elem, 1, 32));
       } else {
-        result = this.hashConcat(extract3(elem, 1, 32) as byte32, result);
+        result = this.hashConcat(extract3(elem, 1, 32), result);
       }
     }
 

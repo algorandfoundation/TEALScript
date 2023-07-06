@@ -28,9 +28,6 @@ updateDynamicArrayElement:
 	int 33
 	itob
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:347
@@ -42,8 +39,6 @@ updateDynamicArrayElement:
 	int 8
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 222
@@ -60,8 +55,6 @@ updateDynamicArrayElement:
 	int 8
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 8

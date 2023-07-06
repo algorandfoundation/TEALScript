@@ -1,7 +1,7 @@
 #pragma version 8
 	b main
 
-abi_route_returnDynamicArray:
+abi_route_stringAccessor:
 	txn OnCompletion
 	int NoOp
 	==
@@ -11,32 +11,26 @@ abi_route_returnDynamicArray:
 	&&
 	assert
 	byte 0x
-	callsub returnDynamicArray
+	callsub stringAccessor
 	int 1
 	return
 
-returnDynamicArray:
+stringAccessor:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:332
-	// a: uint64[] = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
-	frame_bury -1 // a: uint64[]
+	// tests/contracts/abi.algo.ts:801
+	// s = 'Hello World'
+	byte "Hello World"
+	frame_bury -1 // s: bytes
 
-	// tests/contracts/abi.algo.ts:333
-	// return a;
-	frame_dig -1 // a: uint64[]
+	// tests/contracts/abi.algo.ts:803
+	// return s[1];
+	frame_dig -1 // s: bytes
+	int 1
+	int 1
+	extract3
 	dup
 	len
-	int 8
-	/
 	itob
 	extract 6 2
 	swap
@@ -62,7 +56,7 @@ main:
 	return
 
 route_abi:
-	method "returnDynamicArray()uint64[]"
+	method "stringAccessor()string"
 	txna ApplicationArgs 0
-	match abi_route_returnDynamicArray
+	match abi_route_stringAccessor
 	err
