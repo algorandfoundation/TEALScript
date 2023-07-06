@@ -506,7 +506,7 @@ interface AppParams extends CommonTransactionParams {
   applicationID?: Application
   onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Address[]
-  approvalProgram?: bytes | NewableFunction
+  approvalProgram?: bytes
   applicationArgs?: bytes[]
   clearStateProgram?: bytes
   applications?: Array<Application>
@@ -549,7 +549,7 @@ interface MethodCallParams<ArgsType> extends AppParams {
   name: string
 }
 
-type ThisTxnParams = AppOnChainTransactionParams
+type ThisTxnParams = AppOnChainTransactionParams & AppParams
 
 type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
 
