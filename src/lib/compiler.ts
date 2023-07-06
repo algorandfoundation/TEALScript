@@ -395,6 +395,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.expression, `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -415,12 +416,14 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
         } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
         this.push(node.expression, 'app_global_put', valueType);
@@ -439,6 +442,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -461,6 +465,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -485,6 +490,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[1], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
           if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
@@ -507,12 +513,14 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[1], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
           if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
 
         if (node.arguments[key ? 1 : 2]) {
           this.processNode(node.arguments[key ? 1 : 2]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 1 : 2], this.lastType);
         } else this.pushVoid(node.expression, 'uncover 2'); // Used when updating storage array
 
         this.push(node.expression, 'app_local_put', valueType);
@@ -533,6 +541,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[1], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
           if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
@@ -555,6 +564,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[1], `byte "${prefix}"`);
           this.processNode(node.arguments[1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[1], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[1], 'itob');
           if (prefix) this.pushVoid(node.arguments[1], 'concat');
         }
@@ -578,6 +588,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -601,6 +612,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -625,6 +637,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -649,6 +662,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -669,6 +683,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -690,6 +705,8 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -698,6 +715,7 @@ export default class Compiler {
 
         if (node.arguments[key ? 0 : 1]) {
           this.processNode(node.arguments[key ? 0 : 1]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[key ? 0 : 1], this.lastType);
         } else this.pushVoid(node.expression, 'swap'); // Used when updating storage array
 
         if (isNumeric(valueType)) this.pushVoid(node.expression, 'itob');
@@ -718,6 +736,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -738,6 +757,7 @@ export default class Compiler {
         } else {
           if (prefix) this.pushVoid(node.arguments[0], `byte "${prefix}"`);
           this.processNode(node.arguments[0]);
+          if (!['string', 'bytes', 'byte[]'].includes(this.lastType)) this.potentialLengthPrefix(node.arguments[0], this.lastType);
           if (isNumeric(keyType)) this.pushVoid(node.arguments[0], 'itob');
           if (prefix) this.pushVoid(node.arguments[0], 'concat');
         }
@@ -3259,6 +3279,7 @@ export default class Compiler {
             this.pushVoid(e, 'itob');
           } else {
             this.processNode(e);
+            this.potentialLengthPrefix(e, argTypes[i]);
           }
           this.pushVoid(e, 'itxn_field ApplicationArgs');
         });
