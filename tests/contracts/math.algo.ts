@@ -19,23 +19,23 @@ class MathTest extends Contract {
   }
 
   u256plus(a: uint<256>, b: uint<256>): uint<256> {
-    return (a + b) as uint<256>;
+    return a + b;
   }
 
   u256minus(a: uint<256>, b: uint<256>): uint<256> {
-    return (a - b) as uint<256>;
+    return a - b;
   }
 
   u256mul(a: uint<256>, b: uint<256>): uint<256> {
-    return (a * b) as uint<256>;
+    return a * b;
   }
 
   u256div(a: uint<256>, b: uint<256>): uint<256> {
-    return (a / b) as uint<256>;
+    return a / b;
   }
 
   u64Return256(a: uint64, b: uint64): uint<256> {
-    return (a + b) as uint<256>;
+    return a + b;
   }
 
   maxU64(): void {

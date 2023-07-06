@@ -158,7 +158,7 @@ u256plus:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:22
-	// return (a + b) as uint<256>;
+	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b+
@@ -191,7 +191,7 @@ u256minus:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:26
-	// return (a - b) as uint<256>;
+	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b-
@@ -224,7 +224,7 @@ u256mul:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:30
-	// return (a * b) as uint<256>;
+	// return a * b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b*
@@ -257,7 +257,7 @@ u256div:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:34
-	// return (a / b) as uint<256>;
+	// return a / b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b/
@@ -292,13 +292,11 @@ u64Return256:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:38
-	// return (a + b) as uint<256>;
+	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	+
 	itob
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	byte 0x151f7c75

@@ -69,7 +69,7 @@ accessDynamicArrayElementInTuple:
 	swap
 	int 1
 	extract3
-	byte 0xFFFFFFFF
+	byte 0xFF
 	b&
 	byte 0x151f7c75
 	swap
@@ -92,7 +92,7 @@ main:
 	return
 
 route_abi:
-	method "accessDynamicArrayElementInTuple()uint32"
+	method "accessDynamicArrayElementInTuple()uint8"
 	txna ApplicationArgs 0
 	match abi_route_accessDynamicArrayElementInTuple
 	err
