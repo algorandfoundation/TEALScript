@@ -243,7 +243,7 @@ declare type uint64 = uint<64> | number
 declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>
 
 declare type byte = Brand<string, 'byte'>
-declare type bytes = Brand<string, 'bytes'> | string
+declare type bytes = Brand<string, 'bytes'>
 
 declare class Asset {
   static fromIndex(index: uint64): Asset;
@@ -668,4 +668,4 @@ declare class handle {
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number
-> = Brand<T extends byte ? string : (N extends 0 ? never[] : T[]), `${T}[${N}]`>
+> = (T extends byte ? string : (N extends 0 ? never[] : T[])) & {__type?: T, __length?: N}
