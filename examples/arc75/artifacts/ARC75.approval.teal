@@ -158,18 +158,17 @@ addAppToWhiteList:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
+	frame_dig -3 // appID: uint64
+	itob
+	concat
 	dup
-	int 0
-	extract_uint16
-	int 1
-	+
+	len
+	int 8
+	/
 	itob
 	extract 6 2
 	swap
-	extract 2 0
-	concat
-	frame_dig -3 // appID: uint64
-	itob
 	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
@@ -184,9 +183,6 @@ if0_else:
 	// newWhitelist: uint64[] = [appID]
 	frame_dig -3 // appID: uint64
 	itob
-	byte 0x0001
-	swap
-	concat
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:43
@@ -196,6 +192,14 @@ if0_else:
 	box_del
 	pop
 	frame_dig -7 // newWhitelist: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 
 if0_end:
@@ -218,6 +222,7 @@ abi_route_setAppWhitelist:
 	assert
 	byte 0x; dup
 	txna ApplicationArgs 3
+	extract 2 0
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -270,6 +275,14 @@ setAppWhitelist:
 	box_del
 	pop
 	frame_dig -3 // appIDs: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 
 	// if1_condition
@@ -426,17 +439,11 @@ deleteAppFromWhitelist:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
-	int 0
-	extract_uint16
+	extract 2 0
 	int 1
-	-
-	itob
-	extract 6 2
 	frame_dig -4 // index: uint64
 	int 8
 	*
-	int 2
-	+
 	store 12 // splice start
 	int 1
 	int 8
@@ -447,12 +454,14 @@ deleteAppFromWhitelist:
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
-	int 2
+	extract 2 0
+	int 0
 	load 12 // splice start
 	substring3
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	dup
 	len
 	load 12 // splice start
@@ -463,20 +472,24 @@ deleteAppFromWhitelist:
 	swap
 	substring3
 	concat
-	concat
-	int 1
-	itob
-	extract 6 2
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
+	extract 2 0
 	load 12 // splice start
 	load 13 // splice byte length
 	int 8
 	-
 	extract3
-	concat
 	swap
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
@@ -489,8 +502,6 @@ deleteAppFromWhitelist:
 	int 8
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 8

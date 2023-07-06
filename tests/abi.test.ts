@@ -583,4 +583,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'objectArrayRef')).toEqual([[[1n, 2n], [3n, 5n]]]);
   });
+
+  test.concurrent('stringAccessor', async () => {
+    const { appClient } = await compileAndCreate('stringAccessor');
+
+    expect(await runMethod(appClient, 'stringAccessor')).toEqual('e');
+  });
 });

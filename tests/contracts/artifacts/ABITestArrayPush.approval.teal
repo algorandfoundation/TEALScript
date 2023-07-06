@@ -27,24 +27,11 @@ arrayPush:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
-	swap
-	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:404
 	// a.push(3 as uint<16>)
 	frame_dig -1 // a: uint16[]
-	dup
-	int 0
-	extract_uint16
-	int 1
-	+
-	itob
-	extract 6 2
-	swap
-	extract 2 0
-	concat
 	int 3
 	itob
 	extract 6 0
@@ -54,6 +41,14 @@ arrayPush:
 	// tests/contracts/abi.algo.ts:406
 	// return a;
 	frame_dig -1 // a: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

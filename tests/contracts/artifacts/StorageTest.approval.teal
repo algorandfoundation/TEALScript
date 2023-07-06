@@ -78,6 +78,7 @@ globalKeyGet:
 	// assert(this.globalKey.get() === 'bar')
 	byte "foo"
 	app_global_get
+	extract 2 0
 	byte "bar"
 	==
 	assert
@@ -189,6 +190,7 @@ localKeyGet:
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_get
+	extract 2 0
 	byte "bar"
 	==
 	assert
@@ -301,6 +303,7 @@ boxKeyGet:
 	byte "foo"
 	box_get
 	assert
+	extract 2 0
 	byte "bar"
 	==
 	assert
@@ -403,6 +406,7 @@ globalMapGet:
 	// assert(this.globalMap.get('foo') === 'bar')
 	byte "foo"
 	app_global_get
+	extract 2 0
 	byte "bar"
 	==
 	assert
@@ -514,6 +518,7 @@ localMapGet:
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_get
+	extract 2 0
 	byte "bar"
 	==
 	assert
@@ -626,6 +631,7 @@ boxMapGet:
 	byte "foo"
 	box_get
 	assert
+	extract 2 0
 	byte "bar"
 	==
 	assert

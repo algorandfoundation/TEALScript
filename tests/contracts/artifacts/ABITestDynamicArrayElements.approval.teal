@@ -31,9 +31,6 @@ dynamicArrayElements:
 	itob
 	extract 6 0
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:455
@@ -45,8 +42,6 @@ dynamicArrayElements:
 	int 2
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
@@ -58,8 +53,6 @@ dynamicArrayElements:
 	int 2
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
@@ -72,21 +65,24 @@ dynamicArrayElements:
 	int 2
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 2
 	extract3
-	concat
-	byte 0x0003
-	swap
 	concat
 	frame_bury -2 // newA: uint16[]
 
 	// tests/contracts/abi.algo.ts:457
 	// return newA;
 	frame_dig -2 // newA: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

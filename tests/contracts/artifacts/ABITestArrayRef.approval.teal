@@ -31,9 +31,6 @@ arrayRef:
 	itob
 	extract 7 0
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint8[]
 
 	// tests/contracts/abi.algo.ts:737
@@ -45,8 +42,6 @@ arrayRef:
 	int 1
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 4
@@ -58,6 +53,12 @@ arrayRef:
 	// tests/contracts/abi.algo.ts:739
 	// return a;
 	frame_dig -1 // a: uint8[]
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

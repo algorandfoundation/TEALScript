@@ -35,7 +35,12 @@ returnTupleWithDyamicArray:
 	int 4
 	itob
 	concat
-	byte 0x0002
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -46,7 +51,12 @@ returnTupleWithDyamicArray:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element

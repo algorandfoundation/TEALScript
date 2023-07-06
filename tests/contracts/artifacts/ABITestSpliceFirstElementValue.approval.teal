@@ -31,9 +31,6 @@ spliceFirstElementValue:
 	itob
 	extract 6 0
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:497
@@ -41,17 +38,10 @@ spliceFirstElementValue:
 	// tests/contracts/abi.algo.ts:495
 	// a.splice(0, 1)
 	frame_dig -1 // a: uint16[]
-	int 0
-	extract_uint16
 	int 1
-	-
-	itob
-	extract 6 2
 	int 0
 	int 2
 	*
-	int 2
-	+
 	store 12 // splice start
 	int 1
 	int 2
@@ -60,7 +50,7 @@ spliceFirstElementValue:
 	+
 	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
-	int 2
+	int 0
 	load 12 // splice start
 	substring3
 	frame_dig -1 // a: uint16[]
@@ -74,19 +64,22 @@ spliceFirstElementValue:
 	swap
 	substring3
 	concat
-	concat
-	int 1
-	itob
-	extract 6 2
 	frame_dig -1 // a: uint16[]
 	load 12 // splice start
 	load 13 // splice byte length
 	int 2
 	-
 	extract3
-	concat
 	swap
 	frame_bury -1 // a: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

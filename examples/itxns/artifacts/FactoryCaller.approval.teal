@@ -111,8 +111,20 @@ mintAndGetAsset:
 	// examples/itxns/itxns.algo.ts:52
 	// methodArgs: ['My NFT', 'MNFT']
 	byte "My NFT"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	itxn_field ApplicationArgs
 	byte "MNFT"
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
 	itxn_field ApplicationArgs
 
 	// examples/itxns/itxns.algo.ts:53

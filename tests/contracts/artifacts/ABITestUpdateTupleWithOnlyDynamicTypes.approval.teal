@@ -26,21 +26,36 @@ updateTupleWithOnlyDynamicTypes:
 	int 1
 	itob
 	extract 6 0
-	byte 0x0001
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	int 2
 	itob
 	extract 6 0
-	byte 0x0001
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	int 3
 	itob
 	extract 6 0
-	byte 0x0001
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -83,7 +98,12 @@ updateTupleWithOnlyDynamicTypes:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup
@@ -147,7 +167,12 @@ updateTupleWithOnlyDynamicTypes:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup
@@ -206,7 +231,12 @@ updateTupleWithOnlyDynamicTypes:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup

@@ -45,9 +45,6 @@ dynamicTupleArray:
 	pop // pop head offset
 	concat // concat head and tail
 	concat
-	byte 0x0002
-	swap
-	concat
 	frame_bury -1 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.algo.ts:357
@@ -59,8 +56,6 @@ dynamicTupleArray:
 	int 10
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	int 2 // headOffset
 	+
 	load 0 // full array

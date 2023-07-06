@@ -39,16 +39,14 @@ arrayLength:
 	itob
 	extract 7 0
 	concat
-	byte 0x0005
-	swap
-	concat
 	frame_bury -1 // a: uint8[]
 
 	// tests/contracts/abi.algo.ts:721
 	// return a.length;
 	frame_dig -1 // a: uint8[]
-	extract 0 2
-	btoi
+	len
+	int 1
+	/
 	itob
 	byte 0x151f7c75
 	swap
