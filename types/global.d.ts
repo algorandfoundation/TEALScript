@@ -236,7 +236,7 @@ declare type precisions = 1 |
 160
 
 // See https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
-type Brand<K, T> = K & { __brand: T }
+type Brand<K, T> = K & { __brand?: T }
 
 declare type uint<N extends widths> = Brand<number, `uint${N}`>
 declare type uint64 = uint<64> | number

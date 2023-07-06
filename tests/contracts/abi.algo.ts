@@ -639,7 +639,7 @@ class ABITestAccessDynamicArrayInMiddleOfTuple extends Contract {
 }
 
 class ABITestAccessDynamicArrayElementInTuple extends Contract {
-  accessDynamicArrayElementInTuple(): uint<32> {
+  accessDynamicArrayElementInTuple(): uint<8> {
     const a: [uint<16>, uint<8>[]] = [11, [22, 33, 44]];
 
     return a[1][1];
