@@ -1,0 +1,64 @@
+#pragma version 8
+	b main
+
+abi_route_stringAccessor:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub stringAccessor
+	int 1
+	return
+
+stringAccessor:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:801
+	// s = 'Hello World'
+	byte "Hello World"
+	frame_bury -1 // s: bytes
+
+	// tests/contracts/abi.algo.ts:803
+	// return s[1];
+	frame_dig -1 // s: bytes
+	int 1
+	int 1
+	extract3
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "stringAccessor()string"
+	txna ApplicationArgs 0
+	match abi_route_stringAccessor
+	err

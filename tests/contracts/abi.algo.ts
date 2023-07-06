@@ -795,3 +795,11 @@ class ABITestObjectArrayRef extends Contract {
     return a;
   }
 }
+
+class ABITestStringAccessor extends Contract {
+  stringAccessor(): string {
+    const s = 'Hello World';
+
+    return s[1];
+  }
+}

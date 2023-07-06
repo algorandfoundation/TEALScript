@@ -2074,6 +2074,15 @@ export default class Compiler {
       return;
     }
 
+    if (['string', 'bytes', 'byte[]'].includes(baseType)) {
+      this.processNode(node.expression);
+      this.processNode(node.argumentExpression);
+      this.pushVoid(node, 'int 1');
+      this.pushVoid(node, 'extract3');
+      this.lastType = StackType.bytes;
+      return;
+    }
+
     this.processArrayAccess(node);
   }
 
