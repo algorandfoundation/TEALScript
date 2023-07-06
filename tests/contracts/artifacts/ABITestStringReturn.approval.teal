@@ -24,8 +24,6 @@ stringReturn:
 	byte "Hello World!"
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

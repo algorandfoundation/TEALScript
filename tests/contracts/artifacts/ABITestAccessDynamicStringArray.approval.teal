@@ -26,8 +26,6 @@ accessDynamicStringArray:
 	byte "Hello"
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -36,8 +34,6 @@ accessDynamicStringArray:
 	byte "World"
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -46,8 +42,6 @@ accessDynamicStringArray:
 	byte "!"
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -89,8 +83,6 @@ accessDynamicStringArray:
 	extract 2 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

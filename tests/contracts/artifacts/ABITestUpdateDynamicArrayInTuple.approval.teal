@@ -44,8 +44,6 @@ updateDynamicArrayInTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -68,8 +66,6 @@ updateDynamicArrayInTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -205,8 +201,6 @@ updateDynamicArrayInTuple:
 	concat
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -338,8 +332,6 @@ updateDynamicArrayInTuple:
 	concat
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

@@ -32,8 +32,6 @@ accesStringInTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -42,8 +40,6 @@ accesStringInTuple:
 	byte "Hello World!"
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -54,8 +50,6 @@ accesStringInTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -113,8 +107,6 @@ accesStringInTuple:
 	extract 2 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

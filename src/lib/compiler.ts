@@ -1496,19 +1496,8 @@ export default class Compiler {
 
       this.processNode(e);
 
-      if (this.isDynamicArrayOfStaticType(types[i])) {
-        this.pushLines(
-          e,
-          'dup',
-          'len',
-          `int ${this.getTypeLength(types[i].replace(/\[\]$/, ''))}`,
-          '/',
-          'itob',
-          'extract 6 2',
-          'swap',
-          'concat',
-        );
-      }
+      this.potentialLengthPrefix(e, types[i]);
+
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
       if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
 
@@ -1520,6 +1509,32 @@ export default class Compiler {
     });
 
     this.pushLines(node, 'pop // pop head offset', 'concat // concat head and tail');
+  }
+
+  private potentialLengthPrefix(node: ts.Node, type: string) {
+    if (this.isDynamicArrayOfStaticType(type)) {
+      const length = this.getTypeLength(type.replace(/\[\]$/, ''));
+
+      this.pushLines(
+        node,
+        'dup',
+        'len',
+      );
+      if (length > 1) {
+        this.pushLines(
+          node,
+          `int ${length}`,
+          '/',
+        );
+      }
+      this.pushLines(
+        node,
+        'itob',
+        'extract 6 2',
+        'swap',
+        'concat',
+      );
+    }
   }
 
   private getTupleElement(type: string): TupleElement {
@@ -1990,9 +2005,9 @@ export default class Compiler {
         // Get new element
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
-        if (this.isDynamicArrayOfStaticType(this.lastType)) {
-          this.pushLines(newValue, 'dup', 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/', 'itob', 'extract 6 2', 'swap', 'concat');
-        }
+
+        this.potentialLengthPrefix(newValue, this.lastType);
+
         this.pushLines(newValue, 'dup', `store ${scratch.newElement}`);
 
         // Get post element
@@ -2180,19 +2195,7 @@ export default class Compiler {
     }
 
     if (isAbiMethod) {
-      if (this.isDynamicArrayOfStaticType(returnType)) {
-        this.pushLines(
-          node,
-          'dup',
-          'len',
-          `int ${this.getTypeLength(returnType.replace(/\[\]$/, ''))}`,
-          '/',
-          'itob',
-          'extract 6 2',
-          'swap',
-          'concat',
-        );
-      }
+      this.potentialLengthPrefix(node, returnType);
       this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
     } else {
       this.pushVoid(node, 'retsub');

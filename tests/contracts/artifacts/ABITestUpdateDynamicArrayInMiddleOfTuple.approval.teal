@@ -32,8 +32,6 @@ updateDynamicArrayInMiddleOfTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -84,8 +82,6 @@ updateDynamicArrayInMiddleOfTuple:
 	concat
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

@@ -55,8 +55,6 @@ arrayRef:
 	frame_dig -1 // a: uint8[]
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

@@ -32,8 +32,6 @@ accessDynamicArrayInMiddleOfTuple:
 	extract 7 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -70,8 +68,6 @@ accessDynamicArrayInMiddleOfTuple:
 	extract 2 0
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap

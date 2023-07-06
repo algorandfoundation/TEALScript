@@ -51,8 +51,6 @@ nonLiteralDynamicElementInTuple:
 	concat
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
@@ -77,8 +75,6 @@ nonLiteralDynamicElementInTuple:
 	concat
 	dup
 	len
-	int 1
-	/
 	itob
 	extract 6 2
 	swap
