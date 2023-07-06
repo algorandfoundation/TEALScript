@@ -15,7 +15,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if0_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if0_end',
         '// if0_consequent',
@@ -32,7 +32,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if1_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if1_else',
         '// if1_consequent',
@@ -54,7 +54,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if2_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if2_elseif1_condition',
         '// if2_consequent',
@@ -63,7 +63,7 @@ describe('If', function () {
         'log',
         'b if2_end',
         'if2_elseif1_condition:',
-        '// assert(2)',
+        '// 2',
         'int 2',
         'bz if2_end',
         '// if2_elseif1_consequent',
@@ -80,7 +80,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if3_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if3_elseif1_condition',
         '// if3_consequent',
@@ -89,7 +89,7 @@ describe('If', function () {
         'log',
         'b if3_end',
         'if3_elseif1_condition:',
-        '// assert(2)',
+        '// 2',
         'int 2',
         'bz if3_else',
         '// if3_elseif1_consequent',
@@ -111,7 +111,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if4_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if4_elseif1_condition',
         '// if4_consequent',
@@ -120,7 +120,7 @@ describe('If', function () {
         'log',
         'b if4_end',
         'if4_elseif1_condition:',
-        '// assert(2)',
+        '// 2',
         'int 2',
         'bz if4_elseif2_condition',
         '// if4_elseif1_consequent',
@@ -129,7 +129,7 @@ describe('If', function () {
         'log',
         'b if4_end',
         'if4_elseif2_condition:',
-        '// assert(3)',
+        '// 3',
         'int 3',
         'bz if4_end',
         '// if4_elseif2_consequent',
@@ -146,7 +146,7 @@ describe('If', function () {
     expect(teal).toEqual(
       [
         '// if5_condition',
-        '// assert(1)',
+        '// 1',
         'int 1',
         'bz if5_elseif1_condition',
         '// if5_consequent',
@@ -155,7 +155,7 @@ describe('If', function () {
         'log',
         'b if5_end',
         'if5_elseif1_condition:',
-        '// assert(2)',
+        '// 2',
         'int 2',
         'bz if5_elseif2_condition',
         '// if5_elseif1_consequent',
@@ -164,7 +164,7 @@ describe('If', function () {
         'log',
         'b if5_end',
         'if5_elseif2_condition:',
-        '// assert(3)',
+        '// 3',
         'int 3',
         'bz if5_else',
         '// if5_elseif2_consequent',
