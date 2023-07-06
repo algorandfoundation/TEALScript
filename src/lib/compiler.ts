@@ -5,6 +5,7 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
+import { access } from 'fs';
 import * as langspec from '../langspec.json';
 
 export type CompilerOptions = {
@@ -1495,11 +1496,13 @@ export default class Compiler {
 
       this.processNode(e);
 
-      if (types[i] === 'bytes' || types[i] === 'string') {
+      if (this.isDynamicArrayOfStaticType(types[i])) {
         this.pushLines(
           e,
           'dup',
           'len',
+          `int ${this.getTypeLength(types[i].replace(/\[\]$/, ''))}`,
+          '/',
           'itob',
           'extract 6 2',
           'swap',
@@ -1581,9 +1584,6 @@ export default class Compiler {
       if (i) this.pushVoid(node, 'concat');
     });
 
-    if (this.getABIType(typeHint).endsWith('[]')) {
-      this.pushLines(node, `byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
-    }
     this.lastType = this.getABIType(typeHint);
   }
 
@@ -1855,7 +1855,10 @@ export default class Compiler {
         );
       }
 
-      if (previousTupleElement.arrayType === 'dynamic') {
+      if (
+        previousTupleElement.arrayType === 'dynamic'
+        && !(i === 0 && this.isDynamicArrayOfStaticType(previousTupleElement.type))
+      ) {
         this.pushLines(
           acc,
           'int 2',
@@ -1987,8 +1990,8 @@ export default class Compiler {
         // Get new element
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
-        if (['bytes', 'string'].includes(this.lastType)) {
-          this.pushLines(newValue, 'dup', 'len', 'itob', 'extract 6 2', 'swap', 'concat');
+        if (this.isDynamicArrayOfStaticType(this.lastType)) {
+          this.pushLines(newValue, 'dup', 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/', 'itob', 'extract 6 2', 'swap', 'concat');
         }
         this.pushLines(newValue, 'dup', `store ${scratch.newElement}`);
 
@@ -2048,7 +2051,10 @@ export default class Compiler {
       }
 
       if (isNumeric(element.type)) this.pushVoid(node, 'btoi');
-      if (['string', 'bytes'].includes(element.type)) this.pushVoid(node, 'extract 2 0');
+
+      if (this.isDynamicArrayOfStaticType(element.type)) {
+        this.pushVoid(node, 'extract 2 0');
+      }
       this.lastType = element.type.replace('string', 'bytes');
     }
   }
@@ -2147,19 +2153,10 @@ export default class Compiler {
 
         // eslint-disable-next-line no-console
         if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
-      } else if ([returnType, this.lastType].includes('string') && [returnType, this.lastType].includes('bytes')) {
-        if (returnType === 'string') {
-          this.pushLines(
-            node.expression!,
-            'dup',
-            'len',
-            'itob',
-            'extract 6 2',
-            'swap',
-            'concat',
-          );
-        } else this.pushVoid(node.expression!, 'extract 2 0');
-      } else if (this.getABIType(this.lastType) !== returnType) {
+      } else if (this.getABIType(this.lastType) !== returnType
+       && !['string', 'bytes'].includes(returnType)
+       && !['string', 'bytes'].includes(this.lastType)
+      ) {
         throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
       }
     } else if (isNumeric(returnType) && isAbiMethod) {
@@ -2174,6 +2171,19 @@ export default class Compiler {
     }
 
     if (isAbiMethod) {
+      if (this.isDynamicArrayOfStaticType(returnType)) {
+        this.pushLines(
+          node,
+          'dup',
+          'len',
+          `int ${this.getTypeLength(returnType.replace(/\[\]$/, ''))}`,
+          '/',
+          'itob',
+          'extract 6 2',
+          'swap',
+          'concat',
+        );
+      }
       this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
     } else {
       this.pushVoid(node, 'retsub');
@@ -2493,6 +2503,12 @@ export default class Compiler {
     this.processNode(node.expression);
   }
 
+  private isDynamicArrayOfStaticType(type: string) {
+    const baseType = type.replace(/\[\]$/, '');
+
+    return ['string', 'bytes'].includes(type) || (type.endsWith('[]') && !this.isDynamicType(baseType));
+  }
+
   private processCallExpression(node: ts.CallExpression) {
     this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
@@ -2528,20 +2544,8 @@ export default class Compiler {
     } else if (methodName === 'push') {
       const preType = this.lastType;
       this.processNode(node.expression.expression);
-      if (!this.lastType.endsWith('[]')) throw new Error('Cannot only push to dynamic array');
-      this.pushLines(
-        node.expression,
-        'dup', // [a, a]
-        'int 0',
-        'extract_uint16',
-        'int 1',
-        '+',
-        'itob',
-        'extract 6 2', // [a, len]
-        'swap', // [len, a]
-        'extract 2 0', // [len, aElems]
-        'concat', // [newA]
-      );
+      if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
+      if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
       this.processNode(node.arguments[0]);
       if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
       this.pushVoid(node, 'concat');
@@ -2553,20 +2557,11 @@ export default class Compiler {
       this.processNode(node.expression.expression);
       const poppedType = this.lastType.replace(/\[\]$/, '');
       if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
+      if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
 
       const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
       this.pushLines(
         node.expression,
-        'dup', // [a, a]
-        'int 0',
-        'extract_uint16',
-        'int 1',
-        '-',
-        'itob',
-        'extract 6 2', // [a, len]
-        'swap', // [len, a]
-        'extract 2 0', // [len, aElems]
-        'concat', // [newA]
         'dup',
         'len',
         `int ${typeLength}`,
@@ -2601,22 +2596,12 @@ export default class Compiler {
     } else if (methodName === 'splice') {
       this.processNode(node.expression.expression);
       if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+      if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
+
       const elementType = this.lastType.replace(/\[\]$/, '');
 
-      // get new len
-      this.pushLines(
-        node,
-        'int 0',
-        'extract_uint16',
-      );
       // `int ${parseInt(node.arguments[1].getText(), 10)}`
       this.processNode(node.arguments[1]);
-      this.pushLines(
-        node,
-        '-',
-        'itob',
-        'extract 6 2',
-      );
 
       // TODO: Optimize for literals
       // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
@@ -2626,8 +2611,6 @@ export default class Compiler {
         node,
         `int ${this.getTypeLength(elementType)}`,
         '*',
-        'int 2',
-        '+',
         `store ${scratch.spliceStart}`,
       );
 
@@ -2647,7 +2630,7 @@ export default class Compiler {
       this.processNode(node.expression.expression);
       this.pushLines(
         node,
-        'int 2',
+        'int 0',
         `load ${scratch.spliceStart}`,
         'substring3',
       );
@@ -2670,17 +2653,11 @@ export default class Compiler {
         'substring3',
         // concat everything
         'concat',
-        'concat',
       );
 
       if (this.topLevelNode !== node) {
         // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
-        this.processNode(node.arguments[1]);
-        this.pushLines(
-          node,
-          'itob',
-          'extract 6 2',
-        );
+
         this.processNode(node.expression.expression);
         this.pushLines(
           node,
@@ -2690,7 +2667,6 @@ export default class Compiler {
           `int ${this.getTypeLength(elementType)}`,
           '-',
           'extract3',
-          'concat',
           'swap',
         );
       }
@@ -2889,6 +2865,12 @@ export default class Compiler {
         this.processNode(n.expression);
         if (this.lastType === StackType.bytes || this.lastType === 'string') {
           this.push(n.name, 'len', StackType.uint64);
+          return;
+        }
+
+        if (this.isDynamicArrayOfStaticType(this.lastType)) {
+          this.pushLines(n.name, 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/');
+          this.lastType = StackType.uint64;
           return;
         }
 
@@ -3092,9 +3074,7 @@ export default class Compiler {
         this.pushVoid(p, 'txn GroupIndex');
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
         this.pushVoid(p, '-');
-      } else if (type === 'string') {
-        this.pushVoid(p, 'extract 2 0');
-      } else if (type === 'bytes') {
+      } else if (this.isDynamicArrayOfStaticType(type)) {
         this.pushVoid(p, 'extract 2 0');
       }
 

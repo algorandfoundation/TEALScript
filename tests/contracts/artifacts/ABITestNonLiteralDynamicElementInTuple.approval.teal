@@ -27,9 +27,6 @@ nonLiteralDynamicElementInTuple:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
-	swap
-	concat
 	frame_bury -1 // e: uint16[]
 
 	// tests/contracts/abi.algo.ts:394
@@ -52,11 +49,24 @@ nonLiteralDynamicElementInTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	frame_dig -1 // e: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	callsub process_dynamic_tuple_element
 	int 7
 	itob
@@ -65,7 +75,12 @@ nonLiteralDynamicElementInTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element

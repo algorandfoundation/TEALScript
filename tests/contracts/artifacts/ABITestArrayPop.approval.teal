@@ -31,24 +31,11 @@ arrayPop:
 	itob
 	extract 6 0
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:414
 	// a.pop()
 	frame_dig -1 // a: uint16[]
-	dup
-	int 0
-	extract_uint16
-	int 1
-	-
-	itob
-	extract 6 2
-	swap
-	extract 2 0
-	concat
 	dup
 	len
 	int 2
@@ -61,6 +48,14 @@ arrayPop:
 	// tests/contracts/abi.algo.ts:416
 	// return a;
 	frame_dig -1 // a: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

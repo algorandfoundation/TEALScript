@@ -37,6 +37,8 @@ nestedTuple:
 	byte "foo"
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -55,6 +57,8 @@ nestedTuple:
 	byte "bar"
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap

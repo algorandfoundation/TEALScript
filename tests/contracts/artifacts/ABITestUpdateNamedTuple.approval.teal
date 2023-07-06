@@ -30,6 +30,8 @@ updateNamedTuple:
 	byte "Hi?"
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -70,6 +72,8 @@ updateNamedTuple:
 	byte "Hello World!"
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -113,6 +117,8 @@ updateNamedTuple:
 	extract 2 0
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap

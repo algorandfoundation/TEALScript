@@ -30,6 +30,8 @@ setMyContact:
 	frame_dig -1 // name: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -38,6 +40,8 @@ setMyContact:
 	frame_dig -2 // company: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -93,6 +97,8 @@ addContact:
 	frame_dig -1 // name: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -101,6 +107,8 @@ addContact:
 	frame_dig -2 // company: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -187,6 +195,8 @@ updateContactField:
 	frame_dig -2 // value: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap
@@ -262,6 +272,8 @@ if0_elseif1_condition:
 	frame_dig -2 // value: bytes
 	dup
 	len
+	int 1
+	/
 	itob
 	extract 6 2
 	swap

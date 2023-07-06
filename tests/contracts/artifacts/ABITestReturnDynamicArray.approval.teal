@@ -28,14 +28,19 @@ returnDynamicArray:
 	int 33
 	itob
 	concat
-	byte 0x0003
-	swap
-	concat
 	frame_bury -1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:333
 	// return a;
 	frame_dig -1 // a: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

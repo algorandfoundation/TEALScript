@@ -13,6 +13,7 @@ abi_route_dynamicArrayArg:
 
 	// no dupn needed
 	txna ApplicationArgs 1
+	extract 2 0
 	callsub dynamicArrayArg
 	int 1
 	return
@@ -29,8 +30,6 @@ dynamicArrayArg:
 	int 8
 	* // acc * typeLength
 	+
-	int 2
-	+ // add two for length
 	load 0 // full array
 	swap
 	int 8

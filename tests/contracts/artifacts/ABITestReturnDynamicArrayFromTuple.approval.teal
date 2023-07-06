@@ -38,7 +38,12 @@ returnDynamicArrayFromTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -49,7 +54,12 @@ returnDynamicArrayFromTuple:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -60,7 +70,12 @@ returnDynamicArrayFromTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -88,6 +103,15 @@ returnDynamicArrayFromTuple:
 	int 2
 	+ // add two for length
 	extract3
+	extract 2 0
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	byte 0x151f7c75
 	swap
 	concat

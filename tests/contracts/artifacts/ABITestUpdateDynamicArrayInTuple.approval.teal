@@ -30,28 +30,48 @@ updateDynamicArrayInTuple:
 	int 8
 	itob
 	extract 6 0
-	byte 0x0001
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	int 7
 	itob
 	extract 7 0
-	byte 0x0001
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	int 6
 	itob
 	extract 6 0
-	byte 0x0001
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
 	int 5
 	itob
 	extract 7 0
-	byte 0x0001
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
@@ -109,7 +129,12 @@ updateDynamicArrayInTuple:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup
@@ -178,7 +203,12 @@ updateDynamicArrayInTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup
@@ -242,7 +272,12 @@ updateDynamicArrayInTuple:
 	itob
 	extract 6 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup
@@ -301,7 +336,12 @@ updateDynamicArrayInTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0002
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	dup

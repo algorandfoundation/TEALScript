@@ -38,7 +38,12 @@ accessDynamicArrayElementInTuple:
 	itob
 	extract 7 0
 	concat
-	byte 0x0003
+	dup
+	len
+	int 1
+	/
+	itob
+	extract 6 2
 	swap
 	concat
 	callsub process_dynamic_tuple_element
