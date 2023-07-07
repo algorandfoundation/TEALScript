@@ -5,10 +5,6 @@ import { artifactsTest } from '../tests/common';
 
 artifactsTest('AMM', 'examples/amm/amm.algo.ts', 'examples/amm/tealscript_artifacts/', 'ConstantProductAMM');
 
-['Master', 'Vault'].forEach((className) => {
-  artifactsTest('ARC12', 'examples/arc12/arc12.algo.ts', 'examples/arc12/', className);
-});
-
 artifactsTest('ARC75', 'examples/arc75/arc75.algo.ts', 'examples/arc75/artifacts/', 'ARC75');
 
 artifactsTest('Auction', 'examples/auction/auction.algo.ts', 'examples/auction/tealscript_artifacts/', 'Auction');

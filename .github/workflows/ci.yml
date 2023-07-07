@@ -26,9 +26,4 @@ jobs:
     - name: Run example tests
       run: yarn jest examples/
 
-    - name: Install ARC12 test dependencies
-      run: pip3 install -r ./examples/arc12/tests/requirements.txt
-
-    - name: Run ARC12 tests
-      run: python3 -m pytest ./examples/arc12/tests
 

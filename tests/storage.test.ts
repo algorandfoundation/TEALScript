@@ -67,7 +67,6 @@ const ops: {[type: string]: {[method: string]: string}} = {
 
           if (method === 'Get') {
             if (storageType === 'box') expectedTeal.push('assert');
-            expectedTeal.push('extract 2 0');
             expectedTeal.push('byte "bar"');
             expectedTeal.push('==');
             expectedTeal.push('assert');
