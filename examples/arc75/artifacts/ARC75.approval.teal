@@ -389,7 +389,8 @@ abi_route_deleteAppFromWhitelist:
 	!=
 	&&
 	assert
-	byte 0x; dup
+	byte 0x
+	dupn 2
 	txna ApplicationArgs 4
 	btoi
 	txna ApplicationArgs 3
@@ -402,7 +403,7 @@ abi_route_deleteAppFromWhitelist:
 	return
 
 deleteAppFromWhitelist:
-	proto 6 0
+	proto 7 0
 
 	// examples/arc75/arc75.algo.ts:97
 	// preMBR = this.app.address.minBalance
@@ -434,8 +435,8 @@ deleteAppFromWhitelist:
 	concat // concat head and tail
 	frame_bury -6 // whitelist: Whitelist
 
-	// examples/arc75/arc75.algo.ts:102
-	// assert(spliced[0] === appID)
+	// examples/arc75/arc75.algo.ts:100
+	// spliced = this.whitelist.get(whitelist).splice(index, 1)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
@@ -496,6 +497,11 @@ deleteAppFromWhitelist:
 	pop
 	swap
 	box_put
+	frame_bury -7 // spliced: uint64[]
+
+	// examples/arc75/arc75.algo.ts:102
+	// assert(spliced[0] === appID)
+	frame_dig -7 // spliced: uint64[]
 	store 0 // full array
 	int 0 // initial offset
 	int 0

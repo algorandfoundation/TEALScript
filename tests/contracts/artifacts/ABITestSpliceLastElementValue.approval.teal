@@ -10,13 +10,13 @@ abi_route_spliceLastElementValue:
 	!=
 	&&
 	assert
-	byte 0x
+	byte 0x; dup
 	callsub spliceLastElementValue
 	int 1
 	return
 
 spliceLastElementValue:
-	proto 1 0
+	proto 2 0
 
 	// tests/contracts/abi.algo.ts:473
 	// a: uint<16>[] = [1, 2, 3]
@@ -33,10 +33,8 @@ spliceLastElementValue:
 	concat
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:477
-	// return v;
 	// tests/contracts/abi.algo.ts:475
-	// a.splice(2, 1)
+	// v = a.splice(2, 1)
 	frame_dig -1 // a: uint16[]
 	int 1
 	int 2
@@ -72,6 +70,11 @@ spliceLastElementValue:
 	extract3
 	swap
 	frame_bury -1 // a: uint16[]
+	frame_bury -2 // v: uint16[]
+
+	// tests/contracts/abi.algo.ts:477
+	// return v;
+	frame_dig -2 // v: uint16[]
 	dup
 	len
 	int 2

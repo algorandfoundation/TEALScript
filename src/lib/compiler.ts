@@ -2506,7 +2506,14 @@ export default class Compiler {
         }
       }
 
-      if (ts.isCallExpression(node.initializer) && isArray) {
+      if (
+        ts.isCallExpression(node.initializer)
+      && isArray
+      && ts.isPropertyAccessExpression(node.initializer.expression)
+      && ts.isPropertyAccessExpression(node.initializer.expression.expression)
+      && Object.keys(this.storageProps).includes(
+        node.initializer.expression.expression?.name?.getText(),
+      )) {
         this.frame[name] = {
           storageExpression: node.initializer,
           type: initializerType,
