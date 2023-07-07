@@ -76,11 +76,11 @@ class ABITestStaticArrayInStorageRef extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @handle.optIn
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -107,11 +107,11 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @handle.optIn
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -142,11 +142,11 @@ class ABITestStaticArrayInStorageMap extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @handle.optIn
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
@@ -173,11 +173,11 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<string, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  lMap = new LocalStateMap<string, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
 
-  bMap = new BoxMap<string, StaticArray<uint64, 3>>();
+  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @handle.optIn
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
