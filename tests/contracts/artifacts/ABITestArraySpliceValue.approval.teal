@@ -11,13 +11,13 @@ abi_route_arraySpliceValue:
 	&&
 	assert
 	byte 0x
-	dupn 2
+	dupn 3
 	callsub arraySpliceValue
 	int 1
 	return
 
 arraySpliceValue:
-	proto 3 0
+	proto 4 0
 
 	// tests/contracts/abi.algo.ts:442
 	// a: uint<16>[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -72,10 +72,8 @@ arraySpliceValue:
 	int 7
 	frame_bury -3 // l: uint64
 
-	// tests/contracts/abi.algo.ts:448
-	// return v;
 	// tests/contracts/abi.algo.ts:446
-	// a.splice(i, l)
+	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
 	frame_dig -3 // l: uint64
 	frame_dig -2 // i: uint64
@@ -111,6 +109,11 @@ arraySpliceValue:
 	extract3
 	swap
 	frame_bury -1 // a: uint16[]
+	frame_bury -4 // v: uint16[]
+
+	// tests/contracts/abi.algo.ts:448
+	// return v;
+	frame_dig -4 // v: uint16[]
 	dup
 	len
 	int 2
