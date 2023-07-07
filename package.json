@@ -21,7 +21,6 @@
     "compile-tests": "for f in tests/contracts/*.algo.ts; do echo $f && ts-node src/bin/tealscript.ts $f tests/contracts/artifacts; done",
     "pre-test": "yarn compile-tests && yarn generate-test-clients",
     "compile-amm": "tsx ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
-    "compile-arc12": "tsx src/bin/tealscript.ts examples/arc12/arc12.algo.ts",
     "compile-arc75": "tsx src/bin/tealscript.ts examples/arc75/arc75.algo.ts examples/arc75/artifacts && algokitgen generate -a examples/arc75/artifacts/ARC75.json -o examples/arc75/ARC75Client.ts",
     "compile-auction": "tsx ./src/bin/tealscript.ts examples/auction/auction.algo.ts examples/auction/tealscript_artifacts",
     "compile-itxns": "tsx ./src/bin/tealscript.ts examples/itxns/itxns.algo.ts examples/itxns/artifacts && algokitgen generate -a examples/itxns/artifacts/FactoryCaller.json -o examples/itxns/FactoryCallerClient.ts",
@@ -36,7 +35,7 @@
     "run-examples": "yarn run-merkle && yarn run-tuple_in_box && yarn run-itxns",
     "run-simple": "tsx examples/simple/index.ts",
     "test-examples": "jest examples/",
-    "compile-examples": "yarn compile-amm && yarn compile-arc12 && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box",
+    "compile-examples": "yarn compile-amm && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples && yarn webpack-smoketest"
   },
