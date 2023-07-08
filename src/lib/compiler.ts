@@ -1607,7 +1607,7 @@ export default class Compiler {
     throw new Error(typeHintNode.getText());
   }
 
-  private processBools(nodes: ts.Node[]) {
+  private processBools(nodes: ts.Node[] | ts.NodeArray<ts.Expression>) {
     const boolByteLength = Math.ceil(nodes.length / 8);
 
     this.pushVoid(nodes[0], `byte 0x${'00'.repeat(boolByteLength)}`);
@@ -1761,14 +1761,18 @@ export default class Compiler {
 
     const types = this.getarrayElementTypes(node.elements.length);
     const arrayTypeHint = typeHint;
-    node.elements.forEach((e, i) => {
-      this.typeHint = types[i];
-      this.processNode(e);
-      if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
-      if (i) this.pushVoid(node, 'concat');
-    });
 
+    if (arrayTypeHint.match(/bool\[\d+\]/)) {
+      this.processBools(node.elements);
+    } else {
+      node.elements.forEach((e, i) => {
+        this.typeHint = types[i];
+        this.processNode(e);
+        if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
+        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+        if (i) this.pushVoid(node, 'concat');
+      });
+    }
     const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
 
     if (ts.isElementAccessExpression(typeHintNode)) {

@@ -620,4 +620,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'boolTuple')).toEqual([true, false, true, true, false, false, true, false, false]);
   });
+
+  test.concurrent('staticBoolArray', async () => {
+    const { appClient } = await compileAndCreate('staticBoolArray');
+
+    expect(await runMethod(appClient, 'staticBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
+  });
 });

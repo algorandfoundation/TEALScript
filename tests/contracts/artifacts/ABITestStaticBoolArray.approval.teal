@@ -1,0 +1,80 @@
+#pragma version 8
+	b main
+
+abi_route_staticBoolArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub staticBoolArray
+	int 1
+	return
+
+staticBoolArray:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:856
+	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
+	byte 0x0000
+	int 0
+	int 1
+	setbit
+	int 1
+	int 0
+	setbit
+	int 2
+	int 1
+	setbit
+	int 3
+	int 1
+	setbit
+	int 4
+	int 0
+	setbit
+	int 5
+	int 0
+	setbit
+	int 6
+	int 1
+	setbit
+	int 7
+	int 0
+	setbit
+	int 8
+	int 0
+	setbit
+	frame_bury -1 // a: bool[9]
+
+	// tests/contracts/abi.algo.ts:858
+	// return a;
+	frame_dig -1 // a: bool[9]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "staticBoolArray()bool[9]"
+	txna ApplicationArgs 0
+	match abi_route_staticBoolArray
+	err
