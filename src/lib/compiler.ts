@@ -368,7 +368,7 @@ export default class Compiler {
           type: 'any',
           args: 2,
           fn: (node: ts.Node) => {
-            this.maybeValue(node, 'app_global_get_ex', StackType.bytes);
+            this.maybeValue(node, 'app_global_get_ex', StackType.any);
           },
         },
       ],
@@ -2451,6 +2451,8 @@ export default class Compiler {
   private processTSAsExpression(node: ts.AsExpression) {
     this.typeHint = this.getABIType(node.type.getText());
     this.processNode(node.expression);
+
+    if (this.lastType === 'any') return;
 
     const type = this.getABIType(node.type.getText());
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
