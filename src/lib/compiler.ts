@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
@@ -5,7 +6,6 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
-import { access } from 'fs';
 import * as langspec from '../langspec.json';
 
 export type CompilerOptions = {
@@ -1024,6 +1024,8 @@ export default class Compiler {
   }
 
   private getTypeLength(inputType: string): number {
+    if (inputType === '[]') return 0;
+
     const type = this.getABIType(inputType);
 
     const typeNode = stringToExpression(type) as ts.Expression;
@@ -1047,9 +1049,25 @@ export default class Compiler {
       const tNode = stringToExpression(type);
       if (!ts.isArrayLiteralExpression(tNode)) throw new Error();
       let totalLength = 0;
+      let consecutiveBools = 0;
+
       tNode.elements.forEach((t) => {
-        totalLength += this.getTypeLength(t.getText());
+        const typeString = t.getText();
+        if (typeString === 'bool') {
+          consecutiveBools += 1;
+        } else {
+          if (consecutiveBools > 0) {
+            totalLength += Math.ceil(consecutiveBools / 8);
+          }
+
+          totalLength += this.getTypeLength(typeString);
+
+          consecutiveBools = 0;
+        }
       });
+
+      totalLength += Math.ceil(consecutiveBools / 8);
+
       return totalLength;
     }
 
@@ -1064,9 +1082,22 @@ export default class Compiler {
     if (type.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(type));
       let totalLength = 0;
+      let consecutiveBools = 0;
       types.forEach((t) => {
-        totalLength += this.getTypeLength(t);
+        if (t === 'bool') {
+          consecutiveBools += 1;
+        } else {
+          if (consecutiveBools > 0) {
+            totalLength += Math.ceil(consecutiveBools / 8);
+          }
+
+          totalLength += this.getTypeLength(t);
+
+          consecutiveBools = 0;
+        }
       });
+
+      totalLength += Math.ceil(consecutiveBools / 8);
 
       return totalLength;
     }
@@ -1493,6 +1524,8 @@ export default class Compiler {
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
+      else if (node.kind === ts.SyntaxKind.TrueKeyword) this.pushVoid(node, 'int 1');
+      else if (node.kind === ts.SyntaxKind.FalseKeyword) this.pushVoid(node, 'int 0');
       else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -1574,6 +1607,18 @@ export default class Compiler {
     throw new Error(typeHintNode.getText());
   }
 
+  private processBools(nodes: ts.Node[]) {
+    const boolByteLength = Math.ceil(nodes.length / 8);
+
+    this.pushVoid(nodes[0], `byte 0x${'00'.repeat(boolByteLength)}`);
+
+    nodes.forEach((n, i) => {
+      this.pushVoid(n, `int ${i}`);
+      this.processNode(n);
+      this.pushVoid(n, 'setbit');
+    });
+  }
+
   private processTuple(node: ts.ArrayLiteralExpression) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
@@ -1581,17 +1626,29 @@ export default class Compiler {
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
     const types = this.getarrayElementTypes(node.elements.length);
-    const headLength = types.reduce((sum, t) => {
-      const length = this.isDynamicType(t) ? 2 : this.getTypeLength(t);
-      return sum + length;
-    }, 0);
 
+    const dynamicTypes = types.filter((t) => this.isDynamicType(t));
+    const staticTypes = types.filter((t) => !this.isDynamicType(t));
+    const headLength = this.getTypeLength(`[${staticTypes.join(',')}]`) + dynamicTypes.length * 2;
+
+    let consecutiveBools: ts.Node[] = [];
     node.elements.forEach((e, i) => {
-      this.typeHint = types[i];
-
       if (i === 0) {
         this.pushLines(node, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
+
+      if (types[i] === 'bool') {
+        consecutiveBools.push(e);
+        return;
+      }
+
+      if (consecutiveBools.length > 0) {
+        this.processBools(consecutiveBools);
+        this.pushVoid(e, 'callsub process_static_tuple_element');
+        consecutiveBools = [];
+      }
+
+      this.typeHint = types[i];
 
       this.processNode(e);
 
@@ -1606,6 +1663,11 @@ export default class Compiler {
         this.pushVoid(e, 'callsub process_static_tuple_element');
       }
     });
+
+    if (consecutiveBools.length > 0) {
+      this.processBools(consecutiveBools);
+      this.pushVoid(node, 'callsub process_static_tuple_element');
+    }
 
     this.pushLines(node, 'pop // pop head offset', 'concat // concat head and tail');
   }

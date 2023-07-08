@@ -614,4 +614,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'booleanArgAndReturn', [false])).toEqual(false);
   });
+
+  test.concurrent('boolTuple', async () => {
+    const { appClient } = await compileAndCreate('boolTuple');
+
+    expect(await runMethod(appClient, 'boolTuple')).toEqual([true, false, true, true, false, false, true, false, false]);
+  });
 });

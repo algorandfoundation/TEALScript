@@ -840,3 +840,13 @@ class ABITestBooleanArgAndReturn extends Contract {
     return a;
   }
 }
+
+class ABITestBoolTuple extends Contract {
+  boolTuple(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] {
+    const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+      true, false, true, true, false, false, true, false, false,
+    ];
+
+    return a;
+  }
+}
