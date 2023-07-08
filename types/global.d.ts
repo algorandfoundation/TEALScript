@@ -319,7 +319,7 @@ type Account = Address
 type BytesLike = bytes | Address | string
 
 declare class Application {
-  static fromIndex(appID: uint64)
+  static fromIndex(appID: uint64): Application;
 
   static readonly zeroIndex: Application;
 

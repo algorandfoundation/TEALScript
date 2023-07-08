@@ -368,7 +368,7 @@ export default class Compiler {
           type: 'any',
           args: 2,
           fn: (node: ts.Node) => {
-            this.maybeValue(node, 'app_global_get_ex', StackType.bytes);
+            this.maybeValue(node, 'app_global_get_ex', StackType.any);
           },
         },
       ],
@@ -1552,8 +1552,6 @@ export default class Compiler {
       const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
       const type = typeHintNode.expression.getText().replace(/\[\]$/, '');
 
-      if (length && length !== elements) throw new Error(`Array length mismatch: ${length} !== ${elements}`);
-
       return new Array(elements).fill(type);
     }
 
@@ -1684,6 +1682,7 @@ export default class Compiler {
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
     const types = this.getarrayElementTypes(node.elements.length);
+    const arrayTypeHint = typeHint;
     node.elements.forEach((e, i) => {
       this.typeHint = types[i];
       this.processNode(e);
@@ -1691,6 +1690,19 @@ export default class Compiler {
       if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
       if (i) this.pushVoid(node, 'concat');
     });
+
+    const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
+
+    if (ts.isElementAccessExpression(typeHintNode)) {
+      const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
+
+      if (length && node.elements.length < length) {
+        const typeLength = this.getTypeLength(baseType);
+        this.pushVoid(node, `byte 0x${'00'.repeat(typeLength * (length - node.elements.length))}`);
+
+        if (node.elements.length > 0) this.pushVoid(node, 'concat');
+      }
+    }
 
     this.lastType = this.getABIType(typeHint);
   }
@@ -2452,6 +2464,8 @@ export default class Compiler {
     this.typeHint = this.getABIType(node.type.getText());
     this.processNode(node.expression);
 
+    if (this.lastType === 'any') return;
+
     const type = this.getABIType(node.type.getText());
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
@@ -2787,6 +2801,8 @@ export default class Compiler {
 
       this.updateValue(node.expression.expression);
       this.lastType = `${elementType}[]`;
+    } else if (methodName === 'forEach') {
+      throw Error('forEach not yet supported. Use for loop instead');
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
@@ -3244,9 +3260,13 @@ export default class Compiler {
     if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
 
     const op = node.expression.name.getText();
-    const { type } = this.storageProps[node.expression.expression.name.getText()];
+    const { type, valueType } = this.storageProps[node.expression.expression.name.getText()];
+
+    this.typeHint = valueType;
 
     this.storageFunctions[type][op](node);
+
+    this.typeHint = undefined;
   }
 
   private processTransaction(node: ts.CallExpression) {
