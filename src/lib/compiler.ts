@@ -2801,6 +2801,8 @@ export default class Compiler {
 
       this.updateValue(node.expression.expression);
       this.lastType = `${elementType}[]`;
+    } else if (methodName === 'forEach') {
+      throw Error('forEach not yet supported. Use for loop instead');
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
