@@ -835,3 +835,8 @@ class ABITestEmptyDynamicArray extends Contract {
     return [];
   }
 }
+class ABITestBooleanArgAndReturn extends Contract {
+  booleanArgAndReturn(a: boolean): boolean {
+    return a;
+  }
+}

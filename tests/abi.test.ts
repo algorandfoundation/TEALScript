@@ -607,4 +607,11 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'emptyDynamicArray')).toEqual([]);
   });
+  test.concurrent('booleanArgAndReturn', async () => {
+    const { appClient } = await compileAndCreate('booleanArgAndReturn');
+
+    expect(await runMethod(appClient, 'booleanArgAndReturn', [true])).toEqual(true);
+
+    expect(await runMethod(appClient, 'booleanArgAndReturn', [false])).toEqual(false);
+  });
 });
