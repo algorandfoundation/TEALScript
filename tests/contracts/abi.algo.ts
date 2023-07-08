@@ -819,3 +819,13 @@ class ABITestPartialStaticArray extends Contract {
     return a;
   }
 }
+
+class ABITestStorageTypeHint extends Contract {
+  gKey = new GlobalStateKey<StaticArray<uint<16>, 3>>();
+
+  partialStaticArray(): StaticArray<uint<16>, 3> {
+    this.gKey.set([1, 2, 3]);
+
+    return this.gKey.get();
+  }
+}

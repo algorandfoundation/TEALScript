@@ -1,0 +1,66 @@
+#pragma version 8
+	b main
+
+abi_route_partialStaticArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub partialStaticArray
+	int 1
+	return
+
+partialStaticArray:
+	proto 0 0
+
+	// tests/contracts/abi.algo.ts:827
+	// this.gKey.set([1, 2, 3])
+	byte "gKey"
+	int 1
+	itob
+	extract 6 0
+	int 2
+	itob
+	extract 6 0
+	concat
+	int 3
+	itob
+	extract 6 0
+	concat
+	app_global_put
+
+	// tests/contracts/abi.algo.ts:829
+	// return this.gKey.get();
+	byte "gKey"
+	app_global_get
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "partialStaticArray()uint16[3]"
+	txna ApplicationArgs 0
+	match abi_route_partialStaticArray
+	err

@@ -3258,9 +3258,13 @@ export default class Compiler {
     if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
 
     const op = node.expression.name.getText();
-    const { type } = this.storageProps[node.expression.expression.name.getText()];
+    const { type, valueType } = this.storageProps[node.expression.expression.name.getText()];
+
+    this.typeHint = valueType;
 
     this.storageFunctions[type][op](node);
+
+    this.typeHint = undefined;
   }
 
   private processTransaction(node: ts.CallExpression) {
