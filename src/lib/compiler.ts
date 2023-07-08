@@ -1552,8 +1552,6 @@ export default class Compiler {
       const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
       const type = typeHintNode.expression.getText().replace(/\[\]$/, '');
 
-      if (length && length !== elements) throw new Error(`Array length mismatch: ${length} !== ${elements}`);
-
       return new Array(elements).fill(type);
     }
 
@@ -1684,6 +1682,7 @@ export default class Compiler {
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
     const types = this.getarrayElementTypes(node.elements.length);
+    const arrayTypeHint = typeHint;
     node.elements.forEach((e, i) => {
       this.typeHint = types[i];
       this.processNode(e);
@@ -1691,6 +1690,19 @@ export default class Compiler {
       if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
       if (i) this.pushVoid(node, 'concat');
     });
+
+    const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
+
+    if (ts.isElementAccessExpression(typeHintNode)) {
+      const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
+
+      if (length && node.elements.length < length) {
+        const typeLength = this.getTypeLength(baseType);
+        this.pushVoid(node, `byte 0x${'00'.repeat(typeLength * (length - node.elements.length))}`);
+
+        if (node.elements.length > 0) this.pushVoid(node, 'concat');
+      }
+    }
 
     this.lastType = this.getABIType(typeHint);
   }

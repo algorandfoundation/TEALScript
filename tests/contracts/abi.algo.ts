@@ -803,3 +803,19 @@ class ABITestStringAccessor extends Contract {
     return s[1];
   }
 }
+
+class ABITestEmptyStaticArray extends Contract {
+  emptyStaticArray(): StaticArray<uint<16>, 3> {
+    const a: StaticArray<uint<16>, 3> = [];
+
+    return a;
+  }
+}
+
+class ABITestPartialStaticArray extends Contract {
+  partialStaticArray(): StaticArray<uint<16>, 3> {
+    const a: StaticArray<uint<16>, 3> = [1];
+
+    return a;
+  }
+}

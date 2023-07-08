@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "partialStaticArray()uint16[3]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3BhcnRpYWxTdGF0aWNBcnJheToKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJY2FsbHN1YiBwYXJ0aWFsU3RhdGljQXJyYXkKCWludCAxCglyZXR1cm4KCnBhcnRpYWxTdGF0aWNBcnJheToKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo4MTcKCS8vIGE6IFN0YXRpY0FycmF5PHVpbnQ8MTY+LCAzPiA9IFsxXQoJaW50IDEKCWl0b2IKCWV4dHJhY3QgNiAwCglieXRlIDB4MDAwMDAwMDAKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMSAvLyBhOiB1aW50MTZbM10KCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6ODE5CgkvLyByZXR1cm4gYTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MTZbM10KCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgInBhcnRpYWxTdGF0aWNBcnJheSgpdWludDE2WzNdIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX3BhcnRpYWxTdGF0aWNBcnJheQoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestPartialStaticArray",
+    "desc": "",
+    "methods": [
+      {
+        "name": "partialStaticArray",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint16[3]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}
