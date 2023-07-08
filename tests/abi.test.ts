@@ -626,4 +626,16 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'staticBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
   });
+
+  test.concurrent('boolTupleAccess', async () => {
+    const { appClient } = await compileAndCreate('boolTupleAccess');
+
+    expect(await runMethod(appClient, 'boolTupleAccess')).toEqual(true);
+  });
+
+  test.concurrent('staticBoolArrayAccess', async () => {
+    const { appClient } = await compileAndCreate('staticBoolArrayAccess');
+
+    expect(await runMethod(appClient, 'staticBoolArrayAccess')).toEqual(true);
+  });
 });

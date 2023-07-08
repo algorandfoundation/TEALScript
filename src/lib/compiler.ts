@@ -37,13 +37,16 @@ class TupleElement extends Array<TupleElement> {
   // eslint-disable-next-line no-use-before-define
   parent?: TupleElement;
 
+  boolBit?: number;
+
   static idCounter = 0;
 
-  constructor(type: string, headOffset: number) {
+  constructor(type: string, headOffset: number, boolBit?: number) {
     super();
 
     if (typeof type === 'number') return;
 
+    this.boolBit = boolBit;
     this.id = TupleElement.idCounter;
     this.type = type;
     this.headOffset = headOffset;
@@ -1707,10 +1710,26 @@ export default class Compiler {
     const elem: TupleElement = new TupleElement(this.getABIType(type), 0);
 
     let offset = 0;
+    let consecutiveBools = 0;
 
     if (ts.isArrayLiteralExpression(expr)) {
       expr.elements.forEach((e) => {
         const abiType = this.getABIType(e.getText());
+
+        if (abiType === 'bool') {
+          consecutiveBools += 1;
+          return;
+        }
+
+        if (consecutiveBools > 0) {
+          for (let i = 0; i < consecutiveBools; i++) {
+            const byteOffset = Math.floor(i / 8);
+            const bit = i - 8 * byteOffset;
+            elem.add(new TupleElement('bool', offset + byteOffset, bit));
+          }
+
+          consecutiveBools = 0;
+        }
 
         if (ts.isArrayLiteralExpression(e)) {
           const t = new TupleElement(abiType, offset);
@@ -1732,6 +1751,14 @@ export default class Compiler {
     } else if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
       elem.add(this.getTupleElement(baseType));
+    }
+
+    if (consecutiveBools > 0) {
+      for (let i = 0; i < consecutiveBools; i++) {
+        const byteOffset = Math.floor(i / 8);
+        const bit = i - 8 * byteOffset;
+        elem.add(new TupleElement('bool', offset + byteOffset, bit));
+      }
     }
 
     return elem;
@@ -2030,7 +2057,7 @@ export default class Compiler {
         ? previousTupleElement[0] : previousTupleElement[accNumber] || previousTupleElement[0];
 
       // Element in tuple
-      if (previousTupleElement.arrayType === 'tuple') {
+      if (previousTupleElement.arrayType === 'tuple' || (elem.parent?.arrayType === 'static' && elem.type === 'bool')) {
         this.pushLines(
           acc,
           `int ${elem.headOffset} // headOffset`,
@@ -2250,6 +2277,23 @@ export default class Compiler {
 
       this.updateValue(parentExpression);
     } else {
+      if (element.type === 'bool') {
+        if (element.boolBit !== undefined) {
+          this.pushLines(
+            node,
+            `load ${scratch.fullArray}`,
+            'swap',
+            'int 1',
+            'extract3',
+            `int ${element.boolBit}`,
+            'getbit',
+          );
+        } else throw Error('Not yet supported');
+
+        this.lastType = 'bool';
+        return;
+      }
+
       if (!this.isDynamicType(element.type)) {
         this.pushLines(node, `load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
       }
