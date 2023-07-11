@@ -2464,7 +2464,10 @@ export default class Compiler {
     this.typeHint = this.getABIType(node.type.getText());
     this.processNode(node.expression);
 
-    if (this.lastType === 'any') return;
+    if (this.lastType === 'any') {
+      this.lastType = node.type.getText();
+      return;
+    }
 
     const type = this.getABIType(node.type.getText());
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
