@@ -2284,12 +2284,7 @@ export default class Compiler {
 
         // eslint-disable-next-line no-console
         if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
-      } else if (this.getABIType(this.lastType) !== returnType
-       && !['string', 'bytes'].includes(returnType)
-       && !['string', 'bytes'].includes(this.lastType)
-      ) {
-        throw new Error(`Type mismatch (${returnType} !== ${this.lastType})`);
-      }
+      } else this.typeComparison(this.lastType, returnType);
     } else if (isNumeric(returnType) && isAbiMethod) {
       this.pushVoid(node.expression!, 'itob');
     } else if (
@@ -2334,6 +2329,28 @@ export default class Compiler {
     this.teal = preTeal;
     this.rawSrcMap = preSrcMap;
     return this.customTypes[type] || type;
+  }
+
+  private typeComparison(inputType: string, expectedType: string): void {
+    const abiInputType = this.getABIType(inputType);
+    const abiExpectedType = this.getABIType(expectedType);
+
+    const sameTypes = [
+      ['address', 'account'],
+      ['bytes', 'string'],
+    ];
+
+    let typeEquality = false;
+
+    sameTypes.forEach((t) => {
+      if (t.includes(abiInputType) && t.includes(abiExpectedType)) {
+        typeEquality = true;
+      }
+    });
+
+    if (typeEquality) return;
+
+    if (abiInputType !== abiExpectedType) throw Error(`Type mismatch: got ${inputType} expected ${expectedType}`);
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
@@ -2386,8 +2403,7 @@ export default class Compiler {
       return;
     }
 
-    const aTypes = ['account', ForeignType.Address];
-    if (leftType !== this.lastType && !(aTypes.includes(leftType) && aTypes.includes(this.lastType))) throw new Error(`Type mismatch (${leftType} !== ${this.lastType}`);
+    this.typeComparison(leftType, this.lastType);
 
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
