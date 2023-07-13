@@ -551,7 +551,13 @@ interface MethodCallParams<ArgsType> extends AppParams {
 
 type ThisTxnParams = AppOnChainTransactionParams & AppParams
 
-type Txn = PayTxn & AssetTransferTxn & AppCallTxn & KeyRegTxn & AssetConfigTxn & AssetFreezeTxn
+type Txn = PayTxn &
+  AssetTransferTxn &
+  AppCallTxn &
+  KeyRegTxn &
+  AssetConfigTxn &
+  AssetFreezeTxn
+  & {typeEnum: TransactionType}
 
 declare const globals: {
   minTxnFee: uint64
@@ -669,3 +675,14 @@ type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number
 > = (T extends byte ? string : (N extends 0 ? never[] : T[])) & {__type?: T, __length?: N}
+
+// eslint-disable-next-line no-shadow
+enum TransactionType {
+  Unknown, // unknown
+  Payment, // pay
+  KeyRegistration, // keyreg
+  AssetConfig, // acfg
+  AssetTransfer, // axfer
+  AssetFreeze, // afrz
+  ApplicationCall, // appl
+}
