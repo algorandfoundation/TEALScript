@@ -3714,7 +3714,8 @@ export default class Compiler {
         hints[signature].call_config.no_op = 'CALL';
       } else {
         this.handledActions[m.name].forEach((a) => {
-          hints[signature].call_config[a] = 'CALL';
+          if (a === 'createApplication') hints[signature].call_config.no_op = 'CREATE';
+          else hints[signature].call_config[a] = 'CALL';
         });
       }
     });
