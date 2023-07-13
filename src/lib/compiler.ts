@@ -2908,18 +2908,26 @@ export default class Compiler {
     if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
       let props: StorageProp;
       const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '');
+      const typeArgs = node.initializer.typeArguments;
+
+      if (typeArgs === undefined) {
+        throw new Error('Type arguments must be specified for storage properties');
+      }
 
       if (klass.includes('Map')) {
+        if (typeArgs.length !== 2) throw new Error(`Expected 2 type arguments for ${klass}`);
         props = {
           type,
-          keyType: this.getABIType(node.initializer.typeArguments![0].getText()),
-          valueType: this.getABIType(node.initializer.typeArguments![1].getText()),
+          keyType: this.getABIType(typeArgs[0].getText()),
+          valueType: this.getABIType(typeArgs[1].getText()),
         };
       } else {
+        if (typeArgs.length !== 1) throw new Error(`Expected a type argument for ${klass}`);
+
         props = {
           type,
           keyType: 'bytes',
-          valueType: this.getABIType(node.initializer.typeArguments![0].getText()),
+          valueType: this.getABIType(typeArgs[0].getText()),
         };
       }
 
