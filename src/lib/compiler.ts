@@ -3027,6 +3027,12 @@ export default class Compiler {
     chain.push(node);
 
     chain.forEach((n) => {
+      if (ts.isElementAccessExpression(n)) {
+        this.processNode(n);
+        if (this.lastType === 'txn') this.lastType = 'gtxns';
+        return;
+      }
+
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
         if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
@@ -3476,13 +3482,13 @@ export default class Compiler {
 
   private getChain(
     node: ts.PropertyAccessExpression,
-    chain: (ts.PropertyAccessExpression | ts.CallExpression)[] = [],
-  ): (ts.PropertyAccessExpression | ts.CallExpression)[] {
+    chain: (ts.PropertyAccessExpression | ts.CallExpression | ts.ElementAccessExpression)[] = [],
+  ): (ts.PropertyAccessExpression | ts.CallExpression | ts.ElementAccessExpression)[] {
     if (ts.isPropertyAccessExpression(node.expression)) {
       chain.push(node.expression);
       return this.getChain(node.expression, chain);
     }
-    if (ts.isCallExpression(node.expression)) {
+    if (ts.isCallExpression(node.expression) || ts.isElementAccessExpression(node.expression)) {
       chain.push(node.expression);
       if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error('Invalid call chain');
       return this.getChain(

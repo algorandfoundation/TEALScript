@@ -10,22 +10,18 @@ abi_route_txnTypeEnum:
 	!=
 	&&
 	assert
-	byte 0x
+
+	// no dupn needed
 	callsub txnTypeEnum
 	int 1
 	return
 
 txnTypeEnum:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/general.algo.ts:6
-	// t = this.txnGroup[0]
+	// assert(this.txnGroup[0].typeEnum === TransactionType.Payment)
 	int 0
-	frame_bury -1 // t: txn
-
-	// tests/contracts/general.algo.ts:7
-	// assert(t.typeEnum === TransactionType.Payment)
-	frame_dig -1 // t: txn
 	gtxns TypeEnum
 	int pay
 	==
