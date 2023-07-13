@@ -3006,6 +3006,22 @@ export default class Compiler {
   }
 
   private processMemberExpression(node: ts.PropertyAccessExpression) {
+    if (node.expression.getText() === 'TransactionType') {
+      const enums: {[key: string]: string} = {
+        Unknown: 'unknown',
+        Payment: 'pay',
+        KeyRegistration: 'keyreg',
+        AssetConfig: 'acfg',
+        AssetTransfer: 'axfer',
+        AssetFreeze: 'afrz',
+        ApplicationCall: 'appl',
+      };
+
+      if (!enums[node.name.getText()]) throw new Error(`Unknown transaction type ${node.name.getText()}`);
+      this.pushVoid(node, `int ${enums[node.name.getText()]}`);
+      return;
+    }
+
     const chain = this.getChain(node).reverse();
 
     chain.push(node);

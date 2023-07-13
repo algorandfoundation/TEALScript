@@ -1,0 +1,53 @@
+#pragma version 8
+	b main
+
+abi_route_txnTypeEnum:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub txnTypeEnum
+	int 1
+	return
+
+txnTypeEnum:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:6
+	// t = this.txnGroup[0]
+	int 0
+	frame_bury -1 // t: txn
+
+	// tests/contracts/general.algo.ts:7
+	// assert(t.typeEnum === TransactionType.Payment)
+	frame_dig -1 // t: txn
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "txnTypeEnum()void"
+	txna ApplicationArgs 0
+	match abi_route_txnTypeEnum
+	err
