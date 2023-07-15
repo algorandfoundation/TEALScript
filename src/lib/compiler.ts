@@ -1668,6 +1668,11 @@ export default class Compiler {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
+    if (this.getABIType(typeHint).endsWith('[]') && node.elements.length === 0) {
+      this.push(node, 'byte 0x', this.getABIType(this.typeHint));
+      return;
+    }
+
     const baseType = typeHint.replace(/\[\d*\]$/, '');
 
     if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {

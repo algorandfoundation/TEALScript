@@ -829,3 +829,9 @@ class ABITestStorageTypeHint extends Contract {
     return this.gKey.get();
   }
 }
+
+class ABITestEmptyDynamicArray extends Contract {
+  emptyDynamicArray(): uint64[] {
+    return [];
+  }
+}

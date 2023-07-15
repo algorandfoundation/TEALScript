@@ -1,0 +1,57 @@
+#pragma version 8
+	b main
+
+abi_route_emptyDynamicArray:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub emptyDynamicArray
+	int 1
+	return
+
+emptyDynamicArray:
+	proto 0 0
+
+	// tests/contracts/abi.algo.ts:835
+	// return [];
+	byte 0x
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "emptyDynamicArray()uint64[]"
+	txna ApplicationArgs 0
+	match abi_route_emptyDynamicArray
+	err

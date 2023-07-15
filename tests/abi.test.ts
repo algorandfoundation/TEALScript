@@ -601,4 +601,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'partialStaticArray')).toEqual([1n, 0n, 0n]);
   });
+
+  test.concurrent('emptyDynamicArray', async () => {
+    const { appClient } = await compileAndCreate('emptyDynamicArray');
+
+    expect(await runMethod(appClient, 'emptyDynamicArray')).toEqual([]);
+  });
 });
