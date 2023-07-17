@@ -1,0 +1,81 @@
+{
+  "name": "AlgorandDBStorage",
+  "desc": "",
+  "methods": [
+    {
+      "name": "add",
+      "args": [
+        {
+          "name": "key",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "byte[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "update",
+      "args": [
+        {
+          "name": "key",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "byte[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "upsert",
+      "args": [
+        {
+          "name": "key",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "byte[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "delete",
+      "args": [
+        {
+          "name": "key",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}

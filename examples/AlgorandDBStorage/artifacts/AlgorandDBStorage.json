@@ -1,0 +1,132 @@
+{
+  "hints": {
+    "add(string,byte[])void": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    },
+    "update(string,byte[])void": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    },
+    "upsert(string,byte[])void": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    },
+    "delete(string)void": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2FkZDoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglleHRyYWN0IDIgMAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgYWRkCglpbnQgMQoJcmV0dXJuCgphZGQ6Cglwcm90byAyIDAKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjE0CgkvLyBhc3NlcnQodGhpcy50eG4uc2VuZGVyID09PSBnbG9iYWxzLmNyZWF0b3JBZGRyZXNzKQoJdHhuIFNlbmRlcgoJZ2xvYmFsIENyZWF0b3JBZGRyZXNzCgk9PQoJYXNzZXJ0CgoJLy8gQWxnb3JhbmREQlN0b3JhZ2UuYWxnby50czoxNQoJLy8gYXNzZXJ0KCF0aGlzLmRhdGEuZXhpc3RzKGtleSkpCglmcmFtZV9kaWcgLTEgLy8ga2V5OiBieXRlcwoJYm94X2xlbgoJc3dhcAoJcG9wCgkhCglhc3NlcnQKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjE2CgkvLyB0aGlzLmRhdGEuc2V0KGtleSwgdmFsdWUpCglmcmFtZV9kaWcgLTEgLy8ga2V5OiBieXRlcwoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAtMiAvLyB2YWx1ZTogYnl0ZXMKCWJveF9wdXQKCXJldHN1YgoKYWJpX3JvdXRlX3VwZGF0ZToKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglleHRyYWN0IDIgMAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgdXBkYXRlCglpbnQgMQoJcmV0dXJuCgp1cGRhdGU6Cglwcm90byAyIDAKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjI2CgkvLyBhc3NlcnQodGhpcy50eG4uc2VuZGVyID09PSBnbG9iYWxzLmNyZWF0b3JBZGRyZXNzKQoJdHhuIFNlbmRlcgoJZ2xvYmFsIENyZWF0b3JBZGRyZXNzCgk9PQoJYXNzZXJ0CgoJLy8gQWxnb3JhbmREQlN0b3JhZ2UuYWxnby50czoyNwoJLy8gYXNzZXJ0KHRoaXMuZGF0YS5leGlzdHMoa2V5KSkKCWZyYW1lX2RpZyAtMSAvLyBrZXk6IGJ5dGVzCglib3hfbGVuCglzd2FwCglwb3AKCWFzc2VydAoKCS8vIEFsZ29yYW5kREJTdG9yYWdlLmFsZ28udHM6MjgKCS8vIHRoaXMuZGF0YS5kZWxldGUoa2V5KQoJZnJhbWVfZGlnIC0xIC8vIGtleTogYnl0ZXMKCWJveF9kZWwKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjI5CgkvLyB0aGlzLmRhdGEuc2V0KGtleSwgdmFsdWUpCglmcmFtZV9kaWcgLTEgLy8ga2V5OiBieXRlcwoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAtMiAvLyB2YWx1ZTogYnl0ZXMKCWJveF9wdXQKCXJldHN1YgoKYWJpX3JvdXRlX3Vwc2VydDoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglleHRyYWN0IDIgMAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgdXBzZXJ0CglpbnQgMQoJcmV0dXJuCgp1cHNlcnQ6Cglwcm90byAyIDAKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjM5CgkvLyBhc3NlcnQodGhpcy50eG4uc2VuZGVyID09PSBnbG9iYWxzLmNyZWF0b3JBZGRyZXNzKQoJdHhuIFNlbmRlcgoJZ2xvYmFsIENyZWF0b3JBZGRyZXNzCgk9PQoJYXNzZXJ0CgoJLy8gQWxnb3JhbmREQlN0b3JhZ2UuYWxnby50czo0MAoJLy8gdGhpcy5kYXRhLnNldChrZXksIHZhbHVlKQoJZnJhbWVfZGlnIC0xIC8vIGtleTogYnl0ZXMKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgLTIgLy8gdmFsdWU6IGJ5dGVzCglib3hfcHV0CglyZXRzdWIKCmFiaV9yb3V0ZV9kZWxldGU6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCgkvLyBubyBkdXBuIG5lZWRlZAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgZGVsZXRlCglpbnQgMQoJcmV0dXJuCgpkZWxldGU6Cglwcm90byAxIDAKCgkvLyBBbGdvcmFuZERCU3RvcmFnZS5hbGdvLnRzOjQ5CgkvLyBhc3NlcnQodGhpcy50eG4uc2VuZGVyID09PSBnbG9iYWxzLmNyZWF0b3JBZGRyZXNzKQoJdHhuIFNlbmRlcgoJZ2xvYmFsIENyZWF0b3JBZGRyZXNzCgk9PQoJYXNzZXJ0CgoJLy8gQWxnb3JhbmREQlN0b3JhZ2UuYWxnby50czo1MAoJLy8gYXNzZXJ0KHRoaXMuZGF0YS5leGlzdHMoa2V5KSkKCWZyYW1lX2RpZyAtMSAvLyBrZXk6IGJ5dGVzCglib3hfbGVuCglzd2FwCglwb3AKCWFzc2VydAoKCS8vIEFsZ29yYW5kREJTdG9yYWdlLmFsZ28udHM6NTEKCS8vIHRoaXMuZGF0YS5kZWxldGUoa2V5KQoJZnJhbWVfZGlnIC0xIC8vIGtleTogYnl0ZXMKCWJveF9kZWwKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgImFkZChzdHJpbmcsYnl0ZVtdKXZvaWQiCgltZXRob2QgInVwZGF0ZShzdHJpbmcsYnl0ZVtdKXZvaWQiCgltZXRob2QgInVwc2VydChzdHJpbmcsYnl0ZVtdKXZvaWQiCgltZXRob2QgImRlbGV0ZShzdHJpbmcpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9hZGQgYWJpX3JvdXRlX3VwZGF0ZSBhYmlfcm91dGVfdXBzZXJ0IGFiaV9yb3V0ZV9kZWxldGUKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "AlgorandDBStorage",
+    "desc": "",
+    "methods": [
+      {
+        "name": "add",
+        "args": [
+          {
+            "name": "key",
+            "type": "string",
+            "desc": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      },
+      {
+        "name": "update",
+        "args": [
+          {
+            "name": "key",
+            "type": "string",
+            "desc": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      },
+      {
+        "name": "upsert",
+        "args": [
+          {
+            "name": "key",
+            "type": "string",
+            "desc": ""
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      },
+      {
+        "name": "delete",
+        "args": [
+          {
+            "name": "key",
+            "type": "string",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

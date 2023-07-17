@@ -1,0 +1,14 @@
+*.js
+node_modules/
+.idea/
+dist/
+__pycache__/
+.venv/
+!.eslintrc.js
+coverage/
+.DS_Store
+yarn-error.log
+docs/
+*.tgz
+!*.config.js
+tests/contracts/artifacts/*.src_map.json

@@ -1,0 +1,205 @@
+#pragma version 8
+	b main
+
+abi_route_add:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub add
+	int 1
+	return
+
+add:
+	proto 2 0
+
+	// AlgorandDBStorage.algo.ts:14
+	// assert(this.txn.sender === globals.creatorAddress)
+	txn Sender
+	global CreatorAddress
+	==
+	assert
+
+	// AlgorandDBStorage.algo.ts:15
+	// assert(!this.data.exists(key))
+	frame_dig -1 // key: bytes
+	box_len
+	swap
+	pop
+	!
+	assert
+
+	// AlgorandDBStorage.algo.ts:16
+	// this.data.set(key, value)
+	frame_dig -1 // key: bytes
+	dup
+	box_del
+	pop
+	frame_dig -2 // value: bytes
+	box_put
+	retsub
+
+abi_route_update:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub update
+	int 1
+	return
+
+update:
+	proto 2 0
+
+	// AlgorandDBStorage.algo.ts:26
+	// assert(this.txn.sender === globals.creatorAddress)
+	txn Sender
+	global CreatorAddress
+	==
+	assert
+
+	// AlgorandDBStorage.algo.ts:27
+	// assert(this.data.exists(key))
+	frame_dig -1 // key: bytes
+	box_len
+	swap
+	pop
+	assert
+
+	// AlgorandDBStorage.algo.ts:28
+	// this.data.delete(key)
+	frame_dig -1 // key: bytes
+	box_del
+
+	// AlgorandDBStorage.algo.ts:29
+	// this.data.set(key, value)
+	frame_dig -1 // key: bytes
+	dup
+	box_del
+	pop
+	frame_dig -2 // value: bytes
+	box_put
+	retsub
+
+abi_route_upsert:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 2
+	extract 2 0
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub upsert
+	int 1
+	return
+
+upsert:
+	proto 2 0
+
+	// AlgorandDBStorage.algo.ts:39
+	// assert(this.txn.sender === globals.creatorAddress)
+	txn Sender
+	global CreatorAddress
+	==
+	assert
+
+	// AlgorandDBStorage.algo.ts:40
+	// this.data.set(key, value)
+	frame_dig -1 // key: bytes
+	dup
+	box_del
+	pop
+	frame_dig -2 // value: bytes
+	box_put
+	retsub
+
+abi_route_delete:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	txna ApplicationArgs 1
+	extract 2 0
+	callsub delete
+	int 1
+	return
+
+delete:
+	proto 1 0
+
+	// AlgorandDBStorage.algo.ts:49
+	// assert(this.txn.sender === globals.creatorAddress)
+	txn Sender
+	global CreatorAddress
+	==
+	assert
+
+	// AlgorandDBStorage.algo.ts:50
+	// assert(this.data.exists(key))
+	frame_dig -1 // key: bytes
+	box_len
+	swap
+	pop
+	assert
+
+	// AlgorandDBStorage.algo.ts:51
+	// this.data.delete(key)
+	frame_dig -1 // key: bytes
+	box_del
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "add(string,byte[])void"
+	method "update(string,byte[])void"
+	method "upsert(string,byte[])void"
+	method "delete(string)void"
+	txna ApplicationArgs 0
+	match abi_route_add abi_route_update abi_route_upsert abi_route_delete
+	err
