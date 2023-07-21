@@ -143,14 +143,19 @@ async function runMethod(
     sendParams: { suppressLog: true },
   };
 
-  if (name.includes('Storage')) {
-    await appClient.fundAppAccount({
-      amount: algokit.microAlgos(127400),
-      sendParams: { suppressLog: true },
-    });
-    return (await appClient.optIn(params)).return?.returnValue;
+  try {
+    if (name.includes('Storage')) {
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(127400),
+        sendParams: { suppressLog: true },
+      });
+      return (await appClient.optIn(params)).return?.returnValue;
+    }
+    return (await appClient.call(params)).return?.returnValue;
+  } catch (e) {
+    console.warn(e);
+    throw e;
   }
-  return (await appClient.call(params)).return?.returnValue;
 }
 
 describe('ABI', function () {
@@ -636,6 +641,6 @@ describe('ABI', function () {
   test.concurrent('staticBoolArrayAccess', async () => {
     const { appClient } = await compileAndCreate('staticBoolArrayAccess');
 
-    expect(await runMethod(appClient, 'staticBoolArrayAccess')).toEqual(true);
+    expect(await runMethod(appClient, 'staticBoolArrayAccess')).toEqual(false);
   });
 });

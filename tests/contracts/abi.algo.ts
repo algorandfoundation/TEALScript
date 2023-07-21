@@ -870,3 +870,11 @@ class ABITestBoolTupleAccess extends Contract {
     return a[8];
   }
 }
+
+class ABITestStaticBoolArrayAccess extends Contract {
+  staticBoolArrayAccess(): boolean {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    return a[8];
+  }
+}

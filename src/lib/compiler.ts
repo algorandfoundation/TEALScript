@@ -1678,7 +1678,9 @@ export default class Compiler {
   private checkEncoding(node: ts.Node, type: string) {
     const abiType = this.getABIType(type);
     if (this.isDynamicArrayOfStaticType(type)) {
-      const length = this.getTypeLength(type.replace(/\[\]$/, ''));
+      const baseType = type.replace(/\[\]$/, '');
+      if (baseType === 'bool') return;
+      const length = this.getTypeLength(baseType);
 
       this.pushLines(
         node,
@@ -1789,7 +1791,7 @@ export default class Compiler {
     const types = this.getarrayElementTypes(node.elements.length);
     const arrayTypeHint = typeHint;
 
-    if (arrayTypeHint.match(/bool\[\d+\]/)) {
+    if (arrayTypeHint.match(/bool\[\d*\]/)) {
       this.processBools(node.elements);
     } else {
       node.elements.forEach((e, i) => {
@@ -2288,7 +2290,13 @@ export default class Compiler {
             `int ${element.boolBit}`,
             'getbit',
           );
-        } else throw Error('Not yet supported');
+        } else {
+          if (!ts.isElementAccessExpression(node)) throw new Error();
+
+          this.pushVoid(node, `load ${scratch.fullArray}`);
+          this.processNode(node.argumentExpression);
+          this.pushLines(node, 'getbit');
+        }
 
         this.lastType = 'bool';
         return;
