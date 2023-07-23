@@ -3176,8 +3176,10 @@ export default class Compiler {
       }
 
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
-        if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
+        if (n.name.getText() === 'zeroIndex') {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
+        } else if (n.name.getText() === 'zeroAddress') {
+          this.push(n.name, 'global ZeroAddress', 'Address');
         } else if (n.name.getText() !== 'fromIndex') throw new Error();
         return;
       }
