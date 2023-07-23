@@ -3113,7 +3113,7 @@ export default class Compiler {
 
       if (klass.includes('Map') && !props.prefix) {
         const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
-        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map`);
+        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map. To prevent key collision, use the prefix argument in the constructor.`);
         keyTypes.push(props.keyType);
       }
 
