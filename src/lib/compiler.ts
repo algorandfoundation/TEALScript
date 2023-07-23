@@ -3185,6 +3185,11 @@ export default class Compiler {
       }
 
       if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
+        if (n.expression.getText() === 'this.txnGroup') {
+          this.push(n, 'global GroupSize', StackType.uint64);
+          return;
+        }
+
         this.processNode(n.expression);
         if (this.lastType === StackType.bytes || this.lastType === 'string') {
           this.push(n.name, 'len', StackType.uint64);
