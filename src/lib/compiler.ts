@@ -290,7 +290,7 @@ export default class Compiler {
 
   private compilingApproval: boolean = true;
 
-  private ifCount: number = 0;
+  private ifCount: number = -1;
 
   private ternaryCount: number = 0;
 
@@ -2992,11 +2992,14 @@ export default class Compiler {
   private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
     let labelPrefix: string;
 
+    if (elseIfCount === 0) this.ifCount += 1;
+    const { ifCount } = this;
+
     if (elseIfCount === 0) {
-      labelPrefix = `if${this.ifCount}`;
+      labelPrefix = `if${ifCount}`;
       this.pushVoid(node, `// ${labelPrefix}_condition`);
     } else {
-      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
+      labelPrefix = `if${ifCount}_elseif${elseIfCount}`;
       this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
@@ -3004,30 +3007,29 @@ export default class Compiler {
     this.processNode(node.expression);
 
     if (node.elseStatement == null) {
-      this.pushVoid(node, `bz if${this.ifCount}_end`);
+      this.pushVoid(node, `bz if${ifCount}_end`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
     } else if (ts.isIfStatement(node.elseStatement)) {
-      this.pushVoid(node, `bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(node, `bz if${ifCount}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(node, `b if${this.ifCount}_end`);
+      this.pushVoid(node, `b if${ifCount}_end`);
       this.processIfStatement(node.elseStatement, elseIfCount + 1);
     } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
-      this.pushVoid(node, `bz if${this.ifCount}_else`);
+      this.pushVoid(node, `bz if${ifCount}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(node, `b if${this.ifCount}_end`);
-      this.pushVoid(node, `if${this.ifCount}_else:`);
+      this.pushVoid(node, `b if${ifCount}_end`);
+      this.pushVoid(node, `if${ifCount}_else:`);
       this.processNode(node.elseStatement);
     } else {
-      this.pushVoid(node, `bz if${this.ifCount}_end`);
+      this.pushVoid(node, `bz if${ifCount}_end`);
       this.processNode(node.elseStatement);
     }
 
     if (elseIfCount === 0) {
-      this.pushVoid(node, `if${this.ifCount}_end:`);
-      this.ifCount += 1;
+      this.pushVoid(node, `if${ifCount}_end:`);
     }
   }
 

@@ -55,6 +55,26 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "nestedIf",
+      "args": [
+        {
+          "name": "bool1",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "bool2",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "string",
+        "desc": ""
+      }
     }
   ]
 }
