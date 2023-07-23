@@ -1038,6 +1038,13 @@ export default class Compiler {
       }
     }
 
+    if (type.match(/^bool\[\d+\]$/)) {
+      const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
+      const length = parseInt(lenStr, 10);
+
+      return Math.ceil(length / 8);
+    }
+
     if (type.match(/\[\d+]$/)) {
       const lenStr = type.match(/\[\d+]$/)![0].match(/\d+/)![0];
       const length = parseInt(lenStr, 10);
@@ -3688,6 +3695,7 @@ export default class Compiler {
     const json = await response.json();
 
     if (response.status !== 200) {
+      // eslint-disable-next-line no-console
       console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
