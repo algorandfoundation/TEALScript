@@ -37,16 +37,13 @@ class TupleElement extends Array<TupleElement> {
   // eslint-disable-next-line no-use-before-define
   parent?: TupleElement;
 
-  boolBit?: number;
-
   static idCounter = 0;
 
-  constructor(type: string, headOffset: number, boolBit?: number) {
+  constructor(type: string, headOffset: number) {
     super();
 
     if (typeof type === 'number') return;
 
-    this.boolBit = boolBit;
     this.id = TupleElement.idCounter;
     this.type = type;
     this.headOffset = headOffset;
@@ -1726,17 +1723,10 @@ export default class Compiler {
 
         if (abiType === 'bool') {
           consecutiveBools += 1;
+          elem.add(new TupleElement('bool', offset));
           return;
-        }
-
-        if (consecutiveBools > 0) {
-          for (let i = 0; i < consecutiveBools; i++) {
-            const byteOffset = Math.floor(i / 8);
-            const bit = i - 8 * byteOffset;
-            elem.add(new TupleElement('bool', offset + byteOffset, bit));
-          }
-
-          consecutiveBools = 0;
+        } if (consecutiveBools) {
+          offset += Math.ceil(consecutiveBools / 8);
         }
 
         if (ts.isArrayLiteralExpression(e)) {
@@ -1759,14 +1749,6 @@ export default class Compiler {
     } else if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
       elem.add(this.getTupleElement(baseType));
-    }
-
-    if (consecutiveBools > 0) {
-      for (let i = 0; i < consecutiveBools; i++) {
-        const byteOffset = Math.floor(i / 8);
-        const bit = i - 8 * byteOffset;
-        elem.add(new TupleElement('bool', offset + byteOffset, bit));
-      }
     }
 
     return elem;
@@ -2294,23 +2276,11 @@ export default class Compiler {
       this.updateValue(parentExpression);
     } else {
       if (element.type === 'bool') {
-        if (element.boolBit !== undefined) {
-          this.pushLines(
-            node,
-            `load ${scratch.fullArray}`,
-            'swap',
-            'int 1',
-            'extract3',
-            `int ${element.boolBit}`,
-            'getbit',
-          );
-        } else {
-          if (!ts.isElementAccessExpression(node)) throw new Error();
+        if (!ts.isElementAccessExpression(node)) throw new Error();
 
-          this.pushVoid(node, `load ${scratch.fullArray}`);
-          this.processNode(node.argumentExpression);
-          this.pushLines(node, 'getbit');
-        }
+        this.pushLines(node.argumentExpression, 'int 8', '*');
+        this.processNode(node.argumentExpression);
+        this.pushLines(node.argumentExpression, '+', `load ${scratch.fullArray}`, 'swap', 'getbit');
 
         this.lastType = 'bool';
         return;

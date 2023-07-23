@@ -57,8 +57,12 @@ staticBoolArrayAccess:
 	int 0 // initial offset
 	int 0 // headOffset
 	+
-	load 0 // full array
 	int 8
+	*
+	int 8
+	+
+	load 0 // full array
+	swap
 	getbit
 	byte 0x00
 	int 0
