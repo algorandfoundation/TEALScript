@@ -2416,6 +2416,7 @@ export default class Compiler {
 
         if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
 
+        console.log(this.lastType, returnType);
         this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
         this.pushVoid(node.expression!, 'b&');
 
@@ -2550,6 +2551,10 @@ export default class Compiler {
       this.push(node.operatorToken, `b${operator}`, leftType);
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
+    }
+
+    if (operator === '==' || operator === '!=') {
+      this.lastType = 'bool';
     }
   }
 
