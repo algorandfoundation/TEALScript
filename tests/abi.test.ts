@@ -661,4 +661,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'staticBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
   });
+
+  test.concurrent('dynamicBoolArrayUpdate', async () => {
+    const { appClient } = await compileAndCreate('dynamicBoolArrayUpdate');
+
+    expect(await runMethod(appClient, 'dynamicBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+  });
 });

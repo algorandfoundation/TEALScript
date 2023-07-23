@@ -2265,10 +2265,15 @@ export default class Compiler {
       } else if (element.type === 'bool') {
         if (!ts.isElementAccessExpression(node)) throw new Error();
 
-        this.pushLines(node.argumentExpression, 'int 8', '*');
+        this.pushLines(node.argumentExpression, 'int 8', '* // get bit offset');
         this.processNode(node.argumentExpression);
-        this.pushLines(node.argumentExpression, '+', `load ${scratch.fullArray}`, 'swap');
+        this.pushLines(node.argumentExpression, '+ // add accessor bits');
+        if (element.parent!.arrayType === 'dynamic') {
+          this.pushLines(node.argumentExpression, 'int 16', '+ // 16 bits for length prefix');
+        }
+        this.pushLines(node.argumentExpression, `load ${scratch.fullArray}`, 'swap');
         this.processNode(newValue);
+
         this.pushVoid(node.argumentExpression, 'setbit');
       } else {
         this.pushLines(

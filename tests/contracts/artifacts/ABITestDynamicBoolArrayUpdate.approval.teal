@@ -1,7 +1,7 @@
 #pragma version 8
 	b main
 
-abi_route_staticBoolArrayUpdate:
+abi_route_dynamicBoolArrayUpdate:
 	txn OnCompletion
 	int NoOp
 	==
@@ -11,15 +11,16 @@ abi_route_staticBoolArrayUpdate:
 	&&
 	assert
 	byte 0x
-	callsub staticBoolArrayUpdate
+	callsub dynamicBoolArrayUpdate
 	int 1
 	return
 
-staticBoolArrayUpdate:
+dynamicBoolArrayUpdate:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:900
-	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
+	// tests/contracts/abi.algo.ts:910
+	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
+	byte 0x0009
 	byte 0x0000
 	int 0
 	int 1
@@ -48,11 +49,12 @@ staticBoolArrayUpdate:
 	int 8
 	int 0
 	setbit
-	frame_bury -1 // a: bool[9]
+	concat
+	frame_bury -1 // a: bool[]
 
-	// tests/contracts/abi.algo.ts:902
+	// tests/contracts/abi.algo.ts:912
 	// a[8] = true
-	frame_dig -1 // a: bool[9]
+	frame_dig -1 // a: bool[]
 	store 0 // full array
 	int 0 // initial offset
 	int 0 // headOffset
@@ -61,15 +63,17 @@ staticBoolArrayUpdate:
 	* // get bit offset
 	int 8
 	+ // add accessor bits
+	int 16
+	+ // 16 bits for length prefix
 	load 0 // full array
 	swap
 	int 1
 	setbit
-	frame_bury -1 // a: bool[9]
+	frame_bury -1 // a: bool[]
 
-	// tests/contracts/abi.algo.ts:904
+	// tests/contracts/abi.algo.ts:914
 	// return a;
-	frame_dig -1 // a: bool[9]
+	frame_dig -1 // a: bool[]
 	byte 0x151f7c75
 	swap
 	concat
@@ -91,7 +95,7 @@ main:
 	return
 
 route_abi:
-	method "staticBoolArrayUpdate()bool[9]"
+	method "dynamicBoolArrayUpdate()bool[]"
 	txna ApplicationArgs 0
-	match abi_route_staticBoolArrayUpdate
+	match abi_route_dynamicBoolArrayUpdate
 	err
