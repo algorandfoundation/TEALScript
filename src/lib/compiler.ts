@@ -1559,21 +1559,16 @@ export default class Compiler {
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
     const type = this.typeHint;
     if (type === undefined) throw new Error();
-    const valueArray: string[] = [];
+    const elements: ts.Expression[] = [];
 
     const objTypes = this.getObjectTypes(type);
-    const typeArray = Object.values(objTypes);
 
     node.properties.forEach((p) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
-      valueArray[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer.getText();
+      elements[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer;
     });
 
-    this.typeHint = `[${typeArray.join(',')}]`;
-    const tupleNode = stringToExpression(`[${valueArray.join(',')}]`);
-    if (!ts.isArrayLiteralExpression(tupleNode)) throw new Error();
-    this.processArrayLiteralExpression(tupleNode);
-    this.lastType = type.replace(/\s+/g, ' ');
+    this.processArrayElements(elements, node);
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
@@ -1798,10 +1793,10 @@ export default class Compiler {
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
-    const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
+    const abiArrayType = this.getABIType(arrayTypeHint);
 
-    if (ts.isElementAccessExpression(typeHintNode)) {
-      const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
+    if (abiArrayType.match(/\[\d+\]$/)) {
+      const length = parseInt(abiArrayType.match(/\[\d+\]$/)![0].match(/\d+/)![0], 10);
 
       if (length && elements.length < length) {
         const typeLength = this.getTypeLength(baseType);

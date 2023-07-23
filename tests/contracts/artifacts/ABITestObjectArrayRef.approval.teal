@@ -20,9 +20,6 @@ objectArrayRef:
 
 	// tests/contracts/abi.algo.ts:789
 	// a: ObjectRefType = { foo: [[1, 2], [3, 4]] }
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0004 // initial head offset
 	int 1
 	itob
 	extract 7 0
@@ -38,9 +35,6 @@ objectArrayRef:
 	extract 7 0
 	concat
 	concat
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
 	frame_bury -1 // a: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:791
@@ -96,12 +90,3 @@ route_abi:
 	txna ApplicationArgs 0
 	match abi_route_objectArrayRef
 	err
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
