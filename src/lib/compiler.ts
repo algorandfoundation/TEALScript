@@ -1632,22 +1632,25 @@ export default class Compiler {
     if (isDynamicArray) this.pushVoid(nodes[0], 'concat');
   }
 
-  private processTuple(node: ts.ArrayLiteralExpression) {
+  private processTuple(
+    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
+    parentNode: ts.Node,
+  ) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-    const types = this.getarrayElementTypes(node.elements.length);
+    const types = this.getarrayElementTypes(elements.length);
 
     const dynamicTypes = types.filter((t) => this.isDynamicType(t));
     const staticTypes = types.filter((t) => !this.isDynamicType(t));
     const headLength = this.getTypeLength(`[${staticTypes.join(',')}]`) + dynamicTypes.length * 2;
 
     let consecutiveBools: ts.Node[] = [];
-    node.elements.forEach((e, i) => {
+    elements.forEach((e, i) => {
       if (i === 0) {
-        this.pushLines(node, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
+        this.pushLines(parentNode, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
 
       if (types[i] === 'bool') {
@@ -1679,10 +1682,10 @@ export default class Compiler {
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      this.pushVoid(node, 'callsub process_static_tuple_element');
+      this.pushVoid(parentNode, 'callsub process_static_tuple_element');
     }
 
-    this.pushLines(node, 'pop // pop head offset', 'concat // concat head and tail');
+    this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
   }
 
   private checkEncoding(node: ts.Node, type: string) {
@@ -1761,21 +1764,19 @@ export default class Compiler {
     return elem;
   }
 
-  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
-    if (this.typeHint === undefined) throw new Error('Type hint is undefined');
+  private processArrayElements(
+    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
+    parentNode: ts.Node,
+  ) {
     let { typeHint } = this;
-
-    if (this.getABIType(typeHint).endsWith('[]') && node.elements.length === 0) {
-      this.push(node, 'byte 0x', this.getABIType(this.typeHint));
-      return;
-    }
+    if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
     const baseType = typeHint.replace(/\[\d*\]$/, '');
 
     if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
-      this.processTuple(node);
+      this.processTuple(elements, parentNode);
       if (this.getABIType(typeHint).endsWith('[]')) {
-        this.pushLines(node, `byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+        this.pushLines(parentNode, `byte 0x${elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
       }
       this.lastType = this.getABIType(typeHint);
       return;
@@ -1783,18 +1784,18 @@ export default class Compiler {
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-    const types = this.getarrayElementTypes(node.elements.length);
+    const types = this.getarrayElementTypes(elements.length);
     const arrayTypeHint = typeHint;
 
     if (arrayTypeHint.match(/bool\[\d*\]$/)) {
-      this.processBools(node.elements, arrayTypeHint.endsWith('[]'));
+      this.processBools(elements, arrayTypeHint.endsWith('[]'));
     } else {
-      node.elements.forEach((e, i) => {
+      elements.forEach((e, i) => {
         this.typeHint = types[i];
         this.processNode(e);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
         if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
-        if (i) this.pushVoid(node, 'concat');
+        if (i) this.pushVoid(parentNode, 'concat');
       });
     }
     const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
@@ -1802,15 +1803,27 @@ export default class Compiler {
     if (ts.isElementAccessExpression(typeHintNode)) {
       const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
 
-      if (length && node.elements.length < length) {
+      if (length && elements.length < length) {
         const typeLength = this.getTypeLength(baseType);
-        this.pushVoid(node, `byte 0x${'00'.repeat(typeLength * (length - node.elements.length))}`);
+        this.pushVoid(parentNode, `byte 0x${'00'.repeat(typeLength * (length - elements.length))}`);
 
-        if (node.elements.length > 0) this.pushVoid(node, 'concat');
+        if (elements.length > 0) this.pushVoid(parentNode, 'concat');
       }
     }
 
     this.lastType = this.getABIType(typeHint);
+  }
+
+  private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
+    if (this.typeHint === undefined) throw new Error('Type hint is undefined');
+    const { typeHint } = this;
+
+    if (this.getABIType(typeHint).endsWith('[]') && node.elements.length === 0) {
+      this.push(node, 'byte 0x', this.getABIType(this.typeHint));
+      return;
+    }
+
+    this.processArrayElements(node.elements, node);
   }
 
   private getAccessChain(
@@ -2416,7 +2429,6 @@ export default class Compiler {
 
         if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
 
-        console.log(this.lastType, returnType);
         this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
         this.pushVoid(node.expression!, 'b&');
 
