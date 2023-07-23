@@ -649,4 +649,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'dynamicBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
   });
+
+  test.concurrent('dynamicBoolArrayAccess', async () => {
+    const { appClient } = await compileAndCreate('dynamicBoolArrayAccess');
+
+    expect(await runMethod(appClient, 'dynamicBoolArrayAccess')).toEqual(false);
+  });
 });

@@ -2037,6 +2037,7 @@ export default class Compiler {
     node: ts.Node,
   ) {
     let previousTupleElement = topLevelTuple;
+    let previousElemIsBool = false;
 
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
@@ -2064,8 +2065,15 @@ export default class Compiler {
       const elem: TupleElement = Number.isNaN(accNumber)
         ? previousTupleElement[0] : previousTupleElement[accNumber] || previousTupleElement[0];
 
-      // Element in tuple
-      if (previousTupleElement.arrayType === 'tuple' || (elem.parent?.arrayType === 'static' && elem.type === 'bool')) {
+      if (elem.type === 'bool' && !previousElemIsBool) {
+        this.pushLines(
+          acc,
+          `int ${elem.headOffset} // headOffset`,
+          '+',
+        );
+
+        previousElemIsBool = true;
+      } else if (previousTupleElement.arrayType === 'tuple') {
         this.pushLines(
           acc,
           `int ${elem.headOffset} // headOffset`,
@@ -2082,7 +2090,7 @@ export default class Compiler {
           '+',
         );
       // Static element in array
-      } else {
+      } else if (!previousElemIsBool) {
         this.processNode(acc);
 
         this.pushLines(
