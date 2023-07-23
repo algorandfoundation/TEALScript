@@ -667,4 +667,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'dynamicBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
   });
+
+  test.concurrent('boolTupleUpdate', async () => {
+    const { appClient } = await compileAndCreate('boolTupleUpdate');
+
+    expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+  });
 });
