@@ -2262,6 +2262,14 @@ export default class Compiler {
         });
 
         this.pushVoid(node, `load ${scratch.fullArray}`);
+      } else if (element.type === 'bool') {
+        if (!ts.isElementAccessExpression(node)) throw new Error();
+
+        this.pushLines(node.argumentExpression, 'int 8', '*');
+        this.processNode(node.argumentExpression);
+        this.pushLines(node.argumentExpression, '+', `load ${scratch.fullArray}`, 'swap');
+        this.processNode(newValue);
+        this.pushVoid(node.argumentExpression, 'setbit');
       } else {
         this.pushLines(
           node,
