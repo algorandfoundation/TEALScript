@@ -1,0 +1,57 @@
+{
+  "hints": {
+    "booleanArgAndReturn(bool)bool": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2Jvb2xlYW5BcmdBbmRSZXR1cm46Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCgkvLyBubyBkdXBuIG5lZWRlZAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJaW50IDAKCWdldGJpdAoJY2FsbHN1YiBib29sZWFuQXJnQW5kUmV0dXJuCglpbnQgMQoJcmV0dXJuCgpib29sZWFuQXJnQW5kUmV0dXJuOgoJcHJvdG8gMSAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjg0MAoJLy8gcmV0dXJuIGE7CglmcmFtZV9kaWcgLTEgLy8gYTogYm9vbAoJYnl0ZSAweDAwCglpbnQgMAoJdW5jb3ZlciAyCglzZXRiaXQKCWJ5dGUgMHgxNTFmN2M3NQoJc3dhcAoJY29uY2F0Cglsb2cKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgImJvb2xlYW5BcmdBbmRSZXR1cm4oYm9vbClib29sIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2Jvb2xlYW5BcmdBbmRSZXR1cm4KCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestBooleanArgAndReturn",
+    "desc": "",
+    "methods": [
+      {
+        "name": "booleanArgAndReturn",
+        "args": [
+          {
+            "name": "a",
+            "type": "bool",
+            "desc": ""
+          }
+        ],
+        "desc": "",
+        "returns": {
+          "type": "bool",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

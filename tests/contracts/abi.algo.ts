@@ -835,3 +835,95 @@ class ABITestEmptyDynamicArray extends Contract {
     return [];
   }
 }
+class ABITestBooleanArgAndReturn extends Contract {
+  booleanArgAndReturn(a: boolean): boolean {
+    return a;
+  }
+}
+
+class ABITestBoolTuple extends Contract {
+  boolTuple(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] {
+    const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+      true, false, true, true, false, false, true, false, false,
+    ];
+
+    return a;
+  }
+}
+
+class ABITestStaticBoolArray extends Contract {
+  staticBoolArray(): StaticArray<boolean, 9> {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    return a;
+  }
+}
+
+class ABITestBoolTupleAccess extends Contract {
+  boolTupleAccess(): boolean {
+    const a: [
+      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] = [
+      false, false, false, false, false, false, false, false, true,
+    ];
+
+    return a[8];
+  }
+}
+
+class ABITestStaticBoolArrayAccess extends Contract {
+  staticBoolArrayAccess(): boolean {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    return a[8];
+  }
+}
+
+class ABITestDynamicBoolArray extends Contract {
+  dynamicBoolArray(): boolean[] {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    return a;
+  }
+}
+
+class ABITestDynamicBoolArrayAccess extends Contract {
+  dynamicBoolArrayAccess(): boolean {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    return a[8];
+  }
+}
+
+class ABITestStaticBoolArrayUpdate extends Contract {
+  staticBoolArrayUpdate(): StaticArray<boolean, 9> {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+
+    return a;
+  }
+}
+
+class ABITestDynamicBoolArrayUpdate extends Contract {
+  dynamicBoolArrayUpdate(): boolean[] {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+
+    return a;
+  }
+}
+
+class ABITestBoolTupleUpdate extends Contract {
+  boolTupleUpdate(): [
+    boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] {
+    const a: [
+      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+    return a;
+  }
+}

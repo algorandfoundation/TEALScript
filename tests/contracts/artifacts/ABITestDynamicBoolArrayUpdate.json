@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "dynamicBoolArrayUpdate()bool[]": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX2R5bmFtaWNCb29sQXJyYXlVcGRhdGU6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCWJ5dGUgMHgKCWNhbGxzdWIgZHluYW1pY0Jvb2xBcnJheVVwZGF0ZQoJaW50IDEKCXJldHVybgoKZHluYW1pY0Jvb2xBcnJheVVwZGF0ZToKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo5MTAKCS8vIGE6IGJvb2xlYW5bXSA9IFt0cnVlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2VdCglieXRlIDB4MDAwOQoJYnl0ZSAweDAwMDAKCWludCAwCglpbnQgMQoJc2V0Yml0CglpbnQgMQoJaW50IDAKCXNldGJpdAoJaW50IDIKCWludCAxCglzZXRiaXQKCWludCAzCglpbnQgMQoJc2V0Yml0CglpbnQgNAoJaW50IDAKCXNldGJpdAoJaW50IDUKCWludCAwCglzZXRiaXQKCWludCA2CglpbnQgMQoJc2V0Yml0CglpbnQgNwoJaW50IDAKCXNldGJpdAoJaW50IDgKCWludCAwCglzZXRiaXQKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMSAvLyBhOiBib29sW10KCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6OTEyCgkvLyBhWzhdID0gdHJ1ZQoJZnJhbWVfZGlnIC0xIC8vIGE6IGJvb2xbXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJaW50IDAgLy8gaGVhZE9mZnNldAoJKwoJaW50IDgKCSogLy8gZ2V0IGJpdCBvZmZzZXQKCWludCA4CgkrIC8vIGFkZCBhY2Nlc3NvciBiaXRzCglpbnQgMTYKCSsgLy8gMTYgYml0cyBmb3IgbGVuZ3RoIHByZWZpeAoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAxCglzZXRiaXQKCWZyYW1lX2J1cnkgLTEgLy8gYTogYm9vbFtdCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjkxNAoJLy8gcmV0dXJuIGE7CglmcmFtZV9kaWcgLTEgLy8gYTogYm9vbFtdCglieXRlIDB4MTUxZjdjNzUKCXN3YXAKCWNvbmNhdAoJbG9nCglyZXRzdWIKCm1haW46Cgl0eG4gTnVtQXBwQXJncwoJYm56IHJvdXRlX2FiaQoKCS8vIGRlZmF1bHQgY3JlYXRlQXBwbGljYXRpb24KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJPT0KCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJJiYKCXJldHVybgoKcm91dGVfYWJpOgoJbWV0aG9kICJkeW5hbWljQm9vbEFycmF5VXBkYXRlKClib29sW10iCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfZHluYW1pY0Jvb2xBcnJheVVwZGF0ZQoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestDynamicBoolArrayUpdate",
+    "desc": "",
+    "methods": [
+      {
+        "name": "dynamicBoolArrayUpdate",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "bool[]",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

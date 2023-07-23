@@ -1,0 +1,95 @@
+#pragma version 8
+	b main
+
+abi_route_boolTuple:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub boolTuple
+	int 1
+	return
+
+boolTuple:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:846
+	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0002 // initial head offset
+	byte 0x0000
+	int 0
+	int 1
+	setbit
+	int 1
+	int 0
+	setbit
+	int 2
+	int 1
+	setbit
+	int 3
+	int 1
+	setbit
+	int 4
+	int 0
+	setbit
+	int 5
+	int 0
+	setbit
+	int 6
+	int 1
+	setbit
+	int 7
+	int 0
+	setbit
+	int 8
+	int 0
+	setbit
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+
+	// tests/contracts/abi.algo.ts:850
+	// return a;
+	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)"
+	txna ApplicationArgs 0
+	match abi_route_boolTuple
+	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

@@ -1,0 +1,97 @@
+#pragma version 8
+	b main
+
+abi_route_dynamicBoolArrayAccess:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub dynamicBoolArrayAccess
+	int 1
+	return
+
+dynamicBoolArrayAccess:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:892
+	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
+	byte 0x0009
+	byte 0x0000
+	int 0
+	int 1
+	setbit
+	int 1
+	int 0
+	setbit
+	int 2
+	int 1
+	setbit
+	int 3
+	int 1
+	setbit
+	int 4
+	int 0
+	setbit
+	int 5
+	int 0
+	setbit
+	int 6
+	int 1
+	setbit
+	int 7
+	int 0
+	setbit
+	int 8
+	int 0
+	setbit
+	concat
+	frame_bury -1 // a: bool[]
+
+	// tests/contracts/abi.algo.ts:894
+	// return a[8];
+	frame_dig -1 // a: bool[]
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	int 8
+	*
+	int 8
+	+
+	load 0 // full array
+	swap
+	getbit
+	byte 0x00
+	int 0
+	uncover 2
+	setbit
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "dynamicBoolArrayAccess()bool"
+	txna ApplicationArgs 0
+	match abi_route_dynamicBoolArrayAccess
+	err
