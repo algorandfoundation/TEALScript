@@ -2518,12 +2518,20 @@ export default class Compiler {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
 
         if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-          const index = Object.keys(this.getObjectTypes(expressionType))
-            .indexOf(node.left.name.getText());
+          if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
+            const index = Object
+              .keys(this.getObjectTypes(expressionType))
+              .indexOf(node.left.name.getText());
 
-          const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
-          if (!ts.isElementAccessExpression(expr)) throw new Error();
-          this.processArrayAccess(expr, node.right);
+            this.processNode(node.left.expression);
+            this.processParentArrayAccess(
+              node,
+              [stringToExpression(index.toString())],
+              node.left.expression,
+              node.right,
+            );
+            return;
+          }
           return;
         }
       }
@@ -3223,9 +3231,10 @@ export default class Compiler {
       }
 
       const expressionType = this.getStackTypeFromNode(n.expression);
-      if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+      if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
         const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
-        this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
+        this.processNode(n.expression);
+        this.processParentArrayAccess(n, [stringToExpression(index.toString())], n.expression);
         return;
       }
 
