@@ -1610,9 +1610,13 @@ export default class Compiler {
     throw new Error(typeHintNode.getText());
   }
 
-  private processBools(nodes: ts.Node[] | ts.NodeArray<ts.Expression>) {
+  private processBools(
+    nodes: ts.Node[] | ts.NodeArray<ts.Expression>,
+    isDynamicArray: boolean = false,
+  ) {
     const boolByteLength = Math.ceil(nodes.length / 8);
 
+    if (isDynamicArray) this.pushVoid(nodes[0], `byte 0x${nodes.length.toString(16).padStart(4, '0')}`);
     this.pushVoid(nodes[0], `byte 0x${'00'.repeat(boolByteLength)}`);
 
     nodes.forEach((n, i) => {
@@ -1620,6 +1624,8 @@ export default class Compiler {
       this.processNode(n);
       this.pushVoid(n, 'setbit');
     });
+
+    if (isDynamicArray) this.pushVoid(nodes[0], 'concat');
   }
 
   private processTuple(node: ts.ArrayLiteralExpression) {
@@ -1791,8 +1797,8 @@ export default class Compiler {
     const types = this.getarrayElementTypes(node.elements.length);
     const arrayTypeHint = typeHint;
 
-    if (arrayTypeHint.match(/bool\[\d*\]/)) {
-      this.processBools(node.elements);
+    if (arrayTypeHint.match(/bool\[\d*\]$/)) {
+      this.processBools(node.elements, arrayTypeHint.endsWith('[]'));
     } else {
       node.elements.forEach((e, i) => {
         this.typeHint = types[i];

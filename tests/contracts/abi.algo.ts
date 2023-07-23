@@ -878,3 +878,11 @@ class ABITestStaticBoolArrayAccess extends Contract {
     return a[8];
   }
 }
+
+class ABITestDynamicBoolArray extends Contract {
+  dynamicBoolArray(): boolean[] {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    return a;
+  }
+}
