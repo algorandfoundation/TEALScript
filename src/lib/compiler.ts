@@ -1763,7 +1763,7 @@ export default class Compiler {
     elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
     parentNode: ts.Node,
   ) {
-    let { typeHint } = this;
+    const { typeHint } = this;
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
     const baseType = typeHint.replace(/\[\d*\]$/, '');
@@ -1776,8 +1776,6 @@ export default class Compiler {
       this.lastType = this.getABIType(typeHint);
       return;
     }
-
-    if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
     const types = this.getarrayElementTypes(elements.length);
     const arrayTypeHint = typeHint;
@@ -1793,6 +1791,7 @@ export default class Compiler {
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
+
     const abiArrayType = this.getABIType(arrayTypeHint);
 
     if (abiArrayType.match(/\[\d+\]$/)) {
@@ -1853,14 +1852,21 @@ export default class Compiler {
       currentFrame = this.frame[name];
     }
 
-    if (!load) return { name, type, accessors: accessors.reverse().flat() };
-
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
       name = currentFrame.storageExpression.getText().split('.')[1];
       type = 'storage';
       storageExpression = currentFrame.storageExpression;
+    }
+
+    if (!load) {
+      return {
+        name, type, accessors: accessors.reverse().flat(), storageExpression,
+      };
+    }
+
+    if (currentFrame.storageExpression !== undefined) {
       this.processNode(currentFrame.storageExpression);
     } else {
       this.push(
@@ -1890,7 +1896,7 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].set(node);
+          this.storageFunctions[type].set(processedFrame.storageExpression);
         }
       }
     } else if (
@@ -2516,24 +2522,16 @@ export default class Compiler {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
+        const index = Object
+          .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
 
-        if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-          if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
-            const index = Object
-              .keys(this.getObjectTypes(expressionType))
-              .indexOf(node.left.name.getText());
-
-            this.processNode(node.left.expression);
-            this.processParentArrayAccess(
-              node,
-              [stringToExpression(index.toString())],
-              node.left.expression,
-              node.right,
-            );
-            return;
-          }
-          return;
-        }
+        this.processNode(node.left.expression);
+        this.processParentArrayAccess(
+          node,
+          [stringToExpression(index.toString())],
+          node.left.expression,
+          node.right,
+        );
       }
 
       // TODO: Type check

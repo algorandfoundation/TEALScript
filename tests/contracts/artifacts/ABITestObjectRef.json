@@ -1,0 +1,51 @@
+{
+  "hints": {
+    "objectRef()(uint64)": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {},
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX29iamVjdFJlZjoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoJYnl0ZSAweAoJY2FsbHN1YiBvYmplY3RSZWYKCWludCAxCglyZXR1cm4KCm9iamVjdFJlZjoKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo5MzMKCS8vIG86IHtmb286IHVpbnQ2NH0gPSB7IGZvbzogMSB9CglpbnQgMQoJaXRvYgoJZnJhbWVfYnVyeSAtMSAvLyBvOiB7Zm9vOiB1aW50NjR9CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjkzNwoJLy8gci5mb28gPSAyCglmcmFtZV9kaWcgLTEgLy8gbzoge2ZvbzogdWludDY0fQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJaW50IDAgLy8gaGVhZE9mZnNldAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAyCglpdG9iCglyZXBsYWNlMwoJZnJhbWVfYnVyeSAtMSAvLyByOiB7Zm9vOiB1aW50NjR9CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjkzOQoJLy8gcmV0dXJuIG87CglmcmFtZV9kaWcgLTEgLy8gbzoge2ZvbzogdWludDY0fQoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAib2JqZWN0UmVmKCkodWludDY0KSIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV9vYmplY3RSZWYKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestObjectRef",
+    "desc": "",
+    "methods": [
+      {
+        "name": "objectRef",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "(uint64)",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}
