@@ -1,0 +1,56 @@
+{
+  "hints": {
+    "storageRefKey()uint64": {
+      "call_config": {
+        "no_op": "CALL"
+      }
+    }
+  },
+  "bare_call_config": {
+    "no_op": "CREATE"
+  },
+  "schema": {
+    "local": {
+      "declared": {},
+      "reserved": {}
+    },
+    "global": {
+      "declared": {
+        "gMap": {
+          "type": "bytes",
+          "key": "gMap"
+        }
+      },
+      "reserved": {}
+    }
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 1,
+      "num_uints": 0
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3N0b3JhZ2VSZWZLZXk6Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCXR4biBBcHBsaWNhdGlvbklECglpbnQgMAoJIT0KCSYmCglhc3NlcnQKCWJ5dGUgMHg7IGR1cAoJY2FsbHN1YiBzdG9yYWdlUmVmS2V5CglpbnQgMQoJcmV0dXJuCgpzdG9yYWdlUmVmS2V5OgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjk0NwoJLy8gdGhpcy5nTWFwLnNldCgwLCBbMSwgMiwgM10pCglpbnQgMAoJaXRvYgoJaW50IDEKCWl0b2IKCWludCAyCglpdG9iCgljb25jYXQKCWludCAzCglpdG9iCgljb25jYXQKCWR1cAoJbGVuCglpbnQgOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYXBwX2dsb2JhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6OTQ5CgkvLyBpID0gMAoJaW50IDAKCWZyYW1lX2J1cnkgLTEgLy8gaTogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gaTogdWludDY0CglpdG9iCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjk1MQoJLy8gciA9IHRoaXMuZ01hcC5nZXQoaSkKCWZyYW1lX2J1cnkgLTIgLy8gc3RvcmFnZSBrZXkvL3IKCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6OTUzCgkvLyBpID0gMQoJaW50IDEKCWZyYW1lX2J1cnkgLTEgLy8gaTogdWludDY0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjk1NQoJLy8gclsxXSA9IDQKCWZyYW1lX2RpZyAtMiAvLyBzdG9yYWdlIGtleS8vcgoJYXBwX2dsb2JhbF9nZXQKCWV4dHJhY3QgMiAwCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglpbnQgMQoJaW50IDgKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCA0CglpdG9iCglyZXBsYWNlMwoJZnJhbWVfZGlnIC0yIC8vIHN0b3JhZ2Uga2V5Ly9yCglzd2FwCglkdXAKCWxlbgoJaW50IDgKCS8KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjk1NwoJLy8gcmV0dXJuIHRoaXMuZ01hcC5nZXQoMClbMV07CglpbnQgMAoJaXRvYgoJYXBwX2dsb2JhbF9nZXQKCWV4dHJhY3QgMiAwCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglpbnQgMQoJaW50IDgKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCA4CglleHRyYWN0MwoJYnRvaQoJaXRvYgoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAic3RvcmFnZVJlZktleSgpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX3N0b3JhZ2VSZWZLZXkKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
+  },
+  "contract": {
+    "name": "ABITestStorageRefKey",
+    "desc": "",
+    "methods": [
+      {
+        "name": "storageRefKey",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint64",
+          "desc": ""
+        }
+      }
+    ]
+  }
+}

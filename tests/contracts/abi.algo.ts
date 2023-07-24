@@ -939,3 +939,21 @@ class ABITestObjectRef extends Contract {
     return o;
   }
 }
+
+class ABITestStorageRefKey extends Contract {
+  gMap = new GlobalStateMap<uint64, uint64[]>();
+
+  storageRefKey(): uint64 {
+    this.gMap.set(0, [1, 2, 3]);
+
+    let i = 0;
+
+    const r = this.gMap.get(i);
+
+    i = 1;
+
+    r[1] = 4;
+
+    return this.gMap.get(0)[1];
+  }
+}

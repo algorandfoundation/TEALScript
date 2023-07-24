@@ -679,4 +679,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'objectRef')).toEqual([2n]);
   });
+
+  test.concurrent('storageRefKey', async () => {
+    const { appClient } = await compileAndCreate('storageRefKey');
+
+    expect(await runMethod(appClient, 'storageRefKey')).toEqual(4n);
+  });
 });
