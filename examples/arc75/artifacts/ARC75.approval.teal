@@ -175,6 +175,14 @@ addAppToWhiteList:
 	box_del
 	pop
 	swap
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 	b if0_end
 
@@ -496,6 +504,14 @@ deleteAppFromWhitelist:
 	box_del
 	pop
 	swap
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	box_put
 	frame_bury -7 // spliced: uint64[]
 

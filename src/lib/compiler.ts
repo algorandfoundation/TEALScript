@@ -2736,6 +2736,8 @@ export default class Compiler {
     const keyNode = storageExpression.arguments[storageProp.type === 'local' ? 1 : 0];
 
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
+      this.addSourceComment(node, true);
+
       if (storageProp.prefix) this.pushVoid(keyNode, `byte "${storageProp.prefix}"`);
 
       this.processNode(keyNode);
@@ -2749,7 +2751,6 @@ export default class Compiler {
 
       const keyFrameName = `storage key//${name}`;
 
-      this.addSourceComment(node, true);
       this.pushVoid(keyNode, `frame_bury ${this.frameIndex} // ${keyFrameName}`);
 
       this.frame[keyFrameName] = {

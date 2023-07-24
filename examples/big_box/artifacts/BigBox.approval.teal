@@ -135,8 +135,7 @@ abi_route_upload:
 	!=
 	&&
 	assert
-
-	// no dupn needed
+	byte 0x
 	txna ApplicationArgs 4
 	extract 2 0
 	txna ApplicationArgs 3
@@ -150,11 +149,16 @@ abi_route_upload:
 	return
 
 upload:
-	proto 4 0
+	proto 5 0
+
+	// examples/big_box/big_box.algo.ts:45
+	// dataInfo = this.info.get(name)
+	frame_dig -1 // name: bytes
+	frame_bury -5 // storage key//dataInfo
 
 	// examples/big_box/big_box.algo.ts:46
 	// assert(dataInfo.status === IN_PROGRESS)
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -173,7 +177,7 @@ upload:
 
 	// examples/big_box/big_box.algo.ts:47
 	// assert(dataInfo.start <= boxIndex && boxIndex <= dataInfo.end)
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -190,7 +194,7 @@ upload:
 	dup
 	bz skip_and0
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -222,7 +226,7 @@ skip_and0:
 	frame_dig -2 // boxIndex: uint64
 	itob
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -236,7 +240,7 @@ skip_and0:
 	btoi
 	==
 	bz ternary0_false
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
