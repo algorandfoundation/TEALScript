@@ -311,6 +311,7 @@ export default class Compiler {
     accessors?: (ts.Expression | string)[]
     storageExpression?: ts.CallExpression
     storageKeyFrame?: string
+    storageAccountFrame?: string
     }
   } = {};
 
@@ -511,7 +512,7 @@ export default class Compiler {
       },
     },
     local: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
+      get: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
@@ -520,7 +521,11 @@ export default class Compiler {
           valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
-        this.processNode(node.arguments[0]);
+        if (storageAccountFrame) {
+          this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+        } else {
+          this.processNode(node.arguments[0]);
+        }
 
         if (key) {
           this.pushVoid(node.expression, `byte "${key}"`);
@@ -541,7 +546,7 @@ export default class Compiler {
         this.push(node.expression, 'app_local_get', valueType);
         if (valueType !== StackType.bytes) this.checkDecoding(node, valueType);
       },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
+      set: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
         if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
         if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
         const name = node.expression.expression.name.getText();
@@ -550,7 +555,11 @@ export default class Compiler {
           valueType, keyType, key, prefix,
         } = this.storageProps[name];
 
-        this.processNode(node.arguments[0]);
+        if (storageAccountFrame) {
+          this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+        } else {
+          this.processNode(node.arguments[0]);
+        }
 
         if (key) {
           this.pushVoid(node.expression, `byte "${key}"`);
@@ -573,7 +582,12 @@ export default class Compiler {
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node.arguments[key ? 1 : 2], this.lastType);
           }
-        } else this.pushVoid(node.expression, 'uncover 2'); // Used when updating storage array
+        } else {
+          this.pushVoid(node.expression, 'uncover 2'); // Used when updating storage array
+          if (valueType !== StackType.bytes) {
+            this.checkEncoding(node, valueType);
+          }
+        }
 
         this.push(node.expression, 'app_local_put', valueType);
       },
@@ -1859,7 +1873,14 @@ export default class Compiler {
     node: ts.Node,
     inputName: string,
     load: boolean,
-  ): {accessors: (ts.Expression | string)[], name: string, type: 'frame' | 'storage', storageExpression?: ts.CallExpression, storageKeyFrame?: string} {
+  ): {
+    accessors: (ts.Expression | string)[],
+    name: string,
+    type: 'frame' | 'storage',
+    storageExpression?: ts.CallExpression,
+    storageKeyFrame?: string
+    storageAccountFrame?: string
+  } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
     let type: 'frame' | 'storage' = 'frame';
@@ -1889,6 +1910,7 @@ export default class Compiler {
         accessors: accessors.reverse().flat(),
         storageExpression,
         storageKeyFrame: currentFrame.storageKeyFrame,
+        storageAccountFrame: currentFrame.storageAccountFrame,
       };
     }
 
@@ -1896,6 +1918,7 @@ export default class Compiler {
       this.storageFunctions[this.storageProps[name].type].get(
         currentFrame.storageExpression,
         currentFrame.storageKeyFrame,
+        currentFrame.storageAccountFrame,
       );
     } else {
       this.push(
@@ -1928,6 +1951,7 @@ export default class Compiler {
           this.storageFunctions[type].set(
             processedFrame.storageExpression,
             processedFrame.storageKeyFrame,
+            processedFrame.storageAccountFrame,
           );
         }
       }
@@ -2738,7 +2762,24 @@ export default class Compiler {
       this.frame[name].storageKeyFrame = keyFrameName;
     }
 
-    // TODO: Save local account
+    if (storageProp.type === 'local') {
+      const accountNode = storageExpression.arguments[0];
+      const accountFrameName = `storage account//${name}`;
+
+      this.addSourceComment(node, true);
+      this.processNode(accountNode);
+
+      this.pushVoid(accountNode, `frame_bury ${this.frameIndex} // ${accountFrameName}`);
+
+      this.frame[accountFrameName] = {
+        index: this.frameIndex,
+        type: StackType.uint64,
+      };
+
+      this.frameIndex -= 1;
+
+      this.frame[name].storageAccountFrame = accountFrameName;
+    }
   }
 
   private processVariableDeclarator(node: ts.VariableDeclaration) {

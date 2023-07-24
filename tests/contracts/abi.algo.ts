@@ -957,3 +957,20 @@ class ABITestStorageRefKey extends Contract {
     return this.gMap.get(0)[1];
   }
 }
+
+class ABITestStorageRefAccount extends Contract {
+  lMap = new LocalStateMap<uint64, uint64[]>();
+
+  @handle.optIn
+  storageRefAccount(): uint64 {
+    let addr = this.txn.sender;
+    this.lMap.set(addr, 0, [1, 2, 3]);
+    const r = this.lMap.get(addr, 0);
+
+    addr = globals.zeroAddress;
+
+    r[1] = 4;
+
+    return this.lMap.get(this.txn.sender, 0)[1];
+  }
+}

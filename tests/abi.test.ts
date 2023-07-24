@@ -144,7 +144,7 @@ async function runMethod(
   };
 
   try {
-    if (name.includes('Storage')) {
+    if (name.includes('Storage') || name.includes('RefAccount')) {
       await appClient.fundAppAccount({
         amount: algokit.microAlgos(127400),
         sendParams: { suppressLog: true },
@@ -684,5 +684,11 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('storageRefKey');
 
     expect(await runMethod(appClient, 'storageRefKey')).toEqual(4n);
+  });
+
+  test.concurrent('storageRefAccount', async () => {
+    const { appClient } = await compileAndCreate('storageRefAccount');
+
+    expect(await runMethod(appClient, 'storageRefAccount')).toEqual(4n);
   });
 });
