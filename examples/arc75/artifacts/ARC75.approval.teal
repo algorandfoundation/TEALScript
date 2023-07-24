@@ -162,14 +162,6 @@ addAppToWhiteList:
 	frame_dig -3 // appID: uint64
 	itob
 	concat
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
@@ -491,14 +483,6 @@ deleteAppFromWhitelist:
 	-
 	extract3
 	swap
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del

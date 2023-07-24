@@ -1967,8 +1967,6 @@ export default class Compiler {
         node.expression.expression.name.getText()
       ];
 
-      this.checkEncoding(node, storageProp.valueType);
-
       this.storageFunctions[storageProp.type].set(node);
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
