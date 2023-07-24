@@ -515,6 +515,7 @@ interface AppParams extends CommonTransactionParams {
   globalNumUint?: uint64
   localNumByteSlice?: uint64
   localNumUint?: uint64
+  extraProgramPages?: uint64
 }
 
 interface KeyRegParams extends CommonTransactionParams {
@@ -674,7 +675,9 @@ declare class handle {
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number
-> = (T extends byte ? string : (N extends 0 ? never[] : T[])) & {__type?: T, __length?: N}
+> = (
+  T extends byte ? string : (N extends 0 ? never[] : T extends boolean ? (true | false)[] : T[])
+) & {__type?: T, __length?: N}
 
 // eslint-disable-next-line no-shadow
 enum TransactionType {

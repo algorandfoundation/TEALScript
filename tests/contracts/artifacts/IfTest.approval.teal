@@ -298,6 +298,78 @@ if5_else:
 if5_end:
 	retsub
 
+abi_route_nestedIf:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	txna ApplicationArgs 2
+	int 0
+	getbit
+	txna ApplicationArgs 1
+	int 0
+	getbit
+	callsub nestedIf
+	int 1
+	return
+
+nestedIf:
+	proto 3 0
+
+	// if6_condition
+	// tests/contracts/if.algo.ts:63
+	// bool1
+	frame_dig -1 // bool1: bool
+	bz if6_else
+
+	// if6_consequent
+	// tests/contracts/if.algo.ts:64
+	// retStr = 'if'
+	byte "if"
+	frame_bury -3 // retStr: string
+
+	// if7_condition
+	// tests/contracts/if.algo.ts:65
+	// bool2
+	frame_dig -2 // bool2: bool
+	bz if7_end
+
+	// if7_consequent
+	// tests/contracts/if.algo.ts:66
+	// retStr = 'nested if'
+	byte "nested if"
+	frame_bury -3 // retStr: string
+
+if7_end:
+	b if6_end
+
+if6_else:
+	// tests/contracts/if.algo.ts:69
+	// retStr = 'else'
+	byte "else"
+	frame_bury -3 // retStr: string
+
+if6_end:
+	// tests/contracts/if.algo.ts:72
+	// return retStr;
+	frame_dig -3 // retStr: string
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -319,6 +391,7 @@ route_abi:
 	method "ifElseIfElse()void"
 	method "ifElseIfElseIf()void"
 	method "ifElseIfElseIfElse()void"
+	method "nestedIf(bool,bool)string"
 	txna ApplicationArgs 0
-	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse
+	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse abi_route_nestedIf
 	err

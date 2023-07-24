@@ -143,14 +143,19 @@ async function runMethod(
     sendParams: { suppressLog: true },
   };
 
-  if (name.includes('Storage')) {
-    await appClient.fundAppAccount({
-      amount: algokit.microAlgos(127400),
-      sendParams: { suppressLog: true },
-    });
-    return (await appClient.optIn(params)).return?.returnValue;
+  try {
+    if (name.includes('Storage') || name.includes('RefAccount')) {
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(127400),
+        sendParams: { suppressLog: true },
+      });
+      return (await appClient.optIn(params)).return?.returnValue;
+    }
+    return (await appClient.call(params)).return?.returnValue;
+  } catch (e) {
+    console.warn(e);
+    throw e;
   }
-  return (await appClient.call(params)).return?.returnValue;
 }
 
 describe('ABI', function () {
@@ -606,5 +611,84 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('emptyDynamicArray');
 
     expect(await runMethod(appClient, 'emptyDynamicArray')).toEqual([]);
+  });
+  test.concurrent('booleanArgAndReturn', async () => {
+    const { appClient } = await compileAndCreate('booleanArgAndReturn');
+
+    expect(await runMethod(appClient, 'booleanArgAndReturn', [true])).toEqual(true);
+
+    expect(await runMethod(appClient, 'booleanArgAndReturn', [false])).toEqual(false);
+  });
+
+  test.concurrent('boolTuple', async () => {
+    const { appClient } = await compileAndCreate('boolTuple');
+
+    expect(await runMethod(appClient, 'boolTuple')).toEqual([true, false, true, true, false, false, true, false, false]);
+  });
+
+  test.concurrent('staticBoolArray', async () => {
+    const { appClient } = await compileAndCreate('staticBoolArray');
+
+    expect(await runMethod(appClient, 'staticBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
+  });
+
+  test.concurrent('boolTupleAccess', async () => {
+    const { appClient } = await compileAndCreate('boolTupleAccess');
+
+    expect(await runMethod(appClient, 'boolTupleAccess')).toEqual(true);
+  });
+
+  test.concurrent('staticBoolArrayAccess', async () => {
+    const { appClient } = await compileAndCreate('staticBoolArrayAccess');
+
+    expect(await runMethod(appClient, 'staticBoolArrayAccess')).toEqual(false);
+  });
+
+  test.concurrent('dynamicBoolArray', async () => {
+    const { appClient } = await compileAndCreate('dynamicBoolArray');
+
+    expect(await runMethod(appClient, 'dynamicBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
+  });
+
+  test.concurrent('dynamicBoolArrayAccess', async () => {
+    const { appClient } = await compileAndCreate('dynamicBoolArrayAccess');
+
+    expect(await runMethod(appClient, 'dynamicBoolArrayAccess')).toEqual(false);
+  });
+
+  test.concurrent('staticBoolArrayUpdate', async () => {
+    const { appClient } = await compileAndCreate('staticBoolArrayUpdate');
+
+    expect(await runMethod(appClient, 'staticBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+  });
+
+  test.concurrent('dynamicBoolArrayUpdate', async () => {
+    const { appClient } = await compileAndCreate('dynamicBoolArrayUpdate');
+
+    expect(await runMethod(appClient, 'dynamicBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+  });
+
+  test.concurrent('boolTupleUpdate', async () => {
+    const { appClient } = await compileAndCreate('boolTupleUpdate');
+
+    expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+  });
+
+  test.concurrent('objectRef', async () => {
+    const { appClient } = await compileAndCreate('objectRef');
+
+    expect(await runMethod(appClient, 'objectRef')).toEqual([2n]);
+  });
+
+  test.concurrent('storageRefKey', async () => {
+    const { appClient } = await compileAndCreate('storageRefKey');
+
+    expect(await runMethod(appClient, 'storageRefKey')).toEqual(4n);
+  });
+
+  test.concurrent('storageRefAccount', async () => {
+    const { appClient } = await compileAndCreate('storageRefAccount');
+
+    expect(await runMethod(appClient, 'storageRefAccount')).toEqual(4n);
   });
 });

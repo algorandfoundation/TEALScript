@@ -1,0 +1,129 @@
+#pragma version 8
+	b main
+
+abi_route_storageRefKey:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x; dup
+	callsub storageRefKey
+	int 1
+	return
+
+storageRefKey:
+	proto 2 0
+
+	// tests/contracts/abi.algo.ts:947
+	// this.gMap.set(0, [1, 2, 3])
+	int 0
+	itob
+	int 1
+	itob
+	int 2
+	itob
+	concat
+	int 3
+	itob
+	concat
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	app_global_put
+
+	// tests/contracts/abi.algo.ts:949
+	// i = 0
+	int 0
+	frame_bury -1 // i: uint64
+
+	// tests/contracts/abi.algo.ts:951
+	// r = this.gMap.get(i)
+	frame_dig -1 // i: uint64
+	itob
+	frame_bury -2 // storage key//r
+
+	// tests/contracts/abi.algo.ts:953
+	// i = 1
+	int 1
+	frame_bury -1 // i: uint64
+
+	// tests/contracts/abi.algo.ts:955
+	// r[1] = 4
+	frame_dig -2 // storage key//r
+	app_global_get
+	extract 2 0
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 4
+	itob
+	replace3
+	frame_dig -2 // storage key//r
+	swap
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	app_global_put
+
+	// tests/contracts/abi.algo.ts:957
+	// return this.gMap.get(0)[1];
+	int 0
+	itob
+	app_global_get
+	extract 2 0
+	store 0 // full array
+	int 0 // initial offset
+	int 1
+	int 8
+	* // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "storageRefKey()uint64"
+	txna ApplicationArgs 0
+	match abi_route_storageRefKey
+	err

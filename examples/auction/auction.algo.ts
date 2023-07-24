@@ -2,25 +2,27 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Auction extends Contract {
-  highestBidder = new GlobalStateKey<Address>({ key: 'highestBidder' });
+  previousBidder = new GlobalStateKey<Address>();
 
-  auctionEnd = new GlobalStateKey<uint64>({ key: 'auctionEnd' });
+  auctionEnd = new GlobalStateKey<uint64>();
 
-  highestBid = new GlobalStateKey<uint64>({ key: 'highestBid' });
+  previousBid = new GlobalStateKey<uint64>();
 
-  asaAmt = new GlobalStateKey<uint64>({ key: 'asaAmt' });
+  asaAmt = new GlobalStateKey<uint64>();
 
-  asa = new GlobalStateKey<Asset>({ key: 'asa' });
+  asa = new GlobalStateKey<Asset>();
+
+  claimableAmount = new LocalStateKey<uint64>();
 
   @handle.createApplication
   create(): void {
     this.auctionEnd.set(0);
-    this.highestBid.set(0);
+    this.previousBid.set(0);
     this.asaAmt.set(0);
     this.asa.set(Asset.zeroIndex);
 
     // Use zero address rather than an empty string for Account type safety
-    this.highestBidder.set(globals.zeroAddress);
+    this.previousBidder.set(globals.zeroAddress);
   }
 
   optIntoAsset(asset: Asset): void {
@@ -54,55 +56,58 @@ class Auction extends Contract {
     /// Set global state
     this.asaAmt.set(axfer.assetAmount);
     this.auctionEnd.set(globals.latestTimestamp + length);
-    this.highestBid.set(startingPrice);
+    this.previousBid.set(startingPrice);
   }
 
   private pay(receiver: Account, amount: uint64): void {
     sendPayment({
-      // TODO: Enable object shorthand notation
-      // eslint-disable-next-line object-shorthand
       receiver: receiver,
-      // eslint-disable-next-line object-shorthand
       amount: amount,
       fee: 0,
     });
   }
 
+  @handle.optIn
+  optIn(): void {}
+
   // eslint-disable-next-line no-unused-vars
-  bid(payment: PayTxn, previousBidder: Account): void {
+  bid(payment: PayTxn): void {
     /// Ensure auction hasn't ended
     assert(globals.latestTimestamp < this.auctionEnd.get());
 
     /// Verify payment transaction
-    assert(payment.amount > this.highestBid.get());
+    assert(payment.amount > this.previousBid.get());
     assert(this.txn.sender === payment.sender);
 
-    /// Return previous bid if there was one
-    if (this.highestBidder.get() !== globals.zeroAddress) {
-      this.pay(this.highestBidder.get(), this.highestBid.get());
-    }
-
     /// Set global state
-    this.highestBid.set(payment.amount);
-    this.highestBidder.set(payment.sender);
+    this.previousBid.set(payment.amount);
+    this.previousBidder.set(payment.sender);
+
+    /// Update claimable amount
+    this.claimableAmount.set(this.txn.sender, payment.amount);
   }
 
-  claimBid(): void {
-    // Auction end check is commented out for automated testing
-    // assert(globals.latestTimestamp > this.auctionEnd.get());
-    this.pay(globals.creatorAddress, this.highestBid.get());
+  claimBids(): void {
+    const originalAmount = this.claimableAmount.get(this.txn.sender);
+    let amount = originalAmount;
+
+    /// subtract previous bid if sender is previous bidder
+    if (this.txn.sender === this.previousBidder.get()) amount = amount - this.previousBid.get();
+
+    this.pay(this.txn.sender, amount);
+    this.claimableAmount.set(this.txn.sender, originalAmount - amount);
   }
 
-  claim_asset(asset: Asset, assetCreator: Account): void {
-    // Auction end check is commented out for automated testing
-    // assert(globals.latestTimestamp > this.auctionEnd.get());
-    /// Send ASA to highest bidder
+  claim_asset(asset: Asset): void {
+    assert(globals.latestTimestamp > this.auctionEnd.get());
+
+    /// Send ASA to previous bidder
     sendAssetTransfer({
-      assetReceiver: this.highestBidder.get(),
-      xferAsset: this.asa.get(),
+      assetReceiver: this.previousBidder.get(),
+      xferAsset: asset,
       assetAmount: this.asaAmt.get(),
       fee: 0,
-      assetCloseTo: assetCreator,
+      assetCloseTo: this.previousBidder.get(),
     });
   }
 

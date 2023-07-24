@@ -45,24 +45,18 @@ startUpload:
 
 	// examples/big_box/big_box.algo.ts:25
 	// dataInfo: DataInfo = {
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0019 // initial head offset
 	frame_dig -5 // startBox: uint64
 	itob
-	callsub process_static_tuple_element
 	frame_dig -6 // endBox: uint64
 	itob
-	callsub process_static_tuple_element
+	concat
 	int 0
 	itob
 	extract 7 0
-	callsub process_static_tuple_element
+	concat
 	frame_dig -3 // endBoxSize: uint64
 	itob
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
+	concat
 	frame_bury -7 // dataInfo: DataInfo
 
 	// examples/big_box/big_box.algo.ts:29
@@ -141,8 +135,7 @@ abi_route_upload:
 	!=
 	&&
 	assert
-
-	// no dupn needed
+	byte 0x
 	txna ApplicationArgs 4
 	extract 2 0
 	txna ApplicationArgs 3
@@ -156,11 +149,16 @@ abi_route_upload:
 	return
 
 upload:
-	proto 4 0
+	proto 5 0
+
+	// examples/big_box/big_box.algo.ts:45
+	// dataInfo = this.info.get(name)
+	frame_dig -1 // name: bytes
+	frame_bury -5 // storage key//dataInfo
 
 	// examples/big_box/big_box.algo.ts:46
 	// assert(dataInfo.status === IN_PROGRESS)
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -179,7 +177,7 @@ upload:
 
 	// examples/big_box/big_box.algo.ts:47
 	// assert(dataInfo.start <= boxIndex && boxIndex <= dataInfo.end)
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -196,7 +194,7 @@ upload:
 	dup
 	bz skip_and0
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -228,7 +226,7 @@ skip_and0:
 	frame_dig -2 // boxIndex: uint64
 	itob
 	frame_dig -2 // boxIndex: uint64
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -242,7 +240,7 @@ skip_and0:
 	btoi
 	==
 	bz ternary0_false
-	frame_dig -1 // name: bytes
+	frame_dig -5 // storage key//dataInfo
 	box_get
 	assert
 	store 0 // full array
@@ -350,8 +348,6 @@ skip_or1:
 
 	// examples/big_box/big_box.algo.ts:62
 	// this.info.get(name).status = status
-	// examples/big_box/big_box.algo.ts:1
-	// this.info.get(name)
 	frame_dig -1 // name: bytes
 	box_get
 	assert
@@ -389,12 +385,3 @@ route_abi:
 	txna ApplicationArgs 0
 	match abi_route_startUpload abi_route_upload abi_route_setStatus
 	err
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub

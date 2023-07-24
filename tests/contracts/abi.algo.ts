@@ -835,3 +835,142 @@ class ABITestEmptyDynamicArray extends Contract {
     return [];
   }
 }
+class ABITestBooleanArgAndReturn extends Contract {
+  booleanArgAndReturn(a: boolean): boolean {
+    return a;
+  }
+}
+
+class ABITestBoolTuple extends Contract {
+  boolTuple(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] {
+    const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+      true, false, true, true, false, false, true, false, false,
+    ];
+
+    return a;
+  }
+}
+
+class ABITestStaticBoolArray extends Contract {
+  staticBoolArray(): StaticArray<boolean, 9> {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    return a;
+  }
+}
+
+class ABITestBoolTupleAccess extends Contract {
+  boolTupleAccess(): boolean {
+    const a: [
+      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] = [
+      false, false, false, false, false, false, false, false, true,
+    ];
+
+    return a[8];
+  }
+}
+
+class ABITestStaticBoolArrayAccess extends Contract {
+  staticBoolArrayAccess(): boolean {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    return a[8];
+  }
+}
+
+class ABITestDynamicBoolArray extends Contract {
+  dynamicBoolArray(): boolean[] {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    return a;
+  }
+}
+
+class ABITestDynamicBoolArrayAccess extends Contract {
+  dynamicBoolArrayAccess(): boolean {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    return a[8];
+  }
+}
+
+class ABITestStaticBoolArrayUpdate extends Contract {
+  staticBoolArrayUpdate(): StaticArray<boolean, 9> {
+    const a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+
+    return a;
+  }
+}
+
+class ABITestDynamicBoolArrayUpdate extends Contract {
+  dynamicBoolArrayUpdate(): boolean[] {
+    const a: boolean[] = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+
+    return a;
+  }
+}
+
+class ABITestBoolTupleUpdate extends Contract {
+  boolTupleUpdate(): [
+    boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] {
+    const a: [
+      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+    ] = [true, false, true, true, false, false, true, false, false];
+
+    a[8] = true;
+    return a;
+  }
+}
+
+class ABITestObjectRef extends Contract {
+  objectRef(): {foo: uint64} {
+    const o: {foo: uint64} = { foo: 1 };
+
+    const r = o;
+
+    r.foo = 2;
+
+    return o;
+  }
+}
+
+class ABITestStorageRefKey extends Contract {
+  gMap = new GlobalStateMap<uint64, uint64[]>();
+
+  storageRefKey(): uint64 {
+    this.gMap.set(0, [1, 2, 3]);
+
+    let i = 0;
+
+    const r = this.gMap.get(i);
+
+    i = 1;
+
+    r[1] = 4;
+
+    return this.gMap.get(0)[1];
+  }
+}
+
+class ABITestStorageRefAccount extends Contract {
+  lMap = new LocalStateMap<uint64, uint64[]>();
+
+  @handle.optIn
+  storageRefAccount(): uint64 {
+    let addr = this.txn.sender;
+    this.lMap.set(addr, 0, [1, 2, 3]);
+    const r = this.lMap.get(addr, 0);
+
+    addr = globals.zeroAddress;
+
+    r[1] = 4;
+
+    return this.lMap.get(this.txn.sender, 0)[1];
+  }
+}

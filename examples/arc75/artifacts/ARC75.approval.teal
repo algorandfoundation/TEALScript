@@ -162,6 +162,11 @@ addAppToWhiteList:
 	frame_dig -3 // appID: uint64
 	itob
 	concat
+	frame_dig -6 // whitelist: Whitelist
+	dup
+	box_del
+	pop
+	swap
 	dup
 	len
 	int 8
@@ -170,11 +175,6 @@ addAppToWhiteList:
 	extract 6 2
 	swap
 	concat
-	frame_dig -6 // whitelist: Whitelist
-	dup
-	box_del
-	pop
-	swap
 	box_put
 	b if0_end
 
@@ -483,6 +483,11 @@ deleteAppFromWhitelist:
 	-
 	extract3
 	swap
+	frame_dig -6 // whitelist: Whitelist
+	dup
+	box_del
+	pop
+	swap
 	dup
 	len
 	int 8
@@ -491,11 +496,6 @@ deleteAppFromWhitelist:
 	extract 6 2
 	swap
 	concat
-	frame_dig -6 // whitelist: Whitelist
-	dup
-	box_del
-	pop
-	swap
 	box_put
 	frame_bury -7 // spliced: uint64[]
 

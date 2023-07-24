@@ -49,11 +49,6 @@
           "name": "payment",
           "type": "pay",
           "desc": ""
-        },
-        {
-          "name": "previousBidder",
-          "type": "account",
-          "desc": ""
         }
       ],
       "desc": "",
@@ -63,7 +58,7 @@
       }
     },
     {
-      "name": "claimBid",
+      "name": "claimBids",
       "args": [],
       "desc": "",
       "returns": {
@@ -77,11 +72,6 @@
         {
           "name": "asset",
           "type": "asset",
-          "desc": ""
-        },
-        {
-          "name": "assetCreator",
-          "type": "account",
           "desc": ""
         }
       ],

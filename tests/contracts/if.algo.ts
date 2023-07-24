@@ -56,4 +56,19 @@ class IfTest extends Contract {
       log('else');
     }
   }
+
+  nestedIf(bool1: boolean, bool2: boolean): string {
+    let retStr: string;
+
+    if (bool1) {
+      retStr = 'if';
+      if (bool2) {
+        retStr = 'nested if';
+      }
+    } else {
+      retStr = 'else';
+    }
+
+    return retStr;
+  }
 }
