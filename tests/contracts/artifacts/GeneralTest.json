@@ -4,6 +4,11 @@
       "call_config": {
         "no_op": "CALL"
       }
+    },
+    "txnGroupLength()uint64": {
+      "call_config": {
+        "no_op": "CALL"
+      }
     }
   },
   "bare_call_config": {
@@ -30,7 +35,7 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3R4blR5cGVFbnVtOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCWNhbGxzdWIgdHhuVHlwZUVudW0KCWludCAxCglyZXR1cm4KCnR4blR5cGVFbnVtOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czo2CgkvLyBhc3NlcnQodGhpcy50eG5Hcm91cFswXS50eXBlRW51bSA9PT0gVHJhbnNhY3Rpb25UeXBlLlBheW1lbnQpCglpbnQgMAoJZ3R4bnMgVHlwZUVudW0KCWludCBwYXkKCT09Cglhc3NlcnQKCXJldHN1YgoKbWFpbjoKCXR4biBOdW1BcHBBcmdzCglibnogcm91dGVfYWJpCgoJLy8gZGVmYXVsdCBjcmVhdGVBcHBsaWNhdGlvbgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09CgkmJgoJcmV0dXJuCgpyb3V0ZV9hYmk6CgltZXRob2QgInR4blR5cGVFbnVtKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX3R4blR5cGVFbnVtCgllcnI=",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKYWJpX3JvdXRlX3R4blR5cGVFbnVtOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCWNhbGxzdWIgdHhuVHlwZUVudW0KCWludCAxCglyZXR1cm4KCnR4blR5cGVFbnVtOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czo2CgkvLyBhc3NlcnQodGhpcy50eG5Hcm91cFswXS50eXBlRW51bSA9PT0gVHJhbnNhY3Rpb25UeXBlLlBheW1lbnQpCglpbnQgMAoJZ3R4bnMgVHlwZUVudW0KCWludCBwYXkKCT09Cglhc3NlcnQKCXJldHN1YgoKYWJpX3JvdXRlX3R4bkdyb3VwTGVuZ3RoOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCWNhbGxzdWIgdHhuR3JvdXBMZW5ndGgKCWludCAxCglyZXR1cm4KCnR4bkdyb3VwTGVuZ3RoOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czoxMAoJLy8gcmV0dXJuIHRoaXMudHhuR3JvdXAubGVuZ3RoOwoJZ2xvYmFsIEdyb3VwU2l6ZQoJaXRvYgoJYnl0ZSAweDE1MWY3Yzc1Cglzd2FwCgljb25jYXQKCWxvZwoJcmV0c3ViCgptYWluOgoJdHhuIE51bUFwcEFyZ3MKCWJueiByb3V0ZV9hYmkKCgkvLyBkZWZhdWx0IGNyZWF0ZUFwcGxpY2F0aW9uCgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09Cgl0eG4gT25Db21wbGV0aW9uCglpbnQgTm9PcAoJPT0KCSYmCglyZXR1cm4KCnJvdXRlX2FiaToKCW1ldGhvZCAidHhuVHlwZUVudW0oKXZvaWQiCgltZXRob2QgInR4bkdyb3VwTGVuZ3RoKCl1aW50NjQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfdHhuVHlwZUVudW0gYWJpX3JvdXRlX3R4bkdyb3VwTGVuZ3RoCgllcnI=",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
   },
   "contract": {
@@ -43,6 +48,15 @@
         "desc": "",
         "returns": {
           "type": "void",
+          "desc": ""
+        }
+      },
+      {
+        "name": "txnGroupLength",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "uint64",
           "desc": ""
         }
       }

@@ -45,24 +45,18 @@ startUpload:
 
 	// examples/big_box/big_box.algo.ts:25
 	// dataInfo: DataInfo = {
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x0019 // initial head offset
 	frame_dig -5 // startBox: uint64
 	itob
-	callsub process_static_tuple_element
 	frame_dig -6 // endBox: uint64
 	itob
-	callsub process_static_tuple_element
+	concat
 	int 0
 	itob
 	extract 7 0
-	callsub process_static_tuple_element
+	concat
 	frame_dig -3 // endBoxSize: uint64
 	itob
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
+	concat
 	frame_bury -7 // dataInfo: DataInfo
 
 	// examples/big_box/big_box.algo.ts:29
@@ -350,8 +344,6 @@ skip_or1:
 
 	// examples/big_box/big_box.algo.ts:62
 	// this.info.get(name).status = status
-	// examples/big_box/big_box.algo.ts:1
-	// this.info.get(name)
 	frame_dig -1 // name: bytes
 	box_get
 	assert
@@ -389,12 +381,3 @@ route_abi:
 	txna ApplicationArgs 0
 	match abi_route_startUpload abi_route_upload abi_route_setStatus
 	err
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub

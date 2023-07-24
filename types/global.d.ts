@@ -515,6 +515,7 @@ interface AppParams extends CommonTransactionParams {
   globalNumUint?: uint64
   localNumByteSlice?: uint64
   localNumUint?: uint64
+  extraProgramPages?: uint64
 }
 
 interface KeyRegParams extends CommonTransactionParams {

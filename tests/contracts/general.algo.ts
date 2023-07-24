@@ -5,4 +5,8 @@ class GeneralTest extends Contract {
   txnTypeEnum(): void {
     assert(this.txnGroup[0].typeEnum === TransactionType.Payment);
   }
+
+  txnGroupLength(): uint64 {
+    return this.txnGroup.length;
+  }
 }

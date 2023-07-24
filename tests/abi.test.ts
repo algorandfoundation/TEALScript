@@ -673,4 +673,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
   });
+
+  test.concurrent('objectRef', async () => {
+    const { appClient } = await compileAndCreate('objectRef');
+
+    expect(await runMethod(appClient, 'objectRef')).toEqual([2n]);
+  });
 });

@@ -154,8 +154,6 @@ updateContactField:
 	// if0_consequent
 	// examples/tuple_in_box/app.algo.ts:25
 	// this.contacts.get(address).name = value
-	// examples/tuple_in_box/app.algo.ts:1
-	// this.contacts.get(address)
 	frame_dig -3 // address: address
 	box_get
 	assert
@@ -229,8 +227,6 @@ if0_elseif1_condition:
 	// if0_elseif1_consequent
 	// examples/tuple_in_box/app.algo.ts:27
 	// this.contacts.get(address).company = value
-	// examples/tuple_in_box/app.algo.ts:1
-	// this.contacts.get(address)
 	frame_dig -3 // address: address
 	box_get
 	assert

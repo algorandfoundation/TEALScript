@@ -927,3 +927,15 @@ class ABITestBoolTupleUpdate extends Contract {
     return a;
   }
 }
+
+class ABITestObjectRef extends Contract {
+  objectRef(): {foo: uint64} {
+    const o: {foo: uint64} = { foo: 1 };
+
+    const r = o;
+
+    r.foo = 2;
+
+    return o;
+  }
+}

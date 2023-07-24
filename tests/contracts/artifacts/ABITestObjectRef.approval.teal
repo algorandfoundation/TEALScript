@@ -1,0 +1,68 @@
+#pragma version 8
+	b main
+
+abi_route_objectRef:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+	byte 0x
+	callsub objectRef
+	int 1
+	return
+
+objectRef:
+	proto 1 0
+
+	// tests/contracts/abi.algo.ts:933
+	// o: {foo: uint64} = { foo: 1 }
+	int 1
+	itob
+	frame_bury -1 // o: {foo: uint64}
+
+	// tests/contracts/abi.algo.ts:937
+	// r.foo = 2
+	frame_dig -1 // o: {foo: uint64}
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 2
+	itob
+	replace3
+	frame_bury -1 // r: {foo: uint64}
+
+	// tests/contracts/abi.algo.ts:939
+	// return o;
+	frame_dig -1 // o: {foo: uint64}
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+main:
+	txn NumAppArgs
+	bnz route_abi
+
+	// default createApplication
+	txn ApplicationID
+	int 0
+	==
+	txn OnCompletion
+	int NoOp
+	==
+	&&
+	return
+
+route_abi:
+	method "objectRef()(uint64)"
+	txna ApplicationArgs 0
+	match abi_route_objectRef
+	err

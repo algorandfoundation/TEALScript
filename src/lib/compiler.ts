@@ -290,7 +290,7 @@ export default class Compiler {
 
   private compilingApproval: boolean = true;
 
-  private ifCount: number = 0;
+  private ifCount: number = -1;
 
   private ternaryCount: number = 0;
 
@@ -1559,21 +1559,16 @@ export default class Compiler {
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
     const type = this.typeHint;
     if (type === undefined) throw new Error();
-    const valueArray: string[] = [];
+    const elements: ts.Expression[] = [];
 
     const objTypes = this.getObjectTypes(type);
-    const typeArray = Object.values(objTypes);
 
     node.properties.forEach((p) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
-      valueArray[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer.getText();
+      elements[Object.keys(objTypes).indexOf(p.name.getText())] = p.initializer;
     });
 
-    this.typeHint = `[${typeArray.join(',')}]`;
-    const tupleNode = stringToExpression(`[${valueArray.join(',')}]`);
-    if (!ts.isArrayLiteralExpression(tupleNode)) throw new Error();
-    this.processArrayLiteralExpression(tupleNode);
-    this.lastType = type.replace(/\s+/g, ' ');
+    this.processArrayElements(elements, node);
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
@@ -1632,22 +1627,25 @@ export default class Compiler {
     if (isDynamicArray) this.pushVoid(nodes[0], 'concat');
   }
 
-  private processTuple(node: ts.ArrayLiteralExpression) {
+  private processTuple(
+    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
+    parentNode: ts.Node,
+  ) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
     if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
 
-    const types = this.getarrayElementTypes(node.elements.length);
+    const types = this.getarrayElementTypes(elements.length);
 
     const dynamicTypes = types.filter((t) => this.isDynamicType(t));
     const staticTypes = types.filter((t) => !this.isDynamicType(t));
     const headLength = this.getTypeLength(`[${staticTypes.join(',')}]`) + dynamicTypes.length * 2;
 
     let consecutiveBools: ts.Node[] = [];
-    node.elements.forEach((e, i) => {
+    elements.forEach((e, i) => {
       if (i === 0) {
-        this.pushLines(node, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
+        this.pushLines(parentNode, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
 
       if (types[i] === 'bool') {
@@ -1679,10 +1677,10 @@ export default class Compiler {
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      this.pushVoid(node, 'callsub process_static_tuple_element');
+      this.pushVoid(parentNode, 'callsub process_static_tuple_element');
     }
 
-    this.pushLines(node, 'pop // pop head offset', 'concat // concat head and tail');
+    this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
   }
 
   private checkEncoding(node: ts.Node, type: string) {
@@ -1761,56 +1759,65 @@ export default class Compiler {
     return elem;
   }
 
+  private processArrayElements(
+    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
+    parentNode: ts.Node,
+  ) {
+    const { typeHint } = this;
+    if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
+
+    const baseType = typeHint.replace(/\[\d*\]$/, '');
+
+    if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
+      this.processTuple(elements, parentNode);
+      if (this.getABIType(typeHint).endsWith('[]')) {
+        this.pushLines(parentNode, `byte 0x${elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
+      }
+      this.lastType = this.getABIType(typeHint);
+      return;
+    }
+
+    const types = this.getarrayElementTypes(elements.length);
+    const arrayTypeHint = typeHint;
+
+    if (arrayTypeHint.match(/bool\[\d*\]$/)) {
+      this.processBools(elements, arrayTypeHint.endsWith('[]'));
+    } else {
+      elements.forEach((e, i) => {
+        this.typeHint = types[i];
+        this.processNode(e);
+        if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
+        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+        if (i) this.pushVoid(parentNode, 'concat');
+      });
+    }
+
+    const abiArrayType = this.getABIType(arrayTypeHint);
+
+    if (abiArrayType.match(/\[\d+\]$/)) {
+      const length = parseInt(abiArrayType.match(/\[\d+\]$/)![0].match(/\d+/)![0], 10);
+
+      if (length && elements.length < length) {
+        const typeLength = this.getTypeLength(baseType);
+        this.pushVoid(parentNode, `byte 0x${'00'.repeat(typeLength * (length - elements.length))}`);
+
+        if (elements.length > 0) this.pushVoid(parentNode, 'concat');
+      }
+    }
+
+    this.lastType = this.getABIType(typeHint);
+  }
+
   private processArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
-    let { typeHint } = this;
+    const { typeHint } = this;
 
     if (this.getABIType(typeHint).endsWith('[]') && node.elements.length === 0) {
       this.push(node, 'byte 0x', this.getABIType(this.typeHint));
       return;
     }
 
-    const baseType = typeHint.replace(/\[\d*\]$/, '');
-
-    if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
-      this.processTuple(node);
-      if (this.getABIType(typeHint).endsWith('[]')) {
-        this.pushLines(node, `byte 0x${node.elements.length.toString(16).padStart(4, '0')}`, 'swap', 'concat');
-      }
-      this.lastType = this.getABIType(typeHint);
-      return;
-    }
-
-    if (!this.getABIType(typeHint).includes(']')) typeHint = `${typeHint}[]`;
-
-    const types = this.getarrayElementTypes(node.elements.length);
-    const arrayTypeHint = typeHint;
-
-    if (arrayTypeHint.match(/bool\[\d*\]$/)) {
-      this.processBools(node.elements, arrayTypeHint.endsWith('[]'));
-    } else {
-      node.elements.forEach((e, i) => {
-        this.typeHint = types[i];
-        this.processNode(e);
-        if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
-        if (i) this.pushVoid(node, 'concat');
-      });
-    }
-    const typeHintNode = stringToExpression(this.getABIType(arrayTypeHint));
-
-    if (ts.isElementAccessExpression(typeHintNode)) {
-      const length = parseInt(typeHintNode.argumentExpression.getText(), 10);
-
-      if (length && node.elements.length < length) {
-        const typeLength = this.getTypeLength(baseType);
-        this.pushVoid(node, `byte 0x${'00'.repeat(typeLength * (length - node.elements.length))}`);
-
-        if (node.elements.length > 0) this.pushVoid(node, 'concat');
-      }
-    }
-
-    this.lastType = this.getABIType(typeHint);
+    this.processArrayElements(node.elements, node);
   }
 
   private getAccessChain(
@@ -1845,14 +1852,21 @@ export default class Compiler {
       currentFrame = this.frame[name];
     }
 
-    if (!load) return { name, type, accessors: accessors.reverse().flat() };
-
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
       name = currentFrame.storageExpression.getText().split('.')[1];
       type = 'storage';
       storageExpression = currentFrame.storageExpression;
+    }
+
+    if (!load) {
+      return {
+        name, type, accessors: accessors.reverse().flat(), storageExpression,
+      };
+    }
+
+    if (currentFrame.storageExpression !== undefined) {
       this.processNode(currentFrame.storageExpression);
     } else {
       this.push(
@@ -1882,7 +1896,7 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].set(node);
+          this.storageFunctions[type].set(processedFrame.storageExpression);
         }
       }
     } else if (
@@ -2416,7 +2430,6 @@ export default class Compiler {
 
         if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
 
-        console.log(this.lastType, returnType);
         this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
         this.pushVoid(node.expression!, 'b&');
 
@@ -2509,16 +2522,16 @@ export default class Compiler {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const expressionType = this.getStackTypeFromNode(node.left.expression);
+        const index = Object
+          .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
 
-        if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
-          const index = Object.keys(this.getObjectTypes(expressionType))
-            .indexOf(node.left.name.getText());
-
-          const expr = stringToExpression(`${node.left.expression.getText()}[${index}]`);
-          if (!ts.isElementAccessExpression(expr)) throw new Error();
-          this.processArrayAccess(expr, node.right);
-          return;
-        }
+        this.processNode(node.left.expression);
+        this.processParentArrayAccess(
+          node,
+          [stringToExpression(index.toString())],
+          node.left.expression,
+          node.right,
+        );
       }
 
       // TODO: Type check
@@ -2992,11 +3005,14 @@ export default class Compiler {
   private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
     let labelPrefix: string;
 
+    if (elseIfCount === 0) this.ifCount += 1;
+    const { ifCount } = this;
+
     if (elseIfCount === 0) {
-      labelPrefix = `if${this.ifCount}`;
+      labelPrefix = `if${ifCount}`;
       this.pushVoid(node, `// ${labelPrefix}_condition`);
     } else {
-      labelPrefix = `if${this.ifCount}_elseif${elseIfCount}`;
+      labelPrefix = `if${ifCount}_elseif${elseIfCount}`;
       this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
@@ -3004,30 +3020,29 @@ export default class Compiler {
     this.processNode(node.expression);
 
     if (node.elseStatement == null) {
-      this.pushVoid(node, `bz if${this.ifCount}_end`);
+      this.pushVoid(node, `bz if${ifCount}_end`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
     } else if (ts.isIfStatement(node.elseStatement)) {
-      this.pushVoid(node, `bz if${this.ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(node, `bz if${ifCount}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(node, `b if${this.ifCount}_end`);
+      this.pushVoid(node, `b if${ifCount}_end`);
       this.processIfStatement(node.elseStatement, elseIfCount + 1);
     } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
-      this.pushVoid(node, `bz if${this.ifCount}_else`);
+      this.pushVoid(node, `bz if${ifCount}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
-      this.pushVoid(node, `b if${this.ifCount}_end`);
-      this.pushVoid(node, `if${this.ifCount}_else:`);
+      this.pushVoid(node, `b if${ifCount}_end`);
+      this.pushVoid(node, `if${ifCount}_else:`);
       this.processNode(node.elseStatement);
     } else {
-      this.pushVoid(node, `bz if${this.ifCount}_end`);
+      this.pushVoid(node, `bz if${ifCount}_end`);
       this.processNode(node.elseStatement);
     }
 
     if (elseIfCount === 0) {
-      this.pushVoid(node, `if${this.ifCount}_end:`);
-      this.ifCount += 1;
+      this.pushVoid(node, `if${ifCount}_end:`);
     }
   }
 
@@ -3113,7 +3128,7 @@ export default class Compiler {
 
       if (klass.includes('Map') && !props.prefix) {
         const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
-        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map`);
+        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map. To prevent key collision, use the prefix argument in the constructor.`);
         keyTypes.push(props.keyType);
       }
 
@@ -3176,13 +3191,20 @@ export default class Compiler {
       }
 
       if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
-        if (['zeroIndex', 'zeroAddress'].includes(n.name.getText())) {
+        if (n.name.getText() === 'zeroIndex') {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
+        } else if (n.name.getText() === 'zeroAddress') {
+          this.push(n.name, 'global ZeroAddress', 'Address');
         } else if (n.name.getText() !== 'fromIndex') throw new Error();
         return;
       }
 
       if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
+        if (n.expression.getText() === 'this.txnGroup') {
+          this.push(n, 'global GroupSize', StackType.uint64);
+          return;
+        }
+
         this.processNode(n.expression);
         if (this.lastType === StackType.bytes || this.lastType === 'string') {
           this.push(n.name, 'len', StackType.uint64);
@@ -3207,9 +3229,10 @@ export default class Compiler {
       }
 
       const expressionType = this.getStackTypeFromNode(n.expression);
-      if (expressionType.startsWith('{') || this.customTypes[expressionType]) {
+      if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
         const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
-        this.processNode(stringToExpression(`${n.expression.getText()}[${index}]`));
+        this.processNode(n.expression);
+        this.processParentArrayAccess(n, [stringToExpression(index.toString())], n.expression);
         return;
       }
 

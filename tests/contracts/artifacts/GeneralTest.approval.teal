@@ -28,6 +28,34 @@ txnTypeEnum:
 	assert
 	retsub
 
+abi_route_txnGroupLength:
+	txn OnCompletion
+	int NoOp
+	==
+	txn ApplicationID
+	int 0
+	!=
+	&&
+	assert
+
+	// no dupn needed
+	callsub txnGroupLength
+	int 1
+	return
+
+txnGroupLength:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:10
+	// return this.txnGroup.length;
+	global GroupSize
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 main:
 	txn NumAppArgs
 	bnz route_abi
@@ -44,6 +72,7 @@ main:
 
 route_abi:
 	method "txnTypeEnum()void"
+	method "txnGroupLength()uint64"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum
+	match abi_route_txnTypeEnum abi_route_txnGroupLength
 	err
