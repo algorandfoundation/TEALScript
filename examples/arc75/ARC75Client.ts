@@ -84,25 +84,25 @@ export const APP_SPEC: AppSpec = {
           {
             "name": "arc",
             "type": "string",
-            "desc": ""
+            "desc": "The ARC the whitelist corresponds to"
           },
           {
             "name": "boxIndex",
             "type": "uint16",
-            "desc": ""
+            "desc": "The index of the whitelist box to add the app to"
           },
           {
             "name": "appID",
             "type": "uint64",
-            "desc": ""
+            "desc": "The app ID to add to the whitelist"
           },
           {
             "name": "payment",
             "type": "pay",
-            "desc": ""
+            "desc": "The payment transaction to cover the MBR change"
           }
         ],
-        "desc": "",
+        "desc": "Add app to whitelist box",
         "returns": {
           "type": "void",
           "desc": ""
@@ -119,15 +119,15 @@ export const APP_SPEC: AppSpec = {
           {
             "name": "boxIndex",
             "type": "uint16",
-            "desc": ""
+            "desc": "The index of the whitelist box to put the app IDs in"
           },
           {
             "name": "appIDs",
             "type": "uint64[]",
-            "desc": ""
+            "desc": "Array of app IDs that signify the whitelisted apps"
           }
         ],
-        "desc": "",
+        "desc": "Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app",
         "returns": {
           "type": "void",
           "desc": ""
@@ -139,15 +139,15 @@ export const APP_SPEC: AppSpec = {
           {
             "name": "arc",
             "type": "string",
-            "desc": ""
+            "desc": "The ARC the whitelist corresponds to"
           },
           {
             "name": "boxIndex",
             "type": "uint16",
-            "desc": ""
+            "desc": "The index of the whitelist box to delete"
           }
         ],
-        "desc": "",
+        "desc": "Deletes a app whitelist for the sender",
         "returns": {
           "type": "void",
           "desc": ""
@@ -164,20 +164,20 @@ export const APP_SPEC: AppSpec = {
           {
             "name": "boxIndex",
             "type": "uint16",
-            "desc": ""
+            "desc": "The index of the whitelist box to delete from"
           },
           {
             "name": "appID",
             "type": "uint64",
-            "desc": ""
+            "desc": "The app ID to delete from the whitelist"
           },
           {
             "name": "index",
             "type": "uint64",
-            "desc": ""
+            "desc": "The index of the app in the whitelist"
           }
         ],
-        "desc": "",
+        "desc": "Deletes a app from a whitelist for the sender",
         "returns": {
           "type": "void",
           "desc": ""
@@ -244,9 +244,21 @@ export type Arc75 = {
   methods:
     & Record<'addAppToWhiteList(string,uint16,uint64,pay)void' | 'addAppToWhiteList', {
       argsObj: {
+        /**
+         * The ARC the whitelist corresponds to
+         */
         arc: string
+        /**
+         * The index of the whitelist box to add the app to
+         */
         boxIndex: number
+        /**
+         * The app ID to add to the whitelist
+         */
         appID: bigint | number
+        /**
+         * The payment transaction to cover the MBR change
+         */
         payment: TransactionToSign | Transaction | Promise<SendTransactionResult>
       }
       argsTuple: [arc: string, boxIndex: number, appID: bigint | number, payment: TransactionToSign | Transaction | Promise<SendTransactionResult>]
@@ -255,7 +267,13 @@ export type Arc75 = {
     & Record<'setAppWhitelist(string,uint16,uint64[])void' | 'setAppWhitelist', {
       argsObj: {
         arc: string
+        /**
+         * The index of the whitelist box to put the app IDs in
+         */
         boxIndex: number
+        /**
+         * Array of app IDs that signify the whitelisted apps
+         */
         appIDs: bigint | number[]
       }
       argsTuple: [arc: string, boxIndex: number, appIDs: bigint | number[]]
@@ -263,7 +281,13 @@ export type Arc75 = {
     }>
     & Record<'deleteWhitelist(string,uint16)void' | 'deleteWhitelist', {
       argsObj: {
+        /**
+         * The ARC the whitelist corresponds to
+         */
         arc: string
+        /**
+         * The index of the whitelist box to delete
+         */
         boxIndex: number
       }
       argsTuple: [arc: string, boxIndex: number]
@@ -272,8 +296,17 @@ export type Arc75 = {
     & Record<'deleteAppFromWhitelist(string,uint16,uint64,uint64)void' | 'deleteAppFromWhitelist', {
       argsObj: {
         arc: string
+        /**
+         * The index of the whitelist box to delete from
+         */
         boxIndex: number
+        /**
+         * The app ID to delete from the whitelist
+         */
         appID: bigint | number
+        /**
+         * The index of the app in the whitelist
+         */
         index: bigint | number
       }
       argsTuple: [arc: string, boxIndex: number, appID: bigint | number, index: bigint | number]
@@ -353,6 +386,8 @@ export abstract class Arc75CallFactory {
   /**
    * Constructs a no op call for the addAppToWhiteList(string,uint16,uint64,pay)void ABI method
    *
+   * Add app to whitelist box
+   *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
@@ -366,6 +401,8 @@ export abstract class Arc75CallFactory {
   }
   /**
    * Constructs a no op call for the setAppWhitelist(string,uint16,uint64[])void ABI method
+   *
+   * Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
@@ -381,6 +418,8 @@ export abstract class Arc75CallFactory {
   /**
    * Constructs a no op call for the deleteWhitelist(string,uint16)void ABI method
    *
+   * Deletes a app whitelist for the sender
+   *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
    * @returns A TypedCallParams object for the call
@@ -394,6 +433,8 @@ export abstract class Arc75CallFactory {
   }
   /**
    * Constructs a no op call for the deleteAppFromWhitelist(string,uint16,uint64,uint64)void ABI method
+   *
+   * Deletes a app from a whitelist for the sender
    *
    * @param args Any args for the contract call
    * @param params Any additional parameters for the call
@@ -507,6 +548,8 @@ export class Arc75Client {
   /**
    * Calls the addAppToWhiteList(string,uint16,uint64,pay)void ABI method.
    *
+   * Add app to whitelist box
+   *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
@@ -517,6 +560,8 @@ export class Arc75Client {
 
   /**
    * Calls the setAppWhitelist(string,uint16,uint64[])void ABI method.
+   *
+   * Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
@@ -529,6 +574,8 @@ export class Arc75Client {
   /**
    * Calls the deleteWhitelist(string,uint16)void ABI method.
    *
+   * Deletes a app whitelist for the sender
+   *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The result of the call
@@ -539,6 +586,8 @@ export class Arc75Client {
 
   /**
    * Calls the deleteAppFromWhitelist(string,uint16,uint64,uint64)void ABI method.
+   *
+   * Deletes a app from a whitelist for the sender
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
@@ -602,6 +651,8 @@ export type Arc75Composer<TReturns extends [...any[]] = []> = {
   /**
    * Calls the addAppToWhiteList(string,uint16,uint64,pay)void ABI method.
    *
+   * Add app to whitelist box
+   *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
@@ -610,6 +661,8 @@ export type Arc75Composer<TReturns extends [...any[]] = []> = {
 
   /**
    * Calls the setAppWhitelist(string,uint16,uint64[])void ABI method.
+   *
+   * Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
@@ -620,6 +673,8 @@ export type Arc75Composer<TReturns extends [...any[]] = []> = {
   /**
    * Calls the deleteWhitelist(string,uint16)void ABI method.
    *
+   * Deletes a app whitelist for the sender
+   *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
@@ -628,6 +683,8 @@ export type Arc75Composer<TReturns extends [...any[]] = []> = {
 
   /**
    * Calls the deleteAppFromWhitelist(string,uint16,uint64,uint64)void ABI method.
+   *
+   * Deletes a app from a whitelist for the sender
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
