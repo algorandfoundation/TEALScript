@@ -8,25 +8,25 @@
         {
           "name": "arc",
           "type": "string",
-          "desc": ""
+          "desc": "The ARC the whitelist corresponds to"
         },
         {
           "name": "boxIndex",
           "type": "uint16",
-          "desc": ""
+          "desc": "The index of the whitelist box to add the app to"
         },
         {
           "name": "appID",
           "type": "uint64",
-          "desc": ""
+          "desc": "The app ID to add to the whitelist"
         },
         {
           "name": "payment",
           "type": "pay",
-          "desc": ""
+          "desc": "The payment transaction to cover the MBR change"
         }
       ],
-      "desc": "",
+      "desc": "Add app to whitelist box",
       "returns": {
         "type": "void",
         "desc": ""
@@ -43,15 +43,15 @@
         {
           "name": "boxIndex",
           "type": "uint16",
-          "desc": ""
+          "desc": "The index of the whitelist box to put the app IDs in"
         },
         {
           "name": "appIDs",
           "type": "uint64[]",
-          "desc": ""
+          "desc": "Array of app IDs that signify the whitelisted apps"
         }
       ],
-      "desc": "",
+      "desc": "Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app",
       "returns": {
         "type": "void",
         "desc": ""
@@ -63,15 +63,15 @@
         {
           "name": "arc",
           "type": "string",
-          "desc": ""
+          "desc": "The ARC the whitelist corresponds to"
         },
         {
           "name": "boxIndex",
           "type": "uint16",
-          "desc": ""
+          "desc": "The index of the whitelist box to delete"
         }
       ],
-      "desc": "",
+      "desc": "Deletes a app whitelist for the sender",
       "returns": {
         "type": "void",
         "desc": ""
@@ -88,20 +88,20 @@
         {
           "name": "boxIndex",
           "type": "uint16",
-          "desc": ""
+          "desc": "The index of the whitelist box to delete from"
         },
         {
           "name": "appID",
           "type": "uint64",
-          "desc": ""
+          "desc": "The app ID to delete from the whitelist"
         },
         {
           "name": "index",
           "type": "uint64",
-          "desc": ""
+          "desc": "The index of the app in the whitelist"
         }
       ],
-      "desc": "",
+      "desc": "Deletes a app from a whitelist for the sender",
       "returns": {
         "type": "void",
         "desc": ""

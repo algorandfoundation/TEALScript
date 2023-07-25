@@ -6,6 +6,7 @@ import * as vlq from 'vlq';
 import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
+import * as tsdoc from '@microsoft/tsdoc';
 import * as langspec from '../langspec.json';
 
 export type CompilerOptions = {
@@ -64,6 +65,22 @@ class TupleElement extends Array<TupleElement> {
     elements.forEach((e: TupleElement) => { e.parent = this; });
     return this.push(...elements);
   }
+}
+
+// https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
+function renderDocNode(docNode: tsdoc.DocNode): string {
+  let result: string = '';
+  if (docNode) {
+    if (docNode instanceof tsdoc.DocExcerpt) {
+      result += docNode.content.toString();
+    }
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const childNode of docNode.getChildNodes()) {
+      result += renderDocNode(childNode);
+    }
+  }
+  return result.trim();
 }
 
 function stringToExpression(str: string): ts.Expression {
@@ -284,7 +301,13 @@ export default class Compiler {
 
   private frameSize: {[methodName: string]: number} = {};
 
-  private subroutines: {[methodName: string]: {returnType: string, args: number}} = {};
+  private subroutines: {
+    [methodName: string]: {
+      returnType: string,
+      args: number,
+      comment?: string
+    }
+  } = {};
 
   private clearStateCompiled: boolean = false;
 
@@ -1355,6 +1378,30 @@ export default class Compiler {
       args: m.args.map((a) => ({ ...a, type: this.getABITupleString(a.type) })),
       returns: { ...m.returns, type: this.getABITupleString(m.returns.type) },
     }));
+
+    this.abi.methods.forEach((method) => {
+      const m = method;
+
+      const { comment } = this.subroutines[m.name];
+      if (comment === undefined) return;
+
+      const tsdocParser = new tsdoc.TSDocParser();
+      const { docComment } = tsdocParser.parseString(comment);
+
+      m.desc = renderDocNode(docComment.summarySection);
+
+      docComment.params.blocks.forEach((p) => {
+        const arg = m.args.find((a) => a.name === p.parameterName);
+
+        if (arg === undefined) throw new Error(`${p.parameterName} is not an argument of ${m.name}`);
+
+        arg.desc = renderDocNode(p.content);
+      });
+
+      if (docComment.returnsBlock) {
+        m.returns.desc = renderDocNode(docComment.returnsBlock.content);
+      }
+    });
   }
 
   private push(node: ts.Node, teal: string, type: string) {
@@ -2422,6 +2469,13 @@ export default class Compiler {
     this.currentSubroutine.returnType = returnType;
 
     this.subroutines[this.currentSubroutine.name] = { returnType, args: node.parameters.length };
+
+    const leadingCommentRanges = ts.getLeadingCommentRanges(this.sourceFile.text, node.pos) || [];
+    const headerCommentRange = leadingCommentRanges.at(-1);
+    if (headerCommentRange) {
+      const comment = this.sourceFile.text.slice(headerCommentRange.pos, headerCommentRange.end);
+      this.subroutines[this.currentSubroutine.name].comment = comment;
+    }
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
