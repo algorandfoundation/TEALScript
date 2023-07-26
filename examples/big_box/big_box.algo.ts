@@ -1,6 +1,12 @@
 import { Contract } from '../../src/lib/index';
 
-type DataInfo = {start: uint64, end: uint64, status: uint<8>, endSize: uint64};
+/*
+start - The index of the box at which the data starts
+end - The index of the box at which the data ends
+status - 0: in progress, 1: ready, 2: immutable
+endSize - The size of the last box
+*/
+type Metadata = {start: uint64, end: uint64, status: uint<8>, endSize: uint64};
 
 const IN_PROGRESS = 0 as uint<8>;
 const READY = 1 as uint<8>;
@@ -12,23 +18,41 @@ const MAX_BOX_SIZE = 32768;
 
 // eslint-disable-next-line no-unused-vars
 class BigBox extends Contract {
+  // The boxes that contain the data, indexed by uint64
   dataBoxes = new BoxMap<uint64, bytes>();
 
-  info = new BoxMap<bytes, DataInfo>();
+  // Metadata for a given data identifier
+  // The data identifier can be any string up to 64 bytes
+  metadata = new BoxMap<string, Metadata>();
 
+  // The index of the next box to be created
   currentIndex = new GlobalStateKey<uint64>();
 
-  startUpload(name: string, numBoxes: uint64, endBoxSize: uint64, mbrPayment: PayTxn): void {
+  /**
+   *
+   * Allocate boxes to begin data upload process
+   *
+   * @param dataIdentifier The unique identifier for the data
+   * @param numBoxes The number of boxes that the data will take up
+   * @param endBoxSize The size of the last box
+   * @param mbrPayment Payment from the uploader to cover the box MBR
+   */
+  startUpload(
+    dataIdentifier: string,
+    numBoxes: uint64,
+    endBoxSize: uint64,
+    mbrPayment: PayTxn,
+  ): void {
     const startBox = this.currentIndex.get();
     const endBox = startBox + numBoxes - 1;
 
-    const dataInfo: DataInfo = {
+    const metadata: Metadata = {
       start: startBox, end: endBox, status: IN_PROGRESS, endSize: endBoxSize,
     };
 
-    assert(!this.info.exists(name));
+    assert(!this.metadata.exists(dataIdentifier));
 
-    this.info.set(name, dataInfo);
+    this.metadata.set(dataIdentifier, metadata);
 
     this.currentIndex.set(endBox + 1);
 
@@ -41,24 +65,40 @@ class BigBox extends Contract {
     assert(mbrPayment.receiver === this.app.address);
   }
 
-  upload(name: string, boxIndex: uint64, offset: uint64, data: bytes): void {
-    const dataInfo = this.info.get(name);
-    assert(dataInfo.status === IN_PROGRESS);
-    assert(dataInfo.start <= boxIndex && boxIndex <= dataInfo.end);
+  /**
+   *
+   * Upload data to a specific offset in a box
+   *
+   * @param dataIdentifier The unique identifier for the data
+   * @param boxIndex The index of the box to upload the given chunk of data to
+   * @param offset The offset within the box to start writing the data
+   * @param data The data to write
+   */
+  upload(dataIdentifier: string, boxIndex: uint64, offset: uint64, data: bytes): void {
+    const metadata = this.metadata.get(dataIdentifier);
+    assert(metadata.status === IN_PROGRESS);
+    assert(metadata.start <= boxIndex && boxIndex <= metadata.end);
 
     if (offset === 0) {
-      this.dataBoxes.create(boxIndex, boxIndex === dataInfo.end ? dataInfo.endSize : MAX_BOX_SIZE);
+      this.dataBoxes.create(boxIndex, boxIndex === metadata.end ? metadata.endSize : MAX_BOX_SIZE);
     }
 
     this.dataBoxes.replace(boxIndex, offset, data);
   }
 
-  setStatus(name: string, status: uint<8>): void {
-    const currentStatus = this.info.get(name).status;
+  /**
+   *
+   * Set the status of the data
+   *
+   * @param dataIdentifier The unique identifier for the data
+   * @param status The new status for the data
+   */
+  setStatus(dataIdentifier: string, status: uint<8>): void {
+    const currentStatus = this.metadata.get(dataIdentifier).status;
 
     assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS);
     assert(currentStatus !== IMMUTABLE);
 
-    this.info.get(name).status = status;
+    this.metadata.get(dataIdentifier).status = status;
   }
 }

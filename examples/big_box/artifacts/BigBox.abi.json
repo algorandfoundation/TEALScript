@@ -6,27 +6,27 @@
       "name": "startUpload",
       "args": [
         {
-          "name": "name",
+          "name": "dataIdentifier",
           "type": "string",
-          "desc": ""
+          "desc": "The unique identifier for the data"
         },
         {
           "name": "numBoxes",
           "type": "uint64",
-          "desc": ""
+          "desc": "The number of boxes that the data will take up"
         },
         {
           "name": "endBoxSize",
           "type": "uint64",
-          "desc": ""
+          "desc": "The size of the last box"
         },
         {
           "name": "mbrPayment",
           "type": "pay",
-          "desc": ""
+          "desc": "Payment from the uploader to cover the box MBR"
         }
       ],
-      "desc": "",
+      "desc": "Allocate boxes to begin data upload process",
       "returns": {
         "type": "void",
         "desc": ""
@@ -36,27 +36,27 @@
       "name": "upload",
       "args": [
         {
-          "name": "name",
+          "name": "dataIdentifier",
           "type": "string",
-          "desc": ""
+          "desc": "The unique identifier for the data"
         },
         {
           "name": "boxIndex",
           "type": "uint64",
-          "desc": ""
+          "desc": "The index of the box to upload the given chunk of data to"
         },
         {
           "name": "offset",
           "type": "uint64",
-          "desc": ""
+          "desc": "The offset within the box to start writing the data"
         },
         {
           "name": "data",
           "type": "byte[]",
-          "desc": ""
+          "desc": "The data to write"
         }
       ],
-      "desc": "",
+      "desc": "Upload data to a specific offset in a box",
       "returns": {
         "type": "void",
         "desc": ""
@@ -66,17 +66,17 @@
       "name": "setStatus",
       "args": [
         {
-          "name": "name",
+          "name": "dataIdentifier",
           "type": "string",
-          "desc": ""
+          "desc": "The unique identifier for the data"
         },
         {
           "name": "status",
           "type": "uint8",
-          "desc": ""
+          "desc": "The new status for the data"
         }
       ],
-      "desc": "",
+      "desc": "Set the status of the data",
       "returns": {
         "type": "void",
         "desc": ""
