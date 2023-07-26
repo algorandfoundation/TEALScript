@@ -57,7 +57,7 @@ doMath:
 	proto 4 0
 
 	// if0_condition
-	// examples/calculator/calculator.algo.ts:16
+	// examples/calculator/calculator.algo.ts:25
 	// operation === 'sum'
 	frame_dig -3 // operation: bytes
 	byte "sum"
@@ -65,7 +65,7 @@ doMath:
 	bz if0_elseif1_condition
 
 	// if0_consequent
-	// examples/calculator/calculator.algo.ts:17
+	// examples/calculator/calculator.algo.ts:26
 	// result = this.getSum(a, b)
 	// no dupn needed
 	frame_dig -2 // b: uint64
@@ -75,7 +75,7 @@ doMath:
 	b if0_end
 
 if0_elseif1_condition:
-	// examples/calculator/calculator.algo.ts:18
+	// examples/calculator/calculator.algo.ts:27
 	// operation === 'difference'
 	frame_dig -3 // operation: bytes
 	byte "difference"
@@ -83,7 +83,7 @@ if0_elseif1_condition:
 	bz if0_else
 
 	// if0_elseif1_consequent
-	// examples/calculator/calculator.algo.ts:19
+	// examples/calculator/calculator.algo.ts:28
 	// result = this.getDifference(a, b)
 	// no dupn needed
 	frame_dig -2 // b: uint64
@@ -96,7 +96,7 @@ if0_else:
 	err // 'Invalid operation'
 
 if0_end:
-	// examples/calculator/calculator.algo.ts:22
+	// examples/calculator/calculator.algo.ts:31
 	// return result;
 	frame_dig -4 // result: uint64
 	itob
