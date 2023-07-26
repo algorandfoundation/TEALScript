@@ -4,7 +4,7 @@ This is an example contract that is designed to make uploading large amounts of 
 
 [big_box.algo.ts](./big_box.algo.ts) is the contract that is used to store the data. The process of uploading data is as follows:
 
-1. Call the `startUpload` netgid with the following arguments and an atomic MBR payment for the boxes
+1. Call the `startUpload` method with the following arguments and an atomic MBR payment for the boxes
    1. A unique identifier for the data
    2. The number of boxes the data will take up
    3. The size of the last box
