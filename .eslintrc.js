@@ -44,6 +44,7 @@ module.exports = {
         'no-bitwise': 'off',
         'operator-assignment': 'off',
         'prefer-template': 'off',
+        'prefer-destructuring': 'off',
       },
     },
     {
