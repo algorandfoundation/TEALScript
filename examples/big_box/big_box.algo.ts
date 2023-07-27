@@ -23,7 +23,7 @@ class BigBox extends Contract {
 
   // Metadata for a given data identifier
   // The data identifier can be any string up to 64 bytes
-  metadata = new BoxMap<string, Metadata>();
+  metadata = new BoxMap<bytes, Metadata>();
 
   // The index of the next box to be created
   currentIndex = new GlobalStateKey<uint64>();
