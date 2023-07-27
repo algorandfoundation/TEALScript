@@ -1615,8 +1615,8 @@ export default class Compiler {
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
       else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
-      else if (node.kind === ts.SyntaxKind.TrueKeyword) this.pushVoid(node, 'int 1');
-      else if (node.kind === ts.SyntaxKind.FalseKeyword) this.pushVoid(node, 'int 0');
+      else if (node.kind === ts.SyntaxKind.TrueKeyword) this.push(node, 'int 1', 'bool');
+      else if (node.kind === ts.SyntaxKind.FalseKeyword) this.push(node, 'int 0', 'bool');
       else throw new Error(`Unknown node type: ${ts.SyntaxKind[node.kind]} (${node.kind})`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -2741,6 +2741,16 @@ export default class Compiler {
 
   private processTSAsExpression(node: ts.AsExpression) {
     this.typeHint = this.getABIType(node.type.getText());
+    const type = this.getABIType(node.type.getText());
+
+    if (ts.isStringLiteral(node.expression)) {
+      const width = parseInt(type.match(/\d+/)![0], 10);
+      const str = node.expression.text.padEnd(width);
+      if (str.length > width) throw new Error(`String literal too long for ${type}`);
+      this.push(node, `byte "${str}"`, type);
+      return;
+    }
+
     this.processNode(node.expression);
 
     if (this.lastType === 'any') {
@@ -2748,7 +2758,6 @@ export default class Compiler {
       return;
     }
 
-    const type = this.getABIType(node.type.getText());
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
@@ -4108,7 +4117,7 @@ export default class Compiler {
         return;
       }
 
-      const isLabel = t.split('//')[0].endsWith(':');
+      const isLabel = !t.startsWith('byte ') && t.split('//')[0].endsWith(':');
 
       if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
 
