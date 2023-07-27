@@ -20,7 +20,7 @@ abi_route_arc72_ownerOf:
 arc72_ownerOf:
 	proto 1 0
 
-	// examples/arc72/arc72.algo.ts:24
+	// examples/arc72/arc72.algo.ts:25
 	// return this.tokenBox.get(tokenId).owner;
 	frame_dig -1 // tokenId: uint256
 	box_get
@@ -61,7 +61,7 @@ abi_route_arc72_tokenURI:
 arc72_tokenURI:
 	proto 1 0
 
-	// examples/arc72/arc72.algo.ts:35
+	// examples/arc72/arc72.algo.ts:37
 	// return this.tokenBox.get(tokenId).uri;
 	frame_dig -1 // tokenId: uint256
 	box_get
@@ -86,7 +86,7 @@ arc72_tokenURI:
 transferTo:
 	proto 2 0
 
-	// examples/arc72/arc72.algo.ts:39
+	// examples/arc72/arc72.algo.ts:41
 	// this.tokenBox.get(tokenId).owner = to
 	frame_dig -2 // tokenId: uint256
 	box_get
@@ -124,12 +124,12 @@ abi_route_arc72_transferFrom:
 arc72_transferFrom:
 	proto 5 0
 
-	// examples/arc72/arc72.algo.ts:46
+	// examples/arc72/arc72.algo.ts:48
 	// token = this.tokenBox.get(tokenId)
 	frame_dig -3 // tokenId: uint256
 	frame_bury -4 // storage key//token
 
-	// examples/arc72/arc72.algo.ts:48
+	// examples/arc72/arc72.algo.ts:50
 	// key: Control = { owner: this.txn.sender, controller: _from }
 	txn Sender
 	frame_dig -1 // _from: address
@@ -137,7 +137,7 @@ arc72_transferFrom:
 	frame_bury -5 // key: Control
 
 	// if0_condition
-	// examples/arc72/arc72.algo.ts:51
+	// examples/arc72/arc72.algo.ts:53
 	// this.txn.sender === _from
 	txn Sender
 	frame_dig -1 // _from: address
@@ -172,7 +172,7 @@ skip_or1:
 	bz if0_else
 
 	// if0_consequent
-	// examples/arc72/arc72.algo.ts:55
+	// examples/arc72/arc72.algo.ts:57
 	// this.transferTo(to, tokenId)
 	// no dupn needed
 	frame_dig -3 // tokenId: uint256
@@ -206,7 +206,7 @@ abi_route_arc72_approve:
 arc72_approve:
 	proto 2 0
 
-	// examples/arc72/arc72.algo.ts:67
+	// examples/arc72/arc72.algo.ts:69
 	// this.tokenBox.get(tokenId).controller = approved
 	frame_dig -2 // tokenId: uint256
 	box_get
@@ -245,7 +245,7 @@ abi_route_arc72_setApprovalForAll:
 arc72_setApprovalForAll:
 	proto 3 0
 
-	// examples/arc72/arc72.algo.ts:79
+	// examples/arc72/arc72.algo.ts:81
 	// key: Control = { owner: this.txn.sender, controller: operator }
 	txn Sender
 	frame_dig -1 // operator: address
@@ -253,13 +253,13 @@ arc72_setApprovalForAll:
 	frame_bury -3 // key: Control
 
 	// if1_condition
-	// examples/arc72/arc72.algo.ts:81
+	// examples/arc72/arc72.algo.ts:83
 	// approved
 	frame_dig -2 // approved: bool
 	bz if1_elseif1_condition
 
 	// if1_consequent
-	// examples/arc72/arc72.algo.ts:81
+	// examples/arc72/arc72.algo.ts:83
 	// this.controlBox.set(key, '')
 	frame_dig -3 // key: Control
 	dup
@@ -276,7 +276,7 @@ arc72_setApprovalForAll:
 	b if1_end
 
 if1_elseif1_condition:
-	// examples/arc72/arc72.algo.ts:82
+	// examples/arc72/arc72.algo.ts:84
 	// this.controlBox.exists(key)
 	frame_dig -3 // key: Control
 	box_len
@@ -285,7 +285,7 @@ if1_elseif1_condition:
 	bz if1_end
 
 	// if1_elseif1_consequent
-	// examples/arc72/arc72.algo.ts:82
+	// examples/arc72/arc72.algo.ts:84
 	// this.controlBox.delete(key)
 	frame_dig -3 // key: Control
 	box_del
@@ -311,13 +311,13 @@ abi_route_mint:
 mint:
 	proto 3 0
 
-	// examples/arc72/arc72.algo.ts:86
+	// examples/arc72/arc72.algo.ts:88
 	// index = this.index.get()
 	byte "index"
 	app_global_get
 	frame_bury -2 // index: uint256
 
-	// examples/arc72/arc72.algo.ts:88
+	// examples/arc72/arc72.algo.ts:90
 	// token: Token = {
 	frame_dig -1 // to: address
 	byte "https://github.com/algorandfoundation/ARCs                                                                                                                                                                                                                      "
@@ -326,20 +326,20 @@ mint:
 	concat
 	frame_bury -3 // token: Token
 
-	// examples/arc72/arc72.algo.ts:94
+	// examples/arc72/arc72.algo.ts:96
 	// this.tokenBox.set(index, token)
 	frame_dig -2 // index: uint256
 	frame_dig -3 // token: Token
 	box_put
 
-	// examples/arc72/arc72.algo.ts:95
+	// examples/arc72/arc72.algo.ts:97
 	// this.transferTo(to, index)
 	// no dupn needed
 	frame_dig -2 // index: uint256
 	frame_dig -1 // to: address
 	callsub transferTo
 
-	// examples/arc72/arc72.algo.ts:96
+	// examples/arc72/arc72.algo.ts:98
 	// this.index.set(index + (1 as uint<256>))
 	byte "index"
 	frame_dig -2 // index: uint256
@@ -369,7 +369,7 @@ abi_route_arc72_totalSupply:
 arc72_totalSupply:
 	proto 0 0
 
-	// examples/arc72/arc72.algo.ts:103
+	// examples/arc72/arc72.algo.ts:106
 	// return this.index.get();
 	byte "index"
 	app_global_get
@@ -400,7 +400,7 @@ abi_route_arc72_tokenByIndex:
 arc72_tokenByIndex:
 	proto 1 0
 
-	// examples/arc72/arc72.algo.ts:110
+	// examples/arc72/arc72.algo.ts:114
 	// return index;
 	frame_dig -1 // index: uint256
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

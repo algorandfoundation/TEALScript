@@ -4,6 +4,7 @@
   "methods": [
     {
       "name": "arc72_ownerOf",
+      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -19,6 +20,7 @@
     },
     {
       "name": "arc72_tokenURI",
+      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -34,6 +36,7 @@
     },
     {
       "name": "arc72_transferFrom",
+      "readonly": false,
       "args": [
         {
           "name": "_from",
@@ -59,6 +62,7 @@
     },
     {
       "name": "arc72_approve",
+      "readonly": false,
       "args": [
         {
           "name": "approved",
@@ -79,6 +83,7 @@
     },
     {
       "name": "arc72_setApprovalForAll",
+      "readonly": false,
       "args": [
         {
           "name": "operator",
@@ -99,6 +104,7 @@
     },
     {
       "name": "mint",
+      "readonly": false,
       "args": [
         {
           "name": "to",
@@ -114,6 +120,7 @@
     },
     {
       "name": "arc72_totalSupply",
+      "readonly": true,
       "args": [],
       "desc": "Returns the number of NFTs currently defined by this contract",
       "returns": {
@@ -123,6 +130,7 @@
     },
     {
       "name": "arc72_tokenByIndex",
+      "readonly": true,
       "args": [
         {
           "name": "index",

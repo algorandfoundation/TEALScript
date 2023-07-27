@@ -234,7 +234,8 @@ interface StorageProp {
 interface Subroutine {
   name: string;
   returnType: string;
-  decorators?: string[];
+  handles: string[];
+  readonly: boolean;
 }
 
 // These should probably be types rather than strings?
@@ -338,7 +339,9 @@ export default class Compiler {
     }
   } = {};
 
-  private currentSubroutine: Subroutine = { name: '', returnType: '' };
+  private currentSubroutine: Subroutine = {
+    name: '', returnType: '', readonly: false, handles: [],
+  };
 
   private bareOnCompletes: string[] = [];
 
@@ -351,6 +354,7 @@ export default class Compiler {
     desc: string,
     methods: {
       name: string,
+      readonly?: boolean,
       desc: string,
       args: {name: string, type: string, desc: string}[],
       returns: {type: string, desc: string},
@@ -2461,6 +2465,8 @@ export default class Compiler {
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
+    this.currentSubroutine.readonly = false;
+
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
     this.currentSubroutine.name = node.name.getText();
 
@@ -2468,7 +2474,10 @@ export default class Compiler {
     if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
     this.currentSubroutine.returnType = returnType;
 
-    this.subroutines[this.currentSubroutine.name] = { returnType, args: node.parameters.length };
+    this.subroutines[this.currentSubroutine.name] = {
+      returnType,
+      args: node.parameters.length,
+    };
 
     const leadingCommentRanges = ts.getLeadingCommentRanges(this.sourceFile.text, node.pos) || [];
     const headerCommentRange = leadingCommentRanges.at(-1);
@@ -2485,17 +2494,26 @@ export default class Compiler {
     }
 
     this.handledActions[this.currentSubroutine.name] = [];
-    this.currentSubroutine.decorators = (ts.getDecorators(node) || []).map(
+    this.currentSubroutine.handles = [];
+
+    (ts.getDecorators(node) || []).forEach(
       (d) => {
-        const err = new Error(`Unknown decorator ${d.expression.getText()}`);
-        if (!ts.isPropertyAccessExpression(d.expression)) throw err;
-        if (d.expression.expression.getText() !== 'handle') throw err;
+        if (!ts.isPropertyAccessExpression(d.expression)) throw Error(`Unknown decorator ${d.expression.getText()}`);
+        const decoratorClass = d.expression.expression.getText();
+
+        if (decoratorClass === 'abi') {
+          if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.expression.getText()}`);
+          this.currentSubroutine.readonly = true;
+          return;
+        }
+
+        if (decoratorClass !== 'handle') throw Error(`Unknown decorator ${d.expression.getText()}`);
 
         const handledAction = d.expression.name.getText();
         if (Object.values(this.handledActions).flat().includes(handledAction)) throw new Error(`Action ${handledAction} is already handled by another method`);
 
         this.handledActions[this.currentSubroutine.name].push(handledAction);
-        return handledAction;
+        this.currentSubroutine.handles.push(handledAction);
       },
     );
 
@@ -3515,7 +3533,7 @@ export default class Compiler {
     let isClearState: boolean = false;
     const allowedOnCompletes: string[] = [];
 
-    this.currentSubroutine.decorators?.forEach((d, i) => {
+    this.currentSubroutine.handles?.forEach((d, i) => {
       switch (d) {
         case 'createApplication':
           allowCreate = true;
@@ -3551,7 +3569,7 @@ export default class Compiler {
     const argCount = fn.parameters.length;
 
     const bareMethod: boolean = argCount === 0
-      && !!this.currentSubroutine.decorators?.length
+      && !!this.currentSubroutine.handles?.length
       && this.currentSubroutine.returnType === 'void';
 
     // bare method
@@ -3615,6 +3633,7 @@ export default class Compiler {
     if (!bareMethod) {
       this.abi.methods.push({
         name: this.currentSubroutine.name,
+        readonly: this.currentSubroutine.readonly || undefined,
         args: args.reverse(),
         desc: '',
         returns: { type: returnType, desc: '' },
