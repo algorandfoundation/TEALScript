@@ -1471,7 +1471,9 @@ export default class Compiler {
       this.pushVoid(this.lastNode, 'int 1');
 
       this.pushVoid(this.lastNode, `match ${this.bareOnCompletes.map((oc) => `bare_route_${oc}`).join(' ')}`);
-    } else if (!Object.values(this.handledActions).flat().includes('createApplication')) {
+    }
+
+    if (!Object.values(this.handledActions).flat().includes('createApplication')) {
       this.pushLines(
         this.lastNode,
         '// default createApplication',
