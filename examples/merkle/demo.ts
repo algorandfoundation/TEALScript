@@ -39,6 +39,8 @@ async function main() {
   await merkleTree.appClient.create();
 
   const state = await merkleTree.appClient.getGlobalState();
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const root = Buffer.from(state.root.valueRaw).toString('hex');
 

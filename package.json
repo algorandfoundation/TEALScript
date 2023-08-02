@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.29.0",
+  "version": "0.30.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorand-devrel/TEALScript",
   "bugs": {
@@ -29,13 +29,14 @@
     "compile-calculator": "tsx ./src/bin/tealscript.ts examples/calculator/calculator.algo.ts examples/calculator/artifacts",
     "compile-merkle": "tsx ./src/bin/tealscript.ts examples/merkle/merkle.algo.ts examples/merkle/artifacts && algokitgen generate -a examples/merkle/artifacts/MerkleTree.json -o examples/merkle/MerkleTreeClient.ts",
     "compile-big_box": "tsx ./src/bin/tealscript.ts examples/big_box/big_box.algo.ts examples/big_box/artifacts",
+    "compile-arc72": "tsx src/bin/tealscript.ts examples/arc72/arc72.algo.ts examples/arc72/artifacts",
     "run-merkle": "tsx examples/merkle/demo.ts",
     "run-tuple_in_box": "tsx ./examples/tuple_in_box/client.ts",
     "run-itxns": "tsx examples/itxns/demo.ts",
     "run-examples": "yarn run-merkle && yarn run-tuple_in_box && yarn run-itxns",
     "run-simple": "tsx examples/simple/index.ts",
     "test-examples": "jest examples/",
-    "compile-examples": "yarn compile-amm && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box",
+    "compile-examples": "yarn compile-amm && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box && compile-arc72",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples && yarn webpack-smoketest"
   },

@@ -153,6 +153,7 @@ async function runMethod(
     }
     return (await appClient.call(params)).return?.returnValue;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.warn(e);
     throw e;
   }
@@ -690,5 +691,11 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('storageRefAccount');
 
     expect(await runMethod(appClient, 'storageRefAccount')).toEqual(4n);
+  });
+
+  test.concurrent('angularCasting', async () => {
+    const { appClient } = await compileAndCreate('angularCasting');
+
+    expect(await runMethod(appClient, 'angularCasting')).toEqual(1337n);
   });
 });

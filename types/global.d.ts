@@ -672,6 +672,10 @@ declare class handle {
   static createApplication: decorator;
 }
 
+declare class abi {
+  static readonly: decorator;
+}
+
 type StaticArray<
   T extends BytesLike | IntLike | StaticArray,
   N extends number

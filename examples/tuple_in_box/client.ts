@@ -58,6 +58,7 @@ async function main() {
 
   const state = await contacts.appClient.getGlobalState();
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const myContact = decodeContactsTuple(state.myContact.valueRaw);
 
