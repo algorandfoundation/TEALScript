@@ -691,4 +691,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'storageRefAccount')).toEqual(4n);
   });
+
+  test.concurrent('angularCasting', async () => {
+    const { appClient } = await compileAndCreate('angularCasting');
+
+    expect(await runMethod(appClient, 'angularCasting')).toEqual(1337n);
+  });
 });

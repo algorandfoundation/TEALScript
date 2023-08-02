@@ -974,3 +974,11 @@ class ABITestStorageRefAccount extends Contract {
     return this.lMap.get(this.txn.sender, 0)[1];
   }
 }
+
+class ABITestAngularCasting extends Contract {
+  angularCasting(): uint<256> {
+    const x = <uint<256>>1337;
+
+    return x;
+  }
+}

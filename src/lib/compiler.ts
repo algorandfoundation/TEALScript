@@ -1591,7 +1591,8 @@ export default class Compiler {
       else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
       else if (ts.isMethodDeclaration(node)) this.processMethodDefinition(node);
       else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
-      else if (ts.isAsExpression(node)) this.processTSAsExpression(node);
+      else if (ts.isAsExpression(node)) this.processTypeCast(node);
+      else if (ts.isTypeAssertionExpression(node)) this.processTypeCast(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
       else if (ts.isArrayLiteralExpression(node)) this.processArrayLiteralExpression(node);
       else if (ts.isNonNullExpression(node)) this.processNode(node.expression);
@@ -1642,6 +1643,9 @@ export default class Compiler {
     }
 
     if (isTopLevelNode) this.nodeDepth = 0;
+  }
+
+  private processTypeAssertionExpression(node: ts.TypeAssertion) {
   }
 
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
@@ -2757,7 +2761,7 @@ export default class Compiler {
     this.lastType = this.getABIType(node.expression.getText());
   }
 
-  private processTSAsExpression(node: ts.AsExpression) {
+  private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     this.typeHint = this.getABIType(node.type.getText());
     const type = this.getABIType(node.type.getText());
 
