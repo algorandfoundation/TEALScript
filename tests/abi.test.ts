@@ -153,6 +153,7 @@ async function runMethod(
     }
     return (await appClient.call(params)).return?.returnValue;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.warn(e);
     throw e;
   }

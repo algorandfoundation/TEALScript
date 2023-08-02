@@ -1647,9 +1647,6 @@ export default class Compiler {
     if (isTopLevelNode) this.nodeDepth = 0;
   }
 
-  private processTypeAssertionExpression(node: ts.TypeAssertion) {
-  }
-
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
     const type = this.typeHint;
     if (type === undefined) throw new Error();
