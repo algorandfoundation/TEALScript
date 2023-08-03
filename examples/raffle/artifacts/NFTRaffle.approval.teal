@@ -1,0 +1,529 @@
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
+
+abi_route_createApplication:
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub createApplication
+	int 1
+	return
+
+createApplication:
+	proto 2 0
+
+	// examples/raffle/raffle.algo.ts:39
+	// this.randomnessOracle.value = randomnessOracle
+	byte "randomnessOracle"
+	frame_dig -2 // randomnessOracle: uint64
+	app_global_put
+
+	// examples/raffle/raffle.algo.ts:40
+	// this.ticketPrice.value = ticketPrice
+	byte "ticketPrice"
+	frame_dig -1 // ticketPrice: uint64
+	app_global_put
+	retsub
+
+abi_route_setAsset:
+	// no dupn needed
+	txna ApplicationArgs 1
+	btoi
+	txnas Assets
+	callsub setAsset
+	int 1
+	return
+
+setAsset:
+	proto 1 0
+
+	// examples/raffle/raffle.algo.ts:50
+	// assert(!this.asset.exists)
+	txna Applications 0
+	byte "asset"
+	app_global_get_ex
+	swap
+	pop
+	!
+	assert
+
+	// examples/raffle/raffle.algo.ts:52
+	// sendAssetTransfer({
+	itxn_begin
+	int axfer
+	itxn_field TypeEnum
+
+	// examples/raffle/raffle.algo.ts:53
+	// assetReceiver: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field AssetReceiver
+
+	// examples/raffle/raffle.algo.ts:54
+	// xferAsset: asset
+	frame_dig -1 // asset: asset
+	itxn_field XferAsset
+
+	// examples/raffle/raffle.algo.ts:55
+	// assetAmount: 0
+	int 0
+	itxn_field AssetAmount
+
+	// examples/raffle/raffle.algo.ts:56
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+
+	// examples/raffle/raffle.algo.ts:59
+	// this.asset.value = asset
+	byte "asset"
+	frame_dig -1 // asset: asset
+	app_global_put
+	retsub
+
+abi_route_startRaffle:
+	// no dupn needed
+	txna ApplicationArgs 2
+	btoi
+	txna ApplicationArgs 1
+	btoi
+	callsub startRaffle
+	int 1
+	return
+
+startRaffle:
+	proto 2 0
+
+	// examples/raffle/raffle.algo.ts:70
+	// assert(this.app.address.assetBalance(this.asset.value) > 0)
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	byte "asset"
+	app_global_get
+	asset_holding_get AssetBalance
+	assert
+	int 0
+	>
+	assert
+
+	// examples/raffle/raffle.algo.ts:72
+	// assert(draw > end)
+	frame_dig -2 // draw: uint64
+	frame_dig -1 // end: uint64
+	>
+	assert
+
+	// examples/raffle/raffle.algo.ts:73
+	// this.endRound.value = end
+	byte "endRound"
+	frame_dig -1 // end: uint64
+	app_global_put
+
+	// examples/raffle/raffle.algo.ts:74
+	// this.drawRound.value = draw
+	byte "drawRound"
+	frame_dig -2 // draw: uint64
+	app_global_put
+	retsub
+
+abi_route_buyTickets:
+	byte 0x
+	txna ApplicationArgs 1
+	btoi
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	callsub buyTickets
+	int 1
+	return
+
+buyTickets:
+	proto 3 0
+
+	// examples/raffle/raffle.algo.ts:88
+	// assert(globals.round < this.endRound.value)
+	global Round
+	byte "endRound"
+	app_global_get
+	<
+	assert
+
+	// examples/raffle/raffle.algo.ts:89
+	// assert(quanity > 0)
+	frame_dig -2 // quanity: uint64
+	int 0
+	>
+	assert
+
+	// examples/raffle/raffle.algo.ts:91
+	// assert(payment.amount === this.ticketPrice.value * quanity)
+	frame_dig -1 // payment: pay
+	gtxns Amount
+	byte "ticketPrice"
+	app_global_get
+	frame_dig -2 // quanity: uint64
+	*
+	==
+	assert
+
+	// examples/raffle/raffle.algo.ts:92
+	// assert(payment.sender === this.txn.sender)
+	frame_dig -1 // payment: pay
+	gtxns Sender
+	txn Sender
+	==
+	assert
+
+	// examples/raffle/raffle.algo.ts:93
+	// assert(payment.receiver === this.app.address)
+	frame_dig -1 // payment: pay
+	gtxns Receiver
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	==
+	assert
+
+	// examples/raffle/raffle.algo.ts:95
+	// assert(!this.tickets(payment.sender).exists)
+	frame_dig -1 // payment: pay
+	gtxns Sender
+	box_len
+	swap
+	pop
+	!
+	assert
+
+	// examples/raffle/raffle.algo.ts:97
+	// newTotal = this.totalTickets.value + quanity + 1
+	byte "totalTickets"
+	app_global_get
+	frame_dig -2 // quanity: uint64
+	+
+	int 1
+	+
+	frame_bury -3 // newTotal: uint64
+
+	// examples/raffle/raffle.algo.ts:99
+	// this.tickets(payment.sender).value = { start: this.totalTickets.value, end: newTotal - 1 }
+	frame_dig -1 // payment: pay
+	gtxns Sender
+	byte "totalTickets"
+	app_global_get
+	itob
+	frame_dig -3 // newTotal: uint64
+	int 1
+	-
+	itob
+	concat
+	box_put
+
+	// examples/raffle/raffle.algo.ts:100
+	// this.totalTickets.value = newTotal
+	byte "totalTickets"
+	frame_dig -3 // newTotal: uint64
+	app_global_put
+	retsub
+
+abi_route_draw:
+	byte 0x
+	callsub draw
+	int 1
+	return
+
+draw:
+	proto 1 0
+
+	// examples/raffle/raffle.algo.ts:105
+	// assert(!this.winningTicket.exists)
+	txna Applications 0
+	byte "winningTicket"
+	app_global_get_ex
+	swap
+	pop
+	!
+	assert
+
+	// examples/raffle/raffle.algo.ts:107
+	// output = sendMethodCall<[uint64, bytes], bytes>({
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	method "must_get(uint64,byte[])byte[]"
+	itxn_field ApplicationArgs
+
+	// examples/raffle/raffle.algo.ts:109
+	// methodArgs: [this.drawRound.value, '']
+	byte "drawRound"
+	app_global_get
+	itob
+	itxn_field ApplicationArgs
+	byte ""
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	itxn_field ApplicationArgs
+
+	// examples/raffle/raffle.algo.ts:110
+	// applicationID: Application.fromIndex(this.randomnessOracle.value)
+	byte "randomnessOracle"
+	app_global_get
+	itxn_field ApplicationID
+
+	// examples/raffle/raffle.algo.ts:111
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// examples/raffle/raffle.algo.ts:112
+	// onCompletion: 'NoOp'
+	int NoOp
+	itxn_field OnCompletion
+	itxn_submit
+	itxn NumLogs
+	int 1
+	-
+	itxnas Logs
+	extract 4 0
+	frame_bury -1 // output: bytes
+
+	// examples/raffle/raffle.algo.ts:119
+	// this.winningTicket.value = btobigint(output) % this.totalTickets.value
+	byte "winningTicket"
+	frame_dig -1 // output: bytes
+	byte "totalTickets"
+	app_global_get
+	itob
+	b%
+	btoi
+	app_global_put
+	retsub
+
+abi_route_claim:
+	byte 0x
+	callsub claim
+	int 1
+	return
+
+claim:
+	proto 1 0
+
+	// examples/raffle/raffle.algo.ts:124
+	// ticketRange = this.tickets(this.txn.sender).value
+	txn Sender
+	frame_bury -1 // storage key//ticketRange
+
+	// examples/raffle/raffle.algo.ts:126
+	// assert(ticketRange.start <= this.winningTicket.value)
+	frame_dig -1 // storage key//ticketRange
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	byte "winningTicket"
+	app_global_get
+	<=
+	assert
+
+	// examples/raffle/raffle.algo.ts:127
+	// assert(ticketRange.end >= this.winningTicket.value)
+	frame_dig -1 // storage key//ticketRange
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	byte "winningTicket"
+	app_global_get
+	>=
+	assert
+
+	// examples/raffle/raffle.algo.ts:129
+	// sendAssetTransfer({
+	itxn_begin
+	int axfer
+	itxn_field TypeEnum
+
+	// examples/raffle/raffle.algo.ts:130
+	// assetReceiver: this.txn.sender
+	txn Sender
+	itxn_field AssetReceiver
+
+	// examples/raffle/raffle.algo.ts:131
+	// xferAsset: this.asset.value
+	byte "asset"
+	app_global_get
+	itxn_field XferAsset
+
+	// examples/raffle/raffle.algo.ts:132
+	// assetAmount: this.app.address.assetBalance(this.asset.value)
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	byte "asset"
+	app_global_get
+	asset_holding_get AssetBalance
+	assert
+	itxn_field AssetAmount
+
+	// examples/raffle/raffle.algo.ts:133
+	// assetCloseTo: this.txn.sender
+	txn Sender
+	itxn_field AssetCloseTo
+
+	// examples/raffle/raffle.algo.ts:134
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+abi_route_getRefund:
+	byte 0x; dup
+	callsub getRefund
+	int 1
+	return
+
+getRefund:
+	proto 2 0
+
+	// examples/raffle/raffle.algo.ts:144
+	// assert(!this.winningTicket.exists)
+	txna Applications 0
+	byte "winningTicket"
+	app_global_get_ex
+	swap
+	pop
+	!
+	assert
+
+	// examples/raffle/raffle.algo.ts:145
+	// assert(globals.round > this.drawRound.value + 1512)
+	global Round
+	byte "drawRound"
+	app_global_get
+	int 1512
+	+
+	>
+	assert
+
+	// examples/raffle/raffle.algo.ts:147
+	// ticketRange = this.tickets(this.txn.sender).value
+	txn Sender
+	frame_bury -1 // storage key//ticketRange
+
+	// examples/raffle/raffle.algo.ts:148
+	// ticketCount = ticketRange.end - ticketRange.start + 1
+	frame_dig -1 // storage key//ticketRange
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	frame_dig -1 // storage key//ticketRange
+	box_get
+	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
+	btoi
+	-
+	int 1
+	+
+	frame_bury -2 // ticketCount: uint64
+
+	// examples/raffle/raffle.algo.ts:150
+	// this.tickets(this.txn.sender).delete()
+	txn Sender
+	box_del
+
+	// examples/raffle/raffle.algo.ts:152
+	// sendPayment({
+	itxn_begin
+	int pay
+	itxn_field TypeEnum
+
+	// examples/raffle/raffle.algo.ts:153
+	// amount: this.ticketPrice.value * ticketCount
+	byte "ticketPrice"
+	app_global_get
+	frame_dig -2 // ticketCount: uint64
+	*
+	itxn_field Amount
+
+	// examples/raffle/raffle.algo.ts:154
+	// receiver: this.txn.sender
+	txn Sender
+	itxn_field Receiver
+
+	// examples/raffle/raffle.algo.ts:155
+	// fee: 0
+	int 0
+	itxn_field Fee
+	itxn_submit
+	retsub
+
+create_NoOp:
+	method "createApplication(uint64,uint64)void"
+	txna ApplicationArgs 0
+	match abi_route_createApplication
+	err
+
+call_NoOp:
+	method "setAsset(asset)void"
+	method "startRaffle(uint64,uint64)void"
+	method "buyTickets(pay,uint64)void"
+	method "draw()void"
+	method "claim()void"
+	method "getRefund()void"
+	txna ApplicationArgs 0
+	match abi_route_setAsset abi_route_startRaffle abi_route_buyTickets abi_route_draw abi_route_claim abi_route_getRefund
+	err
