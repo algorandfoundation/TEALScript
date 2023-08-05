@@ -4,7 +4,7 @@ TEALScript provides some decorators to allow for the handling of specific action
 
 ## Create
 
-By default, TEALScript contracts can be created a bare method call (no arguments) with the `NoOp` on complete. To add logic to the application's creation, you can use the {@link handle.createApplication handle.createApplication} decorator. If no arguments are provided to the method, the method will be the bare create logic.
+By default, TEALScript contracts can be created with a bare method call (no arguments) with the `NoOp` on complete. To add logic to the application's creation, you can use the {@link handle.createApplication handle.createApplication} decorator. If no arguments are provided to the method, the method will be the bare create logic.
 
 ### Examples
 #### Bare Create
