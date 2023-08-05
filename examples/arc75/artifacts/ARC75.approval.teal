@@ -1,16 +1,7 @@
 #pragma version 8
 	b main
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-
+abi_route_create:
 	// no dupn needed
 	callsub create
 	int 1
@@ -88,14 +79,6 @@ sendMBRPayment:
 	retsub
 
 abi_route_addAppToWhiteList:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	dupn 2
 	txn GroupIndex
@@ -212,14 +195,6 @@ if0_end:
 	retsub
 
 abi_route_setAppWhitelist:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x; dup
 	txna ApplicationArgs 3
 	extract 2 0
@@ -319,14 +294,6 @@ if1_end:
 	retsub
 
 abi_route_deleteWhitelist:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x; dup
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -381,14 +348,6 @@ deleteWhitelist:
 	retsub
 
 abi_route_deleteAppFromWhitelist:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	dupn 2
 	txna ApplicationArgs 4
@@ -525,14 +484,25 @@ deleteAppFromWhitelist:
 	retsub
 
 main:
-	txn NumAppArgs
-	bnz route_abi
 	txn ApplicationID
 	int 0
-	==
-	bnz bare_route_create
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
-route_abi:
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "addAppToWhiteList(string,uint16,uint64,pay)void"
 	method "setAppWhitelist(string,uint16,uint64[])void"
 	method "deleteWhitelist(string,uint16)void"

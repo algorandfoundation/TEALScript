@@ -2,7 +2,7 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class NFTFactory extends Contract {
-  @handle.createApplication
+  @allow.create()
   create(): void {}
 
   createNFT(name: string, unitName: string): Asset {
@@ -27,13 +27,14 @@ class NFTFactory extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
-  @handle.createApplication
+  @allow.create()
   create(): void {}
 
   mintAndGetAsset(): Asset {
-    sendAppCall({
+    sendMethodCall<[], void>({
       onCompletion: 'NoOp',
       fee: 0,
+      name: 'create',
       clearStateProgram: this.app.clearStateProgram,
       approvalProgram: NFTFactory,
     });

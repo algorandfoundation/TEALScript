@@ -2,15 +2,6 @@
 	b main
 
 abi_route_payment:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub payment
 	int 1
@@ -67,15 +58,6 @@ payment:
 	retsub
 
 abi_route_assetCreation:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub assetCreation
 	int 1
@@ -167,15 +149,6 @@ assetCreation:
 	retsub
 
 abi_route_appCall:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub appCall
 	int 1
@@ -267,15 +240,6 @@ appCall:
 	retsub
 
 abi_route_assetConfig:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub assetConfig
 	int 1
@@ -331,15 +295,6 @@ assetConfig:
 	retsub
 
 abi_route_assetFreeze:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub assetFreeze
 	int 1
@@ -379,15 +334,6 @@ assetFreeze:
 	retsub
 
 abi_route_assetTransfer:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub assetTransfer
 	int 1
@@ -441,15 +387,6 @@ assetTransfer:
 	retsub
 
 abi_route_methodCall:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub methodCall
 	int 1
@@ -503,15 +440,6 @@ methodCall:
 	retsub
 
 abi_route_onlineKeyRegistration:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub onlineKeyRegistration
 	int 1
@@ -564,15 +492,6 @@ onlineKeyRegistration:
 	retsub
 
 abi_route_offlineKeyRegistration:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub offlineKeyRegistration
 	int 1
@@ -594,21 +513,30 @@ offlineKeyRegistration:
 	itxn_submit
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "payment()void"
 	method "assetCreation()uint64"
 	method "appCall()void"

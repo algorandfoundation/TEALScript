@@ -2,15 +2,6 @@
 	b main
 
 abi_route_hasAsset:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -33,15 +24,6 @@ hasAsset:
 	retsub
 
 abi_route_assetBalance:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -63,15 +45,6 @@ assetBalance:
 	retsub
 
 abi_route_assetFrozen:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -93,15 +66,6 @@ assetFrozen:
 	retsub
 
 abi_route_hasBalance:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -123,15 +87,6 @@ hasBalance:
 	retsub
 
 abi_route_balance:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -152,15 +107,6 @@ balance:
 	retsub
 
 abi_route_minBalance:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -181,15 +127,6 @@ minBalance:
 	retsub
 
 abi_route_authAddr:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -210,15 +147,6 @@ authAddr:
 	retsub
 
 abi_route_totalNumUint:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -239,15 +167,6 @@ totalNumUint:
 	retsub
 
 abi_route_totalNumByteSlice:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -268,15 +187,6 @@ totalNumByteSlice:
 	retsub
 
 abi_route_totalExtraAppPages:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -297,15 +207,6 @@ totalExtraAppPages:
 	retsub
 
 abi_route_totalAppsCreated:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -326,15 +227,6 @@ totalAppsCreated:
 	retsub
 
 abi_route_totalAppsOptedIn:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -355,15 +247,6 @@ totalAppsOptedIn:
 	retsub
 
 abi_route_totalAssetsCreated:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -384,15 +267,6 @@ totalAssetsCreated:
 	retsub
 
 abi_route_totalAssets:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -413,15 +287,6 @@ totalAssets:
 	retsub
 
 abi_route_totalBoxes:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -442,15 +307,6 @@ totalBoxes:
 	retsub
 
 abi_route_totalBoxBytes:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -470,21 +326,30 @@ totalBoxBytes:
 	assert
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "hasAsset(account)void"
 	method "assetBalance(account)void"
 	method "assetFrozen(account)void"

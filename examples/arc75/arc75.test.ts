@@ -106,7 +106,11 @@ describe('ARC75', function () {
       algodClient,
     );
 
-    ({ appAddress, appId } = await arc75.appClient.create({ sendParams: { suppressLog: true } }));
+    await arc75.create.create({ sendParams: { suppressLog: true } });
+
+    const appRef = await arc75.appClient.getAppReference();
+    appAddress = appRef.appAddress;
+    appId = appRef.appId;
 
     const atc = new algosdk.AtomicTransactionComposer();
     const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({

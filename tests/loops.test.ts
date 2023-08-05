@@ -26,7 +26,7 @@ describe('LoopsTest', function () {
       algodClient,
     );
 
-    await appClient.create({ sendParams: { suppressLog: true } });
+    await appClient.create({ method: 'create', methodArgs: [], sendParams: { suppressLog: true } });
   });
 
   test('whileLoop', async function () {

@@ -18,7 +18,9 @@ import { FactoryCallerClient } from './FactoryCallerClient';
     algodClient,
   );
 
-  const { appAddress } = await factoryCaller.appClient.create();
+  await factoryCaller.create.create({});
+
+  const { appAddress } = await factoryCaller.appClient.getAppReference();
 
   await factoryCaller.appClient.fundAppAccount(algokit.microAlgos(500_000));
 

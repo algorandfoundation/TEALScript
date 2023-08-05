@@ -2,14 +2,6 @@
 	b main
 
 abi_route_updateStringInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	callsub updateStringInTuple
 	int 1
@@ -353,21 +345,30 @@ updateStringInTuple:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])"
 	txna ApplicationArgs 0
 	match abi_route_updateStringInTuple

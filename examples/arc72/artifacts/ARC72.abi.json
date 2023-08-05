@@ -36,7 +36,6 @@
     },
     {
       "name": "arc72_transferFrom",
-      "readonly": false,
       "args": [
         {
           "name": "_from",
@@ -62,7 +61,6 @@
     },
     {
       "name": "arc72_approve",
-      "readonly": false,
       "args": [
         {
           "name": "approved",
@@ -83,7 +81,6 @@
     },
     {
       "name": "arc72_setApprovalForAll",
-      "readonly": false,
       "args": [
         {
           "name": "operator",
@@ -104,7 +101,6 @@
     },
     {
       "name": "mint",
-      "readonly": false,
       "args": [
         {
           "name": "to",
@@ -143,6 +139,15 @@
         "type": "uint256",
         "desc": ""
       }
+    },
+    {
+      "name": "create",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
     }
   ]
 }

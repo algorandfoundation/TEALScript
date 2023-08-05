@@ -35,7 +35,7 @@ describe('Big Box', () => {
       app: JSON.stringify(appSpec),
     }, algodClient);
 
-    await appClient.create({ sendParams: { suppressLog: true } });
+    await appClient.create({ method: 'create', methodArgs: [], sendParams: { suppressLog: true } });
   });
 
   test('startUpload', async () => {

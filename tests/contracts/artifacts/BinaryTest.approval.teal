@@ -2,15 +2,6 @@
 	b main
 
 abi_route_and:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -36,15 +27,6 @@ skip_and0:
 	retsub
 
 abi_route_or:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -70,15 +52,6 @@ skip_or0:
 	retsub
 
 abi_route_equal:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -100,15 +73,6 @@ equal:
 	retsub
 
 abi_route_notEqual:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -130,15 +94,6 @@ notEqual:
 	retsub
 
 abi_route_bitAnd:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -160,15 +115,6 @@ bitAnd:
 	retsub
 
 abi_route_bitOr:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -190,15 +136,6 @@ bitOr:
 	retsub
 
 abi_route_bitXor:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -220,15 +157,6 @@ bitXor:
 	retsub
 
 abi_route_combo:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 3
 	btoi
@@ -261,21 +189,30 @@ skip_or1:
 	assert
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "and(uint64,uint64)void"
 	method "or(uint64,uint64)void"
 	method "equal(uint64,uint64)void"

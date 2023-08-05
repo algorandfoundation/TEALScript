@@ -3,7 +3,7 @@ import { Contract } from '../../src/lib/index';
 export default class Simple extends Contract {
   counter = new GlobalStateKey<uint64>({ key: 'counter' });
 
-  @handle.createApplication
+  @allow.create()
   createApp(): void { }
 
   incr(i: uint64): void {
@@ -22,7 +22,7 @@ export default class Simple extends Contract {
     return a - b;
   }
 
-  @handle.clearState
+  @allow.call('ClearState')
   clearState(): void {
     this.counter.set(this.counter.get() + 1);
   }

@@ -82,7 +82,7 @@ class ABITestStaticArrayInStorageRef extends Contract {
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
-  @handle.optIn
+  @allow.call('OptIn')
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -113,7 +113,7 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
-  @handle.optIn
+  @allow.call('OptIn')
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -148,7 +148,7 @@ class ABITestStaticArrayInStorageMap extends Contract {
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
-  @handle.optIn
+  @allow.call('OptIn')
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -179,7 +179,7 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
-  @handle.optIn
+  @allow.call('OptIn')
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
@@ -961,7 +961,7 @@ class ABITestStorageRefKey extends Contract {
 class ABITestStorageRefAccount extends Contract {
   lMap = new LocalStateMap<uint64, uint64[]>();
 
-  @handle.optIn
+  @allow.call('OptIn')
   storageRefAccount(): uint64 {
     let addr = this.txn.sender;
     this.lMap.set(addr, 0, [1, 2, 3]);

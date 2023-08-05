@@ -1,16 +1,7 @@
 #pragma version 8
 	b main
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-
+abi_route_create:
 	// no dupn needed
 	callsub create
 	int 1
@@ -295,15 +286,6 @@ tokensToSwap:
 	retsub
 
 abi_route_set_governor:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -331,15 +313,6 @@ set_governor:
 	retsub
 
 abi_route_bootstrap:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	btoi
@@ -443,14 +416,6 @@ bootstrap:
 	retsub
 
 abi_route_mint:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	txna ApplicationArgs 3
 	btoi
@@ -666,14 +631,6 @@ if0_end:
 	retsub
 
 abi_route_burn:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	dupn 2
 	txna ApplicationArgs 3
@@ -834,14 +791,6 @@ burn:
 	retsub
 
 abi_route_swap:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	dupn 2
 	txna ApplicationArgs 2
@@ -981,14 +930,25 @@ ternary3_end:
 	retsub
 
 main:
-	txn NumAppArgs
-	bnz route_abi
 	txn ApplicationID
 	int 0
-	==
-	bnz bare_route_create
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
-route_abi:
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "set_governor(account)void"
 	method "bootstrap(pay,asset,asset)uint64"
 	method "mint(axfer,axfer,asset,asset,asset)void"

@@ -126,7 +126,9 @@ async function compileAndCreate(name: string): Promise<{
     algodClient,
   );
 
-  const { appId } = await appClient.create({ sendParams: { suppressLog: true } });
+  await appClient.create({ method: 'create', methodArgs: [], sendParams: { suppressLog: true } });
+
+  const { appId } = await appClient.getAppReference();
 
   return { appClient, appId };
 }

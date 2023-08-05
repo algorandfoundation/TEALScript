@@ -161,16 +161,7 @@ for_1_end:
 	frame_dig -1 // leaf: byte[32]
 	retsub
 
-bare_route_DeleteApplication:
-	txn OnCompletion
-	int DeleteApplication
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
+abi_route_delete:
 	// no dupn needed
 	callsub delete
 	int 1
@@ -189,16 +180,7 @@ delete:
 	assert
 	retsub
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-
+abi_route_create:
 	// no dupn needed
 	callsub create
 	int 1
@@ -216,15 +198,6 @@ create:
 	retsub
 
 abi_route_verify:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -250,15 +223,6 @@ verify:
 	retsub
 
 abi_route_appendLeaf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -312,15 +276,6 @@ appendLeaf:
 	retsub
 
 abi_route_updateLeaf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
@@ -365,22 +320,34 @@ updateLeaf:
 	retsub
 
 main:
-	txn NumAppArgs
-	bnz route_abi
 	txn ApplicationID
 	int 0
-	==
-	bnz bare_route_create
+	>
+	int 6
+	*
 	txn OnCompletion
-	int DeleteApplication
-	==
-	int 1
-	match bare_route_DeleteApplication
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_DeleteApplication
 
-route_abi:
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "verify(byte[],byte[33][3])void"
 	method "appendLeaf(byte[],byte[33][3])void"
 	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
 	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf
+	err
+
+call_DeleteApplication:
+	method "delete()void"
+	txna ApplicationArgs 0
+	match abi_route_delete
 	err

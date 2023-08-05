@@ -6,7 +6,7 @@ type Whitelist = {account: Address, boxIndex: uint<16>, arc: string};
 class ARC75 extends Contract {
   whitelist = new BoxMap<Whitelist, uint64[]>();
 
-  @handle.createApplication
+  @allow.create()
   create(): void {}
 
   private verifyMBRPayment(payment: PayTxn, preMBR: uint64): void {

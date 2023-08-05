@@ -36,7 +36,7 @@
     "run-examples": "yarn run-merkle && yarn run-tuple_in_box && yarn run-itxns",
     "run-simple": "tsx examples/simple/index.ts",
     "test-examples": "jest examples/",
-    "compile-examples": "yarn compile-amm && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box && compile-arc72",
+    "compile-examples": "yarn compile-amm && yarn compile-arc75 && yarn compile-auction && yarn compile-itxns && yarn compile-simple && yarn compile-tuple_in_box && yarn compile-calculator && yarn compile-merkle && yarn compile-big_box && yarn compile-arc72",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
     "pre-commit": "yarn lint && yarn test && yarn jest examples/ && yarn run-examples && yarn webpack-smoketest"
   },

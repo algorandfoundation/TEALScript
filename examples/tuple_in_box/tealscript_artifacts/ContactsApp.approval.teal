@@ -2,14 +2,6 @@
 	b main
 
 abi_route_setMyContact:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	txna ApplicationArgs 2
 	extract 2 0
@@ -64,14 +56,6 @@ setMyContact:
 	retsub
 
 abi_route_addContact:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
@@ -121,15 +105,6 @@ addContact:
 	retsub
 
 abi_route_updateContactField:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
@@ -291,15 +266,6 @@ if0_end:
 	retsub
 
 abi_route_verifyContactName:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -342,21 +308,30 @@ verifyContactName:
 	assert
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "setMyContact(string,string)void"
 	method "addContact(string,string,address)void"
 	method "updateContactField(string,string,address)void"

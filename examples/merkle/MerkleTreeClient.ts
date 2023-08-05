@@ -26,6 +26,16 @@ import { SendTransactionResult, TransactionToSign, SendTransactionFrom } from '@
 import { Algodv2, OnApplicationComplete, Transaction, TransactionWithSigner, AtomicTransactionComposer } from 'algosdk'
 export const APP_SPEC: AppSpec = {
   "hints": {
+    "delete()void": {
+      "call_config": {
+        "delete_application": "CALL"
+      }
+    },
+    "create()void": {
+      "call_config": {
+        "no_op": "CREATE"
+      }
+    },
     "verify(byte[],byte[33][3])void": {
       "call_config": {
         "no_op": "CALL"
@@ -43,8 +53,11 @@ export const APP_SPEC: AppSpec = {
     }
   },
   "bare_call_config": {
-    "delete_application": "CALL",
-    "no_op": "CREATE"
+    "no_op": "NEVER",
+    "opt_in": "NEVER",
+    "close_out": "NEVER",
+    "update_application": "NEVER",
+    "delete_application": "NEVER"
   },
   "schema": {
     "local": {
@@ -76,13 +89,31 @@ export const APP_SPEC: AppSpec = {
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKY2FsY0luaXRSb290OgoJcHJvdG8gMiAxCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjE5CgkvLyByZXN1bHQgPSBFTVBUWV9IQVNICgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NgoJLy8gaGV4KCdlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1JykKCWJ5dGUgMHhlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1CglmcmFtZV9idXJ5IC0xIC8vIHJlc3VsdDogYnl0ZVszMl0KCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MjEKCS8vIGkgPSAwCglpbnQgMAoJZnJhbWVfYnVyeSAtMiAvLyBpOiB1aW50NjQKCmZvcl8wOgoJZnJhbWVfZGlnIC0yIC8vIGk6IHVpbnQ2NAoJaW50IDMKCTwKCWJ6IGZvcl8wX2VuZAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyMgoJLy8gcmVzdWx0ID0gc2hhMjU2KHJlc3VsdCArIHJlc3VsdCkKCWZyYW1lX2RpZyAtMSAvLyByZXN1bHQ6IGJ5dGVbMzJdCglmcmFtZV9kaWcgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoJY29uY2F0CglzaGEyNTYKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyMQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgLTIgLy8gaTogdWludDY0CglpbnQgMQoJKwoJZnJhbWVfYnVyeSAtMiAvLyBpOiB1aW50NjQKCWIgZm9yXzAKCmZvcl8wX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyNQoJLy8gcmV0dXJuIHJlc3VsdDsKCWZyYW1lX2RpZyAtMSAvLyByZXN1bHQ6IGJ5dGVbMzJdCglyZXRzdWIKCmhhc2hDb25jYXQ6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MjkKCS8vIHJldHVybiBzaGEyNTYobGVmdCArIHJpZ2h0KTsKCWZyYW1lX2RpZyAtMSAvLyBsZWZ0OiBieXRlWzMyXQoJZnJhbWVfZGlnIC0yIC8vIHJpZ2h0OiBieXRlWzMyXQoJY29uY2F0CglzaGEyNTYKCXJldHN1YgoKaXNSaWdodFNpYmxpbmc6Cglwcm90byAxIDEKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MzMKCS8vIHJldHVybiBnZXRieXRlKGVsZW0sIDApID09PSBSSUdIVF9TSUJMSU5HX1BSRUZJWDsKCWZyYW1lX2RpZyAtMSAvLyBlbGVtOiBieXRlWzMzXQoJaW50IDAKCWdldGJ5dGUKCWludCAxNzAKCT09CglyZXRzdWIKCmNhbGNSb290OgoJcHJvdG8gNCAxCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjM5CgkvLyBpID0gMAoJaW50IDAKCWZyYW1lX2J1cnkgLTMgLy8gaTogdWludDY0Cgpmb3JfMToKCWZyYW1lX2RpZyAtMyAvLyBpOiB1aW50NjQKCWludCAzCgk8CglieiBmb3JfMV9lbmQKCWZyYW1lX2RpZyAtMyAvLyBpOiB1aW50NjQKCWZyYW1lX2J1cnkgLTQgLy8gYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCgoJLy8gaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjQyCgkvLyB0aGlzLmlzUmlnaHRTaWJsaW5nKGVsZW0pCgkvLyBubyBkdXBuIG5lZWRlZAoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglmcmFtZV9kaWcgLTQgLy8gc2F2ZWQgYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCglpbnQgMzMKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAzMwoJZXh0cmFjdDMKCWNhbGxzdWIgaXNSaWdodFNpYmxpbmcKCWJ6IGlmMF9lbHNlCgoJLy8gaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0MwoJLy8gcmVzdWx0ID0gdGhpcy5oYXNoQ29uY2F0KHJlc3VsdCwgZXh0cmFjdDMoZWxlbSwgMSwgMzIpKQoJLy8gbm8gZHVwbiBuZWVkZWQKCWZyYW1lX2RpZyAtMiAvLyBwYXRoOiBieXRlWzMzXVszXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJZnJhbWVfZGlnIC00IC8vIHNhdmVkIGFjY2Vzc29yOiBhY2Nlc3Nvci8vMC8vZWxlbQoJaW50IDMzCgkqIC8vIGFjYyAqIHR5cGVMZW5ndGgKCSsKCWxvYWQgMCAvLyBmdWxsIGFycmF5Cglzd2FwCglpbnQgMzMKCWV4dHJhY3QzCglpbnQgMQoJaW50IDMyCglleHRyYWN0MwoJZnJhbWVfZGlnIC0xIC8vIGxlYWY6IGJ5dGVbMzJdCgljYWxsc3ViIGhhc2hDb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoJYiBpZjBfZW5kCgppZjBfZWxzZToKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0NQoJLy8gcmVzdWx0ID0gdGhpcy5oYXNoQ29uY2F0KGV4dHJhY3QzKGVsZW0sIDEsIDMyKSwgcmVzdWx0KQoJLy8gbm8gZHVwbiBuZWVkZWQKCWZyYW1lX2RpZyAtMSAvLyBsZWFmOiBieXRlWzMyXQoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglmcmFtZV9kaWcgLTQgLy8gc2F2ZWQgYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCglpbnQgMzMKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAzMwoJZXh0cmFjdDMKCWludCAxCglpbnQgMzIKCWV4dHJhY3QzCgljYWxsc3ViIGhhc2hDb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoKaWYwX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czozOQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgLTMgLy8gaTogdWludDY0CglpbnQgMQoJKwoJZnJhbWVfYnVyeSAtMyAvLyBpOiB1aW50NjQKCWIgZm9yXzEKCmZvcl8xX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0OQoJLy8gcmV0dXJuIHJlc3VsdDsKCWZyYW1lX2RpZyAtMSAvLyBsZWFmOiBieXRlWzMyXQoJcmV0c3ViCgpiYXJlX3JvdXRlX0RlbGV0ZUFwcGxpY2F0aW9uOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IERlbGV0ZUFwcGxpY2F0aW9uCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoKCS8vIG5vIGR1cG4gbmVlZGVkCgljYWxsc3ViIGRlbGV0ZQoJaW50IDEKCXJldHVybgoKZGVsZXRlOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjU0CgkvLyBhc3NlcnQodGhpcy50eG4uc2VuZGVyID09PSB0aGlzLmFwcC5jcmVhdG9yKQoJdHhuIFNlbmRlcgoJdHhuYSBBcHBsaWNhdGlvbnMgMAoJYXBwX3BhcmFtc19nZXQgQXBwQ3JlYXRvcgoJYXNzZXJ0Cgk9PQoJYXNzZXJ0CglyZXRzdWIKCmJhcmVfcm91dGVfY3JlYXRlOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCT09CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCWNhbGxzdWIgY3JlYXRlCglpbnQgMQoJcmV0dXJuCgpjcmVhdGU6Cglwcm90byAwIDAKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NTkKCS8vIHRoaXMucm9vdC5zZXQodGhpcy5jYWxjSW5pdFJvb3QoKSkKCWJ5dGUgInJvb3QiCglieXRlIDB4OyBkdXAKCWNhbGxzdWIgY2FsY0luaXRSb290CglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgphYmlfcm91dGVfdmVyaWZ5OgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgljYWxsc3ViIHZlcmlmeQoJaW50IDEKCXJldHVybgoKdmVyaWZ5OgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjYzCgkvLyBhc3NlcnQodGhpcy5yb290LmdldCgpID09PSB0aGlzLmNhbGNSb290KHNoYTI1NihkYXRhKSwgcGF0aCkpCglieXRlICJyb290IgoJYXBwX2dsb2JhbF9nZXQKCWJ5dGUgMHg7IGR1cAoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglmcmFtZV9kaWcgLTEgLy8gZGF0YTogYnl0ZXMKCXNoYTI1NgoJY2FsbHN1YiBjYWxjUm9vdAoJPT0KCWFzc2VydAoJcmV0c3ViCgphYmlfcm91dGVfYXBwZW5kTGVhZjoKCXR4biBPbkNvbXBsZXRpb24KCWludCBOb09wCgk9PQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgkhPQoJJiYKCWFzc2VydAoKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoJY2FsbHN1YiBhcHBlbmRMZWFmCglpbnQgMQoJcmV0dXJuCgphcHBlbmRMZWFmOgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjY3CgkvLyBhc3NlcnQoZGF0YSAhPT0gJycpCglmcmFtZV9kaWcgLTEgLy8gZGF0YTogYnl0ZXMKCWJ5dGUgIiIKCSE9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NjgKCS8vIGFzc2VydCh0aGlzLnJvb3QuZ2V0KCkgPT09IHRoaXMuY2FsY1Jvb3QoRU1QVFlfSEFTSCwgcGF0aCkpCglieXRlICJyb290IgoJYXBwX2dsb2JhbF9nZXQKCWJ5dGUgMHg7IGR1cAoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjYKCS8vIGhleCgnZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NScpCglieXRlIDB4ZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NQoJY2FsbHN1YiBjYWxjUm9vdAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo3MAoJLy8gdGhpcy5yb290LnNldCh0aGlzLmNhbGNSb290KHNoYTI1NihkYXRhKSwgcGF0aCkpCglieXRlICJyb290IgoJYnl0ZSAweDsgZHVwCglmcmFtZV9kaWcgLTIgLy8gcGF0aDogYnl0ZVszM11bM10KCWZyYW1lX2RpZyAtMSAvLyBkYXRhOiBieXRlcwoJc2hhMjU2CgljYWxsc3ViIGNhbGNSb290CglhcHBfZ2xvYmFsX3B1dAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo3MgoJLy8gdGhpcy5zaXplLnNldCh0aGlzLnNpemUuZ2V0KCkgKyAxKQoJYnl0ZSAic2l6ZSIKCWJ5dGUgInNpemUiCglhcHBfZ2xvYmFsX2dldAoJaW50IDEKCSsKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCmFiaV9yb3V0ZV91cGRhdGVMZWFmOgoJdHhuIE9uQ29tcGxldGlvbgoJaW50IE5vT3AKCT09Cgl0eG4gQXBwbGljYXRpb25JRAoJaW50IDAKCSE9CgkmJgoJYXNzZXJ0CgoJLy8gbm8gZHVwbiBuZWVkZWQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWV4dHJhY3QgMiAwCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoJY2FsbHN1YiB1cGRhdGVMZWFmCglpbnQgMQoJcmV0dXJuCgp1cGRhdGVMZWFmOgoJcHJvdG8gMyAwCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjc2CgkvLyBhc3NlcnQobmV3RGF0YSAhPT0gJycpCglmcmFtZV9kaWcgLTIgLy8gbmV3RGF0YTogYnl0ZXMKCWJ5dGUgIiIKCSE9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NzcKCS8vIGFzc2VydCh0aGlzLnJvb3QuZ2V0KCkgPT09IHRoaXMuY2FsY1Jvb3Qoc2hhMjU2KG9sZERhdGEpLCBwYXRoKSkKCWJ5dGUgInJvb3QiCglhcHBfZ2xvYmFsX2dldAoJYnl0ZSAweDsgZHVwCglmcmFtZV9kaWcgLTMgLy8gcGF0aDogYnl0ZVszM11bM10KCWZyYW1lX2RpZyAtMSAvLyBvbGREYXRhOiBieXRlcwoJc2hhMjU2CgljYWxsc3ViIGNhbGNSb290Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjc5CgkvLyB0aGlzLnJvb3Quc2V0KHRoaXMuY2FsY1Jvb3Qoc2hhMjU2KG5ld0RhdGEpLCBwYXRoKSkKCWJ5dGUgInJvb3QiCglieXRlIDB4OyBkdXAKCWZyYW1lX2RpZyAtMyAvLyBwYXRoOiBieXRlWzMzXVszXQoJZnJhbWVfZGlnIC0yIC8vIG5ld0RhdGE6IGJ5dGVzCglzaGEyNTYKCWNhbGxzdWIgY2FsY1Jvb3QKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCm1haW46Cgl0eG4gTnVtQXBwQXJncwoJYm56IHJvdXRlX2FiaQoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk9PQoJYm56IGJhcmVfcm91dGVfY3JlYXRlCgl0eG4gT25Db21wbGV0aW9uCglpbnQgRGVsZXRlQXBwbGljYXRpb24KCT09CglpbnQgMQoJbWF0Y2ggYmFyZV9yb3V0ZV9EZWxldGVBcHBsaWNhdGlvbgoKcm91dGVfYWJpOgoJbWV0aG9kICJ2ZXJpZnkoYnl0ZVtdLGJ5dGVbMzNdWzNdKXZvaWQiCgltZXRob2QgImFwcGVuZExlYWYoYnl0ZVtdLGJ5dGVbMzNdWzNdKXZvaWQiCgltZXRob2QgInVwZGF0ZUxlYWYoYnl0ZVtdLGJ5dGVbXSxieXRlWzMzXVszXSl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX3ZlcmlmeSBhYmlfcm91dGVfYXBwZW5kTGVhZiBhYmlfcm91dGVfdXBkYXRlTGVhZgoJZXJy",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKCWIgbWFpbgoKY2FsY0luaXRSb290OgoJcHJvdG8gMiAxCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjE5CgkvLyByZXN1bHQgPSBFTVBUWV9IQVNICgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NgoJLy8gaGV4KCdlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1JykKCWJ5dGUgMHhlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1CglmcmFtZV9idXJ5IC0xIC8vIHJlc3VsdDogYnl0ZVszMl0KCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MjEKCS8vIGkgPSAwCglpbnQgMAoJZnJhbWVfYnVyeSAtMiAvLyBpOiB1aW50NjQKCmZvcl8wOgoJZnJhbWVfZGlnIC0yIC8vIGk6IHVpbnQ2NAoJaW50IDMKCTwKCWJ6IGZvcl8wX2VuZAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyMgoJLy8gcmVzdWx0ID0gc2hhMjU2KHJlc3VsdCArIHJlc3VsdCkKCWZyYW1lX2RpZyAtMSAvLyByZXN1bHQ6IGJ5dGVbMzJdCglmcmFtZV9kaWcgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoJY29uY2F0CglzaGEyNTYKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyMQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgLTIgLy8gaTogdWludDY0CglpbnQgMQoJKwoJZnJhbWVfYnVyeSAtMiAvLyBpOiB1aW50NjQKCWIgZm9yXzAKCmZvcl8wX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czoyNQoJLy8gcmV0dXJuIHJlc3VsdDsKCWZyYW1lX2RpZyAtMSAvLyByZXN1bHQ6IGJ5dGVbMzJdCglyZXRzdWIKCmhhc2hDb25jYXQ6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MjkKCS8vIHJldHVybiBzaGEyNTYobGVmdCArIHJpZ2h0KTsKCWZyYW1lX2RpZyAtMSAvLyBsZWZ0OiBieXRlWzMyXQoJZnJhbWVfZGlnIC0yIC8vIHJpZ2h0OiBieXRlWzMyXQoJY29uY2F0CglzaGEyNTYKCXJldHN1YgoKaXNSaWdodFNpYmxpbmc6Cglwcm90byAxIDEKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6MzMKCS8vIHJldHVybiBnZXRieXRlKGVsZW0sIDApID09PSBSSUdIVF9TSUJMSU5HX1BSRUZJWDsKCWZyYW1lX2RpZyAtMSAvLyBlbGVtOiBieXRlWzMzXQoJaW50IDAKCWdldGJ5dGUKCWludCAxNzAKCT09CglyZXRzdWIKCmNhbGNSb290OgoJcHJvdG8gNCAxCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjM5CgkvLyBpID0gMAoJaW50IDAKCWZyYW1lX2J1cnkgLTMgLy8gaTogdWludDY0Cgpmb3JfMToKCWZyYW1lX2RpZyAtMyAvLyBpOiB1aW50NjQKCWludCAzCgk8CglieiBmb3JfMV9lbmQKCWZyYW1lX2RpZyAtMyAvLyBpOiB1aW50NjQKCWZyYW1lX2J1cnkgLTQgLy8gYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCgoJLy8gaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjQyCgkvLyB0aGlzLmlzUmlnaHRTaWJsaW5nKGVsZW0pCgkvLyBubyBkdXBuIG5lZWRlZAoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglmcmFtZV9kaWcgLTQgLy8gc2F2ZWQgYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCglpbnQgMzMKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAzMwoJZXh0cmFjdDMKCWNhbGxzdWIgaXNSaWdodFNpYmxpbmcKCWJ6IGlmMF9lbHNlCgoJLy8gaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0MwoJLy8gcmVzdWx0ID0gdGhpcy5oYXNoQ29uY2F0KHJlc3VsdCwgZXh0cmFjdDMoZWxlbSwgMSwgMzIpKQoJLy8gbm8gZHVwbiBuZWVkZWQKCWZyYW1lX2RpZyAtMiAvLyBwYXRoOiBieXRlWzMzXVszXQoJc3RvcmUgMCAvLyBmdWxsIGFycmF5CglpbnQgMCAvLyBpbml0aWFsIG9mZnNldAoJZnJhbWVfZGlnIC00IC8vIHNhdmVkIGFjY2Vzc29yOiBhY2Nlc3Nvci8vMC8vZWxlbQoJaW50IDMzCgkqIC8vIGFjYyAqIHR5cGVMZW5ndGgKCSsKCWxvYWQgMCAvLyBmdWxsIGFycmF5Cglzd2FwCglpbnQgMzMKCWV4dHJhY3QzCglpbnQgMQoJaW50IDMyCglleHRyYWN0MwoJZnJhbWVfZGlnIC0xIC8vIGxlYWY6IGJ5dGVbMzJdCgljYWxsc3ViIGhhc2hDb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoJYiBpZjBfZW5kCgppZjBfZWxzZToKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0NQoJLy8gcmVzdWx0ID0gdGhpcy5oYXNoQ29uY2F0KGV4dHJhY3QzKGVsZW0sIDEsIDMyKSwgcmVzdWx0KQoJLy8gbm8gZHVwbiBuZWVkZWQKCWZyYW1lX2RpZyAtMSAvLyBsZWFmOiBieXRlWzMyXQoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglzdG9yZSAwIC8vIGZ1bGwgYXJyYXkKCWludCAwIC8vIGluaXRpYWwgb2Zmc2V0CglmcmFtZV9kaWcgLTQgLy8gc2F2ZWQgYWNjZXNzb3I6IGFjY2Vzc29yLy8wLy9lbGVtCglpbnQgMzMKCSogLy8gYWNjICogdHlwZUxlbmd0aAoJKwoJbG9hZCAwIC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWludCAzMwoJZXh0cmFjdDMKCWludCAxCglpbnQgMzIKCWV4dHJhY3QzCgljYWxsc3ViIGhhc2hDb25jYXQKCWZyYW1lX2J1cnkgLTEgLy8gcmVzdWx0OiBieXRlWzMyXQoKaWYwX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czozOQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgLTMgLy8gaTogdWludDY0CglpbnQgMQoJKwoJZnJhbWVfYnVyeSAtMyAvLyBpOiB1aW50NjQKCWIgZm9yXzEKCmZvcl8xX2VuZDoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo0OQoJLy8gcmV0dXJuIHJlc3VsdDsKCWZyYW1lX2RpZyAtMSAvLyBsZWFmOiBieXRlWzMyXQoJcmV0c3ViCgphYmlfcm91dGVfZGVsZXRlOgoJLy8gbm8gZHVwbiBuZWVkZWQKCWNhbGxzdWIgZGVsZXRlCglpbnQgMQoJcmV0dXJuCgpkZWxldGU6Cglwcm90byAwIDAKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NTQKCS8vIGFzc2VydCh0aGlzLnR4bi5zZW5kZXIgPT09IHRoaXMuYXBwLmNyZWF0b3IpCgl0eG4gU2VuZGVyCgl0eG5hIEFwcGxpY2F0aW9ucyAwCglhcHBfcGFyYW1zX2dldCBBcHBDcmVhdG9yCglhc3NlcnQKCT09Cglhc3NlcnQKCXJldHN1YgoKYWJpX3JvdXRlX2NyZWF0ZToKCS8vIG5vIGR1cG4gbmVlZGVkCgljYWxsc3ViIGNyZWF0ZQoJaW50IDEKCXJldHVybgoKY3JlYXRlOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjU5CgkvLyB0aGlzLnJvb3Quc2V0KHRoaXMuY2FsY0luaXRSb290KCkpCglieXRlICJyb290IgoJYnl0ZSAweDsgZHVwCgljYWxsc3ViIGNhbGNJbml0Um9vdAoJYXBwX2dsb2JhbF9wdXQKCXJldHN1YgoKYWJpX3JvdXRlX3ZlcmlmeToKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoJY2FsbHN1YiB2ZXJpZnkKCWludCAxCglyZXR1cm4KCnZlcmlmeToKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo2MwoJLy8gYXNzZXJ0KHRoaXMucm9vdC5nZXQoKSA9PT0gdGhpcy5jYWxjUm9vdChzaGEyNTYoZGF0YSksIHBhdGgpKQoJYnl0ZSAicm9vdCIKCWFwcF9nbG9iYWxfZ2V0CglieXRlIDB4OyBkdXAKCWZyYW1lX2RpZyAtMiAvLyBwYXRoOiBieXRlWzMzXVszXQoJZnJhbWVfZGlnIC0xIC8vIGRhdGE6IGJ5dGVzCglzaGEyNTYKCWNhbGxzdWIgY2FsY1Jvb3QKCT09Cglhc3NlcnQKCXJldHN1YgoKYWJpX3JvdXRlX2FwcGVuZExlYWY6CgkvLyBubyBkdXBuIG5lZWRlZAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgYXBwZW5kTGVhZgoJaW50IDEKCXJldHVybgoKYXBwZW5kTGVhZjoKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo2NwoJLy8gYXNzZXJ0KGRhdGEgIT09ICcnKQoJZnJhbWVfZGlnIC0xIC8vIGRhdGE6IGJ5dGVzCglieXRlICIiCgkhPQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjY4CgkvLyBhc3NlcnQodGhpcy5yb290LmdldCgpID09PSB0aGlzLmNhbGNSb290KEVNUFRZX0hBU0gsIHBhdGgpKQoJYnl0ZSAicm9vdCIKCWFwcF9nbG9iYWxfZ2V0CglieXRlIDB4OyBkdXAKCWZyYW1lX2RpZyAtMiAvLyBwYXRoOiBieXRlWzMzXVszXQoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo2CgkvLyBoZXgoJ2UzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUnKQoJYnl0ZSAweGUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUKCWNhbGxzdWIgY2FsY1Jvb3QKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NzAKCS8vIHRoaXMucm9vdC5zZXQodGhpcy5jYWxjUm9vdChzaGEyNTYoZGF0YSksIHBhdGgpKQoJYnl0ZSAicm9vdCIKCWJ5dGUgMHg7IGR1cAoJZnJhbWVfZGlnIC0yIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglmcmFtZV9kaWcgLTEgLy8gZGF0YTogYnl0ZXMKCXNoYTI1NgoJY2FsbHN1YiBjYWxjUm9vdAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9tZXJrbGUvbWVya2xlLmFsZ28udHM6NzIKCS8vIHRoaXMuc2l6ZS5zZXQodGhpcy5zaXplLmdldCgpICsgMSkKCWJ5dGUgInNpemUiCglieXRlICJzaXplIgoJYXBwX2dsb2JhbF9nZXQKCWludCAxCgkrCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgphYmlfcm91dGVfdXBkYXRlTGVhZjoKCS8vIG5vIGR1cG4gbmVlZGVkCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglleHRyYWN0IDIgMAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCWNhbGxzdWIgdXBkYXRlTGVhZgoJaW50IDEKCXJldHVybgoKdXBkYXRlTGVhZjoKCXByb3RvIDMgMAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo3NgoJLy8gYXNzZXJ0KG5ld0RhdGEgIT09ICcnKQoJZnJhbWVfZGlnIC0yIC8vIG5ld0RhdGE6IGJ5dGVzCglieXRlICIiCgkhPQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvbWVya2xlL21lcmtsZS5hbGdvLnRzOjc3CgkvLyBhc3NlcnQodGhpcy5yb290LmdldCgpID09PSB0aGlzLmNhbGNSb290KHNoYTI1NihvbGREYXRhKSwgcGF0aCkpCglieXRlICJyb290IgoJYXBwX2dsb2JhbF9nZXQKCWJ5dGUgMHg7IGR1cAoJZnJhbWVfZGlnIC0zIC8vIHBhdGg6IGJ5dGVbMzNdWzNdCglmcmFtZV9kaWcgLTEgLy8gb2xkRGF0YTogYnl0ZXMKCXNoYTI1NgoJY2FsbHN1YiBjYWxjUm9vdAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL21lcmtsZS9tZXJrbGUuYWxnby50czo3OQoJLy8gdGhpcy5yb290LnNldCh0aGlzLmNhbGNSb290KHNoYTI1NihuZXdEYXRhKSwgcGF0aCkpCglieXRlICJyb290IgoJYnl0ZSAweDsgZHVwCglmcmFtZV9kaWcgLTMgLy8gcGF0aDogYnl0ZVszM11bM10KCWZyYW1lX2RpZyAtMiAvLyBuZXdEYXRhOiBieXRlcwoJc2hhMjU2CgljYWxsc3ViIGNhbGNSb290CglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgptYWluOgoJdHhuIEFwcGxpY2F0aW9uSUQKCWludCAwCgk+CglpbnQgNgoJKgoJdHhuIE9uQ29tcGxldGlvbgoJKwoJc3dpdGNoIGNyZWF0ZV9Ob09wIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgTk9UX0lNUExFTUVOVEVEIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgY2FsbF9Ob09wIE5PVF9JTVBMRU1FTlRFRCBOT1RfSU1QTEVNRU5URUQgTk9UX0lNUExFTUVOVEVEIE5PVF9JTVBMRU1FTlRFRCBjYWxsX0RlbGV0ZUFwcGxpY2F0aW9uCgpOT1RfSU1QTEVNRU5URUQ6CgllcnIKCmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGUoKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCBhYmlfcm91dGVfY3JlYXRlCgllcnIKCmNhbGxfTm9PcDoKCW1ldGhvZCAidmVyaWZ5KGJ5dGVbXSxieXRlWzMzXVszXSl2b2lkIgoJbWV0aG9kICJhcHBlbmRMZWFmKGJ5dGVbXSxieXRlWzMzXVszXSl2b2lkIgoJbWV0aG9kICJ1cGRhdGVMZWFmKGJ5dGVbXSxieXRlW10sYnl0ZVszM11bM10pdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoIGFiaV9yb3V0ZV92ZXJpZnkgYWJpX3JvdXRlX2FwcGVuZExlYWYgYWJpX3JvdXRlX3VwZGF0ZUxlYWYKCWVycgoKY2FsbF9EZWxldGVBcHBsaWNhdGlvbjoKCW1ldGhvZCAiZGVsZXRlKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggYWJpX3JvdXRlX2RlbGV0ZQoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50IDEKcmV0dXJu"
   },
   "contract": {
     "name": "MerkleTree",
     "desc": "",
     "methods": [
+      {
+        "name": "delete",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      },
+      {
+        "name": "create",
+        "args": [],
+        "desc": "",
+        "returns": {
+          "type": "void",
+          "desc": ""
+        }
+      },
       {
         "name": "verify",
         "args": [
@@ -207,6 +238,18 @@ export type MerkleTree = {
    * Maps method signatures / names to their argument and return types.
    */
   methods:
+    & Record<'delete()void' | 'delete', {
+      argsObj: {
+      }
+      argsTuple: []
+      returns: void
+    }>
+    & Record<'create()void' | 'create', {
+      argsObj: {
+      }
+      argsTuple: []
+      returns: void
+    }>
     & Record<'verify(byte[],byte[33][3])void' | 'verify', {
       argsObj: {
         data: Uint8Array
@@ -274,7 +317,7 @@ export type MerkleTreeCreateCalls = (typeof MerkleTreeCallFactory)['create']
  * Defines supported create methods for this smart contract
  */
 export type MerkleTreeCreateCallParams =
-  | (TypedCallParams<undefined> & (OnCompleteNoOp))
+  | (TypedCallParams<'create()void'> & (OnCompleteNoOp))
 /**
  * A factory for available 'delete' calls
  */
@@ -283,7 +326,7 @@ export type MerkleTreeDeleteCalls = (typeof MerkleTreeCallFactory)['delete']
  * Defines supported delete methods for this smart contract
  */
 export type MerkleTreeDeleteCallParams =
-  | TypedCallParams<undefined>
+  | TypedCallParams<'delete()void'>
 /**
  * Defines arguments required for the deploy method.
  */
@@ -310,15 +353,16 @@ export abstract class MerkleTreeCallFactory {
   static get create() {
     return {
       /**
-       * Constructs a create call for the MerkleTree smart contract using a bare call
+       * Constructs a create call for the MerkleTree smart contract using the create()void ABI method
        *
-       * @param params Any parameters for the call
+       * @param args Any args for the contract call
+       * @param params Any additional parameters for the call
        * @returns A TypedCallParams object for the call
        */
-      bare(params: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs & AppClientCompilationParams & (OnCompleteNoOp) = {}) {
+      create(args: MethodArgs<'create()void'>, params: AppClientCallCoreParams & CoreAppCallArgs & AppClientCompilationParams & (OnCompleteNoOp) = {}) {
         return {
-          method: undefined,
-          methodArgs: undefined,
+          method: 'create()void' as const,
+          methodArgs: Array.isArray(args) ? args : [],
           ...params,
         }
       },
@@ -331,15 +375,16 @@ export abstract class MerkleTreeCallFactory {
   static get delete() {
     return {
       /**
-       * Constructs a delete call for the MerkleTree smart contract using a bare call
+       * Constructs a delete call for the MerkleTree smart contract using the delete()void ABI method
        *
-       * @param params Any parameters for the call
+       * @param args Any args for the contract call
+       * @param params Any additional parameters for the call
        * @returns A TypedCallParams object for the call
        */
-      bare(params: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs = {}) {
+      delete(args: MethodArgs<'delete()void'>, params: AppClientCallCoreParams & CoreAppCallArgs = {}) {
         return {
-          method: undefined,
-          methodArgs: undefined,
+          method: 'delete()void' as const,
+          methodArgs: Array.isArray(args) ? args : [],
           ...params,
         }
       },
@@ -467,13 +512,14 @@ export class MerkleTreeClient {
     const $this = this
     return {
       /**
-       * Creates a new instance of the MerkleTree smart contract using a bare call.
+       * Creates a new instance of the MerkleTree smart contract using the create()void ABI method.
        *
-       * @param args The arguments for the bare call
+       * @param args The arguments for the smart contract call
+       * @param params Any additional parameters for the call
        * @returns The create result
        */
-      bare(args: BareCallArgs & AppClientCallCoreParams & AppClientCompilationParams & CoreAppCallArgs & (OnCompleteNoOp) = {}): Promise<AppCallTransactionResultOfType<undefined>> {
-        return $this.appClient.create(args) as unknown as Promise<AppCallTransactionResultOfType<undefined>>
+      async create(args: MethodArgs<'create()void'>, params: AppClientCallCoreParams & AppClientCompilationParams & (OnCompleteNoOp) = {}): Promise<AppCallTransactionResultOfType<MethodReturn<'create()void'>>> {
+        return $this.mapReturnValue(await $this.appClient.create(MerkleTreeCallFactory.create.create(args, params)))
       },
     }
   }
@@ -485,13 +531,14 @@ export class MerkleTreeClient {
     const $this = this
     return {
       /**
-       * Deletes an existing instance of the MerkleTree smart contract using a bare call.
+       * Deletes an existing instance of the MerkleTree smart contract using the delete()void ABI method.
        *
-       * @param args The arguments for the bare call
+       * @param args The arguments for the smart contract call
+       * @param params Any additional parameters for the call
        * @returns The delete result
        */
-      bare(args: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs = {}): Promise<AppCallTransactionResultOfType<undefined>> {
-        return $this.appClient.delete(args) as unknown as Promise<AppCallTransactionResultOfType<undefined>>
+      async delete(args: MethodArgs<'delete()void'>, params: AppClientCallCoreParams = {}): Promise<AppCallTransactionResultOfType<MethodReturn<'delete()void'>>> {
+        return $this.mapReturnValue(await $this.appClient.delete(MerkleTreeCallFactory.delete.delete(args, params)))
       },
     }
   }
@@ -622,8 +669,8 @@ export class MerkleTreeClient {
       get delete() {
         const $this = this
         return {
-          bare(args?: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs) {
-            promiseChain = promiseChain.then(() => client.delete.bare({...args, sendParams: {...args?.sendParams, skipSending: true, atc}}))
+          delete(args: MethodArgs<'delete()void'>, params?: AppClientCallCoreParams) {
+            promiseChain = promiseChain.then(() => client.delete.delete(args, {...params, sendParams: {...params?.sendParams, skipSending: true, atc}}))
             resultMappers.push(undefined)
             return $this
           },
@@ -686,12 +733,13 @@ export type MerkleTreeComposer<TReturns extends [...any[]] = []> = {
    */
   readonly delete: {
     /**
-     * Deletes an existing instance of the MerkleTree smart contract using a bare call.
+     * Deletes an existing instance of the MerkleTree smart contract using the delete()void ABI method.
      *
-     * @param args The arguments for the bare call
+     * @param args The arguments for the smart contract call
+     * @param params Any additional parameters for the call
      * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
      */
-    bare(args?: BareCallArgs & AppClientCallCoreParams & CoreAppCallArgs): MerkleTreeComposer<[...TReturns, undefined]>
+    delete(args: MethodArgs<'delete()void'>, params?: AppClientCallCoreParams): MerkleTreeComposer<[...TReturns, MethodReturn<'delete()void'>]>
   }
 
   /**

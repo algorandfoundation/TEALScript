@@ -2,15 +2,6 @@
 	b main
 
 abi_route_prefix:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub prefix
 	int 1
@@ -32,15 +23,6 @@ prefix:
 	retsub
 
 abi_route_globalKeyPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalKeyPut
 	int 1
@@ -57,15 +39,6 @@ globalKeyPut:
 	retsub
 
 abi_route_globalKeyGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalKeyGet
 	int 1
@@ -84,15 +57,6 @@ globalKeyGet:
 	retsub
 
 abi_route_globalKeyDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalKeyDelete
 	int 1
@@ -108,15 +72,6 @@ globalKeyDelete:
 	retsub
 
 abi_route_globalKeyExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalKeyExists
 	int 1
@@ -135,15 +90,6 @@ globalKeyExists:
 	retsub
 
 abi_route_localKeyPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -164,15 +110,6 @@ localKeyPut:
 	retsub
 
 abi_route_localKeyGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -195,15 +132,6 @@ localKeyGet:
 	retsub
 
 abi_route_localKeyDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -223,15 +151,6 @@ localKeyDelete:
 	retsub
 
 abi_route_localKeyExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -254,15 +173,6 @@ localKeyExists:
 	retsub
 
 abi_route_boxKeyPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyPut
 	int 1
@@ -279,15 +189,6 @@ boxKeyPut:
 	retsub
 
 abi_route_boxKeyGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyGet
 	int 1
@@ -307,15 +208,6 @@ boxKeyGet:
 	retsub
 
 abi_route_boxKeyDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyDelete
 	int 1
@@ -331,15 +223,6 @@ boxKeyDelete:
 	retsub
 
 abi_route_boxKeyExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyExists
 	int 1
@@ -357,15 +240,6 @@ boxKeyExists:
 	retsub
 
 abi_route_globalMapPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalMapPut
 	int 1
@@ -382,15 +256,6 @@ globalMapPut:
 	retsub
 
 abi_route_globalMapGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalMapGet
 	int 1
@@ -409,15 +274,6 @@ globalMapGet:
 	retsub
 
 abi_route_globalMapDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalMapDelete
 	int 1
@@ -433,15 +289,6 @@ globalMapDelete:
 	retsub
 
 abi_route_globalMapExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub globalMapExists
 	int 1
@@ -460,15 +307,6 @@ globalMapExists:
 	retsub
 
 abi_route_localMapPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -489,15 +327,6 @@ localMapPut:
 	retsub
 
 abi_route_localMapGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -520,15 +349,6 @@ localMapGet:
 	retsub
 
 abi_route_localMapDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -548,15 +368,6 @@ localMapDelete:
 	retsub
 
 abi_route_localMapExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -579,15 +390,6 @@ localMapExists:
 	retsub
 
 abi_route_boxMapPut:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapPut
 	int 1
@@ -604,15 +406,6 @@ boxMapPut:
 	retsub
 
 abi_route_boxMapGet:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapGet
 	int 1
@@ -632,15 +425,6 @@ boxMapGet:
 	retsub
 
 abi_route_boxMapDelete:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapDelete
 	int 1
@@ -656,15 +440,6 @@ boxMapDelete:
 	retsub
 
 abi_route_boxMapExists:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapExists
 	int 1
@@ -682,15 +457,6 @@ boxMapExists:
 	retsub
 
 abi_route_boxKeyCreate:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyCreate
 	int 1
@@ -707,15 +473,6 @@ boxKeyCreate:
 	retsub
 
 abi_route_boxMapCreate:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapCreate
 	int 1
@@ -732,15 +489,6 @@ boxMapCreate:
 	retsub
 
 abi_route_boxKeyLength:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyLength
 	int 1
@@ -762,15 +510,6 @@ boxKeyLength:
 	retsub
 
 abi_route_boxMapLength:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapLength
 	int 1
@@ -792,15 +531,6 @@ boxMapLength:
 	retsub
 
 abi_route_boxKeyReplace:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyReplace
 	int 1
@@ -818,15 +548,6 @@ boxKeyReplace:
 	retsub
 
 abi_route_boxMapReplace:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapReplace
 	int 1
@@ -844,15 +565,6 @@ boxMapReplace:
 	retsub
 
 abi_route_boxKeyExtract:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxKeyExtract
 	int 1
@@ -880,15 +592,6 @@ boxKeyExtract:
 	retsub
 
 abi_route_boxMapExtract:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub boxMapExtract
 	int 1
@@ -915,21 +618,30 @@ boxMapExtract:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_create:
+	int 1
 	return
 
-route_abi:
+main:
+	txn ApplicationID
+	int 0
+	>
+	int 6
+	*
+	txn OnCompletion
+	+
+	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
+
+create_NoOp:
+	method "create()void"
+	txna ApplicationArgs 0
+	match abi_route_create
+	err
+
+call_NoOp:
 	method "prefix()void"
 	method "globalKeyPut()void"
 	method "globalKeyGet()void"
