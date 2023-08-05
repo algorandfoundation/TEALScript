@@ -1,5 +1,16 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_create:
 	// no dupn needed
@@ -47,7 +58,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:39
 	// approvalProgram: NFTFactory
-	byte b64 CCACAQBCAGqIAAIiQ4oAAIk2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsiMjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJMRgjDYEGCzEZCI0MAAEAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAIAETFxhujYaAI4B/2QAgATSAkxzgARIIWZwNhoAjgL/V/+PAA==
+	byte b64 CSACAQAxGCMNgQYLMRkIjQcAawAAAAAAAAAAAAAAeQCIAAIiQ4oAAIk2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsiMjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJgARMXGG6NhoAjgH/iQCABNICTHOABEghZnA2GgCOAv98/7QA
 	itxn_field ApprovalProgram
 	itxn_submit
 
@@ -207,19 +218,6 @@ mintAndGetAsset:
 	concat
 	log
 	retsub
-
-main:
-	txn ApplicationID
-	int 0
-	>
-	int 6
-	*
-	txn OnCompletion
-	+
-	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
-
-NOT_IMPLEMENTED:
-	err
 
 create_NoOp:
 	method "create()void"

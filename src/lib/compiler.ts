@@ -267,9 +267,22 @@ const scratch = {
 };
 
 export default class Compiler {
-  teal: string[] = ['#pragma version 8', 'b main'];
+  teal: string[] = [
+    '#pragma version 9',
+    '',
+    'txn ApplicationID',
+    'int 0',
+    '>',
+    'int 6',
+    '*',
+    'txn OnCompletion',
+    '+',
+    'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
+    'NOT_IMPLEMENTED:',
+    'err',
+  ];
 
-  clearTeal: string[] = ['#pragma version 8'];
+  clearTeal: string[] = ['#pragma version 9'];
 
   generatedTeal: string = '';
 
@@ -1332,7 +1345,6 @@ export default class Compiler {
       this.pushLines(this.lastNode, 'abi_route_create:', 'int 1', 'return');
     }
 
-    this.pushVoid(this.lastNode, 'main:');
     this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
@@ -1469,25 +1481,7 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    // ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
-
-    const defaultSwitch = 'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication';
-
-    this.pushLines(
-      this.lastNode,
-      'txn ApplicationID',
-      'int 0',
-      '>',
-      'int 6',
-      '*',
-      'txn OnCompletion',
-      '+',
-      defaultSwitch,
-      'NOT_IMPLEMENTED:',
-      'err',
-    );
-
-    const switchIndex = this.teal.indexOf(defaultSwitch);
+    const switchIndex = 9;
 
     ON_COMPLETES.forEach((onComplete) => {
       ['create', 'call'].forEach((a) => {
@@ -1510,6 +1504,20 @@ export default class Compiler {
         this.pushLines(this.lastNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`, 'err');
       });
     });
+
+    const removeLastDuplicates = (array: string[]) => {
+      let lastIndex = array.length - 1;
+      const element = array[lastIndex];
+      while (array[lastIndex] === element && lastIndex >= 0) {
+        array.pop();
+        lastIndex--;
+      }
+      return array;
+    };
+
+    const switchLine = removeLastDuplicates(this.teal[9].split(' ')).join(' ');
+
+    this.teal[switchIndex] = switchLine;
   }
 
   private maybeValue(node: ts.Node, opcode: string, type: string) {
@@ -4100,6 +4108,7 @@ export default class Compiler {
     const output: string[] = [];
     let comments: string[] = [];
 
+    let hitFirstLabel = false;
     let lastIsLabel: boolean = false;
 
     teal.forEach((t, i) => {
@@ -4112,7 +4121,9 @@ export default class Compiler {
 
       if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push('');
 
-      if (isLabel || t.startsWith('#')) {
+      hitFirstLabel = hitFirstLabel || isLabel;
+
+      if (isLabel || t.startsWith('#') || !hitFirstLabel) {
         comments.forEach((c) => output.push(c));
         comments = [];
         output.push(t);

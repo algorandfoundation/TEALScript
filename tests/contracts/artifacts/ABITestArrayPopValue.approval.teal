@@ -1,5 +1,16 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_arrayPopValue:
 	byte 0x; dup
@@ -59,19 +70,6 @@ arrayPopValue:
 abi_route_create:
 	int 1
 	return
-
-main:
-	txn ApplicationID
-	int 0
-	>
-	int 6
-	*
-	txn OnCompletion
-	+
-	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
-
-NOT_IMPLEMENTED:
-	err
 
 create_NoOp:
 	method "create()void"

@@ -1,5 +1,16 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_stringInTuple:
 	byte 0x
@@ -63,19 +74,6 @@ stringInTuple:
 abi_route_create:
 	int 1
 	return
-
-main:
-	txn ApplicationID
-	int 0
-	>
-	int 6
-	*
-	txn OnCompletion
-	+
-	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
-
-NOT_IMPLEMENTED:
-	err
 
 create_NoOp:
 	method "create()void"

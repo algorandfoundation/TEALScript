@@ -1,5 +1,16 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
 
 calcInitRoot:
 	proto 2 1
@@ -318,19 +329,6 @@ updateLeaf:
 	callsub calcRoot
 	app_global_put
 	retsub
-
-main:
-	txn ApplicationID
-	int 0
-	>
-	int 6
-	*
-	txn OnCompletion
-	+
-	switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_DeleteApplication
-
-NOT_IMPLEMENTED:
-	err
 
 create_NoOp:
 	method "create()void"
