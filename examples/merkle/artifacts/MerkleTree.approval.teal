@@ -1,5 +1,16 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+
+NOT_IMPLEMENTED:
+	err
 
 calcInitRoot:
 	proto 2 1
@@ -161,16 +172,7 @@ for_1_end:
 	frame_dig -1 // leaf: byte[32]
 	retsub
 
-bare_route_DeleteApplication:
-	txn OnCompletion
-	int DeleteApplication
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
+abi_route_delete:
 	// no dupn needed
 	callsub delete
 	int 1
@@ -189,16 +191,7 @@ delete:
 	assert
 	retsub
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
-
+abi_route_create:
 	// no dupn needed
 	callsub create
 	int 1
@@ -216,15 +209,6 @@ create:
 	retsub
 
 abi_route_verify:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -250,15 +234,6 @@ verify:
 	retsub
 
 abi_route_appendLeaf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -312,15 +287,6 @@ appendLeaf:
 	retsub
 
 abi_route_updateLeaf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
@@ -364,23 +330,23 @@ updateLeaf:
 	app_global_put
 	retsub
 
-main:
+create_NoOp:
 	txn NumAppArgs
-	bnz route_abi
-	txn ApplicationID
-	int 0
-	==
-	bnz bare_route_create
-	txn OnCompletion
-	int DeleteApplication
-	==
-	int 1
-	match bare_route_DeleteApplication
+	switch abi_route_create
+	err
 
-route_abi:
+call_NoOp:
 	method "verify(byte[],byte[33][3])void"
 	method "appendLeaf(byte[],byte[33][3])void"
 	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
 	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf
+	err
+
+create_DeleteApplication:
+	err
+
+call_DeleteApplication:
+	txn NumAppArgs
+	switch abi_route_delete
 	err

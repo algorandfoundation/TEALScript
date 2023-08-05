@@ -1,16 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
+NOT_IMPLEMENTED:
+	err
+
+abi_route_create:
 	// no dupn needed
 	callsub create
 	int 1
@@ -51,15 +53,6 @@ create:
 	retsub
 
 abi_route_optIntoAsset:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -127,15 +120,6 @@ optIntoAsset:
 	retsub
 
 abi_route_startAuction:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txn GroupIndex
 	int 1
@@ -227,16 +211,7 @@ pay:
 	itxn_submit
 	retsub
 
-bare_route_OptIn:
-	txn OnCompletion
-	int OptIn
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
+abi_route_optIn:
 	// no dupn needed
 	callsub optIn
 	int 1
@@ -247,15 +222,6 @@ optIn:
 	retsub
 
 abi_route_bid:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txn GroupIndex
 	int 1
@@ -320,14 +286,6 @@ bid:
 	retsub
 
 abi_route_claimBids:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x; dup
 	callsub claimBids
 	int 1
@@ -386,15 +344,6 @@ if0_end:
 	retsub
 
 abi_route_claim_asset:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -451,16 +400,7 @@ claim_asset:
 	itxn_submit
 	retsub
 
-bare_route_DeleteApplication:
-	txn OnCompletion
-	int DeleteApplication
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
+abi_route_delete:
 	// no dupn needed
 	callsub delete
 	int 1
@@ -497,23 +437,12 @@ delete:
 	itxn_submit
 	retsub
 
-main:
+create_NoOp:
 	txn NumAppArgs
-	bnz route_abi
-	txn ApplicationID
-	int 0
-	==
-	bnz bare_route_create
-	txn OnCompletion
-	int OptIn
-	==
-	txn OnCompletion
-	int DeleteApplication
-	==
-	int 1
-	match bare_route_OptIn bare_route_DeleteApplication
+	switch abi_route_create
+	err
 
-route_abi:
+call_NoOp:
 	method "optIntoAsset(asset)void"
 	method "startAuction(uint64,uint64,axfer)void"
 	method "bid(pay)void"
@@ -521,4 +450,20 @@ route_abi:
 	method "claim_asset(asset)void"
 	txna ApplicationArgs 0
 	match abi_route_optIntoAsset abi_route_startAuction abi_route_bid abi_route_claimBids abi_route_claim_asset
+	err
+
+create_OptIn:
+	err
+
+call_OptIn:
+	txn NumAppArgs
+	switch abi_route_optIn
+	err
+
+create_DeleteApplication:
+	err
+
+call_DeleteApplication:
+	txn NumAppArgs
+	switch abi_route_delete
 	err

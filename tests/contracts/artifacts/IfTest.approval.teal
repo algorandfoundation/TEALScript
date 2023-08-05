@@ -1,16 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_singleIf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub singleIf
 	int 1
@@ -35,15 +37,6 @@ if0_end:
 	retsub
 
 abi_route_ifElse:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub ifElse
 	int 1
@@ -75,15 +68,6 @@ if1_end:
 	retsub
 
 abi_route_ifElseIf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub ifElseIf
 	int 1
@@ -121,15 +105,6 @@ if2_end:
 	retsub
 
 abi_route_ifElseIfElse:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub ifElseIfElse
 	int 1
@@ -174,15 +149,6 @@ if3_end:
 	retsub
 
 abi_route_ifElseIfElseIf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub ifElseIfElseIf
 	int 1
@@ -233,15 +199,6 @@ if4_end:
 	retsub
 
 abi_route_ifElseIfElseIfElse:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub ifElseIfElseIfElse
 	int 1
@@ -299,14 +256,6 @@ if5_end:
 	retsub
 
 abi_route_nestedIf:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	txna ApplicationArgs 2
 	int 0
@@ -370,21 +319,16 @@ if6_end:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_defaultTEALScriptCreate:
+	int 1
 	return
 
-route_abi:
+create_NoOp:
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
 	method "singleIf()void"
 	method "ifElse()void"
 	method "ifElseIf()void"

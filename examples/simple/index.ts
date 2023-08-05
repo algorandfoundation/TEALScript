@@ -18,7 +18,9 @@ import { SimpleClient } from './SimpleClient';
     algodClient,
   );
 
-  const { appId, appAddress, transaction } = await simple.appClient.create();
+  const { transaction } = await simple.create.createApp({});
+
+  const { appId, appAddress } = await simple.appClient.getAppReference();
   console.log(`Created app ${appId} with address ${appAddress} in tx ${transaction.txID()}`);
 
   await simple.incr({ i: 1n });

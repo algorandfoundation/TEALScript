@@ -1,16 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_txnTypeEnum:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub txnTypeEnum
 	int 1
@@ -29,15 +31,6 @@ txnTypeEnum:
 	retsub
 
 abi_route_txnGroupLength:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	callsub txnGroupLength
 	int 1
@@ -56,21 +49,16 @@ txnGroupLength:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_defaultTEALScriptCreate:
+	int 1
 	return
 
-route_abi:
+create_NoOp:
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
 	method "txnTypeEnum()void"
 	method "txnGroupLength()uint64"
 	txna ApplicationArgs 0

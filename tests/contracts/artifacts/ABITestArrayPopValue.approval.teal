@@ -1,15 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_arrayPopValue:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x; dup
 	callsub arrayPopValue
 	int 1
@@ -64,21 +67,16 @@ arrayPopValue:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_defaultTEALScriptCreate:
+	int 1
 	return
 
-route_abi:
+create_NoOp:
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
 	method "arrayPopValue()uint16"
 	txna ApplicationArgs 0
 	match abi_route_arrayPopValue

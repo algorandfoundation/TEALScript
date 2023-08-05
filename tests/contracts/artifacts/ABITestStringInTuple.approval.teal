@@ -1,15 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
 
 abi_route_stringInTuple:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
 	byte 0x
 	callsub stringInTuple
 	int 1
@@ -68,21 +71,16 @@ stringInTuple:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-
-	// default createApplication
-	txn ApplicationID
-	int 0
-	==
-	txn OnCompletion
-	int NoOp
-	==
-	&&
+abi_route_defaultTEALScriptCreate:
+	int 1
 	return
 
-route_abi:
+create_NoOp:
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
 	method "stringInTuple()(uint16,uint8[],string,uint8[])"
 	txna ApplicationArgs 0
 	match abi_route_stringInTuple

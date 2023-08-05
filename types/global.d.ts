@@ -656,24 +656,18 @@ declare type decorator = (
   descriptor: PropertyDescriptor
 ) => PropertyDescriptor
 
-declare class handle {
-  static clearState: decorator;
+declare class allow {
+  static call(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'): decorator
 
-  static noOp: decorator;
+  static create(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
 
-  static optIn: decorator;
+  static bareCall(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'): decorator
 
-  static closeOut: decorator;
-
-  static updateApplication: decorator;
-
-  static deleteApplication: decorator;
-
-  static createApplication: decorator;
+  static bareCreate(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
 }
 
 declare class abi {
-  static readonly: decorator;
+  static readonly(readonly: boolean): decorator;
 }
 
 type StaticArray<
