@@ -12,16 +12,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-abi_route_create:
-	// no dupn needed
-	callsub create
-	int 1
-	return
-
-create:
-	proto 0 0
-	retsub
-
 abi_route_createNFT:
 	// no dupn needed
 	txna ApplicationArgs 2
@@ -35,33 +25,33 @@ abi_route_createNFT:
 createNFT:
 	proto 2 0
 
-	// examples/itxns/itxns.algo.ts:9
+	// examples/itxns/itxns.algo.ts:6
 	// return sendAssetCreation({
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:10
+	// examples/itxns/itxns.algo.ts:7
 	// configAssetName: name
 	frame_dig -1 // name: bytes
 	itxn_field ConfigAssetName
 
-	// examples/itxns/itxns.algo.ts:11
+	// examples/itxns/itxns.algo.ts:8
 	// configAssetUnitName: unitName
 	frame_dig -2 // unitName: bytes
 	itxn_field ConfigAssetUnitName
 
-	// examples/itxns/itxns.algo.ts:12
+	// examples/itxns/itxns.algo.ts:9
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
 
-	// examples/itxns/itxns.algo.ts:13
+	// examples/itxns/itxns.algo.ts:10
 	// configAssetDecimals: 0
 	int 0
 	itxn_field ConfigAssetDecimals
 
-	// examples/itxns/itxns.algo.ts:14
+	// examples/itxns/itxns.algo.ts:11
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -89,38 +79,41 @@ abi_route_transferNFT:
 transferNFT:
 	proto 2 0
 
-	// examples/itxns/itxns.algo.ts:19
+	// examples/itxns/itxns.algo.ts:16
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:20
+	// examples/itxns/itxns.algo.ts:17
 	// assetReceiver: receiver
 	frame_dig -2 // receiver: account
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.algo.ts:21
+	// examples/itxns/itxns.algo.ts:18
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.algo.ts:22
+	// examples/itxns/itxns.algo.ts:19
 	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
-	// examples/itxns/itxns.algo.ts:23
+	// examples/itxns/itxns.algo.ts:20
 	// fee: 0
 	int 0
 	itxn_field Fee
 	itxn_submit
 	retsub
 
+abi_route_defaultTEALScriptCreate:
+	int 1
+	return
+
 create_NoOp:
-	method "create()void"
-	txna ApplicationArgs 0
-	match abi_route_create
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

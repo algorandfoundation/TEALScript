@@ -106,7 +106,7 @@ describe('Box Ops', () => {
       algodClient,
     );
 
-    await appClient.create({ method: 'create', methodArgs: [], sendParams: SUPPRESS_LOG });
+    await appClient.create({ sendParams: SUPPRESS_LOG });
   });
 
   test('boxKeyCreate', async () => {

@@ -18,7 +18,7 @@ import { FactoryCallerClient } from './FactoryCallerClient';
     algodClient,
   );
 
-  await factoryCaller.create.create({});
+  await factoryCaller.create.bare();
 
   const { appAddress } = await factoryCaller.appClient.getAppReference();
 

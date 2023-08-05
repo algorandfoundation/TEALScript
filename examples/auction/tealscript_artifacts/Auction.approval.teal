@@ -7,7 +7,7 @@ int 6
 *
 txn OnCompletion
 +
-switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp call_OptIn
+switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
 NOT_IMPLEMENTED:
 	err
@@ -438,9 +438,8 @@ delete:
 	retsub
 
 create_NoOp:
-	method "create()void"
-	txna ApplicationArgs 0
-	match abi_route_create
+	txn NumAppArgs
+	switch abi_route_create
 	err
 
 call_NoOp:
@@ -453,9 +452,18 @@ call_NoOp:
 	match abi_route_optIntoAsset abi_route_startAuction abi_route_bid abi_route_claimBids abi_route_claim_asset
 	err
 
+create_OptIn:
+	err
+
 call_OptIn:
-	method "optIn()void"
-	method "delete()void"
-	txna ApplicationArgs 0
-	match abi_route_optIn abi_route_delete
+	txn NumAppArgs
+	switch abi_route_optIn
+	err
+
+create_DeleteApplication:
+	err
+
+call_DeleteApplication:
+	txn NumAppArgs
+	switch abi_route_delete
 	err

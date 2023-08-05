@@ -3,15 +3,6 @@
   "desc": "",
   "methods": [
     {
-      "name": "create",
-      "args": [],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
       "name": "optIntoAsset",
       "args": [
         {
@@ -52,15 +43,6 @@
       }
     },
     {
-      "name": "optIn",
-      "args": [],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
       "name": "bid",
       "args": [
         {
@@ -93,15 +75,6 @@
           "desc": ""
         }
       ],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
-      "name": "delete",
-      "args": [],
       "desc": "",
       "returns": {
         "type": "void",

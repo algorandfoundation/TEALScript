@@ -106,7 +106,7 @@ describe('ARC75', function () {
       algodClient,
     );
 
-    await arc75.create.create({ sendParams: { suppressLog: true } });
+    await arc75.create.bare({ sendParams: { suppressLog: true } });
 
     const appRef = await arc75.appClient.getAppReference();
     appAddress = appRef.appAddress;

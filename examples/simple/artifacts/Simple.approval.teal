@@ -12,16 +12,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-abi_route_createApp:
-	// no dupn needed
-	callsub createApp
-	int 1
-	return
-
-createApp:
-	proto 0 0
-	retsub
-
 abi_route_incr:
 	// no dupn needed
 	txna ApplicationArgs 1
@@ -33,7 +23,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:10
+	// examples/simple/simple.algo.ts:7
 	// this.counter.set(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -54,7 +44,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:14
+	// examples/simple/simple.algo.ts:11
 	// this.counter.set(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -75,7 +65,7 @@ abi_route_add:
 add:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:18
+	// examples/simple/simple.algo.ts:15
 	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -99,7 +89,7 @@ abi_route_sub:
 sub:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:22
+	// examples/simple/simple.algo.ts:19
 	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -112,10 +102,13 @@ sub:
 	log
 	retsub
 
+abi_route_defaultTEALScriptCreate:
+	int 1
+	return
+
 create_NoOp:
-	method "createApp()void"
-	txna ApplicationArgs 0
-	match abi_route_createApp
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

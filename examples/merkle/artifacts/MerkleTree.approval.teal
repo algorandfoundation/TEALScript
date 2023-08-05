@@ -7,7 +7,7 @@ int 6
 *
 txn OnCompletion
 +
-switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
 NOT_IMPLEMENTED:
 	err
@@ -331,9 +331,8 @@ updateLeaf:
 	retsub
 
 create_NoOp:
-	method "create()void"
-	txna ApplicationArgs 0
-	match abi_route_create
+	txn NumAppArgs
+	switch abi_route_create
 	err
 
 call_NoOp:
@@ -344,8 +343,10 @@ call_NoOp:
 	match abi_route_verify abi_route_appendLeaf abi_route_updateLeaf
 	err
 
+create_DeleteApplication:
+	err
+
 call_DeleteApplication:
-	method "delete()void"
-	txna ApplicationArgs 0
-	match abi_route_delete
+	txn NumAppArgs
+	switch abi_route_delete
 	err

@@ -45,7 +45,7 @@ async function main() {
     algodClient,
   );
 
-  await contacts.create.create({});
+  await contacts.create.bare();
 
   await contacts.appClient.fundAppAccount(algokit.microAlgos(100_000));
 
