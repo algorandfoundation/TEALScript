@@ -4089,7 +4089,6 @@ export default class Compiler {
     // if no clear state, just default approve
     if (!this.clearStateCompiled) {
       output.push('int 1');
-      output.push('return');
     }
     this.generatedClearTeal = output.join('\n');
 
