@@ -16,7 +16,7 @@ class ConstantProductAMM extends Contract {
 
   ratio = new GlobalStateKey<uint64>({ key: 'r' });
 
-  @handle.createApplication
+  @allow.bareCreate()
   create(): void {
     this.governor.set(this.txn.sender);
   }

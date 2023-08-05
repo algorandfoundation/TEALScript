@@ -1,35 +1,18 @@
-#pragma version 8
-	b main
+#pragma version 9
 
-bare_route_create:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	==
-	&&
-	assert
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
 
-	// no dupn needed
-	callsub createApp
-	int 1
-	return
-
-createApp:
-	proto 0 0
-	retsub
+NOT_IMPLEMENTED:
+	err
 
 abi_route_incr:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -40,7 +23,7 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:10
+	// examples/simple/simple.algo.ts:7
 	// this.counter.set(this.counter.get() + i)
 	byte "counter"
 	byte "counter"
@@ -51,15 +34,6 @@ incr:
 	retsub
 
 abi_route_decr:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 1
 	btoi
@@ -70,7 +44,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:14
+	// examples/simple/simple.algo.ts:11
 	// this.counter.set(this.counter.get() - i)
 	byte "counter"
 	byte "counter"
@@ -81,15 +55,6 @@ decr:
 	retsub
 
 abi_route_add:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -100,7 +65,7 @@ abi_route_add:
 add:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:18
+	// examples/simple/simple.algo.ts:15
 	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -114,15 +79,6 @@ add:
 	retsub
 
 abi_route_sub:
-	txn OnCompletion
-	int NoOp
-	==
-	txn ApplicationID
-	int 0
-	!=
-	&&
-	assert
-
 	// no dupn needed
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
@@ -133,7 +89,7 @@ abi_route_sub:
 sub:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:22
+	// examples/simple/simple.algo.ts:19
 	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -146,15 +102,16 @@ sub:
 	log
 	retsub
 
-main:
-	txn NumAppArgs
-	bnz route_abi
-	txn ApplicationID
-	int 0
-	==
-	bnz bare_route_create
+abi_route_defaultTEALScriptCreate:
+	int 1
+	return
 
-route_abi:
+create_NoOp:
+	txn NumAppArgs
+	switch abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
 	method "incr(uint64)void"
 	method "decr(uint64)void"
 	method "add(uint256,uint256)uint256"

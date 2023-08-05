@@ -1,9 +1,9 @@
-#pragma version 8
-	// examples/simple/simple.algo.ts:27
-	// this.counter.set(this.counter.get() + 1)
-	byte "counter"
-	byte "counter"
-	app_global_get
-	int 1
-	+
-	app_global_put
+#pragma version 9
+// examples/simple/simple.algo.ts:24
+// this.counter.set(this.counter.get() + 1)
+byte "counter"
+byte "counter"
+app_global_get
+int 1
++
+app_global_put

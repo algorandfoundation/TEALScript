@@ -14,7 +14,7 @@ class Auction extends Contract {
 
   claimableAmount = new LocalStateKey<uint64>();
 
-  @handle.createApplication
+  @allow.bareCreate()
   create(): void {
     this.auctionEnd.set(0);
     this.previousBid.set(0);
@@ -67,7 +67,7 @@ class Auction extends Contract {
     });
   }
 
-  @handle.optIn
+  @allow.bareCall('OptIn')
   optIn(): void {}
 
   // eslint-disable-next-line no-unused-vars
@@ -111,7 +111,7 @@ class Auction extends Contract {
     });
   }
 
-  @handle.deleteApplication
+  @allow.bareCall('DeleteApplication')
   delete(): void {
     sendPayment({
       fee: 0,
