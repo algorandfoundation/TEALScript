@@ -1528,19 +1528,21 @@ export default class Compiler {
       });
     });
 
-    const removeLastDuplicates = (array: string[]) => {
-      let lastIndex = array.length - 1;
-      const element = array[lastIndex];
-      while (array[lastIndex] === element && lastIndex >= 0) {
-        array.pop();
-        lastIndex--;
-      }
-      return array;
-    };
+    if (this.teal[switchIndex].endsWith('NOT_IMPLEMENTED')) {
+      const removeLastDuplicates = (array: string[]) => {
+        let lastIndex = array.length - 1;
+        const element = array[lastIndex];
+        while (array[lastIndex] === element && lastIndex >= 0) {
+          array.pop();
+          lastIndex--;
+        }
+        return array;
+      };
 
-    const switchLine = removeLastDuplicates(this.teal[9].split(' ')).join(' ');
+      const switchLine = removeLastDuplicates(this.teal[switchIndex].split(' ')).join(' ');
 
-    this.teal[switchIndex] = switchLine;
+      this.teal[switchIndex] = switchLine;
+    }
   }
 
   private maybeValue(node: ts.Node, opcode: string, type: string) {

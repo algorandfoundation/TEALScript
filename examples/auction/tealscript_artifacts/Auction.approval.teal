@@ -7,7 +7,7 @@ int 6
 *
 txn OnCompletion
 +
-switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_DeleteApplication
 
 NOT_IMPLEMENTED:
 	err
