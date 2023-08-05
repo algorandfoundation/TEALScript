@@ -172,16 +172,16 @@ for_1_end:
 	frame_dig -1 // leaf: byte[32]
 	retsub
 
-abi_route_delete:
+abi_route_deleteApplication:
 	// no dupn needed
-	callsub delete
+	callsub deleteApplication
 	int 1
 	return
 
-delete:
+deleteApplication:
 	proto 0 0
 
-	// examples/merkle/merkle.algo.ts:54
+	// examples/merkle/merkle.algo.ts:53
 	// assert(this.txn.sender === this.app.creator)
 	txn Sender
 	txna Applications 0
@@ -191,16 +191,16 @@ delete:
 	assert
 	retsub
 
-abi_route_create:
+abi_route_createApplication:
 	// no dupn needed
-	callsub create
+	callsub createApplication
 	int 1
 	return
 
-create:
+createApplication:
 	proto 0 0
 
-	// examples/merkle/merkle.algo.ts:59
+	// examples/merkle/merkle.algo.ts:57
 	// this.root.set(this.calcInitRoot())
 	byte "root"
 	byte 0x; dup
@@ -220,7 +220,7 @@ abi_route_verify:
 verify:
 	proto 2 0
 
-	// examples/merkle/merkle.algo.ts:63
+	// examples/merkle/merkle.algo.ts:61
 	// assert(this.root.get() === this.calcRoot(sha256(data), path))
 	byte "root"
 	app_global_get
@@ -245,14 +245,14 @@ abi_route_appendLeaf:
 appendLeaf:
 	proto 2 0
 
-	// examples/merkle/merkle.algo.ts:67
+	// examples/merkle/merkle.algo.ts:65
 	// assert(data !== '')
 	frame_dig -1 // data: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:68
+	// examples/merkle/merkle.algo.ts:66
 	// assert(this.root.get() === this.calcRoot(EMPTY_HASH, path))
 	byte "root"
 	app_global_get
@@ -266,7 +266,7 @@ appendLeaf:
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:70
+	// examples/merkle/merkle.algo.ts:68
 	// this.root.set(this.calcRoot(sha256(data), path))
 	byte "root"
 	byte 0x; dup
@@ -276,7 +276,7 @@ appendLeaf:
 	callsub calcRoot
 	app_global_put
 
-	// examples/merkle/merkle.algo.ts:72
+	// examples/merkle/merkle.algo.ts:70
 	// this.size.set(this.size.get() + 1)
 	byte "size"
 	byte "size"
@@ -300,14 +300,14 @@ abi_route_updateLeaf:
 updateLeaf:
 	proto 3 0
 
-	// examples/merkle/merkle.algo.ts:76
+	// examples/merkle/merkle.algo.ts:74
 	// assert(newData !== '')
 	frame_dig -2 // newData: bytes
 	byte ""
 	!=
 	assert
 
-	// examples/merkle/merkle.algo.ts:77
+	// examples/merkle/merkle.algo.ts:75
 	// assert(this.root.get() === this.calcRoot(sha256(oldData), path))
 	byte "root"
 	app_global_get
@@ -319,7 +319,7 @@ updateLeaf:
 	==
 	assert
 
-	// examples/merkle/merkle.algo.ts:79
+	// examples/merkle/merkle.algo.ts:77
 	// this.root.set(this.calcRoot(sha256(newData), path))
 	byte "root"
 	byte 0x; dup
@@ -332,7 +332,7 @@ updateLeaf:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_create
+	switch abi_route_createApplication
 	err
 
 call_NoOp:
@@ -348,5 +348,5 @@ create_DeleteApplication:
 
 call_DeleteApplication:
 	txn NumAppArgs
-	switch abi_route_delete
+	switch abi_route_deleteApplication
 	err

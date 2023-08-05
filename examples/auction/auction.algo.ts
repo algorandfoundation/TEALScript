@@ -14,8 +14,7 @@ class Auction extends Contract {
 
   claimableAmount = new LocalStateKey<uint64>();
 
-  @allow.bareCreate()
-  create(): void {
+  createApplication(): void {
     this.auctionEnd.set(0);
     this.previousBid.set(0);
     this.asaAmt.set(0);
@@ -67,8 +66,7 @@ class Auction extends Contract {
     });
   }
 
-  @allow.bareCall('OptIn')
-  optIn(): void {}
+  optInToApplication(): void {}
 
   // eslint-disable-next-line no-unused-vars
   bid(payment: PayTxn): void {
@@ -111,8 +109,7 @@ class Auction extends Contract {
     });
   }
 
-  @allow.bareCall('DeleteApplication')
-  delete(): void {
+  deleteApplication(): void {
     sendPayment({
       fee: 0,
       receiver: globals.creatorAddress,

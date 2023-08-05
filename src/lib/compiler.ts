@@ -9,6 +9,7 @@ import path from 'path';
 import * as tsdoc from '@microsoft/tsdoc';
 import * as langspec from '../langspec.json';
 
+type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
 export type CompilerOptions = {
@@ -1498,6 +1499,7 @@ export default class Compiler {
     const switchIndex = 9;
 
     ON_COMPLETES.forEach((onComplete) => {
+      if (onComplete === 'ClearState') return;
       ['create', 'call'].forEach((a) => {
         const methods = this.abi.methods.filter((m) => {
           const subroutine = this.subroutines.find((s) => s.name === m.name)!;
@@ -2540,6 +2542,20 @@ export default class Compiler {
 
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
+
+    if ([...ON_COMPLETES, 'CreateApplication'].includes(capitalizeFirstChar(this.currentSubroutine.name))) {
+      const isCreate = this.currentSubroutine.name === 'createApplication';
+      const oc = isCreate ? 'NoOp' : capitalizeFirstChar(this.currentSubroutine.name) as OnComplete;
+      console.log(oc);
+      const action = isCreate ? 'CREATE' : 'CALL';
+      if (this.currentSubroutine.args.length === 0) {
+        bareAction = true;
+        this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
+      } else {
+        this.currentSubroutine.allows[action.toLowerCase() as 'call' | 'create'].push(oc);
+      }
+    }
+
     (ts.getDecorators(node) || []).forEach(
       (d) => {
         const callExpr = d.expression;
@@ -3610,7 +3626,7 @@ export default class Compiler {
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
-    if (this.currentSubroutine.allows.call.includes('ClearState')) {
+    if (this.currentSubroutine.allows.call.includes('ClearState') || this.currentSubroutine.name === 'clearState') {
       this.processClearState(fn);
       return;
     }
