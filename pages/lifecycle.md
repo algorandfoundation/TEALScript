@@ -1,14 +1,15 @@
-## Handle Decorators
-TEALScript provides some decorators to allow for the handling of specific actions (creation and various on-completes) via {@link handle}. If the method has no arguments, the method will be a bare method for the given action(s). Otherwise, the decorated method will be the ONLY method that can handle the given action.
+## Allow Decorators
+TEALScript provides some decorators to allow for the handling of specific actions (such as create, update, and delete) via {@link allow}.
+
 
 ## Create
 
-By default, TEALScript contracts can be created a bare method call with the `NoOp` on complete. To add logic to the application's creation, you can use the {@link handle.createApplication handle.createApplication} decorator. If no arguments are provided to the method, the method will be the bare create logic.
+By default, TEALScript contracts can be created a bare method call (no arguments) with the `NoOp` on complete. To add logic to the application's creation, you can use the {@link handle.createApplication handle.createApplication} decorator. If no arguments are provided to the method, the method will be the bare create logic.
 
 ### Examples
 #### Bare Create
 ```ts
-@handle.createApplication
+@allow.bareCreate()
 bareCreateExample(): void {
   log("This app has been created!")
 }
@@ -16,7 +17,7 @@ bareCreateExample(): void {
 
 #### Non-Bare Create
 ```ts
-@handle.createApplication
+@allow.create()
 nonBareCreateExample(name: string): void {
   log("This app has been created by " + name + "!")
 }
@@ -24,12 +25,12 @@ nonBareCreateExample(name: string): void {
 
 ## Update
 
-By default, TEALScript applications are immutable and cannot be udpated. To support updates, a method with the {@link handle.updateApplication handle.updateApplication} decorator must be defined. If the method has no arguments, it will be the bare update logic.
+By default, TEALScript applications are immutable and cannot be udpated. To support updates, a method with the {@link allow.call allow.call('UpdateApplication')} decorator must be defined. A bare update can also be implemented with {@link allow.bareCall allow.bareCall('UpdateApplication')}
 
 ### Examples
 #### Bare Update
 ```ts
-@handle.updateApplication
+@allow.bareCall('UpdateApplication')
 bareUpdateExample(): void {
   assert(this.txn.sender === this.app.creator)
   log("This app has been updated!")
@@ -38,22 +39,22 @@ bareUpdateExample(): void {
 
 #### Non-Bare Update
 ```ts
-@handle.updateApplication
+@allow.call('UpdateApplication')
 nonBareUpdateExample(name: string): void {
   assert(this.txn.sender === this.app.creator)
-  log("This app has been created by " + name + "!")
+  log("This app has been updated by " + name + "!")
 }
 ```
 
 ## Delete
 
-By default, TEALScript applications are immutable and cannot be deleted. To support deletion, a method with the {@link handle.deleteApplication handle.deleteApplication} decorator must be defined. If the method has no arguments, it will be the bare delete logic.
+By default, TEALScript applications are immutable and cannot be deleted. To support updates, a method with the {@link allow.call allow.call('DeleteApplication')} decorator must be defined. A bare delete can also be implemented with {@link allow.bareCall allow.bareCall('DeleteApplication')}
 
 ### Examples
 
 #### Bare Delete
 ```ts
-@handle.deleteApplication
+@allow.bareCall('DeleteApplication')
 bareDeleteExample(): void {
   assert(this.txn.sender === this.app.creator)
   log("This app has been deleted!")
@@ -62,7 +63,7 @@ bareDeleteExample(): void {
 
 #### Non-Bare Delete
 ```ts
-@handle.deleteApplication
+@allow.call('DeleteApplication')
 nonBareDeleteExample(name: string): void {
   assert(this.txn.sender === this.app.creator)
   log("This app has been deleted by " + name + "!")
@@ -71,13 +72,13 @@ nonBareDeleteExample(name: string): void {
 
 ## Opt-In
 
-By default, TEALScript applications do not allow opt ins. To support opting in for {@link types/storage.md local storage}, a method with the {@link handle.optIn handle.optIn} decorator must be defined. If the method has no arguments, it will be the bare opt-in logic.
+By default, TEALScript applications do not allow opt ins. To support opting in for {@link types/storage.md local storage}, a method with the {@link allow.call allow.call('OptIn')} or {@link allow.bareCall allow.bareCall('OptIn')} decorator must be defined.
 
 ### Examples
 
 #### Bare Opt-In
 ```ts
-@handle.optIn
+@allow.bareCall('OptIn')
 bareDeleteExample(): void {
   log("User has opted in!")
 }
@@ -85,7 +86,7 @@ bareDeleteExample(): void {
 
 #### Non-Bare Delete
 ```ts
-@handle.optIn
+@allow.call('OptIn')
 nonBareDeleteExample(name: string): void {
   log(name + ' has opted in!')
 }
