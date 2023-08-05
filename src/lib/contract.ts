@@ -21,9 +21,14 @@ export default abstract class Contract {
 
   /**
    * The method called when creating the application. The default create method will
-   * allow the contract to be created via a bare NoOp appcall.
+   * allow the contract to be created via a bare NoOp appcall and throw an error if called
+   * with any arguments.
    */
-  createApplication(): void { }
+  createApplication(...args: any[]): void {
+    if (args.length > 0) {
+      throw Error();
+    }
+  }
 
   /**
    * The method called when attempting to update the application. The default update method will
@@ -54,5 +59,5 @@ export default abstract class Contract {
    * method does nothing. ClearState will always allow a user to delete their local state,
    * reagrdless of logic.
    */
-  clearState(): void { }
+  clearState(...args: any[]): void { }
 }
