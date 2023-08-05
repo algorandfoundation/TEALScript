@@ -19,7 +19,6 @@ export default class Simple extends Contract {
     return a - b;
   }
 
-  @allow.call('ClearState')
   clearState(): void {
     this.counter.set(this.counter.get() + 1);
   }

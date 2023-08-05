@@ -12,16 +12,16 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-abi_route_create:
+abi_route_createApplication:
 	// no dupn needed
-	callsub create
+	callsub createApplication
 	int 1
 	return
 
-create:
+createApplication:
 	proto 0 0
 
-	// examples/amm/amm.algo.ts:21
+	// examples/amm/amm.algo.ts:20
 	// this.governor.set(this.txn.sender)
 	byte "g"
 	txn Sender
@@ -31,13 +31,13 @@ create:
 doCreatePoolToken:
 	proto 2 1
 
-	// examples/amm/amm.algo.ts:27
+	// examples/amm/amm.algo.ts:26
 	// return sendAssetCreation({
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// examples/amm/amm.algo.ts:28
+	// examples/amm/amm.algo.ts:27
 	// configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName
 	byte "DPT-"
 	frame_dig -1 // aAsset: asset
@@ -52,36 +52,36 @@ doCreatePoolToken:
 	concat
 	itxn_field ConfigAssetName
 
-	// examples/amm/amm.algo.ts:29
+	// examples/amm/amm.algo.ts:28
 	// configAssetUnitName: 'dpt'
 	byte "dpt"
 	itxn_field ConfigAssetUnitName
 
-	// examples/amm/amm.algo.ts:30
+	// examples/amm/amm.algo.ts:29
 	// configAssetTotal: TOTAL_SUPPLY
 	int 10_000_000_000
 	itxn_field ConfigAssetTotal
 
-	// examples/amm/amm.algo.ts:31
+	// examples/amm/amm.algo.ts:30
 	// configAssetDecimals: 3
 	int 3
 	itxn_field ConfigAssetDecimals
 
-	// examples/amm/amm.algo.ts:32
+	// examples/amm/amm.algo.ts:31
 	// configAssetManager: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetManager
 
-	// examples/amm/amm.algo.ts:33
+	// examples/amm/amm.algo.ts:32
 	// configAssetReserve: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetReserve
 
-	// examples/amm/amm.algo.ts:34
+	// examples/amm/amm.algo.ts:33
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -92,28 +92,28 @@ doCreatePoolToken:
 doAxfer:
 	proto 3 0
 
-	// examples/amm/amm.algo.ts:39
+	// examples/amm/amm.algo.ts:38
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/amm/amm.algo.ts:40
+	// examples/amm/amm.algo.ts:39
 	// assetReceiver: receiver
 	frame_dig -1 // receiver: account
 	itxn_field AssetReceiver
 
-	// examples/amm/amm.algo.ts:41
+	// examples/amm/amm.algo.ts:40
 	// xferAsset: asset
 	frame_dig -2 // asset: asset
 	itxn_field XferAsset
 
-	// examples/amm/amm.algo.ts:42
+	// examples/amm/amm.algo.ts:41
 	// assetAmount: amount
 	frame_dig -3 // amount: uint64
 	itxn_field AssetAmount
 
-	// examples/amm/amm.algo.ts:43
+	// examples/amm/amm.algo.ts:42
 	// fee: 0
 	int 0
 	itxn_field Fee
@@ -123,7 +123,7 @@ doAxfer:
 doOptIn:
 	proto 1 0
 
-	// examples/amm/amm.algo.ts:48
+	// examples/amm/amm.algo.ts:47
 	// this.doAxfer(this.app.address, asset, 0)
 	// no dupn needed
 	int 0
@@ -137,7 +137,7 @@ doOptIn:
 tokensToMintIntial:
 	proto 2 1
 
-	// examples/amm/amm.algo.ts:52
+	// examples/amm/amm.algo.ts:51
 	// return sqrt(aAmount * bAmount);
 	frame_dig -1 // aAmount: uint64
 	frame_dig -2 // bAmount: uint64
@@ -148,7 +148,7 @@ tokensToMintIntial:
 tokensToMint:
 	proto 8 1
 
-	// examples/amm/amm.algo.ts:62
+	// examples/amm/amm.algo.ts:61
 	// aRatio = wideRatio([aAmount, SCALE], [aSupply])
 	frame_dig -4 // aAmount: uint64
 	int 1_000
@@ -163,7 +163,7 @@ tokensToMint:
 	assert
 	frame_bury -6 // aRatio: uint64
 
-	// examples/amm/amm.algo.ts:63
+	// examples/amm/amm.algo.ts:62
 	// bRatio = wideRatio([bAmount, SCALE], [bSupply])
 	frame_dig -5 // bAmount: uint64
 	int 1_000
@@ -178,7 +178,7 @@ tokensToMint:
 	assert
 	frame_bury -7 // bRatio: uint64
 
-	// examples/amm/amm.algo.ts:65
+	// examples/amm/amm.algo.ts:64
 	// ratio = aRatio < bRatio ? aRatio : bRatio
 	frame_dig -6 // aRatio: uint64
 	frame_dig -7 // bRatio: uint64
@@ -193,7 +193,7 @@ ternary1_false:
 ternary1_end:
 	frame_bury -8 // ratio: uint64
 
-	// examples/amm/amm.algo.ts:67
+	// examples/amm/amm.algo.ts:66
 	// return wideRatio([ratio, issued], [SCALE]);
 	frame_dig -8 // ratio: uint64
 	frame_dig -1 // issued: uint64
@@ -211,7 +211,7 @@ ternary1_end:
 computeRatio:
 	proto 0 1
 
-	// examples/amm/amm.algo.ts:71
+	// examples/amm/amm.algo.ts:70
 	// return wideRatio(
 	txna Applications 0
 	app_params_get AppAddress
@@ -241,7 +241,7 @@ computeRatio:
 tokensToBurn:
 	proto 3 1
 
-	// examples/amm/amm.algo.ts:78
+	// examples/amm/amm.algo.ts:77
 	// return wideRatio([supply, amount], [issued]);
 	frame_dig -2 // supply: uint64
 	frame_dig -3 // amount: uint64
@@ -259,14 +259,14 @@ tokensToBurn:
 tokensToSwap:
 	proto 4 1
 
-	// examples/amm/amm.algo.ts:82
+	// examples/amm/amm.algo.ts:81
 	// factor = SCALE - FEE
 	int 1_000
 	int 5
 	-
 	frame_bury -4 // factor: uint64
 
-	// examples/amm/amm.algo.ts:83
+	// examples/amm/amm.algo.ts:82
 	// return wideRatio(
 	frame_dig -1 // inAmount: uint64
 	frame_dig -4 // factor: uint64
@@ -308,7 +308,7 @@ abi_route_set_governor:
 set_governor:
 	proto 1 0
 
-	// examples/amm/amm.algo.ts:90
+	// examples/amm/amm.algo.ts:89
 	// assert(this.txn.sender === this.governor.get())
 	txn Sender
 	byte "g"
@@ -316,7 +316,7 @@ set_governor:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:91
+	// examples/amm/amm.algo.ts:90
 	// this.governor.set(governor)
 	byte "g"
 	frame_dig -1 // governor: account
@@ -341,7 +341,7 @@ abi_route_bootstrap:
 bootstrap:
 	proto 3 0
 
-	// examples/amm/amm.algo.ts:95
+	// examples/amm/amm.algo.ts:94
 	// assert(this.txn.sender === this.governor.get())
 	txn Sender
 	byte "g"
@@ -349,14 +349,14 @@ bootstrap:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:97
+	// examples/amm/amm.algo.ts:96
 	// assert(globals.groupSize === 2)
 	global GroupSize
 	int 2
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:98
+	// examples/amm/amm.algo.ts:97
 	// assert(seed.receiver === this.app.address)
 	frame_dig -1 // seed: pay
 	gtxns Receiver
@@ -366,7 +366,7 @@ bootstrap:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:99
+	// examples/amm/amm.algo.ts:98
 	// assert(seed.amount >= 300_000)
 	frame_dig -1 // seed: pay
 	gtxns Amount
@@ -374,26 +374,26 @@ bootstrap:
 	>=
 	assert
 
-	// examples/amm/amm.algo.ts:100
+	// examples/amm/amm.algo.ts:99
 	// assert(aAsset < bAsset)
 	frame_dig -2 // aAsset: asset
 	frame_dig -3 // bAsset: asset
 	<
 	assert
 
-	// examples/amm/amm.algo.ts:102
+	// examples/amm/amm.algo.ts:101
 	// this.assetA.set(aAsset)
 	byte "a"
 	frame_dig -2 // aAsset: asset
 	app_global_put
 
-	// examples/amm/amm.algo.ts:103
+	// examples/amm/amm.algo.ts:102
 	// this.assetB.set(bAsset)
 	byte "b"
 	frame_dig -3 // bAsset: asset
 	app_global_put
 
-	// examples/amm/amm.algo.ts:104
+	// examples/amm/amm.algo.ts:103
 	// this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset))
 	byte "p"
 
@@ -403,19 +403,19 @@ bootstrap:
 	callsub doCreatePoolToken
 	app_global_put
 
-	// examples/amm/amm.algo.ts:106
+	// examples/amm/amm.algo.ts:105
 	// this.doOptIn(aAsset)
 	// no dupn needed
 	frame_dig -2 // aAsset: asset
 	callsub doOptIn
 
-	// examples/amm/amm.algo.ts:107
+	// examples/amm/amm.algo.ts:106
 	// this.doOptIn(bAsset)
 	// no dupn needed
 	frame_dig -3 // bAsset: asset
 	callsub doOptIn
 
-	// examples/amm/amm.algo.ts:109
+	// examples/amm/amm.algo.ts:108
 	// return this.poolToken.get();
 	byte "p"
 	app_global_get
@@ -451,7 +451,7 @@ mint:
 	proto 6 0
 
 	// well formed mint
-	// examples/amm/amm.algo.ts:120
+	// examples/amm/amm.algo.ts:119
 	// assert(aAsset === this.assetA.get())
 	frame_dig -4 // aAsset: asset
 	byte "a"
@@ -459,7 +459,7 @@ mint:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:121
+	// examples/amm/amm.algo.ts:120
 	// assert(bAsset === this.assetB.get())
 	frame_dig -5 // bAsset: asset
 	byte "b"
@@ -467,7 +467,7 @@ mint:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:122
+	// examples/amm/amm.algo.ts:121
 	// assert(poolAsset === this.poolToken.get())
 	frame_dig -3 // poolAsset: asset
 	byte "p"
@@ -475,7 +475,7 @@ mint:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:123
+	// examples/amm/amm.algo.ts:122
 	// assert(aXfer.sender === this.txn.sender && bXfer.sender === this.txn.sender)
 	frame_dig -1 // aXfer: axfer
 	gtxns Sender
@@ -493,7 +493,7 @@ skip_and0:
 	assert
 
 	// valid asset A axfer
-	// examples/amm/amm.algo.ts:126
+	// examples/amm/amm.algo.ts:125
 	// assert(aXfer.assetReceiver === this.app.address)
 	frame_dig -1 // aXfer: axfer
 	gtxns AssetReceiver
@@ -503,7 +503,7 @@ skip_and0:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:127
+	// examples/amm/amm.algo.ts:126
 	// assert(aXfer.xferAsset === aAsset)
 	frame_dig -1 // aXfer: axfer
 	gtxns XferAsset
@@ -511,7 +511,7 @@ skip_and0:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:128
+	// examples/amm/amm.algo.ts:127
 	// assert(aXfer.assetAmount > 0)
 	frame_dig -1 // aXfer: axfer
 	gtxns AssetAmount
@@ -520,7 +520,7 @@ skip_and0:
 	assert
 
 	// valid asset B axfer
-	// examples/amm/amm.algo.ts:131
+	// examples/amm/amm.algo.ts:130
 	// assert(bXfer.assetReceiver === this.app.address)
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetReceiver
@@ -530,7 +530,7 @@ skip_and0:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:132
+	// examples/amm/amm.algo.ts:131
 	// assert(bXfer.xferAsset === bAsset)
 	frame_dig -2 // bXfer: axfer
 	gtxns XferAsset
@@ -538,7 +538,7 @@ skip_and0:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:133
+	// examples/amm/amm.algo.ts:132
 	// assert(bXfer.assetAmount > 0)
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount
@@ -547,7 +547,7 @@ skip_and0:
 	assert
 
 	// if0_condition
-	// examples/amm/amm.algo.ts:136
+	// examples/amm/amm.algo.ts:135
 	// this.app.address.assetBalance(aAsset) === aXfer.assetAmount
 	txna Applications 0
 	app_params_get AppAddress
@@ -575,7 +575,7 @@ skip_and1:
 	bz if0_else
 
 	// if0_consequent
-	// examples/amm/amm.algo.ts:139
+	// examples/amm/amm.algo.ts:138
 	// this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount)
 	// no dupn needed
 	frame_dig -2 // bXfer: axfer
@@ -586,7 +586,7 @@ skip_and1:
 	b if0_end
 
 if0_else:
-	// examples/amm/amm.algo.ts:141
+	// examples/amm/amm.algo.ts:140
 	// toMint = this.tokensToMint(
 	byte 0x
 	dupn 2
@@ -623,14 +623,14 @@ if0_else:
 	callsub tokensToMint
 	frame_bury -6 // toMint: uint64
 
-	// examples/amm/amm.algo.ts:149
+	// examples/amm/amm.algo.ts:148
 	// assert(toMint > 0)
 	frame_dig -6 // toMint: uint64
 	int 0
 	>
 	assert
 
-	// examples/amm/amm.algo.ts:151
+	// examples/amm/amm.algo.ts:150
 	// this.doAxfer(this.txn.sender, poolAsset, toMint)
 	// no dupn needed
 	frame_dig -6 // toMint: uint64
@@ -664,7 +664,7 @@ burn:
 	proto 7 0
 
 	// well formed burn
-	// examples/amm/amm.algo.ts:162
+	// examples/amm/amm.algo.ts:161
 	// assert(poolAsset === this.poolToken.get())
 	frame_dig -2 // poolAsset: asset
 	byte "p"
@@ -672,7 +672,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:163
+	// examples/amm/amm.algo.ts:162
 	// assert(aAsset === this.assetA.get())
 	frame_dig -3 // aAsset: asset
 	byte "a"
@@ -680,7 +680,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:164
+	// examples/amm/amm.algo.ts:163
 	// assert(bAsset === this.assetB.get())
 	frame_dig -4 // bAsset: asset
 	byte "b"
@@ -688,7 +688,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:165
+	// examples/amm/amm.algo.ts:164
 	// assert(poolXfer.sender === this.txn.sender)
 	frame_dig -1 // poolXfer: axfer
 	gtxns Sender
@@ -697,7 +697,7 @@ burn:
 	assert
 
 	// valid pool axfer
-	// examples/amm/amm.algo.ts:168
+	// examples/amm/amm.algo.ts:167
 	// assert(poolXfer.assetReceiver === this.app.address)
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetReceiver
@@ -707,7 +707,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:169
+	// examples/amm/amm.algo.ts:168
 	// assert(poolXfer.xferAsset === poolAsset)
 	frame_dig -1 // poolXfer: axfer
 	gtxns XferAsset
@@ -715,7 +715,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:170
+	// examples/amm/amm.algo.ts:169
 	// assert(poolXfer.assetAmount > 0)
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
@@ -723,7 +723,7 @@ burn:
 	>
 	assert
 
-	// examples/amm/amm.algo.ts:171
+	// examples/amm/amm.algo.ts:170
 	// assert(poolXfer.sender === this.txn.sender)
 	frame_dig -1 // poolXfer: axfer
 	gtxns Sender
@@ -731,7 +731,7 @@ burn:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:173
+	// examples/amm/amm.algo.ts:172
 	// issued = TOTAL_SUPPLY
 	int 10_000_000_000
 	txna Applications 0
@@ -746,7 +746,7 @@ burn:
 	-
 	frame_bury -5 // issued: uint64
 
-	// examples/amm/amm.algo.ts:177
+	// examples/amm/amm.algo.ts:176
 	// aAmt = this.tokensToBurn(
 	// no dupn needed
 	frame_dig -1 // poolXfer: axfer
@@ -761,7 +761,7 @@ burn:
 	callsub tokensToBurn
 	frame_bury -6 // aAmt: uint64
 
-	// examples/amm/amm.algo.ts:183
+	// examples/amm/amm.algo.ts:182
 	// bAmt = this.tokensToBurn(
 	// no dupn needed
 	frame_dig -1 // poolXfer: axfer
@@ -776,7 +776,7 @@ burn:
 	callsub tokensToBurn
 	frame_bury -7 // bAmt: uint64
 
-	// examples/amm/amm.algo.ts:189
+	// examples/amm/amm.algo.ts:188
 	// this.doAxfer(this.txn.sender, aAsset, aAmt)
 	// no dupn needed
 	frame_dig -6 // aAmt: uint64
@@ -784,7 +784,7 @@ burn:
 	txn Sender
 	callsub doAxfer
 
-	// examples/amm/amm.algo.ts:190
+	// examples/amm/amm.algo.ts:189
 	// this.doAxfer(this.txn.sender, bAsset, bAmt)
 	// no dupn needed
 	frame_dig -7 // bAmt: uint64
@@ -792,7 +792,7 @@ burn:
 	txn Sender
 	callsub doAxfer
 
-	// examples/amm/amm.algo.ts:192
+	// examples/amm/amm.algo.ts:191
 	// this.ratio.set(this.computeRatio())
 	byte "r"
 
@@ -821,7 +821,7 @@ swap:
 	proto 6 0
 
 	// well formed swap
-	// examples/amm/amm.algo.ts:197
+	// examples/amm/amm.algo.ts:196
 	// assert(aAsset === this.assetA.get())
 	frame_dig -2 // aAsset: asset
 	byte "a"
@@ -829,7 +829,7 @@ swap:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:198
+	// examples/amm/amm.algo.ts:197
 	// assert(bAsset === this.assetB.get())
 	frame_dig -3 // bAsset: asset
 	byte "b"
@@ -838,7 +838,7 @@ swap:
 	assert
 
 	// valid swap xfer
-	// examples/amm/amm.algo.ts:201
+	// examples/amm/amm.algo.ts:200
 	// assert(
 	frame_dig -1 // swapXfer: axfer
 	gtxns XferAsset
@@ -855,7 +855,7 @@ swap:
 skip_or0:
 	assert
 
-	// examples/amm/amm.algo.ts:204
+	// examples/amm/amm.algo.ts:203
 	// assert(swapXfer.assetAmount > 0)
 	frame_dig -1 // swapXfer: axfer
 	gtxns AssetAmount
@@ -863,7 +863,7 @@ skip_or0:
 	>
 	assert
 
-	// examples/amm/amm.algo.ts:205
+	// examples/amm/amm.algo.ts:204
 	// assert(swapXfer.sender === this.txn.sender)
 	frame_dig -1 // swapXfer: axfer
 	gtxns Sender
@@ -871,7 +871,7 @@ skip_or0:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:207
+	// examples/amm/amm.algo.ts:206
 	// outId = swapXfer.xferAsset === aAsset ? aAsset : bAsset
 	frame_dig -1 // swapXfer: axfer
 	gtxns XferAsset
@@ -887,13 +887,13 @@ ternary3_false:
 ternary3_end:
 	frame_bury -4 // outId: asset
 
-	// examples/amm/amm.algo.ts:209
+	// examples/amm/amm.algo.ts:208
 	// inId = swapXfer.xferAsset
 	frame_dig -1 // swapXfer: axfer
 	gtxns XferAsset
 	frame_bury -5 // inId: asset
 
-	// examples/amm/amm.algo.ts:211
+	// examples/amm/amm.algo.ts:210
 	// toSwap = this.tokensToSwap(
 	byte 0x
 	txna Applications 0
@@ -916,14 +916,14 @@ ternary3_end:
 	callsub tokensToSwap
 	frame_bury -6 // toSwap: uint64
 
-	// examples/amm/amm.algo.ts:217
+	// examples/amm/amm.algo.ts:216
 	// assert(toSwap > 0)
 	frame_dig -6 // toSwap: uint64
 	int 0
 	>
 	assert
 
-	// examples/amm/amm.algo.ts:219
+	// examples/amm/amm.algo.ts:218
 	// this.doAxfer(this.txn.sender, outId, toSwap)
 	// no dupn needed
 	frame_dig -6 // toSwap: uint64
@@ -931,7 +931,7 @@ ternary3_end:
 	txn Sender
 	callsub doAxfer
 
-	// examples/amm/amm.algo.ts:221
+	// examples/amm/amm.algo.ts:220
 	// this.ratio.set(this.computeRatio())
 	byte "r"
 
@@ -942,7 +942,7 @@ ternary3_end:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_create
+	switch abi_route_createApplication
 	err
 
 call_NoOp:

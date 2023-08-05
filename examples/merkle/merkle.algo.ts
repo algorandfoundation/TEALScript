@@ -49,13 +49,11 @@ class MerkleTree extends Contract {
     return result;
   }
 
-  @allow.bareCall('DeleteApplication')
-  delete(): void {
+  deleteApplication(): void {
     assert(this.txn.sender === this.app.creator);
   }
 
-  @allow.bareCreate()
-  create(): void {
+  createApplication(): void {
     this.root.set(this.calcInitRoot());
   }
 
