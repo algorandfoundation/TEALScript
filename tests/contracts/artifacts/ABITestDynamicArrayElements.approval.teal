@@ -23,16 +23,10 @@ dynamicArrayElements:
 
 	// tests/contracts/abi.algo.ts:454
 	// a: uint<16>[] = [1, 2, 3]
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
 	frame_bury -1 // a: uint16[]
 
@@ -41,35 +35,62 @@ dynamicArrayElements:
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 0
-	int 2
-	* // acc * typeLength
+	int 0 // acc * typeLength
 	+
 	load 0 // full array
 	swap
 	int 2
 	extract3
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * typeLength
+	int 2 // acc * typeLength
 	+
 	load 0 // full array
 	swap
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
 	int 2
 	extract3
 	concat
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 0 // initial offset
-	int 2
-	int 2
-	* // acc * typeLength
+	int 4 // acc * typeLength
 	+
 	load 0 // full array
 	swap
+	int 2
+	extract3
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
 	int 2
 	extract3
 	concat

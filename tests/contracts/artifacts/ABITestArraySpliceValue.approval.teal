@@ -24,44 +24,24 @@ arraySpliceValue:
 
 	// tests/contracts/abi.algo.ts:442
 	// a: uint<16>[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
-	int 4
-	itob
-	extract 6 0
+	byte 0x0004
 	concat
-	int 5
-	itob
-	extract 6 0
+	byte 0x0005
 	concat
-	int 6
-	itob
-	extract 6 0
+	byte 0x0006
 	concat
-	int 7
-	itob
-	extract 6 0
+	byte 0x0007
 	concat
-	int 8
-	itob
-	extract 6 0
+	byte 0x0008
 	concat
-	int 9
-	itob
-	extract 6 0
+	byte 0x0009
 	concat
-	int 10
-	itob
-	extract 6 0
+	byte 0x000a
 	concat
 	frame_bury -1 // a: uint16[]
 

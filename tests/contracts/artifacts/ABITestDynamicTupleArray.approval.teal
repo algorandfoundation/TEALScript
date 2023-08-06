@@ -26,9 +26,7 @@ dynamicTupleArray:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x000a // initial head offset
-	int 11
-	itob
-	extract 6 0
+	byte 0x000b
 	callsub process_static_tuple_element
 	int 22
 	itob
@@ -38,9 +36,7 @@ dynamicTupleArray:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x000a // initial head offset
-	int 33
-	itob
-	extract 6 0
+	byte 0x0021
 	callsub process_static_tuple_element
 	int 44
 	itob
@@ -55,9 +51,7 @@ dynamicTupleArray:
 	frame_dig -1 // a: [uint16,uint64][]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 10
-	* // acc * typeLength
+	int 10 // acc * typeLength
 	+
 	int 2 // headOffset
 	+

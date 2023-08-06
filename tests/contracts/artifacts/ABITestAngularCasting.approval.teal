@@ -23,10 +23,7 @@ angularCasting:
 
 	// tests/contracts/abi.algo.ts:980
 	// x = <uint<256>>1337
-	int 1337
-	itob
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
+	byte 0x0000000000000000000000000000000000000000000000000000000000000539
 	frame_bury -1 // x: uint256
 
 	// tests/contracts/abi.algo.ts:982
@@ -34,6 +31,15 @@ angularCasting:
 	frame_dig -1 // x: uint256
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 32
+	-
+	int 32
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

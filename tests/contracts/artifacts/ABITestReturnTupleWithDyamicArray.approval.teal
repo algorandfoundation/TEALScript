@@ -29,9 +29,7 @@ returnTupleWithDyamicArray:
 	int 1
 	itob
 	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 6 0
+	byte 0x0002
 	callsub process_static_tuple_element
 	int 3
 	itob
@@ -47,12 +45,8 @@ returnTupleWithDyamicArray:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 5
-	itob
-	extract 6 0
-	int 6
-	itob
-	extract 6 0
+	byte 0x0005
+	byte 0x0006
 	concat
 	dup
 	len

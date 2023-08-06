@@ -26,13 +26,9 @@ tupleInTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset
-	int 11
-	itob
-	extract 6 0
+	byte 0x000b
 	callsub process_static_tuple_element
-	int 22
-	itob
-	extract 6 0
+	byte 0x0016
 	callsub process_static_tuple_element
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -40,9 +36,7 @@ tupleInTuple:
 	int 33
 	itob
 	callsub process_static_tuple_element
-	int 44
-	itob
-	extract 6 0
+	byte 0x002c
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -50,9 +44,7 @@ tupleInTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x000a // initial head offset
-	int 55
-	itob
-	extract 6 0
+	byte 0x0037
 	callsub process_static_tuple_element
 	int 66
 	itob

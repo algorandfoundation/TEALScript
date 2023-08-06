@@ -58,9 +58,7 @@ updateStaticArrayInStorageMap:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -78,9 +76,7 @@ updateStaticArrayInStorageMap:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -99,9 +95,7 @@ updateStaticArrayInStorageMap:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -118,9 +112,7 @@ updateStaticArrayInStorageMap:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -128,14 +120,23 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	txn Sender
 	byte "lMap"
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -143,15 +144,24 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	byte "bMap"
 	box_get
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -159,6 +169,17 @@ updateStaticArrayInStorageMap:
 	extract3
 	btoi
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_bury -2 // ret: uint64[3]
 

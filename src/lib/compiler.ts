@@ -1795,7 +1795,7 @@ export default class Compiler {
       this.checkEncoding(e, types[i]);
 
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-      if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+      if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
       if (this.isDynamicType(types[i])) {
         this.pushVoid(e, 'callsub process_dynamic_tuple_element');
@@ -1916,7 +1916,7 @@ export default class Compiler {
         this.typeHint = types[i];
         this.processNode(e);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-        if (this.lastType.match(/uint\d+$/) && this.lastType !== types[i]) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10), !ts.isNumericLiteral(e));
+        if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
@@ -2231,25 +2231,32 @@ export default class Compiler {
         );
       // Dynamic element in static or dynamic array
       } else if (this.isDynamicType(elem.type)) {
-        this.processNode(acc);
-        this.pushLines(
-          acc,
-          // `int ${accNumber * 2} // acc * 2`,
-          'int 2',
-          '* // acc * 2',
-          '+',
-        );
+        if (!Number.isNaN(accNumber)) {
+          this.pushLines(acc, `int ${accNumber * 2} // acc * 2`, '+');
+        } else {
+          this.processNode(acc);
+
+          this.pushLines(
+            acc,
+            'int 2',
+            '* // acc * 2',
+            '+',
+          );
+        }
       // Static element in array
       } else if (!previousElemIsBool) {
-        this.processNode(acc);
+        if (!Number.isNaN(accNumber)) {
+          this.pushLines(acc, `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`, '+');
+        } else {
+          this.processNode(acc);
 
-        this.pushLines(
-          acc,
-          // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
-          `int ${this.getTypeLength(elem.type)}`,
-          '* // acc * typeLength',
-          '+',
-        );
+          this.pushLines(
+            acc,
+            `int ${this.getTypeLength(elem.type)}`,
+            '* // acc * typeLength',
+            '+',
+          );
+        }
       }
 
       if (
@@ -2546,7 +2553,6 @@ export default class Compiler {
     if ([...ON_COMPLETES, 'CreateApplication'].includes(capitalizeFirstChar(this.currentSubroutine.name))) {
       const isCreate = this.currentSubroutine.name === 'createApplication';
       const oc = isCreate ? 'NoOp' : capitalizeFirstChar(this.currentSubroutine.name) as OnComplete;
-      console.log(oc);
       const action = isCreate ? 'CREATE' : 'CALL';
       if (this.currentSubroutine.args.length === 0) {
         bareAction = true;
@@ -2651,8 +2657,7 @@ export default class Compiler {
 
         if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
 
-        this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
-        this.pushVoid(node.expression!, 'b&');
+        this.fixBitWidth(node, returnBitWidth);
 
         // eslint-disable-next-line no-console
         if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
@@ -2664,8 +2669,7 @@ export default class Compiler {
       || (returnType.match(/ufixed\d+x\d+$/))
     ) {
       const returnBitWidth = parseInt(returnType.match(/\d+/)![0], 10);
-      this.pushVoid(node.expression!, `byte 0x${'FF'.repeat(returnBitWidth / 8)}`);
-      this.pushVoid(node.expression!, 'b&');
+      this.fixBitWidth(node, returnBitWidth);
     }
 
     if (isAbiMethod) {
@@ -2678,17 +2682,21 @@ export default class Compiler {
     this.typeHint = undefined;
   }
 
-  private fixBitWidth(node: ts.Node, desiredWidth: number, warn: boolean = true) {
-    const lastBitWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
-
-    // eslint-disable-next-line no-console
-    if (lastBitWidth > desiredWidth && warn && !this.disableWarnings) console.warn(`WARNING: Converting value from ${this.lastType} to uint${desiredWidth} may result in loss of precision`);
-
-    if (lastBitWidth < desiredWidth) {
-      this.pushLines(node, `byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
-    } else {
-      this.pushVoid(node, `extract ${lastBitWidth / 8 - desiredWidth / 8} 0`);
-    }
+  private fixBitWidth(node: ts.Node, desiredWidth: number) {
+    this.pushLines(
+      node,
+      `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
+      'b&',
+      'dupn 2',
+      `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
+      'b<=',
+      'assert',
+      'len',
+      `int ${desiredWidth / 8}`,
+      '-',
+      `int ${desiredWidth / 8}`,
+      'extract3',
+    );
   }
 
   private getStackTypeFromNode(node: ts.Node) {
@@ -2871,11 +2879,15 @@ export default class Compiler {
       return;
     }
 
-    if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
+    if (
+      !ts.isNumericLiteral(node.expression)
+      && (type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/))
+      && type !== this.lastType
+    ) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
-      this.fixBitWidth(node, typeBitWidth, !ts.isNumericLiteral(node.expression));
+      this.fixBitWidth(node, typeBitWidth);
     }
 
     this.typeHint = undefined;
@@ -2998,7 +3010,10 @@ export default class Compiler {
           const accessors = accessChain.map((e, i) => {
             if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
 
-            this.processNode(e.argumentExpression);
+            if (ts.isNumericLiteral(e.argumentExpression)) {
+              this.push(e.argumentExpression, `int ${e.argumentExpression.getText()}`, StackType.uint64);
+            } else this.processNode(e.argumentExpression);
+
             const accName = `accessor//${i}//${name}`;
             this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
 
@@ -3439,7 +3454,7 @@ export default class Compiler {
   }
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
-    if (this.typeHint?.startsWith('ufixed')) {
+    if (this.typeHint?.match(/ufixed\d+x\d+$/)) {
       const match = this.typeHint.match(/\d+/g)!;
       const n = parseInt(match[0], 10);
       const m = parseInt(match[1], 10);
@@ -3452,10 +3467,17 @@ export default class Compiler {
       const fixedValue = Math.round(value * 10 ** m);
 
       this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 2, '0')}`, this.typeHint);
-      return;
-    }
+    } else if (this.typeHint?.match(/uint\d+$/) && this.typeHint !== 'uint64') {
+      const width = Number(this.typeHint.match(/\d+/)![0]);
+      const value = Number(node.getText());
+      const maxValue = 2 ** width - 1;
 
-    if (node.kind === ts.SyntaxKind.StringLiteral) {
+      if (value > maxValue) {
+        throw Error(`Value ${value} is too large for ${this.typeHint}. Max value is ${maxValue}`);
+      }
+
+      this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, this.typeHint);
+    } else if (node.kind === ts.SyntaxKind.StringLiteral) {
       this.push(node, `byte "${node.text}"`, StackType.bytes);
     } else {
       this.push(node, `int ${node.getText()}`, StackType.uint64);

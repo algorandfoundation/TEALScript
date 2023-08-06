@@ -26,16 +26,12 @@ nestedTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
-	int 11
-	itob
-	extract 6 0
+	byte 0x000b
 	callsub process_static_tuple_element
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0003 // initial head offset
-	int 22
-	itob
-	extract 7 0
+	byte 0x16
 	callsub process_static_tuple_element
 	byte "foo"
 	dup
@@ -51,9 +47,7 @@ nestedTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset
-	int 33
-	itob
-	extract 6 0
+	byte 0x0021
 	callsub process_static_tuple_element
 	byte "bar"
 	dup

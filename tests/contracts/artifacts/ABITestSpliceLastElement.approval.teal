@@ -23,16 +23,10 @@ spliceLastElement:
 
 	// tests/contracts/abi.algo.ts:463
 	// a: uint<16>[] = [1, 2, 3]
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
 	frame_bury -1 // a: uint16[]
 

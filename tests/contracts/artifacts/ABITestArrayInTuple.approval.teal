@@ -29,9 +29,7 @@ arrayInTuple:
 	int 11
 	itob
 	callsub process_static_tuple_element
-	int 22
-	itob
-	extract 6 0
+	byte 0x0016
 	callsub process_static_tuple_element
 	int 33
 	itob
@@ -39,9 +37,7 @@ arrayInTuple:
 	itob
 	concat
 	callsub process_static_tuple_element
-	int 55
-	itob
-	extract 6 0
+	byte 0x0037
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -54,9 +50,7 @@ arrayInTuple:
 	int 0 // initial offset
 	int 10 // headOffset
 	+
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap

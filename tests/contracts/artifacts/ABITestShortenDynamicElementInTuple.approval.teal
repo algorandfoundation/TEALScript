@@ -26,12 +26,8 @@ shortenDynamicElementInTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
 	dup
 	len
@@ -42,12 +38,8 @@ shortenDynamicElementInTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 2
-	itob
-	extract 6 0
-	int 3
-	itob
-	extract 6 0
+	byte 0x0002
+	byte 0x0003
 	concat
 	dup
 	len
@@ -58,12 +50,8 @@ shortenDynamicElementInTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
-	int 4
-	itob
-	extract 6 0
+	byte 0x0003
+	byte 0x0004
 	concat
 	dup
 	len
@@ -106,9 +94,7 @@ shortenDynamicElementInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	int 5
-	itob
-	extract 6 0
+	byte 0x0005
 	dup
 	len
 	int 2
@@ -171,9 +157,7 @@ shortenDynamicElementInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	int 6
-	itob
-	extract 6 0
+	byte 0x0006
 	dup
 	len
 	int 2
@@ -231,9 +215,7 @@ shortenDynamicElementInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	int 7
-	itob
-	extract 6 0
+	byte 0x0007
 	dup
 	len
 	int 2
