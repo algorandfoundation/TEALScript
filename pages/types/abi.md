@@ -5,7 +5,7 @@ TEALScript supports every type defined in the ABI
 * Tuples
 * Dynamic Arrays
 * Static Arrays
-* Boolean (Not yet, but very soon)
+* Boolean
 
 ## Custom Types
 
