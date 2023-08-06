@@ -518,7 +518,8 @@ export default class Compiler {
         break;
       }
 
-      case 'exists': { const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+      case 'exists': {
+        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
       }
@@ -530,19 +531,20 @@ export default class Compiler {
       }
 
       case 'create':
-        this.processNode(node.arguments[1]); // Assuming the 2nd argument is the one to be processed
+
+        this.processNode(node.arguments[key ? 0 : 1]);
         this.pushVoid(node.expression, 'box_create');
         break;
 
       case 'extract':
-        this.processNode(node.arguments[1]);
-        this.processNode(node.arguments[2]);
+        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(node.arguments[key ? 1 : 2]);
         this.push(node.expression, 'box_extract', StackType.bytes);
         break;
 
       case 'replace':
-        this.processNode(node.arguments[1]);
-        this.processNode(node.arguments[2]);
+        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(node.arguments[key ? 1 : 2]);
         this.pushVoid(node.expression, 'box_replace');
         break;
 
