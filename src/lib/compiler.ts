@@ -435,58 +435,10 @@ export default class Compiler {
     }
   }
 
-  private getFromStorage(
+  private handleStorageAction(
     node: ts.CallExpression,
     storageType: StorageType,
-    storageKeyFrame?: string,
-    storageAccountFrame?: string,
-  ) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-    const name = node.expression.expression.name.getText();
-
-    const {
-      valueType, keyType, key, prefix,
-    } = this.storageProps[name];
-
-    if (storageAccountFrame && storageType === StorageType.LOCAL) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
-    } else if (storageType === StorageType.LOCAL) {
-      this.processNode(node.arguments[0]);
-    }
-
-    if (key) {
-      this.pushVoid(node.expression, `byte "${key}"`);
-    } else if (storageKeyFrame) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
-    } else {
-      const argumentIndex = storageType === StorageType.LOCAL ? 1 : 0;
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], `byte "${prefix}"`);
-      this.processNode(node.arguments[argumentIndex]);
-
-      if (keyType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[argumentIndex], this.lastType);
-      }
-
-      if (isNumeric(keyType)) this.pushVoid(node.arguments[argumentIndex], 'itob');
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], 'concat');
-    }
-
-    if (storageType === StorageType.GLOBAL) {
-      this.push(node.expression, 'app_global_get', valueType);
-    } else if (storageType === StorageType.LOCAL) {
-      this.push(node.expression, 'app_local_get', valueType);
-    } else if (storageType === StorageType.BOX) {
-      this.maybeValue(node.expression, 'box_get', valueType);
-      if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
-    }
-
-    if (valueType !== StackType.bytes) this.checkDecoding(node, valueType);
-  }
-
-  private setToStorage(
-    node: ts.CallExpression,
-    storageType: StorageType,
+    action: 'get' | 'set' | 'exists' | 'delete',
     storageKeyFrame?: string,
     storageAccountFrame?: string,
   ) {
@@ -498,10 +450,14 @@ export default class Compiler {
       valueType, keyType, key, dynamicSize, prefix,
     } = this.storageProps[name];
 
-    if (storageType === StorageType.LOCAL && storageAccountFrame) {
+    if (storageAccountFrame && storageType === StorageType.LOCAL) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
     } else if (storageType === StorageType.LOCAL) {
       this.processNode(node.arguments[0]);
+    }
+
+    if (action === 'exists' && (storageType === StorageType.GLOBAL || storageType === StorageType.LOCAL)) {
+      this.pushVoid(node.expression, 'txna Applications 0');
     }
 
     if (key) {
@@ -521,100 +477,79 @@ export default class Compiler {
       if (prefix) this.pushVoid(node.arguments[argumentIndex], 'concat');
     }
 
-    if (storageType === StorageType.BOX && dynamicSize) {
-      this.pushLines(node.expression, 'dup', 'box_del', 'pop');
-    }
-
-    const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0) : (storageType === StorageType.LOCAL ? 2 : 1);
-    if (node.arguments[valueArgIndex]) {
-      this.processNode(node.arguments[valueArgIndex]);
-      if (valueType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
-      }
-    } else {
-      const command = storageType === StorageType.BOX ? 'swap' : (storageType === StorageType.LOCAL ? 'uncover 2' : 'swap');
-      this.pushVoid(node.expression, command);
-      if (valueType !== StackType.bytes) {
-        this.checkEncoding(node, valueType);
-      }
-    }
-
-    if (storageType === StorageType.BOX && isNumeric(valueType)) this.pushVoid(node.expression, 'itob');
-
-    const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
-    this.push(node.expression, operation, valueType);
-  }
-
-  private handleExistsOrDelete(node: ts.CallExpression, type: StorageType, action: 'delete' | 'exists') {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-    const name = node.expression.expression.name.getText();
-
-    const {
-      keyType, key, prefix,
-    } = this.storageProps[name];
-
-    const pushAction = (type === StorageType.GLOBAL) ? (action === 'delete' ? 'app_global_del' : 'app_global_get_ex')
-      : (type === StorageType.LOCAL) ? (action === 'delete' ? 'app_local_del' : 'app_local_get_ex')
-        : (action === 'delete' ? 'box_del' : 'box_len'); // For StorageType.BOX
-
-    if (type === StorageType.LOCAL) {
-      this.processNode(node.arguments[0]);
-    }
-
-    if ((type === StorageType.GLOBAL || type === StorageType.LOCAL) && action === 'exists') {
-      this.pushVoid(node.expression, 'txna Applications 0');
-    }
-
-    if (key) {
-      this.pushVoid(node.expression, `byte "${key}"`);
-    } else {
-      const argIndex = (type === StorageType.LOCAL) ? 1 : 0;
-      if (prefix) this.pushVoid(node.arguments[argIndex], `byte "${prefix}"`);
-      this.processNode(node.arguments[argIndex]);
-
-      if (keyType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[argIndex], this.lastType);
-      }
-
-      if (isNumeric(keyType)) this.pushVoid(node.arguments[argIndex], 'itob');
-      if (prefix) this.pushVoid(node.arguments[argIndex], 'concat');
-    }
-
-    if (action === 'exists') {
-      this.hasMaybeValue(node.expression, pushAction);
-    } else {
-      this.pushVoid(node.expression, pushAction);
+    switch (action) {
+      case 'get':
+        if (storageType === StorageType.GLOBAL) {
+          this.push(node.expression, 'app_global_get', valueType);
+        } else if (storageType === StorageType.LOCAL) {
+          this.push(node.expression, 'app_local_get', valueType);
+        } else if (storageType === StorageType.BOX) {
+          this.maybeValue(node.expression, 'box_get', valueType);
+          if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
+        }
+        if (valueType !== StackType.bytes) this.checkDecoding(node, valueType);
+        break;
+      case 'set':
+        if (storageType === StorageType.BOX && dynamicSize) {
+          this.pushLines(node.expression, 'dup', 'box_del', 'pop');
+        }
+        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0) : (storageType === StorageType.LOCAL ? 2 : 1);
+        if (node.arguments[valueArgIndex]) {
+          this.processNode(node.arguments[valueArgIndex]);
+          if (valueType !== StackType.bytes) {
+            this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
+          }
+        } else {
+          const command = storageType === StorageType.BOX ? 'swap' : (storageType === StorageType.LOCAL ? 'uncover 2' : 'swap');
+          this.pushVoid(node.expression, command);
+          if (valueType !== StackType.bytes) {
+            this.checkEncoding(node, valueType);
+          }
+        }
+        if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
+        const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
+        this.push(node.expression, operation, valueType);
+        break;
+      case 'exists':
+        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+        this.hasMaybeValue(node.expression, existsAction);
+        break;
+      case 'delete':
+        const deleteAction = (storageType === StorageType.GLOBAL) ? 'app_global_del' : (storageType === StorageType.LOCAL) ? 'app_local_del' : 'box_del';
+        this.pushVoid(node.expression, deleteAction);
+        break;
+      default:
+        throw new Error();
     }
   }
 
   private storageFunctions: {[type: string]: {[f: string]: Function}} = {
     global: {
       get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.getFromStorage(node, StorageType.GLOBAL, storageKeyFrame);
+        this.handleStorageAction(node, StorageType.GLOBAL, 'get', storageKeyFrame);
       },
       set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.setToStorage(node, StorageType.GLOBAL, storageKeyFrame);
+        this.handleStorageAction(node, StorageType.GLOBAL, 'set', storageKeyFrame);
       },
       delete: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.GLOBAL, 'delete');
+        this.handleStorageAction(node, StorageType.GLOBAL, 'delete');
       },
       exists: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.GLOBAL, 'exists');
+        this.handleStorageAction(node, StorageType.GLOBAL, 'exists');
       },
     },
     local: {
       get: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.getFromStorage(node, StorageType.LOCAL, storageKeyFrame, storageAccountFrame);
+        this.handleStorageAction(node, StorageType.LOCAL, 'get', storageKeyFrame, storageAccountFrame);
       },
       set: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.setToStorage(node, StorageType.LOCAL, storageKeyFrame, storageAccountFrame);
+        this.handleStorageAction(node, StorageType.LOCAL, 'set', storageKeyFrame, storageAccountFrame);
       },
       delete: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.LOCAL, 'delete');
+        this.handleStorageAction(node, StorageType.LOCAL, 'delete');
       },
       exists: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.LOCAL, 'exists');
+        this.handleStorageAction(node, StorageType.LOCAL, 'exists');
       },
     },
     box: {
@@ -731,16 +666,16 @@ export default class Compiler {
         this.maybeValue(node.expression, 'box_len', StackType.uint64);
       },
       get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.getFromStorage(node, StorageType.BOX, storageKeyFrame);
+        this.handleStorageAction(node, StorageType.BOX, 'get', storageKeyFrame);
       },
       set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.setToStorage(node, StorageType.BOX, storageKeyFrame);
+        this.handleStorageAction(node, StorageType.BOX, 'set', storageKeyFrame);
       },
       delete: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.BOX, 'delete');
+        this.handleStorageAction(node, StorageType.BOX, 'delete');
       },
       exists: (node: ts.CallExpression) => {
-        this.handleExistsOrDelete(node, StorageType.BOX, 'exists');
+        this.handleStorageAction(node, StorageType.BOX, 'exists');
       },
     },
   };
