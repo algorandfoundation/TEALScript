@@ -41,11 +41,44 @@ nonLiteralStaticArrayElements:
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
 	frame_dig -1 // n1: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	frame_dig -2 // n2: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_dig -3 // n3: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_bury -4 // a: uint64[3]
 
@@ -54,9 +87,7 @@ nonLiteralStaticArrayElements:
 	frame_dig -4 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap

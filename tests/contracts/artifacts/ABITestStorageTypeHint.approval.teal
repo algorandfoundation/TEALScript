@@ -24,16 +24,10 @@ partialStaticArray:
 	// tests/contracts/abi.algo.ts:827
 	// this.gKey.set([1, 2, 3])
 	byte "gKey"
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
 	app_global_put
 

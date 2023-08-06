@@ -27,9 +27,7 @@ staticArrayArg:
 	frame_dig -1 // a: uint64[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap

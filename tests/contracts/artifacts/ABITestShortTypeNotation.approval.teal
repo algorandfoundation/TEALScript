@@ -26,12 +26,8 @@ shortTypeNotation:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset
-	int 11
-	itob
-	extract 6 0
-	int 22
-	itob
-	extract 6 0
+	byte 0x000b
+	byte 0x0016
 	concat
 	callsub process_static_tuple_element
 	int 33
@@ -40,12 +36,8 @@ shortTypeNotation:
 	itob
 	concat
 	callsub process_static_tuple_element
-	int 55
-	itob
-	extract 6 0
-	int 66
-	itob
-	extract 6 0
+	byte 0x0037
+	byte 0x0042
 	concat
 	callsub process_static_tuple_element
 	pop // pop head offset
@@ -59,9 +51,7 @@ shortTypeNotation:
 	int 0 // initial offset
 	int 20 // headOffset
 	+
-	int 1
-	int 2
-	* // acc * typeLength
+	int 2 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -69,6 +59,15 @@ shortTypeNotation:
 	extract3
 	byte 0xFFFF
 	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

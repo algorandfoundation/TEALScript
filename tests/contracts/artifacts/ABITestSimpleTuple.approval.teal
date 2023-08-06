@@ -29,16 +29,12 @@ simpleTuple:
 	int 11
 	itob
 	callsub process_static_tuple_element
-	int 22
-	itob
-	extract 6 0
+	byte 0x0016
 	callsub process_static_tuple_element
 	int 33
 	itob
 	callsub process_static_tuple_element
-	int 44
-	itob
-	extract 6 0
+	byte 0x002c
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -57,6 +53,15 @@ simpleTuple:
 	extract3
 	byte 0xFFFF
 	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

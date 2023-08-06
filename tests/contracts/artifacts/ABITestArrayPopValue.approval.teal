@@ -23,16 +23,10 @@ arrayPopValue:
 
 	// tests/contracts/abi.algo.ts:422
 	// a: uint<16>[] = [1, 2, 3]
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
 	frame_bury -1 // a: uint16[]
 
@@ -61,6 +55,15 @@ arrayPopValue:
 	frame_dig -2 // v: uint16
 	byte 0xFFFF
 	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

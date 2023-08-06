@@ -23,24 +23,14 @@ arrayLength:
 
 	// tests/contracts/abi.algo.ts:719
 	// a: uint<8>[] = [11, 22, 33, 44, 55]
-	int 11
-	itob
-	extract 7 0
-	int 22
-	itob
-	extract 7 0
+	byte 0x0b
+	byte 0x16
 	concat
-	int 33
-	itob
-	extract 7 0
+	byte 0x21
 	concat
-	int 44
-	itob
-	extract 7 0
+	byte 0x2c
 	concat
-	int 55
-	itob
-	extract 7 0
+	byte 0x37
 	concat
 	frame_bury -1 // a: uint8[]
 

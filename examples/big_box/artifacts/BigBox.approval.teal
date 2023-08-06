@@ -50,15 +50,57 @@ startUpload:
 	// metadata: Metadata = {
 	frame_dig -5 // startBox: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	frame_dig -6 // endBox: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
-	int 0
-	itob
-	extract 7 0
+	byte 0x00
+	byte 0xFF
+	b&
+	dupn 2
+	byte 0xFF
+	b<=
+	assert
+	len
+	int 1
+	-
+	int 1
+	extract3
 	concat
 	frame_dig -3 // endBoxSize: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_bury -7 // metadata: Metadata
 
@@ -164,9 +206,7 @@ upload:
 	swap
 	int 1
 	extract3
-	int 0
-	itob
-	extract 7 0
+	byte 0x00
 	b==
 	assert
 
@@ -298,16 +338,12 @@ setStatus:
 	// examples/big_box/big_box.algo.ts:99
 	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
 	frame_dig -2 // status: uint8
-	int 1
-	itob
-	extract 7 0
+	byte 0x01
 	b==
 	dup
 	bnz skip_or0
 	frame_dig -2 // status: uint8
-	int 2
-	itob
-	extract 7 0
+	byte 0x02
 	b==
 	||
 
@@ -315,9 +351,7 @@ skip_or0:
 	dup
 	bnz skip_or1
 	frame_dig -2 // status: uint8
-	int 0
-	itob
-	extract 7 0
+	byte 0x00
 	b==
 	||
 
@@ -327,9 +361,7 @@ skip_or1:
 	// examples/big_box/big_box.algo.ts:100
 	// assert(currentStatus !== IMMUTABLE)
 	frame_dig -3 // currentStatus: uint8
-	int 2
-	itob
-	extract 7 0
+	byte 0x02
 	b!=
 	assert
 

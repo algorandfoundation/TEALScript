@@ -23,19 +23,11 @@ objectArrayRef:
 
 	// tests/contracts/abi.algo.ts:789
 	// a: ObjectRefType = { foo: [[1, 2], [3, 4]] }
-	int 1
-	itob
-	extract 7 0
-	int 2
-	itob
-	extract 7 0
+	byte 0x01
+	byte 0x02
 	concat
-	int 3
-	itob
-	extract 7 0
-	int 4
-	itob
-	extract 7 0
+	byte 0x03
+	byte 0x04
 	concat
 	concat
 	frame_bury -1 // a: ObjectRefType
@@ -49,19 +41,13 @@ objectArrayRef:
 	int 0 // initial offset
 	int 0 // headOffset
 	+
-	int 1
-	int 2
-	* // acc * typeLength
+	int 2 // acc * typeLength
 	+
-	int 1
-	int 1
-	* // acc * typeLength
+	int 1 // acc * typeLength
 	+
 	load 0 // full array
 	swap
-	int 5
-	itob
-	extract 7 0
+	byte 0x05
 	replace3
 	frame_bury -1 // c: ObjectRefType
 

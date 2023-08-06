@@ -27,9 +27,7 @@ staticStringArrayArg:
 	frame_dig -1 // a: bytes[3]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // acc * 2
 	+
 	load 0 // full array
 	load 0 // full array

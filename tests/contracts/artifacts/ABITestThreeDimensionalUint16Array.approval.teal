@@ -23,34 +23,18 @@ threeDimensionalUint16Array:
 
 	// tests/contracts/abi.algo.ts:234
 	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
-	int 11
-	itob
-	extract 6 0
-	int 22
-	itob
-	extract 6 0
+	byte 0x000b
+	byte 0x0016
 	concat
-	int 33
-	itob
-	extract 6 0
-	int 44
-	itob
-	extract 6 0
+	byte 0x0021
+	byte 0x002c
 	concat
 	concat
-	int 55
-	itob
-	extract 6 0
-	int 66
-	itob
-	extract 6 0
+	byte 0x0037
+	byte 0x0042
 	concat
-	int 77
-	itob
-	extract 6 0
-	int 88
-	itob
-	extract 6 0
+	byte 0x004d
+	byte 0x0058
 	concat
 	concat
 	concat
@@ -61,22 +45,14 @@ threeDimensionalUint16Array:
 	frame_dig -1 // a: uint16[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
-	int 1
-	int 4
-	* // acc * typeLength
+	int 4 // acc * typeLength
 	+
 	load 0 // full array
 	swap
-	int 777
-	itob
-	extract 6 0
-	int 888
-	itob
-	extract 6 0
+	byte 0x0309
+	byte 0x0378
 	concat
 	replace3
 	frame_bury -1 // a: uint16[2][2][2]
@@ -86,17 +62,11 @@ threeDimensionalUint16Array:
 	frame_dig -1 // a: uint16[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
-	int 1
-	int 4
-	* // acc * typeLength
+	int 4 // acc * typeLength
 	+
-	int 1
-	int 2
-	* // acc * typeLength
+	int 2 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -104,6 +74,15 @@ threeDimensionalUint16Array:
 	extract3
 	byte 0xFFFF
 	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

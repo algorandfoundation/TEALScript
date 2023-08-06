@@ -29,9 +29,7 @@ returnTuple:
 	int 11
 	itob
 	callsub process_static_tuple_element
-	int 22
-	itob
-	extract 6 0
+	byte 0x0016
 	callsub process_static_tuple_element
 	int 33
 	itob

@@ -23,21 +23,15 @@ arrayPush:
 
 	// tests/contracts/abi.algo.ts:402
 	// a: uint<16>[] = [1, 2]
-	int 1
-	itob
-	extract 6 0
-	int 2
-	itob
-	extract 6 0
+	byte 0x0001
+	byte 0x0002
 	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:404
 	// a.push(3 as uint<16>)
 	frame_dig -1 // a: uint16[]
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	concat
 	frame_bury -1 // a: uint16[]
 

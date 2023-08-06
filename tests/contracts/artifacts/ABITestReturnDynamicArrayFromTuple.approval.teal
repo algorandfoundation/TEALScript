@@ -26,20 +26,12 @@ returnDynamicArrayFromTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
-	int 1
-	itob
-	extract 7 0
+	byte 0x01
 	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 6 0
+	byte 0x0002
 	callsub process_static_tuple_element
-	int 3
-	itob
-	extract 7 0
-	int 4
-	itob
-	extract 7 0
+	byte 0x03
+	byte 0x04
 	concat
 	dup
 	len
@@ -48,12 +40,8 @@ returnDynamicArrayFromTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 5
-	itob
-	extract 6 0
-	int 6
-	itob
-	extract 6 0
+	byte 0x0005
+	byte 0x0006
 	concat
 	dup
 	len
@@ -64,12 +52,8 @@ returnDynamicArrayFromTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 7
-	itob
-	extract 7 0
-	int 8
-	itob
-	extract 7 0
+	byte 0x07
+	byte 0x08
 	concat
 	dup
 	len

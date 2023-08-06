@@ -38,6 +38,15 @@ ufixed:
 	b+
 	byte 0xFFFFFFFFFFFFFFFF
 	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	byte 0x151f7c75
 	swap
 	concat

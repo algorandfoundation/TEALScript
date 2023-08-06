@@ -26,9 +26,7 @@ customTypes:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset
-	int 1
-	itob
-	extract 6 0
+	byte 0x0001
 	callsub process_static_tuple_element
 	byte "Hi?"
 	dup

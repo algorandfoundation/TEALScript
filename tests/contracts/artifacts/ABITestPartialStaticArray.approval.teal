@@ -23,9 +23,7 @@ partialStaticArray:
 
 	// tests/contracts/abi.algo.ts:817
 	// a: StaticArray<uint<16>, 3> = [1]
-	int 1
-	itob
-	extract 6 0
+	byte 0x0001
 	byte 0x00000000
 	concat
 	frame_bury -1 // a: uint16[3]

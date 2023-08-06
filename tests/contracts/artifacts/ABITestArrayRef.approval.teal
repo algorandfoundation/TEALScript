@@ -23,16 +23,10 @@ arrayRef:
 
 	// tests/contracts/abi.algo.ts:734
 	// a: uint<8>[] = [1, 2, 3]
-	int 1
-	itob
-	extract 7 0
-	int 2
-	itob
-	extract 7 0
+	byte 0x01
+	byte 0x02
 	concat
-	int 3
-	itob
-	extract 7 0
+	byte 0x03
 	concat
 	frame_bury -1 // a: uint8[]
 
@@ -41,15 +35,11 @@ arrayRef:
 	frame_dig -1 // a: uint8[]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 1
-	* // acc * typeLength
+	int 1 // acc * typeLength
 	+
 	load 0 // full array
 	swap
-	int 4
-	itob
-	extract 7 0
+	byte 0x04
 	replace3
 	frame_bury -1 // b: uint8[]
 

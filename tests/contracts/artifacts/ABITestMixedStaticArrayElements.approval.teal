@@ -49,12 +49,45 @@ mixedStaticArrayElements:
 	concat
 	frame_dig -1 // n1: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_dig -2 // n2: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	frame_dig -3 // n3: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	concat
 	int 6
 	itob
@@ -72,9 +105,7 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 8
-	* // acc * typeLength
+	int 8 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -84,9 +115,7 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 4
-	int 8
-	* // acc * typeLength
+	int 32 // acc * typeLength
 	+
 	load 0 // full array
 	swap
@@ -97,9 +126,7 @@ mixedStaticArrayElements:
 	frame_dig -4 // a: uint64[9]
 	store 0 // full array
 	int 0 // initial offset
-	int 7
-	int 8
-	* // acc * typeLength
+	int 56 // acc * typeLength
 	+
 	load 0 // full array
 	swap

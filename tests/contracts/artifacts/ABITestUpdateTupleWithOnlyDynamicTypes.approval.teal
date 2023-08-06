@@ -26,9 +26,7 @@ updateTupleWithOnlyDynamicTypes:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
+	byte 0x0001
 	dup
 	len
 	int 2
@@ -38,9 +36,7 @@ updateTupleWithOnlyDynamicTypes:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 2
-	itob
-	extract 6 0
+	byte 0x0002
 	dup
 	len
 	int 2
@@ -50,9 +46,7 @@ updateTupleWithOnlyDynamicTypes:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	dup
 	len
 	int 2
@@ -94,12 +88,8 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	int 4
-	itob
-	extract 6 0
-	int 5
-	itob
-	extract 6 0
+	byte 0x0004
+	byte 0x0005
 	concat
 	dup
 	len
@@ -163,12 +153,8 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	int 6
-	itob
-	extract 6 0
-	int 7
-	itob
-	extract 6 0
+	byte 0x0006
+	byte 0x0007
 	concat
 	dup
 	len
@@ -227,12 +213,8 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	int 8
-	itob
-	extract 6 0
-	int 9
-	itob
-	extract 6 0
+	byte 0x0008
+	byte 0x0009
 	concat
 	dup
 	len

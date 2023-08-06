@@ -114,6 +114,17 @@ addAppToWhiteList:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -167,6 +178,17 @@ if0_else:
 	// newWhitelist: uint64[] = [appID]
 	frame_dig -3 // appID: uint64
 	itob
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 8
+	-
+	int 8
+	extract3
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:40
@@ -226,6 +248,17 @@ setAppWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -323,6 +356,17 @@ deleteWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -382,6 +426,17 @@ deleteAppFromWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dupn 2
+	byte 0xFFFF
+	b<=
+	assert
+	len
+	int 2
+	-
+	int 2
+	extract3
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -464,9 +519,7 @@ deleteAppFromWhitelist:
 	frame_dig -7 // spliced: uint64[]
 	store 0 // full array
 	int 0 // initial offset
-	int 0
-	int 8
-	* // acc * typeLength
+	int 0 // acc * typeLength
 	+
 	load 0 // full array
 	swap

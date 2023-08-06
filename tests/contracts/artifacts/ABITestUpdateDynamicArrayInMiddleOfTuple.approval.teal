@@ -26,13 +26,9 @@ updateDynamicArrayInMiddleOfTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
-	int 1
-	itob
-	extract 6 0
+	byte 0x0001
 	callsub process_static_tuple_element
-	int 2
-	itob
-	extract 7 0
+	byte 0x02
 	dup
 	len
 	itob
@@ -40,9 +36,7 @@ updateDynamicArrayInMiddleOfTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	int 3
-	itob
-	extract 6 0
+	byte 0x0003
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -76,12 +70,8 @@ updateDynamicArrayInMiddleOfTuple:
 	int 0
 	load 1 // element start
 	substring3
-	int 4
-	itob
-	extract 7 0
-	int 5
-	itob
-	extract 7 0
+	byte 0x04
+	byte 0x05
 	concat
 	dup
 	len

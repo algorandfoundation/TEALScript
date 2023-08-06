@@ -23,34 +23,18 @@ multiNestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:771
 	// a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
-	int 1
-	itob
-	extract 7 0
-	int 2
-	itob
-	extract 7 0
+	byte 0x01
+	byte 0x02
 	concat
-	int 3
-	itob
-	extract 7 0
-	int 4
-	itob
-	extract 7 0
+	byte 0x03
+	byte 0x04
 	concat
 	concat
-	int 5
-	itob
-	extract 7 0
-	int 6
-	itob
-	extract 7 0
+	byte 0x05
+	byte 0x06
 	concat
-	int 7
-	itob
-	extract 7 0
-	int 8
-	itob
-	extract 7 0
+	byte 0x07
+	byte 0x08
 	concat
 	concat
 	concat
@@ -65,23 +49,15 @@ multiNestedArrayRef:
 	frame_dig -1 // a: uint8[2][2][2]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 4
-	* // acc * typeLength
+	int 4 // acc * typeLength
 	+
-	int 1
-	int 2
-	* // acc * typeLength
+	int 2 // acc * typeLength
 	+
-	int 1
-	int 1
-	* // acc * typeLength
+	int 1 // acc * typeLength
 	+
 	load 0 // full array
 	swap
-	int 9
-	itob
-	extract 7 0
+	byte 0x09
 	replace3
 	frame_bury -1 // c: uint8[2][2][2]
 

@@ -62,9 +62,7 @@ accessDynamicStringArray:
 	frame_dig -1 // a: string[]
 	store 0 // full array
 	int 0 // initial offset
-	int 1
-	int 2
-	* // acc * 2
+	int 2 // acc * 2
 	+
 	int 2
 	+ // add two for length
