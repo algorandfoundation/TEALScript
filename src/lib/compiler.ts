@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
 /* eslint-disable max-classes-per-file */
 /* eslint-disable no-unused-vars */
@@ -489,11 +490,15 @@ export default class Compiler {
         }
         if (valueType !== StackType.bytes) this.checkDecoding(node, valueType);
         break;
-      case 'set':
+
+      case 'set': {
         if (storageType === StorageType.BOX && dynamicSize) {
           this.pushLines(node.expression, 'dup', 'box_del', 'pop');
         }
-        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0) : (storageType === StorageType.LOCAL ? 2 : 1);
+
+        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0)
+          : (storageType === StorageType.LOCAL ? 2 : 1);
+
         if (node.arguments[valueArgIndex]) {
           this.processNode(node.arguments[valueArgIndex]);
           if (valueType !== StackType.bytes) {
@@ -506,18 +511,24 @@ export default class Compiler {
             this.checkEncoding(node, valueType);
           }
         }
+
         if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
         const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
         this.push(node.expression, operation, valueType);
         break;
-      case 'exists':
-        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+      }
+
+      case 'exists': { const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
-      case 'delete':
+      }
+
+      case 'delete': {
         const deleteAction = (storageType === StorageType.GLOBAL) ? 'app_global_del' : (storageType === StorageType.LOCAL) ? 'app_local_del' : 'box_del';
         this.pushVoid(node.expression, deleteAction);
         break;
+      }
+
       case 'create':
         this.processNode(node.arguments[1]); // Assuming the 2nd argument is the one to be processed
         this.pushVoid(node.expression, 'box_create');
