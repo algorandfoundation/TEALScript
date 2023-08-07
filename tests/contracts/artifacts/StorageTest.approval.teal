@@ -629,6 +629,30 @@ boxMapExtract:
 	log
 	retsub
 
+abi_route_isOptedIn:
+	// no dupn needed
+	callsub isOptedIn
+	int 1
+	return
+
+isOptedIn:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:152
+	// return this.txn.sender.isOptedInToApp(this.app);
+	txn Sender
+	txna Applications 0
+	app_opted_in
+	byte 0x00
+	int 0
+	uncover 2
+	setbit
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -672,6 +696,7 @@ call_NoOp:
 	method "boxMapReplace()void"
 	method "boxKeyExtract()string"
 	method "boxMapExtract()string"
+	method "isOptedIn()bool"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn
 	err

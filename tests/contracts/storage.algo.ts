@@ -147,4 +147,8 @@ class StorageTest extends Contract {
   boxMapExtract(): string {
     return this.boxMap.extract('bar', 0, 3);
   }
+
+  isOptedIn(): boolean {
+    return this.txn.sender.isOptedInToApp(this.app);
+  }
 }
