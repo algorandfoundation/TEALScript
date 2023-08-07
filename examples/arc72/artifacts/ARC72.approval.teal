@@ -234,12 +234,6 @@ arc72_setApprovalForAll:
 	box_del
 	pop
 	byte ""
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
 	box_put
 	b if1_end
 

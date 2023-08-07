@@ -20,7 +20,7 @@ class ARC72 extends Contract {
    * @param tokenId The ID of the NFT
    * @returns The current owner of the NFT
    */
-  @abi.readonly(true)
+  @abi.readonly
   arc72_ownerOf(tokenId: uint<256>): Address {
     return this.tokenBox.get(tokenId).owner;
   }
@@ -32,7 +32,7 @@ class ARC72 extends Contract {
    * @param tokenId The ID of the NFT
    * @returns URI to token metadata
    */
-  @abi.readonly(true)
+  @abi.readonly
   arc72_tokenURI(tokenId: uint<256>): Bytes256 {
     return this.tokenBox.get(tokenId).uri;
   }
@@ -101,7 +101,7 @@ class ARC72 extends Contract {
   /**
    * Returns the number of NFTs currently defined by this contract
    */
-  @abi.readonly(true)
+  @abi.readonly
   arc72_totalSupply(): uint<256> {
     return this.index.get();
   }
@@ -109,7 +109,7 @@ class ARC72 extends Contract {
   /**
    * Returns the token ID of the token with the given index among all NFTs defined by the contract
    */
-  @abi.readonly(true)
+  @abi.readonly
   arc72_tokenByIndex(index: uint<256>): uint<256> {
     return index;
   }
