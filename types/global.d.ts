@@ -667,7 +667,9 @@ declare class allow {
 }
 
 declare class abi {
-  static readonly(readonly: boolean): decorator;
+  /** Signifies this method doesn't write any state to the chain, thus it can be
+   * called via simulate to avoid fees */
+  static readonly: decorator;
 }
 
 type StaticArray<

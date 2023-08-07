@@ -2253,6 +2253,13 @@ export default class Compiler {
 
     (ts.getDecorators(node) || []).forEach(
       (d) => {
+        if (ts.isPropertyAccessExpression(d.expression)) {
+          if (d.expression.expression.getText() !== 'abi') throw Error(`Unknown decorator ${d.getText()}`);
+          if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.getText()}`);
+          this.currentSubroutine.readonly = true;
+          return;
+        }
+
         const callExpr = d.expression;
         if (!ts.isCallExpression(callExpr)) throw Error(`Unknown decorator ${d.getText()}`);
         const propExpr = callExpr.expression;
