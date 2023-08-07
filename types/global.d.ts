@@ -312,6 +312,8 @@ declare class Address {
   hasAsset(asa: Asset): uint64
 
   assetFrozen(asa: Asset): uint64
+
+  isOptedInToApp(app: Application): boolean
 }
 
 type Account = Address

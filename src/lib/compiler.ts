@@ -3636,6 +3636,14 @@ export default class Compiler {
       type = 'account';
     }
 
+    if (type === 'account') {
+      if (name === 'isOptedInToApp') {
+        this.pushLines(node, 'app_opted_in');
+        this.lastType = 'bool';
+        return;
+      }
+    }
+
     if (!name.startsWith('has')) {
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
