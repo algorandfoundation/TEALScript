@@ -49,45 +49,12 @@ mixedStaticArrayElements:
 	concat
 	frame_dig -1 // n1: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	frame_dig -2 // n2: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	frame_dig -3 // n3: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	int 6
 	itob

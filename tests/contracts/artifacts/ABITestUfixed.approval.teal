@@ -36,17 +36,8 @@ ufixed:
 	frame_dig -1 // a: ufixed64x2
 	frame_dig -2 // b: ufixed64x2
 	b+
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
+	btoi
+	itob
 	byte 0x151f7c75
 	swap
 	concat

@@ -2367,6 +2367,12 @@ export default class Compiler {
   }
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
+    if (desiredWidth === 64) {
+      if (this.teal.at(-1) === 'itob') return;
+      this.pushLines(node, 'btoi', 'itob');
+      return;
+    }
+
     this.pushLines(
       node,
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
@@ -2433,16 +2439,18 @@ export default class Compiler {
       }
 
       if (numericBehavior === 'fix' && validNumericTypes) {
-        if (inputType === 'uint64') this.pushLines(this.lastNode, 'itob');
-        this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
-        this.lastType = 'uint512';
+        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'uint512');
+        if (expectedType === 'uint64') this.push(this.lastNode, 'btoi', 'uint64');
+        else this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
 
         return;
       }
 
       throw Error(`Type mismatch: got ${inputType} expected ${expectedType}`);
     }
-    if (numericBehavior === 'fix' && validNumericTypes && abiExpectedType !== 'uint64') { this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10)); }
+    if (numericBehavior === 'fix' && validNumericTypes && abiExpectedType !== 'uint64') {
+      this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
+    }
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
