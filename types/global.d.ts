@@ -651,6 +651,7 @@ declare function bzero(size: IntLike): bytes
 
 declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
 declare function hex(input: string): bytes
+declare function btobigint(input: BytesLike): number
 
 declare type decorator = (
   target: Object,

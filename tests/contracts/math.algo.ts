@@ -2,6 +2,8 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class MathTest extends Contract {
+  gKey = new GlobalStateKey<uint64>();
+
   u64plus(a: uint64, b: uint64): uint64 {
     return a + b;
   }
@@ -41,5 +43,13 @@ class MathTest extends Contract {
   maxU64(): void {
     // eslint-disable-next-line no-loss-of-precision
     assert(18_446_744_073_709_551_615);
+  }
+
+  btobigintFirst(input: string): uint64 {
+    return btobigint(input) / 1;
+  }
+
+  btobigintSecond(input: string): uint64 {
+    return 1 / btobigint(input);
   }
 }
