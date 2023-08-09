@@ -942,7 +942,7 @@ ternary3_end:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_createApplication
+	bz abi_route_createApplication
 	err
 
 call_NoOp:

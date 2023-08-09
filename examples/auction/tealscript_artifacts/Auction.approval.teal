@@ -439,7 +439,7 @@ deleteApplication:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_createApplication
+	bz abi_route_createApplication
 	err
 
 call_NoOp:
@@ -458,5 +458,5 @@ create_DeleteApplication:
 
 call_DeleteApplication:
 	txn NumAppArgs
-	switch abi_route_deleteApplication
+	bz abi_route_deleteApplication
 	err

@@ -1203,7 +1203,7 @@ export default class Compiler {
         this.pushVoid(this.lastNode, `${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.lastNode, 'txn NumAppArgs', `switch abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.lastNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
