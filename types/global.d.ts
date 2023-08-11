@@ -670,7 +670,8 @@ declare function concat(a: BytesLike, b: BytesLike): bytes
  * @param start The start index of the bytes to extract
  * @param end The end index of the bytes to extract (not inclusive)
  *
- * @returns Extracted bytes  */
+ * @returns Extracted bytes
+ */
 declare function substring3(data: BytesLike, start: IntLike, end: IntLike): bytes
 
 /** @returns The value of the bit at the given index */
@@ -681,7 +682,8 @@ declare function getbit(data: BytesLike, bitIndex: IntLike): boolean
  * @param bitIndex The index of the bit to update
  * @param value The value to set the bit to
  *
- * @returns The updated data */
+ * @returns The updated data
+ */
 declare function setbit(data: BytesLike, bitIndex: IntLike, value: IntLike): bytes
 
 /** @returns The value of the byte at the given index */
@@ -692,27 +694,118 @@ declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64
  * @param byteIndex The index of the byte to update
  * @param value The value to set the byte to
  *
- * @returns The updated data */
+ * @returns The updated data
+ */
 declare function setbyte(data: BytesLike, byteIndex: IntLike, value: IntLike): bytes
 
-declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
-declare function extract_uint16(arg0: BytesLike, arg1: IntLike): uint64
-declare function extract_uint32(arg0: BytesLike, arg1: IntLike): uint64
-declare function extract_uint64(arg0: BytesLike, arg1: IntLike): uint64
-declare function replace3(arg0: BytesLike, arg1: IntLike, arg2: BytesLike): bytes
-declare function ed25519verify_bare(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike): uint64
-declare function sqrt(arg0: IntLike): uint64
-declare function bitlen(arg0: BytesLike): uint64
-declare function exp(arg0: IntLike, arg1: IntLike): uint64
+/**
+ * Extracts a subtstring of the given length starting at the given index
+ *
+ * @param data bytes to extract from
+ * @param start byte index to start extracting from
+ * @param length number of bytes to extract
+ *
+ * @returns extracted bytes
+ */
+declare function extract3(data: BytesLike, start: IntLike, length: IntLike): bytes
+
+/**
+ * Extracts 2 bytes from the given data starting at the given index and converts them to uint16
+ *
+ * @param data bytes to extract from
+ * @param start byte index to start extracting from
+ *
+ * @returns uint16 as uint64
+ */
+declare function extract_uint16(data: BytesLike, byteIndex: IntLike): uint64
+
+/**
+ * Extracts 4 bytes from the given data starting at the given index and converts them to uint32
+ *
+ * @param data bytes to extract from
+ * @param start byte index to start extracting from
+ *
+ * @returns uint32 as uint64
+ */
+declare function extract_uint32(data: BytesLike, byteIndex: IntLike): uint64
+
+/**
+ * Extracts 8 bytes from the given data starting at the given index and converts them to uint64
+ *
+ * @param data bytes to extract from
+ * @param start byte index to start extracting from
+ *
+ * @returns uint64
+ */
+declare function extract_uint64(data: BytesLike, byteIndex: IntLike): uint64
+
+/**
+ * Replace bytes in the given data starting at the given index
+ *
+ * @param data data containing the bytes that should be replaced
+ * @param byteIndex index of the first byte to replace
+ * @param newData bytes to replace with
+ *
+ * @returns updated data
+ */
+declare function replace3(data: BytesLike, byteIndex: IntLike, newData: BytesLike): bytes
+
+/**
+ * Verifies the given signature against the given public key and message
+ *
+ * @param message message to verify
+ * @param signature signature to verify
+ * @param publicKey public key to verify the signature with
+ *
+ * @returns true if the signature is valid, false otherwise
+ */
+declare function ed25519verify_bare(
+  message: BytesLike,
+  signature: BytesLike,
+  publicKey: BytesLike
+): uint64
+
+/** @returns square root of the given uint64 */
+declare function sqrt(n: IntLike): uint64
+
+/** @returns square root of the given uintN */
 declare function bsqrt(arg0: uint<widths>): uint<widths>
-declare function divw(arg0: IntLike, arg1: IntLike, arg2: IntLike): uint64
-declare function sha3_256(arg0: BytesLike): StaticArray<byte, 32>
+
+/**
+ * Combines two uint64 into one uint128 and then divides it by another uint64
+ *
+ * @param dividendHigh high bits of the dividend
+ * @param dividendLow low bits of the dividend
+ * @param divisor divisor
+ */
+declare function divw(dividendHigh: IntLike, dividendLow: IntLike, divisor: IntLike): uint64
+
+/** @returns sha3_256 hash of the given data */
+declare function sha3_256(data: BytesLike): StaticArray<byte, 32>
+
+/** @returns byte string of all zeros of the given size */
 declare function bzero(size: IntLike): bytes
 
+/**
+ * Use this method if all inputs to the expression are uint64s,
+ * the output fits in a uint64, and all intermediate values fit in a uint128.
+ * Otherwise uintN division should be used.
+ *
+ * @returns product of numerators divided by product of denominator */
 declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint64[]): uint64
+
+/** @returns hex input decoded to bytes */
 declare function hex(input: string): bytes
+
+/** @returns bytes interpreted as a number */
 declare function btobigint(input: BytesLike): number
 
+/**
+ * Verifies the fields of a transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
 declare function verifyTxn(
   txn: Txn |
     PayTxn |
