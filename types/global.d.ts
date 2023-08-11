@@ -620,21 +620,81 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 declare function sendMethodCall<ArgsType, ReturnType>(
   params: Expand<MethodCallParams<ArgsType>>
 ): ReturnType
-declare function btoi(byteslice: BytesLike): uint64
+
+/**
+ * @returns the input data converted to  {@link uint64}
+ * @throws if the input data is longer than 8 bytes
+*/
+declare function btoi(data: BytesLike): uint64
+
+/** @returns {@link uint64} converted to {@link bytes} */
 declare function itob(int: IntLike): bytes
+
+/** Logs data to the chain. Logs only persist if the app call is successful */
 declare function log(content: BytesLike): void
-declare function sha256(arg0: BytesLike): StaticArray<byte, 32>
-declare function keccak256(arg0: BytesLike): StaticArray<byte, 32>
-declare function sha512_256(arg0: BytesLike): StaticArray<byte, 32>
-declare function ed25519verify(arg0: BytesLike, arg1: BytesLike, arg2: BytesLike): uint64
-declare function len(arg0: BytesLike): uint64
-declare function assert(arg0: IntLike): void
-declare function concat(arg0: BytesLike, arg1: BytesLike): bytes
-declare function substring3(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
-declare function getbit(arg0: BytesLike, arg1: IntLike): uint64
-declare function setbit(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
-declare function getbyte(arg0: BytesLike, arg1: IntLike): uint64
-declare function setbyte(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
+
+/** @returns the sha256 hash of the given data */
+declare function sha256(data: BytesLike): StaticArray<byte, 32>
+
+/** @returns the keccak256 hash of the given data */
+declare function keccak256(data: BytesLike): StaticArray<byte, 32>
+
+/** @returns the sha512_256 hash of the given data */
+declare function sha512_256(data: BytesLike): StaticArray<byte, 32>
+
+/**
+ *
+ * Verify the signature of ("ProgData" || program_hash || data) against the pubkey.
+ * The program_hash is the hash of the program source code
+ *
+ * @param data - Data be verified
+ * @param signature - The signature to verify
+ * @param pubkey - The public key to verify the signature with
+ *
+ * @returns true if the signature is valid, false otherwise
+ */
+declare function ed25519verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean
+
+/** @returns the length of the data */
+declare function len(data: BytesLike): uint64
+
+/** @throws if the condition is 0 or false */
+declare function assert(condition: IntLike): void
+
+/** @returns The concatenation of two {@link bytes} */
+declare function concat(a: BytesLike, b: BytesLike): bytes
+
+/**
+ *
+ * @param data The input data from which bytes are extracted
+ * @param start The start index of the bytes to extract
+ * @param end The end index of the bytes to extract (not inclusive)
+ *
+ * @returns Extracted bytes  */
+declare function substring3(data: BytesLike, start: IntLike, end: IntLike): bytes
+
+/** @returns The value of the bit at the given index */
+declare function getbit(data: BytesLike, bitIndex: IntLike): boolean
+
+/**
+ * @param data The input data to update
+ * @param bitIndex The index of the bit to update
+ * @param value The value to set the bit to
+ *
+ * @returns The updated data */
+declare function setbit(data: BytesLike, bitIndex: IntLike, value: IntLike): bytes
+
+/** @returns The value of the byte at the given index */
+declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64
+
+/**
+ * @param data The input data to update
+ * @param byteIndex The index of the byte to update
+ * @param value The value to set the byte to
+ *
+ * @returns The updated data */
+declare function setbyte(data: BytesLike, byteIndex: IntLike, value: IntLike): bytes
+
 declare function extract3(arg0: BytesLike, arg1: IntLike, arg2: IntLike): bytes
 declare function extract_uint16(arg0: BytesLike, arg1: IntLike): uint64
 declare function extract_uint32(arg0: BytesLike, arg1: IntLike): uint64
