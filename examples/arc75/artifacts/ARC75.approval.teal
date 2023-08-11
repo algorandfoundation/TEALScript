@@ -85,6 +85,11 @@ abi_route_addAppToWhiteList:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2
@@ -178,17 +183,6 @@ if0_else:
 	// newWhitelist: uint64[] = [appID]
 	frame_dig -3 // appID: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:40
@@ -543,7 +537,7 @@ abi_route_defaultTEALScriptCreate:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_defaultTEALScriptCreate
+	bz abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

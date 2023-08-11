@@ -273,6 +273,7 @@ const scratch = {
   elementHeadOffset: '4 // element head offset',
   lengthDifference: '5 // length difference',
   subtractHeadDifference: '7 // subtract head difference',
+  verifyTxnIndex: '8 // verifyTxn index',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
 };
@@ -501,6 +502,8 @@ export default class Compiler {
 
         if (node.arguments[valueArgIndex]) {
           this.processNode(node.arguments[valueArgIndex]);
+
+          this.typeComparison(this.lastType, valueType, 'fix');
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
           }
@@ -706,6 +709,38 @@ export default class Compiler {
       if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
 
       this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+    },
+    btobigint: (node: ts.CallExpression) => {
+      this.processNode(node.arguments[0]);
+      this.lastType = 'uint512';
+    },
+    verifyTxn: (node: ts.CallExpression) => {
+      if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
+
+      const preTealLength = this.teal.length;
+
+      this.processNode(node.arguments[0]);
+
+      const indexInScratch: boolean = this.teal.length - preTealLength > 1;
+
+      if (indexInScratch) {
+        this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
+      }
+
+      node.arguments[1].properties.forEach((p, i) => {
+        if (!ts.isPropertyAssignment(p)) throw new Error();
+        const field = p.name.getText();
+
+        if (indexInScratch) {
+          this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+        } else if (i > 0) {
+          this.processNode(node.arguments[0]);
+        }
+
+        this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+        this.processNode(p.initializer);
+        this.pushLines(p, '==', 'assert');
+      });
     },
 
   };
@@ -1203,7 +1238,7 @@ export default class Compiler {
         this.pushVoid(this.lastNode, `${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.lastNode, 'txn NumAppArgs', `switch abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.lastNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
@@ -2344,28 +2379,10 @@ export default class Compiler {
 
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
-    // Automatically convert to larger int IF the types dont match
-    if (returnType !== this.lastType) {
-      if (this.lastType?.match(/uint\d+$/)) {
-        const returnBitWidth = parseInt(returnType.replace('uint', ''), 10);
-        const lastBitWidth = parseInt(this.lastType.replace('uint', ''), 10);
-        if (lastBitWidth > returnBitWidth) throw new Error(`Value (${this.lastType}) too large for return type (${returnType})`);
+    this.typeComparison(this.lastType, returnType, 'fix');
 
-        if (this.lastType === 'uint64') this.pushVoid(node.expression!, 'itob');
-
-        this.fixBitWidth(node, returnBitWidth);
-
-        // eslint-disable-next-line no-console
-        if (!this.disableWarnings) console.warn(`WARNING: Converting ${name} return value from ${this.lastType} to ${returnType}`);
-      } else this.typeComparison(this.lastType, returnType);
-    } else if (isNumeric(returnType) && isAbiMethod) {
+    if (isNumeric(this.lastType) && isAbiMethod) {
       this.pushVoid(node.expression!, 'itob');
-    } else if (
-      (returnType.match(/uint\d+$/) && returnType !== StackType.uint64)
-      || (returnType.match(/ufixed\d+x\d+$/))
-    ) {
-      const returnBitWidth = parseInt(returnType.match(/\d+/)![0], 10);
-      this.fixBitWidth(node, returnBitWidth);
     }
 
     if (isAbiMethod) {
@@ -2379,6 +2396,12 @@ export default class Compiler {
   }
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
+    if (desiredWidth === 64) {
+      if (this.teal.at(-1) === 'itob') return;
+      this.pushLines(node, 'btoi', 'itob');
+      return;
+    }
+
     this.pushLines(
       node,
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
@@ -2407,9 +2430,14 @@ export default class Compiler {
     return this.customTypes[type] || type;
   }
 
-  private typeComparison(inputType: string, expectedType: string): void {
+  private typeComparison(
+    inputType: string,
+    expectedType: string,
+    numericBehavior: 'math' | 'fix' | 'error' = 'error',
+  ): void {
     const abiInputType = this.getABIType(inputType);
     const abiExpectedType = this.getABIType(expectedType);
+    const validNumericTypes = (!!abiExpectedType.match(/uint\d+$/) || !!abiExpectedType.match(/ufixed\d+x\d+$/)) && (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/));
 
     const sameTypes = [
       ['address', 'account'],
@@ -2426,7 +2454,32 @@ export default class Compiler {
 
     if (typeEquality) return;
 
-    if (abiInputType !== abiExpectedType) throw Error(`Type mismatch: got ${inputType} expected ${expectedType}`);
+    if (abiInputType !== abiExpectedType) {
+      if (numericBehavior === 'math' && validNumericTypes) {
+        if (expectedType === 'uint64') {
+          this.pushVoid(this.lastNode, 'itob');
+        } else if (inputType === 'uint64') {
+          this.pushLines(this.lastNode, 'swap', 'itob', 'swap');
+        }
+
+        this.lastType = 'uint512';
+
+        return;
+      }
+
+      if (numericBehavior === 'fix' && validNumericTypes) {
+        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'uint512');
+        if (expectedType === 'uint64') this.push(this.lastNode, 'btoi', 'uint64');
+        else this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
+
+        return;
+      }
+
+      throw Error(`Type mismatch: got ${inputType} expected ${expectedType}`);
+    }
+    if (numericBehavior === 'fix' && validNumericTypes && abiExpectedType !== 'uint64') {
+      this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
+    }
   }
 
   private processBinaryExpression(node: ts.BinaryExpression) {
@@ -2479,14 +2532,14 @@ export default class Compiler {
       return;
     }
 
-    this.typeComparison(leftType, this.lastType);
+    this.typeComparison(leftType, this.lastType, 'math');
 
     const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
       // TODO: Overflow check?
-      this.push(node.operatorToken, `b${operator}`, leftType);
+      this.push(node.operatorToken, `b${operator}`, this.lastType);
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
     }
@@ -3376,6 +3429,7 @@ export default class Compiler {
         this.pushVoid(p, 'txn GroupIndex');
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
         this.pushVoid(p, '-');
+        if (type !== 'txn') this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${type}`, '==', 'assert');
       } else this.checkDecoding(p, type);
 
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
@@ -3403,10 +3457,21 @@ export default class Compiler {
   }
 
   private processOpcode(node: ts.CallExpression) {
+    const opcodeName = node.expression.getText();
+
+    if (opcodeName === 'assert') {
+      node.arguments.forEach((a) => {
+        this.processNode(a);
+        this.pushVoid(a, 'assert');
+      });
+
+      return;
+    }
+
     const opSpec = langspec.Ops.find(
-      (o) => o.Name === node.expression.getText(),
+      (o) => o.Name === opcodeName,
     ) as OpSpec;
-    let line: string[] = [node.expression.getText()];
+    let line: string[] = [opcodeName];
 
     if (opSpec.Size === 1) {
       const preArgsType = this.lastType;

@@ -18,6 +18,11 @@ abi_route_startUpload:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2
@@ -50,30 +55,8 @@ startUpload:
 	// metadata: Metadata = {
 	frame_dig -5 // startBox: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	frame_dig -6 // endBox: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	byte 0x00
 	byte 0xFF
@@ -90,17 +73,6 @@ startUpload:
 	concat
 	frame_dig -3 // endBoxSize: uint64
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	frame_bury -7 // metadata: Metadata
 
@@ -389,7 +361,7 @@ abi_route_defaultTEALScriptCreate:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_defaultTEALScriptCreate
+	bz abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

@@ -46,7 +46,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:32
 	// approvalProgram: NFTFactory
-	byte b64 CSACAQAxGCMNgQYLMRkIjQcAZAAAAAAAAAAAAAAAawA2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsiMjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkMxG40B//gAgATSAkxzgARIIWZwNhoAjgL/gf+5AA==
+	byte b64 CSACAQAxGCMNgQYLMRkIjQcAZAAAAAAAAAAAAAAAagA2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsiMjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkMxG0H/+QCABNICTHOABEghZnA2GgCOAv+C/7oA
 	itxn_field ApprovalProgram
 	itxn_submit
 
@@ -213,7 +213,7 @@ abi_route_defaultTEALScriptCreate:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_defaultTEALScriptCreate
+	bz abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

@@ -49,18 +49,110 @@ txnGroupLength:
 	log
 	retsub
 
+abi_route_asserts:
+	// no dupn needed
+	txna ApplicationArgs 2
+	int 0
+	getbit
+	txna ApplicationArgs 1
+	int 0
+	getbit
+	callsub asserts
+	int 1
+	return
+
+asserts:
+	proto 2 0
+
+	// tests/contracts/general.algo.ts:14
+	// assert(arg1, arg2, arg1 === arg2)
+	frame_dig -1 // arg1: bool
+	assert
+	frame_dig -2 // arg2: bool
+	assert
+	frame_dig -1 // arg1: bool
+	frame_dig -2 // arg2: bool
+	==
+	assert
+	retsub
+
+abi_route_verifyTxnFromArg:
+	// no dupn needed
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	callsub verifyTxnFromArg
+	int 1
+	return
+
+verifyTxnFromArg:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:18
+	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
+	frame_dig -1 // somePay: pay
+	gtxns Receiver
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	==
+	assert
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 100_000
+	==
+	assert
+	retsub
+
+abi_route_verifyTxnFromTxnGroup:
+	// no dupn needed
+	callsub verifyTxnFromTxnGroup
+	int 1
+	return
+
+verifyTxnFromTxnGroup:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:22
+	// verifyTxn(this.txnGroup[0 + 1], { receiver: this.app.address, amount: 100_000 })
+	int 0
+	int 1
+	+
+	store 8 // verifyTxn index
+	load 8 // verifyTxn index
+	gtxns Receiver
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	==
+	assert
+	load 8 // verifyTxn index
+	gtxns Amount
+	int 100_000
+	==
+	assert
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_defaultTEALScriptCreate
+	bz abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:
 	method "txnTypeEnum()void"
 	method "txnGroupLength()uint64"
+	method "asserts(bool,bool)void"
+	method "verifyTxnFromArg(pay)void"
+	method "verifyTxnFromTxnGroup()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup
 	err

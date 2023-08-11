@@ -120,17 +120,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	txn Sender
 	byte "lRef"
 	app_local_get
@@ -144,17 +133,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	byte "bRef"
 	box_get
@@ -169,17 +147,6 @@ updateStaticArrayInStorageRef:
 	extract3
 	btoi
 	itob
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 8
-	-
-	int 8
-	extract3
 	concat
 	frame_bury -2 // ret: uint64[3]
 
@@ -198,7 +165,7 @@ abi_route_defaultTEALScriptCreate:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_defaultTEALScriptCreate
+	bz abi_route_defaultTEALScriptCreate
 	err
 
 call_NoOp:

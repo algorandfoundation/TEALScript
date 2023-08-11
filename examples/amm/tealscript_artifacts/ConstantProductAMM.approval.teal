@@ -334,6 +334,11 @@ abi_route_bootstrap:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	callsub bootstrap
 	int 1
 	return
@@ -440,9 +445,19 @@ abi_route_mint:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	txn GroupIndex
 	int 2
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	callsub mint
 	int 1
 	return
@@ -656,6 +671,11 @@ abi_route_burn:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	callsub burn
 	int 1
 	return
@@ -813,6 +833,11 @@ abi_route_swap:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	callsub swap
 	int 1
 	return
@@ -942,7 +967,7 @@ ternary3_end:
 
 create_NoOp:
 	txn NumAppArgs
-	switch abi_route_createApplication
+	bz abi_route_createApplication
 	err
 
 call_NoOp:

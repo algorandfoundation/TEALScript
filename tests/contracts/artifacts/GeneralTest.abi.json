@@ -19,6 +19,50 @@
         "type": "uint64",
         "desc": ""
       }
+    },
+    {
+      "name": "asserts",
+      "args": [
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg2",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyTxnFromArg",
+      "args": [
+        {
+          "name": "somePay",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyTxnFromTxnGroup",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }
