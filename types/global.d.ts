@@ -713,6 +713,17 @@ declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint6
 declare function hex(input: string): bytes
 declare function btobigint(input: BytesLike): number
 
+declare function verifyTxn(
+  txn: Txn |
+    PayTxn |
+    AssetConfigTxn |
+    AppCallTxn |
+    AssetTransferParams |
+    AssetFreezeParams |
+    KeyRegTxn,
+  params: Partial<Txn>
+)
+
 declare type decorator = (
   target: Object,
   key: string | symbol,

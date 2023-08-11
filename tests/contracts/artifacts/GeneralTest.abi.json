@@ -39,6 +39,30 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "verifyTxnFromArg",
+      "args": [
+        {
+          "name": "somePay",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyTxnFromTxnGroup",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }

@@ -273,6 +273,7 @@ const scratch = {
   elementHeadOffset: '4 // element head offset',
   lengthDifference: '5 // length difference',
   subtractHeadDifference: '7 // subtract head difference',
+  verifyTxnIndex: '8 // verifyTxn index',
   spliceStart: '12 // splice start',
   spliceByteLength: '13 // splice byte length',
 };
@@ -712,6 +713,34 @@ export default class Compiler {
     btobigint: (node: ts.CallExpression) => {
       this.processNode(node.arguments[0]);
       this.lastType = 'uint512';
+    },
+    verifyTxn: (node: ts.CallExpression) => {
+      if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
+
+      const preTealLength = this.teal.length;
+
+      this.processNode(node.arguments[0]);
+
+      const indexInScratch: boolean = this.teal.length - preTealLength > 1;
+
+      if (indexInScratch) {
+        this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
+      }
+
+      node.arguments[1].properties.forEach((p, i) => {
+        if (!ts.isPropertyAssignment(p)) throw new Error();
+        const field = p.name.getText();
+
+        if (indexInScratch) {
+          this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+        } else if (i > 0) {
+          this.processNode(node.arguments[0]);
+        }
+
+        this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+        this.processNode(p.initializer);
+        this.pushLines(p, '==', 'assert');
+      });
     },
 
   };
