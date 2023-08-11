@@ -9,4 +9,8 @@ class GeneralTest extends Contract {
   txnGroupLength(): uint64 {
     return this.txnGroup.length;
   }
+
+  asserts(arg1: boolean, arg2: boolean): void {
+    assert(arg1, arg2, arg1 === arg2);
+  }
 }

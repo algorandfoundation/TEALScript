@@ -49,6 +49,33 @@ txnGroupLength:
 	log
 	retsub
 
+abi_route_asserts:
+	// no dupn needed
+	txna ApplicationArgs 2
+	int 0
+	getbit
+	txna ApplicationArgs 1
+	int 0
+	getbit
+	callsub asserts
+	int 1
+	return
+
+asserts:
+	proto 2 0
+
+	// tests/contracts/general.algo.ts:14
+	// assert(arg1, arg2, arg1 === arg2)
+	frame_dig -1 // arg1: bool
+	assert
+	frame_dig -2 // arg2: bool
+	assert
+	frame_dig -1 // arg1: bool
+	frame_dig -2 // arg2: bool
+	==
+	assert
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -61,6 +88,7 @@ create_NoOp:
 call_NoOp:
 	method "txnTypeEnum()void"
 	method "txnGroupLength()uint64"
+	method "asserts(bool,bool)void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts
 	err

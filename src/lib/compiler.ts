@@ -3428,10 +3428,21 @@ export default class Compiler {
   }
 
   private processOpcode(node: ts.CallExpression) {
+    const opcodeName = node.expression.getText();
+
+    if (opcodeName === 'assert') {
+      node.arguments.forEach((a) => {
+        this.processNode(a);
+        this.pushVoid(a, 'assert');
+      });
+
+      return;
+    }
+
     const opSpec = langspec.Ops.find(
-      (o) => o.Name === node.expression.getText(),
+      (o) => o.Name === opcodeName,
     ) as OpSpec;
-    let line: string[] = [node.expression.getText()];
+    let line: string[] = [opcodeName];
 
     if (opSpec.Size === 1) {
       const preArgsType = this.lastType;
