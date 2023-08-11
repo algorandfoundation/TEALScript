@@ -3400,6 +3400,7 @@ export default class Compiler {
         this.pushVoid(p, 'txn GroupIndex');
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
         this.pushVoid(p, '-');
+        if (type !== 'txn') this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${type}`, '==', 'assert');
       } else this.checkDecoding(p, type);
 
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });

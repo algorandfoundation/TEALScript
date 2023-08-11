@@ -17,21 +17,51 @@ abi_route_txnTypes:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	txn GroupIndex
 	int 2
 	-
+	dup
+	gtxns TypeEnum
+	int keyreg
+	==
+	assert
 	txn GroupIndex
 	int 3
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	txn GroupIndex
 	int 4
 	-
+	dup
+	gtxns TypeEnum
+	int afrz
+	==
+	assert
 	txn GroupIndex
 	int 5
 	-
+	dup
+	gtxns TypeEnum
+	int acfg
+	==
+	assert
 	txn GroupIndex
 	int 6
 	-
+	dup
+	gtxns TypeEnum
+	int appl
+	==
+	assert
 	txn GroupIndex
 	int 7
 	-

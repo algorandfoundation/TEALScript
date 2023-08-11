@@ -124,6 +124,11 @@ abi_route_startAuction:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -226,6 +231,11 @@ abi_route_bid:
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	callsub bid
 	int 1
 	return
