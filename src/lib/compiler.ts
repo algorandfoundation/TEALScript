@@ -525,7 +525,7 @@ export default class Compiler {
         const countMap = this.storageProps[name].countMap || {};
         const firstArg = node.arguments[0] as ExpressionWithText;
 
-        if (typeof firstArg.text !== 'undefined') {
+        if (typeof firstArg?.text !== 'undefined') {
           const count = countMap[firstArg.text.toString()] || 0;
           countMap[firstArg.text.toString()] = count + 1;
           this.storageProps[name].countMap = countMap;
