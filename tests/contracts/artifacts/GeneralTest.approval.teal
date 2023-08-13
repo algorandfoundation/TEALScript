@@ -95,9 +95,8 @@ verifyTxnFromArg:
 
 	// tests/contracts/general.algo.ts:18
 	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
-	frame_dig -1 // somePay: pay
-
 	// verify receiver
+	frame_dig -1 // somePay: pay
 	gtxns Receiver
 	txna Applications 0
 	app_params_get AppAddress
@@ -165,9 +164,8 @@ verifyTxnCondition:
 
 	// tests/contracts/general.algo.ts:26
 	// verifyTxn(somePay, {
-	frame_dig -1 // somePay: pay
-
 	// verify receiver
+	frame_dig -1 // somePay: pay
 	gtxns Receiver
 	txna Applications 0
 	app_params_get AppAddress
@@ -193,6 +191,80 @@ verifyTxnCondition:
 	assert
 	retsub
 
+abi_route_verifyTxnIncludedIn:
+	// no dupn needed
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	callsub verifyTxnIncludedIn
+	int 1
+	return
+
+verifyTxnIncludedIn:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:33
+	// verifyTxn(somePay, {
+	// verify amount
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 1
+	==
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 2
+	==
+	||
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 3
+	==
+	||
+	assert
+	retsub
+
+abi_route_verifyTxnNotIncludedIn:
+	// no dupn needed
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	callsub verifyTxnNotIncludedIn
+	int 1
+	return
+
+verifyTxnNotIncludedIn:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:39
+	// verifyTxn(somePay, {
+	// verify amount
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 1
+	!=
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 2
+	!=
+	||
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 3
+	!=
+	||
+	assert
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -209,6 +281,8 @@ call_NoOp:
 	method "verifyTxnFromArg(pay)void"
 	method "verifyTxnFromTxnGroup()void"
 	method "verifyTxnCondition(pay)void"
+	method "verifyTxnIncludedIn(pay)void"
+	method "verifyTxnNotIncludedIn(pay)void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn
 	err

@@ -251,6 +251,8 @@ declare type TxnVerificationTests = {
   greaterThan?: IntLike
   greaterThanEqualTo?: IntLike
   not?: IntLike | BytesLike
+  includedIn?: (IntLike | BytesLike)[]
+  notIncludedIn?: (IntLike | BytesLike)[]
 }
 
 declare type TxnVerificationFields= {

@@ -78,6 +78,36 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "verifyTxnIncludedIn",
+      "args": [
+        {
+          "name": "somePay",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyTxnNotIncludedIn",
+      "args": [
+        {
+          "name": "somePay",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }

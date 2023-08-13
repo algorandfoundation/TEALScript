@@ -725,7 +725,7 @@ export default class Compiler {
 
       if (indexInScratch) {
         this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-      }
+      } else this.teal.pop();
 
       node.arguments[1].properties.forEach((p, i) => {
         if (!ts.isPropertyAssignment(p)) throw new Error();
@@ -734,7 +734,7 @@ export default class Compiler {
         const loadField = () => {
           if (indexInScratch) {
             this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-          } else if (i > 0) {
+          } else {
             this.processNode(node.arguments[0]);
           }
 
@@ -748,6 +748,20 @@ export default class Compiler {
             if (!ts.isPropertyAssignment(c)) throw new Error();
 
             const condition = c.name.getText();
+
+            if (['includedIn', 'notIncludedIn'].includes(condition)) {
+              if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
+              c.initializer.elements.forEach((e, eIndex) => {
+                loadField();
+                this.processNode(e);
+                const op = condition === 'includedIn' ? '==' : '!=';
+                this.pushLines(c, op);
+                if (eIndex) this.pushLines(c, '||');
+              });
+
+              this.pushVoid(c, 'assert');
+              return;
+            }
 
             const conditionMapping: Record<string, string> = {
               greaterThan: '>',

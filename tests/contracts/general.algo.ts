@@ -28,4 +28,16 @@ class GeneralTest extends Contract {
       amount: { greaterThan: 1, lessThanEqualTo: 10, not: 5 },
     });
   }
+
+  verifyTxnIncludedIn(somePay: PayTxn): void {
+    verifyTxn(somePay, {
+      amount: { includedIn: [1, 2, 3] },
+    });
+  }
+
+  verifyTxnNotIncludedIn(somePay: PayTxn): void {
+    verifyTxn(somePay, {
+      amount: { notIncludedIn: [1, 2, 3] },
+    });
+  }
 }
