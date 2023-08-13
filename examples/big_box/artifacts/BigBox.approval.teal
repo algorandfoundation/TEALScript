@@ -36,13 +36,13 @@ abi_route_startUpload:
 startUpload:
 	proto 8 0
 
-	// examples/big_box/big_box.algo.ts:46
+	// examples/big_box/big_box.algo.ts:47
 	// startBox = this.currentIndex.get()
 	byte "currentIndex"
 	app_global_get
 	frame_bury -5 // startBox: uint64
 
-	// examples/big_box/big_box.algo.ts:47
+	// examples/big_box/big_box.algo.ts:48
 	// endBox = startBox + numBoxes - 1
 	frame_dig -5 // startBox: uint64
 	frame_dig -2 // numBoxes: uint64
@@ -51,7 +51,7 @@ startUpload:
 	-
 	frame_bury -6 // endBox: uint64
 
-	// examples/big_box/big_box.algo.ts:49
+	// examples/big_box/big_box.algo.ts:50
 	// metadata: Metadata = {
 	frame_dig -5 // startBox: uint64
 	itob
@@ -76,7 +76,7 @@ startUpload:
 	concat
 	frame_bury -7 // metadata: Metadata
 
-	// examples/big_box/big_box.algo.ts:53
+	// examples/big_box/big_box.algo.ts:54
 	// assert(!this.metadata.exists(dataIdentifier))
 	frame_dig -1 // dataIdentifier: bytes
 	box_len
@@ -85,13 +85,13 @@ startUpload:
 	!
 	assert
 
-	// examples/big_box/big_box.algo.ts:55
+	// examples/big_box/big_box.algo.ts:56
 	// this.metadata.set(dataIdentifier, metadata)
 	frame_dig -1 // dataIdentifier: bytes
 	frame_dig -7 // metadata: Metadata
 	box_put
 
-	// examples/big_box/big_box.algo.ts:57
+	// examples/big_box/big_box.algo.ts:58
 	// this.currentIndex.set(endBox + 1)
 	byte "currentIndex"
 	frame_dig -6 // endBox: uint64
@@ -99,7 +99,7 @@ startUpload:
 	+
 	app_global_put
 
-	// examples/big_box/big_box.algo.ts:59
+	// examples/big_box/big_box.algo.ts:60
 	// totalCost = numBoxes * COST_PER_BOX // cost of boxes
 	frame_dig -2 // numBoxes: uint64
 	int 2500
@@ -124,21 +124,21 @@ startUpload:
 	+
 	frame_bury -8 // totalCost: uint64
 
-	// examples/big_box/big_box.algo.ts:64
-	// assert(mbrPayment.amount === totalCost)
-	frame_dig -4 // mbrPayment: pay
-	gtxns Amount
-	frame_dig -8 // totalCost: uint64
-	==
-	assert
-
 	// examples/big_box/big_box.algo.ts:65
-	// assert(mbrPayment.receiver === this.app.address)
+	// verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
+	// verify receiver
 	frame_dig -4 // mbrPayment: pay
 	gtxns Receiver
 	txna Applications 0
 	app_params_get AppAddress
 	assert
+	==
+	assert
+
+	// verify amount
+	frame_dig -4 // mbrPayment: pay
+	gtxns Amount
+	frame_dig -8 // totalCost: uint64
 	==
 	assert
 	retsub

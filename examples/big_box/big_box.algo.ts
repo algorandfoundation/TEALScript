@@ -1,3 +1,4 @@
+import { verify } from 'crypto';
 import { Contract } from '../../src/lib/index';
 
 /*
@@ -61,8 +62,7 @@ class BigBox extends Contract {
     + numBoxes * 64 * COST_PER_BYTE // cost of keys
     + endBoxSize * COST_PER_BYTE; // cost of last box data
 
-    assert(mbrPayment.amount === totalCost);
-    assert(mbrPayment.receiver === this.app.address);
+    verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost });
   }
 
   /**

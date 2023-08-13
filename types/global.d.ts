@@ -894,7 +894,8 @@ declare function verifyTxn(
     AppCallTxn |
     AssetTransferParams |
     AssetFreezeParams |
-    KeyRegTxn,
+    KeyRegTxn |
+    ThisTxnParams,
   params: TxnVerificationFields
 )
 

@@ -50,7 +50,7 @@ class MerkleTree extends Contract {
   }
 
   deleteApplication(): void {
-    assert(this.txn.sender === this.app.creator);
+    verifyTxn(this.txn, { sender: this.app.creator });
   }
 
   createApplication(): void {

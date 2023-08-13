@@ -734,11 +734,12 @@ export default class Compiler {
         const loadField = () => {
           if (indexInScratch) {
             this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-          } else {
+          } else if (node.arguments[0].getText() !== 'this.txn') {
             this.processNode(node.arguments[0]);
           }
 
-          this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+          const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
+          this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
         };
 
         this.pushVoid(p, `// verify ${field}`);
