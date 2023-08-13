@@ -63,6 +63,21 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "verifyTxnCondition",
+      "args": [
+        {
+          "name": "somePay",
+          "type": "pay",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }

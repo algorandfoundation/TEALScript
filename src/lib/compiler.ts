@@ -731,13 +731,43 @@ export default class Compiler {
         if (!ts.isPropertyAssignment(p)) throw new Error();
         const field = p.name.getText();
 
-        if (indexInScratch) {
-          this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-        } else if (i > 0) {
-          this.processNode(node.arguments[0]);
+        const loadField = () => {
+          if (indexInScratch) {
+            this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+          } else if (i > 0) {
+            this.processNode(node.arguments[0]);
+          }
+
+          this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+        };
+
+        this.pushVoid(p, `// verify ${field}`);
+
+        if (ts.isObjectLiteralExpression(p.initializer)) {
+          p.initializer.properties.forEach((c) => {
+            if (!ts.isPropertyAssignment(c)) throw new Error();
+
+            const condition = c.name.getText();
+
+            const conditionMapping: Record<string, string> = {
+              greaterThan: '>',
+              greaterThanEqualTo: '>=',
+              lessThan: '<',
+              lessThanEqualTo: '<=',
+              not: '!=',
+            };
+
+            const op = conditionMapping[condition];
+
+            if (op === undefined) throw Error();
+            loadField();
+            this.processNode(c.initializer);
+            this.pushLines(c, op, 'assert');
+          });
+          return;
         }
 
-        this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+        loadField();
         this.processNode(p.initializer);
         this.pushLines(p, '==', 'assert');
       });

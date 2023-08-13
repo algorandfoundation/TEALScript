@@ -21,4 +21,11 @@ class GeneralTest extends Contract {
   verifyTxnFromTxnGroup(): void {
     verifyTxn(this.txnGroup[0 + 1], { receiver: this.app.address, amount: 100_000 });
   }
+
+  verifyTxnCondition(somePay: PayTxn): void {
+    verifyTxn(somePay, {
+      receiver: this.app.address,
+      amount: { greaterThan: 1, lessThanEqualTo: 10, not: 5 },
+    });
+  }
 }

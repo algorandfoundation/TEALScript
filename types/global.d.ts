@@ -245,6 +245,85 @@ declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufi
 declare type byte = Brand<string, 'byte'>
 declare type bytes = Brand<string, 'bytes'>
 
+declare type TxnVerificationTests = {
+  lessThan?: IntLike
+  lessThanEqualTo?: IntLike
+  greaterThan?: IntLike
+  greaterThanEqualTo?: IntLike
+  not?: IntLike | BytesLike
+}
+
+declare type TxnVerificationFields= {
+  sender?: Address | TxnVerificationTests
+  fee?: IntLike | TxnVerificationTests
+  firstValid?: IntLike | TxnVerificationTests
+  firstValidTime?: IntLike | TxnVerificationTests
+  lastValid?: IntLike | TxnVerificationTests
+  note?: BytesLike | TxnVerificationTests
+  lease?: StaticArray<byte, 32> | TxnVerificationTests
+  receiver?: Address | TxnVerificationTests
+  amount?: IntLike | TxnVerificationTests
+  closeRemainderTo?: Address | TxnVerificationTests
+  votePK?: StaticArray<byte, 32> | TxnVerificationTests
+  selectionPK?: StaticArray<byte, 32> | TxnVerificationTests
+  voteFirst?: IntLike | TxnVerificationTests
+  voteLast?: IntLike | TxnVerificationTests
+  voteKeyDilution?: IntLike | TxnVerificationTests
+  type?: BytesLike | TxnVerificationTests
+  typeEnum?: IntLike | TxnVerificationTests
+  xferAsset?: IntLike | TxnVerificationTests
+  assetAmount?: IntLike | TxnVerificationTests
+  assetSender?: Address | TxnVerificationTests
+  assetReceiver?: Address | TxnVerificationTests
+  assetCloseTo?: Address | TxnVerificationTests
+  groupIndex?: IntLike | TxnVerificationTests
+  txID?: StaticArray<byte, 32> | TxnVerificationTests
+  applicationID?: IntLike | TxnVerificationTests
+  onCompletion?: IntLike | TxnVerificationTests
+  applicationArgs?: BytesLike | TxnVerificationTests
+  numAppArgs?: IntLike | TxnVerificationTests
+  accounts?: Address | TxnVerificationTests
+  numAccounts?: IntLike | TxnVerificationTests
+  approvalProgram?: BytesLike | TxnVerificationTests
+  clearStateProgram?: BytesLike | TxnVerificationTests
+  rekeyTo?: Address | TxnVerificationTests
+  configAsset?: IntLike | TxnVerificationTests
+  configAssetTotal?: IntLike | TxnVerificationTests
+  configAssetDecimals?: IntLike | TxnVerificationTests
+  configAssetDefaultFrozen?: boolean | TxnVerificationTests
+  configAssetUnitName?: BytesLike | TxnVerificationTests
+  configAssetName?: BytesLike | TxnVerificationTests
+  configAssetURL?: BytesLike | TxnVerificationTests
+  configAssetMetadataHash?: StaticArray<byte, 32> | TxnVerificationTests
+  configAssetManager?: Address | TxnVerificationTests
+  configAssetReserve?: Address | TxnVerificationTests
+  configAssetFreeze?: Address | TxnVerificationTests
+  configAssetClawback?: Address | TxnVerificationTests
+  freezeAsset?: IntLike | TxnVerificationTests
+  freezeAssetAccount?: Address | TxnVerificationTests
+  freezeAssetFrozen?: boolean | TxnVerificationTests
+  assets?: IntLike | TxnVerificationTests
+  numAssets?: IntLike | TxnVerificationTests
+  applications?: IntLike | TxnVerificationTests
+  numApplications?: IntLike | TxnVerificationTests
+  globalNumUint?: IntLike | TxnVerificationTests
+  globalNumByteSlice?: IntLike | TxnVerificationTests
+  localNumUint?: IntLike | TxnVerificationTests
+  localNumByteSlice?: IntLike | TxnVerificationTests
+  extraProgramPages?: IntLike | TxnVerificationTests
+  nonparticipation?: boolean | TxnVerificationTests
+  logs?: BytesLike | TxnVerificationTests
+  numLogs?: IntLike | TxnVerificationTests
+  createdAssetID?: IntLike | TxnVerificationTests
+  createdApplicationID?: IntLike | TxnVerificationTests
+  lastLog?: BytesLike | TxnVerificationTests
+  stateProofPK?: BytesLike | TxnVerificationTests
+  approvalProgramPages?: BytesLike | TxnVerificationTests
+  numApprovalProgramPages?: IntLike | TxnVerificationTests
+  clearStateProgramPages?: BytesLike | TxnVerificationTests
+  numClearStateProgramPages?: IntLike | TxnVerificationTests
+}
+
 declare class Asset {
   static fromIndex(index: uint64): Asset;
 
@@ -814,7 +893,7 @@ declare function verifyTxn(
     AssetTransferParams |
     AssetFreezeParams |
     KeyRegTxn,
-  params: Partial<Txn>
+  params: TxnVerificationFields
 )
 
 declare type decorator = (

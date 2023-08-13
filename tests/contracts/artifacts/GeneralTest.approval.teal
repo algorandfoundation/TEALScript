@@ -96,12 +96,16 @@ verifyTxnFromArg:
 	// tests/contracts/general.algo.ts:18
 	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
 	frame_dig -1 // somePay: pay
+
+	// verify receiver
 	gtxns Receiver
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	==
 	assert
+
+	// verify amount
 	frame_dig -1 // somePay: pay
 	gtxns Amount
 	int 100_000
@@ -124,6 +128,8 @@ verifyTxnFromTxnGroup:
 	int 1
 	+
 	store 8 // verifyTxn index
+
+	// verify receiver
 	load 8 // verifyTxn index
 	gtxns Receiver
 	txna Applications 0
@@ -131,10 +137,59 @@ verifyTxnFromTxnGroup:
 	assert
 	==
 	assert
+
+	// verify amount
 	load 8 // verifyTxn index
 	gtxns Amount
 	int 100_000
 	==
+	assert
+	retsub
+
+abi_route_verifyTxnCondition:
+	// no dupn needed
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+	callsub verifyTxnCondition
+	int 1
+	return
+
+verifyTxnCondition:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:26
+	// verifyTxn(somePay, {
+	frame_dig -1 // somePay: pay
+
+	// verify receiver
+	gtxns Receiver
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	==
+	assert
+
+	// verify amount
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 1
+	>
+	assert
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 10
+	<=
+	assert
+	frame_dig -1 // somePay: pay
+	gtxns Amount
+	int 5
+	!=
 	assert
 	retsub
 
@@ -153,6 +208,7 @@ call_NoOp:
 	method "asserts(bool,bool)void"
 	method "verifyTxnFromArg(pay)void"
 	method "verifyTxnFromTxnGroup()void"
+	method "verifyTxnCondition(pay)void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition
 	err
