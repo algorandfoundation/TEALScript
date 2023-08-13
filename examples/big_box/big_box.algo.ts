@@ -1,4 +1,3 @@
-import { verify } from 'crypto';
 import { Contract } from '../../src/lib/index';
 
 /*
