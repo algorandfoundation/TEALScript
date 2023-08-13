@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts from 'typescript';
+import ts, { LiteralLikeNode } from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as tsdoc from '@microsoft/tsdoc';
@@ -77,6 +77,8 @@ class TupleElement extends Array<TupleElement> {
     return this.push(...elements);
   }
 }
+
+type ExpressionWithText = ts.Expression & { text?: string };
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
 function renderDocNode(docNode: tsdoc.DocNode): string {
@@ -240,6 +242,9 @@ interface StorageProp {
   valueType: string;
   dynamicSize?: boolean;
   prefix?: string;
+  countMap?: {
+    [key: string | number]: number;
+  };
 }
 
 interface ABIMethod {
@@ -517,6 +522,15 @@ export default class Compiler {
 
         if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
         const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
+        const countMap = this.storageProps[name].countMap || {};
+        const firstArg = node.arguments[0] as ExpressionWithText;
+
+        if (typeof firstArg.text !== 'undefined') {
+          const count = countMap[firstArg.text.toString()] || 0;
+          countMap[firstArg.text.toString()] = count + 1;
+          this.storageProps[name].countMap = countMap;
+        }
+
         this.push(node.expression, operation, valueType);
         break;
       }
@@ -3859,23 +3873,26 @@ export default class Compiler {
     for (const [k, v] of Object.entries(this.storageProps)) {
       // eslint-disable-next-line default-case
       // TODO; Proper global/local types?
+      const count = Object.keys(v?.countMap || { not_found: 1 }).length;
       switch (v.type) {
         case 'global':
           if (isNumeric(v.valueType)) {
-            state.global.num_uints += 1;
+            state.global.num_uints += count;
+            // TODO: Way to declare Maps
             globalDeclared[k] = { type: 'uint64', key: k };
           } else {
             globalDeclared[k] = { type: 'bytes', key: k };
-            state.global.num_byte_slices += 1;
+            state.global.num_byte_slices += count;
           }
 
           break;
         case 'local':
           if (isNumeric(v.valueType)) {
-            state.local.num_uints += 1;
+            state.local.num_uints += count;
+            // TODO: Way to declare Maps
             localDeclared[k] = { type: 'uint64', key: k };
           } else {
-            state.local.num_byte_slices += 1;
+            state.local.num_byte_slices += count;
             localDeclared[k] = { type: 'bytes', key: k };
           }
           break;
