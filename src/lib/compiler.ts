@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts, { LiteralLikeNode } from 'typescript';
+import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as tsdoc from '@microsoft/tsdoc';
