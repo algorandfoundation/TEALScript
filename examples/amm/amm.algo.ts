@@ -119,11 +119,10 @@ class ConstantProductAMM extends Contract {
     assert(aAsset === this.assetA.get());
     assert(bAsset === this.assetB.get());
     assert(poolAsset === this.poolToken.get());
-    verifyTxn(aXfer, { sender: this.txn.sender });
-    verifyTxn(bXfer, { sender: this.txn.sender });
 
     /// valid asset A axfer
     verifyTxn(aXfer, {
+      sender: this.txn.sender,
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
       xferAsset: aAsset,
@@ -131,6 +130,7 @@ class ConstantProductAMM extends Contract {
 
     /// valid asset B axfer
     verifyTxn(bXfer, {
+      sender: this.txn.sender,
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
       xferAsset: bAsset,
