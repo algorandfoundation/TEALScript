@@ -85,3 +85,22 @@ class MyApp extends Contract {
 {@link BoxKey} and {@link BoxMap} have an additional option that is not applicable to global or local storage.
 
 `dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()` and `.set()`.
+
+## StateMap maxKeys Parameter
+
+{@link GlobalStateMap} and {@link LocalStateMap} have an additional parameter `maxKeys`.
+
+`maxKeys` is a required parameter that indicates how many keys should be reserved for this map.
+
+```ts
+// Reserve 3 keys for this map
+class MyApp extends Contract {
+  data = new GlobalStateMap<bytes, bytes>({ maxKeys: 3 })
+  
+  createApplication(){
+    this.data.set('name', 'MyApp')
+    this.data.set('version', '1.0.0')
+    this.data.set('author', 'Me')
+  }
+}
+```

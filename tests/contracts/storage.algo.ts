@@ -4,11 +4,11 @@ import { Contract } from '../../src/lib/index';
 class StorageTest extends Contract {
   globalKey = new GlobalStateKey<bytes>({ key: 'foo' });
 
-  globalMap = new GlobalStateMap<bytes, bytes>();
+  globalMap = new GlobalStateMap<bytes, bytes>({ maxKeys: 1 });
 
   localKey = new LocalStateKey<bytes>({ key: 'foo' });
 
-  localMap = new LocalStateMap<bytes, bytes>();
+  localMap = new LocalStateMap<bytes, bytes>({ maxKeys: 1 });
 
   boxKey = new BoxKey<bytes>({ key: 'foo', dynamicSize: false });
 

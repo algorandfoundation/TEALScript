@@ -468,7 +468,7 @@ declare class BoxKey<ValueType> {
 }
 
 declare class GlobalStateMap<KeyType, ValueType> {
-  constructor()
+  constructor(options : {maxKeys: number})
 
   get(key: KeyType): ValueType
 
@@ -492,7 +492,7 @@ declare class GlobalStateKey<ValueType> {
 }
 
 declare class LocalStateMap<KeyType, ValueType> {
-  constructor()
+  constructor(options: {maxKeys: number})
 
   get(account: Address, key: KeyType): ValueType
 

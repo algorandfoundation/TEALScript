@@ -76,9 +76,9 @@ class ABITestStaticArrayInStorageRef extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
@@ -107,9 +107,9 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
@@ -142,9 +142,9 @@ class ABITestStaticArrayInStorageMap extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
@@ -173,9 +173,9 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
   bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>();
+  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>();
+  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
   bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
 
@@ -941,7 +941,7 @@ class ABITestObjectRef extends Contract {
 }
 
 class ABITestStorageRefKey extends Contract {
-  gMap = new GlobalStateMap<uint64, uint64[]>();
+  gMap = new GlobalStateMap<uint64, uint64[]>({ maxKeys: 1 });
 
   storageRefKey(): uint64 {
     this.gMap.set(0, [1, 2, 3]);
@@ -959,7 +959,7 @@ class ABITestStorageRefKey extends Contract {
 }
 
 class ABITestStorageRefAccount extends Contract {
-  lMap = new LocalStateMap<uint64, uint64[]>();
+  lMap = new LocalStateMap<uint64, uint64[]>({ maxKeys: 1 });
 
   @allow.call('OptIn')
   storageRefAccount(): uint64 {
