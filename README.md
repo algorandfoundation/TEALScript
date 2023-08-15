@@ -2,13 +2,31 @@
 
 TEALScript is a subset of TypeScript that can be compiled into TEAL. The goal is to enable developers to write Algorand Smart Contracts using native TypeScript syntax. Since TEALScript uses native TypeScript syntax, IDE support works out of the box for any IDE that supports TypeScript.
 
+## Status
+
+TEALScript is a work in progress and not production-ready. The current version is `0.x.x`. This means there will be frequent changes being made, including breaking changes, without incrementing the MAJOR version number.
+
+## Differences from TypeScript
+
+While TEALScript is a subset of TypeScript, it does function differently in some cases.
+
+### Types Affect Behavior
+
+In TypeScript, using types, `as` expressions, or type arguments don't affect the compiled JS. In TEALScript, however, types fundamentally change the compiled TEAL. 
+
+For example, the literal expression `1` results in `int 1` in TEAL, but `1 as uint8` results in `byte 0x01`. This also means that arithmetic is done differently on these numbers and they have different overflow protections.
+
+### Numbers Can Be Bigger
+
+In TypeScript, numeric literals with absolute values equal to 2^53 or greater are too large to be represented accurately as integers. In TEALScript, however, numeric literals can be much larger (up to 2^512) if properly type casted as `uint512`.
+
+### Types May Be Required
+
+All JavaScript is valid TypeScript, but that is not the case with TEALScript. In certain cases, types are required and the compiler will throw an error if they are missing. For example, types are always required when defining a method or when defining an array.
+
 ## Documentation
 
 The documentation for the latest release can be viewed at [tealscript.algo.xyz](https://tealscript.algo.xyz) and can be generated locally with `yarn docs`
-
-## Status
-
-TEALScript is still very much a work in progress. The current version is `0.x.x`. This means there will be frequent changes being made, including breaking changes, without incrementing the MAJOR version number. As such, it is currently not recommended to use TEALScript in production.
 
 ## Example Contract
 
