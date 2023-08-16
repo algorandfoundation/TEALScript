@@ -66,7 +66,7 @@ optIntoAsset:
 
 	// Only allow app creator to opt the app account into a ASA
 	// examples/auction/auction.algo.ts:29
-	// assert(this.txn.sender === globals.creatorAddress)
+	// verify sender
 	txn Sender
 	global CreatorAddress
 	==
@@ -141,7 +141,7 @@ startAuction:
 	proto 3 0
 
 	// examples/auction/auction.algo.ts:47
-	// assert(this.txn.sender === globals.creatorAddress)
+	// verify sender
 	txn Sender
 	global CreatorAddress
 	==
@@ -158,7 +158,8 @@ startAuction:
 
 	// Verify axfer
 	// examples/auction/auction.algo.ts:53
-	// assert(axfer.assetReceiver === this.app.address)
+	// verifyTxn(axfer, { assetReceiver: this.app.address })
+	// verify assetReceiver
 	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
 	txna Applications 0
@@ -254,7 +255,15 @@ bid:
 
 	// Verify payment transaction
 	// examples/auction/auction.algo.ts:77
-	// assert(payment.amount > this.previousBid.get())
+	// verifyTxn(payment, {
+	// verify sender
+	frame_dig -1 // payment: pay
+	gtxns Sender
+	txn Sender
+	==
+	assert
+
+	// verify amount
 	frame_dig -1 // payment: pay
 	gtxns Amount
 	byte "previousBid"
@@ -262,23 +271,15 @@ bid:
 	>
 	assert
 
-	// examples/auction/auction.algo.ts:78
-	// assert(this.txn.sender === payment.sender)
-	txn Sender
-	frame_dig -1 // payment: pay
-	gtxns Sender
-	==
-	assert
-
 	// Set global state
-	// examples/auction/auction.algo.ts:81
+	// examples/auction/auction.algo.ts:83
 	// this.previousBid.set(payment.amount)
 	byte "previousBid"
 	frame_dig -1 // payment: pay
 	gtxns Amount
 	app_global_put
 
-	// examples/auction/auction.algo.ts:82
+	// examples/auction/auction.algo.ts:84
 	// this.previousBidder.set(payment.sender)
 	byte "previousBidder"
 	frame_dig -1 // payment: pay
@@ -286,7 +287,7 @@ bid:
 	app_global_put
 
 	// Update claimable amount
-	// examples/auction/auction.algo.ts:85
+	// examples/auction/auction.algo.ts:87
 	// this.claimableAmount.set(this.txn.sender, payment.amount)
 	txn Sender
 	byte "claimableAmount"
@@ -304,21 +305,21 @@ abi_route_claimBids:
 claimBids:
 	proto 2 0
 
-	// examples/auction/auction.algo.ts:89
+	// examples/auction/auction.algo.ts:91
 	// originalAmount = this.claimableAmount.get(this.txn.sender)
 	txn Sender
 	byte "claimableAmount"
 	app_local_get
 	frame_bury -1 // originalAmount: uint64
 
-	// examples/auction/auction.algo.ts:90
+	// examples/auction/auction.algo.ts:92
 	// amount = originalAmount
 	frame_dig -1 // originalAmount: uint64
 	frame_bury -2 // amount: uint64
 
 	// subtract previous bid if sender is previous bidder
 	// if0_condition
-	// examples/auction/auction.algo.ts:93
+	// examples/auction/auction.algo.ts:95
 	// this.txn.sender === this.previousBidder.get()
 	txn Sender
 	byte "previousBidder"
@@ -327,7 +328,7 @@ claimBids:
 	bz if0_end
 
 	// if0_consequent
-	// examples/auction/auction.algo.ts:93
+	// examples/auction/auction.algo.ts:95
 	// amount = amount - this.previousBid.get()
 	frame_dig -2 // amount: uint64
 	byte "previousBid"
@@ -336,14 +337,14 @@ claimBids:
 	frame_bury -2 // amount: uint64
 
 if0_end:
-	// examples/auction/auction.algo.ts:95
+	// examples/auction/auction.algo.ts:97
 	// this.pay(this.txn.sender, amount)
 	// no dupn needed
 	frame_dig -2 // amount: uint64
 	txn Sender
 	callsub pay
 
-	// examples/auction/auction.algo.ts:96
+	// examples/auction/auction.algo.ts:98
 	// this.claimableAmount.set(this.txn.sender, originalAmount - amount)
 	txn Sender
 	byte "claimableAmount"
@@ -365,7 +366,7 @@ abi_route_claim_asset:
 claim_asset:
 	proto 1 0
 
-	// examples/auction/auction.algo.ts:100
+	// examples/auction/auction.algo.ts:102
 	// assert(globals.latestTimestamp > this.auctionEnd.get())
 	global LatestTimestamp
 	byte "auctionEnd"
@@ -374,35 +375,35 @@ claim_asset:
 	assert
 
 	// Send ASA to previous bidder
-	// examples/auction/auction.algo.ts:103
+	// examples/auction/auction.algo.ts:105
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/auction/auction.algo.ts:104
+	// examples/auction/auction.algo.ts:106
 	// assetReceiver: this.previousBidder.get()
 	byte "previousBidder"
 	app_global_get
 	itxn_field AssetReceiver
 
-	// examples/auction/auction.algo.ts:105
+	// examples/auction/auction.algo.ts:107
 	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
-	// examples/auction/auction.algo.ts:106
+	// examples/auction/auction.algo.ts:108
 	// assetAmount: this.asaAmt.get()
 	byte "asaAmt"
 	app_global_get
 	itxn_field AssetAmount
 
-	// examples/auction/auction.algo.ts:107
+	// examples/auction/auction.algo.ts:109
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/auction/auction.algo.ts:108
+	// examples/auction/auction.algo.ts:110
 	// assetCloseTo: this.previousBidder.get()
 	byte "previousBidder"
 	app_global_get
@@ -419,28 +420,28 @@ abi_route_deleteApplication:
 deleteApplication:
 	proto 0 0
 
-	// examples/auction/auction.algo.ts:113
+	// examples/auction/auction.algo.ts:115
 	// sendPayment({
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/auction/auction.algo.ts:114
+	// examples/auction/auction.algo.ts:116
 	// fee: 0
 	int 0
 	itxn_field Fee
 
-	// examples/auction/auction.algo.ts:115
+	// examples/auction/auction.algo.ts:117
 	// receiver: globals.creatorAddress
 	global CreatorAddress
 	itxn_field Receiver
 
-	// examples/auction/auction.algo.ts:116
+	// examples/auction/auction.algo.ts:118
 	// closeRemainderTo: globals.creatorAddress
 	global CreatorAddress
 	itxn_field CloseRemainderTo
 
-	// examples/auction/auction.algo.ts:117
+	// examples/auction/auction.algo.ts:119
 	// amount: 0
 	int 0
 	itxn_field Amount

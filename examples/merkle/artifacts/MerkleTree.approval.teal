@@ -182,7 +182,7 @@ deleteApplication:
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:53
-	// assert(this.txn.sender === this.app.creator)
+	// verify sender
 	txn Sender
 	txna Applications 0
 	app_params_get AppCreator
