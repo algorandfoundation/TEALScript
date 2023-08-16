@@ -982,3 +982,9 @@ class ABITestAngularCasting extends Contract {
     return x;
   }
 }
+
+class ABITestStaticByteCasting extends Contract {
+  staticByteCasting(): StaticArray<byte, 5> {
+    return 'abc' as StaticArray<byte, 5>;
+  }
+}

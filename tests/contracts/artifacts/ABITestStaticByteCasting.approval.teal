@@ -1,0 +1,46 @@
+#pragma version 9
+
+txn ApplicationID
+int 0
+>
+int 6
+*
+txn OnCompletion
++
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp
+
+NOT_IMPLEMENTED:
+	err
+
+abi_route_staticByteCasting:
+	// no dupn needed
+	callsub staticByteCasting
+	int 1
+	return
+
+staticByteCasting:
+	proto 0 0
+
+	// tests/contracts/abi.algo.ts:988
+	// return 'abc' as StaticArray<byte, 5>;
+	byte "abc\x00\x00"
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+abi_route_defaultTEALScriptCreate:
+	int 1
+	return
+
+create_NoOp:
+	txn NumAppArgs
+	bz abi_route_defaultTEALScriptCreate
+	err
+
+call_NoOp:
+	method "staticByteCasting()byte[5]"
+	txna ApplicationArgs 0
+	match abi_route_staticByteCasting
+	err

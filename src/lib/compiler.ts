@@ -2665,9 +2665,10 @@ export default class Compiler {
 
     if (ts.isStringLiteral(node.expression)) {
       const width = parseInt(type.match(/\d+/)![0], 10);
-      const str = node.expression.text.padEnd(width);
+      const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
-      this.push(node, `byte "${str}"`, type);
+      const padBytes = width - str.length;
+      this.push(node, `byte "${str + '\\x00'.repeat(padBytes)}"`, type);
       return;
     }
 
