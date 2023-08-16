@@ -30,7 +30,7 @@ class Counter extends Contract {
     this.counter.set(startingNumber)
   }
 
-  updateApplication() {
+  updateApplication(): void {
     assert(this.txn.sender === this.app.creator)
   }
 }
@@ -49,7 +49,7 @@ class Counter extends Contract {
     this.counter.set(startingNumber)
   }
 
-  deleteApplication() {
+  deleteApplication(): void {
     assert(this.txn.sender === this.app.creator)
   }
 }
@@ -73,7 +73,7 @@ class Counter extends Contract {
   @allow.create('OptIn') // Allow an OptIn create so the creators counter can be set when creating the app
   @allow.call('OptIn')   // Allow anyone to OptIn to the contract so they can use local state
   @allow.call('NoOp')    // Allow anyone to call the app again with a NoOp call (can only OptIn once)
-  useLocalState() {
+  useLocalState(): void {
     if (!this.counter.exists(this.txn.sender)) this.counter.set(this.txn.sender, 1)
     else this.counter.set(this.txn.sender, this.counter.get(this.txn.sender) + 1)
   }
