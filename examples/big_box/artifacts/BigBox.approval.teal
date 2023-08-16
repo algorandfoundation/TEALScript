@@ -36,13 +36,13 @@ abi_route_startUpload:
 startUpload:
 	proto 8 0
 
-	// examples/big_box/big_box.algo.ts:47
+	// examples/big_box/big_box.algo.ts:46
 	// startBox = this.currentIndex.get()
 	byte "currentIndex"
 	app_global_get
 	frame_bury -5 // startBox: uint64
 
-	// examples/big_box/big_box.algo.ts:48
+	// examples/big_box/big_box.algo.ts:47
 	// endBox = startBox + numBoxes - 1
 	frame_dig -5 // startBox: uint64
 	frame_dig -2 // numBoxes: uint64
@@ -51,7 +51,7 @@ startUpload:
 	-
 	frame_bury -6 // endBox: uint64
 
-	// examples/big_box/big_box.algo.ts:50
+	// examples/big_box/big_box.algo.ts:49
 	// metadata: Metadata = {
 	frame_dig -5 // startBox: uint64
 	itob
@@ -76,7 +76,7 @@ startUpload:
 	concat
 	frame_bury -7 // metadata: Metadata
 
-	// examples/big_box/big_box.algo.ts:54
+	// examples/big_box/big_box.algo.ts:53
 	// assert(!this.metadata.exists(dataIdentifier))
 	frame_dig -1 // dataIdentifier: bytes
 	box_len
@@ -85,13 +85,13 @@ startUpload:
 	!
 	assert
 
-	// examples/big_box/big_box.algo.ts:56
+	// examples/big_box/big_box.algo.ts:55
 	// this.metadata.set(dataIdentifier, metadata)
 	frame_dig -1 // dataIdentifier: bytes
 	frame_dig -7 // metadata: Metadata
 	box_put
 
-	// examples/big_box/big_box.algo.ts:58
+	// examples/big_box/big_box.algo.ts:57
 	// this.currentIndex.set(endBox + 1)
 	byte "currentIndex"
 	frame_dig -6 // endBox: uint64
@@ -99,7 +99,7 @@ startUpload:
 	+
 	app_global_put
 
-	// examples/big_box/big_box.algo.ts:60
+	// examples/big_box/big_box.algo.ts:59
 	// totalCost = numBoxes * COST_PER_BOX // cost of boxes
 	frame_dig -2 // numBoxes: uint64
 	int 2500
@@ -124,7 +124,7 @@ startUpload:
 	+
 	frame_bury -8 // totalCost: uint64
 
-	// examples/big_box/big_box.algo.ts:65
+	// examples/big_box/big_box.algo.ts:64
 	// verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
 	// verify receiver
 	frame_dig -4 // mbrPayment: pay
@@ -160,12 +160,12 @@ abi_route_upload:
 upload:
 	proto 5 0
 
-	// examples/big_box/big_box.algo.ts:78
+	// examples/big_box/big_box.algo.ts:77
 	// metadata = this.metadata.get(dataIdentifier)
 	frame_dig -1 // dataIdentifier: bytes
 	frame_bury -5 // storage key//metadata
 
-	// examples/big_box/big_box.algo.ts:79
+	// examples/big_box/big_box.algo.ts:78
 	// assert(metadata.status === IN_PROGRESS)
 	frame_dig -5 // storage key//metadata
 	box_get
@@ -182,7 +182,7 @@ upload:
 	b==
 	assert
 
-	// examples/big_box/big_box.algo.ts:80
+	// examples/big_box/big_box.algo.ts:79
 	// assert(metadata.start <= boxIndex && boxIndex <= metadata.end)
 	frame_dig -5 // storage key//metadata
 	box_get
@@ -220,7 +220,7 @@ skip_and0:
 	assert
 
 	// if0_condition
-	// examples/big_box/big_box.algo.ts:82
+	// examples/big_box/big_box.algo.ts:81
 	// offset === 0
 	frame_dig -3 // offset: uint64
 	int 0
@@ -228,7 +228,7 @@ skip_and0:
 	bz if0_end
 
 	// if0_consequent
-	// examples/big_box/big_box.algo.ts:83
+	// examples/big_box/big_box.algo.ts:82
 	// this.dataBoxes.create(boxIndex, boxIndex === metadata.end ? metadata.endSize : MAX_BOX_SIZE)
 	frame_dig -2 // boxIndex: uint64
 	itob
@@ -268,7 +268,7 @@ ternary0_end:
 	box_create
 
 if0_end:
-	// examples/big_box/big_box.algo.ts:86
+	// examples/big_box/big_box.algo.ts:85
 	// this.dataBoxes.replace(boxIndex, offset, data)
 	frame_dig -2 // boxIndex: uint64
 	itob
@@ -289,7 +289,7 @@ abi_route_setStatus:
 setStatus:
 	proto 3 0
 
-	// examples/big_box/big_box.algo.ts:97
+	// examples/big_box/big_box.algo.ts:96
 	// currentStatus = this.metadata.get(dataIdentifier).status
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
@@ -307,7 +307,7 @@ setStatus:
 	extract3
 	frame_bury -3 // currentStatus: uint8
 
-	// examples/big_box/big_box.algo.ts:99
+	// examples/big_box/big_box.algo.ts:98
 	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
 	frame_dig -2 // status: uint8
 	byte 0x01
@@ -330,14 +330,14 @@ skip_or0:
 skip_or1:
 	assert
 
-	// examples/big_box/big_box.algo.ts:100
+	// examples/big_box/big_box.algo.ts:99
 	// assert(currentStatus !== IMMUTABLE)
 	frame_dig -3 // currentStatus: uint8
 	byte 0x02
 	b!=
 	assert
 
-	// examples/big_box/big_box.algo.ts:102
+	// examples/big_box/big_box.algo.ts:101
 	// this.metadata.get(dataIdentifier).status = status
 	frame_dig -1 // dataIdentifier: bytes
 	box_get

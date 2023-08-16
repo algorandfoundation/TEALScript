@@ -490,8 +490,9 @@ mint:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:122
-	// verifyTxn(aXfer, { sender: this.txn.sender })
+	// valid asset A axfer
+	// examples/amm/amm.algo.ts:124
+	// verifyTxn(aXfer, {
 	// verify sender
 	frame_dig -1 // aXfer: axfer
 	gtxns Sender
@@ -499,18 +500,6 @@ mint:
 	==
 	assert
 
-	// examples/amm/amm.algo.ts:123
-	// verifyTxn(bXfer, { sender: this.txn.sender })
-	// verify sender
-	frame_dig -2 // bXfer: axfer
-	gtxns Sender
-	txn Sender
-	==
-	assert
-
-	// valid asset A axfer
-	// examples/amm/amm.algo.ts:126
-	// verifyTxn(aXfer, {
 	// verify assetAmount
 	frame_dig -1 // aXfer: axfer
 	gtxns AssetAmount
@@ -535,8 +524,15 @@ mint:
 	assert
 
 	// valid asset B axfer
-	// examples/amm/amm.algo.ts:133
+	// examples/amm/amm.algo.ts:132
 	// verifyTxn(bXfer, {
+	// verify sender
+	frame_dig -2 // bXfer: axfer
+	gtxns Sender
+	txn Sender
+	==
+	assert
+
 	// verify assetAmount
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount

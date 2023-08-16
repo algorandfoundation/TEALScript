@@ -240,6 +240,7 @@ interface StorageProp {
   valueType: string;
   dynamicSize?: boolean;
   prefix?: string;
+  maxKeys?: number;
 }
 
 interface ABIMethod {
@@ -3225,6 +3226,11 @@ export default class Compiler {
               if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage prefix must be string');
               props.prefix = p.initializer.text;
               break;
+            case 'maxKeys':
+              if (!klass.includes('Map')) throw new Error(`${name} only applies to storage maps`);
+              if (!ts.isNumericLiteral(p.initializer)) throw new Error('Storage maxKeys must be number');
+              props.maxKeys = parseInt(p.initializer.text, 10);
+              break;
             default:
               throw new Error(`Unknown property ${name}`);
           }
@@ -3234,6 +3240,8 @@ export default class Compiler {
       if (!props.key && klass.includes('Key')) {
         props.key = node.name.getText();
       }
+
+      if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
       if (klass.includes('Map') && !props.prefix) {
         const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
@@ -3907,20 +3915,20 @@ export default class Compiler {
       switch (v.type) {
         case 'global':
           if (isNumeric(v.valueType)) {
-            state.global.num_uints += 1;
+            state.global.num_uints += v.maxKeys || 1;
             globalDeclared[k] = { type: 'uint64', key: k };
           } else {
             globalDeclared[k] = { type: 'bytes', key: k };
-            state.global.num_byte_slices += 1;
+            state.global.num_byte_slices += v.maxKeys || 1;
           }
 
           break;
         case 'local':
           if (isNumeric(v.valueType)) {
-            state.local.num_uints += 1;
+            state.local.num_uints += v.maxKeys || 1;
             localDeclared[k] = { type: 'uint64', key: k };
           } else {
-            state.local.num_byte_slices += 1;
+            state.local.num_byte_slices += v.maxKeys || 1;
             localDeclared[k] = { type: 'bytes', key: k };
           }
           break;
@@ -3928,6 +3936,14 @@ export default class Compiler {
           // TODO: boxes?
           break;
       }
+    }
+
+    if (state.global.num_uints + state.global.num_byte_slices > 64) {
+      throw new Error('over allocated global state');
+    }
+
+    if (state.local.num_uints + state.local.num_byte_slices > 16) {
+      throw new Error('over allocated local state');
     }
 
     const hints: {[signature: string]: {'call_config': {[action: string]: string}}} = {};
