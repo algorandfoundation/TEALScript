@@ -2580,7 +2580,11 @@ export default class Compiler {
 
     this.typeComparison(leftType, this.lastType, 'math');
 
-    const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
+    const operator = node.operatorToken.getText()
+      .replace('===', '==')
+      .replace('!==', '!=')
+      .replace('**', 'exp');
+
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {

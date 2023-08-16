@@ -52,4 +52,8 @@ class MathTest extends Contract {
   btobigintSecond(input: string): uint64 {
     return 1 / btobigint(input);
   }
+
+  exponent(): uint64 {
+    return 2 ** 4;
+  }
 }
