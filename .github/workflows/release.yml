@@ -1,18 +1,34 @@
 name: Publish Package to npmjs
 on:
-  release:
-    types: [published]
+  push:
+    branches: ['main', 'dev']
 jobs:
   npm-publish:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+      packages: write
+      pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
       - run: yarn install --immutable --immutable-cache --check-cache
-      - run: npm publish
+      - run: yarn run release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com'
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Merge main -> dev
+        uses: devmasx/merge-branch@854d3ac71ed1e9deb668e0074781b81fdd6e771f
+        if: github.ref == 'refs/heads/main'
+        with:
+          type: now
+          from_branch: main
+          target_branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}
