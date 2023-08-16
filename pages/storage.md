@@ -48,7 +48,7 @@ The contructors for the key classes all take an optional argument `prefix`. The 
 class MyApp extends Contract {
     favoriteColor = new BoxMap<Address, string>()
 
-    setColor(color: string) {
+    setColor(color: string): void {
         this.favoriteColor.set(this.txn.sender, color) // on chain: sender's address now points to their favorite color
     }
 }

@@ -11,7 +11,7 @@ To modify the logic executed upon applicaiton creation (for example, to set defa
 class Counter extends Contract {
   counter = new GlobalStateKey<number>();
 
-  createApplication(startingNumber: number) {
+  createApplication(startingNumber: number): void {
     this.counter.set(startingNumber)
   }
 }
@@ -26,7 +26,7 @@ By defualt, TEALScript contracts cannot be updated. To allow a contract to be up
 class Counter extends Contract {
   counter = new GlobalStateKey<number>();
 
-  createApplication(startingNumber: number) {
+  createApplication(startingNumber: number): void {
     this.counter.set(startingNumber)
   }
 
@@ -45,7 +45,7 @@ By defualt, TEALScript contracts cannot be deleted. To allow a contract to be de
 class Counter extends Contract {
   counter = new GlobalStateKey<number>();
 
-  createApplication(startingNumber: number) {
+  createApplication(startingNumber: number): void {
     this.counter.set(startingNumber)
   }
 
