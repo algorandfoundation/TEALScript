@@ -3931,10 +3931,10 @@ export default class Compiler {
         case 'local':
           if (isNumeric(v.valueType)) {
             state.local.num_uints += v.maxKeys || 1;
-            localDeclared[k] = { type: 'uint64', key: k };
+            localDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
             state.local.num_byte_slices += v.maxKeys || 1;
-            localDeclared[k] = { type: 'bytes', key: k };
+            localDeclared[k] = { type: 'bytes', key: v.key || k };
           }
           break;
         default:
