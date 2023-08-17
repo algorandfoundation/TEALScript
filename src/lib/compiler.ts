@@ -2580,7 +2580,11 @@ export default class Compiler {
 
     this.typeComparison(leftType, this.lastType, 'math');
 
-    const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
+    const operator = node.operatorToken.getText()
+      .replace('===', '==')
+      .replace('!==', '!=')
+      .replace('**', 'exp');
+
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
@@ -2661,9 +2665,10 @@ export default class Compiler {
 
     if (ts.isStringLiteral(node.expression)) {
       const width = parseInt(type.match(/\d+/)![0], 10);
-      const str = node.expression.text.padEnd(width);
+      const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
-      this.push(node, `byte "${str}"`, type);
+      const padBytes = width - str.length;
+      this.push(node, `byte "${str + '\\x00'.repeat(padBytes)}"`, type);
       return;
     }
 
@@ -3926,10 +3931,10 @@ export default class Compiler {
         case 'local':
           if (isNumeric(v.valueType)) {
             state.local.num_uints += v.maxKeys || 1;
-            localDeclared[k] = { type: 'uint64', key: k };
+            localDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
             state.local.num_byte_slices += v.maxKeys || 1;
-            localDeclared[k] = { type: 'bytes', key: k };
+            localDeclared[k] = { type: 'bytes', key: v.key || k };
           }
           break;
         default:
