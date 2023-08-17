@@ -101,9 +101,6 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "ts-node": {
-    "swc": true
-  },
   "typedocOptions": {
     "entryPoints": ["types/global.d.ts", "src/lib/index.ts"],
     "out": "docs",
