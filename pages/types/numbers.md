@@ -77,6 +77,8 @@ const b: uint8 = 1
 const c = a + b - b
 ```
 
+The only exception to intermediate arithmetic overflows is if the value is larger than 2^512 because this is the largest value supported by the AVM.
+
 ### Underflows
 
 Any operation that results in a value less than 0 will cause a panic in the AVM.
