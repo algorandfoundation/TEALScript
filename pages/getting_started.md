@@ -8,8 +8,13 @@ algokit init --template-url https://github.com/algorand-devrel/tealscript-algoki
 
 This will set up a project repository with TEALScript, ESLint, algokit generate, and some tests.
 
+More information about how to use the template is provided in the template's README.
+
 
 ## Manual Installation
+
+If you do not wish to use the above Algokit template, you can manually install TEALScript to any project with npm. 
+ 
 ### Installing TEALScript
 
 TEALScript can be installed from npm via `npm install @algorandfoundation/tealscript`. 
