@@ -10,14 +10,15 @@ You can define specific-width unsigned integers with the {@link uint} generic ty
 
 ### Examples
 
+#### Correct: Unsigned 64-bit integer
+
+```ts
+const n = 1
+```
+
 #### Correct: Unsigned 8-bit integer
 ```ts
 const n: uint<8> = 1
-```
-
-#### Incorrect: Missing type argument
-```ts
-const n: uint8 = 1 // ERROR: should be uint<8>
 ```
 
 ## Unsigned Fixed-Point Decimals
@@ -31,9 +32,9 @@ To represent decimals, use the {@link ufixed} generic type. The first type argum
 const n: ufixed<64, 2> = 1.23
 ```
 
-#### Incorrect: Missing type argument
+#### Incorrect: Missing type
 ```ts
-const n: ufixed64x2 = 1.23 // ERROR: should be uint<8>
+const n = 1.23 // ERROR: Missing type
 ```
 
 #### Incorrect: Not Precise Enough
@@ -59,16 +60,7 @@ foo(): uint16 {
 ```ts
 foo(): uint8 {
     const n: uint16 = 1
-    return n as uint8 // Compiler will convert n (0x0001) to uint8 (0x01)
-}
-```
-
-#### Incorrect: Implicit Bit Reduction
-```ts
-foo(): uint8 {
-    const n: uint16 = 1
-    return n // ERROR: won't implictly convert uint16 to uint8
-}
+    return n // Compiler will convert n (0x0001) to uint8 (0x01). Runtime error if there is an overflow.
 ```
 
 ## Math
@@ -77,12 +69,12 @@ You can use standard math operators (`+`, `-`, `/`, `*`) on any type of numner a
 
 ### Overflows
 
-Currently, there is no overflow errors on math operations, unless the value exceeds 4kb. Values will be truncated to fit in the types respective width. For example:
+During runtime, there will be an overflow check upon storage of values, returning values, or type casting. This means there is no type checking of intermediate values of math operations, with the exception of uint64 math. This means the following example will NOT throw an error, even though the intermediate value of `a + b` is larger than the max `uint8` value. 
 
 ```ts
 const a: uint8 = 255
-const b: uint8 = 255
-const c = a + b // 0xFF + 0xFF ==raw value==> 0x01FE ==truncated==> 0xFE
+const b: uint8 = 1
+const c = a + b - b
 ```
 
 ### Underflows
