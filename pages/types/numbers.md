@@ -44,7 +44,7 @@ const n: ufixed<64, 2> = 1.234 // ERROR: Precision of 2 decimals places, but 3 a
 
 ## Type casting
 
-You can cast types of one number to another (but only `uint` -> `uint` or `ufixed` -> `ufixed`). The compiler will automatically pad smaller values to bigger ones where applicable (such as return values), but will throw an error if the bit width is being reduced without explicit type casting.
+You can cast types of one number to another (but only `uint` -> `uint` or `ufixed` -> `ufixed`). The compiler will automatically pad smaller values to bigger ones where applicable (such as return values), but will throw an runtime error if there is a value overflow when going from a bigger width to a smaller width. 
 
 ### Examples
 
