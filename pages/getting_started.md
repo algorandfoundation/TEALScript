@@ -1,8 +1,20 @@
-## Installing TEALScript
+## Using Algokit
+
+The recommended way to get started with TEALScript is to use the Algokit template:
+
+```
+algokit init --template-url https://github.com/algorand-devrel/tealscript-algokit-template
+```
+
+This will set up a project repository with TEALScript, ESLint, algokit generate, and some tests.
+
+
+## Manual Installation
+### Installing TEALScript
 
 TEALScript can be installed from npm via `npm install @algorandfoundation/tealscript`. 
 
-## Writing First Contract
+### Writing First Contract
 
 To write your first smart contract, import the {@link Contract} class and create a new class that extends {@link Contract}.
 
@@ -24,7 +36,7 @@ class FirstContract extends Contract {
 }
 ```
 
-## Compiling
+### Compiling
 
 To compile a TEALScript smart contract, run `npx tealscript <file> [artifact directory]`
 
@@ -33,7 +45,7 @@ To compile a TEALScript smart contract, run `npx tealscript <file> [artifact dir
 
 To learn more about method definitions and decorators for specific smart contract actions (such as creating, updating, or deleting the contract) see {@page methods.md}.
 
-## ESLint
+### ESLint
 
 **Note:** This is assuming you are extending the `airbnb-base`. Other standards might have additional rules that need to be disabled or modified.
 
@@ -47,7 +59,7 @@ If you are using ESLint, the following rules must be disabled:
 | `max-classes-per-file`   | Multiple contracts can be defined in a single file                |
 | `no-bitwise`             | Bitwise operations are supported by TEALScript                    |
 
-## .eslintrc.js
+#### .eslintrc.js
 
 Rather than disabling these directly in the file, you can also create some rule overrides in your `.eslintrc.js`. For example, if you end all of your TEALScript contracts with `.algo.ts` you can add this to your config:
 
