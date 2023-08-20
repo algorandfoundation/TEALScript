@@ -65,7 +65,7 @@ foo(): uint8 {
 
 ## Math
 
-You can use standard math operators (`+`, `-`, `/`, `*`) on any type of numner as long as both operands are the same. 
+You can use standard math operators (`+`, `-`, `/`, `*`, `%`) on any type of numner as long as both operands are the same. Exponents (`**`) work as long as the power is less than 2^65. 
 
 ### Overflows
 
