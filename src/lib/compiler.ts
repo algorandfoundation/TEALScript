@@ -3921,9 +3921,9 @@ export default class Compiler {
         case 'global':
           if (isNumeric(v.valueType)) {
             state.global.num_uints += v.maxKeys || 1;
-            globalDeclared[k] = { type: 'uint64', key: k };
+            globalDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
-            globalDeclared[k] = { type: 'bytes', key: k };
+            globalDeclared[k] = { type: 'bytes', key: v.key || k };
             state.global.num_byte_slices += v.maxKeys || 1;
           }
 

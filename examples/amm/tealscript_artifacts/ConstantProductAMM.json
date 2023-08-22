@@ -42,23 +42,23 @@
       "declared": {
         "governor": {
           "type": "bytes",
-          "key": "governor"
+          "key": "g"
         },
         "assetA": {
           "type": "uint64",
-          "key": "assetA"
+          "key": "a"
         },
         "assetB": {
           "type": "uint64",
-          "key": "assetB"
+          "key": "b"
         },
         "poolToken": {
           "type": "uint64",
-          "key": "poolToken"
+          "key": "p"
         },
         "ratio": {
           "type": "uint64",
-          "key": "ratio"
+          "key": "r"
         }
       },
       "reserved": {}
