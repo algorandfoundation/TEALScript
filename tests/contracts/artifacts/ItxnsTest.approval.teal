@@ -321,7 +321,7 @@ assetFreeze:
 	itxn_field TypeEnum
 
 	// tests/contracts/itxns.algo.ts:68
-	// freezeAssetFrozen: 1
+	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
 
