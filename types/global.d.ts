@@ -576,7 +576,7 @@ interface AssetCreateParams extends CommonTransactionParams {
 interface AssetFreezeParams extends CommonTransactionParams {
   freezeAsset: Asset
   freezeAssetAccount: Address
-  freezeAssetFrozen: uint64
+  freezeAssetFrozen: boolean
 }
 
 interface PaymentParams extends CommonTransactionParams {

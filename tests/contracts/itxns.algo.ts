@@ -65,7 +65,7 @@ class ItxnsTest extends Contract {
 
   assetFreeze(): void {
     sendAssetFreeze({
-      freezeAssetFrozen: 1,
+      freezeAssetFrozen: true,
       freezeAssetAccount: this.app.address,
       freezeAsset: Asset.zeroIndex,
       fee: 0,
