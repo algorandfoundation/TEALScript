@@ -6,6 +6,7 @@
 | `Itxn`       | {@link Contract.itxn this.itxn}         |
 | `Assert`     | {@link assert}                          |
 | `NamedTuple` | See Objects section {@page types/tuples.md here} |
+| `Gtxn`       | {@link Contract.txnGroup this.txnGroup} |
 
 ## Maybe Values
 
