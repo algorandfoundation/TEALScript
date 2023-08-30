@@ -6,18 +6,18 @@ class StorageTest extends Contract {
 
   globalMap = GlobalStateMap<bytes, bytes>({ maxKeys: 1 });
 
-  localKey = new LocalStateKey<bytes>({ key: 'foo' });
+  localKey = LocalStateKey<bytes>({ key: 'foo' });
 
-  localMap = new LocalStateMap<bytes, bytes>({ maxKeys: 1 });
+  localMap = LocalStateMap<bytes, bytes>({ maxKeys: 1 });
 
-  boxKey = new BoxKey<bytes>({ key: 'foo', dynamicSize: false });
+  boxKey = BoxKey<bytes>({ key: 'foo', dynamicSize: false });
 
-  boxMap = new BoxMap<bytes, bytes>({ dynamicSize: false });
+  boxMap = BoxMap<bytes, bytes>({ dynamicSize: false });
 
-  boxMapWithPrefix = new BoxMap<bytes, bytes>({ prefix: 'f' });
+  boxMapWithPrefix = BoxMap<bytes, bytes>({ prefix: 'f' });
 
   prefix(): void {
-    this.boxMapWithPrefix.set('oo', 'bar');
+    this.boxMapWithPrefix['oo'].value = 'bar';
   }
 
   globalKeyPut(): void {
@@ -29,35 +29,35 @@ class StorageTest extends Contract {
   }
 
   globalKeyDelete(): void {
-    this.globalKey.delete!();
+    this.globalKey.delete();
   }
 
   globalKeyExists(): void {
-    assert(this.globalKey.exists!);
+    assert(this.globalKey.exists);
   }
 
   localKeyPut(a: Account): void {
-    this.localKey.set(a, 'bar');
+    this.localKey[a].value = 'bar';
   }
 
   localKeyGet(a: Account): void {
-    assert(this.localKey.get(a) === 'bar');
+    assert(this.localKey[a].value === 'bar');
   }
 
   localKeyDelete(a: Account): void {
-    this.localKey.delete(a);
+    this.localKey[a].delete();
   }
 
   localKeyExists(a: Account): void {
-    this.localKey.exists(a);
+    assert(this.localKey[a].exists);
   }
 
   boxKeyPut(): void {
-    this.boxKey.set('bar');
+    this.boxKey.value = 'bar';
   }
 
   boxKeyGet(): void {
-    assert(this.boxKey.get() === 'bar');
+    assert(this.boxKey.value === 'bar');
   }
 
   boxKeyDelete(): void {
@@ -65,55 +65,55 @@ class StorageTest extends Contract {
   }
 
   boxKeyExists(): void {
-    this.boxKey.exists();
+    assert(this.boxKey.exists);
   }
 
   globalMapPut(): void {
-    this.globalMap.foo.value = 'bar';
+    this.globalMap['foo'].value = 'bar';
   }
 
   globalMapGet(): void {
-    assert(this.globalMap.foo.value === 'bar');
+    assert(this.globalMap['foo'].value === 'bar');
   }
 
   globalMapDelete(): void {
-    this.globalMap.foo.delete!();
+    this.globalMap['foo'].delete!();
   }
 
   globalMapExists(): void {
-    this.globalMap.foo.exists!;
+    this.globalMap['foo'].exists!;
   }
 
   localMapPut(a: Account): void {
-    this.localMap.set(a, 'foo', 'bar');
+    this.localMap[a]['foo'].value = 'bar';
   }
 
   localMapGet(a: Account): void {
-    assert(this.localMap.get(a, 'foo') === 'bar');
+    assert(this.localMap[a]['foo'].value === 'bar');
   }
 
   localMapDelete(a: Account): void {
-    this.localMap.delete(a, 'foo');
+    this.localMap[a]['foo'].delete();
   }
 
   localMapExists(a: Account): void {
-    this.localMap.exists(a, 'foo');
+    assert(this.localMap[a]['foo'].exists);
   }
 
   boxMapPut(): void {
-    this.boxMap.set('foo', 'bar');
+    this.boxMap['foo'].value = 'bar';
   }
 
   boxMapGet(): void {
-    assert(this.boxMap.get('foo') === 'bar');
+    assert(this.boxMap['foo'].value === 'bar');
   }
 
   boxMapDelete(): void {
-    this.boxMap.delete('foo');
+    this.boxMap['foo'].delete();
   }
 
   boxMapExists(): void {
-    this.boxMap.exists('foo');
+    assert(this.boxMap['foo'].exists);
   }
 
   boxKeyCreate(): void {
@@ -121,15 +121,15 @@ class StorageTest extends Contract {
   }
 
   boxMapCreate(): void {
-    this.boxMap.create('bar', 1024);
+    this.boxMap['bar'].create(1024);
   }
 
   boxKeyLength(): uint64 {
-    return this.boxKey.size();
+    return this.boxKey.size;
   }
 
   boxMapLength(): uint64 {
-    return this.boxMap.size('bar');
+    return this.boxMap['bar'].size;
   }
 
   boxKeyReplace(): void {
@@ -137,7 +137,7 @@ class StorageTest extends Contract {
   }
 
   boxMapReplace(): void {
-    this.boxMap.replace('bar', 0, 'abc');
+    this.boxMap['bar'].replace(0, 'abc');
   }
 
   boxKeyExtract(): string {
@@ -145,7 +145,7 @@ class StorageTest extends Contract {
   }
 
   boxMapExtract(): string {
-    return this.boxMap.extract('bar', 0, 3);
+    return this.boxMap['bar'].extract(0, 3);
   }
 
   isOptedIn(): boolean {
