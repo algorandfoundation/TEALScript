@@ -326,7 +326,7 @@ declare type TxnVerificationFields= {
   numClearStateProgramPages?: IntLike | TxnVerificationTests
 }
 
-declare class Asset {
+declare type Asset = number & {
   static fromIndex(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
@@ -356,11 +356,7 @@ declare class Asset {
   readonly creator: Address;
 }
 
-declare class Address {
-  static fromBytes(addr: BytesLike): Address;
-
-  static readonly zeroAddress: Address;
-
+declare type Address = string & {
   readonly balance: uint64;
 
   readonly hasBalance: uint64;
@@ -401,11 +397,7 @@ type Account = Address
 
 type BytesLike = bytes | Address | string
 
-declare class Application {
-  static fromIndex(appID: uint64): Application;
-
-  static readonly zeroIndex: Application;
-
+declare type Application = number & {
   readonly approvalProgram: bytes;
 
   readonly clearStateProgram: bytes;
@@ -467,29 +459,16 @@ declare class BoxKey<ValueType> {
   size(): uint64
 }
 
-declare class GlobalStateMap<KeyType, ValueType> {
-  constructor(options : {maxKeys: number})
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  set(key: KeyType, value: ValueType): void
+declare type GlobalStateValue<ValueType> = ValueType& {
+  delete?: () => void,
+  exists?: boolean,
 }
 
-declare class GlobalStateKey<ValueType> {
-  constructor(options?: { key?: string })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  set(value: ValueType): void
-}
+declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
+declare function GlobalStateMap<KeyType, ValueType>(options : {maxKeys: number}): Record<
+  KeyType,
+  GlobalStateValue<ValueType>
+>
 
 declare class LocalStateMap<KeyType, ValueType> {
   constructor(options: {maxKeys: number})

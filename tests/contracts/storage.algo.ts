@@ -2,9 +2,9 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class StorageTest extends Contract {
-  globalKey = new GlobalStateKey<bytes>({ key: 'foo' });
+  globalKey = GlobalStateKey<bytes>({ key: 'foo' });
 
-  globalMap = new GlobalStateMap<bytes, bytes>({ maxKeys: 1 });
+  globalMap = GlobalStateMap<bytes, bytes>({ maxKeys: 1 });
 
   localKey = new LocalStateKey<bytes>({ key: 'foo' });
 
@@ -21,19 +21,19 @@ class StorageTest extends Contract {
   }
 
   globalKeyPut(): void {
-    this.globalKey.set('bar');
+    this.globalKey = 'bar';
   }
 
   globalKeyGet(): void {
-    assert(this.globalKey.get() === 'bar');
+    assert(this.globalKey === 'bar');
   }
 
   globalKeyDelete(): void {
-    this.globalKey.delete();
+    this.globalKey.delete!();
   }
 
   globalKeyExists(): void {
-    this.globalKey.exists();
+    assert(this.globalKey.exists!);
   }
 
   localKeyPut(a: Account): void {
@@ -69,19 +69,19 @@ class StorageTest extends Contract {
   }
 
   globalMapPut(): void {
-    this.globalMap.set('foo', 'bar');
+    this.globalMap.foo = 'bar';
   }
 
   globalMapGet(): void {
-    assert(this.globalMap.get('foo') === 'bar');
+    assert(this.globalMap.foo === 'bar');
   }
 
   globalMapDelete(): void {
-    this.globalMap.delete('foo');
+    this.globalMap.foo.delete!();
   }
 
   globalMapExists(): void {
-    this.globalMap.exists('foo');
+    this.globalMap.foo.exists!;
   }
 
   localMapPut(a: Account): void {
