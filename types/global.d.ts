@@ -459,9 +459,10 @@ declare class BoxKey<ValueType> {
   size(): uint64
 }
 
-declare type GlobalStateValue<ValueType> = ValueType& {
-  delete?: () => void,
-  exists?: boolean,
+declare type GlobalStateValue<ValueType> = {
+  value: ValueType
+  delete: () => void,
+  exists: boolean,
 }
 
 declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>

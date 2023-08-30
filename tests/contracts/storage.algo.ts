@@ -21,11 +21,11 @@ class StorageTest extends Contract {
   }
 
   globalKeyPut(): void {
-    this.globalKey = 'bar';
+    this.globalKey.value = 'bar';
   }
 
   globalKeyGet(): void {
-    assert(this.globalKey === 'bar');
+    assert(this.globalKey.value === 'bar');
   }
 
   globalKeyDelete(): void {
@@ -69,11 +69,11 @@ class StorageTest extends Contract {
   }
 
   globalMapPut(): void {
-    this.globalMap.foo = 'bar';
+    this.globalMap.foo.value = 'bar';
   }
 
   globalMapGet(): void {
-    assert(this.globalMap.foo === 'bar');
+    assert(this.globalMap.foo.value === 'bar');
   }
 
   globalMapDelete(): void {
