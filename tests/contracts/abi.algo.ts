@@ -70,30 +70,30 @@ class ABITestSetStaticArrayElement extends Contract {
 }
 
 class ABITestStaticArrayInStorageRef extends Contract {
-  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @allow.call('OptIn')
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.set(a);
-    this.lRef.set(this.txn.sender, a);
-    this.bRef.set(a);
+    this.gRef.value = a;
+    this.lRef[this.txn.sender].value = a;
+    this.bRef.value = a;
 
     const ret: StaticArray<uint64, 3> = [
-      this.gRef.get()[1],
-      this.lRef.get(this.txn.sender)[1],
-      this.bRef.get()[1],
+      this.gRef.value[1],
+      this.lRef[this.txn.sender].value[1],
+      this.bRef.value[1],
     ];
 
     return ret;
@@ -101,34 +101,34 @@ class ABITestStaticArrayInStorageRef extends Contract {
 }
 
 class ABITestUpdateStaticArrayInStorageRef extends Contract {
-  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @allow.call('OptIn')
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gRef.set(a);
-    this.lRef.set(this.txn.sender, a);
-    this.bRef.set(a);
+    this.gRef.value = a;
+    this.lRef[this.txn.sender].value = a;
+    this.bRef.value = a;
 
-    this.gRef.get()[1] = 111;
-    this.lRef.get(this.txn.sender)[1] = 222;
-    this.bRef.get()[1] = 333;
+    this.gRef.value[1] = 111;
+    this.lRef[this.txn.sender].value[1] = 222;
+    this.bRef.value[1] = 333;
 
     const ret: StaticArray<uint64, 3> = [
-      this.gRef.get()[1],
-      this.lRef.get(this.txn.sender)[1],
-      this.bRef.get()[1],
+      this.gRef.value[1],
+      this.lRef[this.txn.sender].value[1],
+      this.bRef.value[1],
     ];
 
     return ret;
@@ -136,30 +136,30 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 }
 
 class ABITestStaticArrayInStorageMap extends Contract {
-  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @allow.call('OptIn')
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.set('gMap', a);
-    this.lMap.set(this.txn.sender, 'lMap', a);
-    this.bMap.set('bMap', a);
+    this.gMap['gMap'].value = a;
+    this.lMap[this.txn.sender]['lMap'].value = a;
+    this.bMap['bMap'].value = a;
 
     const ret: StaticArray<uint64, 3> = [
-      this.gMap.get('gMap')[1],
-      this.lMap.get(this.txn.sender, 'lMap')[1],
-      this.bMap.get('bMap')[1],
+      this.gMap['gMap'].value[1],
+      this.lMap[this.txn.sender]['lMap'].value[1],
+      this.bMap['bMap'].value[1],
     ];
 
     return ret;
@@ -167,34 +167,34 @@ class ABITestStaticArrayInStorageMap extends Contract {
 }
 
 class ABITestUpdateStaticArrayInStorageMap extends Contract {
-  gRef = new GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
+  gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
-  lRef = new LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
+  lRef = LocalStateKey<StaticArray<uint64, 3>>({ key: 'lRef' });
 
-  bRef = new BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
+  bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = new GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  lMap = new LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
 
-  bMap = new BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
 
   @allow.call('OptIn')
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
 
-    this.gMap.set('gMap', a);
-    this.lMap.set(this.txn.sender, 'lMap', a);
-    this.bMap.set('bMap', a);
+    this.gMap['gMap'].value = a;
+    this.lMap[this.txn.sender]['lMap'].value = a;
+    this.bMap['bMap'].value = a;
 
-    this.gMap.get('gMap')[1] = 1111;
-    this.lMap.get(this.txn.sender, 'lMap')[1] = 2222;
-    this.bMap.get('bMap')[1] = 3333;
+    this.gMap['gMap'].value[1] = 1111;
+    this.lMap[this.txn.sender]['lMap'].value[1] = 2222;
+    this.bMap['bMap'].value[1] = 3333;
 
     const ret: StaticArray<uint64, 3> = [
-      this.gMap.get('gMap')[1],
-      this.lMap.get(this.txn.sender, 'lMap')[1],
-      this.bMap.get('bMap')[1],
+      this.gMap['gMap'].value[1],
+      this.lMap[this.txn.sender]['lMap'].value[1],
+      this.bMap['bMap'].value[1],
     ];
 
     return ret;
@@ -821,12 +821,12 @@ class ABITestPartialStaticArray extends Contract {
 }
 
 class ABITestStorageTypeHint extends Contract {
-  gKey = new GlobalStateKey<StaticArray<uint<16>, 3>>();
+  gKey = GlobalStateKey<StaticArray<uint<16>, 3>>();
 
   partialStaticArray(): StaticArray<uint<16>, 3> {
-    this.gKey.set([1, 2, 3]);
+    this.gKey.value = [1, 2, 3];
 
-    return this.gKey.get();
+    return this.gKey.value;
   }
 }
 
@@ -941,37 +941,37 @@ class ABITestObjectRef extends Contract {
 }
 
 class ABITestStorageRefKey extends Contract {
-  gMap = new GlobalStateMap<uint64, uint64[]>({ maxKeys: 1 });
+  gMap = GlobalStateMap<uint64, uint64[]>({ maxKeys: 1 });
 
   storageRefKey(): uint64 {
-    this.gMap.set(0, [1, 2, 3]);
+    this.gMap[0].value = [1, 2, 3];
 
     let i = 0;
 
-    const r = this.gMap.get(i);
+    const r = this.gMap[i].value;
 
     i = 1;
 
     r[1] = 4;
 
-    return this.gMap.get(0)[1];
+    return this.gMap[0].value[1];
   }
 }
 
 class ABITestStorageRefAccount extends Contract {
-  lMap = new LocalStateMap<uint64, uint64[]>({ maxKeys: 1 });
+  lMap = LocalStateMap<uint64, uint64[]>({ maxKeys: 1 });
 
   @allow.call('OptIn')
   storageRefAccount(): uint64 {
     let addr = this.txn.sender;
-    this.lMap.set(addr, 0, [1, 2, 3]);
-    const r = this.lMap.get(addr, 0);
+    this.lMap[addr][0].value = [1, 2, 3];
+    const r = this.lMap[addr][0].value;
 
     addr = globals.zeroAddress;
 
     r[1] = 4;
 
-    return this.lMap.get(this.txn.sender, 0)[1];
+    return this.lMap[this.txn.sender][0].value[1];
   }
 }
 

@@ -34,20 +34,20 @@ staticArrayInStorageRef:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:89
-	// this.gRef.set(a)
+	// this.gRef.value = a
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:90
-	// this.lRef.set(this.txn.sender, a)
+	// this.lRef[this.txn.sender].value = a
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:91
-	// this.bRef.set(a)
+	// this.bRef.value = a
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put

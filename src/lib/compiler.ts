@@ -373,7 +373,7 @@ export default class Compiler {
     framePointer?:string
     type: string
     accessors?: (ts.Expression | string)[]
-    storageExpression?: ts.CallExpression
+    storageExpression?: ts.PropertyAccessExpression
     storageKeyFrame?: string
     storageAccountFrame?: string
     }
@@ -1712,14 +1712,14 @@ export default class Compiler {
     accessors: (ts.Expression | string)[],
     name: string,
     type: 'frame' | 'storage',
-    storageExpression?: ts.CallExpression,
+    storageExpression?: ts.PropertyAccessExpression,
     storageKeyFrame?: string
     storageAccountFrame?: string
   } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
     let type: 'frame' | 'storage' = 'frame';
-    let storageExpression: ts.CallExpression | undefined;
+    let storageExpression: ts.PropertyAccessExpression | undefined;
 
     const accessors: (ts.Expression | string)[][] = [];
 
@@ -1733,7 +1733,7 @@ export default class Compiler {
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
-      name = currentFrame.storageExpression.getText().split('.')[1];
+      name = getStorageName(currentFrame.storageExpression)!;
       type = 'storage';
       storageExpression = currentFrame.storageExpression;
     }
@@ -1750,11 +1750,13 @@ export default class Compiler {
     }
 
     if (currentFrame.storageExpression !== undefined) {
-      this.storageFunctions[this.storageProps[name].type].get(
-        currentFrame.storageExpression,
-        currentFrame.storageKeyFrame,
-        currentFrame.storageAccountFrame,
-      );
+      this.handleStorageAction({
+        node: currentFrame.storageExpression,
+        name,
+        storageKeyFrame: currentFrame.storageKeyFrame,
+        storageAccountFrame: currentFrame.storageAccountFrame,
+        action: 'get',
+      });
     } else {
       this.push(
         node,
@@ -1783,26 +1785,30 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].set(
-            processedFrame.storageExpression,
-            processedFrame.storageKeyFrame,
-            processedFrame.storageAccountFrame,
-          );
+          this.handleStorageAction({
+            node: processedFrame.storageExpression!,
+            storageAccountFrame: processedFrame.storageAccountFrame,
+            storageKeyFrame: processedFrame.storageKeyFrame,
+            action: 'set',
+            name: processedFrame.name,
+          });
         }
       }
     } else if (
-      ts.isCallExpression(node)
-                && ts.isPropertyAccessExpression(node.expression)
-                && ts.isPropertyAccessExpression(node.expression.expression)
-                && Object.keys(this.storageProps).includes(
-                  node.expression.expression?.name?.getText(),
-                )
+      ts.isCallExpression(node) || ts.isPropertyAccessExpression(node)
     ) {
-      const storageProp = this.storageProps[
-        node.expression.expression.name.getText()
-      ];
+      let storageName: string | undefined;
 
-      this.storageFunctions[storageProp.type].set(node);
+      if (ts.isCallExpression(node)) {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Must be property access expression');
+        storageName = getStorageName(node.expression);
+      } else storageName = getStorageName(node);
+
+      this.handleStorageAction({
+        node,
+        name: storageName!,
+        action: 'set',
+      });
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
     }
@@ -2695,7 +2701,7 @@ export default class Compiler {
   private initializeStorageFrame(
     node: ts.Node,
     name: string,
-    storageExpression: ts.CallExpression,
+    storageExpression: ts.PropertyAccessExpression,
     type: string,
     accessors?:(string | ts.Expression)[],
   ) {
@@ -2705,11 +2711,13 @@ export default class Compiler {
       type,
     };
 
-    const storageName = storageExpression.expression.getText().split('.')[1];
+    const storageName = getStorageName(storageExpression)!;
 
     const storageProp = this.storageProps[storageName];
 
-    const keyNode = storageExpression.arguments[storageProp.type === 'local' ? 1 : 0];
+    if (!ts.isElementAccessExpression(storageExpression.expression)) throw Error();
+
+    const keyNode = storageExpression.expression.argumentExpression;
 
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
@@ -2740,7 +2748,8 @@ export default class Compiler {
     }
 
     if (storageProp.type === 'local') {
-      const accountNode = storageExpression.arguments[0];
+      if (!ts.isElementAccessExpression(storageExpression.expression.expression)) throw Error();
+      const accountNode = storageExpression.expression.expression.argumentExpression;
       const accountFrameName = `storage account//${name}`;
 
       this.addSourceComment(node, true);
@@ -2818,7 +2827,7 @@ export default class Compiler {
           });
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(accessChain[0].expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
             this.initializeStorageFrame(
               node,
               name,
@@ -2849,7 +2858,7 @@ export default class Compiler {
             .indexOf(node.initializer.name.getText());
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(node.initializer.expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(node.initializer.expression)) throw new Error('Expected call expression');
 
             this.initializeStorageFrame(
               node,
@@ -2871,13 +2880,11 @@ export default class Compiler {
       }
 
       if (
-        ts.isCallExpression(node.initializer)
-      && isArray
-      && ts.isPropertyAccessExpression(node.initializer.expression)
-      && ts.isPropertyAccessExpression(node.initializer.expression.expression)
-      && Object.keys(this.storageProps).includes(
-        node.initializer.expression.expression?.name?.getText(),
-      )) {
+        ts.isPropertyAccessExpression(node.initializer)
+        && getStorageName(node.initializer)
+         && this.storageProps[getStorageName(node.initializer)!]
+      ) {
+        // HERE
         this.initializeStorageFrame(node, name, node.initializer, initializerType);
 
         return;

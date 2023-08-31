@@ -34,26 +34,26 @@ updateStaticArrayInStorageRef:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:120
-	// this.gRef.set(a)
+	// this.gRef.value = a
 	byte "gRef"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:121
-	// this.lRef.set(this.txn.sender, a)
+	// this.lRef[this.txn.sender].value = a
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:122
-	// this.bRef.set(a)
+	// this.bRef.value = a
 	byte "bRef"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
 	// tests/contracts/abi.algo.ts:124
-	// this.gRef.get()[1] = 111
+	// this.gRef.value[1] = 111
 	byte "gRef"
 	app_global_get
 	store 0 // full array
@@ -70,7 +70,7 @@ updateStaticArrayInStorageRef:
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:125
-	// this.lRef.get(this.txn.sender)[1] = 222
+	// this.lRef[this.txn.sender].value[1] = 222
 	txn Sender
 	byte "lRef"
 	app_local_get
@@ -89,7 +89,7 @@ updateStaticArrayInStorageRef:
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:126
-	// this.bRef.get()[1] = 333
+	// this.bRef.value[1] = 333
 	byte "bRef"
 	box_get
 	assert
