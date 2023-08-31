@@ -77,11 +77,11 @@ class StorageTest extends Contract {
   }
 
   globalMapDelete(): void {
-    this.globalMap['foo'].delete!();
+    this.globalMap['foo'].delete();
   }
 
   globalMapExists(): void {
-    this.globalMap['foo'].exists!;
+    assert(this.globalMap['foo'].exists);
   }
 
   localMapPut(a: Account): void {

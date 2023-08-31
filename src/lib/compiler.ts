@@ -13,12 +13,7 @@ import * as langspec from '../langspec.json';
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
-// eslint-disable-next-line no-shadow
-enum StorageType {
-  GLOBAL,
-  LOCAL,
-  BOX
-}
+type StorageType = 'global' | 'local' | 'box';
 
 export type CompilerOptions = {
   filename?: string,
@@ -76,6 +71,24 @@ class TupleElement extends Array<TupleElement> {
     elements.forEach((e: TupleElement) => { e.parent = this; });
     return this.push(...elements);
   }
+}
+
+function getStorageName(node: ts.PropertyAccessExpression | ts.ElementAccessExpression) {
+  let storageName: string | undefined;
+
+  if (ts.isPropertyAccessExpression(node.expression)) {
+    storageName = node.expression.name.getText();
+  } else if (ts.isElementAccessExpression(node.expression)) {
+    if (ts.isPropertyAccessExpression(node.expression.expression)) {
+      storageName = node.expression.expression.name.getText();
+    } else if (ts.isElementAccessExpression(node.expression.expression)) {
+      if (ts.isPropertyAccessExpression(node.expression.expression.expression)) {
+        storageName = node.expression.expression.expression.name.getText();
+      }
+    }
+  }
+
+  return storageName;
 }
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
@@ -234,7 +247,7 @@ interface OpSpec {
 }
 
 interface StorageProp {
-  type: string;
+  type: StorageType;
   key?: string;
   keyType: string;
   valueType: string;
@@ -439,27 +452,48 @@ export default class Compiler {
   }
 
   private handleStorageAction(
-    node: ts.CallExpression,
-    storageType: StorageType,
-    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-    storageKeyFrame?: string,
-    storageAccountFrame?: string,
+    {
+      node, name, action, storageKeyFrame, storageAccountFrame, newValue,
+    }: {
+      node: ts.PropertyAccessExpression | ts.CallExpression
+      name: string,
+      action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size'
+      storageKeyFrame?: string
+      storageAccountFrame?: string
+      newValue?: ts.Node
+    },
   ) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-    const name = node.expression.expression.name.getText();
+    const args: ts.Expression[] = [];
+    let keyNode: ts.Expression;
 
-    const {
-      valueType, keyType, key, dynamicSize, prefix,
-    } = this.storageProps[name];
+    if (ts.isCallExpression(node)) {
+      node.arguments.forEach((a) => args.push(a));
+      if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-    if (storageAccountFrame && storageType === StorageType.LOCAL) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
-    } else if (storageType === StorageType.LOCAL) {
-      this.processNode(node.arguments[0]);
+      // eslint-disable-next-line no-param-reassign
+      node = node.expression;
     }
 
-    if (action === 'exists' && (storageType === StorageType.GLOBAL || storageType === StorageType.LOCAL)) {
+    if (ts.isElementAccessExpression(node.expression)) {
+      keyNode = node.expression.argumentExpression;
+    }
+
+    const {
+      type, valueType, keyType, key, dynamicSize, prefix,
+    } = this.storageProps[name];
+
+    const storageType = type;
+
+    if (storageAccountFrame && storageType === 'local') {
+      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+    } else if (storageType === 'local') {
+      if (!ts.isElementAccessExpression(node.expression)) throw Error();
+      if (ts.isElementAccessExpression(node.expression.expression)) {
+        this.processNode(node.expression.expression.argumentExpression);
+      } else this.processNode(node.expression.argumentExpression);
+    }
+
+    if (action === 'exists' && (storageType === 'global' || storageType === 'local')) {
       this.pushVoid(node.expression, 'txna Applications 0');
     }
 
@@ -468,25 +502,24 @@ export default class Compiler {
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
     } else {
-      const argumentIndex = storageType === StorageType.LOCAL ? 1 : 0;
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], `byte "${prefix}"`);
-      this.processNode(node.arguments[argumentIndex]);
+      if (prefix) this.pushVoid(keyNode!, `byte "${prefix}"`);
+      this.processNode(keyNode!);
 
       if (keyType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[argumentIndex], this.lastType);
+        this.checkEncoding(keyNode!, this.lastType);
       }
 
-      if (isNumeric(keyType)) this.pushVoid(node.arguments[argumentIndex], 'itob');
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], 'concat');
+      if (isNumeric(keyType)) this.pushVoid(keyNode!, 'itob');
+      if (prefix) this.pushVoid(keyNode!, 'concat');
     }
 
     switch (action) {
       case 'get':
-        if (storageType === StorageType.GLOBAL) {
+        if (storageType === 'global') {
           this.push(node.expression, 'app_global_get', valueType);
-        } else if (storageType === StorageType.LOCAL) {
+        } else if (storageType === 'local') {
           this.push(node.expression, 'app_local_get', valueType);
-        } else if (storageType === StorageType.BOX) {
+        } else if (storageType === 'box') {
           this.maybeValue(node.expression, 'box_get', valueType);
           if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
         }
@@ -494,61 +527,57 @@ export default class Compiler {
         break;
 
       case 'set': {
-        if (storageType === StorageType.BOX && dynamicSize) {
+        if (storageType === 'box' && dynamicSize) {
           this.pushLines(node.expression, 'dup', 'box_del', 'pop');
         }
 
-        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0)
-          : (storageType === StorageType.LOCAL ? 2 : 1);
-
-        if (node.arguments[valueArgIndex]) {
-          this.processNode(node.arguments[valueArgIndex]);
+        if (newValue) {
+          this.processNode(newValue);
 
           this.typeComparison(this.lastType, valueType, 'fix');
           if (valueType !== StackType.bytes) {
-            this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
+            this.checkEncoding(newValue, this.lastType);
           }
         } else {
-          const command = storageType === StorageType.BOX ? 'swap' : (storageType === StorageType.LOCAL ? 'uncover 2' : 'swap');
+          const command = storageType === 'box' ? 'swap' : (storageType === 'local' ? 'uncover 2' : 'swap');
           this.pushVoid(node.expression, command);
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node, valueType);
           }
         }
 
-        if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
-        const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
+        if (isNumeric(valueType) && storageType === 'box') this.pushVoid(node.expression, 'itob');
+        const operation = storageType === 'global' ? 'app_global_put' : (storageType === 'local' ? 'app_local_put' : 'box_put');
         this.push(node.expression, operation, valueType);
         break;
       }
 
       case 'exists': {
-        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+        const existsAction = (storageType === 'global') ? 'app_global_get_ex' : (storageType === 'local') ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
       }
 
       case 'delete': {
-        const deleteAction = (storageType === StorageType.GLOBAL) ? 'app_global_del' : (storageType === StorageType.LOCAL) ? 'app_local_del' : 'box_del';
+        const deleteAction = (storageType === 'global') ? 'app_global_del' : (storageType === 'local') ? 'app_local_del' : 'box_del';
         this.pushVoid(node.expression, deleteAction);
         break;
       }
 
       case 'create':
-
-        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(args[0]);
         this.pushVoid(node.expression, 'box_create');
         break;
 
       case 'extract':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.push(node.expression, 'box_extract', StackType.bytes);
         break;
 
       case 'replace':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.pushVoid(node.expression, 'box_replace');
         break;
 
@@ -559,63 +588,6 @@ export default class Compiler {
         throw new Error();
     }
   }
-
-  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
-    global: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'exists');
-      },
-    },
-    local: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'get', storageKeyFrame, storageAccountFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'set', storageKeyFrame, storageAccountFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'exists');
-      },
-    },
-    box: {
-      create: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'create');
-      },
-      extract: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'extract');
-      },
-      replace: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'replace');
-      },
-      size: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'size');
-      },
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'exists');
-      },
-    },
-  };
 
   private andCount: number = 0;
 
@@ -2280,6 +2252,11 @@ export default class Compiler {
       return;
     }
 
+    if (this.storageProps[baseType]) {
+      this.lastType = baseType;
+      return;
+    }
+
     this.processArrayAccess(node);
   }
 
@@ -2545,6 +2522,19 @@ export default class Compiler {
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
+        const storageName = getStorageName(node.left);
+
+        if (storageName && this.storageProps[storageName]) {
+          this.handleStorageAction({
+            node: node.left,
+            name: storageName,
+            action: 'set',
+            newValue: node.right,
+          });
+
+          return;
+        }
+
         const expressionType = this.getStackTypeFromNode(node.left.expression);
         const index = Object
           .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
@@ -3098,12 +3088,19 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
       this.push(node.expression, `callsub ${methodName}`, subroutine.returns.type);
-    } else if (
-      ts.isPropertyAccessExpression(node.expression.expression)
-      && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
-    ) {
-      this.processStorageCall(node);
     } else {
+      const storageName = getStorageName(node.expression);
+
+      if (storageName && this.storageProps[storageName]) {
+        this.handleStorageAction({
+          node,
+          name: storageName,
+          action: methodName as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
+
+        return;
+      }
+
       if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
         this.processNode(node.expression);
       } else {
@@ -3173,13 +3170,13 @@ export default class Compiler {
   }
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
-    if (node.initializer === undefined || !ts.isNewExpression(node.initializer)) throw new Error();
+    if (node.initializer === undefined || !ts.isCallExpression(node.initializer)) throw new Error();
 
     const klass = node.initializer.expression.getText();
 
     if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
       let props: StorageProp;
-      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '');
+      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
       const typeArgs = node.initializer.typeArguments;
 
       if (typeArgs === undefined) {
@@ -3292,6 +3289,20 @@ export default class Compiler {
   }
 
   private processMemberExpression(node: ts.PropertyAccessExpression) {
+    const storageName = getStorageName(node);
+
+    if (
+      storageName && this.storageProps[storageName]
+    ) {
+      const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
+      this.handleStorageAction({
+        node,
+        name: storageName,
+        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+      });
+      return;
+    }
+
     if (node.expression.getText() === 'TransactionType') {
       const enums: {[key: string]: string} = {
         Unknown: 'unknown',
@@ -3548,20 +3559,6 @@ export default class Compiler {
     if (opSpec.Name.endsWith('256')) returnType = 'byte[32]';
 
     this.push(node.expression, line.join(' '), returnType);
-  }
-
-  private processStorageCall(node: ts.CallExpression) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-
-    const op = node.expression.name.getText();
-    const { type, valueType } = this.storageProps[node.expression.expression.name.getText()];
-
-    this.typeHint = valueType;
-
-    this.storageFunctions[type][op](node);
-
-    this.typeHint = undefined;
   }
 
   private processTransaction(node: ts.CallExpression) {
