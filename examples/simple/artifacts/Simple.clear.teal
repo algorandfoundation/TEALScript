@@ -1,6 +1,8 @@
 #pragma version 9
 // examples/simple/simple.algo.ts:23
-// this.counter.set(this.counter.get() + 1)
+// this.counter.value = this.counter.value + 1
+byte "counter"
+app_global_get
 byte "counter"
 byte "counter"
 app_global_get

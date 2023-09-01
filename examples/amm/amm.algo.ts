@@ -6,18 +6,18 @@ const FEE = 5;
 
 // eslint-disable-next-line no-unused-vars
 class ConstantProductAMM extends Contract {
-  governor = new GlobalStateKey<Address>({ key: 'g' });
+  governor = GlobalStateKey<Address>({ key: 'g' });
 
-  assetA = new GlobalStateKey<Asset>({ key: 'a' });
+  assetA = GlobalStateKey<Asset>({ key: 'a' });
 
-  assetB = new GlobalStateKey<Asset>({ key: 'b' });
+  assetB = GlobalStateKey<Asset>({ key: 'b' });
 
-  poolToken = new GlobalStateKey<Asset>({ key: 'p' });
+  poolToken = GlobalStateKey<Asset>({ key: 'p' });
 
-  ratio = new GlobalStateKey<uint64>({ key: 'r' });
+  ratio = GlobalStateKey<uint64>({ key: 'r' });
 
   createApplication(): void {
-    this.governor.set(this.txn.sender);
+    this.governor.value = this.txn.sender;
   }
 
   private doCreatePoolToken(aAsset: Asset, bAsset: Asset): Asset {
@@ -68,8 +68,8 @@ class ConstantProductAMM extends Contract {
 
   private computeRatio(): uint64 {
     return wideRatio(
-      [this.app.address.assetBalance(this.assetA.get()), SCALE],
-      [this.app.address.assetBalance(this.assetB.get())],
+      [this.app.address.assetBalance(this.assetA.value), SCALE],
+      [this.app.address.assetBalance(this.assetB.value)],
     );
   }
 
@@ -86,26 +86,26 @@ class ConstantProductAMM extends Contract {
   }
 
   set_governor(governor: Account): void {
-    verifyTxn(this.txn, { sender: this.governor.get() });
-    this.governor.set(governor);
+    verifyTxn(this.txn, { sender: this.governor.value });
+    this.governor.value = governor;
   }
 
   bootstrap(seed: PayTxn, aAsset: Asset, bAsset: Asset): Asset {
-    verifyTxn(this.txn, { sender: this.governor.get() });
+    verifyTxn(this.txn, { sender: this.governor.value });
 
     assert(globals.groupSize === 2);
 
     verifyTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } });
     assert(aAsset < bAsset);
 
-    this.assetA.set(aAsset);
-    this.assetB.set(bAsset);
-    this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset));
+    this.assetA.value = aAsset;
+    this.assetB.value = bAsset;
+    this.poolToken.value = this.doCreatePoolToken(aAsset, bAsset);
 
     this.doOptIn(aAsset);
     this.doOptIn(bAsset);
 
-    return this.poolToken.get();
+    return this.poolToken.value;
   }
 
   mint(
@@ -116,9 +116,9 @@ class ConstantProductAMM extends Contract {
     bAsset: Asset,
   ): void {
     /// well formed mint
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
-    assert(poolAsset === this.poolToken.get());
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
+    assert(poolAsset === this.poolToken.value);
 
     /// valid asset A axfer
     verifyTxn(aXfer, {
@@ -163,9 +163,9 @@ class ConstantProductAMM extends Contract {
     bAsset: Asset,
   ): void {
     /// well formed burn
-    assert(poolAsset === this.poolToken.get());
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
+    assert(poolAsset === this.poolToken.value);
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
 
     /// valid pool axfer
     verifyTxn(poolXfer, {
@@ -194,13 +194,13 @@ class ConstantProductAMM extends Contract {
     this.doAxfer(this.txn.sender, aAsset, aAmt);
     this.doAxfer(this.txn.sender, bAsset, bAmt);
 
-    this.ratio.set(this.computeRatio());
+    this.ratio.value = this.computeRatio();
   }
 
   swap(swapXfer: AssetTransferTxn, aAsset: Asset, bAsset: Asset): void {
     /// well formed swap
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
 
     verifyTxn(swapXfer, {
       assetAmount: { greaterThan: 0 },
@@ -223,6 +223,6 @@ class ConstantProductAMM extends Contract {
 
     this.doAxfer(this.txn.sender, outId, toSwap);
 
-    this.ratio.set(this.computeRatio());
+    this.ratio.value = this.computeRatio();
   }
 }

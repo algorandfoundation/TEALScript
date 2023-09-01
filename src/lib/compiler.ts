@@ -2845,8 +2845,8 @@ export default class Compiler {
         ts.isPropertyAccessExpression(node.initializer)
         && getStorageName(node.initializer)
          && this.storageProps[getStorageName(node.initializer)!]
+         && isArray
       ) {
-        // HERE
         this.initializeStorageFrame(node, name, node.initializer, initializerType);
 
         return;
@@ -3368,6 +3368,20 @@ export default class Compiler {
 
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
+        return;
+      }
+
+      const nStorageName = getStorageName(n);
+
+      if (
+        nStorageName && this.storageProps[nStorageName]
+      ) {
+        const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
+        this.handleStorageAction({
+          node: n,
+          name: nStorageName,
+          action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
         return;
       }
 

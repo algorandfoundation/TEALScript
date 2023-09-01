@@ -24,7 +24,7 @@ incr:
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:7
-	// this.counter.set(this.counter.get() + i)
+	// this.counter.value = this.counter.value + i
 	byte "counter"
 	byte "counter"
 	app_global_get
@@ -45,7 +45,7 @@ decr:
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:11
-	// this.counter.set(this.counter.get() - i)
+	// this.counter.value = this.counter.value - i
 	byte "counter"
 	byte "counter"
 	app_global_get

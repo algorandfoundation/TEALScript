@@ -22,31 +22,31 @@ createApplication:
 	proto 0 0
 
 	// examples/auction/auction.algo.ts:18
-	// this.auctionEnd.set(0)
+	// this.auctionEnd.value = 0
 	byte "auctionEnd"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:19
-	// this.previousBid.set(0)
+	// this.previousBid.value = 0
 	byte "previousBid"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:20
-	// this.asaAmt.set(0)
+	// this.asaAmt.value = 0
 	byte "asaAmt"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:21
-	// this.asa.set(Asset.zeroIndex)
+	// this.asa.value = Asset.zeroIndex
 	byte "asa"
 	int 0
 	app_global_put
 
 	// examples/auction/auction.algo.ts:24
-	// this.previousBidder.set(globals.zeroAddress)
+	// this.previousBidder.value = globals.zeroAddress
 	byte "previousBidder"
 	global ZeroAddress
 	app_global_put
@@ -74,7 +74,7 @@ optIntoAsset:
 
 	// Verify a ASA hasn't already been opted into
 	// examples/auction/auction.algo.ts:32
-	// assert(this.asa.get() === Asset.zeroIndex)
+	// assert(this.asa.value === Asset.zeroIndex)
 	byte "asa"
 	app_global_get
 	int 0
@@ -83,7 +83,7 @@ optIntoAsset:
 
 	// Save ASA ID in global state
 	// examples/auction/auction.algo.ts:35
-	// this.asa.set(asset)
+	// this.asa.value = asset
 	byte "asa"
 	frame_dig -1 // asset: asset
 	app_global_put
@@ -149,7 +149,7 @@ startAuction:
 
 	// Ensure the auction hasn't already been started
 	// examples/auction/auction.algo.ts:50
-	// assert(this.auctionEnd.get() === 0)
+	// assert(this.auctionEnd.value === 0)
 	byte "auctionEnd"
 	app_global_get
 	int 0
@@ -170,14 +170,14 @@ startAuction:
 
 	// Set global state
 	// examples/auction/auction.algo.ts:56
-	// this.asaAmt.set(axfer.assetAmount)
+	// this.asaAmt.value = axfer.assetAmount
 	byte "asaAmt"
 	frame_dig -3 // axfer: axfer
 	gtxns AssetAmount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:57
-	// this.auctionEnd.set(globals.latestTimestamp + length)
+	// this.auctionEnd.value = globals.latestTimestamp + length
 	byte "auctionEnd"
 	global LatestTimestamp
 	frame_dig -2 // length: uint64
@@ -185,7 +185,7 @@ startAuction:
 	app_global_put
 
 	// examples/auction/auction.algo.ts:58
-	// this.previousBid.set(startingPrice)
+	// this.previousBid.value = startingPrice
 	byte "previousBid"
 	frame_dig -1 // startingPrice: uint64
 	app_global_put
@@ -246,7 +246,7 @@ bid:
 
 	// Ensure auction hasn't ended
 	// examples/auction/auction.algo.ts:74
-	// assert(globals.latestTimestamp < this.auctionEnd.get())
+	// assert(globals.latestTimestamp < this.auctionEnd.value)
 	global LatestTimestamp
 	byte "auctionEnd"
 	app_global_get
@@ -273,14 +273,14 @@ bid:
 
 	// Set global state
 	// examples/auction/auction.algo.ts:83
-	// this.previousBid.set(payment.amount)
+	// this.previousBid.value = payment.amount
 	byte "previousBid"
 	frame_dig -1 // payment: pay
 	gtxns Amount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:84
-	// this.previousBidder.set(payment.sender)
+	// this.previousBidder.value = payment.sender
 	byte "previousBidder"
 	frame_dig -1 // payment: pay
 	gtxns Sender
@@ -288,7 +288,7 @@ bid:
 
 	// Update claimable amount
 	// examples/auction/auction.algo.ts:87
-	// this.claimableAmount.set(this.txn.sender, payment.amount)
+	// this.claimableAmount(this.txn.sender).value = payment.amount
 	txn Sender
 	byte "claimableAmount"
 	frame_dig -1 // payment: pay
@@ -306,7 +306,7 @@ claimBids:
 	proto 2 0
 
 	// examples/auction/auction.algo.ts:91
-	// originalAmount = this.claimableAmount.get(this.txn.sender)
+	// originalAmount = this.claimableAmount(this.txn.sender).value
 	txn Sender
 	byte "claimableAmount"
 	app_local_get
@@ -320,7 +320,7 @@ claimBids:
 	// subtract previous bid if sender is previous bidder
 	// if0_condition
 	// examples/auction/auction.algo.ts:95
-	// this.txn.sender === this.previousBidder.get()
+	// this.txn.sender === this.previousBidder.value
 	txn Sender
 	byte "previousBidder"
 	app_global_get
@@ -329,7 +329,7 @@ claimBids:
 
 	// if0_consequent
 	// examples/auction/auction.algo.ts:95
-	// amount = amount - this.previousBid.get()
+	// amount = amount - this.previousBid.value
 	frame_dig -2 // amount: uint64
 	byte "previousBid"
 	app_global_get
@@ -345,7 +345,7 @@ if0_end:
 	callsub pay
 
 	// examples/auction/auction.algo.ts:98
-	// this.claimableAmount.set(this.txn.sender, originalAmount - amount)
+	// this.claimableAmount(this.txn.sender).value = originalAmount - amount
 	txn Sender
 	byte "claimableAmount"
 	frame_dig -1 // originalAmount: uint64
@@ -367,7 +367,7 @@ claim_asset:
 	proto 1 0
 
 	// examples/auction/auction.algo.ts:102
-	// assert(globals.latestTimestamp > this.auctionEnd.get())
+	// assert(globals.latestTimestamp > this.auctionEnd.value)
 	global LatestTimestamp
 	byte "auctionEnd"
 	app_global_get
@@ -382,7 +382,7 @@ claim_asset:
 	itxn_field TypeEnum
 
 	// examples/auction/auction.algo.ts:106
-	// assetReceiver: this.previousBidder.get()
+	// assetReceiver: this.previousBidder.value
 	byte "previousBidder"
 	app_global_get
 	itxn_field AssetReceiver
@@ -393,7 +393,7 @@ claim_asset:
 	itxn_field XferAsset
 
 	// examples/auction/auction.algo.ts:108
-	// assetAmount: this.asaAmt.get()
+	// assetAmount: this.asaAmt.value
 	byte "asaAmt"
 	app_global_get
 	itxn_field AssetAmount
@@ -404,7 +404,7 @@ claim_asset:
 	itxn_field Fee
 
 	// examples/auction/auction.algo.ts:110
-	// assetCloseTo: this.previousBidder.get()
+	// assetCloseTo: this.previousBidder.value
 	byte "previousBidder"
 	app_global_get
 	itxn_field AssetCloseTo
