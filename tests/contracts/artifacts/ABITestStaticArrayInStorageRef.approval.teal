@@ -40,7 +40,7 @@ staticArrayInStorageRef:
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:90
-	// this.lRef[this.txn.sender].value = a
+	// this.lRef(this.txn.sender).value = a
 	txn Sender
 	byte "lRef"
 	frame_dig -1 // a: uint64[3]

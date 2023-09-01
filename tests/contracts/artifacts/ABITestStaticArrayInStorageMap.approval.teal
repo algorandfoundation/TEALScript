@@ -34,20 +34,20 @@ staticArrayInStorageMap:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:155
-	// this.gMap['gMap'].value = a
+	// this.gMap('gMap').value = a
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:156
-	// this.lMap[this.txn.sender]['lMap'].value = a
+	// this.lMap(this.txn.sender, 'lMap').value = a
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:157
-	// this.bMap['bMap'].value = a
+	// this.bMap('bMap').value = a
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put

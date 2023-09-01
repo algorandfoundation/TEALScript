@@ -22,7 +22,7 @@ prefix:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:20
-	// this.boxMapWithPrefix['oo'].value = 'bar'
+	// this.boxMapWithPrefix('oo').value = 'bar'
 	byte "f"
 	byte "oo"
 	concat
@@ -114,7 +114,7 @@ localKeyPut:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:40
-	// this.localKey[a].value = 'bar'
+	// this.localKey(a).value = 'bar'
 	frame_dig -1 // a: account
 	byte "foo"
 	byte "bar"
@@ -134,7 +134,7 @@ localKeyGet:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:44
-	// assert(this.localKey[a].value === 'bar')
+	// assert(this.localKey(a).value === 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_get
@@ -156,7 +156,7 @@ localKeyDelete:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:48
-	// this.localKey[a].delete()
+	// this.localKey(a).delete()
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_del
@@ -175,7 +175,7 @@ localKeyExists:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:52
-	// assert(this.localKey[a].exists)
+	// assert(this.localKey(a).exists)
 	frame_dig -1 // a: account
 	txna Applications 0
 	byte "foo"
@@ -263,7 +263,7 @@ globalMapPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:72
-	// this.globalMap['foo'].value = 'bar'
+	// this.globalMap('foo').value = 'bar'
 	byte "foo"
 	byte "bar"
 	app_global_put
@@ -279,7 +279,7 @@ globalMapGet:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:76
-	// assert(this.globalMap['foo'].value === 'bar')
+	// assert(this.globalMap('foo').value === 'bar')
 	byte "foo"
 	app_global_get
 	byte "bar"
@@ -297,7 +297,7 @@ globalMapDelete:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:80
-	// this.globalMap['foo'].delete()
+	// this.globalMap('foo').delete()
 	byte "foo"
 	app_global_del
 	retsub
@@ -312,7 +312,7 @@ globalMapExists:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:84
-	// assert(this.globalMap['foo'].exists)
+	// assert(this.globalMap('foo').exists)
 	txna Applications 0
 	byte "foo"
 	app_global_get_ex
@@ -334,7 +334,7 @@ localMapPut:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:88
-	// this.localMap[a]['foo'].value = 'bar'
+	// this.localMap(a, 'foo').value = 'bar'
 	frame_dig -1 // a: account
 	byte "foo"
 	byte "bar"
@@ -354,7 +354,7 @@ localMapGet:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:92
-	// assert(this.localMap[a]['foo'].value === 'bar')
+	// assert(this.localMap(a, 'foo').value === 'bar')
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_get
@@ -376,7 +376,7 @@ localMapDelete:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:96
-	// this.localMap[a]['foo'].delete()
+	// this.localMap(a, 'foo').delete()
 	frame_dig -1 // a: account
 	byte "foo"
 	app_local_del
@@ -395,7 +395,7 @@ localMapExists:
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:100
-	// assert(this.localMap[a]['foo'].exists)
+	// assert(this.localMap(a, 'foo').exists)
 	frame_dig -1 // a: account
 	txna Applications 0
 	byte "foo"
@@ -415,7 +415,7 @@ boxMapPut:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:104
-	// this.boxMap['foo'].value = 'bar'
+	// this.boxMap('foo').value = 'bar'
 	byte "foo"
 	byte "bar"
 	box_put
@@ -431,7 +431,7 @@ boxMapGet:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:108
-	// assert(this.boxMap['foo'].value === 'bar')
+	// assert(this.boxMap('foo').value === 'bar')
 	byte "foo"
 	box_get
 	assert
@@ -450,7 +450,7 @@ boxMapDelete:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:112
-	// this.boxMap['foo'].delete()
+	// this.boxMap('foo').delete()
 	byte "foo"
 	box_del
 	retsub
@@ -465,7 +465,7 @@ boxMapExists:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:116
-	// assert(this.boxMap['foo'].exists)
+	// assert(this.boxMap('foo').exists)
 	byte "foo"
 	box_len
 	swap
@@ -499,7 +499,7 @@ boxMapCreate:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:124
-	// this.boxMap['bar'].create(1024)
+	// this.boxMap('bar').create(1024)
 	byte "bar"
 	int 1024
 	box_create
@@ -536,7 +536,7 @@ boxMapLength:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:132
-	// return this.boxMap['bar'].size;
+	// return this.boxMap('bar').size;
 	byte "bar"
 	box_len
 	assert
@@ -574,7 +574,7 @@ boxMapReplace:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:140
-	// this.boxMap['bar'].replace(0, 'abc')
+	// this.boxMap('bar').replace(0, 'abc')
 	byte "bar"
 	int 0
 	byte "abc"
@@ -618,7 +618,7 @@ boxMapExtract:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:148
-	// return this.boxMap['bar'].extract(0, 3);
+	// return this.boxMap('bar').extract(0, 3);
 	byte "bar"
 	int 0
 	int 3

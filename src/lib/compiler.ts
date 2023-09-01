@@ -73,22 +73,17 @@ class TupleElement extends Array<TupleElement> {
   }
 }
 
-function getStorageName(node: ts.PropertyAccessExpression | ts.ElementAccessExpression) {
-  let storageName: string | undefined;
-
-  if (ts.isPropertyAccessExpression(node.expression)) {
-    storageName = node.expression.name.getText();
-  } else if (ts.isElementAccessExpression(node.expression)) {
-    if (ts.isPropertyAccessExpression(node.expression.expression)) {
-      storageName = node.expression.expression.name.getText();
-    } else if (ts.isElementAccessExpression(node.expression.expression)) {
-      if (ts.isPropertyAccessExpression(node.expression.expression.expression)) {
-        storageName = node.expression.expression.expression.name.getText();
-      }
-    }
+function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
+  if (ts.isCallExpression(node.expression)
+  && ts.isPropertyAccessExpression(node.expression.expression)) {
+    return node.expression.expression.name.getText();
   }
 
-  return storageName;
+  if (ts.isPropertyAccessExpression(node.expression)) {
+    return node.expression.name.getText();
+  }
+
+  return undefined;
 }
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
@@ -474,8 +469,8 @@ export default class Compiler {
       node = node.expression;
     }
 
-    if (ts.isElementAccessExpression(node.expression)) {
-      keyNode = node.expression.argumentExpression;
+    if (ts.isCallExpression(node.expression)) {
+      keyNode = node.expression.arguments[node.expression.arguments.length === 2 ? 1 : 0];
     }
 
     const {
@@ -487,10 +482,8 @@ export default class Compiler {
     if (storageAccountFrame && storageType === 'local') {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
     } else if (storageType === 'local') {
-      if (!ts.isElementAccessExpression(node.expression)) throw Error();
-      if (ts.isElementAccessExpression(node.expression.expression)) {
-        this.processNode(node.expression.expression.argumentExpression);
-      } else this.processNode(node.expression.argumentExpression);
+      if (!ts.isCallExpression(node.expression)) throw Error();
+      this.processNode(node.expression.arguments[0]);
     }
 
     if (action === 'exists' && (storageType === 'global' || storageType === 'local')) {
@@ -2715,9 +2708,11 @@ export default class Compiler {
 
     const storageProp = this.storageProps[storageName];
 
-    if (!ts.isElementAccessExpression(storageExpression.expression)) throw Error();
+    if (!ts.isCallExpression(storageExpression.expression)) throw Error();
 
-    const keyNode = storageExpression.expression.argumentExpression;
+    const argLength = storageExpression.expression.arguments.length;
+
+    const keyNode = storageExpression.expression.arguments[argLength === 2 ? 1 : 0];
 
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
@@ -2748,8 +2743,7 @@ export default class Compiler {
     }
 
     if (storageProp.type === 'local') {
-      if (!ts.isElementAccessExpression(storageExpression.expression.expression)) throw Error();
-      const accountNode = storageExpression.expression.expression.argumentExpression;
+      const accountNode = storageExpression.expression.arguments[0];
       const accountFrameName = `storage account//${name}`;
 
       this.addSourceComment(node, true);
@@ -2847,6 +2841,17 @@ export default class Compiler {
         }
       }
 
+      if (
+        ts.isPropertyAccessExpression(node.initializer)
+        && getStorageName(node.initializer)
+         && this.storageProps[getStorageName(node.initializer)!]
+      ) {
+        // HERE
+        this.initializeStorageFrame(node, name, node.initializer, initializerType);
+
+        return;
+      }
+
       if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
         // const chain = this.getChain(node.initializer);
 
@@ -2877,17 +2882,6 @@ export default class Compiler {
 
           return;
         }
-      }
-
-      if (
-        ts.isPropertyAccessExpression(node.initializer)
-        && getStorageName(node.initializer)
-         && this.storageProps[getStorageName(node.initializer)!]
-      ) {
-        // HERE
-        this.initializeStorageFrame(node, name, node.initializer, initializerType);
-
-        return;
       }
 
       this.frame[name] = {
@@ -2933,6 +2927,8 @@ export default class Compiler {
     } else if (ts.isIdentifier(node.expression)) {
       methodName = node.expression.getText();
     }
+
+    if (this.storageProps[methodName]) return;
 
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {

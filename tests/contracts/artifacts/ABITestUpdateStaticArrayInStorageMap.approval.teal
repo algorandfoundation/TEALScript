@@ -34,26 +34,26 @@ updateStaticArrayInStorageMap:
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:186
-	// this.gMap['gMap'].value = a
+	// this.gMap('gMap').value = a
 	byte "gMap"
 	frame_dig -1 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:187
-	// this.lMap[this.txn.sender]['lMap'].value = a
+	// this.lMap(this.txn.sender, 'lMap').value = a
 	txn Sender
 	byte "lMap"
 	frame_dig -1 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:188
-	// this.bMap['bMap'].value = a
+	// this.bMap('bMap').value = a
 	byte "bMap"
 	frame_dig -1 // a: uint64[3]
 	box_put
 
 	// tests/contracts/abi.algo.ts:190
-	// this.gMap['gMap'].value[1] = 1111
+	// this.gMap('gMap').value[1] = 1111
 	byte "gMap"
 	app_global_get
 	store 0 // full array
@@ -70,7 +70,7 @@ updateStaticArrayInStorageMap:
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:191
-	// this.lMap[this.txn.sender]['lMap'].value[1] = 2222
+	// this.lMap(this.txn.sender, 'lMap').value[1] = 2222
 	txn Sender
 	byte "lMap"
 	app_local_get
@@ -89,7 +89,7 @@ updateStaticArrayInStorageMap:
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:192
-	// this.bMap['bMap'].value[1] = 3333
+	// this.bMap('bMap').value[1] = 3333
 	byte "bMap"
 	box_get
 	assert

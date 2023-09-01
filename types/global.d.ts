@@ -326,7 +326,7 @@ declare type TxnVerificationFields= {
   numClearStateProgramPages?: IntLike | TxnVerificationTests
 }
 
-declare type Asset = number & {
+declare class Asset {
   static fromIndex(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
@@ -356,7 +356,11 @@ declare type Asset = number & {
   readonly creator: Address;
 }
 
-declare type Address = string & {
+declare class Address {
+  static fromBytes(addr: BytesLike): Address;
+
+  static readonly zeroAddress: Address;
+
   readonly balance: uint64;
 
   readonly hasBalance: uint64;
@@ -397,7 +401,11 @@ type Account = Address
 
 type BytesLike = bytes | Address | string
 
-declare type Application = number & {
+declare class Application {
+  static fromIndex(appID: uint64): Application;
+
+  static readonly zeroIndex: Application;
+
   readonly approvalProgram: bytes;
 
   readonly clearStateProgram: bytes;
@@ -435,10 +443,7 @@ declare function BoxKey<ValueType>(
 
 declare function BoxMap<KeyType, ValueType>(
   options?: {dynamicSize?: boolean, prefix?: string }
-): Record<
-  KeyType,
-  BoxValue<ValueType>
->
+): (key: KeyType) => BoxValue<ValueType>
 
 declare type GlobalStateValue<ValueType> = {
   value: ValueType
@@ -447,10 +452,9 @@ declare type GlobalStateValue<ValueType> = {
 }
 
 declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
-declare function GlobalStateMap<KeyType, ValueType>(options : {maxKeys: number}): Record<
-  KeyType,
-  GlobalStateValue<ValueType>
->
+declare function GlobalStateMap<KeyType, ValueType>(
+  options : {maxKeys: number}
+): (key: KeyType) => GlobalStateValue<ValueType>
 
 declare type LocalStateValue<ValueType> = {
   value: ValueType
@@ -460,12 +464,11 @@ declare type LocalStateValue<ValueType> = {
 
 declare function LocalStateKey<ValueType>(
   options?: { key?: string }
-): Record<Address, LocalStateValue<ValueType>>
+): (account: Address) => LocalStateValue<ValueType>
 
-declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): Record<
-  Address,
-  Record<KeyType, LocalStateValue<ValueType>>
->
+declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): (
+  account: Address, key: KeyType
+) => LocalStateValue<ValueType>
 
 type IntLike = uint64 | Asset | Application | boolean | number
 
