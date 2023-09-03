@@ -16,15 +16,15 @@ In TEALScript, there is no concept of `MaybeValue`. For every opcode that would 
 
 ```ts
 class BalanceApp extends Contract {
-    counters = new BoxMap<Account, number>();
+    counters = BoxMap<Account, number>();
 
     getBalance(acct: Account): void {
         // Set balance to 0 if acct balance doesn't exist
         const balance = acct.hasBalance ? acct.balance : 0
 
         // set counter to 1 if it doesn't already exist
-        const newCounter = this.counters.exists(acct) ? this.counters.get(acct) + 1 : 1
-        this.counters.set(acct, newCounter)
+        const newCounter = this.counters(acct).exists ? this.counters(acct).value + 1 : 1
+        this.counters(acct).value = newCounter
     }
 }
 ```
