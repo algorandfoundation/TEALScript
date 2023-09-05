@@ -3636,7 +3636,7 @@ export default class Compiler {
         .replace('account', 'address')
         .replace('application', 'uint64');
 
-      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`);
+      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`.replace(/bytes/g, 'byte[]'));
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
