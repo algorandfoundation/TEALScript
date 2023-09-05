@@ -1043,6 +1043,49 @@ export default class Compiler {
     return types;
   }
 
+  private async postProcessTeal(input: string[]): Promise<string[]> {
+    return (await Promise.all(
+      input.map(async (t) => {
+        if (t.startsWith('PENDING_COMPILE')) {
+          const c = new Compiler(this.content, t.split(' ')[1], {
+            filename: this.filename,
+            algodPort: this.algodPort,
+            algodServer: this.algodServer,
+            algodToken: this.algodToken,
+            disableWarnings: this.disableWarnings,
+          });
+          await c.compile();
+          const program = await c.algodCompile();
+          return `byte b64 ${program}`;
+        }
+
+        const method = t.split(' ')[1];
+        const subroutine = this.subroutines.find((s) => s.name === method);
+
+        if (t.startsWith('PENDING_DUPN')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
+
+          if (nonArgFrameSize === 0) return '// no dupn needed';
+
+          if (nonArgFrameSize === 1) return 'byte 0x';
+          if (nonArgFrameSize === 2) return 'byte 0x; dup';
+          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
+        }
+
+        if (t.startsWith('PENDING_PROTO')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+        }
+
+        return t;
+      }),
+    )).flat();
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
@@ -1103,46 +1146,8 @@ export default class Compiler {
       }
     });
 
-    this.teal = (await Promise.all(
-      this.teal.map(async (t) => {
-        if (t.startsWith('PENDING_COMPILE')) {
-          const c = new Compiler(this.content, t.split(' ')[1], {
-            filename: this.filename,
-            algodPort: this.algodPort,
-            algodServer: this.algodServer,
-            algodToken: this.algodToken,
-            disableWarnings: this.disableWarnings,
-          });
-          await c.compile();
-          const program = await c.algodCompile();
-          return `byte b64 ${program}`;
-        }
-
-        const method = t.split(' ')[1];
-        const subroutine = this.subroutines.find((s) => s.name === method);
-
-        if (t.startsWith('PENDING_DUPN')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
-
-          if (nonArgFrameSize === 0) return '// no dupn needed';
-
-          if (nonArgFrameSize === 1) return 'byte 0x';
-          if (nonArgFrameSize === 2) return 'byte 0x; dup';
-          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
-        }
-
-        if (t.startsWith('PENDING_PROTO')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
-        }
-
-        return t;
-      }),
-    )).flat();
+    this.teal = await this.postProcessTeal(this.teal);
+    this.clearTeal = await this.postProcessTeal(this.clearTeal);
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
