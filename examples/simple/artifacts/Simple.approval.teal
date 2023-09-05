@@ -12,6 +12,19 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
+incrementCounter:
+	proto 1 0
+
+	// examples/simple/simple.algo.ts:7
+	// this.counter.value = this.counter.value + i
+	byte "counter"
+	byte "counter"
+	app_global_get
+	frame_dig -1 // i: uint64
+	+
+	app_global_put
+	retsub
+
 abi_route_incr:
 	// no dupn needed
 	txna ApplicationArgs 1
@@ -23,14 +36,11 @@ abi_route_incr:
 incr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:7
-	// this.counter.value = this.counter.value + i
-	byte "counter"
-	byte "counter"
-	app_global_get
+	// examples/simple/simple.algo.ts:11
+	// this.incrementCounter(i)
+	// no dupn needed
 	frame_dig -1 // i: uint64
-	+
-	app_global_put
+	callsub incrementCounter
 	retsub
 
 abi_route_decr:
@@ -44,7 +54,7 @@ abi_route_decr:
 decr:
 	proto 1 0
 
-	// examples/simple/simple.algo.ts:11
+	// examples/simple/simple.algo.ts:15
 	// this.counter.value = this.counter.value - i
 	byte "counter"
 	byte "counter"
@@ -65,7 +75,7 @@ abi_route_add:
 add:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:15
+	// examples/simple/simple.algo.ts:19
 	// return a + b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
@@ -98,7 +108,7 @@ abi_route_sub:
 sub:
 	proto 2 0
 
-	// examples/simple/simple.algo.ts:19
+	// examples/simple/simple.algo.ts:23
 	// return a - b;
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256

@@ -263,7 +263,8 @@ interface Subroutine extends ABIMethod{
   allows: {
     create: string[]
     call: string[]
-  }
+  },
+  node: ts.MethodDeclaration
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -1147,7 +1148,6 @@ export default class Compiler {
     });
 
     this.teal = await this.postProcessTeal(this.teal);
-    this.clearTeal = await this.postProcessTeal(this.clearTeal);
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
@@ -1186,6 +1186,18 @@ export default class Compiler {
         console.warn(`Error when parsing tsdoc comment for ${m.name}: ${e}`);
       }
     });
+
+    this.compilingApproval = false;
+
+    this.clearTeal.forEach((t) => {
+      if (t.startsWith('callsub')) {
+        const subNode = this.subroutines.find((s) => s.name === t.split(' ')[1]);
+        if (subNode === undefined) return;
+        this.processNode(subNode.node);
+      }
+    });
+
+    this.clearTeal = await this.postProcessTeal(this.clearTeal);
   }
 
   private push(node: ts.Node, teal: string, type: string) {
@@ -2276,6 +2288,7 @@ export default class Compiler {
       args: [],
       desc: '',
       returns: { type: returnType, desc: '' },
+      node,
     };
 
     new Array(...node.parameters).reverse().forEach((p) => {
@@ -3434,7 +3447,8 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    const frameStart = this.teal.length;
+    const currentTeal = () => (this.compilingApproval ? this.teal : this.clearTeal);
+    const frameStart = currentTeal().length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
@@ -3459,11 +3473,11 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
-      end: this.teal.length,
+      end: currentTeal().length,
       frame: {},
     };
 
