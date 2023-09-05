@@ -59,5 +59,5 @@ export default abstract class Contract {
    * method does nothing. ClearState will always allow a user to delete their local state,
    * reagrdless of logic.
    */
-  clearState(...args: any[]): void { }
+  clearState(): void { }
 }

@@ -3477,6 +3477,7 @@ export default class Compiler {
     if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
 
     this.compilingApproval = false;
+    if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
     this.pushVoid(fn.body!, 'int 1');
     this.clearStateCompiled = true;
