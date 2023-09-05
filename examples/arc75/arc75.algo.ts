@@ -4,7 +4,7 @@ type Whitelist = {account: Address, boxIndex: uint<16>, arc: string};
 
 // eslint-disable-next-line no-unused-vars
 class ARC75 extends Contract {
-  whitelist = new BoxMap<Whitelist, uint64[]>();
+  whitelist = BoxMap<Whitelist, uint64[]>();
 
   private verifyMBRPayment(payment: PayTxn, preMBR: uint64): void {
     verifyTxn(payment, {
@@ -35,11 +35,11 @@ class ARC75 extends Contract {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
-    if (this.whitelist.exists(whitelist)) {
-      this.whitelist.get(whitelist).push(appID);
+    if (this.whitelist(whitelist).exists) {
+      this.whitelist(whitelist).value.push(appID);
     } else {
       const newWhitelist: uint64[] = [appID];
-      this.whitelist.set(whitelist, newWhitelist);
+      this.whitelist(whitelist).value = newWhitelist;
     }
 
     this.verifyMBRPayment(payment, preMBR);
@@ -57,9 +57,9 @@ class ARC75 extends Contract {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
-    this.whitelist.delete(whitelist);
+    this.whitelist(whitelist).delete();
 
-    this.whitelist.set(whitelist, appIDs);
+    this.whitelist(whitelist).value = appIDs;
 
     if (preMBR > this.app.address.minBalance) {
       this.sendMBRPayment(preMBR);
@@ -79,7 +79,7 @@ class ARC75 extends Contract {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
-    this.whitelist.delete(whitelist);
+    this.whitelist(whitelist).delete();
 
     this.sendMBRPayment(preMBR);
   }
@@ -96,7 +96,7 @@ class ARC75 extends Contract {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
-    const spliced = this.whitelist.get(whitelist).splice(index, 1);
+    const spliced = this.whitelist(whitelist).value.splice(index, 1);
 
     assert(spliced[0] === appID);
 

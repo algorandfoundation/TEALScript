@@ -13,12 +13,7 @@ import * as langspec from '../langspec.json';
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
-// eslint-disable-next-line no-shadow
-enum StorageType {
-  GLOBAL,
-  LOCAL,
-  BOX
-}
+type StorageType = 'global' | 'local' | 'box';
 
 export type CompilerOptions = {
   filename?: string,
@@ -76,6 +71,19 @@ class TupleElement extends Array<TupleElement> {
     elements.forEach((e: TupleElement) => { e.parent = this; });
     return this.push(...elements);
   }
+}
+
+function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
+  if (ts.isCallExpression(node.expression)
+  && ts.isPropertyAccessExpression(node.expression.expression)) {
+    return node.expression.expression.name.getText();
+  }
+
+  if (ts.isPropertyAccessExpression(node.expression)) {
+    return node.expression.name.getText();
+  }
+
+  return undefined;
 }
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
@@ -234,7 +242,7 @@ interface OpSpec {
 }
 
 interface StorageProp {
-  type: string;
+  type: StorageType;
   key?: string;
   keyType: string;
   valueType: string;
@@ -360,7 +368,7 @@ export default class Compiler {
     framePointer?:string
     type: string
     accessors?: (ts.Expression | string)[]
-    storageExpression?: ts.CallExpression
+    storageExpression?: ts.PropertyAccessExpression
     storageKeyFrame?: string
     storageAccountFrame?: string
     }
@@ -439,27 +447,46 @@ export default class Compiler {
   }
 
   private handleStorageAction(
-    node: ts.CallExpression,
-    storageType: StorageType,
-    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-    storageKeyFrame?: string,
-    storageAccountFrame?: string,
+    {
+      node, name, action, storageKeyFrame, storageAccountFrame, newValue,
+    }: {
+      node: ts.PropertyAccessExpression | ts.CallExpression
+      name: string,
+      action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size'
+      storageKeyFrame?: string
+      storageAccountFrame?: string
+      newValue?: ts.Node
+    },
   ) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-    const name = node.expression.expression.name.getText();
+    const args: ts.Expression[] = [];
+    let keyNode: ts.Expression;
 
-    const {
-      valueType, keyType, key, dynamicSize, prefix,
-    } = this.storageProps[name];
+    if (ts.isCallExpression(node)) {
+      node.arguments.forEach((a) => args.push(a));
+      if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-    if (storageAccountFrame && storageType === StorageType.LOCAL) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
-    } else if (storageType === StorageType.LOCAL) {
-      this.processNode(node.arguments[0]);
+      // eslint-disable-next-line no-param-reassign
+      node = node.expression;
     }
 
-    if (action === 'exists' && (storageType === StorageType.GLOBAL || storageType === StorageType.LOCAL)) {
+    if (ts.isCallExpression(node.expression)) {
+      keyNode = node.expression.arguments[node.expression.arguments.length === 2 ? 1 : 0];
+    }
+
+    const {
+      type, valueType, keyType, key, dynamicSize, prefix,
+    } = this.storageProps[name];
+
+    const storageType = type;
+
+    if (storageAccountFrame && storageType === 'local') {
+      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+    } else if (storageType === 'local') {
+      if (!ts.isCallExpression(node.expression)) throw Error();
+      this.processNode(node.expression.arguments[0]);
+    }
+
+    if (action === 'exists' && (storageType === 'global' || storageType === 'local')) {
       this.pushVoid(node.expression, 'txna Applications 0');
     }
 
@@ -468,25 +495,24 @@ export default class Compiler {
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
     } else {
-      const argumentIndex = storageType === StorageType.LOCAL ? 1 : 0;
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], `byte "${prefix}"`);
-      this.processNode(node.arguments[argumentIndex]);
+      if (prefix) this.pushVoid(keyNode!, `byte "${prefix}"`);
+      this.processNode(keyNode!);
 
       if (keyType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[argumentIndex], this.lastType);
+        this.checkEncoding(keyNode!, this.lastType);
       }
 
-      if (isNumeric(keyType)) this.pushVoid(node.arguments[argumentIndex], 'itob');
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], 'concat');
+      if (isNumeric(keyType)) this.pushVoid(keyNode!, 'itob');
+      if (prefix) this.pushVoid(keyNode!, 'concat');
     }
 
     switch (action) {
       case 'get':
-        if (storageType === StorageType.GLOBAL) {
+        if (storageType === 'global') {
           this.push(node.expression, 'app_global_get', valueType);
-        } else if (storageType === StorageType.LOCAL) {
+        } else if (storageType === 'local') {
           this.push(node.expression, 'app_local_get', valueType);
-        } else if (storageType === StorageType.BOX) {
+        } else if (storageType === 'box') {
           this.maybeValue(node.expression, 'box_get', valueType);
           if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
         }
@@ -494,61 +520,57 @@ export default class Compiler {
         break;
 
       case 'set': {
-        if (storageType === StorageType.BOX && dynamicSize) {
+        if (storageType === 'box' && dynamicSize) {
           this.pushLines(node.expression, 'dup', 'box_del', 'pop');
         }
 
-        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0)
-          : (storageType === StorageType.LOCAL ? 2 : 1);
-
-        if (node.arguments[valueArgIndex]) {
-          this.processNode(node.arguments[valueArgIndex]);
+        if (newValue) {
+          this.processNode(newValue);
 
           this.typeComparison(this.lastType, valueType, 'fix');
           if (valueType !== StackType.bytes) {
-            this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
+            this.checkEncoding(newValue, this.lastType);
           }
         } else {
-          const command = storageType === StorageType.BOX ? 'swap' : (storageType === StorageType.LOCAL ? 'uncover 2' : 'swap');
+          const command = storageType === 'box' ? 'swap' : (storageType === 'local' ? 'uncover 2' : 'swap');
           this.pushVoid(node.expression, command);
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node, valueType);
           }
         }
 
-        if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
-        const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
+        if (isNumeric(valueType) && storageType === 'box') this.pushVoid(node.expression, 'itob');
+        const operation = storageType === 'global' ? 'app_global_put' : (storageType === 'local' ? 'app_local_put' : 'box_put');
         this.push(node.expression, operation, valueType);
         break;
       }
 
       case 'exists': {
-        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+        const existsAction = (storageType === 'global') ? 'app_global_get_ex' : (storageType === 'local') ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
       }
 
       case 'delete': {
-        const deleteAction = (storageType === StorageType.GLOBAL) ? 'app_global_del' : (storageType === StorageType.LOCAL) ? 'app_local_del' : 'box_del';
+        const deleteAction = (storageType === 'global') ? 'app_global_del' : (storageType === 'local') ? 'app_local_del' : 'box_del';
         this.pushVoid(node.expression, deleteAction);
         break;
       }
 
       case 'create':
-
-        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(args[0]);
         this.pushVoid(node.expression, 'box_create');
         break;
 
       case 'extract':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.push(node.expression, 'box_extract', StackType.bytes);
         break;
 
       case 'replace':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.pushVoid(node.expression, 'box_replace');
         break;
 
@@ -559,63 +581,6 @@ export default class Compiler {
         throw new Error();
     }
   }
-
-  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
-    global: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'exists');
-      },
-    },
-    local: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'get', storageKeyFrame, storageAccountFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'set', storageKeyFrame, storageAccountFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'exists');
-      },
-    },
-    box: {
-      create: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'create');
-      },
-      extract: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'extract');
-      },
-      replace: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'replace');
-      },
-      size: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'size');
-      },
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'exists');
-      },
-    },
-  };
 
   private andCount: number = 0;
 
@@ -1740,14 +1705,14 @@ export default class Compiler {
     accessors: (ts.Expression | string)[],
     name: string,
     type: 'frame' | 'storage',
-    storageExpression?: ts.CallExpression,
+    storageExpression?: ts.PropertyAccessExpression,
     storageKeyFrame?: string
     storageAccountFrame?: string
   } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
     let type: 'frame' | 'storage' = 'frame';
-    let storageExpression: ts.CallExpression | undefined;
+    let storageExpression: ts.PropertyAccessExpression | undefined;
 
     const accessors: (ts.Expression | string)[][] = [];
 
@@ -1761,7 +1726,7 @@ export default class Compiler {
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
-      name = currentFrame.storageExpression.getText().split('.')[1];
+      name = getStorageName(currentFrame.storageExpression)!;
       type = 'storage';
       storageExpression = currentFrame.storageExpression;
     }
@@ -1778,11 +1743,13 @@ export default class Compiler {
     }
 
     if (currentFrame.storageExpression !== undefined) {
-      this.storageFunctions[this.storageProps[name].type].get(
-        currentFrame.storageExpression,
-        currentFrame.storageKeyFrame,
-        currentFrame.storageAccountFrame,
-      );
+      this.handleStorageAction({
+        node: currentFrame.storageExpression,
+        name,
+        storageKeyFrame: currentFrame.storageKeyFrame,
+        storageAccountFrame: currentFrame.storageAccountFrame,
+        action: 'get',
+      });
     } else {
       this.push(
         node,
@@ -1811,26 +1778,30 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].set(
-            processedFrame.storageExpression,
-            processedFrame.storageKeyFrame,
-            processedFrame.storageAccountFrame,
-          );
+          this.handleStorageAction({
+            node: processedFrame.storageExpression!,
+            storageAccountFrame: processedFrame.storageAccountFrame,
+            storageKeyFrame: processedFrame.storageKeyFrame,
+            action: 'set',
+            name: processedFrame.name,
+          });
         }
       }
     } else if (
-      ts.isCallExpression(node)
-                && ts.isPropertyAccessExpression(node.expression)
-                && ts.isPropertyAccessExpression(node.expression.expression)
-                && Object.keys(this.storageProps).includes(
-                  node.expression.expression?.name?.getText(),
-                )
+      ts.isCallExpression(node) || ts.isPropertyAccessExpression(node)
     ) {
-      const storageProp = this.storageProps[
-        node.expression.expression.name.getText()
-      ];
+      let storageName: string | undefined;
 
-      this.storageFunctions[storageProp.type].set(node);
+      if (ts.isCallExpression(node)) {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Must be property access expression');
+        storageName = getStorageName(node.expression);
+      } else storageName = getStorageName(node);
+
+      this.handleStorageAction({
+        node,
+        name: storageName!,
+        action: 'set',
+      });
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
     }
@@ -2280,6 +2251,11 @@ export default class Compiler {
       return;
     }
 
+    if (this.storageProps[baseType]) {
+      this.lastType = baseType;
+      return;
+    }
+
     this.processArrayAccess(node);
   }
 
@@ -2545,6 +2521,19 @@ export default class Compiler {
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
+        const storageName = getStorageName(node.left);
+
+        if (storageName && this.storageProps[storageName]) {
+          this.handleStorageAction({
+            node: node.left,
+            name: storageName,
+            action: 'set',
+            newValue: node.right,
+          });
+
+          return;
+        }
+
         const expressionType = this.getStackTypeFromNode(node.left.expression);
         const index = Object
           .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
@@ -2705,7 +2694,7 @@ export default class Compiler {
   private initializeStorageFrame(
     node: ts.Node,
     name: string,
-    storageExpression: ts.CallExpression,
+    storageExpression: ts.PropertyAccessExpression,
     type: string,
     accessors?:(string | ts.Expression)[],
   ) {
@@ -2715,11 +2704,15 @@ export default class Compiler {
       type,
     };
 
-    const storageName = storageExpression.expression.getText().split('.')[1];
+    const storageName = getStorageName(storageExpression)!;
 
     const storageProp = this.storageProps[storageName];
 
-    const keyNode = storageExpression.arguments[storageProp.type === 'local' ? 1 : 0];
+    if (!ts.isCallExpression(storageExpression.expression)) throw Error();
+
+    const argLength = storageExpression.expression.arguments.length;
+
+    const keyNode = storageExpression.expression.arguments[argLength === 2 ? 1 : 0];
 
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
@@ -2750,7 +2743,7 @@ export default class Compiler {
     }
 
     if (storageProp.type === 'local') {
-      const accountNode = storageExpression.arguments[0];
+      const accountNode = storageExpression.expression.arguments[0];
       const accountFrameName = `storage account//${name}`;
 
       this.addSourceComment(node, true);
@@ -2828,7 +2821,7 @@ export default class Compiler {
           });
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(accessChain[0].expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
             this.initializeStorageFrame(
               node,
               name,
@@ -2848,6 +2841,17 @@ export default class Compiler {
         }
       }
 
+      if (
+        ts.isPropertyAccessExpression(node.initializer)
+        && getStorageName(node.initializer)
+         && this.storageProps[getStorageName(node.initializer)!]
+         && isArray
+      ) {
+        this.initializeStorageFrame(node, name, node.initializer, initializerType);
+
+        return;
+      }
+
       if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
         // const chain = this.getChain(node.initializer);
 
@@ -2859,7 +2863,7 @@ export default class Compiler {
             .indexOf(node.initializer.name.getText());
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(node.initializer.expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(node.initializer.expression)) throw new Error('Expected call expression');
 
             this.initializeStorageFrame(
               node,
@@ -2878,19 +2882,6 @@ export default class Compiler {
 
           return;
         }
-      }
-
-      if (
-        ts.isCallExpression(node.initializer)
-      && isArray
-      && ts.isPropertyAccessExpression(node.initializer.expression)
-      && ts.isPropertyAccessExpression(node.initializer.expression.expression)
-      && Object.keys(this.storageProps).includes(
-        node.initializer.expression.expression?.name?.getText(),
-      )) {
-        this.initializeStorageFrame(node, name, node.initializer, initializerType);
-
-        return;
       }
 
       this.frame[name] = {
@@ -2936,6 +2927,8 @@ export default class Compiler {
     } else if (ts.isIdentifier(node.expression)) {
       methodName = node.expression.getText();
     }
+
+    if (this.storageProps[methodName]) return;
 
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
@@ -3098,12 +3091,19 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
       this.push(node.expression, `callsub ${methodName}`, subroutine.returns.type);
-    } else if (
-      ts.isPropertyAccessExpression(node.expression.expression)
-      && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
-    ) {
-      this.processStorageCall(node);
     } else {
+      const storageName = getStorageName(node.expression);
+
+      if (storageName && this.storageProps[storageName]) {
+        this.handleStorageAction({
+          node,
+          name: storageName,
+          action: methodName as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
+
+        return;
+      }
+
       if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
         this.processNode(node.expression);
       } else {
@@ -3173,13 +3173,13 @@ export default class Compiler {
   }
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
-    if (node.initializer === undefined || !ts.isNewExpression(node.initializer)) throw new Error();
+    if (node.initializer === undefined || !ts.isCallExpression(node.initializer)) throw new Error();
 
     const klass = node.initializer.expression.getText();
 
     if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
       let props: StorageProp;
-      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '');
+      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
       const typeArgs = node.initializer.typeArguments;
 
       if (typeArgs === undefined) {
@@ -3292,6 +3292,20 @@ export default class Compiler {
   }
 
   private processMemberExpression(node: ts.PropertyAccessExpression) {
+    const storageName = getStorageName(node);
+
+    if (
+      storageName && this.storageProps[storageName]
+    ) {
+      const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
+      this.handleStorageAction({
+        node,
+        name: storageName,
+        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+      });
+      return;
+    }
+
     if (node.expression.getText() === 'TransactionType') {
       const enums: {[key: string]: string} = {
         Unknown: 'unknown',
@@ -3354,6 +3368,20 @@ export default class Compiler {
 
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
+        return;
+      }
+
+      const nStorageName = getStorageName(n);
+
+      if (
+        nStorageName && this.storageProps[nStorageName]
+      ) {
+        const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
+        this.handleStorageAction({
+          node: n,
+          name: nStorageName,
+          action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
         return;
       }
 
@@ -3548,20 +3576,6 @@ export default class Compiler {
     if (opSpec.Name.endsWith('256')) returnType = 'byte[32]';
 
     this.push(node.expression, line.join(' '), returnType);
-  }
-
-  private processStorageCall(node: ts.CallExpression) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-
-    const op = node.expression.name.getText();
-    const { type, valueType } = this.storageProps[node.expression.expression.name.getText()];
-
-    this.typeHint = valueType;
-
-    this.storageFunctions[type][op](node);
-
-    this.typeHint = undefined;
   }
 
   private processTransaction(node: ts.CallExpression) {
@@ -3921,9 +3935,9 @@ export default class Compiler {
         case 'global':
           if (isNumeric(v.valueType)) {
             state.global.num_uints += v.maxKeys || 1;
-            globalDeclared[k] = { type: 'uint64', key: k };
+            globalDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
-            globalDeclared[k] = { type: 'bytes', key: k };
+            globalDeclared[k] = { type: 'bytes', key: v.key || k };
             state.global.num_byte_slices += v.maxKeys || 1;
           }
 

@@ -427,93 +427,48 @@ declare class Application {
   global(key: BytesLike): BytesLike | IntLike
 }
 
-declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: {dynamicSize?: boolean, prefix?: string })
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  set(key: KeyType, value: ValueType): void
-
-  create(key: KeyType, size: uint64): void
-
-  replace(key: KeyType, offset: uint64, value: bytes): void
-
-  extract(key: KeyType, offset: uint64, length: uint64): bytes
-
-  size(key: KeyType): uint64
-}
-
-declare class BoxKey<ValueType> {
-  constructor(options?: { key?: string, dynamicSize?: boolean })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  set(value: ValueType): void
-
+declare type BoxValue<ValueType> = {
+  value: ValueType
+  delete: () => void
+  exists: boolean
   create(size: uint64): void
-
   replace(offset: uint64, value: bytes): void
-
   extract(offset: uint64, length: uint64): bytes
-
-  size(): uint64
+  size: uint64
 }
 
-declare class GlobalStateMap<KeyType, ValueType> {
-  constructor(options : {maxKeys: number})
+declare function BoxKey<ValueType>(
+  options?: { key?: string, dynamicSize?: boolean }
+): BoxValue<ValueType>
 
-  get(key: KeyType): ValueType
+declare function BoxMap<KeyType, ValueType>(
+  options?: {dynamicSize?: boolean, prefix?: string }
+): (key: KeyType) => BoxValue<ValueType>
 
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  set(key: KeyType, value: ValueType): void
+declare type GlobalStateValue<ValueType> = {
+  value: ValueType
+  delete: () => void,
+  exists: boolean,
 }
 
-declare class GlobalStateKey<ValueType> {
-  constructor(options?: { key?: string })
+declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
+declare function GlobalStateMap<KeyType, ValueType>(
+  options : {maxKeys: number}
+): (key: KeyType) => GlobalStateValue<ValueType>
 
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  set(value: ValueType): void
+declare type LocalStateValue<ValueType> = {
+  value: ValueType
+  delete: () => void,
+  exists: boolean,
 }
 
-declare class LocalStateMap<KeyType, ValueType> {
-  constructor(options: {maxKeys: number})
+declare function LocalStateKey<ValueType>(
+  options?: { key?: string }
+): (account: Address) => LocalStateValue<ValueType>
 
-  get(account: Address, key: KeyType): ValueType
-
-  exists(account: Address, key: KeyType): uint64
-
-  delete(account: Address, key: KeyType): void
-
-  set(account: Address, key: KeyType, value: ValueType): void
-}
-
-declare class LocalStateKey<ValueType> {
-  constructor(options?: { key?: string })
-
-  get(account: Address): ValueType
-
-  exists(account: Address): uint64
-
-  delete(account: Address): void
-
-  set(account: Address, value: ValueType): void
-}
+declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): (
+  account: Address, key: KeyType
+) => LocalStateValue<ValueType>
 
 type IntLike = uint64 | Asset | Application | boolean | number
 
@@ -576,7 +531,7 @@ interface AssetCreateParams extends CommonTransactionParams {
 interface AssetFreezeParams extends CommonTransactionParams {
   freezeAsset: Asset
   freezeAssetAccount: Address
-  freezeAssetFrozen: uint64
+  freezeAssetFrozen: boolean
 }
 
 interface PaymentParams extends CommonTransactionParams {

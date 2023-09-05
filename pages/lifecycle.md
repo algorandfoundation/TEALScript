@@ -9,10 +9,10 @@ To modify the logic executed upon applicaiton creation (for example, to set defa
 #### Example
 ```typescript
 class Counter extends Contract {
-  counter = new GlobalStateKey<number>();
+  counter = GlobalStateKey<number>();
 
   createApplication(startingNumber: number): void {
-    this.counter.set(startingNumber)
+    this.counter.value = startingNumber
   }
 }
 ```
@@ -24,10 +24,10 @@ By defualt, TEALScript contracts cannot be updated. To allow a contract to be up
 #### Example
 ```typescript
 class Counter extends Contract {
-  counter = new GlobalStateKey<number>();
+  counter = GlobalStateKey<number>();
 
   createApplication(startingNumber: number): void {
-    this.counter.set(startingNumber)
+    this.counter.value = startingNumber
   }
 
   updateApplication(): void {
@@ -43,10 +43,10 @@ By defualt, TEALScript contracts cannot be deleted. To allow a contract to be de
 #### Example
 ```typescript
 class Counter extends Contract {
-  counter = new GlobalStateKey<number>();
+  counter = GlobalStateKey<number>();
 
   createApplication(startingNumber: number): void {
-    this.counter.set(startingNumber)
+    this.counter.value = startingNumber
   }
 
   deleteApplication(): void {
@@ -67,15 +67,15 @@ To have more granular control on what OnComplete a specific method allows, use t
 
 ```typescript
 class Counter extends Contract {
-  counter = new LocalStateKey<number>();
+  counter = LocalStateKey<number>();
 
   // This method will increment a counter in local state
   @allow.create('OptIn') // Allow an OptIn create so the creators counter can be set when creating the app
   @allow.call('OptIn')   // Allow anyone to OptIn to the contract so they can use local state
   @allow.call('NoOp')    // Allow anyone to call the app again with a NoOp call (can only OptIn once)
   useLocalState(): void {
-    if (!this.counter.exists(this.txn.sender)) this.counter.set(this.txn.sender, 1)
-    else this.counter.set(this.txn.sender, this.counter.get(this.txn.sender) + 1)
+    if (!this.counter(this.txn.sender).exists) this.counter(this.txn.sender).value = 1
+    else this.counter(this.txn.sender).value = this.counter(this.txn.sender).value + 1
   }
 }
 ```

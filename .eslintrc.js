@@ -45,6 +45,7 @@ module.exports = {
         'operator-assignment': 'off',
         'prefer-template': 'off',
         'prefer-destructuring': 'off',
+        'dot-notation': 'off',
       },
     },
     {

@@ -201,7 +201,7 @@ createApplication:
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:57
-	// this.root.set(this.calcInitRoot())
+	// this.root.value = this.calcInitRoot()
 	byte "root"
 	byte 0x; dup
 	callsub calcInitRoot
@@ -221,7 +221,7 @@ verify:
 	proto 2 0
 
 	// examples/merkle/merkle.algo.ts:61
-	// assert(this.root.get() === this.calcRoot(sha256(data), path))
+	// assert(this.root.value === this.calcRoot(sha256(data), path))
 	byte "root"
 	app_global_get
 	byte 0x; dup
@@ -253,7 +253,7 @@ appendLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:66
-	// assert(this.root.get() === this.calcRoot(EMPTY_HASH, path))
+	// assert(this.root.value === this.calcRoot(EMPTY_HASH, path))
 	byte "root"
 	app_global_get
 	byte 0x; dup
@@ -267,7 +267,7 @@ appendLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:68
-	// this.root.set(this.calcRoot(sha256(data), path))
+	// this.root.value = this.calcRoot(sha256(data), path)
 	byte "root"
 	byte 0x; dup
 	frame_dig -2 // path: byte[33][3]
@@ -277,7 +277,7 @@ appendLeaf:
 	app_global_put
 
 	// examples/merkle/merkle.algo.ts:70
-	// this.size.set(this.size.get() + 1)
+	// this.size.value = this.size.value + 1
 	byte "size"
 	byte "size"
 	app_global_get
@@ -308,7 +308,7 @@ updateLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:75
-	// assert(this.root.get() === this.calcRoot(sha256(oldData), path))
+	// assert(this.root.value === this.calcRoot(sha256(oldData), path))
 	byte "root"
 	app_global_get
 	byte 0x; dup
@@ -320,7 +320,7 @@ updateLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:77
-	// this.root.set(this.calcRoot(sha256(newData), path))
+	// this.root.value = this.calcRoot(sha256(newData), path)
 	byte "root"
 	byte 0x; dup
 	frame_dig -3 // path: byte[33][3]

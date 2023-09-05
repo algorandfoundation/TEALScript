@@ -2,7 +2,7 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class MathTest extends Contract {
-  gKey = new GlobalStateKey<uint64>();
+  gKey = GlobalStateKey<uint64>();
 
   u64plus(a: uint64, b: uint64): uint64 {
     return a + b;

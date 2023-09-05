@@ -63,6 +63,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
           if (method === 'Exists') {
             expectedTeal.push('swap');
             expectedTeal.push('pop');
+            expectedTeal.push('assert');
           }
 
           if (method === 'Get') {

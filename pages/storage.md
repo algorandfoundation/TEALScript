@@ -4,22 +4,22 @@ In general, you want to use global storage for small values (< 128 byte) when yo
 
 For each storage type, there are two classess in TEALScript for interacting with contract state `Key` and `Map`. Classes ending with `Key` point to a single key in storage and `Map` is a mapping of an undefined amount of keys to their respective values.
 
-## Key Instantiation
+## Key Declaration
 
-All `Key` classess ({@link GlobalStateKey}, {@link BoxKey}, {@link LocalStateKey}) are generic classes with one type argument that corresponds to the type of the value held in the respective value. 
+All `Key` functions ({@link GlobalStateKey}, {@link BoxKey}, {@link LocalStateKey}) are generic functions with one type argument that corresponds to the type of the value held in the respective value. 
 
-The contructors for the key classes all take an optional argument `key`. By default, the property name will be used for the on-chain key name. The `key` property, however, can be used to override what value is used as the on-chain key. This is paticularly useful when you want small keys on-chain but longer more-descriptive keys in TEALScript. If you want the key to be a non-string value, use `Map`s
+These functions all take an optional argument `key`. By default, the property name will be used for the on-chain key name. The `key` property, however, can be used to override what value is used as the on-chain key. This is paticularly useful when you want small keys on-chain but longer more-descriptive keys in TEALScript. If you want the key to be a non-string value, use `Map`s
 
 ### Examples
 
-#### Key Instantiation
+#### Key Declaration
 
 ```ts
 class MyApp extends Contract {
-    someKey = new GlobalStateKey<string>()
+    someKey = GlobalStateKey<string>()
 
     setSomeKey(value: string): void {
-        this.someKey.set(value) // On chain: "someKey" now contains value
+        this.someKey.value = value // On chain: "someKey" now contains value
     }
 }
 ```
@@ -28,45 +28,45 @@ class MyApp extends Contract {
 
 ```ts
 class MyApp extends Contract {
-    someKey = new GlobalStateKey<string>({ key: 'sk' })
+    someKey = GlobalStateKey<string>({ key: 'sk' })
 
     setSomeKey(value: string): void {
-        this.someKey.set(value) // On chain: "sk" now contains value
+        this.someKey.value = value // On chain: "sk" now contains value
     }
 }
 ```
 
-## Map Instantiation
+## Map Declaration
 
-All `Map` classess ({@link GlobalStateMap}, {@link BoxMap}, {@link LocalStateMap}) are generic classes with two type arguments that corresponds to the type of the key and the type of the value, respectively. 
+All `Map` functions ({@link GlobalStateMap}, {@link BoxMap}, {@link LocalStateMap}) are generic functions with two type arguments that corresponds to the type of the key and the type of the value, respectively. 
 
-The contructors for the key classes all take an optional argument `prefix`. The value given to `prefix` is a string that will prefix each key accessed via this `Map`. This is useful when you have two different maps that might have the same key type. The compiler will throw an error if two `Map`s of the same storage type have the same key type and no prefix.
+These functions all take an optional argument `prefix`. The value given to `prefix` is a string that will prefix each key accessed via this `Map`. This is useful when you have two different maps that might have the same key type. The compiler will throw an error if two `Map`s of the same storage type have the same key type and no prefix.
 
-#### Map Instantiation
+#### Map Declaration
 
 ```ts
 class MyApp extends Contract {
-    favoriteColor = new BoxMap<Address, string>()
+    favoriteColor = BoxMap<Address, string>()
 
     setColor(color: string): void {
-        this.favoriteColor.set(this.txn.sender, color) // on chain: sender's address now points to their favorite color
+        this.favoriteColor(this.txn.sender).value = color // on chain: sender's address now points to their favorite color
     }
 }
 ```
 
-#### Map Prefix Instantiation
+#### Map Prefix Declaration
 
 ```ts
 class MyApp extends Contract {
-    favoriteColor = new BoxMap<Address, string>({ prefix: 'c' })
-    favoriteNumber = new BoxMap<Address, string>({ prefix: 'n' })
+    favoriteColor = BoxMap<Address, string>({ prefix: 'c' })
+    favoriteNumber = BoxMap<Address, string>({ prefix: 'n' })
 
     setColor(color: string): void {
-        this.favoriteColor.set(this.txn.sender, color) // on chain: ("c" + sender's address) now points to their favorite color
+        this.favoriteColor(this.txn.sender).value = color // on chain: ("c" + sender's address) now points to their favorite color
     }
 
     setNumber(number: uint64): void {
-        this.favoriteNumber.set(this.txn.sender, number) // on chain: ("n" + sender's address) now points to their favorite number
+        this.favoriteNumber(this.txn.sender).value = number // on chain: ("n" + sender's address) now points to their favorite number
     }
 }
 ```
@@ -75,8 +75,8 @@ class MyApp extends Contract {
 
 ```ts
 class MyApp extends Contract {
-    favoriteColor = new BoxMap<Address, string>() // ERROR: same key type as favoriteNumber and no prefix
-    favoriteNumber = new BoxMap<Address, string>() // ERROR: same key type as favoriteColor and no prefix
+    favoriteColor = BoxMap<Address, string>() // ERROR: same key type as favoriteNumber and no prefix
+    favoriteNumber = BoxMap<Address, string>() // ERROR: same key type as favoriteColor and no prefix
 }
 ```
 
@@ -84,7 +84,7 @@ class MyApp extends Contract {
 
 {@link BoxKey} and {@link BoxMap} have an additional option that is not applicable to global or local storage.
 
-`dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()` and `.set()`.
+`dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()`
 
 ## StateMap maxKeys Parameter
 
@@ -95,12 +95,12 @@ class MyApp extends Contract {
 ```ts
 // Reserve 3 keys for this map
 class MyApp extends Contract {
-  data = new GlobalStateMap<bytes, bytes>({ maxKeys: 3 })
+  data = GlobalStateMap<bytes, bytes>({ maxKeys: 3 })
   
   createApplication(){
-    this.data.set('name', 'MyApp')
-    this.data.set('version', '1.0.0')
-    this.data.set('author', 'Me')
+    this.data('name').value = 'MyApp'
+    this.data('version').value = '1.0.0'
+    this.data('author').value = 'Me'
   }
 }
 ```

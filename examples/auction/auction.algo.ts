@@ -2,26 +2,26 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class Auction extends Contract {
-  previousBidder = new GlobalStateKey<Address>();
+  previousBidder = GlobalStateKey<Address>();
 
-  auctionEnd = new GlobalStateKey<uint64>();
+  auctionEnd = GlobalStateKey<uint64>();
 
-  previousBid = new GlobalStateKey<uint64>();
+  previousBid = GlobalStateKey<uint64>();
 
-  asaAmt = new GlobalStateKey<uint64>();
+  asaAmt = GlobalStateKey<uint64>();
 
-  asa = new GlobalStateKey<Asset>();
+  asa = GlobalStateKey<Asset>();
 
-  claimableAmount = new LocalStateKey<uint64>();
+  claimableAmount = LocalStateKey<uint64>();
 
   createApplication(): void {
-    this.auctionEnd.set(0);
-    this.previousBid.set(0);
-    this.asaAmt.set(0);
-    this.asa.set(Asset.zeroIndex);
+    this.auctionEnd.value = 0;
+    this.previousBid.value = 0;
+    this.asaAmt.value = 0;
+    this.asa.value = Asset.zeroIndex;
 
     // Use zero address rather than an empty string for Account type safety
-    this.previousBidder.set(globals.zeroAddress);
+    this.previousBidder.value = globals.zeroAddress;
   }
 
   optIntoAsset(asset: Asset): void {
@@ -29,10 +29,10 @@ class Auction extends Contract {
     verifyTxn(this.txn, { sender: globals.creatorAddress });
 
     /// Verify a ASA hasn't already been opted into
-    assert(this.asa.get() === Asset.zeroIndex);
+    assert(this.asa.value === Asset.zeroIndex);
 
     /// Save ASA ID in global state
-    this.asa.set(asset);
+    this.asa.value = asset;
 
     /// Submit opt-in transaction: 0 asset transfer to self
     sendAssetTransfer({
@@ -47,15 +47,15 @@ class Auction extends Contract {
     verifyTxn(this.txn, { sender: globals.creatorAddress });
 
     /// Ensure the auction hasn't already been started
-    assert(this.auctionEnd.get() === 0);
+    assert(this.auctionEnd.value === 0);
 
     /// Verify axfer
     verifyTxn(axfer, { assetReceiver: this.app.address });
 
     /// Set global state
-    this.asaAmt.set(axfer.assetAmount);
-    this.auctionEnd.set(globals.latestTimestamp + length);
-    this.previousBid.set(startingPrice);
+    this.asaAmt.value = axfer.assetAmount;
+    this.auctionEnd.value = globals.latestTimestamp + length;
+    this.previousBid.value = startingPrice;
   }
 
   private pay(receiver: Account, amount: uint64): void {
@@ -71,43 +71,43 @@ class Auction extends Contract {
   // eslint-disable-next-line no-unused-vars
   bid(payment: PayTxn): void {
     /// Ensure auction hasn't ended
-    assert(globals.latestTimestamp < this.auctionEnd.get());
+    assert(globals.latestTimestamp < this.auctionEnd.value);
 
     /// Verify payment transaction
     verifyTxn(payment, {
       sender: this.txn.sender,
-      amount: { greaterThan: this.previousBid.get() },
+      amount: { greaterThan: this.previousBid.value },
     });
 
     /// Set global state
-    this.previousBid.set(payment.amount);
-    this.previousBidder.set(payment.sender);
+    this.previousBid.value = payment.amount;
+    this.previousBidder.value = payment.sender;
 
     /// Update claimable amount
-    this.claimableAmount.set(this.txn.sender, payment.amount);
+    this.claimableAmount(this.txn.sender).value = payment.amount;
   }
 
   claimBids(): void {
-    const originalAmount = this.claimableAmount.get(this.txn.sender);
+    const originalAmount = this.claimableAmount(this.txn.sender).value;
     let amount = originalAmount;
 
     /// subtract previous bid if sender is previous bidder
-    if (this.txn.sender === this.previousBidder.get()) amount = amount - this.previousBid.get();
+    if (this.txn.sender === this.previousBidder.value) amount = amount - this.previousBid.value;
 
     this.pay(this.txn.sender, amount);
-    this.claimableAmount.set(this.txn.sender, originalAmount - amount);
+    this.claimableAmount(this.txn.sender).value = originalAmount - amount;
   }
 
   claim_asset(asset: Asset): void {
-    assert(globals.latestTimestamp > this.auctionEnd.get());
+    assert(globals.latestTimestamp > this.auctionEnd.value);
 
     /// Send ASA to previous bidder
     sendAssetTransfer({
-      assetReceiver: this.previousBidder.get(),
+      assetReceiver: this.previousBidder.value,
       xferAsset: asset,
-      assetAmount: this.asaAmt.get(),
+      assetAmount: this.asaAmt.value,
       fee: 0,
-      assetCloseTo: this.previousBidder.get(),
+      assetCloseTo: this.previousBidder.value,
     });
   }
 

@@ -22,7 +22,7 @@ createApplication:
 	proto 0 0
 
 	// examples/amm/amm.algo.ts:20
-	// this.governor.set(this.txn.sender)
+	// this.governor.value = this.txn.sender
 	byte "g"
 	txn Sender
 	app_global_put
@@ -317,7 +317,7 @@ set_governor:
 	assert
 
 	// examples/amm/amm.algo.ts:90
-	// this.governor.set(governor)
+	// this.governor.value = governor
 	byte "g"
 	frame_dig -1 // governor: account
 	app_global_put
@@ -387,19 +387,19 @@ bootstrap:
 	assert
 
 	// examples/amm/amm.algo.ts:101
-	// this.assetA.set(aAsset)
+	// this.assetA.value = aAsset
 	byte "a"
 	frame_dig -2 // aAsset: asset
 	app_global_put
 
 	// examples/amm/amm.algo.ts:102
-	// this.assetB.set(bAsset)
+	// this.assetB.value = bAsset
 	byte "b"
 	frame_dig -3 // bAsset: asset
 	app_global_put
 
 	// examples/amm/amm.algo.ts:103
-	// this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset))
+	// this.poolToken.value = this.doCreatePoolToken(aAsset, bAsset)
 	byte "p"
 
 	// no dupn needed
@@ -421,7 +421,7 @@ bootstrap:
 	callsub doOptIn
 
 	// examples/amm/amm.algo.ts:108
-	// return this.poolToken.get();
+	// return this.poolToken.value;
 	byte "p"
 	app_global_get
 	itob
@@ -467,7 +467,7 @@ mint:
 
 	// well formed mint
 	// examples/amm/amm.algo.ts:119
-	// assert(aAsset === this.assetA.get())
+	// assert(aAsset === this.assetA.value)
 	frame_dig -4 // aAsset: asset
 	byte "a"
 	app_global_get
@@ -475,7 +475,7 @@ mint:
 	assert
 
 	// examples/amm/amm.algo.ts:120
-	// assert(bAsset === this.assetB.get())
+	// assert(bAsset === this.assetB.value)
 	frame_dig -5 // bAsset: asset
 	byte "b"
 	app_global_get
@@ -483,7 +483,7 @@ mint:
 	assert
 
 	// examples/amm/amm.algo.ts:121
-	// assert(poolAsset === this.poolToken.get())
+	// assert(poolAsset === this.poolToken.value)
 	frame_dig -3 // poolAsset: asset
 	byte "p"
 	app_global_get
@@ -680,7 +680,7 @@ burn:
 
 	// well formed burn
 	// examples/amm/amm.algo.ts:166
-	// assert(poolAsset === this.poolToken.get())
+	// assert(poolAsset === this.poolToken.value)
 	frame_dig -2 // poolAsset: asset
 	byte "p"
 	app_global_get
@@ -688,7 +688,7 @@ burn:
 	assert
 
 	// examples/amm/amm.algo.ts:167
-	// assert(aAsset === this.assetA.get())
+	// assert(aAsset === this.assetA.value)
 	frame_dig -3 // aAsset: asset
 	byte "a"
 	app_global_get
@@ -696,7 +696,7 @@ burn:
 	assert
 
 	// examples/amm/amm.algo.ts:168
-	// assert(bAsset === this.assetB.get())
+	// assert(bAsset === this.assetB.value)
 	frame_dig -4 // bAsset: asset
 	byte "b"
 	app_global_get
@@ -798,7 +798,7 @@ burn:
 	callsub doAxfer
 
 	// examples/amm/amm.algo.ts:197
-	// this.ratio.set(this.computeRatio())
+	// this.ratio.value = this.computeRatio()
 	byte "r"
 
 	// no dupn needed
@@ -832,7 +832,7 @@ swap:
 
 	// well formed swap
 	// examples/amm/amm.algo.ts:202
-	// assert(aAsset === this.assetA.get())
+	// assert(aAsset === this.assetA.value)
 	frame_dig -2 // aAsset: asset
 	byte "a"
 	app_global_get
@@ -840,7 +840,7 @@ swap:
 	assert
 
 	// examples/amm/amm.algo.ts:203
-	// assert(bAsset === this.assetB.get())
+	// assert(bAsset === this.assetB.value)
 	frame_dig -3 // bAsset: asset
 	byte "b"
 	app_global_get
@@ -945,7 +945,7 @@ ternary3_end:
 	callsub doAxfer
 
 	// examples/amm/amm.algo.ts:226
-	// this.ratio.set(this.computeRatio())
+	// this.ratio.value = this.computeRatio()
 	byte "r"
 
 	// no dupn needed

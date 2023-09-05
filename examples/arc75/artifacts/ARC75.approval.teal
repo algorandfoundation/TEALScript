@@ -145,7 +145,7 @@ addAppToWhiteList:
 
 	// if0_condition
 	// examples/arc75/arc75.algo.ts:38
-	// this.whitelist.exists(whitelist)
+	// this.whitelist(whitelist).exists
 	frame_dig -6 // whitelist: Whitelist
 	box_len
 	swap
@@ -154,7 +154,7 @@ addAppToWhiteList:
 
 	// if0_consequent
 	// examples/arc75/arc75.algo.ts:39
-	// this.whitelist.get(whitelist).push(appID)
+	// this.whitelist(whitelist).value.push(appID)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
@@ -186,7 +186,7 @@ if0_else:
 	frame_bury -7 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:42
-	// this.whitelist.set(whitelist, newWhitelist)
+	// this.whitelist(whitelist).value = newWhitelist
 	frame_dig -6 // whitelist: Whitelist
 	dup
 	box_del
@@ -267,12 +267,12 @@ setAppWhitelist:
 	frame_bury -5 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:60
-	// this.whitelist.delete(whitelist)
+	// this.whitelist(whitelist).delete()
 	frame_dig -5 // whitelist: Whitelist
 	box_del
 
 	// examples/arc75/arc75.algo.ts:62
-	// this.whitelist.set(whitelist, appIDs)
+	// this.whitelist(whitelist).value = appIDs
 	frame_dig -5 // whitelist: Whitelist
 	dup
 	box_del
@@ -375,7 +375,7 @@ deleteWhitelist:
 	frame_bury -4 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:82
-	// this.whitelist.delete(whitelist)
+	// this.whitelist(whitelist).delete()
 	frame_dig -4 // whitelist: Whitelist
 	box_del
 
@@ -445,7 +445,7 @@ deleteAppFromWhitelist:
 	frame_bury -6 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:99
-	// spliced = this.whitelist.get(whitelist).splice(index, 1)
+	// spliced = this.whitelist(whitelist).value.splice(index, 1)
 	frame_dig -6 // whitelist: Whitelist
 	box_get
 	assert
