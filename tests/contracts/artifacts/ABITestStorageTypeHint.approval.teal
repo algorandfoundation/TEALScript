@@ -22,7 +22,7 @@ partialStaticArray:
 	proto 0 0
 
 	// tests/contracts/abi.algo.ts:827
-	// this.gKey.set([1, 2, 3])
+	// this.gKey.value = [1, 2, 3]
 	byte "gKey"
 	byte 0x0001
 	byte 0x0002
@@ -32,7 +32,7 @@ partialStaticArray:
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:829
-	// return this.gKey.get();
+	// return this.gKey.value;
 	byte "gKey"
 	app_global_get
 	byte 0x151f7c75
