@@ -3478,6 +3478,7 @@ export default class Compiler {
 
     this.compilingApproval = false;
     this.processNode(fn.body!);
+    this.pushVoid(fn.body!, 'int 1');
     this.clearStateCompiled = true;
     this.compilingApproval = true;
   }
