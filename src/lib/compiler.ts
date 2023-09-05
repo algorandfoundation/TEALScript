@@ -263,7 +263,8 @@ interface Subroutine extends ABIMethod{
   allows: {
     create: string[]
     call: string[]
-  }
+  },
+  node: ts.MethodDeclaration
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -1043,6 +1044,49 @@ export default class Compiler {
     return types;
   }
 
+  private async postProcessTeal(input: string[]): Promise<string[]> {
+    return (await Promise.all(
+      input.map(async (t) => {
+        if (t.startsWith('PENDING_COMPILE')) {
+          const c = new Compiler(this.content, t.split(' ')[1], {
+            filename: this.filename,
+            algodPort: this.algodPort,
+            algodServer: this.algodServer,
+            algodToken: this.algodToken,
+            disableWarnings: this.disableWarnings,
+          });
+          await c.compile();
+          const program = await c.algodCompile();
+          return `byte b64 ${program}`;
+        }
+
+        const method = t.split(' ')[1];
+        const subroutine = this.subroutines.find((s) => s.name === method);
+
+        if (t.startsWith('PENDING_DUPN')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
+
+          if (nonArgFrameSize === 0) return '// no dupn needed';
+
+          if (nonArgFrameSize === 1) return 'byte 0x';
+          if (nonArgFrameSize === 2) return 'byte 0x; dup';
+          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
+        }
+
+        if (t.startsWith('PENDING_PROTO')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+        }
+
+        return t;
+      }),
+    )).flat();
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
@@ -1103,46 +1147,7 @@ export default class Compiler {
       }
     });
 
-    this.teal = (await Promise.all(
-      this.teal.map(async (t) => {
-        if (t.startsWith('PENDING_COMPILE')) {
-          const c = new Compiler(this.content, t.split(' ')[1], {
-            filename: this.filename,
-            algodPort: this.algodPort,
-            algodServer: this.algodServer,
-            algodToken: this.algodToken,
-            disableWarnings: this.disableWarnings,
-          });
-          await c.compile();
-          const program = await c.algodCompile();
-          return `byte b64 ${program}`;
-        }
-
-        const method = t.split(' ')[1];
-        const subroutine = this.subroutines.find((s) => s.name === method);
-
-        if (t.startsWith('PENDING_DUPN')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
-
-          if (nonArgFrameSize === 0) return '// no dupn needed';
-
-          if (nonArgFrameSize === 1) return 'byte 0x';
-          if (nonArgFrameSize === 2) return 'byte 0x; dup';
-          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
-        }
-
-        if (t.startsWith('PENDING_PROTO')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
-        }
-
-        return t;
-      }),
-    )).flat();
+    this.teal = await this.postProcessTeal(this.teal);
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
@@ -1181,6 +1186,18 @@ export default class Compiler {
         console.warn(`Error when parsing tsdoc comment for ${m.name}: ${e}`);
       }
     });
+
+    this.compilingApproval = false;
+
+    this.clearTeal.forEach((t) => {
+      if (t.startsWith('callsub')) {
+        const subNode = this.subroutines.find((s) => s.name === t.split(' ')[1]);
+        if (subNode === undefined) return;
+        this.processNode(subNode.node);
+      }
+    });
+
+    this.clearTeal = await this.postProcessTeal(this.clearTeal);
   }
 
   private push(node: ts.Node, teal: string, type: string) {
@@ -2271,6 +2288,7 @@ export default class Compiler {
       args: [],
       desc: '',
       returns: { type: returnType, desc: '' },
+      node,
     };
 
     new Array(...node.parameters).reverse().forEach((p) => {
@@ -3429,7 +3447,8 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    const frameStart = this.teal.length;
+    const currentTeal = () => (this.compilingApproval ? this.teal : this.clearTeal);
+    const frameStart = currentTeal().length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
@@ -3454,11 +3473,11 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
-      end: this.teal.length,
+      end: currentTeal().length,
       frame: {},
     };
 
@@ -3477,7 +3496,9 @@ export default class Compiler {
     if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
 
     this.compilingApproval = false;
+    if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
+    this.pushVoid(fn.body!, 'int 1');
     this.clearStateCompiled = true;
     this.compilingApproval = true;
   }
@@ -3634,7 +3655,7 @@ export default class Compiler {
         .replace('account', 'address')
         .replace('application', 'uint64');
 
-      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`);
+      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`.replace(/bytes/g, 'byte[]'));
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
