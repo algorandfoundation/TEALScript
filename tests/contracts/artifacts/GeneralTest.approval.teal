@@ -265,6 +265,64 @@ verifyTxnNotIncludedIn:
 	assert
 	retsub
 
+abi_route_submitPendingGroup:
+	// no dupn needed
+	callsub submitPendingGroup
+	int 1
+	return
+
+submitPendingGroup:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:45
+	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address, fee: 0 })
+	itxn_begin
+	int pay
+	itxn_field TypeEnum
+
+	// tests/contracts/general.algo.ts:45
+	// amount: 100_000
+	int 100_000
+	itxn_field Amount
+
+	// tests/contracts/general.algo.ts:45
+	// receiver: this.app.address
+	txna Applications 0
+	app_params_get AppAddress
+	assert
+	itxn_field Receiver
+
+	// tests/contracts/general.algo.ts:45
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// tests/contracts/general.algo.ts:46
+	// this.pendingGroup.addAssetCreation({ fee: 0, configAssetDecimals: 0, configAssetTotal: 1 })
+	itxn_begin
+	int acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/general.algo.ts:46
+	// fee: 0
+	int 0
+	itxn_field Fee
+
+	// tests/contracts/general.algo.ts:46
+	// configAssetDecimals: 0
+	int 0
+	itxn_field ConfigAssetDecimals
+
+	// tests/contracts/general.algo.ts:46
+	// configAssetTotal: 1
+	int 1
+	itxn_field ConfigAssetTotal
+
+	// tests/contracts/general.algo.ts:47
+	// this.pendingGroup.submit()
+	itxn_submit
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -283,6 +341,7 @@ call_NoOp:
 	method "verifyTxnCondition(pay)void"
 	method "verifyTxnIncludedIn(pay)void"
 	method "verifyTxnNotIncludedIn(pay)void"
+	method "submitPendingGroup()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup
 	err

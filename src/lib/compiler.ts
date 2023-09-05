@@ -171,16 +171,16 @@ const TXN_TYPES = [
 ];
 
 const TXN_METHODS = [
-  'sendPayment',
-  'sendAppCall',
-  'sendMethodCall',
-  'sendAssetTransfer',
-  'sendAssetCreation',
-  'sendAssetFreeze',
-  'sendAssetConfig',
-  'sendOnlineKeyRegistration',
-  'sendOfflineKeyRegistration',
-];
+  'Payment',
+  'AppCall',
+  'MethodCall',
+  'AssetTransfer',
+  'AssetCreation',
+  'AssetFreeze',
+  'AssetConfig',
+  'OnlineKeyRegistration',
+  'OfflineKeyRegistration',
+].flatMap((m) => [`send${m}`, `add${m}`]);
 
 const CONTRACT_SUBCLASS = 'Contract';
 
@@ -2964,6 +2964,12 @@ export default class Compiler {
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
+    } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
+      if (TXN_METHODS.includes(methodName)) {
+        this.processTransaction(node);
+      } else if (methodName === 'submit') {
+        this.pushVoid(node, 'itxn_submit');
+      } else throw new Error(`Unknown method ${node.getText()}`);
     } else if (methodName === 'fromIndex') {
       this.processNode(node.arguments[0]);
       this.lastType = this.getABIType(node.expression.expression.getText());
@@ -3128,6 +3134,7 @@ export default class Compiler {
         this.processNode(node.expression.expression);
       }
       const preArgsType = this.lastType;
+      console.log(node.expression.expression.getText());
       node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
@@ -3600,28 +3607,30 @@ export default class Compiler {
   }
 
   private processTransaction(node: ts.CallExpression) {
+    const method = node.expression.getText().replace('this.pendingGroup.', '').replace(/^(add|send)/, '');
+    const send = node.expression.getText().startsWith('send');
     let txnType = '';
 
-    switch (node.expression.getText()) {
-      case 'sendPayment':
+    switch (method) {
+      case 'Payment':
         txnType = TransactionType.PaymentTx;
         break;
-      case 'sendAssetTransfer':
+      case 'AssetTransfer':
         txnType = TransactionType.AssetTransferTx;
         break;
-      case 'sendMethodCall':
-      case 'sendAppCall':
+      case 'MethodCall':
+      case 'AppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
-      case 'sendAssetCreation':
-      case 'sendAssetConfig':
+      case 'AssetCreation':
+      case 'AssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
-      case 'sendAssetFreeze':
+      case 'AssetFreeze':
         txnType = TransactionType.AssetFreezeTx;
         break;
-      case 'sendOfflineKeyRegistration':
-      case 'sendOnlineKeyRegistration':
+      case 'OfflineKeyRegistration':
+      case 'OnlineKeyRegistration':
         txnType = TransactionType.KeyRegistrationTx;
         break;
       default:
@@ -3728,23 +3737,25 @@ export default class Compiler {
       }
     });
 
-    this.pushVoid(node, 'itxn_submit');
+    if (send) {
+      this.pushVoid(node, 'itxn_submit');
 
-    if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
-      this.pushLines(
-        node.expression,
-        'itxn NumLogs',
-        'int 1',
-        '-',
-        'itxnas Logs',
-        'extract 4 0',
-      );
+      if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
+        this.pushLines(
+          node.expression,
+          'itxn NumLogs',
+          'int 1',
+          '-',
+          'itxnas Logs',
+          'extract 4 0',
+        );
 
-      const returnType = this.getABIType(node.typeArguments![1].getText());
-      if (isNumeric(returnType)) this.pushVoid(node.typeArguments![1], 'btoi');
-      this.lastType = returnType;
-    } else if (node.expression.getText() === 'sendAssetCreation') {
-      this.push(node.expression, 'itxn CreatedAssetID', 'asset');
+        const returnType = this.getABIType(node.typeArguments![1].getText());
+        if (isNumeric(returnType)) this.pushVoid(node.typeArguments![1], 'btoi');
+        this.lastType = returnType;
+      } else if (node.expression.getText() === 'sendAssetCreation') {
+        this.push(node.expression, 'itxn CreatedAssetID', 'asset');
+      }
     }
   }
 

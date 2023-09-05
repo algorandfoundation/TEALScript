@@ -40,4 +40,10 @@ class GeneralTest extends Contract {
       amount: { notIncludedIn: [1, 2, 3] },
     });
   }
+
+  submitPendingGroup(): void {
+    this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address, fee: 0 });
+    this.pendingGroup.addAssetCreation({ fee: 0, configAssetDecimals: 0, configAssetTotal: 1 });
+    this.pendingGroup.submit();
+  }
 }
