@@ -3,8 +3,12 @@ import { Contract } from '../../src/lib/index';
 export default class Simple extends Contract {
   counter = GlobalStateKey<uint64>({ key: 'counter' });
 
-  incr(i: uint64): void {
+  private incrementCounter(i: uint64): void {
     this.counter.value = this.counter.value + i;
+  }
+
+  incr(i: uint64): void {
+    this.incrementCounter(i);
   }
 
   decr(i: uint64): void {
@@ -20,6 +24,6 @@ export default class Simple extends Contract {
   }
 
   clearState(): void {
-    this.counter.value = this.counter.value + 1;
+    this.incrementCounter(1);
   }
 }
