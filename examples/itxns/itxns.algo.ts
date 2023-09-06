@@ -7,7 +7,6 @@ class NFTFactory extends Contract {
       configAssetName: name,
       configAssetUnitName: unitName,
       configAssetTotal: 1,
-      configAssetDecimals: 0,
     });
   }
 

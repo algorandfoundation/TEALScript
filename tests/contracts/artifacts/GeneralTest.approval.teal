@@ -297,15 +297,10 @@ submitPendingGroup:
 	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:46
-	// this.pendingGroup.addAssetCreation({ configAssetDecimals: 0, configAssetTotal: 1 })
+	// this.pendingGroup.addAssetCreation({ configAssetTotal: 1 })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
-
-	// tests/contracts/general.algo.ts:46
-	// configAssetDecimals: 0
-	int 0
-	itxn_field ConfigAssetDecimals
 
 	// tests/contracts/general.algo.ts:46
 	// configAssetTotal: 1

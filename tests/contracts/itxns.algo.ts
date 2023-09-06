@@ -20,7 +20,6 @@ class ItxnsTest extends Contract {
       configAssetName: 'name',
       configAssetUnitName: 'unit',
       configAssetTotal: 1,
-      configAssetDecimals: 0,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
       configAssetFreeze: this.app.address,

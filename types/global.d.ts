@@ -518,7 +518,7 @@ interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
   configAssetTotal: uint64
-  configAssetDecimals: uint64
+  configAssetDecimals?: uint64
   configAssetManager?: Address
   configAssetReserve?: Address
   configAssetFreeze?: Address
