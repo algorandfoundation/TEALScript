@@ -628,6 +628,16 @@ declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionPara
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void
 declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 
+declare type InnerPayment = Expand<PaymentParams>
+declare type InnerAppCall = Expand<AppParams>
+declare type InnerAssetTransfer = Expand<AssetTransferParams>
+declare type InnerAssetConfig = Expand<AssetConfigParams>
+declare type InnerAssetCreation = Expand<AssetCreateParams>
+declare type InnerAssetFreeze = Expand<AssetFreezeParams>
+declare type InnerOnlineKeyRegistration = Expand<OnlineKeyRegParams>
+declare type InnerOfflineKeyRegistration = Expand<CommonTransactionParams>
+declare type InnerMethodCall<ArgsType, ReturnType> = Expand<MethodCallParams<ArgsType>>
+
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.

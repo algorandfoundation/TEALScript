@@ -316,6 +316,80 @@ submitPendingGroup:
 	itxn_submit
 	retsub
 
+abi_route_methodWithTxnArgs:
+	// no dupn needed
+	callsub methodWithTxnArgs
+	int 1
+	return
+
+methodWithTxnArgs:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:51
+	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+	itxn_begin
+	int pay
+	itxn_field TypeEnum
+
+	// tests/contracts/general.algo.ts:54
+	// amount: 100_000
+	int 100_000
+	itxn_field Amount
+
+	// tests/contracts/general.algo.ts:54
+	// receiver: this.txn.sender
+	txn Sender
+	itxn_field Receiver
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	method "bar(uint64)void"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/general.algo.ts:57
+	// applicationID: Application.fromIndex(1337)
+	int 1337
+	itxn_field ApplicationID
+
+	// tests/contracts/general.algo.ts:58
+	// methodArgs: [1]
+	int 1
+	itob
+	itxn_field ApplicationArgs
+
+	// tests/contracts/general.algo.ts:59
+	// onCompletion: 'NoOp'
+	int NoOp
+	itxn_field OnCompletion
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	method "foo(pay,appl)void"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/general.algo.ts:53
+	// methodArgs: [
+	// tests/contracts/general.algo.ts:61
+	// onCompletion: 'NoOp'
+	int NoOp
+	itxn_field OnCompletion
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -335,6 +409,7 @@ call_NoOp:
 	method "verifyTxnIncludedIn(pay)void"
 	method "verifyTxnNotIncludedIn(pay)void"
 	method "submitPendingGroup()void"
+	method "methodWithTxnArgs()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs
 	err

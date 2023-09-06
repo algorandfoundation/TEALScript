@@ -46,4 +46,19 @@ class GeneralTest extends Contract {
     this.pendingGroup.addAssetCreation({ configAssetTotal: 1 });
     this.pendingGroup.submit();
   }
+
+  methodWithTxnArgs(): void {
+    sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+      name: 'foo',
+      methodArgs: [
+        { amount: 100_000, receiver: this.txn.sender },
+        {
+          name: 'bar',
+          applicationID: Application.fromIndex(1337),
+          methodArgs: [1],
+          onCompletion: 'NoOp',
+        }],
+      onCompletion: 'NoOp',
+    });
+  }
 }
