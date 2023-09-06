@@ -542,7 +542,7 @@ interface PaymentParams extends CommonTransactionParams {
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
-  onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  onCompletion?: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Address[]
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
@@ -650,7 +650,6 @@ declare type InnerMethodCall<ArgsType, ReturnType> = Expand<MethodCallParams<Arg
  *     applicationID: factoryApp,
  *     name: 'createNFT',
  *     methodArgs: ['My NFT', 'MNFT'],
- *     onCompletion: 'NoOp',
  * });
  * ```
  *

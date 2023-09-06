@@ -361,11 +361,6 @@ methodWithTxnArgs:
 	itob
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:59
-	// onCompletion: 'NoOp'
-	int NoOp
-	itxn_field OnCompletion
-
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -377,11 +372,6 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:53
 	// methodArgs: [
-	// tests/contracts/general.algo.ts:61
-	// onCompletion: 'NoOp'
-	int NoOp
-	itxn_field OnCompletion
-
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee

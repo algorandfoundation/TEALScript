@@ -44,7 +44,6 @@ class ItxnsTest extends Contract {
       localNumByteSlice: 1,
       localNumUint: 1,
       note: 'note',
-      onCompletion: 'NoOp',
     });
   }
 
@@ -80,7 +79,6 @@ class ItxnsTest extends Contract {
     return sendMethodCall<[Application, Asset], Asset>({
       name: 'method',
       methodArgs: [this.app, Asset.zeroIndex],
-      onCompletion: 'NoOp',
     });
   }
 

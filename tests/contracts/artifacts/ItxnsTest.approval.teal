@@ -235,11 +235,6 @@ appCall:
 	byte "note"
 	itxn_field Note
 
-	// tests/contracts/itxns.algo.ts:47
-	// onCompletion: 'NoOp'
-	int NoOp
-	itxn_field OnCompletion
-
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -257,39 +252,39 @@ abi_route_assetConfig:
 assetConfig:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:52
+	// tests/contracts/itxns.algo.ts:51
 	// sendAssetConfig({
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:53
+	// tests/contracts/itxns.algo.ts:52
 	// configAsset: Asset.zeroIndex
 	int 0
 	itxn_field ConfigAsset
 
-	// tests/contracts/itxns.algo.ts:54
+	// tests/contracts/itxns.algo.ts:53
 	// configAssetManager: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetManager
 
-	// tests/contracts/itxns.algo.ts:55
+	// tests/contracts/itxns.algo.ts:54
 	// configAssetReserve: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetReserve
 
-	// tests/contracts/itxns.algo.ts:56
+	// tests/contracts/itxns.algo.ts:55
 	// configAssetFreeze: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field ConfigAssetFreeze
 
-	// tests/contracts/itxns.algo.ts:57
+	// tests/contracts/itxns.algo.ts:56
 	// configAssetClawback: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
@@ -313,25 +308,25 @@ abi_route_assetFreeze:
 assetFreeze:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:62
+	// tests/contracts/itxns.algo.ts:61
 	// sendAssetFreeze({
 	itxn_begin
 	int afrz
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:63
+	// tests/contracts/itxns.algo.ts:62
 	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
 
-	// tests/contracts/itxns.algo.ts:64
+	// tests/contracts/itxns.algo.ts:63
 	// freezeAssetAccount: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field FreezeAssetAccount
 
-	// tests/contracts/itxns.algo.ts:65
+	// tests/contracts/itxns.algo.ts:64
 	// freezeAsset: Asset.zeroIndex
 	int 0
 	itxn_field FreezeAsset
@@ -353,39 +348,39 @@ abi_route_assetTransfer:
 assetTransfer:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:70
+	// tests/contracts/itxns.algo.ts:69
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:71
+	// tests/contracts/itxns.algo.ts:70
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// tests/contracts/itxns.algo.ts:72
+	// tests/contracts/itxns.algo.ts:71
 	// assetCloseTo: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetCloseTo
 
-	// tests/contracts/itxns.algo.ts:73
+	// tests/contracts/itxns.algo.ts:72
 	// assetReceiver: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetReceiver
 
-	// tests/contracts/itxns.algo.ts:74
+	// tests/contracts/itxns.algo.ts:73
 	// assetSender: this.app.address
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field AssetSender
 
-	// tests/contracts/itxns.algo.ts:75
+	// tests/contracts/itxns.algo.ts:74
 	// xferAsset: Asset.zeroIndex
 	int 0
 	itxn_field XferAsset
@@ -407,7 +402,7 @@ abi_route_methodCall:
 methodCall:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:80
+	// tests/contracts/itxns.algo.ts:79
 	// return sendMethodCall<[Application, Asset], Asset>({
 	itxn_begin
 	int appl
@@ -415,7 +410,7 @@ methodCall:
 	method "method(application,asset)uint64"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:82
+	// tests/contracts/itxns.algo.ts:81
 	// methodArgs: [this.app, Asset.zeroIndex]
 	txna Applications 0
 	itxn_field Applications
@@ -427,11 +422,6 @@ methodCall:
 	int 0
 	itob
 	itxn_field ApplicationArgs
-
-	// tests/contracts/itxns.algo.ts:83
-	// onCompletion: 'NoOp'
-	int NoOp
-	itxn_field OnCompletion
 
 	// Fee field not set, defaulting to 0
 	int 0
@@ -461,38 +451,38 @@ abi_route_onlineKeyRegistration:
 onlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:88
+	// tests/contracts/itxns.algo.ts:86
 	// sendOnlineKeyRegistration({
 	itxn_begin
 	int keyreg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:89
+	// tests/contracts/itxns.algo.ts:87
 	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field SelectionPK
 
-	// tests/contracts/itxns.algo.ts:90
+	// tests/contracts/itxns.algo.ts:88
 	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field StateProofPK
 
-	// tests/contracts/itxns.algo.ts:91
+	// tests/contracts/itxns.algo.ts:89
 	// voteFirst: 1
 	int 1
 	itxn_field VoteFirst
 
-	// tests/contracts/itxns.algo.ts:92
+	// tests/contracts/itxns.algo.ts:90
 	// voteKeyDilution: 1
 	int 1
 	itxn_field VoteKeyDilution
 
-	// tests/contracts/itxns.algo.ts:93
+	// tests/contracts/itxns.algo.ts:91
 	// voteLast: 1
 	int 1
 	itxn_field VoteLast
 
-	// tests/contracts/itxns.algo.ts:94
+	// tests/contracts/itxns.algo.ts:92
 	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field VotePK
@@ -514,7 +504,7 @@ abi_route_offlineKeyRegistration:
 offlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:99
+	// tests/contracts/itxns.algo.ts:97
 	// sendOfflineKeyRegistration({
 	itxn_begin
 	int keyreg

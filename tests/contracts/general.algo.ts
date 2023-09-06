@@ -56,9 +56,7 @@ class GeneralTest extends Contract {
           name: 'bar',
           applicationID: Application.fromIndex(1337),
           methodArgs: [1],
-          onCompletion: 'NoOp',
         }],
-      onCompletion: 'NoOp',
     });
   }
 }
