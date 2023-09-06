@@ -8,7 +8,6 @@ class NFTFactory extends Contract {
       configAssetUnitName: unitName,
       configAssetTotal: 1,
       configAssetDecimals: 0,
-      fee: 0,
     });
   }
 
@@ -17,7 +16,6 @@ class NFTFactory extends Contract {
       assetReceiver: receiver,
       assetAmount: 1,
       xferAsset: asset,
-      fee: 0,
     });
   }
 }
@@ -27,7 +25,6 @@ class FactoryCaller extends Contract {
   mintAndGetAsset(): Asset {
     sendAppCall({
       onCompletion: 'NoOp',
-      fee: 0,
       clearStateProgram: this.app.clearStateProgram,
       approvalProgram: NFTFactory,
     });
@@ -36,7 +33,6 @@ class FactoryCaller extends Contract {
 
     sendPayment({
       amount: 200_000,
-      fee: 0,
       receiver: factoryApp.address,
     });
 
@@ -45,21 +41,18 @@ class FactoryCaller extends Contract {
       name: 'createNFT',
       methodArgs: ['My NFT', 'MNFT'],
       onCompletion: 'NoOp',
-      fee: 0,
     });
 
     sendAssetTransfer({
       assetReceiver: this.app.address,
       assetAmount: 0,
       xferAsset: createdAsset,
-      fee: 0,
     });
 
     sendMethodCall<[Asset, Account], void>({
       applicationID: factoryApp,
       name: 'transferNFT',
       methodArgs: [createdAsset, this.app.address],
-      fee: 0,
       onCompletion: 'NoOp',
     });
 

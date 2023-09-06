@@ -51,10 +51,11 @@ createNFT:
 	int 0
 	itxn_field ConfigAssetDecimals
 
-	// examples/itxns/itxns.algo.ts:11
-	// fee: 0
+	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// Submit inner transaction
 	itxn_submit
 	itxn CreatedAssetID
 	itob
@@ -79,31 +80,32 @@ abi_route_transferNFT:
 transferNFT:
 	proto 2 0
 
-	// examples/itxns/itxns.algo.ts:16
+	// examples/itxns/itxns.algo.ts:15
 	// sendAssetTransfer({
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:17
+	// examples/itxns/itxns.algo.ts:16
 	// assetReceiver: receiver
 	frame_dig -2 // receiver: account
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.algo.ts:18
+	// examples/itxns/itxns.algo.ts:17
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.algo.ts:19
+	// examples/itxns/itxns.algo.ts:18
 	// xferAsset: asset
 	frame_dig -1 // asset: asset
 	itxn_field XferAsset
 
-	// examples/itxns/itxns.algo.ts:20
-	// fee: 0
+	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// Submit inner transaction
 	itxn_submit
 	retsub
 

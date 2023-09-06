@@ -30,7 +30,6 @@ class ConstantProductAMM extends Contract {
       configAssetDecimals: 3,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
-      fee: 0,
     });
   }
 
@@ -39,7 +38,6 @@ class ConstantProductAMM extends Contract {
       assetReceiver: receiver,
       xferAsset: asset,
       assetAmount: amount,
-      fee: 0,
     });
   }
 

@@ -275,7 +275,7 @@ submitPendingGroup:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:45
-	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address, fee: 0 })
+	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -292,21 +292,15 @@ submitPendingGroup:
 	assert
 	itxn_field Receiver
 
-	// tests/contracts/general.algo.ts:45
-	// fee: 0
+	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:46
-	// this.pendingGroup.addAssetCreation({ fee: 0, configAssetDecimals: 0, configAssetTotal: 1 })
+	// this.pendingGroup.addAssetCreation({ configAssetDecimals: 0, configAssetTotal: 1 })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
-
-	// tests/contracts/general.algo.ts:46
-	// fee: 0
-	int 0
-	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:46
 	// configAssetDecimals: 0
@@ -317,6 +311,10 @@ submitPendingGroup:
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:47
 	// this.pendingGroup.submit()

@@ -15,10 +15,8 @@ class ARC75 extends Contract {
 
   private sendMBRPayment(preMBR: uint64): void {
     sendPayment({
-      sender: this.app.address,
       receiver: this.txn.sender,
       amount: preMBR - this.app.address.minBalance,
-      fee: 0,
     });
   }
 

@@ -3134,7 +3134,6 @@ export default class Compiler {
         this.processNode(node.expression.expression);
       }
       const preArgsType = this.lastType;
-      console.log(node.expression.expression.getText());
       node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
@@ -3645,7 +3644,6 @@ export default class Compiler {
 
     const nameProp = node.arguments[0].properties.find(
       (p) => p.name?.getText() === 'name',
-
     );
 
     if (nameProp && txnType === TransactionType.ApplicationCallTx) {
@@ -3737,8 +3735,12 @@ export default class Compiler {
       }
     });
 
+    if (!node.arguments[0].properties.map((p) => p.name?.getText()).includes('fee')) {
+      this.pushLines(node, '// Fee field not set, defaulting to 0', 'int 0', 'itxn_field Fee');
+    }
+
     if (send) {
-      this.pushVoid(node, 'itxn_submit');
+      this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
       if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
         this.pushLines(

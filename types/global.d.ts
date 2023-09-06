@@ -473,7 +473,7 @@ declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}):
 type IntLike = uint64 | Asset | Application | boolean | number
 
 interface CommonTransactionParams {
-  fee: uint64
+  fee?: uint64
   sender?: Address
   rekeyTo?: Address
   note?: string
@@ -641,7 +641,6 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
  *     name: 'createNFT',
  *     methodArgs: ['My NFT', 'MNFT'],
  *     onCompletion: 'NoOp',
- *     fee: 0,
  * });
  * ```
  *
