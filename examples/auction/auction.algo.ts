@@ -39,7 +39,6 @@ class Auction extends Contract {
       assetReceiver: this.app.address,
       xferAsset: asset,
       assetAmount: 0,
-      fee: 0,
     });
   }
 
@@ -62,7 +61,6 @@ class Auction extends Contract {
     sendPayment({
       receiver: receiver,
       amount: amount,
-      fee: 0,
     });
   }
 
@@ -106,14 +104,12 @@ class Auction extends Contract {
       assetReceiver: this.previousBidder.value,
       xferAsset: asset,
       assetAmount: this.asaAmt.value,
-      fee: 0,
       assetCloseTo: this.previousBidder.value,
     });
   }
 
   deleteApplication(): void {
     sendPayment({
-      fee: 0,
       receiver: globals.creatorAddress,
       closeRemainderTo: globals.creatorAddress,
       amount: 0,

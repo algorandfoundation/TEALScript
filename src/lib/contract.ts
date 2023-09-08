@@ -1,8 +1,43 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-undef */
 /// <reference path="../../types/global.d.ts" />
+
+export class PendingGroup {
+  /**
+  * Adds ABI method to the pending transaction group. The two type arguments in combination with the
+  * name argument are used to form the the method signature to ensure typesafety.
+  *
+  * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
+  * @typeParam ReturnType - The return type of the method
+  *
+  * @param params - The parameters of the method call
+  *
+  */
+  addMethodCall<ArgsType, ReturnType>(
+    params: Expand<MethodCallParams<ArgsType>>,
+  ): void {}
+
+  addPayment(params: Expand<PaymentParams>): void {}
+
+  addAppCall(params: Expand<AppParams>): void {}
+
+  addAssetTransfer(params: Expand<AssetTransferParams>): void {}
+
+  addAssetCreation(params: Expand<AssetCreateParams>): void {}
+
+  addOnlineKeyRegistration(params: Expand<OnlineKeyRegParams>): void {}
+
+  addOfflineKeyRegistration(params: Expand<CommonTransactionParams>): void {}
+
+  addAssetConfig(params: Expand<AssetConfigParams>): void {}
+
+  addAssetFreeze(params: Expand<AssetFreezeParams>): void {}
+
+  submit(): void {}
+}
 
 export default abstract class Contract {
   itxn!: Expand<
@@ -18,6 +53,8 @@ export default abstract class Contract {
   txnGroup!: Txn[];
 
   app!: Application;
+
+  pendingGroup!: PendingGroup;
 
   /**
    * The method called when creating the application. The default create method will

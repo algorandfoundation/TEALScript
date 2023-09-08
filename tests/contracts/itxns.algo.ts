@@ -8,7 +8,6 @@ class ItxnsTest extends Contract {
         amount: 100,
         receiver: this.app.address,
         closeRemainderTo: globals.zeroAddress,
-        fee: 0,
         sender: this.app.address,
         rekeyTo: globals.zeroAddress,
         note: 'Hello World!',
@@ -18,11 +17,9 @@ class ItxnsTest extends Contract {
 
   assetCreation(): Asset {
     return sendAssetCreation({
-      fee: 0,
       configAssetName: 'name',
       configAssetUnitName: 'unit',
       configAssetTotal: 1,
-      configAssetDecimals: 0,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
       configAssetFreeze: this.app.address,
@@ -42,13 +39,11 @@ class ItxnsTest extends Contract {
       approvalProgram: 'approval',
       assets: [Asset.zeroIndex],
       clearStateProgram: 'clear',
-      fee: 0,
       globalNumByteSlice: 1,
       globalNumUint: 1,
       localNumByteSlice: 1,
       localNumUint: 1,
       note: 'note',
-      onCompletion: 'NoOp',
     });
   }
 
@@ -59,7 +54,6 @@ class ItxnsTest extends Contract {
       configAssetReserve: this.app.address,
       configAssetFreeze: this.app.address,
       configAssetClawback: this.app.address,
-      fee: 0,
     });
   }
 
@@ -68,7 +62,6 @@ class ItxnsTest extends Contract {
       freezeAssetFrozen: true,
       freezeAssetAccount: this.app.address,
       freezeAsset: Asset.zeroIndex,
-      fee: 0,
     });
   }
 
@@ -79,7 +72,6 @@ class ItxnsTest extends Contract {
       assetReceiver: this.app.address,
       assetSender: this.app.address,
       xferAsset: Asset.zeroIndex,
-      fee: 0,
     });
   }
 
@@ -87,8 +79,6 @@ class ItxnsTest extends Contract {
     return sendMethodCall<[Application, Asset], Asset>({
       name: 'method',
       methodArgs: [this.app, Asset.zeroIndex],
-      onCompletion: 'NoOp',
-      fee: 0,
     });
   }
 
@@ -100,13 +90,11 @@ class ItxnsTest extends Contract {
       voteKeyDilution: 1,
       voteLast: 1,
       votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      fee: 0,
     });
   }
 
   offlineKeyRegistration(): void {
     sendOfflineKeyRegistration({
-      fee: 0,
     });
   }
 }

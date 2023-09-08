@@ -40,4 +40,28 @@ class GeneralTest extends Contract {
       amount: { notIncludedIn: [1, 2, 3] },
     });
   }
+
+  submitPendingGroup(): void {
+    this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address });
+    this.pendingGroup.addAssetCreation({ configAssetTotal: 1 });
+    this.pendingGroup.submit();
+  }
+
+  methodWithTxnArgs(): void {
+    sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+      name: 'foo',
+      methodArgs: [
+        { amount: 100_000, receiver: this.txn.sender },
+        {
+          name: 'bar',
+          applicationID: Application.fromIndex(1337),
+          methodArgs: [1],
+        }],
+    });
+  }
+
+  nestedTernary(x: boolean, y: boolean): number {
+    // eslint-disable-next-line no-nested-ternary
+    return x ? 1 : y ? 2 : 3;
+  }
 }

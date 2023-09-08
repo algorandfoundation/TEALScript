@@ -171,16 +171,16 @@ const TXN_TYPES = [
 ];
 
 const TXN_METHODS = [
-  'sendPayment',
-  'sendAppCall',
-  'sendMethodCall',
-  'sendAssetTransfer',
-  'sendAssetCreation',
-  'sendAssetFreeze',
-  'sendAssetConfig',
-  'sendOnlineKeyRegistration',
-  'sendOfflineKeyRegistration',
-];
+  'Payment',
+  'AppCall',
+  'MethodCall',
+  'AssetTransfer',
+  'AssetCreation',
+  'AssetFreeze',
+  'AssetConfig',
+  'OnlineKeyRegistration',
+  'OfflineKeyRegistration',
+].flatMap((m) => [`send${m}`, `add${m}`]);
 
 const CONTRACT_SUBCLASS = 'Contract';
 
@@ -963,9 +963,19 @@ export default class Compiler {
       AssetTransferTxn: 'axfer',
       KeyRegTxn: 'keyreg',
       PayTxn: 'pay',
+      InnerPayment: 'pay',
+      InnerAppCall: 'appl',
+      InnerAssetTransfer: 'axfer',
+      InnerAssetConfig: 'acfg',
+      InnerAssetCreation: 'acfg',
+      InnerAssetFreeze: 'afrz',
+      InnerOnlineKeyRegistration: 'keyreg',
+      InnerOfflineKeyRegistration: 'keyreg',
     };
 
     if (txnTypes[type]) return txnTypes[type];
+
+    if (type.startsWith('InnerMethodCall')) return 'appl';
 
     if (type === 'boolean') return 'bool';
     if (type === 'number') return 'uint64';
@@ -1454,15 +1464,16 @@ export default class Compiler {
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
-    this.processNode(node.condition);
-    this.pushVoid(node, `bz ternary${this.ternaryCount}_false`);
-    this.processNode(node.whenTrue);
-    this.pushVoid(node, `b ternary${this.ternaryCount}_end`);
-    this.pushVoid(node, `ternary${this.ternaryCount}_false:`);
-    this.processNode(node.whenFalse);
-    this.pushVoid(node, `ternary${this.ternaryCount}_end:`);
-
+    const tc = this.ternaryCount;
     this.ternaryCount += 1;
+
+    this.processNode(node.condition);
+    this.pushVoid(node, `bz ternary${tc}_false`);
+    this.processNode(node.whenTrue);
+    this.pushVoid(node, `b ternary${tc}_end`);
+    this.pushVoid(node, `ternary${tc}_false:`);
+    this.processNode(node.whenFalse);
+    this.pushVoid(node, `ternary${tc}_end:`);
   }
 
   private pushLines(node: ts.Node, ...lines: string[]) {
@@ -2952,7 +2963,7 @@ export default class Compiler {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
       } else if (TXN_METHODS.includes(methodName)) {
-        this.processTransaction(node);
+        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
       } else if (['addr'].includes(methodName)) {
         // TODO: add pseudo op type parsing/assertion to handle this
         // not currently exported in langspeg.json
@@ -2964,6 +2975,12 @@ export default class Compiler {
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
+    } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
+      if (TXN_METHODS.includes(methodName)) {
+        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
+      } else if (methodName === 'submit') {
+        this.pushVoid(node, 'itxn_submit');
+      } else throw new Error(`Unknown method ${node.getText()}`);
     } else if (methodName === 'fromIndex') {
       this.processNode(node.arguments[0]);
       this.lastType = this.getABIType(node.expression.expression.getText());
@@ -3599,56 +3616,82 @@ export default class Compiler {
     this.push(node.expression, line.join(' '), returnType);
   }
 
-  private processTransaction(node: ts.CallExpression) {
+  private processTransaction(
+    node: ts.Node,
+    name: string,
+    fields: ts.Node,
+    typeArgs?: ts.NodeArray<ts.TypeNode>,
+  ) {
+    if (!ts.isObjectLiteralExpression(fields)) throw new Error('Transaction fields must be an object literal');
+    const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
+    const send = name.startsWith('send');
     let txnType = '';
 
-    switch (node.expression.getText()) {
-      case 'sendPayment':
+    fields.properties.forEach((p) => {
+      const key = p.name?.getText();
+
+      if (key === 'methodArgs') {
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map(
+          (t) => t.getText(),
+        );
+
+        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
+
+        p.initializer.elements.forEach((e, i: number) => {
+          if (argTypes[i].startsWith('Inner')) {
+            const txnTypeArg = (typeArgs[0] as ts.TupleTypeNode).elements[i];
+            if (!ts.isTypeReferenceNode(txnTypeArg)) throw Error('Invalid transaction type argument');
+            this.processTransaction(e, txnTypeArg.typeName.getText(), e, txnTypeArg.typeArguments);
+          }
+        });
+      }
+    });
+
+    switch (method) {
+      case 'Payment':
         txnType = TransactionType.PaymentTx;
         break;
-      case 'sendAssetTransfer':
+      case 'AssetTransfer':
         txnType = TransactionType.AssetTransferTx;
         break;
-      case 'sendMethodCall':
-      case 'sendAppCall':
+      case 'MethodCall':
+      case 'AppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
-      case 'sendAssetCreation':
-      case 'sendAssetConfig':
+      case 'AssetCreation':
+      case 'AssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
-      case 'sendAssetFreeze':
+      case 'AssetFreeze':
         txnType = TransactionType.AssetFreezeTx;
         break;
-      case 'sendOfflineKeyRegistration':
-      case 'sendOnlineKeyRegistration':
+      case 'OfflineKeyRegistration':
+      case 'OnlineKeyRegistration':
         txnType = TransactionType.KeyRegistrationTx;
         break;
       default:
-        throw new Error(`Invalid transaction call ${node.expression.getText()}`);
+        throw new Error(`Invalid transaction call ${name}`);
     }
 
     this.pushVoid(node, 'itxn_begin');
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
-    if (!ts.isObjectLiteralExpression(node.arguments[0])) throw new Error('Transaction call argument must be an object');
-
-    const nameProp = node.arguments[0].properties.find(
+    const nameProp = fields.properties.find(
       (p) => p.name?.getText() === 'name',
-
     );
 
     if (nameProp && txnType === TransactionType.ApplicationCallTx) {
       if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer)) throw new Error('Method call name key must be a string');
 
-      if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+      if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
-      const argTypes = node.typeArguments[0].elements.map(
+      const argTypes = typeArgs[0].elements.map(
         (t) => this.getABITupleString(this.getABIType(t.getText())),
       );
 
-      let returnType = node.typeArguments![1].getText();
+      let returnType = typeArgs![1].getText();
 
       returnType = returnType.toLowerCase()
         .replace('asset', 'uint64')
@@ -3659,7 +3702,7 @@ export default class Compiler {
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
-    node.arguments[0].properties.forEach((p) => {
+    fields.properties.forEach((p) => {
       const key = p.name?.getText();
 
       if (key === undefined) throw new Error('Key must be defined');
@@ -3676,8 +3719,8 @@ export default class Compiler {
         this.pushVoid(p.initializer, `int ${p.initializer.text}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
-        if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
-        const argTypes = node.typeArguments[0].elements.map(
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map(
           (t) => this.getABIType(t.getText()),
         );
 
@@ -3709,6 +3752,8 @@ export default class Compiler {
           } else if (argTypes[i] === StackType.uint64) {
             this.processNode(e);
             this.pushVoid(e, 'itob');
+          } else if (TXN_TYPES.includes(argTypes[i])) {
+            return;
           } else {
             this.processNode(e);
             this.checkEncoding(e, argTypes[i]);
@@ -3728,23 +3773,29 @@ export default class Compiler {
       }
     });
 
-    this.pushVoid(node, 'itxn_submit');
+    if (!fields.properties.map((p) => p.name?.getText()).includes('fee')) {
+      this.pushLines(node, '// Fee field not set, defaulting to 0', 'int 0', 'itxn_field Fee');
+    }
 
-    if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
-      this.pushLines(
-        node.expression,
-        'itxn NumLogs',
-        'int 1',
-        '-',
-        'itxnas Logs',
-        'extract 4 0',
-      );
+    if (send) {
+      this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
-      const returnType = this.getABIType(node.typeArguments![1].getText());
-      if (isNumeric(returnType)) this.pushVoid(node.typeArguments![1], 'btoi');
-      this.lastType = returnType;
-    } else if (node.expression.getText() === 'sendAssetCreation') {
-      this.push(node.expression, 'itxn CreatedAssetID', 'asset');
+      if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
+        this.pushLines(
+          node,
+          'itxn NumLogs',
+          'int 1',
+          '-',
+          'itxnas Logs',
+          'extract 4 0',
+        );
+
+        const returnType = this.getABIType(typeArgs![1].getText());
+        if (isNumeric(returnType)) this.pushVoid(typeArgs![1], 'btoi');
+        this.lastType = returnType;
+      } else if (name === 'sendAssetCreation') {
+        this.push(node, 'itxn CreatedAssetID', 'asset');
+      }
     }
   }
 

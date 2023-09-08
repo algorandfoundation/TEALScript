@@ -473,7 +473,7 @@ declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}):
 type IntLike = uint64 | Asset | Application | boolean | number
 
 interface CommonTransactionParams {
-  fee: uint64
+  fee?: uint64
   sender?: Address
   rekeyTo?: Address
   note?: string
@@ -518,7 +518,7 @@ interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
   configAssetTotal: uint64
-  configAssetDecimals: uint64
+  configAssetDecimals?: uint64
   configAssetManager?: Address
   configAssetReserve?: Address
   configAssetFreeze?: Address
@@ -542,7 +542,7 @@ interface PaymentParams extends CommonTransactionParams {
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
-  onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  onCompletion?: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Address[]
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
@@ -628,6 +628,16 @@ declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionPara
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void
 declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 
+declare type InnerPayment = Expand<PaymentParams>
+declare type InnerAppCall = Expand<AppParams>
+declare type InnerAssetTransfer = Expand<AssetTransferParams>
+declare type InnerAssetConfig = Expand<AssetConfigParams>
+declare type InnerAssetCreation = Expand<AssetCreateParams>
+declare type InnerAssetFreeze = Expand<AssetFreezeParams>
+declare type InnerOnlineKeyRegistration = Expand<OnlineKeyRegParams>
+declare type InnerOfflineKeyRegistration = Expand<CommonTransactionParams>
+declare type InnerMethodCall<ArgsType, ReturnType> = Expand<MethodCallParams<ArgsType>>
+
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.
@@ -640,8 +650,6 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
  *     applicationID: factoryApp,
  *     name: 'createNFT',
  *     methodArgs: ['My NFT', 'MNFT'],
- *     onCompletion: 'NoOp',
- *     fee: 0,
  * });
  * ```
  *
