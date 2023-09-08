@@ -380,6 +380,47 @@ methodWithTxnArgs:
 	itxn_submit
 	retsub
 
+abi_route_nestedTernary:
+	// no dupn needed
+	txna ApplicationArgs 2
+	int 0
+	getbit
+	txna ApplicationArgs 1
+	int 0
+	getbit
+	callsub nestedTernary
+	int 1
+	return
+
+nestedTernary:
+	proto 2 0
+
+	// tests/contracts/general.algo.ts:65
+	// return x ? 1 : y ? 2 : 3;
+	frame_dig -1 // x: bool
+	bz ternary0_false
+	int 1
+	b ternary0_end
+
+ternary0_false:
+	frame_dig -2 // y: bool
+	bz ternary1_false
+	int 2
+	b ternary1_end
+
+ternary1_false:
+	int 3
+
+ternary1_end:
+
+ternary0_end:
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -400,6 +441,7 @@ call_NoOp:
 	method "verifyTxnNotIncludedIn(pay)void"
 	method "submitPendingGroup()void"
 	method "methodWithTxnArgs()void"
+	method "nestedTernary(bool,bool)uint64"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary
 	err

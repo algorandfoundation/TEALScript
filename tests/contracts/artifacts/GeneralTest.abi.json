@@ -126,6 +126,26 @@
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "nestedTernary",
+      "args": [
+        {
+          "name": "x",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "y",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
     }
   ]
 }

@@ -1464,15 +1464,16 @@ export default class Compiler {
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
-    this.processNode(node.condition);
-    this.pushVoid(node, `bz ternary${this.ternaryCount}_false`);
-    this.processNode(node.whenTrue);
-    this.pushVoid(node, `b ternary${this.ternaryCount}_end`);
-    this.pushVoid(node, `ternary${this.ternaryCount}_false:`);
-    this.processNode(node.whenFalse);
-    this.pushVoid(node, `ternary${this.ternaryCount}_end:`);
-
+    const tc = this.ternaryCount;
     this.ternaryCount += 1;
+
+    this.processNode(node.condition);
+    this.pushVoid(node, `bz ternary${tc}_false`);
+    this.processNode(node.whenTrue);
+    this.pushVoid(node, `b ternary${tc}_end`);
+    this.pushVoid(node, `ternary${tc}_false:`);
+    this.processNode(node.whenFalse);
+    this.pushVoid(node, `ternary${tc}_end:`);
   }
 
   private pushLines(node: ts.Node, ...lines: string[]) {
