@@ -12,18 +12,18 @@ jobs:
       run: pipx install algokit && algokit localnet start
 
     - name: Install modules
-      run: yarn
+      run: bun install --frozen-lockfile
 
     - name: Run ESLint
-      run: yarn run lint
+      run: bun lint
 
     - name: Run webpack smoketest
-      run: yarn run webpack-smoketest
+      run: bun webpack-smoketest
 
     - name: Run tests
-      run: yarn test
+      run: bun test
 
-    - name: Run example tests
-      run: yarn jest examples/
+    - name: Run examples
+      run: bun run-examples
 
 
