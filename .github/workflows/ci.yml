@@ -11,6 +11,9 @@ jobs:
     - name: Run algokit localnet
       run: pipx install algokit && algokit localnet start
 
+    - name: Install bun
+      run: npm i -g bun
+
     - name: Install modules
       run: bun install --frozen-lockfile
 
