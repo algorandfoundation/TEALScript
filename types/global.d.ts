@@ -428,7 +428,6 @@ declare class Application {
 }
 
 declare type BoxValue<ValueType> = {
-  value: ValueType
   delete: () => void
   exists: boolean
   create(size: uint64): void
@@ -441,12 +440,13 @@ declare function BoxKey<ValueType>(
   options?: { key?: string, dynamicSize?: boolean }
 ): BoxValue<ValueType>
 
+declare type StorageMap<KeyType, ValueType> = Record<KeyType, ValueType>
+
 declare function BoxMap<KeyType, ValueType>(
   options?: {dynamicSize?: boolean, prefix?: string }
-): (key: KeyType) => BoxValue<ValueType>
+): StorageMap<KeyType, BoxValue<ValueType>>
 
 declare type GlobalStateValue<ValueType> = {
-  value: ValueType
   delete: () => void,
   exists: boolean,
 }
@@ -454,21 +454,22 @@ declare type GlobalStateValue<ValueType> = {
 declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
 declare function GlobalStateMap<KeyType, ValueType>(
   options : {maxKeys: number}
-): (key: KeyType) => GlobalStateValue<ValueType>
+): StorageMap<KeyType, GlobalStateValue<ValueType>>
 
 declare type LocalStateValue<ValueType> = {
-  value: ValueType
   delete: () => void,
   exists: boolean,
 }
 
+declare type LocalStateAccounts<StateType> = Record<Address, StateType>
+
 declare function LocalStateKey<ValueType>(
   options?: { key?: string }
-): (account: Address) => LocalStateValue<ValueType>
+): LocalStateAccounts<LocalStateValue<ValueType>>
 
-declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): (
-  account: Address, key: KeyType
-) => LocalStateValue<ValueType>
+declare function LocalStateMap<KeyType, ValueType>(
+  options : {maxKeys: number}
+): LocalStateAccounts<StorageMap<KeyType, LocalStateValue<ValueType>>>
 
 type IntLike = uint64 | Asset | Application | boolean | number
 
