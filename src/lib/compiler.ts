@@ -8,12 +8,34 @@ import ts from 'typescript';
 import sourceMap from 'source-map';
 import path from 'path';
 import * as tsdoc from '@microsoft/tsdoc';
-import * as langspec from '../langspec.json';
+import fs from 'fs';
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
 type StorageType = 'global' | 'local' | 'box';
+
+interface Op {
+  Opcode: number
+  Name: string
+  Size: number
+  Doc: string
+  Groups: string[]
+  Args?: string
+  Returns?: string
+  DocExtra?: string
+  ImmediateNote?: string
+  ArgEnum?: string[]
+  ArgEnumTypes?: string
+}
+
+interface LangSpec {
+  EvalMaxVersion: number
+  LogicSigVersion: number
+  Ops: Op[]
+}
+
+const langspec: LangSpec = JSON.parse(fs.readFileSync(path.join(__dirname, '../langspec.json'), 'utf8'));
 
 export type CompilerOptions = {
   filename?: string,
