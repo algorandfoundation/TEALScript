@@ -3537,7 +3537,7 @@ export default class Compiler {
     this.compilingApproval = false;
     if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
-    this.pushVoid(fn.body!, 'int 1');
+    this.pushLines(fn.body!, 'int 1', 'return');
     this.clearStateCompiled = true;
     this.compilingApproval = true;
   }

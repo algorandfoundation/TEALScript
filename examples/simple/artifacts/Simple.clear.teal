@@ -5,6 +5,7 @@
 int 1
 callsub incrementCounter
 int 1
+return
 
 incrementCounter:
 	proto 1 0
