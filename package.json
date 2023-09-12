@@ -17,7 +17,7 @@
     "lint": "eslint examples/ src/ tests/ --ext .ts",
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
-    "prepack": "tsc",
+    "prepack": "tsc && cp src/langspec.json dist/langspec.json",
     "compile-abi": "bun ./src/bin/tealscript.ts tests/contracts/abi.algo.ts tests/contracts/artifacts",
     "compile-account": "bun ./src/bin/tealscript.ts tests/contracts/account.algo.ts tests/contracts/artifacts",
     "compile-binary": "bun ./src/bin/tealscript.ts tests/contracts/binary.algo.ts tests/contracts/artifacts",
