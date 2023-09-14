@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // tupleArg((uint64,uint16,uint64))uint16
 abi_route_tupleArg:
-	
 	txna ApplicationArgs 1
 	callsub tupleArg
 	int 1

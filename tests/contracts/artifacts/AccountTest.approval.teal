@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // hasAsset(account)void
 abi_route_hasAsset:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -45,7 +44,6 @@ hasAsset:
 
 // assetBalance(account)void
 abi_route_assetBalance:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -67,7 +65,6 @@ assetBalance:
 
 // assetFrozen(account)void
 abi_route_assetFrozen:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -89,7 +86,6 @@ assetFrozen:
 
 // hasBalance(account)void
 abi_route_hasBalance:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -111,7 +107,6 @@ hasBalance:
 
 // balance(account)void
 abi_route_balance:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -132,7 +127,6 @@ balance:
 
 // minBalance(account)void
 abi_route_minBalance:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -153,7 +147,6 @@ minBalance:
 
 // authAddr(account)void
 abi_route_authAddr:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -174,7 +167,6 @@ authAddr:
 
 // totalNumUint(account)void
 abi_route_totalNumUint:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -195,7 +187,6 @@ totalNumUint:
 
 // totalNumByteSlice(account)void
 abi_route_totalNumByteSlice:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -216,7 +207,6 @@ totalNumByteSlice:
 
 // totalExtraAppPages(account)void
 abi_route_totalExtraAppPages:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -237,7 +227,6 @@ totalExtraAppPages:
 
 // totalAppsCreated(account)void
 abi_route_totalAppsCreated:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -258,7 +247,6 @@ totalAppsCreated:
 
 // totalAppsOptedIn(account)void
 abi_route_totalAppsOptedIn:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -279,7 +267,6 @@ totalAppsOptedIn:
 
 // totalAssetsCreated(account)void
 abi_route_totalAssetsCreated:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -300,7 +287,6 @@ totalAssetsCreated:
 
 // totalAssets(account)void
 abi_route_totalAssets:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -321,7 +307,6 @@ totalAssets:
 
 // totalBoxes(account)void
 abi_route_totalBoxes:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -342,7 +327,6 @@ totalBoxes:
 
 // totalBoxBytes(account)void
 abi_route_totalBoxBytes:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts

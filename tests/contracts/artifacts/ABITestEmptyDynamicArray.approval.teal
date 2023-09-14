@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // emptyDynamicArray()uint64[]
 abi_route_emptyDynamicArray:
-	
 	callsub emptyDynamicArray
 	int 1
 	return

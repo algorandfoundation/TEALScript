@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // partialStaticArray()uint16[3]
 abi_route_partialStaticArray:
-	
 	callsub partialStaticArray
 	int 1
 	return

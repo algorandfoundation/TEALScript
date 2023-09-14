@@ -105,7 +105,6 @@ for_1:
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:42
 	// this.isRightSibling(elem)
-	
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
@@ -123,7 +122,6 @@ for_1:
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
-	
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
@@ -146,7 +144,6 @@ for_1:
 if0_else:
 	// examples/merkle/merkle.algo.ts:45
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
-	
 	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
@@ -182,7 +179,6 @@ for_1_end:
 
 // deleteApplication()void
 abi_route_deleteApplication:
-	
 	callsub deleteApplication
 	int 1
 	return
@@ -202,7 +198,6 @@ deleteApplication:
 
 // createApplication()void
 abi_route_createApplication:
-	
 	callsub createApplication
 	int 1
 	return
@@ -220,7 +215,6 @@ createApplication:
 
 // verify(byte[33][3],bytes)void
 abi_route_verify:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -246,7 +240,6 @@ verify:
 
 // appendLeaf(byte[33][3],bytes)void
 abi_route_appendLeaf:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	extract 2 0
@@ -300,7 +293,6 @@ appendLeaf:
 
 // updateLeaf(byte[33][3],bytes,bytes)void
 abi_route_updateLeaf:
-	
 	txna ApplicationArgs 3
 	txna ApplicationArgs 2
 	extract 2 0

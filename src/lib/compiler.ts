@@ -1077,7 +1077,7 @@ export default class Compiler {
 
           const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
 
-          if (nonArgFrameSize === 0) return '';
+          if (nonArgFrameSize === 0) return '// No extra bytes needed for this subroutine';
 
           const comment = '// push empty bytes to fill the stack frame for this subroutine\'s local variables';
 
@@ -4140,6 +4140,8 @@ export default class Compiler {
     let lastIsLabel: boolean = false;
 
     teal.forEach((t, i) => {
+      if (t === '// No extra bytes needed for this subroutine') return;
+
       if (t.startsWith('//')) {
         comments.push(t);
         return;

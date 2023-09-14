@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // createNFT(string,string)uint64
 abi_route_createNFT:
-	
 	txna ApplicationArgs 2
 	extract 2 0
 	txna ApplicationArgs 1
@@ -71,7 +70,6 @@ createNFT:
 
 // transferNFT(account,asset)void
 abi_route_transferNFT:
-	
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts

@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // staticArrayArg(uint64[3])uint64
 abi_route_staticArrayArg:
-	
 	txna ApplicationArgs 1
 	callsub staticArrayArg
 	int 1

@@ -28,7 +28,6 @@ NOT_IMPLEMENTED:
 // @param tokenId The ID of the NFT
 // @returns The current owner of the NFT
 abi_route_arc72_ownerOf:
-	
 	txna ApplicationArgs 1
 	callsub arc72_ownerOf
 	int 1
@@ -67,7 +66,6 @@ arc72_ownerOf:
 // @param tokenId The ID of the NFT
 // @returns URI to token metadata
 abi_route_arc72_tokenURI:
-	
 	txna ApplicationArgs 1
 	callsub arc72_tokenURI
 	int 1
@@ -184,7 +182,6 @@ skip_or1:
 	// if0_consequent
 	// examples/arc72/arc72.algo.ts:57
 	// this.transferTo(to, tokenId)
-	
 	frame_dig -3 // tokenId: uint256
 	frame_dig -2 // to: address
 	callsub transferTo
@@ -204,7 +201,6 @@ if0_end:
 // @param approved Approved controller address
 // @param tokenId The ID of the NFT
 abi_route_arc72_approve:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub arc72_approve
@@ -329,7 +325,6 @@ mint:
 
 	// examples/arc72/arc72.algo.ts:97
 	// this.transferTo(to, index)
-	
 	frame_dig -2 // index: uint256
 	frame_dig -1 // to: address
 	callsub transferTo
@@ -358,7 +353,6 @@ mint:
 //
 // Returns the number of NFTs currently defined by this contract
 abi_route_arc72_totalSupply:
-	
 	callsub arc72_totalSupply
 	int 1
 	return
@@ -391,7 +385,6 @@ arc72_totalSupply:
 //
 // Returns the token ID of the token with the given index among all NFTs defined by the contract
 abi_route_arc72_tokenByIndex:
-	
 	txna ApplicationArgs 1
 	callsub arc72_tokenByIndex
 	int 1

@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // stringReturn()string
 abi_route_stringReturn:
-	
 	callsub stringReturn
 	int 1
 	return

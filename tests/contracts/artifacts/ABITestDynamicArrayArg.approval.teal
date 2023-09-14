@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // dynamicArrayArg(uint64[])uint64
 abi_route_dynamicArrayArg:
-	
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub dynamicArrayArg

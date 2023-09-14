@@ -214,7 +214,6 @@ if0_else:
 if0_end:
 	// examples/arc75/arc75.algo.ts:43
 	// this.verifyMBRPayment(payment, preMBR)
-	
 	frame_dig -5 // preMBR: uint64
 	frame_dig -4 // payment: pay
 	callsub verifyMBRPayment
@@ -319,7 +318,6 @@ setAppWhitelist:
 	// if1_consequent
 	// examples/arc75/arc75.algo.ts:63
 	// this.sendMBRPayment(preMBR)
-	
 	frame_dig -4 // preMBR: uint64
 	callsub sendMBRPayment
 	b if1_end
@@ -327,7 +325,6 @@ setAppWhitelist:
 if1_else:
 	// examples/arc75/arc75.algo.ts:65
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
-	
 	frame_dig -4 // preMBR: uint64
 	txn GroupIndex
 	int 1
@@ -403,7 +400,6 @@ deleteWhitelist:
 
 	// examples/arc75/arc75.algo.ts:82
 	// this.sendMBRPayment(preMBR)
-	
 	frame_dig -3 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
@@ -554,7 +550,6 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:101
 	// this.sendMBRPayment(preMBR)
-	
 	frame_dig -5 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub

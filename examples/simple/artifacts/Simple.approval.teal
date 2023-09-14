@@ -35,7 +35,6 @@ incrementCounter:
 
 // incr(uint64)void
 abi_route_incr:
-	
 	txna ApplicationArgs 1
 	btoi
 	callsub incr
@@ -47,14 +46,12 @@ incr:
 
 	// examples/simple/simple.algo.ts:11
 	// this.incrementCounter(i)
-	
 	frame_dig -1 // i: uint64
 	callsub incrementCounter
 	retsub
 
 // decr(uint64)void
 abi_route_decr:
-	
 	txna ApplicationArgs 1
 	btoi
 	callsub decr
@@ -76,7 +73,6 @@ decr:
 
 // add(uint256,uint256)uint256
 abi_route_add:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub add
@@ -110,7 +106,6 @@ add:
 
 // sub(uint256,uint256)uint256
 abi_route_sub:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub sub

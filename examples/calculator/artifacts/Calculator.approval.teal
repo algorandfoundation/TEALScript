@@ -87,7 +87,6 @@ doMath:
 	// if0_consequent
 	// examples/calculator/calculator.algo.ts:26
 	// result = this.getSum(a, b)
-	
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
@@ -105,7 +104,6 @@ if0_elseif1_condition:
 	// if0_elseif1_consequent
 	// examples/calculator/calculator.algo.ts:28
 	// result = this.getDifference(a, b)
-	
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference

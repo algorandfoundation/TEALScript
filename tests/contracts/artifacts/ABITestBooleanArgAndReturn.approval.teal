@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // booleanArgAndReturn(bool)bool
 abi_route_booleanArgAndReturn:
-	
 	txna ApplicationArgs 1
 	int 0
 	getbit

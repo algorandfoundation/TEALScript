@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // singleIf()void
 abi_route_singleIf:
-	
 	callsub singleIf
 	int 1
 	return
@@ -47,7 +46,6 @@ if0_end:
 
 // ifElse()void
 abi_route_ifElse:
-	
 	callsub ifElse
 	int 1
 	return
@@ -79,7 +77,6 @@ if1_end:
 
 // ifElseIf()void
 abi_route_ifElseIf:
-	
 	callsub ifElseIf
 	int 1
 	return
@@ -117,7 +114,6 @@ if2_end:
 
 // ifElseIfElse()void
 abi_route_ifElseIfElse:
-	
 	callsub ifElseIfElse
 	int 1
 	return
@@ -162,7 +158,6 @@ if3_end:
 
 // ifElseIfElseIf()void
 abi_route_ifElseIfElseIf:
-	
 	callsub ifElseIfElseIf
 	int 1
 	return
@@ -213,7 +208,6 @@ if4_end:
 
 // ifElseIfElseIfElse()void
 abi_route_ifElseIfElseIfElse:
-	
 	callsub ifElseIfElseIfElse
 	int 1
 	return

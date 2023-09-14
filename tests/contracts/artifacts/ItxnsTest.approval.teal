@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // payment()void
 abi_route_payment:
-	
 	callsub payment
 	int 1
 	return
@@ -80,7 +79,6 @@ payment:
 
 // assetCreation()uint64
 abi_route_assetCreation:
-	
 	callsub assetCreation
 	int 1
 	return
@@ -168,7 +166,6 @@ assetCreation:
 
 // appCall()void
 abi_route_appCall:
-	
 	callsub appCall
 	int 1
 	return
@@ -256,7 +253,6 @@ appCall:
 
 // assetConfig()void
 abi_route_assetConfig:
-	
 	callsub assetConfig
 	int 1
 	return
@@ -313,7 +309,6 @@ assetConfig:
 
 // assetFreeze()void
 abi_route_assetFreeze:
-	
 	callsub assetFreeze
 	int 1
 	return
@@ -354,7 +349,6 @@ assetFreeze:
 
 // assetTransfer()void
 abi_route_assetTransfer:
-	
 	callsub assetTransfer
 	int 1
 	return
@@ -409,7 +403,6 @@ assetTransfer:
 
 // methodCall()uint64
 abi_route_methodCall:
-	
 	callsub methodCall
 	int 1
 	return
@@ -459,7 +452,6 @@ methodCall:
 
 // onlineKeyRegistration()void
 abi_route_onlineKeyRegistration:
-	
 	callsub onlineKeyRegistration
 	int 1
 	return
@@ -513,7 +505,6 @@ onlineKeyRegistration:
 
 // offlineKeyRegistration()void
 abi_route_offlineKeyRegistration:
-	
 	callsub offlineKeyRegistration
 	int 1
 	return

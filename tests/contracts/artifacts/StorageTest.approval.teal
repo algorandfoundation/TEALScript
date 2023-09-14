@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // prefix()void
 abi_route_prefix:
-	
 	callsub prefix
 	int 1
 	return
@@ -44,7 +43,6 @@ prefix:
 
 // globalKeyPut()void
 abi_route_globalKeyPut:
-	
 	callsub globalKeyPut
 	int 1
 	return
@@ -61,7 +59,6 @@ globalKeyPut:
 
 // globalKeyGet()void
 abi_route_globalKeyGet:
-	
 	callsub globalKeyGet
 	int 1
 	return
@@ -80,7 +77,6 @@ globalKeyGet:
 
 // globalKeyDelete()void
 abi_route_globalKeyDelete:
-	
 	callsub globalKeyDelete
 	int 1
 	return
@@ -96,7 +92,6 @@ globalKeyDelete:
 
 // globalKeyExists()void
 abi_route_globalKeyExists:
-	
 	callsub globalKeyExists
 	int 1
 	return
@@ -116,7 +111,6 @@ globalKeyExists:
 
 // localKeyPut(account)void
 abi_route_localKeyPut:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -137,7 +131,6 @@ localKeyPut:
 
 // localKeyGet(account)void
 abi_route_localKeyGet:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -160,7 +153,6 @@ localKeyGet:
 
 // localKeyDelete(account)void
 abi_route_localKeyDelete:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -180,7 +172,6 @@ localKeyDelete:
 
 // localKeyExists(account)void
 abi_route_localKeyExists:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -204,7 +195,6 @@ localKeyExists:
 
 // boxKeyPut()void
 abi_route_boxKeyPut:
-	
 	callsub boxKeyPut
 	int 1
 	return
@@ -221,7 +211,6 @@ boxKeyPut:
 
 // boxKeyGet()void
 abi_route_boxKeyGet:
-	
 	callsub boxKeyGet
 	int 1
 	return
@@ -241,7 +230,6 @@ boxKeyGet:
 
 // boxKeyDelete()void
 abi_route_boxKeyDelete:
-	
 	callsub boxKeyDelete
 	int 1
 	return
@@ -257,7 +245,6 @@ boxKeyDelete:
 
 // boxKeyExists()void
 abi_route_boxKeyExists:
-	
 	callsub boxKeyExists
 	int 1
 	return
@@ -276,7 +263,6 @@ boxKeyExists:
 
 // globalMapPut()void
 abi_route_globalMapPut:
-	
 	callsub globalMapPut
 	int 1
 	return
@@ -293,7 +279,6 @@ globalMapPut:
 
 // globalMapGet()void
 abi_route_globalMapGet:
-	
 	callsub globalMapGet
 	int 1
 	return
@@ -312,7 +297,6 @@ globalMapGet:
 
 // globalMapDelete()void
 abi_route_globalMapDelete:
-	
 	callsub globalMapDelete
 	int 1
 	return
@@ -328,7 +312,6 @@ globalMapDelete:
 
 // globalMapExists()void
 abi_route_globalMapExists:
-	
 	callsub globalMapExists
 	int 1
 	return
@@ -348,7 +331,6 @@ globalMapExists:
 
 // localMapPut(account)void
 abi_route_localMapPut:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -369,7 +351,6 @@ localMapPut:
 
 // localMapGet(account)void
 abi_route_localMapGet:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -392,7 +373,6 @@ localMapGet:
 
 // localMapDelete(account)void
 abi_route_localMapDelete:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -412,7 +392,6 @@ localMapDelete:
 
 // localMapExists(account)void
 abi_route_localMapExists:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
@@ -436,7 +415,6 @@ localMapExists:
 
 // boxMapPut()void
 abi_route_boxMapPut:
-	
 	callsub boxMapPut
 	int 1
 	return
@@ -453,7 +431,6 @@ boxMapPut:
 
 // boxMapGet()void
 abi_route_boxMapGet:
-	
 	callsub boxMapGet
 	int 1
 	return
@@ -473,7 +450,6 @@ boxMapGet:
 
 // boxMapDelete()void
 abi_route_boxMapDelete:
-	
 	callsub boxMapDelete
 	int 1
 	return
@@ -489,7 +465,6 @@ boxMapDelete:
 
 // boxMapExists()void
 abi_route_boxMapExists:
-	
 	callsub boxMapExists
 	int 1
 	return
@@ -508,7 +483,6 @@ boxMapExists:
 
 // boxKeyCreate()void
 abi_route_boxKeyCreate:
-	
 	callsub boxKeyCreate
 	int 1
 	return
@@ -525,7 +499,6 @@ boxKeyCreate:
 
 // boxMapCreate()void
 abi_route_boxMapCreate:
-	
 	callsub boxMapCreate
 	int 1
 	return
@@ -542,7 +515,6 @@ boxMapCreate:
 
 // boxKeyLength()uint64
 abi_route_boxKeyLength:
-	
 	callsub boxKeyLength
 	int 1
 	return
@@ -564,7 +536,6 @@ boxKeyLength:
 
 // boxMapLength()uint64
 abi_route_boxMapLength:
-	
 	callsub boxMapLength
 	int 1
 	return
@@ -586,7 +557,6 @@ boxMapLength:
 
 // boxKeyReplace()void
 abi_route_boxKeyReplace:
-	
 	callsub boxKeyReplace
 	int 1
 	return
@@ -604,7 +574,6 @@ boxKeyReplace:
 
 // boxMapReplace()void
 abi_route_boxMapReplace:
-	
 	callsub boxMapReplace
 	int 1
 	return
@@ -622,7 +591,6 @@ boxMapReplace:
 
 // boxKeyExtract()string
 abi_route_boxKeyExtract:
-	
 	callsub boxKeyExtract
 	int 1
 	return
@@ -650,7 +618,6 @@ boxKeyExtract:
 
 // boxMapExtract()string
 abi_route_boxMapExtract:
-	
 	callsub boxMapExtract
 	int 1
 	return
@@ -678,7 +645,6 @@ boxMapExtract:
 
 // isOptedIn()bool
 abi_route_isOptedIn:
-	
 	callsub isOptedIn
 	int 1
 	return

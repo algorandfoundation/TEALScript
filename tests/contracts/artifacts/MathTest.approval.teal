@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // u64plus(uint64,uint64)uint64
 abi_route_u64plus:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -48,7 +47,6 @@ u64plus:
 
 // u64minus(uint64,uint64)uint64
 abi_route_u64minus:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -74,7 +72,6 @@ u64minus:
 
 // u64mul(uint64,uint64)uint64
 abi_route_u64mul:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -100,7 +97,6 @@ u64mul:
 
 // u64div(uint64,uint64)uint64
 abi_route_u64div:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -126,7 +122,6 @@ u64div:
 
 // u256plus(uint256,uint256)uint256
 abi_route_u256plus:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256plus
@@ -160,7 +155,6 @@ u256plus:
 
 // u256minus(uint256,uint256)uint256
 abi_route_u256minus:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256minus
@@ -194,7 +188,6 @@ u256minus:
 
 // u256mul(uint256,uint256)uint256
 abi_route_u256mul:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256mul
@@ -228,7 +221,6 @@ u256mul:
 
 // u256div(uint256,uint256)uint256
 abi_route_u256div:
-	
 	txna ApplicationArgs 2
 	txna ApplicationArgs 1
 	callsub u256div
@@ -262,7 +254,6 @@ u256div:
 
 // u64Return256(uint64,uint64)uint256
 abi_route_u64Return256:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -299,7 +290,6 @@ u64Return256:
 
 // maxU64()void
 abi_route_maxU64:
-	
 	callsub maxU64
 	int 1
 	return
@@ -315,7 +305,6 @@ maxU64:
 
 // btobigintFirst(string)uint64
 abi_route_btobigintFirst:
-	
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub btobigintFirst
@@ -341,7 +330,6 @@ btobigintFirst:
 
 // btobigintSecond(string)uint64
 abi_route_btobigintSecond:
-	
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub btobigintSecond
@@ -369,7 +357,6 @@ btobigintSecond:
 
 // exponent()uint64
 abi_route_exponent:
-	
 	callsub exponent
 	int 1
 	return

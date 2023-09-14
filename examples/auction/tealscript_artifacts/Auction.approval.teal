@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // createApplication()void
 abi_route_createApplication:
-	
 	callsub createApplication
 	int 1
 	return
@@ -63,7 +62,6 @@ createApplication:
 
 // optIntoAsset(asset)void
 abi_route_optIntoAsset:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -132,7 +130,6 @@ optIntoAsset:
 
 // startAuction(axfer,uint64,uint64)void
 abi_route_startAuction:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -232,7 +229,6 @@ pay:
 
 // optInToApplication()void
 abi_route_optInToApplication:
-	
 	callsub optInToApplication
 	int 1
 	return
@@ -245,7 +241,6 @@ optInToApplication:
 //
 // // eslint-disable-next-line no-unused-vars
 abi_route_bid:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -357,7 +352,6 @@ claimBids:
 if0_end:
 	// examples/auction/auction.algo.ts:95
 	// this.pay(this.txn.sender, amount)
-	
 	frame_dig -2 // amount: uint64
 	txn Sender
 	callsub pay
@@ -374,7 +368,6 @@ if0_end:
 
 // claim_asset(asset)void
 abi_route_claim_asset:
-	
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
@@ -433,7 +426,6 @@ claim_asset:
 
 // deleteApplication()void
 abi_route_deleteApplication:
-	
 	callsub deleteApplication
 	int 1
 	return

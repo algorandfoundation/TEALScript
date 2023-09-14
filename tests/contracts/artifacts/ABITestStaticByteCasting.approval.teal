@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // staticByteCasting()byte[5]
 abi_route_staticByteCasting:
-	
 	callsub staticByteCasting
 	int 1
 	return

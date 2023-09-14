@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // and(uint64,uint64)void
 abi_route_and:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -48,7 +47,6 @@ skip_and0:
 
 // or(uint64,uint64)void
 abi_route_or:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -74,7 +72,6 @@ skip_or0:
 
 // equal(uint64,uint64)void
 abi_route_equal:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -96,7 +93,6 @@ equal:
 
 // notEqual(uint64,uint64)void
 abi_route_notEqual:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -118,7 +114,6 @@ notEqual:
 
 // bitAnd(uint64,uint64)void
 abi_route_bitAnd:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -140,7 +135,6 @@ bitAnd:
 
 // bitOr(uint64,uint64)void
 abi_route_bitOr:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -162,7 +156,6 @@ bitOr:
 
 // bitXor(uint64,uint64)void
 abi_route_bitXor:
-	
 	txna ApplicationArgs 2
 	btoi
 	txna ApplicationArgs 1
@@ -184,7 +177,6 @@ bitXor:
 
 // combo(uint64,uint64,uint64)void
 abi_route_combo:
-	
 	txna ApplicationArgs 3
 	btoi
 	txna ApplicationArgs 2

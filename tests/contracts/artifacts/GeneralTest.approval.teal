@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // txnTypeEnum()void
 abi_route_txnTypeEnum:
-	
 	callsub txnTypeEnum
 	int 1
 	return
@@ -41,7 +40,6 @@ txnTypeEnum:
 
 // txnGroupLength()uint64
 abi_route_txnGroupLength:
-	
 	callsub txnGroupLength
 	int 1
 	return
@@ -61,7 +59,6 @@ txnGroupLength:
 
 // asserts(bool,bool)void
 abi_route_asserts:
-	
 	txna ApplicationArgs 2
 	int 0
 	getbit
@@ -89,7 +86,6 @@ asserts:
 
 // verifyTxnFromArg(pay)void
 abi_route_verifyTxnFromArg:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -126,7 +122,6 @@ verifyTxnFromArg:
 
 // verifyTxnFromTxnGroup()void
 abi_route_verifyTxnFromTxnGroup:
-	
 	callsub verifyTxnFromTxnGroup
 	int 1
 	return
@@ -160,7 +155,6 @@ verifyTxnFromTxnGroup:
 
 // verifyTxnCondition(pay)void
 abi_route_verifyTxnCondition:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -207,7 +201,6 @@ verifyTxnCondition:
 
 // verifyTxnIncludedIn(pay)void
 abi_route_verifyTxnIncludedIn:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -245,7 +238,6 @@ verifyTxnIncludedIn:
 
 // verifyTxnNotIncludedIn(pay)void
 abi_route_verifyTxnNotIncludedIn:
-	
 	txn GroupIndex
 	int 1
 	-
@@ -283,7 +275,6 @@ verifyTxnNotIncludedIn:
 
 // submitPendingGroup()void
 abi_route_submitPendingGroup:
-	
 	callsub submitPendingGroup
 	int 1
 	return
@@ -335,7 +326,6 @@ submitPendingGroup:
 
 // methodWithTxnArgs()void
 abi_route_methodWithTxnArgs:
-	
 	callsub methodWithTxnArgs
 	int 1
 	return
@@ -400,7 +390,6 @@ methodWithTxnArgs:
 
 // nestedTernary(bool,bool)uint64
 abi_route_nestedTernary:
-	
 	txna ApplicationArgs 2
 	int 0
 	getbit

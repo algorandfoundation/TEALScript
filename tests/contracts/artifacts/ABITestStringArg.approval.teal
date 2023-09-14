@@ -22,7 +22,6 @@ NOT_IMPLEMENTED:
 
 // stringArg(string)void
 abi_route_stringArg:
-	
 	txna ApplicationArgs 1
 	extract 2 0
 	callsub stringArg
