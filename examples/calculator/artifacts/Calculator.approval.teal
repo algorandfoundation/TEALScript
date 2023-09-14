@@ -63,12 +63,20 @@ ternary0_end:
 // @returns The result of the operation
 abi_route_doMath:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// operation: string
 	txna ApplicationArgs 3
 	extract 2 0
+
+	// b: uint64
 	txna ApplicationArgs 2
 	btoi
+
+	// a: uint64
 	txna ApplicationArgs 1
 	btoi
+
+	// execute doMath(string,uint64,uint64)uint64
 	callsub doMath
 	int 1
 	return

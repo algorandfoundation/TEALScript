@@ -28,7 +28,10 @@ NOT_IMPLEMENTED:
 // @param tokenId The ID of the NFT
 // @returns The current owner of the NFT
 abi_route_arc72_ownerOf:
+	// tokenId: uint256
 	txna ApplicationArgs 1
+
+	// execute arc72_ownerOf(uint256)address
 	callsub arc72_ownerOf
 	int 1
 	return
@@ -66,7 +69,10 @@ arc72_ownerOf:
 // @param tokenId The ID of the NFT
 // @returns URI to token metadata
 abi_route_arc72_tokenURI:
+	// tokenId: uint256
 	txna ApplicationArgs 1
+
+	// execute arc72_tokenURI(uint256)byte[256]
 	callsub arc72_tokenURI
 	int 1
 	return
@@ -122,9 +128,17 @@ transferTo:
 // Transfers ownership of an NFT
 abi_route_arc72_transferFrom:
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// tokenId: uint256
 	txna ApplicationArgs 3
+
+	// to: address
 	txna ApplicationArgs 2
+
+	// _from: address
 	txna ApplicationArgs 1
+
+	// execute arc72_transferFrom(uint256,address,address)void
 	callsub arc72_transferFrom
 	int 1
 	return
@@ -203,8 +217,13 @@ if0_end:
 // @param approved Approved controller address
 // @param tokenId The ID of the NFT
 abi_route_arc72_approve:
+	// tokenId: uint256
 	txna ApplicationArgs 2
+
+	// approved: address
 	txna ApplicationArgs 1
+
+	// execute arc72_approve(uint256,address)void
 	callsub arc72_approve
 	int 1
 	return
@@ -240,10 +259,16 @@ arc72_approve:
 // @returns
 abi_route_arc72_setApprovalForAll:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// approved: bool
 	txna ApplicationArgs 2
 	int 0
 	getbit
+
+	// operator: address
 	txna ApplicationArgs 1
+
+	// execute arc72_setApprovalForAll(bool,address)void
 	callsub arc72_setApprovalForAll
 	int 1
 	return
@@ -296,7 +321,11 @@ if1_end:
 // mint(address)void
 abi_route_mint:
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// to: address
 	txna ApplicationArgs 1
+
+	// execute mint(address)void
 	callsub mint
 	int 1
 	return
@@ -359,6 +388,7 @@ mint:
 //
 // Returns the number of NFTs currently defined by this contract
 abi_route_arc72_totalSupply:
+	// execute arc72_totalSupply()uint256
 	callsub arc72_totalSupply
 	int 1
 	return
@@ -391,7 +421,10 @@ arc72_totalSupply:
 //
 // Returns the token ID of the token with the given index among all NFTs defined by the contract
 abi_route_arc72_tokenByIndex:
+	// index: uint256
 	txna ApplicationArgs 1
+
+	// execute arc72_tokenByIndex(uint256)uint256
 	callsub arc72_tokenByIndex
 	int 1
 	return

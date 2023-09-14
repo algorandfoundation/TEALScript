@@ -23,10 +23,16 @@ NOT_IMPLEMENTED:
 // setMyContact(string,string)void
 abi_route_setMyContact:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// company: string
 	txna ApplicationArgs 2
 	extract 2 0
+
+	// name: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute setMyContact(string,string)void
 	callsub setMyContact
 	int 1
 	return
@@ -78,11 +84,19 @@ setMyContact:
 // addContact(address,string,string)void
 abi_route_addContact:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// address: address
 	txna ApplicationArgs 3
+
+	// company: string
 	txna ApplicationArgs 2
 	extract 2 0
+
+	// name: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute addContact(address,string,string)void
 	callsub addContact
 	int 1
 	return
@@ -127,11 +141,18 @@ addContact:
 
 // updateContactField(address,string,string)void
 abi_route_updateContactField:
+	// address: address
 	txna ApplicationArgs 3
+
+	// value: string
 	txna ApplicationArgs 2
 	extract 2 0
+
+	// field: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute updateContactField(address,string,string)void
 	callsub updateContactField
 	int 1
 	return
@@ -288,9 +309,14 @@ if0_end:
 
 // verifyContactName(address,string)void
 abi_route_verifyContactName:
+	// address: address
 	txna ApplicationArgs 2
+
+	// name: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute verifyContactName(address,string)void
 	callsub verifyContactName
 	int 1
 	return

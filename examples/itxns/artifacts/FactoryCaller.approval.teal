@@ -23,6 +23,8 @@ NOT_IMPLEMENTED:
 // mintAndGetAsset()uint64
 abi_route_mintAndGetAsset:
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute mintAndGetAsset()uint64
 	callsub mintAndGetAsset
 	int 1
 	return

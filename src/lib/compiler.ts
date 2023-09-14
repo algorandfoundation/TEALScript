@@ -3598,6 +3598,8 @@ export default class Compiler {
       const type = this.getABIType(p!.type!.getText());
       const abiType = type;
 
+      this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace('bytes', 'byte[]')}`);
+
       if (!TXN_TYPES.includes(type)) {
         this.pushVoid(p, `txna ApplicationArgs ${nonTxnArgCount -= 1}`);
       }
@@ -3632,6 +3634,8 @@ export default class Compiler {
         returns: { type: returnType, desc: '' },
       });
     }
+
+    this.pushVoid(fn, `// execute ${this.getSignature(this.currentSubroutine)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
     this.pushVoid(fn, 'int 1');
     this.pushVoid(fn, 'return');

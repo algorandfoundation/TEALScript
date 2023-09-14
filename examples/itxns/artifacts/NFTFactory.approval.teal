@@ -22,10 +22,15 @@ NOT_IMPLEMENTED:
 
 // createNFT(string,string)uint64
 abi_route_createNFT:
+	// unitName: string
 	txna ApplicationArgs 2
 	extract 2 0
+
+	// name: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute createNFT(string,string)uint64
 	callsub createNFT
 	int 1
 	return
@@ -74,12 +79,17 @@ createNFT:
 
 // transferNFT(account,asset)void
 abi_route_transferNFT:
+	// receiver: account
 	txna ApplicationArgs 2
 	btoi
 	txnas Accounts
+
+	// asset: asset
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+
+	// execute transferNFT(account,asset)void
 	callsub transferNFT
 	int 1
 	return

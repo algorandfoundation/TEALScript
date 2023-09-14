@@ -179,6 +179,7 @@ for_1_end:
 
 // deleteApplication()void
 abi_route_deleteApplication:
+	// execute deleteApplication()void
 	callsub deleteApplication
 	int 1
 	return
@@ -198,6 +199,7 @@ deleteApplication:
 
 // createApplication()void
 abi_route_createApplication:
+	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
@@ -215,9 +217,14 @@ createApplication:
 
 // verify(byte[33][3],bytes)void
 abi_route_verify:
+	// path: byte[33][3]
 	txna ApplicationArgs 2
+
+	// data: byte[]
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute verify(byte[33][3],bytes)void
 	callsub verify
 	int 1
 	return
@@ -240,9 +247,14 @@ verify:
 
 // appendLeaf(byte[33][3],bytes)void
 abi_route_appendLeaf:
+	// path: byte[33][3]
 	txna ApplicationArgs 2
+
+	// data: byte[]
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute appendLeaf(byte[33][3],bytes)void
 	callsub appendLeaf
 	int 1
 	return
@@ -293,11 +305,18 @@ appendLeaf:
 
 // updateLeaf(byte[33][3],bytes,bytes)void
 abi_route_updateLeaf:
+	// path: byte[33][3]
 	txna ApplicationArgs 3
+
+	// newData: byte[]
 	txna ApplicationArgs 2
 	extract 2 0
+
+	// oldData: byte[]
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute updateLeaf(byte[33][3],bytes,bytes)void
 	callsub updateLeaf
 	int 1
 	return

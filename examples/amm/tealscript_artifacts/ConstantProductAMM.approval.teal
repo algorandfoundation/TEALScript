@@ -22,6 +22,7 @@ NOT_IMPLEMENTED:
 
 // createApplication()void
 abi_route_createApplication:
+	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
@@ -324,9 +325,12 @@ tokensToSwap:
 
 // set_governor(account)void
 abi_route_set_governor:
+	// governor: account
 	txna ApplicationArgs 1
 	btoi
 	txnas Accounts
+
+	// execute set_governor(account)void
 	callsub set_governor
 	int 1
 	return
@@ -351,12 +355,17 @@ set_governor:
 
 // bootstrap(asset,asset,pay)uint64
 abi_route_bootstrap:
+	// bAsset: asset
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
+
+	// aAsset: asset
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+
+	// seed: pay
 	txn GroupIndex
 	int 1
 	-
@@ -365,6 +374,8 @@ abi_route_bootstrap:
 	int pay
 	==
 	assert
+
+	// execute bootstrap(asset,asset,pay)uint64
 	callsub bootstrap
 	int 1
 	return
@@ -456,15 +467,23 @@ bootstrap:
 // mint(asset,asset,asset,axfer,axfer)void
 abi_route_mint:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// bAsset: asset
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
+
+	// aAsset: asset
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
+
+	// poolAsset: asset
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+
+	// bXfer: axfer
 	txn GroupIndex
 	int 1
 	-
@@ -473,6 +492,8 @@ abi_route_mint:
 	int axfer
 	==
 	assert
+
+	// aXfer: axfer
 	txn GroupIndex
 	int 2
 	-
@@ -481,6 +502,8 @@ abi_route_mint:
 	int axfer
 	==
 	assert
+
+	// execute mint(asset,asset,asset,axfer,axfer)void
 	callsub mint
 	int 1
 	return
@@ -691,15 +714,23 @@ if0_end:
 // burn(asset,asset,asset,axfer)void
 abi_route_burn:
 	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// bAsset: asset
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
+
+	// aAsset: asset
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
+
+	// poolAsset: asset
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+
+	// poolXfer: axfer
 	txn GroupIndex
 	int 1
 	-
@@ -708,6 +739,8 @@ abi_route_burn:
 	int axfer
 	==
 	assert
+
+	// execute burn(asset,asset,asset,axfer)void
 	callsub burn
 	int 1
 	return
@@ -855,12 +888,18 @@ burn:
 // swap(asset,asset,axfer)void
 abi_route_swap:
 	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// bAsset: asset
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets
+
+	// aAsset: asset
 	txna ApplicationArgs 1
 	btoi
 	txnas Assets
+
+	// swapXfer: axfer
 	txn GroupIndex
 	int 1
 	-
@@ -869,6 +908,8 @@ abi_route_swap:
 	int axfer
 	==
 	assert
+
+	// execute swap(asset,asset,axfer)void
 	callsub swap
 	int 1
 	return

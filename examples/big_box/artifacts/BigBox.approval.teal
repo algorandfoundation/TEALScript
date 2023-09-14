@@ -31,6 +31,8 @@ NOT_IMPLEMENTED:
 // @param mbrPayment Payment from the uploader to cover the box MBR
 abi_route_startUpload:
 	byte 0x; dupn 3 // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// mbrPayment: pay
 	txn GroupIndex
 	int 1
 	-
@@ -39,12 +41,20 @@ abi_route_startUpload:
 	int pay
 	==
 	assert
+
+	// endBoxSize: uint64
 	txna ApplicationArgs 3
 	btoi
+
+	// numBoxes: uint64
 	txna ApplicationArgs 2
 	btoi
+
+	// dataIdentifier: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute startUpload(pay,uint64,uint64,string)void
 	callsub startUpload
 	int 1
 	return
@@ -175,14 +185,24 @@ startUpload:
 // @param data The data to write
 abi_route_upload:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// data: byte[]
 	txna ApplicationArgs 4
 	extract 2 0
+
+	// offset: uint64
 	txna ApplicationArgs 3
 	btoi
+
+	// boxIndex: uint64
 	txna ApplicationArgs 2
 	btoi
+
+	// dataIdentifier: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute upload(bytes,uint64,uint64,string)void
 	callsub upload
 	int 1
 	return
@@ -316,9 +336,15 @@ if0_end:
 // @param status The new status for the data
 abi_route_setStatus:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// status: uint8
 	txna ApplicationArgs 2
+
+	// dataIdentifier: string
 	txna ApplicationArgs 1
 	extract 2 0
+
+	// execute setStatus(uint8,string)void
 	callsub setStatus
 	int 1
 	return

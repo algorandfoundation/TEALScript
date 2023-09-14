@@ -35,8 +35,11 @@ incrementCounter:
 
 // incr(uint64)void
 abi_route_incr:
+	// i: uint64
 	txna ApplicationArgs 1
 	btoi
+
+	// execute incr(uint64)void
 	callsub incr
 	int 1
 	return
@@ -52,8 +55,11 @@ incr:
 
 // decr(uint64)void
 abi_route_decr:
+	// i: uint64
 	txna ApplicationArgs 1
 	btoi
+
+	// execute decr(uint64)void
 	callsub decr
 	int 1
 	return
@@ -73,8 +79,13 @@ decr:
 
 // add(uint256,uint256)uint256
 abi_route_add:
+	// b: uint256
 	txna ApplicationArgs 2
+
+	// a: uint256
 	txna ApplicationArgs 1
+
+	// execute add(uint256,uint256)uint256
 	callsub add
 	int 1
 	return
@@ -106,8 +117,13 @@ add:
 
 // sub(uint256,uint256)uint256
 abi_route_sub:
+	// b: uint256
 	txna ApplicationArgs 2
+
+	// a: uint256
 	txna ApplicationArgs 1
+
+	// execute sub(uint256,uint256)uint256
 	callsub sub
 	int 1
 	return
