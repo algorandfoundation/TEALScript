@@ -13,8 +13,7 @@ NOT_IMPLEMENTED:
 	err
 
 abi_route_mixedStaticArrayElements:
-	byte 0x
-	dupn 3
+	byte 0x; dupn 3
 	callsub mixedStaticArrayElements
 	int 1
 	return

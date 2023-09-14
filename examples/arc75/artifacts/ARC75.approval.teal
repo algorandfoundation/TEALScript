@@ -74,8 +74,7 @@ sendMBRPayment:
 	retsub
 
 abi_route_addAppToWhiteList:
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	txn GroupIndex
 	int 1
 	-
@@ -381,8 +380,7 @@ deleteWhitelist:
 	retsub
 
 abi_route_deleteAppFromWhitelist:
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	txna ApplicationArgs 4
 	btoi
 	txna ApplicationArgs 3

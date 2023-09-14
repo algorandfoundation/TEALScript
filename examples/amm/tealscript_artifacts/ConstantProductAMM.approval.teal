@@ -600,8 +600,7 @@ skip_and0:
 if0_else:
 	// examples/amm/amm.algo.ts:143
 	// toMint = this.tokensToMint(
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount
 	frame_dig -1 // aXfer: axfer
@@ -654,8 +653,7 @@ if0_end:
 	retsub
 
 abi_route_burn:
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	txna ApplicationArgs 3
 	btoi
 	txnas Assets
@@ -809,8 +807,7 @@ burn:
 	retsub
 
 abi_route_swap:
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	txna ApplicationArgs 2
 	btoi
 	txnas Assets

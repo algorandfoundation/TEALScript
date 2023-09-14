@@ -13,8 +13,7 @@ NOT_IMPLEMENTED:
 	err
 
 abi_route_nonLiteralNestedArrayRef:
-	byte 0x
-	dupn 2
+	byte 0x; dupn 2
 	callsub nonLiteralNestedArrayRef
 	int 1
 	return

@@ -311,20 +311,7 @@ const scratch = {
 };
 
 export default class Compiler {
-  teal: string[] = [
-    '#pragma version 9',
-    '',
-    'txn ApplicationID',
-    'int 0',
-    '>',
-    'int 6',
-    '*',
-    'txn OnCompletion',
-    '+',
-    'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
-    'NOT_IMPLEMENTED:',
-    'err',
-  ];
+  teal: string[] = [];
 
   clearTeal: string[] = ['#pragma version 9'];
 
@@ -353,12 +340,21 @@ export default class Compiler {
     box: string[]
   } = { global: [], local: [], box: [] };
 
-  private rawSrcMap: {source: SourceInfo, teal: number, pc: number}[] = [];
+  private classNode!: ts.ClassDeclaration;
 
-  srcMaps?: {
-    pc: sourceMap.RawSourceMap,
-    teal: sourceMap.RawSourceMap,
-  };
+  private rawSrcMap: {
+    source: {
+      start: {line: number, col: number}
+      end: {line: number, col: number}
+    }
+    teal: number
+    pc: number
+    prettyTeal?: number
+  }[] = [];
+
+  srcMap: {
+    source: number, teal: number, pc: number
+  }[] = [];
 
   private customTypes: {[name: string] : string} = {};
 
@@ -1104,7 +1100,7 @@ export default class Compiler {
 
           if (nonArgFrameSize === 1) return 'byte 0x';
           if (nonArgFrameSize === 2) return 'byte 0x; dup';
-          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
+          return `byte 0x; dupn ${nonArgFrameSize - 1}`;
         }
 
         if (t.startsWith('PENDING_PROTO')) {
@@ -1168,14 +1164,14 @@ export default class Compiler {
       };
 
       this.bareCallConfig.NoOp = { action: 'CREATE', method: name };
-      this.pushLines(this.lastNode, `abi_route_${name}:`, 'int 1', 'return');
+      this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
     }
 
     this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
       if (this.teal.includes(`callsub ${sub}`)) {
-        this.teal.push(...this.compilerSubroutines[sub]());
+        this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
 
@@ -1233,13 +1229,21 @@ export default class Compiler {
   }
 
   private push(node: ts.Node, teal: string, type: string) {
+    const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
+    const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
+
     this.rawSrcMap.push({
       source: {
-        filename: this.filename,
-        start: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()),
-        end: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd()),
+        start: {
+          line: start.line + 1,
+          col: start.character,
+        },
+        end: {
+          line: end.line + 1,
+          col: end.character,
+        },
       },
-      teal: this.teal.length,
+      teal: this.teal.length + 1,
       pc: 0,
     });
 
@@ -1295,14 +1299,14 @@ export default class Compiler {
           return;
         }
 
-        this.pushVoid(this.lastNode, `${a}_${onComplete}:`);
+        this.pushVoid(this.classNode, `${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.lastNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.classNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
-          this.pushVoid(this.lastNode, 'err');
+          this.pushVoid(this.classNode, 'err');
           return;
         }
 
@@ -1310,7 +1314,7 @@ export default class Compiler {
           this.pushMethod(m);
         });
 
-        this.pushLines(this.lastNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`, 'err');
+        this.pushLines(this.classNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`, 'err');
       });
     });
 
@@ -2425,6 +2429,24 @@ export default class Compiler {
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
+    this.classNode = node;
+
+    this.pushLines(
+      node,
+      '#pragma version 9',
+      '',
+      'txn ApplicationID',
+      'int 0',
+      '>',
+      'int 6',
+      '*',
+      'txn OnCompletion',
+      '+',
+      'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
+      'NOT_IMPLEMENTED:',
+      'err',
+    );
+
     node.members.forEach((m) => {
       this.processNode(m);
     });
@@ -2492,14 +2514,14 @@ export default class Compiler {
   }
 
   private getStackTypeFromNode(node: ts.Node) {
-    const preSrcMap = this.rawSrcMap;
+    const preSrcObj = this.rawSrcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
     this.processNode(node);
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
-    this.rawSrcMap = preSrcMap;
+    this.rawSrcMap = preSrcObj;
     return this.customTypes[type] || type;
   }
 
@@ -3955,37 +3977,6 @@ export default class Compiler {
       this.pcToLine[pc] = lastLine;
     }
 
-    const tealSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.name}.approval.teal`,
-      sourceRoot: '',
-    });
-
-    const pcSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.name}.approval.teal`,
-      sourceRoot: '',
-    });
-
-    this.rawSrcMap.forEach((s) => {
-      // TODO: Figure out what causes these 0s
-      if (s.source.start.line === 0 || s.pc === 0) return;
-      tealSrcMap.addMapping({
-        source: path.basename(this.filename),
-        original: { line: s.source.start.line, column: s.source.start.character },
-        generated: { line: s.teal, column: 0 },
-      });
-
-      pcSrcMap.addMapping({
-        source: path.basename(this.filename),
-        original: { line: s.source.start.line, column: s.source.start.character },
-        generated: { line: s.pc, column: 0 },
-      });
-    });
-
-    this.srcMaps = {
-      pc: pcSrcMap.toJSON(),
-      teal: tealSrcMap.toJSON(),
-    };
-
     return json.result;
   }
 
@@ -4158,9 +4149,14 @@ export default class Compiler {
         lastIsLabel = false;
       }
 
-      const thisLine = this.rawSrcMap.find((s) => s.teal === i);
+      const thisLine = this.rawSrcMap.find((s) => s.teal === i + 1);
       if (thisLine) {
-        thisLine!.teal = output.length;
+        thisLine.prettyTeal = output.length;
+        this.srcMap.push({
+          teal: output.length,
+          source: thisLine.source,
+          pc: thisLine.pc,
+        });
       }
     });
 
