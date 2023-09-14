@@ -172,6 +172,9 @@ verifyTxnCondition:
 
 	// tests/contracts/general.algo.ts:26
 	// verifyTxn(somePay, {
+	//       receiver: this.app.address,
+	//       amount: { greaterThan: 1, lessThanEqualTo: 10, not: 5 },
+	//     })
 	// verify receiver
 	frame_dig -1 // somePay: pay
 	gtxns Receiver
@@ -218,6 +221,8 @@ verifyTxnIncludedIn:
 
 	// tests/contracts/general.algo.ts:33
 	// verifyTxn(somePay, {
+	//       amount: { includedIn: [1, 2, 3] },
+	//     })
 	// verify amount
 	frame_dig -1 // somePay: pay
 	gtxns Amount
@@ -255,6 +260,8 @@ verifyTxnNotIncludedIn:
 
 	// tests/contracts/general.algo.ts:39
 	// verifyTxn(somePay, {
+	//       amount: { notIncludedIn: [1, 2, 3] },
+	//     })
 	// verify amount
 	frame_dig -1 // somePay: pay
 	gtxns Amount
@@ -335,6 +342,15 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:51
 	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+	//       name: 'foo',
+	//       methodArgs: [
+	//         { amount: 100_000, receiver: this.txn.sender },
+	//         {
+	//           name: 'bar',
+	//           applicationID: Application.fromIndex(1337),
+	//           methodArgs: [1],
+	//         }],
+	//     })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -380,6 +396,12 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:53
 	// methodArgs: [
+	//         { amount: 100_000, receiver: this.txn.sender },
+	//         {
+	//           name: 'bar',
+	//           applicationID: Application.fromIndex(1337),
+	//           methodArgs: [1],
+	//         }]
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee

@@ -32,6 +32,10 @@ boolTupleAccess:
 
 	// tests/contracts/abi.algo.ts:864
 	// a: [
+	//       boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+	//     ] = [
+	//       false, false, false, false, false, false, false, false, true,
+	//     ]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0002 // initial head offset

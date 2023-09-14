@@ -32,6 +32,12 @@ updateNamedTuple:
 
 	// tests/contracts/abi.algo.ts:585
 	// a: {
+	//       foo: uint<16>,
+	//       bar: string,
+	//     } = {
+	//       foo: 1,
+	//       bar: 'Hi?',
+	//     }
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset

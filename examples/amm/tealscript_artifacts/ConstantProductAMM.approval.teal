@@ -41,6 +41,13 @@ doCreatePoolToken:
 
 	// examples/amm/amm.algo.ts:26
 	// return sendAssetCreation({
+	//       configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName,
+	//       configAssetUnitName: 'dpt',
+	//       configAssetTotal: TOTAL_SUPPLY,
+	//       configAssetDecimals: 3,
+	//       configAssetManager: this.app.address,
+	//       configAssetReserve: this.app.address,
+	//     });
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
@@ -103,6 +110,10 @@ doAxfer:
 
 	// examples/amm/amm.algo.ts:37
 	// sendAssetTransfer({
+	//       assetReceiver: receiver,
+	//       xferAsset: asset,
+	//       assetAmount: amount,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
@@ -222,6 +233,9 @@ computeRatio:
 
 	// examples/amm/amm.algo.ts:68
 	// return wideRatio(
+	//       [this.app.address.assetBalance(this.assetA.value), SCALE],
+	//       [this.app.address.assetBalance(this.assetB.value)],
+	//     );
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -277,6 +291,9 @@ tokensToSwap:
 
 	// examples/amm/amm.algo.ts:80
 	// return wideRatio(
+	//       [inAmount, factor, outSupply],
+	//       [(inSupply * SCALE) + (inAmount * factor)],
+	//     );
 	frame_dig -1 // inAmount: uint64
 	frame_dig -4 // factor: uint64
 	mulw
@@ -499,6 +516,11 @@ mint:
 	// valid asset A axfer
 	// examples/amm/amm.algo.ts:122
 	// verifyTxn(aXfer, {
+	//       sender: this.txn.sender,
+	//       assetAmount: { greaterThan: 0 },
+	//       assetReceiver: this.app.address,
+	//       xferAsset: aAsset,
+	//     })
 	// verify sender
 	frame_dig -1 // aXfer: axfer
 	gtxns Sender
@@ -532,6 +554,11 @@ mint:
 	// valid asset B axfer
 	// examples/amm/amm.algo.ts:130
 	// verifyTxn(bXfer, {
+	//       sender: this.txn.sender,
+	//       assetAmount: { greaterThan: 0 },
+	//       assetReceiver: this.app.address,
+	//       xferAsset: bAsset,
+	//     })
 	// verify sender
 	frame_dig -2 // bXfer: axfer
 	gtxns Sender
@@ -565,6 +592,7 @@ mint:
 	// if0_condition
 	// examples/amm/amm.algo.ts:138
 	// this.app.address.assetBalance(aAsset) === aXfer.assetAmount
+	//       && this.app.address.assetBalance(bAsset) === bXfer.assetAmount
 	txna Applications 0
 	app_params_get AppAddress
 	assert
@@ -603,6 +631,12 @@ skip_and0:
 if0_else:
 	// examples/amm/amm.algo.ts:143
 	// toMint = this.tokensToMint(
+	//         TOTAL_SUPPLY - this.app.address.assetBalance(poolAsset),
+	//         this.app.address.assetBalance(aAsset) - aXfer.assetAmount,
+	//         this.app.address.assetBalance(bAsset) - bXfer.assetAmount,
+	//         aXfer.assetAmount,
+	//         bXfer.assetAmount,
+	//       )
 	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -2 // bXfer: axfer
 	gtxns AssetAmount
@@ -709,6 +743,11 @@ burn:
 	// valid pool axfer
 	// examples/amm/amm.algo.ts:169
 	// verifyTxn(poolXfer, {
+	//       sender: this.txn.sender,
+	//       assetAmount: { greaterThan: 0 },
+	//       assetReceiver: this.app.address,
+	//       xferAsset: poolAsset,
+	//     })
 	// verify sender
 	frame_dig -1 // poolXfer: axfer
 	gtxns Sender
@@ -741,6 +780,8 @@ burn:
 
 	// examples/amm/amm.algo.ts:176
 	// issued = TOTAL_SUPPLY
+	//      - (this.app.address.assetBalance(poolAsset)
+	//      - poolXfer.assetAmount)
 	int 10_000_000_000
 	txna Applications 0
 	app_params_get AppAddress
@@ -756,6 +797,10 @@ burn:
 
 	// examples/amm/amm.algo.ts:180
 	// aAmt = this.tokensToBurn(
+	//       issued,
+	//       this.app.address.assetBalance(aAsset),
+	//       poolXfer.assetAmount,
+	//     )
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -770,6 +815,10 @@ burn:
 
 	// examples/amm/amm.algo.ts:186
 	// bAmt = this.tokensToBurn(
+	//       issued,
+	//       this.app.address.assetBalance(bAsset),
+	//       poolXfer.assetAmount,
+	//     )
 	frame_dig -1 // poolXfer: axfer
 	gtxns AssetAmount
 	txna Applications 0
@@ -846,6 +895,11 @@ swap:
 
 	// examples/amm/amm.algo.ts:203
 	// verifyTxn(swapXfer, {
+	//       assetAmount: { greaterThan: 0 },
+	//       assetReceiver: this.app.address,
+	//       sender: this.txn.sender,
+	//       xferAsset: { includedIn: [aAsset, bAsset] },
+	//     })
 	// verify assetAmount
 	frame_dig -1 // swapXfer: axfer
 	gtxns AssetAmount
@@ -905,6 +959,10 @@ ternary3_end:
 
 	// examples/amm/amm.algo.ts:214
 	// toSwap = this.tokensToSwap(
+	//       swapXfer.assetAmount,
+	//       this.app.address.assetBalance(inId) - swapXfer.assetAmount,
+	//       this.app.address.assetBalance(outId),
+	//     )
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
 	txna Applications 0
 	app_params_get AppAddress

@@ -32,6 +32,8 @@ boolTupleUpdate:
 
 	// tests/contracts/abi.algo.ts:922
 	// a: [
+	//       boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
+	//     ] = [true, false, true, true, false, false, true, false, false]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0002 // initial head offset

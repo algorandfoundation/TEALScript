@@ -32,6 +32,8 @@ tupleInTuple:
 
 	// tests/contracts/abi.algo.ts:274
 	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [
+	//       11, 22, [33, 44], [55, 66],
+	//     ]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset

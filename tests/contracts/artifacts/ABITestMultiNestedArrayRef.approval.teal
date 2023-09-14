@@ -32,6 +32,9 @@ multiNestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:771
 	// a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
+	//       [[1, 2], [3, 4]],
+	//       [[5, 6], [7, 8]],
+	//     ]
 	byte 0x01
 	byte 0x02
 	concat

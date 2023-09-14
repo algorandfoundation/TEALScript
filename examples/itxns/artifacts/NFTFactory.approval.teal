@@ -35,6 +35,10 @@ createNFT:
 
 	// examples/itxns/itxns.algo.ts:6
 	// return sendAssetCreation({
+	//       configAssetName: name,
+	//       configAssetUnitName: unitName,
+	//       configAssetTotal: 1,
+	//     });
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
@@ -85,6 +89,10 @@ transferNFT:
 
 	// examples/itxns/itxns.algo.ts:14
 	// sendAssetTransfer({
+	//       assetReceiver: receiver,
+	//       assetAmount: 1,
+	//       xferAsset: asset,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum

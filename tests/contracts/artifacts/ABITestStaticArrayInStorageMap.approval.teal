@@ -63,6 +63,10 @@ staticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:159
 	// ret: StaticArray<uint64, 3> = [
+	//       this.gMap('gMap').value[1],
+	//       this.lMap(this.txn.sender, 'lMap').value[1],
+	//       this.bMap('bMap').value[1],
+	//     ]
 	byte "gMap"
 	app_global_get
 	store 0 // full array

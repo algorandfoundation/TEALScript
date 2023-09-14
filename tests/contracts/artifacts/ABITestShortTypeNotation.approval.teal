@@ -32,6 +32,8 @@ shortTypeNotation:
 
 	// tests/contracts/abi.algo.ts:284
 	// a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
+	//       [11, 22], [33, 44], [55, 66],
+	//     ]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0018 // initial head offset

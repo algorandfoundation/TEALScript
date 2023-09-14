@@ -4004,7 +4004,9 @@ export default class Compiler {
     const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
 
     if (this.filename.length > 0) { this.pushVoid(node, `// ${this.filename}:${lineNum}`); }
-    this.pushVoid(node, `// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
+
+    const lines = node.getText().split('\n').map((l) => `// ${l}`);
+    this.pushLines(node, ...lines);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }

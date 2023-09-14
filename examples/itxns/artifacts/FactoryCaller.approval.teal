@@ -32,6 +32,9 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:25
 	// sendAppCall({
+	//       clearStateProgram: this.app.clearStateProgram,
+	//       approvalProgram: NFTFactory,
+	//     })
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -62,6 +65,9 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:32
 	// sendPayment({
+	//       amount: 200_000,
+	//       receiver: factoryApp.address,
+	//     })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -87,6 +93,10 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:37
 	// createdAsset = sendMethodCall<[string, string], Asset>({
+	//       applicationID: factoryApp,
+	//       name: 'createNFT',
+	//       methodArgs: ['My NFT', 'MNFT'],
+	//     })
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -133,6 +143,10 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:43
 	// sendAssetTransfer({
+	//       assetReceiver: this.app.address,
+	//       assetAmount: 0,
+	//       xferAsset: createdAsset,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
@@ -163,6 +177,10 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:49
 	// sendMethodCall<[Asset, Account], void>({
+	//       applicationID: factoryApp,
+	//       name: 'transferNFT',
+	//       methodArgs: [createdAsset, this.app.address],
+	//     })
 	itxn_begin
 	int appl
 	itxn_field TypeEnum

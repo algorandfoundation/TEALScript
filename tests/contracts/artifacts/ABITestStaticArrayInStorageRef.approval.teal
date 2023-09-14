@@ -63,6 +63,10 @@ staticArrayInStorageRef:
 
 	// tests/contracts/abi.algo.ts:93
 	// ret: StaticArray<uint64, 3> = [
+	//       this.gRef.value[1],
+	//       this.lRef(this.txn.sender).value[1],
+	//       this.bRef.value[1],
+	//     ]
 	byte "gRef"
 	app_global_get
 	store 0 // full array

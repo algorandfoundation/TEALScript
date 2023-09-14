@@ -99,6 +99,10 @@ optIntoAsset:
 	// Submit opt-in transaction: 0 asset transfer to self
 	// examples/auction/auction.algo.ts:38
 	// sendAssetTransfer({
+	//       assetReceiver: this.app.address,
+	//       xferAsset: asset,
+	//       assetAmount: 0,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
@@ -205,6 +209,9 @@ pay:
 
 	// examples/auction/auction.algo.ts:61
 	// sendPayment({
+	//       receiver: receiver,
+	//       amount: amount,
+	//     })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -268,6 +275,9 @@ bid:
 	// Verify payment transaction
 	// examples/auction/auction.algo.ts:75
 	// verifyTxn(payment, {
+	//       sender: this.txn.sender,
+	//       amount: { greaterThan: this.previousBid.value },
+	//     })
 	// verify sender
 	frame_dig -1 // payment: pay
 	gtxns Sender
@@ -389,6 +399,11 @@ claim_asset:
 	// Send ASA to previous bidder
 	// examples/auction/auction.algo.ts:103
 	// sendAssetTransfer({
+	//       assetReceiver: this.previousBidder.value,
+	//       xferAsset: asset,
+	//       assetAmount: this.asaAmt.value,
+	//       assetCloseTo: this.previousBidder.value,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
@@ -435,6 +450,10 @@ deleteApplication:
 
 	// examples/auction/auction.algo.ts:112
 	// sendPayment({
+	//       receiver: globals.creatorAddress,
+	//       closeRemainderTo: globals.creatorAddress,
+	//       amount: 0,
+	//     })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum

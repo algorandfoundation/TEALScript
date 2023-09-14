@@ -69,6 +69,8 @@ startUpload:
 
 	// examples/big_box/big_box.algo.ts:49
 	// metadata: Metadata = {
+	//       start: startBox, end: endBox, status: IN_PROGRESS, endSize: endBoxSize,
+	//     }
 	frame_dig -5 // startBox: uint64
 	itob
 	frame_dig -6 // endBox: uint64
@@ -117,6 +119,9 @@ startUpload:
 
 	// examples/big_box/big_box.algo.ts:59
 	// totalCost = numBoxes * COST_PER_BOX // cost of boxes
+	//     + (numBoxes - 1) * MAX_BOX_SIZE * COST_PER_BYTE // cost of data
+	//     + numBoxes * 64 * COST_PER_BYTE // cost of keys
+	//     + endBoxSize * COST_PER_BYTE
 	frame_dig -2 // numBoxes: uint64
 	int 2500
 	*

@@ -31,6 +31,15 @@ payment:
 
 	// tests/contracts/itxns.algo.ts:6
 	// sendPayment(
+	//       {
+	//         amount: 100,
+	//         receiver: this.app.address,
+	//         closeRemainderTo: globals.zeroAddress,
+	//         sender: this.app.address,
+	//         rekeyTo: globals.zeroAddress,
+	//         note: 'Hello World!',
+	//       },
+	//     )
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -88,6 +97,17 @@ assetCreation:
 
 	// tests/contracts/itxns.algo.ts:19
 	// return sendAssetCreation({
+	//       configAssetName: 'name',
+	//       configAssetUnitName: 'unit',
+	//       configAssetTotal: 1,
+	//       configAssetManager: this.app.address,
+	//       configAssetReserve: this.app.address,
+	//       configAssetFreeze: this.app.address,
+	//       configAssetClawback: this.app.address,
+	//       configAssetDefaultFrozen: 0,
+	//       configAssetURL: 'url',
+	//       configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//     });
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
@@ -175,6 +195,19 @@ appCall:
 
 	// tests/contracts/itxns.algo.ts:34
 	// sendAppCall({
+	//       accounts: [this.app.address],
+	//       applicationArgs: ['arg1', 'arg2'],
+	//       applicationID: this.app,
+	//       applications: [this.app],
+	//       approvalProgram: 'approval',
+	//       assets: [Asset.zeroIndex],
+	//       clearStateProgram: 'clear',
+	//       globalNumByteSlice: 1,
+	//       globalNumUint: 1,
+	//       localNumByteSlice: 1,
+	//       localNumUint: 1,
+	//       note: 'note',
+	//     })
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -262,6 +295,12 @@ assetConfig:
 
 	// tests/contracts/itxns.algo.ts:51
 	// sendAssetConfig({
+	//       configAsset: Asset.zeroIndex,
+	//       configAssetManager: this.app.address,
+	//       configAssetReserve: this.app.address,
+	//       configAssetFreeze: this.app.address,
+	//       configAssetClawback: this.app.address,
+	//     })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
@@ -318,6 +357,10 @@ assetFreeze:
 
 	// tests/contracts/itxns.algo.ts:61
 	// sendAssetFreeze({
+	//       freezeAssetFrozen: true,
+	//       freezeAssetAccount: this.app.address,
+	//       freezeAsset: Asset.zeroIndex,
+	//     })
 	itxn_begin
 	int afrz
 	itxn_field TypeEnum
@@ -358,6 +401,12 @@ assetTransfer:
 
 	// tests/contracts/itxns.algo.ts:69
 	// sendAssetTransfer({
+	//       assetAmount: 1,
+	//       assetCloseTo: this.app.address,
+	//       assetReceiver: this.app.address,
+	//       assetSender: this.app.address,
+	//       xferAsset: Asset.zeroIndex,
+	//     })
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
@@ -412,6 +461,9 @@ methodCall:
 
 	// tests/contracts/itxns.algo.ts:79
 	// return sendMethodCall<[Application, Asset], Asset>({
+	//       name: 'method',
+	//       methodArgs: [this.app, Asset.zeroIndex],
+	//     });
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -461,6 +513,13 @@ onlineKeyRegistration:
 
 	// tests/contracts/itxns.algo.ts:86
 	// sendOnlineKeyRegistration({
+	//       selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       voteFirst: 1,
+	//       voteKeyDilution: 1,
+	//       voteLast: 1,
+	//       votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//     })
 	itxn_begin
 	int keyreg
 	itxn_field TypeEnum
@@ -514,6 +573,7 @@ offlineKeyRegistration:
 
 	// tests/contracts/itxns.algo.ts:97
 	// sendOfflineKeyRegistration({
+	//     })
 	itxn_begin
 	int keyreg
 	itxn_field TypeEnum

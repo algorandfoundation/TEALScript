@@ -25,6 +25,9 @@ verifyMBRPayment:
 
 	// examples/arc75/arc75.algo.ts:10
 	// verifyTxn(payment, {
+	//       receiver: this.app.address,
+	//       amount: this.app.address.minBalance - preMBR,
+	//     })
 	// verify receiver
 	frame_dig -1 // payment: pay
 	gtxns Receiver
@@ -53,6 +56,9 @@ sendMBRPayment:
 
 	// examples/arc75/arc75.algo.ts:17
 	// sendPayment({
+	//       receiver: this.txn.sender,
+	//       amount: preMBR - this.app.address.minBalance,
+	//     })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum

@@ -32,6 +32,12 @@ namedTuple:
 
 	// tests/contracts/abi.algo.ts:571
 	// a: {
+	//       foo: uint<16>,
+	//       bar: string,
+	//     } = {
+	//       foo: 1,
+	//       bar: 'Hello World!',
+	//     }
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset

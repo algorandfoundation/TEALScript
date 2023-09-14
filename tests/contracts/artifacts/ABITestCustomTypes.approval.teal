@@ -32,6 +32,9 @@ customTypes:
 
 	// tests/contracts/abi.algo.ts:601
 	// aa: CustomType = {
+	//       foo: 1,
+	//       bar: 'Hi?',
+	//     }
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0004 // initial head offset
