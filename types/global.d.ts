@@ -878,6 +878,12 @@ declare class allow {
   static bareCreate(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
 }
 
+declare class nonABI {
+  static call(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'): decorator
+
+  static create(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
+}
+
 declare class abi {
   /** Signifies this method doesn't write any state to the chain, thus it can be
    * called via simulate to avoid fees */
