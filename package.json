@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.42.0",
+  "version": "0.43.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorand-devrel/TEALScript",
   "bugs": {
@@ -38,14 +38,16 @@
     "compile-merkle": "bun ./src/bin/tealscript.ts examples/merkle/merkle.algo.ts examples/merkle/artifacts && algokitgen generate -a examples/merkle/artifacts/MerkleTree.json -o examples/merkle/MerkleTreeClient.ts",
     "compile-big_box": "bun ./src/bin/tealscript.ts examples/big_box/big_box.algo.ts examples/big_box/artifacts",
     "compile-arc72": "bun src/bin/tealscript.ts examples/arc72/arc72.algo.ts examples/arc72/artifacts",
+    "compile-non_abi": "bun ./src/bin/tealscript.ts examples/non_abi/non_abi.algo.ts examples/non_abi/artifacts",
     "run-merkle": "bun examples/merkle/demo.ts",
     "run-tuple_in_box": "bun ./examples/tuple_in_box/client.ts",
     "run-itxns": "bun examples/itxns/demo.ts",
     "run-examples": "conc \"bun run-merkle\" \"bun run-tuple_in_box\" \"bun run-itxns\"",
     "run-simple": "bun examples/simple/index.ts",
-    "compile-examples": "conc \"bun compile-amm\" \"bun compile-arc75\" \"bun compile-auction\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-calculator\" \"bun compile-merkle\" \"bun compile-big_box\" \"bun compile-arc72\"",
+    "compile-examples": "conc \"bun compile-amm\" \"bun compile-arc75\" \"bun compile-auction\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-calculator\" \"bun compile-merkle\" \"bun compile-big_box\" \"bun compile-arc72\" \"bun compile-non_abi\"",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
-    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\""
+    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\"",
+    "compile-all": "conc \"bun compile-tests\" \"bun compile-examples\""
   },
   "dependencies": {
     "@microsoft/tsdoc": "^0.14.2",
