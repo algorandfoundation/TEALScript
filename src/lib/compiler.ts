@@ -2692,6 +2692,8 @@ export default class Compiler {
     this.typeComparison(leftType, this.lastType, 'math');
 
     const operator = node.operatorToken.getText()
+      .replace('>>', 'shr')
+      .replace('<<', 'shl')
       .replace('===', '==')
       .replace('!==', '!=')
       .replace('**', 'exp');

@@ -64,4 +64,9 @@ class GeneralTest extends Contract {
     // eslint-disable-next-line no-nested-ternary
     return x ? 1 : y ? 2 : 3;
   }
+
+  shift(): void {
+    assert(1 << 2);
+    assert(3 >> 4);
+  }
 }
