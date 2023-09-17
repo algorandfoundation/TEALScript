@@ -10,7 +10,7 @@ class NonABIExample extends Contract {
     return this.add(x, y);
   }
 
-  @nonABI.call('NoOp')
+  @nonABIRouterFallback.call('NoOp')
   nonAbiAdd(): void {
     const x = btoi(this.txn.applicationArgs![0]);
     const y = btoi(this.txn.applicationArgs![1]);

@@ -2427,7 +2427,7 @@ export default class Compiler {
             }
             break;
 
-          case 'nonABI':
+          case 'nonABIRouterFallback':
             if (callExpr.arguments[0]) {
               const arg = callExpr.arguments[0];
 
@@ -2453,7 +2453,7 @@ export default class Compiler {
     const { allows, nonAbi } = this.currentSubroutine;
     if (nonAbi.call.length + nonAbi.create.length > 0) {
       if (allows.call.length + allows.create.length > 0) {
-        throw Error('Cannot mix @allow and @nonABI decorators');
+        throw Error('Cannot mix @allow and @nonABIRouterFallback decorators');
       }
 
       this.processSubroutine(node);
