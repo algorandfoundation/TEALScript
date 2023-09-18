@@ -69,4 +69,13 @@ class GeneralTest extends Contract {
     assert(1 << 2);
     assert(3 >> 4);
   }
+
+  fromBytes(): void {
+    assert(Address.fromBytes('abc').minBalance);
+  }
+
+  fromIndex(): void {
+    log(Application.fromIndex(123).creator);
+    log(Asset.fromIndex(123).creator);
+  }
 }
