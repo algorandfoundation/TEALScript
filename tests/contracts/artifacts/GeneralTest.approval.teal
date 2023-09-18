@@ -371,7 +371,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromIndex(1337),
+	//           applicationID: Application.fromID(1337),
 	//           methodArgs: [1],
 	//         }],
 	//     })
@@ -399,7 +399,7 @@ methodWithTxnArgs:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/general.algo.ts:57
-	// applicationID: Application.fromIndex(1337)
+	// applicationID: Application.fromID(1337)
 	int 1337
 	itxn_field ApplicationID
 
@@ -423,7 +423,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromIndex(1337),
+	//           applicationID: Application.fromID(1337),
 	//           methodArgs: [1],
 	//         }]
 	// Fee field not set, defaulting to 0
@@ -523,25 +523,25 @@ fromBytes:
 	assert
 	retsub
 
-// fromIndex()void
-abi_route_fromIndex:
-	// execute fromIndex()void
-	callsub fromIndex
+// fromID()void
+abi_route_fromID:
+	// execute fromID()void
+	callsub fromID
 	int 1
 	return
 
-fromIndex:
+fromID:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:78
-	// log(Application.fromIndex(123).creator)
+	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	assert
 	log
 
 	// tests/contracts/general.algo.ts:79
-	// log(Asset.fromIndex(123).creator)
+	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
 	assert
@@ -571,7 +571,7 @@ call_NoOp:
 	method "nestedTernary(bool,bool)uint64"
 	method "shift()void"
 	method "fromBytes()void"
-	method "fromIndex()void"
+	method "fromID()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromIndex
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID
 	err

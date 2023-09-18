@@ -3076,7 +3076,7 @@ export default class Compiler {
       } else if (methodName === 'submit') {
         this.pushVoid(node, 'itxn_submit');
       } else throw new Error(`Unknown method ${node.getText()}`);
-    } else if (['fromBytes', 'fromIndex'].includes(methodName)) {
+    } else if (['fromBytes', 'fromID'].includes(methodName)) {
       this.processNode(node.arguments[0]);
       this.lastType = this.getABIType(node.expression.expression.getText());
     } else if (methodName === 'push') {
@@ -3468,7 +3468,7 @@ export default class Compiler {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
         } else if (n.name.getText() === 'zeroAddress') {
           this.push(n.name, 'global ZeroAddress', 'Address');
-        } else if (!['fromBytes', 'fromIndex'].includes(n.name.getText())) throw new Error();
+        } else if (!['fromBytes', 'fromID'].includes(n.name.getText())) throw new Error();
         return;
       }
 
