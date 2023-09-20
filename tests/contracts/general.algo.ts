@@ -78,4 +78,9 @@ class GeneralTest extends Contract {
     log(Application.fromID(123).creator);
     log(Asset.fromID(123).creator);
   }
+
+  tmpl(): void {
+    log(templateVar<bytes>('FOO'));
+    assert(templateVar<uint64>('BAR'));
+  }
 }

@@ -3057,6 +3057,20 @@ export default class Compiler {
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
+      } else if (methodName === 'templateVar') {
+        if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
+        if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('templateVar must have exactly one string literal argument');
+        const type = node.typeArguments[0].getText();
+        const name = node.arguments[0].text;
+
+        if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null) throw Error('Template variable name may only contain capital letters and underscores');
+
+        if (type === 'bytes' || type === 'string') {
+          this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
+        } else if (type === 'uint64' || type === 'number') {
+          this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
+        } else throw Error(`Invalid templateVar type ${type}`);
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
       } else if (['addr'].includes(methodName)) {
@@ -4004,6 +4018,19 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<string> {
+    // Replace template variables
+    const body = this.approvalProgram().split('\n').map((t) => {
+      if (t.match(/(int|byte) TMPL_/)) {
+        const s = t.trim().split(' ');
+        const hex = Buffer.from(s[1]).toString('hex');
+
+        if (s[0] === 'int') return `int ${parseInt(hex, 16) % (2 ** 64)}`;
+        return `byte 0x${hex}`;
+      }
+
+      return t;
+    }).join('\n');
+
     const response = await fetch(
       `${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`,
       {
@@ -4012,7 +4039,7 @@ export default class Compiler {
           'Content-Type': 'text/plain',
           'X-Algo-API-Token': this.algodToken,
         },
-        body: this.approvalProgram(),
+        body,
       },
     );
 

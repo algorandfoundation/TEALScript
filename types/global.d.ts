@@ -907,3 +907,5 @@ enum TransactionType {
   AssetFreeze, // afrz
   ApplicationCall, // appl
 }
+
+declare function templateVar<TmplType extends bytes | number>(name: string): TmplType

@@ -548,6 +548,27 @@ fromID:
 	log
 	retsub
 
+// tmpl()void
+abi_route_tmpl:
+	// execute tmpl()void
+	callsub tmpl
+	int 1
+	return
+
+tmpl:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:83
+	// log(templateVar<bytes>('FOO'))
+	byte TMPL_FOO // TMPL_FOO
+	log
+
+	// tests/contracts/general.algo.ts:84
+	// assert(templateVar<uint64>('BAR'))
+	int TMPL_BAR // TMPL_BAR
+	assert
+	retsub
+
 abi_route_defaultTEALScriptCreate:
 	int 1
 	return
@@ -572,6 +593,7 @@ call_NoOp:
 	method "shift()void"
 	method "fromBytes()void"
 	method "fromID()void"
+	method "tmpl()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl
 	err
