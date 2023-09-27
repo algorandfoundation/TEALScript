@@ -22,7 +22,8 @@ class NFTFactory extends Contract {
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
   mintAndGetAsset(): Asset {
-    sendAppCall({
+    sendMethodCall<[], void>({
+      name: 'createApplication',
       clearStateProgram: this.app.clearStateProgram,
       approvalProgram: NFTFactory,
     });
