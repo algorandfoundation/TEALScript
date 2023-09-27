@@ -327,7 +327,7 @@ declare type TxnVerificationFields= {
 }
 
 declare class Asset {
-  static fromIndex(index: uint64): Asset;
+  static fromID(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
 
@@ -402,7 +402,7 @@ type Account = Address
 type BytesLike = bytes | Address | string
 
 declare class Application {
-  static fromIndex(appID: uint64): Application;
+  static fromID(appID: uint64): Application;
 
   static readonly zeroIndex: Application;
 
@@ -907,3 +907,5 @@ enum TransactionType {
   AssetFreeze, // afrz
   ApplicationCall, // appl
 }
+
+declare function templateVar<TmplType extends bytes | number>(name: string): TmplType

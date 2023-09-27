@@ -54,7 +54,7 @@ class GeneralTest extends Contract {
         { amount: 100_000, receiver: this.txn.sender },
         {
           name: 'bar',
-          applicationID: Application.fromIndex(1337),
+          applicationID: Application.fromID(1337),
           methodArgs: [1],
         }],
     });
@@ -74,8 +74,13 @@ class GeneralTest extends Contract {
     assert(Address.fromBytes('abc').minBalance);
   }
 
-  fromIndex(): void {
-    log(Application.fromIndex(123).creator);
-    log(Asset.fromIndex(123).creator);
+  fromID(): void {
+    log(Application.fromID(123).creator);
+    log(Asset.fromID(123).creator);
+  }
+
+  tmpl(): void {
+    log(templateVar<bytes>('FOO'));
+    assert(templateVar<uint64>('BAR'));
   }
 }
