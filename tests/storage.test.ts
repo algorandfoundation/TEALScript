@@ -63,6 +63,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
           if (method === 'Exists') {
             expectedTeal.push('swap');
             expectedTeal.push('pop');
+            expectedTeal.push('assert');
           }
 
           if (method === 'Get') {
@@ -106,7 +107,11 @@ describe('Box Ops', () => {
       algodClient,
     );
 
-    await appClient.create({ sendParams: SUPPRESS_LOG });
+    await appClient.create({
+      method: 'createApplication',
+      methodArgs: [],
+      sendParams: SUPPRESS_LOG,
+    });
   });
 
   test('boxKeyCreate', async () => {

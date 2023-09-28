@@ -11,19 +11,25 @@ jobs:
     - name: Run algokit localnet
       run: pipx install algokit && algokit localnet start
 
+    - name: Install bun
+      run: npm i -g bun
+
     - name: Install modules
-      run: yarn
+      run: bun install --frozen-lockfile
+
+    - name: Ensure version constant is up-to-date
+      run: bun scripts/version.ts
 
     - name: Run ESLint
-      run: yarn run lint
+      run: bun lint
 
     - name: Run webpack smoketest
-      run: yarn run webpack-smoketest
+      run: bun webpack-smoketest
 
     - name: Run tests
-      run: yarn test
+      run: bun test
 
-    - name: Run example tests
-      run: yarn jest examples/
+    - name: Run examples
+      run: bun run-examples
 
 

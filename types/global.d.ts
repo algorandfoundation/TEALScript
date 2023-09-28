@@ -245,8 +245,89 @@ declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufi
 declare type byte = Brand<string, 'byte'>
 declare type bytes = Brand<string, 'bytes'>
 
+declare type TxnVerificationTests = {
+  lessThan?: IntLike
+  lessThanEqualTo?: IntLike
+  greaterThan?: IntLike
+  greaterThanEqualTo?: IntLike
+  not?: IntLike | BytesLike
+  includedIn?: (IntLike | BytesLike)[]
+  notIncludedIn?: (IntLike | BytesLike)[]
+}
+
+declare type TxnVerificationFields= {
+  sender?: Address | TxnVerificationTests
+  fee?: IntLike | TxnVerificationTests
+  firstValid?: IntLike | TxnVerificationTests
+  firstValidTime?: IntLike | TxnVerificationTests
+  lastValid?: IntLike | TxnVerificationTests
+  note?: BytesLike | TxnVerificationTests
+  lease?: StaticArray<byte, 32> | TxnVerificationTests
+  receiver?: Address | TxnVerificationTests
+  amount?: IntLike | TxnVerificationTests
+  closeRemainderTo?: Address | TxnVerificationTests
+  votePK?: StaticArray<byte, 32> | TxnVerificationTests
+  selectionPK?: StaticArray<byte, 32> | TxnVerificationTests
+  voteFirst?: IntLike | TxnVerificationTests
+  voteLast?: IntLike | TxnVerificationTests
+  voteKeyDilution?: IntLike | TxnVerificationTests
+  type?: BytesLike | TxnVerificationTests
+  typeEnum?: IntLike | TxnVerificationTests
+  xferAsset?: IntLike | TxnVerificationTests
+  assetAmount?: IntLike | TxnVerificationTests
+  assetSender?: Address | TxnVerificationTests
+  assetReceiver?: Address | TxnVerificationTests
+  assetCloseTo?: Address | TxnVerificationTests
+  groupIndex?: IntLike | TxnVerificationTests
+  txID?: StaticArray<byte, 32> | TxnVerificationTests
+  applicationID?: IntLike | TxnVerificationTests
+  onCompletion?: IntLike | TxnVerificationTests
+  applicationArgs?: BytesLike | TxnVerificationTests
+  numAppArgs?: IntLike | TxnVerificationTests
+  accounts?: Address | TxnVerificationTests
+  numAccounts?: IntLike | TxnVerificationTests
+  approvalProgram?: BytesLike | TxnVerificationTests
+  clearStateProgram?: BytesLike | TxnVerificationTests
+  rekeyTo?: Address | TxnVerificationTests
+  configAsset?: IntLike | TxnVerificationTests
+  configAssetTotal?: IntLike | TxnVerificationTests
+  configAssetDecimals?: IntLike | TxnVerificationTests
+  configAssetDefaultFrozen?: boolean | TxnVerificationTests
+  configAssetUnitName?: BytesLike | TxnVerificationTests
+  configAssetName?: BytesLike | TxnVerificationTests
+  configAssetURL?: BytesLike | TxnVerificationTests
+  configAssetMetadataHash?: StaticArray<byte, 32> | TxnVerificationTests
+  configAssetManager?: Address | TxnVerificationTests
+  configAssetReserve?: Address | TxnVerificationTests
+  configAssetFreeze?: Address | TxnVerificationTests
+  configAssetClawback?: Address | TxnVerificationTests
+  freezeAsset?: IntLike | TxnVerificationTests
+  freezeAssetAccount?: Address | TxnVerificationTests
+  freezeAssetFrozen?: boolean | TxnVerificationTests
+  assets?: IntLike | TxnVerificationTests
+  numAssets?: IntLike | TxnVerificationTests
+  applications?: IntLike | TxnVerificationTests
+  numApplications?: IntLike | TxnVerificationTests
+  globalNumUint?: IntLike | TxnVerificationTests
+  globalNumByteSlice?: IntLike | TxnVerificationTests
+  localNumUint?: IntLike | TxnVerificationTests
+  localNumByteSlice?: IntLike | TxnVerificationTests
+  extraProgramPages?: IntLike | TxnVerificationTests
+  nonparticipation?: boolean | TxnVerificationTests
+  logs?: BytesLike | TxnVerificationTests
+  numLogs?: IntLike | TxnVerificationTests
+  createdAssetID?: IntLike | TxnVerificationTests
+  createdApplicationID?: IntLike | TxnVerificationTests
+  lastLog?: BytesLike | TxnVerificationTests
+  stateProofPK?: BytesLike | TxnVerificationTests
+  approvalProgramPages?: BytesLike | TxnVerificationTests
+  numApprovalProgramPages?: IntLike | TxnVerificationTests
+  clearStateProgramPages?: BytesLike | TxnVerificationTests
+  numClearStateProgramPages?: IntLike | TxnVerificationTests
+}
+
 declare class Asset {
-  static fromIndex(index: uint64): Asset;
+  static fromID(index: uint64): Asset;
 
   static readonly zeroIndex: Asset;
 
@@ -321,7 +402,7 @@ type Account = Address
 type BytesLike = bytes | Address | string
 
 declare class Application {
-  static fromIndex(appID: uint64): Application;
+  static fromID(appID: uint64): Application;
 
   static readonly zeroIndex: Application;
 
@@ -346,98 +427,53 @@ declare class Application {
   global(key: BytesLike): BytesLike | IntLike
 }
 
-declare class BoxMap<KeyType, ValueType> {
-  constructor(options?: {dynamicSize?: boolean, prefix?: string })
-
-  get(key: KeyType): ValueType
-
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  set(key: KeyType, value: ValueType): void
-
-  create(key: KeyType, size: uint64): void
-
-  replace(key: KeyType, offset: uint64, value: bytes): void
-
-  extract(key: KeyType, offset: uint64, length: uint64): bytes
-
-  size(key: KeyType): uint64
-}
-
-declare class BoxKey<ValueType> {
-  constructor(options?: { key?: string, dynamicSize?: boolean })
-
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  set(value: ValueType): void
-
+declare type BoxValue<ValueType> = {
+  value: ValueType
+  delete: () => void
+  exists: boolean
   create(size: uint64): void
-
   replace(offset: uint64, value: bytes): void
-
   extract(offset: uint64, length: uint64): bytes
-
-  size(): uint64
+  size: uint64
 }
 
-declare class GlobalStateMap<KeyType, ValueType> {
-  constructor()
+declare function BoxKey<ValueType>(
+  options?: { key?: string, dynamicSize?: boolean }
+): BoxValue<ValueType>
 
-  get(key: KeyType): ValueType
+declare function BoxMap<KeyType, ValueType>(
+  options?: {dynamicSize?: boolean, prefix?: string }
+): (key: KeyType) => BoxValue<ValueType>
 
-  exists(key: KeyType): uint64
-
-  delete(key: KeyType): void
-
-  set(key: KeyType, value: ValueType): void
+declare type GlobalStateValue<ValueType> = {
+  value: ValueType
+  delete: () => void,
+  exists: boolean,
 }
 
-declare class GlobalStateKey<ValueType> {
-  constructor(options?: { key?: string })
+declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
+declare function GlobalStateMap<KeyType, ValueType>(
+  options : {maxKeys: number}
+): (key: KeyType) => GlobalStateValue<ValueType>
 
-  get(): ValueType
-
-  exists(): uint64
-
-  delete(): void
-
-  set(value: ValueType): void
+declare type LocalStateValue<ValueType> = {
+  value: ValueType
+  delete: () => void,
+  exists: boolean,
 }
 
-declare class LocalStateMap<KeyType, ValueType> {
-  constructor()
+declare function LocalStateKey<ValueType>(
+  options?: { key?: string }
+): (account: Address) => LocalStateValue<ValueType>
 
-  get(account: Address, key: KeyType): ValueType
-
-  exists(account: Address, key: KeyType): uint64
-
-  delete(account: Address, key: KeyType): void
-
-  set(account: Address, key: KeyType, value: ValueType): void
-}
-
-declare class LocalStateKey<ValueType> {
-  constructor(options?: { key?: string })
-
-  get(account: Address): ValueType
-
-  exists(account: Address): uint64
-
-  delete(account: Address): void
-
-  set(account: Address, value: ValueType): void
-}
+declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): (
+  account: Address, key: KeyType
+) => LocalStateValue<ValueType>
 
 type IntLike = uint64 | Asset | Application | boolean | number
 
 interface CommonTransactionParams {
-  fee: uint64
+  fee?: uint64
   sender?: Address
   rekeyTo?: Address
   note?: string
@@ -482,7 +518,7 @@ interface AssetCreateParams extends CommonTransactionParams {
   configAssetName?: bytes
   configAssetUnitName?: bytes
   configAssetTotal: uint64
-  configAssetDecimals: uint64
+  configAssetDecimals?: uint64
   configAssetManager?: Address
   configAssetReserve?: Address
   configAssetFreeze?: Address
@@ -495,7 +531,7 @@ interface AssetCreateParams extends CommonTransactionParams {
 interface AssetFreezeParams extends CommonTransactionParams {
   freezeAsset: Asset
   freezeAssetAccount: Address
-  freezeAssetFrozen: uint64
+  freezeAssetFrozen: boolean
 }
 
 interface PaymentParams extends CommonTransactionParams {
@@ -506,7 +542,7 @@ interface PaymentParams extends CommonTransactionParams {
 
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application
-  onCompletion: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
+  onCompletion?: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' | 'CreateApplication'
   accounts?: Address[]
   approvalProgram?: bytes | NewableFunction
   applicationArgs?: bytes[]
@@ -592,6 +628,16 @@ declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionPara
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void
 declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
 
+declare type InnerPayment = Expand<PaymentParams>
+declare type InnerAppCall = Expand<AppParams>
+declare type InnerAssetTransfer = Expand<AssetTransferParams>
+declare type InnerAssetConfig = Expand<AssetConfigParams>
+declare type InnerAssetCreation = Expand<AssetCreateParams>
+declare type InnerAssetFreeze = Expand<AssetFreezeParams>
+declare type InnerOnlineKeyRegistration = Expand<OnlineKeyRegParams>
+declare type InnerOfflineKeyRegistration = Expand<CommonTransactionParams>
+declare type InnerMethodCall<ArgsType, ReturnType> = Expand<MethodCallParams<ArgsType>>
+
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.
@@ -604,8 +650,6 @@ declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void
  *     applicationID: factoryApp,
  *     name: 'createNFT',
  *     methodArgs: ['My NFT', 'MNFT'],
- *     onCompletion: 'NoOp',
- *     fee: 0,
  * });
  * ```
  *
@@ -813,8 +857,9 @@ declare function verifyTxn(
     AppCallTxn |
     AssetTransferParams |
     AssetFreezeParams |
-    KeyRegTxn,
-  params: Partial<Txn>
+    KeyRegTxn |
+    ThisTxnParams,
+  params: TxnVerificationFields
 )
 
 declare type decorator = (
@@ -831,6 +876,12 @@ declare class allow {
   static bareCall(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'): decorator
 
   static bareCreate(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
+}
+
+declare class nonABIRouterFallback {
+  static call(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'): decorator
+
+  static create(onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'): decorator
 }
 
 declare class abi {
@@ -856,3 +907,5 @@ enum TransactionType {
   AssetFreeze, // afrz
   ApplicationCall, // appl
 }
+
+declare function templateVar<TmplType extends bytes | number>(name: string): TmplType

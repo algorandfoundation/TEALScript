@@ -18,8 +18,9 @@ jobs:
         with:
           node-version: '18.x'
           registry-url: 'https://npm.pkg.github.com'
-      - run: yarn install --immutable --immutable-cache --check-cache
-      - run: yarn run release
+      - run: npm i -g bun
+      - run: bun install --frozen-lockfile
+      - run: npm run release
         env:
           NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com'
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

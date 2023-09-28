@@ -6,18 +6,18 @@ const FEE = 5;
 
 // eslint-disable-next-line no-unused-vars
 class ConstantProductAMM extends Contract {
-  governor = new GlobalStateKey<Address>({ key: 'g' });
+  governor = GlobalStateKey<Address>({ key: 'g' });
 
-  assetA = new GlobalStateKey<Asset>({ key: 'a' });
+  assetA = GlobalStateKey<Asset>({ key: 'a' });
 
-  assetB = new GlobalStateKey<Asset>({ key: 'b' });
+  assetB = GlobalStateKey<Asset>({ key: 'b' });
 
-  poolToken = new GlobalStateKey<Asset>({ key: 'p' });
+  poolToken = GlobalStateKey<Asset>({ key: 'p' });
 
-  ratio = new GlobalStateKey<uint64>({ key: 'r' });
+  ratio = GlobalStateKey<uint64>({ key: 'r' });
 
   createApplication(): void {
-    this.governor.set(this.txn.sender);
+    this.governor.value = this.txn.sender;
   }
 
   private doCreatePoolToken(aAsset: Asset, bAsset: Asset): Asset {
@@ -30,7 +30,6 @@ class ConstantProductAMM extends Contract {
       configAssetDecimals: 3,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
-      fee: 0,
     });
   }
 
@@ -39,7 +38,6 @@ class ConstantProductAMM extends Contract {
       assetReceiver: receiver,
       xferAsset: asset,
       assetAmount: amount,
-      fee: 0,
     });
   }
 
@@ -68,8 +66,8 @@ class ConstantProductAMM extends Contract {
 
   private computeRatio(): uint64 {
     return wideRatio(
-      [this.app.address.assetBalance(this.assetA.get()), SCALE],
-      [this.app.address.assetBalance(this.assetB.get())],
+      [this.app.address.assetBalance(this.assetA.value), SCALE],
+      [this.app.address.assetBalance(this.assetB.value)],
     );
   }
 
@@ -86,26 +84,26 @@ class ConstantProductAMM extends Contract {
   }
 
   set_governor(governor: Account): void {
-    assert(this.txn.sender === this.governor.get());
-    this.governor.set(governor);
+    verifyTxn(this.txn, { sender: this.governor.value });
+    this.governor.value = governor;
   }
 
   bootstrap(seed: PayTxn, aAsset: Asset, bAsset: Asset): Asset {
-    assert(this.txn.sender === this.governor.get());
+    verifyTxn(this.txn, { sender: this.governor.value });
 
     assert(globals.groupSize === 2);
-    assert(seed.receiver === this.app.address);
-    assert(seed.amount >= 300_000);
+
+    verifyTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } });
     assert(aAsset < bAsset);
 
-    this.assetA.set(aAsset);
-    this.assetB.set(bAsset);
-    this.poolToken.set(this.doCreatePoolToken(aAsset, bAsset));
+    this.assetA.value = aAsset;
+    this.assetB.value = bAsset;
+    this.poolToken.value = this.doCreatePoolToken(aAsset, bAsset);
 
     this.doOptIn(aAsset);
     this.doOptIn(bAsset);
 
-    return this.poolToken.get();
+    return this.poolToken.value;
   }
 
   mint(
@@ -116,20 +114,25 @@ class ConstantProductAMM extends Contract {
     bAsset: Asset,
   ): void {
     /// well formed mint
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
-    assert(poolAsset === this.poolToken.get());
-    assert(aXfer.sender === this.txn.sender && bXfer.sender === this.txn.sender);
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
+    assert(poolAsset === this.poolToken.value);
 
     /// valid asset A axfer
-    assert(aXfer.assetReceiver === this.app.address);
-    assert(aXfer.xferAsset === aAsset);
-    assert(aXfer.assetAmount > 0);
+    verifyTxn(aXfer, {
+      sender: this.txn.sender,
+      assetAmount: { greaterThan: 0 },
+      assetReceiver: this.app.address,
+      xferAsset: aAsset,
+    });
 
     /// valid asset B axfer
-    assert(bXfer.assetReceiver === this.app.address);
-    assert(bXfer.xferAsset === bAsset);
-    assert(bXfer.assetAmount > 0);
+    verifyTxn(bXfer, {
+      sender: this.txn.sender,
+      assetAmount: { greaterThan: 0 },
+      assetReceiver: this.app.address,
+      xferAsset: bAsset,
+    });
 
     if (
       this.app.address.assetBalance(aAsset) === aXfer.assetAmount
@@ -158,16 +161,17 @@ class ConstantProductAMM extends Contract {
     bAsset: Asset,
   ): void {
     /// well formed burn
-    assert(poolAsset === this.poolToken.get());
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
-    assert(poolXfer.sender === this.txn.sender);
+    assert(poolAsset === this.poolToken.value);
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
 
     /// valid pool axfer
-    assert(poolXfer.assetReceiver === this.app.address);
-    assert(poolXfer.xferAsset === poolAsset);
-    assert(poolXfer.assetAmount > 0);
-    assert(poolXfer.sender === this.txn.sender);
+    verifyTxn(poolXfer, {
+      sender: this.txn.sender,
+      assetAmount: { greaterThan: 0 },
+      assetReceiver: this.app.address,
+      xferAsset: poolAsset,
+    });
 
     const issued = TOTAL_SUPPLY
      - (this.app.address.assetBalance(poolAsset)
@@ -188,20 +192,20 @@ class ConstantProductAMM extends Contract {
     this.doAxfer(this.txn.sender, aAsset, aAmt);
     this.doAxfer(this.txn.sender, bAsset, bAmt);
 
-    this.ratio.set(this.computeRatio());
+    this.ratio.value = this.computeRatio();
   }
 
   swap(swapXfer: AssetTransferTxn, aAsset: Asset, bAsset: Asset): void {
     /// well formed swap
-    assert(aAsset === this.assetA.get());
-    assert(bAsset === this.assetB.get());
+    assert(aAsset === this.assetA.value);
+    assert(bAsset === this.assetB.value);
 
-    /// valid swap xfer
-    assert(
-      swapXfer.xferAsset === aAsset || swapXfer.xferAsset === bAsset,
-    );
-    assert(swapXfer.assetAmount > 0);
-    assert(swapXfer.sender === this.txn.sender);
+    verifyTxn(swapXfer, {
+      assetAmount: { greaterThan: 0 },
+      assetReceiver: this.app.address,
+      sender: this.txn.sender,
+      xferAsset: { includedIn: [aAsset, bAsset] },
+    });
 
     const outId = swapXfer.xferAsset === aAsset ? aAsset : bAsset;
 
@@ -217,6 +221,6 @@ class ConstantProductAMM extends Contract {
 
     this.doAxfer(this.txn.sender, outId, toSwap);
 
-    this.ratio.set(this.computeRatio());
+    this.ratio.value = this.computeRatio();
   }
 }

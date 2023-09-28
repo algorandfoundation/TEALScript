@@ -5,20 +5,14 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
-import sourceMap from 'source-map';
-import path from 'path';
 import * as tsdoc from '@microsoft/tsdoc';
-import * as langspec from '../langspec.json';
+import langspec from '../langspec.json';
+import { VERSION } from '../version';
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
-// eslint-disable-next-line no-shadow
-enum StorageType {
-  GLOBAL,
-  LOCAL,
-  BOX
-}
+type StorageType = 'global' | 'local' | 'box';
 
 export type CompilerOptions = {
   filename?: string,
@@ -76,6 +70,19 @@ class TupleElement extends Array<TupleElement> {
     elements.forEach((e: TupleElement) => { e.parent = this; });
     return this.push(...elements);
   }
+}
+
+function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
+  if (ts.isCallExpression(node.expression)
+  && ts.isPropertyAccessExpression(node.expression.expression)) {
+    return node.expression.expression.name.getText();
+  }
+
+  if (ts.isPropertyAccessExpression(node.expression)) {
+    return node.expression.name.getText();
+  }
+
+  return undefined;
 }
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
@@ -163,16 +170,16 @@ const TXN_TYPES = [
 ];
 
 const TXN_METHODS = [
-  'sendPayment',
-  'sendAppCall',
-  'sendMethodCall',
-  'sendAssetTransfer',
-  'sendAssetCreation',
-  'sendAssetFreeze',
-  'sendAssetConfig',
-  'sendOnlineKeyRegistration',
-  'sendOfflineKeyRegistration',
-];
+  'Payment',
+  'AppCall',
+  'MethodCall',
+  'AssetTransfer',
+  'AssetCreation',
+  'AssetFreeze',
+  'AssetConfig',
+  'OnlineKeyRegistration',
+  'OfflineKeyRegistration',
+].flatMap((m) => [`send${m}`, `add${m}`]);
 
 const CONTRACT_SUBCLASS = 'Contract';
 
@@ -234,12 +241,13 @@ interface OpSpec {
 }
 
 interface StorageProp {
-  type: string;
+  type: StorageType;
   key?: string;
   keyType: string;
   valueType: string;
   dynamicSize?: boolean;
   prefix?: string;
+  maxKeys?: number;
 }
 
 interface ABIMethod {
@@ -254,7 +262,12 @@ interface Subroutine extends ABIMethod{
   allows: {
     create: string[]
     call: string[]
-  }
+  },
+  nonAbi: {
+    create: string[]
+    call: string[]
+  },
+  node: ts.MethodDeclaration | ts.ClassDeclaration
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -279,20 +292,7 @@ const scratch = {
 };
 
 export default class Compiler {
-  teal: string[] = [
-    '#pragma version 9',
-    '',
-    'txn ApplicationID',
-    'int 0',
-    '>',
-    'int 6',
-    '*',
-    'txn OnCompletion',
-    '+',
-    'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
-    'NOT_IMPLEMENTED:',
-    'err',
-  ];
+  teal: string[] = [];
 
   clearTeal: string[] = ['#pragma version 9'];
 
@@ -321,12 +321,26 @@ export default class Compiler {
     box: string[]
   } = { global: [], local: [], box: [] };
 
-  private rawSrcMap: {source: SourceInfo, teal: number, pc: number}[] = [];
+  private classNode!: ts.ClassDeclaration;
 
-  srcMaps?: {
-    pc: sourceMap.RawSourceMap,
-    teal: sourceMap.RawSourceMap,
-  };
+  private rawSrcMap: {
+    source: {
+      start: {line: number, col: number}
+      end: {line: number, col: number}
+    }
+    teal: number
+    pc: number
+    prettyTeal?: number
+  }[] = [];
+
+  srcMap: {
+    source: {
+      start: {line: number, col: number}
+      end: {line: number, col: number}
+    }
+    teal: number
+    pc: number
+  }[] = [];
 
   private customTypes: {[name: string] : string} = {};
 
@@ -359,7 +373,7 @@ export default class Compiler {
     framePointer?:string
     type: string
     accessors?: (ts.Expression | string)[]
-    storageExpression?: ts.CallExpression
+    storageExpression?: ts.PropertyAccessExpression
     storageKeyFrame?: string
     storageAccountFrame?: string
     }
@@ -438,27 +452,46 @@ export default class Compiler {
   }
 
   private handleStorageAction(
-    node: ts.CallExpression,
-    storageType: StorageType,
-    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-    storageKeyFrame?: string,
-    storageAccountFrame?: string,
+    {
+      node, name, action, storageKeyFrame, storageAccountFrame, newValue,
+    }: {
+      node: ts.PropertyAccessExpression | ts.CallExpression
+      name: string,
+      action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size'
+      storageKeyFrame?: string
+      storageAccountFrame?: string
+      newValue?: ts.Node
+    },
   ) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-    const name = node.expression.expression.name.getText();
+    const args: ts.Expression[] = [];
+    let keyNode: ts.Expression;
 
-    const {
-      valueType, keyType, key, dynamicSize, prefix,
-    } = this.storageProps[name];
+    if (ts.isCallExpression(node)) {
+      node.arguments.forEach((a) => args.push(a));
+      if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-    if (storageAccountFrame && storageType === StorageType.LOCAL) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
-    } else if (storageType === StorageType.LOCAL) {
-      this.processNode(node.arguments[0]);
+      // eslint-disable-next-line no-param-reassign
+      node = node.expression;
     }
 
-    if (action === 'exists' && (storageType === StorageType.GLOBAL || storageType === StorageType.LOCAL)) {
+    if (ts.isCallExpression(node.expression)) {
+      keyNode = node.expression.arguments[node.expression.arguments.length === 2 ? 1 : 0];
+    }
+
+    const {
+      type, valueType, keyType, key, dynamicSize, prefix,
+    } = this.storageProps[name];
+
+    const storageType = type;
+
+    if (storageAccountFrame && storageType === 'local') {
+      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+    } else if (storageType === 'local') {
+      if (!ts.isCallExpression(node.expression)) throw Error();
+      this.processNode(node.expression.arguments[0]);
+    }
+
+    if (action === 'exists' && (storageType === 'global' || storageType === 'local')) {
       this.pushVoid(node.expression, 'txna Applications 0');
     }
 
@@ -467,25 +500,24 @@ export default class Compiler {
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
     } else {
-      const argumentIndex = storageType === StorageType.LOCAL ? 1 : 0;
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], `byte "${prefix}"`);
-      this.processNode(node.arguments[argumentIndex]);
+      if (prefix) this.pushVoid(keyNode!, `byte "${prefix}"`);
+      this.processNode(keyNode!);
 
       if (keyType !== StackType.bytes) {
-        this.checkEncoding(node.arguments[argumentIndex], this.lastType);
+        this.checkEncoding(keyNode!, this.lastType);
       }
 
-      if (isNumeric(keyType)) this.pushVoid(node.arguments[argumentIndex], 'itob');
-      if (prefix) this.pushVoid(node.arguments[argumentIndex], 'concat');
+      if (isNumeric(keyType)) this.pushVoid(keyNode!, 'itob');
+      if (prefix) this.pushVoid(keyNode!, 'concat');
     }
 
     switch (action) {
       case 'get':
-        if (storageType === StorageType.GLOBAL) {
+        if (storageType === 'global') {
           this.push(node.expression, 'app_global_get', valueType);
-        } else if (storageType === StorageType.LOCAL) {
+        } else if (storageType === 'local') {
           this.push(node.expression, 'app_local_get', valueType);
-        } else if (storageType === StorageType.BOX) {
+        } else if (storageType === 'box') {
           this.maybeValue(node.expression, 'box_get', valueType);
           if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
         }
@@ -493,61 +525,57 @@ export default class Compiler {
         break;
 
       case 'set': {
-        if (storageType === StorageType.BOX && dynamicSize) {
+        if (storageType === 'box' && dynamicSize) {
           this.pushLines(node.expression, 'dup', 'box_del', 'pop');
         }
 
-        const valueArgIndex = key ? (storageType === StorageType.LOCAL ? 1 : 0)
-          : (storageType === StorageType.LOCAL ? 2 : 1);
-
-        if (node.arguments[valueArgIndex]) {
-          this.processNode(node.arguments[valueArgIndex]);
+        if (newValue) {
+          this.processNode(newValue);
 
           this.typeComparison(this.lastType, valueType, 'fix');
           if (valueType !== StackType.bytes) {
-            this.checkEncoding(node.arguments[valueArgIndex], this.lastType);
+            this.checkEncoding(newValue, this.lastType);
           }
         } else {
-          const command = storageType === StorageType.BOX ? 'swap' : (storageType === StorageType.LOCAL ? 'uncover 2' : 'swap');
+          const command = storageType === 'box' ? 'swap' : (storageType === 'local' ? 'uncover 2' : 'swap');
           this.pushVoid(node.expression, command);
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node, valueType);
           }
         }
 
-        if (isNumeric(valueType) && storageType === StorageType.BOX) this.pushVoid(node.expression, 'itob');
-        const operation = storageType === StorageType.GLOBAL ? 'app_global_put' : (storageType === StorageType.LOCAL ? 'app_local_put' : 'box_put');
+        if (isNumeric(valueType) && storageType === 'box') this.pushVoid(node.expression, 'itob');
+        const operation = storageType === 'global' ? 'app_global_put' : (storageType === 'local' ? 'app_local_put' : 'box_put');
         this.push(node.expression, operation, valueType);
         break;
       }
 
       case 'exists': {
-        const existsAction = (storageType === StorageType.GLOBAL) ? 'app_global_get_ex' : (storageType === StorageType.LOCAL) ? 'app_local_get_ex' : 'box_len';
+        const existsAction = (storageType === 'global') ? 'app_global_get_ex' : (storageType === 'local') ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
       }
 
       case 'delete': {
-        const deleteAction = (storageType === StorageType.GLOBAL) ? 'app_global_del' : (storageType === StorageType.LOCAL) ? 'app_local_del' : 'box_del';
+        const deleteAction = (storageType === 'global') ? 'app_global_del' : (storageType === 'local') ? 'app_local_del' : 'box_del';
         this.pushVoid(node.expression, deleteAction);
         break;
       }
 
       case 'create':
-
-        this.processNode(node.arguments[key ? 0 : 1]);
+        this.processNode(args[0]);
         this.pushVoid(node.expression, 'box_create');
         break;
 
       case 'extract':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.push(node.expression, 'box_extract', StackType.bytes);
         break;
 
       case 'replace':
-        this.processNode(node.arguments[key ? 0 : 1]);
-        this.processNode(node.arguments[key ? 1 : 2]);
+        this.processNode(args[0]);
+        this.processNode(args[1]);
         this.pushVoid(node.expression, 'box_replace');
         break;
 
@@ -558,63 +586,6 @@ export default class Compiler {
         throw new Error();
     }
   }
-
-  private storageFunctions: {[type: string]: {[f: string]: Function}} = {
-    global: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.GLOBAL, 'exists');
-      },
-    },
-    local: {
-      get: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'get', storageKeyFrame, storageAccountFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string, storageAccountFrame?: string) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'set', storageKeyFrame, storageAccountFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.LOCAL, 'exists');
-      },
-    },
-    box: {
-      create: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'create');
-      },
-      extract: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'extract');
-      },
-      replace: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'replace');
-      },
-      size: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'size');
-      },
-      get: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'get', storageKeyFrame);
-      },
-      set: (node: ts.CallExpression, storageKeyFrame?: string) => {
-        this.handleStorageAction(node, StorageType.BOX, 'set', storageKeyFrame);
-      },
-      delete: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'delete');
-      },
-      exists: (node: ts.CallExpression) => {
-        this.handleStorageAction(node, StorageType.BOX, 'exists');
-      },
-    },
-  };
 
   private andCount: number = 0;
 
@@ -725,19 +696,64 @@ export default class Compiler {
 
       if (indexInScratch) {
         this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-      }
+      } else this.teal.pop();
 
       node.arguments[1].properties.forEach((p, i) => {
         if (!ts.isPropertyAssignment(p)) throw new Error();
         const field = p.name.getText();
 
-        if (indexInScratch) {
-          this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-        } else if (i > 0) {
-          this.processNode(node.arguments[0]);
+        const loadField = () => {
+          if (indexInScratch) {
+            this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+          } else if (node.arguments[0].getText() !== 'this.txn') {
+            this.processNode(node.arguments[0]);
+          }
+
+          const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
+          this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
+        };
+
+        this.pushVoid(p, `// verify ${field}`);
+
+        if (ts.isObjectLiteralExpression(p.initializer)) {
+          p.initializer.properties.forEach((c) => {
+            if (!ts.isPropertyAssignment(c)) throw new Error();
+
+            const condition = c.name.getText();
+
+            if (['includedIn', 'notIncludedIn'].includes(condition)) {
+              if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
+              c.initializer.elements.forEach((e, eIndex) => {
+                loadField();
+                this.processNode(e);
+                const op = condition === 'includedIn' ? '==' : '!=';
+                this.pushLines(c, op);
+                if (eIndex) this.pushLines(c, '||');
+              });
+
+              this.pushVoid(c, 'assert');
+              return;
+            }
+
+            const conditionMapping: Record<string, string> = {
+              greaterThan: '>',
+              greaterThanEqualTo: '>=',
+              lessThan: '<',
+              lessThanEqualTo: '<=',
+              not: '!=',
+            };
+
+            const op = conditionMapping[condition];
+
+            if (op === undefined) throw Error();
+            loadField();
+            this.processNode(c.initializer);
+            this.pushLines(c, op, 'assert');
+          });
+          return;
         }
 
-        this.pushVoid(p, `gtxns ${capitalizeFirstChar(field)}`);
+        loadField();
         this.processNode(p.initializer);
         this.pushLines(p, '==', 'assert');
       });
@@ -951,9 +967,19 @@ export default class Compiler {
       AssetTransferTxn: 'axfer',
       KeyRegTxn: 'keyreg',
       PayTxn: 'pay',
+      InnerPayment: 'pay',
+      InnerAppCall: 'appl',
+      InnerAssetTransfer: 'axfer',
+      InnerAssetConfig: 'acfg',
+      InnerAssetCreation: 'acfg',
+      InnerAssetFreeze: 'afrz',
+      InnerOnlineKeyRegistration: 'keyreg',
+      InnerOfflineKeyRegistration: 'keyreg',
     };
 
     if (txnTypes[type]) return txnTypes[type];
+
+    if (type.startsWith('InnerMethodCall')) return 'appl';
 
     if (type === 'boolean') return 'bool';
     if (type === 'number') return 'uint64';
@@ -1032,6 +1058,51 @@ export default class Compiler {
     return types;
   }
 
+  private async postProcessTeal(input: string[]): Promise<string[]> {
+    return (await Promise.all(
+      input.map(async (t) => {
+        if (t.startsWith('PENDING_COMPILE')) {
+          const c = new Compiler(this.content, t.split(' ')[1], {
+            filename: this.filename,
+            algodPort: this.algodPort,
+            algodServer: this.algodServer,
+            algodToken: this.algodToken,
+            disableWarnings: this.disableWarnings,
+          });
+          await c.compile();
+          const program = await c.algodCompile();
+          return `byte b64 ${program}`;
+        }
+
+        const method = t.split(' ')[1];
+        const subroutine = this.subroutines.find((s) => s.name === method);
+
+        if (t.startsWith('PENDING_DUPN')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
+
+          if (nonArgFrameSize === 0) return '// No extra bytes needed for this subroutine';
+
+          const comment = '// push empty bytes to fill the stack frame for this subroutine\'s local variables';
+
+          if (nonArgFrameSize === 1) return `byte 0x ${comment}`;
+          if (nonArgFrameSize === 2) return `byte 0x; dup ${comment}`;
+          return `byte 0x; dupn ${nonArgFrameSize - 1} ${comment}`;
+        }
+
+        if (t.startsWith('PENDING_PROTO')) {
+          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+
+          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+        }
+
+        return t;
+      }),
+    )).flat();
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
@@ -1072,7 +1143,7 @@ export default class Compiler {
       this.subroutines.map((a) => a.allows.create).flat().length === 0
       && !Object.values(this.bareCallConfig).map((c) => c.action).includes('CREATE')
     ) {
-      const name = 'defaultTEALScriptCreate';
+      const name = 'createApplication';
       const m = {
         name,
         desc: 'The default create method generated by TEALScript',
@@ -1080,58 +1151,43 @@ export default class Compiler {
         args: [],
       };
 
-      this.bareCallConfig.NoOp = { action: 'CREATE', method: name };
-      this.pushLines(this.lastNode, `abi_route_${name}:`, 'int 1', 'return');
+      this.subroutines.push({
+        ...m,
+        allows: { create: ['NoOp'], call: [] },
+        nonAbi: {
+          create: [],
+          call: [],
+        },
+        node: this.classNode,
+      });
+
+      this.abi.methods.push(m);
+
+      this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
     }
 
     this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
       if (this.teal.includes(`callsub ${sub}`)) {
-        this.teal.push(...this.compilerSubroutines[sub]());
+        this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
 
-    this.teal = (await Promise.all(
-      this.teal.map(async (t) => {
-        if (t.startsWith('PENDING_COMPILE')) {
-          const c = new Compiler(this.content, t.split(' ')[1], {
-            filename: this.filename,
-            algodPort: this.algodPort,
-            algodServer: this.algodServer,
-            algodToken: this.algodToken,
-            disableWarnings: this.disableWarnings,
-          });
-          await c.compile();
-          const program = await c.algodCompile();
-          return `byte b64 ${program}`;
-        }
+    this.teal = await this.postProcessTeal(this.teal);
 
-        const method = t.split(' ')[1];
-        const subroutine = this.subroutines.find((s) => s.name === method);
+    let hasNonAbi = false;
 
-        if (t.startsWith('PENDING_DUPN')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+    this.subroutines.forEach((sub) => {
+      if (sub.nonAbi.call.length + sub.nonAbi.create.length > 0) {
+        hasNonAbi = true;
+      }
+    });
 
-          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
-
-          if (nonArgFrameSize === 0) return '// no dupn needed';
-
-          if (nonArgFrameSize === 1) return 'byte 0x';
-          if (nonArgFrameSize === 2) return 'byte 0x; dup';
-          return ['byte 0x', `dupn ${nonArgFrameSize - 1}`];
-        }
-
-        if (t.startsWith('PENDING_PROTO')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
-        }
-
-        return t;
-      }),
-    )).flat();
+    if (hasNonAbi) {
+      const i = this.teal.findIndex((t) => t.includes('[ ARC4 ]'));
+      this.teal[i] = '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
+    }
 
     this.abi.methods = this.abi.methods.map((m) => ({
       ...m,
@@ -1170,16 +1226,36 @@ export default class Compiler {
         console.warn(`Error when parsing tsdoc comment for ${m.name}: ${e}`);
       }
     });
+
+    this.compilingApproval = false;
+
+    this.clearTeal.forEach((t) => {
+      if (t.startsWith('callsub')) {
+        const subNode = this.subroutines.find((s) => s.name === t.split(' ')[1]);
+        if (subNode === undefined) return;
+        this.processNode(subNode.node);
+      }
+    });
+
+    this.clearTeal = await this.postProcessTeal(this.clearTeal);
   }
 
   private push(node: ts.Node, teal: string, type: string) {
+    const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
+    const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
+
     this.rawSrcMap.push({
       source: {
-        filename: this.filename,
-        start: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()),
-        end: ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd()),
+        start: {
+          line: start.line + 1,
+          col: start.character,
+        },
+        end: {
+          line: end.line + 1,
+          col: end.character,
+        },
       },
-      teal: this.teal.length,
+      teal: this.teal.length + 1,
       pc: 0,
     });
 
@@ -1198,7 +1274,7 @@ export default class Compiler {
     this.push(node, teal, 'void');
   }
 
-  private pushMethod(subroutine: ABIMethod) {
+  private getSignature(subroutine: ABIMethod): string {
     const abiArgs = subroutine.args.map((a) => this.getABITupleString(a.type));
 
     let abiReturns = subroutine.returns.type;
@@ -1215,12 +1291,15 @@ export default class Compiler {
         break;
     }
 
-    const sig = `${subroutine.name}(${abiArgs.join(',')})${this.getABITupleString(abiReturns)}`;
-    this.pushVoid(this.lastNode, `method "${sig}"`);
+    return `${subroutine.name}(${abiArgs.join(',')})${this.getABITupleString(abiReturns)}`;
+  }
+
+  private pushMethod(subroutine: ABIMethod) {
+    this.pushVoid(this.lastNode, `method "${this.getSignature(subroutine)}"`);
   }
 
   private routeAbiMethods() {
-    const switchIndex = 9;
+    const switchIndex = this.teal.findIndex((t) => t.startsWith('switch '));
 
     ON_COMPLETES.forEach((onComplete) => {
       if (onComplete === 'ClearState') return;
@@ -1235,14 +1314,14 @@ export default class Compiler {
           return;
         }
 
-        this.pushVoid(this.lastNode, `${a}_${onComplete}:`);
+        this.pushVoid(this.classNode, `${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.lastNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.classNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
-          this.pushVoid(this.lastNode, 'err');
+          this.pushVoid(this.classNode, 'err');
           return;
         }
 
@@ -1250,7 +1329,15 @@ export default class Compiler {
           this.pushMethod(m);
         });
 
-        this.pushLines(this.lastNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`, 'err');
+        this.pushLines(this.classNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`);
+
+        const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
+
+        if (nonAbi) {
+          this.pushLines(this.classNode, '// !!!! WARNING: non-ABI routing', `callsub ${nonAbi.name}`);
+        } else {
+          this.pushVoid(this.classNode, 'err');
+        }
       });
     });
 
@@ -1426,15 +1513,16 @@ export default class Compiler {
   }
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
-    this.processNode(node.condition);
-    this.pushVoid(node, `bz ternary${this.ternaryCount}_false`);
-    this.processNode(node.whenTrue);
-    this.pushVoid(node, `b ternary${this.ternaryCount}_end`);
-    this.pushVoid(node, `ternary${this.ternaryCount}_false:`);
-    this.processNode(node.whenFalse);
-    this.pushVoid(node, `ternary${this.ternaryCount}_end:`);
-
+    const tc = this.ternaryCount;
     this.ternaryCount += 1;
+
+    this.processNode(node.condition);
+    this.pushVoid(node, `bz ternary${tc}_false`);
+    this.processNode(node.whenTrue);
+    this.pushVoid(node, `b ternary${tc}_end`);
+    this.pushVoid(node, `ternary${tc}_false:`);
+    this.processNode(node.whenFalse);
+    this.pushVoid(node, `ternary${tc}_end:`);
   }
 
   private pushLines(node: ts.Node, ...lines: string[]) {
@@ -1694,14 +1782,14 @@ export default class Compiler {
     accessors: (ts.Expression | string)[],
     name: string,
     type: 'frame' | 'storage',
-    storageExpression?: ts.CallExpression,
+    storageExpression?: ts.PropertyAccessExpression,
     storageKeyFrame?: string
     storageAccountFrame?: string
   } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
     let type: 'frame' | 'storage' = 'frame';
-    let storageExpression: ts.CallExpression | undefined;
+    let storageExpression: ts.PropertyAccessExpression | undefined;
 
     const accessors: (ts.Expression | string)[][] = [];
 
@@ -1715,7 +1803,7 @@ export default class Compiler {
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
-      name = currentFrame.storageExpression.getText().split('.')[1];
+      name = getStorageName(currentFrame.storageExpression)!;
       type = 'storage';
       storageExpression = currentFrame.storageExpression;
     }
@@ -1732,11 +1820,13 @@ export default class Compiler {
     }
 
     if (currentFrame.storageExpression !== undefined) {
-      this.storageFunctions[this.storageProps[name].type].get(
-        currentFrame.storageExpression,
-        currentFrame.storageKeyFrame,
-        currentFrame.storageAccountFrame,
-      );
+      this.handleStorageAction({
+        node: currentFrame.storageExpression,
+        name,
+        storageKeyFrame: currentFrame.storageKeyFrame,
+        storageAccountFrame: currentFrame.storageAccountFrame,
+        action: 'get',
+      });
     } else {
       this.push(
         node,
@@ -1765,26 +1855,30 @@ export default class Compiler {
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           const { type } = this.storageProps[processedFrame.name];
-          this.storageFunctions[type].set(
-            processedFrame.storageExpression,
-            processedFrame.storageKeyFrame,
-            processedFrame.storageAccountFrame,
-          );
+          this.handleStorageAction({
+            node: processedFrame.storageExpression!,
+            storageAccountFrame: processedFrame.storageAccountFrame,
+            storageKeyFrame: processedFrame.storageKeyFrame,
+            action: 'set',
+            name: processedFrame.name,
+          });
         }
       }
     } else if (
-      ts.isCallExpression(node)
-                && ts.isPropertyAccessExpression(node.expression)
-                && ts.isPropertyAccessExpression(node.expression.expression)
-                && Object.keys(this.storageProps).includes(
-                  node.expression.expression?.name?.getText(),
-                )
+      ts.isCallExpression(node) || ts.isPropertyAccessExpression(node)
     ) {
-      const storageProp = this.storageProps[
-        node.expression.expression.name.getText()
-      ];
+      let storageName: string | undefined;
 
-      this.storageFunctions[storageProp.type].set(node);
+      if (ts.isCallExpression(node)) {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw new Error('Must be property access expression');
+        storageName = getStorageName(node.expression);
+      } else storageName = getStorageName(node);
+
+      this.handleStorageAction({
+        node,
+        name: storageName!,
+        action: 'set',
+      });
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
     }
@@ -2234,6 +2328,11 @@ export default class Compiler {
       return;
     }
 
+    if (this.storageProps[baseType]) {
+      this.lastType = baseType;
+      return;
+    }
+
     this.processArrayAccess(node);
   }
 
@@ -2246,9 +2345,11 @@ export default class Compiler {
     this.currentSubroutine = {
       name: node.name.getText(),
       allows: { call: [], create: [] },
+      nonAbi: { call: [], create: [] },
       args: [],
       desc: '',
       returns: { type: returnType, desc: '' },
+      node,
     };
 
     new Array(...node.parameters).reverse().forEach((p) => {
@@ -2278,12 +2379,8 @@ export default class Compiler {
       const isCreate = this.currentSubroutine.name === 'createApplication';
       const oc = isCreate ? 'NoOp' : capitalizeFirstChar(this.currentSubroutine.name) as OnComplete;
       const action = isCreate ? 'CREATE' : 'CALL';
-      if (this.currentSubroutine.args.length === 0) {
-        bareAction = true;
-        this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
-      } else {
-        this.currentSubroutine.allows[action.toLowerCase() as 'call' | 'create'].push(oc);
-      }
+
+      this.currentSubroutine.allows[action.toLowerCase() as 'call' | 'create'].push(oc);
     }
 
     (ts.getDecorators(node) || []).forEach(
@@ -2337,13 +2434,39 @@ export default class Compiler {
             }
             break;
 
+          case 'nonABIRouterFallback':
+            if (callExpr.arguments[0]) {
+              const arg = callExpr.arguments[0];
+
+              if (!ts.isStringLiteral(arg)) throw Error(`Invalid OnComplete: ${arg.getText()}`);
+
+              const oc = arg.text as 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
+              if (!ON_COMPLETES.includes(oc)) throw Error(`Invalid OnComplete: ${oc}`);
+
+              if (decoratorFunction !== 'call' && decoratorFunction !== 'create') throw Error(`Unknown decorator ${d.getText()}`);
+              if (this.currentSubroutine.args.length !== 0) throw Error('Non-ABI methods must not have arguments defined');
+              if (this.currentSubroutine.returns.type !== 'void') throw Error('Non-ABI methods must return void');
+
+              this.currentSubroutine.nonAbi[decoratorFunction as 'call' | 'create'].push(oc);
+            } else throw Error(`Missing OnComplete in decorator ${d.getText()}`);
+
+            break;
           default:
             throw Error(`Unknown decorator ${d.getText()}`);
         }
       },
     );
 
-    const { allows } = this.currentSubroutine;
+    const { allows, nonAbi } = this.currentSubroutine;
+    if (nonAbi.call.length + nonAbi.create.length > 0) {
+      if (allows.call.length + allows.create.length > 0) {
+        throw Error('Cannot mix @allow and @nonABIRouterFallback decorators');
+      }
+
+      this.processSubroutine(node);
+      return;
+    }
+
     if (allows.create.length + allows.call.length === 0 && bareAction === false) {
       allows.call.push('NoOp');
     }
@@ -2352,6 +2475,34 @@ export default class Compiler {
   }
 
   private processClassDeclaration(node: ts.ClassDeclaration) {
+    this.classNode = node;
+
+    this.pushLines(
+      node,
+      '#pragma version 9',
+      '',
+      `// This TEAL was generated by TEALScript v${VERSION}`,
+      '// https://github.com/algorand-devrel/TEALScript',
+      '',
+      '// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]',
+      '',
+      '// The following ten lines of TEAL handle initial program flow',
+      '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
+      '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
+      '// Every possible action for this contract is represented in the switch statement',
+      '// If the action is not implmented in the contract, its repsective branch will be "NOT_IMPLMENTED" which just contains "err"',
+      'txn ApplicationID',
+      'int 0',
+      '>',
+      'int 6',
+      '*',
+      'txn OnCompletion',
+      '+',
+      'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
+      'NOT_IMPLEMENTED:',
+      'err',
+    );
+
     node.members.forEach((m) => {
       this.processNode(m);
     });
@@ -2419,14 +2570,14 @@ export default class Compiler {
   }
 
   private getStackTypeFromNode(node: ts.Node) {
-    const preSrcMap = this.rawSrcMap;
+    const preSrcObj = this.rawSrcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
     this.processNode(node);
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
-    this.rawSrcMap = preSrcMap;
+    this.rawSrcMap = preSrcObj;
     return this.customTypes[type] || type;
   }
 
@@ -2499,6 +2650,19 @@ export default class Compiler {
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processArrayAccess(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
+        const storageName = getStorageName(node.left);
+
+        if (storageName && this.storageProps[storageName]) {
+          this.handleStorageAction({
+            node: node.left,
+            name: storageName,
+            action: 'set',
+            newValue: node.right,
+          });
+
+          return;
+        }
+
         const expressionType = this.getStackTypeFromNode(node.left.expression);
         const index = Object
           .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
@@ -2534,7 +2698,13 @@ export default class Compiler {
 
     this.typeComparison(leftType, this.lastType, 'math');
 
-    const operator = node.operatorToken.getText().replace('===', '==').replace('!==', '!=');
+    const operator = node.operatorToken.getText()
+      .replace('>>', 'shr')
+      .replace('<<', 'shl')
+      .replace('===', '==')
+      .replace('!==', '!=')
+      .replace('**', 'exp');
+
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
@@ -2615,9 +2785,10 @@ export default class Compiler {
 
     if (ts.isStringLiteral(node.expression)) {
       const width = parseInt(type.match(/\d+/)![0], 10);
-      const str = node.expression.text.padEnd(width);
+      const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
-      this.push(node, `byte "${str}"`, type);
+      const padBytes = width - str.length;
+      this.push(node, `byte "${str + '\\x00'.repeat(padBytes)}"`, type);
       return;
     }
 
@@ -2654,7 +2825,7 @@ export default class Compiler {
   private initializeStorageFrame(
     node: ts.Node,
     name: string,
-    storageExpression: ts.CallExpression,
+    storageExpression: ts.PropertyAccessExpression,
     type: string,
     accessors?:(string | ts.Expression)[],
   ) {
@@ -2664,11 +2835,15 @@ export default class Compiler {
       type,
     };
 
-    const storageName = storageExpression.expression.getText().split('.')[1];
+    const storageName = getStorageName(storageExpression)!;
 
     const storageProp = this.storageProps[storageName];
 
-    const keyNode = storageExpression.arguments[storageProp.type === 'local' ? 1 : 0];
+    if (!ts.isCallExpression(storageExpression.expression)) throw Error();
+
+    const argLength = storageExpression.expression.arguments.length;
+
+    const keyNode = storageExpression.expression.arguments[argLength === 2 ? 1 : 0];
 
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
@@ -2699,7 +2874,7 @@ export default class Compiler {
     }
 
     if (storageProp.type === 'local') {
-      const accountNode = storageExpression.arguments[0];
+      const accountNode = storageExpression.expression.arguments[0];
       const accountFrameName = `storage account//${name}`;
 
       this.addSourceComment(node, true);
@@ -2777,7 +2952,7 @@ export default class Compiler {
           });
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(accessChain[0].expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
             this.initializeStorageFrame(
               node,
               name,
@@ -2797,6 +2972,17 @@ export default class Compiler {
         }
       }
 
+      if (
+        ts.isPropertyAccessExpression(node.initializer)
+        && getStorageName(node.initializer)
+         && this.storageProps[getStorageName(node.initializer)!]
+         && isArray
+      ) {
+        this.initializeStorageFrame(node, name, node.initializer, initializerType);
+
+        return;
+      }
+
       if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
         // const chain = this.getChain(node.initializer);
 
@@ -2808,7 +2994,7 @@ export default class Compiler {
             .indexOf(node.initializer.name.getText());
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isCallExpression(node.initializer.expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(node.initializer.expression)) throw new Error('Expected call expression');
 
             this.initializeStorageFrame(
               node,
@@ -2827,19 +3013,6 @@ export default class Compiler {
 
           return;
         }
-      }
-
-      if (
-        ts.isCallExpression(node.initializer)
-      && isArray
-      && ts.isPropertyAccessExpression(node.initializer.expression)
-      && ts.isPropertyAccessExpression(node.initializer.expression.expression)
-      && Object.keys(this.storageProps).includes(
-        node.initializer.expression.expression?.name?.getText(),
-      )) {
-        this.initializeStorageFrame(node, name, node.initializer, initializerType);
-
-        return;
       }
 
       this.frame[name] = {
@@ -2886,11 +3059,27 @@ export default class Compiler {
       methodName = node.expression.getText();
     }
 
+    if (this.storageProps[methodName]) return;
+
     if (!ts.isPropertyAccessExpression(node.expression)) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
+      } else if (methodName === 'templateVar') {
+        if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
+        if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('templateVar must have exactly one string literal argument');
+        const type = node.typeArguments[0].getText();
+        const name = node.arguments[0].text;
+
+        if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null) throw Error('Template variable name may only contain capital letters and underscores');
+
+        if (type === 'bytes' || type === 'string') {
+          this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
+        } else if (type === 'uint64' || type === 'number') {
+          this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
+        } else throw Error(`Invalid templateVar type ${type}`);
       } else if (TXN_METHODS.includes(methodName)) {
-        this.processTransaction(node);
+        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
       } else if (['addr'].includes(methodName)) {
         // TODO: add pseudo op type parsing/assertion to handle this
         // not currently exported in langspeg.json
@@ -2902,7 +3091,13 @@ export default class Compiler {
       } else if (this.customMethods[methodName]) {
         this.customMethods[methodName](node);
       }
-    } else if (methodName === 'fromIndex') {
+    } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
+      if (TXN_METHODS.includes(methodName)) {
+        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
+      } else if (methodName === 'submit') {
+        this.pushVoid(node, 'itxn_submit');
+      } else throw new Error(`Unknown method ${node.getText()}`);
+    } else if (['fromBytes', 'fromID'].includes(methodName)) {
       this.processNode(node.arguments[0]);
       this.lastType = this.getABIType(node.expression.expression.getText());
     } else if (methodName === 'push') {
@@ -3047,12 +3242,19 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
       this.push(node.expression, `callsub ${methodName}`, subroutine.returns.type);
-    } else if (
-      ts.isPropertyAccessExpression(node.expression.expression)
-      && Object.keys(this.storageProps).includes(node.expression.expression?.name?.getText())
-    ) {
-      this.processStorageCall(node);
     } else {
+      const storageName = getStorageName(node.expression);
+
+      if (storageName && this.storageProps[storageName]) {
+        this.handleStorageAction({
+          node,
+          name: storageName,
+          action: methodName as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
+
+        return;
+      }
+
       if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
         this.processNode(node.expression);
       } else {
@@ -3122,13 +3324,13 @@ export default class Compiler {
   }
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
-    if (node.initializer === undefined || !ts.isNewExpression(node.initializer)) throw new Error();
+    if (node.initializer === undefined || !ts.isCallExpression(node.initializer)) throw new Error();
 
     const klass = node.initializer.expression.getText();
 
     if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
       let props: StorageProp;
-      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '');
+      const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
       const typeArgs = node.initializer.typeArguments;
 
       if (typeArgs === undefined) {
@@ -3180,6 +3382,11 @@ export default class Compiler {
               if (!ts.isStringLiteral(p.initializer)) throw new Error('Storage prefix must be string');
               props.prefix = p.initializer.text;
               break;
+            case 'maxKeys':
+              if (!klass.includes('Map')) throw new Error(`${name} only applies to storage maps`);
+              if (!ts.isNumericLiteral(p.initializer)) throw new Error('Storage maxKeys must be number');
+              props.maxKeys = parseInt(p.initializer.text, 10);
+              break;
             default:
               throw new Error(`Unknown property ${name}`);
           }
@@ -3189,6 +3396,8 @@ export default class Compiler {
       if (!props.key && klass.includes('Key')) {
         props.key = node.name.getText();
       }
+
+      if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
       if (klass.includes('Map') && !props.prefix) {
         const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
@@ -3234,6 +3443,20 @@ export default class Compiler {
   }
 
   private processMemberExpression(node: ts.PropertyAccessExpression) {
+    const storageName = getStorageName(node);
+
+    if (
+      storageName && this.storageProps[storageName]
+    ) {
+      const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
+      this.handleStorageAction({
+        node,
+        name: storageName,
+        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+      });
+      return;
+    }
+
     if (node.expression.getText() === 'TransactionType') {
       const enums: {[key: string]: string} = {
         Unknown: 'unknown',
@@ -3266,7 +3489,7 @@ export default class Compiler {
           this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
         } else if (n.name.getText() === 'zeroAddress') {
           this.push(n.name, 'global ZeroAddress', 'Address');
-        } else if (n.name.getText() !== 'fromIndex') throw new Error();
+        } else if (!['fromBytes', 'fromID'].includes(n.name.getText())) throw new Error();
         return;
       }
 
@@ -3296,6 +3519,20 @@ export default class Compiler {
 
       if (n.kind === ts.SyntaxKind.CallExpression) {
         this.processNode(n);
+        return;
+      }
+
+      const nStorageName = getStorageName(n);
+
+      if (
+        nStorageName && this.storageProps[nStorageName]
+      ) {
+        const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
+        this.handleStorageAction({
+          node: n,
+          name: nStorageName,
+          action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
         return;
       }
 
@@ -3343,7 +3580,8 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    const frameStart = this.teal.length;
+    const currentTeal = () => (this.compilingApproval ? this.teal : this.clearTeal);
+    const frameStart = currentTeal().length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
@@ -3368,11 +3606,11 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(this.teal.at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
-      end: this.teal.length,
+      end: currentTeal().length,
       frame: {},
     };
 
@@ -3391,7 +3629,9 @@ export default class Compiler {
     if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
 
     this.compilingApproval = false;
+    if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
+    this.pushLines(fn.body!, 'int 1', 'return');
     this.clearStateCompiled = true;
     this.compilingApproval = true;
   }
@@ -3402,7 +3642,27 @@ export default class Compiler {
       return;
     }
 
-    this.pushVoid(fn, `abi_route_${this.currentSubroutine.name}:`);
+    const headerComment = [`// ${this.getSignature(this.currentSubroutine)}`];
+
+    if (this.currentSubroutine.desc !== '') {
+      headerComment.push('//');
+      const descLines = this.currentSubroutine.desc.split('\n');
+      descLines.forEach((line, i) => {
+        const newLine = line.trim()
+          .replace(/^\/\*\*/, '')
+          .replace(/\*\/$/, '')
+          .replace(/^\*/, '');
+        if (newLine.trim() !== '' || !(i === 0 || i === descLines.length - 1)) headerComment.push(`// ${newLine.trim()}`);
+      });
+    }
+
+    while (headerComment.at(-1) === '// ') headerComment.pop();
+
+    this.pushLines(
+      fn,
+      ...headerComment,
+      `abi_route_${this.currentSubroutine.name}:`,
+    );
 
     const argCount = fn.parameters.length;
 
@@ -3415,6 +3675,8 @@ export default class Compiler {
     new Array(...fn.parameters).reverse().forEach((p) => {
       const type = this.getABIType(p!.type!.getText());
       const abiType = type;
+
+      this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace('bytes', 'byte[]')}`);
 
       if (!TXN_TYPES.includes(type)) {
         this.pushVoid(p, `txna ApplicationArgs ${nonTxnArgCount -= 1}`);
@@ -3450,6 +3712,8 @@ export default class Compiler {
         returns: { type: returnType, desc: '' },
       });
     }
+
+    this.pushVoid(fn, `// execute ${this.getSignature(this.currentSubroutine)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
     this.pushVoid(fn, 'int 1');
     this.pushVoid(fn, 'return');
@@ -3492,81 +3756,93 @@ export default class Compiler {
     this.push(node.expression, line.join(' '), returnType);
   }
 
-  private processStorageCall(node: ts.CallExpression) {
-    if (!ts.isPropertyAccessExpression(node.expression)) throw new Error();
-    if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error();
-
-    const op = node.expression.name.getText();
-    const { type, valueType } = this.storageProps[node.expression.expression.name.getText()];
-
-    this.typeHint = valueType;
-
-    this.storageFunctions[type][op](node);
-
-    this.typeHint = undefined;
-  }
-
-  private processTransaction(node: ts.CallExpression) {
+  private processTransaction(
+    node: ts.Node,
+    name: string,
+    fields: ts.Node,
+    typeArgs?: ts.NodeArray<ts.TypeNode>,
+  ) {
+    if (!ts.isObjectLiteralExpression(fields)) throw new Error('Transaction fields must be an object literal');
+    const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
+    const send = name.startsWith('send');
     let txnType = '';
 
-    switch (node.expression.getText()) {
-      case 'sendPayment':
+    fields.properties.forEach((p) => {
+      const key = p.name?.getText();
+
+      if (key === 'methodArgs') {
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map(
+          (t) => t.getText(),
+        );
+
+        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
+
+        p.initializer.elements.forEach((e, i: number) => {
+          if (argTypes[i].startsWith('Inner')) {
+            const txnTypeArg = (typeArgs[0] as ts.TupleTypeNode).elements[i];
+            if (!ts.isTypeReferenceNode(txnTypeArg)) throw Error('Invalid transaction type argument');
+            this.processTransaction(e, txnTypeArg.typeName.getText(), e, txnTypeArg.typeArguments);
+          }
+        });
+      }
+    });
+
+    switch (method) {
+      case 'Payment':
         txnType = TransactionType.PaymentTx;
         break;
-      case 'sendAssetTransfer':
+      case 'AssetTransfer':
         txnType = TransactionType.AssetTransferTx;
         break;
-      case 'sendMethodCall':
-      case 'sendAppCall':
+      case 'MethodCall':
+      case 'AppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
-      case 'sendAssetCreation':
-      case 'sendAssetConfig':
+      case 'AssetCreation':
+      case 'AssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
-      case 'sendAssetFreeze':
+      case 'AssetFreeze':
         txnType = TransactionType.AssetFreezeTx;
         break;
-      case 'sendOfflineKeyRegistration':
-      case 'sendOnlineKeyRegistration':
+      case 'OfflineKeyRegistration':
+      case 'OnlineKeyRegistration':
         txnType = TransactionType.KeyRegistrationTx;
         break;
       default:
-        throw new Error(`Invalid transaction call ${node.expression.getText()}`);
+        throw new Error(`Invalid transaction call ${name}`);
     }
 
     this.pushVoid(node, 'itxn_begin');
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
-    if (!ts.isObjectLiteralExpression(node.arguments[0])) throw new Error('Transaction call argument must be an object');
-
-    const nameProp = node.arguments[0].properties.find(
+    const nameProp = fields.properties.find(
       (p) => p.name?.getText() === 'name',
-
     );
 
     if (nameProp && txnType === TransactionType.ApplicationCallTx) {
       if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer)) throw new Error('Method call name key must be a string');
 
-      if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+      if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
 
-      const argTypes = node.typeArguments[0].elements.map(
+      const argTypes = typeArgs[0].elements.map(
         (t) => this.getABITupleString(this.getABIType(t.getText())),
       );
 
-      let returnType = node.typeArguments![1].getText();
+      let returnType = typeArgs![1].getText();
 
       returnType = returnType.toLowerCase()
         .replace('asset', 'uint64')
         .replace('account', 'address')
         .replace('application', 'uint64');
 
-      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`);
+      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`.replace(/bytes/g, 'byte[]'));
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
-    node.arguments[0].properties.forEach((p) => {
+    fields.properties.forEach((p) => {
       const key = p.name?.getText();
 
       if (key === undefined) throw new Error('Key must be defined');
@@ -3583,8 +3859,8 @@ export default class Compiler {
         this.pushVoid(p.initializer, `int ${p.initializer.text}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
-        if (node.typeArguments === undefined || !ts.isTupleTypeNode(node.typeArguments[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
-        const argTypes = node.typeArguments[0].elements.map(
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map(
           (t) => this.getABIType(t.getText()),
         );
 
@@ -3616,6 +3892,8 @@ export default class Compiler {
           } else if (argTypes[i] === StackType.uint64) {
             this.processNode(e);
             this.pushVoid(e, 'itob');
+          } else if (TXN_TYPES.includes(argTypes[i])) {
+            return;
           } else {
             this.processNode(e);
             this.checkEncoding(e, argTypes[i]);
@@ -3635,23 +3913,29 @@ export default class Compiler {
       }
     });
 
-    this.pushVoid(node, 'itxn_submit');
+    if (!fields.properties.map((p) => p.name?.getText()).includes('fee')) {
+      this.pushLines(node, '// Fee field not set, defaulting to 0', 'int 0', 'itxn_field Fee');
+    }
 
-    if (node.expression.getText() === 'sendMethodCall' && node.typeArguments![1].getText() !== 'void') {
-      this.pushLines(
-        node.expression,
-        'itxn NumLogs',
-        'int 1',
-        '-',
-        'itxnas Logs',
-        'extract 4 0',
-      );
+    if (send) {
+      this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
-      const returnType = this.getABIType(node.typeArguments![1].getText());
-      if (isNumeric(returnType)) this.pushVoid(node.typeArguments![1], 'btoi');
-      this.lastType = returnType;
-    } else if (node.expression.getText() === 'sendAssetCreation') {
-      this.push(node.expression, 'itxn CreatedAssetID', 'asset');
+      if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
+        this.pushLines(
+          node,
+          'itxn NumLogs',
+          'int 1',
+          '-',
+          'itxnas Logs',
+          'extract 4 0',
+        );
+
+        const returnType = this.getABIType(typeArgs![1].getText());
+        if (isNumeric(returnType)) this.pushVoid(typeArgs![1], 'btoi');
+        this.lastType = returnType;
+      } else if (name === 'sendAssetCreation') {
+        this.push(node, 'itxn CreatedAssetID', 'asset');
+      }
     }
   }
 
@@ -3741,6 +4025,19 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<string> {
+    // Replace template variables
+    const body = this.approvalProgram().split('\n').map((t) => {
+      if (t.match(/(int|byte) TMPL_/)) {
+        const s = t.trim().split(' ');
+        const hex = Buffer.from(s[1]).toString('hex');
+
+        if (s[0] === 'int') return `int ${parseInt(hex, 16) % (2 ** 64)}`;
+        return `byte 0x${hex}`;
+      }
+
+      return t;
+    }).join('\n');
+
     const response = await fetch(
       `${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`,
       {
@@ -3749,7 +4046,7 @@ export default class Compiler {
           'Content-Type': 'text/plain',
           'X-Algo-API-Token': this.algodToken,
         },
-        body: this.approvalProgram(),
+        body,
       },
     );
 
@@ -3789,37 +4086,6 @@ export default class Compiler {
       this.pcToLine[pc] = lastLine;
     }
 
-    const tealSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.name}.approval.teal`,
-      sourceRoot: '',
-    });
-
-    const pcSrcMap = new sourceMap.SourceMapGenerator({
-      file: `${this.name}.approval.teal`,
-      sourceRoot: '',
-    });
-
-    this.rawSrcMap.forEach((s) => {
-      // TODO: Figure out what causes these 0s
-      if (s.source.start.line === 0 || s.pc === 0) return;
-      tealSrcMap.addMapping({
-        source: path.basename(this.filename),
-        original: { line: s.source.start.line, column: s.source.start.character },
-        generated: { line: s.teal, column: 0 },
-      });
-
-      pcSrcMap.addMapping({
-        source: path.basename(this.filename),
-        original: { line: s.source.start.line, column: s.source.start.character },
-        generated: { line: s.pc, column: 0 },
-      });
-    });
-
-    this.srcMaps = {
-      pc: pcSrcMap.toJSON(),
-      teal: tealSrcMap.toJSON(),
-    };
-
     return json.result;
   }
 
@@ -3833,7 +4099,9 @@ export default class Compiler {
     const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
 
     if (this.filename.length > 0) { this.pushVoid(node, `// ${this.filename}:${lineNum}`); }
-    this.pushVoid(node, `// ${node.getText().replace(/\n/g, '\n//').split('\n')[0]}`);
+
+    const lines = node.getText().split('\n').map((l) => `// ${l}`);
+    this.pushLines(node, ...lines);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
@@ -3862,27 +4130,35 @@ export default class Compiler {
       switch (v.type) {
         case 'global':
           if (isNumeric(v.valueType)) {
-            state.global.num_uints += 1;
-            globalDeclared[k] = { type: 'uint64', key: k };
+            state.global.num_uints += v.maxKeys || 1;
+            globalDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
-            globalDeclared[k] = { type: 'bytes', key: k };
-            state.global.num_byte_slices += 1;
+            globalDeclared[k] = { type: 'bytes', key: v.key || k };
+            state.global.num_byte_slices += v.maxKeys || 1;
           }
 
           break;
         case 'local':
           if (isNumeric(v.valueType)) {
-            state.local.num_uints += 1;
-            localDeclared[k] = { type: 'uint64', key: k };
+            state.local.num_uints += v.maxKeys || 1;
+            localDeclared[k] = { type: 'uint64', key: v.key || k };
           } else {
-            state.local.num_byte_slices += 1;
-            localDeclared[k] = { type: 'bytes', key: k };
+            state.local.num_byte_slices += v.maxKeys || 1;
+            localDeclared[k] = { type: 'bytes', key: v.key || k };
           }
           break;
         default:
           // TODO: boxes?
           break;
       }
+    }
+
+    if (state.global.num_uints + state.global.num_byte_slices > 64) {
+      throw new Error('over allocated global state');
+    }
+
+    if (state.local.num_uints + state.local.num_byte_slices > 16) {
+      throw new Error('over allocated local state');
     }
 
     const hints: {[signature: string]: {'call_config': {[action: string]: string}}} = {};
@@ -3961,6 +4237,8 @@ export default class Compiler {
     let lastIsLabel: boolean = false;
 
     teal.forEach((t, i) => {
+      if (t === '// No extra bytes needed for this subroutine') return;
+
       if (t.startsWith('//')) {
         comments.push(t);
         return;
@@ -3984,9 +4262,14 @@ export default class Compiler {
         lastIsLabel = false;
       }
 
-      const thisLine = this.rawSrcMap.find((s) => s.teal === i);
+      const thisLine = this.rawSrcMap.find((s) => s.teal === i + 1);
       if (thisLine) {
-        thisLine!.teal = output.length;
+        thisLine.prettyTeal = output.length;
+        this.srcMap.push({
+          teal: output.length,
+          source: thisLine.source,
+          pc: thisLine.pc,
+        });
       }
     });
 

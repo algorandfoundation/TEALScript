@@ -36,7 +36,7 @@ async function main() {
     },
     algodClient,
   );
-  await merkleTree.create.bare();
+  await merkleTree.create.createApplication({});
 
   const state = await merkleTree.appClient.getGlobalState();
 

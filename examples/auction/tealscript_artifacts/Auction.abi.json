@@ -3,6 +3,15 @@
   "desc": "",
   "methods": [
     {
+      "name": "createApplication",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
       "name": "optIntoAsset",
       "args": [
         {
@@ -84,6 +93,15 @@
           "desc": ""
         }
       ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "deleteApplication",
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",

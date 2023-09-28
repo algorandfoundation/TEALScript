@@ -11,9 +11,9 @@ type Path = StaticArray<Branch, typeof TREE_DEPTH>
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {
-  root = new GlobalStateKey<byte32>();
+  root = GlobalStateKey<byte32>();
 
-  size = new GlobalStateKey<uint64>();
+  size = GlobalStateKey<uint64>();
 
   private calcInitRoot(): byte32 {
     let result = EMPTY_HASH;
@@ -50,30 +50,30 @@ class MerkleTree extends Contract {
   }
 
   deleteApplication(): void {
-    assert(this.txn.sender === this.app.creator);
+    verifyTxn(this.txn, { sender: this.app.creator });
   }
 
   createApplication(): void {
-    this.root.set(this.calcInitRoot());
+    this.root.value = this.calcInitRoot();
   }
 
   verify(data: bytes, path: Path): void {
-    assert(this.root.get() === this.calcRoot(sha256(data), path));
+    assert(this.root.value === this.calcRoot(sha256(data), path));
   }
 
   appendLeaf(data: bytes, path: Path): void {
     assert(data !== '');
-    assert(this.root.get() === this.calcRoot(EMPTY_HASH, path));
+    assert(this.root.value === this.calcRoot(EMPTY_HASH, path));
 
-    this.root.set(this.calcRoot(sha256(data), path));
+    this.root.value = this.calcRoot(sha256(data), path);
 
-    this.size.set(this.size.get() + 1);
+    this.size.value = this.size.value + 1;
   }
 
   updateLeaf(oldData: bytes, newData: bytes, path: Path): void {
     assert(newData !== '');
-    assert(this.root.get() === this.calcRoot(sha256(oldData), path));
+    assert(this.root.value === this.calcRoot(sha256(oldData), path));
 
-    this.root.set(this.calcRoot(sha256(newData), path));
+    this.root.value = this.calcRoot(sha256(newData), path);
   }
 }
