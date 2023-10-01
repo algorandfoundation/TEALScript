@@ -17,13 +17,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org'
       - run: npm i -g bun
       - run: bun install --frozen-lockfile
       - run: npm run release
         env:
-          NPM_CONFIG_REGISTRY: 'https://npm.pkg.github.com'
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge main -> dev
         uses: devmasx/merge-branch@854d3ac71ed1e9deb668e0074781b81fdd6e771f
