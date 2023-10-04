@@ -1363,7 +1363,30 @@ export default class Compiler {
     )).flat();
   }
 
+  private getTypeScriptDiagnostics() {
+    const program = ts.createProgram({ rootNames: [this.filename], options: {} });
+
+    const diags = ts.getPreEmitDiagnostics(program)
+      .filter((d) => (d.file ? d.file.fileName === this.filename : true));
+
+    if (diags.length > 0) {
+      const messages = diags.map((d) => {
+        if (d.file === undefined) return ts.flattenDiagnosticMessageText(d.messageText, '\n');
+
+        const { line, character } = ts.getLineAndCharacterOfPosition(d.file, d.start!);
+        const message = ts.flattenDiagnosticMessageText(d.messageText, '\n');
+        return `${d.file.fileName}:${line + 1}:${character + 1}: ${message}`;
+      });
+
+      throw Error(`TypeScript diagnostics failed:\n${messages.join('\n')}`);
+    }
+  }
+
   async compile() {
+    if (this.filename !== '') this.getTypeScriptDiagnostics();
+    // eslint-disable-next-line no-console
+    else console.warn('No filename provided, skipping TypeScript diagnostics');
+
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
         this.customTypes[body.name.getText()] = body.type.getText();
