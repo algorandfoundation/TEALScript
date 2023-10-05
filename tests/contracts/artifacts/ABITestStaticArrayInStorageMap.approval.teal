@@ -73,12 +73,7 @@ staticArrayInStorageMap:
 	//     ]
 	byte "gMap"
 	app_global_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -86,12 +81,7 @@ staticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -100,12 +90,7 @@ staticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi

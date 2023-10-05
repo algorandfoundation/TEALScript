@@ -67,14 +67,7 @@ nestedStaticArray:
 	// tests/contracts/abi.algo.ts:208
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	store 0 // full array
-	int 0 // initial offset
-	int 24 // acc * typeLength
-	+
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 32 // element offset
 	int 8
 	extract3
 	btoi

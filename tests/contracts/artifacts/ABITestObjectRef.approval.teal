@@ -45,8 +45,7 @@ objectRef:
 	frame_dig -1 // o: {foo: uint64}
 	store 0 // full array
 	int 0 // initial offset
-	int 0 // headOffset
-	+
+	int 0 // element offset
 	load 0 // full array
 	swap
 	int 2

@@ -50,12 +50,7 @@ simpleTuple:
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	store 0 // full array
-	int 0 // initial offset
-	int 18 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 18 // element offset
 	int 2
 	extract3
 	byte 0xFFFF

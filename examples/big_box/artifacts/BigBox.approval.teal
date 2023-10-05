@@ -222,12 +222,7 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 16 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 16 // element offset
 	int 1
 	extract3
 	byte 0x00
@@ -239,12 +234,7 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 0 // element offset
 	int 8
 	extract3
 	btoi
@@ -256,12 +246,7 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -288,12 +273,7 @@ skip_and0:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -302,12 +282,7 @@ skip_and0:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 17 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 17 // element offset
 	int 8
 	extract3
 	btoi
@@ -362,12 +337,7 @@ setStatus:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 16 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 16 // element offset
 	int 1
 	extract3
 	frame_bury -3 // currentStatus: uint8
@@ -409,8 +379,7 @@ skip_or1:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 16 // headOffset
-	+
+	int 16 // element offset
 	load 0 // full array
 	swap
 	frame_dig -2 // status: uint8

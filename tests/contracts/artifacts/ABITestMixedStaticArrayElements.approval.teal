@@ -82,33 +82,18 @@ mixedStaticArrayElements:
 	// tests/contracts/abi.algo.ts:49
 	// return a[1] + a[4] + a[7];
 	frame_dig -4 // a: uint64[9]
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
 	frame_dig -4 // a: uint64[9]
-	store 0 // full array
-	int 0 // initial offset
-	int 32 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 32 // element offset
 	int 8
 	extract3
 	btoi
 	+
 	frame_dig -4 // a: uint64[9]
-	store 0 // full array
-	int 0 // initial offset
-	int 56 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 56 // element offset
 	int 8
 	extract3
 	btoi

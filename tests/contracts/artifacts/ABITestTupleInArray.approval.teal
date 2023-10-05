@@ -52,14 +52,7 @@ tupleInArray:
 	// tests/contracts/abi.algo.ts:268
 	// return a[1][1];
 	frame_dig -1 // a: [uint64,uint16][2]
-	store 0 // full array
-	int 0 // initial offset
-	int 10 // acc * typeLength
-	+
-	int 8 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 18 // element offset
 	int 2
 	extract3
 	byte 0xFFFF

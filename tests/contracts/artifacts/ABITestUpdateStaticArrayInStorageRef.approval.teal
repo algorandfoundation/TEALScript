@@ -71,8 +71,7 @@ updateStaticArrayInStorageRef:
 	app_global_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8 // element offset
 	load 0 // full array
 	swap
 	int 111
@@ -89,8 +88,7 @@ updateStaticArrayInStorageRef:
 	app_local_get
 	store 0 // full array
 	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8 // element offset
 	load 0 // full array
 	swap
 	int 222
@@ -108,8 +106,7 @@ updateStaticArrayInStorageRef:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8 // element offset
 	load 0 // full array
 	swap
 	int 333
@@ -127,12 +124,7 @@ updateStaticArrayInStorageRef:
 	//     ]
 	byte "gRef"
 	app_global_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -140,12 +132,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi
@@ -154,12 +141,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 8 // element offset
 	int 8
 	extract3
 	btoi

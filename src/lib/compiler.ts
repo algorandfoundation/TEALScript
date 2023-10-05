@@ -6,6 +6,7 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
+import { access } from 'fs';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
@@ -2009,6 +2010,38 @@ export default class Compiler {
     let previousTupleElement = topLevelTuple;
     let previousElemIsBool = false;
 
+    // If the top level tuple is static and doesn't contain bools,
+    // we can calculate the offset during compilation
+    // TODO: Add bool support
+    const isNonBoolStatic = !this.isDynamicType(topLevelTuple.type) && !topLevelTuple.type.includes('bool');
+    let literalAccessors = true;
+
+    accessors.forEach((a) => {
+      if (typeof (a) === 'string') {
+        literalAccessors = false;
+        return;
+      }
+      if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
+    });
+
+    if (isNonBoolStatic && literalAccessors) {
+      let offset = 0;
+      accessors.forEach((acc, i) => {
+        if (typeof (acc) === 'string') throw Error();
+        const accNumber = parseInt(acc.getText(), 10);
+
+        const elem = previousTupleElement[accNumber] || previousTupleElement[0];
+
+        if (previousTupleElement[accNumber]) offset += elem.headOffset;
+        else offset += accNumber * this.getTypeLength(elem.type);
+
+        previousTupleElement = elem;
+      });
+
+      this.pushVoid(node, `int ${offset} // element offset`);
+      return previousTupleElement;
+    }
+
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
       if (typeof (acc) === 'string') {
@@ -2134,6 +2167,32 @@ export default class Compiler {
     newValue?: ts.Node,
   ): void {
     const parentType = this.getABIType(this.lastType);
+
+    // If we know the tuple is static and doesn't contain bools or dynamic accessors,
+    // we can skip all of the opcodes and just use the offset calculated by getElementHead directly
+    // TODO: add bool support
+    const isNonBoolStatic = !this.isDynamicType(parentType) && !parentType.includes('bool');
+    let literalAccessors = true;
+
+    accessors.forEach((a) => {
+      if (typeof (a) === 'string') {
+        literalAccessors = false;
+        return;
+      }
+
+      if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
+    });
+
+    // TODO: support newValue
+    if (isNonBoolStatic && literalAccessors && !newValue) {
+      const elem = this.getElementHead(this.getTupleElement(parentType), accessors, node);
+      this.pushLines(node, `int ${this.getTypeLength(elem.type)}`, 'extract3');
+
+      if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
+      this.lastType = elem.type;
+
+      return;
+    }
 
     this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 

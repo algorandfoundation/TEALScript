@@ -56,14 +56,7 @@ tupleInTuple:
 	// tests/contracts/abi.algo.ts:278
 	// return a[3][1];
 	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
-	store 0 // full array
-	int 0 // initial offset
-	int 14 // headOffset
-	+
-	int 2 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 16 // element offset
 	int 8
 	extract3
 	btoi

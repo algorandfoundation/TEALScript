@@ -49,12 +49,7 @@ arc72_ownerOf:
 	frame_dig -1 // tokenId: uint256
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 0 // element offset
 	int 32
 	extract3
 	byte 0x151f7c75
@@ -90,12 +85,7 @@ arc72_tokenURI:
 	frame_dig -1 // tokenId: uint256
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 32 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 32 // element offset
 	int 256
 	extract3
 	byte 0x151f7c75
@@ -114,8 +104,7 @@ transferTo:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 0 // headOffset
-	+
+	int 0 // element offset
 	load 0 // full array
 	swap
 	frame_dig -1 // to: address
@@ -174,12 +163,7 @@ arc72_transferFrom:
 	frame_dig -4 // storage key//token
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 288 // headOffset
-	+
-	load 0 // full array
-	swap
+	int 288 // element offset
 	int 32
 	extract3
 	==
@@ -240,8 +224,7 @@ arc72_approve:
 	assert
 	store 0 // full array
 	int 0 // initial offset
-	int 288 // headOffset
-	+
+	int 288 // element offset
 	load 0 // full array
 	swap
 	frame_dig -1 // approved: address

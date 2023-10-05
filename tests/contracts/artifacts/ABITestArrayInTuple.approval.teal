@@ -55,14 +55,7 @@ arrayInTuple:
 	// tests/contracts/abi.algo.ts:258
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
-	store 0 // full array
-	int 0 // initial offset
-	int 10 // headOffset
-	+
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 18 // element offset
 	int 8
 	extract3
 	btoi

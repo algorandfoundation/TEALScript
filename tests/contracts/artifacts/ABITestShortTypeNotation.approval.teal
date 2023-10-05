@@ -56,14 +56,7 @@ shortTypeNotation:
 	// tests/contracts/abi.algo.ts:288
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
-	store 0 // full array
-	int 0 // initial offset
-	int 20 // headOffset
-	+
-	int 2 // acc * typeLength
-	+
-	load 0 // full array
-	swap
+	int 22 // element offset
 	int 2
 	extract3
 	byte 0xFFFF

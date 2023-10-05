@@ -52,12 +52,7 @@ objectArrayRef:
 	frame_dig -1 // a: ObjectRefType
 	store 0 // full array
 	int 0 // initial offset
-	int 0 // headOffset
-	+
-	int 2 // acc * typeLength
-	+
-	int 1 // acc * typeLength
-	+
+	int 3 // element offset
 	load 0 // full array
 	swap
 	byte 0x05
