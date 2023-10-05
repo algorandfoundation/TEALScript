@@ -365,7 +365,6 @@ skip_or1:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
-	dup
 	frame_dig -2 // status: uint8
 	replace2 16
 	frame_dig -1 // dataIdentifier: bytes

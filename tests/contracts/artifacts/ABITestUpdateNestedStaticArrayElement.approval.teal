@@ -67,7 +67,6 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.algo.ts:216
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	dup
 	int 555
 	itob
 	replace2 32

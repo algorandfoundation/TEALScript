@@ -2136,8 +2136,6 @@ export default class Compiler {
   ) {
     const parentType = this.getABIType(this.lastType);
 
-    if (newValue) this.pushVoid(node, 'dup');
-
     let offset = 0;
     let previousTupleElement = this.getTupleElement(parentType);
     accessors.forEach((acc, i) => {

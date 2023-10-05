@@ -100,7 +100,6 @@ transferTo:
 	frame_dig -2 // tokenId: uint256
 	box_get
 	assert
-	dup
 	frame_dig -1 // to: address
 	replace2 0
 	frame_dig -2 // tokenId: uint256
@@ -216,7 +215,6 @@ arc72_approve:
 	frame_dig -2 // tokenId: uint256
 	box_get
 	assert
-	dup
 	int 288
 	frame_dig -1 // approved: address
 	replace3

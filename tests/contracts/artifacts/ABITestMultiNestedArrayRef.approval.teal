@@ -63,7 +63,6 @@ multiNestedArrayRef:
 	// tests/contracts/abi.algo.ts:779
 	// c[1] = 9 as uint<8>
 	frame_dig -1 // a: uint8[2][2][2]
-	dup
 	byte 0x09
 	replace2 7
 	frame_bury -1 // c: uint8[2][2][2]

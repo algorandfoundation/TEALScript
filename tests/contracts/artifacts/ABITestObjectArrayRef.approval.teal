@@ -50,7 +50,6 @@ objectArrayRef:
 	// tests/contracts/abi.algo.ts:793
 	// c[1] = 5 as uint<8>
 	frame_dig -1 // a: ObjectRefType
-	dup
 	byte 0x05
 	replace2 3
 	frame_bury -1 // c: ObjectRefType

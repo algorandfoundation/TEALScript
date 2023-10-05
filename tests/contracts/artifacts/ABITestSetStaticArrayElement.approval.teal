@@ -49,7 +49,6 @@ setStaticArrayElement:
 	// tests/contracts/abi.algo.ts:66
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	dup
 	int 222
 	itob
 	replace2 8

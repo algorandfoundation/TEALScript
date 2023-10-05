@@ -43,7 +43,6 @@ objectRef:
 	// tests/contracts/abi.algo.ts:937
 	// r.foo = 2
 	frame_dig -1 // o: {foo: uint64}
-	dup
 	int 2
 	itob
 	replace2 0
