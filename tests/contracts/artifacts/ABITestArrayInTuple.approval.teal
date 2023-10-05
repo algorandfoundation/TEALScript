@@ -42,11 +42,7 @@ arrayInTuple:
 	itob
 	byte 0x0016
 	concat
-	int 33
-	itob
-	int 44
-	itob
-	concat
+	byte 0x0000000000000021000000000000002c
 	concat
 	byte 0x0037
 	concat

@@ -38,19 +38,11 @@ threeDimensionalUint16Array:
 	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
 	//       [[11, 22], [33, 44]], [[55, 66], [77, 88]],
 	//     ]
-	byte 0x000b
-	byte 0x0016
+	byte 0x000b0016
+	byte 0x0021002c
 	concat
-	byte 0x0021
-	byte 0x002c
-	concat
-	concat
-	byte 0x0037
-	byte 0x0042
-	concat
-	byte 0x004d
-	byte 0x0058
-	concat
+	byte 0x00370042
+	byte 0x004d0058
 	concat
 	concat
 	frame_bury -1 // a: uint16[2][2][2]
@@ -58,9 +50,7 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.algo.ts:238
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
-	byte 0x0309
-	byte 0x0378
-	concat
+	byte 0x03090378
 	replace2 12
 	frame_bury -1 // a: uint16[2][2][2]
 

@@ -36,12 +36,8 @@ objectArrayRef:
 
 	// tests/contracts/abi.algo.ts:789
 	// a: ObjectRefType = { foo: [[1, 2], [3, 4]] }
-	byte 0x01
-	byte 0x02
-	concat
-	byte 0x03
-	byte 0x04
-	concat
+	byte 0x0102
+	byte 0x0304
 	concat
 	frame_bury -1 // a: ObjectRefType
 

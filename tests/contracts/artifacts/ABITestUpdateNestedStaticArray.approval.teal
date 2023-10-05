@@ -36,45 +36,17 @@ updateNestedStaticArray:
 
 	// tests/contracts/abi.algo.ts:224
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
-	int 11
-	itob
-	int 22
-	itob
+	byte 0x000000000000000b00000000000000160000000000000021
+	byte 0x000000000000002c00000000000000370000000000000042
 	concat
-	int 33
-	itob
-	concat
-	int 44
-	itob
-	int 55
-	itob
-	concat
-	int 66
-	itob
-	concat
-	concat
-	int 77
-	itob
-	int 88
-	itob
-	concat
-	int 99
-	itob
-	concat
+	byte 0x000000000000004d00000000000000580000000000000063
 	concat
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:226
 	// a[1] = [444, 555, 666]
 	frame_dig -1 // a: uint64[3][3]
-	int 444
-	itob
-	int 555
-	itob
-	concat
-	int 666
-	itob
-	concat
+	byte 0x00000000000001bc000000000000022b000000000000029a
 	replace2 24
 	frame_bury -1 // a: uint64[3][3]
 

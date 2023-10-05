@@ -44,9 +44,7 @@ disgusting:
 	//       [[11, 22], 33, [44, 55], [[66, 77], [88, 99]]],
 	//       [[111, 222], 333, [444, 555], [[666, 777], [888, 999]]],
 	//     ]
-	byte 0x000b
-	byte 0x0016
-	concat
+	byte 0x000b0016
 	int 33
 	itob
 	concat
@@ -55,21 +53,11 @@ disgusting:
 	itob
 	concat
 	concat
-	int 66
-	itob
-	int 77
-	itob
-	concat
-	int 88
-	itob
-	int 99
-	itob
+	byte 0x0000000000000042000000000000004d
+	byte 0x00000000000000580000000000000063
 	concat
 	concat
-	concat
-	byte 0x006f
-	byte 0x00de
-	concat
+	byte 0x006f00de
 	int 333
 	itob
 	concat
@@ -78,16 +66,8 @@ disgusting:
 	itob
 	concat
 	concat
-	int 666
-	itob
-	int 777
-	itob
-	concat
-	int 888
-	itob
-	int 999
-	itob
-	concat
+	byte 0x000000000000029a0000000000000309
+	byte 0x000000000000037800000000000003e7
 	concat
 	concat
 	concat
@@ -96,11 +76,7 @@ disgusting:
 	// tests/contracts/abi.algo.ts:304
 	// a[1][3][1] = [8888, 9999]
 	frame_dig -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
-	int 8888
-	itob
-	int 9999
-	itob
-	concat
+	byte 0x00000000000022b8000000000000270f
 	replace2 92
 	frame_bury -1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 

@@ -44,14 +44,7 @@ storageRefAccount:
 	frame_dig -1 // addr: address
 	int 0
 	itob
-	int 1
-	itob
-	int 2
-	itob
-	concat
-	int 3
-	itob
-	concat
+	byte 0x000000000000000100000000000000020000000000000003
 	dup
 	len
 	int 8

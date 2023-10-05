@@ -38,18 +38,10 @@ shortTypeNotation:
 	// a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
 	//       [11, 22], [33, 44], [55, 66],
 	//     ]
-	byte 0x000b
-	byte 0x0016
+	byte 0x000b0016
+	byte 0x0000000000000021000000000000002c
 	concat
-	int 33
-	itob
-	int 44
-	itob
-	concat
-	concat
-	byte 0x0037
-	byte 0x0042
-	concat
+	byte 0x00370042
 	concat
 	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
 

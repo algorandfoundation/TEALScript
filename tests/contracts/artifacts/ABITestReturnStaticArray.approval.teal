@@ -36,14 +36,7 @@ returnStaticArray:
 
 	// tests/contracts/abi.algo.ts:19
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
+	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:21
