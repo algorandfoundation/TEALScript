@@ -2153,13 +2153,25 @@ export default class Compiler {
 
     const elem = previousTupleElement;
 
+    const length = this.getTypeLength(elem.type);
+
+    // If one of the immediate args is over 255, then replace2/extract won't work
+    const over255 = length > 255 || offset > 255;
+
+    if (over255) this.pushVoid(node, `int ${offset}`);
+
     if (newValue) {
       this.processNode(newValue);
       if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
-      this.pushVoid(node, `replace2 ${offset}`);
+
+      if (over255) this.pushVoid(node, 'replace3');
+      else this.pushVoid(node, `replace2 ${offset}`);
+
       this.updateValue(parentExpression);
     } else {
-      this.pushVoid(node, `extract ${offset} ${this.getTypeLength(elem.type)}`);
+      if (over255) this.pushLines(node, `int ${length}`, 'extract3');
+      else this.pushVoid(node, `extract ${offset} ${length}`);
+
       if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
       this.lastType = elem.type;
     }
