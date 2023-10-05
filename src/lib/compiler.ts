@@ -2010,38 +2010,6 @@ export default class Compiler {
     let previousTupleElement = topLevelTuple;
     let previousElemIsBool = false;
 
-    // If the top level tuple is static and doesn't contain bools,
-    // we can calculate the offset during compilation
-    // TODO: Add bool support
-    const isNonBoolStatic = !this.isDynamicType(topLevelTuple.type) && !topLevelTuple.type.includes('bool');
-    let literalAccessors = true;
-
-    accessors.forEach((a) => {
-      if (typeof (a) === 'string') {
-        literalAccessors = false;
-        return;
-      }
-      if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
-    });
-
-    if (isNonBoolStatic && literalAccessors) {
-      let offset = 0;
-      accessors.forEach((acc, i) => {
-        if (typeof (acc) === 'string') throw Error();
-        const accNumber = parseInt(acc.getText(), 10);
-
-        const elem = previousTupleElement[accNumber] || previousTupleElement[0];
-
-        if (previousTupleElement[accNumber]) offset += elem.headOffset;
-        else offset += accNumber * this.getTypeLength(elem.type);
-
-        previousTupleElement = elem;
-      });
-
-      this.pushVoid(node, `int ${offset} // element offset`);
-      return previousTupleElement;
-    }
-
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
       if (typeof (acc) === 'string') {
@@ -2160,6 +2128,43 @@ export default class Compiler {
     this.processParentArrayAccess(node, accessors, chain[0].expression, newValue);
   }
 
+  private processLiteralStaticTupleAccess(
+    node: ts.Node,
+    accessors: (ts.Expression | string)[],
+    parentExpression: ts.Node,
+    newValue?: ts.Node,
+  ) {
+    const parentType = this.getABIType(this.lastType);
+
+    if (newValue) this.pushVoid(node, 'dup');
+
+    let offset = 0;
+    let previousTupleElement = this.getTupleElement(parentType);
+    accessors.forEach((acc, i) => {
+      const accNumber = parseInt((acc as ts.Expression).getText(), 10);
+
+      const elem = previousTupleElement[accNumber] || previousTupleElement[0];
+
+      if (previousTupleElement[accNumber]) offset += elem.headOffset;
+      else offset += accNumber * this.getTypeLength(elem.type);
+
+      previousTupleElement = elem;
+    });
+
+    const elem = previousTupleElement;
+
+    if (newValue) {
+      this.processNode(newValue);
+      if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
+      this.pushVoid(node, `replace2 ${offset}`);
+      this.updateValue(parentExpression);
+    } else {
+      this.pushVoid(node, `extract ${offset} ${this.getTypeLength(elem.type)}`);
+      if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
+      this.lastType = elem.type;
+    }
+  }
+
   private processParentArrayAccess(
     node: ts.Node,
     accessors: (ts.Expression | string)[],
@@ -2184,21 +2189,7 @@ export default class Compiler {
     });
 
     if (isNonBoolStatic && literalAccessors) {
-      if (newValue) this.pushVoid(node, 'dup');
-
-      const elem = this.getElementHead(this.getTupleElement(parentType), accessors, node);
-
-      if (newValue) {
-        this.processNode(newValue);
-        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
-        this.pushVoid(node, 'replace3');
-        this.updateValue(parentExpression);
-      } else {
-        this.pushLines(node, `int ${this.getTypeLength(elem.type)}`, 'extract3');
-        if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
-        this.lastType = elem.type;
-      }
-
+      this.processLiteralStaticTupleAccess(node, accessors, parentExpression, newValue);
       return;
     }
 

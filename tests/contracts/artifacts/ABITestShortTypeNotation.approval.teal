@@ -56,9 +56,7 @@ shortTypeNotation:
 	// tests/contracts/abi.algo.ts:288
 	// return a[2][1];
 	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
-	int 22 // element offset
-	int 2
-	extract3
+	extract 22 2
 	byte 0xFFFF
 	b&
 	dupn 2

@@ -70,10 +70,9 @@ updateStaticArrayInStorageMap:
 	byte "gMap"
 	app_global_get
 	dup
-	int 8 // element offset
 	int 1111
 	itob
-	replace3
+	replace2 8
 	byte "gMap"
 	swap
 	app_global_put
@@ -84,10 +83,9 @@ updateStaticArrayInStorageMap:
 	byte "lMap"
 	app_local_get
 	dup
-	int 8 // element offset
 	int 2222
 	itob
-	replace3
+	replace2 8
 	txn Sender
 	byte "lMap"
 	uncover 2
@@ -99,10 +97,9 @@ updateStaticArrayInStorageMap:
 	box_get
 	assert
 	dup
-	int 8 // element offset
 	int 3333
 	itob
-	replace3
+	replace2 8
 	byte "bMap"
 	swap
 	box_put
@@ -115,26 +112,20 @@ updateStaticArrayInStorageMap:
 	//     ]
 	byte "gMap"
 	app_global_get
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat
 	byte "bMap"
 	box_get
 	assert
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat

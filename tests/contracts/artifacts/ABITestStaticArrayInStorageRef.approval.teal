@@ -73,26 +73,20 @@ staticArrayInStorageRef:
 	//     ]
 	byte "gRef"
 	app_global_get
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat
 	byte "bRef"
 	box_get
 	assert
-	int 8 // element offset
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat

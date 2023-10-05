@@ -44,10 +44,9 @@ objectRef:
 	// r.foo = 2
 	frame_dig -1 // o: {foo: uint64}
 	dup
-	int 0 // element offset
 	int 2
 	itob
-	replace3
+	replace2 0
 	frame_bury -1 // r: {foo: uint64}
 
 	// tests/contracts/abi.algo.ts:939

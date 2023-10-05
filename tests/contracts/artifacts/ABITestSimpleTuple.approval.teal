@@ -50,9 +50,7 @@ simpleTuple:
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	int 18 // element offset
-	int 2
-	extract3
+	extract 18 2
 	byte 0xFFFF
 	b&
 	dupn 2

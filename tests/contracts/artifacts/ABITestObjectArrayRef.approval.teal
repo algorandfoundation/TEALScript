@@ -51,9 +51,8 @@ objectArrayRef:
 	// c[1] = 5 as uint<8>
 	frame_dig -1 // a: ObjectRefType
 	dup
-	int 3 // element offset
 	byte 0x05
-	replace3
+	replace2 3
 	frame_bury -1 // c: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:795
