@@ -1703,6 +1703,39 @@ export default class Compiler {
     return elem;
   }
 
+  private processLiteralArrayElement(
+    e: ts.StringLiteral | ts.NumericLiteral,
+    type: string,
+    literalElements: string[],
+    isLast: boolean,
+    hasNonLiteral: boolean,
+  ): void {
+    if (ts.isNumericLiteral(e)) {
+      const bitWidth = parseInt(type.match(/\d+$/)![0], 10);
+      const byteWidth = bitWidth / 8;
+      const padWidth = byteWidth * 2;
+
+      const value = parseInt(e.getText(), 10);
+      literalElements.push(`${value.toString(16).padStart(padWidth, '0')}`);
+      if (isLast) {
+        this.pushVoid(e, `byte 0x${literalElements.join('')}`);
+        if (hasNonLiteral) this.pushVoid(e, 'concat');
+      }
+    }
+
+    if (ts.isStringLiteral(e)) {
+      const { length } = e.text;
+      const lengthPrefix = length.toString(16).padStart(4, '0');
+      const value = Buffer.from(e.text).toString('hex');
+      literalElements.push(`${lengthPrefix}${value}`);
+
+      if (isLast) {
+        this.pushVoid(e, `byte 0x${literalElements.join('')}`);
+        if (hasNonLiteral) this.pushVoid(e, 'concat');
+      }
+    }
+  }
+
   private processArrayElements(
     elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
     parentNode: ts.Node,
@@ -1727,50 +1760,33 @@ export default class Compiler {
     if (arrayTypeHint.match(/bool\[\d*\]$/)) {
       this.processBools(elements, arrayTypeHint.endsWith('[]'));
     } else {
-      let literalElements = '';
+      const literalElements: string[] = [];
       let hasNonLiteral = false;
 
       elements.forEach((e, i) => {
         this.typeHint = types[i];
 
-        if (ts.isNumericLiteral(e)) {
-          const bitWidth = parseInt(types[i].match(/\d+$/)![0], 10);
-          const byteWidth = bitWidth / 8;
-          const padWidth = byteWidth * 2;
-
-          const value = parseInt(e.getText(), 10);
-          literalElements += `${value.toString(16).padStart(padWidth, '0')}`;
-          if (i === elements.length - 1) {
-            this.pushVoid(e, `byte 0x${literalElements}`);
-            if (hasNonLiteral) this.pushVoid(e, 'concat');
-          }
-
-          return;
-        }
-
-        if (ts.isStringLiteral(e)) {
-          const { length } = e.text;
-          const lengthPrefix = length.toString(16).padStart(4, '0');
-          const value = Buffer.from(e.text).toString('hex');
-          literalElements += `${lengthPrefix}${value}`;
-
-          if (i === elements.length - 1) {
-            this.pushVoid(e, `byte 0x${literalElements}`);
-            if (hasNonLiteral) this.pushVoid(e, 'concat');
-          }
+        if (ts.isNumericLiteral(e) || ts.isStringLiteral(e)) {
+          this.processLiteralArrayElement(
+            e,
+            types[i],
+            literalElements,
+            i === elements.length - 1,
+            hasNonLiteral,
+          );
 
           return;
         }
 
         hasNonLiteral = true;
 
-        if (literalElements !== '') this.pushVoid(e, `byte 0x${literalElements}`);
+        if (literalElements.length) this.pushVoid(e, `byte 0x${literalElements.join('')}`);
 
         this.processNode(e);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
         if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
-        literalElements = '';
+        literalElements.length = 0;
       });
     }
 
