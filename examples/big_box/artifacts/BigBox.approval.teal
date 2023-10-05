@@ -377,16 +377,9 @@ skip_or1:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
 	int 16 // element offset
-	load 0 // full array
-	swap
-	frame_dig -2 // status: uint8
-	replace3
-	frame_dig -1 // dataIdentifier: bytes
-	swap
-	box_put
+	int 1
+	extract3
 	retsub
 
 abi_route_createApplication:

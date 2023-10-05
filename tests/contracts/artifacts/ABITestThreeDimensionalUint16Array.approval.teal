@@ -58,11 +58,8 @@ threeDimensionalUint16Array:
 	// tests/contracts/abi.algo.ts:238
 	// a[1][1] = [777, 888]
 	frame_dig -1 // a: uint16[2][2][2]
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 12 // element offset
-	load 0 // full array
-	swap
 	byte 0x0309
 	byte 0x0378
 	concat

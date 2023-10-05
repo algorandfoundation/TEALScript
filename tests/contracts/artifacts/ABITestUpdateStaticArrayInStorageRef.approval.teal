@@ -69,11 +69,8 @@ updateStaticArrayInStorageRef:
 	// this.gRef.value[1] = 111
 	byte "gRef"
 	app_global_get
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 8 // element offset
-	load 0 // full array
-	swap
 	int 111
 	itob
 	replace3
@@ -86,11 +83,8 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 8 // element offset
-	load 0 // full array
-	swap
 	int 222
 	itob
 	replace3
@@ -104,11 +98,8 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 8 // element offset
-	load 0 // full array
-	swap
 	int 333
 	itob
 	replace3

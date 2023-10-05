@@ -67,11 +67,8 @@ updateNestedStaticArrayElement:
 	// tests/contracts/abi.algo.ts:216
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 32 // element offset
-	load 0 // full array
-	swap
 	int 555
 	itob
 	replace3

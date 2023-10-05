@@ -102,16 +102,9 @@ transferTo:
 	frame_dig -2 // tokenId: uint256
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
 	int 0 // element offset
-	load 0 // full array
-	swap
-	frame_dig -1 // to: address
-	replace3
-	frame_dig -2 // tokenId: uint256
-	swap
-	box_put
+	int 32
+	extract3
 	retsub
 
 // arc72_transferFrom(uint256,address,address)void
@@ -222,16 +215,9 @@ arc72_approve:
 	frame_dig -2 // tokenId: uint256
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
 	int 288 // element offset
-	load 0 // full array
-	swap
-	frame_dig -1 // approved: address
-	replace3
-	frame_dig -2 // tokenId: uint256
-	swap
-	box_put
+	int 32
+	extract3
 	retsub
 
 // arc72_setApprovalForAll(bool,address)void

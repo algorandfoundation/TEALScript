@@ -49,11 +49,8 @@ setStaticArrayElement:
 	// tests/contracts/abi.algo.ts:66
 	// a[1] = 222
 	frame_dig -1 // a: uint64[3]
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 8 // element offset
-	load 0 // full array
-	swap
 	int 222
 	itob
 	replace3

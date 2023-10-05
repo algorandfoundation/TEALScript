@@ -50,11 +50,8 @@ objectArrayRef:
 	// tests/contracts/abi.algo.ts:793
 	// c[1] = 5 as uint<8>
 	frame_dig -1 // a: ObjectRefType
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 3 // element offset
-	load 0 // full array
-	swap
 	byte 0x05
 	replace3
 	frame_bury -1 // c: ObjectRefType

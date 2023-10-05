@@ -2183,13 +2183,21 @@ export default class Compiler {
       if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
     });
 
-    // TODO: support newValue
-    if (isNonBoolStatic && literalAccessors && !newValue) {
-      const elem = this.getElementHead(this.getTupleElement(parentType), accessors, node);
-      this.pushLines(node, `int ${this.getTypeLength(elem.type)}`, 'extract3');
+    if (isNonBoolStatic && literalAccessors) {
+      if (newValue) this.pushVoid(node, 'dup');
 
-      if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
-      this.lastType = elem.type;
+      const elem = this.getElementHead(this.getTupleElement(parentType), accessors, node);
+
+      if (newValue) {
+        this.processNode(newValue);
+        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
+        this.pushVoid(node, 'replace3');
+        this.updateValue(parentExpression);
+      } else {
+        this.pushLines(node, `int ${this.getTypeLength(elem.type)}`, 'extract3');
+        if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
+        this.lastType = elem.type;
+      }
 
       return;
     }

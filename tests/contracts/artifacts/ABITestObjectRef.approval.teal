@@ -43,11 +43,8 @@ objectRef:
 	// tests/contracts/abi.algo.ts:937
 	// r.foo = 2
 	frame_dig -1 // o: {foo: uint64}
-	store 0 // full array
-	int 0 // initial offset
+	dup
 	int 0 // element offset
-	load 0 // full array
-	swap
 	int 2
 	itob
 	replace3
