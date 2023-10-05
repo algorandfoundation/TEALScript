@@ -1583,9 +1583,11 @@ export default class Compiler {
     const staticTypes = types.filter((t) => !this.isDynamicType(t));
     const headLength = this.getTypeLength(`[${staticTypes.join(',')}]`) + dynamicTypes.length * 2;
 
+    const isStatic = !this.isDynamicType(typeHint);
+
     let consecutiveBools: ts.Node[] = [];
     elements.forEach((e, i) => {
-      if (i === 0) {
+      if (i === 0 && !isStatic) {
         this.pushLines(parentNode, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
 
@@ -1596,7 +1598,9 @@ export default class Compiler {
 
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
-        this.pushVoid(e, 'callsub process_static_tuple_element');
+        if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+        else if (i !== 0) this.pushVoid(e, 'concat');
+
         consecutiveBools = [];
       }
 
@@ -1609,19 +1613,17 @@ export default class Compiler {
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
       if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
-      if (this.isDynamicType(types[i])) {
-        this.pushVoid(e, 'callsub process_dynamic_tuple_element');
-      } else {
-        this.pushVoid(e, 'callsub process_static_tuple_element');
-      }
+      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
+      else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+      else if (i !== 0) this.pushVoid(e, 'concat');
     });
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      this.pushVoid(parentNode, 'callsub process_static_tuple_element');
+      if (!isStatic) this.pushVoid(parentNode, 'callsub process_static_tuple_element');
     }
 
-    this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
+    if (!isStatic) this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
   }
 
   private checkEncoding(node: ts.Node, type: string) {

@@ -38,26 +38,14 @@ tupleInArray:
 	// a: StaticArray<[uint64, uint<16>], 2> = [
 	//       [11, 22], [33, 44],
 	//     ]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x000a // initial head offset
 	int 11
 	itob
-	callsub process_static_tuple_element
 	byte 0x0016
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x000a // initial head offset
+	concat
 	int 33
 	itob
-	callsub process_static_tuple_element
 	byte 0x002c
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
+	concat
 	concat
 	frame_bury -1 // a: [uint64,uint16][2]
 
@@ -106,12 +94,3 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_tupleInArray
 	err
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub
