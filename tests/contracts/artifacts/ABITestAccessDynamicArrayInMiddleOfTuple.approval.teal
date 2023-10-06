@@ -59,9 +59,7 @@ accessDynamicArrayInMiddleOfTuple:
 	// return a[1];
 	frame_dig -1 // a: [uint16,uint8[],uint16]
 	store 0 // full array
-	int 0 // initial offset
-	int 2 // headOffset
-	+
+	int 2
 	load 0 // full array
 	load 0 // full array
 	uncover 2

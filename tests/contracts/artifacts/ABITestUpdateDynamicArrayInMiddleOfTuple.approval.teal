@@ -59,9 +59,7 @@ updateDynamicArrayInMiddleOfTuple:
 	// a[1] = [4, 5]
 	frame_dig -1 // a: [uint16,uint8[],uint16]
 	store 0 // full array
-	int 0 // initial offset
-	int 2 // headOffset
-	+
+	int 2
 	dup
 	store 4 // element head offset
 	load 0 // full array

@@ -72,15 +72,7 @@ dynamicBoolArrayUpdate:
 	// a[8] = true
 	frame_dig -1 // a: bool[]
 	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	int 8
-	* // get bit offset
-	int 8
-	+ // add accessor bits
-	int 16
-	+ // 16 bits for length prefix
+	int 24
 	load 0 // full array
 	swap
 	int 1

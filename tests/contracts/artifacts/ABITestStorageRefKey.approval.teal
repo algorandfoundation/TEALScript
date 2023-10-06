@@ -70,9 +70,7 @@ storageRefKey:
 	app_global_get
 	extract 2 0
 	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8
 	load 0 // full array
 	swap
 	byte 0x0000000000000004
@@ -95,9 +93,7 @@ storageRefKey:
 	app_global_get
 	extract 2 0
 	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8
 	load 0 // full array
 	swap
 	int 8

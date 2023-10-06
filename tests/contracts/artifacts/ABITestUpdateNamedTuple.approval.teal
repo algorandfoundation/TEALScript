@@ -63,9 +63,7 @@ updateNamedTuple:
 	// a.bar = 'Hello World!'
 	frame_dig -1 // a: { foo: uint<16>, bar: string, }
 	store 0 // full array
-	int 0 // initial offset
-	int 2 // headOffset
-	+
+	int 2
 	dup
 	store 4 // element head offset
 	load 0 // full array
@@ -114,9 +112,7 @@ updateNamedTuple:
 	// return a.bar;
 	frame_dig -1 // a: { foo: uint<16>, bar: string, }
 	store 0 // full array
-	int 0 // initial offset
-	int 2 // headOffset
-	+
+	int 2
 	load 0 // full array
 	load 0 // full array
 	uncover 2

@@ -521,11 +521,7 @@ deleteAppFromWhitelist:
 	int 8
 	*
 	store 12 // splice start
-	int 1
-	int 8
-	*
-	int 8
-	+
+	int 16
 	store 13 // splice byte length
 	frame_dig -6 // whitelist: Whitelist
 	box_get
@@ -578,9 +574,7 @@ deleteAppFromWhitelist:
 	// assert(spliced[0] === appID)
 	frame_dig -7 // spliced: uint64[]
 	store 0 // full array
-	int 0 // initial offset
-	int 0 // acc * typeLength
-	+
+	int 0
 	load 0 // full array
 	swap
 	int 8

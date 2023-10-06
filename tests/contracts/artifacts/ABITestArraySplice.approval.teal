@@ -43,15 +43,9 @@ arraySplice:
 	// a.splice(1, 1)
 	frame_dig -1 // a: uint64[]
 	int 1
-	int 1
 	int 8
-	*
 	store 12 // splice start
-	int 1
-	int 8
-	*
-	int 8
-	+
+	int 16
 	store 13 // splice byte length
 	frame_dig -1 // a: uint64[]
 	int 0

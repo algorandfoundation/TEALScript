@@ -43,9 +43,7 @@ arrayRef:
 	// b[1] = 4 as uint<8>
 	frame_dig -1 // a: uint8[]
 	store 0 // full array
-	int 0 // initial offset
-	int 1 // acc * typeLength
-	+
+	int 1
 	load 0 // full array
 	swap
 	byte 0x04

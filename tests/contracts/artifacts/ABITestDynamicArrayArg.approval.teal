@@ -40,9 +40,7 @@ dynamicArrayArg:
 	// return a[1];
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
+	int 8
 	load 0 // full array
 	swap
 	int 8

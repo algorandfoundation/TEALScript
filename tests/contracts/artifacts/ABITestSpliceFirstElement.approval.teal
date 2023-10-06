@@ -44,14 +44,8 @@ spliceFirstElement:
 	frame_dig -1 // a: uint16[]
 	int 1
 	int 0
-	int 2
-	*
 	store 12 // splice start
-	int 1
-	int 2
-	*
-	int 2
-	+
+	int 4
 	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 0

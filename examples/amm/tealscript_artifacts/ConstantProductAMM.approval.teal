@@ -287,9 +287,7 @@ tokensToSwap:
 
 	// examples/amm/amm.algo.ts:79
 	// factor = SCALE - FEE
-	int 1_000
-	int 5
-	-
+	int 995
 	frame_bury -4 // factor: uint64
 
 	// examples/amm/amm.algo.ts:80

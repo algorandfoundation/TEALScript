@@ -70,13 +70,7 @@ staticBoolArrayUpdate:
 	// a[8] = true
 	frame_dig -1 // a: bool[9]
 	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
 	int 8
-	* // get bit offset
-	int 8
-	+ // add accessor bits
 	load 0 // full array
 	swap
 	int 1
