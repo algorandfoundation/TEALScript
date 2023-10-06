@@ -2545,12 +2545,22 @@ export default class Compiler {
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
 
-    if ([...ON_COMPLETES, 'CreateApplication'].includes(capitalizeFirstChar(this.currentSubroutine.name))) {
+    const n = this.currentSubroutine.name;
+    if (['createApplication', 'updateApplication', 'deleteApplication', 'optInToApplication', 'closeOutOfApplication', 'clearState'].includes(n)) {
       const isCreate = this.currentSubroutine.name === 'createApplication';
-      const oc = isCreate ? 'NoOp' : capitalizeFirstChar(this.currentSubroutine.name) as OnComplete;
-      const action = isCreate ? 'CREATE' : 'CALL';
+      let oc: OnComplete;
 
-      this.currentSubroutine.allows[action.toLowerCase() as 'call' | 'create'].push(oc);
+      if (n === 'createApplication') oc = 'NoOp';
+      else if (n === 'updateApplication') oc = 'UpdateApplication';
+      else if (n === 'deleteApplication') oc = 'DeleteApplication';
+      else if (n === 'optInToApplication') oc = 'OptIn';
+      else if (n === 'closeOutOfApplication') oc = 'CloseOut';
+      else if (n === 'clearState') oc = 'ClearState';
+      else throw Error();
+
+      const action = isCreate ? 'create' : 'call';
+
+      this.currentSubroutine.allows[action].push(oc);
     }
 
     (ts.getDecorators(node) || []).forEach(
