@@ -1312,6 +1312,39 @@ export default class Compiler {
 
         optimized = true;
       }
+    } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
+      const aLine = targetTeal.at(-2);
+      const bLine = targetTeal.at(-1);
+
+      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+        const a = Number(aLine.split(' ')[1].replace('_', ''));
+        const b = Number(bLine.split(' ')[1].replace('_', ''));
+
+        popTeal();
+        popTeal();
+
+        let val: number;
+
+        switch (teal.split(' ')[0]) {
+          case '+':
+            val = a + b;
+            break;
+          case '-':
+            val = a - b;
+            break;
+          case '*':
+            val = a * b;
+            break;
+          case '/':
+            val = a / b;
+            break;
+          default:
+            throw Error(`Unknown operator: ${teal}`);
+        }
+
+        this.pushVoid(node, `int ${val}`);
+        optimized = true;
+      }
     }
 
     if (type !== 'void') this.lastType = type;
