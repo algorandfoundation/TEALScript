@@ -139,8 +139,6 @@ enum StackType {
   any = 'any',
 }
 
-// TODO: add VirtualType for things like tuple/array but distinct from ABI types?
-
 // Represents the type_enum for a transaction
 // eslint-disable-next-line no-shadow
 enum TransactionType {
@@ -1244,30 +1242,66 @@ export default class Compiler {
   private push(node: ts.Node, teal: string, type: string) {
     const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
     const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
-
-    this.rawSrcMap.push({
-      source: {
-        start: {
-          line: start.line + 1,
-          col: start.character,
-        },
-        end: {
-          line: end.line + 1,
-          col: end.character,
-        },
-      },
-      teal: this.teal.length + 1,
-      pc: 0,
-    });
+    const targetTeal = this.compilingApproval ? this.teal : this.clearTeal;
 
     this.lastNode = node;
 
+    // TODO: Fix rawSrcMap after optimization
+    let optimized = false;
+    if (teal.startsWith('itob')) {
+      if (targetTeal.at(-1)?.startsWith('int ')) {
+        const n = Number(targetTeal.at(-1)!.split(' ')[1]);
+        targetTeal.pop();
+
+        this.pushVoid(node, `byte 0x${n.toString(16).padStart(16, '0')}`);
+
+        optimized = true;
+      }
+    } else if (teal.startsWith('concat')) {
+      const b = targetTeal.at(-1);
+      const a = targetTeal.at(-2);
+
+      if (a?.match(/^byte (0x|")/) && b?.match(/^byte (0x|")/)) {
+        let aBytes = a.split(' ')[1];
+        let bBytes = b.split(' ')[1];
+
+        const strToHex = (str: string) => Buffer.from(str, 'utf8').toString('hex');
+
+        if (aBytes.startsWith('"')) aBytes = strToHex(aBytes.slice(1, -1));
+        else aBytes = aBytes.slice(2);
+
+        if (bBytes.startsWith('"')) bBytes = strToHex(bBytes.slice(1, -1));
+        else bBytes = bBytes.slice(2);
+
+        targetTeal.pop();
+        targetTeal.pop();
+
+        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
+
+        optimized = true;
+      }
+    }
+
+    if (type !== 'void') this.lastType = type;
+    if (optimized) return;
+
+    targetTeal.push(teal);
+
     if (this.compilingApproval) {
-      this.teal.push(teal);
-      if (type !== 'void') this.lastType = type;
-    } else {
-      this.clearTeal.push(teal);
-      if (type !== 'void') this.lastType = type;
+      this.rawSrcMap.push({
+        source: {
+          start: {
+            line: start.line + 1,
+            col: start.character,
+          },
+          end: {
+            line: end.line + 1,
+            col: end.character,
+          },
+        },
+        teal: targetTeal.length,
+        pc: 0,
+      });
     }
   }
 

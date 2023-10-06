@@ -36,13 +36,7 @@ returnTuple:
 
 	// tests/contracts/abi.algo.ts:311
 	// a: [uint64, uint<16>, uint64] = [11, 22, 33]
-	int 11
-	itob
-	byte 0x0016
-	concat
-	int 33
-	itob
-	concat
+	byte 0x000000000000000b00160000000000000021
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
 	// tests/contracts/abi.algo.ts:312

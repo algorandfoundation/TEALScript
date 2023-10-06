@@ -36,15 +36,7 @@ dynamicTupleArray:
 
 	// tests/contracts/abi.algo.ts:355
 	// a: [uint<16>, uint64][] = [[11, 22], [33, 44]]
-	byte 0x000b
-	int 22
-	itob
-	concat
-	byte 0x0021
-	int 44
-	itob
-	concat
-	concat
+	byte 0x000b00000000000000160021000000000000002c
 	frame_bury -1 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.algo.ts:357

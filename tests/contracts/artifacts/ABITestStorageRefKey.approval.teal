@@ -36,8 +36,7 @@ storageRefKey:
 
 	// tests/contracts/abi.algo.ts:947
 	// this.gMap(0).value = [1, 2, 3]
-	int 0
-	itob
+	byte 0x0000000000000000
 	byte 0x000000000000000100000000000000020000000000000003
 	dup
 	len
@@ -76,8 +75,7 @@ storageRefKey:
 	+
 	load 0 // full array
 	swap
-	int 4
-	itob
+	byte 0x0000000000000004
 	replace3
 	frame_dig -2 // storage key//r
 	swap
@@ -93,8 +91,7 @@ storageRefKey:
 
 	// tests/contracts/abi.algo.ts:957
 	// return this.gMap(0).value[1];
-	int 0
-	itob
+	byte 0x0000000000000000
 	app_global_get
 	extract 2 0
 	store 0 // full array

@@ -38,15 +38,7 @@ tupleInArray:
 	// a: StaticArray<[uint64, uint<16>], 2> = [
 	//       [11, 22], [33, 44],
 	//     ]
-	int 11
-	itob
-	byte 0x0016
-	concat
-	int 33
-	itob
-	byte 0x002c
-	concat
-	concat
+	byte 0x000000000000000b00160000000000000021002c
 	frame_bury -1 // a: [uint64,uint16][2]
 
 	// tests/contracts/abi.algo.ts:268

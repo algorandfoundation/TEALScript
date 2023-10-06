@@ -62,8 +62,7 @@ updateStaticArrayInStorageRef:
 	// this.gRef.value[1] = 111
 	byte "gRef"
 	app_global_get
-	int 111
-	itob
+	byte 0x000000000000006f
 	replace2 8
 	byte "gRef"
 	swap
@@ -74,8 +73,7 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	int 222
-	itob
+	byte 0x00000000000000de
 	replace2 8
 	txn Sender
 	byte "lRef"
@@ -87,8 +85,7 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	int 333
-	itob
+	byte 0x000000000000014d
 	replace2 8
 	byte "bRef"
 	swap

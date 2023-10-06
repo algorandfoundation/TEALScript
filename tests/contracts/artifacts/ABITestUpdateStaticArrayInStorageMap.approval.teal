@@ -62,8 +62,7 @@ updateStaticArrayInStorageMap:
 	// this.gMap('gMap').value[1] = 1111
 	byte "gMap"
 	app_global_get
-	int 1111
-	itob
+	byte 0x0000000000000457
 	replace2 8
 	byte "gMap"
 	swap
@@ -74,8 +73,7 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	int 2222
-	itob
+	byte 0x00000000000008ae
 	replace2 8
 	txn Sender
 	byte "lMap"
@@ -87,8 +85,7 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	int 3333
-	itob
+	byte 0x0000000000000d05
 	replace2 8
 	byte "bMap"
 	swap

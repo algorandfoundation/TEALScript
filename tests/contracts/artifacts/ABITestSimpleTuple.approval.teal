@@ -36,15 +36,7 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:246
 	// a: [uint64, uint<16>, uint64, uint<16>] = [11, 22, 33, 44]
-	int 11
-	itob
-	byte 0x0016
-	concat
-	int 33
-	itob
-	concat
-	byte 0x002c
-	concat
+	byte 0x000000000000000b00160000000000000021002c
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
 	// tests/contracts/abi.algo.ts:248

@@ -38,19 +38,7 @@ tupleInTuple:
 	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [
 	//       11, 22, [33, 44], [55, 66],
 	//     ]
-	byte 0x000b
-	byte 0x0016
-	concat
-	int 33
-	itob
-	byte 0x002c
-	concat
-	concat
-	byte 0x0037
-	int 66
-	itob
-	concat
-	concat
+	byte 0x000b00160000000000000021002c00370000000000000042
 	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
 	// tests/contracts/abi.algo.ts:278

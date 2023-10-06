@@ -48,8 +48,7 @@ updateDynamicArrayElement:
 	+
 	load 0 // full array
 	swap
-	int 222
-	itob
+	byte 0x00000000000000de
 	replace3
 	frame_bury -1 // a: uint64[]
 

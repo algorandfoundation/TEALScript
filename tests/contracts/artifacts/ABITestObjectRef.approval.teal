@@ -42,8 +42,7 @@ objectRef:
 	// tests/contracts/abi.algo.ts:937
 	// r.foo = 2
 	frame_dig -1 // o: {foo: uint64}
-	int 2
-	itob
+	byte 0x0000000000000002
 	replace2 0
 	frame_bury -1 // r: {foo: uint64}
 
