@@ -17,7 +17,7 @@ int 6
 *
 txn OnCompletion
 +
-switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_DeleteApplication
+switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_NoOp call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED call_DeleteApplication
 
 NOT_IMPLEMENTED:
 	err
@@ -513,12 +513,17 @@ create_NoOp:
 call_NoOp:
 	method "optIntoAsset(asset)void"
 	method "startAuction(uint64,uint64,axfer)void"
-	method "optInToApplication()void"
 	method "bid(pay)void"
 	method "claimBids()void"
 	method "claim_asset(asset)void"
 	txna ApplicationArgs 0
-	match abi_route_optIntoAsset abi_route_startAuction abi_route_optInToApplication abi_route_bid abi_route_claimBids abi_route_claim_asset
+	match abi_route_optIntoAsset abi_route_startAuction abi_route_bid abi_route_claimBids abi_route_claim_asset
+	err
+
+call_OptIn:
+	method "optInToApplication()void"
+	txna ApplicationArgs 0
+	match abi_route_optInToApplication
 	err
 
 call_DeleteApplication:
