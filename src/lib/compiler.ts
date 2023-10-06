@@ -291,6 +291,8 @@ const scratch = {
 };
 
 export default class Compiler {
+  static diagsRan: string[] = [''];
+
   teal: string[] = [];
 
   clearTeal: string[] = ['#pragma version 9'];
@@ -1364,7 +1366,13 @@ export default class Compiler {
   }
 
   private getTypeScriptDiagnostics() {
-    const program = ts.createProgram({ rootNames: [this.filename], options: {} });
+    const options: ts.CompilerOptions = {
+      target: ts.ScriptTarget.ES2020,
+      skipLibCheck: true,
+      experimentalDecorators: true,
+    };
+    Compiler.diagsRan.push(this.filename);
+    const program = ts.createProgram({ rootNames: [this.filename], options });
 
     const diags = ts.getPreEmitDiagnostics(program)
       .filter((d) => (d.file ? d.file.fileName === this.filename : true));
@@ -1383,9 +1391,8 @@ export default class Compiler {
   }
 
   async compile() {
-    if (this.filename !== '') this.getTypeScriptDiagnostics();
-    // eslint-disable-next-line no-console
-    else console.warn('No filename provided, skipping TypeScript diagnostics');
+    if (!Compiler.diagsRan.includes(this.filename)) this.getTypeScriptDiagnostics();
+    if (this.filename === '') console.warn('No filename provided, skipping TypeScript diagnostics');
 
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
