@@ -1392,6 +1392,7 @@ export default class Compiler {
 
   async compile() {
     if (!Compiler.diagsRan.includes(this.filename)) this.getTypeScriptDiagnostics();
+    // eslint-disable-next-line no-console
     if (this.filename === '') console.warn('No filename provided, skipping TypeScript diagnostics');
 
     this.sourceFile.statements.forEach((body) => {
