@@ -1246,12 +1246,26 @@ export default class Compiler {
 
     this.lastNode = node;
 
-    // TODO: Fix rawSrcMap after optimization
+    const popTeal = () => {
+      const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
+
+      if (start.line < srcMap.source.start.line) {
+        srcMap.source.start = { line: start.line, col: start.character };
+      }
+
+      if (end.line > srcMap.source.end.line) {
+        srcMap.source.end = { line: end.line, col: end.character };
+      }
+
+      srcMap.teal = this.teal.length;
+      targetTeal.pop();
+    };
+
     let optimized = false;
     if (teal.startsWith('itob')) {
       if (targetTeal.at(-1)?.startsWith('int ')) {
         const n = Number(targetTeal.at(-1)!.split(' ')[1]);
-        targetTeal.pop();
+        popTeal();
 
         this.pushVoid(node, `byte 0x${n.toString(16).padStart(16, '0')}`);
 
@@ -1273,8 +1287,8 @@ export default class Compiler {
         if (bBytes.startsWith('"')) bBytes = strToHex(bBytes.slice(1, -1));
         else bBytes = bBytes.slice(2);
 
-        targetTeal.pop();
-        targetTeal.pop();
+        popTeal();
+        popTeal();
 
         this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
 
