@@ -101,7 +101,9 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x00040005
+	byte 0x0004
+	byte 0x0005
+	concat
 	dup
 	len
 	int 2
@@ -164,7 +166,9 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x00060007
+	byte 0x0006
+	byte 0x0007
+	concat
 	dup
 	len
 	int 2
@@ -222,7 +226,9 @@ updateTupleWithOnlyDynamicTypes:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x00080009
+	byte 0x0008
+	byte 0x0009
+	concat
 	dup
 	len
 	int 2

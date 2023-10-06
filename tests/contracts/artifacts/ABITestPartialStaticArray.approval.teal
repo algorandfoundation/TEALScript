@@ -36,7 +36,9 @@ partialStaticArray:
 
 	// tests/contracts/abi.algo.ts:817
 	// a: StaticArray<uint<16>, 3> = [1]
-	byte 0x000100000000
+	byte 0x0001
+	byte 0x00000000
+	concat
 	frame_bury -1 // a: uint16[3]
 
 	// tests/contracts/abi.algo.ts:819

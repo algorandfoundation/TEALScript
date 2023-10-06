@@ -36,7 +36,9 @@ arrayPush:
 
 	// tests/contracts/abi.algo.ts:402
 	// a: uint<16>[] = [1, 2]
-	byte 0x00010002
+	byte 0x0001
+	byte 0x0002
+	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:404

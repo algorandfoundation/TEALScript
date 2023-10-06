@@ -36,7 +36,27 @@ dynamicTupleArray:
 
 	// tests/contracts/abi.algo.ts:355
 	// a: [uint<16>, uint64][] = [[11, 22], [33, 44]]
-	byte 0x000b00000000000000160021000000000000002c
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x000a // initial head offset
+	byte 0x000b
+	callsub process_static_tuple_element
+	int 22
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x000a // initial head offset
+	byte 0x0021
+	callsub process_static_tuple_element
+	int 44
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
+	concat
 	frame_bury -1 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.algo.ts:357
@@ -75,3 +95,12 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_dynamicTupleArray
 	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

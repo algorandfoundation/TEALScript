@@ -36,7 +36,11 @@ arrayPopValue:
 
 	// tests/contracts/abi.algo.ts:422
 	// a: uint<16>[] = [1, 2, 3]
-	byte 0x000100020003
+	byte 0x0001
+	byte 0x0002
+	concat
+	byte 0x0003
+	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:424

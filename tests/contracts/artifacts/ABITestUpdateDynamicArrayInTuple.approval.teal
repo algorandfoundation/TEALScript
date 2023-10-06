@@ -122,7 +122,9 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x000a000b
+	byte 0x000a
+	byte 0x000b
+	concat
 	dup
 	len
 	int 2
@@ -190,7 +192,9 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x0c0d
+	byte 0x0c
+	byte 0x0d
+	concat
 	dup
 	len
 	itob
@@ -251,7 +255,9 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x000e000f
+	byte 0x000e
+	byte 0x000f
+	concat
 	dup
 	len
 	int 2
@@ -309,7 +315,9 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x1011
+	byte 0x10
+	byte 0x11
+	concat
 	dup
 	len
 	itob

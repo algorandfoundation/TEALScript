@@ -34,7 +34,9 @@ prefix:
 
 	// tests/contracts/storage.algo.ts:20
 	// this.boxMapWithPrefix('oo').value = 'bar'
-	byte 0x666f6f
+	byte "f"
+	byte "oo"
+	concat
 	dup
 	box_del
 	pop

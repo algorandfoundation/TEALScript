@@ -39,7 +39,9 @@ shortenDynamicElementInTuple:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
-	byte 0x00010002
+	byte 0x0001
+	byte 0x0002
+	concat
 	dup
 	len
 	int 2
@@ -49,7 +51,9 @@ shortenDynamicElementInTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	byte 0x00020003
+	byte 0x0002
+	byte 0x0003
+	concat
 	dup
 	len
 	int 2
@@ -59,7 +63,9 @@ shortenDynamicElementInTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	byte 0x00030004
+	byte 0x0003
+	byte 0x0004
+	concat
 	dup
 	len
 	int 2

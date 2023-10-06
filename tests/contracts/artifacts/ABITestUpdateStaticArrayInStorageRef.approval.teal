@@ -36,7 +36,14 @@ updateStaticArrayInStorageRef:
 
 	// tests/contracts/abi.algo.ts:118
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:120
@@ -62,8 +69,15 @@ updateStaticArrayInStorageRef:
 	// this.gRef.value[1] = 111
 	byte "gRef"
 	app_global_get
-	byte 0x000000000000006f
-	replace2 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 111
+	itob
+	replace3
 	byte "gRef"
 	swap
 	app_global_put
@@ -73,8 +87,15 @@ updateStaticArrayInStorageRef:
 	txn Sender
 	byte "lRef"
 	app_local_get
-	byte 0x00000000000000de
-	replace2 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 222
+	itob
+	replace3
 	txn Sender
 	byte "lRef"
 	uncover 2
@@ -85,8 +106,15 @@ updateStaticArrayInStorageRef:
 	byte "bRef"
 	box_get
 	assert
-	byte 0x000000000000014d
-	replace2 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 333
+	itob
+	replace3
 	byte "bRef"
 	swap
 	box_put
@@ -99,20 +127,41 @@ updateStaticArrayInStorageRef:
 	//     ]
 	byte "gRef"
 	app_global_get
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lRef"
 	app_local_get
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bRef"
 	box_get
 	assert
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	concat

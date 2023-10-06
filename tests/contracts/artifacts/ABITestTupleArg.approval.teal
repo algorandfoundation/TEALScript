@@ -38,7 +38,14 @@ tupleArg:
 	// tests/contracts/abi.algo.ts:318
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
-	extract 8 2
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	dupn 2

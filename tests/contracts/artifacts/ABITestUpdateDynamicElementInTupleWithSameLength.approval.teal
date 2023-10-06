@@ -41,7 +41,11 @@ updateDynamicElementInTupleWithSameLength:
 	byte 0x000a // initial head offset
 	byte 0x0001
 	callsub process_static_tuple_element
-	byte 0x020304
+	byte 0x02
+	byte 0x03
+	concat
+	byte 0x04
+	concat
 	dup
 	len
 	itob
@@ -51,7 +55,11 @@ updateDynamicElementInTupleWithSameLength:
 	callsub process_dynamic_tuple_element
 	byte 0x0005
 	callsub process_static_tuple_element
-	byte 0x060708
+	byte 0x06
+	byte 0x07
+	concat
+	byte 0x08
+	concat
 	dup
 	len
 	itob
@@ -93,7 +101,11 @@ updateDynamicElementInTupleWithSameLength:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x0a0b0c
+	byte 0x0a
+	byte 0x0b
+	concat
+	byte 0x0c
+	concat
 	dup
 	len
 	itob

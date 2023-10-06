@@ -64,7 +64,14 @@ nonLiteralStaticArrayElements:
 	// tests/contracts/abi.algo.ts:38
 	// return a[1];
 	frame_dig -4 // a: uint64[3]
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	byte 0x151f7c75

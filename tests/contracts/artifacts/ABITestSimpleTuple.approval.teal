@@ -36,13 +36,34 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:246
 	// a: [uint64, uint<16>, uint64, uint<16>] = [11, 22, 33, 44]
-	byte 0x000000000000000b00160000000000000021002c
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0014 // initial head offset
+	int 11
+	itob
+	callsub process_static_tuple_element
+	byte 0x0016
+	callsub process_static_tuple_element
+	int 33
+	itob
+	callsub process_static_tuple_element
+	byte 0x002c
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64,uint16]
 
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
 	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	extract 18 2
+	store 0 // full array
+	int 0 // initial offset
+	int 18 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 2
+	extract3
 	byte 0xFFFF
 	b&
 	dupn 2
@@ -75,3 +96,12 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_simpleTuple
 	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

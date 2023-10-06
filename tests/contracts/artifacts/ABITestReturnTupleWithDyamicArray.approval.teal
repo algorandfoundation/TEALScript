@@ -39,11 +39,16 @@ returnTupleWithDyamicArray:
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x000e // initial head offset
-	byte 0x0000000000000001
+	int 1
+	itob
 	callsub process_static_tuple_element
 	byte 0x0002
 	callsub process_static_tuple_element
-	byte 0x00000000000000030000000000000004
+	int 3
+	itob
+	int 4
+	itob
+	concat
 	dup
 	len
 	int 8
@@ -53,7 +58,9 @@ returnTupleWithDyamicArray:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	byte 0x00050006
+	byte 0x0005
+	byte 0x0006
+	concat
 	dup
 	len
 	int 2

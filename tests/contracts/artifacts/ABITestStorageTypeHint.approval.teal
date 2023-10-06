@@ -35,7 +35,11 @@ partialStaticArray:
 	// tests/contracts/abi.algo.ts:827
 	// this.gKey.value = [1, 2, 3]
 	byte "gKey"
-	byte 0x000100020003
+	byte 0x0001
+	byte 0x0002
+	concat
+	byte 0x0003
+	concat
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:829

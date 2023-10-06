@@ -6,7 +6,6 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { access } from 'fs';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
@@ -138,6 +137,8 @@ enum StackType {
   bytes = 'bytes',
   any = 'any',
 }
+
+// TODO: add VirtualType for things like tuple/array but distinct from ABI types?
 
 // Represents the type_enum for a transaction
 // eslint-disable-next-line no-shadow
@@ -1242,66 +1243,30 @@ export default class Compiler {
   private push(node: ts.Node, teal: string, type: string) {
     const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
     const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
-    const targetTeal = this.compilingApproval ? this.teal : this.clearTeal;
+
+    this.rawSrcMap.push({
+      source: {
+        start: {
+          line: start.line + 1,
+          col: start.character,
+        },
+        end: {
+          line: end.line + 1,
+          col: end.character,
+        },
+      },
+      teal: this.teal.length + 1,
+      pc: 0,
+    });
 
     this.lastNode = node;
 
-    // TODO: Fix rawSrcMap after optimization
-    let optimized = false;
-    if (teal.startsWith('itob')) {
-      if (targetTeal.at(-1)?.startsWith('int ')) {
-        const n = Number(targetTeal.at(-1)!.split(' ')[1]);
-        targetTeal.pop();
-
-        this.pushVoid(node, `byte 0x${n.toString(16).padStart(16, '0')}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('concat')) {
-      const b = targetTeal.at(-1);
-      const a = targetTeal.at(-2);
-
-      if (a?.match(/^byte (0x|")/) && b?.match(/^byte (0x|")/)) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = b.split(' ')[1];
-
-        const strToHex = (str: string) => Buffer.from(str, 'utf8').toString('hex');
-
-        if (aBytes.startsWith('"')) aBytes = strToHex(aBytes.slice(1, -1));
-        else aBytes = aBytes.slice(2);
-
-        if (bBytes.startsWith('"')) bBytes = strToHex(bBytes.slice(1, -1));
-        else bBytes = bBytes.slice(2);
-
-        targetTeal.pop();
-        targetTeal.pop();
-
-        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
-
-        optimized = true;
-      }
-    }
-
-    if (type !== 'void') this.lastType = type;
-    if (optimized) return;
-
-    targetTeal.push(teal);
-
     if (this.compilingApproval) {
-      this.rawSrcMap.push({
-        source: {
-          start: {
-            line: start.line + 1,
-            col: start.character,
-          },
-          end: {
-            line: end.line + 1,
-            col: end.character,
-          },
-        },
-        teal: targetTeal.length,
-        pc: 0,
-      });
+      this.teal.push(teal);
+      if (type !== 'void') this.lastType = type;
+    } else {
+      this.clearTeal.push(teal);
+      if (type !== 'void') this.lastType = type;
     }
   }
 
@@ -1618,11 +1583,9 @@ export default class Compiler {
     const staticTypes = types.filter((t) => !this.isDynamicType(t));
     const headLength = this.getTypeLength(`[${staticTypes.join(',')}]`) + dynamicTypes.length * 2;
 
-    const isStatic = !this.isDynamicType(typeHint);
-
     let consecutiveBools: ts.Node[] = [];
     elements.forEach((e, i) => {
-      if (i === 0 && !isStatic) {
+      if (i === 0) {
         this.pushLines(parentNode, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
       }
 
@@ -1633,9 +1596,7 @@ export default class Compiler {
 
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
-        if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
-        else if (i !== 0) this.pushVoid(e, 'concat');
-
+        this.pushVoid(e, 'callsub process_static_tuple_element');
         consecutiveBools = [];
       }
 
@@ -1648,17 +1609,19 @@ export default class Compiler {
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
       if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
-      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
-      else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
-      else if (i !== 0) this.pushVoid(e, 'concat');
+      if (this.isDynamicType(types[i])) {
+        this.pushVoid(e, 'callsub process_dynamic_tuple_element');
+      } else {
+        this.pushVoid(e, 'callsub process_static_tuple_element');
+      }
     });
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      if (!isStatic) this.pushVoid(parentNode, 'callsub process_static_tuple_element');
+      this.pushVoid(parentNode, 'callsub process_static_tuple_element');
     }
 
-    if (!isStatic) this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
+    this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
   }
 
   private checkEncoding(node: ts.Node, type: string) {
@@ -1737,39 +1700,6 @@ export default class Compiler {
     return elem;
   }
 
-  private processLiteralArrayElement(
-    e: ts.StringLiteral | ts.NumericLiteral,
-    type: string,
-    literalElements: string[],
-    isLast: boolean,
-    hasNonLiteral: boolean,
-  ): void {
-    if (ts.isNumericLiteral(e)) {
-      const bitWidth = parseInt(type.match(/\d+$/)![0], 10);
-      const byteWidth = bitWidth / 8;
-      const padWidth = byteWidth * 2;
-
-      const value = parseInt(e.getText(), 10);
-      literalElements.push(`${value.toString(16).padStart(padWidth, '0')}`);
-      if (isLast) {
-        this.pushVoid(e, `byte 0x${literalElements.join('')}`);
-        if (hasNonLiteral) this.pushVoid(e, 'concat');
-      }
-    }
-
-    if (ts.isStringLiteral(e)) {
-      const { length } = e.text;
-      const lengthPrefix = length.toString(16).padStart(4, '0');
-      const value = Buffer.from(e.text).toString('hex');
-      literalElements.push(`${lengthPrefix}${value}`);
-
-      if (isLast) {
-        this.pushVoid(e, `byte 0x${literalElements.join('')}`);
-        if (hasNonLiteral) this.pushVoid(e, 'concat');
-      }
-    }
-  }
-
   private processArrayElements(
     elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
     parentNode: ts.Node,
@@ -1794,33 +1724,12 @@ export default class Compiler {
     if (arrayTypeHint.match(/bool\[\d*\]$/)) {
       this.processBools(elements, arrayTypeHint.endsWith('[]'));
     } else {
-      const literalElements: string[] = [];
-      let hasNonLiteral = false;
-
       elements.forEach((e, i) => {
         this.typeHint = types[i];
-
-        if (ts.isNumericLiteral(e) || ts.isStringLiteral(e)) {
-          this.processLiteralArrayElement(
-            e,
-            types[i],
-            literalElements,
-            i === elements.length - 1,
-            hasNonLiteral,
-          );
-
-          return;
-        }
-
-        hasNonLiteral = true;
-
-        if (literalElements.length) this.pushVoid(e, `byte 0x${literalElements.join('')}`);
-
         this.processNode(e);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
         if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
-        literalElements.length = 0;
       });
     }
 
@@ -2216,53 +2125,6 @@ export default class Compiler {
     this.processParentArrayAccess(node, accessors, chain[0].expression, newValue);
   }
 
-  private processLiteralStaticTupleAccess(
-    node: ts.Node,
-    accessors: (ts.Expression | string)[],
-    parentExpression: ts.Node,
-    newValue?: ts.Node,
-  ) {
-    const parentType = this.getABIType(this.lastType);
-
-    let offset = 0;
-    let previousTupleElement = this.getTupleElement(parentType);
-    accessors.forEach((acc, i) => {
-      const accNumber = parseInt((acc as ts.Expression).getText(), 10);
-
-      const elem = previousTupleElement[accNumber] || previousTupleElement[0];
-
-      if (previousTupleElement[accNumber]) offset += elem.headOffset;
-      else offset += accNumber * this.getTypeLength(elem.type);
-
-      previousTupleElement = elem;
-    });
-
-    const elem = previousTupleElement;
-
-    const length = this.getTypeLength(elem.type);
-
-    // If one of the immediate args is over 255, then replace2/extract won't work
-    const over255 = length > 255 || offset > 255;
-
-    if (over255) this.pushVoid(node, `int ${offset}`);
-
-    if (newValue) {
-      this.processNode(newValue);
-      if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
-
-      if (over255) this.pushVoid(node, 'replace3');
-      else this.pushVoid(node, `replace2 ${offset}`);
-
-      this.updateValue(parentExpression);
-    } else {
-      if (over255) this.pushLines(node, `int ${length}`, 'extract3');
-      else this.pushVoid(node, `extract ${offset} ${length}`);
-
-      if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
-      this.lastType = elem.type;
-    }
-  }
-
   private processParentArrayAccess(
     node: ts.Node,
     accessors: (ts.Expression | string)[],
@@ -2270,26 +2132,6 @@ export default class Compiler {
     newValue?: ts.Node,
   ): void {
     const parentType = this.getABIType(this.lastType);
-
-    // If we know the tuple is static and doesn't contain bools or dynamic accessors,
-    // we can skip all of the opcodes and just use the offset calculated by getElementHead directly
-    // TODO: add bool support
-    const isNonBoolStatic = !this.isDynamicType(parentType) && !parentType.includes('bool');
-    let literalAccessors = true;
-
-    accessors.forEach((a) => {
-      if (typeof (a) === 'string') {
-        literalAccessors = false;
-        return;
-      }
-
-      if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
-    });
-
-    if (isNonBoolStatic && literalAccessors) {
-      this.processLiteralStaticTupleAccess(node, accessors, parentExpression, newValue);
-      return;
-    }
 
     this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
 

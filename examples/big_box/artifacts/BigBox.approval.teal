@@ -222,7 +222,14 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	extract 16 1
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 1
+	extract3
 	byte 0x00
 	b==
 	assert
@@ -232,7 +239,14 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	extract 0 8
+	store 0 // full array
+	int 0 // initial offset
+	int 0 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	frame_dig -2 // boxIndex: uint64
 	<=
@@ -242,7 +256,14 @@ upload:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	<=
 	&&
@@ -267,14 +288,28 @@ skip_and0:
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	==
 	bz ternary0_false
 	frame_dig -5 // storage key//metadata
 	box_get
 	assert
-	extract 17 8
+	store 0 // full array
+	int 0 // initial offset
+	int 17 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	b ternary0_end
 
@@ -327,7 +362,14 @@ setStatus:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
-	extract 16 1
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
+	int 1
+	extract3
 	frame_bury -3 // currentStatus: uint8
 
 	// examples/big_box/big_box.algo.ts:98
@@ -365,8 +407,14 @@ skip_or1:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
+	store 0 // full array
+	int 0 // initial offset
+	int 16 // headOffset
+	+
+	load 0 // full array
+	swap
 	frame_dig -2 // status: uint8
-	replace2 16
+	replace3
 	frame_dig -1 // dataIdentifier: bytes
 	swap
 	box_put

@@ -36,7 +36,14 @@ staticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:153
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
+	int 11
+	itob
+	int 22
+	itob
+	concat
+	int 33
+	itob
+	concat
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:155
@@ -66,20 +73,41 @@ staticArrayInStorageMap:
 	//     ]
 	byte "gMap"
 	app_global_get
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	txn Sender
 	byte "lMap"
 	app_local_get
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	concat
 	byte "bMap"
 	box_get
 	assert
-	extract 8 8
+	store 0 // full array
+	int 0 // initial offset
+	int 8 // acc * typeLength
+	+
+	load 0 // full array
+	swap
+	int 8
+	extract3
 	btoi
 	itob
 	concat

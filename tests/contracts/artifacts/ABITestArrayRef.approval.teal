@@ -36,7 +36,11 @@ arrayRef:
 
 	// tests/contracts/abi.algo.ts:734
 	// a: uint<8>[] = [1, 2, 3]
-	byte 0x010203
+	byte 0x01
+	byte 0x02
+	concat
+	byte 0x03
+	concat
 	frame_bury -1 // a: uint8[]
 
 	// tests/contracts/abi.algo.ts:737

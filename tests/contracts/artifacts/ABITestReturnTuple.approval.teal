@@ -36,7 +36,19 @@ returnTuple:
 
 	// tests/contracts/abi.algo.ts:311
 	// a: [uint64, uint<16>, uint64] = [11, 22, 33]
-	byte 0x000000000000000b00160000000000000021
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0012 // initial head offset
+	int 11
+	itob
+	callsub process_static_tuple_element
+	byte 0x0016
+	callsub process_static_tuple_element
+	int 33
+	itob
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
 	frame_bury -1 // a: [uint64,uint16,uint64]
 
 	// tests/contracts/abi.algo.ts:312
@@ -63,3 +75,12 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_returnTuple
 	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

@@ -42,8 +42,16 @@ storageRefAccount:
 	// tests/contracts/abi.algo.ts:967
 	// this.lMap(addr, 0).value = [1, 2, 3]
 	frame_dig -1 // addr: address
-	byte 0x0000000000000000
-	byte 0x000000000000000100000000000000020000000000000003
+	int 0
+	itob
+	int 1
+	itob
+	int 2
+	itob
+	concat
+	int 3
+	itob
+	concat
 	dup
 	len
 	int 8
@@ -67,7 +75,8 @@ storageRefAccount:
 	// tests/contracts/abi.algo.ts:972
 	// r[1] = 4
 	frame_dig -2 // storage account//r
-	byte 0x0000000000000000
+	int 0
+	itob
 	app_local_get
 	extract 2 0
 	store 0 // full array
@@ -76,10 +85,12 @@ storageRefAccount:
 	+
 	load 0 // full array
 	swap
-	byte 0x0000000000000004
+	int 4
+	itob
 	replace3
 	frame_dig -2 // storage account//r
-	byte 0x0000000000000000
+	int 0
+	itob
 	uncover 2
 	dup
 	len
@@ -94,7 +105,8 @@ storageRefAccount:
 	// tests/contracts/abi.algo.ts:974
 	// return this.lMap(this.txn.sender, 0).value[1];
 	txn Sender
-	byte 0x0000000000000000
+	int 0
+	itob
 	app_local_get
 	extract 2 0
 	store 0 // full array

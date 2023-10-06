@@ -368,7 +368,8 @@ btobigintFirst:
 	// tests/contracts/math.algo.ts:49
 	// return btobigint(input) / 1;
 	frame_dig -1 // input: bytes
-	byte 0x0000000000000001
+	int 1
+	itob
 	b/
 	btoi
 	itob

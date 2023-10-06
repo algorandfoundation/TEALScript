@@ -43,7 +43,9 @@ returnDynamicArrayFromTuple:
 	callsub process_static_tuple_element
 	byte 0x0002
 	callsub process_static_tuple_element
-	byte 0x0304
+	byte 0x03
+	byte 0x04
+	concat
 	dup
 	len
 	itob
@@ -51,7 +53,9 @@ returnDynamicArrayFromTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	byte 0x00050006
+	byte 0x0005
+	byte 0x0006
+	concat
 	dup
 	len
 	int 2
@@ -61,7 +65,9 @@ returnDynamicArrayFromTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	byte 0x0708
+	byte 0x07
+	byte 0x08
+	concat
 	dup
 	len
 	itob

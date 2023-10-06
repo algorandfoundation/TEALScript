@@ -40,6 +40,9 @@ boolTupleAccess:
 	//     ] = [
 	//       false, false, false, false, false, false, false, false, true,
 	//     ]
+	byte 0x // initial head
+	byte 0x // initial tail
+	byte 0x0002 // initial head offset
 	byte 0x0000
 	int 0
 	int 0
@@ -68,6 +71,9 @@ boolTupleAccess:
 	int 8
 	int 1
 	setbit
+	callsub process_static_tuple_element
+	pop // pop head offset
+	concat // concat head and tail
 	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:870
@@ -109,3 +115,12 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_boolTupleAccess
 	err
+
+process_static_tuple_element:
+	proto 4 3
+	frame_dig -4 // tuple head
+	frame_dig -1 // element
+	concat
+	frame_dig -3 // tuple tail
+	frame_dig -2 // head offset
+	retsub

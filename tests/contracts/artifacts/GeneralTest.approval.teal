@@ -405,7 +405,8 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:58
 	// methodArgs: [1]
-	byte 0x0000000000000001
+	int 1
+	itob
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0

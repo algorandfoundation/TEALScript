@@ -36,7 +36,13 @@ nonLiteralNestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:756
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]]
-	byte 0x01020304
+	byte 0x01
+	byte 0x02
+	concat
+	byte 0x03
+	byte 0x04
+	concat
+	concat
 	frame_bury -1 // a: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:758

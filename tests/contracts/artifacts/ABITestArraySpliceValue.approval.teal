@@ -36,7 +36,25 @@ arraySpliceValue:
 
 	// tests/contracts/abi.algo.ts:442
 	// a: uint<16>[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-	byte 0x000100020003000400050006000700080009000a
+	byte 0x0001
+	byte 0x0002
+	concat
+	byte 0x0003
+	concat
+	byte 0x0004
+	concat
+	byte 0x0005
+	concat
+	byte 0x0006
+	concat
+	byte 0x0007
+	concat
+	byte 0x0008
+	concat
+	byte 0x0009
+	concat
+	byte 0x000a
+	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:444
