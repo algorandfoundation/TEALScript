@@ -83,9 +83,7 @@ updateDynamicArrayInMiddleOfTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x04
-	byte 0x05
-	concat
+	byte 0x0405
 	dup
 	len
 	itob

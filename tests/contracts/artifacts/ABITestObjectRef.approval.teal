@@ -36,22 +36,14 @@ objectRef:
 
 	// tests/contracts/abi.algo.ts:933
 	// o: {foo: uint64} = { foo: 1 }
-	int 1
-	itob
+	byte 0x0000000000000001
 	frame_bury -1 // o: {foo: uint64}
 
 	// tests/contracts/abi.algo.ts:937
 	// r.foo = 2
 	frame_dig -1 // o: {foo: uint64}
-	store 0 // full array
-	int 0 // initial offset
-	int 0 // headOffset
-	+
-	load 0 // full array
-	swap
-	int 2
-	itob
-	replace3
+	byte 0x0000000000000002
+	replace2 0
 	frame_bury -1 // r: {foo: uint64}
 
 	// tests/contracts/abi.algo.ts:939

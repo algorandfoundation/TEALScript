@@ -1,0 +1,24 @@
+{
+  "name": "ABITestMixedStaticArray",
+  "desc": "",
+  "methods": [
+    {
+      "name": "mixedStaticArray",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint64,uint64[2])",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}

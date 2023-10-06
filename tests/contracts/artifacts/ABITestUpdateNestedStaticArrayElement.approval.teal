@@ -36,63 +36,20 @@ updateNestedStaticArrayElement:
 
 	// tests/contracts/abi.algo.ts:214
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
-	int 44
-	itob
-	int 55
-	itob
-	concat
-	int 66
-	itob
-	concat
-	concat
-	int 77
-	itob
-	int 88
-	itob
-	concat
-	int 99
-	itob
-	concat
-	concat
+	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:216
 	// a[1][1] = 555
 	frame_dig -1 // a: uint64[3][3]
-	store 0 // full array
-	int 0 // initial offset
-	int 24 // acc * typeLength
-	+
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 555
-	itob
-	replace3
+	byte 0x000000000000022b
+	replace2 32
 	frame_bury -1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:218
 	// return a[1][1];
 	frame_dig -1 // a: uint64[3][3]
-	store 0 // full array
-	int 0 // initial offset
-	int 24 // acc * typeLength
-	+
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 32 8
 	btoi
 	itob
 	byte 0x151f7c75

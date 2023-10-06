@@ -36,14 +36,7 @@ updateStaticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:184
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
+	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:186
@@ -69,15 +62,8 @@ updateStaticArrayInStorageMap:
 	// this.gMap('gMap').value[1] = 1111
 	byte "gMap"
 	app_global_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 1111
-	itob
-	replace3
+	byte 0x0000000000000457
+	replace2 8
 	byte "gMap"
 	swap
 	app_global_put
@@ -87,15 +73,8 @@ updateStaticArrayInStorageMap:
 	txn Sender
 	byte "lMap"
 	app_local_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 2222
-	itob
-	replace3
+	byte 0x00000000000008ae
+	replace2 8
 	txn Sender
 	byte "lMap"
 	uncover 2
@@ -106,15 +85,8 @@ updateStaticArrayInStorageMap:
 	byte "bMap"
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 3333
-	itob
-	replace3
+	byte 0x0000000000000d05
+	replace2 8
 	byte "bMap"
 	swap
 	box_put
@@ -127,41 +99,20 @@ updateStaticArrayInStorageMap:
 	//     ]
 	byte "gMap"
 	app_global_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	txn Sender
 	byte "lMap"
 	app_local_get
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat
 	byte "bMap"
 	box_get
 	assert
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	concat
