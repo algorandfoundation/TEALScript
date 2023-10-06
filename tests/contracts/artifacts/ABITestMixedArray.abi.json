@@ -1,0 +1,24 @@
+{
+  "name": "ABITestMixedArray",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedEmptyArray",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "(uint64,(uint64,uint64))",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}
