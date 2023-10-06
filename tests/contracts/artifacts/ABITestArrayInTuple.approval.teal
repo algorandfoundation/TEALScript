@@ -38,39 +38,13 @@ arrayInTuple:
 	// a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [
 	//       11, 22, [33, 44], 55,
 	//     ]
-	byte 0x // initial head
-	byte 0x // initial tail
-	byte 0x001c // initial head offset
-	int 11
-	itob
-	callsub process_static_tuple_element
-	byte 0x0016
-	callsub process_static_tuple_element
-	int 33
-	itob
-	int 44
-	itob
-	concat
-	callsub process_static_tuple_element
-	byte 0x0037
-	callsub process_static_tuple_element
-	pop // pop head offset
-	concat // concat head and tail
+	byte 0x000000000000000b00160000000000000021000000000000002c0037
 	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
 
 	// tests/contracts/abi.algo.ts:258
 	// return a[2][1];
 	frame_dig -1 // a: [uint64,uint16,uint64[2],uint16]
-	store 0 // full array
-	int 0 // initial offset
-	int 10 // headOffset
-	+
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 18 8
 	btoi
 	itob
 	byte 0x151f7c75
@@ -94,12 +68,3 @@ call_NoOp:
 	txna ApplicationArgs 0
 	match abi_route_arrayInTuple
 	err
-
-process_static_tuple_element:
-	proto 4 3
-	frame_dig -4 // tuple head
-	frame_dig -1 // element
-	concat
-	frame_dig -3 // tuple tail
-	frame_dig -2 // head offset
-	retsub

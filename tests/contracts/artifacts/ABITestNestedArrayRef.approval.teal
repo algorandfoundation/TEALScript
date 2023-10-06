@@ -36,13 +36,7 @@ nestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:745
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]]
-	byte 0x01
-	byte 0x02
-	concat
-	byte 0x03
-	byte 0x04
-	concat
-	concat
+	byte 0x01020304
 	frame_bury -1 // a: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:746
@@ -50,16 +44,8 @@ nestedArrayRef:
 	// tests/contracts/abi.algo.ts:748
 	// b[1] = 5 as uint<8>
 	frame_dig -1 // a: uint8[2][2]
-	store 0 // full array
-	int 0 // initial offset
-	int 2 // acc * typeLength
-	+
-	int 1 // acc * typeLength
-	+
-	load 0 // full array
-	swap
 	byte 0x05
-	replace3
+	replace2 3
 	frame_bury -1 // b: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:750

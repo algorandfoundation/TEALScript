@@ -483,13 +483,11 @@ methodCall:
 	// methodArgs: [this.app, Asset.zeroIndex]
 	txna Applications 0
 	itxn_field Applications
-	int 1
-	itob
+	byte 0x0000000000000001
 	itxn_field ApplicationArgs
 	int 0
 	itxn_field Assets
-	int 0
-	itob
+	byte 0x0000000000000000
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0

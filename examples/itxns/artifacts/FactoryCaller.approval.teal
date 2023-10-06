@@ -203,15 +203,13 @@ mintAndGetAsset:
 	// methodArgs: [createdAsset, this.app.address]
 	frame_dig -2 // createdAsset: asset
 	itxn_field Assets
-	int 0
-	itob
+	byte 0x0000000000000000
 	itxn_field ApplicationArgs
 	txna Applications 0
 	app_params_get AppAddress
 	assert
 	itxn_field Accounts
-	int 1
-	itob
+	byte 0x0000000000000001
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0

@@ -36,27 +36,13 @@ staticArray:
 
 	// tests/contracts/abi.algo.ts:11
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
-	int 11
-	itob
-	int 22
-	itob
-	concat
-	int 33
-	itob
-	concat
+	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:13
 	// return a[1];
 	frame_dig -1 // a: uint64[3]
-	store 0 // full array
-	int 0 // initial offset
-	int 8 // acc * typeLength
-	+
-	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75
