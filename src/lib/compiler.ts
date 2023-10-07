@@ -650,127 +650,150 @@ export default class Compiler {
     });
   }
 
-  private customMethods: { [methodName: string]: (node: ts.CallExpression) => void } = {
-    rawBytes: (node: ts.CallExpression) => {
-      if (node.arguments.length !== 1) throw new Error();
-      this.processNode(node.arguments[0]);
-      if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
-      this.lastType = 'bytes';
-    },
-    castBytes: (node: ts.CallExpression) => {
-      if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
-      this.processNode(node.arguments[0]);
-      this.lastType = node.typeArguments[0].getText();
-      // eslint-disable-next-line no-console
-      console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
-    },
-    wideRatio: (node: ts.CallExpression) => {
-      if (
-        node.arguments.length !== 2
+  private customMethods: {
+    [methodName: string]: {
+      fn: (node: ts.CallExpression) => void
+      check: (node: ts.CallExpression) => boolean
+    }
+  } = {
+      rawBytes: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (node.arguments.length !== 1) throw new Error();
+          this.processNode(node.arguments[0]);
+          if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
+          this.lastType = 'bytes';
+        },
+      },
+      castBytes: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
+          this.processNode(node.arguments[0]);
+          this.lastType = node.typeArguments[0].getText();
+          // eslint-disable-next-line no-console
+          console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
+        },
+      },
+      wideRatio: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (
+            node.arguments.length !== 2
         || !ts.isArrayLiteralExpression(node.arguments[0])
         || !ts.isArrayLiteralExpression(node.arguments[1])
-      ) throw new Error();
+          ) throw new Error();
 
-      this.multiplyWideRatioFactors(node, new Array(...node.arguments[0].elements));
-      this.multiplyWideRatioFactors(node, new Array(...node.arguments[1].elements));
+          this.multiplyWideRatioFactors(node, new Array(...node.arguments[0].elements));
+          this.multiplyWideRatioFactors(node, new Array(...node.arguments[1].elements));
 
-      this.pushLines(
-        node,
-        'divmodw',
-        'pop',
-        'pop',
-        'swap',
-        '!',
-        'assert',
-      );
+          this.pushLines(
+            node,
+            'divmodw',
+            'pop',
+            'pop',
+            'swap',
+            '!',
+            'assert',
+          );
 
-      this.lastType = 'uint64';
-    },
-    hex: (node: ts.CallExpression) => {
-      if (node.arguments.length !== 1) throw new Error();
-      if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
+          this.lastType = 'uint64';
+        },
+      },
+      hex: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (node.arguments.length !== 1) throw new Error();
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
 
-      this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
-    },
-    btobigint: (node: ts.CallExpression) => {
-      this.processNode(node.arguments[0]);
-      this.lastType = 'uint512';
-    },
-    verifyTxn: (node: ts.CallExpression) => {
-      if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
+          this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+        },
+      },
+      btobigint: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          this.processNode(node.arguments[0]);
+          this.lastType = 'uint512';
+        },
+      },
+      verifyTxn: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
 
-      const preTealLength = this.teal.length;
+          const preTealLength = this.teal.length;
 
-      this.processNode(node.arguments[0]);
+          this.processNode(node.arguments[0]);
 
-      const indexInScratch: boolean = this.teal.length - preTealLength > 1;
+          const indexInScratch: boolean = this.teal.length - preTealLength > 1;
 
-      if (indexInScratch) {
-        this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-      } else this.teal.pop();
-
-      node.arguments[1].properties.forEach((p, i) => {
-        if (!ts.isPropertyAssignment(p)) throw new Error();
-        const field = p.name.getText();
-
-        const loadField = () => {
           if (indexInScratch) {
-            this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-          } else if (node.arguments[0].getText() !== 'this.txn') {
-            this.processNode(node.arguments[0]);
-          }
+            this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
+          } else this.teal.pop();
 
-          const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
-          this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
-        };
+          node.arguments[1].properties.forEach((p, i) => {
+            if (!ts.isPropertyAssignment(p)) throw new Error();
+            const field = p.name.getText();
 
-        this.pushVoid(p, `// verify ${field}`);
+            const loadField = () => {
+              if (indexInScratch) {
+                this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+              } else if (node.arguments[0].getText() !== 'this.txn') {
+                this.processNode(node.arguments[0]);
+              }
 
-        if (ts.isObjectLiteralExpression(p.initializer)) {
-          p.initializer.properties.forEach((c) => {
-            if (!ts.isPropertyAssignment(c)) throw new Error();
+              const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
+              this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
+            };
 
-            const condition = c.name.getText();
+            this.pushVoid(p, `// verify ${field}`);
 
-            if (['includedIn', 'notIncludedIn'].includes(condition)) {
-              if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
-              c.initializer.elements.forEach((e, eIndex) => {
+            if (ts.isObjectLiteralExpression(p.initializer)) {
+              p.initializer.properties.forEach((c) => {
+                if (!ts.isPropertyAssignment(c)) throw new Error();
+
+                const condition = c.name.getText();
+
+                if (['includedIn', 'notIncludedIn'].includes(condition)) {
+                  if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
+                  c.initializer.elements.forEach((e, eIndex) => {
+                    loadField();
+                    this.processNode(e);
+                    const op = condition === 'includedIn' ? '==' : '!=';
+                    this.pushLines(c, op);
+                    if (eIndex) this.pushLines(c, '||');
+                  });
+
+                  this.pushVoid(c, 'assert');
+                  return;
+                }
+
+                const conditionMapping: Record<string, string> = {
+                  greaterThan: '>',
+                  greaterThanEqualTo: '>=',
+                  lessThan: '<',
+                  lessThanEqualTo: '<=',
+                  not: '!=',
+                };
+
+                const op = conditionMapping[condition];
+
+                if (op === undefined) throw Error();
                 loadField();
-                this.processNode(e);
-                const op = condition === 'includedIn' ? '==' : '!=';
-                this.pushLines(c, op);
-                if (eIndex) this.pushLines(c, '||');
+                this.processNode(c.initializer);
+                this.pushLines(c, op, 'assert');
               });
-
-              this.pushVoid(c, 'assert');
               return;
             }
 
-            const conditionMapping: Record<string, string> = {
-              greaterThan: '>',
-              greaterThanEqualTo: '>=',
-              lessThan: '<',
-              lessThanEqualTo: '<=',
-              not: '!=',
-            };
-
-            const op = conditionMapping[condition];
-
-            if (op === undefined) throw Error();
             loadField();
-            this.processNode(c.initializer);
-            this.pushLines(c, op, 'assert');
+            this.processNode(p.initializer);
+            this.pushLines(p, '==', 'assert');
           });
-          return;
-        }
+        },
+      },
 
-        loadField();
-        this.processNode(p.initializer);
-        this.pushLines(p, '==', 'assert');
-      });
-    },
-
-  };
+    };
 
   private disableWarnings: boolean;
 
@@ -3281,7 +3304,11 @@ export default class Compiler {
         if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
         this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
       } else if (this.customMethods[methodName]) {
-        this.customMethods[methodName](node);
+        Object.keys(this.customMethods).forEach((m) => {
+          if (methodName === m && this.customMethods[m].check(node)) {
+            this.customMethods[m].fn(node);
+          }
+        });
       }
     } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
       if (TXN_METHODS.includes(methodName)) {
