@@ -243,6 +243,7 @@ interface StorageProp {
   key?: string;
   keyType: string;
   valueType: string;
+  /** If true, always do a box_del before a box_put incase the size of the value changed */
   dynamicSize?: boolean;
   prefix?: string;
   maxKeys?: number;
@@ -593,6 +594,20 @@ export default class Compiler {
 
   private nodeDepth: number = 0;
 
+  /**
+     The current top level node being processed within a class
+
+    This is used to determine if a function call should return a value or not. For example,
+
+    ```ts
+    class Foo {
+      bar(arr: number[]) {
+        const x = arr.pop(); // "arr.pop()" is NOT top-level node
+        arr.pop(); // "arr.pop()" is top-level node
+      }
+    }
+    ```
+   */
   private topLevelNode!: ts.Node;
 
   private multiplyWideRatioFactors(node: ts.Node, factors: ts.Expression[]) {
@@ -1765,9 +1780,13 @@ export default class Compiler {
     this.forCount += 1;
   }
 
+  /**
+   * Every node in the AST is passed through this function.
+   */
   private processNode(node: ts.Node) {
     this.pushComments(node);
 
+    // See comment on topLevelNode property for explanation
     let isTopLevelNode = false;
 
     if (
@@ -1824,6 +1843,8 @@ export default class Compiler {
     } catch (e) {
       if (!(e instanceof Error)) throw e;
 
+      // Because this is recursive, we need to keep track of the error from
+      // the node that actually caused the error and ignore all other error messages
       this.processErrorNodes.push(node);
 
       const errNode = this.processErrorNodes[0];
