@@ -988,3 +988,16 @@ class ABITestStaticByteCasting extends Contract {
     return 'abc' as StaticArray<byte, 5>;
   }
 }
+
+class ABITestCastBytesFunction extends Contract {
+  castBytesFunction(): StaticArray<uint<8>, 3> {
+    return castBytes<StaticArray<uint<8>, 3>>(hex('0x010203'));
+  }
+}
+
+class ABITestRawBytesFunction extends Contract {
+  rawBytesFunction(): string {
+    const a: StaticArray<uint<8>, 3> = [1, 2, 3];
+    return rawBytes(a);
+  }
+}
