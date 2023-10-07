@@ -6,7 +6,6 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { access } from 'fs';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
