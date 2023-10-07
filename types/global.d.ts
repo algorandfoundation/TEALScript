@@ -909,3 +909,7 @@ enum TransactionType {
 }
 
 declare function templateVar<TmplType extends bytes | number>(name: string): TmplType
+
+declare function castBytes<T> (input: BytesLike): T
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function rawBytes(input: any): bytes

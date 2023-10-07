@@ -702,4 +702,16 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'angularCasting')).toEqual(1337n);
   });
+
+  test('castBytesFunction', async () => {
+    const { appClient } = await compileAndCreate('castBytesFunction');
+
+    expect(await runMethod(appClient, 'castBytesFunction')).toEqual([1n, 2n, 3n]);
+  });
+
+  test('rawBytesFunction', async () => {
+    const { appClient } = await compileAndCreate('rawBytesFunction');
+
+    expect(await runMethod(appClient, 'rawBytesFunction')).toEqual(Buffer.from('010203', 'hex').toString());
+  });
 });

@@ -652,6 +652,19 @@ export default class Compiler {
   }
 
   private customMethods: { [methodName: string]: (node: ts.CallExpression) => void } = {
+    rawBytes: (node: ts.CallExpression) => {
+      if (node.arguments.length !== 1) throw new Error();
+      this.processNode(node.arguments[0]);
+      if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
+      this.lastType = 'bytes';
+    },
+    castBytes: (node: ts.CallExpression) => {
+      if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
+      this.processNode(node.arguments[0]);
+      this.lastType = node.typeArguments[0].getText();
+      // eslint-disable-next-line no-console
+      console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
+    },
     wideRatio: (node: ts.CallExpression) => {
       if (
         node.arguments.length !== 2
