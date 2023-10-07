@@ -656,6 +656,7 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean
     }
   } = {
+      // Global methods
       rawBytes: {
         check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
         fn: (node: ts.CallExpression) => {
@@ -792,7 +793,217 @@ export default class Compiler {
           });
         },
       },
+      templateVar: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
+          if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('templateVar must have exactly one string literal argument');
+          const type = node.typeArguments[0].getText();
+          const name = node.arguments[0].text;
 
+          if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null) throw Error('Template variable name may only contain capital letters and underscores');
+
+          if (type === 'bytes' || type === 'string') {
+            this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
+          } else if (type === 'uint64' || type === 'number') {
+            this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
+          } else throw Error(`Invalid templateVar type ${type}`);
+        },
+      },
+      addr: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          // TODO: add pseudo op type parsing/assertion to handle this
+          // not currently exported in langspeg.json
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
+          this.push(node.arguments[0], `addr ${node.arguments[0].text}`, ForeignType.Address);
+        },
+      },
+      method: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
+          this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
+        },
+      },
+      // Array methods
+      push: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+          const preType = this.lastType;
+          this.processNode(node.expression.expression);
+          if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
+          if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
+          this.processNode(node.arguments[0]);
+          if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
+          this.pushVoid(node, 'concat');
+
+          this.updateValue(node.expression.expression);
+
+          this.lastType = preType;
+        },
+      },
+      pop: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+          this.processNode(node.expression.expression);
+          const poppedType = this.lastType.replace(/\[\]$/, '');
+          if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
+          if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
+
+          const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
+          this.pushLines(
+            node.expression,
+            'dup',
+            'len',
+            `int ${typeLength}`,
+            '-',
+            'int 0',
+            'swap',
+            'extract3',
+          );
+
+          // only get the popped element if we're expecting a return value
+          if (this.topLevelNode !== node) {
+            this.pushLines(
+              node.expression,
+              'dup',
+              'len',
+              `int ${typeLength}`,
+            );
+
+            this.processNode(node.expression.expression);
+
+            this.pushLines(
+              node.expression,
+              'cover 2',
+              'extract3',
+              'swap',
+            );
+          }
+
+          this.updateValue(node.expression.expression);
+
+          this.lastType = poppedType;
+        },
+      },
+      splice: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+          this.processNode(node.expression.expression);
+          if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+          if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
+
+          const elementType = this.lastType.replace(/\[\]$/, '');
+
+          // `int ${parseInt(node.arguments[1].getText(), 10)}`
+          this.processNode(node.arguments[1]);
+
+          // TODO: Optimize for literals
+          // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
+          // const spliceStart = spliceIndex * this.getTypeLength(elementType);
+          this.processNode(node.arguments[0]);
+          this.pushLines(
+            node,
+            `int ${this.getTypeLength(elementType)}`,
+            '*',
+            `store ${scratch.spliceStart}`,
+          );
+
+          // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
+          // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
+          this.processNode(node.arguments[1]);
+          this.pushLines(
+            node,
+            `int ${this.getTypeLength(elementType)}`,
+            '*',
+            `int ${this.getTypeLength(elementType)}`,
+            '+',
+            `store ${scratch.spliceByteLength}`,
+          );
+
+          // extract first part
+          this.processNode(node.expression.expression);
+          this.pushLines(
+            node,
+            'int 0',
+            `load ${scratch.spliceStart}`,
+            'substring3',
+          );
+
+          // extract second part
+          this.processNode(node.expression.expression);
+          this.pushLines(
+            node,
+            // get end
+            'dup',
+            'len',
+            // get start (end of splice)
+            `load ${scratch.spliceStart}`,
+            `load ${scratch.spliceByteLength}`,
+            '+',
+            `int ${this.getTypeLength(elementType)}`,
+            '-',
+            'swap',
+            // extract second part
+            'substring3',
+            // concat everything
+            'concat',
+          );
+
+          if (this.topLevelNode !== node) {
+            // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
+
+            this.processNode(node.expression.expression);
+            this.pushLines(
+              node,
+              `load ${scratch.spliceStart}`,
+              // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
+              `load ${scratch.spliceByteLength}`,
+              `int ${this.getTypeLength(elementType)}`,
+              '-',
+              'extract3',
+              'swap',
+            );
+          }
+
+          this.updateValue(node.expression.expression);
+          this.lastType = `${elementType}[]`;
+        },
+      },
+      forEach: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+        fn: (node: ts.CallExpression) => {
+          throw Error('forEach not yet supported. Use for loop instead');
+        },
+      },
+      // Address methods
+      fromBytes: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && node.expression.expression.getText() === 'Address',
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+          this.processNode(node.arguments[0]);
+          this.lastType = this.getABIType(node.expression.expression.getText());
+        },
+      },
+      // Asset / Application fromID
+      fromID: {
+        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && (node.expression.expression.getText() === 'Asset' || node.expression.expression.getText() === 'Application'),
+        fn: (node: ts.CallExpression) => {
+          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+          this.processNode(node.arguments[0]);
+          this.lastType = this.getABIType(node.expression.expression.getText());
+        },
+      },
     };
 
   private disableWarnings: boolean;
@@ -3261,6 +3472,9 @@ export default class Compiler {
     return ['string', 'bytes'].includes(type) || (type.endsWith('[]') && !this.isDynamicType(baseType));
   }
 
+  /*
+    Process a method call
+  */
   private processCallExpression(node: ts.CallExpression) {
     this.addSourceComment(node);
     const opcodeNames = langspec.Ops.map((o) => o.Name);
@@ -3276,183 +3490,31 @@ export default class Compiler {
 
     if (this.storageProps[methodName]) return;
 
-    if (!ts.isPropertyAccessExpression(node.expression)) {
+    if (this.customMethods[methodName]) {
+      Object.keys(this.customMethods).forEach((m) => {
+        if (methodName === m && this.customMethods[m].check(node)) {
+          this.customMethods[m].fn(node);
+        }
+      });
+      return;
+    }
+
+    // If the method is a global method
+    if (ts.isIdentifier(node.expression)) {
       if (opcodeNames.includes(methodName)) {
         this.processOpcode(node);
-      } else if (methodName === 'templateVar') {
-        if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
-        if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
-        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('templateVar must have exactly one string literal argument');
-        const type = node.typeArguments[0].getText();
-        const name = node.arguments[0].text;
-
-        if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null) throw Error('Template variable name may only contain capital letters and underscores');
-
-        if (type === 'bytes' || type === 'string') {
-          this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
-        } else if (type === 'uint64' || type === 'number') {
-          this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
-        } else throw Error(`Invalid templateVar type ${type}`);
       } else if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
-      } else if (['addr'].includes(methodName)) {
-        // TODO: add pseudo op type parsing/assertion to handle this
-        // not currently exported in langspeg.json
-        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
-        this.push(node.arguments[0], `addr ${node.arguments[0].text}`, ForeignType.Address);
-      } else if (['method'].includes(methodName)) {
-        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
-        this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
-      } else if (this.customMethods[methodName]) {
-        Object.keys(this.customMethods).forEach((m) => {
-          if (methodName === m && this.customMethods[m].check(node)) {
-            this.customMethods[m].fn(node);
-          }
-        });
       }
+    // If this is a method call on this.pendingGroup
     } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
       if (TXN_METHODS.includes(methodName)) {
         this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
       } else if (methodName === 'submit') {
         this.pushVoid(node, 'itxn_submit');
       } else throw new Error(`Unknown method ${node.getText()}`);
-    } else if (['fromBytes', 'fromID'].includes(methodName)) {
-      this.processNode(node.arguments[0]);
-      this.lastType = this.getABIType(node.expression.expression.getText());
-    } else if (methodName === 'push') {
-      const preType = this.lastType;
-      this.processNode(node.expression.expression);
-      if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
-      if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
-      this.processNode(node.arguments[0]);
-      if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
-      this.pushVoid(node, 'concat');
-
-      this.updateValue(node.expression.expression);
-
-      this.lastType = preType;
-    } else if (methodName === 'pop') {
-      this.processNode(node.expression.expression);
-      const poppedType = this.lastType.replace(/\[\]$/, '');
-      if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
-      if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
-
-      const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
-      this.pushLines(
-        node.expression,
-        'dup',
-        'len',
-        `int ${typeLength}`,
-        '-',
-        'int 0',
-        'swap',
-        'extract3',
-      );
-
-      // only get the popped element if we're expecting a return value
-      if (this.topLevelNode !== node) {
-        this.pushLines(
-          node.expression,
-          'dup',
-          'len',
-          `int ${typeLength}`,
-        );
-
-        this.processNode(node.expression.expression);
-
-        this.pushLines(
-          node.expression,
-          'cover 2',
-          'extract3',
-          'swap',
-        );
-      }
-
-      this.updateValue(node.expression.expression);
-
-      this.lastType = poppedType;
-    } else if (methodName === 'splice') {
-      this.processNode(node.expression.expression);
-      if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
-      if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
-
-      const elementType = this.lastType.replace(/\[\]$/, '');
-
-      // `int ${parseInt(node.arguments[1].getText(), 10)}`
-      this.processNode(node.arguments[1]);
-
-      // TODO: Optimize for literals
-      // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
-      // const spliceStart = spliceIndex * this.getTypeLength(elementType);
-      this.processNode(node.arguments[0]);
-      this.pushLines(
-        node,
-        `int ${this.getTypeLength(elementType)}`,
-        '*',
-        `store ${scratch.spliceStart}`,
-      );
-
-      // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
-      // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
-      this.processNode(node.arguments[1]);
-      this.pushLines(
-        node,
-        `int ${this.getTypeLength(elementType)}`,
-        '*',
-        `int ${this.getTypeLength(elementType)}`,
-        '+',
-        `store ${scratch.spliceByteLength}`,
-      );
-
-      // extract first part
-      this.processNode(node.expression.expression);
-      this.pushLines(
-        node,
-        'int 0',
-        `load ${scratch.spliceStart}`,
-        'substring3',
-      );
-
-      // extract second part
-      this.processNode(node.expression.expression);
-      this.pushLines(
-        node,
-        // get end
-        'dup',
-        'len',
-        // get start (end of splice)
-        `load ${scratch.spliceStart}`,
-        `load ${scratch.spliceByteLength}`,
-        '+',
-        `int ${this.getTypeLength(elementType)}`,
-        '-',
-        'swap',
-        // extract second part
-        'substring3',
-        // concat everything
-        'concat',
-      );
-
-      if (this.topLevelNode !== node) {
-        // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
-
-        this.processNode(node.expression.expression);
-        this.pushLines(
-          node,
-          `load ${scratch.spliceStart}`,
-          // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
-          `load ${scratch.spliceByteLength}`,
-          `int ${this.getTypeLength(elementType)}`,
-          '-',
-          'extract3',
-          'swap',
-        );
-      }
-
-      this.updateValue(node.expression.expression);
-      this.lastType = `${elementType}[]`;
-    } else if (methodName === 'forEach') {
-      throw Error('forEach not yet supported. Use for loop instead');
+    // If none of the above is true and the method is a call on "this",
+    // then assume it is a private method defined in the contract
     } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
       const preArgsType = this.lastType;
       this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
@@ -3461,6 +3523,7 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
       this.push(node.expression, `callsub ${methodName}`, subroutine.returns.type);
+    // If this is a method being called on a contract storage property
     } else {
       const storageName = getStorageName(node.expression);
 
@@ -3474,16 +3537,22 @@ export default class Compiler {
         return;
       }
 
+      // If this point is reached then assume that the method being called
+      // maps to a TEAL opcode with an immediate argument
+      // For example, "asset_params_get"
       if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
         this.processNode(node.expression);
       } else {
         this.processNode(node.expression.expression);
       }
+
+      // Process all the arguments (if any) but preserve the lastType so
+      // processOpcodeImmediate knows what the base type is
       const preArgsType = this.lastType;
       node.arguments.forEach((a) => this.processNode(a));
       this.lastType = preArgsType;
 
-      this.tealFunction(node.expression, this.lastType, node.expression.name.getText());
+      this.processOpcodeImmediate(node.expression, this.lastType, node.expression.name.getText());
     }
   }
 
@@ -3764,7 +3833,7 @@ export default class Compiler {
       }
 
       if (n.expression.getText() === 'globals') {
-        this.tealFunction(n.expression, 'global', n.name.getText());
+        this.processOpcodeImmediate(n.expression, 'global', n.name.getText());
         return;
       }
 
@@ -3794,7 +3863,7 @@ export default class Compiler {
         return;
       }
 
-      this.tealFunction(n.name, this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
+      this.processOpcodeImmediate(n.name, this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
     });
   }
 
@@ -4168,7 +4237,7 @@ export default class Compiler {
       target.type,
     );
 
-    this.tealFunction(node.name, target.type, node.name.getText(), true);
+    this.processOpcodeImmediate(node.name, target.type, node.name.getText(), true);
   }
 
   private getChain(
@@ -4190,7 +4259,11 @@ export default class Compiler {
     return chain;
   }
 
-  private tealFunction(
+  /*
+    Processes an immediate argument to TEAL opcodes
+    For example, "this.txn.sender -> txn Sender"
+  */
+  private processOpcodeImmediate(
     node: ts.Node,
     calleeType: string,
     name: string,
@@ -4213,6 +4286,7 @@ export default class Compiler {
     }
 
     if (!name.startsWith('has')) {
+      if (this.OP_PARAMS[type] === undefined) throw Error(`Unknown or unsupported method: ${node.getText()} for type ${type}`);
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
@@ -4221,7 +4295,7 @@ export default class Compiler {
         return paramName === capitalizeFirstChar(name);
       });
 
-      if (!paramObj) throw new Error(`Unknown method: ${type}.${name}`);
+      if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()}`);
 
       if (!checkArgs || paramObj.args === 1) {
         paramObj.fn(node);

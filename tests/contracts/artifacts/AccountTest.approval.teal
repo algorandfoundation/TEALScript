@@ -38,7 +38,7 @@ hasAsset:
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:6
-	// assert(a.hasAsset(new Asset(123)))
+	// assert(a.hasAsset(Asset.fromID(123)))
 	frame_dig -1 // a: account
 	int 123
 	asset_holding_get AssetBalance
@@ -63,7 +63,7 @@ assetBalance:
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:10
-	// assert(a.assetBalance(new Asset(123)))
+	// assert(a.assetBalance(Asset.fromID(123)))
 	frame_dig -1 // a: account
 	int 123
 	asset_holding_get AssetBalance
@@ -87,7 +87,7 @@ assetFrozen:
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:14
-	// assert(a.assetFrozen(new Asset(123)))
+	// assert(a.assetFrozen(Asset.fromID(123)))
 	frame_dig -1 // a: account
 	int 123
 	asset_holding_get AssetFrozen

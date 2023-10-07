@@ -3,15 +3,15 @@ import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line no-unused-vars
 class AccountTest extends Contract {
   hasAsset(a: Account): void {
-    assert(a.hasAsset(new Asset(123)));
+    assert(a.hasAsset(Asset.fromID(123)));
   }
 
   assetBalance(a: Account): void {
-    assert(a.assetBalance(new Asset(123)));
+    assert(a.assetBalance(Asset.fromID(123)));
   }
 
   assetFrozen(a: Account): void {
-    assert(a.assetFrozen(new Asset(123)));
+    assert(a.assetFrozen(Asset.fromID(123)));
   }
 
   hasBalance(a: Account): void {
