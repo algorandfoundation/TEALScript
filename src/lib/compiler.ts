@@ -665,6 +665,54 @@ export default class Compiler {
     });
   }
 
+  private customProperties: {
+    [propertyName: string]: {
+      fn: (node: ts.PropertyAccessExpression) => void
+      check: (node: ts.PropertyAccessExpression) => boolean
+    }
+  } = {
+      zeroIndex: {
+        check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.expression.getText()),
+        fn: (node: ts.PropertyAccessExpression) => {
+          this.push(node.name, 'int 0', this.getABIType(node.expression.getText()));
+        },
+      },
+      zeroAddress: {
+        check: (node: ts.PropertyAccessExpression) => ['Address', 'Account'].includes(node.expression.getText()),
+        fn: (node: ts.PropertyAccessExpression) => {
+          this.push(node.name, 'global ZeroAddress', 'Address');
+        },
+      },
+      length: {
+        check: (node: ts.PropertyAccessExpression) => {
+          const abiType = this.lastType;
+          return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
+        },
+        fn: (n: ts.PropertyAccessExpression) => {
+          if (n.expression.getText() === 'this.txnGroup') {
+            this.push(n, 'global GroupSize', StackType.uint64);
+            return;
+          }
+
+          this.processNode(n.expression);
+          if (this.lastType === StackType.bytes || this.lastType === 'string') {
+            this.push(n.name, 'len', StackType.uint64);
+            return;
+          }
+
+          if (this.isDynamicArrayOfStaticType(this.lastType)) {
+            this.pushLines(n.name, 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/');
+            this.lastType = StackType.uint64;
+            return;
+          }
+
+          if (!this.lastType.endsWith('[]')) throw new Error('.length is currently only supported on dynamic arrays');
+          this.pushLines(n.name, 'extract 0 2', 'btoi');
+          this.lastType = StackType.uint64;
+        },
+      },
+    };
+
   private customMethods: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void
@@ -3431,8 +3479,6 @@ export default class Compiler {
       }
 
       if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
-        // const chain = this.getChain(node.initializer);
-
         lastFrameAccess = node.initializer.expression.getText();
 
         const type = this.getStackTypeFromNode(node.initializer.expression);
@@ -3754,9 +3800,8 @@ export default class Compiler {
   private processMemberExpression(node: ts.PropertyAccessExpression) {
     const storageName = getStorageName(node);
 
-    if (
-      storageName && this.storageProps[storageName]
-    ) {
+    // if this is a storage object
+    if (storageName && this.storageProps[storageName]) {
       const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
       this.handleStorageAction({
         node,
@@ -3766,6 +3811,7 @@ export default class Compiler {
       return;
     }
 
+    // process TransactionType enum
     if (node.expression.getText() === 'TransactionType') {
       const enums: {[key: string]: string} = {
         Unknown: 'unknown',
@@ -3782,47 +3828,23 @@ export default class Compiler {
       return;
     }
 
+    // Get the property access chain
+    // For example: `this.txn.sender` -> `[sender, txn, this]` -> `[this, txn, sender]`
     const chain = this.getChain(node).reverse();
-
     chain.push(node);
-
     chain.forEach((n) => {
+      if (ts.isPropertyAccessExpression(n)) {
+        const propName = n.name.getText();
+
+        if (this.customProperties[propName]?.check(n)) {
+          this.customProperties[propName].fn(node);
+          return;
+        }
+      }
+
       if (ts.isElementAccessExpression(n)) {
         this.processNode(n);
         if (this.lastType === 'txn') this.lastType = 'gtxns';
-        return;
-      }
-
-      if (ts.isPropertyAccessExpression(n) && ['Account', 'Asset', 'Application', 'Address'].includes(n.expression.getText())) {
-        if (n.name.getText() === 'zeroIndex') {
-          this.push(n.name, 'int 0', this.getABIType(n.expression.getText()));
-        } else if (n.name.getText() === 'zeroAddress') {
-          this.push(n.name, 'global ZeroAddress', 'Address');
-        } else if (!['fromBytes', 'fromID'].includes(n.name.getText())) throw new Error();
-        return;
-      }
-
-      if (ts.isPropertyAccessExpression(n) && n.name.getText() === 'length') {
-        if (n.expression.getText() === 'this.txnGroup') {
-          this.push(n, 'global GroupSize', StackType.uint64);
-          return;
-        }
-
-        this.processNode(n.expression);
-        if (this.lastType === StackType.bytes || this.lastType === 'string') {
-          this.push(n.name, 'len', StackType.uint64);
-          return;
-        }
-
-        if (this.isDynamicArrayOfStaticType(this.lastType)) {
-          this.pushLines(n.name, 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/');
-          this.lastType = StackType.uint64;
-          return;
-        }
-
-        if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
-        this.pushLines(n.name, 'extract 0 2', 'btoi');
-        this.lastType = StackType.uint64;
         return;
       }
 
@@ -3831,11 +3853,9 @@ export default class Compiler {
         return;
       }
 
+      // If this is a property on a storage object, then handle the respective action
       const nStorageName = getStorageName(n);
-
-      if (
-        nStorageName && this.storageProps[nStorageName]
-      ) {
+      if (nStorageName && this.storageProps[nStorageName]) {
         const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
         this.handleStorageAction({
           node: n,
@@ -3874,13 +3894,6 @@ export default class Compiler {
             break;
         }
 
-        return;
-      }
-
-      if (n.name.kind !== ts.SyntaxKind.Identifier) {
-        const prevType = this.lastType;
-        this.processNode(n.name);
-        this.lastType = prevType;
         return;
       }
 
@@ -4261,6 +4274,15 @@ export default class Compiler {
     this.processOpcodeImmediate(node.name, target.type, node.name.getText(), true);
   }
 
+  /**
+   * Get the chain of property access expressions. Essentially gets expresisons seperate by `.`
+   *
+   * For example: `this.txn.sender.address` -> `[address, sender, txn, this]`
+   *
+   * @param node The node to get the chain from
+   * @param chain The chain to append to
+   * @returns The chain of property access expressions
+   */
   private getChain(
     node: ts.PropertyAccessExpression,
     chain: (ts.PropertyAccessExpression | ts.CallExpression | ts.ElementAccessExpression)[] = [],
