@@ -6,6 +6,9 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
+import { Project } from 'ts-morph';
+import path from 'path';
+import { readFileSync } from 'fs';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
@@ -103,7 +106,7 @@ function renderDocNode(docNode: tsdoc.DocNode): string {
 
 function stringToExpression(str: string): ts.Expression {
   if (str.startsWith('{')) {
-    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
+    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2022, true);
 
     const types: string[] = [];
     srcFile.statements[0].forEachChild((n) => {
@@ -120,7 +123,7 @@ function stringToExpression(str: string): ts.Expression {
 
     return stringToExpression(`[${types.join(',')}]`);
   } {
-    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2022, true);
     return (srcFile.statements[0] as ts.ExpressionStatement).expression;
   }
 }
@@ -1047,14 +1050,14 @@ export default class Compiler {
     this.sourceFile = ts.createSourceFile(
       this.filename,
       this.content,
-      ts.ScriptTarget.ES2019,
+      ts.ScriptTarget.ES2022,
       true,
     );
     this.constants = {};
   }
 
   static compileAll(content: string, options: CompilerOptions): Promise<Compiler>[] {
-    const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2019, true);
+    const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2022, true);
     const compilers = src.statements
       .filter((body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract')
       .map(async (body) => {
@@ -1305,7 +1308,7 @@ export default class Compiler {
       type = this.customTypes[type];
     }
 
-    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2022, true).statements[0];
 
     if (!ts.isTypeAliasDeclaration(typeAliasDeclaration)) throw new Error();
     if (!ts.isTypeLiteralNode(typeAliasDeclaration.type)) throw new Error();
@@ -1366,24 +1369,36 @@ export default class Compiler {
   }
 
   private getTypeScriptDiagnostics() {
-    const options: ts.CompilerOptions = {
-      target: ts.ScriptTarget.ES2020,
-      skipLibCheck: true,
-      experimentalDecorators: true,
-    };
     Compiler.diagsRan.push(this.filename);
-    const program = ts.createProgram({ rootNames: [this.filename], options });
 
-    const diags = ts.getPreEmitDiagnostics(program)
-      .filter((d) => (d.file ? d.file.fileName === this.filename : true));
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        skipLibCheck: true,
+        experimentalDecorators: true,
+        paths: {
+          '@algorandfoundation/tealscript': ['./src/lib/index'],
+        },
+      },
+    });
+
+    // TODO: figure out how to embed these files for webpack
+    project.createSourceFile('types/global.d.ts', readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8'));
+    project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
+    project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
+
+    const sourceFile = project.createSourceFile(this.filename, this.content);
+
+    const diags = sourceFile.getPreEmitDiagnostics();
 
     if (diags.length > 0) {
       const messages = diags.map((d) => {
-        if (d.file === undefined) return ts.flattenDiagnosticMessageText(d.messageText, '\n');
+        const file = d.getSourceFile()?.getFilePath();
+        if (file === undefined) return d.getMessageText();
 
-        const { line, character } = ts.getLineAndCharacterOfPosition(d.file, d.start!);
-        const message = ts.flattenDiagnosticMessageText(d.messageText, '\n');
-        return `${d.file.fileName}:${line + 1}:${character + 1}: ${message}`;
+        const line = d.getLineNumber() || 0;
+        return `${file}:${line + 1}: ${d.getMessageText()}`;
       });
 
       throw Error(`TypeScript diagnostics failed:\n${messages.join('\n')}`);
@@ -1392,8 +1407,6 @@ export default class Compiler {
 
   async compile() {
     if (!Compiler.diagsRan.includes(this.filename)) this.getTypeScriptDiagnostics();
-    // eslint-disable-next-line no-console
-    if (this.filename === '') console.warn('No filename provided, skipping TypeScript diagnostics');
 
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
