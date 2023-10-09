@@ -3650,15 +3650,12 @@ export default class Compiler {
       this.processNode(node.thenStatement);
       this.pushVoid(node, `b if${ifCount}_end`);
       this.processIfStatement(node.elseStatement, elseIfCount + 1);
-    } else if (node.thenStatement.kind === ts.SyntaxKind.Block) {
+    } else {
       this.pushVoid(node, `bz if${ifCount}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.thenStatement);
       this.pushVoid(node, `b if${ifCount}_end`);
       this.pushVoid(node, `if${ifCount}_else:`);
-      this.processNode(node.elseStatement);
-    } else {
-      this.pushVoid(node, `bz if${ifCount}_end`);
       this.processNode(node.elseStatement);
     }
 
