@@ -1857,7 +1857,7 @@ export default class Compiler {
       if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
       else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
       else if (ts.isMethodDeclaration(node)) this.processMethodDefinition(node);
-      else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
+      else if (ts.isPropertyAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isAsExpression(node)) this.processTypeCast(node);
       else if (ts.isTypeAssertionExpression(node)) this.processTypeCast(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
@@ -1880,7 +1880,7 @@ export default class Compiler {
       else if (ts.isIfStatement(node)) this.processIfStatement(node);
       else if (ts.isPrefixUnaryExpression(node)) this.processUnaryExpression(node);
       else if (ts.isBinaryExpression(node)) this.processBinaryExpression(node);
-      else if (ts.isCallExpression(node)) this.processCallExpression(node);
+      else if (ts.isCallExpression(node)) this.processExpressionChain(node);
       else if (ts.isExpressionStatement(node)) this.processExpressionStatement(node);
       else if (ts.isReturnStatement(node)) this.processReturnStatement(node);
       else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
@@ -3866,10 +3866,23 @@ export default class Compiler {
       );
 
       chain.splice(0, 2);
+      return;
+    }
+
+    if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
+      const methodName = chain[0].name.getText();
+      const preArgsType = this.lastType;
+      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
+      new Array(...chain[1].arguments).reverse().forEach((a) => this.processNode(a));
+      this.lastType = preArgsType;
+      const subroutine = this.subroutines.find((s) => s.name === methodName);
+      if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+      this.push(chain[1], `callsub ${methodName}`, subroutine.returns.type);
+      chain.splice(0, 2);
     }
   }
 
-  private processMemberExpression(node: ts.PropertyAccessExpression) {
+  private processExpressionChain(node: ExpressionChainNode) {
     const { base, chain } = this.getExpressionChain(node);
 
     if (base.kind === ts.SyntaxKind.ThisKeyword) {
@@ -3877,9 +3890,43 @@ export default class Compiler {
     }
 
     if (ts.isIdentifier(base)) {
+      // global variable
       if (base.getText() === 'globals') {
         if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
+        chain.splice(0, 1);
+      }
+
+      // txn method like sendMethodCall, sendPayment, etc.
+      if (TXN_METHODS.includes(base.getText())) {
+        if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processTransaction(
+          node,
+          base.getText(),
+          chain[0].arguments[0],
+          chain[0].typeArguments,
+        );
+        chain.splice(0, 1);
+        return;
+      }
+
+      // If this is a custom method
+      if (ts.isCallExpression(chain[0]) && this.customMethods[base.getText()]) {
+        const callNode = chain[0];
+        Object.keys(this.customMethods).forEach((m) => {
+          if (base.getText() === m && this.customMethods[m].check(callNode)) {
+            this.customMethods[m].fn(callNode);
+          }
+        });
+        chain.splice(0, 1);
+        return;
+      }
+
+      if (
+        ts.isCallExpression(chain[0])
+        && langspec.Ops.map((o) => o.Name).includes(base.getText())
+      ) {
+        this.processOpcode(chain[0]);
         chain.splice(0, 1);
       }
 
@@ -3899,7 +3946,12 @@ export default class Compiler {
       }
     }
 
-    if (chain.length) throw Error(`LastType: ${this.lastType} | Base: ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
+    if (chain.length) {
+      if (!this.lastType.match(/\[\d*\]$/)) {
+        // continue down chain
+      } else throw Error('TODO: Array support');
+    }
+    if (chain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
   }
 
   private oldProcessMemberExpression(node: ts.PropertyAccessExpression) {
