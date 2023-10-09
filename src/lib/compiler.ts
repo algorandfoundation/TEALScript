@@ -9,6 +9,8 @@ import * as tsdoc from '@microsoft/tsdoc';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
+type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression
+
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
@@ -2179,6 +2181,24 @@ export default class Compiler {
     this.processArrayElements(node.elements, node);
   }
 
+  private getExpressionChain(
+    node: ExpressionChainNode,
+    chain: ExpressionChainNode[] = [],
+  ): { chain: ExpressionChainNode[], base: ts.Node } {
+    chain.push(node);
+
+    if (
+      ts.isElementAccessExpression(node.expression)
+      || ts.isPropertyAccessExpression(node.expression)
+      || ts.isCallExpression(node.expression)
+    ) {
+      return this.getExpressionChain(node.expression, chain);
+    }
+
+    chain.reverse();
+    return { base: node.expression, chain };
+  }
+
   private getAccessChain(
     node: ts.ElementAccessExpression,
     chain: ts.ElementAccessExpression[] = [],
@@ -2527,6 +2547,8 @@ export default class Compiler {
     const accessors: (ts.Expression | string)[] = [];
 
     const frame = this.frame[chain[0].expression.getText()];
+
+    console.log(chain[0].expression.getText());
 
     if (frame && frame.index === undefined) {
       const frameFollow = this.processFrame(
@@ -3794,7 +3816,76 @@ export default class Compiler {
     }
   }
 
+  private processThisBase(chain: ExpressionChainNode[]) {
+    // If this is a storage property
+    if (
+      ts.isPropertyAccessExpression(chain[0])
+      && chain[1]
+      && ts.isPropertyAccessExpression(chain[1])
+      && this.storageProps[chain[0].name.getText()]
+    ) {
+      // When the storage prop is a StateKey the chain would look like:
+      //    [this.foo, this.foo.value, ...]
+      // When the storage prop is a StateMap the chain would look like:
+      //    [this.foo, this.foo('bar'), this.foo('bar').value]
+      const name = chain[0].name.getText();
+
+      const action = chain[1].name.getText() === 'value' ? 'get' : chain[1].name.getText();
+      const actionNode = (chain[2] && ts.isCallExpression(chain[2])) ? chain[2] : chain[1];
+      this.handleStorageAction({
+        node: actionNode,
+        name,
+        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+      });
+    }
+
+    if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app'].includes(chain[0].name.getText())) {
+      const op = chain[0].name.getText();
+
+      if (op === 'txn' && chain[1] === undefined) {
+        this.push(chain[0], 'txn', 'txn');
+        return;
+      }
+
+      if (op === 'app') {
+        this.push(chain[0], 'txna Applications 0', ForeignType.Application);
+      }
+
+      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      this.processOpcodeImmediate(
+        chain[0],
+        chain[0].name.getText(),
+        chain[1].name.getText(),
+        false,
+        true,
+      );
+    }
+  }
+
   private processMemberExpression(node: ts.PropertyAccessExpression) {
+    const { base, chain } = this.getExpressionChain(node);
+
+    if (base.kind === ts.SyntaxKind.ThisKeyword) {
+      this.processThisBase(chain);
+      return;
+    }
+
+    if (ts.isIdentifier(base)) {
+      if (base.getText() === 'globals') {
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
+        return;
+      }
+
+      if (this.frame[base.getText()]) {
+        this.processFrameExpression(chain[0]);
+      }
+    }
+
+    console.log(base.getText(), chain.map((n) => n.getText()), ts.SyntaxKind[base.kind]);
+  }
+
+  private oldProcessMemberExpression(node: ts.PropertyAccessExpression) {
     const storageName = getStorageName(node);
 
     // if this is a storage object
@@ -3876,7 +3967,7 @@ export default class Compiler {
       }
 
       if (this.frame[n.expression.getText()]) {
-        this.processStorageExpression(n);
+        this.processFrameExpression(n);
         return;
       }
 
@@ -4258,7 +4349,7 @@ export default class Compiler {
     }
   }
 
-  private processStorageExpression(node: ts.PropertyAccessExpression) {
+  private processFrameExpression(node: ts.PropertyAccessExpression) {
     const name = node.expression.getText();
     const target = this.frame[name];
 
@@ -4316,6 +4407,8 @@ export default class Compiler {
       type = 'gtxns';
     } else if (type === ForeignType.Address) {
       type = 'account';
+    } else if (type === 'app') {
+      type = 'application';
     }
 
     if (type === 'account') {

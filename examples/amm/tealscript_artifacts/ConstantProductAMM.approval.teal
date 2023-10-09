@@ -339,6 +339,7 @@ set_governor:
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:87
+	// verifyTxn(this.txn, { sender: this.governor.value })
 	// verify sender
 	txn Sender
 	byte "g"
@@ -384,6 +385,7 @@ bootstrap:
 	proto 3 0
 
 	// examples/amm/amm.algo.ts:92
+	// verifyTxn(this.txn, { sender: this.governor.value })
 	// verify sender
 	txn Sender
 	byte "g"
