@@ -3843,7 +3843,7 @@ export default class Compiler {
       return;
     }
 
-    if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app'].includes(chain[0].name.getText())) {
+    if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app', 'itxn'].includes(chain[0].name.getText())) {
       const op = chain[0].name.getText();
 
       if (op === 'txn' && chain[1] === undefined) {
