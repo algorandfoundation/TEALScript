@@ -36,7 +36,7 @@ describe('Account', function () {
 
   test('assetBalance', async function () {
     expect(await getTeal('assetBalance')).toEqual([
-      '// assert(a.assetBalance(new Asset(123)))',
+      '// assert(a.assetBalance(Asset.fromID(123)))',
       'frame_dig -1 // a: account',
       'int 123',
       'asset_holding_get AssetBalance',
@@ -47,7 +47,7 @@ describe('Account', function () {
 
   test('assetFrozen', async function () {
     expect(await getTeal('assetFrozen')).toEqual([
-      '// assert(a.assetFrozen(new Asset(123)))',
+      '// assert(a.assetFrozen(Asset.fromID(123)))',
       'frame_dig -1 // a: account',
       'int 123',
       'asset_holding_get AssetFrozen',
@@ -58,7 +58,7 @@ describe('Account', function () {
 
   test('hasAsset', async function () {
     expect(await getTeal('hasAsset')).toEqual([
-      '// assert(a.hasAsset(new Asset(123)))',
+      '// assert(a.hasAsset(Asset.fromID(123)))',
       'frame_dig -1 // a: account',
       'int 123',
       'asset_holding_get AssetBalance',

@@ -71,4 +71,9 @@ class IfTest extends Contract {
 
     return retStr;
   }
+
+  bracketlessIfElse(): void {
+    if (1) log('If');
+    else log('else');
+  }
 }
