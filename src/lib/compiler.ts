@@ -2548,8 +2548,6 @@ export default class Compiler {
 
     const frame = this.frame[chain[0].expression.getText()];
 
-    console.log(chain[0].expression.getText());
-
     if (frame && frame.index === undefined) {
       const frameFollow = this.processFrame(
         chain[0].expression,
@@ -3821,7 +3819,7 @@ export default class Compiler {
     if (
       ts.isPropertyAccessExpression(chain[0])
       && chain[1]
-      && ts.isPropertyAccessExpression(chain[1])
+      && (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1]))
       && this.storageProps[chain[0].name.getText()]
     ) {
       // When the storage prop is a StateKey the chain would look like:
@@ -3829,14 +3827,20 @@ export default class Compiler {
       // When the storage prop is a StateMap the chain would look like:
       //    [this.foo, this.foo('bar'), this.foo('bar').value]
       const name = chain[0].name.getText();
+      const actionNode = (ts.isCallExpression(
+        chain[1],
+      ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
 
-      const action = chain[1].name.getText() === 'value' ? 'get' : chain[1].name.getText();
-      const actionNode = (chain[2] && ts.isCallExpression(chain[2])) ? chain[2] : chain[1];
+      const action = actionNode.name.getText() === 'value' ? 'get' : actionNode.name.getText();
       this.handleStorageAction({
         node: actionNode,
         name,
         action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
       });
+
+      chain.splice(0, (ts.isCallExpression(chain[1])) ? 3 : 2);
+
+      return;
     }
 
     if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app'].includes(chain[0].name.getText())) {
@@ -3844,6 +3848,7 @@ export default class Compiler {
 
       if (op === 'txn' && chain[1] === undefined) {
         this.push(chain[0], 'txn', 'txn');
+        chain.splice(0, 1);
         return;
       }
 
@@ -3859,6 +3864,8 @@ export default class Compiler {
         false,
         true,
       );
+
+      chain.splice(0, 2);
     }
   }
 
@@ -3867,22 +3874,32 @@ export default class Compiler {
 
     if (base.kind === ts.SyntaxKind.ThisKeyword) {
       this.processThisBase(chain);
-      return;
     }
 
     if (ts.isIdentifier(base)) {
       if (base.getText() === 'globals') {
         if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
-        return;
+        chain.splice(0, 1);
       }
 
+      // The base is a variable
       if (this.frame[base.getText()]) {
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processFrameExpression(chain[0]);
+        chain.splice(0, 1);
       }
     }
 
-    console.log(base.getText(), chain.map((n) => n.getText()), ts.SyntaxKind[base.kind]);
+    if (chain[0] && ts.isPropertyAccessExpression(chain[0])) {
+      const propName = chain[0].name.getText();
+      if (this.customProperties[propName]?.check(chain[0])) {
+        this.customProperties[propName].fn(chain[0]);
+        chain.splice(0, 1);
+      }
+    }
+
+    if (chain.length) throw Error(`LastType: ${this.lastType} | Base: ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
   }
 
   private oldProcessMemberExpression(node: ts.PropertyAccessExpression) {
