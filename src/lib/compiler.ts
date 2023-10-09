@@ -3884,19 +3884,13 @@ export default class Compiler {
 
   private processExpressionChain(node: ExpressionChainNode) {
     const { base, chain } = this.getExpressionChain(node);
+    this.addSourceComment(node);
 
     if (base.kind === ts.SyntaxKind.ThisKeyword) {
       this.processThisBase(chain);
     }
 
     if (ts.isIdentifier(base)) {
-      // global variable
-      if (base.getText() === 'globals') {
-        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
-        this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
-        chain.splice(0, 1);
-      }
-
       // txn method like sendMethodCall, sendPayment, etc.
       if (TXN_METHODS.includes(base.getText())) {
         if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
@@ -3910,8 +3904,13 @@ export default class Compiler {
         return;
       }
 
+      // If this is a global variable
+      if (base.getText() === 'globals') {
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
+        chain.splice(0, 1);
       // If this is a custom method
-      if (ts.isCallExpression(chain[0]) && this.customMethods[base.getText()]) {
+      } else if (ts.isCallExpression(chain[0]) && this.customMethods[base.getText()]) {
         const callNode = chain[0];
         Object.keys(this.customMethods).forEach((m) => {
           if (base.getText() === m && this.customMethods[m].check(callNode)) {
@@ -3919,19 +3918,15 @@ export default class Compiler {
           }
         });
         chain.splice(0, 1);
-        return;
-      }
-
-      if (
+      // If this is an opcode
+      } else if (
         ts.isCallExpression(chain[0])
         && langspec.Ops.map((o) => o.Name).includes(base.getText())
       ) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
-      }
-
-      // The base is a variable
-      if (this.frame[base.getText()]) {
+      // If the base is a variable
+      } else if (this.frame[base.getText()]) {
         if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processFrameExpression(chain[0]);
         chain.splice(0, 1);
@@ -3946,12 +3941,25 @@ export default class Compiler {
       }
     }
 
-    if (chain.length) {
-      if (!this.lastType.match(/\[\d*\]$/)) {
-        // continue down chain
-      } else throw Error('TODO: Array support');
-    }
-    if (chain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
+    const remainingChain = chain.filter((n, i) => {
+      if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
+      if (this.lastType.match(/\[\d*\]$/)) throw Error('TODO: Array support');
+      this.addSourceComment(n);
+
+      if (ts.isCallExpression(n)) {
+        if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
+
+        const preArgsType = this.lastType;
+        n.arguments.forEach((a) => this.processNode(a));
+        this.lastType = preArgsType;
+        this.processOpcodeImmediate(n, this.lastType, n.expression.name.getText());
+        return false;
+      }
+
+      return true;
+    });
+
+    if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
   }
 
   private oldProcessMemberExpression(node: ts.PropertyAccessExpression) {
