@@ -3928,8 +3928,13 @@ export default class Compiler {
       // If the base is a variable
       } else if (this.frame[base.getText()]) {
         if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
-        this.processFrameExpression(chain[0]);
-        chain.splice(0, 1);
+
+        const frame = this.frame[base.getText()];
+        this.push(
+          node,
+          `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`,
+          frame.type,
+        );
       }
     }
 
@@ -3943,7 +3948,8 @@ export default class Compiler {
 
     const remainingChain = chain.filter((n, i) => {
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
-      if (this.lastType.match(/\[\d*\]$/)) throw Error('TODO: Array support');
+      const abiStr = this.getABITupleString(this.lastType);
+      if (abiStr.endsWith(')') || abiStr.endsWith(']')) throw Error('TODO: Array support');
       this.addSourceComment(n);
 
       if (ts.isCallExpression(n)) {
@@ -3954,7 +3960,12 @@ export default class Compiler {
         this.lastType = preArgsType;
         this.processOpcodeImmediate(n, this.lastType, n.expression.name.getText());
         return false;
+      } if (ts.isPropertyAccessExpression(n)) {
+        this.processOpcodeImmediate(n, this.lastType, n.name.getText());
+        return false;
       }
+
+      console.log();
 
       return true;
     });
