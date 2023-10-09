@@ -1001,3 +1001,10 @@ class ABITestRawBytesFunction extends Contract {
     return rawBytes(a);
   }
 }
+
+type T1 = { bar: uint<8> }
+class ABITestGlobalMethodInChain extends Contract {
+  globalMethodInChain(): uint<8> {
+    return castBytes<T1>(hex('0x00')).bar;
+  }
+}

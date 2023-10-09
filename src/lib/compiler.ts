@@ -4290,11 +4290,12 @@ export default class Compiler {
     }
     if (ts.isCallExpression(node.expression) || ts.isElementAccessExpression(node.expression)) {
       chain.push(node.expression);
-      if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error('Invalid call chain');
-      return this.getChain(
-        node.expression.expression,
-        chain,
-      );
+      if (ts.isPropertyAccessExpression(node.expression.expression)) {
+        return this.getChain(
+          node.expression.expression,
+          chain,
+        );
+      }
     }
     return chain;
   }
