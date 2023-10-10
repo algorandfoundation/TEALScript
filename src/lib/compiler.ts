@@ -6,6 +6,7 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
+import { isMap } from 'util/types';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
@@ -691,11 +692,6 @@ export default class Compiler {
           return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
         },
         fn: (n: ts.PropertyAccessExpression) => {
-          if (n.expression.getText() === 'this.txnGroup') {
-            this.push(n, 'global GroupSize', StackType.uint64);
-            return;
-          }
-
           this.processNode(n.expression);
           if (this.lastType === StackType.bytes || this.lastType === 'string') {
             this.push(n.name, 'len', StackType.uint64);
@@ -2181,16 +2177,21 @@ export default class Compiler {
   ): { chain: ExpressionChainNode[], base: ts.Node } {
     chain.push(node);
 
+    let expr: ts.Expression = node.expression;
+    if (ts.isNonNullExpression(expr)) {
+      expr = expr.expression;
+    }
+
     if (
-      ts.isElementAccessExpression(node.expression)
-      || ts.isPropertyAccessExpression(node.expression)
-      || ts.isCallExpression(node.expression)
+      ts.isElementAccessExpression(expr)
+      || ts.isPropertyAccessExpression(expr)
+      || ts.isCallExpression(expr)
     ) {
-      return this.getExpressionChain(node.expression, chain);
+      return this.getExpressionChain(expr, chain);
     }
 
     chain.reverse();
-    return { base: node.expression, chain };
+    return { base: expr, chain };
   }
 
   private getAccessChain(
@@ -3836,31 +3837,69 @@ export default class Compiler {
   }
 
   private processThisBase(chain: ExpressionChainNode[]) {
+    // TODO
+    // if (
+    //   chain[0]
+    //   && ts.isPropertyAccessExpression(chain[0])
+    //   && chain[0].name.getText() === 'pendingGroup'
+    // ) {}
+
+    if (
+      chain[0]
+      && ts.isPropertyAccessExpression(chain[0])
+      && chain[0].name.getText() === 'txnGroup'
+    ) {
+      if (
+        chain[1]
+        && ts.isPropertyAccessExpression(chain[1])
+        && chain[1].name.getText() === 'length'
+      ) {
+        this.push(chain[1], 'global GroupSize', StackType.uint64);
+        chain.splice(0, 2);
+        return;
+      }
+
+      if (!ts.isElementAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      this.processNode(chain[1].argumentExpression);
+      this.lastType = 'txn';
+
+      chain.splice(0, 2);
+      return;
+    }
+
     // If this is a storage property
     if (
       ts.isPropertyAccessExpression(chain[0])
-      && chain[1]
-      && (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1]))
       && this.storageProps[chain[0].name.getText()]
     ) {
-      // When the storage prop is a StateKey the chain would look like:
-      //    [this.foo, this.foo.value, ...]
-      // When the storage prop is a StateMap the chain would look like:
-      //    [this.foo, this.foo('bar'), this.foo('bar').value]
       const name = chain[0].name.getText();
-      const actionNode = (ts.isCallExpression(
-        chain[1],
-      ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
+      const storageProp = this.storageProps[name];
+      const isMapOrLocal = storageProp.key === undefined || storageProp.type === 'local';
 
-      const action = actionNode.name.getText() === 'value' ? 'get' : actionNode.name.getText();
+      let actionNodeIndex = isMapOrLocal ? 2 : 1;
+
+      if (chain[actionNodeIndex + 1] && ts.isCallExpression(chain[actionNodeIndex + 1])) {
+        actionNodeIndex += 1;
+      }
+
+      const actionNode = chain[actionNodeIndex] as ts.CallExpression | ts.PropertyAccessExpression;
+
+      let action: string;
+
+      if (ts.isPropertyAccessExpression(actionNode)) action = actionNode.name.getText();
+      if (ts.isCallExpression(actionNode)) {
+        action = (
+          actionNode.expression as ts.PropertyAccessExpression
+        ).name.getText();
+      }
+
       this.handleStorageAction({
         node: actionNode,
         name,
-        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
       });
 
-      chain.splice(0, (ts.isCallExpression(chain[1])) ? 3 : 2);
-
+      chain.splice(0, actionNodeIndex + 1);
       return;
     }
 
@@ -3869,6 +3908,12 @@ export default class Compiler {
 
       if (op === 'txn' && chain[1] === undefined) {
         this.push(chain[0], 'txn', 'txn');
+        chain.splice(0, 1);
+        return;
+      }
+
+      if (op === 'app' && chain[1] === undefined) {
+        this.push(chain[0], 'txna Applications 0', ForeignType.Application);
         chain.splice(0, 1);
         return;
       }
@@ -3925,6 +3970,24 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
+      if (base.getText() === 'TransactionType') {
+        const enums: {[key: string]: string} = {
+          Unknown: 'unknown',
+          Payment: 'pay',
+          KeyRegistration: 'keyreg',
+          AssetConfig: 'acfg',
+          AssetTransfer: 'axfer',
+          AssetFreeze: 'afrz',
+          ApplicationCall: 'appl',
+        };
+
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        const txType = chain[0].name.getText();
+
+        if (!enums[txType]) throw new Error(`Unknown transaction type ${txType}`);
+        this.pushVoid(node, `int ${enums[txType]}`);
+        return;
+      }
       // txn method like sendMethodCall, sendPayment, etc.
       if (TXN_METHODS.includes(base.getText())) {
         if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
@@ -4039,6 +4102,11 @@ export default class Compiler {
       if (ts.isPropertyAccessExpression(n)) {
         if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
         this.processOpcodeImmediate(n, this.lastType, n.name.getText());
+        return false;
+      }
+
+      if (this.lastType.startsWith('ImmediateArray:')) {
+        this.push(n, `${this.teal.pop()} ${n.argumentExpression.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
         return false;
       }
 
