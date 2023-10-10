@@ -164,61 +164,61 @@ async function runMethod(
 }
 
 describe('ABI', function () {
-  test.only('staticArray', async function () {
+  test('staticArray', async function () {
     const { appClient } = await compileAndCreate('staticArray');
     expect(await runMethod(appClient, 'staticArray')).toEqual(BigInt(22));
   });
 
-  test.only('returnStaticArray', async function () {
+  test('returnStaticArray', async function () {
     const { appClient } = await compileAndCreate('returnStaticArray');
     expect(await runMethod(appClient, 'returnStaticArray')).toEqual([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
-  test.only('staticArrayArg', async function () {
+  test('staticArrayArg', async function () {
     const { appClient } = await compileAndCreate('staticArrayArg');
     const ret = await runMethod(appClient, 'staticArrayArg', [[BigInt(11), BigInt(22), BigInt(33)]]);
     expect(ret).toEqual(BigInt(22));
   });
 
-  test.only('nonLiteralStaticArrayElements', async function () {
+  test('nonLiteralStaticArrayElements', async function () {
     const { appClient } = await compileAndCreate('nonLiteralStaticArrayElements');
     expect(await runMethod(appClient, 'nonLiteralStaticArrayElements')).toEqual(BigInt(22));
   });
 
-  test.only('mixedStaticArrayElements', async function () {
+  test('mixedStaticArrayElements', async function () {
     const { appClient } = await compileAndCreate('mixedStaticArrayElements');
     expect(await runMethod(appClient, 'mixedStaticArrayElements')).toEqual(BigInt(1 + 4 + 7));
   });
 
-  test.only('nonLiteralStaticArrayAccess', async function () {
+  test('nonLiteralStaticArrayAccess', async function () {
     const { appClient } = await compileAndCreate('nonLiteralStaticArrayAccess');
     expect(await runMethod(appClient, 'nonLiteralStaticArrayAccess')).toEqual(BigInt(33));
   });
 
-  test.only('setStaticArrayElement', async function () {
+  test('setStaticArrayElement', async function () {
     const { appClient } = await compileAndCreate('setStaticArrayElement');
     expect(await runMethod(appClient, 'setStaticArrayElement')).toEqual(BigInt(222));
   });
 
-  test.only('staticArrayInStorageRef', async function () {
+  test('staticArrayInStorageRef', async function () {
     const { appClient } = await compileAndCreate('staticArrayInStorageRef');
     const ret = await runMethod(appClient, 'staticArrayInStorageRef');
     expect(ret).toEqual([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  test.only('updateStaticArrayInStorageRef', async function () {
+  test('updateStaticArrayInStorageRef', async function () {
     const { appClient } = await compileAndCreate('updateStaticArrayInStorageRef');
     const ret = await runMethod(appClient, 'updateStaticArrayInStorageRef');
     expect(ret).toEqual([BigInt(111), BigInt(222), BigInt(333)]);
   });
 
-  test.only('staticArrayInStorageMap', async function () {
+  test('staticArrayInStorageMap', async function () {
     const { appClient } = await compileAndCreate('staticArrayInStorageMap');
     const ret = await runMethod(appClient, 'staticArrayInStorageMap');
     expect(ret).toEqual([BigInt(22), BigInt(22), BigInt(22)]);
   });
 
-  test.only('updateStaticArrayInStorageMap', async function () {
+  test('updateStaticArrayInStorageMap', async function () {
     const { appClient } = await compileAndCreate('updateStaticArrayInStorageMap');
     const ret = await runMethod(appClient, 'updateStaticArrayInStorageMap');
     expect(ret).toEqual([BigInt(1111), BigInt(2222), BigInt(3333)]);

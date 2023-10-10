@@ -898,8 +898,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          const preType = this.lastType;
-          this.processNode(node.expression.expression);
           if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
           if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
           this.processNode(node.arguments[0]);
@@ -907,8 +905,6 @@ export default class Compiler {
           this.pushVoid(node, 'concat');
 
           this.updateValue(node.expression.expression);
-
-          this.lastType = preType;
         },
       },
       pop: {
@@ -916,7 +912,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.expression.expression);
           const poppedType = this.lastType.replace(/\[\]$/, '');
           if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
           if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
@@ -962,7 +957,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.expression.expression);
           if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
           if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
 
@@ -3083,16 +3077,20 @@ export default class Compiler {
     );
   }
 
-  private getStackTypeFromNode(node: ts.Node) {
+  private getStackTypeAfterFunction(fn: () => void): string {
     const preSrcObj = this.rawSrcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
-    this.processNode(node);
+    fn();
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
     this.rawSrcMap = preSrcObj;
     return this.customTypes[type] || type;
+  }
+
+  private getStackTypeFromNode(node: ts.Node) {
+    return this.getStackTypeAfterFunction(() => this.processNode(node));
   }
 
   private typeComparison(
@@ -3954,33 +3952,44 @@ export default class Compiler {
       }
     }
 
-    const lastArrayType = '';
     const accessors: ts.Expression[] = [];
     const remainingChain = chain.filter((n, i) => {
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
-      const abiStr = this.getABITupleString(this.lastType);
-      if (abiStr.startsWith('(') || abiStr.endsWith(')') || abiStr.endsWith('[]')) throw Error(`TODO: Array support for ${this.lastType}`);
       this.addSourceComment(n);
 
-      if (abiStr.match(/\[\d+\]/)) {
-        if (!ts.isElementAccessExpression(n)) throw Error(`TODO: Array support for ${this.lastType}`);
+      if ((this.customTypes[this.lastType] || this.lastType).endsWith('}')) {
+        throw Error(`TODO: ${this.lastType}`);
+      }
+
+      const abiStr = this.getABITupleString(this.lastType);
+
+      if ((abiStr.endsWith(')') || abiStr.endsWith(']')) && ts.isElementAccessExpression(n)) {
         accessors.push(n.argumentExpression);
         // TODO
-        // lastArrayType = getStackTypeFromFunction(() => {
-        //   this.processParentArrayAccess(n, accessors, n.expression
-        // }));
+        // lastArrayType = this.getStackTypeAfterFunction(() => {
+        //   this.processParentArrayAccess(n, accessors, storageBase || base, newValue);
+        // });
         return false;
       }
 
       if (ts.isCallExpression(n)) {
         if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
 
+        const methodName = n.expression.name.getText();
+        if (this.customMethods[methodName] && this.customMethods[methodName].check(n)) {
+          this.customMethods[methodName].fn(n);
+          return false;
+        }
+
         const preArgsType = this.lastType;
         n.arguments.forEach((a) => this.processNode(a));
         this.lastType = preArgsType;
-        this.processOpcodeImmediate(n, this.lastType, n.expression.name.getText());
+        this.processOpcodeImmediate(n, this.lastType, methodName);
         return false;
-      } if (ts.isPropertyAccessExpression(n)) {
+      }
+
+      if (ts.isPropertyAccessExpression(n)) {
+        if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
         this.processOpcodeImmediate(n, this.lastType, n.name.getText());
         return false;
       }
