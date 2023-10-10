@@ -564,31 +564,31 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('stringLength');
     expect(await runMethod(appClient, 'stringLength')).toEqual(BigInt(7));
   });
-  test.skip('arrayRef', async () => {
+  test('arrayRef', async () => {
     const { appClient } = await compileAndCreate('arrayRef');
 
     expect(await runMethod(appClient, 'arrayRef')).toEqual([1n, 4n, 3n]);
   });
 
-  test.skip('nestedArrayRef', async () => {
+  test('nestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('nestedArrayRef');
 
     expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
   });
 
-  test.skip('nonLiteralNestedArrayRef', async () => {
+  test('nonLiteralNestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('nonLiteralNestedArrayRef');
 
     expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
   });
 
-  test.skip('multiNestedArrayRef', async () => {
+  test('multiNestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('multiNestedArrayRef');
 
     expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([[[1n, 2n], [3n, 4n]], [[5n, 6n], [7n, 9n]]]);
   });
 
-  test.skip('objectArrayRef', async () => {
+  test('objectArrayRef', async () => {
     const { appClient } = await compileAndCreate('objectArrayRef');
 
     expect(await runMethod(appClient, 'objectArrayRef')).toEqual([[[1n, 2n], [3n, 5n]]]);
@@ -679,19 +679,19 @@ describe('ABI', function () {
     expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
   });
 
-  test.skip('objectRef', async () => {
+  test('objectRef', async () => {
     const { appClient } = await compileAndCreate('objectRef');
 
     expect(await runMethod(appClient, 'objectRef')).toEqual([2n]);
   });
 
-  test.skip('storageRefKey', async () => {
+  test('storageRefKey', async () => {
     const { appClient } = await compileAndCreate('storageRefKey');
 
     expect(await runMethod(appClient, 'storageRefKey')).toEqual(4n);
   });
 
-  test.skip('storageRefAccount', async () => {
+  test('storageRefAccount', async () => {
     const { appClient } = await compileAndCreate('storageRefAccount');
 
     expect(await runMethod(appClient, 'storageRefAccount')).toEqual(4n);

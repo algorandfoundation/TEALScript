@@ -3922,6 +3922,8 @@ export default class Compiler {
       this.processThisBase(chain);
     }
 
+    const accessors: (string | ts.Expression)[] = [];
+
     if (ts.isIdentifier(base)) {
       // txn method like sendMethodCall, sendPayment, etc.
       if (TXN_METHODS.includes(base.getText())) {
@@ -3960,11 +3962,22 @@ export default class Compiler {
       // If the base is a variable
       } else if (this.frame[base.getText()]) {
         const frame = this.frame[base.getText()];
-        this.push(
-          node,
-          `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`,
-          frame.type,
-        );
+
+        if (frame && frame.index === undefined) {
+          const frameFollow = this.processFrame(
+            chain[0].expression,
+            chain[0].expression.getText(),
+            true,
+          );
+
+          frameFollow.accessors.forEach((e) => accessors.push(e));
+        } else {
+          this.push(
+            node,
+            `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`,
+            frame.type,
+          );
+        }
       }
     }
 
@@ -3976,7 +3989,6 @@ export default class Compiler {
       }
     }
 
-    const accessors: (string | ts.Expression)[] = [];
     let lastAccessor: ts.Expression | undefined;
 
     const remainingChain = chain.filter((n, i) => {
