@@ -11,6 +11,9 @@
   "bin": {
     "tealscript": "dist/bin/tealscript.js"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "jest tests/",
     "test-coverage": "jest --coverage tests/",
@@ -47,7 +50,8 @@
     "compile-examples": "conc \"bun compile-amm\" \"bun compile-arc75\" \"bun compile-auction\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-calculator\" \"bun compile-merkle\" \"bun compile-big_box\" \"bun compile-arc72\" \"bun compile-non_abi\"",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
     "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\"",
-    "compile-all": "conc \"bun compile-tests\" \"bun compile-examples\""
+    "compile-all": "conc \"bun compile-tests\" \"bun compile-examples\"",
+    "release": "semantic-release"
   },
   "dependencies": {
     "@microsoft/tsdoc": "^0.14.2",
@@ -60,8 +64,15 @@
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "^2.2.1",
     "@algorandfoundation/algokit-utils": "^2.1.0",
+    "@google/semantic-release-replace-plugin": "^1.2.7",
     "@jest/globals": "^29.5.0",
     "@knodes/typedoc-plugin-pages": "^0.23.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^10.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.0.4",
+    "@semantic-release/npm": "^10.0.4",
+    "@semantic-release/release-notes-generator": "^11.0.4",
     "@types/node": "^18.11.9",
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
@@ -73,6 +84,7 @@
     "eslint-plugin-import": "^2.26.0",
     "jest": "^29.5.0",
     "path-browserify": "^1.0.1",
+    "semantic-release": "^21.0.7",
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
@@ -80,5 +92,60 @@
     "typedoc-plugin-merge-modules": "^4.0.1",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      [
+        "@google/semantic-release-replace-plugin",
+        {
+          "replacements": [
+            {
+              "files": [
+                "src/version.ts"
+              ],
+              "from": "VERSION = '.*'",
+              "to": "VERSION = '${nextRelease.version}'",
+              "results": [
+                {
+                  "file": "src/version.ts",
+                  "hasChanged": true,
+                  "numMatches": 1,
+                  "numReplacements": 1
+                }
+              ],
+              "countMatches": true
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "src/version.ts"
+          ],
+          "message": "chore(release): TEALScript \n\n${nextRelease.notes}"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "successComment": false
+        }
+      ]
+    ],
+    "branches": [
+      "main",
+      {
+        "name": "dev",
+        "prerelease": "beta"
+      }
+    ]
   }
 }
