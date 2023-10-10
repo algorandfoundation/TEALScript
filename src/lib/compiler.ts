@@ -2442,6 +2442,23 @@ export default class Compiler {
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
       if (typeof (acc) === 'string') {
+        if (!acc.startsWith('accessor//')) {
+          const index = Object.keys(
+            this.getObjectTypes(previousTupleElement.type),
+          ).indexOf(acc);
+
+          const elem = previousTupleElement[index];
+
+          this.pushLines(
+            node,
+            `int ${elem.headOffset} // headOffset`,
+            '+',
+          );
+
+          previousTupleElement = elem;
+          return;
+        }
+
         const elem = previousTupleElement[0];
 
         const frame = this.frame[acc];
@@ -2781,7 +2798,7 @@ export default class Compiler {
       this.updateValue(parentExpression);
     } else {
       if (element.type === 'bool') {
-        if (!ts.isElementAccessExpression(node)) throw new Error();
+        if (!ts.isElementAccessExpression(node)) throw new Error(`${ts.SyntaxKind[node.kind]}: ${node.getText()}`);
 
         this.pushLines(node.argumentExpression, 'int 8', '*');
         this.processNode(node.argumentExpression);
@@ -3175,17 +3192,19 @@ export default class Compiler {
           return;
         }
 
-        const expressionType = this.getStackTypeFromNode(node.left.expression);
-        const index = Object
-          .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
+        this.processExpressionChain(node.left, node.right);
 
-        this.processNode(node.left.expression);
-        this.processParentArrayAccess(
-          node,
-          [stringToExpression(index.toString())],
-          node.left.expression,
-          node.right,
-        );
+        // const expressionType = this.getStackTypeFromNode(node.left.expression);
+        // const index = Object
+        //   .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
+
+        // this.processNode(node.left.expression);
+        // this.processParentArrayAccess(
+        //   node,
+        //   [stringToExpression(index.toString())],
+        //   node.left.expression,
+        //   node.right,
+        // );
       }
 
       // TODO: Type check
@@ -3952,19 +3971,31 @@ export default class Compiler {
       }
     }
 
-    const accessors: ts.Expression[] = [];
+    const accessors: (string | ts.Expression)[] = [];
+    let lastAccessor: ts.Expression | undefined;
+
     const remainingChain = chain.filter((n, i) => {
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
       this.addSourceComment(n);
 
-      if ((this.customTypes[this.lastType] || this.lastType).endsWith('}')) {
-        throw Error(`TODO: ${this.lastType}`);
-      }
-
       const abiStr = this.getABITupleString(this.lastType);
 
-      if ((abiStr.endsWith(')') || abiStr.endsWith(']')) && ts.isElementAccessExpression(n)) {
-        accessors.push(n.argumentExpression);
+      if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
+        this.processNode(n.argumentExpression);
+        this.pushLines(n, 'int 1', 'extract3');
+        this.lastType = abiStr;
+        return false;
+      }
+
+      if (
+        (abiStr.endsWith(')') || abiStr.endsWith(']'))
+        && (ts.isElementAccessExpression(n) || ts.isPropertyAccessExpression(n))
+      ) {
+        lastAccessor = n;
+
+        if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
+        if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
+
         // TODO
         // lastArrayType = this.getStackTypeAfterFunction(() => {
         //   this.processParentArrayAccess(n, accessors, storageBase || base, newValue);
@@ -3999,7 +4030,7 @@ export default class Compiler {
 
     if (accessors.length) {
       this.processParentArrayAccess(
-        accessors.at(-1)!.parent,
+        lastAccessor!,
         accessors,
         storageBase || base,
         newValue,
