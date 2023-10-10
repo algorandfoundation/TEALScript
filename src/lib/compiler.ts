@@ -3884,8 +3884,19 @@ export default class Compiler {
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
     const { base, chain } = this.getExpressionChain(node);
     this.addSourceComment(node);
+    let storageBase: ts.PropertyAccessExpression | undefined;
 
     if (base.kind === ts.SyntaxKind.ThisKeyword) {
+      if (
+        ts.isPropertyAccessExpression(chain[0])
+        && chain[1]
+        && (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1]))
+        && this.storageProps[chain[0].name.getText()]
+      ) {
+        storageBase = (ts.isCallExpression(
+          chain[1],
+        ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
+      }
       this.processThisBase(chain);
     }
 
@@ -3977,8 +3988,13 @@ export default class Compiler {
       return true;
     });
 
-    if (accessors) {
-      this.processParentArrayAccess(accessors.at(-1)!.parent, accessors, base, newValue);
+    if (accessors.length) {
+      this.processParentArrayAccess(
+        accessors.at(-1)!.parent,
+        accessors,
+        storageBase || base,
+        newValue,
+      );
     }
 
     if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);

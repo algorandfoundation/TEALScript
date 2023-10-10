@@ -68,7 +68,7 @@ class ABITestSetStaticArrayElement extends Contract {
     return a[1];
   }
 }
-/*
+
 class ABITestStaticArrayInStorageRef extends Contract {
   gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
@@ -200,7 +200,7 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
     return ret;
   }
 }
-
+/*
 class ABITestNestedStaticArray extends Contract {
   nestedStaticArray(): uint64 {
     const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
