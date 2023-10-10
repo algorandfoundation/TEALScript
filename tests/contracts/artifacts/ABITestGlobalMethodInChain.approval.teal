@@ -35,7 +35,6 @@ globalMethodInChain:
 	// tests/contracts/abi.algo.ts:1008
 	// return castBytes<T1>(hex('0x00')).bar;
 	byte 0x00
-	byte 0x00
 	extract 0 1
 	byte 0xFF
 	b&

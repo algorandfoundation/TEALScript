@@ -2585,7 +2585,12 @@ export default class Compiler {
     let offset = 0;
     let previousTupleElement = this.getTupleElement(parentType);
     accessors.forEach((acc, i) => {
-      const accNumber = parseInt((acc as ts.Expression).getText(), 10);
+      let accNumber: number;
+      if (typeof (acc) === 'string') {
+        accNumber = Object.keys(
+          this.getObjectTypes(previousTupleElement.type),
+        ).indexOf(acc);
+      } else accNumber = parseInt((acc as ts.Expression).getText(), 10);
 
       const elem = previousTupleElement[accNumber] || previousTupleElement[0];
 
@@ -2637,7 +2642,7 @@ export default class Compiler {
 
     accessors.forEach((a) => {
       if (typeof (a) === 'string') {
-        literalAccessors = false;
+        if (a.startsWith('accessor//')) literalAccessors = false;
         return;
       }
 
