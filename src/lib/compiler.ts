@@ -1885,7 +1885,7 @@ export default class Compiler {
       else if (ts.isReturnStatement(node)) this.processReturnStatement(node);
       else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
-      else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
+      else if (ts.isElementAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
       else if (node.kind === ts.SyntaxKind.TrueKeyword) this.push(node, 'int 1', 'bool');
       else if (node.kind === ts.SyntaxKind.FalseKeyword) this.push(node, 'int 0', 'bool');
@@ -2541,7 +2541,7 @@ export default class Compiler {
     return previousTupleElement;
   }
 
-  private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
+  private oldProcessArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
     const chain = this.getAccessChain(node).reverse();
 
     const accessors: (ts.Expression | string)[] = [];
@@ -2809,7 +2809,7 @@ export default class Compiler {
     }
   }
 
-  private processElementAccessExpression(node: ts.ElementAccessExpression) {
+  private oldProcessElementAccessExpression(node: ts.ElementAccessExpression) {
     const baseType = this.getStackTypeFromNode(node.expression);
     if (baseType === 'txnGroup') {
       this.processNode(node.expression);
@@ -2835,10 +2835,9 @@ export default class Compiler {
 
     if (this.storageProps[baseType]) {
       this.lastType = baseType;
-      return;
     }
 
-    this.processArrayAccess(node);
+    // this.processArrayAccess(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -3163,7 +3162,7 @@ export default class Compiler {
         this.processNode(node.right);
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
-        this.processArrayAccess(node.left, node.right);
+        this.processExpressionChain(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const storageName = getStorageName(node.left);
 
@@ -3882,7 +3881,7 @@ export default class Compiler {
     }
   }
 
-  private processExpressionChain(node: ExpressionChainNode) {
+  private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
     const { base, chain } = this.getExpressionChain(node);
     this.addSourceComment(node);
 
@@ -3927,8 +3926,6 @@ export default class Compiler {
         chain.splice(0, 1);
       // If the base is a variable
       } else if (this.frame[base.getText()]) {
-        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
-
         const frame = this.frame[base.getText()];
         this.push(
           node,
@@ -3946,11 +3943,23 @@ export default class Compiler {
       }
     }
 
+    const lastArrayType = '';
+    const accessors: ts.Expression[] = [];
     const remainingChain = chain.filter((n, i) => {
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
       const abiStr = this.getABITupleString(this.lastType);
-      if (abiStr.endsWith(')') || abiStr.endsWith(']')) throw Error('TODO: Array support');
+      if (abiStr.startsWith('(') || abiStr.endsWith(')') || abiStr.endsWith('[]')) throw Error(`TODO: Array support for ${this.lastType}`);
       this.addSourceComment(n);
+
+      if (abiStr.match(/\[\d+\]/)) {
+        if (!ts.isElementAccessExpression(n)) throw Error(`TODO: Array support for ${this.lastType}`);
+        accessors.push(n.argumentExpression);
+        // TODO
+        // lastArrayType = getStackTypeFromFunction(() => {
+        //   this.processParentArrayAccess(n, accessors, n.expression
+        // }));
+        return false;
+      }
 
       if (ts.isCallExpression(n)) {
         if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
@@ -3967,6 +3976,10 @@ export default class Compiler {
 
       return true;
     });
+
+    if (accessors) {
+      this.processParentArrayAccess(accessors.at(-1)!.parent, accessors, base, newValue);
+    }
 
     if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
   }

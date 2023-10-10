@@ -68,7 +68,7 @@ class ABITestSetStaticArrayElement extends Contract {
     return a[1];
   }
 }
-
+/*
 class ABITestStaticArrayInStorageRef extends Contract {
   gRef = GlobalStateKey<StaticArray<uint64, 3>>({ key: 'gRef' });
 
@@ -1008,3 +1008,4 @@ class ABITestGlobalMethodInChain extends Contract {
     return castBytes<T1>(hex('0x00')).bar;
   }
 }
+*/

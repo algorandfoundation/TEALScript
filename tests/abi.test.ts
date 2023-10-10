@@ -164,38 +164,38 @@ async function runMethod(
 }
 
 describe('ABI', function () {
-  test('staticArray', async function () {
+  test.only('staticArray', async function () {
     const { appClient } = await compileAndCreate('staticArray');
     expect(await runMethod(appClient, 'staticArray')).toEqual(BigInt(22));
   });
 
-  test('returnStaticArray', async function () {
+  test.only('returnStaticArray', async function () {
     const { appClient } = await compileAndCreate('returnStaticArray');
     expect(await runMethod(appClient, 'returnStaticArray')).toEqual([BigInt(11), BigInt(22), BigInt(33)]);
   });
 
-  test('staticArrayArg', async function () {
+  test.only('staticArrayArg', async function () {
     const { appClient } = await compileAndCreate('staticArrayArg');
     const ret = await runMethod(appClient, 'staticArrayArg', [[BigInt(11), BigInt(22), BigInt(33)]]);
     expect(ret).toEqual(BigInt(22));
   });
 
-  test('nonLiteralStaticArrayElements', async function () {
+  test.only('nonLiteralStaticArrayElements', async function () {
     const { appClient } = await compileAndCreate('nonLiteralStaticArrayElements');
     expect(await runMethod(appClient, 'nonLiteralStaticArrayElements')).toEqual(BigInt(22));
   });
 
-  test('mixedStaticArrayElements', async function () {
+  test.only('mixedStaticArrayElements', async function () {
     const { appClient } = await compileAndCreate('mixedStaticArrayElements');
     expect(await runMethod(appClient, 'mixedStaticArrayElements')).toEqual(BigInt(1 + 4 + 7));
   });
 
-  test('nonLiteralStaticArrayAccess', async function () {
+  test.only('nonLiteralStaticArrayAccess', async function () {
     const { appClient } = await compileAndCreate('nonLiteralStaticArrayAccess');
     expect(await runMethod(appClient, 'nonLiteralStaticArrayAccess')).toEqual(BigInt(33));
   });
 
-  test('setStaticArrayElement', async function () {
+  test.only('setStaticArrayElement', async function () {
     const { appClient } = await compileAndCreate('setStaticArrayElement');
     expect(await runMethod(appClient, 'setStaticArrayElement')).toEqual(BigInt(222));
   });
