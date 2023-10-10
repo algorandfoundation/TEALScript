@@ -3965,8 +3965,6 @@ export default class Compiler {
         return false;
       }
 
-      console.log();
-
       return true;
     });
 
