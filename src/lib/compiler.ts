@@ -1330,7 +1330,7 @@ export default class Compiler {
   // This is seperate from this.getABIType because the bracket notation
   // is useful for parsing, but the ABI/appspec JSON need the parens
   private getABITupleString(str: string) {
-    let tupleStr = str;
+    let tupleStr = this.getABIType(str);
 
     if (tupleStr.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(tupleStr))
