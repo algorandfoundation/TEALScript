@@ -163,17 +163,6 @@ u256plus:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b+
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 32
-	-
-	int 32
-	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -201,17 +190,6 @@ u256minus:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b-
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 32
-	-
-	int 32
-	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -239,17 +217,6 @@ u256mul:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b*
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 32
-	-
-	int 32
-	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -277,17 +244,6 @@ u256div:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b/
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dupn 2
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b<=
-	assert
-	len
-	int 32
-	-
-	int 32
-	extract3
 	byte 0x151f7c75
 	swap
 	concat

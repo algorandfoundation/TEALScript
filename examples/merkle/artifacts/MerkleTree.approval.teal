@@ -135,9 +135,7 @@ for_1:
 	swap
 	int 33
 	extract3
-	int 1
-	int 32
-	extract3
+	extract 1 32
 	frame_dig -1 // leaf: byte[32]
 	callsub hashConcat
 	frame_bury -1 // result: byte[32]
@@ -158,9 +156,7 @@ if0_else:
 	swap
 	int 33
 	extract3
-	int 1
-	int 32
-	extract3
+	extract 1 32
 	callsub hashConcat
 	frame_bury -1 // result: byte[32]
 

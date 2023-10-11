@@ -1559,7 +1559,33 @@ export default class Compiler {
     };
 
     let optimized = false;
-    if (teal.startsWith('itob')) {
+    if (teal.startsWith('extract3')) {
+      const aLine = targetTeal.at(-2);
+      const bLine = targetTeal.at(-1);
+
+      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+        const a = Number(aLine.split(' ')[1].replace('_', ''));
+        const b = Number(bLine.split(' ')[1].replace('_', ''));
+
+        if (a < 256 && b < 256) {
+          popTeal();
+          popTeal();
+
+          this.pushVoid(node, `extract ${a} ${b}`);
+
+          optimized = true;
+        }
+      }
+    } else if (teal.startsWith('btoi')) {
+      if (targetTeal.at(-1)?.match(/^byte (0x|")/)) {
+        const hexBytes = getHexBytes(targetTeal.at(-1)!.split(' ')[1]);
+        popTeal();
+
+        this.pushVoid(node, `int ${parseInt(hexBytes, 16)}`);
+
+        optimized = true;
+      }
+    } else if (teal.startsWith('itob')) {
       if (targetTeal.at(-1)?.startsWith('int ')) {
         const n = Number(targetTeal.at(-1)!.split(' ')[1]);
         popTeal();
