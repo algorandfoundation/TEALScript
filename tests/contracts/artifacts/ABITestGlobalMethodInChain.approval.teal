@@ -22,26 +22,32 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// partialStaticArray()uint16[3]
-abi_route_partialStaticArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
-	// execute partialStaticArray()uint16[3]
-	callsub partialStaticArray
+// globalMethodInChain()uint8
+abi_route_globalMethodInChain:
+	// execute globalMethodInChain()uint8
+	callsub globalMethodInChain
 	int 1
 	return
 
-partialStaticArray:
-	proto 1 0
+globalMethodInChain:
+	proto 0 0
 
-	// tests/contracts/abi.algo.ts:817
-	// a: StaticArray<uint<16>, 3> = [1]
-	byte 0x000100000000
-	frame_bury -1 // a: uint16[3]
-
-	// tests/contracts/abi.algo.ts:819
-	// return a;
-	frame_dig -1 // a: uint16[3]
+	// tests/contracts/abi.algo.ts:1008
+	// return castBytes<T1>(hex('0x00')).bar;
+	byte 0x00
+	byte 0x00
+	extract 0 1
+	byte 0xFF
+	b&
+	dupn 2
+	byte 0xFF
+	b<=
+	assert
+	len
+	int 1
+	-
+	int 1
+	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -59,7 +65,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "partialStaticArray()uint16[3]"
+	method "globalMethodInChain()uint8"
 	txna ApplicationArgs 0
-	match abi_route_partialStaticArray
+	match abi_route_globalMethodInChain
 	err

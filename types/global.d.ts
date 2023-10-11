@@ -395,6 +395,9 @@ declare class Address {
   assetFrozen(asa: Asset): uint64
 
   isOptedInToApp(app: Application): boolean
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state(app: Application, key: BytesLike): any
 }
 
 type Account = Address
@@ -424,7 +427,8 @@ declare class Application {
 
   readonly address: Address;
 
-  global(key: BytesLike): BytesLike | IntLike
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  global(key: BytesLike): any
 }
 
 declare type BoxValue<ValueType> = {

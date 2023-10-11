@@ -714,4 +714,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'rawBytesFunction')).toEqual(Buffer.from('010203', 'hex').toString());
   });
+
+  test('globalMethodInChain', async () => {
+    const { appClient } = await compileAndCreate('globalMethodInChain');
+
+    expect(await runMethod(appClient, 'globalMethodInChain')).toEqual(0n);
+  });
 });

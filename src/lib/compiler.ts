@@ -423,6 +423,14 @@ export default class Compiler {
       account: [
         ...this.getOpParamObjects('acct_params_get'),
         ...this.getOpParamObjects('asset_holding_get'),
+        {
+          name: 'State',
+          type: 'any',
+          args: 3,
+          fn: (node: ts.Node) => {
+            this.maybeValue(node, 'app_local_get_ex', StackType.any);
+          },
+        },
       ],
       application: [
         ...this.getOpParamObjects('app_params_get'),
@@ -4290,11 +4298,12 @@ export default class Compiler {
     }
     if (ts.isCallExpression(node.expression) || ts.isElementAccessExpression(node.expression)) {
       chain.push(node.expression);
-      if (!ts.isPropertyAccessExpression(node.expression.expression)) throw new Error('Invalid call chain');
-      return this.getChain(
-        node.expression.expression,
-        chain,
-      );
+      if (ts.isPropertyAccessExpression(node.expression.expression)) {
+        return this.getChain(
+          node.expression.expression,
+          chain,
+        );
+      }
     }
     return chain;
   }
