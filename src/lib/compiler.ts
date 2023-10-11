@@ -3938,6 +3938,8 @@ export default class Compiler {
 
       if (op === 'app') {
         this.push(chain[0], 'txna Applications 0', ForeignType.Application);
+        chain.splice(0, 1);
+        return;
       }
 
       if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
