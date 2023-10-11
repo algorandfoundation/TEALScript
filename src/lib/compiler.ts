@@ -3949,6 +3949,10 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
+      if (this.constants[base.getText()]) {
+        this.processNode(this.constants[base.getText()]);
+      }
+
       if (base.getText() === 'TransactionType') {
         const enums: {[key: string]: string} = {
           Unknown: 'unknown',
