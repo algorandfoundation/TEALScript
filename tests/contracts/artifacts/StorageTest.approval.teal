@@ -717,6 +717,45 @@ isOptedIn:
 	log
 	retsub
 
+// exGlobal()void
+abi_route_exGlobal:
+	// execute exGlobal()void
+	callsub exGlobal
+	int 1
+	return
+
+exGlobal:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:156
+	// log(this.app.global('foo') as bytes)
+	txna Applications 0
+	byte "foo"
+	app_global_get_ex
+	assert
+	log
+	retsub
+
+// exLocal()void
+abi_route_exLocal:
+	// execute exLocal()void
+	callsub exLocal
+	int 1
+	return
+
+exLocal:
+	proto 0 0
+
+	// tests/contracts/storage.algo.ts:160
+	// log(this.txn.sender.state(this.app, 'foo') as bytes)
+	txn Sender
+	txna Applications 0
+	byte "foo"
+	app_local_get_ex
+	assert
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -762,6 +801,8 @@ call_NoOp:
 	method "boxKeyExtract()string"
 	method "boxMapExtract()string"
 	method "isOptedIn()bool"
+	method "exGlobal()void"
+	method "exLocal()void"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn abi_route_exGlobal abi_route_exLocal
 	err

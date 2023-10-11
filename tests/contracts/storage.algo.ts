@@ -151,4 +151,12 @@ class StorageTest extends Contract {
   isOptedIn(): boolean {
     return this.txn.sender.isOptedInToApp(this.app);
   }
+
+  exGlobal(): void {
+    log(this.app.global('foo') as bytes);
+  }
+
+  exLocal(): void {
+    log(this.txn.sender.state(this.app, 'foo') as bytes);
+  }
 }
