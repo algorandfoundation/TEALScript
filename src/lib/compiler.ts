@@ -417,6 +417,14 @@ export default class Compiler {
       account: [
         ...this.getOpParamObjects('acct_params_get'),
         ...this.getOpParamObjects('asset_holding_get'),
+        {
+          name: 'State',
+          type: 'any',
+          args: 3,
+          fn: (node: ts.Node) => {
+            this.maybeValue(node, 'app_local_get_ex', StackType.any);
+          },
+        },
       ],
       application: [
         ...this.getOpParamObjects('app_params_get'),
