@@ -2,10 +2,11 @@
 
 import path from 'path';
 import * as fs from 'fs';
+import { ArgumentParser } from 'argparse';
+
 import Compiler from '../lib/compiler';
 import 'dotenv/config';
 import { VERSION } from '../version';
-import { ArgumentParser } from 'argparse';
 
 const parser = new ArgumentParser({
   description: 'Argparse example',
