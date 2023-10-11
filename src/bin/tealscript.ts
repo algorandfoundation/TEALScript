@@ -4,19 +4,41 @@ import path from 'path';
 import * as fs from 'fs';
 import Compiler from '../lib/compiler';
 import 'dotenv/config';
+import { VERSION } from '../version';
+import { ArgumentParser } from 'argparse';
 
-const filename = process.argv[2];
+const parser = new ArgumentParser({
+  description: 'Argparse example',
+});
+
+parser.add_argument('input', { help: 'TEALScript source file to compile' });
+parser.add_argument('output', { help: 'output directory for artifacts' });
+parser.add_argument('-v', '--version', { action: 'version', version: VERSION });
+parser.add_argument('--disable-warnings', {
+  help: 'disables compiler warnings',
+  action: 'store_true',
+  default: false,
+});
+parser.add_argument('--unsafe-disable-overflow-checks', {
+  help: 'disables overflow checks for ABI uint/ufixed types',
+  action: 'store_true',
+  default: false,
+});
+
+const parsed = parser.parse_args();
+const filename = parsed.input;
 const content = fs.readFileSync(filename, 'utf-8');
 
 // Output dir for artifacts
-const dir = process.argv.length > 3 ? process.argv[3] : path.dirname(filename);
+const dir = parsed.output;
 
 const options = {
   filename,
   algodPort: process.env.ALGOD_PORT ? Number(process.env.ALGOD_PORT) : undefined,
   algodServer: process.env.ALGOD_SERVER,
   algodToken: process.env.ALGOD_TOKEN,
-  disableWarnings: true,
+  disableWarnings: parsed.disable_warnings as boolean,
+  disableOverflowChecks: parsed.unsafe_disable_overflow_checks as boolean,
 };
 
 const compilers = Compiler.compileAll(content, options);

@@ -25,6 +25,7 @@ export type CompilerOptions = {
   algodServer?: string,
   algodToken?: string,
   algodPort?: number,
+  disableOverflowChecks?: boolean,
 }
 
 export type SourceInfo = {
@@ -733,7 +734,7 @@ export default class Compiler {
           this.processNode(node.arguments[0]);
           this.lastType = node.typeArguments[0].getText();
           // eslint-disable-next-line no-console
-          console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
+          if (!this.disableWarnings) console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
         },
       },
       wideRatio: {
@@ -1068,6 +1069,8 @@ export default class Compiler {
 
   private algodToken: string;
 
+  private disableOverflowChecks: boolean;
+
   constructor(
     content: string,
     className: string,
@@ -1078,6 +1081,7 @@ export default class Compiler {
     this.algodPort = options?.algodPort || 4001;
     this.algodToken = options?.algodToken || 'a'.repeat(64);
     this.filename = options?.filename || '';
+    this.disableOverflowChecks = options?.disableOverflowChecks || false;
 
     this.content = content;
     this.name = className;
@@ -1522,7 +1526,7 @@ export default class Compiler {
         }
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.warn(`Error when parsing tsdoc comment for ${m.name}: ${e}`);
+        if (!this.disableWarnings) console.warn(`Error when parsing tsdoc comment for ${m.name}: ${e}`);
       }
     });
 
@@ -3078,6 +3082,15 @@ export default class Compiler {
   }
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
+    if (this.disableOverflowChecks) {
+      this.pushLines(
+        node,
+        `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
+        'b&',
+      );
+      return;
+    }
+
     if (desiredWidth === 64) {
       if (this.teal.at(-1) === 'itob') return;
       this.pushLines(node, 'btoi', 'itob');
@@ -4633,7 +4646,7 @@ export default class Compiler {
 
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
-      console.warn(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.error(this.approvalProgram().split('\n').map((l, i) => `${i + 1}: ${l}`).join('\n'));
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }
