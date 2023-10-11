@@ -39,17 +39,13 @@ tupleArg:
 	// return a[1];
 	frame_dig -1 // a: [uint64,uint16,uint64]
 	extract 8 2
+	dup
+	bitlen
+	int 16
+	<=
+	assert
 	byte 0xFFFF
 	b&
-	dupn 2
-	byte 0xFFFF
-	b<=
-	assert
-	len
-	int 2
-	-
-	int 2
-	extract3
 	byte 0x151f7c75
 	swap
 	concat

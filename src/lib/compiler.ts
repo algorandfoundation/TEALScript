@@ -3086,17 +3086,13 @@ export default class Compiler {
 
     this.pushLines(
       node,
+      'dup',
+      'bitlen',
+      `int ${desiredWidth}`,
+      '<=',
+      'assert',
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
       'b&',
-      'dupn 2',
-      `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
-      'b<=',
-      'assert',
-      'len',
-      `int ${desiredWidth / 8}`,
-      '-',
-      `int ${desiredWidth / 8}`,
-      'extract3',
     );
   }
 

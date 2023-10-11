@@ -48,17 +48,13 @@ dynamicArrayElements:
 	swap
 	int 2
 	extract3
+	dup
+	bitlen
+	int 16
+	<=
+	assert
 	byte 0xFFFF
 	b&
-	dupn 2
-	byte 0xFFFF
-	b<=
-	assert
-	len
-	int 2
-	-
-	int 2
-	extract3
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
 	int 2
@@ -66,17 +62,13 @@ dynamicArrayElements:
 	swap
 	int 2
 	extract3
+	dup
+	bitlen
+	int 16
+	<=
+	assert
 	byte 0xFFFF
 	b&
-	dupn 2
-	byte 0xFFFF
-	b<=
-	assert
-	len
-	int 2
-	-
-	int 2
-	extract3
 	concat
 	frame_dig -1 // a: uint16[]
 	store 0 // full array
@@ -85,17 +77,13 @@ dynamicArrayElements:
 	swap
 	int 2
 	extract3
+	dup
+	bitlen
+	int 16
+	<=
+	assert
 	byte 0xFFFF
 	b&
-	dupn 2
-	byte 0xFFFF
-	b<=
-	assert
-	len
-	int 2
-	-
-	int 2
-	extract3
 	concat
 	frame_bury -2 // newA: uint16[]
 
