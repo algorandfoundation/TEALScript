@@ -3837,12 +3837,29 @@ export default class Compiler {
   }
 
   private processThisBase(chain: ExpressionChainNode[]) {
-    // TODO
-    // if (
-    //   chain[0]
-    //   && ts.isPropertyAccessExpression(chain[0])
-    //   && chain[0].name.getText() === 'pendingGroup'
-    // ) {}
+    if (
+      chain[0]
+      && ts.isPropertyAccessExpression(chain[0])
+      && chain[0].name.getText() === 'pendingGroup'
+    ) {
+      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      if (!ts.isCallExpression(chain[2])) throw Error(`Unsupported ${ts.SyntaxKind[chain[2].kind]} ${chain[2].getText()}`);
+
+      const methodName = chain[1].name.getText();
+      if (chain[2].arguments[0]) {
+        this.processTransaction(
+          chain[2],
+          methodName,
+          chain[2].arguments[0],
+          chain[2].typeArguments,
+        );
+      } else if (methodName === 'submit') {
+        this.pushVoid(chain[2], 'itxn_submit');
+      } else throw new Error(`Unknown method ${chain[2].getText()}`);
+
+      chain.splice(0, 3);
+      return;
+    }
 
     if (
       chain[0]
@@ -4058,7 +4075,7 @@ export default class Compiler {
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
       this.addSourceComment(n);
 
-      const abiStr = this.getABITupleString(this.lastType);
+      const abiStr = this.getABITupleString(this.lastType || 'void');
 
       if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
         this.processNode(n.argumentExpression);
