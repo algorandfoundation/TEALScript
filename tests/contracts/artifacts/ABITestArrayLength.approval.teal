@@ -42,6 +42,7 @@ arrayLength:
 	// tests/contracts/abi.algo.ts:721
 	// return a.length;
 	frame_dig -1 // a: uint8[]
+	frame_dig -1 // a: uint8[]
 	len
 	int 1
 	/

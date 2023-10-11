@@ -22,31 +22,29 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// globalMethodInChain()uint8
-abi_route_globalMethodInChain:
-	// execute globalMethodInChain()uint8
-	callsub globalMethodInChain
+// opcodeParamFromObject()address
+abi_route_opcodeParamFromObject:
+	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute opcodeParamFromObject()address
+	callsub opcodeParamFromObject
 	int 1
 	return
 
-globalMethodInChain:
-	proto 0 0
+opcodeParamFromObject:
+	proto 1 0
 
-	// tests/contracts/abi.algo.ts:1008
-	// return castBytes<T1>(hex('0x00')).bar;
-	byte 0x00
-	extract 0 1
-	byte 0xFF
-	b&
-	dupn 2
-	byte 0xFF
-	b<=
+	// tests/contracts/abi.algo.ts:1014
+	// a: { myApp: Application } = { myApp: this.app }
+	txna Applications 0
+	itob
+	frame_bury -1 // a: { myApp: Application }
+
+	// tests/contracts/abi.algo.ts:1016
+	// return this.app.address;
+	txna Applications 0
+	app_params_get AppAddress
 	assert
-	len
-	int 1
-	-
-	int 1
-	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -64,7 +62,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "globalMethodInChain()uint8"
+	method "opcodeParamFromObject()address"
 	txna ApplicationArgs 0
-	match abi_route_globalMethodInChain
+	match abi_route_opcodeParamFromObject
 	err

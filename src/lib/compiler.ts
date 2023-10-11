@@ -9,6 +9,11 @@ import * as tsdoc from '@microsoft/tsdoc';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
+type ExpressionChainNode =
+  ts.ElementAccessExpression
+  | ts.PropertyAccessExpression
+  | ts.CallExpression
+
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
 
@@ -101,28 +106,17 @@ function renderDocNode(docNode: tsdoc.DocNode): string {
   return result.trim();
 }
 
-function stringToExpression(str: string): ts.Expression {
+function stringToExpression(str: string): ts.Expression | ts.TypeNode {
   if (str.startsWith('{')) {
-    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
+    const srcFile = ts.createSourceFile('', `type Foo = ${str}`, ts.ScriptTarget.ES2019, true);
 
-    const types: string[] = [];
-    srcFile.statements[0].forEachChild((n) => {
-      if (!ts.isVariableDeclarationList(n)) throw new Error();
-      n.declarations.forEach((d) => {
-        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+    const typeAlias = srcFile.statements[0] as ts.TypeAliasDeclaration;
 
-        d.type.members.forEach((m, i) => {
-          if (!ts.isPropertySignature(m)) throw new Error();
-          types.push(m.type!.getText());
-        });
-      });
-    });
-
-    return stringToExpression(`[${types.join(',')}]`);
-  } {
-    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
-    return (srcFile.statements[0] as ts.ExpressionStatement).expression;
+    return typeAlias.type;
   }
+
+  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
 }
 
 function capitalizeFirstChar(str: string) {
@@ -697,11 +691,6 @@ export default class Compiler {
           return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
         },
         fn: (n: ts.PropertyAccessExpression) => {
-          if (n.expression.getText() === 'this.txnGroup') {
-            this.push(n, 'global GroupSize', StackType.uint64);
-            return;
-          }
-
           this.processNode(n.expression);
           if (this.lastType === StackType.bytes || this.lastType === 'string') {
             this.push(n.name, 'len', StackType.uint64);
@@ -904,8 +893,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          const preType = this.lastType;
-          this.processNode(node.expression.expression);
           if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
           if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
           this.processNode(node.arguments[0]);
@@ -913,8 +900,6 @@ export default class Compiler {
           this.pushVoid(node, 'concat');
 
           this.updateValue(node.expression.expression);
-
-          this.lastType = preType;
         },
       },
       pop: {
@@ -922,7 +907,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.expression.expression);
           const poppedType = this.lastType.replace(/\[\]$/, '');
           if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
           if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
@@ -968,7 +952,6 @@ export default class Compiler {
         fn: (node: ts.CallExpression) => {
           if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.expression.expression);
           if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
           if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
 
@@ -1160,7 +1143,7 @@ export default class Compiler {
 
     const type = this.getABIType(inputType);
 
-    const typeNode = stringToExpression(type) as ts.Expression;
+    const typeNode = stringToExpression(type);
     if (type.toLowerCase().startsWith('staticarray')) {
       if (ts.isExpressionWithTypeArguments(typeNode)) {
         const innerType = typeNode!.typeArguments![0];
@@ -1300,7 +1283,7 @@ export default class Compiler {
     if (type === 'boolean') return 'bool';
     if (type === 'number') return 'uint64';
 
-    const typeNode = stringToExpression(abiType) as ts.Expression;
+    const typeNode = stringToExpression(abiType);
 
     if (abiType.startsWith('Static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
@@ -1336,7 +1319,7 @@ export default class Compiler {
   // This is seperate from this.getABIType because the bracket notation
   // is useful for parsing, but the ABI/appspec JSON need the parens
   private getABITupleString(str: string) {
-    let tupleStr = str;
+    let tupleStr = this.getABIType(str);
 
     if (tupleStr.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(tupleStr))
@@ -1584,7 +1567,33 @@ export default class Compiler {
     };
 
     let optimized = false;
-    if (teal.startsWith('itob')) {
+    if (teal.startsWith('extract3')) {
+      const aLine = targetTeal.at(-2);
+      const bLine = targetTeal.at(-1);
+
+      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+        const a = Number(aLine.split(' ')[1].replace('_', ''));
+        const b = Number(bLine.split(' ')[1].replace('_', ''));
+
+        if (a < 256 && b < 256) {
+          popTeal();
+          popTeal();
+
+          this.pushVoid(node, `extract ${a} ${b}`);
+
+          optimized = true;
+        }
+      }
+    } else if (teal.startsWith('btoi')) {
+      if (targetTeal.at(-1)?.match(/^byte (0x|")/)) {
+        const hexBytes = getHexBytes(targetTeal.at(-1)!.split(' ')[1]);
+        popTeal();
+
+        this.pushVoid(node, `int ${parseInt(hexBytes, 16)}`);
+
+        optimized = true;
+      }
+    } else if (teal.startsWith('itob')) {
       if (targetTeal.at(-1)?.startsWith('int ')) {
         const n = Number(targetTeal.at(-1)!.split(' ')[1]);
         popTeal();
@@ -1863,7 +1872,7 @@ export default class Compiler {
       if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
       else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
       else if (ts.isMethodDeclaration(node)) this.processMethodDefinition(node);
-      else if (ts.isPropertyAccessExpression(node)) this.processMemberExpression(node);
+      else if (ts.isPropertyAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isAsExpression(node)) this.processTypeCast(node);
       else if (ts.isTypeAssertionExpression(node)) this.processTypeCast(node);
       else if (ts.isNewExpression(node)) this.processNewExpression(node);
@@ -1886,12 +1895,12 @@ export default class Compiler {
       else if (ts.isIfStatement(node)) this.processIfStatement(node);
       else if (ts.isPrefixUnaryExpression(node)) this.processUnaryExpression(node);
       else if (ts.isBinaryExpression(node)) this.processBinaryExpression(node);
-      else if (ts.isCallExpression(node)) this.processCallExpression(node);
+      else if (ts.isCallExpression(node)) this.processExpressionChain(node);
       else if (ts.isExpressionStatement(node)) this.processExpressionStatement(node);
       else if (ts.isReturnStatement(node)) this.processReturnStatement(node);
       else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
       else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
-      else if (ts.isElementAccessExpression(node)) this.processElementAccessExpression(node);
+      else if (ts.isElementAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
       else if (node.kind === ts.SyntaxKind.TrueKeyword) this.push(node, 'int 1', 'bool');
       else if (node.kind === ts.SyntaxKind.FalseKeyword) this.push(node, 'int 0', 'bool');
@@ -1970,7 +1979,15 @@ export default class Compiler {
       return new Array(elements).fill(this.typeHint);
     }
 
-    throw new Error(typeHintNode.getText());
+    if (ts.isTypeLiteralNode(typeHintNode)) {
+      return typeHintNode.members.map((m) => {
+        if (!ts.isPropertySignature(m)) throw new Error();
+
+        return this.getABIType(m.type!.getText());
+      });
+    }
+
+    throw new Error(`${ts.SyntaxKind[typeHintNode.kind]}: ${typeHintNode.getText()}`);
   }
 
   private processBools(
@@ -2088,36 +2105,52 @@ export default class Compiler {
     let offset = 0;
     let consecutiveBools = 0;
 
+    const processTypeNode = (e: ts.Node) => {
+      const abiType = this.getABIType(e.getText());
+
+      if (abiType === 'bool') {
+        consecutiveBools += 1;
+        elem.add(new TupleElement('bool', offset));
+        return;
+      }
+
+      if (consecutiveBools) {
+        offset += Math.ceil(consecutiveBools / 8);
+      }
+
+      if (ts.isArrayLiteralExpression(e) || ts.isTypeLiteralNode(e) || ts.isTypeReferenceNode(e)) {
+        const t = new TupleElement(abiType, offset);
+        t.add(...this.getTupleElement(abiType));
+        elem.add(t);
+      } else if (abiType.match(/\[\d*\]$/)) {
+        const baseType = abiType.replace(/\[\d*\]$/, '');
+        const t = new TupleElement(abiType, offset);
+        t.add(this.getTupleElement(baseType));
+        elem.add(t);
+      } else elem.add(new TupleElement(abiType, offset));
+
+      if (this.isDynamicType(abiType)) {
+        offset += 2;
+      } else {
+        offset += this.getTypeLength(abiType);
+      }
+    };
+
+    if (ts.isTypeLiteralNode(expr)) {
+      expr.members.forEach((m) => {
+        if (!(ts.isPropertySignature(m))) throw new Error();
+
+        processTypeNode(m.type!);
+      });
+    }
+
     if (ts.isArrayLiteralExpression(expr)) {
       expr.elements.forEach((e) => {
-        const abiType = this.getABIType(e.getText());
-
-        if (abiType === 'bool') {
-          consecutiveBools += 1;
-          elem.add(new TupleElement('bool', offset));
-          return;
-        } if (consecutiveBools) {
-          offset += Math.ceil(consecutiveBools / 8);
-        }
-
-        if (ts.isArrayLiteralExpression(e)) {
-          const t = new TupleElement(abiType, offset);
-          t.add(...this.getTupleElement(abiType));
-          elem.add(t);
-        } else if (abiType.match(/\[\d*\]$/)) {
-          const baseType = abiType.replace(/\[\d*\]$/, '');
-          const t = new TupleElement(abiType, offset);
-          t.add(this.getTupleElement(baseType));
-          elem.add(t);
-        } else elem.add(new TupleElement(abiType, offset));
-
-        if (this.isDynamicType(abiType)) {
-          offset += 2;
-        } else {
-          offset += this.getTypeLength(abiType);
-        }
+        processTypeNode(e);
       });
-    } else if (type.match(/\[\d*\]$/)) {
+    }
+
+    if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
       elem.add(this.getTupleElement(baseType));
     }
@@ -2185,6 +2218,29 @@ export default class Compiler {
     }
 
     this.processArrayElements(node.elements, node);
+  }
+
+  private getExpressionChain(
+    node: ExpressionChainNode,
+    chain: ExpressionChainNode[] = [],
+  ): { chain: ExpressionChainNode[], base: ts.Node } {
+    chain.push(node);
+
+    let expr: ts.Expression = node.expression;
+    if (ts.isNonNullExpression(expr)) {
+      expr = expr.expression;
+    }
+
+    if (
+      ts.isElementAccessExpression(expr)
+      || ts.isPropertyAccessExpression(expr)
+      || ts.isCallExpression(expr)
+    ) {
+      return this.getExpressionChain(expr, chain);
+    }
+
+    chain.reverse();
+    return { base: expr, chain };
   }
 
   private getAccessChain(
@@ -2436,6 +2492,23 @@ export default class Compiler {
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
       if (typeof (acc) === 'string') {
+        if (!acc.startsWith('accessor//')) {
+          const index = Object.keys(
+            this.getObjectTypes(previousTupleElement.type),
+          ).indexOf(acc);
+
+          const elem = previousTupleElement[index];
+
+          this.pushLines(
+            node,
+            `int ${elem.headOffset} // headOffset`,
+            '+',
+          );
+
+          previousTupleElement = elem;
+          return;
+        }
+
         const elem = previousTupleElement[0];
 
         const frame = this.frame[acc];
@@ -2480,6 +2553,8 @@ export default class Compiler {
         } else {
           this.processNode(acc);
 
+          if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
+
           this.pushLines(
             acc,
             'int 2',
@@ -2493,6 +2568,8 @@ export default class Compiler {
           this.pushLines(acc, `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`, '+');
         } else {
           this.processNode(acc);
+
+          if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
 
           this.pushLines(
             acc,
@@ -2529,28 +2606,6 @@ export default class Compiler {
     return previousTupleElement;
   }
 
-  private processArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
-    const chain = this.getAccessChain(node).reverse();
-
-    const accessors: (ts.Expression | string)[] = [];
-
-    const frame = this.frame[chain[0].expression.getText()];
-
-    if (frame && frame.index === undefined) {
-      const frameFollow = this.processFrame(
-        chain[0].expression,
-        chain[0].expression.getText(),
-        true,
-      );
-
-      frameFollow.accessors.forEach((e) => accessors.push(e));
-    } else this.processNode(chain[0].expression);
-
-    chain.forEach((e) => accessors.push(e.argumentExpression));
-
-    this.processParentArrayAccess(node, accessors, chain[0].expression, newValue);
-  }
-
   private processLiteralStaticTupleAccess(
     node: ts.Node,
     accessors: (ts.Expression | string)[],
@@ -2562,7 +2617,12 @@ export default class Compiler {
     let offset = 0;
     let previousTupleElement = this.getTupleElement(parentType);
     accessors.forEach((acc, i) => {
-      const accNumber = parseInt((acc as ts.Expression).getText(), 10);
+      let accNumber: number;
+      if (typeof (acc) === 'string') {
+        accNumber = Object.keys(
+          this.getObjectTypes(previousTupleElement.type),
+        ).indexOf(acc);
+      } else accNumber = parseInt((acc as ts.Expression).getText(), 10);
 
       const elem = previousTupleElement[accNumber] || previousTupleElement[0];
 
@@ -2614,7 +2674,7 @@ export default class Compiler {
 
     accessors.forEach((a) => {
       if (typeof (a) === 'string') {
-        literalAccessors = false;
+        if (a.startsWith('accessor//')) literalAccessors = false;
         return;
       }
 
@@ -2775,7 +2835,7 @@ export default class Compiler {
       this.updateValue(parentExpression);
     } else {
       if (element.type === 'bool') {
-        if (!ts.isElementAccessExpression(node)) throw new Error();
+        if (!ts.isElementAccessExpression(node)) throw new Error(`${ts.SyntaxKind[node.kind]}: ${node.getText()}`);
 
         this.pushLines(node.argumentExpression, 'int 8', '*');
         this.processNode(node.argumentExpression);
@@ -2795,38 +2855,6 @@ export default class Compiler {
 
       this.lastType = element.type.replace('string', 'bytes');
     }
-  }
-
-  private processElementAccessExpression(node: ts.ElementAccessExpression) {
-    const baseType = this.getStackTypeFromNode(node.expression);
-    if (baseType === 'txnGroup') {
-      this.processNode(node.expression);
-      this.processNode(node.argumentExpression);
-      this.lastType = 'txn';
-      return;
-    }
-
-    if (baseType.startsWith('ImmediateArray')) {
-      this.processNode(node.expression);
-      this.push(node.argumentExpression, `${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
-      return;
-    }
-
-    if (['string', 'bytes', 'byte[]'].includes(baseType)) {
-      this.processNode(node.expression);
-      this.processNode(node.argumentExpression);
-      this.pushVoid(node, 'int 1');
-      this.pushVoid(node, 'extract3');
-      this.lastType = StackType.bytes;
-      return;
-    }
-
-    if (this.storageProps[baseType]) {
-      this.lastType = baseType;
-      return;
-    }
-
-    this.processArrayAccess(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -3072,16 +3100,20 @@ export default class Compiler {
     );
   }
 
-  private getStackTypeFromNode(node: ts.Node) {
+  private getStackTypeAfterFunction(fn: () => void): string {
     const preSrcObj = this.rawSrcMap;
     const preType = this.lastType;
     const preTeal = new Array(...this.teal);
-    this.processNode(node);
+    fn();
     const type = this.lastType;
     this.lastType = preType;
     this.teal = preTeal;
     this.rawSrcMap = preSrcObj;
     return this.customTypes[type] || type;
+  }
+
+  private getStackTypeFromNode(node: ts.Node) {
+    return this.getStackTypeAfterFunction(() => this.processNode(node));
   }
 
   private typeComparison(
@@ -3151,7 +3183,7 @@ export default class Compiler {
         this.processNode(node.right);
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
-        this.processArrayAccess(node.left, node.right);
+        this.processExpressionChain(node.left, node.right);
       } else if (ts.isPropertyAccessExpression(node.left)) {
         const storageName = getStorageName(node.left);
 
@@ -3166,17 +3198,19 @@ export default class Compiler {
           return;
         }
 
-        const expressionType = this.getStackTypeFromNode(node.left.expression);
-        const index = Object
-          .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
+        this.processExpressionChain(node.left, node.right);
 
-        this.processNode(node.left.expression);
-        this.processParentArrayAccess(
-          node,
-          [stringToExpression(index.toString())],
-          node.left.expression,
-          node.right,
-        );
+        // const expressionType = this.getStackTypeFromNode(node.left.expression);
+        // const index = Object
+        //   .keys(this.getObjectTypes(expressionType)).indexOf(node.left.name.getText());
+
+        // this.processNode(node.left.expression);
+        // this.processParentArrayAccess(
+        //   node,
+        //   [stringToExpression(index.toString())],
+        //   node.left.expression,
+        //   node.right,
+        // );
       }
 
       // TODO: Type check
@@ -3502,11 +3536,11 @@ export default class Compiler {
               name,
               node.initializer.expression,
               initializerType,
-              [stringToExpression(index.toString())],
+              [stringToExpression(index.toString()) as ts.Expression],
             );
           } else {
             this.frame[name] = {
-              accessors: [stringToExpression(index.toString())],
+              accessors: [stringToExpression(index.toString()) as ts.Expression],
               framePointer: lastFrameAccess,
               type: initializerType,
             };
@@ -3802,108 +3836,313 @@ export default class Compiler {
     }
   }
 
-  private processMemberExpression(node: ts.PropertyAccessExpression) {
-    const storageName = getStorageName(node);
+  private processThisBase(chain: ExpressionChainNode[]) {
+    if (
+      chain[0]
+      && ts.isPropertyAccessExpression(chain[0])
+      && chain[0].name.getText() === 'pendingGroup'
+    ) {
+      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      if (!ts.isCallExpression(chain[2])) throw Error(`Unsupported ${ts.SyntaxKind[chain[2].kind]} ${chain[2].getText()}`);
 
-    // if this is a storage object
-    if (storageName && this.storageProps[storageName]) {
-      const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
+      const methodName = chain[1].name.getText();
+      if (chain[2].arguments[0]) {
+        this.processTransaction(
+          chain[2],
+          methodName,
+          chain[2].arguments[0],
+          chain[2].typeArguments,
+        );
+      } else if (methodName === 'submit') {
+        this.pushVoid(chain[2], 'itxn_submit');
+      } else throw new Error(`Unknown method ${chain[2].getText()}`);
+
+      chain.splice(0, 3);
+      return;
+    }
+
+    if (
+      chain[0]
+      && ts.isPropertyAccessExpression(chain[0])
+      && chain[0].name.getText() === 'txnGroup'
+    ) {
+      if (
+        chain[1]
+        && ts.isPropertyAccessExpression(chain[1])
+        && chain[1].name.getText() === 'length'
+      ) {
+        this.push(chain[1], 'global GroupSize', StackType.uint64);
+        chain.splice(0, 2);
+        return;
+      }
+
+      if (!ts.isElementAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      this.processNode(chain[1].argumentExpression);
+      this.lastType = 'txn';
+
+      chain.splice(0, 2);
+      return;
+    }
+
+    // If this is a storage property
+    if (
+      ts.isPropertyAccessExpression(chain[0])
+      && this.storageProps[chain[0].name.getText()]
+    ) {
+      const name = chain[0].name.getText();
+      const storageProp = this.storageProps[name];
+      const isMapOrLocal = storageProp.key === undefined || storageProp.type === 'local';
+
+      let actionNodeIndex = isMapOrLocal ? 2 : 1;
+
+      if (chain[actionNodeIndex + 1] && ts.isCallExpression(chain[actionNodeIndex + 1])) {
+        actionNodeIndex += 1;
+      }
+
+      const actionNode = chain[actionNodeIndex] as ts.CallExpression | ts.PropertyAccessExpression;
+
+      let action: string;
+
+      if (ts.isPropertyAccessExpression(actionNode)) action = actionNode.name.getText();
+      if (ts.isCallExpression(actionNode)) {
+        action = (
+          actionNode.expression as ts.PropertyAccessExpression
+        ).name.getText();
+      }
+
       this.handleStorageAction({
-        node,
-        name: storageName,
-        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        node: actionNode,
+        name,
+        action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
       });
+
+      chain.splice(0, actionNodeIndex + 1);
       return;
     }
 
-    // process TransactionType enum
-    if (node.expression.getText() === 'TransactionType') {
-      const enums: {[key: string]: string} = {
-        Unknown: 'unknown',
-        Payment: 'pay',
-        KeyRegistration: 'keyreg',
-        AssetConfig: 'acfg',
-        AssetTransfer: 'axfer',
-        AssetFreeze: 'afrz',
-        ApplicationCall: 'appl',
-      };
+    if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app', 'itxn'].includes(chain[0].name.getText())) {
+      const op = chain[0].name.getText();
 
-      if (!enums[node.name.getText()]) throw new Error(`Unknown transaction type ${node.name.getText()}`);
-      this.pushVoid(node, `int ${enums[node.name.getText()]}`);
+      if (op === 'txn' && chain[1] === undefined) {
+        this.push(chain[0], 'txn', 'txn');
+        chain.splice(0, 1);
+        return;
+      }
+
+      if (op === 'app' && chain[1] === undefined) {
+        this.push(chain[0], 'txna Applications 0', ForeignType.Application);
+        chain.splice(0, 1);
+        return;
+      }
+
+      if (op === 'app') {
+        this.push(chain[0], 'txna Applications 0', ForeignType.Application);
+        chain.splice(0, 1);
+        return;
+      }
+
+      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      this.processOpcodeImmediate(
+        chain[0],
+        chain[0].name.getText(),
+        chain[1].name.getText(),
+        false,
+        true,
+      );
+
+      chain.splice(0, 2);
       return;
     }
 
-    // Get the property access chain
-    // For example: `this.txn.sender` -> `[sender, txn, this]` -> `[this, txn, sender]`
-    const chain = this.getChain(node).reverse();
-    chain.push(node);
-    chain.forEach((n) => {
-      if (ts.isPropertyAccessExpression(n)) {
-        const propName = n.name.getText();
+    if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
+      const methodName = chain[0].name.getText();
+      const preArgsType = this.lastType;
+      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
+      new Array(...chain[1].arguments).reverse().forEach((a) => this.processNode(a));
+      this.lastType = preArgsType;
+      const subroutine = this.subroutines.find((s) => s.name === methodName);
+      if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+      this.push(chain[1], `callsub ${methodName}`, subroutine.returns.type);
+      chain.splice(0, 2);
+    }
+  }
 
-        if (this.customProperties[propName]?.check(n)) {
-          this.customProperties[propName].fn(node);
-          return;
-        }
+  private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
+    const { base, chain } = this.getExpressionChain(node);
+    this.addSourceComment(node);
+    let storageBase: ts.PropertyAccessExpression | undefined;
+
+    if (base.kind === ts.SyntaxKind.ThisKeyword) {
+      if (
+        ts.isPropertyAccessExpression(chain[0])
+        && chain[1]
+        && (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1]))
+        && this.storageProps[chain[0].name.getText()]
+      ) {
+        storageBase = (ts.isCallExpression(
+          chain[1],
+        ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
+      }
+      this.processThisBase(chain);
+    }
+
+    const accessors: (string | ts.Expression)[] = [];
+
+    if (ts.isIdentifier(base)) {
+      if (this.constants[base.getText()]) {
+        this.processNode(this.constants[base.getText()]);
       }
 
-      if (ts.isElementAccessExpression(n)) {
-        this.processNode(n);
-        if (this.lastType === 'txn') this.lastType = 'gtxns';
+      if (base.getText() === 'TransactionType') {
+        const enums: {[key: string]: string} = {
+          Unknown: 'unknown',
+          Payment: 'pay',
+          KeyRegistration: 'keyreg',
+          AssetConfig: 'acfg',
+          AssetTransfer: 'axfer',
+          AssetFreeze: 'afrz',
+          ApplicationCall: 'appl',
+        };
+
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        const txType = chain[0].name.getText();
+
+        if (!enums[txType]) throw new Error(`Unknown transaction type ${txType}`);
+        this.pushVoid(node, `int ${enums[txType]}`);
+        return;
+      }
+      // txn method like sendMethodCall, sendPayment, etc.
+      if (TXN_METHODS.includes(base.getText())) {
+        if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processTransaction(
+          node,
+          base.getText(),
+          chain[0].arguments[0],
+          chain[0].typeArguments,
+        );
+        chain.splice(0, 1);
         return;
       }
 
-      if (n.kind === ts.SyntaxKind.CallExpression) {
-        this.processNode(n);
-        return;
-      }
-
-      // If this is a property on a storage object, then handle the respective action
-      const nStorageName = getStorageName(n);
-      if (nStorageName && this.storageProps[nStorageName]) {
-        const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
-        this.handleStorageAction({
-          node: n,
-          name: nStorageName,
-          action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+      // If this is a global variable
+      if (base.getText() === 'globals') {
+        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
+        chain.splice(0, 1);
+      // If this is a custom method
+      } else if (ts.isCallExpression(chain[0]) && this.customMethods[base.getText()]) {
+        const callNode = chain[0];
+        Object.keys(this.customMethods).forEach((m) => {
+          if (base.getText() === m && this.customMethods[m].check(callNode)) {
+            this.customMethods[m].fn(callNode);
+          }
         });
-        return;
+        chain.splice(0, 1);
+      // If this is an opcode
+      } else if (
+        ts.isCallExpression(chain[0])
+        && langspec.Ops.map((o) => o.Name).includes(base.getText())
+      ) {
+        this.processOpcode(chain[0]);
+        chain.splice(0, 1);
+      // If the base is a variable
+      } else if (this.frame[base.getText()]) {
+        const frame = this.frame[base.getText()];
+
+        if (frame && frame.index === undefined) {
+          const frameFollow = this.processFrame(
+            chain[0].expression,
+            chain[0].expression.getText(),
+            true,
+          );
+
+          frameFollow.accessors.forEach((e) => accessors.push(e));
+        } else {
+          this.push(
+            node,
+            `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`,
+            frame.type,
+          );
+        }
+      }
+    }
+
+    if (chain[0] && ts.isPropertyAccessExpression(chain[0])) {
+      const propName = chain[0].name.getText();
+      if (this.customProperties[propName]?.check(chain[0])) {
+        this.customProperties[propName].fn(chain[0]);
+        chain.splice(0, 1);
+      }
+    }
+
+    let lastAccessor: ts.Expression | undefined;
+
+    const remainingChain = chain.filter((n, i) => {
+      if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
+      this.addSourceComment(n);
+
+      const abiStr = this.getABITupleString(this.lastType || 'void');
+
+      if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
+        this.processNode(n.argumentExpression);
+        if (!isNumeric(this.lastType)) this.push(n, 'btoi', 'uint64');
+        this.pushLines(n, 'int 1', 'extract3');
+        this.lastType = abiStr;
+        return false;
       }
 
-      const expressionType = this.getStackTypeFromNode(n.expression);
-      if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
-        const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
-        this.processNode(n.expression);
-        this.processParentArrayAccess(n, [stringToExpression(index.toString())], n.expression);
-        return;
+      if (
+        (abiStr.endsWith(')') || abiStr.endsWith(']'))
+        && (ts.isElementAccessExpression(n) || ts.isPropertyAccessExpression(n))
+      ) {
+        lastAccessor = n;
+
+        if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
+        if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
+
+        return false;
       }
 
-      if (n.expression.getText() === 'globals') {
-        this.processOpcodeImmediate(n.expression, 'global', n.name.getText());
-        return;
-      }
+      if (ts.isCallExpression(n)) {
+        if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
 
-      if (this.frame[n.expression.getText()]) {
-        this.processStorageExpression(n);
-        return;
-      }
-
-      if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
-        switch (n.name.getText()) {
-          case 'app':
-            this.lastType = 'application';
-            this.pushVoid(n, 'txna Applications 0');
-            break;
-          default:
-            this.lastType = n.name.getText();
-            break;
+        const methodName = n.expression.name.getText();
+        if (this.customMethods[methodName] && this.customMethods[methodName].check(n)) {
+          this.customMethods[methodName].fn(n);
+          return false;
         }
 
-        return;
+        const preArgsType = this.lastType;
+        n.arguments.forEach((a) => this.processNode(a));
+        this.lastType = preArgsType;
+        this.processOpcodeImmediate(n, this.lastType, methodName);
+        return false;
       }
 
-      this.processOpcodeImmediate(n.name, this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
+      if (ts.isPropertyAccessExpression(n)) {
+        if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
+        this.processOpcodeImmediate(n, this.lastType, n.name.getText());
+        return false;
+      }
+
+      if (this.lastType.startsWith('ImmediateArray:')) {
+        this.push(n, `${this.teal.pop()} ${n.argumentExpression.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
+        return false;
+      }
+
+      return true;
     });
+
+    if (accessors.length) {
+      this.processParentArrayAccess(
+        lastAccessor!,
+        accessors,
+        storageBase || base,
+        newValue,
+      );
+    }
+
+    if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
@@ -4266,7 +4505,7 @@ export default class Compiler {
     }
   }
 
-  private processStorageExpression(node: ts.PropertyAccessExpression) {
+  private processFrameExpression(node: ts.PropertyAccessExpression) {
     const name = node.expression.getText();
     const target = this.frame[name];
 
@@ -4324,6 +4563,8 @@ export default class Compiler {
       type = 'gtxns';
     } else if (type === ForeignType.Address) {
       type = 'account';
+    } else if (type === 'app') {
+      type = 'application';
     }
 
     if (type === 'account') {

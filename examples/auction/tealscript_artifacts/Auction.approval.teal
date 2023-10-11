@@ -80,6 +80,7 @@ optIntoAsset:
 
 	// Only allow app creator to opt the app account into a ASA
 	// examples/auction/auction.algo.ts:29
+	// verifyTxn(this.txn, { sender: globals.creatorAddress })
 	// verify sender
 	txn Sender
 	global CreatorAddress
@@ -167,6 +168,7 @@ startAuction:
 	proto 3 0
 
 	// examples/auction/auction.algo.ts:46
+	// verifyTxn(this.txn, { sender: globals.creatorAddress })
 	// verify sender
 	txn Sender
 	global CreatorAddress

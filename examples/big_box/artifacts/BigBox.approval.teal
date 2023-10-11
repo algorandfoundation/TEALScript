@@ -324,9 +324,6 @@ setStatus:
 	frame_dig -1 // dataIdentifier: bytes
 	box_get
 	assert
-	frame_dig -1 // dataIdentifier: bytes
-	box_get
-	assert
 	extract 16 1
 	frame_bury -3 // currentStatus: uint8
 

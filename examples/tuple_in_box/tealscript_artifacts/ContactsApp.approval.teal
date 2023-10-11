@@ -327,9 +327,6 @@ verifyContactName:
 	frame_dig -2 // address: address
 	box_get
 	assert
-	frame_dig -2 // address: address
-	box_get
-	assert
 	store 0 // full array
 	int 0
 	load 0 // full array

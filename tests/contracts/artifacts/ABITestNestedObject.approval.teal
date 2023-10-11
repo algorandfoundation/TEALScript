@@ -22,31 +22,36 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// globalMethodInChain()uint8
-abi_route_globalMethodInChain:
-	// execute globalMethodInChain()uint8
-	callsub globalMethodInChain
+// nestedObject()uint64
+abi_route_nestedObject:
+	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute nestedObject()uint64
+	callsub nestedObject
 	int 1
 	return
 
-globalMethodInChain:
-	proto 0 0
+nestedObject:
+	proto 1 0
 
-	// tests/contracts/abi.algo.ts:1008
-	// return castBytes<T1>(hex('0x00')).bar;
-	byte 0x00
-	extract 0 1
-	byte 0xFF
-	b&
-	dupn 2
-	byte 0xFF
-	b<=
-	assert
-	len
-	int 1
-	-
-	int 1
-	extract3
+	// tests/contracts/abi.algo.ts:1033
+	// a: { b: { c: {d: uint64} } } = { b: { c: { d: 1 } } }
+	byte 0x0000000000000001
+	frame_bury -1 // a: { b: { c: {d: uint64} } }
+
+	// tests/contracts/abi.algo.ts:1034
+	// a.b.c.d = 2
+	frame_dig -1 // a: { b: { c: {d: uint64} } }
+	byte 0x0000000000000002
+	replace2 0
+	frame_bury -1 // a: { b: { c: {d: uint64} } }
+
+	// tests/contracts/abi.algo.ts:1035
+	// return a.b.c.d;
+	frame_dig -1 // a: { b: { c: {d: uint64} } }
+	extract 0 8
+	btoi
+	itob
 	byte 0x151f7c75
 	swap
 	concat
@@ -64,7 +69,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "globalMethodInChain()uint8"
+	method "nestedObject()uint64"
 	txna ApplicationArgs 0
-	match abi_route_globalMethodInChain
+	match abi_route_nestedObject
 	err
