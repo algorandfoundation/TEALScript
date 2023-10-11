@@ -1027,3 +1027,11 @@ class ABITestArrayInObjectInState extends Contract {
     return this.gMap(this.txn.sender).value.bar[1];
   }
 }
+
+class ABITestNestedObject extends Contract {
+  nestedObject(): uint64 {
+    const a: { b: { c: {d: uint64} } } = { b: { c: { d: 1 } } };
+    a.b.c.d = 2;
+    return a.b.c.d;
+  }
+}

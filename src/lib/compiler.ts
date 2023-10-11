@@ -106,24 +106,13 @@ function renderDocNode(docNode: tsdoc.DocNode): string {
   return result.trim();
 }
 
-function stringToExpression(str: string): ts.Expression {
+function stringToExpression(str: string): ts.Expression | ts.TypeNode {
   if (str.startsWith('{')) {
-    const srcFile = ts.createSourceFile('', `const dummy: ${str}`, ts.ScriptTarget.ES2019, true);
+    const srcFile = ts.createSourceFile('', `type Foo = ${str}`, ts.ScriptTarget.ES2019, true);
 
-    const types: string[] = [];
-    srcFile.statements[0].forEachChild((n) => {
-      if (!ts.isVariableDeclarationList(n)) throw new Error();
-      n.declarations.forEach((d) => {
-        if (!ts.isTypeLiteralNode(d.type!)) throw new Error();
+    const typeAlias = srcFile.statements[0] as ts.TypeAliasDeclaration;
 
-        d.type.members.forEach((m, i) => {
-          if (!ts.isPropertySignature(m)) throw new Error();
-          types.push(m.type!.getText());
-        });
-      });
-    });
-
-    return stringToExpression(`[${types.join(',')}]`);
+    return typeAlias.type;
   } {
     const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
     return (srcFile.statements[0] as ts.ExpressionStatement).expression;
@@ -1146,7 +1135,7 @@ export default class Compiler {
 
     const type = this.getABIType(inputType);
 
-    const typeNode = stringToExpression(type) as ts.Expression;
+    const typeNode = stringToExpression(type);
     if (type.toLowerCase().startsWith('staticarray')) {
       if (ts.isExpressionWithTypeArguments(typeNode)) {
         const innerType = typeNode!.typeArguments![0];
@@ -1286,7 +1275,7 @@ export default class Compiler {
     if (type === 'boolean') return 'bool';
     if (type === 'number') return 'uint64';
 
-    const typeNode = stringToExpression(abiType) as ts.Expression;
+    const typeNode = stringToExpression(abiType);
 
     if (abiType.startsWith('Static')) {
       if (!ts.isExpressionWithTypeArguments(typeNode)) throw new Error();
@@ -1956,7 +1945,15 @@ export default class Compiler {
       return new Array(elements).fill(this.typeHint);
     }
 
-    throw new Error(typeHintNode.getText());
+    if (ts.isTypeLiteralNode(typeHintNode)) {
+      return typeHintNode.members.map((m) => {
+        if (!ts.isPropertySignature(m)) throw new Error();
+
+        return this.getABIType(m.type!.getText());
+      });
+    }
+
+    throw new Error(`${ts.SyntaxKind[typeHintNode.kind]}: ${typeHintNode.getText()}`);
   }
 
   private processBools(
@@ -2074,34 +2071,48 @@ export default class Compiler {
     let offset = 0;
     let consecutiveBools = 0;
 
+    const processTypeNode = (e: ts.Node) => {
+      const abiType = this.getABIType(e.getText());
+
+      if (abiType === 'bool') {
+        consecutiveBools += 1;
+        elem.add(new TupleElement('bool', offset));
+        return;
+      }
+
+      if (consecutiveBools) {
+        offset += Math.ceil(consecutiveBools / 8);
+      }
+
+      if (ts.isArrayLiteralExpression(e) || ts.isTypeLiteralNode(e)) {
+        const t = new TupleElement(abiType, offset);
+        t.add(...this.getTupleElement(abiType));
+        elem.add(t);
+      } else if (abiType.match(/\[\d*\]$/)) {
+        const baseType = abiType.replace(/\[\d*\]$/, '');
+        const t = new TupleElement(abiType, offset);
+        t.add(this.getTupleElement(baseType));
+        elem.add(t);
+      } else elem.add(new TupleElement(abiType, offset));
+
+      if (this.isDynamicType(abiType)) {
+        offset += 2;
+      } else {
+        offset += this.getTypeLength(abiType);
+      }
+    };
+
+    if (ts.isTypeLiteralNode(expr)) {
+      expr.members.forEach((m) => {
+        if (!(ts.isPropertySignature(m))) throw new Error();
+
+        processTypeNode(m.type!);
+      });
+    }
+
     if (ts.isArrayLiteralExpression(expr)) {
       expr.elements.forEach((e) => {
-        const abiType = this.getABIType(e.getText());
-
-        if (abiType === 'bool') {
-          consecutiveBools += 1;
-          elem.add(new TupleElement('bool', offset));
-          return;
-        } if (consecutiveBools) {
-          offset += Math.ceil(consecutiveBools / 8);
-        }
-
-        if (ts.isArrayLiteralExpression(e)) {
-          const t = new TupleElement(abiType, offset);
-          t.add(...this.getTupleElement(abiType));
-          elem.add(t);
-        } else if (abiType.match(/\[\d*\]$/)) {
-          const baseType = abiType.replace(/\[\d*\]$/, '');
-          const t = new TupleElement(abiType, offset);
-          t.add(this.getTupleElement(baseType));
-          elem.add(t);
-        } else elem.add(new TupleElement(abiType, offset));
-
-        if (this.isDynamicType(abiType)) {
-          offset += 2;
-        } else {
-          offset += this.getTypeLength(abiType);
-        }
+        processTypeNode(e);
       });
     } else if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
@@ -3485,11 +3496,11 @@ export default class Compiler {
               name,
               node.initializer.expression,
               initializerType,
-              [stringToExpression(index.toString())],
+              [stringToExpression(index.toString()) as ts.Expression],
             );
           } else {
             this.frame[name] = {
-              accessors: [stringToExpression(index.toString())],
+              accessors: [stringToExpression(index.toString()) as ts.Expression],
               framePointer: lastFrameAccess,
               type: initializerType,
             };
