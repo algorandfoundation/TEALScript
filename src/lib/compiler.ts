@@ -10,7 +10,10 @@ import { isMap } from 'util/types';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 
-type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression
+type ExpressionChainNode =
+  ts.ElementAccessExpression
+  | ts.PropertyAccessExpression
+  | ts.CallExpression
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
