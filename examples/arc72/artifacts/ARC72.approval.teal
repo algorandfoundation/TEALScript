@@ -338,6 +338,17 @@ mint:
 	frame_dig -2 // index: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001
 	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 32
+	-
+	int 32
+	extract3
 	app_global_put
 	retsub
 
@@ -357,6 +368,17 @@ arc72_totalSupply:
 	// return this.index.value;
 	byte "index"
 	app_global_get
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 32
+	-
+	int 32
+	extract3
 	byte 0x151f7c75
 	swap
 	concat
@@ -381,6 +403,17 @@ arc72_tokenByIndex:
 	// examples/arc72/arc72.algo.ts:114
 	// return index;
 	frame_dig -1 // index: uint256
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b<=
+	assert
+	len
+	int 32
+	-
+	int 32
+	extract3
 	byte 0x151f7c75
 	swap
 	concat
