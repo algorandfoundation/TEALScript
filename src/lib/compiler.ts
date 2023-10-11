@@ -2519,6 +2519,8 @@ export default class Compiler {
         } else {
           this.processNode(acc);
 
+          if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
+
           this.pushLines(
             acc,
             'int 2',
@@ -2532,6 +2534,8 @@ export default class Compiler {
           this.pushLines(acc, `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`, '+');
         } else {
           this.processNode(acc);
+
+          if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
 
           this.pushLines(
             acc,
@@ -4045,6 +4049,7 @@ export default class Compiler {
 
       if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
         this.processNode(n.argumentExpression);
+        if (!isNumeric(this.lastType)) this.push(n, 'btoi', 'uint64');
         this.pushLines(n, 'int 1', 'extract3');
         this.lastType = abiStr;
         return false;
