@@ -1035,3 +1035,13 @@ class ABITestNestedObject extends Contract {
     return a.b.c.d;
   }
 }
+
+type T3 = {d: uint64}
+type T4 = {b: {c: T3}}
+class ABITestNestedObjectType extends Contract {
+  nestedObjectType(): uint64 {
+    const a: T4 = { b: { c: { d: 1 } } };
+    a.b.c.d = 2;
+    return a.b.c.d;
+  }
+}

@@ -113,10 +113,10 @@ function stringToExpression(str: string): ts.Expression | ts.TypeNode {
     const typeAlias = srcFile.statements[0] as ts.TypeAliasDeclaration;
 
     return typeAlias.type;
-  } {
-    const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
-    return (srcFile.statements[0] as ts.ExpressionStatement).expression;
   }
+
+  const srcFile = ts.createSourceFile('', str, ts.ScriptTarget.ES2019, true);
+  return (srcFile.statements[0] as ts.ExpressionStatement).expression;
 }
 
 function capitalizeFirstChar(str: string) {
@@ -2084,7 +2084,7 @@ export default class Compiler {
         offset += Math.ceil(consecutiveBools / 8);
       }
 
-      if (ts.isArrayLiteralExpression(e) || ts.isTypeLiteralNode(e)) {
+      if (ts.isArrayLiteralExpression(e) || ts.isTypeLiteralNode(e) || ts.isTypeReferenceNode(e)) {
         const t = new TupleElement(abiType, offset);
         t.add(...this.getTupleElement(abiType));
         elem.add(t);
@@ -2114,7 +2114,9 @@ export default class Compiler {
       expr.elements.forEach((e) => {
         processTypeNode(e);
       });
-    } else if (type.match(/\[\d*\]$/)) {
+    }
+
+    if (type.match(/\[\d*\]$/)) {
       const baseType = type.replace(/\[\d*\]$/, '');
       elem.add(this.getTupleElement(baseType));
     }
