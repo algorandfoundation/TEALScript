@@ -3096,7 +3096,8 @@ export default class Compiler {
       ['bytes', 'string'],
     ];
 
-    let typeEquality = false;
+    let typeEquality = abiInputType === abiExpectedType;
+    if (typeEquality) return;
 
     sameTypes.forEach((t) => {
       if (t.includes(abiInputType) && t.includes(abiExpectedType)) {

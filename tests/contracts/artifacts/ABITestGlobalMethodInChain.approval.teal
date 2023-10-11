@@ -36,17 +36,6 @@ globalMethodInChain:
 	// return castBytes<T1>(hex('0x00')).bar;
 	byte 0x00
 	extract 0 1
-	byte 0xFF
-	b&
-	dupn 2
-	byte 0xFF
-	b<=
-	assert
-	len
-	int 1
-	-
-	int 1
-	extract3
 	byte 0x151f7c75
 	swap
 	concat

@@ -49,8 +49,6 @@ ufixed:
 	frame_dig -1 // a: ufixed64x2
 	frame_dig -2 // b: ufixed64x2
 	b+
-	btoi
-	itob
 	byte 0x151f7c75
 	swap
 	concat
