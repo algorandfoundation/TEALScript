@@ -720,4 +720,17 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'globalMethodInChain')).toEqual(0n);
   });
+
+  test('opcodeParamFromObject', async () => {
+    const { appClient, appId } = await compileAndCreate('opcodeParamFromObject');
+
+    expect(await runMethod(appClient, 'opcodeParamFromObject'))
+      .toEqual(algosdk.getApplicationAddress(appId));
+  });
+
+  test('arrayInObjectInState', async () => {
+    const { appClient } = await compileAndCreate('arrayInObjectInState');
+
+    expect(await runMethod(appClient, 'arrayInObjectInState')).toEqual(3n);
+  });
 });

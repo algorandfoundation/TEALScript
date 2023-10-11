@@ -2553,28 +2553,6 @@ export default class Compiler {
     return previousTupleElement;
   }
 
-  private oldProcessArrayAccess(node: ts.ElementAccessExpression, newValue?: ts.Node): void {
-    const chain = this.getAccessChain(node).reverse();
-
-    const accessors: (ts.Expression | string)[] = [];
-
-    const frame = this.frame[chain[0].expression.getText()];
-
-    if (frame && frame.index === undefined) {
-      const frameFollow = this.processFrame(
-        chain[0].expression,
-        chain[0].expression.getText(),
-        true,
-      );
-
-      frameFollow.accessors.forEach((e) => accessors.push(e));
-    } else this.processNode(chain[0].expression);
-
-    chain.forEach((e) => accessors.push(e.argumentExpression));
-
-    this.processParentArrayAccess(node, accessors, chain[0].expression, newValue);
-  }
-
   private processLiteralStaticTupleAccess(
     node: ts.Node,
     accessors: (ts.Expression | string)[],
@@ -2824,37 +2802,6 @@ export default class Compiler {
 
       this.lastType = element.type.replace('string', 'bytes');
     }
-  }
-
-  private oldProcessElementAccessExpression(node: ts.ElementAccessExpression) {
-    const baseType = this.getStackTypeFromNode(node.expression);
-    if (baseType === 'txnGroup') {
-      this.processNode(node.expression);
-      this.processNode(node.argumentExpression);
-      this.lastType = 'txn';
-      return;
-    }
-
-    if (baseType.startsWith('ImmediateArray')) {
-      this.processNode(node.expression);
-      this.push(node.argumentExpression, `${this.teal.pop()} ${node.argumentExpression.getText()}`, baseType.replace('ImmediateArray: ', ''));
-      return;
-    }
-
-    if (['string', 'bytes', 'byte[]'].includes(baseType)) {
-      this.processNode(node.expression);
-      this.processNode(node.argumentExpression);
-      this.pushVoid(node, 'int 1');
-      this.pushVoid(node, 'extract3');
-      this.lastType = StackType.bytes;
-      return;
-    }
-
-    if (this.storageProps[baseType]) {
-      this.lastType = baseType;
-    }
-
-    // this.processArrayAccess(node);
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
@@ -4093,10 +4040,6 @@ export default class Compiler {
         if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
         if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
 
-        // TODO
-        // lastArrayType = this.getStackTypeAfterFunction(() => {
-        //   this.processParentArrayAccess(n, accessors, storageBase || base, newValue);
-        // });
         return false;
       }
 
@@ -4140,110 +4083,6 @@ export default class Compiler {
     }
 
     if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
-  }
-
-  private oldProcessMemberExpression(node: ts.PropertyAccessExpression) {
-    const storageName = getStorageName(node);
-
-    // if this is a storage object
-    if (storageName && this.storageProps[storageName]) {
-      const action = node.name.getText() === 'value' ? 'get' : node.name.getText();
-      this.handleStorageAction({
-        node,
-        name: storageName,
-        action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-      });
-      return;
-    }
-
-    // process TransactionType enum
-    if (node.expression.getText() === 'TransactionType') {
-      const enums: {[key: string]: string} = {
-        Unknown: 'unknown',
-        Payment: 'pay',
-        KeyRegistration: 'keyreg',
-        AssetConfig: 'acfg',
-        AssetTransfer: 'axfer',
-        AssetFreeze: 'afrz',
-        ApplicationCall: 'appl',
-      };
-
-      if (!enums[node.name.getText()]) throw new Error(`Unknown transaction type ${node.name.getText()}`);
-      this.pushVoid(node, `int ${enums[node.name.getText()]}`);
-      return;
-    }
-
-    // Get the property access chain
-    // For example: `this.txn.sender` -> `[sender, txn, this]` -> `[this, txn, sender]`
-    const chain = this.getChain(node).reverse();
-    chain.push(node);
-    chain.forEach((n) => {
-      if (ts.isPropertyAccessExpression(n)) {
-        const propName = n.name.getText();
-
-        if (this.customProperties[propName]?.check(n)) {
-          this.customProperties[propName].fn(node);
-          return;
-        }
-      }
-
-      if (ts.isElementAccessExpression(n)) {
-        this.processNode(n);
-        if (this.lastType === 'txn') this.lastType = 'gtxns';
-        return;
-      }
-
-      if (n.kind === ts.SyntaxKind.CallExpression) {
-        this.processNode(n);
-        return;
-      }
-
-      // If this is a property on a storage object, then handle the respective action
-      const nStorageName = getStorageName(n);
-      if (nStorageName && this.storageProps[nStorageName]) {
-        const action = n.name.getText() === 'value' ? 'get' : n.name.getText();
-        this.handleStorageAction({
-          node: n,
-          name: nStorageName,
-          action: action as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-        });
-        return;
-      }
-
-      const expressionType = this.getStackTypeFromNode(n.expression);
-      if (expressionType.startsWith('{') || this.customTypes[expressionType]?.startsWith('{')) {
-        const index = Object.keys(this.getObjectTypes(expressionType)).indexOf(n.name.getText());
-        this.processNode(n.expression);
-        this.processParentArrayAccess(n, [stringToExpression(index.toString())], n.expression);
-        return;
-      }
-
-      if (n.expression.getText() === 'globals') {
-        this.processOpcodeImmediate(n.expression, 'global', n.name.getText());
-        return;
-      }
-
-      if (this.frame[n.expression.getText()]) {
-        this.processFrameExpression(n);
-        return;
-      }
-
-      if (n.expression.kind === ts.SyntaxKind.ThisKeyword) {
-        switch (n.name.getText()) {
-          case 'app':
-            this.lastType = 'application';
-            this.pushVoid(n, 'txna Applications 0');
-            break;
-          default:
-            this.lastType = n.name.getText();
-            break;
-        }
-
-        return;
-      }
-
-      this.processOpcodeImmediate(n.name, this.lastType, n.name.getText(), false, n.expression.getText().startsWith('this.'));
-    });
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
