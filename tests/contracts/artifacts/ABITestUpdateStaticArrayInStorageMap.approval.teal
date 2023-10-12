@@ -82,10 +82,9 @@ updateStaticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:192
 	// this.bMap('bMap').value[1] = 3333
+	byte 0x624d6170 // "bMap"
 	int 8
 	byte 0x0000000000000d05
-	byte 0x624d6170 // "bMap"
-	cover 2
 	box_replace
 
 	// tests/contracts/abi.algo.ts:194

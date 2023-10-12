@@ -87,7 +87,28 @@ export function optimizeOpcodes(inputTeal: string[]) {
   inputTeal.forEach((teal) => {
     let optimized = false;
 
-    if (teal.startsWith('len')) {
+    if (teal.startsWith('cover ')) {
+      const n = Number(teal.split(' ')[1]);
+      const movedTeal = outputTeal.slice(-n - 1, -1);
+
+      let argOps = false;
+      const targetTeal = outputTeal.at(-1)!;
+      [targetTeal, ...movedTeal].forEach((t) => {
+        const op = t.split(' ')[0];
+        if (!arglessOpNames.includes(op)) argOps = true;
+      });
+
+      if (!argOps) {
+        popTeal();
+        movedTeal.forEach(() => popTeal());
+        pushTeal(targetTeal);
+        movedTeal.forEach((t) => pushTeal(t));
+
+        // outputTeal.splice(-n, n);
+        // outputTeal.push(...movedTeal);
+        optimized = true;
+      }
+    } else if (teal.startsWith('len')) {
       if (outputTeal.at(-1)?.startsWith('byte 0x')) {
         const bytes = outputTeal.at(-1)!.split(' ')[1].slice(2);
         popTeal();
