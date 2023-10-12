@@ -8,6 +8,7 @@ import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
+import { optimizeTeal } from './optimize';
 
 type ExpressionChainNode =
   ts.ElementAccessExpression
@@ -498,11 +499,15 @@ export default class Compiler {
     }
 
     if (key) {
-      this.pushVoid(node.expression, `byte "${key}"`);
+      const hex = Buffer.from(key).toString('hex');
+      this.pushVoid(node.expression, `byte 0x${hex} // "${key}"`);
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
     } else {
-      if (prefix) this.pushVoid(keyNode!, `byte "${prefix}"`);
+      if (prefix) {
+        const hex = Buffer.from(prefix).toString('hex');
+        this.pushVoid(keyNode!, `byte 0x${hex} // "${prefix}"`);
+      }
       this.processNode(keyNode!);
 
       if (keyType !== StackType.bytes) {
@@ -576,8 +581,12 @@ export default class Compiler {
         break;
 
       case 'replace':
-        this.processNode(args[0]);
-        this.processNode(args[1]);
+        if (args[0] && args[1]) {
+          this.processNode(args[0]);
+          this.processNode(args[1]);
+        } else {
+          this.pushVoid(node.expression, 'cover 2');
+        }
         this.pushVoid(node.expression, 'box_replace');
         break;
 
@@ -1479,6 +1488,8 @@ export default class Compiler {
 
     this.teal = await this.postProcessTeal(this.teal);
 
+    this.teal = optimizeTeal(this.teal);
+
     let hasNonAbi = false;
 
     this.subroutines.forEach((sub) => {
@@ -1550,135 +1561,22 @@ export default class Compiler {
 
     this.lastNode = node;
 
-    const popTeal = () => {
-      const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
+    // const popTeal = () => {
+    //   const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
 
-      if (start.line < srcMap.source.start.line) {
-        srcMap.source.start = { line: start.line, col: start.character };
-      }
+    //   if (start.line < srcMap.source.start.line) {
+    //     srcMap.source.start = { line: start.line, col: start.character };
+    //   }
 
-      if (end.line > srcMap.source.end.line) {
-        srcMap.source.end = { line: end.line, col: end.character };
-      }
+    //   if (end.line > srcMap.source.end.line) {
+    //     srcMap.source.end = { line: end.line, col: end.character };
+    //   }
 
-      srcMap.teal = this.teal.length;
-      targetTeal.pop();
-    };
-
-    const getHexBytes = (bytes: string) => {
-      if (bytes.startsWith('"')) return Buffer.from(bytes.slice(1, -1), 'utf8').toString('hex');
-      return bytes.slice(2);
-    };
-
-    let optimized = false;
-    if (teal.startsWith('extract3')) {
-      const aLine = targetTeal.at(-2);
-      const bLine = targetTeal.at(-1);
-
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
-
-        if (a < 256 && b < 256) {
-          popTeal();
-          popTeal();
-
-          this.pushVoid(node, `extract ${a} ${b}`);
-
-          optimized = true;
-        }
-      }
-    } else if (teal.startsWith('btoi')) {
-      if (targetTeal.at(-1)?.match(/^byte (0x|")/)) {
-        const hexBytes = getHexBytes(targetTeal.at(-1)!.split(' ')[1]);
-        popTeal();
-
-        this.pushVoid(node, `int ${parseInt(hexBytes, 16)}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('itob')) {
-      if (targetTeal.at(-1)?.startsWith('int ')) {
-        const n = Number(targetTeal.at(-1)!.split(' ')[1]);
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${n.toString(16).padStart(16, '0')}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('concat')) {
-      const b = targetTeal.at(-1);
-      const a = targetTeal.at(-2);
-
-      if (a?.match(/^byte (0x|")/) && b?.match(/^byte (0x|")/)) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = b.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
-
-        popTeal();
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
-
-        optimized = true;
-      }
-    } else if (teal.match(/^byte (0x|")/)) {
-      const b = targetTeal.at(-1);
-      const a = targetTeal.at(-2);
-
-      if (a?.match(/^byte (0x|")/) && b?.startsWith('concat')) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = teal.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
-
-        popTeal();
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
-      const aLine = targetTeal.at(-2);
-      const bLine = targetTeal.at(-1);
-
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
-
-        popTeal();
-        popTeal();
-
-        let val: number;
-
-        switch (teal.split(' ')[0]) {
-          case '+':
-            val = a + b;
-            break;
-          case '-':
-            val = a - b;
-            break;
-          case '*':
-            val = a * b;
-            break;
-          case '/':
-            val = a / b;
-            break;
-          default:
-            throw Error(`Unknown operator: ${teal}`);
-        }
-
-        this.pushVoid(node, `int ${val}`);
-        optimized = true;
-      }
-    }
+    //   srcMap.teal = this.teal.length;
+    //   targetTeal.pop();
+    // };
 
     if (type !== 'void') this.lastType = type;
-    if (optimized) return;
 
     targetTeal.push(teal);
 
@@ -2340,12 +2238,13 @@ export default class Compiler {
           const frame = this.frame[processedFrame.name];
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
-          const { type } = this.storageProps[processedFrame.name];
+          const { type, valueType } = this.storageProps[processedFrame.name];
+          const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
           this.handleStorageAction({
             node: processedFrame.storageExpression!,
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
-            action: 'set',
+            action,
             name: processedFrame.name,
           });
         }
@@ -2360,10 +2259,15 @@ export default class Compiler {
         storageName = getStorageName(node.expression);
       } else storageName = getStorageName(node);
 
+      const storageProp = this.storageProps[storageName!];
+
+      const { type, valueType } = storageProp;
+      const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+
       this.handleStorageAction({
         node,
         name: storageName!,
-        action: 'set',
+        action,
       });
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
@@ -2643,14 +2547,23 @@ export default class Compiler {
     // If one of the immediate args is over 255, then replace2/extract won't work
     const over255 = length > 255 || offset > 255;
 
-    if (over255) this.pushVoid(node, `int ${offset}`);
+    const canBoxReplace = newValue
+      && ts.isPropertyAccessExpression(parentExpression)
+      && getStorageName(parentExpression)
+      && this.storageProps[getStorageName(parentExpression)!]
+      && this.storageProps[getStorageName(parentExpression)!].type === 'box'
+      && !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
+
+    if (over255 || canBoxReplace) this.pushVoid(node, `int ${offset}`);
 
     if (newValue) {
       this.processNode(newValue);
       if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
 
-      if (over255) this.pushVoid(node, 'replace3');
-      else this.pushVoid(node, `replace2 ${offset}`);
+      if (!canBoxReplace) {
+        if (over255) this.pushVoid(node, 'replace3');
+        else this.pushVoid(node, `replace2 ${offset}`);
+      }
 
       this.updateValue(parentExpression);
     } else {
@@ -3334,7 +3247,9 @@ export default class Compiler {
       const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
       const padBytes = width - str.length;
-      this.push(node, `byte "${str + '\\x00'.repeat(padBytes)}"`, type);
+      const paddedStr = str + '\\x00'.repeat(padBytes);
+      const hex = Buffer.from(paddedStr).toString('hex');
+      this.push(node, `byte 0x${hex} // "${str}"`, type);
       return;
     }
 
@@ -3394,7 +3309,10 @@ export default class Compiler {
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
 
-      if (storageProp.prefix) this.pushVoid(keyNode, `byte "${storageProp.prefix}"`);
+      if (storageProp.prefix) {
+        const hex = Buffer.from(storageProp.prefix).toString('hex');
+        this.pushVoid(keyNode, `byte 0x${hex} // "${storageProp.prefix}"`);
+      }
 
       this.processNode(keyNode);
 
@@ -3839,13 +3757,14 @@ export default class Compiler {
 
       this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, this.typeHint);
     } else if (node.kind === ts.SyntaxKind.StringLiteral) {
-      this.push(node, `byte "${node.text}"`, StackType.bytes);
+      const hex = Buffer.from(node.text, 'utf8').toString('hex');
+      this.push(node, `byte 0x${hex} // "${node.text}"`, StackType.bytes);
     } else {
       this.push(node, `int ${node.getText()}`, StackType.uint64);
     }
   }
 
-  private processThisBase(chain: ExpressionChainNode[]) {
+  private processThisBase(chain: ExpressionChainNode[], hasNewValue: boolean) {
     if (
       chain[0]
       && ts.isPropertyAccessExpression(chain[0])
@@ -3919,11 +3838,14 @@ export default class Compiler {
         ).name.getText();
       }
 
-      this.handleStorageAction({
-        node: actionNode,
-        name,
-        action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-      });
+      // Don't get the box value if we can use box_replace
+      if (!(hasNewValue && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
+        this.handleStorageAction({
+          node: actionNode,
+          name,
+          action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
+      } else this.lastType = storageProp.valueType;
 
       chain.splice(0, actionNodeIndex + 1);
       return;
@@ -3992,7 +3914,7 @@ export default class Compiler {
           chain[1],
         ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
       }
-      this.processThisBase(chain);
+      this.processThisBase(chain, newValue !== undefined);
     }
 
     const accessors: (string | ts.Expression)[] = [];
