@@ -178,40 +178,13 @@ const TXN_METHODS = [
 const CONTRACT_SUBCLASS = 'Contract';
 
 const PARAM_TYPES: { [param: string]: string } = {
-  // Account
-  AcctAuthAddr: ForeignType.Address,
-  // Application
-  AppCreator: ForeignType.Address,
-  AppAddress: ForeignType.Address,
-  AssetManager: ForeignType.Address,
-  AssetReserve: ForeignType.Address,
-  AssetFreeze: ForeignType.Address,
-  AssetClawback: ForeignType.Address,
-  AssetCreator: ForeignType.Address,
   // Global
-  ZeroAddress: ForeignType.Address,
   CurrentApplicationID: ForeignType.Application,
-  CreatorAddress: ForeignType.Address,
-  CurrentApplicationAddress: ForeignType.Address,
-  CallerApplicationID: ForeignType.Application,
-  CallerApplicationAddress: ForeignType.Address,
   // Txn
-  Sender: ForeignType.Address,
-  Receiver: ForeignType.Address,
-  CloseRemainderTo: ForeignType.Address,
   XferAsset: ForeignType.Asset,
-  AssetSender: ForeignType.Address,
-  AssetReceiver: ForeignType.Address,
-  AssetCloseTo: ForeignType.Address,
   ApplicationID: ForeignType.Application,
-  RekeyTo: ForeignType.Address,
   ConfigAsset: ForeignType.Asset,
-  ConfigAssetManager: ForeignType.Address,
-  ConfigAssetReserve: ForeignType.Address,
-  ConfigAssetFreeze: ForeignType.Address,
-  ConfigAssetClawback: ForeignType.Address,
   FreezeAsset: ForeignType.Asset,
-  FreezeAssetAccount: ForeignType.Address,
   CreatedAssetID: ForeignType.Asset,
   CreatedApplicationID: ForeignType.Application,
   ApplicationArgs: `ImmediateArray: ${StackType.bytes}`,
@@ -1129,8 +1102,7 @@ export default class Compiler {
 
     return opSpec.ArgEnum!.map((arg, i) => {
       let fn;
-      const type = PARAM_TYPES[arg]
-        || opSpec.ArgEnumTypes![i].replace('B', StackType.bytes).replace('U', StackType.uint64);
+      const type = PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace(/[\d*]byte/, 'btyes');
 
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, type);
@@ -4233,7 +4205,7 @@ export default class Compiler {
 
     const opSpec = langspec.Ops.find(
       (o) => o.Name === opcodeName,
-    ) as OpSpec;
+    )!;
     let line: string[] = [opcodeName];
 
     if (opSpec.Size === 1) {
@@ -4248,7 +4220,7 @@ export default class Compiler {
       );
     }
 
-    let returnType = opSpec.Returns?.replace('U', 'uint64').replace('B', 'bytes');
+    let returnType = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
 
     if (opSpec.Name.endsWith('256')) returnType = 'byte[32]';
 
