@@ -581,8 +581,12 @@ export default class Compiler {
         break;
 
       case 'replace':
-        this.processNode(args[0]);
-        this.processNode(args[1]);
+        if (newValue !== undefined) {
+          this.processNode(args[0]);
+          this.processNode(args[1]);
+        } else {
+          this.pushVoid(node.expression, 'cover 2');
+        }
         this.pushVoid(node.expression, 'box_replace');
         break;
 
@@ -2234,12 +2238,13 @@ export default class Compiler {
           const frame = this.frame[processedFrame.name];
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
-          const { type } = this.storageProps[processedFrame.name];
+          const { type, valueType } = this.storageProps[processedFrame.name];
+          const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
           this.handleStorageAction({
             node: processedFrame.storageExpression!,
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
-            action: 'set',
+            action,
             name: processedFrame.name,
           });
         }
@@ -2254,10 +2259,15 @@ export default class Compiler {
         storageName = getStorageName(node.expression);
       } else storageName = getStorageName(node);
 
+      const storageProp = this.storageProps[storageName!];
+
+      const { type, valueType } = storageProp;
+      const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+
       this.handleStorageAction({
         node,
         name: storageName!,
-        action: 'set',
+        action,
       });
     } else {
       throw new Error(`Can't update ${ts.SyntaxKind[node.kind]} array`);
@@ -2537,14 +2547,23 @@ export default class Compiler {
     // If one of the immediate args is over 255, then replace2/extract won't work
     const over255 = length > 255 || offset > 255;
 
-    if (over255) this.pushVoid(node, `int ${offset}`);
+    const canBoxReplace = newValue
+      && ts.isPropertyAccessExpression(parentExpression)
+      && getStorageName(parentExpression)
+      && this.storageProps[getStorageName(parentExpression)!]
+      && this.storageProps[getStorageName(parentExpression)!].type === 'box'
+      && !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
+
+    if (over255 || canBoxReplace) this.pushVoid(node, `int ${offset}`);
 
     if (newValue) {
       this.processNode(newValue);
       if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
 
-      if (over255) this.pushVoid(node, 'replace3');
-      else this.pushVoid(node, `replace2 ${offset}`);
+      if (!canBoxReplace) {
+        if (over255) this.pushVoid(node, 'replace3');
+        else this.pushVoid(node, `replace2 ${offset}`);
+      }
 
       this.updateValue(parentExpression);
     } else {
@@ -3745,7 +3764,7 @@ export default class Compiler {
     }
   }
 
-  private processThisBase(chain: ExpressionChainNode[]) {
+  private processThisBase(chain: ExpressionChainNode[], hasNewValue: boolean) {
     if (
       chain[0]
       && ts.isPropertyAccessExpression(chain[0])
@@ -3819,11 +3838,14 @@ export default class Compiler {
         ).name.getText();
       }
 
-      this.handleStorageAction({
-        node: actionNode,
-        name,
-        action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-      });
+      // Don't get the box value if we can use box_replace
+      if (!(hasNewValue && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
+        this.handleStorageAction({
+          node: actionNode,
+          name,
+          action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+        });
+      } else this.lastType = storageProp.valueType;
 
       chain.splice(0, actionNodeIndex + 1);
       return;
@@ -3892,7 +3914,7 @@ export default class Compiler {
           chain[1],
         ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
       }
-      this.processThisBase(chain);
+      this.processThisBase(chain, newValue !== undefined);
     }
 
     const accessors: (string | ts.Expression)[] = [];

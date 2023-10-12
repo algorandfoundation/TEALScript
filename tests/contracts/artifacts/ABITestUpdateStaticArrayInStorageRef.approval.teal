@@ -82,14 +82,11 @@ updateStaticArrayInStorageRef:
 
 	// tests/contracts/abi.algo.ts:126
 	// this.bRef.value[1] = 333
-	byte 0x62526566 // "bRef"
-	box_get
-	assert
+	int 8
 	byte 0x000000000000014d
-	replace2 8
 	byte 0x62526566 // "bRef"
-	swap
-	box_put
+	cover 2
+	box_replace
 
 	// tests/contracts/abi.algo.ts:128
 	// ret: StaticArray<uint64, 3> = [
