@@ -40,8 +40,8 @@ singleIf:
 
 	// if0_consequent
 	// tests/contracts/if.algo.ts:8
-	// log('If')
-	byte 0x4966 // "If"
+	// log('if')
+	byte 0x6966 // "if"
 	log
 
 if0_end:
@@ -65,8 +65,8 @@ ifElse:
 
 	// if1_consequent
 	// tests/contracts/if.algo.ts:14
-	// log('If')
-	byte 0x4966 // "If"
+	// log('if')
+	byte 0x6966 // "if"
 	log
 	b if1_end
 
@@ -97,8 +97,8 @@ ifElseIf:
 
 	// if2_consequent
 	// tests/contracts/if.algo.ts:22
-	// log('If')
-	byte 0x4966 // "If"
+	// log('if')
+	byte 0x6966 // "if"
 	log
 	b if2_end
 
@@ -135,8 +135,8 @@ ifElseIfElse:
 
 	// if3_consequent
 	// tests/contracts/if.algo.ts:30
-	// log('If')
-	byte 0x4966 // "If"
+	// log('if')
+	byte 0x6966 // "if"
 	log
 	b if3_end
 
@@ -360,8 +360,8 @@ bracketlessIfElse:
 
 	// if8_consequent
 	// tests/contracts/if.algo.ts:76
-	// log('If')
-	byte 0x4966 // "If"
+	// log('if')
+	byte 0x6966 // "if"
 	log
 	b if8_end
 

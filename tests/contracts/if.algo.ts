@@ -5,13 +5,13 @@ import { Contract } from '../../src/lib/index';
 class IfTest extends Contract {
   singleIf(): void {
     if (1) {
-      log('If');
+      log('if');
     }
   }
 
   ifElse(): void {
     if (1) {
-      log('If');
+      log('if');
     } else {
       log('else');
     }
@@ -19,7 +19,7 @@ class IfTest extends Contract {
 
   ifElseIf(): void {
     if (1) {
-      log('If');
+      log('if');
     } else if (2) {
       log('else if');
     }
@@ -27,7 +27,7 @@ class IfTest extends Contract {
 
   ifElseIfElse(): void {
     if (1) {
-      log('If');
+      log('if');
     } else if (2) {
       log('else if');
     } else {
@@ -73,7 +73,7 @@ class IfTest extends Contract {
   }
 
   bracketlessIfElse(): void {
-    if (1) log('If');
+    if (1) log('if');
     else log('else');
   }
 }
