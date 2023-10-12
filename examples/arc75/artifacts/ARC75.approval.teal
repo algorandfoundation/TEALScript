@@ -33,18 +33,14 @@ verifyMBRPayment:
 	// verify receiver
 	frame_dig -1 // payment: pay
 	gtxns Receiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 
 	// verify amount
 	frame_dig -1 // payment: pay
 	gtxns Amount
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	frame_dig -2 // preMBR: uint64
@@ -73,9 +69,7 @@ sendMBRPayment:
 	// examples/arc75/arc75.algo.ts:19
 	// amount: preMBR - this.app.address.minBalance
 	frame_dig -1 // preMBR: uint64
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	-
@@ -136,9 +130,7 @@ addAppToWhiteList:
 
 	// examples/arc75/arc75.algo.ts:33
 	// preMBR = this.app.address.minBalance
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	frame_bury -5 // preMBR: uint64
@@ -274,9 +266,7 @@ setAppWhitelist:
 
 	// examples/arc75/arc75.algo.ts:55
 	// preMBR = this.app.address.minBalance
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	frame_bury -4 // preMBR: uint64
@@ -335,9 +325,7 @@ setAppWhitelist:
 	// examples/arc75/arc75.algo.ts:62
 	// preMBR > this.app.address.minBalance
 	frame_dig -4 // preMBR: uint64
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	>
@@ -393,9 +381,7 @@ deleteWhitelist:
 
 	// examples/arc75/arc75.algo.ts:77
 	// preMBR = this.app.address.minBalance
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	frame_bury -3 // preMBR: uint64
@@ -479,9 +465,7 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:94
 	// preMBR = this.app.address.minBalance
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
 	frame_bury -5 // preMBR: uint64

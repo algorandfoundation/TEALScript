@@ -42,11 +42,8 @@ opcodeParamFromObject:
 
 	// tests/contracts/abi.algo.ts:1016
 	// return this.app.address;
-	txna Applications 0
-	app_params_get AppAddress
-	assert
 	byte 0x151f7c75
-	swap
+	global CurrentApplicationAddress
 	concat
 	log
 	retsub

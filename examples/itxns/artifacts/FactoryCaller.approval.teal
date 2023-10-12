@@ -148,9 +148,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:45
 	// assetReceiver: this.app.address
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
 	// examples/itxns/itxns.algo.ts:46
@@ -193,9 +191,7 @@ mintAndGetAsset:
 	itxn_field Assets
 	byte 0x0000000000000000
 	itxn_field ApplicationArgs
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	itxn_field Accounts
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs

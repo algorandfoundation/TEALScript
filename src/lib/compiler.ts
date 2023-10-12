@@ -3755,6 +3755,11 @@ export default class Compiler {
       }
 
       if (op === 'app') {
+        if (ts.isPropertyAccessExpression(chain[1]) && chain[1].name.getText() === 'address') {
+          this.push(chain[1], 'global CurrentApplicationAddress', 'address');
+          chain.splice(0, 2);
+          return;
+        }
         this.push(chain[0], 'txna Applications 0', ForeignType.Application);
         chain.splice(0, 1);
         return;

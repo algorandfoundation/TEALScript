@@ -128,9 +128,7 @@ verifyTxnFromArg:
 	// verify receiver
 	frame_dig -1 // somePay: pay
 	gtxns Receiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 
@@ -160,9 +158,7 @@ verifyTxnFromTxnGroup:
 	// verify receiver
 	load 8 // verifyTxn index
 	gtxns Receiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 
@@ -202,9 +198,7 @@ verifyTxnCondition:
 	// verify receiver
 	frame_dig -1 // somePay: pay
 	gtxns Receiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 
@@ -333,9 +327,7 @@ submitPendingGroup:
 
 	// tests/contracts/general.algo.ts:45
 	// receiver: this.app.address
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	itxn_field Receiver
 
 	// Fee field not set, defaulting to 0

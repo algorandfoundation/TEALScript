@@ -116,9 +116,7 @@ optIntoAsset:
 
 	// examples/auction/auction.algo.ts:39
 	// assetReceiver: this.app.address
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
 	// examples/auction/auction.algo.ts:40
@@ -190,9 +188,7 @@ startAuction:
 	// verify assetReceiver
 	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 

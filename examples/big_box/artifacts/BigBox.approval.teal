@@ -158,9 +158,7 @@ startUpload:
 	// verify receiver
 	frame_dig -4 // mbrPayment: pay
 	gtxns Receiver
-	txna Applications 0
-	app_params_get AppAddress
-	assert
+	global CurrentApplicationAddress
 	==
 	assert
 
