@@ -42,7 +42,7 @@ simpleTuple:
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
 	byte 0x002c
-	dup
+	byte 0x002c
 	bitlen
 	int 16
 	<=

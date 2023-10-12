@@ -43,25 +43,9 @@ returnTupleWithDyamicArray:
 	callsub process_static_tuple_element
 	byte 0x0002
 	callsub process_static_tuple_element
-	byte 0x00000000000000030000000000000004
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000200000000000000030000000000000004
 	callsub process_dynamic_tuple_element
-	byte 0x00050006
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000200050006
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail

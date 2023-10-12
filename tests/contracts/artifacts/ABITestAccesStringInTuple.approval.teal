@@ -41,29 +41,11 @@ accesStringInTuple:
 	byte 0x0008 // initial head offset
 	byte 0x0001
 	callsub process_static_tuple_element
-	byte 0x02
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000102
 	callsub process_dynamic_tuple_element
-	byte "Hello World!"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000c48656c6c6f20576f726c6421
 	callsub process_dynamic_tuple_element
-	byte 0x03
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000103
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -88,7 +70,7 @@ accesStringInTuple:
 	+ // add two for length
 	extract3
 	extract 2 0
-	byte "Hello World!"
+	byte 0x48656c6c6f20576f726c6421 // "Hello World!"
 	==
 	assert
 

@@ -90,7 +90,7 @@ doMath:
 	// examples/calculator/calculator.algo.ts:25
 	// operation === 'sum'
 	frame_dig -3 // operation: bytes
-	byte "sum"
+	byte 0x73756d // "sum"
 	==
 	bz if0_elseif1_condition
 
@@ -107,7 +107,7 @@ if0_elseif1_condition:
 	// examples/calculator/calculator.algo.ts:27
 	// operation === 'difference'
 	frame_dig -3 // operation: bytes
-	byte "difference"
+	byte 0x646966666572656e6365 // "difference"
 	==
 	bz if0_else
 

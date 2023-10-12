@@ -78,7 +78,7 @@ payment:
 
 	// tests/contracts/itxns.algo.ts:13
 	// note: 'Hello World!'
-	byte "Hello World!"
+	byte 0x48656c6c6f20576f726c6421 // "Hello World!"
 	itxn_field Note
 
 	// Fee field not set, defaulting to 0
@@ -118,12 +118,12 @@ assetCreation:
 
 	// tests/contracts/itxns.algo.ts:20
 	// configAssetName: 'name'
-	byte "name"
+	byte 0x6e616d65 // "name"
 	itxn_field ConfigAssetName
 
 	// tests/contracts/itxns.algo.ts:21
 	// configAssetUnitName: 'unit'
-	byte "unit"
+	byte 0x756e6974 // "unit"
 	itxn_field ConfigAssetUnitName
 
 	// tests/contracts/itxns.algo.ts:22
@@ -166,12 +166,12 @@ assetCreation:
 
 	// tests/contracts/itxns.algo.ts:28
 	// configAssetURL: 'url'
-	byte "url"
+	byte 0x75726c // "url"
 	itxn_field ConfigAssetURL
 
 	// tests/contracts/itxns.algo.ts:29
 	// configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field ConfigAssetMetadataHash
 
 	// Fee field not set, defaulting to 0
@@ -226,9 +226,9 @@ appCall:
 
 	// tests/contracts/itxns.algo.ts:36
 	// applicationArgs: ['arg1', 'arg2']
-	byte "arg1"
+	byte 0x61726731 // "arg1"
 	itxn_field ApplicationArgs
-	byte "arg2"
+	byte 0x61726732 // "arg2"
 	itxn_field ApplicationArgs
 
 	// tests/contracts/itxns.algo.ts:37
@@ -243,7 +243,7 @@ appCall:
 
 	// tests/contracts/itxns.algo.ts:39
 	// approvalProgram: 'approval'
-	byte "approval"
+	byte 0x617070726f76616c // "approval"
 	itxn_field ApprovalProgram
 
 	// tests/contracts/itxns.algo.ts:40
@@ -253,7 +253,7 @@ appCall:
 
 	// tests/contracts/itxns.algo.ts:41
 	// clearStateProgram: 'clear'
-	byte "clear"
+	byte 0x636c656172 // "clear"
 	itxn_field ClearStateProgram
 
 	// tests/contracts/itxns.algo.ts:42
@@ -278,7 +278,7 @@ appCall:
 
 	// tests/contracts/itxns.algo.ts:46
 	// note: 'note'
-	byte "note"
+	byte 0x6e6f7465 // "note"
 	itxn_field Note
 
 	// Fee field not set, defaulting to 0
@@ -534,12 +534,12 @@ onlineKeyRegistration:
 
 	// tests/contracts/itxns.algo.ts:87
 	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field SelectionPK
 
 	// tests/contracts/itxns.algo.ts:88
 	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field StateProofPK
 
 	// tests/contracts/itxns.algo.ts:89
@@ -559,7 +559,7 @@ onlineKeyRegistration:
 
 	// tests/contracts/itxns.algo.ts:92
 	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-	byte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field VotePK
 
 	// Fee field not set, defaulting to 0

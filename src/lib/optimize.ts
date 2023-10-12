@@ -70,9 +70,8 @@ export function optimizeFrames(inputTeal: string[]) {
 /*
 TODO:
   optimize replace2
-  optimize dup (have it read langspec to detect any 0-input opcodes)
-  optimize len
   optimize byte math
+  optimize bitlen (Math.floor((Math.log(n) / Math.log(2)))
 */
 export function optimizeOpcodes(inputTeal: string[]) {
   const outputTeal: string[] = [];
@@ -93,7 +92,24 @@ export function optimizeOpcodes(inputTeal: string[]) {
   inputTeal.forEach((teal) => {
     let optimized = false;
 
-    if (teal.startsWith('swap')) {
+    if (teal.startsWith('len')) {
+      if (outputTeal.at(-1)?.match(/^byte (0x|")/)) {
+        const bytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+        popTeal();
+        pushTeal(`int ${bytes.length / 2}`);
+        optimized = true;
+      }
+    } else if (teal.startsWith('dup')) {
+      const a = outputTeal.at(-1);
+      if (['byte', 'pushbyte'].includes(a?.split(' ')[0] ?? '')) {
+        const times = teal.startsWith('dupn ') ? Number(teal.split(' ')[1]) : 1;
+
+        for (let i = 0; i < times; i += 1) {
+          pushTeal(a!);
+        }
+        optimized = true;
+      }
+    } else if (teal.startsWith('swap')) {
       const b = outputTeal.at(-1)!;
       const a = outputTeal.at(-2)!;
 

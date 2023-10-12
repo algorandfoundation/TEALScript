@@ -514,7 +514,7 @@ fromBytes:
 
 	// tests/contracts/general.algo.ts:74
 	// assert(Address.fromBytes('abc').minBalance)
-	byte "abc"
+	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
 	assert
 	assert

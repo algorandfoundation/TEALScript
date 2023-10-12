@@ -117,21 +117,9 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:41
 	// methodArgs: ['My NFT', 'MNFT']
-	byte "My NFT"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00064d79204e4654
 	itxn_field ApplicationArgs
-	byte "MNFT"
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00044d4e4654
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0

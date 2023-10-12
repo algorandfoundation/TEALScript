@@ -43,15 +43,7 @@ storageRefAccount:
 	// this.lMap(addr, 0).value = [1, 2, 3]
 	frame_dig -1 // addr: address
 	byte 0x0000000000000000
-	byte 0x000000000000000100000000000000020000000000000003
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x0003000000000000000100000000000000020000000000000003
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:968

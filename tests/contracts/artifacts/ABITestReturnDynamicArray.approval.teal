@@ -41,18 +41,7 @@ returnDynamicArray:
 
 	// tests/contracts/abi.algo.ts:333
 	// return a;
-	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[]
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750003000000000000000b00000000000000160000000000000021
 	log
 	retsub
 

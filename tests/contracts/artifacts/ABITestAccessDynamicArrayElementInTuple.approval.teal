@@ -41,13 +41,7 @@ accessDynamicArrayElementInTuple:
 	byte 0x0004 // initial head offset
 	byte 0x000b
 	callsub process_static_tuple_element
-	byte 0x16212c
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000316212c
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail

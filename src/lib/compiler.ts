@@ -499,11 +499,15 @@ export default class Compiler {
     }
 
     if (key) {
-      this.pushVoid(node.expression, `byte "${key}"`);
+      const hex = Buffer.from(key).toString('hex');
+      this.pushVoid(node.expression, `byte 0x${hex} // "${key}"`);
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
     } else {
-      if (prefix) this.pushVoid(keyNode!, `byte "${prefix}"`);
+      if (prefix) {
+        const hex = Buffer.from(prefix).toString('hex');
+        this.pushVoid(keyNode!, `byte 0x${hex} // "${prefix}"`);
+      }
       this.processNode(keyNode!);
 
       if (keyType !== StackType.bytes) {
@@ -3224,7 +3228,9 @@ export default class Compiler {
       const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
       const padBytes = width - str.length;
-      this.push(node, `byte "${str + '\\x00'.repeat(padBytes)}"`, type);
+      const paddedStr = str + '\\x00'.repeat(padBytes);
+      const hex = Buffer.from(paddedStr).toString('hex');
+      this.push(node, `byte 0x${hex} // "${str}"`, type);
       return;
     }
 
@@ -3284,7 +3290,10 @@ export default class Compiler {
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
 
-      if (storageProp.prefix) this.pushVoid(keyNode, `byte "${storageProp.prefix}"`);
+      if (storageProp.prefix) {
+        const hex = Buffer.from(storageProp.prefix).toString('hex');
+        this.pushVoid(keyNode, `byte 0x${hex} // "${storageProp.prefix}"`);
+      }
 
       this.processNode(keyNode);
 
@@ -3729,7 +3738,8 @@ export default class Compiler {
 
       this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, this.typeHint);
     } else if (node.kind === ts.SyntaxKind.StringLiteral) {
-      this.push(node, `byte "${node.text}"`, StackType.bytes);
+      const hex = Buffer.from(node.text, 'utf8').toString('hex');
+      this.push(node, `byte 0x${hex} // "${node.text}"`, StackType.bytes);
     } else {
       this.push(node, `int ${node.getText()}`, StackType.uint64);
     }

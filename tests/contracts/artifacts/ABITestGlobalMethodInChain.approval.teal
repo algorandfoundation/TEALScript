@@ -35,7 +35,7 @@ globalMethodInChain:
 	// tests/contracts/abi.algo.ts:1008
 	// return castBytes<T1>(hex('0x00')).bar;
 	byte 0x00
-	dup
+	byte 0x00
 	bitlen
 	int 8
 	<=

@@ -41,20 +41,20 @@ staticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:155
 	// this.gMap('gMap').value = a
-	byte "gMap"
+	byte 0x674d6170 // "gMap"
 	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:156
 	// this.lMap(this.txn.sender, 'lMap').value = a
 	txn Sender
-	byte "lMap"
+	byte 0x6c4d6170 // "lMap"
 	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:157
 	// this.bMap('bMap').value = a
-	byte "bMap"
+	byte 0x624d6170 // "bMap"
 	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
 	box_put
 
@@ -64,19 +64,19 @@ staticArrayInStorageMap:
 	//       this.lMap(this.txn.sender, 'lMap').value[1],
 	//       this.bMap('bMap').value[1],
 	//     ]
-	byte "gMap"
+	byte 0x674d6170 // "gMap"
 	app_global_get
 	extract 8 8
 	btoi
 	itob
 	txn Sender
-	byte "lMap"
+	byte 0x6c4d6170 // "lMap"
 	app_local_get
 	extract 8 8
 	btoi
 	itob
 	concat
-	byte "bMap"
+	byte 0x624d6170 // "bMap"
 	box_get
 	assert
 	extract 8 8

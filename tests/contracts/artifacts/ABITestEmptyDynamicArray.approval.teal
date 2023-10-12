@@ -34,18 +34,7 @@ emptyDynamicArray:
 
 	// tests/contracts/abi.algo.ts:835
 	// return [];
-	byte 0x
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000
 	log
 	retsub
 

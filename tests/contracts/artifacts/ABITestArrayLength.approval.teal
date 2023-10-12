@@ -42,14 +42,7 @@ arrayLength:
 	// tests/contracts/abi.algo.ts:721
 	// return a.length;
 	byte 0x0b16212c37 // a: uint8[]
-	byte 0x0b16212c37 // a: uint8[]
-	len
-	int 1
-	/
-	itob
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000005
 	log
 	retsub
 

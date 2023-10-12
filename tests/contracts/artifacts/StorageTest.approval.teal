@@ -35,10 +35,10 @@ prefix:
 	// tests/contracts/storage.algo.ts:20
 	// this.boxMapWithPrefix('oo').value = 'bar'
 	byte 0x666f6f
-	dup
+	byte 0x666f6f
 	box_del
 	pop
-	byte "bar"
+	byte 0x626172 // "bar"
 	box_put
 	retsub
 
@@ -54,8 +54,8 @@ globalKeyPut:
 
 	// tests/contracts/storage.algo.ts:24
 	// this.globalKey.value = 'bar'
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	app_global_put
 	retsub
 
@@ -71,9 +71,9 @@ globalKeyGet:
 
 	// tests/contracts/storage.algo.ts:28
 	// assert(this.globalKey.value === 'bar')
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_get
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -90,7 +90,7 @@ globalKeyDelete:
 
 	// tests/contracts/storage.algo.ts:32
 	// this.globalKey.delete()
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_del
 	retsub
 
@@ -107,7 +107,7 @@ globalKeyExists:
 	// tests/contracts/storage.algo.ts:36
 	// assert(this.globalKey.exists)
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_get_ex
 	swap
 	pop
@@ -132,8 +132,8 @@ localKeyPut:
 	// tests/contracts/storage.algo.ts:40
 	// this.localKey(a).value = 'bar'
 	frame_dig -1 // a: account
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	app_local_put
 	retsub
 
@@ -155,9 +155,9 @@ localKeyGet:
 	// tests/contracts/storage.algo.ts:44
 	// assert(this.localKey(a).value === 'bar')
 	frame_dig -1 // a: account
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_get
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -180,7 +180,7 @@ localKeyDelete:
 	// tests/contracts/storage.algo.ts:48
 	// this.localKey(a).delete()
 	frame_dig -1 // a: account
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_del
 	retsub
 
@@ -203,7 +203,7 @@ localKeyExists:
 	// assert(this.localKey(a).exists)
 	frame_dig -1 // a: account
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_get_ex
 	swap
 	pop
@@ -222,8 +222,8 @@ boxKeyPut:
 
 	// tests/contracts/storage.algo.ts:56
 	// this.boxKey.value = 'bar'
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	box_put
 	retsub
 
@@ -239,10 +239,10 @@ boxKeyGet:
 
 	// tests/contracts/storage.algo.ts:60
 	// assert(this.boxKey.value === 'bar')
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_get
 	assert
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -259,7 +259,7 @@ boxKeyDelete:
 
 	// tests/contracts/storage.algo.ts:64
 	// this.boxKey.delete()
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_del
 	retsub
 
@@ -275,7 +275,7 @@ boxKeyExists:
 
 	// tests/contracts/storage.algo.ts:68
 	// assert(this.boxKey.exists)
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_len
 	swap
 	pop
@@ -294,8 +294,8 @@ globalMapPut:
 
 	// tests/contracts/storage.algo.ts:72
 	// this.globalMap('foo').value = 'bar'
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	app_global_put
 	retsub
 
@@ -311,9 +311,9 @@ globalMapGet:
 
 	// tests/contracts/storage.algo.ts:76
 	// assert(this.globalMap('foo').value === 'bar')
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_get
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -330,7 +330,7 @@ globalMapDelete:
 
 	// tests/contracts/storage.algo.ts:80
 	// this.globalMap('foo').delete()
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_del
 	retsub
 
@@ -347,7 +347,7 @@ globalMapExists:
 	// tests/contracts/storage.algo.ts:84
 	// assert(this.globalMap('foo').exists)
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_get_ex
 	swap
 	pop
@@ -372,8 +372,8 @@ localMapPut:
 	// tests/contracts/storage.algo.ts:88
 	// this.localMap(a, 'foo').value = 'bar'
 	frame_dig -1 // a: account
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	app_local_put
 	retsub
 
@@ -395,9 +395,9 @@ localMapGet:
 	// tests/contracts/storage.algo.ts:92
 	// assert(this.localMap(a, 'foo').value === 'bar')
 	frame_dig -1 // a: account
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_get
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -420,7 +420,7 @@ localMapDelete:
 	// tests/contracts/storage.algo.ts:96
 	// this.localMap(a, 'foo').delete()
 	frame_dig -1 // a: account
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_del
 	retsub
 
@@ -443,7 +443,7 @@ localMapExists:
 	// assert(this.localMap(a, 'foo').exists)
 	frame_dig -1 // a: account
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_get_ex
 	swap
 	pop
@@ -462,8 +462,8 @@ boxMapPut:
 
 	// tests/contracts/storage.algo.ts:104
 	// this.boxMap('foo').value = 'bar'
-	byte "foo"
-	byte "bar"
+	byte 0x666f6f // "foo"
+	byte 0x626172 // "bar"
 	box_put
 	retsub
 
@@ -479,10 +479,10 @@ boxMapGet:
 
 	// tests/contracts/storage.algo.ts:108
 	// assert(this.boxMap('foo').value === 'bar')
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_get
 	assert
-	byte "bar"
+	byte 0x626172 // "bar"
 	==
 	assert
 	retsub
@@ -499,7 +499,7 @@ boxMapDelete:
 
 	// tests/contracts/storage.algo.ts:112
 	// this.boxMap('foo').delete()
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_del
 	retsub
 
@@ -515,7 +515,7 @@ boxMapExists:
 
 	// tests/contracts/storage.algo.ts:116
 	// assert(this.boxMap('foo').exists)
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_len
 	swap
 	pop
@@ -534,7 +534,7 @@ boxKeyCreate:
 
 	// tests/contracts/storage.algo.ts:120
 	// this.boxKey.create(1024)
-	byte "foo"
+	byte 0x666f6f // "foo"
 	int 1024
 	box_create
 	retsub
@@ -551,7 +551,7 @@ boxMapCreate:
 
 	// tests/contracts/storage.algo.ts:124
 	// this.boxMap('bar').create(1024)
-	byte "bar"
+	byte 0x626172 // "bar"
 	int 1024
 	box_create
 	retsub
@@ -568,7 +568,7 @@ boxKeyLength:
 
 	// tests/contracts/storage.algo.ts:128
 	// return this.boxKey.size;
-	byte "foo"
+	byte 0x666f6f // "foo"
 	box_len
 	assert
 	itob
@@ -590,7 +590,7 @@ boxMapLength:
 
 	// tests/contracts/storage.algo.ts:132
 	// return this.boxMap('bar').size;
-	byte "bar"
+	byte 0x626172 // "bar"
 	box_len
 	assert
 	itob
@@ -612,9 +612,9 @@ boxKeyReplace:
 
 	// tests/contracts/storage.algo.ts:136
 	// this.boxKey.replace(0, 'abc')
-	byte "foo"
+	byte 0x666f6f // "foo"
 	int 0
-	byte "abc"
+	byte 0x616263 // "abc"
 	box_replace
 	retsub
 
@@ -630,9 +630,9 @@ boxMapReplace:
 
 	// tests/contracts/storage.algo.ts:140
 	// this.boxMap('bar').replace(0, 'abc')
-	byte "bar"
+	byte 0x626172 // "bar"
 	int 0
-	byte "abc"
+	byte 0x616263 // "abc"
 	box_replace
 	retsub
 
@@ -648,7 +648,7 @@ boxKeyExtract:
 
 	// tests/contracts/storage.algo.ts:144
 	// return this.boxKey.extract(0, 3);
-	byte "foo"
+	byte 0x666f6f // "foo"
 	int 0
 	int 3
 	box_extract
@@ -676,7 +676,7 @@ boxMapExtract:
 
 	// tests/contracts/storage.algo.ts:148
 	// return this.boxMap('bar').extract(0, 3);
-	byte "bar"
+	byte 0x626172 // "bar"
 	int 0
 	int 3
 	box_extract
@@ -730,7 +730,7 @@ exGlobal:
 	// tests/contracts/storage.algo.ts:156
 	// log(this.app.global('foo') as bytes)
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_global_get_ex
 	assert
 	log
@@ -750,7 +750,7 @@ exLocal:
 	// log(this.txn.sender.state(this.app, 'foo') as bytes)
 	txn Sender
 	txna Applications 0
-	byte "foo"
+	byte 0x666f6f // "foo"
 	app_local_get_ex
 	assert
 	log

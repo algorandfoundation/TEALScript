@@ -44,7 +44,7 @@ shortTypeNotation:
 	// tests/contracts/abi.algo.ts:288
 	// return a[2][1];
 	byte 0x0042
-	dup
+	byte 0x0042
 	bitlen
 	int 16
 	<=

@@ -44,7 +44,7 @@ tupleInArray:
 	// tests/contracts/abi.algo.ts:268
 	// return a[1][1];
 	byte 0x002c
-	dup
+	byte 0x002c
 	bitlen
 	int 16
 	<=
