@@ -65,11 +65,21 @@ txnGroupLength:
 abi_route_asserts:
 	// arg2: bool
 	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 
 	// arg1: bool
 	txna ApplicationArgs 1
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 
@@ -435,11 +445,21 @@ methodWithTxnArgs:
 abi_route_nestedTernary:
 	// y: bool
 	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 
 	// x: bool
 	txna ApplicationArgs 1
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 

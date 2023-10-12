@@ -218,6 +218,11 @@ createApplication:
 abi_route_verify:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
+	dup
+	len
+	int 99
+	==
+	assert
 
 	// data: byte[]
 	txna ApplicationArgs 1
@@ -248,6 +253,11 @@ verify:
 abi_route_appendLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
+	dup
+	len
+	int 99
+	==
+	assert
 
 	// data: byte[]
 	txna ApplicationArgs 1
@@ -306,6 +316,11 @@ appendLeaf:
 abi_route_updateLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 3
+	dup
+	len
+	int 99
+	==
+	assert
 
 	// newData: byte[]
 	txna ApplicationArgs 2

@@ -26,6 +26,11 @@ NOT_IMPLEMENTED:
 abi_route_tupleArg:
 	// a: [uint64,uint16,uint64]
 	txna ApplicationArgs 1
+	dup
+	len
+	int 18
+	==
+	assert
 
 	// execute tupleArg((uint64,uint16,uint64))uint16
 	callsub tupleArg

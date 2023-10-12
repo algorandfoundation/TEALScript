@@ -116,6 +116,11 @@ abi_route_addAppToWhiteList:
 
 	// boxIndex: uint16
 	txna ApplicationArgs 2
+	dup
+	len
+	int 2
+	==
+	assert
 
 	// arc: string
 	txna ApplicationArgs 1
@@ -249,6 +254,11 @@ abi_route_setAppWhitelist:
 
 	// boxIndex: uint16
 	txna ApplicationArgs 2
+	dup
+	len
+	int 2
+	==
+	assert
 
 	// arc: string
 	txna ApplicationArgs 1
@@ -363,6 +373,11 @@ abi_route_deleteWhitelist:
 
 	// boxIndex: uint16
 	txna ApplicationArgs 2
+	dup
+	len
+	int 2
+	==
+	assert
 
 	// arc: string
 	txna ApplicationArgs 1
@@ -444,6 +459,11 @@ abi_route_deleteAppFromWhitelist:
 
 	// boxIndex: uint16
 	txna ApplicationArgs 2
+	dup
+	len
+	int 2
+	==
+	assert
 
 	// arc: string
 	txna ApplicationArgs 1

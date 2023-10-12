@@ -89,6 +89,11 @@ abi_route_addContact:
 
 	// address: address
 	txna ApplicationArgs 3
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// company: string
 	txna ApplicationArgs 2
@@ -145,6 +150,11 @@ addContact:
 abi_route_updateContactField:
 	// address: address
 	txna ApplicationArgs 3
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// value: string
 	txna ApplicationArgs 2
@@ -309,6 +319,11 @@ if0_end:
 abi_route_verifyContactName:
 	// address: address
 	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// name: string
 	txna ApplicationArgs 1

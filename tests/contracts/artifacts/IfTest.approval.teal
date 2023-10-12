@@ -277,11 +277,21 @@ abi_route_nestedIf:
 
 	// bool2: bool
 	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 
 	// bool1: bool
 	txna ApplicationArgs 1
+	dup
+	len
+	int 1
+	==
+	assert
 	int 0
 	getbit
 

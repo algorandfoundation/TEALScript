@@ -146,9 +146,19 @@ u64div:
 abi_route_u256plus:
 	// b: uint256
 	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// a: uint256
 	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// execute u256plus(uint256,uint256)uint256
 	callsub u256plus
@@ -180,9 +190,19 @@ u256plus:
 abi_route_u256minus:
 	// b: uint256
 	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// a: uint256
 	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// execute u256minus(uint256,uint256)uint256
 	callsub u256minus
@@ -214,9 +234,19 @@ u256minus:
 abi_route_u256mul:
 	// b: uint256
 	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// a: uint256
 	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// execute u256mul(uint256,uint256)uint256
 	callsub u256mul
@@ -248,9 +278,19 @@ u256mul:
 abi_route_u256div:
 	// b: uint256
 	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// a: uint256
 	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
 
 	// execute u256div(uint256,uint256)uint256
 	callsub u256div

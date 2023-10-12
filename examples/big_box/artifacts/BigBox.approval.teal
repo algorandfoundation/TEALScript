@@ -302,6 +302,11 @@ abi_route_setStatus:
 
 	// status: uint8
 	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
 
 	// dataIdentifier: string
 	txna ApplicationArgs 1
