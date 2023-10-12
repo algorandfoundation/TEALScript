@@ -41,17 +41,17 @@ spliceFirstElementValue:
 
 	// tests/contracts/abi.algo.ts:495
 	// v = a.splice(0, 1)
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	int 1
 	int 0
 	store 12 // splice start
 	int 4
 	store 13 // splice byte length
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	int 0
 	load 12 // splice start
 	substring3
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	dup
 	len
 	load 12 // splice start
@@ -62,7 +62,7 @@ spliceFirstElementValue:
 	swap
 	substring3
 	concat
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	load 12 // splice start
 	load 13 // splice byte length
 	int 2

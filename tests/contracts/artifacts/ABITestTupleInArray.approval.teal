@@ -43,7 +43,7 @@ tupleInArray:
 
 	// tests/contracts/abi.algo.ts:268
 	// return a[1][1];
-	frame_dig -1 // a: [uint64,uint16][2]
+	byte 0x000000000000000b00160000000000000021002c // a: [uint64,uint16][2]
 	extract 18 2
 	dup
 	bitlen

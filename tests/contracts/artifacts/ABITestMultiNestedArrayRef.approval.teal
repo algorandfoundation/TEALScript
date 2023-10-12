@@ -48,14 +48,14 @@ multiNestedArrayRef:
 	// c = b[1]
 	// tests/contracts/abi.algo.ts:779
 	// c[1] = 9 as uint<8>
-	frame_dig -1 // a: uint8[2][2][2]
+	byte 0x0102030405060708 // a: uint8[2][2][2]
 	byte 0x09
 	replace2 7
 	frame_bury -1 // c: uint8[2][2][2]
 
 	// tests/contracts/abi.algo.ts:781
 	// return a;
-	frame_dig -1 // a: uint8[2][2][2]
+	byte 0x0102030405060708 // a: uint8[2][2][2]
 	byte 0x151f7c75
 	swap
 	concat

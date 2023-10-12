@@ -41,14 +41,14 @@ nestedObject:
 
 	// tests/contracts/abi.algo.ts:1034
 	// a.b.c.d = 2
-	frame_dig -1 // a: { b: { c: {d: uint64} } }
+	byte 0x0000000000000001 // a: { b: { c: {d: uint64} } }
 	byte 0x0000000000000002
 	replace2 0
 	frame_bury -1 // a: { b: { c: {d: uint64} } }
 
 	// tests/contracts/abi.algo.ts:1035
 	// return a.b.c.d;
-	frame_dig -1 // a: { b: { c: {d: uint64} } }
+	byte 0x0000000000000001 // a: { b: { c: {d: uint64} } }
 	extract 0 8
 	btoi
 	itob

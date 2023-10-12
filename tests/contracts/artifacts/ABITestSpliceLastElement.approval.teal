@@ -41,17 +41,17 @@ spliceLastElement:
 
 	// tests/contracts/abi.algo.ts:465
 	// a.splice(2, 1)
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	int 1
 	int 4
 	store 12 // splice start
 	int 4
 	store 13 // splice byte length
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	int 0
 	load 12 // splice start
 	substring3
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	dup
 	len
 	load 12 // splice start
@@ -66,7 +66,7 @@ spliceLastElement:
 
 	// tests/contracts/abi.algo.ts:467
 	// return a;
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	dup
 	len
 	int 2

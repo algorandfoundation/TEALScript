@@ -1530,6 +1530,64 @@ export default class Compiler {
       }
     });
 
+    const frames: {[frameIndex: string]: {
+      lineBefore: string
+      hasWrite: boolean
+      reads: number
+      line: string
+    }}[] = [];
+
+    let protoIndex = -1;
+    this.teal.map((t) => t.trim()).forEach((t, i) => {
+      if (t.startsWith('proto')) {
+        protoIndex += 1;
+        frames[protoIndex] = {};
+        return;
+      }
+
+      if (t.startsWith('frame_bury')) {
+        const frameIndex = t.split(' ')[1];
+
+        if (frames[protoIndex][frameIndex]) {
+          frames[protoIndex][frameIndex].hasWrite = true;
+        } else if (this.teal[i - 1].match(/^(byte|int)/)) {
+          frames[protoIndex][frameIndex] = {
+            lineBefore: this.teal[i - 1],
+            hasWrite: false,
+            reads: 0,
+            line: t,
+          };
+        }
+        return;
+      }
+
+      if (t.startsWith('frame_dig')) {
+        const frameIndex = t.split(' ')[1];
+
+        if (frames[protoIndex][frameIndex]) {
+          frames[protoIndex][frameIndex].reads += 1;
+        }
+      }
+    });
+
+    protoIndex = -1;
+    this.teal.map((t) => t.trim()).forEach((t, i) => {
+      if (t.startsWith('proto')) {
+        protoIndex += 1;
+        return;
+      }
+
+      if (t.startsWith('frame_dig')) {
+        const frameIndex = t.split(' ')[1];
+
+        if (frames[protoIndex][frameIndex]) {
+          const comment = t.split(' ').slice(2).join(' ');
+          const f = frames[protoIndex][frameIndex];
+          this.teal[i] = this.teal[i].replace(t, `${f.lineBefore} ${comment}`);
+        }
+      }
+    });
+
     this.compilingApproval = false;
 
     this.clearTeal.forEach((t) => {

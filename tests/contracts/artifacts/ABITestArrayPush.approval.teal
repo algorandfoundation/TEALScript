@@ -41,14 +41,14 @@ arrayPush:
 
 	// tests/contracts/abi.algo.ts:404
 	// a.push(3 as uint<16>)
-	frame_dig -1 // a: uint16[]
+	byte 0x00010002 // a: uint16[]
 	byte 0x0003
 	concat
 	frame_bury -1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:406
 	// return a;
-	frame_dig -1 // a: uint16[]
+	byte 0x00010002 // a: uint16[]
 	dup
 	len
 	int 2

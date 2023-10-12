@@ -41,7 +41,7 @@ arrayRef:
 
 	// tests/contracts/abi.algo.ts:737
 	// b[1] = 4 as uint<8>
-	frame_dig -1 // a: uint8[]
+	byte 0x010203 // a: uint8[]
 	store 0 // full array
 	int 1
 	load 0 // full array
@@ -52,7 +52,7 @@ arrayRef:
 
 	// tests/contracts/abi.algo.ts:739
 	// return a;
-	frame_dig -1 // a: uint8[]
+	byte 0x010203 // a: uint8[]
 	dup
 	len
 	itob

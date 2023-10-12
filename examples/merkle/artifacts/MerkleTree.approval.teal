@@ -38,22 +38,22 @@ calcInitRoot:
 	frame_bury -2 // i: uint64
 
 for_0:
-	frame_dig -2 // i: uint64
+	int 0 // i: uint64
 	int 3
 	<
 	bz for_0_end
 
 	// examples/merkle/merkle.algo.ts:22
 	// result = sha256(result + result)
-	frame_dig -1 // result: byte[32]
-	frame_dig -1 // result: byte[32]
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 // result: byte[32]
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 // result: byte[32]
 	concat
 	sha256
 	frame_bury -1 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:21
 	// i = i + 1
-	frame_dig -2 // i: uint64
+	int 0 // i: uint64
 	int 1
 	+
 	frame_bury -2 // i: uint64
@@ -62,7 +62,7 @@ for_0:
 for_0_end:
 	// examples/merkle/merkle.algo.ts:25
 	// return result;
-	frame_dig -1 // result: byte[32]
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 // result: byte[32]
 	retsub
 
 hashConcat:
@@ -97,11 +97,11 @@ calcRoot:
 	frame_bury -3 // i: uint64
 
 for_1:
-	frame_dig -3 // i: uint64
+	int 0 // i: uint64
 	int 3
 	<
 	bz for_1_end
-	frame_dig -3 // i: uint64
+	int 0 // i: uint64
 	frame_bury -4 // accessor: accessor//0//elem
 
 	// if0_condition
@@ -163,7 +163,7 @@ if0_else:
 if0_end:
 	// examples/merkle/merkle.algo.ts:39
 	// i = i + 1
-	frame_dig -3 // i: uint64
+	int 0 // i: uint64
 	int 1
 	+
 	frame_bury -3 // i: uint64

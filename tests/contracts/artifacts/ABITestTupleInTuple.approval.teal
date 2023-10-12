@@ -43,7 +43,7 @@ tupleInTuple:
 
 	// tests/contracts/abi.algo.ts:278
 	// return a[3][1];
-	frame_dig -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	byte 0x000b00160000000000000021002c00370000000000000042 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 	extract 16 8
 	btoi
 	itob

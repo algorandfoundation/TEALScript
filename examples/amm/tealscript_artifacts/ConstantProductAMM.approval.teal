@@ -296,7 +296,7 @@ tokensToSwap:
 	//       [(inSupply * SCALE) + (inAmount * factor)],
 	//     );
 	frame_dig -1 // inAmount: uint64
-	frame_dig -4 // factor: uint64
+	int 995 // factor: uint64
 	mulw
 	frame_dig -3 // outSupply: uint64
 	uncover 2
@@ -312,7 +312,7 @@ tokensToSwap:
 	int 1_000
 	*
 	frame_dig -1 // inAmount: uint64
-	frame_dig -4 // factor: uint64
+	int 995 // factor: uint64
 	*
 	+
 	divmodw

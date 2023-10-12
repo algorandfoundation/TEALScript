@@ -329,7 +329,7 @@ if6_else:
 if6_end:
 	// tests/contracts/if.algo.ts:72
 	// return retStr;
-	frame_dig -3 // retStr: string
+	byte "if" // retStr: string
 	dup
 	len
 	itob

@@ -41,7 +41,7 @@ dynamicTupleArray:
 
 	// tests/contracts/abi.algo.ts:357
 	// return a[1][1];
-	frame_dig -1 // a: [uint16,uint64][]
+	byte 0x000b00000000000000160021000000000000002c // a: [uint16,uint64][]
 	store 0 // full array
 	int 12
 	load 0 // full array

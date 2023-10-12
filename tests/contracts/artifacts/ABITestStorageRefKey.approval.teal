@@ -55,7 +55,7 @@ storageRefKey:
 
 	// tests/contracts/abi.algo.ts:951
 	// r = this.gMap(i).value
-	frame_dig -1 // i: uint64
+	int 0 // i: uint64
 	itob
 	frame_bury -2 // storage key//r
 

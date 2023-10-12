@@ -56,7 +56,7 @@ nonLiteralDynamicElementInTuple:
 	swap
 	concat
 	callsub process_dynamic_tuple_element
-	frame_dig -1 // e: uint16[]
+	byte 0x00050006 // e: uint16[]
 	dup
 	len
 	int 2

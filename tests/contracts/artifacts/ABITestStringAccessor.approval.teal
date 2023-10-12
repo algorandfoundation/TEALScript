@@ -41,7 +41,7 @@ stringAccessor:
 
 	// tests/contracts/abi.algo.ts:803
 	// return s[1];
-	frame_dig -1 // s: bytes
+	byte "Hello World" // s: bytes
 	extract 1 1
 	dup
 	len

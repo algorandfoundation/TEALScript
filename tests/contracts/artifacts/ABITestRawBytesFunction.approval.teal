@@ -41,7 +41,7 @@ rawBytesFunction:
 
 	// tests/contracts/abi.algo.ts:1001
 	// return rawBytes(a);
-	frame_dig -1 // a: uint8[3]
+	byte 0x010203 // a: uint8[3]
 	dup
 	len
 	itob

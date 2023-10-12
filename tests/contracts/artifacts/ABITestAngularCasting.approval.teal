@@ -41,7 +41,7 @@ angularCasting:
 
 	// tests/contracts/abi.algo.ts:982
 	// return x;
-	frame_dig -1 // x: uint256
+	byte 0x0000000000000000000000000000000000000000000000000000000000000539 // x: uint256
 	dup
 	bitlen
 	int 256

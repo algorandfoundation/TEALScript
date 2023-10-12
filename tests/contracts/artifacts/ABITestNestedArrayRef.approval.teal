@@ -43,14 +43,14 @@ nestedArrayRef:
 	// b = a[1]
 	// tests/contracts/abi.algo.ts:748
 	// b[1] = 5 as uint<8>
-	frame_dig -1 // a: uint8[2][2]
+	byte 0x01020304 // a: uint8[2][2]
 	byte 0x05
 	replace2 3
 	frame_bury -1 // b: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:750
 	// return a;
-	frame_dig -1 // a: uint8[2][2]
+	byte 0x01020304 // a: uint8[2][2]
 	byte 0x151f7c75
 	swap
 	concat

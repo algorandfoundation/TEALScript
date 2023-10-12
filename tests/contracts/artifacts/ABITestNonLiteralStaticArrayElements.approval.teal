@@ -51,12 +51,12 @@ nonLiteralStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:36
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
-	frame_dig -1 // n1: uint64
+	int 11 // n1: uint64
 	itob
-	frame_dig -2 // n2: uint64
+	int 22 // n2: uint64
 	itob
 	concat
-	frame_dig -3 // n3: uint64
+	int 33 // n3: uint64
 	itob
 	concat
 	frame_bury -4 // a: uint64[3]

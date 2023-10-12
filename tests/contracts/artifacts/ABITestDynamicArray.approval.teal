@@ -41,7 +41,7 @@ dynamicArray:
 
 	// tests/contracts/abi.algo.ts:326
 	// return a[1];
-	frame_dig -1 // a: uint64[]
+	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[]
 	store 0 // full array
 	int 8
 	load 0 // full array

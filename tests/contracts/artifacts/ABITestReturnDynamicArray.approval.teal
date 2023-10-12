@@ -41,7 +41,7 @@ returnDynamicArray:
 
 	// tests/contracts/abi.algo.ts:333
 	// return a;
-	frame_dig -1 // a: uint64[]
+	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[]
 	dup
 	len
 	int 8

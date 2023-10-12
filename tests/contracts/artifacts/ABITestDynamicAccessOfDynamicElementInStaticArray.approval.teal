@@ -47,7 +47,7 @@ dynamicAccessOfDynamicElementInStaticArray:
 	frame_dig -1 // a: bytes[3]
 	store 0 // full array
 	int 0 // initial offset
-	frame_dig -2 // i: uint64
+	int 1 // i: uint64
 	int 2
 	* // acc * 2
 	+
