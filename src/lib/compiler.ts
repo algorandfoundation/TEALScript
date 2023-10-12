@@ -2094,13 +2094,26 @@ export default class Compiler {
     this.processArrayElements(node.elements, node);
   }
 
+  /**
+   *
+   * @param node The top level node to process
+   * @param chain The existing expression chain to add to
+   * @returns The base expression and reversed expression chain `this.txn.sender` ->
+   * `{ chain: [this.txn, this.txn.sender], base: [this] }`
+   */
   private getExpressionChain(
     node: ExpressionChainNode,
     chain: ExpressionChainNode[] = [],
   ): { chain: ExpressionChainNode[], base: ts.Node } {
     chain.push(node);
 
+    /**
+     * The expression on the given node
+     * `this.txn.sender` -> `this.txn`
+     */
     let expr: ts.Expression = node.expression;
+
+    /* this.txn.applicationArgs! -> this.txn.applicationArgs */
     if (ts.isNonNullExpression(expr)) {
       expr = expr.expression;
     }
@@ -3652,7 +3665,16 @@ export default class Compiler {
     }
   }
 
+  /**
+   * Method for handling an expression chain that starts with `this`
+   *
+   * Note this method will delete elements from the chain as they are processed
+   *
+   * @param chain Expression chain to process
+   * @param hasNewValue Whether the chain is being processed as part of an assignment
+   */
   private processThisBase(chain: ExpressionChainNode[], hasNewValue: boolean) {
+    // If this is a pendingGroup call (ie. `this.pendingGroup.submit()`)
     if (
       chain[0]
       && ts.isPropertyAccessExpression(chain[0])
@@ -3677,11 +3699,13 @@ export default class Compiler {
       return;
     }
 
+    // If accessing the txnGroup
     if (
       chain[0]
       && ts.isPropertyAccessExpression(chain[0])
       && chain[0].name.getText() === 'txnGroup'
     ) {
+      // If getting the group size
       if (
         chain[1]
         && ts.isPropertyAccessExpression(chain[1])
@@ -3692,6 +3716,7 @@ export default class Compiler {
         return;
       }
 
+      // Otherwise this should be a group index
       if (!ts.isElementAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
       this.processNode(chain[1].argumentExpression);
       this.lastType = 'txn';
@@ -3700,15 +3725,21 @@ export default class Compiler {
       return;
     }
 
-    // If this is a storage property
+    // If this is a storage property (ie. GlobalMap, BoxKey, etc.)
     if (
       ts.isPropertyAccessExpression(chain[0])
       && this.storageProps[chain[0].name.getText()]
     ) {
       const name = chain[0].name.getText();
       const storageProp = this.storageProps[name];
+
+      /**
+       * Specifies whether this is a storage Map or LocalState, which means it's
+       * always a call expression.
+       */
       const isMapOrLocal = storageProp.key === undefined || storageProp.type === 'local';
 
+      /** The index of the node that specifies which action to take. ie `.value` or `.delete()` */
       let actionNodeIndex = isMapOrLocal ? 2 : 1;
 
       if (chain[actionNodeIndex + 1] && ts.isCallExpression(chain[actionNodeIndex + 1])) {
@@ -3717,6 +3748,7 @@ export default class Compiler {
 
       const actionNode = chain[actionNodeIndex] as ts.CallExpression | ts.PropertyAccessExpression;
 
+      /** name of the action. ie "value" or "delete" */
       let action: string;
 
       if (ts.isPropertyAccessExpression(actionNode)) action = actionNode.name.getText();
@@ -3726,7 +3758,7 @@ export default class Compiler {
         ).name.getText();
       }
 
-      // Don't get the box value if we can use box_replace
+      // Don't get the box value if we can use box_replace later when updating the array
       if (!(hasNewValue && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
         this.handleStorageAction({
           node: actionNode,
@@ -3739,22 +3771,29 @@ export default class Compiler {
       return;
     }
 
+    // If `this.txn`, `this.app`, or `this.itxn`
     if (ts.isPropertyAccessExpression(chain[0]) && ['txn', 'app', 'itxn'].includes(chain[0].name.getText())) {
       const op = chain[0].name.getText();
 
+      // If the entire expression is simply `this.txn` which returns the current txn
       if (op === 'txn' && chain[1] === undefined) {
         this.push(chain[0], 'txn', 'txn');
         chain.splice(0, 1);
         return;
       }
 
+      // If the entire expression is simply `this.app` which returns the current app
       if (op === 'app' && chain[1] === undefined) {
         this.push(chain[0], 'txna Applications 0', ForeignType.Application);
         chain.splice(0, 1);
         return;
       }
 
+      // If the expression is an app argument
       if (op === 'app') {
+        // If the expression is `this.app.address`, then use `CurrentApplicationAddress` rather
+        // than app_params_get (which would be handled later by processOpcodeImmediate if we didn't
+        // return here)
         if (ts.isPropertyAccessExpression(chain[1]) && chain[1].name.getText() === 'address') {
           this.push(chain[1], 'global CurrentApplicationAddress', 'address');
           chain.splice(0, 2);
@@ -3765,6 +3804,7 @@ export default class Compiler {
         return;
       }
 
+      // Assume this is an param opcode (ie. `this.txn.sender` or `this.app.creator`)
       if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
       this.processOpcodeImmediate(
         chain[0],
@@ -3791,12 +3831,19 @@ export default class Compiler {
     }
   }
 
+  /**
+   * Walks an expression chain and processes each node
+   * @param node The node to process
+   * @param newValue If we are setting the value of an array, the new value will be passed here
+   */
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
     const { base, chain } = this.getExpressionChain(node);
     this.addSourceComment(node);
     let storageBase: ts.PropertyAccessExpression | undefined;
 
     if (base.kind === ts.SyntaxKind.ThisKeyword) {
+      // If the chain starts with a storage expression, then we need to handle it differently
+      // than just an identifer when it comes to updating array values, so save it seperately here
       if (
         ts.isPropertyAccessExpression(chain[0])
         && chain[1]
@@ -3810,13 +3857,19 @@ export default class Compiler {
       this.processThisBase(chain, newValue !== undefined);
     }
 
+    /**
+     * An array of objects used to access the base array.
+     * For example, `myObj.foo[2]` -> `["myObj", ts.Node(2)]`
+     * */
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
+      // If this is a constant
       if (this.constants[base.getText()]) {
         this.processNode(this.constants[base.getText()]);
       }
 
+      // If getting a txn type via the TransactionType enum
       if (base.getText() === 'TransactionType') {
         const enums: {[key: string]: string} = {
           Unknown: 'unknown',
@@ -3835,7 +3888,8 @@ export default class Compiler {
         this.pushVoid(node, `int ${enums[txType]}`);
         return;
       }
-      // txn method like sendMethodCall, sendPayment, etc.
+
+      // If a txn method like sendMethodCall, sendPayment, etc.
       if (TXN_METHODS.includes(base.getText())) {
         if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processTransaction(
@@ -3853,15 +3907,18 @@ export default class Compiler {
         if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
         chain.splice(0, 1);
-      // If this is a custom method
-      } else if (ts.isCallExpression(chain[0]) && this.customMethods[base.getText()]) {
+
+      // If this is a custom method like `wideRatio`
+      } else if (
+        ts.isCallExpression(chain[0])
+        && this.customMethods[base.getText()]
+        && this.customMethods[base.getText()].check(chain[0])
+      ) {
         const callNode = chain[0];
-        Object.keys(this.customMethods).forEach((m) => {
-          if (base.getText() === m && this.customMethods[m].check(callNode)) {
-            this.customMethods[m].fn(callNode);
-          }
-        });
+        this.customMethods[base.getText()].fn(callNode);
+
         chain.splice(0, 1);
+
       // If this is an opcode
       } else if (
         ts.isCallExpression(chain[0])
@@ -3869,10 +3926,12 @@ export default class Compiler {
       ) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
+
       // If the base is a variable
       } else if (this.frame[base.getText()]) {
         const frame = this.frame[base.getText()];
 
+        // If this is an array reference, get the accessors
         if (frame && frame.index === undefined) {
           const frameFollow = this.processFrame(
             chain[0].expression,
@@ -3881,6 +3940,8 @@ export default class Compiler {
           );
 
           frameFollow.accessors.forEach((e) => accessors.push(e));
+
+        // otherwise just load the value
         } else {
           this.push(
             node,
@@ -3891,6 +3952,7 @@ export default class Compiler {
       }
     }
 
+    // Check if this is a custom propertly like `zeroIndex`
     if (chain[0] && ts.isPropertyAccessExpression(chain[0])) {
       const propName = chain[0].name.getText();
       if (this.customProperties[propName]?.check(chain[0])) {
@@ -3899,29 +3961,38 @@ export default class Compiler {
       }
     }
 
+    /** Saves the last accessor so it can be passed to processParentArrayAccess later */
     let lastAccessor: ts.Expression | undefined;
 
+    // Iterate over the remaining unprocessed nodes in the chain and remove them once processed
     const remainingChain = chain.filter((n, i) => {
+      // Skip if this is the propertyAccessExpression for a callExpression
+      // For example, skip `this.txn.sender.hasAsset` when `this.txn.sender.hasAsset()` will be next
       if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
       this.addSourceComment(n);
 
       const abiStr = this.getABITupleString(this.lastType || 'void');
 
+      // If accessing a specific byte in a string/byteslice
       if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
         this.processNode(n.argumentExpression);
+        // If the accessor is not a uint64 (but something like a uint8), convert it to uint64
         if (!isNumeric(this.lastType)) this.push(n, 'btoi', 'uint64');
         this.pushLines(n, 'int 1', 'extract3');
         this.lastType = abiStr;
         return false;
       }
 
+      // If accessing an array
       if (
         (abiStr.endsWith(')') || abiStr.endsWith(']'))
         && (ts.isElementAccessExpression(n) || ts.isPropertyAccessExpression(n))
       ) {
         lastAccessor = n;
 
+        // If this is a index into an array ie. `arr[0]`
         if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
+        // If this is a property in an object ie. `myObj.foo`
         if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
 
         return false;
@@ -3931,11 +4002,14 @@ export default class Compiler {
         if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
 
         const methodName = n.expression.name.getText();
+
+        // If this is a custom method
         if (this.customMethods[methodName] && this.customMethods[methodName].check(n)) {
           this.customMethods[methodName].fn(n);
           return false;
         }
 
+        // Otherwise assume it's an opcode method ie. `this.app.address.hasAsset(123)`
         const preArgsType = this.lastType;
         n.arguments.forEach((a) => this.processNode(a));
         this.lastType = preArgsType;
@@ -3943,12 +4017,14 @@ export default class Compiler {
         return false;
       }
 
+      // If this is a property access expression assume it's an opcode param
       if (ts.isPropertyAccessExpression(n)) {
         if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
         this.processOpcodeImmediate(n, this.lastType, n.name.getText());
         return false;
       }
 
+      // Handle the case when an imediate array index is needed ie. txna ApplicationArgs i
       if (this.lastType.startsWith('ImmediateArray:')) {
         this.push(n, `${this.teal.pop()} ${n.argumentExpression.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
         return false;
@@ -3957,6 +4033,7 @@ export default class Compiler {
       return true;
     });
 
+    // Process the array access if there are array access elements
     if (accessors.length) {
       this.processParentArrayAccess(
         lastAccessor!,
