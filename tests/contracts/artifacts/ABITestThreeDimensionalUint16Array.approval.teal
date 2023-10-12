@@ -50,8 +50,7 @@ threeDimensionalUint16Array:
 
 	// tests/contracts/abi.algo.ts:240
 	// return a[1][1][1];
-	byte 0x000b00160021002c00370042004d0058 // a: uint16[2][2][2]
-	extract 14 2
+	byte 0x0058
 	dup
 	bitlen
 	int 16

@@ -41,8 +41,7 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
-	byte 0x000000000000000b00160000000000000021002c // a: [uint64,uint16,uint64,uint16]
-	extract 18 2
+	byte 0x002c
 	dup
 	bitlen
 	int 16

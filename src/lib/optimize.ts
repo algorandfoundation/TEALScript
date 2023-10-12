@@ -1,3 +1,5 @@
+const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
+
 export function optimizeFrames(inputTeal: string[]) {
   const outputTeal = inputTeal.slice();
 
@@ -60,7 +62,11 @@ export function optimizeFrames(inputTeal: string[]) {
 
   return outputTeal;
 }
-
+/*
+TODO:
+  optimize replace2
+  optimize swap (have it read langspec to detect any 0-input opcodes)
+*/
 export function optimizeOpcodes(inputTeal: string[]) {
   const outputTeal: string[] = [];
 
@@ -79,13 +85,22 @@ export function optimizeOpcodes(inputTeal: string[]) {
 
   inputTeal.forEach((teal) => {
     let optimized = false;
-    if (teal.startsWith('extract3')) {
+    if (teal.startsWith('extract ') && outputTeal.at(-1)?.match(/^byte (0x|")/)) {
+      const bytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+
+      const start = Number(teal.split(' ')[1]);
+      const length = Number(teal.split(' ')[2]);
+
+      popTeal();
+      pushTeal(`byte 0x${bytes.slice(start * 2, start * 2 + length * 2)}`);
+      optimized = true;
+    } else if (teal.startsWith('extract3')) {
       const aLine = outputTeal.at(-2);
       const bLine = outputTeal.at(-1);
 
       if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
+        const a = BigInt(aLine.split(' ')[1].replace('_', ''));
+        const b = BigInt(bLine.split(' ')[1].replace('_', ''));
 
         if (a < 256 && b < 256) {
           popTeal();
@@ -99,15 +114,22 @@ export function optimizeOpcodes(inputTeal: string[]) {
     } else if (teal.startsWith('btoi')) {
       if (outputTeal.at(-1)?.match(/^byte (0x|")/)) {
         const hexBytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+
+        const val = BigInt(`0x${hexBytes}`);
+
+        if (val > MAX_UINT64) {
+          throw Error(`Value too large for btoi: ${val}`);
+        }
+
         popTeal();
 
-        pushTeal(`int ${parseInt(hexBytes, 16)}`);
+        pushTeal(`int ${val}`);
 
         optimized = true;
       }
     } else if (teal.startsWith('itob')) {
       if (outputTeal.at(-1)?.startsWith('int ')) {
-        const n = Number(outputTeal.at(-1)!.split(' ')[1]);
+        const n = BigInt(outputTeal.at(-1)!.split(' ')[1]);
         popTeal();
 
         pushTeal(`byte 0x${n.toString(16).padStart(16, '0')}`);
@@ -155,13 +177,10 @@ export function optimizeOpcodes(inputTeal: string[]) {
       const bLine = outputTeal.at(-1);
 
       if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
+        const a = BigInt(aLine.split(' ')[1].replace('_', ''));
+        const b = BigInt(bLine.split(' ')[1].replace('_', ''));
 
-        popTeal();
-        popTeal();
-
-        let val: number;
+        let val: bigint;
 
         switch (teal.split(' ')[0]) {
           case '+':
@@ -180,8 +199,12 @@ export function optimizeOpcodes(inputTeal: string[]) {
             throw Error(`Unknown operator: ${teal}`);
         }
 
-        pushTeal(`int ${val}`);
-        optimized = true;
+        if (val <= MAX_UINT64) {
+          popTeal();
+          popTeal();
+          pushTeal(`int ${val}`);
+          optimized = true;
+        }
       }
     }
 

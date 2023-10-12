@@ -56,10 +56,7 @@ nonLiteralStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:38
 	// return a[1];
-	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
-	extract 8 8
-	btoi
-	itob
+	byte 0x0000000000000016
 	byte 0x151f7c75
 	swap
 	concat
