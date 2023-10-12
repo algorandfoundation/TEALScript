@@ -43,7 +43,7 @@ nonLiteralNestedArrayRef:
 	// i = 1
 	int 1
 	frame_bury -2 // i: uint64
-	int 1 // i: uint64
+	frame_dig -2 // i: uint64
 	frame_bury -3 // accessor: accessor//0//b
 
 	// tests/contracts/abi.algo.ts:761
@@ -53,17 +53,26 @@ nonLiteralNestedArrayRef:
 
 	// tests/contracts/abi.algo.ts:763
 	// b[1] = 5 as uint<8>
-	byte 0x01020304 // a: uint8[2][2]
+	frame_dig -1 // a: uint8[2][2]
 	store 0 // full array
+	int 0 // initial offset
+	frame_dig -3 // saved accessor: accessor//0//b
+	int 2
+	* // acc * typeLength
+	+
+	int 1 // acc * typeLength
+	+
 	load 0 // full array
-	int 3
+	swap
 	byte 0x05
 	replace3
 	frame_bury -1 // b: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:765
 	// return a;
-	byte 0x151f7c7501020304
+	byte 0x151f7c75
+	frame_dig -1 // a: uint8[2][2]
+	concat
 	log
 	retsub
 

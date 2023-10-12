@@ -41,17 +41,17 @@ arraySplice:
 
 	// tests/contracts/abi.algo.ts:434
 	// a.splice(1, 1)
-	byte 0x000000000000000100000000000000020000000000000003 // a: uint64[]
+	frame_dig -1 // a: uint64[]
 	int 1
 	int 8
 	store 12 // splice start
 	int 16
 	store 13 // splice byte length
-	byte 0x000000000000000100000000000000020000000000000003 // a: uint64[]
+	frame_dig -1 // a: uint64[]
 	int 0
 	load 12 // splice start
 	substring3
-	byte 0x000000000000000100000000000000020000000000000003 // a: uint64[]
+	frame_dig -1 // a: uint64[]
 	dup
 	len
 	load 12 // splice start
@@ -66,7 +66,7 @@ arraySplice:
 
 	// tests/contracts/abi.algo.ts:436
 	// return a;
-	byte 0x000000000000000100000000000000020000000000000003 // a: uint64[]
+	frame_dig -1 // a: uint64[]
 	dup
 	len
 	int 8

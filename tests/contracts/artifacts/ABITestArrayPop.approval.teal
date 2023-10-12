@@ -41,7 +41,7 @@ arrayPop:
 
 	// tests/contracts/abi.algo.ts:414
 	// a.pop()
-	byte 0x000100020003 // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	dup
 	len
 	int 2
@@ -53,7 +53,7 @@ arrayPop:
 
 	// tests/contracts/abi.algo.ts:416
 	// return a;
-	byte 0x000100020003 // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	dup
 	len
 	int 2

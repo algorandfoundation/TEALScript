@@ -57,7 +57,7 @@ export function optimizeFrames(inputTeal: string[]) {
     if (t.startsWith('frame_dig')) {
       const frameIndex = t.split(' ')[1];
 
-      if (frames[protoIndex][frameIndex]) {
+      if (frames[protoIndex][frameIndex] && !frames[protoIndex][frameIndex].hasWrite) {
         const comment = t.split(' ').slice(2).join(' ');
         const f = frames[protoIndex][frameIndex];
         outputTeal[i] = outputTeal[i].replace(t, `${f.lineBefore} ${comment}`);

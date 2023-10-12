@@ -41,7 +41,7 @@ arrayPopValue:
 
 	// tests/contracts/abi.algo.ts:424
 	// v = a.pop()!
-	byte 0x000100020003 // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	dup
 	len
 	int 2
@@ -52,7 +52,7 @@ arrayPopValue:
 	dup
 	len
 	int 2
-	byte 0x000100020003 // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	cover 2
 	extract3
 	swap

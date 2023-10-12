@@ -51,17 +51,17 @@ arraySpliceValue:
 
 	// tests/contracts/abi.algo.ts:446
 	// v = a.splice(i, l)
-	byte 0x000100020003000400050006000700080009000a // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	int 7 // l: uint64
 	int 2
 	store 12 // splice start
 	int 16
 	store 13 // splice byte length
-	byte 0x000100020003000400050006000700080009000a // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	int 0
 	load 12 // splice start
 	substring3
-	byte 0x000100020003000400050006000700080009000a // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	dup
 	len
 	load 12 // splice start
@@ -72,7 +72,7 @@ arraySpliceValue:
 	swap
 	substring3
 	concat
-	byte 0x000100020003000400050006000700080009000a // a: uint16[]
+	frame_dig -1 // a: uint16[]
 	load 12 // splice start
 	load 13 // splice byte length
 	int 2

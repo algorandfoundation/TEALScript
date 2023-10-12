@@ -40,21 +40,27 @@ whileLoop:
 	frame_bury -1 // i: uint64
 
 while_0:
-	int 0 // i: uint64
+	frame_dig -1 // i: uint64
 	int 10
 	<
 	bz while_0_end
 
 	// tests/contracts/loops.algo.ts:9
 	// i = i + 1
+	frame_dig -1 // i: uint64
 	int 1
+	+
 	frame_bury -1 // i: uint64
 	b while_0
 
 while_0_end:
 	// tests/contracts/loops.algo.ts:12
 	// return i;
-	byte 0x151f7c750000000000000000
+	frame_dig -1 // i: uint64
+	itob
+	byte 0x151f7c75
+	swap
+	concat
 	log
 	retsub
 
@@ -81,26 +87,34 @@ forLoop:
 	frame_bury -2 // j: uint64
 
 for_0:
-	int 0 // j: uint64
+	frame_dig -2 // j: uint64
 	int 10
 	<
 	bz for_0_end
 
 	// tests/contracts/loops.algo.ts:19
 	// i = i + 1
+	frame_dig -1 // i: uint64
 	int 1
+	+
 	frame_bury -1 // i: uint64
 
 	// tests/contracts/loops.algo.ts:18
 	// j = j + 1
+	frame_dig -2 // j: uint64
 	int 1
+	+
 	frame_bury -2 // j: uint64
 	b for_0
 
 for_0_end:
 	// tests/contracts/loops.algo.ts:22
 	// return i;
-	byte 0x151f7c750000000000000000
+	frame_dig -1 // i: uint64
+	itob
+	byte 0x151f7c75
+	swap
+	concat
 	log
 	retsub
 
