@@ -52,10 +52,10 @@ const ops: {[type: string]: {[method: string]: string}} = {
 
           if (['local', 'global'].includes(storageType) && method === 'Exists') expectedTeal.push('txna Applications 0');
 
-          expectedTeal.push('byte "foo"');
+          expectedTeal.push('byte 0x666f6f // "foo"');
 
           if (method === 'Put') {
-            expectedTeal.push('byte "bar"');
+            expectedTeal.push('byte 0x626172 // "bar"');
           }
 
           expectedTeal.push(ops[storageType][method]);
@@ -68,7 +68,7 @@ const ops: {[type: string]: {[method: string]: string}} = {
 
           if (method === 'Get') {
             if (storageType === 'box') expectedTeal.push('assert');
-            expectedTeal.push('byte "bar"');
+            expectedTeal.push('byte 0x626172 // "bar"');
             expectedTeal.push('==');
             expectedTeal.push('assert');
           }

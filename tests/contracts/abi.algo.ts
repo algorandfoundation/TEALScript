@@ -1001,3 +1001,47 @@ class ABITestRawBytesFunction extends Contract {
     return rawBytes(a);
   }
 }
+
+type T1 = { bar: uint<8> }
+class ABITestGlobalMethodInChain extends Contract {
+  globalMethodInChain(): uint<8> {
+    return castBytes<T1>(hex('0x00')).bar;
+  }
+}
+
+class ABITestOpcodeParamFromObject extends Contract {
+  opcodeParamFromObject(): Address {
+    const a: { myApp: Application } = { myApp: this.app };
+
+    return this.app.address;
+  }
+}
+
+type T2 = { bar: StaticArray<uint64, 2> }
+class ABITestArrayInObjectInState extends Contract {
+  gMap = GlobalStateMap<Address, T2>({ maxKeys: 1 });
+
+  arrayInObjectInState(): uint64 {
+    this.gMap(this.txn.sender).value = { bar: [1, 2] };
+    this.gMap(this.txn.sender).value.bar[1] = 3;
+    return this.gMap(this.txn.sender).value.bar[1];
+  }
+}
+
+class ABITestNestedObject extends Contract {
+  nestedObject(): uint64 {
+    const a: { b: { c: {d: uint64} } } = { b: { c: { d: 1 } } };
+    a.b.c.d = 2;
+    return a.b.c.d;
+  }
+}
+
+type T3 = {d: uint64}
+type T4 = {b: {c: T3}}
+class ABITestNestedObjectType extends Contract {
+  nestedObjectType(): uint64 {
+    const a: T4 = { b: { c: { d: 1 } } };
+    a.b.c.d = 2;
+    return a.b.c.d;
+  }
+}
