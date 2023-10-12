@@ -41,13 +41,7 @@ updateDynamicArrayInMiddleOfTuple:
 	byte 0x0006 // initial head offset
 	byte 0x0001
 	callsub process_static_tuple_element
-	byte 0x02
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000102
 	callsub process_dynamic_tuple_element
 	byte 0x0003
 	callsub process_static_tuple_element
@@ -81,14 +75,8 @@ updateDynamicArrayInMiddleOfTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x0405
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	dup
+	byte 0x00020405
+	byte 0x00020405
 	store 3 // new element
 	load 0 // full array
 	load 1 // element start
@@ -106,9 +94,8 @@ updateDynamicArrayInMiddleOfTuple:
 
 	// tests/contracts/abi.algo.ts:655
 	// return a;
-	frame_dig -1 // a: [uint16,uint8[],uint16]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: [uint16,uint8[],uint16]
 	concat
 	log
 	retsub

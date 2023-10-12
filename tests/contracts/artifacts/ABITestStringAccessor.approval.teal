@@ -36,22 +36,12 @@ stringAccessor:
 
 	// tests/contracts/abi.algo.ts:801
 	// s = 'Hello World'
-	byte "Hello World"
+	byte 0x48656c6c6f20576f726c64 // "Hello World"
 	frame_bury -1 // s: bytes
 
 	// tests/contracts/abi.algo.ts:803
 	// return s[1];
-	frame_dig -1 // s: bytes
-	extract 1 1
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c75000165
 	log
 	retsub
 

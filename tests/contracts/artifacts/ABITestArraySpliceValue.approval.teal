@@ -52,16 +52,10 @@ arraySpliceValue:
 	// tests/contracts/abi.algo.ts:446
 	// v = a.splice(i, l)
 	frame_dig -1 // a: uint16[]
-	frame_dig -3 // l: uint64
-	frame_dig -2 // i: uint64
+	int 7 // l: uint64
 	int 2
-	*
 	store 12 // splice start
-	frame_dig -3 // l: uint64
-	int 2
-	*
-	int 2
-	+
+	int 16
 	store 13 // splice byte length
 	frame_dig -1 // a: uint16[]
 	int 0

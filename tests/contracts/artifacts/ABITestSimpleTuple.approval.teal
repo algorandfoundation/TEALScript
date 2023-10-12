@@ -41,9 +41,8 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:248
 	// return a[3];
-	frame_dig -1 // a: [uint64,uint16,uint64,uint16]
-	extract 18 2
-	dup
+	byte 0x002c
+	byte 0x002c
 	bitlen
 	int 16
 	<=

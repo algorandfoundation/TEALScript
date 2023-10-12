@@ -41,10 +41,7 @@ returnStaticArray:
 
 	// tests/contracts/abi.algo.ts:21
 	// return a;
-	frame_dig -1 // a: uint64[3]
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c75000000000000000b00000000000000160000000000000021
 	log
 	retsub
 

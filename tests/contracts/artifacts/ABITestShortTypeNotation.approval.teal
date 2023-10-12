@@ -43,9 +43,8 @@ shortTypeNotation:
 
 	// tests/contracts/abi.algo.ts:288
 	// return a[2][1];
-	frame_dig -1 // a: [uint16[2],uint64[2],uint16[2]]
-	extract 22 2
-	dup
+	byte 0x0042
+	byte 0x0042
 	bitlen
 	int 16
 	<=

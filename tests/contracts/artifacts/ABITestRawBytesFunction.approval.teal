@@ -41,16 +41,7 @@ rawBytesFunction:
 
 	// tests/contracts/abi.algo.ts:1001
 	// return rawBytes(a);
-	frame_dig -1 // a: uint8[3]
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750003010203
 	log
 	retsub
 

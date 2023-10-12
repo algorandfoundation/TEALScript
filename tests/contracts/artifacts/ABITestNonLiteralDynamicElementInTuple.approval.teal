@@ -48,31 +48,11 @@ nonLiteralDynamicElementInTuple:
 	callsub process_static_tuple_element
 	byte 0x0002
 	callsub process_static_tuple_element
-	byte 0x0304
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00020304
 	callsub process_dynamic_tuple_element
-	frame_dig -1 // e: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000200050006
 	callsub process_dynamic_tuple_element
-	byte 0x0708
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00020708
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -80,9 +60,8 @@ nonLiteralDynamicElementInTuple:
 
 	// tests/contracts/abi.algo.ts:396
 	// return a;
-	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
-	swap
+	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	concat
 	log
 	retsub

@@ -41,13 +41,7 @@ staticArray:
 
 	// tests/contracts/abi.algo.ts:13
 	// return a[1];
-	frame_dig -1 // a: uint64[3]
-	extract 8 8
-	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000016
 	log
 	retsub
 

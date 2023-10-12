@@ -558,11 +558,8 @@ deleteAppFromWhitelist:
 	// assert(spliced[0] === appID)
 	frame_dig -7 // spliced: uint64[]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 0 8
 	btoi
 	frame_dig -3 // appID: uint64
 	==

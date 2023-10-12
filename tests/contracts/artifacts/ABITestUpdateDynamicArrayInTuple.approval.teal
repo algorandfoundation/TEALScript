@@ -41,41 +41,13 @@ updateDynamicArrayInTuple:
 	byte 0x0009 // initial head offset
 	byte 0x09
 	callsub process_static_tuple_element
-	byte 0x0008
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00010008
 	callsub process_dynamic_tuple_element
-	byte 0x07
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000107
 	callsub process_dynamic_tuple_element
-	byte 0x0006
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x00010006
 	callsub process_dynamic_tuple_element
-	byte 0x05
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
+	byte 0x000105
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
@@ -85,9 +57,8 @@ updateDynamicArrayInTuple:
 	// a[0] = 99 as uint<8>
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
+	int 0
 	byte 0x63
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
@@ -118,16 +89,8 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x000a000b
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	dup
+	byte 0x0002000a000b
+	byte 0x0002000a000b
 	store 3 // new element
 	load 0 // full array
 	load 1 // element start
@@ -184,14 +147,8 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x0c0d
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	dup
+	byte 0x00020c0d
+	byte 0x00020c0d
 	store 3 // new element
 	load 0 // full array
 	load 1 // element start
@@ -243,16 +200,8 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x000e000f
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	dup
+	byte 0x0002000e000f
+	byte 0x0002000e000f
 	store 3 // new element
 	load 0 // full array
 	load 1 // element start
@@ -299,14 +248,8 @@ updateDynamicArrayInTuple:
 	int 0
 	load 1 // element start
 	substring3
-	byte 0x1011
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	dup
+	byte 0x00021011
+	byte 0x00021011
 	store 3 // new element
 	load 0 // full array
 	load 1 // element start
@@ -324,9 +267,8 @@ updateDynamicArrayInTuple:
 
 	// tests/contracts/abi.algo.ts:387
 	// return a;
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	concat
 	log
 	retsub

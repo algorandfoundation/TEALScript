@@ -27,8 +27,8 @@ incrementCounter:
 
 	// examples/simple/simple.algo.ts:7
 	// this.counter.value = this.counter.value + i
-	byte "counter"
-	byte "counter"
+	byte 0x636f756e746572 // "counter"
+	byte 0x636f756e746572 // "counter"
 	app_global_get
 	frame_dig -1 // i: uint64
 	+
@@ -71,8 +71,8 @@ decr:
 
 	// examples/simple/simple.algo.ts:15
 	// this.counter.value = this.counter.value - i
-	byte "counter"
-	byte "counter"
+	byte 0x636f756e746572 // "counter"
+	byte 0x636f756e746572 // "counter"
 	app_global_get
 	frame_dig -1 // i: uint64
 	-

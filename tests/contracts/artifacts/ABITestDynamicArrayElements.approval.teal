@@ -41,13 +41,10 @@ dynamicArrayElements:
 
 	// tests/contracts/abi.algo.ts:455
 	// newA: uint<16>[] = [a[0], a[1], a[2]]
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
-	int 2
-	extract3
+	extract 0 2
 	dup
 	bitlen
 	int 16
@@ -55,13 +52,10 @@ dynamicArrayElements:
 	assert
 	byte 0xFFFF
 	b&
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	store 0 // full array
-	int 2
 	load 0 // full array
-	swap
-	int 2
-	extract3
+	extract 2 2
 	dup
 	bitlen
 	int 16
@@ -70,13 +64,10 @@ dynamicArrayElements:
 	byte 0xFFFF
 	b&
 	concat
-	frame_dig -1 // a: uint16[]
+	byte 0x000100020003 // a: uint16[]
 	store 0 // full array
-	int 4
 	load 0 // full array
-	swap
-	int 2
-	extract3
+	extract 4 2
 	dup
 	bitlen
 	int 16

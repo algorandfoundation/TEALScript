@@ -74,9 +74,8 @@ boolTupleAccess:
 	// return a[8];
 	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
+	int 8
 	getbit
 	byte 0x00
 	int 0
