@@ -3480,90 +3480,6 @@ export default class Compiler {
     return ['string', 'bytes'].includes(type) || (type.endsWith('[]') && !this.isDynamicType(baseType));
   }
 
-  /*
-    Process a method call
-  */
-  private processCallExpression(node: ts.CallExpression) {
-    this.addSourceComment(node);
-    const opcodeNames = langspec.Ops.map((o) => o.Name);
-    if (!(ts.isPropertyAccessExpression(node.expression) || ts.isIdentifier(node.expression))) throw new Error(`Only property access expressions are supported (given ${ts.SyntaxKind[node.expression.kind]})`);
-
-    let methodName = '';
-
-    if (ts.isPropertyAccessExpression(node.expression)) {
-      methodName = node.expression.name.getText();
-    } else if (ts.isIdentifier(node.expression)) {
-      methodName = node.expression.getText();
-    }
-
-    if (this.storageProps[methodName]) return;
-
-    if (this.customMethods[methodName]) {
-      Object.keys(this.customMethods).forEach((m) => {
-        if (methodName === m && this.customMethods[m].check(node)) {
-          this.customMethods[m].fn(node);
-        }
-      });
-      return;
-    }
-
-    // If the method is a global method
-    if (ts.isIdentifier(node.expression)) {
-      if (opcodeNames.includes(methodName)) {
-        this.processOpcode(node);
-      } else if (TXN_METHODS.includes(methodName)) {
-        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
-      }
-    // If this is a method call on this.pendingGroup
-    } else if (ts.isPropertyAccessExpression(node.expression.expression) && node.expression.expression.name.getText() === 'pendingGroup') {
-      if (TXN_METHODS.includes(methodName)) {
-        this.processTransaction(node, methodName, node.arguments[0], node.typeArguments);
-      } else if (methodName === 'submit') {
-        this.pushVoid(node, 'itxn_submit');
-      } else throw new Error(`Unknown method ${node.getText()}`);
-    // If none of the above is true and the method is a call on "this",
-    // then assume it is a private method defined in the contract
-    } else if (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword) {
-      const preArgsType = this.lastType;
-      this.pushVoid(node, `PENDING_DUPN: ${methodName}`);
-      new Array(...node.arguments).reverse().forEach((a) => this.processNode(a));
-      this.lastType = preArgsType;
-      const subroutine = this.subroutines.find((s) => s.name === methodName);
-      if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
-      this.push(node.expression, `callsub ${methodName}`, subroutine.returns.type);
-    // If this is a method being called on a contract storage property
-    } else {
-      const storageName = getStorageName(node.expression);
-
-      if (storageName && this.storageProps[storageName]) {
-        this.handleStorageAction({
-          node,
-          name: storageName,
-          action: methodName as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
-        });
-
-        return;
-      }
-
-      // If this point is reached then assume that the method being called
-      // maps to a TEAL opcode with an immediate argument
-      // For example, "asset_params_get"
-      if (node.expression.expression.kind === ts.SyntaxKind.Identifier) {
-        this.processNode(node.expression);
-      } else {
-        this.processNode(node.expression.expression);
-      }
-
-      // Process all the arguments (if any) but preserve the lastType so
-      // processOpcodeImmediate knows what the base type is
-      const preArgsType = this.lastType;
-      node.arguments.forEach((a) => this.processNode(a));
-      this.lastType = preArgsType;
-
-      this.processOpcodeImmediate(node.expression, this.lastType, node.expression.name.getText());
-    }
-  }
-
   private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
     let labelPrefix: string;
 
@@ -4408,48 +4324,6 @@ export default class Compiler {
         this.push(node, 'itxn CreatedAssetID', 'asset');
       }
     }
-  }
-
-  private processFrameExpression(node: ts.PropertyAccessExpression) {
-    const name = node.expression.getText();
-    const target = this.frame[name];
-
-    this.push(
-      node,
-      `frame_dig ${target.index} // ${name}: ${target.type}`,
-      target.type,
-    );
-
-    this.processOpcodeImmediate(node.name, target.type, node.name.getText(), true);
-  }
-
-  /**
-   * Get the chain of property access expressions. Essentially gets expresisons seperate by `.`
-   *
-   * For example: `this.txn.sender.address` -> `[address, sender, txn, this]`
-   *
-   * @param node The node to get the chain from
-   * @param chain The chain to append to
-   * @returns The chain of property access expressions
-   */
-  private getChain(
-    node: ts.PropertyAccessExpression,
-    chain: (ts.PropertyAccessExpression | ts.CallExpression | ts.ElementAccessExpression)[] = [],
-  ): (ts.PropertyAccessExpression | ts.CallExpression | ts.ElementAccessExpression)[] {
-    if (ts.isPropertyAccessExpression(node.expression)) {
-      chain.push(node.expression);
-      return this.getChain(node.expression, chain);
-    }
-    if (ts.isCallExpression(node.expression) || ts.isElementAccessExpression(node.expression)) {
-      chain.push(node.expression);
-      if (ts.isPropertyAccessExpression(node.expression.expression)) {
-        return this.getChain(
-          node.expression.expression,
-          chain,
-        );
-      }
-    }
-    return chain;
   }
 
   /*
