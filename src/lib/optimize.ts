@@ -76,11 +76,6 @@ TODO:
 export function optimizeOpcodes(inputTeal: string[]) {
   const outputTeal: string[] = [];
 
-  const getHexBytes = (bytes: string) => {
-    if (bytes.startsWith('"')) return Buffer.from(bytes.slice(1, -1), 'utf8').toString('hex');
-    return bytes.slice(2);
-  };
-
   const popTeal = () => {
     outputTeal.pop();
   };
@@ -93,8 +88,8 @@ export function optimizeOpcodes(inputTeal: string[]) {
     let optimized = false;
 
     if (teal.startsWith('len')) {
-      if (outputTeal.at(-1)?.match(/^byte (0x|")/)) {
-        const bytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+      if (outputTeal.at(-1)?.startsWith('byte 0x')) {
+        const bytes = outputTeal.at(-1)!.split(' ')[1].slice(2);
         popTeal();
         pushTeal(`int ${bytes.length / 2}`);
         optimized = true;
@@ -122,8 +117,8 @@ export function optimizeOpcodes(inputTeal: string[]) {
 
         optimized = true;
       }
-    } else if (teal.startsWith('extract ') && outputTeal.at(-1)?.match(/^byte (0x|")/)) {
-      const bytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+    } else if (teal.startsWith('extract ') && outputTeal.at(-1)?.startsWith('byte 0x')) {
+      const bytes = outputTeal.at(-1)!.split(' ')[1].slice(2);
 
       const start = Number(teal.split(' ')[1]);
       const length = Number(teal.split(' ')[2]);
@@ -149,8 +144,8 @@ export function optimizeOpcodes(inputTeal: string[]) {
         }
       }
     } else if (teal.startsWith('btoi')) {
-      if (outputTeal.at(-1)?.match(/^byte (0x|")/)) {
-        const hexBytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
+      if (outputTeal.at(-1)?.startsWith('byte 0x')) {
+        const hexBytes = outputTeal.at(-1)!.split(' ')[1].slice(2);
 
         const val = BigInt(`0x${hexBytes}`);
 
@@ -177,12 +172,9 @@ export function optimizeOpcodes(inputTeal: string[]) {
       const b = outputTeal.at(-1);
       const a = outputTeal.at(-2);
 
-      if (a?.match(/^byte (0x|")/) && b?.match(/^byte (0x|")/)) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = b.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
+      if (a?.startsWith('byte 0x') && b?.startsWith('byte 0x')) {
+        const aBytes = a.split(' ')[1].slice(2);
+        const bBytes = b.split(' ')[1].slice(2);
 
         popTeal();
         popTeal();
@@ -191,16 +183,13 @@ export function optimizeOpcodes(inputTeal: string[]) {
 
         optimized = true;
       }
-    } else if (teal.match(/^byte (0x|")/)) {
+    } else if (teal.startsWith('byte 0x')) {
       const b = outputTeal.at(-1);
       const a = outputTeal.at(-2);
 
-      if (a?.match(/^byte (0x|")/) && b?.startsWith('concat')) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = teal.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
+      if (a?.startsWith('byte 0x') && b?.startsWith('concat')) {
+        const aBytes = a.split(' ')[1].slice(2);
+        const bBytes = teal.split(' ')[1].slice(2);
 
         popTeal();
         popTeal();
