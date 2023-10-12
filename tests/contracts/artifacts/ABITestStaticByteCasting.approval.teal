@@ -34,10 +34,7 @@ staticByteCasting:
 
 	// tests/contracts/abi.algo.ts:988
 	// return 'abc' as StaticArray<byte, 5>;
-	byte "abc\x00\x00"
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c756162635c7830305c783030
 	log
 	retsub
 

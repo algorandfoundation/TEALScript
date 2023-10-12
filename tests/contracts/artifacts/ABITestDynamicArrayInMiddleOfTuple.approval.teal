@@ -57,9 +57,8 @@ dynamicArrayInMiddleOfTuple:
 
 	// tests/contracts/abi.algo.ts:629
 	// return a;
-	frame_dig -1 // a: [uint16,uint8[],uint16]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: [uint16,uint8[],uint16]
 	concat
 	log
 	retsub

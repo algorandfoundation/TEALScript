@@ -85,9 +85,8 @@ updateDynamicArrayInTuple:
 	// a[0] = 99 as uint<8>
 	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
+	int 0
 	byte 0x63
 	replace3
 	frame_bury -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
@@ -324,9 +323,8 @@ updateDynamicArrayInTuple:
 
 	// tests/contracts/abi.algo.ts:387
 	// return a;
-	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
 	concat
 	log
 	retsub

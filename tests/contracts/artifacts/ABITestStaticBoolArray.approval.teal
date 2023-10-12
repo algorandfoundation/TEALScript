@@ -68,9 +68,8 @@ staticBoolArray:
 
 	// tests/contracts/abi.algo.ts:858
 	// return a;
-	frame_dig -1 // a: bool[9]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: bool[9]
 	concat
 	log
 	retsub

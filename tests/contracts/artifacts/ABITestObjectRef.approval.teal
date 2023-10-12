@@ -48,10 +48,7 @@ objectRef:
 
 	// tests/contracts/abi.algo.ts:939
 	// return o;
-	byte 0x0000000000000001 // o: {foo: uint64}
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000001
 	log
 	retsub
 

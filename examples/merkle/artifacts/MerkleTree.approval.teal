@@ -105,11 +105,8 @@ for_1:
 	// this.isRightSibling(elem)
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
-	int 33
-	extract3
+	extract 0 33
 	callsub isRightSibling
 	bz if0_else
 
@@ -118,11 +115,8 @@ for_1:
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
-	int 33
-	extract3
+	extract 0 33
 	extract 1 32
 	frame_dig -1 // leaf: byte[32]
 	callsub hashConcat
@@ -135,11 +129,8 @@ if0_else:
 	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0
 	load 0 // full array
-	swap
-	int 33
-	extract3
+	extract 0 33
 	extract 1 32
 	callsub hashConcat
 	frame_bury -1 // result: byte[32]

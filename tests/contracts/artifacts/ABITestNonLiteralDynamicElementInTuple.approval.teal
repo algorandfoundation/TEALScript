@@ -80,9 +80,8 @@ nonLiteralDynamicElementInTuple:
 
 	// tests/contracts/abi.algo.ts:396
 	// return a;
-	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	byte 0x151f7c75
-	swap
+	frame_dig -2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	concat
 	log
 	retsub

@@ -71,9 +71,8 @@ storageRefAccount:
 	app_local_get
 	extract 2 0
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
+	int 8
 	byte 0x0000000000000004
 	replace3
 	frame_dig -2 // storage account//r
@@ -96,11 +95,8 @@ storageRefAccount:
 	app_local_get
 	extract 2 0
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75

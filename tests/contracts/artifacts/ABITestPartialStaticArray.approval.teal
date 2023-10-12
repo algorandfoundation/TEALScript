@@ -41,10 +41,7 @@ partialStaticArray:
 
 	// tests/contracts/abi.algo.ts:819
 	// return a;
-	byte 0x000100000000 // a: uint16[3]
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c75000100000000
 	log
 	retsub
 

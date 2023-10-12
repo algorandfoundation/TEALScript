@@ -374,11 +374,8 @@ btobigintSecond:
 
 	// tests/contracts/math.algo.ts:53
 	// return 1 / btobigint(input);
-	int 1
+	byte 0x0000000000000001
 	frame_dig -1 // input: bytes
-	swap
-	itob
-	swap
 	b/
 	btoi
 	itob

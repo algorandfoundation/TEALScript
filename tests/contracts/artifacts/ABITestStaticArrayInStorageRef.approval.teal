@@ -87,9 +87,8 @@ staticArrayInStorageRef:
 
 	// tests/contracts/abi.algo.ts:99
 	// return ret;
-	frame_dig -2 // ret: uint64[3]
 	byte 0x151f7c75
-	swap
+	frame_dig -2 // ret: uint64[3]
 	concat
 	log
 	retsub

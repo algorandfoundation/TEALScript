@@ -43,9 +43,8 @@ arrayRef:
 	// b[1] = 4 as uint<8>
 	byte 0x010203 // a: uint8[]
 	store 0 // full array
-	int 1
 	load 0 // full array
-	swap
+	int 1
 	byte 0x04
 	replace3
 	frame_bury -1 // b: uint8[]

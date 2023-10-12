@@ -57,9 +57,8 @@ accessDynamicArrayElementInTuple:
 	// return a[1][1];
 	frame_dig -1 // a: [uint16,uint8[]]
 	store 0 // full array
-	int 2
 	load 0 // full array
-	swap
+	int 2
 	extract_uint16
 	int 1 // acc * typeLength
 	+

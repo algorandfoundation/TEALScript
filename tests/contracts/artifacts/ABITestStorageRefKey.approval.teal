@@ -69,9 +69,8 @@ storageRefKey:
 	app_global_get
 	extract 2 0
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
+	int 8
 	byte 0x0000000000000004
 	replace3
 	byte 0x0000000000000000 // storage key//r
@@ -92,11 +91,8 @@ storageRefKey:
 	app_global_get
 	extract 2 0
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
-	int 8
-	extract3
+	extract 8 8
 	btoi
 	itob
 	byte 0x151f7c75

@@ -54,10 +54,7 @@ while_0:
 while_0_end:
 	// tests/contracts/loops.algo.ts:12
 	// return i;
-	byte 0x0000000000000000
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000000
 	log
 	retsub
 
@@ -103,10 +100,7 @@ for_0:
 for_0_end:
 	// tests/contracts/loops.algo.ts:22
 	// return i;
-	byte 0x0000000000000000
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000000
 	log
 	retsub
 

@@ -50,10 +50,7 @@ objectArrayRef:
 
 	// tests/contracts/abi.algo.ts:795
 	// return a;
-	byte 0x01020304 // a: ObjectRefType
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c7501020304
 	log
 	retsub
 

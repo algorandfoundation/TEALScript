@@ -56,10 +56,7 @@ mixedStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:49
 	// return a[1] + a[4] + a[7];
-	byte 0x000000000000000c
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c75000000000000000c
 	log
 	retsub
 

@@ -72,18 +72,16 @@ boolTupleUpdate:
 	// a[8] = true
 	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	store 0 // full array
-	int 8
 	load 0 // full array
-	swap
+	int 8
 	int 1
 	setbit
 	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:927
 	// return a;
-	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	concat
 	log
 	retsub

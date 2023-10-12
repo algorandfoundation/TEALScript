@@ -1,4 +1,9 @@
+import langspec from '../langspec.json';
+
 const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
+
+const arglessOps = langspec.Ops.filter((op) => op.Args === undefined && op.Returns !== undefined);
+const arglessOpNames = ['byte', 'int', 'addr', ...arglessOps.map((op) => op.Name)];
 
 export function optimizeFrames(inputTeal: string[]) {
   const outputTeal = inputTeal.slice();
@@ -65,7 +70,9 @@ export function optimizeFrames(inputTeal: string[]) {
 /*
 TODO:
   optimize replace2
-  optimize swap (have it read langspec to detect any 0-input opcodes)
+  optimize dup (have it read langspec to detect any 0-input opcodes)
+  optimize len
+  optimize byte math
 */
 export function optimizeOpcodes(inputTeal: string[]) {
   const outputTeal: string[] = [];
@@ -85,7 +92,21 @@ export function optimizeOpcodes(inputTeal: string[]) {
 
   inputTeal.forEach((teal) => {
     let optimized = false;
-    if (teal.startsWith('extract ') && outputTeal.at(-1)?.match(/^byte (0x|")/)) {
+
+    if (teal.startsWith('swap')) {
+      const b = outputTeal.at(-1)!;
+      const a = outputTeal.at(-2)!;
+
+      if (arglessOpNames.includes(a.split(' ')[0]) && arglessOpNames.includes(b.split(' ')[0])) {
+        popTeal();
+        popTeal();
+
+        pushTeal(b);
+        pushTeal(a);
+
+        optimized = true;
+      }
+    } else if (teal.startsWith('extract ') && outputTeal.at(-1)?.match(/^byte (0x|")/)) {
       const bytes = getHexBytes(outputTeal.at(-1)!.split(' ')[1]);
 
       const start = Number(teal.split(' ')[1]);
