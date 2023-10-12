@@ -92,13 +92,9 @@ transferTo:
 	// examples/arc72/arc72.algo.ts:41
 	// this.tokenBox(tokenId).value.owner = to
 	frame_dig -2 // tokenId: uint256
-	box_get
-	assert
+	int 0
 	frame_dig -1 // to: address
-	replace2 0
-	frame_dig -2 // tokenId: uint256
-	swap
-	box_put
+	box_replace
 	retsub
 
 // arc72_transferFrom(uint256,address,address)void
@@ -207,14 +203,9 @@ arc72_approve:
 	// examples/arc72/arc72.algo.ts:69
 	// this.tokenBox(tokenId).value.controller = approved
 	frame_dig -2 // tokenId: uint256
-	box_get
-	assert
 	int 288
 	frame_dig -1 // approved: address
-	replace3
-	frame_dig -2 // tokenId: uint256
-	swap
-	box_put
+	box_replace
 	retsub
 
 // arc72_setApprovalForAll(bool,address)void

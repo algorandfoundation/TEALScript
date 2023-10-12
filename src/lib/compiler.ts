@@ -581,7 +581,7 @@ export default class Compiler {
         break;
 
       case 'replace':
-        if (newValue !== undefined) {
+        if (args[0] && args[1]) {
           this.processNode(args[0]);
           this.processNode(args[1]);
         } else {

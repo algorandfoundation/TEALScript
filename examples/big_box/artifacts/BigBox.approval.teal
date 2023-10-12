@@ -356,13 +356,9 @@ skip_or1:
 	// examples/big_box/big_box.algo.ts:101
 	// this.metadata(dataIdentifier).value.status = status
 	frame_dig -1 // dataIdentifier: bytes
-	box_get
-	assert
+	int 16
 	frame_dig -2 // status: uint8
-	replace2 16
-	frame_dig -1 // dataIdentifier: bytes
-	swap
-	box_put
+	box_replace
 	retsub
 
 abi_route_createApplication:
