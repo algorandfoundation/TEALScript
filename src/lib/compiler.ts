@@ -30,6 +30,7 @@ export type CompilerOptions = {
   algodToken?: string,
   algodPort?: number,
   disableOverflowChecks?: boolean,
+  disableTypeScript?: boolean,
 }
 
 export type SourceInfo = {
@@ -1058,6 +1059,8 @@ export default class Compiler {
 
   private disableOverflowChecks: boolean;
 
+  private disableTypeScript: boolean;
+
   constructor(
     content: string,
     className: string,
@@ -1069,6 +1072,7 @@ export default class Compiler {
     this.algodToken = options?.algodToken || 'a'.repeat(64);
     this.filename = options?.filename || '';
     this.disableOverflowChecks = options?.disableOverflowChecks || false;
+    this.disableTypeScript = options?.disableTypeScript || false;
 
     this.content = content;
     this.name = className;
@@ -1357,6 +1361,8 @@ export default class Compiler {
             algodServer: this.algodServer,
             algodToken: this.algodToken,
             disableWarnings: this.disableWarnings,
+            disableOverflowChecks: this.disableOverflowChecks,
+            disableTypeScript: this.disableTypeScript,
           });
           await c.compile();
           const program = await c.algodCompile();
@@ -1430,7 +1436,10 @@ export default class Compiler {
   }
 
   async compile() {
-    if (!Compiler.diagsRan.includes(this.filename)) this.getTypeScriptDiagnostics();
+    if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
+      throw Error(`${this.disableTypeScript}`);
+      this.getTypeScriptDiagnostics();
+    }
 
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
