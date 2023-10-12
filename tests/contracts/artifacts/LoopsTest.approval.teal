@@ -47,17 +47,14 @@ while_0:
 
 	// tests/contracts/loops.algo.ts:9
 	// i = i + 1
-	int 0 // i: uint64
 	int 1
-	+
 	frame_bury -1 // i: uint64
 	b while_0
 
 while_0_end:
 	// tests/contracts/loops.algo.ts:12
 	// return i;
-	int 0 // i: uint64
-	itob
+	byte 0x0000000000000000
 	byte 0x151f7c75
 	swap
 	concat
@@ -94,24 +91,19 @@ for_0:
 
 	// tests/contracts/loops.algo.ts:19
 	// i = i + 1
-	int 0 // i: uint64
 	int 1
-	+
 	frame_bury -1 // i: uint64
 
 	// tests/contracts/loops.algo.ts:18
 	// j = j + 1
-	int 0 // j: uint64
 	int 1
-	+
 	frame_bury -2 // j: uint64
 	b for_0
 
 for_0_end:
 	// tests/contracts/loops.algo.ts:22
 	// return i;
-	int 0 // i: uint64
-	itob
+	byte 0x0000000000000000
 	byte 0x151f7c75
 	swap
 	concat

@@ -48,11 +48,7 @@ nonLiteralStaticArrayAccess:
 	// return a[n];
 	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
 	store 0 // full array
-	int 0 // initial offset
-	int 2 // n: uint64
-	int 8
-	* // acc * typeLength
-	+
+	int 16
 	load 0 // full array
 	swap
 	int 8

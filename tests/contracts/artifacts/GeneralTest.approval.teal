@@ -144,8 +144,11 @@ verifyTxnFromTxnGroup:
 
 	// tests/contracts/general.algo.ts:22
 	// verifyTxn(this.txnGroup[0 + 1], { receiver: this.app.address, amount: 100_000 })
-	// verify receiver
 	int 1
+	store 8 // verifyTxn index
+
+	// verify receiver
+	load 8 // verifyTxn index
 	gtxns Receiver
 	txna Applications 0
 	app_params_get AppAddress
@@ -154,7 +157,7 @@ verifyTxnFromTxnGroup:
 	assert
 
 	// verify amount
-	int 1
+	load 8 // verifyTxn index
 	gtxns Amount
 	int 100_000
 	==

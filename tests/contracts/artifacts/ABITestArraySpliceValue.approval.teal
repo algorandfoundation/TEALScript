@@ -53,15 +53,9 @@ arraySpliceValue:
 	// v = a.splice(i, l)
 	byte 0x000100020003000400050006000700080009000a // a: uint16[]
 	int 7 // l: uint64
-	int 1 // i: uint64
 	int 2
-	*
 	store 12 // splice start
-	int 7 // l: uint64
-	int 2
-	*
-	int 2
-	+
+	int 16
 	store 13 // splice byte length
 	byte 0x000100020003000400050006000700080009000a // a: uint16[]
 	int 0

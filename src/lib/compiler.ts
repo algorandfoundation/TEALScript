@@ -8,6 +8,7 @@ import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
+import { optimizeTeal } from './optimize';
 
 type ExpressionChainNode =
   ts.ElementAccessExpression
@@ -1479,6 +1480,8 @@ export default class Compiler {
 
     this.teal = await this.postProcessTeal(this.teal);
 
+    this.teal = optimizeTeal(this.teal);
+
     let hasNonAbi = false;
 
     this.subroutines.forEach((sub) => {
@@ -1530,64 +1533,6 @@ export default class Compiler {
       }
     });
 
-    const frames: {[frameIndex: string]: {
-      lineBefore: string
-      hasWrite: boolean
-      reads: number
-      line: string
-    }}[] = [];
-
-    let protoIndex = -1;
-    this.teal.map((t) => t.trim()).forEach((t, i) => {
-      if (t.startsWith('proto')) {
-        protoIndex += 1;
-        frames[protoIndex] = {};
-        return;
-      }
-
-      if (t.startsWith('frame_bury')) {
-        const frameIndex = t.split(' ')[1];
-
-        if (frames[protoIndex][frameIndex]) {
-          frames[protoIndex][frameIndex].hasWrite = true;
-        } else if (this.teal[i - 1].match(/^(byte|int)/)) {
-          frames[protoIndex][frameIndex] = {
-            lineBefore: this.teal[i - 1],
-            hasWrite: false,
-            reads: 0,
-            line: t,
-          };
-        }
-        return;
-      }
-
-      if (t.startsWith('frame_dig')) {
-        const frameIndex = t.split(' ')[1];
-
-        if (frames[protoIndex][frameIndex]) {
-          frames[protoIndex][frameIndex].reads += 1;
-        }
-      }
-    });
-
-    protoIndex = -1;
-    this.teal.map((t) => t.trim()).forEach((t, i) => {
-      if (t.startsWith('proto')) {
-        protoIndex += 1;
-        return;
-      }
-
-      if (t.startsWith('frame_dig')) {
-        const frameIndex = t.split(' ')[1];
-
-        if (frames[protoIndex][frameIndex]) {
-          const comment = t.split(' ').slice(2).join(' ');
-          const f = frames[protoIndex][frameIndex];
-          this.teal[i] = this.teal[i].replace(t, `${f.lineBefore} ${comment}`);
-        }
-      }
-    });
-
     this.compilingApproval = false;
 
     this.clearTeal.forEach((t) => {
@@ -1608,135 +1553,22 @@ export default class Compiler {
 
     this.lastNode = node;
 
-    const popTeal = () => {
-      const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
+    // const popTeal = () => {
+    //   const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
 
-      if (start.line < srcMap.source.start.line) {
-        srcMap.source.start = { line: start.line, col: start.character };
-      }
+    //   if (start.line < srcMap.source.start.line) {
+    //     srcMap.source.start = { line: start.line, col: start.character };
+    //   }
 
-      if (end.line > srcMap.source.end.line) {
-        srcMap.source.end = { line: end.line, col: end.character };
-      }
+    //   if (end.line > srcMap.source.end.line) {
+    //     srcMap.source.end = { line: end.line, col: end.character };
+    //   }
 
-      srcMap.teal = this.teal.length;
-      targetTeal.pop();
-    };
-
-    const getHexBytes = (bytes: string) => {
-      if (bytes.startsWith('"')) return Buffer.from(bytes.slice(1, -1), 'utf8').toString('hex');
-      return bytes.slice(2);
-    };
-
-    let optimized = false;
-    if (teal.startsWith('extract3')) {
-      const aLine = targetTeal.at(-2);
-      const bLine = targetTeal.at(-1);
-
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
-
-        if (a < 256 && b < 256) {
-          popTeal();
-          popTeal();
-
-          this.pushVoid(node, `extract ${a} ${b}`);
-
-          optimized = true;
-        }
-      }
-    } else if (teal.startsWith('btoi')) {
-      if (targetTeal.at(-1)?.match(/^byte (0x|")/)) {
-        const hexBytes = getHexBytes(targetTeal.at(-1)!.split(' ')[1]);
-        popTeal();
-
-        this.pushVoid(node, `int ${parseInt(hexBytes, 16)}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('itob')) {
-      if (targetTeal.at(-1)?.startsWith('int ')) {
-        const n = Number(targetTeal.at(-1)!.split(' ')[1]);
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${n.toString(16).padStart(16, '0')}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('concat')) {
-      const b = targetTeal.at(-1);
-      const a = targetTeal.at(-2);
-
-      if (a?.match(/^byte (0x|")/) && b?.match(/^byte (0x|")/)) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = b.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
-
-        popTeal();
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
-
-        optimized = true;
-      }
-    } else if (teal.match(/^byte (0x|")/)) {
-      const b = targetTeal.at(-1);
-      const a = targetTeal.at(-2);
-
-      if (a?.match(/^byte (0x|")/) && b?.startsWith('concat')) {
-        let aBytes = a.split(' ')[1];
-        let bBytes = teal.split(' ')[1];
-
-        aBytes = getHexBytes(aBytes);
-        bBytes = getHexBytes(bBytes);
-
-        popTeal();
-        popTeal();
-
-        this.pushVoid(node, `byte 0x${aBytes}${bBytes}`);
-
-        optimized = true;
-      }
-    } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
-      const aLine = targetTeal.at(-2);
-      const bLine = targetTeal.at(-1);
-
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
-        const a = Number(aLine.split(' ')[1].replace('_', ''));
-        const b = Number(bLine.split(' ')[1].replace('_', ''));
-
-        popTeal();
-        popTeal();
-
-        let val: number;
-
-        switch (teal.split(' ')[0]) {
-          case '+':
-            val = a + b;
-            break;
-          case '-':
-            val = a - b;
-            break;
-          case '*':
-            val = a * b;
-            break;
-          case '/':
-            val = a / b;
-            break;
-          default:
-            throw Error(`Unknown operator: ${teal}`);
-        }
-
-        this.pushVoid(node, `int ${val}`);
-        optimized = true;
-      }
-    }
+    //   srcMap.teal = this.teal.length;
+    //   targetTeal.pop();
+    // };
 
     if (type !== 'void') this.lastType = type;
-    if (optimized) return;
 
     targetTeal.push(teal);
 

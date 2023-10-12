@@ -45,17 +45,13 @@ for_0:
 
 	// examples/merkle/merkle.algo.ts:22
 	// result = sha256(result + result)
-	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 // result: byte[32]
-	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 // result: byte[32]
-	concat
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 	sha256
 	frame_bury -1 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:21
 	// i = i + 1
-	int 0 // i: uint64
 	int 1
-	+
 	frame_bury -2 // i: uint64
 	b for_0
 
@@ -109,11 +105,7 @@ for_1:
 	// this.isRightSibling(elem)
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
-	int 33
-	* // acc * typeLength
-	+
+	int 0
 	load 0 // full array
 	swap
 	int 33
@@ -126,11 +118,7 @@ for_1:
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
-	int 33
-	* // acc * typeLength
-	+
+	int 0
 	load 0 // full array
 	swap
 	int 33
@@ -147,11 +135,7 @@ if0_else:
 	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
-	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
-	int 33
-	* // acc * typeLength
-	+
+	int 0
 	load 0 // full array
 	swap
 	int 33
@@ -163,9 +147,7 @@ if0_else:
 if0_end:
 	// examples/merkle/merkle.algo.ts:39
 	// i = i + 1
-	int 0 // i: uint64
 	int 1
-	+
 	frame_bury -3 // i: uint64
 	b for_1
 

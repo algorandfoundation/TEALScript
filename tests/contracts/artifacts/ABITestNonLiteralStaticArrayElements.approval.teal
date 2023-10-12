@@ -51,19 +51,12 @@ nonLiteralStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:36
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
-	int 11 // n1: uint64
-	itob
-	int 22 // n2: uint64
-	itob
-	concat
-	int 33 // n3: uint64
-	itob
-	concat
+	byte 0x000000000000000b00000000000000160000000000000021
 	frame_bury -4 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:38
 	// return a[1];
-	frame_dig -4 // a: uint64[3]
+	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[3]
 	extract 8 8
 	btoi
 	itob
