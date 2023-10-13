@@ -83,4 +83,12 @@ class GeneralTest extends Contract {
     log(templateVar<bytes>('FOO'));
     assert(templateVar<uint64>('BAR'));
   }
+
+  bzeroFunction(): void {
+    const n = 1;
+    const x: bytes = bzero(2);
+    const y: bytes = bzero(n);
+    const z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>();
+    log(x + y + z);
+  }
 }

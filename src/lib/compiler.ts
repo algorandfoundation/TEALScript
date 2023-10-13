@@ -716,6 +716,31 @@ export default class Compiler {
     }
   } = {
       // Global methods
+      bzero: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          const typeArg = node.typeArguments?.[0];
+          const arg = node.arguments[0];
+
+          if (typeArg && !arg) {
+            if (this.isDynamicType(typeArg.getText())) throw Error('bzero cannot be used with dynamic types');
+
+            this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeArg.getText()))}`, typeArg.getText());
+            return;
+          }
+
+          if (arg && !typeArg) {
+            if (ts.isNumericLiteral(arg)) this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, 'bytes');
+            else {
+              this.processNode(arg);
+              this.push(node, 'bzero', 'bytes');
+            }
+            return;
+          }
+
+          throw Error('bzero cannot be called with both a type argument and an argument');
+        },
+      },
       rawBytes: {
         check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
         fn: (node: ts.CallExpression) => {
