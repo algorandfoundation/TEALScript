@@ -3,8 +3,8 @@
 import path from 'path';
 import * as fs from 'fs';
 import { ArgumentParser } from 'argparse';
+import Compiler, { CompilerOptions } from '../lib/compiler';
 
-import Compiler from '../lib/compiler';
 import 'dotenv/config';
 import { VERSION } from '../version';
 
@@ -25,6 +25,11 @@ parser.add_argument('--unsafe-disable-overflow-checks', {
   action: 'store_true',
   default: false,
 });
+parser.add_argument('--unsafe-disable-typescript', {
+  help: 'disables typescript diagnostics',
+  action: 'store_true',
+  default: false,
+});
 
 const parsed = parser.parse_args();
 const filename = parsed.input;
@@ -40,7 +45,8 @@ const options = {
   algodToken: process.env.ALGOD_TOKEN,
   disableWarnings: parsed.disable_warnings as boolean,
   disableOverflowChecks: parsed.unsafe_disable_overflow_checks as boolean,
-};
+  disableTypeScript: parsed.unsafe_disable_typescript as boolean,
+} as CompilerOptions;
 
 const compilers = Compiler.compileAll(content, options);
 

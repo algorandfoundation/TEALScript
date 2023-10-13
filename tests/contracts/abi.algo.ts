@@ -1045,3 +1045,18 @@ class ABITestNestedObjectType extends Contract {
     return a.b.c.d;
   }
 }
+
+class ABITestUpdateArrayRefInBoxStorage extends Contract {
+  bMap = BoxMap<Address, [uint<8>, uint64]>();
+
+  @allow.call('OptIn')
+  updateArrayRefInBoxStorage(): [uint<8>, uint64] {
+    this.bMap(this.txn.sender).value = [1, 2];
+
+    const v = this.bMap(this.txn.sender).value;
+
+    v[0] = 3;
+
+    return v;
+  }
+}
