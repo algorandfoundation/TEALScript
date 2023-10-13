@@ -2285,13 +2285,14 @@ export default class Compiler {
           const frame = this.frame[processedFrame.name];
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
-          const { type, valueType } = this.storageProps[processedFrame.name];
-          const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+          // TODO: fix this so box_replace is used when updating a storage ref from frame
+          // const { type, valueType } = this.storageProps[processedFrame.name];
+          // const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
           this.handleStorageAction({
             node: processedFrame.storageExpression!,
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
-            action,
+            action: 'set',
             name: processedFrame.name,
           });
         }

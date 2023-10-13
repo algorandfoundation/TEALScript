@@ -143,7 +143,11 @@ async function runMethod(
   const params = {
     method: name,
     methodArgs,
-    boxes: [{ appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) }, { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) }],
+    boxes: [
+      { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
+      { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
+      { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
+    ],
     sendParams: { suppressLog: true },
   };
 
@@ -738,5 +742,11 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('nestedObject');
 
     expect(await runMethod(appClient, 'nestedObject')).toEqual(2n);
+  });
+
+  test('updateArrayRefInBoxStorage', async () => {
+    const { appClient } = await compileAndCreate('updateArrayRefInBoxStorage');
+
+    expect(await runMethod(appClient, 'updateArrayRefInBoxStorage')).toEqual([3n, 2n]);
   });
 });
