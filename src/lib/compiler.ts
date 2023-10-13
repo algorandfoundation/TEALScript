@@ -1437,7 +1437,6 @@ export default class Compiler {
 
   async compile() {
     if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
-      throw Error(`${this.disableTypeScript}`);
       this.getTypeScriptDiagnostics();
     }
 
