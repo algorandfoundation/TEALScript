@@ -6,6 +6,9 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
+import { Project } from 'ts-morph';
+import path from 'path';
+import { readFileSync } from 'fs';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -27,6 +30,7 @@ export type CompilerOptions = {
   algodToken?: string,
   algodPort?: number,
   disableOverflowChecks?: boolean,
+  disableTypeScript?: boolean,
 }
 
 export type SourceInfo = {
@@ -110,7 +114,7 @@ function renderDocNode(docNode: tsdoc.DocNode): string {
 
 function stringToExpression(str: string): ts.Expression | ts.TypeNode {
   if (str.startsWith('{')) {
-    const srcFile = ts.createSourceFile('', `type Foo = ${str}`, ts.ScriptTarget.ES2019, true);
+    const srcFile = ts.createSourceFile('', `type Foo = ${str}`, ts.ScriptTarget.ES2022, true);
 
     const typeAlias = srcFile.statements[0] as ts.TypeAliasDeclaration;
 
@@ -260,6 +264,8 @@ const scratch = {
 };
 
 export default class Compiler {
+  static diagsRan: string[] = [''];
+
   teal: string[] = [];
 
   clearTeal: string[] = ['#pragma version 9'];
@@ -1053,6 +1059,8 @@ export default class Compiler {
 
   private disableOverflowChecks: boolean;
 
+  private disableTypeScript: boolean;
+
   constructor(
     content: string,
     className: string,
@@ -1064,20 +1072,21 @@ export default class Compiler {
     this.algodToken = options?.algodToken || 'a'.repeat(64);
     this.filename = options?.filename || '';
     this.disableOverflowChecks = options?.disableOverflowChecks || false;
+    this.disableTypeScript = options?.disableTypeScript || false;
 
     this.content = content;
     this.name = className;
     this.sourceFile = ts.createSourceFile(
       this.filename,
       this.content,
-      ts.ScriptTarget.ES2019,
+      ts.ScriptTarget.ES2022,
       true,
     );
     this.constants = {};
   }
 
   static compileAll(content: string, options: CompilerOptions): Promise<Compiler>[] {
-    const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2019, true);
+    const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2022, true);
     const compilers = src.statements
       .filter((body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract')
       .map(async (body) => {
@@ -1327,7 +1336,7 @@ export default class Compiler {
       type = this.customTypes[type];
     }
 
-    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2019, true).statements[0];
+    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2022, true).statements[0];
 
     if (!ts.isTypeAliasDeclaration(typeAliasDeclaration)) throw new Error();
     if (!ts.isTypeLiteralNode(typeAliasDeclaration.type)) throw new Error();
@@ -1352,6 +1361,8 @@ export default class Compiler {
             algodServer: this.algodServer,
             algodToken: this.algodToken,
             disableWarnings: this.disableWarnings,
+            disableOverflowChecks: this.disableOverflowChecks,
+            disableTypeScript: this.disableTypeScript,
           });
           await c.compile();
           const program = await c.algodCompile();
@@ -1387,7 +1398,48 @@ export default class Compiler {
     )).flat();
   }
 
+  private getTypeScriptDiagnostics() {
+    Compiler.diagsRan.push(this.filename);
+
+    const project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ts.ScriptTarget.ES2022,
+        skipLibCheck: true,
+        experimentalDecorators: true,
+        paths: {
+          '@algorandfoundation/tealscript': ['./src/lib/index'],
+        },
+      },
+    });
+
+    // TODO: figure out how to embed these files for webpack
+    project.createSourceFile('types/global.d.ts', readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8'));
+    project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
+    project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
+
+    const sourceFile = project.createSourceFile(this.filename, this.content);
+
+    const diags = sourceFile.getPreEmitDiagnostics();
+
+    if (diags.length > 0) {
+      const messages = diags.map((d) => {
+        const file = d.getSourceFile()?.getFilePath();
+        if (file === undefined) return d.getMessageText();
+
+        const line = d.getLineNumber() || 0;
+        return `${file}:${line + 1}: ${d.getMessageText()}`;
+      });
+
+      throw Error(`TypeScript diagnostics failed:\n${messages.join('\n')}`);
+    }
+  }
+
   async compile() {
+    if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
+      this.getTypeScriptDiagnostics();
+    }
+
     this.sourceFile.statements.forEach((body) => {
       if (ts.isTypeAliasDeclaration(body)) {
         this.customTypes[body.name.getText()] = body.type.getText();
