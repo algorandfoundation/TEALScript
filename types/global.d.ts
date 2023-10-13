@@ -831,8 +831,14 @@ declare function divw(dividendHigh: IntLike, dividendLow: IntLike, divisor: IntL
 /** @returns sha3_256 hash of the given data */
 declare function sha3_256(data: BytesLike): StaticArray<byte, 32>
 
-/** @returns byte string of all zeros of the given size */
-declare function bzero(size: IntLike): bytes
+/**
+ * Returns zero bytes of the given size.
+ *
+ * @param size the number of zero bytes to return. If not given, returns the size of the type given
+ * the type argument
+ *
+ */
+declare function bzero<T = bytes>(size?: IntLike): T
 
 /**
  * Use this method if all inputs to the expression are uint64s,
