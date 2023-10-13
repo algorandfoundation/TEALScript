@@ -197,20 +197,6 @@ const PARAM_TYPES: { [param: string]: string } = {
   Accounts: `ImmediateArray: ${ForeignType.Address}`,
 };
 
-interface OpSpec {
-  Opcode: number;
-  Name: string;
-  Size: number;
-  Doc: string;
-  Groups: string[];
-  Args: string;
-  Returns: string;
-  DocExtra: string;
-  ImmediateNote: string;
-  ArgEnum: string[];
-  ArgEnumTypes: string;
-}
-
 interface StorageProp {
   type: StorageType;
   key?: string;
@@ -425,6 +411,7 @@ export default class Compiler {
       asset: this.getOpParamObjects('asset_params_get'),
     };
 
+  /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
     if (type === 'bool') {
       this.pushLines(node, 'int 0', 'getbit');
@@ -433,21 +420,33 @@ export default class Compiler {
     }
   }
 
+  /** Handle any action related to boxes or local/global state */
   private handleStorageAction(
     {
       node, name, action, storageKeyFrame, storageAccountFrame, newValue,
     }: {
+      /**
+       * The node for the storage action. Should be the final callexpression or property access
+       * For example: `this.myBox.delete()` or `this.myBox.value`
+       */
       node: ts.PropertyAccessExpression | ts.CallExpression
+      /** The name of the storage property as defined in the contract */
       name: string,
+      /** The action to take on the storage property */
       action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size'
+      /** If the key for the target storage object is saved in a frame variable */
       storageKeyFrame?: string
+      /** If the account for the target local storage is saved in a frame variable */
       storageAccountFrame?: string
+      /** Only provided when setting a value */
       newValue?: ts.Node
     },
   ) {
     const args: ts.Expression[] = [];
     let keyNode: ts.Expression;
 
+    // If the node is a call expression, such as `this.myBox.replace(x, y)` get the arguments
+    // then use the property access expression as the node throughout the rest of the method
     if (ts.isCallExpression(node)) {
       node.arguments.forEach((a) => args.push(a));
       if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
@@ -456,6 +455,7 @@ export default class Compiler {
       node = node.expression;
     }
 
+    // The node representing the key for the storage object
     if (ts.isCallExpression(node.expression)) {
       keyNode = node.expression.arguments[node.expression.arguments.length === 2 ? 1 : 0];
     }
@@ -466,22 +466,32 @@ export default class Compiler {
 
     const storageType = type;
 
+    // If accesing an account's local state that is saved in the frame
     if (storageAccountFrame && storageType === 'local') {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+
+    // Accessing a local state for an account given as an argument
     } else if (storageType === 'local') {
       if (!ts.isCallExpression(node.expression)) throw Error();
       this.processNode(node.expression.arguments[0]);
     }
 
+    // Since global/local state doesn't have a native "exists" opcode like boxes
+    // we need to use get...ex opcode on the current app ID
     if (action === 'exists' && (storageType === 'global' || storageType === 'local')) {
       this.pushVoid(node.expression, 'txna Applications 0');
     }
 
+    // If a key is defined in the property (LocalStateKey, GlobalStateKey, BoxKey)
     if (key) {
       const hex = Buffer.from(key).toString('hex');
       this.pushVoid(node.expression, `byte 0x${hex} // "${key}"`);
+
+    // If the key is saved in frame
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
+
+    // If the key is provided as an argument
     } else {
       if (prefix) {
         const hex = Buffer.from(prefix).toString('hex');
