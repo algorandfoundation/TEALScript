@@ -621,6 +621,27 @@ bzeroFunction:
 	log
 	retsub
 
+// events()void
+abi_route_events:
+	// execute events()void
+	callsub events
+	int 1
+	return
+
+events:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:98
+	// this.myEvent.log(this.app, 1)
+	byte 0x87528196 // myEvent(uint64,uint64)
+	txna Applications 0
+	itob
+	concat
+	byte 0x0000000000000001
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -648,6 +669,7 @@ call_NoOp:
 	method "fromID()void"
 	method "tmpl()void"
 	method "bzeroFunction()void"
+	method "events()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events
 	err
