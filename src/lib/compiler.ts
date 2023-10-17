@@ -3857,13 +3857,10 @@ export default class Compiler {
 
       const selector = sha512_256(Buffer.from(signature)).slice(0, 8);
 
+      this.typeHint = `[${types.map((t) => this.getABIType(t)).join(',')}]`;
       this.pushVoid(chain[2], `byte 0x${selector} // ${signature}`);
-      chain[2].arguments.forEach((a, i) => {
-        this.typeHint = this.getABIType(types[i]);
-        this.processNode(a);
-        if (isNumeric(this.lastType)) this.pushVoid(a, 'itob');
-        this.pushVoid(a, 'concat');
-      });
+      this.processArrayElements(chain[2].arguments, chain[2]);
+      this.pushVoid(chain[2], 'concat');
 
       this.pushVoid(chain[2], 'log');
 

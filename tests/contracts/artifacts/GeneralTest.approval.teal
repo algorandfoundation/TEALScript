@@ -636,8 +636,8 @@ events:
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
 	itob
-	concat
 	byte 0x0000000000000001
+	concat
 	concat
 	log
 	retsub
