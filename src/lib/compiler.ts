@@ -1096,6 +1096,8 @@ export default class Compiler {
 
   private disableTypeScript: boolean;
 
+  private tealscriptImport!: string;
+
   constructor(
     content: string,
     className: string,
@@ -1448,12 +1450,16 @@ export default class Compiler {
       },
     });
 
+    let { content } = this;
+
+    content = content.replace(this.tealscriptImport, 'src/lib/index');
+
     // TODO: figure out how to embed these files for webpack
     project.createSourceFile('types/global.d.ts', readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8'));
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
 
-    const sourceFile = project.createSourceFile(this.filename, this.content);
+    const sourceFile = project.createSourceFile(this.filename, content);
 
     const diags = sourceFile.getPreEmitDiagnostics();
 
@@ -1471,6 +1477,14 @@ export default class Compiler {
   }
 
   async compile() {
+    this.sourceFile.statements.forEach((body) => {
+      if (ts.isImportDeclaration(body)) {
+        body.importClause!.namedBindings!.forEachChild((b) => {
+          if (b.getText() === 'Contract') this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+        });
+      }
+    });
+
     if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
       this.getTypeScriptDiagnostics();
     }
