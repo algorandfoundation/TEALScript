@@ -4402,7 +4402,7 @@ export default class Compiler {
         (t) => this.getABITupleString(this.getABIType(t.getText())),
       );
 
-      let returnType = typeArgs![1].getText();
+      let returnType = this.getABIType(typeArgs![1].getText());
 
       returnType = returnType.toLowerCase()
         .replace('asset', 'uint64')
