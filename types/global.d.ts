@@ -431,6 +431,13 @@ declare class Application {
   global(key: BytesLike): any
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare class EventLogger<ArgumentTypes extends any[]> {
+  constructor()
+
+  log(...args: ArgumentTypes): void
+}
+
 declare type BoxValue<ValueType> = {
   value: ValueType
   delete: () => void

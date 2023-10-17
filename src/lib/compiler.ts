@@ -9,6 +9,8 @@ import * as tsdoc from '@microsoft/tsdoc';
 import { Project } from 'ts-morph';
 import path from 'path';
 import { readFileSync } from 'fs';
+// eslint-disable-next-line camelcase
+import { sha512_256 } from 'js-sha512';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -1097,6 +1099,8 @@ export default class Compiler {
   private disableTypeScript: boolean;
 
   private tealscriptImport!: string;
+
+  private events: Record<string, string[]> = {};
 
   constructor(
     content: string,
@@ -3648,12 +3652,14 @@ export default class Compiler {
   }
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
-    if (node.initializer === undefined || !ts.isCallExpression(node.initializer)) throw new Error();
+    if (node.initializer === undefined) throw Error();
 
-    const klass = node.initializer.expression.getText();
-
-    if (['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(klass)) {
+    if (
+      ts.isCallExpression(node.initializer)
+      && ['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(node.initializer.expression.getText())
+    ) {
       let props: StorageProp;
+      const klass = node.initializer.expression.getText();
       const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
       const typeArgs = node.initializer.typeArguments;
 
@@ -3730,6 +3736,11 @@ export default class Compiler {
       }
 
       this.storageProps[node.name.getText()] = props;
+    } else if (ts.isNewExpression(node.initializer) && node.initializer.expression.getText() === 'EventLogger') {
+      if (!ts.isTupleTypeNode(node.initializer.typeArguments![0])) throw Error();
+
+      this.events[node.name.getText()] = node
+        .initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
     } else {
       throw new Error();
     }
@@ -3824,6 +3835,37 @@ export default class Compiler {
       this.lastType = 'txn';
 
       chain.splice(0, 2);
+      return;
+    }
+
+    // If this is an event
+    if (
+      ts.isPropertyAccessExpression(chain[0])
+      && this.events[chain[0].name.getText()]
+    ) {
+      const name = chain[0].name.getText();
+      const types = this.events[name];
+
+      if (!ts.isPropertyAccessExpression(chain[1]) || !ts.isCallExpression(chain[2])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+
+      if (chain[1].name.getText() !== 'log') throw Error(`Unsupported event method ${chain[1].name.getText()}`);
+
+      const argTypes = this.getABITupleString(types.map((t) => this.getABIType(t)).join(','))
+        .replace(/account/g, 'address')
+        .replace(/(application|asset)/g, 'uint64');
+
+      const signature = `${name}(${argTypes})`;
+
+      const selector = sha512_256(Buffer.from(signature)).slice(0, 8);
+
+      this.typeHint = `[${types.map((t) => this.getABIType(t)).join(',')}]`;
+      this.pushVoid(chain[2], `byte 0x${selector} // ${signature}`);
+      this.processArrayElements(chain[2].arguments, chain[2]);
+      this.pushVoid(chain[2], 'concat');
+
+      this.pushVoid(chain[2], 'log');
+
+      chain.splice(0, 3);
       return;
     }
 

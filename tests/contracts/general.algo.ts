@@ -91,4 +91,10 @@ class GeneralTest extends Contract {
     const z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>();
     log(x + y + z);
   }
+
+  myEvent = new EventLogger<[Application, number]>();
+
+  events(): void {
+    this.myEvent.log(this.app, 1);
+  }
 }
