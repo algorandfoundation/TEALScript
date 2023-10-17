@@ -9,6 +9,7 @@ import * as tsdoc from '@microsoft/tsdoc';
 import { Project } from 'ts-morph';
 import path from 'path';
 import { readFileSync } from 'fs';
+// eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import langspec from '../langspec.json';
 import { VERSION } from '../version';
