@@ -3072,15 +3072,18 @@ export default class Compiler {
     const { name } = this.currentSubroutine;
     const returnType = this.currentSubroutine.returns.type;
 
-    this.currentSubroutine.args.forEach((arg) => {
-      const tupleStr = this.getABITupleString(this.getABIType(arg.type));
+    const pushArrays = () => {
+      this.currentSubroutine.args.forEach((arg) => {
+        const tupleStr = this.getABITupleString(this.getABIType(arg.type));
 
-      if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
-        this.pushVoid(node, `frame_dig ${this.frame[arg.name].index} // ${arg.name}`);
-      }
-    });
+        if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+          this.pushVoid(node, `frame_dig ${this.frame[arg.name].index} // ${arg.name}: ${arg.type}`);
+        }
+      });
+    };
 
     if (returnType === 'void') {
+      pushArrays();
       this.pushVoid(node, 'retsub');
       return;
     }
@@ -3099,8 +3102,12 @@ export default class Compiler {
 
     if (isAbiMethod) {
       this.checkEncoding(node, returnType);
-      this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
+      this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log');
+
+      pushArrays();
+      this.pushVoid(node, 'retsub');
     } else {
+      pushArrays();
       this.pushVoid(node, 'retsub');
     }
 
@@ -4273,7 +4280,7 @@ export default class Compiler {
         const tupleStr = this.getABITupleString(this.getABIType(arg.type));
 
         if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
-          this.pushVoid(fn.body!, `frame_dig ${this.frame[arg.name].index} // ${arg.name}`);
+          this.pushVoid(fn.body!, `frame_dig ${this.frame[arg.name].index} // Updating ${arg.name}: ${this.frame[arg.name].type}`);
         }
       });
       this.pushVoid(fn, 'retsub');

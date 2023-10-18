@@ -38,7 +38,6 @@ dynamicArrayArg:
 
 	// tests/contracts/abi.algo.ts:339
 	// return a[1];
-	frame_dig -1 // a
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	load 0 // full array
@@ -49,6 +48,7 @@ dynamicArrayArg:
 	swap
 	concat
 	log
+	frame_dig -1 // a: uint64[]
 	retsub
 
 abi_route_createApplication:

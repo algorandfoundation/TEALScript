@@ -37,7 +37,6 @@ staticStringArrayArg:
 
 	// tests/contracts/abi.algo.ts:614
 	// return a[1];
-	frame_dig -1 // a
 	frame_dig -1 // a: bytes[3]
 	store 0 // full array
 	int 2
@@ -65,6 +64,7 @@ staticStringArrayArg:
 	swap
 	concat
 	log
+	frame_dig -1 // a: string[3]
 	retsub
 
 abi_route_createApplication:

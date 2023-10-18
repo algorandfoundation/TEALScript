@@ -348,7 +348,7 @@ if1_else:
 	callsub verifyMBRPayment
 
 if1_end:
-	frame_dig -3 // appIDs
+	frame_dig -3 // Updating appIDs: uint64[]
 	retsub
 
 // deleteWhitelist(uint16,string)void
