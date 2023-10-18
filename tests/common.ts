@@ -18,7 +18,7 @@ export async function getMethodTeal(
 ): Promise<string[]> {
   const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, { disableWarnings: true });
   await compiler.compile();
-  const { approvalTeal: teal } = compiler;
+  const teal = compiler.approvalTeal.map((t) => t.teal.trim()).filter((t) => t.length > 0);
 
   const labelIndex = teal.indexOf(`${methodName}:`);
   const retsubIndex = teal.indexOf('retsub', labelIndex);
