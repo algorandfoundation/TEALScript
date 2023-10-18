@@ -3979,7 +3979,6 @@ export default class Compiler {
         const { type } = subroutine.args[i];
         const tupleStr = this.getABITupleString(this.getABIType(type));
         if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
-          console.log(a.getText(), this.constants[a.getText()]?.getText());
           if (
             this.constants[a.getText()] === undefined
             && !ts.isArrayLiteralExpression(a)
