@@ -1062,6 +1062,8 @@ class ABITestUpdateArrayRefInBoxStorage extends Contract {
 }
 
 class ABITestArrayArgRef extends Contract {
+  storageArray = GlobalStateKey<uint64[]>();
+
   private setArrayValue(a: uint64[], b: uint64[]): void {
     // eslint-disable-next-line no-param-reassign
     a[1] = 5;
@@ -1072,9 +1074,9 @@ class ABITestArrayArgRef extends Contract {
 
   arrayArgRef(): [uint64[], uint64[]] {
     const a: uint64[] = [1, 2];
-    const b: uint64[] = [3, 4];
+    this.storageArray.value = [3, 4];
 
-    this.setArrayValue(a, b);
-    return [a, b];
+    this.setArrayValue(a, this.storageArray.value);
+    return [a, this.storageArray.value];
   }
 }
