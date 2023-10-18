@@ -262,7 +262,7 @@ abi_route_setAppWhitelist:
 	return
 
 setAppWhitelist:
-	proto 5 0
+	proto 5 1
 
 	// examples/arc75/arc75.algo.ts:55
 	// preMBR = this.app.address.minBalance
@@ -348,6 +348,7 @@ if1_else:
 	callsub verifyMBRPayment
 
 if1_end:
+	frame_dig -3 // appIDs
 	retsub
 
 // deleteWhitelist(uint16,string)void

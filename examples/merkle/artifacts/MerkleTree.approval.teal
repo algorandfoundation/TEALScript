@@ -66,10 +66,12 @@ for_0_end:
 	retsub
 
 hashConcat:
-	proto 2 1
+	proto 2 3
 
 	// examples/merkle/merkle.algo.ts:29
 	// return sha256(left + right);
+	frame_dig -2 // right
+	frame_dig -1 // left
 	frame_dig -1 // left: byte[32]
 	frame_dig -2 // right: byte[32]
 	concat
@@ -77,10 +79,11 @@ hashConcat:
 	retsub
 
 isRightSibling:
-	proto 1 1
+	proto 1 2
 
 	// examples/merkle/merkle.algo.ts:33
 	// return getbyte(elem, 0) === RIGHT_SIBLING_PREFIX;
+	frame_dig -1 // elem
 	frame_dig -1 // elem: byte[33]
 	int 0
 	getbyte
@@ -89,7 +92,7 @@ isRightSibling:
 	retsub
 
 calcRoot:
-	proto 4 1
+	proto 4 3
 
 	// examples/merkle/merkle.algo.ts:39
 	// i = 0
@@ -119,6 +122,7 @@ for_1:
 	int 33
 	extract3
 	callsub isRightSibling
+	frame_bury -2 // elem: byte[33][3]
 	bz if0_else
 
 	// if0_consequent
@@ -139,6 +143,8 @@ for_1:
 	frame_dig -1 // leaf: byte[32]
 	callsub hashConcat
 	frame_bury -1 // result: byte[32]
+	pop // pop updated array because the argument is not updateable
+	frame_bury -1 // result: byte[32]
 	b if0_end
 
 if0_else:
@@ -158,6 +164,8 @@ if0_else:
 	extract3
 	extract 1 32
 	callsub hashConcat
+	pop // pop updated array because the argument is not updateable
+	frame_bury -1 // result: byte[32]
 	frame_bury -1 // result: byte[32]
 
 if0_end:
@@ -172,6 +180,8 @@ if0_end:
 for_1_end:
 	// examples/merkle/merkle.algo.ts:49
 	// return result;
+	frame_dig -2 // path
+	frame_dig -1 // leaf
 	frame_dig -1 // leaf: byte[32]
 	retsub
 
@@ -234,7 +244,7 @@ abi_route_verify:
 	return
 
 verify:
-	proto 2 0
+	proto 2 1
 
 	// examples/merkle/merkle.algo.ts:61
 	// assert(this.root.value === this.calcRoot(sha256(data), path))
@@ -245,8 +255,11 @@ verify:
 	frame_dig -1 // data: bytes
 	sha256
 	callsub calcRoot
+	pop // pop updated array because the argument is not updateable
+	frame_bury -2 // path: byte[33][3]
 	==
 	assert
+	frame_dig -2 // path
 	retsub
 
 // appendLeaf(byte[33][3],bytes)void
@@ -269,7 +282,7 @@ abi_route_appendLeaf:
 	return
 
 appendLeaf:
-	proto 2 0
+	proto 2 1
 
 	// examples/merkle/merkle.algo.ts:65
 	// assert(data !== '')
@@ -289,6 +302,8 @@ appendLeaf:
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
 	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 	callsub calcRoot
+	pop // pop updated array because the argument is not updateable
+	frame_bury -2 // path: byte[33][3]
 	==
 	assert
 
@@ -300,6 +315,8 @@ appendLeaf:
 	frame_dig -1 // data: bytes
 	sha256
 	callsub calcRoot
+	pop // pop updated array because the argument is not updateable
+	frame_bury -2 // path: byte[33][3]
 	app_global_put
 
 	// examples/merkle/merkle.algo.ts:70
@@ -310,6 +327,7 @@ appendLeaf:
 	int 1
 	+
 	app_global_put
+	frame_dig -2 // path
 	retsub
 
 // updateLeaf(byte[33][3],bytes,bytes)void
@@ -336,7 +354,7 @@ abi_route_updateLeaf:
 	return
 
 updateLeaf:
-	proto 3 0
+	proto 3 1
 
 	// examples/merkle/merkle.algo.ts:74
 	// assert(newData !== '')
@@ -354,6 +372,8 @@ updateLeaf:
 	frame_dig -1 // oldData: bytes
 	sha256
 	callsub calcRoot
+	pop // pop updated array because the argument is not updateable
+	frame_bury -3 // path: byte[33][3]
 	==
 	assert
 
@@ -365,7 +385,10 @@ updateLeaf:
 	frame_dig -2 // newData: bytes
 	sha256
 	callsub calcRoot
+	pop // pop updated array because the argument is not updateable
+	frame_bury -3 // path: byte[33][3]
 	app_global_put
+	frame_dig -3 // path
 	retsub
 
 create_NoOp:

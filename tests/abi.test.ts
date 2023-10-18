@@ -749,4 +749,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'updateArrayRefInBoxStorage')).toEqual([3n, 2n]);
   });
+
+  test('arrayArgRef', async () => {
+    const { appClient } = await compileAndCreate('arrayArgRef');
+
+    expect(await runMethod(appClient, 'arrayArgRef')).toEqual([[1n, 5n], [3n, 6n]]);
+  });
 });

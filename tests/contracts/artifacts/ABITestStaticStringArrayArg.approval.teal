@@ -33,10 +33,11 @@ abi_route_staticStringArrayArg:
 	return
 
 staticStringArrayArg:
-	proto 1 0
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:614
 	// return a[1];
+	frame_dig -1 // a
 	frame_dig -1 // a: bytes[3]
 	store 0 // full array
 	int 2

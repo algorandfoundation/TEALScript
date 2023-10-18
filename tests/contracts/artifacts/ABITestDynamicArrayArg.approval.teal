@@ -34,10 +34,11 @@ abi_route_dynamicArrayArg:
 	return
 
 dynamicArrayArg:
-	proto 1 0
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:339
 	// return a[1];
+	frame_dig -1 // a
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
 	load 0 // full array

@@ -38,10 +38,11 @@ abi_route_staticArrayArg:
 	return
 
 staticArrayArg:
-	proto 1 0
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:27
 	// return a[1];
+	frame_dig -1 // a
 	frame_dig -1 // a: uint64[3]
 	extract 8 8
 	btoi

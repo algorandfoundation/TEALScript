@@ -1060,3 +1060,21 @@ class ABITestUpdateArrayRefInBoxStorage extends Contract {
     return v;
   }
 }
+
+class ABITestArrayArgRef extends Contract {
+  private setArrayValue(a: uint64[], b: uint64[]): void {
+    // eslint-disable-next-line no-param-reassign
+    a[1] = 5;
+
+    // eslint-disable-next-line no-param-reassign
+    b[1] = 6;
+  }
+
+  arrayArgRef(): [uint64[], uint64[]] {
+    const a: uint64[] = [1, 2];
+    const b: uint64[] = [3, 4];
+
+    this.setArrayValue(a, b);
+    return [a, b];
+  }
+}

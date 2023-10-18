@@ -1431,7 +1431,17 @@ export default class Compiler {
           if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
           const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+          let protoReturns = subroutine.returns.type === 'void' || isAbi ? 0 : 1;
+
+          subroutine.args.forEach((a) => {
+            const tupleStr = this.getABITupleString(this.getABIType(a.type));
+
+            if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+              protoReturns += 1;
+            }
+          });
+
+          return `proto ${this.frameSize[method]} ${protoReturns}`;
         }
 
         return t;
@@ -2316,6 +2326,10 @@ export default class Compiler {
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
       const name = node.getText();
+      if (this.constants[name]) {
+        throw Error('Cannot update constant');
+      }
+
       const frameObj = this.frame[name];
 
       if (frameObj.index !== undefined) {
@@ -3057,6 +3071,14 @@ export default class Compiler {
     this.addSourceComment(node);
     const { name } = this.currentSubroutine;
     const returnType = this.currentSubroutine.returns.type;
+
+    this.currentSubroutine.args.forEach((arg) => {
+      const tupleStr = this.getABITupleString(this.getABIType(arg.type));
+
+      if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+        this.pushVoid(node, `frame_dig ${this.frame[arg.name].index} // ${arg.name}`);
+      }
+    });
 
     if (returnType === 'void') {
       this.pushVoid(node, 'retsub');
@@ -3965,12 +3987,41 @@ export default class Compiler {
     if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
       const methodName = chain[0].name.getText();
       const preArgsType = this.lastType;
+      const preArgsTypeHint = this.typeHint;
       this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
-      new Array(...chain[1].arguments).reverse().forEach((a) => this.processNode(a));
-      this.lastType = preArgsType;
+
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+
+      const arrayExprs: ts.Node[] = [];
+
+      new Array(...chain[1].arguments).reverse().forEach((a, i) => {
+        this.typeHint = subroutine.args[i].type;
+
+        const tupleStr = this.getABITupleString(this.getABIType(this.typeHint));
+
+        if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+          arrayExprs.push(a);
+        }
+        this.processNode(a);
+      });
+
+      this.lastType = preArgsType;
+
+      this.typeHint = preArgsTypeHint;
       this.push(chain[1], `callsub ${methodName}`, subroutine.returns.type);
+      new Array(...arrayExprs).reverse().forEach((a) => {
+        // If it's a variable or a storage expression, update the value
+        if (
+          (ts.isIdentifier(a) && !this.constants[a.getText()])
+          || (ts.isPropertyAccessExpression(a) && getStorageName(a))
+        ) {
+          this.updateValue(a);
+        } else {
+          this.pushVoid(a, 'pop // pop updated array because the argument is not updateable');
+        }
+      });
+      this.lastType = subroutine.returns.type;
       chain.splice(0, 2);
     }
   }
@@ -4217,7 +4268,16 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.split(' ')[0])) {
+      this.currentSubroutine.args.forEach((arg) => {
+        const tupleStr = this.getABITupleString(this.getABIType(arg.type));
+
+        if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+          this.pushVoid(fn.body!, `frame_dig ${this.frame[arg.name].index} // ${arg.name}`);
+        }
+      });
+      this.pushVoid(fn, 'retsub');
+    }
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
