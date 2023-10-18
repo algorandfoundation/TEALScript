@@ -39,10 +39,10 @@ class MerkleTree extends Contract {
     for (let i = 0; i < TREE_DEPTH; i = i + 1) {
       const elem = path[i];
 
-      if (this.isRightSibling(elem)) {
-        result = this.hashConcat(result, extract3(elem, 1, 32));
+      if (this.isRightSibling(clone(elem))) {
+        result = this.hashConcat(clone(result), extract3(elem, 1, 32));
       } else {
-        result = this.hashConcat(extract3(elem, 1, 32), result);
+        result = this.hashConcat(extract3(elem, 1, 32), clone(result));
       }
     }
 
@@ -58,22 +58,22 @@ class MerkleTree extends Contract {
   }
 
   verify(data: bytes, path: Path): void {
-    assert(this.root.value === this.calcRoot(sha256(data), path));
+    assert(this.root.value === this.calcRoot(sha256(data), clone(path)));
   }
 
   appendLeaf(data: bytes, path: Path): void {
     assert(data !== '');
-    assert(this.root.value === this.calcRoot(EMPTY_HASH, path));
+    assert(this.root.value === this.calcRoot(EMPTY_HASH, clone(path)));
 
-    this.root.value = this.calcRoot(sha256(data), path);
+    this.root.value = this.calcRoot(sha256(data), clone(path));
 
     this.size.value = this.size.value + 1;
   }
 
   updateLeaf(oldData: bytes, newData: bytes, path: Path): void {
     assert(newData !== '');
-    assert(this.root.value === this.calcRoot(sha256(oldData), path));
+    assert(this.root.value === this.calcRoot(sha256(oldData), clone(path)));
 
-    this.root.value = this.calcRoot(sha256(newData), path);
+    this.root.value = this.calcRoot(sha256(newData), clone(path));
   }
 }

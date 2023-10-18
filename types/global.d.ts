@@ -930,3 +930,5 @@ declare function templateVar<TmplType extends bytes | number>(name: string): Tmp
 declare function castBytes<T> (input: BytesLike): T
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function rawBytes(input: any): bytes
+
+declare function clone<T>(input: T): T

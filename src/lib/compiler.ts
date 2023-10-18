@@ -718,6 +718,12 @@ export default class Compiler {
     }
   } = {
       // Global methods
+      clone: {
+        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+        fn: (node: ts.CallExpression) => {
+          this.processNode(node.arguments[0]);
+        },
+      },
       bzero: {
         check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
         fn: (node: ts.CallExpression) => {
@@ -3966,10 +3972,26 @@ export default class Compiler {
       const methodName = chain[0].name.getText();
       const preArgsType = this.lastType;
       this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
-      new Array(...chain[1].arguments).reverse().forEach((a) => this.processNode(a));
-      this.lastType = preArgsType;
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+
+      new Array(...chain[1].arguments).reverse().forEach((a, i) => {
+        const { type } = subroutine.args[i];
+        const tupleStr = this.getABITupleString(this.getABIType(type));
+        if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
+          console.log(a.getText(), this.constants[a.getText()]?.getText());
+          if (
+            this.constants[a.getText()] === undefined
+            && !ts.isArrayLiteralExpression(a)
+            && !((ts.isCallExpression(a) && ts.isIdentifier(a.expression)))
+          ) {
+            throw Error(`Passing non-literal array arguments to subroutines is not yet supported. Use "clone(${a.getText()})" and manually update the value after the method call if necessary`);
+          }
+        }
+        this.processNode(a);
+      });
+
+      this.lastType = preArgsType;
       this.push(chain[1], `callsub ${methodName}`, subroutine.returns.type);
       chain.splice(0, 2);
     }
