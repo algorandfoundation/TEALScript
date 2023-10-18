@@ -18,7 +18,7 @@ export async function getMethodTeal(
 ): Promise<string[]> {
   const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, { disableWarnings: true });
   await compiler.compile();
-  const { teal } = compiler;
+  const { approvalTeal: teal } = compiler;
 
   const labelIndex = teal.indexOf(`${methodName}:`);
   const retsubIndex = teal.indexOf('retsub', labelIndex);
@@ -48,7 +48,7 @@ export function artifactsTest(
     });
 
     test('Generates TEAL', () => {
-      expect(compiler.approvalProgram()).toEqual(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
+      expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8'));
     });
 
     test('Generates ABI JSON', () => {
