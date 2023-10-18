@@ -296,10 +296,7 @@ export default class Compiler {
   }[] = [];
 
   srcMap: {
-    source: {
-      start: {line: number, col: number}
-      end: {line: number, col: number}
-    }
+    source: number,
     teal: number
     pc: number
   }[] = [];
@@ -4876,7 +4873,7 @@ export default class Compiler {
         thisLine.prettyTeal = output.length;
         this.srcMap.push({
           teal: output.length,
-          source: thisLine.source,
+          source: thisLine.source.start.line,
           pc: thisLine.pc,
         });
       }
