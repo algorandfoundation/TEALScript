@@ -106,7 +106,7 @@ for_1:
 
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:42
-	// this.isRightSibling(elem)
+	// this.isRightSibling(clone(elem))
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
@@ -123,7 +123,7 @@ for_1:
 
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:43
-	// result = this.hashConcat(result, extract3(elem, 1, 32))
+	// result = this.hashConcat(clone(result), extract3(elem, 1, 32))
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
 	int 0 // initial offset
@@ -143,7 +143,7 @@ for_1:
 
 if0_else:
 	// examples/merkle/merkle.algo.ts:45
-	// result = this.hashConcat(extract3(elem, 1, 32), result)
+	// result = this.hashConcat(extract3(elem, 1, 32), clone(result))
 	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
 	store 0 // full array
@@ -237,7 +237,7 @@ verify:
 	proto 2 0
 
 	// examples/merkle/merkle.algo.ts:61
-	// assert(this.root.value === this.calcRoot(sha256(data), path))
+	// assert(this.root.value === this.calcRoot(sha256(data), clone(path)))
 	byte 0x726f6f74 // "root"
 	app_global_get
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
@@ -279,7 +279,7 @@ appendLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:66
-	// assert(this.root.value === this.calcRoot(EMPTY_HASH, path))
+	// assert(this.root.value === this.calcRoot(EMPTY_HASH, clone(path)))
 	byte 0x726f6f74 // "root"
 	app_global_get
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
@@ -293,7 +293,7 @@ appendLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:68
-	// this.root.value = this.calcRoot(sha256(data), path)
+	// this.root.value = this.calcRoot(sha256(data), clone(path))
 	byte 0x726f6f74 // "root"
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -2 // path: byte[33][3]
@@ -346,7 +346,7 @@ updateLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:75
-	// assert(this.root.value === this.calcRoot(sha256(oldData), path))
+	// assert(this.root.value === this.calcRoot(sha256(oldData), clone(path)))
 	byte 0x726f6f74 // "root"
 	app_global_get
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
@@ -358,7 +358,7 @@ updateLeaf:
 	assert
 
 	// examples/merkle/merkle.algo.ts:77
-	// this.root.value = this.calcRoot(sha256(newData), path)
+	// this.root.value = this.calcRoot(sha256(newData), clone(path))
 	byte 0x726f6f74 // "root"
 	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -3 // path: byte[33][3]
