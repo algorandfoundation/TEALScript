@@ -3992,18 +3992,7 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
-      new Array(...chain[1].arguments).reverse().forEach((a, i) => {
-        const { type } = subroutine.args[i];
-        const tupleStr = this.getABITupleString(this.getABIType(type));
-        // if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
-        //   if (
-        //     this.constants[a.getText()] === undefined
-        //     && !ts.isArrayLiteralExpression(a)
-        //     && !((ts.isCallExpression(a) && ts.isIdentifier(a.expression)))
-        //   ) {
-        //     throw Error(`Passing non-literal array arguments to subroutines is not yet supported. Use "clone(${a.getText()})" and manually update the value after the method call if necessary`);
-        //   }
-        // }
+      new Array(...chain[1].arguments).reverse().forEach((a) => {
         this.processNode(a);
       });
 
