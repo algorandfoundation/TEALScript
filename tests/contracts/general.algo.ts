@@ -97,4 +97,12 @@ class GeneralTest extends Contract {
   events(): void {
     this.myEvent.log(this.app, 1);
   }
+
+  letOptimization(a: uint64[]): uint64[] {
+    assert(a[0]);
+    let b = a;
+    b = [1, 2, 3];
+
+    return b;
+  }
 }
