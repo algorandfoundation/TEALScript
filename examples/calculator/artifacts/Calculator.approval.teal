@@ -57,11 +57,11 @@ ternary0_end:
 // doMath(string,uint64,uint64)uint64
 //
 // A method that takes two numbers and does either addition or subtraction
-// 
+//
 // @param a - The first number
 // @param b - The second number
 // @param operation - The operation to perform. Can be either 'sum' or 'difference'
-// 
+//
 // @returns The result of the operation
 abi_route_doMath:
 	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables

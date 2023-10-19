@@ -24,9 +24,9 @@ NOT_IMPLEMENTED:
 
 // arc72_ownerOf(uint256)address
 //
-// 
+//
 // Returns the address of the current owner of the NFT with the given tokenId
-// 
+//
 // @param tokenId The ID of the NFT
 // @returns The current owner of the NFT
 abi_route_arc72_ownerOf:
@@ -60,9 +60,9 @@ arc72_ownerOf:
 
 // arc72_tokenURI(uint256)byte[256]
 //
-// 
+//
 // Returns a URI pointing to the NFT metadata
-// 
+//
 // @param tokenId The ID of the NFT
 // @returns URI to token metadata
 abi_route_arc72_tokenURI:
@@ -205,9 +205,9 @@ if0_end:
 
 // arc72_approve(uint256,address)void
 //
-// 
+//
 // Approve a controller for a single NFT
-// 
+//
 // @param approved Approved controller address
 // @param tokenId The ID of the NFT
 abi_route_arc72_approve:
@@ -245,9 +245,9 @@ arc72_approve:
 
 // arc72_setApprovalForAll(bool,address)void
 //
-// 
+//
 // Approve an operator for all NFTs for a user
-// 
+//
 // @param operator Approved operator address
 // @param approved true to give approval, false to revoke
 // @returns

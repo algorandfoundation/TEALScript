@@ -86,7 +86,7 @@ sendMBRPayment:
 // addAppToWhiteList(pay,uint64,uint16,string)void
 //
 // Add app to whitelist box
-// 
+//
 // @param arc - The ARC the whitelist corresponds to
 // @param boxIndex - The index of the whitelist box to add the app to
 // @param appID - The app ID to add to the whitelist
@@ -234,7 +234,7 @@ if0_end:
 //
 // Sets a app whitelist for the sender. Should only be used when adding/removing
 // more than one app
-// 
+//
 // @param boxIndex - The index of the whitelist box to put the app IDs in
 // @param appIDs - Array of app IDs that signify the whitelisted apps
 abi_route_setAppWhitelist:
@@ -353,7 +353,7 @@ if1_end:
 // deleteWhitelist(uint16,string)void
 //
 // Deletes a app whitelist for the sender
-// 
+//
 // @param arc - The ARC the whitelist corresponds to
 // @param boxIndex - The index of the whitelist box to delete
 abi_route_deleteWhitelist:
@@ -428,7 +428,7 @@ deleteWhitelist:
 // deleteAppFromWhitelist(uint64,uint64,uint16,string)void
 //
 // Deletes a app from a whitelist for the sender
-// 
+//
 // @param boxIndex - The index of the whitelist box to delete from
 // @param appID - The app ID to delete from the whitelist
 // @param index - The index of the app in the whitelist
