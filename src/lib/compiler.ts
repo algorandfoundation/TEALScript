@@ -2310,7 +2310,14 @@ export default class Compiler {
     return { name, type, accessors: accessors.reverse().flat() };
   }
 
+  private isArrayType(type: string) {
+    const tupleStr = this.getABITupleString(this.getABIType(type));
+
+    return tupleStr.startsWith('(') || tupleStr.endsWith(']');
+  }
+
   private updateValue(node: ts.Node) {
+    const currentArgs = this.currentSubroutine.args;
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
       const name = node.getText();
@@ -2318,12 +2325,21 @@ export default class Compiler {
 
       if (frameObj.index !== undefined) {
         const { index, type } = this.frame[name];
+        if (currentArgs.find((s) => s.name === name && this.isArrayType(s.type))) {
+          throw Error('Mutating argument array is not allowed. Use "clone()" method to create a deep copy.');
+        }
+
         this.pushVoid(node, `frame_bury ${index} // ${name}: ${type}`);
       } else {
         const processedFrame = this.processFrame(node, name, false);
 
         if (processedFrame.type === 'frame') {
           const frame = this.frame[processedFrame.name];
+
+          if (currentArgs.find((s) => s.name === processedFrame.name && this.isArrayType(s.type))) {
+            throw Error('Mutating argument array is not allowed. Use "clone()" method to create a deep copy.');
+          }
+
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.type}`);
         } else {
           // TODO: fix this so box_replace is used when updating a storage ref from frame
@@ -3196,6 +3212,11 @@ export default class Compiler {
         const target = this.frame[processedFrame.name];
 
         this.processNode(node.right);
+
+        const currentArgs = this.currentSubroutine.args;
+        if (currentArgs.find((s) => s.name === name && this.isArrayType(s.type))) {
+          throw Error('Mutating argument array is not allowed. Create a new variable using the "clone()" method to create a deep copy first.');
+        }
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
         this.processExpressionChain(node.left, node.right);
@@ -3971,18 +3992,7 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
-      new Array(...chain[1].arguments).reverse().forEach((a, i) => {
-        const { type } = subroutine.args[i];
-        const tupleStr = this.getABITupleString(this.getABIType(type));
-        if (tupleStr.startsWith('(') || tupleStr.endsWith(']')) {
-          if (
-            this.constants[a.getText()] === undefined
-            && !ts.isArrayLiteralExpression(a)
-            && !((ts.isCallExpression(a) && ts.isIdentifier(a.expression)))
-          ) {
-            throw Error(`Passing non-literal array arguments to subroutines is not yet supported. Use "clone(${a.getText()})" and manually update the value after the method call if necessary`);
-          }
-        }
+      new Array(...chain[1].arguments).reverse().forEach((a) => {
         this.processNode(a);
       });
 
