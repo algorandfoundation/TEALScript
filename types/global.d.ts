@@ -431,6 +431,13 @@ declare class Application {
   global(key: BytesLike): any
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare class EventLogger<ArgumentTypes extends any[]> {
+  constructor()
+
+  log(...args: ArgumentTypes): void
+}
+
 declare type BoxValue<ValueType> = {
   value: ValueType
   delete: () => void
@@ -923,3 +930,5 @@ declare function templateVar<TmplType extends bytes | number>(name: string): Tmp
 declare function castBytes<T> (input: BytesLike): T
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function rawBytes(input: any): bytes
+
+declare function clone<T>(input: T): T

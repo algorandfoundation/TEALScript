@@ -67,8 +67,8 @@ compilers.forEach(async (compilerPromise) => {
   if (fs.existsSync(abiPath)) fs.rmSync(appPath);
   if (fs.existsSync(srcmapPath)) fs.rmSync(srcmapPath);
 
-  fs.writeFileSync(approvalTealPath, compiler.approvalProgram());
-  fs.writeFileSync(clearTealPath, compiler.clearProgram());
+  fs.writeFileSync(approvalTealPath, compiler.approvalTeal.map((t) => t.teal).join('\n'));
+  fs.writeFileSync(clearTealPath, compiler.clearTeal.map((t) => t.teal).join('\n'));
   fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
   fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
   fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
