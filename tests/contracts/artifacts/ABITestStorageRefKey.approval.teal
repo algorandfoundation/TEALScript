@@ -34,29 +34,29 @@ abi_route_storageRefKey:
 storageRefKey:
 	proto 2 0
 
-	// tests/contracts/abi.algo.ts:947
+	// tests/contracts/abi.algo.ts:1009
 	// this.gMap(0).value = [1, 2, 3]
 	byte 0x0000000000000000
 	byte 0x0003000000000000000100000000000000020000000000000003
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:949
+	// tests/contracts/abi.algo.ts:1011
 	// i = 0
 	int 0
 	frame_bury -1 // i: uint64
 
-	// tests/contracts/abi.algo.ts:951
+	// tests/contracts/abi.algo.ts:1013
 	// r = this.gMap(i).value
 	frame_dig -1 // i: uint64
 	itob
 	frame_bury -2 // storage key//r
 
-	// tests/contracts/abi.algo.ts:953
+	// tests/contracts/abi.algo.ts:1015
 	// i = 1
 	int 1
 	frame_bury -1 // i: uint64
 
-	// tests/contracts/abi.algo.ts:955
+	// tests/contracts/abi.algo.ts:1017
 	// r[1] = 4
 	frame_dig -2 // storage key//r
 	app_global_get
@@ -78,7 +78,7 @@ storageRefKey:
 	concat
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:957
+	// tests/contracts/abi.algo.ts:1019
 	// return this.gMap(0).value[1];
 	byte 0x0000000000000000
 	app_global_get

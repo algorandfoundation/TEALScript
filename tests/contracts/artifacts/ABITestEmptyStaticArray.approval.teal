@@ -34,12 +34,12 @@ abi_route_emptyStaticArray:
 emptyStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:809
+	// tests/contracts/abi.algo.ts:851
 	// a: StaticArray<uint<16>, 3> = []
 	byte 0x000000000000
 	frame_bury -1 // a: uint16[3]
 
-	// tests/contracts/abi.algo.ts:811
+	// tests/contracts/abi.algo.ts:853
 	// return a;
 	byte 0x151f7c75000000000000
 	log

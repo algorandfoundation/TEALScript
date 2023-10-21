@@ -34,12 +34,12 @@ abi_route_partialStaticArray:
 partialStaticArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:817
+	// tests/contracts/abi.algo.ts:859
 	// a: StaticArray<uint<16>, 3> = [1]
 	byte 0x000100000000
 	frame_bury -1 // a: uint16[3]
 
-	// tests/contracts/abi.algo.ts:819
+	// tests/contracts/abi.algo.ts:861
 	// return a;
 	byte 0x151f7c75000100000000
 	log

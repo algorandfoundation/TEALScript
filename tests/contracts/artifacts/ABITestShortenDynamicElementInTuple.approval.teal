@@ -34,8 +34,12 @@ abi_route_shortenDynamicElementInTuple:
 shortenDynamicElementInTuple:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:559
-	// a: [uint<16>[], uint<16>[], uint<16>[]] = [[1, 2], [2, 3], [3, 4]]
+	// tests/contracts/abi.algo.ts:586
+	// a: [uint<16>[], uint<16>[], uint<16>[]] = [
+	//       [1, 2],
+	//       [2, 3],
+	//       [3, 4],
+	//     ]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
@@ -49,7 +53,7 @@ shortenDynamicElementInTuple:
 	concat // concat head and tail
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:561
+	// tests/contracts/abi.algo.ts:592
 	// a[0] = [5]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	store 0 // full array
@@ -102,7 +106,7 @@ shortenDynamicElementInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:562
+	// tests/contracts/abi.algo.ts:593
 	// a[1] = [6]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	store 0 // full array
@@ -150,7 +154,7 @@ shortenDynamicElementInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:563
+	// tests/contracts/abi.algo.ts:594
 	// a[2] = [7]
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]
 	store 0 // full array
@@ -193,7 +197,7 @@ shortenDynamicElementInTuple:
 	load 0 // full array
 	frame_bury -1 // a: [uint16[],uint16[],uint16[]]
 
-	// tests/contracts/abi.algo.ts:565
+	// tests/contracts/abi.algo.ts:596
 	// return a;
 	byte 0x151f7c75
 	frame_dig -1 // a: [uint16[],uint16[],uint16[]]

@@ -34,13 +34,13 @@ abi_route_opcodeParamFromObject:
 opcodeParamFromObject:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:1014
+	// tests/contracts/abi.algo.ts:1076
 	// a: { myApp: Application } = { myApp: this.app }
 	txna Applications 0
 	itob
 	frame_bury -1 // a: { myApp: Application }
 
-	// tests/contracts/abi.algo.ts:1016
+	// tests/contracts/abi.algo.ts:1078
 	// return this.app.address;
 	byte 0x151f7c75
 	global CurrentApplicationAddress

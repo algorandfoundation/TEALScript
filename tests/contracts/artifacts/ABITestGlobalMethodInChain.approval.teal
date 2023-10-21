@@ -32,7 +32,7 @@ abi_route_globalMethodInChain:
 globalMethodInChain:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:1008
+	// tests/contracts/abi.algo.ts:1070
 	// return castBytes<T1>(hex('0x00')).bar;
 	byte 0x00
 	byte 0x00

@@ -34,11 +34,17 @@ abi_route_boolTupleAccess:
 boolTupleAccess:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:864
-	// a: [
-	//       boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
-	//     ] = [
-	//       false, false, false, false, false, false, false, false, true,
+	// tests/contracts/abi.algo.ts:914
+	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+	//       false,
+	//       false,
+	//       false,
+	//       false,
+	//       false,
+	//       false,
+	//       false,
+	//       false,
+	//       true,
 	//     ]
 	byte 0x0000
 	int 0
@@ -70,7 +76,7 @@ boolTupleAccess:
 	setbit
 	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
-	// tests/contracts/abi.algo.ts:870
+	// tests/contracts/abi.algo.ts:926
 	// return a[8];
 	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	store 0 // full array

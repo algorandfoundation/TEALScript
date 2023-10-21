@@ -34,22 +34,22 @@ abi_route_objectRef:
 objectRef:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:933
-	// o: {foo: uint64} = { foo: 1 }
+	// tests/contracts/abi.algo.ts:995
+	// o: { foo: uint64 } = { foo: 1 }
 	byte 0x0000000000000001
-	frame_bury -1 // o: {foo: uint64}
+	frame_bury -1 // o: { foo: uint64 }
 
-	// tests/contracts/abi.algo.ts:937
+	// tests/contracts/abi.algo.ts:999
 	// r.foo = 2
-	frame_dig -1 // o: {foo: uint64}
+	frame_dig -1 // o: { foo: uint64 }
 	byte 0x0000000000000002
 	replace2 0
-	frame_bury -1 // r: {foo: uint64}
+	frame_bury -1 // r: { foo: uint64 }
 
-	// tests/contracts/abi.algo.ts:939
+	// tests/contracts/abi.algo.ts:1001
 	// return o;
 	byte 0x151f7c75
-	frame_dig -1 // o: {foo: uint64}
+	frame_dig -1 // o: { foo: uint64 }
 	concat
 	log
 	retsub

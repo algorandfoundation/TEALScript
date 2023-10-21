@@ -34,12 +34,12 @@ abi_route_angularCasting:
 angularCasting:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:980
+	// tests/contracts/abi.algo.ts:1042
 	// x = <uint<256>>1337
 	byte 0x0000000000000000000000000000000000000000000000000000000000000539
 	frame_bury -1 // x: uint256
 
-	// tests/contracts/abi.algo.ts:982
+	// tests/contracts/abi.algo.ts:1044
 	// return x;
 	byte 0x0000000000000000000000000000000000000000000000000000000000000539 // x: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000539 // x: uint256

@@ -34,7 +34,7 @@ abi_route_dynamicBoolArrayUpdate:
 dynamicBoolArrayUpdate:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:910
+	// tests/contracts/abi.algo.ts:966
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
 	byte 0x0009
 	byte 0x0000
@@ -68,7 +68,7 @@ dynamicBoolArrayUpdate:
 	concat
 	frame_bury -1 // a: bool[]
 
-	// tests/contracts/abi.algo.ts:912
+	// tests/contracts/abi.algo.ts:968
 	// a[8] = true
 	frame_dig -1 // a: bool[]
 	store 0 // full array
@@ -78,7 +78,7 @@ dynamicBoolArrayUpdate:
 	setbit
 	frame_bury -1 // a: bool[]
 
-	// tests/contracts/abi.algo.ts:914
+	// tests/contracts/abi.algo.ts:970
 	// return a;
 	byte 0x151f7c75
 	frame_dig -1 // a: bool[]

@@ -32,13 +32,13 @@ abi_route_arrayInObjectInState:
 arrayInObjectInState:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:1025
+	// tests/contracts/abi.algo.ts:1087
 	// this.gMap(this.txn.sender).value = { bar: [1, 2] }
 	txn Sender
 	byte 0x00000000000000010000000000000002
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:1026
+	// tests/contracts/abi.algo.ts:1088
 	// this.gMap(this.txn.sender).value.bar[1] = 3
 	txn Sender
 	app_global_get
@@ -48,7 +48,7 @@ arrayInObjectInState:
 	swap
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:1027
+	// tests/contracts/abi.algo.ts:1089
 	// return this.gMap(this.txn.sender).value.bar[1];
 	txn Sender
 	app_global_get

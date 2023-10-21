@@ -34,7 +34,7 @@ abi_route_accessDynamicStringArray:
 accessDynamicStringArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:685
+	// tests/contracts/abi.algo.ts:710
 	// a: string[] = ['Hello', 'World', '!']
 	byte 0x // initial head
 	byte 0x // initial tail
@@ -52,7 +52,7 @@ accessDynamicStringArray:
 	concat
 	frame_bury -1 // a: string[]
 
-	// tests/contracts/abi.algo.ts:687
+	// tests/contracts/abi.algo.ts:712
 	// return a[1];
 	frame_dig -1 // a: string[]
 	store 0 // full array

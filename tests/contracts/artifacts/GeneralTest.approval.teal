@@ -373,7 +373,8 @@ methodWithTxnArgs:
 	//           name: 'bar',
 	//           applicationID: Application.fromID(1337),
 	//           methodArgs: [1],
-	//         }],
+	//         },
+	//       ],
 	//     })
 	itxn_begin
 	int pay
@@ -424,7 +425,8 @@ methodWithTxnArgs:
 	//           name: 'bar',
 	//           applicationID: Application.fromID(1337),
 	//           methodArgs: [1],
-	//         }]
+	//         },
+	//       ]
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -463,7 +465,7 @@ abi_route_nestedTernary:
 nestedTernary:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:65
+	// tests/contracts/general.algo.ts:66
 	// return x ? 1 : y ? 2 : 3;
 	frame_dig -1 // x: bool
 	bz ternary0_false
@@ -499,14 +501,14 @@ abi_route_shift:
 shift:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:69
+	// tests/contracts/general.algo.ts:70
 	// assert(1 << 2)
 	int 1
 	int 2
 	shl
 	assert
 
-	// tests/contracts/general.algo.ts:70
+	// tests/contracts/general.algo.ts:71
 	// assert(3 >> 4)
 	int 3
 	int 4
@@ -524,7 +526,7 @@ abi_route_fromBytes:
 fromBytes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:74
+	// tests/contracts/general.algo.ts:75
 	// assert(Address.fromBytes('abc').minBalance)
 	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
@@ -542,14 +544,14 @@ abi_route_fromID:
 fromID:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:78
+	// tests/contracts/general.algo.ts:79
 	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	assert
 	log
 
-	// tests/contracts/general.algo.ts:79
+	// tests/contracts/general.algo.ts:80
 	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
@@ -567,12 +569,12 @@ abi_route_tmpl:
 tmpl:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:83
+	// tests/contracts/general.algo.ts:84
 	// log(templateVar<bytes>('FOO'))
 	byte TMPL_FOO // TMPL_FOO
 	log
 
-	// tests/contracts/general.algo.ts:84
+	// tests/contracts/general.algo.ts:85
 	// assert(templateVar<uint64>('BAR'))
 	int TMPL_BAR // TMPL_BAR
 	assert
@@ -590,28 +592,28 @@ abi_route_bzeroFunction:
 bzeroFunction:
 	proto 4 0
 
-	// tests/contracts/general.algo.ts:88
+	// tests/contracts/general.algo.ts:89
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:89
+	// tests/contracts/general.algo.ts:90
 	// x: bytes = bzero(2)
 	byte 0x0000
 	frame_bury -2 // x: bytes
 
-	// tests/contracts/general.algo.ts:90
+	// tests/contracts/general.algo.ts:91
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
 	frame_bury -3 // y: bytes
 
-	// tests/contracts/general.algo.ts:91
+	// tests/contracts/general.algo.ts:92
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
 	frame_bury -4 // z: [uint64,uint8]
 
-	// tests/contracts/general.algo.ts:92
+	// tests/contracts/general.algo.ts:93
 	// log(x + y + z)
 	byte 0x0000 // x: bytes
 	frame_dig -3 // y: bytes
@@ -631,7 +633,7 @@ abi_route_events:
 events:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:98
+	// tests/contracts/general.algo.ts:99
 	// this.myEvent.log(this.app, 1)
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
@@ -656,7 +658,7 @@ abi_route_letOptimization:
 letOptimization:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:102
+	// tests/contracts/general.algo.ts:103
 	// assert(a[0])
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
@@ -665,12 +667,12 @@ letOptimization:
 	btoi
 	assert
 
-	// tests/contracts/general.algo.ts:104
+	// tests/contracts/general.algo.ts:105
 	// b = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury -1 // b: uint64[]
 
-	// tests/contracts/general.algo.ts:106
+	// tests/contracts/general.algo.ts:107
 	// return b;
 	frame_dig -1 // a: uint64[]
 	dup

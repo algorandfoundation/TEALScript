@@ -34,7 +34,7 @@ abi_route_staticBoolArrayAccess:
 staticBoolArrayAccess:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:876
+	// tests/contracts/abi.algo.ts:932
 	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
 	byte 0x0000
 	int 0
@@ -66,7 +66,7 @@ staticBoolArrayAccess:
 	setbit
 	frame_bury -1 // a: bool[9]
 
-	// tests/contracts/abi.algo.ts:878
+	// tests/contracts/abi.algo.ts:934
 	// return a[8];
 	frame_dig -1 // a: bool[9]
 	store 0 // full array

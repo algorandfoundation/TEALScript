@@ -34,21 +34,26 @@ abi_route_objectArrayRef:
 objectArrayRef:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:789
-	// a: ObjectRefType = { foo: [[1, 2], [3, 4]] }
+	// tests/contracts/abi.algo.ts:826
+	// a: ObjectRefType = {
+	//       foo: [
+	//         [1, 2],
+	//         [3, 4],
+	//       ],
+	//     }
 	byte 0x01020304
 	frame_bury -1 // a: ObjectRefType
 
-	// tests/contracts/abi.algo.ts:791
+	// tests/contracts/abi.algo.ts:833
 	// c = b[1]
-	// tests/contracts/abi.algo.ts:793
+	// tests/contracts/abi.algo.ts:835
 	// c[1] = 5 as uint<8>
 	frame_dig -1 // a: ObjectRefType
 	byte 0x05
 	replace2 3
 	frame_bury -1 // c: ObjectRefType
 
-	// tests/contracts/abi.algo.ts:795
+	// tests/contracts/abi.algo.ts:837
 	// return a;
 	byte 0x151f7c75
 	frame_dig -1 // a: ObjectRefType

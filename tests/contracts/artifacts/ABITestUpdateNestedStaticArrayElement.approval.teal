@@ -34,8 +34,12 @@ abi_route_updateNestedStaticArrayElement:
 updateNestedStaticArrayElement:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:214
-	// a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]]
+	// tests/contracts/abi.algo.ts:210
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [
+	//       [11, 22, 33],
+	//       [44, 55, 66],
+	//       [77, 88, 99],
+	//     ]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury -1 // a: uint64[3][3]
 

@@ -34,12 +34,12 @@ abi_route_arrayPop:
 arrayPop:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:412
+	// tests/contracts/abi.algo.ts:439
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:414
+	// tests/contracts/abi.algo.ts:441
 	// a.pop()
 	frame_dig -1 // a: uint16[]
 	dup
@@ -51,7 +51,7 @@ arrayPop:
 	extract3
 	frame_bury -1 // a: uint16[]
 
-	// tests/contracts/abi.algo.ts:416
+	// tests/contracts/abi.algo.ts:443
 	// return a;
 	frame_dig -1 // a: uint16[]
 	dup
