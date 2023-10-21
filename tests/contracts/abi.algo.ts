@@ -2,9 +2,9 @@
 import { Contract } from '../../src/lib/index';
 
 type CustomType = {
-  foo: uint<16>,
-  bar: string
-}
+  foo: uint<16>;
+  bar: string;
+};
 
 class ABITestStaticArray extends Contract {
   staticArray(): uint64 {
@@ -90,11 +90,7 @@ class ABITestStaticArrayInStorageRef extends Contract {
     this.lRef(this.txn.sender).value = a;
     this.bRef.value = a;
 
-    const ret: StaticArray<uint64, 3> = [
-      this.gRef.value[1],
-      this.lRef(this.txn.sender).value[1],
-      this.bRef.value[1],
-    ];
+    const ret: StaticArray<uint64, 3> = [this.gRef.value[1], this.lRef(this.txn.sender).value[1], this.bRef.value[1]];
 
     return ret;
   }
@@ -125,11 +121,7 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
     this.lRef(this.txn.sender).value[1] = 222;
     this.bRef.value[1] = 333;
 
-    const ret: StaticArray<uint64, 3> = [
-      this.gRef.value[1],
-      this.lRef(this.txn.sender).value[1],
-      this.bRef.value[1],
-    ];
+    const ret: StaticArray<uint64, 3> = [this.gRef.value[1], this.lRef(this.txn.sender).value[1], this.bRef.value[1]];
 
     return ret;
   }
@@ -203,7 +195,11 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
 class ABITestNestedStaticArray extends Contract {
   nestedStaticArray(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [
+      [11, 22, 33],
+      [44, 55, 66],
+      [77, 88, 99],
+    ];
 
     return a[1][1];
   }
@@ -211,7 +207,11 @@ class ABITestNestedStaticArray extends Contract {
 
 class ABITestUpdateNestedStaticArrayElement extends Contract {
   updateNestedStaticArrayElement(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [
+      [11, 22, 33],
+      [44, 55, 66],
+      [77, 88, 99],
+    ];
 
     a[1][1] = 555;
 
@@ -221,7 +221,11 @@ class ABITestUpdateNestedStaticArrayElement extends Contract {
 
 class ABITestUpdateNestedStaticArray extends Contract {
   updateNestedStaticArray(): uint64 {
-    const a: StaticArray<StaticArray<uint64, 3>, 3> = [[11, 22, 33], [44, 55, 66], [77, 88, 99]];
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [
+      [11, 22, 33],
+      [44, 55, 66],
+      [77, 88, 99],
+    ];
 
     a[1] = [444, 555, 666];
 
@@ -232,7 +236,14 @@ class ABITestUpdateNestedStaticArray extends Contract {
 class ABITestThreeDimensionalUint16Array extends Contract {
   threeDimensionalUint16Array(): uint<16> {
     const a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
-      [[11, 22], [33, 44]], [[55, 66], [77, 88]],
+      [
+        [11, 22],
+        [33, 44],
+      ],
+      [
+        [55, 66],
+        [77, 88],
+      ],
     ];
 
     a[1][1] = [777, 888];
@@ -251,9 +262,7 @@ class ABITestSimpleTuple extends Contract {
 
 class ABITestArrayInTuple extends Contract {
   arrayInTuple(): uint64 {
-    const a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [
-      11, 22, [33, 44], 55,
-    ];
+    const a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [11, 22, [33, 44], 55];
 
     return a[2][1];
   }
@@ -262,7 +271,8 @@ class ABITestArrayInTuple extends Contract {
 class ABITestTupleInArray extends Contract {
   tupleInArray(): uint<16> {
     const a: StaticArray<[uint64, uint<16>], 2> = [
-      [11, 22], [33, 44],
+      [11, 22],
+      [33, 44],
     ];
 
     return a[1][1];
@@ -271,9 +281,7 @@ class ABITestTupleInArray extends Contract {
 
 class ABITestTupleInTuple extends Contract {
   tupleInTuple(): uint64 {
-    const a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [
-      11, 22, [33, 44], [55, 66],
-    ];
+    const a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [11, 22, [33, 44], [55, 66]];
 
     return a[3][1];
   }
@@ -282,7 +290,9 @@ class ABITestTupleInTuple extends Contract {
 class ABITestShortTypeNotation extends Contract {
   shortTypeNotation(): uint<16> {
     const a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
-      [11, 22], [33, 44], [55, 66],
+      [11, 22],
+      [33, 44],
+      [55, 66],
     ];
 
     return a[2][1];
@@ -291,14 +301,28 @@ class ABITestShortTypeNotation extends Contract {
 
 class ABITestDisgusting extends Contract {
   disgusting(): uint64 {
-    const a: StaticArray<[
-      StaticArray<uint<16>, 2>,
-      uint64,
-      [uint<16>, uint64],
-      StaticArray< StaticArray<uint64, 2>, 2>
-    ], 2> = [
-      [[11, 22], 33, [44, 55], [[66, 77], [88, 99]]],
-      [[111, 222], 333, [444, 555], [[666, 777], [888, 999]]],
+    const a: StaticArray<
+      [StaticArray<uint<16>, 2>, uint64, [uint<16>, uint64], StaticArray<StaticArray<uint64, 2>, 2>],
+      2
+    > = [
+      [
+        [11, 22],
+        33,
+        [44, 55],
+        [
+          [66, 77],
+          [88, 99],
+        ],
+      ],
+      [
+        [111, 222],
+        333,
+        [444, 555],
+        [
+          [666, 777],
+          [888, 999],
+        ],
+      ],
     ];
 
     a[1][3][1] = [8888, 9999];
@@ -352,7 +376,10 @@ class ABITestUpdateDynamicArrayElement extends Contract {
 
 class ABITestDynamicTupleArray extends Contract {
   dynamicTupleArray(): uint64 {
-    const a: [uint<16>, uint64][] = [[11, 22], [33, 44]];
+    const a: [uint<16>, uint64][] = [
+      [11, 22],
+      [33, 44],
+    ];
 
     return a[1][1];
   }
@@ -556,7 +583,11 @@ class ABITestUpdateTupleWithOnlyDynamicTypes extends Contract {
 
 class ABITestShortenDynamicElementInTuple extends Contract {
   shortenDynamicElementInTuple(): [uint<16>[], uint<16>[], uint<16>[]] {
-    const a: [uint<16>[], uint<16>[], uint<16>[]] = [[1, 2], [2, 3], [3, 4]];
+    const a: [uint<16>[], uint<16>[], uint<16>[]] = [
+      [1, 2],
+      [2, 3],
+      [3, 4],
+    ];
 
     a[0] = [5];
     a[1] = [6];
@@ -569,8 +600,8 @@ class ABITestShortenDynamicElementInTuple extends Contract {
 class ABITestNamedTuple extends Contract {
   namedTuple(): string {
     const a: {
-      foo: uint<16>,
-      bar: string,
+      foo: uint<16>;
+      bar: string;
     } = {
       foo: 1,
       bar: 'Hello World!',
@@ -583,8 +614,8 @@ class ABITestNamedTuple extends Contract {
 class ABITestUpdateNamedTuple extends Contract {
   updateNamedTuple(): string {
     const a: {
-      foo: uint<16>,
-      bar: string,
+      foo: uint<16>;
+      bar: string;
     } = {
       foo: 1,
       bar: 'Hi?',
@@ -665,13 +696,7 @@ class ABITestNestedTuple extends Contract {
 }
 
 class ABITestUpdateDynamicElementInTupleWithSameLength extends Contract {
-  updateDynamicElementInTupleWithSameLength(): [
-    uint<16>,
-    uint<8>[],
-    uint<16>,
-    uint<8>[],
-    uint<16>
-    ] {
+  updateDynamicElementInTupleWithSameLength(): [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>] {
     const a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>] = [1, [2, 3, 4], 5, [6, 7, 8], 9];
 
     a[1] = [10, 11, 12];
@@ -696,7 +721,7 @@ class ABITestTxnTypes extends Contract {
     af: AssetFreezeTxn,
     at: AssetTransferTxn,
     kr: KeyRegTxn,
-    p: PayTxn,
+    p: PayTxn
   ): void {
     assert(t.sender === a.sender);
     assert(ac.sender === af.sender);
@@ -742,7 +767,10 @@ class ABITestArrayRef extends Contract {
 
 class ABITestNestedArrayRef extends Contract {
   nestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
-    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [
+      [1, 2],
+      [3, 4],
+    ];
     const b = a[1];
 
     b[1] = 5 as uint<8>;
@@ -753,7 +781,10 @@ class ABITestNestedArrayRef extends Contract {
 
 class ABITestNonLiteralNestedArrayRef extends Contract {
   nonLiteralNestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2> {
-    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [[1, 2], [3, 4]];
+    const a: StaticArray<StaticArray<uint<8>, 2>, 2> = [
+      [1, 2],
+      [3, 4],
+    ];
 
     let i = 1;
     const b = a[i];
@@ -768,9 +799,15 @@ class ABITestNonLiteralNestedArrayRef extends Contract {
 
 class ABITestMultiNestedArrayRef extends Contract {
   multiNestedArrayRef(): StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> {
-    const a:StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
-      [[1, 2], [3, 4]],
-      [[5, 6], [7, 8]],
+    const a: StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
+      [
+        [1, 2],
+        [3, 4],
+      ],
+      [
+        [5, 6],
+        [7, 8],
+      ],
     ];
 
     const b = a[1];
@@ -782,11 +819,16 @@ class ABITestMultiNestedArrayRef extends Contract {
   }
 }
 
-type ObjectRefType = { foo : StaticArray<StaticArray<uint<8>, 2>, 2>} ;
+type ObjectRefType = { foo: StaticArray<StaticArray<uint<8>, 2>, 2> };
 
 class ABITestObjectArrayRef extends Contract {
   objectArrayRef(): ObjectRefType {
-    const a: ObjectRefType = { foo: [[1, 2], [3, 4]] };
+    const a: ObjectRefType = {
+      foo: [
+        [1, 2],
+        [3, 4],
+      ],
+    };
     const b = a.foo;
     const c = b[1];
 
@@ -844,7 +886,15 @@ class ABITestBooleanArgAndReturn extends Contract {
 class ABITestBoolTuple extends Contract {
   boolTuple(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] {
     const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
-      true, false, true, true, false, false, true, false, false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
     ];
 
     return a;
@@ -861,10 +911,16 @@ class ABITestStaticBoolArray extends Contract {
 
 class ABITestBoolTupleAccess extends Contract {
   boolTupleAccess(): boolean {
-    const a: [
-      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
-    ] = [
-      false, false, false, false, false, false, false, false, true,
+    const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
     ];
 
     return a[8];
@@ -916,12 +972,18 @@ class ABITestDynamicBoolArrayUpdate extends Contract {
 }
 
 class ABITestBoolTupleUpdate extends Contract {
-  boolTupleUpdate(): [
-    boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
-    ] {
-    const a: [
-      boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean
-    ] = [true, false, true, true, false, false, true, false, false];
+  boolTupleUpdate(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] {
+    const a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+    ];
 
     a[8] = true;
     return a;
@@ -929,8 +991,8 @@ class ABITestBoolTupleUpdate extends Contract {
 }
 
 class ABITestObjectRef extends Contract {
-  objectRef(): {foo: uint64} {
-    const o: {foo: uint64} = { foo: 1 };
+  objectRef(): { foo: uint64 } {
+    const o: { foo: uint64 } = { foo: 1 };
 
     const r = o;
 
@@ -1002,7 +1064,7 @@ class ABITestRawBytesFunction extends Contract {
   }
 }
 
-type T1 = { bar: uint<8> }
+type T1 = { bar: uint<8> };
 class ABITestGlobalMethodInChain extends Contract {
   globalMethodInChain(): uint<8> {
     return castBytes<T1>(hex('0x00')).bar;
@@ -1017,7 +1079,7 @@ class ABITestOpcodeParamFromObject extends Contract {
   }
 }
 
-type T2 = { bar: StaticArray<uint64, 2> }
+type T2 = { bar: StaticArray<uint64, 2> };
 class ABITestArrayInObjectInState extends Contract {
   gMap = GlobalStateMap<Address, T2>({ maxKeys: 1 });
 
@@ -1030,14 +1092,14 @@ class ABITestArrayInObjectInState extends Contract {
 
 class ABITestNestedObject extends Contract {
   nestedObject(): uint64 {
-    const a: { b: { c: {d: uint64} } } = { b: { c: { d: 1 } } };
+    const a: { b: { c: { d: uint64 } } } = { b: { c: { d: 1 } } };
     a.b.c.d = 2;
     return a.b.c.d;
   }
 }
 
-type T3 = {d: uint64}
-type T4 = {b: {c: T3}}
+type T3 = { d: uint64 };
+type T4 = { b: { c: T3 } };
 class ABITestNestedObjectType extends Contract {
   nestedObjectType(): uint64 {
     const a: T4 = { b: { c: { d: 1 } } };

@@ -56,7 +56,8 @@ class GeneralTest extends Contract {
           name: 'bar',
           applicationID: Application.fromID(1337),
           methodArgs: [1],
-        }],
+        },
+      ],
     });
   }
 

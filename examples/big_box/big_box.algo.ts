@@ -6,7 +6,7 @@ end - The index of the box at which the data ends
 status - 0: in progress, 1: ready, 2: immutable
 endSize - The size of the last box
 */
-type Metadata = {start: uint64, end: uint64, status: uint<8>, endSize: uint64};
+type Metadata = { start: uint64; end: uint64; status: uint<8>; endSize: uint64 };
 
 const IN_PROGRESS = 0 as uint<8>;
 const READY = 1 as uint<8>;
@@ -37,17 +37,15 @@ class BigBox extends Contract {
    * @param endBoxSize The size of the last box
    * @param mbrPayment Payment from the uploader to cover the box MBR
    */
-  startUpload(
-    dataIdentifier: string,
-    numBoxes: uint64,
-    endBoxSize: uint64,
-    mbrPayment: PayTxn,
-  ): void {
+  startUpload(dataIdentifier: string, numBoxes: uint64, endBoxSize: uint64, mbrPayment: PayTxn): void {
     const startBox = this.currentIndex.value;
     const endBox = startBox + numBoxes - 1;
 
     const metadata: Metadata = {
-      start: startBox, end: endBox, status: IN_PROGRESS, endSize: endBoxSize,
+      start: startBox,
+      end: endBox,
+      status: IN_PROGRESS,
+      endSize: endBoxSize,
     };
 
     assert(!this.metadata(dataIdentifier).exists);
@@ -56,10 +54,11 @@ class BigBox extends Contract {
 
     this.currentIndex.value = endBox + 1;
 
-    const totalCost = numBoxes * COST_PER_BOX // cost of boxes
-    + (numBoxes - 1) * MAX_BOX_SIZE * COST_PER_BYTE // cost of data
-    + numBoxes * 64 * COST_PER_BYTE // cost of keys
-    + endBoxSize * COST_PER_BYTE; // cost of last box data
+    const totalCost =
+      numBoxes * COST_PER_BOX + // cost of boxes
+      (numBoxes - 1) * MAX_BOX_SIZE * COST_PER_BYTE + // cost of data
+      numBoxes * 64 * COST_PER_BYTE + // cost of keys
+      endBoxSize * COST_PER_BYTE; // cost of last box data
 
     verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost });
   }

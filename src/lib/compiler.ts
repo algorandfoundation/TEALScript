@@ -15,25 +15,29 @@ import langspec from '../langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 
-type ExpressionChainNode =
-  ts.ElementAccessExpression
-  | ts.PropertyAccessExpression
-  | ts.CallExpression
+type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
-const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'];
+const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = [
+  'NoOp',
+  'OptIn',
+  'CloseOut',
+  'ClearState',
+  'UpdateApplication',
+  'DeleteApplication',
+];
 
 type StorageType = 'global' | 'local' | 'box';
 
 export type CompilerOptions = {
-  filename?: string,
-  disableWarnings?: boolean,
-  algodServer?: string,
-  algodToken?: string,
-  algodPort?: number,
-  disableOverflowChecks?: boolean,
-  disableTypeScript?: boolean,
-}
+  filename?: string;
+  disableWarnings?: boolean;
+  algodServer?: string;
+  algodToken?: string;
+  algodPort?: number;
+  disableOverflowChecks?: boolean;
+  disableTypeScript?: boolean;
+};
 
 export type SourceInfo = {
   filename: string;
@@ -80,14 +84,15 @@ class TupleElement extends Array<TupleElement> {
   }
 
   add(...elements: TupleElement[]) {
-    elements.forEach((e: TupleElement) => { e.parent = this; });
+    elements.forEach((e: TupleElement) => {
+      e.parent = this;
+    });
     return this.push(...elements);
   }
 }
 
 function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
-  if (ts.isCallExpression(node.expression)
-  && ts.isPropertyAccessExpression(node.expression.expression)) {
+  if (ts.isCallExpression(node.expression) && ts.isPropertyAccessExpression(node.expression.expression)) {
     return node.expression.expression.name.getText();
   }
 
@@ -159,15 +164,7 @@ enum ForeignType {
   Application = 'application',
 }
 
-const TXN_TYPES = [
-  'txn',
-  'pay',
-  'keyreg',
-  'acfg',
-  'axfer',
-  'afrz',
-  'appl',
-];
+const TXN_TYPES = ['txn', 'pay', 'keyreg', 'acfg', 'axfer', 'afrz', 'appl'];
 
 const TXN_METHODS = [
   'Payment',
@@ -211,23 +208,23 @@ interface StorageProp {
 }
 
 interface ABIMethod {
-  name: string
-  readonly?: boolean
-  desc: string
-  args: {name: string, type: string, desc: string}[]
-  returns: {type: string, desc: string}
+  name: string;
+  readonly?: boolean;
+  desc: string;
+  args: { name: string; type: string; desc: string }[];
+  returns: { type: string; desc: string };
 }
 
-interface Subroutine extends ABIMethod{
+interface Subroutine extends ABIMethod {
   allows: {
-    create: string[]
-    call: string[]
-  },
+    create: string[];
+    call: string[];
+  };
   nonAbi: {
-    create: string[]
-    call: string[]
-  },
-  node: ts.MethodDeclaration | ts.ClassDeclaration
+    create: string[];
+    call: string[];
+  };
+  node: ts.MethodDeclaration | ts.ClassDeclaration;
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -252,9 +249,9 @@ const scratch = {
 };
 
 type NodeAndTEAL = {
-  node: ts.Node
-  teal: string
-}
+  node: ts.Node;
+  teal: string;
+};
 
 export default class Compiler {
   static diagsRan: string[] = [''];
@@ -269,38 +266,38 @@ export default class Compiler {
 
   private frameInfo: {
     [name: string]: {
-      start: number,
-      end: number,
+      start: number;
+      end: number;
       frame: {
         [index: number]: {
-          name: string,
-          type: string,
-        }
-      }
-    }
+          name: string;
+          type: string;
+        };
+      };
+    };
   } = {};
 
   private lastNode!: ts.Node;
 
   private mapKeyTypes: {
-    global: string[]
-    local: string[]
-    box: string[]
+    global: string[];
+    local: string[];
+    box: string[];
   } = { global: [], local: [], box: [] };
 
   private classNode!: ts.ClassDeclaration;
 
   srcMap: {
-    source: number,
-    teal: number
-    pc?: number[]
+    source: number;
+    teal: number;
+    pc?: number[];
   }[] = [];
 
-  private customTypes: {[name: string] : string} = {};
+  private customTypes: { [name: string]: string } = {};
 
   private frameIndex: number = 0;
 
-  private frameSize: {[methodName: string]: number} = {};
+  private frameSize: { [methodName: string]: number } = {};
 
   private subroutines: Subroutine[] = [];
 
@@ -322,35 +319,38 @@ export default class Compiler {
 
   private processErrorNodes: ts.Node[] = [];
 
-  private frame: {[name: string] :{
-    index?: number
-    framePointer?:string
-    type: string
-    accessors?: (ts.Expression | string)[]
-    storageExpression?: ts.PropertyAccessExpression
-    storageKeyFrame?: string
-    storageAccountFrame?: string
-    }
+  private frame: {
+    [name: string]: {
+      index?: number;
+      framePointer?: string;
+      type: string;
+      accessors?: (ts.Expression | string)[];
+      storageExpression?: ts.PropertyAccessExpression;
+      storageKeyFrame?: string;
+      storageAccountFrame?: string;
+    };
   } = {};
 
   private currentSubroutine!: Subroutine;
 
   private bareCallConfig: {
-    NoOp? : {action: 'CALL' | 'CREATE' | 'NEVER', method: string}
-    OptIn? : {action: 'CALL' | 'CREATE', method: string}
-    CloseOut? : {action: 'CALL' | 'CREATE', method: string}
-    ClearState? : {action: 'CALL' | 'CREATE', method: string}
-    UpdateApplication? : {action: 'CALL' | 'CREATE', method: string}
-    DeleteApplication? : {action: 'CALL' | 'CREATE', method: string}
+    NoOp?: { action: 'CALL' | 'CREATE' | 'NEVER'; method: string };
+    OptIn?: { action: 'CALL' | 'CREATE'; method: string };
+    CloseOut?: { action: 'CALL' | 'CREATE'; method: string };
+    ClearState?: { action: 'CALL' | 'CREATE'; method: string };
+    UpdateApplication?: { action: 'CALL' | 'CREATE'; method: string };
+    DeleteApplication?: { action: 'CALL' | 'CREATE'; method: string };
   } = {};
 
   abi: {
-    name: string,
-    desc: string,
-    methods: ABIMethod[],
-    } = {
-      name: '', desc: '', methods: [],
-    };
+    name: string;
+    desc: string;
+    methods: ABIMethod[];
+  } = {
+    name: '',
+    desc: '',
+    methods: [],
+  };
 
   private storageProps: { [key: string]: StorageProp } = {};
 
@@ -370,40 +370,40 @@ export default class Compiler {
 
   private typeHint?: string;
 
-  private constants: {[name: string]: ts.Node};
+  private constants: { [name: string]: ts.Node };
 
   private readonly OP_PARAMS: {
-    [type: string]: {name: string, type?: string, args: number, fn: (node: ts.Node) => void}[]
+    [type: string]: { name: string; type?: string; args: number; fn: (node: ts.Node) => void }[];
   } = {
-      account: [
-        ...this.getOpParamObjects('acct_params_get'),
-        ...this.getOpParamObjects('asset_holding_get'),
-        {
-          name: 'State',
-          type: 'any',
-          args: 3,
-          fn: (node: ts.Node) => {
-            this.maybeValue(node, 'app_local_get_ex', StackType.any);
-          },
+    account: [
+      ...this.getOpParamObjects('acct_params_get'),
+      ...this.getOpParamObjects('asset_holding_get'),
+      {
+        name: 'State',
+        type: 'any',
+        args: 3,
+        fn: (node: ts.Node) => {
+          this.maybeValue(node, 'app_local_get_ex', StackType.any);
         },
-      ],
-      application: [
-        ...this.getOpParamObjects('app_params_get'),
-        {
-          name: 'Global',
-          type: 'any',
-          args: 2,
-          fn: (node: ts.Node) => {
-            this.maybeValue(node, 'app_global_get_ex', StackType.any);
-          },
+      },
+    ],
+    application: [
+      ...this.getOpParamObjects('app_params_get'),
+      {
+        name: 'Global',
+        type: 'any',
+        args: 2,
+        fn: (node: ts.Node) => {
+          this.maybeValue(node, 'app_global_get_ex', StackType.any);
         },
-      ],
-      txn: this.getOpParamObjects('txn'),
-      global: this.getOpParamObjects('global'),
-      itxn: this.getOpParamObjects('itxn'),
-      gtxns: this.getOpParamObjects('gtxns'),
-      asset: this.getOpParamObjects('asset_params_get'),
-    };
+      },
+    ],
+    txn: this.getOpParamObjects('txn'),
+    global: this.getOpParamObjects('global'),
+    itxn: this.getOpParamObjects('itxn'),
+    gtxns: this.getOpParamObjects('gtxns'),
+    asset: this.getOpParamObjects('asset_params_get'),
+  };
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -415,27 +415,30 @@ export default class Compiler {
   }
 
   /** Handle any action related to boxes or local/global state */
-  private handleStorageAction(
-    {
-      node, name, action, storageKeyFrame, storageAccountFrame, newValue,
-    }: {
-      /**
-       * The node for the storage action. Should be the final callexpression or property access
-       * For example: `this.myBox.delete()` or `this.myBox.value`
-       */
-      node: ts.PropertyAccessExpression | ts.CallExpression
-      /** The name of the storage property as defined in the contract */
-      name: string,
-      /** The action to take on the storage property */
-      action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size'
-      /** If the key for the target storage object is saved in a frame variable */
-      storageKeyFrame?: string
-      /** If the account for the target local storage is saved in a frame variable */
-      storageAccountFrame?: string
-      /** Only provided when setting a value */
-      newValue?: ts.Node
-    },
-  ) {
+  private handleStorageAction({
+    node,
+    name,
+    action,
+    storageKeyFrame,
+    storageAccountFrame,
+    newValue,
+  }: {
+    /**
+     * The node for the storage action. Should be the final callexpression or property access
+     * For example: `this.myBox.delete()` or `this.myBox.value`
+     */
+    node: ts.PropertyAccessExpression | ts.CallExpression;
+    /** The name of the storage property as defined in the contract */
+    name: string;
+    /** The action to take on the storage property */
+    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size';
+    /** If the key for the target storage object is saved in a frame variable */
+    storageKeyFrame?: string;
+    /** If the account for the target local storage is saved in a frame variable */
+    storageAccountFrame?: string;
+    /** Only provided when setting a value */
+    newValue?: ts.Node;
+  }) {
     const args: ts.Expression[] = [];
     let keyNode: ts.Expression;
 
@@ -454,9 +457,7 @@ export default class Compiler {
       keyNode = node.expression.arguments[node.expression.arguments.length === 2 ? 1 : 0];
     }
 
-    const {
-      type, valueType, keyType, key, dynamicSize, prefix,
-    } = this.storageProps[name];
+    const { type, valueType, keyType, key, dynamicSize, prefix } = this.storageProps[name];
 
     const storageType = type;
 
@@ -464,7 +465,7 @@ export default class Compiler {
     if (storageAccountFrame && storageType === 'local') {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
 
-    // Accessing a local state for an account given as an argument
+      // Accessing a local state for an account given as an argument
     } else if (storageType === 'local') {
       if (!ts.isCallExpression(node.expression)) throw Error();
       this.processNode(node.expression.arguments[0]);
@@ -481,11 +482,11 @@ export default class Compiler {
       const hex = Buffer.from(key).toString('hex');
       this.pushVoid(node.expression, `byte 0x${hex} // "${key}"`);
 
-    // If the key is saved in frame
+      // If the key is saved in frame
     } else if (storageKeyFrame) {
       this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
 
-    // If the key is provided as an argument
+      // If the key is provided as an argument
     } else {
       if (prefix) {
         const hex = Buffer.from(prefix).toString('hex');
@@ -527,7 +528,7 @@ export default class Compiler {
             this.checkEncoding(newValue, this.lastType);
           }
         } else {
-          const command = storageType === 'box' ? 'swap' : (storageType === 'local' ? 'uncover 2' : 'swap');
+          const command = storageType === 'box' ? 'swap' : storageType === 'local' ? 'uncover 2' : 'swap';
           this.pushVoid(node.expression, command);
           if (valueType !== StackType.bytes) {
             this.checkEncoding(node, valueType);
@@ -535,19 +536,22 @@ export default class Compiler {
         }
 
         if (isNumeric(valueType) && storageType === 'box') this.pushVoid(node.expression, 'itob');
-        const operation = storageType === 'global' ? 'app_global_put' : (storageType === 'local' ? 'app_local_put' : 'box_put');
+        const operation =
+          storageType === 'global' ? 'app_global_put' : storageType === 'local' ? 'app_local_put' : 'box_put';
         this.push(node.expression, operation, valueType);
         break;
       }
 
       case 'exists': {
-        const existsAction = (storageType === 'global') ? 'app_global_get_ex' : (storageType === 'local') ? 'app_local_get_ex' : 'box_len';
+        const existsAction =
+          storageType === 'global' ? 'app_global_get_ex' : storageType === 'local' ? 'app_local_get_ex' : 'box_len';
         this.hasMaybeValue(node.expression, existsAction);
         break;
       }
 
       case 'delete': {
-        const deleteAction = (storageType === 'global') ? 'app_global_del' : (storageType === 'local') ? 'app_local_del' : 'box_del';
+        const deleteAction =
+          storageType === 'global' ? 'app_global_del' : storageType === 'local' ? 'app_local_del' : 'box_del';
         this.pushVoid(node.expression, deleteAction);
         break;
       }
@@ -646,443 +650,414 @@ export default class Compiler {
       ),  # stack: [..., A*C+highword(B*C), lowword(B*C)]
       */
 
-      this.pushLines(
-        node,
-        'uncover 2',
-        'dig 1',
-        '*',
-        'cover 2',
-        'mulw',
-        'cover 2',
-        '+',
-        'swap',
-      );
+      this.pushLines(node, 'uncover 2', 'dig 1', '*', 'cover 2', 'mulw', 'cover 2', '+', 'swap');
     });
   }
 
   private customProperties: {
     [propertyName: string]: {
-      fn: (node: ts.PropertyAccessExpression) => void
-      check: (node: ts.PropertyAccessExpression) => boolean
-    }
-  } = {
-      zeroIndex: {
-        check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.expression.getText()),
-        fn: (node: ts.PropertyAccessExpression) => {
-          this.push(node.name, 'int 0', this.getABIType(node.expression.getText()));
-        },
-      },
-      zeroAddress: {
-        check: (node: ts.PropertyAccessExpression) => ['Address', 'Account'].includes(node.expression.getText()),
-        fn: (node: ts.PropertyAccessExpression) => {
-          this.push(node.name, 'global ZeroAddress', 'Address');
-        },
-      },
-      length: {
-        check: (node: ts.PropertyAccessExpression) => {
-          const abiType = this.lastType;
-          return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
-        },
-        fn: (n: ts.PropertyAccessExpression) => {
-          this.processNode(n.expression);
-          if (this.lastType === StackType.bytes || this.lastType === 'string') {
-            this.push(n.name, 'len', StackType.uint64);
-            return;
-          }
-
-          if (this.isDynamicArrayOfStaticType(this.lastType)) {
-            this.pushLines(n.name, 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/');
-            this.lastType = StackType.uint64;
-            return;
-          }
-
-          if (!this.lastType.endsWith('[]')) throw new Error('.length is currently only supported on dynamic arrays');
-          this.pushLines(n.name, 'extract 0 2', 'btoi');
-          this.lastType = StackType.uint64;
-        },
-      },
+      fn: (node: ts.PropertyAccessExpression) => void;
+      check: (node: ts.PropertyAccessExpression) => boolean;
     };
+  } = {
+    zeroIndex: {
+      check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.expression.getText()),
+      fn: (node: ts.PropertyAccessExpression) => {
+        this.push(node.name, 'int 0', this.getABIType(node.expression.getText()));
+      },
+    },
+    zeroAddress: {
+      check: (node: ts.PropertyAccessExpression) => ['Address', 'Account'].includes(node.expression.getText()),
+      fn: (node: ts.PropertyAccessExpression) => {
+        this.push(node.name, 'global ZeroAddress', 'Address');
+      },
+    },
+    length: {
+      check: (node: ts.PropertyAccessExpression) => {
+        const abiType = this.lastType;
+        return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
+      },
+      fn: (n: ts.PropertyAccessExpression) => {
+        this.processNode(n.expression);
+        if (this.lastType === StackType.bytes || this.lastType === 'string') {
+          this.push(n.name, 'len', StackType.uint64);
+          return;
+        }
+
+        if (this.isDynamicArrayOfStaticType(this.lastType)) {
+          this.pushLines(n.name, 'len', `int ${this.getTypeLength(this.lastType.replace(/\[\]$/, ''))}`, '/');
+          this.lastType = StackType.uint64;
+          return;
+        }
+
+        if (!this.lastType.endsWith('[]')) throw new Error('.length is currently only supported on dynamic arrays');
+        this.pushLines(n.name, 'extract 0 2', 'btoi');
+        this.lastType = StackType.uint64;
+      },
+    },
+  };
 
   private customMethods: {
     [methodName: string]: {
-      fn: (node: ts.CallExpression) => void
-      check: (node: ts.CallExpression) => boolean
-    }
+      fn: (node: ts.CallExpression) => void;
+      check: (node: ts.CallExpression) => boolean;
+    };
   } = {
-      // Global methods
-      clone: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          this.processNode(node.arguments[0]);
-        },
+    // Global methods
+    clone: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.arguments[0]);
       },
-      bzero: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          const typeArg = node.typeArguments?.[0];
-          const arg = node.arguments[0];
+    },
+    bzero: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        const typeArg = node.typeArguments?.[0];
+        const arg = node.arguments[0];
 
-          if (typeArg && !arg) {
-            if (this.isDynamicType(typeArg.getText())) throw Error('bzero cannot be used with dynamic types');
+        if (typeArg && !arg) {
+          if (this.isDynamicType(typeArg.getText())) throw Error('bzero cannot be used with dynamic types');
 
-            this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeArg.getText()))}`, typeArg.getText());
-            return;
+          this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeArg.getText()))}`, typeArg.getText());
+          return;
+        }
+
+        if (arg && !typeArg) {
+          if (ts.isNumericLiteral(arg)) this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, 'bytes');
+          else {
+            this.processNode(arg);
+            this.push(node, 'bzero', 'bytes');
           }
+          return;
+        }
 
-          if (arg && !typeArg) {
-            if (ts.isNumericLiteral(arg)) this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, 'bytes');
-            else {
-              this.processNode(arg);
-              this.push(node, 'bzero', 'bytes');
+        throw Error('bzero cannot be called with both a type argument and an argument');
+      },
+    },
+    rawBytes: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (node.arguments.length !== 1) throw new Error();
+        this.processNode(node.arguments[0]);
+        if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
+        this.lastType = 'bytes';
+      },
+    },
+    castBytes: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
+        this.processNode(node.arguments[0]);
+        this.lastType = node.typeArguments[0].getText();
+        // eslint-disable-next-line no-console
+        if (!this.disableWarnings)
+          console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
+      },
+    },
+    wideRatio: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (
+          node.arguments.length !== 2 ||
+          !ts.isArrayLiteralExpression(node.arguments[0]) ||
+          !ts.isArrayLiteralExpression(node.arguments[1])
+        )
+          throw new Error();
+
+        this.multiplyWideRatioFactors(node, new Array(...node.arguments[0].elements));
+        this.multiplyWideRatioFactors(node, new Array(...node.arguments[1].elements));
+
+        this.pushLines(node, 'divmodw', 'pop', 'pop', 'swap', '!', 'assert');
+
+        this.lastType = 'uint64';
+      },
+    },
+    hex: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (node.arguments.length !== 1) throw new Error();
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
+
+        this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
+      },
+    },
+    btobigint: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.arguments[0]);
+        this.lastType = 'uint512';
+      },
+    },
+    verifyTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isObjectLiteralExpression(node.arguments[1]))
+          throw new Error('Expected object literal as second argument');
+
+        const preTealLength = this.approvalTeal.length;
+
+        this.processNode(node.arguments[0]);
+
+        const indexInScratch: boolean = this.approvalTeal.length - preTealLength > 1;
+
+        if (indexInScratch) {
+          this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
+        } else this.approvalTeal.pop();
+
+        node.arguments[1].properties.forEach((p, i) => {
+          if (!ts.isPropertyAssignment(p)) throw new Error();
+          const field = p.name.getText();
+
+          const loadField = () => {
+            if (indexInScratch) {
+              this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+            } else if (node.arguments[0].getText() !== 'this.txn') {
+              this.processNode(node.arguments[0]);
             }
-            return;
-          }
 
-          throw Error('bzero cannot be called with both a type argument and an argument');
-        },
-      },
-      rawBytes: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (node.arguments.length !== 1) throw new Error();
-          this.processNode(node.arguments[0]);
-          if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
-          this.lastType = 'bytes';
-        },
-      },
-      castBytes: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
-          this.processNode(node.arguments[0]);
-          this.lastType = node.typeArguments[0].getText();
-          // eslint-disable-next-line no-console
-          if (!this.disableWarnings) console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
-        },
-      },
-      wideRatio: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (
-            node.arguments.length !== 2
-        || !ts.isArrayLiteralExpression(node.arguments[0])
-        || !ts.isArrayLiteralExpression(node.arguments[1])
-          ) throw new Error();
+            const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
+            this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
+          };
 
-          this.multiplyWideRatioFactors(node, new Array(...node.arguments[0].elements));
-          this.multiplyWideRatioFactors(node, new Array(...node.arguments[1].elements));
+          this.pushVoid(p, `// verify ${field}`);
 
-          this.pushLines(
-            node,
-            'divmodw',
-            'pop',
-            'pop',
-            'swap',
-            '!',
-            'assert',
-          );
+          if (ts.isObjectLiteralExpression(p.initializer)) {
+            p.initializer.properties.forEach((c) => {
+              if (!ts.isPropertyAssignment(c)) throw new Error();
 
-          this.lastType = 'uint64';
-        },
-      },
-      hex: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (node.arguments.length !== 1) throw new Error();
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error();
+              const condition = c.name.getText();
 
-          this.push(node.arguments[0], `byte 0x${node.arguments[0].text.replace(/^0x/, '')}`, StackType.bytes);
-        },
-      },
-      btobigint: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          this.processNode(node.arguments[0]);
-          this.lastType = 'uint512';
-        },
-      },
-      verifyTxn: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
+              if (['includedIn', 'notIncludedIn'].includes(condition)) {
+                if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
+                c.initializer.elements.forEach((e, eIndex) => {
+                  loadField();
+                  this.processNode(e);
+                  const op = condition === 'includedIn' ? '==' : '!=';
+                  this.pushLines(c, op);
+                  if (eIndex) this.pushLines(c, '||');
+                });
 
-          const preTealLength = this.approvalTeal.length;
-
-          this.processNode(node.arguments[0]);
-
-          const indexInScratch: boolean = this.approvalTeal.length - preTealLength > 1;
-
-          if (indexInScratch) {
-            this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-          } else this.approvalTeal.pop();
-
-          node.arguments[1].properties.forEach((p, i) => {
-            if (!ts.isPropertyAssignment(p)) throw new Error();
-            const field = p.name.getText();
-
-            const loadField = () => {
-              if (indexInScratch) {
-                this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
-              } else if (node.arguments[0].getText() !== 'this.txn') {
-                this.processNode(node.arguments[0]);
+                this.pushVoid(c, 'assert');
+                return;
               }
 
-              const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
-              this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
-            };
+              const conditionMapping: Record<string, string> = {
+                greaterThan: '>',
+                greaterThanEqualTo: '>=',
+                lessThan: '<',
+                lessThanEqualTo: '<=',
+                not: '!=',
+              };
 
-            this.pushVoid(p, `// verify ${field}`);
+              const op = conditionMapping[condition];
 
-            if (ts.isObjectLiteralExpression(p.initializer)) {
-              p.initializer.properties.forEach((c) => {
-                if (!ts.isPropertyAssignment(c)) throw new Error();
-
-                const condition = c.name.getText();
-
-                if (['includedIn', 'notIncludedIn'].includes(condition)) {
-                  if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
-                  c.initializer.elements.forEach((e, eIndex) => {
-                    loadField();
-                    this.processNode(e);
-                    const op = condition === 'includedIn' ? '==' : '!=';
-                    this.pushLines(c, op);
-                    if (eIndex) this.pushLines(c, '||');
-                  });
-
-                  this.pushVoid(c, 'assert');
-                  return;
-                }
-
-                const conditionMapping: Record<string, string> = {
-                  greaterThan: '>',
-                  greaterThanEqualTo: '>=',
-                  lessThan: '<',
-                  lessThanEqualTo: '<=',
-                  not: '!=',
-                };
-
-                const op = conditionMapping[condition];
-
-                if (op === undefined) throw Error();
-                loadField();
-                this.processNode(c.initializer);
-                this.pushLines(c, op, 'assert');
-              });
-              return;
-            }
-
-            loadField();
-            this.processNode(p.initializer);
-            this.pushLines(p, '==', 'assert');
-          });
-        },
-      },
-      templateVar: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
-          if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('templateVar must have exactly one string literal argument');
-          const type = node.typeArguments[0].getText();
-          const name = node.arguments[0].text;
-
-          if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null) throw Error('Template variable name may only contain capital letters and underscores');
-
-          if (type === 'bytes' || type === 'string') {
-            this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
-          } else if (type === 'uint64' || type === 'number') {
-            this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
-          } else throw Error(`Invalid templateVar type ${type}`);
-        },
-      },
-      addr: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          // TODO: add pseudo op type parsing/assertion to handle this
-          // not currently exported in langspeg.json
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
-          this.push(node.arguments[0], `addr ${node.arguments[0].text}`, ForeignType.Address);
-        },
-      },
-      method: {
-        check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
-          this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
-        },
-      },
-      // Array methods
-      push: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
-
-          if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
-          if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot push to dynamic array of dynamic types');
-          this.processNode(node.arguments[0]);
-          if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
-          this.pushVoid(node, 'concat');
-
-          this.updateValue(node.expression.expression);
-        },
-      },
-      pop: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
-
-          const poppedType = this.lastType.replace(/\[\]$/, '');
-          if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
-          if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
-
-          const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
-          this.pushLines(
-            node.expression,
-            'dup',
-            'len',
-            `int ${typeLength}`,
-            '-',
-            'int 0',
-            'swap',
-            'extract3',
-          );
-
-          // only get the popped element if we're expecting a return value
-          if (this.topLevelNode !== node) {
-            this.pushLines(
-              node.expression,
-              'dup',
-              'len',
-              `int ${typeLength}`,
-            );
-
-            this.processNode(node.expression.expression);
-
-            this.pushLines(
-              node.expression,
-              'cover 2',
-              'extract3',
-              'swap',
-            );
+              if (op === undefined) throw Error();
+              loadField();
+              this.processNode(c.initializer);
+              this.pushLines(c, op, 'assert');
+            });
+            return;
           }
 
-          this.updateValue(node.expression.expression);
-
-          this.lastType = poppedType;
-        },
+          loadField();
+          this.processNode(p.initializer);
+          this.pushLines(p, '==', 'assert');
+        });
       },
-      splice: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+    },
+    templateVar: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
+        if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
+        if (!ts.isStringLiteral(node.arguments[0]))
+          throw new Error('templateVar must have exactly one string literal argument');
+        const type = node.typeArguments[0].getText();
+        const name = node.arguments[0].text;
 
-          if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
-          if (!this.isDynamicArrayOfStaticType(this.lastType)) throw new Error('Cannot splice a dynamic array of dynamic types');
+        if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null)
+          throw Error('Template variable name may only contain capital letters and underscores');
 
-          const elementType = this.lastType.replace(/\[\]$/, '');
+        if (type === 'bytes' || type === 'string') {
+          this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
+        } else if (type === 'uint64' || type === 'number') {
+          this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
+        } else throw Error(`Invalid templateVar type ${type}`);
+      },
+    },
+    addr: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // TODO: add pseudo op type parsing/assertion to handle this
+        // not currently exported in langspeg.json
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('addr() argument must be a string literal');
+        this.push(node.arguments[0], `addr ${node.arguments[0].text}`, ForeignType.Address);
+      },
+    },
+    method: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isStringLiteral(node.arguments[0])) throw new Error('method() argument must be a string literal');
+        this.push(node.arguments[0], `method "${node.arguments[0].text}"`, StackType.bytes);
+      },
+    },
+    // Array methods
+    push: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) &&
+        this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          // `int ${parseInt(node.arguments[1].getText(), 10)}`
-          this.processNode(node.arguments[1]);
+        if (!this.lastType.endsWith('[]')) throw new Error('Can only push to dynamic array');
+        if (!this.isDynamicArrayOfStaticType(this.lastType))
+          throw new Error('Cannot push to dynamic array of dynamic types');
+        this.processNode(node.arguments[0]);
+        if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
+        this.pushVoid(node, 'concat');
 
-          // TODO: Optimize for literals
-          // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
-          // const spliceStart = spliceIndex * this.getTypeLength(elementType);
-          this.processNode(node.arguments[0]);
-          this.pushLines(
-            node,
-            `int ${this.getTypeLength(elementType)}`,
-            '*',
-            `store ${scratch.spliceStart}`,
-          );
+        this.updateValue(node.expression.expression);
+      },
+    },
+    pop: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) &&
+        this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
-          // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
-          this.processNode(node.arguments[1]);
-          this.pushLines(
-            node,
-            `int ${this.getTypeLength(elementType)}`,
-            '*',
-            `int ${this.getTypeLength(elementType)}`,
-            '+',
-            `store ${scratch.spliceByteLength}`,
-          );
+        const poppedType = this.lastType.replace(/\[\]$/, '');
+        if (!this.lastType.endsWith('[]')) throw new Error('Can only pop from dynamic array');
+        if (this.isDynamicType(poppedType)) throw new Error('Cannot pop from dynamic array of dynamic types');
 
-          // extract first part
+        const typeLength = this.getTypeLength(this.lastType.replace(/\[\]$/, ''));
+        this.pushLines(node.expression, 'dup', 'len', `int ${typeLength}`, '-', 'int 0', 'swap', 'extract3');
+
+        // only get the popped element if we're expecting a return value
+        if (this.topLevelNode !== node) {
+          this.pushLines(node.expression, 'dup', 'len', `int ${typeLength}`);
+
           this.processNode(node.expression.expression);
-          this.pushLines(
-            node,
-            'int 0',
-            `load ${scratch.spliceStart}`,
-            'substring3',
-          );
 
+          this.pushLines(node.expression, 'cover 2', 'extract3', 'swap');
+        }
+
+        this.updateValue(node.expression.expression);
+
+        this.lastType = poppedType;
+      },
+    },
+    splice: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) &&
+        this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+
+        if (!this.lastType.endsWith('[]')) throw new Error(`Can only splice dynamic array (got ${this.lastType})`);
+        if (!this.isDynamicArrayOfStaticType(this.lastType))
+          throw new Error('Cannot splice a dynamic array of dynamic types');
+
+        const elementType = this.lastType.replace(/\[\]$/, '');
+
+        // `int ${parseInt(node.arguments[1].getText(), 10)}`
+        this.processNode(node.arguments[1]);
+
+        // TODO: Optimize for literals
+        // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
+        // const spliceStart = spliceIndex * this.getTypeLength(elementType);
+        this.processNode(node.arguments[0]);
+        this.pushLines(node, `int ${this.getTypeLength(elementType)}`, '*', `store ${scratch.spliceStart}`);
+
+        // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
+        // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
+        this.processNode(node.arguments[1]);
+        this.pushLines(
+          node,
+          `int ${this.getTypeLength(elementType)}`,
+          '*',
+          `int ${this.getTypeLength(elementType)}`,
+          '+',
+          `store ${scratch.spliceByteLength}`
+        );
+
+        // extract first part
+        this.processNode(node.expression.expression);
+        this.pushLines(node, 'int 0', `load ${scratch.spliceStart}`, 'substring3');
+
+        // extract second part
+        this.processNode(node.expression.expression);
+        this.pushLines(
+          node,
+          // get end
+          'dup',
+          'len',
+          // get start (end of splice)
+          `load ${scratch.spliceStart}`,
+          `load ${scratch.spliceByteLength}`,
+          '+',
+          `int ${this.getTypeLength(elementType)}`,
+          '-',
+          'swap',
           // extract second part
+          'substring3',
+          // concat everything
+          'concat'
+        );
+
+        if (this.topLevelNode !== node) {
+          // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
+
           this.processNode(node.expression.expression);
           this.pushLines(
             node,
-            // get end
-            'dup',
-            'len',
-            // get start (end of splice)
             `load ${scratch.spliceStart}`,
+            // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
             `load ${scratch.spliceByteLength}`,
-            '+',
             `int ${this.getTypeLength(elementType)}`,
             '-',
-            'swap',
-            // extract second part
-            'substring3',
-            // concat everything
-            'concat',
+            'extract3',
+            'swap'
           );
+        }
 
-          if (this.topLevelNode !== node) {
-            // this.pushLines(`byte 0x${spliceElementLength.toString(16).padStart(4, '0')}`);
-
-            this.processNode(node.expression.expression);
-            this.pushLines(
-              node,
-              `load ${scratch.spliceStart}`,
-              // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
-              `load ${scratch.spliceByteLength}`,
-              `int ${this.getTypeLength(elementType)}`,
-              '-',
-              'extract3',
-              'swap',
-            );
-          }
-
-          this.updateValue(node.expression.expression);
-          this.lastType = `${elementType}[]`;
-        },
+        this.updateValue(node.expression.expression);
+        this.lastType = `${elementType}[]`;
       },
-      forEach: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
-        fn: (node: ts.CallExpression) => {
-          throw Error('forEach not yet supported. Use for loop instead');
-        },
+    },
+    forEach: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) &&
+        this.getStackTypeFromNode(node.expression.expression).endsWith(']'),
+      fn: (node: ts.CallExpression) => {
+        throw Error('forEach not yet supported. Use for loop instead');
       },
-      // Address methods
-      fromBytes: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && node.expression.expression.getText() === 'Address',
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+    },
+    // Address methods
+    fromBytes: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) && node.expression.expression.getText() === 'Address',
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.arguments[0]);
-          this.lastType = this.getABIType(node.expression.expression.getText());
-        },
+        this.processNode(node.arguments[0]);
+        this.lastType = this.getABIType(node.expression.expression.getText());
       },
-      // Asset / Application fromID
-      fromID: {
-        check: (node: ts.CallExpression) => ts.isPropertyAccessExpression(node.expression) && (node.expression.expression.getText() === 'Asset' || node.expression.expression.getText() === 'Application'),
-        fn: (node: ts.CallExpression) => {
-          if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
+    },
+    // Asset / Application fromID
+    fromID: {
+      check: (node: ts.CallExpression) =>
+        ts.isPropertyAccessExpression(node.expression) &&
+        (node.expression.expression.getText() === 'Asset' || node.expression.expression.getText() === 'Application'),
+      fn: (node: ts.CallExpression) => {
+        if (!ts.isPropertyAccessExpression(node.expression)) throw Error();
 
-          this.processNode(node.arguments[0]);
-          this.lastType = this.getABIType(node.expression.expression.getText());
-        },
+        this.processNode(node.arguments[0]);
+        this.lastType = this.getABIType(node.expression.expression.getText());
       },
-    };
+    },
+  };
 
   private disableWarnings: boolean;
 
@@ -1100,11 +1075,7 @@ export default class Compiler {
 
   private events: Record<string, string[]> = {};
 
-  constructor(
-    content: string,
-    className: string,
-    options?: CompilerOptions,
-  ) {
+  constructor(content: string, className: string, options?: CompilerOptions) {
     this.disableWarnings = options?.disableWarnings || false;
     this.algodServer = options?.algodServer || 'http://localhost';
     this.algodPort = options?.algodPort || 4001;
@@ -1115,19 +1086,16 @@ export default class Compiler {
 
     this.content = content;
     this.name = className;
-    this.sourceFile = ts.createSourceFile(
-      this.filename,
-      this.content,
-      ts.ScriptTarget.ES2022,
-      true,
-    );
+    this.sourceFile = ts.createSourceFile(this.filename, this.content, ts.ScriptTarget.ES2022, true);
     this.constants = {};
   }
 
   static compileAll(content: string, options: CompilerOptions): Promise<Compiler>[] {
     const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2022, true);
     const compilers = src.statements
-      .filter((body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract')
+      .filter(
+        (body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract'
+      )
       .map(async (body) => {
         if (!ts.isClassDeclaration(body)) throw Error();
         const name = body.name!.text;
@@ -1375,7 +1343,8 @@ export default class Compiler {
       type = this.customTypes[type];
     }
 
-    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2022, true).statements[0];
+    const typeAliasDeclaration = ts.createSourceFile('', `type Dummy = ${type};`, ts.ScriptTarget.ES2022, true)
+      .statements[0];
 
     if (!ts.isTypeAliasDeclaration(typeAliasDeclaration)) throw new Error();
     if (!ts.isTypeLiteralNode(typeAliasDeclaration.type)) throw new Error();
@@ -1391,52 +1360,57 @@ export default class Compiler {
   }
 
   private async postProcessTeal(input: NodeAndTEAL[]): Promise<NodeAndTEAL[]> {
-    return (await Promise.all(
-      input.map(async (t) => {
-        const tealLine = t.teal;
+    return (
+      await Promise.all(
+        input.map(async (t) => {
+          const tealLine = t.teal;
 
-        if (tealLine.startsWith('PENDING_COMPILE')) {
-          const c = new Compiler(this.content, tealLine.split(' ')[1], {
-            filename: this.filename,
-            algodPort: this.algodPort,
-            algodServer: this.algodServer,
-            algodToken: this.algodToken,
-            disableWarnings: this.disableWarnings,
-            disableOverflowChecks: this.disableOverflowChecks,
-            disableTypeScript: this.disableTypeScript,
-          });
-          await c.compile();
-          const program = await c.algodCompile();
-          return { teal: `byte b64 ${program}`, node: t.node };
-        }
+          if (tealLine.startsWith('PENDING_COMPILE')) {
+            const c = new Compiler(this.content, tealLine.split(' ')[1], {
+              filename: this.filename,
+              algodPort: this.algodPort,
+              algodServer: this.algodServer,
+              algodToken: this.algodToken,
+              disableWarnings: this.disableWarnings,
+              disableOverflowChecks: this.disableOverflowChecks,
+              disableTypeScript: this.disableTypeScript,
+            });
+            await c.compile();
+            const program = await c.algodCompile();
+            return { teal: `byte b64 ${program}`, node: t.node };
+          }
 
-        const method = tealLine.split(' ')[1];
-        const subroutine = this.subroutines.find((s) => s.name === method);
+          const method = tealLine.split(' ')[1];
+          const subroutine = this.subroutines.find((s) => s.name === method);
 
-        if (tealLine.startsWith('PENDING_DUPN')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+          if (tealLine.startsWith('PENDING_DUPN')) {
+            if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
-          const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
+            const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
 
-          if (nonArgFrameSize === 0) return { node: t.node, teal: '// No extra bytes needed for this subroutine' };
+            if (nonArgFrameSize === 0) return { node: t.node, teal: '// No extra bytes needed for this subroutine' };
 
-          const comment = '// push empty bytes to fill the stack frame for this subroutine\'s local variables';
+            const comment = "// push empty bytes to fill the stack frame for this subroutine's local variables";
 
-          if (nonArgFrameSize === 1) return { node: t.node, teal: `byte 0x ${comment}` };
-          if (nonArgFrameSize === 2) return { node: t.node, teal: `byte 0x; dup ${comment}` };
-          return { node: t.node, teal: `byte 0x; dupn ${nonArgFrameSize - 1} ${comment}` };
-        }
+            if (nonArgFrameSize === 1) return { node: t.node, teal: `byte 0x ${comment}` };
+            if (nonArgFrameSize === 2) return { node: t.node, teal: `byte 0x; dup ${comment}` };
+            return { node: t.node, teal: `byte 0x; dupn ${nonArgFrameSize - 1} ${comment}` };
+          }
 
-        if (tealLine.startsWith('PENDING_PROTO')) {
-          if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
+          if (tealLine.startsWith('PENDING_PROTO')) {
+            if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
-          const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-          return { node: t.node, teal: `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}` };
-        }
+            const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+            return {
+              node: t.node,
+              teal: `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`,
+            };
+          }
 
-        return { node: t.node, teal: tealLine };
-      }),
-    )).flat();
+          return { node: t.node, teal: tealLine };
+        })
+      )
+    ).flat();
   }
 
   private getTypeScriptDiagnostics() {
@@ -1459,7 +1433,10 @@ export default class Compiler {
     content = content.replace(this.tealscriptImport, 'src/lib/index');
 
     // TODO: figure out how to embed these files for webpack
-    project.createSourceFile('types/global.d.ts', readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8'));
+    project.createSourceFile(
+      'types/global.d.ts',
+      readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8')
+    );
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
 
@@ -1509,10 +1486,7 @@ export default class Compiler {
 
       this.lastNode = body;
 
-      if (
-        body.heritageClauses === undefined
-        || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)
-      ) return;
+      if (body.heritageClauses === undefined || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)) return;
 
       if (body.heritageClauses[0].types[0].expression.text === CONTRACT_SUBCLASS) {
         const className = body.name!.text;
@@ -1520,7 +1494,9 @@ export default class Compiler {
 
         if (className === this.name) {
           this.abi = {
-            name: className, desc: '', methods: [],
+            name: className,
+            desc: '',
+            methods: [],
           };
 
           this.processNode(body);
@@ -1529,8 +1505,10 @@ export default class Compiler {
     });
 
     if (
-      this.subroutines.map((a) => a.allows.create).flat().length === 0
-      && !Object.values(this.bareCallConfig).map((c) => c.action).includes('CREATE')
+      this.subroutines.map((a) => a.allows.create).flat().length === 0 &&
+      !Object.values(this.bareCallConfig)
+        .map((c) => c.action)
+        .includes('CREATE')
     ) {
       const name = 'createApplication';
       const m = {
@@ -1576,7 +1554,8 @@ export default class Compiler {
 
     if (hasNonAbi) {
       const i = this.approvalTeal.map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
-      this.approvalTeal[i].teal = '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
+      this.approvalTeal[i].teal =
+        '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
     }
 
     this.abi.methods = this.abi.methods.map((m) => ({
@@ -1619,13 +1598,15 @@ export default class Compiler {
 
     this.compilingApproval = false;
 
-    this.clearTeal.map((t) => t.teal).forEach((t) => {
-      if (t.startsWith('callsub')) {
-        const subNode = this.subroutines.find((s) => s.name === t.split(' ')[1]);
-        if (subNode === undefined) return;
-        this.processNode(subNode.node);
-      }
-    });
+    this.clearTeal
+      .map((t) => t.teal)
+      .forEach((t) => {
+        if (t.startsWith('callsub')) {
+          const subNode = this.subroutines.find((s) => s.name === t.split(' ')[1]);
+          if (subNode === undefined) return;
+          this.processNode(subNode.node);
+        }
+      });
 
     this.clearTeal = await this.postProcessTeal(this.clearTeal);
     this.clearTeal = optimizeTeal(this.clearTeal);
@@ -1634,11 +1615,7 @@ export default class Compiler {
     this.clearTeal = this.prettyTeal(this.clearTeal);
 
     this.approvalTeal.forEach((t, i) => {
-      if (
-        t.teal.length === 0
-        || t.teal.trim().startsWith('//')
-        || t.teal.trim().split(' ')[0].endsWith(':')
-      ) return;
+      if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
       this.srcMap.push({
         teal: i + 1,
         source: ts.getLineAndCharacterOfPosition(this.sourceFile, t.node.getStart()).line + 1,
@@ -1713,7 +1690,10 @@ export default class Compiler {
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
-          this.approvalTeal[switchIndex].teal = this.approvalTeal[switchIndex].teal.replace(`${a}_${onComplete}`, 'NOT_IMPLEMENTED');
+          this.approvalTeal[switchIndex].teal = this.approvalTeal[switchIndex].teal.replace(
+            `${a}_${onComplete}`,
+            'NOT_IMPLEMENTED'
+          );
           return;
         }
 
@@ -1732,7 +1712,11 @@ export default class Compiler {
           this.pushMethod(m);
         });
 
-        this.pushLines(this.classNode, 'txna ApplicationArgs 0', `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`);
+        this.pushLines(
+          this.classNode,
+          'txna ApplicationArgs 0',
+          `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`
+        );
 
         const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
 
@@ -1832,11 +1816,11 @@ export default class Compiler {
     let isTopLevelNode = false;
 
     if (
-      !ts.isClassDeclaration(node)
-      && !ts.isMethodDeclaration(node)
-      && !ts.isBlock(node)
-      && !ts.isExpressionStatement(node)
-      && !ts.isNonNullExpression(node)
+      !ts.isClassDeclaration(node) &&
+      !ts.isMethodDeclaration(node) &&
+      !ts.isBlock(node) &&
+      !ts.isExpressionStatement(node) &&
+      !ts.isNonNullExpression(node)
     ) {
       if (this.nodeDepth === 0) {
         this.topLevelNode = node;
@@ -1860,13 +1844,11 @@ export default class Compiler {
       else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
       else if (ts.isWhileStatement(node)) this.processWhileStatement(node);
       else if (ts.isForStatement(node)) this.processForStatement(node);
-
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
       else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);
       else if (ts.isVariableDeclaration(node)) this.processVariableDeclarator(node);
       else if (ts.isNumericLiteral(node) || ts.isStringLiteral(node)) this.processLiteral(node);
-
       // Logical
       else if (ts.isBlock(node)) this.processBlockStatement(node);
       else if (ts.isIfStatement(node)) this.processIfStatement(node);
@@ -1875,8 +1857,8 @@ export default class Compiler {
       else if (ts.isCallExpression(node)) this.processExpressionChain(node);
       else if (ts.isExpressionStatement(node)) this.processExpressionStatement(node);
       else if (ts.isReturnStatement(node)) this.processReturnStatement(node);
-      else if (ts.isParenthesizedExpression(node)) this.processNode((node).expression);
-      else if (ts.isVariableStatement(node)) this.processNode((node).declarationList);
+      else if (ts.isParenthesizedExpression(node)) this.processNode(node.expression);
+      else if (ts.isVariableStatement(node)) this.processNode(node.declarationList);
       else if (ts.isElementAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isConditionalExpression(node)) this.processConditionalExpression(node);
       else if (node.kind === ts.SyntaxKind.TrueKeyword) this.push(node, 'int 1', 'bool');
@@ -1892,11 +1874,16 @@ export default class Compiler {
       const errNode = this.processErrorNodes[0];
       const loc = ts.getLineAndCharacterOfPosition(this.sourceFile, errNode.pos);
       const lines: string[] = [];
-      errNode.getText().split('\n').forEach((l: string, i: number) => {
-        lines.push(`${this.filename}:${loc.line + i + 1}: ${l}`);
-      });
+      errNode
+        .getText()
+        .split('\n')
+        .forEach((l: string, i: number) => {
+          lines.push(`${this.filename}:${loc.line + i + 1}: ${l}`);
+        });
 
-      const msg = `TEALScript can not process ${ts.SyntaxKind[errNode.kind]} at ${this.filename}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+      const msg = `TEALScript can not process ${ts.SyntaxKind[errNode.kind]} at ${this.filename}:${loc.line}:${
+        loc.character
+      }\n    ${lines.join('\n    ')}\n`;
 
       e.message = `${e.message.replace(`\n${msg}`, '')}\n${msg}`;
 
@@ -1967,10 +1954,7 @@ export default class Compiler {
     throw new Error(`${ts.SyntaxKind[typeHintNode.kind]}: ${typeHintNode.getText()}`);
   }
 
-  private processBools(
-    nodes: ts.Node[] | ts.NodeArray<ts.Expression>,
-    isDynamicArray: boolean = false,
-  ) {
+  private processBools(nodes: ts.Node[] | ts.NodeArray<ts.Expression>, isDynamicArray: boolean = false) {
     const boolByteLength = Math.ceil(nodes.length / 8);
 
     if (isDynamicArray) this.pushVoid(nodes[0], `byte 0x${nodes.length.toString(16).padStart(4, '0')}`);
@@ -1985,10 +1969,7 @@ export default class Compiler {
     if (isDynamicArray) this.pushVoid(nodes[0], 'concat');
   }
 
-  private processTuple(
-    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
-    parentNode: ts.Node,
-  ) {
+  private processTuple(elements: ts.Expression[] | ts.NodeArray<ts.Expression>, parentNode: ts.Node) {
     if (this.typeHint === undefined) throw new Error('Type hint is undefined');
     let { typeHint } = this;
 
@@ -2005,7 +1986,12 @@ export default class Compiler {
     let consecutiveBools: ts.Node[] = [];
     elements.forEach((e, i) => {
       if (i === 0 && !isStatic) {
-        this.pushLines(parentNode, 'byte 0x // initial head', 'byte 0x // initial tail', `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`);
+        this.pushLines(
+          parentNode,
+          'byte 0x // initial head',
+          'byte 0x // initial tail',
+          `byte 0x${headLength.toString(16).padStart(4, '0')} // initial head offset`
+        );
       }
 
       if (types[i] === 'bool') {
@@ -2028,7 +2014,8 @@ export default class Compiler {
       this.checkEncoding(e, types[i]);
 
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-      if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
+      if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
+        this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
       if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
@@ -2050,25 +2037,11 @@ export default class Compiler {
       if (baseType === 'bool') return;
       const length = this.getTypeLength(baseType);
 
-      this.pushLines(
-        node,
-        'dup',
-        'len',
-      );
+      this.pushLines(node, 'dup', 'len');
       if (length > 1) {
-        this.pushLines(
-          node,
-          `int ${length}`,
-          '/',
-        );
+        this.pushLines(node, `int ${length}`, '/');
       }
-      this.pushLines(
-        node,
-        'itob',
-        'extract 6 2',
-        'swap',
-        'concat',
-      );
+      this.pushLines(node, 'itob', 'extract 6 2', 'swap', 'concat');
     } else if (abiType === 'bool') {
       this.pushLines(node, 'byte 0x00', 'int 0', 'uncover 2', 'setbit');
     }
@@ -2115,7 +2088,7 @@ export default class Compiler {
 
     if (ts.isTypeLiteralNode(expr)) {
       expr.members.forEach((m) => {
-        if (!(ts.isPropertySignature(m))) throw new Error();
+        if (!ts.isPropertySignature(m)) throw new Error();
 
         processTypeNode(m.type!);
       });
@@ -2135,10 +2108,7 @@ export default class Compiler {
     return elem;
   }
 
-  private processArrayElements(
-    elements: ts.Expression[] | ts.NodeArray<ts.Expression>,
-    parentNode: ts.Node,
-  ) {
+  private processArrayElements(elements: ts.Expression[] | ts.NodeArray<ts.Expression>, parentNode: ts.Node) {
     const { typeHint } = this;
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
@@ -2164,7 +2134,8 @@ export default class Compiler {
 
         this.processNode(e);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-        if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e)) this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
+        if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
+          this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
@@ -2206,8 +2177,8 @@ export default class Compiler {
    */
   private getExpressionChain(
     node: ExpressionChainNode,
-    chain: ExpressionChainNode[] = [],
-  ): { chain: ExpressionChainNode[], base: ts.Node } {
+    chain: ExpressionChainNode[] = []
+  ): { chain: ExpressionChainNode[]; base: ts.Node } {
     chain.push(node);
 
     /**
@@ -2221,11 +2192,7 @@ export default class Compiler {
       expr = expr.expression;
     }
 
-    if (
-      ts.isElementAccessExpression(expr)
-      || ts.isPropertyAccessExpression(expr)
-      || ts.isCallExpression(expr)
-    ) {
+    if (ts.isElementAccessExpression(expr) || ts.isPropertyAccessExpression(expr) || ts.isCallExpression(expr)) {
       return this.getExpressionChain(expr, chain);
     }
 
@@ -2233,10 +2200,7 @@ export default class Compiler {
     return { base: expr, chain };
   }
 
-  private getAccessChain(
-    node: ts.ElementAccessExpression,
-    chain: ts.ElementAccessExpression[] = [],
-  ) {
+  private getAccessChain(node: ts.ElementAccessExpression, chain: ts.ElementAccessExpression[] = []) {
     chain.push(node);
 
     if (ts.isElementAccessExpression(node.expression)) {
@@ -2249,14 +2213,14 @@ export default class Compiler {
   private processFrame(
     node: ts.Node,
     inputName: string,
-    load: boolean,
+    load: boolean
   ): {
-    accessors: (ts.Expression | string)[],
-    name: string,
-    type: 'frame' | 'storage',
-    storageExpression?: ts.PropertyAccessExpression,
-    storageKeyFrame?: string
-    storageAccountFrame?: string
+    accessors: (ts.Expression | string)[];
+    name: string;
+    type: 'frame' | 'storage';
+    storageExpression?: ts.PropertyAccessExpression;
+    storageKeyFrame?: string;
+    storageAccountFrame?: string;
   } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
@@ -2300,11 +2264,7 @@ export default class Compiler {
         action: 'get',
       });
     } else {
-      this.push(
-        node,
-        `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.type}`,
-        currentFrame.type,
-      );
+      this.push(node, `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.type}`, currentFrame.type);
     }
 
     return { name, type, accessors: accessors.reverse().flat() };
@@ -2354,9 +2314,7 @@ export default class Compiler {
           });
         }
       }
-    } else if (
-      ts.isCallExpression(node) || ts.isPropertyAccessExpression(node)
-    ) {
+    } else if (ts.isCallExpression(node) || ts.isPropertyAccessExpression(node)) {
       let storageName: string | undefined;
 
       if (ts.isCallExpression(node)) {
@@ -2367,7 +2325,7 @@ export default class Compiler {
       const storageProp = this.storageProps[storageName!];
 
       const { type, valueType } = storageProp;
-      const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+      const action = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
 
       this.handleStorageAction({
         node,
@@ -2379,8 +2337,7 @@ export default class Compiler {
     }
   }
 
-  private compilerSubroutines: {[name: string]: () => string[]} = {
-
+  private compilerSubroutines: { [name: string]: () => string[] } = {
     process_static_tuple_element: () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
@@ -2410,7 +2367,9 @@ export default class Compiler {
         'process_dynamic_tuple_element:',
         'proto 4 3',
         `frame_dig ${tupleHead}`,
-        `frame_dig ${headOffset}`, 'concat', `frame_bury ${tupleHead}`,
+        `frame_dig ${headOffset}`,
+        'concat',
+        `frame_bury ${tupleHead}`,
         `frame_dig ${element}`,
         'dup',
         'len',
@@ -2494,29 +2453,19 @@ export default class Compiler {
     ],
   };
 
-  private getElementHead(
-    topLevelTuple: TupleElement,
-    accessors: (ts.Expression | string)[],
-    node: ts.Node,
-  ) {
+  private getElementHead(topLevelTuple: TupleElement, accessors: (ts.Expression | string)[], node: ts.Node) {
     let previousTupleElement = topLevelTuple;
     let previousElemIsBool = false;
 
     // At the end of this forEach, the stack will contain the HEAD offset of the accessed element
     accessors.forEach((acc, i) => {
-      if (typeof (acc) === 'string') {
+      if (typeof acc === 'string') {
         if (!acc.startsWith('accessor//')) {
-          const index = Object.keys(
-            this.getObjectTypes(previousTupleElement.type),
-          ).indexOf(acc);
+          const index = Object.keys(this.getObjectTypes(previousTupleElement.type)).indexOf(acc);
 
           const elem = previousTupleElement[index];
 
-          this.pushLines(
-            node,
-            `int ${elem.headOffset} // headOffset`,
-            '+',
-          );
+          this.pushLines(node, `int ${elem.headOffset} // headOffset`, '+');
 
           previousTupleElement = elem;
           return;
@@ -2533,7 +2482,7 @@ export default class Compiler {
           // `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`,
           `int ${this.getTypeLength(elem.type)}`,
           '* // acc * typeLength',
-          '+',
+          '+'
         );
 
         previousTupleElement = elem;
@@ -2543,23 +2492,16 @@ export default class Compiler {
       const accNumber = parseInt(acc.getText(), 10);
 
       const elem: TupleElement = Number.isNaN(accNumber)
-        ? previousTupleElement[0] : previousTupleElement[accNumber] || previousTupleElement[0];
+        ? previousTupleElement[0]
+        : previousTupleElement[accNumber] || previousTupleElement[0];
 
       if (elem.type === 'bool' && !previousElemIsBool) {
-        this.pushLines(
-          acc,
-          `int ${elem.headOffset} // headOffset`,
-          '+',
-        );
+        this.pushLines(acc, `int ${elem.headOffset} // headOffset`, '+');
 
         previousElemIsBool = true;
       } else if (previousTupleElement.arrayType === 'tuple') {
-        this.pushLines(
-          acc,
-          `int ${elem.headOffset} // headOffset`,
-          '+',
-        );
-      // Dynamic element in static or dynamic array
+        this.pushLines(acc, `int ${elem.headOffset} // headOffset`, '+');
+        // Dynamic element in static or dynamic array
       } else if (this.isDynamicType(elem.type)) {
         if (!Number.isNaN(accNumber)) {
           this.pushLines(acc, `int ${accNumber * 2} // acc * 2`, '+');
@@ -2568,14 +2510,9 @@ export default class Compiler {
 
           if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
 
-          this.pushLines(
-            acc,
-            'int 2',
-            '* // acc * 2',
-            '+',
-          );
+          this.pushLines(acc, 'int 2', '* // acc * 2', '+');
         }
-      // Static element in array
+        // Static element in array
       } else if (!previousElemIsBool) {
         if (!Number.isNaN(accNumber)) {
           this.pushLines(acc, `int ${accNumber * this.getTypeLength(elem.type)} // acc * typeLength`, '+');
@@ -2584,33 +2521,19 @@ export default class Compiler {
 
           if (!isNumeric(this.lastType)) this.pushVoid(acc, 'btoi');
 
-          this.pushLines(
-            acc,
-            `int ${this.getTypeLength(elem.type)}`,
-            '* // acc * typeLength',
-            '+',
-          );
+          this.pushLines(acc, `int ${this.getTypeLength(elem.type)}`, '* // acc * typeLength', '+');
         }
       }
 
       if (
-        previousTupleElement.arrayType === 'dynamic'
-        && !(i === 0 && this.isDynamicArrayOfStaticType(previousTupleElement.type))
+        previousTupleElement.arrayType === 'dynamic' &&
+        !(i === 0 && this.isDynamicArrayOfStaticType(previousTupleElement.type))
       ) {
-        this.pushLines(
-          acc,
-          'int 2',
-          '+ // add two for length',
-        );
+        this.pushLines(acc, 'int 2', '+ // add two for length');
       }
 
       if (this.isDynamicType(elem.type) && i !== accessors.length - 1) {
-        this.pushLines(
-          acc,
-          `load ${scratch.fullArray}`,
-          'swap',
-          'extract_uint16',
-        );
+        this.pushLines(acc, `load ${scratch.fullArray}`, 'swap', 'extract_uint16');
       }
 
       previousTupleElement = elem;
@@ -2623,7 +2546,7 @@ export default class Compiler {
     node: ts.Node,
     accessors: (ts.Expression | string)[],
     parentExpression: ts.Node,
-    newValue?: ts.Node,
+    newValue?: ts.Node
   ) {
     const parentType = this.getABIType(this.lastType);
 
@@ -2631,10 +2554,8 @@ export default class Compiler {
     let previousTupleElement = this.getTupleElement(parentType);
     accessors.forEach((acc, i) => {
       let accNumber: number;
-      if (typeof (acc) === 'string') {
-        accNumber = Object.keys(
-          this.getObjectTypes(previousTupleElement.type),
-        ).indexOf(acc);
+      if (typeof acc === 'string') {
+        accNumber = Object.keys(this.getObjectTypes(previousTupleElement.type)).indexOf(acc);
       } else accNumber = parseInt((acc as ts.Expression).getText(), 10);
 
       const elem = previousTupleElement[accNumber] || previousTupleElement[0];
@@ -2652,12 +2573,13 @@ export default class Compiler {
     // If one of the immediate args is over 255, then replace2/extract won't work
     const over255 = length > 255 || offset > 255;
 
-    const canBoxReplace = newValue
-      && ts.isPropertyAccessExpression(parentExpression)
-      && getStorageName(parentExpression)
-      && this.storageProps[getStorageName(parentExpression)!]
-      && this.storageProps[getStorageName(parentExpression)!].type === 'box'
-      && !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
+    const canBoxReplace =
+      newValue &&
+      ts.isPropertyAccessExpression(parentExpression) &&
+      getStorageName(parentExpression) &&
+      this.storageProps[getStorageName(parentExpression)!] &&
+      this.storageProps[getStorageName(parentExpression)!].type === 'box' &&
+      !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
 
     if (over255 || canBoxReplace) this.pushVoid(node, `int ${offset}`);
 
@@ -2684,7 +2606,7 @@ export default class Compiler {
     node: ts.Node,
     accessors: (ts.Expression | string)[],
     parentExpression: ts.Node,
-    newValue?: ts.Node,
+    newValue?: ts.Node
   ): void {
     const parentType = this.getABIType(this.lastType);
 
@@ -2695,7 +2617,7 @@ export default class Compiler {
     let literalAccessors = true;
 
     accessors.forEach((a) => {
-      if (typeof (a) === 'string') {
+      if (typeof a === 'string') {
         if (a.startsWith('accessor//')) literalAccessors = false;
         return;
       }
@@ -2722,35 +2644,17 @@ export default class Compiler {
       }
 
       if (newValue) {
-        this.pushLines(
-          node,
-          'dup',
-          `store ${scratch.elementHeadOffset}`,
-        );
+        this.pushLines(node, 'dup', `store ${scratch.elementHeadOffset}`);
       }
 
-      this.pushLines(
-        node,
-        `load ${scratch.fullArray}`,
-        `load ${scratch.fullArray}`,
-        'uncover 2',
-        'extract_uint16',
-      );
+      this.pushLines(node, `load ${scratch.fullArray}`, `load ${scratch.fullArray}`, 'uncover 2', 'extract_uint16');
 
       if (element.parent!.type.endsWith('[]')) {
-        this.pushLines(
-          node,
-          'int 2',
-          '+ // add two for length',
-        );
+        this.pushLines(node, 'int 2', '+ // add two for length');
       }
 
       if (newValue) {
-        this.pushLines(
-          node,
-          'dup',
-          `store ${scratch.elementStart}`,
-        );
+        this.pushLines(node, 'dup', `store ${scratch.elementStart}`);
       }
 
       this.pushLines(
@@ -2762,7 +2666,7 @@ export default class Compiler {
         `int ${this.getTypeLength(baseType)} // get type length`,
         '* // multiply by type length',
         'int 2',
-        '+ // add two for length',
+        '+ // add two for length'
       );
 
       this.pushVoid(node, newValue ? `store ${scratch.elementLength}` : 'extract3');
@@ -2772,17 +2676,11 @@ export default class Compiler {
       if (this.isDynamicType(element.type)) {
         if (element.parent?.arrayType !== 'tuple') {
           throw new Error(
-            'Updating nested dynamic array elements not yet supported. The entire array must be overwritten to change a value',
+            'Updating nested dynamic array elements not yet supported. The entire array must be overwritten to change a value'
           );
         }
         // Get pre element
-        this.pushLines(
-          node,
-          `load ${scratch.fullArray}`,
-          'int 0',
-          `load ${scratch.elementStart}`,
-          'substring3',
-        );
+        this.pushLines(node, `load ${scratch.fullArray}`, 'int 0', `load ${scratch.elementStart}`, 'substring3');
 
         // Get new element
         this.processNode(newValue);
@@ -2801,7 +2699,7 @@ export default class Compiler {
           '+ // get end of Element',
           `load ${scratch.fullArray}`,
           'len',
-          'substring3',
+          'substring3'
         );
 
         // Form new tuple
@@ -2812,9 +2710,7 @@ export default class Compiler {
 
         const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
 
-        const nextDynamicSiblings = element.parent!
-          .slice(elementIndex + 1)
-          .filter((e) => this.isDynamicType(e.type));
+        const nextDynamicSiblings = element.parent!.slice(elementIndex + 1).filter((e) => this.isDynamicType(e.type));
 
         const headDiffs = nextDynamicSiblings.map((e) => e.headOffset - element.headOffset);
 
@@ -2825,7 +2721,7 @@ export default class Compiler {
             `load ${scratch.elementHeadOffset}`,
             `int ${diff}`,
             '+ // head ofset',
-            'callsub update_dynamic_head',
+            'callsub update_dynamic_head'
           );
         });
 
@@ -2844,11 +2740,7 @@ export default class Compiler {
 
         this.pushVoid(node.argumentExpression, 'setbit');
       } else {
-        this.pushLines(
-          node,
-          `load ${scratch.fullArray}`,
-          'swap',
-        );
+        this.pushLines(node, `load ${scratch.fullArray}`, 'swap');
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
         this.pushVoid(node, 'replace3');
@@ -2868,7 +2760,13 @@ export default class Compiler {
       }
 
       if (!this.isDynamicType(element.type)) {
-        this.pushLines(node, `load ${scratch.fullArray}`, 'swap', `int ${this.getTypeLength(element.type)}`, 'extract3');
+        this.pushLines(
+          node,
+          `load ${scratch.fullArray}`,
+          'swap',
+          `int ${this.getTypeLength(element.type)}`,
+          'extract3'
+        );
       }
 
       if (isNumeric(element.type)) this.pushVoid(node, 'btoi');
@@ -2883,7 +2781,8 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
 
     const returnType = this.getABIType(node.type!.getText());
-    if (returnType === undefined) throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
+    if (returnType === undefined)
+      throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
     this.currentSubroutine = {
       name: node.name.getText(),
@@ -2896,7 +2795,11 @@ export default class Compiler {
     };
 
     new Array(...node.parameters).reverse().forEach((p) => {
-      this.currentSubroutine.args.push({ name: p.name.getText(), type: this.getABIType(this.getABIType(p!.type!.getText())), desc: '' });
+      this.currentSubroutine.args.push({
+        name: p.name.getText(),
+        type: this.getABIType(this.getABIType(p!.type!.getText())),
+        desc: '',
+      });
     });
 
     this.subroutines.push(this.currentSubroutine);
@@ -2919,7 +2822,16 @@ export default class Compiler {
     let bareAction = false;
 
     const n = this.currentSubroutine.name;
-    if (['createApplication', 'updateApplication', 'deleteApplication', 'optInToApplication', 'closeOutOfApplication', 'clearState'].includes(n)) {
+    if (
+      [
+        'createApplication',
+        'updateApplication',
+        'deleteApplication',
+        'optInToApplication',
+        'closeOutOfApplication',
+        'clearState',
+      ].includes(n)
+    ) {
       const isCreate = this.currentSubroutine.name === 'createApplication';
       let oc: OnComplete;
 
@@ -2936,79 +2848,93 @@ export default class Compiler {
       this.currentSubroutine.allows[action].push(oc);
     }
 
-    (ts.getDecorators(node) || []).forEach(
-      (d) => {
-        if (ts.isPropertyAccessExpression(d.expression)) {
-          if (d.expression.expression.getText() !== 'abi') throw Error(`Unknown decorator ${d.getText()}`);
-          if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.getText()}`);
+    (ts.getDecorators(node) || []).forEach((d) => {
+      if (ts.isPropertyAccessExpression(d.expression)) {
+        if (d.expression.expression.getText() !== 'abi') throw Error(`Unknown decorator ${d.getText()}`);
+        if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.getText()}`);
+        this.currentSubroutine.readonly = true;
+        return;
+      }
+
+      const callExpr = d.expression;
+      if (!ts.isCallExpression(callExpr)) throw Error(`Unknown decorator ${d.getText()}`);
+      const propExpr = callExpr.expression;
+
+      if (!ts.isPropertyAccessExpression(propExpr)) throw Error(`Unknown decorator ${d.getText()}`);
+      const decoratorClass = propExpr.expression.getText();
+      const decoratorFunction = propExpr.name.getText();
+
+      switch (decoratorClass) {
+        case 'abi':
           this.currentSubroutine.readonly = true;
-          return;
-        }
-
-        const callExpr = d.expression;
-        if (!ts.isCallExpression(callExpr)) throw Error(`Unknown decorator ${d.getText()}`);
-        const propExpr = callExpr.expression;
-
-        if (!ts.isPropertyAccessExpression(propExpr)) throw Error(`Unknown decorator ${d.getText()}`);
-        const decoratorClass = propExpr.expression.getText();
-        const decoratorFunction = propExpr.name.getText();
-
-        switch (decoratorClass) {
-          case 'abi':
-            this.currentSubroutine.readonly = true;
-            break;
-          case 'allow':
-            if (!['call', 'create', 'bareCreate', 'bareCall'].includes(decoratorFunction)) throw Error(`Unknown decorator ${d.getText()}`);
-
-            if (decoratorFunction.startsWith('bare') && this.currentSubroutine.args.length > 0) throw Error('Cannot use bare decorator on method with arguments');
-
-            if (['create', 'bareCreate'].includes(decoratorFunction) && callExpr.arguments.length === 0) {
-              if (decoratorFunction.startsWith('bare')) {
-                bareAction = true;
-                if (this.bareCallConfig.NoOp) throw Error('Duplicate bare decorator for NoOp');
-                this.bareCallConfig.NoOp = { action: 'CREATE', method: this.currentSubroutine.name };
-              } else this.currentSubroutine.allows.create.push('NoOp');
-            } else {
-              const arg = callExpr.arguments[0];
-              if (arg === undefined) throw Error(`Missing OnComplete in decorator ${d.getText()}`);
-
-              if (!ts.isStringLiteral(arg)) throw Error(`Invalid OnComplete: ${arg.getText()}`);
-
-              const oc = arg.text as 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
-              if (!ON_COMPLETES.includes(oc)) throw Error(`Invalid OnComplete: ${oc}`);
-
-              if (decoratorFunction.startsWith('bare')) {
-                bareAction = true;
-                if (this.bareCallConfig[oc]) throw Error(`Duplicate bare decorator for ${oc}`);
-                const action = decoratorFunction.replace('bare', '').toUpperCase() as 'CALL' | 'CREATE';
-
-                this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
-              } else this.currentSubroutine.allows[decoratorFunction as 'call' | 'create'].push(oc);
-            }
-            break;
-
-          case 'nonABIRouterFallback':
-            if (callExpr.arguments[0]) {
-              const arg = callExpr.arguments[0];
-
-              if (!ts.isStringLiteral(arg)) throw Error(`Invalid OnComplete: ${arg.getText()}`);
-
-              const oc = arg.text as 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
-              if (!ON_COMPLETES.includes(oc)) throw Error(`Invalid OnComplete: ${oc}`);
-
-              if (decoratorFunction !== 'call' && decoratorFunction !== 'create') throw Error(`Unknown decorator ${d.getText()}`);
-              if (this.currentSubroutine.args.length !== 0) throw Error('Non-ABI methods must not have arguments defined');
-              if (this.currentSubroutine.returns.type !== 'void') throw Error('Non-ABI methods must return void');
-
-              this.currentSubroutine.nonAbi[decoratorFunction as 'call' | 'create'].push(oc);
-            } else throw Error(`Missing OnComplete in decorator ${d.getText()}`);
-
-            break;
-          default:
+          break;
+        case 'allow':
+          if (!['call', 'create', 'bareCreate', 'bareCall'].includes(decoratorFunction))
             throw Error(`Unknown decorator ${d.getText()}`);
-        }
-      },
-    );
+
+          if (decoratorFunction.startsWith('bare') && this.currentSubroutine.args.length > 0)
+            throw Error('Cannot use bare decorator on method with arguments');
+
+          if (['create', 'bareCreate'].includes(decoratorFunction) && callExpr.arguments.length === 0) {
+            if (decoratorFunction.startsWith('bare')) {
+              bareAction = true;
+              if (this.bareCallConfig.NoOp) throw Error('Duplicate bare decorator for NoOp');
+              this.bareCallConfig.NoOp = { action: 'CREATE', method: this.currentSubroutine.name };
+            } else this.currentSubroutine.allows.create.push('NoOp');
+          } else {
+            const arg = callExpr.arguments[0];
+            if (arg === undefined) throw Error(`Missing OnComplete in decorator ${d.getText()}`);
+
+            if (!ts.isStringLiteral(arg)) throw Error(`Invalid OnComplete: ${arg.getText()}`);
+
+            const oc = arg.text as
+              | 'NoOp'
+              | 'OptIn'
+              | 'CloseOut'
+              | 'ClearState'
+              | 'UpdateApplication'
+              | 'DeleteApplication';
+            if (!ON_COMPLETES.includes(oc)) throw Error(`Invalid OnComplete: ${oc}`);
+
+            if (decoratorFunction.startsWith('bare')) {
+              bareAction = true;
+              if (this.bareCallConfig[oc]) throw Error(`Duplicate bare decorator for ${oc}`);
+              const action = decoratorFunction.replace('bare', '').toUpperCase() as 'CALL' | 'CREATE';
+
+              this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
+            } else this.currentSubroutine.allows[decoratorFunction as 'call' | 'create'].push(oc);
+          }
+          break;
+
+        case 'nonABIRouterFallback':
+          if (callExpr.arguments[0]) {
+            const arg = callExpr.arguments[0];
+
+            if (!ts.isStringLiteral(arg)) throw Error(`Invalid OnComplete: ${arg.getText()}`);
+
+            const oc = arg.text as
+              | 'NoOp'
+              | 'OptIn'
+              | 'CloseOut'
+              | 'ClearState'
+              | 'UpdateApplication'
+              | 'DeleteApplication';
+            if (!ON_COMPLETES.includes(oc)) throw Error(`Invalid OnComplete: ${oc}`);
+
+            if (decoratorFunction !== 'call' && decoratorFunction !== 'create')
+              throw Error(`Unknown decorator ${d.getText()}`);
+            if (this.currentSubroutine.args.length !== 0)
+              throw Error('Non-ABI methods must not have arguments defined');
+            if (this.currentSubroutine.returns.type !== 'void') throw Error('Non-ABI methods must return void');
+
+            this.currentSubroutine.nonAbi[decoratorFunction as 'call' | 'create'].push(oc);
+          } else throw Error(`Missing OnComplete in decorator ${d.getText()}`);
+
+          break;
+        default:
+          throw Error(`Unknown decorator ${d.getText()}`);
+      }
+    });
 
     const { allows, nonAbi } = this.currentSubroutine;
     if (nonAbi.call.length + nonAbi.create.length > 0) {
@@ -3053,7 +2979,7 @@ export default class Compiler {
       '+',
       'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
       'NOT_IMPLEMENTED:',
-      'err',
+      'err'
     );
 
     this.compilingApproval = false;
@@ -3107,11 +3033,7 @@ export default class Compiler {
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
     if (this.disableOverflowChecks) {
-      this.pushLines(
-        node,
-        `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
-        'b&',
-      );
+      this.pushLines(node, `byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
       return;
     }
 
@@ -3129,7 +3051,7 @@ export default class Compiler {
       '<=',
       'assert',
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
-      'b&',
+      'b&'
     );
   }
 
@@ -3150,11 +3072,13 @@ export default class Compiler {
   private typeComparison(
     inputType: string,
     expectedType: string,
-    numericBehavior: 'math' | 'fix' | 'error' = 'error',
+    numericBehavior: 'math' | 'fix' | 'error' = 'error'
   ): void {
     const abiInputType = this.getABIType(inputType);
     const abiExpectedType = this.getABIType(expectedType);
-    const validNumericTypes = (!!abiExpectedType.match(/uint\d+$/) || !!abiExpectedType.match(/ufixed\d+x\d+$/)) && (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/));
+    const validNumericTypes =
+      (!!abiExpectedType.match(/uint\d+$/) || !!abiExpectedType.match(/ufixed\d+x\d+$/)) &&
+      (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/));
 
     const sameTypes = [
       ['address', 'account'],
@@ -3215,7 +3139,9 @@ export default class Compiler {
 
         const currentArgs = this.currentSubroutine.args;
         if (currentArgs.find((s) => s.name === name && this.isArrayType(s.type))) {
-          throw Error('Mutating argument array is not allowed. Create a new variable using the "clone()" method to create a deep copy first.');
+          throw Error(
+            'Mutating argument array is not allowed. Create a new variable using the "clone()" method to create a deep copy first.'
+          );
         }
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.type}`);
       } else if (ts.isElementAccessExpression(node.left)) {
@@ -3271,7 +3197,8 @@ export default class Compiler {
 
     this.typeComparison(leftType, this.lastType, 'math');
 
-    const operator = node.operatorToken.getText()
+    const operator = node.operatorToken
+      .getText()
       .replace('>>', 'shr')
       .replace('<<', 'shl')
       .replace('===', '==')
@@ -3336,11 +3263,7 @@ export default class Compiler {
     const processedFrame = this.processFrame(node, node.getText(), true);
 
     if (processedFrame.accessors.length > 0) {
-      this.processParentArrayAccess(
-        node,
-        processedFrame.accessors,
-        node,
-      );
+      this.processParentArrayAccess(node, processedFrame.accessors, node);
     }
   }
 
@@ -3375,9 +3298,9 @@ export default class Compiler {
     }
 
     if (
-      !ts.isNumericLiteral(node.expression)
-      && (type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/))
-      && type !== this.lastType
+      !ts.isNumericLiteral(node.expression) &&
+      (type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) &&
+      type !== this.lastType
     ) {
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
@@ -3402,7 +3325,7 @@ export default class Compiler {
     name: string,
     storageExpression: ts.PropertyAccessExpression,
     type: string,
-    accessors?:(string | ts.Expression)[],
+    accessors?: (string | ts.Expression)[]
   ) {
     this.frame[name] = {
       accessors,
@@ -3483,11 +3406,7 @@ export default class Compiler {
 
       const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
 
-      if (
-        ts.isIdentifier(node.initializer)
-        && !this.constants[node.initializer.getText()]
-        && isArray
-      ) {
+      if (ts.isIdentifier(node.initializer) && !this.constants[node.initializer.getText()] && isArray) {
         lastFrameAccess = node.initializer.getText();
 
         this.frame[name] = {
@@ -3531,13 +3450,7 @@ export default class Compiler {
 
           if (lastFrameAccess.startsWith('this.')) {
             if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
-            this.initializeStorageFrame(
-              node,
-              name,
-              accessChain[0].expression,
-              initializerType,
-              accessors,
-            );
+            this.initializeStorageFrame(node, name, accessChain[0].expression, initializerType, accessors);
           } else {
             this.frame[name] = {
               accessors,
@@ -3551,10 +3464,10 @@ export default class Compiler {
       }
 
       if (
-        ts.isPropertyAccessExpression(node.initializer)
-        && getStorageName(node.initializer)
-         && this.storageProps[getStorageName(node.initializer)!]
-         && isArray
+        ts.isPropertyAccessExpression(node.initializer) &&
+        getStorageName(node.initializer) &&
+        this.storageProps[getStorageName(node.initializer)!] &&
+        isArray
       ) {
         this.initializeStorageFrame(node, name, node.initializer, initializerType);
 
@@ -3566,19 +3479,15 @@ export default class Compiler {
 
         const type = this.getStackTypeFromNode(node.initializer.expression);
         if (type.endsWith(']') || type.endsWith('}')) {
-          const index = Object.keys(this.getObjectTypes(type))
-            .indexOf(node.initializer.name.getText());
+          const index = Object.keys(this.getObjectTypes(type)).indexOf(node.initializer.name.getText());
 
           if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isPropertyAccessExpression(node.initializer.expression)) throw new Error('Expected call expression');
+            if (!ts.isPropertyAccessExpression(node.initializer.expression))
+              throw new Error('Expected call expression');
 
-            this.initializeStorageFrame(
-              node,
-              name,
-              node.initializer.expression,
-              initializerType,
-              [stringToExpression(index.toString()) as ts.Expression],
-            );
+            this.initializeStorageFrame(node, name, node.initializer.expression, initializerType, [
+              stringToExpression(index.toString()) as ts.Expression,
+            ]);
           } else {
             this.frame[name] = {
               accessors: [stringToExpression(index.toString()) as ts.Expression],
@@ -3678,8 +3587,10 @@ export default class Compiler {
     if (node.initializer === undefined) throw Error();
 
     if (
-      ts.isCallExpression(node.initializer)
-      && ['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(node.initializer.expression.getText())
+      ts.isCallExpression(node.initializer) &&
+      ['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(
+        node.initializer.expression.getText()
+      )
     ) {
       let props: StorageProp;
       const klass = node.initializer.expression.getText();
@@ -3753,8 +3664,11 @@ export default class Compiler {
       if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
       if (klass.includes('Map') && !props.prefix) {
-        const keyTypes = this.mapKeyTypes[type as ('box' | 'local' | 'global')];
-        if (keyTypes.includes(props.keyType)) throw Error(`Duplicate key type ${props.keyType} for ${type} map. To prevent key collision, use the prefix argument in the constructor.`);
+        const keyTypes = this.mapKeyTypes[type as 'box' | 'local' | 'global'];
+        if (keyTypes.includes(props.keyType))
+          throw Error(
+            `Duplicate key type ${props.keyType} for ${type} map. To prevent key collision, use the prefix argument in the constructor.`
+          );
         keyTypes.push(props.keyType);
       }
 
@@ -3762,8 +3676,7 @@ export default class Compiler {
     } else if (ts.isNewExpression(node.initializer) && node.initializer.expression.getText() === 'EventLogger') {
       if (!ts.isTupleTypeNode(node.initializer.typeArguments![0])) throw Error();
 
-      this.events[node.name.getText()] = node
-        .initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
+      this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
     } else {
       throw new Error();
     }
@@ -3778,7 +3691,8 @@ export default class Compiler {
       const numDecimals = node.getText().match(/(?<=\.)\d+/)![0].length;
       const value = parseFloat(node.getText());
 
-      if (numDecimals > m) throw Error(`Value ${value} cannot be represented as ${this.typeHint}. A more precise type is required.`);
+      if (numDecimals > m)
+        throw Error(`Value ${value} cannot be represented as ${this.typeHint}. A more precise type is required.`);
 
       const fixedValue = Math.round(value * 10 ** m);
 
@@ -3811,22 +3725,15 @@ export default class Compiler {
    */
   private processThisBase(chain: ExpressionChainNode[], hasNewValue: boolean) {
     // If this is a pendingGroup call (ie. `this.pendingGroup.submit()`)
-    if (
-      chain[0]
-      && ts.isPropertyAccessExpression(chain[0])
-      && chain[0].name.getText() === 'pendingGroup'
-    ) {
-      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
-      if (!ts.isCallExpression(chain[2])) throw Error(`Unsupported ${ts.SyntaxKind[chain[2].kind]} ${chain[2].getText()}`);
+    if (chain[0] && ts.isPropertyAccessExpression(chain[0]) && chain[0].name.getText() === 'pendingGroup') {
+      if (!ts.isPropertyAccessExpression(chain[1]))
+        throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      if (!ts.isCallExpression(chain[2]))
+        throw Error(`Unsupported ${ts.SyntaxKind[chain[2].kind]} ${chain[2].getText()}`);
 
       const methodName = chain[1].name.getText();
       if (chain[2].arguments[0]) {
-        this.processTransaction(
-          chain[2],
-          methodName,
-          chain[2].arguments[0],
-          chain[2].typeArguments,
-        );
+        this.processTransaction(chain[2], methodName, chain[2].arguments[0], chain[2].typeArguments);
       } else if (methodName === 'submit') {
         this.pushVoid(chain[2], 'itxn_submit');
       } else throw new Error(`Unknown method ${chain[2].getText()}`);
@@ -3836,24 +3743,17 @@ export default class Compiler {
     }
 
     // If accessing the txnGroup
-    if (
-      chain[0]
-      && ts.isPropertyAccessExpression(chain[0])
-      && chain[0].name.getText() === 'txnGroup'
-    ) {
+    if (chain[0] && ts.isPropertyAccessExpression(chain[0]) && chain[0].name.getText() === 'txnGroup') {
       // If getting the group size
-      if (
-        chain[1]
-        && ts.isPropertyAccessExpression(chain[1])
-        && chain[1].name.getText() === 'length'
-      ) {
+      if (chain[1] && ts.isPropertyAccessExpression(chain[1]) && chain[1].name.getText() === 'length') {
         this.push(chain[1], 'global GroupSize', StackType.uint64);
         chain.splice(0, 2);
         return;
       }
 
       // Otherwise this should be a group index
-      if (!ts.isElementAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      if (!ts.isElementAccessExpression(chain[1]))
+        throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
       this.processNode(chain[1].argumentExpression);
       this.lastType = 'txn';
 
@@ -3862,14 +3762,12 @@ export default class Compiler {
     }
 
     // If this is an event
-    if (
-      ts.isPropertyAccessExpression(chain[0])
-      && this.events[chain[0].name.getText()]
-    ) {
+    if (ts.isPropertyAccessExpression(chain[0]) && this.events[chain[0].name.getText()]) {
       const name = chain[0].name.getText();
       const types = this.events[name];
 
-      if (!ts.isPropertyAccessExpression(chain[1]) || !ts.isCallExpression(chain[2])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      if (!ts.isPropertyAccessExpression(chain[1]) || !ts.isCallExpression(chain[2]))
+        throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
 
       if (chain[1].name.getText() !== 'log') throw Error(`Unsupported event method ${chain[1].name.getText()}`);
 
@@ -3893,10 +3791,7 @@ export default class Compiler {
     }
 
     // If this is a storage property (ie. GlobalMap, BoxKey, etc.)
-    if (
-      ts.isPropertyAccessExpression(chain[0])
-      && this.storageProps[chain[0].name.getText()]
-    ) {
+    if (ts.isPropertyAccessExpression(chain[0]) && this.storageProps[chain[0].name.getText()]) {
       const name = chain[0].name.getText();
       const storageProp = this.storageProps[name];
 
@@ -3920,9 +3815,7 @@ export default class Compiler {
 
       if (ts.isPropertyAccessExpression(actionNode)) action = actionNode.name.getText();
       if (ts.isCallExpression(actionNode)) {
-        action = (
-          actionNode.expression as ts.PropertyAccessExpression
-        ).name.getText();
+        action = (actionNode.expression as ts.PropertyAccessExpression).name.getText();
       }
 
       // Don't get the box value if we can use box_replace later when updating the array
@@ -3930,7 +3823,15 @@ export default class Compiler {
         this.handleStorageAction({
           node: actionNode,
           name,
-          action: action!.replace('value', 'get') as 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size',
+          action: action!.replace('value', 'get') as
+            | 'get'
+            | 'set'
+            | 'exists'
+            | 'delete'
+            | 'create'
+            | 'extract'
+            | 'replace'
+            | 'size',
         });
       } else this.lastType = storageProp.valueType;
 
@@ -3972,14 +3873,9 @@ export default class Compiler {
       }
 
       // Assume this is an param opcode (ie. `this.txn.sender` or `this.app.creator`)
-      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
-      this.processOpcodeImmediate(
-        chain[0],
-        chain[0].name.getText(),
-        chain[1].name.getText(),
-        false,
-        true,
-      );
+      if (!ts.isPropertyAccessExpression(chain[1]))
+        throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
+      this.processOpcodeImmediate(chain[0], chain[0].name.getText(), chain[1].name.getText(), false, true);
 
       chain.splice(0, 2);
       return;
@@ -4016,14 +3912,12 @@ export default class Compiler {
       // If the chain starts with a storage expression, then we need to handle it differently
       // than just an identifer when it comes to updating array values, so save it seperately here
       if (
-        ts.isPropertyAccessExpression(chain[0])
-        && chain[1]
-        && (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1]))
-        && this.storageProps[chain[0].name.getText()]
+        ts.isPropertyAccessExpression(chain[0]) &&
+        chain[1] &&
+        (ts.isPropertyAccessExpression(chain[1]) || ts.isCallExpression(chain[1])) &&
+        this.storageProps[chain[0].name.getText()]
       ) {
-        storageBase = (ts.isCallExpression(
-          chain[1],
-        ) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
+        storageBase = (ts.isCallExpression(chain[1]) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
       }
       this.processThisBase(chain, newValue !== undefined);
     }
@@ -4042,7 +3936,7 @@ export default class Compiler {
 
       // If getting a txn type via the TransactionType enum
       if (base.getText() === 'TransactionType') {
-        const enums: {[key: string]: string} = {
+        const enums: { [key: string]: string } = {
           Unknown: 'unknown',
           Payment: 'pay',
           KeyRegistration: 'keyreg',
@@ -4052,7 +3946,8 @@ export default class Compiler {
           ApplicationCall: 'appl',
         };
 
-        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        if (!ts.isPropertyAccessExpression(chain[0]))
+          throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         const txType = chain[0].name.getText();
 
         if (!enums[txType]) throw new Error(`Unknown transaction type ${txType}`);
@@ -4062,63 +3957,49 @@ export default class Compiler {
 
       // If a txn method like sendMethodCall, sendPayment, etc.
       if (TXN_METHODS.includes(base.getText())) {
-        if (!ts.isCallExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
-        this.processTransaction(
-          node,
-          base.getText(),
-          chain[0].arguments[0],
-          chain[0].typeArguments,
-        );
+        if (!ts.isCallExpression(chain[0]))
+          throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        this.processTransaction(node, base.getText(), chain[0].arguments[0], chain[0].typeArguments);
         chain.splice(0, 1);
         return;
       }
 
       // If this is a global variable
       if (base.getText() === 'globals') {
-        if (!ts.isPropertyAccessExpression(chain[0])) throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
+        if (!ts.isPropertyAccessExpression(chain[0]))
+          throw Error(`Unsupported ${ts.SyntaxKind[chain[0].kind]} ${chain[0].getText()}`);
         this.processOpcodeImmediate(chain[0], 'global', chain[0].name.getText());
         chain.splice(0, 1);
 
-      // If this is a custom method like `wideRatio`
+        // If this is a custom method like `wideRatio`
       } else if (
-        ts.isCallExpression(chain[0])
-        && this.customMethods[base.getText()]
-        && this.customMethods[base.getText()].check(chain[0])
+        ts.isCallExpression(chain[0]) &&
+        this.customMethods[base.getText()] &&
+        this.customMethods[base.getText()].check(chain[0])
       ) {
         const callNode = chain[0];
         this.customMethods[base.getText()].fn(callNode);
 
         chain.splice(0, 1);
 
-      // If this is an opcode
-      } else if (
-        ts.isCallExpression(chain[0])
-        && langspec.Ops.map((o) => o.Name).includes(base.getText())
-      ) {
+        // If this is an opcode
+      } else if (ts.isCallExpression(chain[0]) && langspec.Ops.map((o) => o.Name).includes(base.getText())) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
 
-      // If the base is a variable
+        // If the base is a variable
       } else if (this.frame[base.getText()]) {
         const frame = this.frame[base.getText()];
 
         // If this is an array reference, get the accessors
         if (frame && frame.index === undefined) {
-          const frameFollow = this.processFrame(
-            chain[0].expression,
-            chain[0].expression.getText(),
-            true,
-          );
+          const frameFollow = this.processFrame(chain[0].expression, chain[0].expression.getText(), true);
 
           frameFollow.accessors.forEach((e) => accessors.push(e));
 
-        // otherwise just load the value
+          // otherwise just load the value
         } else {
-          this.push(
-            node,
-            `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`,
-            frame.type,
-          );
+          this.push(node, `frame_dig ${frame.index} // ${base.getText()}: ${frame.type}`, frame.type);
         }
       }
     }
@@ -4156,8 +4037,8 @@ export default class Compiler {
 
       // If accessing an array
       if (
-        (abiStr.endsWith(')') || abiStr.endsWith(']'))
-        && (ts.isElementAccessExpression(n) || ts.isPropertyAccessExpression(n))
+        (abiStr.endsWith(')') || abiStr.endsWith(']')) &&
+        (ts.isElementAccessExpression(n) || ts.isPropertyAccessExpression(n))
       ) {
         lastAccessor = n;
 
@@ -4170,7 +4051,8 @@ export default class Compiler {
       }
 
       if (ts.isCallExpression(n)) {
-        if (!ts.isPropertyAccessExpression(n.expression)) throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
+        if (!ts.isPropertyAccessExpression(n.expression))
+          throw Error(`Unsupported ${ts.SyntaxKind[n.kind]}: ${n.getText()}`);
 
         const methodName = n.expression.name.getText();
 
@@ -4197,7 +4079,11 @@ export default class Compiler {
 
       // Handle the case when an imediate array index is needed ie. txna ApplicationArgs i
       if (this.lastType.startsWith('ImmediateArray:')) {
-        this.push(n, `${this.approvalTeal.pop()!.teal} ${n.argumentExpression.getText()}`, this.lastType.replace('ImmediateArray: ', ''));
+        this.push(
+          n,
+          `${this.approvalTeal.pop()!.teal} ${n.argumentExpression.getText()}`,
+          this.lastType.replace('ImmediateArray: ', '')
+        );
         return false;
       }
 
@@ -4206,15 +4092,15 @@ export default class Compiler {
 
     // Process the array access if there are array access elements
     if (accessors.length) {
-      this.processParentArrayAccess(
-        lastAccessor!,
-        accessors,
-        storageBase || base,
-        newValue,
-      );
+      this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValue);
     }
 
-    if (remainingChain.length) throw Error(`LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) => n.getText())}`);
+    if (remainingChain.length)
+      throw Error(
+        `LastType: ${this.lastType} | Base (${ts.SyntaxKind[base.kind]}): ${base.getText()} | Chain: ${chain.map((n) =>
+          n.getText()
+        )}`
+      );
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
@@ -4286,25 +4172,23 @@ export default class Compiler {
       headerComment.push('//');
       const descLines = this.currentSubroutine.desc.split('\n');
       descLines.forEach((line, i) => {
-        const newLine = line.trim()
+        const newLine = line
+          .trim()
           .replace(/^\/\*\*/, '')
           .replace(/\*\/$/, '')
           .replace(/^\*/, '');
-        if (newLine.trim() !== '' || !(i === 0 || i === descLines.length - 1)) headerComment.push(`// ${newLine.trim()}`);
+        if (newLine.trim() !== '' || !(i === 0 || i === descLines.length - 1))
+          headerComment.push(`// ${newLine.trim()}`);
       });
     }
 
     while (headerComment.at(-1) === '// ') headerComment.pop();
 
-    this.pushLines(
-      fn,
-      ...headerComment,
-      `abi_route_${this.currentSubroutine.name}:`,
-    );
+    this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
 
     const argCount = fn.parameters.length;
 
-    const args: {name: string, type: string, desc: string}[] = [];
+    const args: { name: string; type: string; desc: string }[] = [];
     this.pushVoid(fn, `PENDING_DUPN: ${this.currentSubroutine.name}`);
 
     let nonTxnArgCount = argCount - fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length + 1;
@@ -4317,7 +4201,7 @@ export default class Compiler {
       this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace('bytes', 'byte[]')}`);
 
       if (!TXN_TYPES.includes(type)) {
-        this.pushVoid(p, `txna ApplicationArgs ${nonTxnArgCount -= 1}`);
+        this.pushVoid(p, `txna ApplicationArgs ${(nonTxnArgCount -= 1)}`);
       }
 
       if (type === StackType.uint64) {
@@ -4332,7 +4216,8 @@ export default class Compiler {
         if (type !== 'txn') this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${type}`, '==', 'assert');
       } else if (!this.isDynamicType(type)) {
         this.pushLines(p, 'dup', 'len', `int ${type === 'bool' ? 1 : this.getTypeLength(type)}`, '==', 'assert');
-      } this.checkDecoding(p, type);
+      }
+      this.checkDecoding(p, type);
 
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
     });
@@ -4372,9 +4257,7 @@ export default class Compiler {
       return;
     }
 
-    const opSpec = langspec.Ops.find(
-      (o) => o.Name === opcodeName,
-    )!;
+    const opSpec = langspec.Ops.find((o) => o.Name === opcodeName)!;
     let line: string[] = [opcodeName];
 
     if (opSpec.Size === 1) {
@@ -4384,9 +4267,7 @@ export default class Compiler {
     } else if (opSpec.Size === 0) {
       line = line.concat(node.arguments.map((a) => a.getText()));
     } else {
-      line = line.concat(
-        node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()),
-      );
+      line = line.concat(node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()));
     }
 
     let returnType = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
@@ -4396,12 +4277,7 @@ export default class Compiler {
     this.push(node.expression, line.join(' '), returnType);
   }
 
-  private processTransaction(
-    node: ts.Node,
-    name: string,
-    fields: ts.Node,
-    typeArgs?: ts.NodeArray<ts.TypeNode>,
-  ) {
+  private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.NodeArray<ts.TypeNode>) {
     if (!ts.isObjectLiteralExpression(fields)) throw new Error('Transaction fields must be an object literal');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
@@ -4411,12 +4287,12 @@ export default class Compiler {
       const key = p.name?.getText();
 
       if (key === 'methodArgs') {
-        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
-        const argTypes = typeArgs[0].elements.map(
-          (t) => t.getText(),
-        );
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0]))
+          throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map((t) => t.getText());
 
-        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
+        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer))
+          throw new Error('methodArgs must be an array');
 
         p.initializer.elements.forEach((e, i: number) => {
           if (argTypes[i].startsWith('Inner')) {
@@ -4458,27 +4334,29 @@ export default class Compiler {
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
-    const nameProp = fields.properties.find(
-      (p) => p.name?.getText() === 'name',
-    );
+    const nameProp = fields.properties.find((p) => p.name?.getText() === 'name');
 
     if (nameProp && txnType === TransactionType.ApplicationCallTx) {
-      if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer)) throw new Error('Method call name key must be a string');
+      if (!ts.isPropertyAssignment(nameProp) || !ts.isStringLiteral(nameProp.initializer))
+        throw new Error('Method call name key must be a string');
 
-      if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
+      if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0]))
+        throw new Error('Transaction call type arguments[0] must be a tuple type');
 
-      const argTypes = typeArgs[0].elements.map(
-        (t) => this.getABITupleString(this.getABIType(t.getText())),
-      );
+      const argTypes = typeArgs[0].elements.map((t) => this.getABITupleString(this.getABIType(t.getText())));
 
       let returnType = this.getABIType(typeArgs![1].getText());
 
-      returnType = returnType.toLowerCase()
+      returnType = returnType
+        .toLowerCase()
         .replace('asset', 'uint64')
         .replace('account', 'address')
         .replace('application', 'uint64');
 
-      this.pushVoid(nameProp, `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`.replace(/bytes/g, 'byte[]'));
+      this.pushVoid(
+        nameProp,
+        `method "${nameProp.initializer.text}(${argTypes.join(',')})${returnType}"`.replace(/bytes/g, 'byte[]')
+      );
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
     }
 
@@ -4495,20 +4373,21 @@ export default class Compiler {
       this.pushComments(p);
 
       if (key === 'onCompletion') {
-        if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer)) throw new Error('OnCompletion key must be a string');
+        if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer))
+          throw new Error('OnCompletion key must be a string');
         this.pushVoid(p.initializer, `int ${p.initializer.text}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
-        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0])) throw new Error('Transaction call type arguments[0] must be a tuple type');
-        const argTypes = typeArgs[0].elements.map(
-          (t) => this.getABIType(t.getText()),
-        );
+        if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0]))
+          throw new Error('Transaction call type arguments[0] must be a tuple type');
+        const argTypes = typeArgs[0].elements.map((t) => this.getABIType(t.getText()));
 
         let accountIndex = 1;
         let appIndex = 1;
         let assetIndex = 0;
 
-        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer)) throw new Error('methodArgs must be an array');
+        if (!ts.isPropertyAssignment(p) || !ts.isArrayLiteralExpression(p.initializer))
+          throw new Error('methodArgs must be an array');
 
         p.initializer.elements.forEach((e, i: number) => {
           if (argTypes[i] === 'account') {
@@ -4561,14 +4440,7 @@ export default class Compiler {
       this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
       if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
-        this.pushLines(
-          node,
-          'itxn NumLogs',
-          'int 1',
-          '-',
-          'itxnas Logs',
-          'extract 4 0',
-        );
+        this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
 
         const returnType = this.getABIType(typeArgs![1].getText());
         if (isNumeric(returnType)) this.pushVoid(typeArgs![1], 'btoi');
@@ -4588,7 +4460,7 @@ export default class Compiler {
     calleeType: string,
     name: string,
     checkArgs: boolean = false,
-    thisTxn: boolean = false,
+    thisTxn: boolean = false
   ): void {
     let type = calleeType;
     if (TXN_TYPES.includes(type) && !thisTxn) {
@@ -4608,7 +4480,8 @@ export default class Compiler {
     }
 
     if (!name.startsWith('has')) {
-      if (this.OP_PARAMS[type] === undefined) throw Error(`Unknown or unsupported method: ${node.getText()} for type ${type}`);
+      if (this.OP_PARAMS[type] === undefined)
+        throw Error(`Unknown or unsupported method: ${node.getText()} for type ${type}`);
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
@@ -4641,35 +4514,40 @@ export default class Compiler {
 
   async algodCompile(): Promise<string> {
     // Replace template variables
-    const body = this.approvalTeal.map((t) => t.teal).map((t) => {
-      if (t.match(/(int|byte) TMPL_/)) {
-        const s = t.trim().split(' ');
-        const hex = Buffer.from(s[1]).toString('hex');
+    const body = this.approvalTeal
+      .map((t) => t.teal)
+      .map((t) => {
+        if (t.match(/(int|byte) TMPL_/)) {
+          const s = t.trim().split(' ');
+          const hex = Buffer.from(s[1]).toString('hex');
 
-        if (s[0] === 'int') return `int ${parseInt(hex, 16) % (2 ** 64)}`;
-        return `byte 0x${hex}`;
-      }
+          if (s[0] === 'int') return `int ${parseInt(hex, 16) % 2 ** 64}`;
+          return `byte 0x${hex}`;
+        }
 
-      return t;
-    }).join('\n');
+        return t;
+      })
+      .join('\n');
 
-    const response = await fetch(
-      `${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-          'X-Algo-API-Token': this.algodToken,
-        },
-        body,
+    const response = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-Algo-API-Token': this.algodToken,
       },
-    );
+      body,
+    });
 
     const json = await response.json();
 
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
-      console.error(this.approvalTeal.map((t) => t.teal).map((l, i) => `${i + 1}: ${l}`).join('\n'));
+      console.error(
+        this.approvalTeal
+          .map((t) => t.teal)
+          .map((l, i) => `${i + 1}: ${l}`)
+          .join('\n')
+      );
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }
@@ -4708,16 +4586,23 @@ export default class Compiler {
 
   private addSourceComment(node: ts.Node, force: boolean = false) {
     if (
-      !force
-      && node.getStart() >= this.lastSourceCommentRange[0]
-      && node.getEnd() <= this.lastSourceCommentRange[1]
-    ) { return; }
+      !force &&
+      node.getStart() >= this.lastSourceCommentRange[0] &&
+      node.getEnd() <= this.lastSourceCommentRange[1]
+    ) {
+      return;
+    }
 
     const lineNum = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart()).line + 1;
 
-    if (this.filename.length > 0) { this.pushVoid(node, `// ${this.filename}:${lineNum}`); }
+    if (this.filename.length > 0) {
+      this.pushVoid(node, `// ${this.filename}:${lineNum}`);
+    }
 
-    const lines = node.getText().split('\n').map((l) => `// ${l}`);
+    const lines = node
+      .getText()
+      .split('\n')
+      .map((l) => `// ${l}`);
     this.pushLines(node, ...lines);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
@@ -4778,7 +4663,7 @@ export default class Compiler {
       throw new Error('over allocated local state');
     }
 
-    const hints: {[signature: string]: {'call_config': {[action: string]: string}}} = {};
+    const hints: { [signature: string]: { call_config: { [action: string]: string } } } = {};
 
     const appSpec = {
       hints,
@@ -4809,13 +4694,19 @@ export default class Compiler {
 
       subroutine.allows.create.forEach((oc) => {
         if (oc === 'ClearState') return;
-        const snakeOC = oc.split(/\.?(?=[A-Z])/).join('_').toLowerCase();
+        const snakeOC = oc
+          .split(/\.?(?=[A-Z])/)
+          .join('_')
+          .toLowerCase();
         hints[signature].call_config[snakeOC] = 'CREATE';
       });
 
       subroutine.allows.call.forEach((oc) => {
         if (oc === 'ClearState') return;
-        const snakeOC = oc.split(/\.?(?=[A-Z])/).join('_').toLowerCase();
+        const snakeOC = oc
+          .split(/\.?(?=[A-Z])/)
+          .join('_')
+          .toLowerCase();
         hints[signature].call_config[snakeOC] = 'CALL';
       });
     });

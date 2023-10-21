@@ -1,13 +1,13 @@
 import { Contract } from '../../src/lib/index';
 
-type byte32 = StaticArray<byte, 32>
+type byte32 = StaticArray<byte, 32>;
 
 const TREE_DEPTH = 3;
 const EMPTY_HASH = hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855') as byte32;
 const RIGHT_SIBLING_PREFIX = 170;
 
-type Branch = StaticArray<byte, 33>
-type Path = StaticArray<Branch, typeof TREE_DEPTH>
+type Branch = StaticArray<byte, 33>;
+type Path = StaticArray<Branch, typeof TREE_DEPTH>;
 
 // eslint-disable-next-line no-unused-vars
 class MerkleTree extends Contract {

@@ -2,9 +2,7 @@
 import * as algokit from '@algorandfoundation/algokit-utils';
 import fs from 'fs';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
-import {
-  describe, test, expect, beforeAll,
-} from '@jest/globals';
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import algosdk from 'algosdk';
 import { algodClient, kmdClient } from '../../tests/common';
 import appSpec from './artifacts/BigBox.json';
@@ -12,12 +10,13 @@ import appSpec from './artifacts/BigBox.json';
 const COST_PER_BYTE = 400;
 const COST_PER_BOX = 2500;
 
-const BYTES_PER_CALL = 2048
-- 4 // 4 bytes for the method selector
-- 64 // 64 bytes for the name
-- 8 // 8 bytes for the box index
-- 8; // 8 bytes for the offset
-type DataInfo = {start: BigInt, end: BigInt, status: BigInt, endSize: BigInt};
+const BYTES_PER_CALL =
+  2048 -
+  4 - // 4 bytes for the method selector
+  64 - // 64 bytes for the name
+  8 - // 8 bytes for the box index
+  8; // 8 bytes for the offset
+type DataInfo = { start: BigInt; end: BigInt; status: BigInt; endSize: BigInt };
 
 describe('Big Box', () => {
   let data: Buffer;
@@ -28,20 +27,21 @@ describe('Big Box', () => {
     sender = await algokit.getDispenserAccount(algodClient, kmdClient);
     data = fs.readFileSync(`${__dirname}/TEAL.pdf`);
 
-    appClient = new ApplicationClient({
-      resolveBy: 'id',
-      id: 0,
-      sender,
-      app: JSON.stringify(appSpec),
-    }, algodClient);
-
-    await appClient.create(
+    appClient = new ApplicationClient(
       {
-        method: 'createApplication',
-        methodArgs: [],
-        sendParams: { suppressLog: true },
+        resolveBy: 'id',
+        id: 0,
+        sender,
+        app: JSON.stringify(appSpec),
       },
+      algodClient
     );
+
+    await appClient.create({
+      method: 'createApplication',
+      methodArgs: [],
+      sendParams: { suppressLog: true },
+    });
   });
 
   test('startUpload', async () => {
@@ -49,10 +49,11 @@ describe('Big Box', () => {
 
     const endBoxSize = data.byteLength % 32768;
 
-    const totalCost = numBoxes * COST_PER_BOX
-    + (numBoxes - 1) * 32768 * COST_PER_BYTE
-    + numBoxes * 64 * COST_PER_BYTE
-    + endBoxSize * COST_PER_BYTE;
+    const totalCost =
+      numBoxes * COST_PER_BOX +
+      (numBoxes - 1) * 32768 * COST_PER_BYTE +
+      numBoxes * 64 * COST_PER_BYTE +
+      endBoxSize * COST_PER_BYTE;
 
     const mbrPayment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       from: sender.addr,
@@ -66,13 +67,14 @@ describe('Big Box', () => {
     await appClient.call({
       method: 'startUpload',
       methodArgs: ['TEAL.pdf', numBoxes, endBoxSize, mbrPayment],
-      boxes: [
-        dataName,
-      ],
+      boxes: [dataName],
       sendParams: { suppressLog: true },
     });
 
-    const res = await appClient.getBoxValueFromABIType(dataName, algosdk.ABIType.from('(uint64,uint64,uint8,uint64)')) as BigInt[];
+    const res = (await appClient.getBoxValueFromABIType(
+      dataName,
+      algosdk.ABIType.from('(uint64,uint64,uint8,uint64)')
+    )) as BigInt[];
     const dataInfo: DataInfo = {
       start: res[0] as BigInt,
       end: res[1] as BigInt,
@@ -152,8 +154,7 @@ describe('Big Box', () => {
 
     await Promise.all(boxPromises);
 
-    const boxValuePromises = boxData
-      .map(async (_, boxIndex) => appClient.getBoxValue(algosdk.encodeUint64(boxIndex)));
+    const boxValuePromises = boxData.map(async (_, boxIndex) => appClient.getBoxValue(algosdk.encodeUint64(boxIndex)));
 
     const boxValues = await Promise.all(boxValuePromises);
 

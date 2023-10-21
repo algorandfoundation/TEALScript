@@ -15,7 +15,7 @@ import { SimpleClient } from './SimpleClient';
       resolveBy: 'id',
       id: 0,
     },
-    algodClient,
+    algodClient
   );
 
   const { transaction } = await simple.create.createApp({});
@@ -38,9 +38,6 @@ import { SimpleClient } from './SimpleClient';
   console.log(`sub worked?: ${subResult.return?.valueOf() === 5n - 3n}`);
 
   // TODO: Make this actual test
-  if (
-    counter !== 3
-     || addResult.return?.valueOf() !== 123n + 456n
-     || subResult.return?.valueOf() !== 5n - 3n
-  ) process.exit(1);
-}());
+  if (counter !== 3 || addResult.return?.valueOf() !== 123n + 456n || subResult.return?.valueOf() !== 5n - 3n)
+    process.exit(1);
+})();

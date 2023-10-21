@@ -2,8 +2,8 @@ import { Contract } from '../../src/lib/index';
 
 type Bytes256 = StaticArray<byte, 256>;
 
-type Token = { owner: Address, uri: Bytes256, controller: Address }
-type Control = { owner: Address, controller: Address }
+type Token = { owner: Address; uri: Bytes256; controller: Address };
+type Control = { owner: Address; controller: Address };
 
 // eslint-disable-next-line no-unused-vars
 class ARC72 extends Contract {
@@ -49,11 +49,7 @@ class ARC72 extends Contract {
 
     const key: Control = { owner: this.txn.sender, controller: _from };
 
-    if (
-      this.txn.sender === _from
-      || this.txn.sender === token.controller
-      || this.controlBox(key).exists
-    ) {
+    if (this.txn.sender === _from || this.txn.sender === token.controller || this.controlBox(key).exists) {
       this.transferTo(to, tokenId);
     } else throw Error('Transfer not authorized');
   }

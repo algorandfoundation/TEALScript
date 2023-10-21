@@ -42,7 +42,7 @@ async function main() {
       resolveBy: 'id',
       id: 0,
     },
-    algodClient,
+    algodClient
   );
 
   await contacts.create.createApplication({});
@@ -53,7 +53,7 @@ async function main() {
 
   await contacts.setMyContact(
     { name: 'Alice', company: 'Algorand Foundation' },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(alice.addr).publicKey }] },
+    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(alice.addr).publicKey }] }
   );
 
   const state = await contacts.appClient.getGlobalState();
@@ -71,7 +71,7 @@ async function main() {
 
   await contacts.addContact(
     { name: 'Bob', company: 'Algorand Foundation', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
+    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
   );
 
   await printContacts(contacts);
@@ -86,7 +86,7 @@ async function main() {
     },
     {
       boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }],
-    },
+    }
   );
 
   await printContacts(contacts);
@@ -97,7 +97,7 @@ async function main() {
 
   await contacts.updateContactField(
     { field: 'name', value: 'Bob McBobface', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
+    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
   );
 
   await printContacts(contacts);
@@ -105,7 +105,7 @@ async function main() {
 
   await contacts.verifyContactName(
     { name: 'Bob McBobface', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] },
+    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
   );
 }
 

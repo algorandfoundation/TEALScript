@@ -2,9 +2,9 @@ import * as ts from 'typescript';
 import langspec from '../langspec.json';
 
 type NodeAndTEAL = {
-  node: ts.Node
-  teal: string
-}
+  node: ts.Node;
+  teal: string;
+};
 
 const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
 
@@ -14,12 +14,14 @@ const arglessOpNames = ['byte', 'int', 'addr', ...arglessOps.map((op) => op.Name
 export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
   const outputTeal = inputTeal.slice();
 
-  const frames: {[frameIndex: string]: {
-        lineBefore: string
-        hasWrite: boolean
-        reads: number
-        line: string
-      }}[] = [];
+  const frames: {
+    [frameIndex: string]: {
+      lineBefore: string;
+      hasWrite: boolean;
+      reads: number;
+      line: string;
+    };
+  }[] = [];
 
   let protoIndex = -1;
   outputTeal.forEach((t, i) => {
@@ -288,9 +290,7 @@ export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
     oldTeal = newTeal.slice();
     newTeal = optimizeOpcodes(newTeal);
     newTeal = optimizeFrames(newTeal);
-  } while (
-    JSON.stringify(newTeal.map((t) => t.teal)) !== JSON.stringify(oldTeal.map((t) => t.teal))
-  );
+  } while (JSON.stringify(newTeal.map((t) => t.teal)) !== JSON.stringify(oldTeal.map((t) => t.teal)));
 
   return newTeal;
 }
