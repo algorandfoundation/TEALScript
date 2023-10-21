@@ -4696,9 +4696,9 @@ export default class Compiler {
         case 'global':
           if (isNumeric(v.valueType)) {
             state.global.num_uints += v.maxKeys || 1;
-            globalDeclared[k] = { type: 'uint64', key: v.key || k };
+            if (v.key) globalDeclared[k] = { type: 'uint64', key: v.key };
           } else {
-            globalDeclared[k] = { type: 'bytes', key: v.key || k };
+            if (v.key) globalDeclared[k] = { type: 'bytes', key: v.key };
             state.global.num_byte_slices += v.maxKeys || 1;
           }
 
@@ -4706,10 +4706,10 @@ export default class Compiler {
         case 'local':
           if (isNumeric(v.valueType)) {
             state.local.num_uints += v.maxKeys || 1;
-            localDeclared[k] = { type: 'uint64', key: v.key || k };
+            if (v.key) localDeclared[k] = { type: 'uint64', key: v.key };
           } else {
             state.local.num_byte_slices += v.maxKeys || 1;
-            localDeclared[k] = { type: 'bytes', key: v.key || k };
+            if (v.key) localDeclared[k] = { type: 'bytes', key: v.key };
           }
           break;
         default:
