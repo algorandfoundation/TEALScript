@@ -16,8 +16,14 @@ class StorageTest extends Contract {
 
   boxMapWithPrefix = BoxMap<bytes, bytes>({ prefix: 'f' });
 
+  globalMapWithPrefix = GlobalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1 });
+
+  localMapWithPrefix = LocalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1 });
+
   prefix(): void {
     this.boxMapWithPrefix('oo').value = 'bar';
+    this.globalMapWithPrefix('oo').value = 'bar';
+    this.localMapWithPrefix(this.txn.sender, 'oo').value = 'bar';
   }
 
   globalKeyPut(): void {
