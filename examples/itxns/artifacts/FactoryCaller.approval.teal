@@ -37,8 +37,8 @@ mintAndGetAsset:
 	// examples/itxns/itxns.algo.ts:25
 	// sendMethodCall<[], void>({
 	//       name: 'createApplication',
-	//       clearStateProgram: this.app.clearStateProgram,
-	//       approvalProgram: NFTFactory,
+	//       clearStateProgram: NFTFactory.clearProgram(),
+	//       approvalProgram: NFTFactory.approvalProgram(),
 	//     })
 	itxn_begin
 	int appl
@@ -47,14 +47,12 @@ mintAndGetAsset:
 	itxn_field ApplicationArgs
 
 	// examples/itxns/itxns.algo.ts:27
-	// clearStateProgram: this.app.clearStateProgram
-	txna Applications 0
-	app_params_get AppClearStateProgram
-	assert
+	// clearStateProgram: NFTFactory.clearProgram()
+	byte b64 CQ==
 	itxn_field ClearStateProgram
 
 	// examples/itxns/itxns.algo.ts:28
-	// approvalProgram: NFTFactory
+	// approvalProgram: NFTFactory.approvalProgram()
 	byte b64 CSACAQAxGCMNgQYLMRkIjQcAYQAAAAAAAAAAAAAAbwA2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkOABLhEezY2GgCOAf/xAIAE0gJMc4AESCFmcDYaAI4C/33/sgA=
 	itxn_field ApprovalProgram
 

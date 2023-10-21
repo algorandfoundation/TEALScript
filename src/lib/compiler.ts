@@ -1360,24 +1360,42 @@ export default class Compiler {
   }
 
   private async postProcessTeal(input: NodeAndTEAL[]): Promise<NodeAndTEAL[]> {
+    const compilerOptions = {
+      filename: this.filename,
+      algodPort: this.algodPort,
+      algodServer: this.algodServer,
+      algodToken: this.algodToken,
+      disableWarnings: this.disableWarnings,
+      disableOverflowChecks: this.disableOverflowChecks,
+      disableTypeScript: this.disableTypeScript,
+    }
+
     return (
       await Promise.all(
         input.map(async (t) => {
           const tealLine = t.teal;
 
-          if (tealLine.startsWith('PENDING_COMPILE')) {
-            const c = new Compiler(this.content, tealLine.split(' ')[1], {
-              filename: this.filename,
-              algodPort: this.algodPort,
-              algodServer: this.algodServer,
-              algodToken: this.algodToken,
-              disableWarnings: this.disableWarnings,
-              disableOverflowChecks: this.disableOverflowChecks,
-              disableTypeScript: this.disableTypeScript,
-            });
+          if (tealLine.startsWith('PENDING_SCHEMA')) {
+            const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
             await c.compile();
-            const program = await c.algodCompile();
-            return { teal: `byte b64 ${program}`, node: t.node };
+            if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
+              return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
+            } else if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_BYTES')) {
+              return { teal: `int ${c.appSpec().state.global.num_byte_slices}`, node: t.node };
+            } else if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_INT')) {
+              return { teal: `int ${c.appSpec().state.local.num_uints}`, node: t.node };
+            } else if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_BYTES')) {
+              return { teal: `int ${c.appSpec().state.local.num_byte_slices}`, node: t.node };
+            }
+
+          }
+
+          if (tealLine.startsWith('PENDING_COMPILE')) {
+            const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
+            await c.compile();
+            const program = tealLine.startsWith('PENDING_COMPILE_CLEAR') ? 'clear' : 'approval'
+            const compiledProgram = await c.algodCompileProgram(program);
+            return { teal: `byte b64 ${compiledProgram}`, node: t.node };
           }
 
           const method = tealLine.split(' ')[1];
@@ -3250,10 +3268,6 @@ export default class Compiler {
       return;
     }
 
-    if (this.contractClasses.includes(node.getText())) {
-      this.pushVoid(node, `PENDING_COMPILE: ${node.getText()}`);
-      return;
-    }
 
     if (this.constants[node.getText()]) {
       this.processNode(this.constants[node.getText()]);
@@ -3929,6 +3943,39 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
+
+      if (this.contractClasses.includes(base.getText())) {
+        if (ts.isPropertyAccessExpression(chain[0])) {
+          const propName = chain[0].name.getText();
+
+          switch (propName) {
+            case 'approvalProgram':
+              if (!ts.isCallExpression(chain[1])) throw Error(`approvralProgram must be a function call`)
+              this.push(chain[1], `PENDING_COMPILE_APPROVAL: ${base.getText()}`, 'bytes');
+              chain.splice(0,2)
+              break;
+            case 'clearProgram':
+              if (!ts.isCallExpression(chain[1])) throw Error(`clearProgram must be a function call`)
+              this.push(chain[1], `PENDING_COMPILE_CLEAR: ${base.getText()}`, 'bytes');
+              chain.splice(0,2)
+              break;
+            case 'schema':
+              if (!ts.isPropertyAccessExpression(chain[1])) throw Error()
+              if (!ts.isPropertyAccessExpression(chain[2])) throw Error()
+
+              const globalOrLocal = chain[1].name.getText() === 'global' ? 'GLOBAL' : 'LOCAL';
+              const uintOrBytes = chain[2].name.getText() === 'uint' ? 'INT' : 'BYTES';
+              this.push(chain[1], `PENDING_SCHEMA_${globalOrLocal}_${uintOrBytes}: ${base.getText()}`, 'uint64');
+              chain.splice(0,3)
+
+              break;
+            default:
+              throw Error(`Unknown contract property ${propName}`)
+          }
+
+        }
+      }
+
       // If this is a constant
       if (this.constants[base.getText()]) {
         this.processNode(this.constants[base.getText()]);
@@ -3973,6 +4020,7 @@ export default class Compiler {
 
         // If this is a custom method like `wideRatio`
       } else if (
+        chain[0] &&
         ts.isCallExpression(chain[0]) &&
         this.customMethods[base.getText()] &&
         this.customMethods[base.getText()].check(chain[0])
@@ -3983,7 +4031,7 @@ export default class Compiler {
         chain.splice(0, 1);
 
         // If this is an opcode
-      } else if (ts.isCallExpression(chain[0]) && langspec.Ops.map((o) => o.Name).includes(base.getText())) {
+      } else if (chain[0] && ts.isCallExpression(chain[0]) && langspec.Ops.map((o) => o.Name).includes(base.getText())) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
 
@@ -4512,9 +4560,16 @@ export default class Compiler {
     }
   }
 
-  async algodCompile(): Promise<string> {
+  async algodCompile(): Promise<void> {
+    await this.algodCompileProgram('approval');
+    await this.algodCompileProgram('clear');
+  }
+
+  async algodCompileProgram(program: 'approval' | 'clear'): Promise<string> {
+    const targetTeal = program === 'approval' ? this.approvalTeal : this.clearTeal;
+
     // Replace template variables
-    const body = this.approvalTeal
+    const body = targetTeal
       .map((t) => t.teal)
       .map((t) => {
         if (t.match(/(int|byte) TMPL_/)) {
@@ -4543,7 +4598,7 @@ export default class Compiler {
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
       console.error(
-        this.approvalTeal
+        targetTeal
           .map((t) => t.teal)
           .map((l, i) => `${i + 1}: ${l}`)
           .join('\n')
@@ -4551,6 +4606,8 @@ export default class Compiler {
 
       throw new Error(`${response.statusText}: ${json.message}`);
     }
+
+    if (program === 'clear') return json.result;
 
     const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
       const decoded = vlq.decode(m);
@@ -4608,7 +4665,7 @@ export default class Compiler {
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
-  appSpec(): object {
+  appSpec(): any {
     const approval = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
     const clear = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
 

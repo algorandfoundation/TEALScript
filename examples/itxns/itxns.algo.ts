@@ -24,8 +24,8 @@ class FactoryCaller extends Contract {
   mintAndGetAsset(): Asset {
     sendMethodCall<[], void>({
       name: 'createApplication',
-      clearStateProgram: this.app.clearStateProgram,
-      approvalProgram: NFTFactory,
+      clearStateProgram: NFTFactory.clearProgram(),
+      approvalProgram: NFTFactory.approvalProgram(),
     });
 
     const factoryApp = this.itxn.createdApplicationID;
