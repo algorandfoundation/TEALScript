@@ -1,5 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
+class DummyContract extends Contract {}
+
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   txnTypeEnum(): void {
@@ -105,5 +107,16 @@ class GeneralTest extends Contract {
     b = [1, 2, 3];
 
     return b;
+  }
+
+  staticContractProperties(): void {
+    sendAppCall({
+      approvalProgram: DummyContract.approvalProgram(),
+      clearStateProgram: DummyContract.clearProgram(),
+      localNumByteSlice: DummyContract.schema.local.numByteSlice,
+      localNumUint: DummyContract.schema.local.numUint,
+      globalNumByteSlice: DummyContract.schema.global.numByteSlice,
+      globalNumUint: DummyContract.schema.global.numUint,
+    });
   }
 }
