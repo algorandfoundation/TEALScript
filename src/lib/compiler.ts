@@ -750,8 +750,8 @@ export default class Compiler {
         if (node.typeArguments?.length !== 1) throw Error('castBytes must be given a single type argument');
         this.processNode(node.arguments[0]);
         this.lastType = node.typeArguments[0].getText();
-        // eslint-disable-next-line no-console
         if (!this.disableWarnings)
+          // eslint-disable-next-line no-console
           console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
       },
     },
@@ -3963,7 +3963,9 @@ export default class Compiler {
               if (!ts.isPropertyAccessExpression(chain[1])) throw Error();
               if (!ts.isPropertyAccessExpression(chain[2])) throw Error();
 
+              // eslint-disable-next-line no-case-declarations
               const globalOrLocal = chain[1].name.getText() === 'global' ? 'GLOBAL' : 'LOCAL';
+              // eslint-disable-next-line no-case-declarations
               const uintOrBytes = chain[2].name.getText() === 'uint' ? 'INT' : 'BYTES';
               this.push(chain[1], `PENDING_SCHEMA_${globalOrLocal}_${uintOrBytes}: ${base.getText()}`, 'uint64');
               chain.splice(0, 3);
@@ -4668,6 +4670,7 @@ export default class Compiler {
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appSpec(): any {
     const approval = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
     const clear = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
