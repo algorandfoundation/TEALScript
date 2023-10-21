@@ -38,19 +38,19 @@ export class PendingGroup {
 }
 
 export default abstract class Contract {
-  static approvalProgram: () => bytes 
+  static approvalProgram: () => bytes;
 
-  static clearProgram: () => bytes
+  static clearProgram: () => bytes;
 
   static schema: {
     global: {
       numUint: number;
       numByteSlice: number;
-    },
+    };
     local: {
       numUint: number;
       numByteSlice: number;
-    },
+    };
   };
 
   itxn!: Expand<

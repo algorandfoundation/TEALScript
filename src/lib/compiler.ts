@@ -1368,7 +1368,7 @@ export default class Compiler {
       disableWarnings: this.disableWarnings,
       disableOverflowChecks: this.disableOverflowChecks,
       disableTypeScript: this.disableTypeScript,
-    }
+    };
 
     return (
       await Promise.all(
@@ -1380,20 +1380,22 @@ export default class Compiler {
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
               return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
-            } else if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_BYTES')) {
+            }
+            if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_BYTES')) {
               return { teal: `int ${c.appSpec().state.global.num_byte_slices}`, node: t.node };
-            } else if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_INT')) {
+            }
+            if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_INT')) {
               return { teal: `int ${c.appSpec().state.local.num_uints}`, node: t.node };
-            } else if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_BYTES')) {
+            }
+            if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_BYTES')) {
               return { teal: `int ${c.appSpec().state.local.num_byte_slices}`, node: t.node };
             }
-
           }
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
             await c.compile();
-            const program = tealLine.startsWith('PENDING_COMPILE_CLEAR') ? 'clear' : 'approval'
+            const program = tealLine.startsWith('PENDING_COMPILE_CLEAR') ? 'clear' : 'approval';
             const compiledProgram = await c.algodCompileProgram(program);
             return { teal: `byte b64 ${compiledProgram}`, node: t.node };
           }
@@ -3268,7 +3270,6 @@ export default class Compiler {
       return;
     }
 
-
     if (this.constants[node.getText()]) {
       this.processNode(this.constants[node.getText()]);
       return;
@@ -3943,36 +3944,34 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
-
       if (this.contractClasses.includes(base.getText())) {
         if (ts.isPropertyAccessExpression(chain[0])) {
           const propName = chain[0].name.getText();
 
           switch (propName) {
             case 'approvalProgram':
-              if (!ts.isCallExpression(chain[1])) throw Error(`approvralProgram must be a function call`)
+              if (!ts.isCallExpression(chain[1])) throw Error(`approvralProgram must be a function call`);
               this.push(chain[1], `PENDING_COMPILE_APPROVAL: ${base.getText()}`, 'bytes');
-              chain.splice(0,2)
+              chain.splice(0, 2);
               break;
             case 'clearProgram':
-              if (!ts.isCallExpression(chain[1])) throw Error(`clearProgram must be a function call`)
+              if (!ts.isCallExpression(chain[1])) throw Error(`clearProgram must be a function call`);
               this.push(chain[1], `PENDING_COMPILE_CLEAR: ${base.getText()}`, 'bytes');
-              chain.splice(0,2)
+              chain.splice(0, 2);
               break;
             case 'schema':
-              if (!ts.isPropertyAccessExpression(chain[1])) throw Error()
-              if (!ts.isPropertyAccessExpression(chain[2])) throw Error()
+              if (!ts.isPropertyAccessExpression(chain[1])) throw Error();
+              if (!ts.isPropertyAccessExpression(chain[2])) throw Error();
 
               const globalOrLocal = chain[1].name.getText() === 'global' ? 'GLOBAL' : 'LOCAL';
               const uintOrBytes = chain[2].name.getText() === 'uint' ? 'INT' : 'BYTES';
               this.push(chain[1], `PENDING_SCHEMA_${globalOrLocal}_${uintOrBytes}: ${base.getText()}`, 'uint64');
-              chain.splice(0,3)
+              chain.splice(0, 3);
 
               break;
             default:
-              throw Error(`Unknown contract property ${propName}`)
+              throw Error(`Unknown contract property ${propName}`);
           }
-
         }
       }
 
@@ -4031,7 +4030,11 @@ export default class Compiler {
         chain.splice(0, 1);
 
         // If this is an opcode
-      } else if (chain[0] && ts.isCallExpression(chain[0]) && langspec.Ops.map((o) => o.Name).includes(base.getText())) {
+      } else if (
+        chain[0] &&
+        ts.isCallExpression(chain[0]) &&
+        langspec.Ops.map((o) => o.Name).includes(base.getText())
+      ) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
 
