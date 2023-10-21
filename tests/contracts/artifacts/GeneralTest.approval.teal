@@ -642,6 +642,51 @@ events:
 	log
 	retsub
 
+// letOptimization(uint64[])uint64[]
+abi_route_letOptimization:
+	// a: uint64[]
+	txna ApplicationArgs 1
+	extract 2 0
+
+	// execute letOptimization(uint64[])uint64[]
+	callsub letOptimization
+	int 1
+	return
+
+letOptimization:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:102
+	// assert(a[0])
+	frame_dig -1 // a: uint64[]
+	store 0 // full array
+	load 0 // full array
+	extract 0 8
+	btoi
+	assert
+
+	// tests/contracts/general.algo.ts:104
+	// b = [1, 2, 3]
+	byte 0x000000000000000100000000000000020000000000000003
+	frame_bury -1 // b: uint64[]
+
+	// tests/contracts/general.algo.ts:106
+	// return b;
+	frame_dig -1 // a: uint64[]
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -670,6 +715,7 @@ call_NoOp:
 	method "tmpl()void"
 	method "bzeroFunction()void"
 	method "events()void"
+	method "letOptimization(uint64[])uint64[]"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events abi_route_letOptimization
 	err

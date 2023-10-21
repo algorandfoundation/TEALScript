@@ -51,6 +51,13 @@ export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
 
       if (frames[protoIndex][frameIndex]) {
         frames[protoIndex][frameIndex].reads += 1;
+      } else {
+        frames[protoIndex][frameIndex] = {
+          lineBefore: '',
+          hasWrite: true,
+          reads: 0,
+          line: '',
+        };
       }
     }
   });
