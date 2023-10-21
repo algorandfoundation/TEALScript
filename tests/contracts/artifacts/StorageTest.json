@@ -199,14 +199,6 @@
         "localKey": {
           "type": "bytes",
           "key": "foo"
-        },
-        "localMap": {
-          "type": "bytes",
-          "key": "localMap"
-        },
-        "localMapWithPrefix": {
-          "type": "bytes",
-          "key": "localMapWithPrefix"
         }
       },
       "reserved": {}
@@ -216,14 +208,6 @@
         "globalKey": {
           "type": "bytes",
           "key": "foo"
-        },
-        "globalMap": {
-          "type": "bytes",
-          "key": "globalMap"
-        },
-        "globalMapWithPrefix": {
-          "type": "bytes",
-          "key": "globalMapWithPrefix"
         }
       },
       "reserved": {}
