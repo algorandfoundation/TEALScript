@@ -464,7 +464,7 @@ declare type GlobalStateValue<ValueType> = {
 
 declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>
 declare function GlobalStateMap<KeyType, ValueType>(
-  options : {maxKeys: number}
+  options : {maxKeys: number, prefix?: string}
 ): (key: KeyType) => GlobalStateValue<ValueType>
 
 declare type LocalStateValue<ValueType> = {
@@ -477,7 +477,7 @@ declare function LocalStateKey<ValueType>(
   options?: { key?: string }
 ): (account: Address) => LocalStateValue<ValueType>
 
-declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number}): (
+declare function LocalStateMap<KeyType, ValueType>(options : {maxKeys: number, prefix?: string}): (
   account: Address, key: KeyType
 ) => LocalStateValue<ValueType>
 
