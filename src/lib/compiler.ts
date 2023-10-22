@@ -253,6 +253,7 @@ type NodeAndTEAL = {
   teal: string;
 };
 
+/** @internal */
 export default class Compiler {
   static diagsRan: string[] = [''];
 
