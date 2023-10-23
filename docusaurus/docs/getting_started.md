@@ -21,7 +21,7 @@ TEALScript can be installed from npm via `npm install @algorandfoundation/tealsc
 
 ### Writing First Contract
 
-To write your first smart contract, import the {@link Contract} class and create a new class that extends {@link Contract}.
+To write your first smart contract, import the `Contract` class and create a new class that extends `Contract`.
 
 ```ts
 import { Contract } from '@algorandfoundation/tealscript';
