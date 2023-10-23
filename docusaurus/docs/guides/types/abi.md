@@ -1,3 +1,7 @@
+---
+title: ABI Types
+---
+
 TEALScript supports every type defined in the ABI
 
 * uintN

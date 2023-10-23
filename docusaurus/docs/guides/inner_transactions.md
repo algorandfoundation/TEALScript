@@ -1,3 +1,7 @@
+---
+title: Inner Transactions
+---
+
 Algorand Smart Contracts have the ability to send transactions from the application's contract address. Transactions sent from a contract address via an application call is called an inner transaction. 
 
 ## Inner Transaction

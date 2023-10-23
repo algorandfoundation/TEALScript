@@ -47,7 +47,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/lib/contract.ts:23](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L23)
+[src/lib/contract.ts:23](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L23)
 
 ___
 
@@ -76,7 +76,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:33](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L33)
+[src/lib/contract.ts:33](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L33)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:27](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L27)
+[src/lib/contract.ts:27](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L27)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:35](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L35)
+[src/lib/contract.ts:35](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L35)
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:25](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L25)
+[src/lib/contract.ts:25](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L25)
 
 ___
 
@@ -216,7 +216,7 @@ name argument are used to form the the method signature to ensure typesafety.
 
 #### Defined in
 
-[src/lib/contract.ts:19](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L19)
+[src/lib/contract.ts:19](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L19)
 
 ___
 
@@ -240,7 +240,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:31](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L31)
+[src/lib/contract.ts:31](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L31)
 
 ___
 
@@ -270,7 +270,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:29](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L29)
+[src/lib/contract.ts:29](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L29)
 
 ___
 
@@ -297,7 +297,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:21](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L21)
+[src/lib/contract.ts:21](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L21)
 
 ___
 
@@ -311,4 +311,4 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:37](https://github.com/algorand-devrel/tealscript/blob/5612951/src/lib/contract.ts#L37)
+[src/lib/contract.ts:37](https://github.com/algorand-devrel/tealscript/blob/19d5bb7/src/lib/contract.ts#L37)

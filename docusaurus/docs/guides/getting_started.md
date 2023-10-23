@@ -1,9 +1,13 @@
+---
+title: Getting Started
+---
+
 ## Using Algokit
 
 The recommended way to get started with TEALScript is to use the Algokit template:
 
 ```
-algokit init --template-url https://github.com/algorand-devrel/tealscript-algokit-template
+algokit init -t tealscript
 ```
 
 This will set up a project repository with TEALScript, ESLint, algokit generate, and some tests.

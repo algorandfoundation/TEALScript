@@ -69,11 +69,17 @@ const config = {
         title: 'TEALScript',
         items: [
           {
-            to: 'docs/api/modules/types_global',
+            type: 'docSidebar',
+            sidebarId: 'api',
             position: 'left',
-            label: 'API',
+            label: 'API Documentation',
           },
-
+          {
+            type: 'docSidebar',
+            sidebarId: 'guides',
+            label: 'Guides',
+            position: 'left',
+          },
           {
             type: 'dropdown',
             label: 'Tutorials',

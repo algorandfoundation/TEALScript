@@ -1,3 +1,7 @@
+---
+title: On-Chain Storage
+---
+
 There are three storage types available for Algorand smart contracts: global, local, and box. To read more about these storage types, you can go to [this page](https://developer.algorand.org/docs/get-details/dapps/smart-contracts/apps/state/) on the developer portal.
 
 In general, you want to use global storage for small values (< 128 byte) when you have a known amount of key/value pairs and otherwise use box storage. There are exceptions of course when local storage makes sense, but most developers should start with global and box storage.

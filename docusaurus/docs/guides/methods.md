@@ -1,3 +1,7 @@
+---
+title: Defining Methods
+---
+
 ## Typing
 All method arguments MUST have a type and all methods MUST have an explicit return type. 
 

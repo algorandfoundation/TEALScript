@@ -1,3 +1,7 @@
+---
+title: PyTeal Migration
+---
+
 ## Classes and Functions
 | PyTeal       | TEALScript                                  |
 | ------------ | ------------------------------------------- |

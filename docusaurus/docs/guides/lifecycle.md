@@ -1,3 +1,7 @@
+---
+title: Lifecycle Methods
+---
+
 ## Create, Update, and Delete
 
 By default, Algorand applications can be created, updated, and deleted. In TEALScript, applications can be created by default, but cannot be updated to deleted. The default `createApplication` method won't run any logic, but rather simply create the application on the chain. 
