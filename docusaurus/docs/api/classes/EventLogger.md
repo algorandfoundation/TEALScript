@@ -26,7 +26,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:436](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L436)
+[types/global.d.ts:436](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L436)
 
 ## Methods
 
@@ -46,4 +46,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:438](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L438)
+[types/global.d.ts:438](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L438)

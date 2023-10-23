@@ -15,7 +15,7 @@ const config = {
         tsconfig: '../tsconfig.json',
         // entryPoints: ['../types/global.d.ts', '../src/lib/index.ts'],
         excludeInternal: true,
-        plugin: ["typedoc-plugin-merge-modules"],
+        plugin: ['typedoc-plugin-merge-modules'],
       },
     ],
   ],
@@ -69,13 +69,21 @@ const config = {
         title: 'TEALScript',
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            to: 'docs/api/modules/types_global',
             position: 'left',
-            label: 'Documentation',
+            label: 'API',
           },
+
           {
-            to: 'docs/api/modules/types_global', position: 'left', label: 'API'
+            type: 'dropdown',
+            label: 'Tutorials',
+            items: [
+              {
+                type: 'docSidebar',
+                sidebarId: 'dao',
+                label: 'DAO Tutorial',
+              },
+            ],
           },
           {
             href: 'https://github.com/algorand-devrel/tealscript',

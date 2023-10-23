@@ -14,7 +14,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:925](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L925)
+[types/global.d.ts:925](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L925)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:922](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L922)
+[types/global.d.ts:922](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L922)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:924](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L924)
+[types/global.d.ts:924](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L924)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:923](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L923)
+[types/global.d.ts:923](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L923)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:921](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L921)
+[types/global.d.ts:921](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L921)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:920](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L920)
+[types/global.d.ts:920](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L920)
 
 ___
 
@@ -74,4 +74,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:919](https://github.com/algorand-devrel/tealscript/blob/30e25bd/types/global.d.ts#L919)
+[types/global.d.ts:919](https://github.com/algorand-devrel/tealscript/blob/5612951/types/global.d.ts#L919)
