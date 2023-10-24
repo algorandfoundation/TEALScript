@@ -20,7 +20,7 @@ const config = {
     ],
   ],
   title: 'TEALScript',
-  tagline: 'Dinosaurs are cool',
+  tagline: 'Algorand Smart Contracts in TypeScript',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -31,7 +31,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'algorand-devrel', // Usually your GitHub org/user name.
+  organizationName: 'algorandfoundation', // Usually your GitHub org/user name.
   projectName: 'tealscript', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -80,19 +80,19 @@ const config = {
             label: 'Guides',
             position: 'left',
           },
+          // {
+          //   type: 'dropdown',
+          //   label: 'Tutorials',
+          //   items: [
+          //     {
+          //       type: 'docSidebar',
+          //       sidebarId: 'dao',
+          //       label: 'DAO Tutorial',
+          //     },
+          //   ],
+          // },
           {
-            type: 'dropdown',
-            label: 'Tutorials',
-            items: [
-              {
-                type: 'docSidebar',
-                sidebarId: 'dao',
-                label: 'DAO Tutorial',
-              },
-            ],
-          },
-          {
-            href: 'https://github.com/algorand-devrel/tealscript',
+            href: 'https://github.com/algorandfoundation/tealscript',
             label: 'GitHub',
             position: 'right',
           },
@@ -101,15 +101,6 @@ const config = {
       footer: {
         style: 'dark',
         links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
           {
             title: 'Community',
             items: [
@@ -121,14 +112,35 @@ const config = {
                 label: 'Twitter',
                 href: 'https://twitter.com/algodevs',
               },
+              {
+                label: 'Algorand Forum',
+                href: 'https://forum.algorand.org',
+              },
+            ],
+          },
+          {
+            title: 'Resources',
+            items: [
+              {
+                label: 'Developer Portal',
+                href: 'https://developer.algorand.org',
+              },
+              {
+                label: 'AlgoDevs YouTube',
+                href: 'https://www.youtube.com/@algodevs',
+              },
+              {
+                label: 'Bootcamps',
+                href: 'https://github.com/algorand-bootcamp',
+              },
             ],
           },
           {
             title: 'More',
             items: [
               {
-                label: 'GitHub',
-                href: 'https://github.com/algorand-devrel/tealscript',
+                label: 'Algokit CLI',
+                href: 'https://github.com/algorandfoundation/algokit-cli',
               },
             ],
           },
