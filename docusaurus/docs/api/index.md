@@ -38,7 +38,7 @@ The documentation for the latest release can be viewed at [tealscript.algo.xyz](
 
 ## Example Contract
 
-The artifacts for this contract can be seen in [examples/calculator/artifacts](./examples/calculator/artifacts). Note that the TypeDoc comment is used when generating [the ABI JSON](./examples/calculator/artifacts/Calculator.abi.json)
+The artifacts for this contract can be seen in [examples/calculator/artifacts](https://github.com/algorandfoundation/TEALScript/tree/dev/examples/calculator/artifacts). Note that the TypeDoc comment is used when generating [the ABI JSON](https://github.com/algorandfoundation/TEALScript/tree/dev/examples/calculator/artifacts/Calculator.abi.json)
 
 ```ts
 import { Contract } from '../../src/lib/index';
