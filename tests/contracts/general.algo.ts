@@ -119,4 +119,11 @@ class GeneralTest extends Contract {
       globalNumUint: DummyContract.schema.global.numUint,
     });
   }
+
+  uintNToUint64InMethodArgs(): void {
+    sendMethodCall<[number], void>({
+      name: 'registerCreature',
+      methodArgs: [1 as uint<8>],
+    });
+  }
 }
