@@ -1,3 +1,7 @@
+---
+title: On-Chain Storage
+---
+
 There are three storage types available for Algorand smart contracts: global, local, and box. To read more about these storage types, you can go to [this page](https://developer.algorand.org/docs/get-details/dapps/smart-contracts/apps/state/) on the developer portal.
 
 In general, you want to use global storage for small values (< 128 byte) when you have a known amount of key/value pairs and otherwise use box storage. There are exceptions of course when local storage makes sense, but most developers should start with global and box storage.
@@ -6,7 +10,7 @@ For each storage type, there are two classess in TEALScript for interacting with
 
 ## Key Declaration
 
-All `Key` functions ({@link GlobalStateKey}, {@link BoxKey}, {@link LocalStateKey}) are generic functions with one type argument that corresponds to the type of the value held in the respective value. 
+All `Key` functions `GlobalStateKey`, `BoxKey`, `LocalStateKey`) are generic functions with one type argument that corresponds to the type of the value held in the respective value. 
 
 These functions all take an optional argument `key`. By default, the property name will be used for the on-chain key name. The `key` property, however, can be used to override what value is used as the on-chain key. This is paticularly useful when you want small keys on-chain but longer more-descriptive keys in TEALScript. If you want the key to be a non-string value, use `Map`s
 
@@ -38,7 +42,7 @@ class MyApp extends Contract {
 
 ## Map Declaration
 
-All `Map` functions ({@link GlobalStateMap}, {@link BoxMap}, {@link LocalStateMap}) are generic functions with two type arguments that corresponds to the type of the key and the type of the value, respectively. 
+All `Map` functions (`GlobalStateMap`, `BoxMap`,  `LocalStateMap`) are generic functions with two type arguments that corresponds to the type of the key and the type of the value, respectively. 
 
 These functions all take an optional argument `prefix`. The value given to `prefix` is a string that will prefix each key accessed via this `Map`. This is useful when you have two different maps that might have the same key type. The compiler will throw an error if two `Map`s of the same storage type have the same key type and no prefix.
 
@@ -82,13 +86,13 @@ class MyApp extends Contract {
 
 ## Box defaultSize Parameter
 
-{@link BoxKey} and {@link BoxMap} have an additional option that is not applicable to global or local storage.
+`BoxKey` and `BoxMap` have an additional option that is not applicable to global or local storage.
 
 `dynamicSize` is an optional parameter that indicates whether TEALScript should call `box_del` before each `box_put`. By default, this value will be false when the value type is static and true when the value type is dynamic. This means in most cases, you shouldn't need to manually set this parameter unless you want to manually manage box resizing via `.delete()`
 
 ## StateMap maxKeys Parameter
 
-{@link GlobalStateMap} and {@link LocalStateMap} have an additional parameter `maxKeys`.
+`GlobalStateMap` and `LocalStateMap` have an additional parameter `maxKeys`.
 
 `maxKeys` is a required parameter that indicates how many keys should be reserved for this map.
 

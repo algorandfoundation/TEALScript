@@ -1,12 +1,16 @@
+---
+title: PyTeal Migration
+---
+
 ## Classes and Functions
-| PyTeal       | TEALScript                              |
-| ------------ | --------------------------------------- |
-| `Txn`        | {@link Contract.txn this.txn}           |
-| `Global`     | {@link globals}                         |
-| `Itxn`       | {@link Contract.itxn this.itxn}         |
-| `Assert`     | {@link assert}                          |
-| `NamedTuple` | See Objects section {@page types/tuples.md here} |
-| `Gtxn`       | {@link Contract.txnGroup this.txnGroup} |
+| PyTeal       | TEALScript                                  |
+| ------------ | ------------------------------------------- |
+| `Txn`        | `this.txn`                                  |
+| `Global`     | `globals`                                   |
+| `Itxn`       | `this.itxn`                                 |
+| `Assert`     | `assert`                                    |
+| `NamedTuple` | See Objects section [here](types/tuples.md) |
+| `Gtxn`       | `this.txnGroup`                             |
 
 ## Maybe Values
 

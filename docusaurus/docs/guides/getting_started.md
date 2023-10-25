@@ -1,14 +1,18 @@
+---
+title: Getting Started
+---
+
 ## Using Algokit
 
 The recommended way to get started with TEALScript is to use the Algokit template:
 
 ```
-algokit init --template-url https://github.com/algorand-devrel/tealscript-algokit-template
+algokit init -t tealscript
 ```
 
 This will set up a project repository with TEALScript, ESLint, algokit generate, and some tests.
 
-More information about how to use the template is provided in the template's [README](https://github.com/algorand-devrel/tealscript-algokit-template/blob/master/template_content/README.md).
+More information about how to use the template is provided in the template's [README](https://github.com/algorandfoundation/tealscript-algokit-template/blob/master/template_content/README.md).
 
 
 ## Manual Installation
@@ -21,7 +25,7 @@ TEALScript can be installed from npm via `npm install @algorandfoundation/tealsc
 
 ### Writing First Contract
 
-To write your first smart contract, import the {@link Contract} class and create a new class that extends {@link Contract}.
+To write your first smart contract, import the `Contract` class and create a new class that extends `Contract`.
 
 ```ts
 import { Contract } from '@algorandfoundation/tealscript';

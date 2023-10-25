@@ -2,9 +2,9 @@
   "name": "@algorandfoundation/tealscript",
   "version": "0.54.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
-  "homepage": "https://github.com/algorand-devrel/TEALScript",
+  "homepage": "https://github.com/algorandfoundation/TEALScript",
   "bugs": {
-    "url": "https://github.com/algorand-devrel/TEALScript/issues"
+    "url": "https://github.com/algorandfoundation/TEALScript/issues"
   },
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
@@ -64,7 +64,6 @@
     "@algorandfoundation/algokit-client-generator": "^2.2.1",
     "@algorandfoundation/algokit-utils": "^2.1.0",
     "@jest/globals": "^29.5.0",
-    "@knodes/typedoc-plugin-pages": "^0.23.1",
     "@types/argparse": "^2.0.11",
     "@types/node": "^18.11.9",
     "@types/node-fetch": "^2.6.2",
@@ -83,8 +82,6 @@
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.23.23",
-    "typedoc-plugin-merge-modules": "^4.0.1",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   }

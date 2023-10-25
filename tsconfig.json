@@ -103,22 +103,5 @@
   },
   "typedocOptions": {
     "entryPoints": ["types/global.d.ts", "src/lib/index.ts"],
-    "out": "docs",
-    "mergeModulesMergeMode": "project",
-    "pluginPages": {
-      "pages": [ { "title": "@algorandfoundation/tealscript", "moduleRoot": true, "children": [
-        { "title": "Getting Started", "source": "getting_started.md" },
-        { "title": "Defining Methods", "source": "methods.md" },
-        { "title": "App Lifecycle", "source": "lifecycle.md" },
-        { "title": "On-Chain Storage", "source": "storage.md" },
-        { "title": "Inner Transactions", "source": "inner_transactions.md" },
-        { "title": "PyTeal Migration", "source": "pyteal.md" },
-        { "title": "Types", "children": [
-          { "title": "ABI Support", "source": "types/abi.md" },
-          { "title": "Arrays, Objects, and Tuples", "source": "types/tuples.md" },
-          { "title": "Numbers and Math", "source": "types/numbers.md" },
-        ]},
-      ] } ]
-    }
   }
 }

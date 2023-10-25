@@ -6,6 +6,63 @@ TEALScript is a subset of TypeScript that can be compiled into TEAL. The goal is
 
 TEALScript is a work in progress and not production-ready. The current version is `0.x.x`. This means there will be frequent changes being made, including breaking changes, without incrementing the MAJOR version number.
 
+## Documentation
+
+The documentation for the latest release can be viewed at [tealscript.algo.xyz](https://tealscript.algo.xyz) and can be generated locally with `yarn docs`
+
+## Example Contract
+
+The artifacts for this contract can be seen in [examples/calculator/artifacts](https://github.com/algorandfoundation/TEALScript/tree/dev/examples/calculator/artifacts). Note that the TypeDoc comment is used when generating [the ABI JSON](https://github.com/algorandfoundation/TEALScript/tree/dev/examples/calculator/artifacts/Calculator.abi.json)
+
+```ts
+import { Contract } from '../../src/lib/index';
+
+class Calculator extends Contract {
+  /**
+   * Calculates the sum of two numbers
+   *
+   * @param a
+   * @param b
+   * @returns The sum of a and b
+   */
+  private getSum(a: number, b: number): number {
+    return a + b;
+  }
+
+  /**
+   * Calculates the difference between two numbers
+   *
+   * @param a
+   * @param b
+   * @returns The difference between a and b.
+   */
+  private getDifference(a: number, b: number): number {
+    return a >= b ? a - b : b - a;
+  }
+
+  /**
+   * A method that takes two numbers and does either addition or subtraction
+   *
+   * @param a The first number
+   * @param b The second number
+   * @param operation The operation to perform. Can be either 'sum' or 'difference'
+   *
+   * @returns The result of the operation
+   */
+  doMath(a: number, b: number, operation: string): number {
+    let result: number;
+
+    if (operation === 'sum') {
+      result = this.getSum(a, b);
+    } else if (operation === 'difference') {
+      result = this.getDifference(a, b);
+    } else throw Error('Invalid operation');
+
+    return result;
+  }
+}
+```
+
 ## Differences from TypeScript
 
 While TEALScript is a subset of TypeScript, it does function differently in some cases.
@@ -24,46 +81,3 @@ In TypeScript, numeric literals with absolute values equal to 2^53 or greater ar
 
 All JavaScript is valid TypeScript, but that is not the case with TEALScript. In certain cases, types are required and the compiler will throw an error if they are missing. For example, types are always required when defining a method or when defining an array.
 
-## Documentation
-
-The documentation for the latest release can be viewed at [tealscript.algo.xyz](https://tealscript.algo.xyz) and can be generated locally with `yarn docs`
-
-## Example Contract
-
-The artifacts for this contract can be seen in [examples/calculator/artifacts](./examples/calculator/artifacts). Note that the TypeDoc comment is used when generating [the ABI JSON](./examples/calculator/artifacts/Calculator.abi.json)
-
-```ts
-import { Contract } from '../../src/lib/index';
-
-class Calculator extends Contract {
-  private getSum(a: number, b: number): number {
-    return a + b;
-  }
-
-  private getDifference(a: number, b: number): number {
-    return a >= b ? a - b : b - a;
-  }
-
-  /**
-  * A method that takes two numbers and does either addition or subtraction
-  *
-  * @param a - The first number
-  * @param b - The second number
-  * @param operation - The operation to perform. Can be either 'sum' or 'difference'
-  *
-  * @returns The result of the operation
-  */
-  doMath(a: number, b: number, operation: string): number {
-    let result: number;
-
-    if (operation === 'sum') {
-      result = this.getSum(a, b);
-    } else if (operation === 'difference') {
-      result = this.getDifference(a, b);
-    } else throw Error('Invalid operation');
-
-    return result;
-  }
-}
-
-```

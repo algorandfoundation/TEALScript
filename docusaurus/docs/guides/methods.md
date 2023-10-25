@@ -1,3 +1,7 @@
+---
+title: Defining Methods
+---
+
 ## Typing
 All method arguments MUST have a type and all methods MUST have an explicit return type. 
 
@@ -35,23 +39,37 @@ In this example, there is a single public ABI method `doMath` which will then ca
 
 ```ts
 class Calculator extends Contract {
+  /**
+   * Calculates the sum of two numbers
+   *
+   * @param a
+   * @param b
+   * @returns The sum of a and b
+   */
   private getSum(a: number, b: number): number {
     return a + b;
   }
 
+  /**
+   * Calculates the difference between two numbers
+   *
+   * @param a
+   * @param b
+   * @returns The difference between a and b.
+   */
   private getDifference(a: number, b: number): number {
     return a >= b ? a - b : b - a;
   }
 
   /**
-  * A method that takes two numbers and does either addition or subtraction
-  *
-  * @param a - The first number
-  * @param b - The second number
-  * @param operation - The operation to perform. Can be either 'sum' or 'difference'
-  *
-  * @returns The result of the operation
-  */
+   * A method that takes two numbers and does either addition or subtraction
+   *
+   * @param a The first number
+   * @param b The second number
+   * @param operation The operation to perform. Can be either 'sum' or 'difference'
+   *
+   * @returns The result of the operation
+   */
   doMath(a: number, b: number, operation: string): number {
     let result: number;
 
