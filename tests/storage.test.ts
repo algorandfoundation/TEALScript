@@ -1,15 +1,11 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import {
-  describe, test, expect, beforeAll,
-} from '@jest/globals';
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import fs from 'fs';
 import path from 'path';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
-import {
-  getMethodTeal, artifactsTest, algodClient, kmdClient,
-} from './common';
+import { getMethodTeal, artifactsTest, algodClient, kmdClient } from './common';
 import Compiler from '../src/lib/compiler';
 
 async function getTeal(methodName: string) {
@@ -19,7 +15,7 @@ async function getTeal(methodName: string) {
 artifactsTest('StorageTest', 'tests/contracts/storage.algo.ts', 'tests/contracts/artifacts/', 'StorageTest');
 const SUPPRESS_LOG = { suppressLog: true };
 
-const ops: {[type: string]: {[method: string]: string}} = {
+const ops: { [type: string]: { [method: string]: string } } = {
   global: {
     Get: 'app_global_get',
     Put: 'app_global_put',
@@ -50,7 +46,8 @@ const ops: {[type: string]: {[method: string]: string}} = {
 
           if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
 
-          if (['local', 'global'].includes(storageType) && method === 'Exists') expectedTeal.push('txna Applications 0');
+          if (['local', 'global'].includes(storageType) && method === 'Exists')
+            expectedTeal.push('txna Applications 0');
 
           expectedTeal.push('byte 0x666f6f // "foo"');
 
@@ -104,7 +101,7 @@ describe('Box Ops', () => {
         resolveBy: 'id',
         id: 0,
       },
-      algodClient,
+      algodClient
     );
 
     await appClient.create({

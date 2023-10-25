@@ -1,12 +1,17 @@
+---
+title: Lifecycle Methods
+---
+
 ## Create, Update, and Delete
 
-By default, Algorand applications can be created, updated, and deleted. In TEALScript, applications can be created by default, but cannot be updated to deleted. The default {@link Contract.createApplication} method won't run any logic, but rather simply create the application on the chain. 
+By default, Algorand applications can be created, updated, and deleted. In TEALScript, applications can be created by default, but cannot be updated to deleted. The default `createApplication` method won't run any logic, but rather simply create the application on the chain. 
 
 ### Modifying create logic
 
-To modify the logic executed upon applicaiton creation (for example, to set default storage values) your contract class must implement a method to override {@link Contract.createApplication}.
+To modify the logic executed upon applicaiton creation (for example, to set default storage values) your contract class must implement a method to override `createApplication`.
 
 #### Example
+
 ```typescript
 class Counter extends Contract {
   counter = GlobalStateKey<number>();
@@ -19,9 +24,10 @@ class Counter extends Contract {
 
 ### Implementing a updateApplication Method
 
-By defualt, TEALScript contracts cannot be updated. To allow a contract to be updated, a method that overrides {@link Contract.updateApplication} must be implemented.
+By defualt, TEALScript contracts cannot be updated. To allow a contract to be updated, a method that overrides `Contract.updateApplication` must be implemented.
 
 #### Example
+
 ```typescript
 class Counter extends Contract {
   counter = GlobalStateKey<number>();
@@ -38,9 +44,10 @@ class Counter extends Contract {
 
 ### Implementing a deleteApplication Method
 
-By defualt, TEALScript contracts cannot be deleted. To allow a contract to be deleted, a method that overrides {@link Contract.deleteApplication} must be implemented.
+By defualt, TEALScript contracts cannot be deleted. To allow a contract to be deleted, a method that overrides `deleteApplication` must be implemented.
 
 #### Example
+
 ```typescript
 class Counter extends Contract {
   counter = GlobalStateKey<number>();
@@ -57,11 +64,11 @@ class Counter extends Contract {
 
 ## OptIn, CloseOut, and ClearState
 
-If your contract uses local state, you will need to override the {@link Contract.optInToApplication} method and override {@link Contract.closeOutOfApplication} and/or {@link Contract.clearState} as desired. To learn more about contract state, see {@page storage.md}
+If your contract uses local state, you will need to override the `optInToApplication` method and override `closeOutOfApplication` and/or `clearState` as desired. To learn more about contract state, see [this page](./storage.md)
 
 ## Advanced OnComplete Control
 
-To have more granular control on what OnComplete a specific method allows, use the {@link allow.call} or {@link allow.create} decorator to control allowed OnCompletes when calling or creating the application. 
+To have more granular control on what OnComplete a specific method allows, use the `allow.call` or `allow.create` decorator to control allowed OnCompletes when calling or creating the application. 
 
 ### Example
 

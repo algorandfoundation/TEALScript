@@ -3,16 +3,14 @@ import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line no-unused-vars
 class ItxnsTest extends Contract {
   payment(): void {
-    sendPayment(
-      {
-        amount: 100,
-        receiver: this.app.address,
-        closeRemainderTo: globals.zeroAddress,
-        sender: this.app.address,
-        rekeyTo: globals.zeroAddress,
-        note: 'Hello World!',
-      },
-    );
+    sendPayment({
+      amount: 100,
+      receiver: this.app.address,
+      closeRemainderTo: globals.zeroAddress,
+      sender: this.app.address,
+      rekeyTo: globals.zeroAddress,
+      note: 'Hello World!',
+    });
   }
 
   assetCreation(): Asset {
@@ -94,7 +92,6 @@ class ItxnsTest extends Contract {
   }
 
   offlineKeyRegistration(): void {
-    sendOfflineKeyRegistration({
-    });
+    sendOfflineKeyRegistration({});
   }
 }

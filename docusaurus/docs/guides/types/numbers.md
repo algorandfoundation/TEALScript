@@ -1,10 +1,14 @@
-The native numeric type in the AVM is unsigned 64-bit integers, {@link uint64}. Thus any math operations using {@link uint64} will be more efficient than any alternatives. As such, you should always use {@link uint64} when possible. You can, however, use any of the number types defined in ARC-0004.
+---
+title: Numbers
+---
+
+The native numeric type in the AVM is unsigned 64-bit integers, `uint64`. Thus any math operations using `uint64` will be more efficient than any alternatives. As such, you should always use `uint64` when possible. You can, however, use any of the number types defined in ARC-0004.
 
 It should be noted that at the TypeScript level, all numbers are aliases to the standard `number` class. This is to ensure all arithmetic operators function on all numberic types as expected since they cannot be overwritten in TypeScript. As such, any number-related type errors might not show in the IDE and will only throw an error during compilation.
 
 ## Integers
 
-You can define specific-width unsigned integers with the {@link uint} generic type. This type takes one type argument, which is the bit width. The bit width must be divisible by 8. 
+You can define specific-width unsigned integers with the `uint<N>` generic type. This type takes one type argument, which is the bit width. The bit width must be divisible by 8. 
 
 **Note:** In TEALScript `uint64`, `number`, and `uint<64>` are all the same type.
 
@@ -23,7 +27,7 @@ const n: uint<8> = 1
 
 ## Unsigned Fixed-Point Decimals
 
-To represent decimals, use the {@link ufixed} generic type. The first type argument is the bit width, which must be divisible by 8. The second argument is the number of decimals places, which must be less than 160. 
+To represent decimals, use the `ufixed<N,M>` generic type. The first type argument is the bit width, which must be divisible by 8. The second argument is the number of decimals places, which must be less than 160. 
 
 ### Examples
 

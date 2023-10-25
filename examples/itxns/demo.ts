@@ -15,7 +15,7 @@ import { FactoryCallerClient } from './FactoryCallerClient';
       resolveBy: 'id',
       id: 0,
     },
-    algodClient,
+    algodClient
   );
 
   await factoryCaller.create.createApplication({});
@@ -24,17 +24,18 @@ import { FactoryCallerClient } from './FactoryCallerClient';
 
   await factoryCaller.appClient.fundAppAccount(algokit.microAlgos(500_000));
 
-  const asset = Number((await factoryCaller.mintAndGetAsset(
-    {},
-    {
-      sendParams: { fee: algokit.microAlgos(8_000) },
-    },
-  )).return?.valueOf());
+  const asset = Number(
+    (
+      await factoryCaller.mintAndGetAsset(
+        {},
+        {
+          sendParams: { fee: algokit.microAlgos(8_000) },
+        }
+      )
+    ).return?.valueOf()
+  );
 
-  const assetHolding = await algodClient.accountAssetInformation(
-    appAddress,
-    asset,
-  ).do();
+  const assetHolding = await algodClient.accountAssetInformation(appAddress, asset).do();
 
   console.log(`factoryCaller asset holding: ${JSON.stringify(assetHolding)}`);
 

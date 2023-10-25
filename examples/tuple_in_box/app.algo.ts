@@ -1,6 +1,6 @@
 import { Contract } from '../../src/lib/index';
 
-type Contact = { name: string, company: string };
+type Contact = { name: string; company: string };
 
 // eslint-disable-next-line no-unused-vars
 class ContactsApp extends Contract {

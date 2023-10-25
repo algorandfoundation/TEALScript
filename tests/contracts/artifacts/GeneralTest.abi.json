@@ -202,6 +202,30 @@
       }
     },
     {
+      "name": "letOptimization",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64[]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "staticContractProperties",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
       "name": "createApplication",
       "desc": "",
       "returns": {

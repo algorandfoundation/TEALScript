@@ -49,13 +49,7 @@ class ConstantProductAMM extends Contract {
     return sqrt(aAmount * bAmount);
   }
 
-  private tokensToMint(
-    issued: uint64,
-    aSupply: uint64,
-    bSupply: uint64,
-    aAmount: uint64,
-    bAmount: uint64,
-  ): uint64 {
+  private tokensToMint(issued: uint64, aSupply: uint64, bSupply: uint64, aAmount: uint64, bAmount: uint64): uint64 {
     const aRatio = wideRatio([aAmount, SCALE], [aSupply]);
     const bRatio = wideRatio([bAmount, SCALE], [bSupply]);
 
@@ -67,7 +61,7 @@ class ConstantProductAMM extends Contract {
   private computeRatio(): uint64 {
     return wideRatio(
       [this.app.address.assetBalance(this.assetA.value), SCALE],
-      [this.app.address.assetBalance(this.assetB.value)],
+      [this.app.address.assetBalance(this.assetB.value)]
     );
   }
 
@@ -77,10 +71,7 @@ class ConstantProductAMM extends Contract {
 
   private tokensToSwap(inAmount: uint64, inSupply: uint64, outSupply: uint64): uint64 {
     const factor = SCALE - FEE;
-    return wideRatio(
-      [inAmount, factor, outSupply],
-      [(inSupply * SCALE) + (inAmount * factor)],
-    );
+    return wideRatio([inAmount, factor, outSupply], [inSupply * SCALE + inAmount * factor]);
   }
 
   set_governor(governor: Account): void {
@@ -106,13 +97,7 @@ class ConstantProductAMM extends Contract {
     return this.poolToken.value;
   }
 
-  mint(
-    aXfer: AssetTransferTxn,
-    bXfer: AssetTransferTxn,
-    poolAsset: Asset,
-    aAsset: Asset,
-    bAsset: Asset,
-  ): void {
+  mint(aXfer: AssetTransferTxn, bXfer: AssetTransferTxn, poolAsset: Asset, aAsset: Asset, bAsset: Asset): void {
     /// well formed mint
     assert(aAsset === this.assetA.value);
     assert(bAsset === this.assetB.value);
@@ -135,8 +120,8 @@ class ConstantProductAMM extends Contract {
     });
 
     if (
-      this.app.address.assetBalance(aAsset) === aXfer.assetAmount
-      && this.app.address.assetBalance(bAsset) === bXfer.assetAmount
+      this.app.address.assetBalance(aAsset) === aXfer.assetAmount &&
+      this.app.address.assetBalance(bAsset) === bXfer.assetAmount
     ) {
       this.tokensToMintIntial(aXfer.assetAmount, bXfer.assetAmount);
     } else {
@@ -145,7 +130,7 @@ class ConstantProductAMM extends Contract {
         this.app.address.assetBalance(aAsset) - aXfer.assetAmount,
         this.app.address.assetBalance(bAsset) - bXfer.assetAmount,
         aXfer.assetAmount,
-        bXfer.assetAmount,
+        bXfer.assetAmount
       );
 
       assert(toMint > 0);
@@ -154,12 +139,7 @@ class ConstantProductAMM extends Contract {
     }
   }
 
-  burn(
-    poolXfer: AssetTransferTxn,
-    poolAsset: Asset,
-    aAsset: Asset,
-    bAsset: Asset,
-  ): void {
+  burn(poolXfer: AssetTransferTxn, poolAsset: Asset, aAsset: Asset, bAsset: Asset): void {
     /// well formed burn
     assert(poolAsset === this.poolToken.value);
     assert(aAsset === this.assetA.value);
@@ -173,21 +153,11 @@ class ConstantProductAMM extends Contract {
       xferAsset: poolAsset,
     });
 
-    const issued = TOTAL_SUPPLY
-     - (this.app.address.assetBalance(poolAsset)
-     - poolXfer.assetAmount);
+    const issued = TOTAL_SUPPLY - (this.app.address.assetBalance(poolAsset) - poolXfer.assetAmount);
 
-    const aAmt = this.tokensToBurn(
-      issued,
-      this.app.address.assetBalance(aAsset),
-      poolXfer.assetAmount,
-    );
+    const aAmt = this.tokensToBurn(issued, this.app.address.assetBalance(aAsset), poolXfer.assetAmount);
 
-    const bAmt = this.tokensToBurn(
-      issued,
-      this.app.address.assetBalance(bAsset),
-      poolXfer.assetAmount,
-    );
+    const bAmt = this.tokensToBurn(issued, this.app.address.assetBalance(bAsset), poolXfer.assetAmount);
 
     this.doAxfer(this.txn.sender, aAsset, aAmt);
     this.doAxfer(this.txn.sender, bAsset, bAmt);
@@ -214,7 +184,7 @@ class ConstantProductAMM extends Contract {
     const toSwap = this.tokensToSwap(
       swapXfer.assetAmount,
       this.app.address.assetBalance(inId) - swapXfer.assetAmount,
-      this.app.address.assetBalance(outId),
+      this.app.address.assetBalance(outId)
     );
 
     assert(toSwap > 0);

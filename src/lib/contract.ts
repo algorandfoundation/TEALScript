@@ -7,18 +7,16 @@
 
 export class PendingGroup {
   /**
-  * Adds ABI method to the pending transaction group. The two type arguments in combination with the
-  * name argument are used to form the the method signature to ensure typesafety.
-  *
-  * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
-  * @typeParam ReturnType - The return type of the method
-  *
-  * @param params - The parameters of the method call
-  *
-  */
-  addMethodCall<ArgsType, ReturnType>(
-    params: Expand<MethodCallParams<ArgsType>>,
-  ): void {}
+   * Adds ABI method to the pending transaction group. The two type arguments in combination with the
+   * name argument are used to form the the method signature to ensure typesafety.
+   *
+   * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
+   * @typeParam ReturnType - The return type of the method
+   *
+   * @param params - The parameters of the method call
+   *
+   */
+  addMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType>>): void {}
 
   addPayment(params: Expand<PaymentParams>): void {}
 
@@ -40,12 +38,27 @@ export class PendingGroup {
 }
 
 export default abstract class Contract {
+  static approvalProgram: () => bytes;
+
+  static clearProgram: () => bytes;
+
+  static schema: {
+    global: {
+      numUint: number;
+      numByteSlice: number;
+    };
+    local: {
+      numUint: number;
+      numByteSlice: number;
+    };
+  };
+
   itxn!: Expand<
     AppOnChainTransactionParams &
-    Partial<AppParams> &
-    Partial<PaymentParams> &
-    Partial<AssetCreateParams> &
-    Partial<AssetTransferParams>
+      Partial<AppParams> &
+      Partial<PaymentParams> &
+      Partial<AssetCreateParams> &
+      Partial<AssetTransferParams>
   >;
 
   txn!: Expand<ThisTxnParams>;
@@ -71,30 +84,38 @@ export default abstract class Contract {
    * The method called when attempting to update the application. The default update method will
    * always throw an error
    */
-  updateApplication(...args: any[]): void { throw Error(); }
+  updateApplication(...args: any[]): void {
+    throw Error();
+  }
 
   /**
    * The method called when attempting to delete the application. The default delete method will
    * always throw an error
    */
-  deleteApplication(...args: any[]): void { throw Error(); }
+  deleteApplication(...args: any[]): void {
+    throw Error();
+  }
 
   /**
    * The method called when an account opts-in to the application. The default opt-in method will
    * always throw an error
    */
-  optInToApplication(...args: any[]): void { throw Error(); }
+  optInToApplication(...args: any[]): void {
+    throw Error();
+  }
 
   /**
    * The method called when an account closes out their local state. The default close-out method
    * will always throw an error
    */
-  closeOutOfApplication(...args: any[]): void { throw Error(); }
+  closeOutOfApplication(...args: any[]): void {
+    throw Error();
+  }
 
   /**
    * The method called when an account clears their local state. The default ClearState
    * method does nothing. ClearState will always allow a user to delete their local state,
    * reagrdless of logic.
    */
-  clearState(): void { }
+  clearState(): void {}
 }

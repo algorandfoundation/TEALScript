@@ -7,7 +7,10 @@ import * as algokit from '@algorandfoundation/algokit-utils';
 import { MerkleTreeClient } from './MerkleTreeClient';
 
 async function getRecords(fname: string): Promise<Uint8Array[][]> {
-  const rawRecords: string[][] = fs.readFileSync(fname, 'utf8').split('\n').map((line) => line.trim().split(','));
+  const rawRecords: string[][] = fs
+    .readFileSync(fname, 'utf8')
+    .split('\n')
+    .map((line) => line.trim().split(','));
 
   const records: Uint8Array[][] = [];
   for (const record of rawRecords) {
@@ -16,7 +19,11 @@ async function getRecords(fname: string): Promise<Uint8Array[][]> {
       records.push([Buffer.from(data, 'utf8'), ...path.map((p) => Buffer.from(p, 'hex'))]);
     } else if (record.length === 5) {
       const [oldData, newData, ...path] = record;
-      records.push([Buffer.from(oldData, 'utf8'), Buffer.from(newData, 'utf8'), ...path.map((p) => Buffer.from(p, 'hex'))]);
+      records.push([
+        Buffer.from(oldData, 'utf8'),
+        Buffer.from(newData, 'utf8'),
+        ...path.map((p) => Buffer.from(p, 'hex')),
+      ]);
     }
   }
   return records;
@@ -34,7 +41,7 @@ async function main() {
       resolveBy: 'id',
       id: 0,
     },
-    algodClient,
+    algodClient
   );
   await merkleTree.create.createApplication({});
 

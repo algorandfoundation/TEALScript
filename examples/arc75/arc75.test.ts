@@ -1,8 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import {
-  expect, test, describe, beforeAll, beforeEach,
-} from '@jest/globals';
+import { expect, test, describe, beforeAll, beforeEach } from '@jest/globals';
 import algosdk from 'algosdk';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { Arc75Client } from './ARC75Client';
@@ -49,7 +47,7 @@ async function addApp(mbr: number, boxIndex: number, appID: number, arc: string)
     {
       boxes: [getBoxRef(boxIndex, arc)],
       sendParams: { suppressLog: true },
-    },
+    }
   );
 }
 
@@ -91,7 +89,7 @@ describe('ARC75', function () {
     await algokit.ensureFunded(
       { accountToFund: acct, minSpendingBalance: algokit.microAlgos(1_000_000), suppressLog: true },
       algodClient,
-      kmdClient,
+      kmdClient
     );
     senderAddr = acct.addr;
 
@@ -103,7 +101,7 @@ describe('ARC75', function () {
         resolveBy: 'id',
         id: 0,
       },
-      algodClient,
+      algodClient
     );
 
     await arc75.create.createApplication({ sendParams: { suppressLog: true } });
@@ -158,15 +156,11 @@ describe('ARC75', function () {
   test('removeWithSet', async function () {
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
-    const preBalance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const preBalance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     await setApps(0, id, [44]);
 
-    const balance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const balance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).toEqual([BigInt(44)]);
@@ -175,9 +169,7 @@ describe('ARC75', function () {
   });
 
   test('deleteWhitelist', async function () {
-    const preBalance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const preBalance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
@@ -186,12 +178,10 @@ describe('ARC75', function () {
       {
         boxes: [getBoxRef(id, ARC)],
         sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
-      },
+      }
     );
 
-    const balance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const balance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     expect(preBalance - balance).toEqual(5_000);
   });
@@ -199,23 +189,22 @@ describe('ARC75', function () {
   test('deleteApp', async function () {
     await setApps(23300 + 3200 * 2, id, [11, 22, 33]);
 
-    const preBalance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const preBalance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     await arc75.deleteAppFromWhitelist(
       {
-        arc: ARC, boxIndex: id, appID: BigInt(22), index: BigInt(1),
+        arc: ARC,
+        boxIndex: id,
+        appID: BigInt(22),
+        index: BigInt(1),
       },
       {
         boxes: [getBoxRef(id, ARC)],
         sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
-      },
+      }
     );
 
-    const balance = (
-      await algodClient.accountInformation(senderAddr).do()
-    ).amount;
+    const balance = (await algodClient.accountInformation(senderAddr).do()).amount;
 
     const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).toEqual([BigInt(11), BigInt(33)]);

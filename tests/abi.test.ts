@@ -4,9 +4,7 @@ import fs from 'fs';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import path from 'path';
-import {
-  describe, test, expect,
-} from '@jest/globals';
+import { describe, test, expect } from '@jest/globals';
 import algosdk from 'algosdk';
 import { algodClient, kmdClient } from './common';
 import Compiler from '../src/lib/compiler';
@@ -27,15 +25,9 @@ function formatTrace(input: string): string {
 
     const columns = line.split('|');
 
-    const firstColumn = columns[0]
-      .trim()
-      .padEnd(maxFirstColumnLength)
-      .slice(0, maxFirstColumnLength);
+    const firstColumn = columns[0].trim().padEnd(maxFirstColumnLength).slice(0, maxFirstColumnLength);
 
-    const secondColumn = columns[1]
-      .trim()
-      .padEnd(maxSecondColumnLength)
-      .slice(0, maxSecondColumnLength);
+    const secondColumn = columns[1].trim().padEnd(maxSecondColumnLength).slice(0, maxSecondColumnLength);
 
     /*
     const pc = firstColumn.trim();
@@ -49,10 +41,7 @@ function formatTrace(input: string): string {
 
     const srcLine = columns[2];
 
-    const thirdColumn = srcLine
-      .trim()
-      .padEnd(maxThirdColumnLength)
-      .slice(0, maxThirdColumnLength);
+    const thirdColumn = srcLine.trim().padEnd(maxThirdColumnLength).slice(0, maxThirdColumnLength);
 
     // remove long lines
     if (srcLine.startsWith('method')) return undefined;
@@ -69,7 +58,7 @@ async function dryrun(
   appClient: ApplicationClient,
   appId: number,
   methodName: string,
-  methodArgs?: algosdk.ABIArgument[],
+  methodArgs?: algosdk.ABIArgument[]
 ) {
   const atc = new algosdk.AtomicTransactionComposer();
   atc.addMethodCall({
@@ -82,8 +71,7 @@ async function dryrun(
   });
 
   const txns = atc.buildGroup().map((t) => t.txn);
-  const sigs = (await atc.gatherSignatures())
-    .map((s) => (algosdk.decodeObj(s) as algosdk.SignedTransaction).sig);
+  const sigs = (await atc.gatherSignatures()).map((s) => (algosdk.decodeObj(s) as algosdk.SignedTransaction).sig);
   const dr = await algosdk.createDryrun({
     client: algodClient,
     txns: [{ txn: txns[0], sig: sigs[0] }],
@@ -104,15 +92,13 @@ async function compileAndCreate(name: string): Promise<{
 
   const sourcePath = path.join('tests', 'contracts', 'abi.algo.ts');
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(
-    content,
-    className,
-    { filename: sourcePath, disableWarnings: true },
-  );
+  const compiler = new Compiler(content, className, { filename: sourcePath, disableWarnings: true });
   await compiler.compile();
   await compiler.algodCompile();
 
-  expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8'));
+  expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(
+    fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8')
+  );
   expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.abi.json`, 'utf-8')));
   expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.json`, 'utf-8')));
 
@@ -123,7 +109,7 @@ async function compileAndCreate(name: string): Promise<{
       resolveBy: 'id',
       id: 0,
     },
-    algodClient,
+    algodClient
   );
 
   const { appId } = await appClient.create({
@@ -135,11 +121,7 @@ async function compileAndCreate(name: string): Promise<{
   return { appClient, appId };
 }
 
-async function runMethod(
-  appClient: ApplicationClient,
-  name: string,
-  methodArgs: algosdk.ABIArgument[] = [],
-) {
+async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {
   const params = {
     method: name,
     methodArgs,
@@ -317,21 +299,22 @@ describe('ABI', function () {
 
   test('returnTupleWithDyamicArray', async function () {
     const { appClient } = await compileAndCreate('returnTupleWithDyamicArray');
-    expect(await runMethod(appClient, 'returnTupleWithDyamicArray')).toEqual(
-      [BigInt(1), BigInt(2), [BigInt(3), BigInt(4)], [BigInt(5), BigInt(6)]],
-    );
+    expect(await runMethod(appClient, 'returnTupleWithDyamicArray')).toEqual([
+      BigInt(1),
+      BigInt(2),
+      [BigInt(3), BigInt(4)],
+      [BigInt(5), BigInt(6)],
+    ]);
   });
 
   test('returnDynamicArrayFromTuple', async function () {
     const { appClient } = await compileAndCreate('returnDynamicArrayFromTuple');
-    expect(await runMethod(appClient, 'returnDynamicArrayFromTuple')).toEqual(
-      [BigInt(7), BigInt(8)],
-    );
+    expect(await runMethod(appClient, 'returnDynamicArrayFromTuple')).toEqual([BigInt(7), BigInt(8)]);
   });
 
   test('updateDynamicArrayInTuple', async function () {
     const { appClient } = await compileAndCreate('updateDynamicArrayInTuple');
-    const a: {old: BigInt[] | BigInt, new: BigInt[] | BigInt}[] = [
+    const a: { old: BigInt[] | BigInt; new: BigInt[] | BigInt }[] = [
       { old: BigInt(9), new: BigInt(99) },
       { old: [BigInt(8)], new: [BigInt(10), BigInt(11)] },
       { old: [BigInt(7)], new: [BigInt(12), BigInt(13)] },
@@ -339,26 +322,29 @@ describe('ABI', function () {
       { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
     ];
 
-    expect(await runMethod(appClient, 'updateDynamicArrayInTuple')).toEqual([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
+    expect(await runMethod(appClient, 'updateDynamicArrayInTuple')).toEqual([
+      a[0].new,
+      a[1].new,
+      a[2].new,
+      a[3].new,
+      a[4].new,
+    ]);
   });
 
   test('nonLiteralDynamicElementInTuple', async function () {
     const { appClient } = await compileAndCreate('nonLiteralDynamicElementInTuple');
-    expect(await runMethod(appClient, 'nonLiteralDynamicElementInTuple')).toEqual(
-      [
-        BigInt(1),
-        BigInt(2),
-        [BigInt(3), BigInt(4)],
-        [BigInt(5), BigInt(6)],
-        [BigInt(7), BigInt(8)]],
-    );
+    expect(await runMethod(appClient, 'nonLiteralDynamicElementInTuple')).toEqual([
+      BigInt(1),
+      BigInt(2),
+      [BigInt(3), BigInt(4)],
+      [BigInt(5), BigInt(6)],
+      [BigInt(7), BigInt(8)],
+    ]);
   });
 
   test('arrayPush', async function () {
     const { appClient } = await compileAndCreate('arrayPush');
-    expect(await runMethod(appClient, 'arrayPush')).toEqual(
-      [BigInt(1), BigInt(2), BigInt(3)],
-    );
+    expect(await runMethod(appClient, 'arrayPush')).toEqual([BigInt(1), BigInt(2), BigInt(3)]);
   });
 
   test('arrayPop', async function () {
@@ -441,27 +427,27 @@ describe('ABI', function () {
       { old: [BigInt(5)], new: [BigInt(16), BigInt(17)] },
     ];
 
-    expect(await runMethod(appClient, 'updateStringInTuple')).toEqual([a[0].new, a[1].new, a[2].new, a[3].new, a[4].new]);
+    expect(await runMethod(appClient, 'updateStringInTuple')).toEqual([
+      a[0].new,
+      a[1].new,
+      a[2].new,
+      a[3].new,
+      a[4].new,
+    ]);
   });
 
   test('updateTupleWithOnlyDynamicTypes', async function () {
     const { appClient } = await compileAndCreate('updateTupleWithOnlyDynamicTypes');
-    expect(await runMethod(appClient, 'updateTupleWithOnlyDynamicTypes')).toEqual(
-      [
-        [BigInt(4), BigInt(5)],
-        [BigInt(6), BigInt(7)],
-        [BigInt(8), BigInt(9)]],
-    );
+    expect(await runMethod(appClient, 'updateTupleWithOnlyDynamicTypes')).toEqual([
+      [BigInt(4), BigInt(5)],
+      [BigInt(6), BigInt(7)],
+      [BigInt(8), BigInt(9)],
+    ]);
   });
 
   test('shortenDynamicElementInTuple', async function () {
     const { appClient } = await compileAndCreate('shortenDynamicElementInTuple');
-    expect(await runMethod(appClient, 'shortenDynamicElementInTuple')).toEqual(
-      [
-        [BigInt(5)],
-        [BigInt(6)],
-        [BigInt(7)]],
-    );
+    expect(await runMethod(appClient, 'shortenDynamicElementInTuple')).toEqual([[BigInt(5)], [BigInt(6)], [BigInt(7)]]);
   });
 
   test('namedTuple', async function () {
@@ -493,38 +479,26 @@ describe('ABI', function () {
 
   test('dynamicArrayInMiddleOfTuple', async function () {
     const { appClient } = await compileAndCreate('dynamicArrayInMiddleOfTuple');
-    expect(await runMethod(appClient, 'dynamicArrayInMiddleOfTuple')).toEqual(
-      [
-        BigInt(1),
-        [BigInt(2)],
-        BigInt(3),
-      ],
-    );
+    expect(await runMethod(appClient, 'dynamicArrayInMiddleOfTuple')).toEqual([BigInt(1), [BigInt(2)], BigInt(3)]);
   });
 
   test('accessDynamicArrayInMiddleOfTuple', async function () {
     const { appClient } = await compileAndCreate('accessDynamicArrayInMiddleOfTuple');
-    expect(await runMethod(appClient, 'accessDynamicArrayInMiddleOfTuple')).toEqual(
-      [BigInt(2)],
-    );
+    expect(await runMethod(appClient, 'accessDynamicArrayInMiddleOfTuple')).toEqual([BigInt(2)]);
   });
 
   test('accessDynamicArrayElementInTuple', async function () {
     const { appClient } = await compileAndCreate('accessDynamicArrayElementInTuple');
-    expect(await runMethod(appClient, 'accessDynamicArrayElementInTuple')).toEqual(
-      BigInt(33),
-    );
+    expect(await runMethod(appClient, 'accessDynamicArrayElementInTuple')).toEqual(BigInt(33));
   });
 
   test('updateDynamicArrayInMiddleOfTuple', async function () {
     const { appClient } = await compileAndCreate('updateDynamicArrayInMiddleOfTuple');
-    expect(await runMethod(appClient, 'updateDynamicArrayInMiddleOfTuple')).toEqual(
-      [
-        BigInt(1),
-        [BigInt(4), BigInt(5)],
-        BigInt(3),
-      ],
-    );
+    expect(await runMethod(appClient, 'updateDynamicArrayInMiddleOfTuple')).toEqual([
+      BigInt(1),
+      [BigInt(4), BigInt(5)],
+      BigInt(3),
+    ]);
   });
 
   test('nestedTuple', async function () {
@@ -534,15 +508,13 @@ describe('ABI', function () {
 
   test('updateDynamicElementInTupleWithSameLength', async function () {
     const { appClient } = await compileAndCreate('updateDynamicElementInTupleWithSameLength');
-    expect(await runMethod(appClient, 'updateDynamicElementInTupleWithSameLength')).toEqual(
-      [
-        1n,
-        [10n, 11n, 12n],
-        5n,
-        [6n, 7n, 8n],
-        9n,
-      ],
-    );
+    expect(await runMethod(appClient, 'updateDynamicElementInTupleWithSameLength')).toEqual([
+      1n,
+      [10n, 11n, 12n],
+      5n,
+      [6n, 7n, 8n],
+      9n,
+    ]);
   });
 
   test('accessDynamicStringArray', async function () {
@@ -577,25 +549,45 @@ describe('ABI', function () {
   test('nestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('nestedArrayRef');
 
-    expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+    expect(await runMethod(appClient, 'nestedArrayRef')).toEqual([
+      [1n, 2n],
+      [3n, 5n],
+    ]);
   });
 
   test('nonLiteralNestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('nonLiteralNestedArrayRef');
 
-    expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([[1n, 2n], [3n, 5n]]);
+    expect(await runMethod(appClient, 'nonLiteralNestedArrayRef')).toEqual([
+      [1n, 2n],
+      [3n, 5n],
+    ]);
   });
 
   test('multiNestedArrayRef', async () => {
     const { appClient } = await compileAndCreate('multiNestedArrayRef');
 
-    expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([[[1n, 2n], [3n, 4n]], [[5n, 6n], [7n, 9n]]]);
+    expect(await runMethod(appClient, 'multiNestedArrayRef')).toEqual([
+      [
+        [1n, 2n],
+        [3n, 4n],
+      ],
+      [
+        [5n, 6n],
+        [7n, 9n],
+      ],
+    ]);
   });
 
   test('objectArrayRef', async () => {
     const { appClient } = await compileAndCreate('objectArrayRef');
 
-    expect(await runMethod(appClient, 'objectArrayRef')).toEqual([[[1n, 2n], [3n, 5n]]]);
+    expect(await runMethod(appClient, 'objectArrayRef')).toEqual([
+      [
+        [1n, 2n],
+        [3n, 5n],
+      ],
+    ]);
   });
 
   test('stringAccessor', async () => {
@@ -632,13 +624,33 @@ describe('ABI', function () {
   test('boolTuple', async () => {
     const { appClient } = await compileAndCreate('boolTuple');
 
-    expect(await runMethod(appClient, 'boolTuple')).toEqual([true, false, true, true, false, false, true, false, false]);
+    expect(await runMethod(appClient, 'boolTuple')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+    ]);
   });
 
   test('staticBoolArray', async () => {
     const { appClient } = await compileAndCreate('staticBoolArray');
 
-    expect(await runMethod(appClient, 'staticBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
+    expect(await runMethod(appClient, 'staticBoolArray')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+    ]);
   });
 
   test('boolTupleAccess', async () => {
@@ -656,7 +668,17 @@ describe('ABI', function () {
   test('dynamicBoolArray', async () => {
     const { appClient } = await compileAndCreate('dynamicBoolArray');
 
-    expect(await runMethod(appClient, 'dynamicBoolArray')).toEqual([true, false, true, true, false, false, true, false, false]);
+    expect(await runMethod(appClient, 'dynamicBoolArray')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+    ]);
   });
 
   test('dynamicBoolArrayAccess', async () => {
@@ -668,19 +690,49 @@ describe('ABI', function () {
   test('staticBoolArrayUpdate', async () => {
     const { appClient } = await compileAndCreate('staticBoolArrayUpdate');
 
-    expect(await runMethod(appClient, 'staticBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+    expect(await runMethod(appClient, 'staticBoolArrayUpdate')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      true,
+    ]);
   });
 
   test('dynamicBoolArrayUpdate', async () => {
     const { appClient } = await compileAndCreate('dynamicBoolArrayUpdate');
 
-    expect(await runMethod(appClient, 'dynamicBoolArrayUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+    expect(await runMethod(appClient, 'dynamicBoolArrayUpdate')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      true,
+    ]);
   });
 
   test('boolTupleUpdate', async () => {
     const { appClient } = await compileAndCreate('boolTupleUpdate');
 
-    expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([true, false, true, true, false, false, true, false, true]);
+    expect(await runMethod(appClient, 'boolTupleUpdate')).toEqual([
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      true,
+    ]);
   });
 
   test('objectRef', async () => {
@@ -728,8 +780,7 @@ describe('ABI', function () {
   test('opcodeParamFromObject', async () => {
     const { appClient, appId } = await compileAndCreate('opcodeParamFromObject');
 
-    expect(await runMethod(appClient, 'opcodeParamFromObject'))
-      .toEqual(algosdk.getApplicationAddress(appId));
+    expect(await runMethod(appClient, 'opcodeParamFromObject')).toEqual(algosdk.getApplicationAddress(appId));
   });
 
   test('arrayInObjectInState', async () => {

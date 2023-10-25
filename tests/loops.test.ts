@@ -1,8 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import {
-  expect, describe, test, beforeAll,
-} from '@jest/globals';
+import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import { artifactsTest, algodClient, kmdClient } from './common';
@@ -23,7 +21,7 @@ describe('LoopsTest', function () {
         resolveBy: 'id',
         id: 0,
       },
-      algodClient,
+      algodClient
     );
 
     await appClient.create({
@@ -34,15 +32,12 @@ describe('LoopsTest', function () {
   });
 
   test('whileLoop', async function () {
-    const ret = await appClient.call(
-      { method: 'whileLoop', methodArgs: [], sendParams: { suppressLog: true } },
-    );
+    const ret = await appClient.call({ method: 'whileLoop', methodArgs: [], sendParams: { suppressLog: true } });
     expect(ret.return?.returnValue).toEqual(BigInt(10));
   });
 
   test('forLoop', async function () {
-    const ret = await appClient.call(
-      { method: 'forLoop', methodArgs: [], sendParams: { suppressLog: true } },
-    ); expect(ret.return?.returnValue).toEqual(BigInt(10));
+    const ret = await appClient.call({ method: 'forLoop', methodArgs: [], sendParams: { suppressLog: true } });
+    expect(ret.return?.returnValue).toEqual(BigInt(10));
   });
 });

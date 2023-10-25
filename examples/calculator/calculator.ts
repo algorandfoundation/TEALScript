@@ -25,14 +25,14 @@ class Calculator {
   }
 
   /**
-  * A method that takes two numbers and does either addition or subtraction
-  *
-  * @param a The first number
-  * @param b The second number
-  * @param operation The operation to perform. Can be either 'sum' or 'difference'
-  *
-  * @returns The result of the operation
-  */
+   * A method that takes two numbers and does either addition or subtraction
+   *
+   * @param a The first number
+   * @param b The second number
+   * @param operation The operation to perform. Can be either 'sum' or 'difference'
+   *
+   * @returns The result of the operation
+   */
   doMath(a: number, b: number, operation: string): number {
     let result: number;
 

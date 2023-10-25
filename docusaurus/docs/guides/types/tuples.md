@@ -1,3 +1,7 @@
+---
+title: Arrays and Objects
+---
+
 ## Dynamic Arrays
 
 Dynamic arrays are defined just like arrays in TypeScript. Dynamic arrays support `push`, `pop`, and `splice` and they function in the same way as the native JavaScript functions.
