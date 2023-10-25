@@ -750,6 +750,40 @@ staticContractProperties:
 	itxn_submit
 	retsub
 
+// uintNToUint64InMethodArgs()void
+abi_route_uintNToUint64InMethodArgs:
+	// execute uintNToUint64InMethodArgs()void
+	callsub uintNToUint64InMethodArgs
+	int 1
+	return
+
+uintNToUint64InMethodArgs:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:124
+	// sendMethodCall<[number], void>({
+	//       name: 'registerCreature',
+	//       methodArgs: [1 as uint<8>],
+	//     })
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	method "registerCreature(uint64)void"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/general.algo.ts:126
+	// methodArgs: [1 as uint<8>]
+	byte 0x0000000000000001
+	itxn_field ApplicationArgs
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -780,6 +814,7 @@ call_NoOp:
 	method "events()void"
 	method "letOptimization(uint64[])uint64[]"
 	method "staticContractProperties()void"
+	method "uintNToUint64InMethodArgs()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_uintNToUint64InMethodArgs
 	err

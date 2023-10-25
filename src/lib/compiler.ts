@@ -4464,6 +4464,7 @@ export default class Compiler {
             appIndex += 1;
           } else if (argTypes[i] === StackType.uint64) {
             this.processNode(e);
+            this.typeComparison(this.lastType, argTypes[i], 'fix');
             this.pushVoid(e, 'itob');
           } else if (TXN_TYPES.includes(argTypes[i])) {
             return;
