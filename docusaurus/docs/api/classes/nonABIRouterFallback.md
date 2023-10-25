@@ -30,7 +30,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:897](https://github.com/algorand-devrel/tealscript/blob/3275b18/types/global.d.ts#L897)
+[types/global.d.ts:897](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L897)
 
 ___
 
@@ -50,4 +50,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:901](https://github.com/algorand-devrel/tealscript/blob/3275b18/types/global.d.ts#L901)
+[types/global.d.ts:901](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L901)
