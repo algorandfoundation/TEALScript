@@ -35,13 +35,19 @@ globalMethodInChain:
 	// tests/contracts/abi.algo.ts:1070
 	// return castBytes<T1>(hex('0x00')).bar;
 	byte 0x00
-	byte 0x00
+	byte 0xFF
+	b&
+	dupn 2
+	len
+	dup
+	int 1
+	-
+	swap
+	substring3
 	bitlen
 	int 8
 	<=
 	assert
-	byte 0xFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

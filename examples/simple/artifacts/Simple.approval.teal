@@ -110,13 +110,19 @@ add:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	len
 	dup
+	int 32
+	-
+	swap
+	substring3
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -154,13 +160,19 @@ sub:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b-
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dupn 2
+	len
 	dup
+	int 32
+	-
+	swap
+	substring3
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

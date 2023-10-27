@@ -45,36 +45,54 @@ dynamicArrayElements:
 	store 0 // full array
 	load 0 // full array
 	extract 0 2
+	byte 0xFFFF
+	b&
+	dupn 2
+	len
 	dup
+	int 2
+	-
+	swap
+	substring3
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	byte 0x000100020003 // a: uint16[]
 	store 0 // full array
 	load 0 // full array
 	extract 2 2
+	byte 0xFFFF
+	b&
+	dupn 2
+	len
 	dup
+	int 2
+	-
+	swap
+	substring3
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	concat
 	byte 0x000100020003 // a: uint16[]
 	store 0 // full array
 	load 0 // full array
 	extract 4 2
+	byte 0xFFFF
+	b&
+	dupn 2
+	len
 	dup
+	int 2
+	-
+	swap
+	substring3
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	concat
 	frame_bury -2 // newA: uint16[]
 
