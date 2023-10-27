@@ -91,7 +91,7 @@ class ARC72 extends Contract {
 
     this.tokenBox(index).value = token;
     this.transferTo(to, index);
-    this.index.value = index + (1 as uint<256>);
+    this.index.value = index + 1;
   }
 
   /**
