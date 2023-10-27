@@ -482,6 +482,57 @@ exponent:
 	log
 	retsub
 
+// variableTypeHint()uint16
+abi_route_variableTypeHint:
+	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute variableTypeHint()uint16
+	callsub variableTypeHint
+	int 1
+	return
+
+variableTypeHint:
+	proto 3 0
+
+	// tests/contracts/math.algo.ts:61
+	// x: uint<8> = 1
+	byte 0x01
+	frame_bury -1 // x: uint8
+
+	// tests/contracts/math.algo.ts:62
+	// y: uint<8> = 2
+	byte 0x02
+	frame_bury -2 // y: uint8
+
+	// tests/contracts/math.algo.ts:63
+	// z: uint<16> = x + y
+	byte 0x01 // x: uint8
+	byte 0x02 // y: uint8
+	b+
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
+	dup
+	bitlen
+	int 16
+	<=
+	assert
+	frame_bury -3 // z: uint16
+
+	// tests/contracts/math.algo.ts:65
+	// return z;
+	byte 0x151f7c75
+	frame_dig -3 // z: uint16
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -506,6 +557,7 @@ call_NoOp:
 	method "btobigintFirst(string)uint64"
 	method "btobigintSecond(string)uint64"
 	method "exponent()uint64"
+	method "variableTypeHint()uint16"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint
 	err
