@@ -37,13 +37,14 @@ globalMethodInChain:
 	byte 0x00
 	byte 0xFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 1
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 8
 	<=

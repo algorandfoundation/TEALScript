@@ -47,13 +47,14 @@ dynamicArrayElements:
 	extract 0 2
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=
@@ -64,13 +65,14 @@ dynamicArrayElements:
 	extract 2 2
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=
@@ -82,13 +84,14 @@ dynamicArrayElements:
 	extract 4 2
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=

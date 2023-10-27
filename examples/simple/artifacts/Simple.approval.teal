@@ -112,13 +112,14 @@ add:
 	b+
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=
@@ -162,13 +163,14 @@ sub:
 	b-
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=

@@ -145,13 +145,14 @@ addAppToWhiteList:
 	frame_dig -2 // boxIndex: uint16
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=
@@ -287,13 +288,14 @@ setAppWhitelist:
 	frame_dig -2 // boxIndex: uint16
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=
@@ -408,13 +410,14 @@ deleteWhitelist:
 	frame_dig -2 // boxIndex: uint16
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=
@@ -498,13 +501,14 @@ deleteAppFromWhitelist:
 	frame_dig -2 // boxIndex: uint16
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=

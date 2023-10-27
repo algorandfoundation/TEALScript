@@ -175,13 +175,14 @@ u256plus:
 	b+
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=
@@ -225,13 +226,14 @@ u256minus:
 	b-
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=
@@ -275,13 +277,14 @@ u256mul:
 	b*
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=
@@ -325,13 +328,14 @@ u256div:
 	b/
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=
@@ -368,13 +372,14 @@ u64Return256:
 	itob
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 32
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 256
 	<=

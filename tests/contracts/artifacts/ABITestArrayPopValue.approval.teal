@@ -64,13 +64,14 @@ arrayPopValue:
 	frame_dig -2 // v: uint16
 	byte 0xFFFF
 	b&
-	dupn 2
+	dup
 	len
 	dup
 	int 2
 	-
 	swap
 	substring3
+	dup
 	bitlen
 	int 16
 	<=

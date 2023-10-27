@@ -3063,7 +3063,7 @@ export default class Compiler {
       node,
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
       'b&',
-      `dupn ${this.disableOverflowChecks ? 1 : 2}`,
+      `dup`,
       'len',
       'dup',
       `int ${desiredWidth / 8}`,
@@ -3076,7 +3076,7 @@ export default class Compiler {
       return;
     }
 
-    this.pushLines(node, 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+    this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
   }
 
   private getStackTypeAfterFunction(fn: () => void): string {
