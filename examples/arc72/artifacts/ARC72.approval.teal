@@ -372,7 +372,7 @@ mint:
 	callsub transferTo
 
 	// examples/arc72/arc72.algo.ts:94
-	// this.index.value = index + (1 as uint<256>)
+	// this.index.value = index + 1
 	byte 0x696e646578 // "index"
 	frame_dig -2 // index: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001

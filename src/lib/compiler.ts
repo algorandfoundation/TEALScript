@@ -2129,7 +2129,7 @@ export default class Compiler {
   }
 
   private processArrayElements(elements: ts.Expression[] | ts.NodeArray<ts.Expression>, parentNode: ts.Node) {
-    const typeHint = this.getABIType(this.typeHint);
+    const typeHint = this.getABIType(this.typeHint!);
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
     const baseType = this.getABIType(typeHint).replace(/\[\d*\]$/, '');
@@ -2153,7 +2153,7 @@ export default class Compiler {
         this.typeHint = types[i];
 
         this.processNode(e);
-        this.typeComparison(this.lastType, types[i]);
+        this.typeComparison(this.lastType, types[i], 'fix');
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
         if (i) this.pushVoid(parentNode, 'concat');
       });
@@ -3057,26 +3057,41 @@ export default class Compiler {
       return;
     }
 
-    this.pushLines(
-      node,
-      `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
-      'b&',
-      `dup`,
-      'len',
-      'dup',
-      `int ${desiredWidth / 8}`,
-      '-',
-      'swap',
-      'substring3'
-    );
+    if (this.lastType === 'bigint') {
+      this.pushLines(
+        node,
+        `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
+        'b&',
+        `dup`,
+        'len',
+        'dup',
+        `int ${desiredWidth / 8}`,
+        '-',
+        'swap',
+        'substring3'
+      );
 
-    if (this.disableOverflowChecks) {
+      if (this.disableOverflowChecks) {
+        this.lastType = `uint${desiredWidth}`;
+        return;
+      }
+
+      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+
       this.lastType = `uint${desiredWidth}`;
       return;
     }
 
-    this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+    const lastWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
 
+    if (desiredWidth < lastWidth) {
+      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+      this.pushLines(node, `extract ${64 - desiredWidth} ${desiredWidth}`);
+      this.lastType = `uint${desiredWidth}`;
+      return;
+    }
+
+    this.pushLines(node, `byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
     this.lastType = `uint${desiredWidth}`;
   }
 
@@ -3139,9 +3154,11 @@ export default class Compiler {
       }
 
       if (numericBehavior === 'fix' && validNumericTypes) {
-        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'bigint');
+        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'uint64');
         if (expectedType === 'uint64') this.push(this.lastNode, 'btoi', 'uint64');
-        else this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
+        else {
+          this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
+        }
 
         return;
       }
