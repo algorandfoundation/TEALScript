@@ -410,20 +410,6 @@ arc72_totalSupply:
 	// return this.index.value;
 	byte 0x696e646578 // "index"
 	app_global_get
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 32
-	-
-	swap
-	substring3
-	dup
-	bitlen
-	int 256
-	<=
-	assert
 	byte 0x151f7c75
 	swap
 	concat
@@ -452,23 +438,8 @@ arc72_tokenByIndex:
 
 	// examples/arc72/arc72.algo.ts:110
 	// return index;
-	frame_dig -1 // index: uint256
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 32
-	-
-	swap
-	substring3
-	dup
-	bitlen
-	int 256
-	<=
-	assert
 	byte 0x151f7c75
-	swap
+	frame_dig -1 // index: uint256
 	concat
 	log
 	retsub

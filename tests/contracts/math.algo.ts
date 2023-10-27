@@ -56,4 +56,12 @@ class MathTest extends Contract {
   exponent(): uint64 {
     return 2 ** 4;
   }
+
+  variableTypeHint(): uint<16> {
+    const x: uint<8> = 1;
+    const y: uint<8> = 2;
+    const z: uint<16> = x + y;
+
+    return z;
+  }
 }

@@ -787,7 +787,7 @@ export default class Compiler {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
       fn: (node: ts.CallExpression) => {
         this.processNode(node.arguments[0]);
-        this.lastType = 'uint512';
+        this.lastType = 'bigint';
       },
     },
     verifyTxn: {
@@ -2031,12 +2031,11 @@ export default class Compiler {
       this.typeHint = types[i];
 
       this.processNode(e);
+      this.typeComparison(this.lastType, types[i]);
 
       this.checkEncoding(e, types[i]);
 
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-      if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
-        this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
       if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
@@ -2130,10 +2129,10 @@ export default class Compiler {
   }
 
   private processArrayElements(elements: ts.Expression[] | ts.NodeArray<ts.Expression>, parentNode: ts.Node) {
-    const { typeHint } = this;
+    const typeHint = this.getABIType(this.typeHint);
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
-    const baseType = typeHint.replace(/\[\d*\]$/, '');
+    const baseType = this.getABIType(typeHint).replace(/\[\d*\]$/, '');
 
     if (this.isDynamicType(baseType) || (typeHint.startsWith('[') && !typeHint.match(/\[\d*\]$/))) {
       this.processTuple(elements, parentNode);
@@ -2154,9 +2153,8 @@ export default class Compiler {
         this.typeHint = types[i];
 
         this.processNode(e);
+        this.typeComparison(this.lastType, types[i]);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-        if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
-          this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
@@ -3073,10 +3071,13 @@ export default class Compiler {
     );
 
     if (this.disableOverflowChecks) {
+      this.lastType = `uint${desiredWidth}`;
       return;
     }
 
     this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+
+    this.lastType = `uint${desiredWidth}`;
   }
 
   private getStackTypeAfterFunction(fn: () => void): string {
@@ -3100,9 +3101,14 @@ export default class Compiler {
   ): void {
     const abiInputType = this.getABIType(inputType);
     const abiExpectedType = this.getABIType(expectedType);
+
+    if (abiInputType === abiExpectedType) return;
+
     const validNumericTypes =
-      (!!abiExpectedType.match(/uint\d+$/) || !!abiExpectedType.match(/ufixed\d+x\d+$/)) &&
-      (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/));
+      (!!abiExpectedType.match(/uint\d+$/) ||
+        !!abiExpectedType.match(/ufixed\d+x\d+$/) ||
+        abiExpectedType === 'bigint') &&
+      (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/) || abiInputType === 'bigint');
 
     const sameTypes = [
       ['address', 'account'],
@@ -3127,13 +3133,13 @@ export default class Compiler {
           this.pushLines(this.lastNode, 'swap', 'itob', 'swap');
         }
 
-        this.lastType = 'uint512';
+        this.lastType = 'bigint';
 
         return;
       }
 
       if (numericBehavior === 'fix' && validNumericTypes) {
-        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'uint512');
+        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'bigint');
         if (expectedType === 'uint64') this.push(this.lastNode, 'btoi', 'uint64');
         else this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
 
@@ -3231,9 +3237,8 @@ export default class Compiler {
 
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
-    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
-      // TODO: Overflow check?
-      this.push(node.operatorToken, `b${operator}`, this.lastType);
+    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/) || this.lastType === 'bigint') {
+      this.push(node.operatorToken, `b${operator}`, 'bigint');
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
     }
@@ -3417,7 +3422,7 @@ export default class Compiler {
     const name = node.name.getText();
 
     if (node.initializer) {
-      let initializerType = this.typeHint || this.getStackTypeFromNode(node.initializer);
+      let initializerType = this.getStackTypeFromNode(node.initializer);
 
       if (!this.customTypes[initializerType]) initializerType = this.getABIType(initializerType);
 
@@ -3478,6 +3483,7 @@ export default class Compiler {
             };
           }
 
+          if (node.type) this.typeComparison(this.lastType, node.type.getText(), 'fix');
           return;
         }
       }
@@ -3490,6 +3496,7 @@ export default class Compiler {
       ) {
         this.initializeStorageFrame(node, name, node.initializer, initializerType);
 
+        if (node.type) this.typeComparison(this.lastType, node.type.getText(), 'error');
         return;
       }
 
@@ -3515,20 +3522,27 @@ export default class Compiler {
             };
           }
 
+          if (node.type) this.typeComparison(this.lastType, node.type.getText(), 'fix');
           return;
         }
       }
 
-      this.frame[name] = {
-        index: this.frameIndex,
-        type: initializerType,
-      };
-
       this.addSourceComment(node);
 
-      this.typeHint = initializerType;
+      const hint = node.type?.getText();
+      this.typeHint = hint;
       this.processNode(node.initializer);
-      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${initializerType}`);
+
+      if (node.type) this.typeComparison(this.lastType, node.type.getText(), 'fix');
+
+      const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
+
+      this.frame[name] = {
+        index: this.frameIndex,
+        type,
+      };
+
+      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${type}`);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
@@ -3702,8 +3716,9 @@ export default class Compiler {
   }
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
-    if (this.typeHint?.match(/ufixed\d+x\d+$/)) {
-      const match = this.typeHint.match(/\d+/g)!;
+    const abiTypeHint = this.typeHint ? this.getABIType(this.typeHint) : '';
+    if (abiTypeHint.match(/ufixed\d+x\d+$/)) {
+      const match = abiTypeHint.match(/\d+/g)!;
       const n = parseInt(match[0], 10);
       const m = parseInt(match[1], 10);
 
@@ -3715,9 +3730,9 @@ export default class Compiler {
 
       const fixedValue = Math.round(value * 10 ** m);
 
-      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 2, '0')}`, this.typeHint);
-    } else if (this.typeHint?.match(/uint\d+$/) && this.typeHint !== 'uint64') {
-      const width = Number(this.typeHint.match(/\d+/)![0]);
+      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 2, '0')}`, this.typeHint!);
+    } else if (abiTypeHint.match(/uint\d+$/) && abiTypeHint !== 'uint64') {
+      const width = Number(abiTypeHint.match(/\d+/)![0]);
       const value = Number(node.getText());
       const maxValue = 2 ** width - 1;
 
@@ -3725,7 +3740,7 @@ export default class Compiler {
         throw Error(`Value ${value} is too large for ${this.typeHint}. Max value is ${maxValue}`);
       }
 
-      this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, this.typeHint);
+      this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, this.typeHint!);
     } else if (node.kind === ts.SyntaxKind.StringLiteral) {
       const hex = Buffer.from(node.text, 'utf8').toString('hex');
       this.push(node, `byte 0x${hex} // "${node.text}"`, StackType.bytes);

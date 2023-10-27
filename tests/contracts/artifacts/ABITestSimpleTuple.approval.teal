@@ -41,24 +41,7 @@ simpleTuple:
 
 	// tests/contracts/abi.algo.ts:259
 	// return a[3];
-	byte 0x002c
-	byte 0xFFFF
-	b&
-	dup
-	len
-	dup
-	int 2
-	-
-	swap
-	substring3
-	dup
-	bitlen
-	int 16
-	<=
-	assert
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c75002c
 	log
 	retsub
 
