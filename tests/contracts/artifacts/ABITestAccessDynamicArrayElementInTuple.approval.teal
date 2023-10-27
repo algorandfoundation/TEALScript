@@ -62,13 +62,20 @@ accessDynamicArrayElementInTuple:
 	swap
 	int 1
 	extract3
+	byte 0xFF
+	b&
+	dup
+	len
+	dup
+	int 1
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 8
 	<=
 	assert
-	byte 0xFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

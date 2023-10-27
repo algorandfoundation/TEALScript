@@ -3053,11 +3053,6 @@ export default class Compiler {
   }
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
-    if (this.disableOverflowChecks) {
-      this.pushLines(node, `byte 0x${'FF'.repeat(desiredWidth / 8)}`, 'b&');
-      return;
-    }
-
     if (desiredWidth === 64) {
       if (this.approvalTeal.at(-1)!.teal === 'itob') return;
       this.pushLines(node, 'btoi', 'itob');
@@ -3066,14 +3061,22 @@ export default class Compiler {
 
     this.pushLines(
       node,
-      'dup',
-      'bitlen',
-      `int ${desiredWidth}`,
-      '<=',
-      'assert',
       `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
-      'b&'
+      'b&',
+      `dup`,
+      'len',
+      'dup',
+      `int ${desiredWidth / 8}`,
+      '-',
+      'swap',
+      'substring3'
     );
+
+    if (this.disableOverflowChecks) {
+      return;
+    }
+
+    this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
   }
 
   private getStackTypeAfterFunction(fn: () => void): string {

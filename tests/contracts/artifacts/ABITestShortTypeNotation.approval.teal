@@ -46,13 +46,20 @@ shortTypeNotation:
 	// tests/contracts/abi.algo.ts:298
 	// return a[2][1];
 	byte 0x0042
-	byte 0x0042
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
+	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

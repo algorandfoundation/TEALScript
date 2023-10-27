@@ -45,13 +45,20 @@ tupleInArray:
 	// tests/contracts/abi.algo.ts:278
 	// return a[1][1];
 	byte 0x002c
-	byte 0x002c
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
+	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

@@ -173,13 +173,20 @@ u256plus:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b+
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -217,13 +224,20 @@ u256minus:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b-
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -261,13 +275,20 @@ u256mul:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b*
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -305,13 +326,20 @@ u256div:
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b/
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat
@@ -342,13 +370,20 @@ u64Return256:
 	frame_dig -2 // b: uint64
 	+
 	itob
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 256
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
 	byte 0x151f7c75
 	swap
 	concat

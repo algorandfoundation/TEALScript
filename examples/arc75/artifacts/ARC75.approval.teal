@@ -143,13 +143,20 @@ addAppToWhiteList:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -279,13 +286,20 @@ setAppWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -394,13 +408,20 @@ deleteWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
@@ -478,13 +499,20 @@ deleteAppFromWhitelist:
 	txn Sender
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
+	byte 0xFFFF
+	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
 	dup
 	bitlen
 	int 16
 	<=
 	assert
-	byte 0xFFFF
-	b&
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: bytes
 	dup
