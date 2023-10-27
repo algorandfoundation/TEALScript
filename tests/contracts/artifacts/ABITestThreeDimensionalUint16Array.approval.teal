@@ -59,20 +59,6 @@ threeDimensionalUint16Array:
 	// return a[1][1][1];
 	frame_dig -1 // a: uint16[2][2][2]
 	extract 14 2
-	byte 0xFFFF
-	b&
-	dup
-	len
-	dup
-	int 2
-	-
-	swap
-	substring3
-	dup
-	bitlen
-	int 16
-	<=
-	assert
 	byte 0x151f7c75
 	swap
 	concat

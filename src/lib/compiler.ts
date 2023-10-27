@@ -2031,12 +2031,11 @@ export default class Compiler {
       this.typeHint = types[i];
 
       this.processNode(e);
+      this.typeComparison(this.lastType, types[i]);
 
       this.checkEncoding(e, types[i]);
 
       if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-      if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
-        this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
 
       if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
@@ -2154,9 +2153,8 @@ export default class Compiler {
         this.typeHint = types[i];
 
         this.processNode(e);
+        this.typeComparison(this.lastType, types[i]);
         if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-        if ((this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) && !ts.isNumericLiteral(e))
-          this.fixBitWidth(e, parseInt(types[i].match(/\d+$/)![0], 10));
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
@@ -3100,9 +3098,14 @@ export default class Compiler {
   ): void {
     const abiInputType = this.getABIType(inputType);
     const abiExpectedType = this.getABIType(expectedType);
+
+    if (abiInputType === abiExpectedType) return;
+
     const validNumericTypes =
-      (!!abiExpectedType.match(/uint\d+$/) || !!abiExpectedType.match(/ufixed\d+x\d+$/)) &&
-      (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/));
+      (!!abiExpectedType.match(/uint\d+$/) ||
+        !!abiExpectedType.match(/ufixed\d+x\d+$/) ||
+        abiExpectedType === 'bigint') &&
+      (!!abiInputType.match(/uint\d+$/) || !!abiInputType.match(/ufixed\d+x\d+$/) || abiInputType === 'bigint');
 
     const sameTypes = [
       ['address', 'account'],
@@ -3232,8 +3235,7 @@ export default class Compiler {
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
-      // TODO: Overflow check?
-      this.push(node.operatorToken, `b${operator}`, this.lastType);
+      this.push(node.operatorToken, `b${operator}`, 'bigint');
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
     }

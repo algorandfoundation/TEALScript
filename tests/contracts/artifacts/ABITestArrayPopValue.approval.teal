@@ -61,23 +61,8 @@ arrayPopValue:
 
 	// tests/contracts/abi.algo.ts:453
 	// return v;
-	frame_dig -2 // v: uint16
-	byte 0xFFFF
-	b&
-	dup
-	len
-	dup
-	int 2
-	-
-	swap
-	substring3
-	dup
-	bitlen
-	int 16
-	<=
-	assert
 	byte 0x151f7c75
-	swap
+	frame_dig -2 // v: uint16
 	concat
 	log
 	retsub
