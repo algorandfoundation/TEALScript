@@ -787,7 +787,7 @@ export default class Compiler {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
       fn: (node: ts.CallExpression) => {
         this.processNode(node.arguments[0]);
-        this.lastType = 'uint512';
+        this.lastType = 'bigint';
       },
     },
     verifyTxn: {
@@ -3130,13 +3130,13 @@ export default class Compiler {
           this.pushLines(this.lastNode, 'swap', 'itob', 'swap');
         }
 
-        this.lastType = 'uint512';
+        this.lastType = 'bigint';
 
         return;
       }
 
       if (numericBehavior === 'fix' && validNumericTypes) {
-        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'uint512');
+        if (inputType === 'uint64') this.push(this.lastNode, 'itob', 'bigint');
         if (expectedType === 'uint64') this.push(this.lastNode, 'btoi', 'uint64');
         else this.fixBitWidth(this.lastNode, parseInt(expectedType.match(/\d+/)![0], 10));
 
@@ -3234,7 +3234,7 @@ export default class Compiler {
 
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
-    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/)) {
+    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/) || this.lastType === 'bigint') {
       this.push(node.operatorToken, `b${operator}`, 'bigint');
     } else {
       this.push(node.operatorToken, operator, StackType.uint64);
