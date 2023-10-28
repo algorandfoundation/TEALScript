@@ -1058,6 +1058,20 @@ export default class Compiler {
         this.lastType = this.getABIType(node.expression.expression.getText());
       },
     },
+    // number methods
+    toString: {
+      check: (node: ts.CallExpression) => !!this.getABIType(this.lastType).match(/uint\d+$/),
+      fn: (node: ts.CallExpression) => {
+        if (this.lastType !== StackType.uint64) {
+          const width = parseInt(this.getABIType(this.lastType).match(/\d+/)![0], 10);
+          if (width > 64) throw Error('toString is only supported for uint64 and smaller');
+          this.pushVoid(node, 'btoi');
+        }
+
+        this.pushVoid(node, 'callsub itoa');
+        this.lastType = 'bytes';
+      },
+    },
   };
 
   private disableWarnings: boolean;
@@ -2357,6 +2371,46 @@ export default class Compiler {
   }
 
   private compilerSubroutines: { [name: string]: () => string[] } = {
+    itoa: () => [
+      'intToAscii:',
+      'proto 1 1',
+      'byte 0x30313233343536373839 // "0123456789"',
+      'frame_dig -1 // i: uint64',
+      'int 1',
+      'extract3',
+      'retsub',
+      '',
+      'itoa:',
+      'proto 1 1',
+      'frame_dig -1 // i: uint64',
+      'int 0',
+      '==',
+      'bz itoa_if_end',
+      'byte 0x151f7c75000130',
+      'log',
+      'retsub',
+      'itoa_if_end:',
+      'frame_dig -1 // i: uint64',
+      'int 10',
+      '/',
+      'int 0',
+      '>',
+      'bz itoa_ternary_false',
+      'frame_dig -1 // i: uint64',
+      'int 10',
+      '/',
+      'callsub itoa',
+      'b itoa_ternary_end',
+      'itoa_ternary_false:',
+      'byte 0x // ""',
+      'itoa_ternary_end:',
+      'frame_dig -1 // i: uint64',
+      'int 10',
+      '%',
+      'callsub intToAscii',
+      'concat',
+      'retsub',
+    ],
     process_static_tuple_element: () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
@@ -3085,8 +3139,8 @@ export default class Compiler {
     const lastWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
 
     if (desiredWidth < lastWidth) {
-      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
-      this.pushLines(node, `extract ${64 - desiredWidth} ${desiredWidth}`);
+      if (!this.disableOverflowChecks) this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+      this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth}`);
       this.lastType = `uint${desiredWidth}`;
       return;
     }
@@ -4096,7 +4150,7 @@ export default class Compiler {
     // Check if this is a custom propertly like `zeroIndex`
     if (chain[0] && ts.isPropertyAccessExpression(chain[0])) {
       const propName = chain[0].name.getText();
-      if (this.customProperties[propName]?.check(chain[0])) {
+      if (this.customProperties[propName]?.check?.(chain[0])) {
         this.customProperties[propName].fn(chain[0]);
         chain.splice(0, 1);
       }
@@ -4146,7 +4200,8 @@ export default class Compiler {
         const methodName = n.expression.name.getText();
 
         // If this is a custom method
-        if (this.customMethods[methodName] && this.customMethods[methodName].check(n)) {
+        if (this.customMethods[methodName]?.check?.(n)) {
+          // HERE
           this.customMethods[methodName].fn(n);
           return false;
         }

@@ -126,4 +126,10 @@ class GeneralTest extends Contract {
       methodArgs: [1 as uint<8>],
     });
   }
+
+  numberToString(): void {
+    const n = 1;
+    const s = '1';
+    assert(n.toString() === s);
+  }
 }
