@@ -5,81 +5,16 @@ import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-c
 import path from 'path';
 import { describe, test, expect } from '@jest/globals';
 import algosdk from 'algosdk';
-import { algodClient, kmdClient, commonCompileAndCreate } from './common';
+import {
+  algodClient,
+  kmdClient,
+  compileAndCreate as commonCompileAndCreate,
+  runMethod as commonRunMethod,
+} from './common';
 
 const ARTIFACTS_PATH = path.join(__dirname, 'contracts', 'artifacts');
 
 const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
-
-function formatTrace(input: string): string {
-  const lines = input.replace(/ {2}/g, '').split('\n');
-  const maxFirstColumnLength = 5;
-  const maxSecondColumnLength = 5;
-  const maxThirdColumnLength = 50;
-
-  // Align the first two columns and join them back with the rest of the columns
-  const alignedLines = lines.map((line) => {
-    if (!line.includes('|')) return line;
-
-    const columns = line.split('|');
-
-    const firstColumn = columns[0].trim().padEnd(maxFirstColumnLength).slice(0, maxFirstColumnLength);
-
-    const secondColumn = columns[1].trim().padEnd(maxSecondColumnLength).slice(0, maxSecondColumnLength);
-
-    /*
-    const pc = firstColumn.trim();
-
-    const tealLine = undefined; // (srcMap as {[pc: string]: number})[pc];
-    const approval = fs.readFileSync('./tests/contracts/artifacts/AbiTest.approval.teal', 'utf8');
-
-    const srcLine = tealLine
-   && (!columns[2].includes('!!')) ? approval.split('\n')[tealLine].trim() : columns[2];
-   */
-
-    const srcLine = columns[2];
-
-    const thirdColumn = srcLine.trim().padEnd(maxThirdColumnLength).slice(0, maxThirdColumnLength);
-
-    // remove long lines
-    if (srcLine.startsWith('method')) return undefined;
-    if (srcLine.startsWith('txna ApplicationArgs 0')) return undefined;
-    if (srcLine.startsWith('match')) return undefined;
-
-    return `${firstColumn} |${secondColumn} |${thirdColumn} |${columns.slice(4).join('|')}`;
-  });
-
-  return alignedLines.filter((l) => l !== undefined).join('\n');
-}
-// eslint-disable-next-line no-unused-vars
-async function dryrun(
-  appClient: ApplicationClient,
-  appId: number,
-  methodName: string,
-  methodArgs?: algosdk.ABIArgument[]
-) {
-  const atc = new algosdk.AtomicTransactionComposer();
-  atc.addMethodCall({
-    appID: appId,
-    method: appClient.getABIMethod(methodName)!,
-    methodArgs,
-    sender: (await sender).addr,
-    signer: algosdk.makeBasicAccountTransactionSigner(await sender),
-    suggestedParams: await algodClient.getTransactionParams().do(),
-  });
-
-  const txns = atc.buildGroup().map((t) => t.txn);
-  const sigs = (await atc.gatherSignatures()).map((s) => (algosdk.decodeObj(s) as algosdk.SignedTransaction).sig);
-  const dr = await algosdk.createDryrun({
-    client: algodClient,
-    txns: [{ txn: txns[0], sig: sigs[0] }],
-  });
-
-  const drrTxn = new algosdk.DryrunResult(await algodClient.dryrun(dr).do()).txns[0];
-
-  // eslint-disable-next-line no-console
-  console.log(formatTrace(drrTxn.appTrace({ maxValueWidth: -1, topOfStackFirst: true })));
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function compileAndCreate(name: string): Promise<{
@@ -92,31 +27,20 @@ async function compileAndCreate(name: string): Promise<{
 }
 
 async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {
-  const params = {
-    method: name,
-    methodArgs,
-    boxes: [
-      { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
-      { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
-      { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
-    ],
-    sendParams: { suppressLog: true },
-  };
+  const boxes = [
+    { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
+    { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
+    { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
+  ];
 
-  try {
-    if (name.includes('Storage') || name.includes('RefAccount')) {
-      await appClient.fundAppAccount({
-        amount: algokit.microAlgos(127400),
-        sendParams: { suppressLog: true },
-      });
-      return (await appClient.optIn(params)).return?.returnValue;
-    }
-    return (await appClient.call(params)).return?.returnValue;
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn(e);
-    throw e;
+  let fundAmount = 0;
+  let callType = 'call';
+
+  if (name.includes('Storage') || name.includes('RefAccount')) {
+    fundAmount = 127_400;
+    callType = 'optIn';
   }
+  return commonRunMethod({ appClient, boxes, method: name, methodArgs, fundAmount, callType });
 }
 
 describe('ABI', function () {

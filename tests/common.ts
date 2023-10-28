@@ -50,7 +50,7 @@ export function artifactsTest(testName: string, sourcePath: string, artifactsPat
   });
 }
 
-export async function commonCompileAndCreate(
+export async function compileAndCreate(
   sender: algosdk.Account,
   sourcePath: string,
   artifactsPath: string,
@@ -87,4 +87,45 @@ export async function commonCompileAndCreate(
   });
 
   return { appClient, appId };
+}
+
+export async function runMethod({
+  appClient,
+  method,
+  methodArgs = [],
+  callType = 'call',
+  boxes = [],
+  fundAmount = 0,
+}: {
+  appClient: ApplicationClient;
+  method: string;
+  methodArgs?: algosdk.ABIArgument[];
+  callType?: 'call' | 'optIn';
+  boxes?: {
+    appIndex: number;
+    name: Uint8Array;
+  }[];
+  fundAmount?: number;
+}) {
+  const params = {
+    method,
+    methodArgs,
+    boxes,
+    sendParams: { suppressLog: true },
+  };
+
+  try {
+    if (fundAmount > 0) {
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(fundAmount),
+        sendParams: { suppressLog: true },
+      });
+    }
+
+    return (await appClient[callType](params)).return?.returnValue;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(e);
+    throw e;
+  }
 }
