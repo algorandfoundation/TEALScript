@@ -1,79 +1,87 @@
+/* eslint-disable no-else-return */
 /* eslint-disable no-constant-condition */
 import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class IfTest extends Contract {
-  singleIf(): void {
-    if (1) {
-      log('if');
+  singleIf(arg0: boolean): string {
+    if (arg0) {
+      return 'if';
     }
+
+    return 'end';
   }
 
-  ifElse(): void {
-    if (1) {
-      log('if');
+  ifElse(arg0: boolean): string {
+    if (arg0) {
+      return 'if';
     } else {
-      log('else');
+      return 'else';
     }
   }
 
-  ifElseIf(): void {
-    if (1) {
-      log('if');
-    } else if (2) {
-      log('else if');
+  ifElseIf(arg0: boolean, arg1: boolean): string {
+    if (arg0) {
+      return 'if';
+    } else if (arg1) {
+      return 'else if';
     }
+
+    return 'end';
   }
 
-  ifElseIfElse(): void {
-    if (1) {
-      log('if');
-    } else if (2) {
-      log('else if');
+  ifElseIfElse(arg0: boolean, arg1: boolean): string {
+    if (arg0) {
+      return 'if';
+    } else if (arg1) {
+      return 'else if';
     } else {
-      log('else');
+      return 'else';
     }
   }
 
-  ifElseIfElseIf(): void {
-    if (1) {
-      log('if');
-    } else if (2) {
-      log('else if 1');
-    } else if (3) {
-      log('else if 2');
+  ifElseIfElseIf(arg0: boolean, arg1: boolean, arg2: boolean): string {
+    if (arg0) {
+      return 'if';
+    } else if (arg1) {
+      return 'else if 1';
+    } else if (arg2) {
+      return 'else if 2';
     }
+
+    return 'end';
   }
 
-  ifElseIfElseIfElse(): void {
-    if (1) {
-      log('if');
-    } else if (2) {
-      log('else if 1');
-    } else if (3) {
-      log('else if 2');
+  ifElseIfElseIfElse(arg0: boolean, arg1: boolean, arg2: boolean): string {
+    if (arg0) {
+      return 'if';
+    } else if (arg1) {
+      return 'else if 1';
+    } else if (arg2) {
+      return 'else if 2';
     } else {
-      log('else');
+      return 'else';
     }
   }
 
-  nestedIf(bool1: boolean, bool2: boolean): string {
-    let retStr: string;
-
-    if (bool1) {
-      retStr = 'if';
-      if (bool2) {
-        retStr = 'nested if';
+  nestedIf(arg0: boolean, arg1: boolean): string {
+    if (arg0) {
+      if (arg1) {
+        return 'nested if';
       }
+      return 'if';
     } else {
-      retStr = 'else';
+      return 'else';
     }
-
-    return retStr;
   }
 
-  bracketlessIfElse(): void {
-    if (1) log('if');
-    else log('else');
+  bracketlessIfElse(arg0: boolean): string {
+    if (arg0) return 'if';
+    else return 'else';
+  }
+
+  nestedTernary(arg0: boolean, arg1: boolean): number {
+    // eslint-disable-next-line no-nested-ternary
+    return arg0 ? 1 : arg1 ? 2 : 3;
   }
 }

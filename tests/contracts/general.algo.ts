@@ -62,11 +62,6 @@ class GeneralTest extends Contract {
     });
   }
 
-  nestedTernary(x: boolean, y: boolean): number {
-    // eslint-disable-next-line no-nested-ternary
-    return x ? 1 : y ? 2 : 3;
-  }
-
   shift(): void {
     assert(1 << 2 === 4);
     assert(4 >> 1 === 2);
