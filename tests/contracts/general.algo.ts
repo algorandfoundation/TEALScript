@@ -129,6 +129,7 @@ class GeneralTest extends Contract {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
   tmpl(): void {
     log(templateVar<bytes>('FOO'));
