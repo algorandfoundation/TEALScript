@@ -41,9 +41,9 @@ txnTypeEnum:
 	assert
 	retsub
 
-// txnGroupLength()uint64
+// txnGroupLength()void
 abi_route_txnGroupLength:
-	// execute txnGroupLength()uint64
+	// execute txnGroupLength()void
 	callsub txnGroupLength
 	int 1
 	return
@@ -52,13 +52,11 @@ txnGroupLength:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:12
-	// return this.txnGroup.length;
+	// assert(this.txnGroup.length === 1)
 	global GroupSize
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+	int 1
+	==
+	assert
 	retsub
 
 // asserts(bool,bool)void
@@ -151,156 +149,75 @@ verifyTxnFromTxnGroup:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:24
-	// verifyTxn(this.txnGroup[0 + 1], { receiver: this.app.address, amount: 100_000 })
-	int 1
-	store 8 // verifyTxn index
-
-	// verify receiver
-	load 8 // verifyTxn index
-	gtxns Receiver
-	global CurrentApplicationAddress
-	==
-	assert
-
-	// verify amount
-	load 8 // verifyTxn index
-	gtxns Amount
-	int 100_000
+	// verifyTxn(this.txnGroup[0], { sender: this.txn.sender })
+	// verify sender
+	int 0
+	gtxns Sender
+	txn Sender
 	==
 	assert
 	retsub
 
-// verifyTxnCondition(pay)void
+// verifyTxnCondition()void
 abi_route_verifyTxnCondition:
-	// somePay: pay
-	txn GroupIndex
-	int 1
-	-
-	dup
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
-	// execute verifyTxnCondition(pay)void
+	// execute verifyTxnCondition()void
 	callsub verifyTxnCondition
 	int 1
 	return
 
 verifyTxnCondition:
-	proto 1 0
+	proto 0 0
 
 	// tests/contracts/general.algo.ts:28
-	// verifyTxn(somePay, {
-	//       receiver: this.app.address,
-	//       amount: { greaterThan: 1, lessThanEqualTo: 10, not: 5 },
+	// verifyTxn(this.txn, {
+	//       applicationID: { greaterThan: 1 },
 	//     })
-	// verify receiver
-	frame_dig -1 // somePay: pay
-	gtxns Receiver
-	global CurrentApplicationAddress
-	==
-	assert
-
-	// verify amount
-	frame_dig -1 // somePay: pay
-	gtxns Amount
+	// verify applicationID
+	txn ApplicationID
 	int 1
 	>
 	assert
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 10
-	<=
-	assert
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 5
-	!=
-	assert
 	retsub
 
-// verifyTxnIncludedIn(pay)void
+// verifyTxnIncludedIn()void
 abi_route_verifyTxnIncludedIn:
-	// somePay: pay
-	txn GroupIndex
-	int 1
-	-
-	dup
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
-	// execute verifyTxnIncludedIn(pay)void
+	// execute verifyTxnIncludedIn()void
 	callsub verifyTxnIncludedIn
 	int 1
 	return
 
 verifyTxnIncludedIn:
-	proto 1 0
+	proto 0 0
 
-	// tests/contracts/general.algo.ts:35
-	// verifyTxn(somePay, {
-	//       amount: { includedIn: [1, 2, 3] },
+	// tests/contracts/general.algo.ts:34
+	// verifyTxn(this.txn, {
+	//       sender: { includedIn: [this.txn.sender] },
 	//     })
-	// verify amount
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 1
+	// verify sender
+	txn Sender
+	txn Sender
 	==
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 2
-	==
-	||
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 3
-	==
-	||
 	assert
 	retsub
 
-// verifyTxnNotIncludedIn(pay)void
+// verifyTxnNotIncludedIn()void
 abi_route_verifyTxnNotIncludedIn:
-	// somePay: pay
-	txn GroupIndex
-	int 1
-	-
-	dup
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
-	// execute verifyTxnNotIncludedIn(pay)void
+	// execute verifyTxnNotIncludedIn()void
 	callsub verifyTxnNotIncludedIn
 	int 1
 	return
 
 verifyTxnNotIncludedIn:
-	proto 1 0
+	proto 0 0
 
-	// tests/contracts/general.algo.ts:41
-	// verifyTxn(somePay, {
-	//       amount: { notIncludedIn: [1, 2, 3] },
+	// tests/contracts/general.algo.ts:40
+	// verifyTxn(this.txn, {
+	//       sender: { notIncludedIn: [globals.zeroAddress] },
 	//     })
-	// verify amount
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 1
+	// verify sender
+	txn Sender
+	global ZeroAddress
 	!=
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 2
-	!=
-	||
-	frame_dig -1 // somePay: pay
-	gtxns Amount
-	int 3
-	!=
-	||
 	assert
 	retsub
 
@@ -314,18 +231,18 @@ abi_route_submitPendingGroup:
 submitPendingGroup:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:47
+	// tests/contracts/general.algo.ts:46
 	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:47
+	// tests/contracts/general.algo.ts:46
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:47
+	// tests/contracts/general.algo.ts:46
 	// receiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Receiver
@@ -334,13 +251,13 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:47
 	// this.pendingGroup.addAssetCreation({ configAssetTotal: 1 })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:47
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -349,7 +266,7 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:49
+	// tests/contracts/general.algo.ts:48
 	// this.pendingGroup.submit()
 	itxn_submit
 	retsub
@@ -364,7 +281,7 @@ abi_route_methodWithTxnArgs:
 methodWithTxnArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:53
+	// tests/contracts/general.algo.ts:52
 	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
 	//       name: 'foo',
 	//       methodArgs: [
@@ -380,12 +297,12 @@ methodWithTxnArgs:
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:56
+	// tests/contracts/general.algo.ts:55
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:56
+	// tests/contracts/general.algo.ts:55
 	// receiver: this.txn.sender
 	txn Sender
 	itxn_field Receiver
@@ -399,12 +316,12 @@ methodWithTxnArgs:
 	method "bar(uint64)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:59
+	// tests/contracts/general.algo.ts:58
 	// applicationID: Application.fromID(1337)
 	int 1337
 	itxn_field ApplicationID
 
-	// tests/contracts/general.algo.ts:60
+	// tests/contracts/general.algo.ts:59
 	// methodArgs: [1]
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
@@ -418,7 +335,7 @@ methodWithTxnArgs:
 	method "foo(pay,appl)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:55
+	// tests/contracts/general.algo.ts:54
 	// methodArgs: [
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
@@ -465,7 +382,7 @@ abi_route_nestedTernary:
 nestedTernary:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:68
+	// tests/contracts/general.algo.ts:67
 	// return x ? 1 : y ? 2 : 3;
 	frame_dig -1 // x: bool
 	bz ternary0_false
@@ -501,18 +418,22 @@ abi_route_shift:
 shift:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:72
-	// assert(1 << 2)
+	// tests/contracts/general.algo.ts:71
+	// assert(1 << 2 === 4)
 	int 1
 	int 2
 	shl
+	int 4
+	==
 	assert
 
-	// tests/contracts/general.algo.ts:73
-	// assert(3 >> 4)
-	int 3
+	// tests/contracts/general.algo.ts:72
+	// assert(4 >> 1 === 2)
 	int 4
+	int 1
 	shr
+	int 2
+	==
 	assert
 	retsub
 
@@ -526,7 +447,7 @@ abi_route_fromBytes:
 fromBytes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:77
+	// tests/contracts/general.algo.ts:76
 	// assert(Address.fromBytes('abc').minBalance)
 	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
@@ -544,14 +465,14 @@ abi_route_fromID:
 fromID:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:81
+	// tests/contracts/general.algo.ts:80
 	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	assert
 	log
 
-	// tests/contracts/general.algo.ts:82
+	// tests/contracts/general.algo.ts:81
 	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
@@ -571,35 +492,38 @@ abi_route_bzeroFunction:
 bzeroFunction:
 	proto 4 0
 
-	// tests/contracts/general.algo.ts:86
+	// tests/contracts/general.algo.ts:85
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:87
+	// tests/contracts/general.algo.ts:86
 	// x: bytes = bzero(2)
 	byte 0x0000
 	frame_bury -2 // x: bytes
 
-	// tests/contracts/general.algo.ts:88
+	// tests/contracts/general.algo.ts:87
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
 	frame_bury -3 // y: bytes
 
-	// tests/contracts/general.algo.ts:89
+	// tests/contracts/general.algo.ts:88
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
 	frame_bury -4 // z: [uint64,uint8]
 
-	// tests/contracts/general.algo.ts:90
-	// log(x + y + z)
+	// tests/contracts/general.algo.ts:89
+	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
 	frame_dig -3 // y: bytes
 	concat
 	byte 0x000000000000000000 // z: [uint64,uint8]
 	concat
-	log
+	len
+	int 12
+	==
+	assert
 	retsub
 
 // events()void
@@ -612,7 +536,7 @@ abi_route_events:
 events:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:96
+	// tests/contracts/general.algo.ts:95
 	// this.myEvent.log(this.app, 1)
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
@@ -637,7 +561,7 @@ abi_route_letOptimization:
 letOptimization:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:100
+	// tests/contracts/general.algo.ts:99
 	// assert(a[0])
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
@@ -646,12 +570,12 @@ letOptimization:
 	btoi
 	assert
 
-	// tests/contracts/general.algo.ts:102
+	// tests/contracts/general.algo.ts:101
 	// b = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury -1 // b: uint64[]
 
-	// tests/contracts/general.algo.ts:104
+	// tests/contracts/general.algo.ts:103
 	// return b;
 	frame_dig -1 // a: uint64[]
 	dup
@@ -678,7 +602,7 @@ abi_route_staticContractProperties:
 staticContractProperties:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:108
+	// tests/contracts/general.algo.ts:107
 	// sendAppCall({
 	//       approvalProgram: DummyContract.approvalProgram(),
 	//       clearStateProgram: DummyContract.clearProgram(),
@@ -691,32 +615,32 @@ staticContractProperties:
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:109
+	// tests/contracts/general.algo.ts:108
 	// approvalProgram: DummyContract.approvalProgram()
 	byte b64 CTEYgQANgQYLMRkIjQEABACBAUOABLhEezY2GgCOAf/wAA==
 	itxn_field ApprovalProgram
 
-	// tests/contracts/general.algo.ts:110
+	// tests/contracts/general.algo.ts:109
 	// clearStateProgram: DummyContract.clearProgram()
 	byte b64 CQ==
 	itxn_field ClearStateProgram
 
-	// tests/contracts/general.algo.ts:111
+	// tests/contracts/general.algo.ts:110
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
 	int 0
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/general.algo.ts:112
+	// tests/contracts/general.algo.ts:111
 	// localNumUint: DummyContract.schema.local.numUint
 	int 0
 	itxn_field LocalNumUint
 
-	// tests/contracts/general.algo.ts:113
+	// tests/contracts/general.algo.ts:112
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
 	int 0
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/general.algo.ts:114
+	// tests/contracts/general.algo.ts:113
 	// globalNumUint: DummyContract.schema.global.numUint
 	int 0
 	itxn_field GlobalNumUint
@@ -739,7 +663,7 @@ abi_route_uintNToUint64InMethodArgs:
 uintNToUint64InMethodArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:119
+	// tests/contracts/general.algo.ts:118
 	// sendMethodCall<[number], void>({
 	//       name: 'registerCreature',
 	//       methodArgs: [1 as uint<8>],
@@ -750,7 +674,7 @@ uintNToUint64InMethodArgs:
 	method "registerCreature(uint64)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:121
+	// tests/contracts/general.algo.ts:120
 	// methodArgs: [1 as uint<8>]
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
@@ -775,17 +699,17 @@ abi_route_numberToString:
 numberToString:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:126
+	// tests/contracts/general.algo.ts:125
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:127
+	// tests/contracts/general.algo.ts:126
 	// s = '1'
 	byte 0x31 // "1"
 	frame_bury -2 // s: bytes
 
-	// tests/contracts/general.algo.ts:128
+	// tests/contracts/general.algo.ts:127
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
@@ -806,13 +730,13 @@ create_NoOp:
 
 call_NoOp:
 	method "txnTypeEnum()void"
-	method "txnGroupLength()uint64"
+	method "txnGroupLength()void"
 	method "asserts(bool,bool)void"
 	method "verifyTxnFromArg(pay)void"
 	method "verifyTxnFromTxnGroup()void"
-	method "verifyTxnCondition(pay)void"
-	method "verifyTxnIncludedIn(pay)void"
-	method "verifyTxnNotIncludedIn(pay)void"
+	method "verifyTxnCondition()void"
+	method "verifyTxnIncludedIn()void"
+	method "verifyTxnNotIncludedIn()void"
 	method "submitPendingGroup()void"
 	method "methodWithTxnArgs()void"
 	method "nestedTernary(bool,bool)uint64"

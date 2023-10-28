@@ -15,9 +15,21 @@ describe('General', function () {
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-    test('staticArray', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
-      await runMethod({ appClient, method: 'txnTypeEnum' });
+    [
+      'txnTypeEnum',
+      'txnGroupLength',
+      'verifyTxnFromTxnGroup',
+      'verifyTxnCondition',
+      'verifyTxnIncludedIn',
+      'verifyTxnNotIncludedIn',
+      'shift',
+      'bzeroFunction',
+      'numberToString',
+    ].forEach((method) => {
+      test(method, async function () {
+        const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+        await runMethod({ appClient, method });
+      });
     });
   });
 });
