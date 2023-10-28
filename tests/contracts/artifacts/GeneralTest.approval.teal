@@ -662,6 +662,25 @@ numberToString:
 	assert
 	retsub
 
+// methodOnParens()void
+abi_route_methodOnParens:
+	// execute methodOnParens()void
+	callsub methodOnParens
+	int 1
+	return
+
+methodOnParens:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:126
+	// assert((1 + 2).toString() === '3')
+	int 3
+	callsub itoa
+	byte 0x33 // "3"
+	==
+	assert
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -692,8 +711,9 @@ call_NoOp:
 	method "staticContractProperties()void"
 	method "uintNToUint64InMethodArgs()void"
 	method "numberToString()void"
+	method "methodOnParens()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_uintNToUint64InMethodArgs abi_route_numberToString
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_uintNToUint64InMethodArgs abi_route_numberToString abi_route_methodOnParens
 	err
 
 intToAscii:

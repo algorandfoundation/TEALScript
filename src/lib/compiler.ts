@@ -4010,6 +4010,13 @@ export default class Compiler {
    */
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
     const { base, chain } = this.getExpressionChain(node);
+
+    if (ts.isParenthesizedExpression(base)) {
+      if (!ts.isBinaryExpression(base.expression))
+        throw Error(`Unexpected parentheses around ${ts.SyntaxKind[base.expression.kind]}`);
+      this.processNode(base.expression);
+    }
+
     this.addSourceComment(node);
     let storageBase: ts.PropertyAccessExpression | undefined;
 
@@ -4201,7 +4208,6 @@ export default class Compiler {
 
         // If this is a custom method
         if (this.customMethods[methodName]?.check?.(n)) {
-          // HERE
           this.customMethods[methodName].fn(n);
           return false;
         }

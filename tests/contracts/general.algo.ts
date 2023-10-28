@@ -121,6 +121,10 @@ class GeneralTest extends Contract {
     const s = '1';
     assert(n.toString() === s);
   }
+
+  methodOnParens(): void {
+    assert((1 + 2).toString() === '3');
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
