@@ -1,206 +1,73 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 import { test, expect, describe } from '@jest/globals';
-import { getMethodTeal, artifactsTest } from './common';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import algosdk from 'algosdk';
+import { compileAndCreate, runMethod, artifactsTest, algodClient, kmdClient } from './common';
 
-async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/math.algo.ts', 'MathTest', methodName);
-}
+const NAME = 'MathTest';
+const PATH = 'tests/contracts/math.algo.ts';
+const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 describe('Math', function () {
   artifactsTest('tests/contracts/math.algo.ts', 'tests/contracts/artifacts/', 'MathTest');
 
-  test('uint64 +', async function () {
-    const teal = await getTeal('u64plus');
-    expect(teal).toEqual([
-      '// return a + b;',
-      'frame_dig -1 // a: uint64',
-      'frame_dig -2 // b: uint64',
-      '+',
-      'itob',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+  describe('E2E', function () {
+    const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-  test('uint64 -', async function () {
-    const teal = await getTeal('u64minus');
-    expect(teal).toEqual([
-      '// return a - b;',
-      'frame_dig -1 // a: uint64',
-      'frame_dig -2 // b: uint64',
-      '-',
-      'itob',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    const methods = {
+      u64plus: 9n,
+      u64minus: 3n,
+      u64mul: 18n,
+      u64div: 2n,
+      u256plus: 9n,
+      u256minus: 3n,
+      u256mul: 18n,
+      u256div: 2n,
+      u64Return256: 9n,
+      exponent: BigInt(6 ** 3),
+      variableTypeHint: 9n,
+    };
 
-  test('uint64 *', async function () {
-    const teal = await getTeal('u64mul');
-    expect(teal).toEqual([
-      '// return a * b;',
-      'frame_dig -1 // a: uint64',
-      'frame_dig -2 // b: uint64',
-      '*',
-      'itob',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    Object.keys(methods).forEach((method) => {
+      test(method, async function () {
+        const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+        expect(await runMethod({ appClient, method, methodArgs: [6, 3] })).toBe(methods[method]);
+      });
+    });
 
-  test('uint64 /', async function () {
-    const teal = await getTeal('u64div');
-    expect(teal).toEqual([
-      '// return a / b;',
-      'frame_dig -1 // a: uint64',
-      'frame_dig -2 // b: uint64',
-      '/',
-      'itob',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    test('maxU64', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'maxU64' })).toBe(BigInt('18446744073709551615'));
+    });
 
-  test('uint256 b+', async function () {
-    const teal = await getTeal('u256plus');
-    expect(teal).toEqual([
-      '// return a + b;',
-      'frame_dig -1 // a: uint256',
-      'frame_dig -2 // b: uint256',
-      'b+',
-      'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-      'b&',
-      'dup',
-      'len',
-      'dup',
-      'int 32',
-      '-',
-      'swap',
-      'substring3',
-      'dup',
-      'bitlen',
-      'int 256',
-      '<=',
-      'assert',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    // btobigintFirst
+    test('btobigintFirst', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'btobigintFirst', methodArgs: [algosdk.encodeUint64(1000)] })).toBe(
+        1000n
+      );
+    });
 
-  test('uint256 b-', async function () {
-    const teal = await getTeal('u256minus');
-    expect(teal).toEqual([
-      '// return a - b;',
-      'frame_dig -1 // a: uint256',
-      'frame_dig -2 // b: uint256',
-      'b-',
-      'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-      'b&',
-      'dup',
-      'len',
-      'dup',
-      'int 32',
-      '-',
-      'swap',
-      'substring3',
-      'dup',
-      'bitlen',
-      'int 256',
-      '<=',
-      'assert',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    test('btobigintSecond', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'btobigintSecond', methodArgs: [algosdk.encodeUint64(1)] })).toBe(
+        1000n
+      );
+    });
 
-  test('uint256 b*', async function () {
-    const teal = await getTeal('u256mul');
-    expect(teal).toEqual([
-      '// return a * b;',
-      'frame_dig -1 // a: uint256',
-      'frame_dig -2 // b: uint256',
-      'b*',
-      'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-      'b&',
-      'dup',
-      'len',
-      'dup',
-      'int 32',
-      '-',
-      'swap',
-      'substring3',
-      'dup',
-      'bitlen',
-      'int 256',
-      '<=',
-      'assert',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+    test('overflow', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
-  test('uint256 b/', async function () {
-    const teal = await getTeal('u256div');
-    expect(teal).toEqual([
-      '// return a / b;',
-      'frame_dig -1 // a: uint256',
-      'frame_dig -2 // b: uint256',
-      'b/',
-      'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-      'b&',
-      'dup',
-      'len',
-      'dup',
-      'int 32',
-      '-',
-      'swap',
-      'substring3',
-      'dup',
-      'bitlen',
-      'int 256',
-      '<=',
-      'assert',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
+      let msg: string;
+      try {
+        await runMethod({ appClient, method: 'uint8plus', methodArgs: [2 ** 8 - 1, 1] });
+        msg = 'No error';
+      } catch (e) {
+        msg = e.message;
+      }
 
-  test('uint64 -> uint256', async function () {
-    const teal = await getTeal('u64Return256');
-    expect(teal).toEqual([
-      '// return a + b;',
-      'frame_dig -1 // a: uint64',
-      'frame_dig -2 // b: uint64',
-      '+',
-      'itob',
-      'byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
-      'b&',
-      'byte 0x151f7c75',
-      'swap',
-      'concat',
-      'log',
-    ]);
-  });
-
-  test('max uint64', async function () {
-    const teal = await getTeal('maxU64');
-    expect(teal).toEqual(['// assert(18_446_744_073_709_551_615)', 'int 18_446_744_073_709_551_615', 'assert']);
+      expect(msg).toMatch('pushint 8; <=; assert');
+    });
   });
 });

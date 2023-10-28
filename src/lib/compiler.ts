@@ -3111,6 +3111,10 @@ export default class Compiler {
       return;
     }
 
+    if (!this.disableOverflowChecks) {
+      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+    }
+
     if (this.lastType === 'bigint') {
       this.pushLines(
         node,
@@ -3125,13 +3129,6 @@ export default class Compiler {
         'substring3'
       );
 
-      if (this.disableOverflowChecks) {
-        this.lastType = `uint${desiredWidth}`;
-        return;
-      }
-
-      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
-
       this.lastType = `uint${desiredWidth}`;
       return;
     }
@@ -3139,7 +3136,6 @@ export default class Compiler {
     const lastWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
 
     if (desiredWidth < lastWidth) {
-      if (!this.disableOverflowChecks) this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
       this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth / 8}`);
       this.lastType = `uint${desiredWidth}`;
       return;

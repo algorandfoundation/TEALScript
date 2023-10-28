@@ -377,6 +377,11 @@ mint:
 	frame_dig -2 // index: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001
 	b+
+	dup
+	bitlen
+	int 256
+	<=
+	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	dup
@@ -386,11 +391,6 @@ mint:
 	-
 	swap
 	substring3
-	dup
-	bitlen
-	int 256
-	<=
-	assert
 	app_global_put
 	retsub
 
