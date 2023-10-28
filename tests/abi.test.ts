@@ -1,13 +1,11 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import fs from 'fs';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import path from 'path';
 import { describe, test, expect } from '@jest/globals';
 import algosdk from 'algosdk';
-import { algodClient, kmdClient } from './common';
-import Compiler from '../src/lib/compiler';
+import { algodClient, kmdClient, commonCompileAndCreate } from './common';
 
 const ARTIFACTS_PATH = path.join(__dirname, 'contracts', 'artifacts');
 
@@ -90,35 +88,7 @@ async function compileAndCreate(name: string): Promise<{
 }> {
   const className = `ABITest${name.charAt(0).toUpperCase() + name.slice(1)}`;
 
-  const sourcePath = path.join('tests', 'contracts', 'abi.algo.ts');
-  const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, { filename: sourcePath, disableWarnings: true });
-  await compiler.compile();
-  await compiler.algodCompile();
-
-  expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(
-    fs.readFileSync(`${ARTIFACTS_PATH}/${className}.approval.teal`, 'utf-8')
-  );
-  expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.abi.json`, 'utf-8')));
-  expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${ARTIFACTS_PATH}/${className}.json`, 'utf-8')));
-
-  const appClient = algokit.getAppClient(
-    {
-      app: JSON.stringify(compiler.appSpec()),
-      sender: await sender,
-      resolveBy: 'id',
-      id: 0,
-    },
-    algodClient
-  );
-
-  const { appId } = await appClient.create({
-    method: 'createApplication',
-    methodArgs: [],
-    sendParams: { suppressLog: true },
-  });
-
-  return { appClient, appId };
+  return commonCompileAndCreate(await sender, `tests/contracts/abi.algo.ts`, ARTIFACTS_PATH, className);
 }
 
 async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {

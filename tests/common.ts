@@ -3,6 +3,8 @@
 import fs from 'fs';
 import algosdk from 'algosdk';
 import { expect, describe, test, beforeAll } from '@jest/globals';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import Compiler from '../src/lib/compiler';
 
 export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
@@ -46,4 +48,43 @@ export function artifactsTest(testName: string, sourcePath: string, artifactsPat
       expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
     });
   });
+}
+
+export async function commonCompileAndCreate(
+  sender: algosdk.Account,
+  sourcePath: string,
+  artifactsPath: string,
+  className: string
+): Promise<{
+  appClient: ApplicationClient;
+  appId: number | bigint;
+}> {
+  const content = fs.readFileSync(sourcePath, 'utf-8');
+  const compiler = new Compiler(content, className, { filename: sourcePath, disableWarnings: true });
+  await compiler.compile();
+  await compiler.algodCompile();
+
+  expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(
+    fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
+  );
+  expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
+  expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
+
+  const appClient = algokit.getAppClient(
+    {
+      app: JSON.stringify(compiler.appSpec()),
+      sender,
+      resolveBy: 'id',
+      id: 0,
+    },
+    algodClient
+  );
+
+  const { appId } = await appClient.create({
+    method: 'createApplication',
+    methodArgs: [],
+    sendParams: { suppressLog: true },
+  });
+
+  return { appClient, appId };
 }
