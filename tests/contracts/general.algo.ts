@@ -5,11 +5,11 @@ class DummyContract extends Contract {}
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   txnTypeEnum(): void {
-    assert(this.txnGroup[0].typeEnum === TransactionType.Payment);
+    assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
   }
 
-  txnGroupLength(): uint64 {
-    return this.txnGroup.length;
+  txnGroupLength(): void {
+    assert(this.txnGroup.length === 1);
   }
 
   asserts(arg1: boolean, arg2: boolean): void {
@@ -21,25 +21,24 @@ class GeneralTest extends Contract {
   }
 
   verifyTxnFromTxnGroup(): void {
-    verifyTxn(this.txnGroup[0 + 1], { receiver: this.app.address, amount: 100_000 });
+    verifyTxn(this.txnGroup[0], { sender: this.txn.sender });
   }
 
-  verifyTxnCondition(somePay: PayTxn): void {
-    verifyTxn(somePay, {
-      receiver: this.app.address,
-      amount: { greaterThan: 1, lessThanEqualTo: 10, not: 5 },
+  verifyTxnCondition(): void {
+    verifyTxn(this.txn, {
+      applicationID: { greaterThan: 1 },
     });
   }
 
-  verifyTxnIncludedIn(somePay: PayTxn): void {
-    verifyTxn(somePay, {
-      amount: { includedIn: [1, 2, 3] },
+  verifyTxnIncludedIn(): void {
+    verifyTxn(this.txn, {
+      sender: { includedIn: [this.txn.sender] },
     });
   }
 
-  verifyTxnNotIncludedIn(somePay: PayTxn): void {
-    verifyTxn(somePay, {
-      amount: { notIncludedIn: [1, 2, 3] },
+  verifyTxnNotIncludedIn(): void {
+    verifyTxn(this.txn, {
+      sender: { notIncludedIn: [globals.zeroAddress] },
     });
   }
 
@@ -63,14 +62,9 @@ class GeneralTest extends Contract {
     });
   }
 
-  nestedTernary(x: boolean, y: boolean): number {
-    // eslint-disable-next-line no-nested-ternary
-    return x ? 1 : y ? 2 : 3;
-  }
-
   shift(): void {
-    assert(1 << 2);
-    assert(3 >> 4);
+    assert(1 << 2 === 4);
+    assert(4 >> 1 === 2);
   }
 
   fromBytes(): void {
@@ -82,17 +76,12 @@ class GeneralTest extends Contract {
     log(Asset.fromID(123).creator);
   }
 
-  tmpl(): void {
-    log(templateVar<bytes>('FOO'));
-    assert(templateVar<uint64>('BAR'));
-  }
-
   bzeroFunction(): void {
     const n = 1;
-    const x: bytes = bzero(2);
-    const y: bytes = bzero(n);
-    const z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>();
-    log(x + y + z);
+    const x: bytes = bzero(2); // 2
+    const y: bytes = bzero(n); // 3
+    const z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>(); // 12
+    assert(len(x + y + z) === 12);
   }
 
   myEvent = new EventLogger<[Application, number]>();
@@ -131,5 +120,13 @@ class GeneralTest extends Contract {
     const n = 1;
     const s = '1';
     assert(n.toString() === s);
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+class Templates extends Contract {
+  tmpl(): void {
+    log(templateVar<bytes>('FOO'));
+    assert(templateVar<uint64>('BAR'));
   }
 }

@@ -3140,7 +3140,7 @@ export default class Compiler {
 
     if (desiredWidth < lastWidth) {
       if (!this.disableOverflowChecks) this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
-      this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth}`);
+      this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth / 8}`);
       this.lastType = `uint${desiredWidth}`;
       return;
     }

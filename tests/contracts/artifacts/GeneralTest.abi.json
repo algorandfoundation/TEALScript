@@ -16,7 +16,7 @@
       "args": [],
       "desc": "",
       "returns": {
-        "type": "uint64",
+        "type": "void",
         "desc": ""
       }
     },
@@ -66,13 +66,7 @@
     },
     {
       "name": "verifyTxnCondition",
-      "args": [
-        {
-          "name": "somePay",
-          "type": "pay",
-          "desc": ""
-        }
-      ],
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",
@@ -81,13 +75,7 @@
     },
     {
       "name": "verifyTxnIncludedIn",
-      "args": [
-        {
-          "name": "somePay",
-          "type": "pay",
-          "desc": ""
-        }
-      ],
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",
@@ -96,13 +84,7 @@
     },
     {
       "name": "verifyTxnNotIncludedIn",
-      "args": [
-        {
-          "name": "somePay",
-          "type": "pay",
-          "desc": ""
-        }
-      ],
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",
@@ -128,26 +110,6 @@
       }
     },
     {
-      "name": "nestedTernary",
-      "args": [
-        {
-          "name": "x",
-          "type": "bool",
-          "desc": ""
-        },
-        {
-          "name": "y",
-          "type": "bool",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "uint64",
-        "desc": ""
-      }
-    },
-    {
       "name": "shift",
       "args": [],
       "desc": "",
@@ -167,15 +129,6 @@
     },
     {
       "name": "fromID",
-      "args": [],
-      "desc": "",
-      "returns": {
-        "type": "void",
-        "desc": ""
-      }
-    },
-    {
-      "name": "tmpl",
       "args": [],
       "desc": "",
       "returns": {

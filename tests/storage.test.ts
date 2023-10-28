@@ -12,7 +12,6 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
 }
 
-artifactsTest('StorageTest', 'tests/contracts/storage.algo.ts', 'tests/contracts/artifacts/', 'StorageTest');
 const SUPPRESS_LOG = { suppressLog: true };
 
 const ops: { [type: string]: { [method: string]: string } } = {
@@ -36,190 +35,194 @@ const ops: { [type: string]: { [method: string]: string } } = {
   },
 };
 
-['global', 'local', 'box'].forEach((storageType) => {
-  ['Key', 'Map'].forEach((storageClass) => {
-    describe(`${storageType}${storageClass}`, function () {
-      ['Put', 'Get', 'Delete', 'Exists'].forEach((method) => {
-        test(`${storageType}${storageClass}${method}`, async function () {
-          const teal = await getTeal(`${storageType}${storageClass}${method}`);
-          const expectedTeal: string[] = [];
+describe('Storage', function () {
+  artifactsTest('tests/contracts/storage.algo.ts', 'tests/contracts/artifacts/', 'StorageTest');
 
-          if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
+  ['global', 'local', 'box'].forEach((storageType) => {
+    ['Key', 'Map'].forEach((storageClass) => {
+      describe(`${storageType}${storageClass}`, function () {
+        ['Put', 'Get', 'Delete', 'Exists'].forEach((method) => {
+          test(`${storageType}${storageClass}${method}`, async function () {
+            const teal = await getTeal(`${storageType}${storageClass}${method}`);
+            const expectedTeal: string[] = [];
 
-          if (['local', 'global'].includes(storageType) && method === 'Exists')
-            expectedTeal.push('txna Applications 0');
+            if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
 
-          expectedTeal.push('byte 0x666f6f // "foo"');
+            if (['local', 'global'].includes(storageType) && method === 'Exists')
+              expectedTeal.push('txna Applications 0');
 
-          if (method === 'Put') {
-            expectedTeal.push('byte 0x626172 // "bar"');
-          }
+            expectedTeal.push('byte 0x666f6f // "foo"');
 
-          expectedTeal.push(ops[storageType][method]);
+            if (method === 'Put') {
+              expectedTeal.push('byte 0x626172 // "bar"');
+            }
 
-          if (method === 'Exists') {
-            expectedTeal.push('swap');
-            expectedTeal.push('pop');
-            expectedTeal.push('assert');
-          }
+            expectedTeal.push(ops[storageType][method]);
 
-          if (method === 'Get') {
-            if (storageType === 'box') expectedTeal.push('assert');
-            expectedTeal.push('byte 0x626172 // "bar"');
-            expectedTeal.push('==');
-            expectedTeal.push('assert');
-          }
+            if (method === 'Exists') {
+              expectedTeal.push('swap');
+              expectedTeal.push('pop');
+              expectedTeal.push('assert');
+            }
 
-          expect(teal.slice(1)).toEqual(expectedTeal);
+            if (method === 'Get') {
+              if (storageType === 'box') expectedTeal.push('assert');
+              expectedTeal.push('byte 0x626172 // "bar"');
+              expectedTeal.push('==');
+              expectedTeal.push('assert');
+            }
+
+            expect(teal.slice(1)).toEqual(expectedTeal);
+          });
         });
       });
     });
   });
-});
 
-describe('Box Ops', () => {
-  let appClient: ApplicationClient;
+  describe('Box Ops', () => {
+    let appClient: ApplicationClient;
 
-  beforeAll(async () => {
-    const className = 'StorageTest';
+    beforeAll(async () => {
+      const className = 'StorageTest';
 
-    const sourcePath = path.join('tests', 'contracts', 'storage.algo.ts');
-    const content = fs.readFileSync(sourcePath, 'utf-8');
-    const compiler = new Compiler(content, className, {
-      filename: sourcePath,
-      disableWarnings: true,
-    });
-    await compiler.compile();
-    await compiler.algodCompile();
+      const sourcePath = path.join('tests', 'contracts', 'storage.algo.ts');
+      const content = fs.readFileSync(sourcePath, 'utf-8');
+      const compiler = new Compiler(content, className, {
+        filename: sourcePath,
+        disableWarnings: true,
+      });
+      await compiler.compile();
+      await compiler.algodCompile();
 
-    const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
+      const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-    appClient = algokit.getAppClient(
-      {
-        app: JSON.stringify(compiler.appSpec()),
-        sender: await sender,
-        resolveBy: 'id',
-        id: 0,
-      },
-      algodClient
-    );
+      appClient = algokit.getAppClient(
+        {
+          app: JSON.stringify(compiler.appSpec()),
+          sender: await sender,
+          resolveBy: 'id',
+          id: 0,
+        },
+        algodClient
+      );
 
-    await appClient.create({
-      method: 'createApplication',
-      methodArgs: [],
-      sendParams: SUPPRESS_LOG,
-    });
-  });
-
-  test('boxKeyCreate', async () => {
-    await appClient.fundAppAccount({
-      amount: algokit.microAlgos(513300),
-      sendParams: SUPPRESS_LOG,
-    });
-    const box = new Uint8Array(Buffer.from('foo'));
-
-    await appClient.call({
-      method: 'boxKeyCreate',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      await appClient.create({
+        method: 'createApplication',
+        methodArgs: [],
+        sendParams: SUPPRESS_LOG,
+      });
     });
 
-    expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
-  });
+    test('boxKeyCreate', async () => {
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(513300),
+        sendParams: SUPPRESS_LOG,
+      });
+      const box = new Uint8Array(Buffer.from('foo'));
 
-  test('boxKeyLength', async () => {
-    const box = new Uint8Array(Buffer.from('foo'));
+      await appClient.call({
+        method: 'boxKeyCreate',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    const result = await appClient.call({
-      method: 'boxKeyLength',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
     });
 
-    expect(result.return?.returnValue).toEqual(1024n);
-  });
+    test('boxKeyLength', async () => {
+      const box = new Uint8Array(Buffer.from('foo'));
 
-  test('boxKeyReplace', async () => {
-    const box = new Uint8Array(Buffer.from('foo'));
+      const result = await appClient.call({
+        method: 'boxKeyLength',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    await appClient.call({
-      method: 'boxKeyReplace',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect(result.return?.returnValue).toEqual(1024n);
     });
 
-    expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
-  });
+    test('boxKeyReplace', async () => {
+      const box = new Uint8Array(Buffer.from('foo'));
 
-  test('boxKeyExtract', async () => {
-    const box = new Uint8Array(Buffer.from('foo'));
+      await appClient.call({
+        method: 'boxKeyReplace',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    const result = await appClient.call({
-      method: 'boxKeyExtract',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
     });
 
-    expect(result.return?.returnValue as string).toEqual('abc');
-  });
+    test('boxKeyExtract', async () => {
+      const box = new Uint8Array(Buffer.from('foo'));
 
-  test('boxMapCreate', async () => {
-    await appClient.fundAppAccount({
-      amount: algokit.microAlgos(513300),
-      sendParams: SUPPRESS_LOG,
-    });
-    const box = new Uint8Array(Buffer.from('bar'));
+      const result = await appClient.call({
+        method: 'boxKeyExtract',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    await appClient.call({
-      method: 'boxMapCreate',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect(result.return?.returnValue as string).toEqual('abc');
     });
 
-    expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
-  });
+    test('boxMapCreate', async () => {
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(513300),
+        sendParams: SUPPRESS_LOG,
+      });
+      const box = new Uint8Array(Buffer.from('bar'));
 
-  test('boxMapLength', async () => {
-    const box = new Uint8Array(Buffer.from('bar'));
+      await appClient.call({
+        method: 'boxMapCreate',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    const result = await appClient.call({
-      method: 'boxMapLength',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
     });
 
-    expect(result.return?.returnValue).toEqual(1024n);
-  });
+    test('boxMapLength', async () => {
+      const box = new Uint8Array(Buffer.from('bar'));
 
-  test('boxMapReplace', async () => {
-    const box = new Uint8Array(Buffer.from('bar'));
+      const result = await appClient.call({
+        method: 'boxMapLength',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    await appClient.call({
-      method: 'boxMapReplace',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect(result.return?.returnValue).toEqual(1024n);
     });
 
-    expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
-  });
+    test('boxMapReplace', async () => {
+      const box = new Uint8Array(Buffer.from('bar'));
 
-  test('boxMapExtract', async () => {
-    const box = new Uint8Array(Buffer.from('bar'));
+      await appClient.call({
+        method: 'boxMapReplace',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
 
-    const result = await appClient.call({
-      method: 'boxMapExtract',
-      methodArgs: [],
-      boxes: [{ appIndex: 0, name: box }],
-      sendParams: SUPPRESS_LOG,
+      expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
     });
 
-    expect(result.return?.returnValue as string).toEqual('abc');
+    test('boxMapExtract', async () => {
+      const box = new Uint8Array(Buffer.from('bar'));
+
+      const result = await appClient.call({
+        method: 'boxMapExtract',
+        methodArgs: [],
+        boxes: [{ appIndex: 0, name: box }],
+        sendParams: SUPPRESS_LOG,
+      });
+
+      expect(result.return?.returnValue as string).toEqual('abc');
+    });
   });
 });
