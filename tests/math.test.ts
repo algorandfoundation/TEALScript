@@ -70,4 +70,23 @@ describe('Math', function () {
       expect(msg).toMatch('pushint 8; <=; assert');
     });
   });
+
+  describe('Compile Errors', function () {
+    test('uint8exp', async function () {
+      let msg: string;
+      try {
+        await compileAndCreate(
+          algosdk.generateAccount(),
+          'tests/contracts/math_compile_errors.algo.ts',
+          ARTIFACTS_DIR,
+          'Uint8Exp'
+        );
+        msg = 'No error';
+      } catch (e) {
+        msg = e.message;
+      }
+
+      expect(msg).toMatch('Exponent operator only supported for uint64, got uint8 and uint8');
+    });
+  });
 });

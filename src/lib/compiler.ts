@@ -3302,6 +3302,10 @@ export default class Compiler {
       .replace('!==', '!=')
       .replace('**', 'exp');
 
+    if (operator === 'exp' && (this.lastType !== StackType.uint64 || leftType !== StackType.uint64)) {
+      throw new Error(`Exponent operator only supported for uint64/number, got ${leftType} and ${this.lastType}`);
+    }
+
     if (this.lastType === StackType.uint64) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/) || this.lastType === 'bigint') {
