@@ -1122,3 +1122,10 @@ class ABITestUpdateArrayRefInBoxStorage extends Contract {
     return v;
   }
 }
+
+class ABITestExtractUint extends Contract {
+  extractUint(arg: number): uint<8> {
+    const x = <uint<8>>arg;
+    return x;
+  }
+}

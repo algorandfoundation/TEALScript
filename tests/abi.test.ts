@@ -699,5 +699,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'updateArrayRefInBoxStorage')).toEqual([3n, 2n]);
     });
+
+    test('extractUint', async () => {
+      const { appClient } = await compileAndCreate('extractUint');
+
+      expect(await runMethod(appClient, 'extractUint', [1])).toEqual(1n);
+    });
   });
 });
