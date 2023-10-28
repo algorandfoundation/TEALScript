@@ -3139,8 +3139,8 @@ export default class Compiler {
     const lastWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
 
     if (desiredWidth < lastWidth) {
-      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
-      this.pushLines(node, `extract ${64 - desiredWidth} ${desiredWidth}`);
+      if (!this.disableOverflowChecks) this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
+      this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth}`);
       this.lastType = `uint${desiredWidth}`;
       return;
     }
