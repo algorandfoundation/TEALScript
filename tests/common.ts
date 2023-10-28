@@ -25,10 +25,10 @@ export function lowerFirstChar(str: string) {
   return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
 }
 
-export function artifactsTest(testName: string, sourcePath: string, artifactsPath: string, className: string) {
+export function artifactsTest(sourcePath: string, artifactsPath: string, className: string) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
   const compiler = new Compiler(content, className, { filename: sourcePath, disableWarnings: true });
-  describe(`${testName} ${className} Artifacts`, () => {
+  describe(`${className} Artifacts`, () => {
     beforeAll(async () => {
       await compiler.compile();
       await compiler.algodCompile();

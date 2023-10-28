@@ -7,9 +7,9 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/math.algo.ts', 'MathTest', methodName);
 }
 
-artifactsTest('MathTest', 'tests/contracts/math.algo.ts', 'tests/contracts/artifacts/', 'MathTest');
-
 describe('Math', function () {
+  artifactsTest('tests/contracts/math.algo.ts', 'tests/contracts/artifacts/', 'MathTest');
+
   test('uint64 +', async function () {
     const teal = await getTeal('u64plus');
     expect(teal).toEqual([

@@ -5,7 +5,7 @@ class DummyContract extends Contract {}
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   txnTypeEnum(): void {
-    assert(this.txnGroup[0].typeEnum === TransactionType.Payment);
+    assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
   }
 
   txnGroupLength(): uint64 {
@@ -82,11 +82,6 @@ class GeneralTest extends Contract {
     log(Asset.fromID(123).creator);
   }
 
-  tmpl(): void {
-    log(templateVar<bytes>('FOO'));
-    assert(templateVar<uint64>('BAR'));
-  }
-
   bzeroFunction(): void {
     const n = 1;
     const x: bytes = bzero(2);
@@ -131,5 +126,12 @@ class GeneralTest extends Contract {
     const n = 1;
     const s = '1';
     assert(n.toString() === s);
+  }
+}
+
+class Templates extends Contract {
+  tmpl(): void {
+    log(templateVar<bytes>('FOO'));
+    assert(templateVar<uint64>('BAR'));
   }
 }

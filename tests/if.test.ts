@@ -7,9 +7,9 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/if.algo.ts', 'IfTest', methodName);
 }
 
-artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
-
 describe('If', function () {
+  artifactsTest('tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
+
   test('singleIf', async function () {
     const teal = await getTeal('singleIf');
     expect(teal).toEqual([

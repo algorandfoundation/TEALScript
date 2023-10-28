@@ -33,10 +33,10 @@ txnTypeEnum:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:8
-	// assert(this.txnGroup[0].typeEnum === TransactionType.Payment)
+	// assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall)
 	int 0
 	gtxns TypeEnum
-	int pay
+	int appl
 	==
 	assert
 	retsub
@@ -559,27 +559,6 @@ fromID:
 	log
 	retsub
 
-// tmpl()void
-abi_route_tmpl:
-	// execute tmpl()void
-	callsub tmpl
-	int 1
-	return
-
-tmpl:
-	proto 0 0
-
-	// tests/contracts/general.algo.ts:86
-	// log(templateVar<bytes>('FOO'))
-	byte TMPL_FOO // TMPL_FOO
-	log
-
-	// tests/contracts/general.algo.ts:87
-	// assert(templateVar<uint64>('BAR'))
-	int TMPL_BAR // TMPL_BAR
-	assert
-	retsub
-
 // bzeroFunction()void
 abi_route_bzeroFunction:
 	byte 0x; dupn 3 // push empty bytes to fill the stack frame for this subroutine's local variables
@@ -592,28 +571,28 @@ abi_route_bzeroFunction:
 bzeroFunction:
 	proto 4 0
 
-	// tests/contracts/general.algo.ts:91
+	// tests/contracts/general.algo.ts:86
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:92
+	// tests/contracts/general.algo.ts:87
 	// x: bytes = bzero(2)
 	byte 0x0000
 	frame_bury -2 // x: bytes
 
-	// tests/contracts/general.algo.ts:93
+	// tests/contracts/general.algo.ts:88
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
 	frame_bury -3 // y: bytes
 
-	// tests/contracts/general.algo.ts:94
+	// tests/contracts/general.algo.ts:89
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
 	frame_bury -4 // z: [uint64,uint8]
 
-	// tests/contracts/general.algo.ts:95
+	// tests/contracts/general.algo.ts:90
 	// log(x + y + z)
 	byte 0x0000 // x: bytes
 	frame_dig -3 // y: bytes
@@ -633,7 +612,7 @@ abi_route_events:
 events:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:101
+	// tests/contracts/general.algo.ts:96
 	// this.myEvent.log(this.app, 1)
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
@@ -658,7 +637,7 @@ abi_route_letOptimization:
 letOptimization:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:105
+	// tests/contracts/general.algo.ts:100
 	// assert(a[0])
 	frame_dig -1 // a: uint64[]
 	store 0 // full array
@@ -667,12 +646,12 @@ letOptimization:
 	btoi
 	assert
 
-	// tests/contracts/general.algo.ts:107
+	// tests/contracts/general.algo.ts:102
 	// b = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury -1 // b: uint64[]
 
-	// tests/contracts/general.algo.ts:109
+	// tests/contracts/general.algo.ts:104
 	// return b;
 	frame_dig -1 // a: uint64[]
 	dup
@@ -699,7 +678,7 @@ abi_route_staticContractProperties:
 staticContractProperties:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:113
+	// tests/contracts/general.algo.ts:108
 	// sendAppCall({
 	//       approvalProgram: DummyContract.approvalProgram(),
 	//       clearStateProgram: DummyContract.clearProgram(),
@@ -712,32 +691,32 @@ staticContractProperties:
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:114
+	// tests/contracts/general.algo.ts:109
 	// approvalProgram: DummyContract.approvalProgram()
 	byte b64 CTEYgQANgQYLMRkIjQEABACBAUOABLhEezY2GgCOAf/wAA==
 	itxn_field ApprovalProgram
 
-	// tests/contracts/general.algo.ts:115
+	// tests/contracts/general.algo.ts:110
 	// clearStateProgram: DummyContract.clearProgram()
 	byte b64 CQ==
 	itxn_field ClearStateProgram
 
-	// tests/contracts/general.algo.ts:116
+	// tests/contracts/general.algo.ts:111
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
 	int 0
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/general.algo.ts:117
+	// tests/contracts/general.algo.ts:112
 	// localNumUint: DummyContract.schema.local.numUint
 	int 0
 	itxn_field LocalNumUint
 
-	// tests/contracts/general.algo.ts:118
+	// tests/contracts/general.algo.ts:113
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
 	int 0
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/general.algo.ts:119
+	// tests/contracts/general.algo.ts:114
 	// globalNumUint: DummyContract.schema.global.numUint
 	int 0
 	itxn_field GlobalNumUint
@@ -760,7 +739,7 @@ abi_route_uintNToUint64InMethodArgs:
 uintNToUint64InMethodArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:124
+	// tests/contracts/general.algo.ts:119
 	// sendMethodCall<[number], void>({
 	//       name: 'registerCreature',
 	//       methodArgs: [1 as uint<8>],
@@ -771,7 +750,7 @@ uintNToUint64InMethodArgs:
 	method "registerCreature(uint64)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:126
+	// tests/contracts/general.algo.ts:121
 	// methodArgs: [1 as uint<8>]
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
@@ -796,17 +775,17 @@ abi_route_numberToString:
 numberToString:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:131
+	// tests/contracts/general.algo.ts:126
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:132
+	// tests/contracts/general.algo.ts:127
 	// s = '1'
 	byte 0x31 // "1"
 	frame_bury -2 // s: bytes
 
-	// tests/contracts/general.algo.ts:133
+	// tests/contracts/general.algo.ts:128
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
@@ -840,7 +819,6 @@ call_NoOp:
 	method "shift()void"
 	method "fromBytes()void"
 	method "fromID()void"
-	method "tmpl()void"
 	method "bzeroFunction()void"
 	method "events()void"
 	method "letOptimization(uint64[])uint64[]"
@@ -848,7 +826,7 @@ call_NoOp:
 	method "uintNToUint64InMethodArgs()void"
 	method "numberToString()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_tmpl abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_uintNToUint64InMethodArgs abi_route_numberToString
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_nestedTernary abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_uintNToUint64InMethodArgs abi_route_numberToString
 	err
 
 intToAscii:

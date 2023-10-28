@@ -8,9 +8,9 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/account.algo.ts', 'AccountTest', methodName);
 }
 
-artifactsTest('AccountTest', 'tests/contracts/account.algo.ts', 'tests/contracts/artifacts/', 'AccountTest');
-
 describe('Account', function () {
+  artifactsTest('tests/contracts/account.algo.ts', 'tests/contracts/artifacts/', 'AccountTest');
+
   langspec.Ops.find((op) => op.Name === 'acct_params_get')!.ArgEnum!.forEach((a) => {
     const fn = lowerFirstChar(a.replace('Acct', ''));
     test(fn, async function () {
