@@ -71,7 +71,6 @@ compilers.forEach(async (compilerPromise) => {
 
   if (compiler.teal.lsig.length > 0) {
     fs.writeFileSync(lsigPath, compiler.teal.lsig.map((t) => t.teal).join('\n'));
-    fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
     fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
     return;
   }

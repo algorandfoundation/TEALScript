@@ -13,4 +13,6 @@ export default abstract class LogicSig {
   txn!: Txn;
 
   txnGroup!: Txn[];
+
+  abstract logic(...args: any[]): void;
 }

@@ -1580,11 +1580,7 @@ export default class Compiler {
       this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
     }
 
-    if (this.currentProgram === 'lsig') {
-      this.pushLines(this.classNode, `router:`);
-    }
-
-    this.routeAbiMethods();
+    if (this.currentProgram !== 'lsig') this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
       if (this.teal[this.currentProgram].map((t) => t.teal).includes(`callsub ${sub}`)) {
@@ -1718,13 +1714,6 @@ export default class Compiler {
       this.abi.methods.forEach((m) => {
         this.pushMethod(m);
       });
-
-      this.pushLines(
-        this.classNode,
-        'arg_0',
-        `match ${this.abi.methods.map((m) => `abi_route_${m.name}`).join(' ')}`,
-        'err'
-      );
 
       return;
     }
@@ -2908,6 +2897,10 @@ export default class Compiler {
       return;
     }
 
+    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
+      throw Error('Only one method called "logic" can be defined in a logic signature');
+    }
+
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
 
@@ -3084,7 +3077,7 @@ export default class Compiler {
 
       this.teal.clear.push({ node, teal: '#pragma version 9' });
     } else if (this.currentProgram === 'lsig') {
-      this.pushLines(node, '// The address of this logic signature is', '', 'b router');
+      this.pushLines(node, '// The address of this logic signature is', '');
     }
 
     node.members.forEach((m) => {
@@ -4389,7 +4382,9 @@ export default class Compiler {
 
     while (headerComment.at(-1) === '// ') headerComment.pop();
 
-    this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+    if (this.currentProgram !== 'lsig') {
+      this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+    }
 
     const argCount = fn.parameters.length;
 
@@ -4965,15 +4960,21 @@ export default class Compiler {
     teal.forEach((t, i) => {
       const tealLine = t.teal;
       if (tealLine === '// No extra bytes needed for this subroutine') return;
+      if (tealLine === '//#pragma mode logicsig') {
+        output.push({ node: this.classNode, teal: tealLine });
+        return;
+      }
 
       if (tealLine.startsWith('//')) {
+        if (comments.length === 0 && output.at(-1)!.teal !== '' && !lastIsLabel)
+          output.push({ node: this.classNode, teal: '' });
         comments.push(tealLine);
         return;
       }
 
       const isLabel = !tealLine.startsWith('byte ') && tealLine.split('//')[0].endsWith(':');
 
-      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push({ node: this.classNode, teal: '' });
+      if (isLabel && output.at(-1)!.teal !== '') output.push({ node: this.classNode, teal: '' });
 
       hitFirstLabel = hitFirstLabel || isLabel;
 
@@ -4981,7 +4982,7 @@ export default class Compiler {
         comments.forEach((c) => output.push({ node: t.node, teal: c }));
         comments = [];
         output.push({ node: t.node, teal: tealLine });
-        lastIsLabel = true;
+        lastIsLabel = isLabel;
       } else {
         comments.forEach((c) => output.push({ node: t.node, teal: `\t${c.replace(/\n/g, '\n\t')}` }));
         comments = [];
