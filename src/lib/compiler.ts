@@ -1577,13 +1577,22 @@ export default class Compiler {
     this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
-      if (this.teal.approval.map((t) => t.teal).includes(`callsub ${sub}`)) {
+      if (this.teal[this.currentProgram].map((t) => t.teal).includes(`callsub ${sub}`)) {
         this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
 
-    this.teal.approval = await this.postProcessTeal(this.teal.approval);
-    this.teal.approval = optimizeTeal(this.teal.approval);
+    this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
+    this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
+    this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
+
+    this.teal[this.currentProgram].forEach((t, i) => {
+      if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
+      this.srcMap.push({
+        teal: i + 1,
+        source: ts.getLineAndCharacterOfPosition(this.sourceFile, t.node.getStart()).line + 1,
+      });
+    });
 
     let hasNonAbi = false;
 
@@ -1594,8 +1603,8 @@ export default class Compiler {
     });
 
     if (hasNonAbi) {
-      const i = this.teal.approval.map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
-      this.teal.approval[i].teal =
+      const i = this.teal[this.currentProgram].map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
+      this.teal[this.currentProgram][i].teal =
         '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
     }
 
@@ -1637,6 +1646,8 @@ export default class Compiler {
       }
     });
 
+    // Start of clear program compiliation
+
     this.currentProgram = 'clear';
 
     this.teal.clear
@@ -1651,17 +1662,7 @@ export default class Compiler {
 
     this.teal.clear = await this.postProcessTeal(this.teal.clear);
     this.teal.clear = optimizeTeal(this.teal.clear);
-
-    this.teal.approval = this.prettyTeal(this.teal.approval);
     this.teal.clear = this.prettyTeal(this.teal.clear);
-
-    this.teal.approval.forEach((t, i) => {
-      if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
-      this.srcMap.push({
-        teal: i + 1,
-        source: ts.getLineAndCharacterOfPosition(this.sourceFile, t.node.getStart()).line + 1,
-      });
-    });
   }
 
   private push(node: ts.Node, teal: string, type: string) {
@@ -1701,7 +1702,7 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    const switchIndex = this.teal.approval.map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
+    const switchIndex = this.teal[this.currentProgram].map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
 
     ON_COMPLETES.forEach((onComplete) => {
       if (onComplete === 'ClearState') return;
@@ -1712,7 +1713,7 @@ export default class Compiler {
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
-          this.teal.approval[switchIndex].teal = this.teal.approval[switchIndex].teal.replace(
+          this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
             `${a}_${onComplete}`,
             'NOT_IMPLEMENTED'
           );
@@ -1750,7 +1751,7 @@ export default class Compiler {
       });
     });
 
-    if (this.teal.approval[switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];
@@ -1761,9 +1762,9 @@ export default class Compiler {
         return array;
       };
 
-      const switchLine = removeLastDuplicates(this.teal.approval[switchIndex].teal.split(' ')).join(' ');
+      const switchLine = removeLastDuplicates(this.teal[this.currentProgram][switchIndex].teal.split(' ')).join(' ');
 
-      this.teal.approval[switchIndex].teal = switchLine;
+      this.teal[this.currentProgram][switchIndex].teal = switchLine;
     }
   }
 
