@@ -1710,14 +1710,6 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    if (this.currentProgram === 'lsig') {
-      this.abi.methods.forEach((m) => {
-        this.pushMethod(m);
-      });
-
-      return;
-    }
-
     const switchIndex = this.teal[this.currentProgram].map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
 
     ON_COMPLETES.forEach((onComplete) => {
@@ -2860,9 +2852,6 @@ export default class Compiler {
 
     const returnType = this.getABIType(node.type.getText());
 
-    if (this.currentProgram === 'lsig' && returnType !== 'void')
-      throw Error('All logic signature methods must have void return');
-
     this.currentSubroutine = {
       name: node.name.getText(),
       allows: { call: [], create: [] },
@@ -2900,6 +2889,9 @@ export default class Compiler {
     if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
       throw Error('Only one method called "logic" can be defined in a logic signature');
     }
+
+    if (this.currentProgram === 'lsig' && returnType !== 'void')
+      throw Error('logic method must have a void return type');
 
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
@@ -3077,7 +3069,7 @@ export default class Compiler {
 
       this.teal.clear.push({ node, teal: '#pragma version 9' });
     } else if (this.currentProgram === 'lsig') {
-      this.pushLines(node, '// The address of this logic signature is', '');
+      this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
     }
 
     node.members.forEach((m) => {
@@ -4384,6 +4376,8 @@ export default class Compiler {
 
     if (this.currentProgram !== 'lsig') {
       this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+    } else {
+      this.pushLines(fn, ...headerComment, `route_${this.currentSubroutine.name}:`);
     }
 
     const argCount = fn.parameters.length;
