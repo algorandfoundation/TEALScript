@@ -3147,11 +3147,19 @@ export default class Compiler {
 
   private getStackTypeAfterFunction(fn: () => void): string {
     const preType = this.lastType;
-    const preTeal = new Array(...this.approvalTeal);
+    const preTeal = new Array(...(this.compilingApproval ? this.approvalTeal : this.clearTeal));
+    const preLastComment = new Array(...this.lastSourceCommentRange) as [number, number];
     fn();
     const type = this.lastType;
     this.lastType = preType;
-    this.approvalTeal = preTeal;
+
+    if (this.compilingApproval) {
+      this.approvalTeal = preTeal;
+    } else {
+      this.clearTeal = preTeal;
+    }
+
+    this.lastSourceCommentRange = preLastComment;
     return this.customTypes[type] || type;
   }
 
@@ -3278,22 +3286,6 @@ export default class Compiler {
       return;
     }
 
-    if (['&&', '||'].includes(node.operatorToken.getText())) {
-      this.processLogicalExpression(node);
-      return;
-    }
-
-    this.processNode(node.left);
-    const leftType = this.lastType;
-    this.processNode(node.right);
-
-    if (node.operatorToken.getText() === '+' && (leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
-      this.push(node.operatorToken, 'concat', StackType.bytes);
-      return;
-    }
-
-    this.typeComparison(leftType, this.lastType, 'math');
-
     const operator = node.operatorToken
       .getText()
       .replace('>>', 'shr')
@@ -3302,11 +3294,45 @@ export default class Compiler {
       .replace('!==', '!=')
       .replace('**', 'exp');
 
-    if (operator === 'exp' && (this.lastType !== StackType.uint64 || leftType !== StackType.uint64)) {
+    if (['&&', '||'].includes(operator)) {
+      this.processLogicalExpression(node);
+      return;
+    }
+
+    const isSmallUint = (type: string) => {
+      if (!type.match(/uint\d+$/)) return false;
+      const width = parseInt(type.match(/\d+/)![0], 10);
+      return width < 64;
+    };
+
+    const rightType = this.getStackTypeFromNode(node.right);
+    const leftType = this.getStackTypeFromNode(node.left);
+
+    const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
+    const optimizeSmallUint = isSmallUint(leftType) && isSmallUint(rightType) && isMathOp;
+
+    this.processNode(node.left);
+    if (optimizeSmallUint) {
+      this.pushVoid(node.left, 'btoi');
+    }
+
+    this.processNode(node.right);
+    if (optimizeSmallUint) {
+      this.pushVoid(node.right, 'btoi');
+    }
+
+    if (node.operatorToken.getText() === '+' && (leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
+      this.push(node.operatorToken, 'concat', StackType.bytes);
+      return;
+    }
+
+    this.typeComparison(leftType, this.lastType, 'math');
+
+    if (operator === 'exp' && this.lastType !== StackType.uint64 && !optimizeSmallUint) {
       throw new Error(`Exponent operator only supported for uint64/number, got ${leftType} and ${this.lastType}`);
     }
 
-    if (this.lastType === StackType.uint64) {
+    if (this.lastType === StackType.uint64 || optimizeSmallUint) {
       this.push(node.operatorToken, operator, StackType.uint64);
     } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/) || this.lastType === 'bigint') {
       this.push(node.operatorToken, `b${operator}`, 'bigint');
