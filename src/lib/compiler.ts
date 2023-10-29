@@ -802,15 +802,15 @@ export default class Compiler {
         if (!ts.isObjectLiteralExpression(node.arguments[1]))
           throw new Error('Expected object literal as second argument');
 
-        const preTealLength = this.teal.approval.length;
+        const preTealLength = this.teal[this.currentProgram].length;
 
         this.processNode(node.arguments[0]);
 
-        const indexInScratch: boolean = this.teal.approval.length - preTealLength > 1;
+        const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
 
         if (indexInScratch) {
           this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-        } else this.teal.approval.pop();
+        } else this.teal[this.currentProgram].pop();
 
         node.arguments[1].properties.forEach((p, i) => {
           if (!ts.isPropertyAssignment(p)) throw new Error();
@@ -3093,7 +3093,7 @@ export default class Compiler {
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
     if (desiredWidth === 64) {
-      if (this.teal.approval.at(-1)!.teal === 'itob') return;
+      if (this.teal[this.currentProgram].at(-1)!.teal === 'itob') return;
       this.pushLines(node, 'btoi', 'itob');
       return;
     }
@@ -4239,7 +4239,7 @@ export default class Compiler {
       if (this.lastType.startsWith('ImmediateArray:')) {
         this.push(
           n,
-          `${this.teal.approval.pop()!.teal} ${n.argumentExpression.getText()}`,
+          `${this.teal[this.currentProgram].pop()!.teal} ${n.argumentExpression.getText()}`,
           this.lastType.replace('ImmediateArray: ', '')
         );
         return false;
@@ -4777,7 +4777,7 @@ export default class Compiler {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appSpec(): any {
     const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
-    const clear = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
+    const clear = Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64');
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
