@@ -1721,8 +1721,7 @@ export default class Compiler {
 
       this.pushLines(
         this.classNode,
-        'int 0',
-        'args',
+        'arg_0',
         `match ${this.abi.methods.map((m) => `abi_route_${m.name}`).join(' ')}`,
         'err'
       );
@@ -2867,11 +2866,13 @@ export default class Compiler {
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
-    if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
+    if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
+    if (node.type === undefined) throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
-    const returnType = this.getABIType(node.type!.getText());
-    if (returnType === undefined)
-      throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
+    const returnType = this.getABIType(node.type.getText());
+
+    if (this.currentProgram === 'lsig' && returnType !== 'void')
+      throw Error('All logic signature methods must have void return');
 
     this.currentSubroutine = {
       name: node.name.getText(),
@@ -3078,7 +3079,7 @@ export default class Compiler {
 
       this.teal.clear.push({ node, teal: '#pragma version 9' });
     } else if (this.currentProgram === 'lsig') {
-      this.pushVoid(node, 'b router');
+      this.pushLines(node, '// The address of this logic signature is', '', 'b router');
     }
 
     node.members.forEach((m) => {
@@ -3737,6 +3738,10 @@ export default class Compiler {
         node.initializer.expression.getText()
       )
     ) {
+      if (this.currentProgram === 'lsig') {
+        throw Error('Logic signatures cannot have stateful properties');
+      }
+
       let props: StorageProp;
       const klass = node.initializer.expression.getText();
       const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
@@ -3819,6 +3824,10 @@ export default class Compiler {
 
       this.storageProps[node.name.getText()] = props;
     } else if (ts.isNewExpression(node.initializer) && node.initializer.expression.getText() === 'EventLogger') {
+      if (this.currentProgram === 'lsig') {
+        throw Error('Logic signatures cannot log events');
+      }
+
       if (!ts.isTupleTypeNode(node.initializer.typeArguments![0])) throw Error();
 
       this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
@@ -4453,6 +4462,10 @@ export default class Compiler {
       return;
     }
 
+    if (this.currentProgram === 'lsig' && opcodeName === 'log') {
+      throw Error('Logic signatures cannot log data');
+    }
+
     const opSpec = langspec.Ops.find((o) => o.Name === opcodeName)!;
     let line: string[] = [opcodeName];
 
@@ -4474,6 +4487,9 @@ export default class Compiler {
   }
 
   private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.NodeArray<ts.TypeNode>) {
+    if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
+    if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
+
     if (!ts.isObjectLiteralExpression(fields)) throw new Error('Transaction fields must be an object literal');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
@@ -4682,6 +4698,10 @@ export default class Compiler {
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
+        if (['asset', 'application', 'account', 'itxn'].includes(type) && this.currentProgram === 'lsig') {
+          throw Error(`Cannot access ${capitalizeFirstChar(type)} parameters in logic signature`);
+        }
+
         if (type === ForeignType.Application) paramName = paramName.replace(/^App/, '');
         if (type === ForeignType.Asset) paramName = paramName.replace(/^Asset/, '');
         return paramName === capitalizeFirstChar(name);
@@ -4789,6 +4809,11 @@ export default class Compiler {
       // eslint-disable-next-line no-param-reassign
       sm.pc = this.lineToPc[sm.teal - 1];
     });
+
+    if (program === 'lsig') {
+      const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
+      addrLine.teal += ` ${json.hash}`;
+    }
 
     return json.result;
   }
