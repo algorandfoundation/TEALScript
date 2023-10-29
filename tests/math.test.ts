@@ -27,6 +27,7 @@ describe('Math', function () {
       u64Return256: 9n,
       exponent: BigInt(6 ** 3),
       variableTypeHint: 9n,
+      uint8exp: BigInt(6 ** 3),
     };
 
     Object.keys(methods).forEach((method) => {
@@ -67,12 +68,12 @@ describe('Math', function () {
         msg = e.message;
       }
 
-      expect(msg).toMatch('pushint 8; <=; assert');
+      expect(msg).toMatch('intc_3 // 8; <=; assert');
     });
   });
 
   describe('Compile Errors', function () {
-    test('uint8exp', async function () {
+    test('uint256exp', async function () {
       let msg: string;
       try {
         await compileAndCreate(
@@ -86,7 +87,7 @@ describe('Math', function () {
         msg = e.message;
       }
 
-      expect(msg).toMatch('Exponent operator only supported for uint64, got uint8 and uint8');
+      expect(msg).toMatch('Exponent operator only supported for uintN <= 64, got uint256 and uint256');
     });
   });
 });

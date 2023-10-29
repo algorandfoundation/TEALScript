@@ -282,6 +282,26 @@
       }
     },
     {
+      "name": "uint8exp",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint8",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint8",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint8",
+        "desc": ""
+      }
+    },
+    {
       "name": "createApplication",
       "desc": "",
       "returns": {

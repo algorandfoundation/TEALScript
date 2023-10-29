@@ -3329,7 +3329,7 @@ export default class Compiler {
     this.typeComparison(leftType, this.lastType, 'math');
 
     if (operator === 'exp' && this.lastType !== StackType.uint64 && !optimizeSmallUint) {
-      throw new Error(`Exponent operator only supported for uint64/number, got ${leftType} and ${this.lastType}`);
+      throw new Error(`Exponent operator only supported for uintN <= 64, got ${leftType} and ${rightType}`);
     }
 
     if (this.lastType === StackType.uint64 || optimizeSmallUint) {

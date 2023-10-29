@@ -66,4 +66,8 @@ class MathTest extends Contract {
   uint8plus(a: uint<8>, b: uint<8>): uint<8> {
     return a + b;
   }
+
+  uint8exp(a: uint<8>, b: uint<8>): uint<8> {
+    return a ** b;
+  }
 }

@@ -581,6 +581,52 @@ uint8plus:
 	log
 	retsub
 
+// uint8exp(uint8,uint8)uint8
+abi_route_uint8exp:
+	// b: uint8
+	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
+
+	// a: uint8
+	txna ApplicationArgs 1
+	dup
+	len
+	int 1
+	==
+	assert
+
+	// execute uint8exp(uint8,uint8)uint8
+	callsub uint8exp
+	int 1
+	return
+
+uint8exp:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:71
+	// return a ** b;
+	frame_dig -1 // a: uint8
+	btoi
+	frame_dig -2 // b: uint8
+	btoi
+	exp
+	itob
+	dup
+	bitlen
+	int 8
+	<=
+	assert
+	extract 7 1
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -607,6 +653,7 @@ call_NoOp:
 	method "exponent(uint64,uint64)uint64"
 	method "variableTypeHint(uint8,uint8)uint16"
 	method "uint8plus(uint8,uint8)uint8"
+	method "uint8exp(uint8,uint8)uint8"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp
 	err
