@@ -257,9 +257,17 @@ type NodeAndTEAL = {
 export default class Compiler {
   static diagsRan: string[] = [''];
 
-  approvalTeal: NodeAndTEAL[] = [];
+  private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
-  clearTeal: NodeAndTEAL[] = [];
+  teal: {
+    approval: NodeAndTEAL[];
+    clear: NodeAndTEAL[];
+    lsig: NodeAndTEAL[];
+  } = {
+    approval: [],
+    clear: [],
+    lsig: [],
+  };
 
   generatedTeal: string = '';
 
@@ -303,8 +311,6 @@ export default class Compiler {
   private subroutines: Subroutine[] = [];
 
   private clearStateCompiled: boolean = false;
-
-  private compilingApproval: boolean = true;
 
   private ifCount: number = -1;
 
@@ -796,15 +802,15 @@ export default class Compiler {
         if (!ts.isObjectLiteralExpression(node.arguments[1]))
           throw new Error('Expected object literal as second argument');
 
-        const preTealLength = this.approvalTeal.length;
+        const preTealLength = this.teal.approval.length;
 
         this.processNode(node.arguments[0]);
 
-        const indexInScratch: boolean = this.approvalTeal.length - preTealLength > 1;
+        const indexInScratch: boolean = this.teal.approval.length - preTealLength > 1;
 
         if (indexInScratch) {
           this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-        } else this.approvalTeal.pop();
+        } else this.teal.approval.pop();
 
         node.arguments[1].properties.forEach((p, i) => {
           if (!ts.isPropertyAssignment(p)) throw new Error();
@@ -1571,13 +1577,13 @@ export default class Compiler {
     this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
-      if (this.approvalTeal.map((t) => t.teal).includes(`callsub ${sub}`)) {
+      if (this.teal.approval.map((t) => t.teal).includes(`callsub ${sub}`)) {
         this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
 
-    this.approvalTeal = await this.postProcessTeal(this.approvalTeal);
-    this.approvalTeal = optimizeTeal(this.approvalTeal);
+    this.teal.approval = await this.postProcessTeal(this.teal.approval);
+    this.teal.approval = optimizeTeal(this.teal.approval);
 
     let hasNonAbi = false;
 
@@ -1588,8 +1594,8 @@ export default class Compiler {
     });
 
     if (hasNonAbi) {
-      const i = this.approvalTeal.map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
-      this.approvalTeal[i].teal =
+      const i = this.teal.approval.map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
+      this.teal.approval[i].teal =
         '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
     }
 
@@ -1631,9 +1637,9 @@ export default class Compiler {
       }
     });
 
-    this.compilingApproval = false;
+    this.currentProgram = 'clear';
 
-    this.clearTeal
+    this.teal.clear
       .map((t) => t.teal)
       .forEach((t) => {
         if (t.startsWith('callsub')) {
@@ -1643,13 +1649,13 @@ export default class Compiler {
         }
       });
 
-    this.clearTeal = await this.postProcessTeal(this.clearTeal);
-    this.clearTeal = optimizeTeal(this.clearTeal);
+    this.teal.clear = await this.postProcessTeal(this.teal.clear);
+    this.teal.clear = optimizeTeal(this.teal.clear);
 
-    this.approvalTeal = this.prettyTeal(this.approvalTeal);
-    this.clearTeal = this.prettyTeal(this.clearTeal);
+    this.teal.approval = this.prettyTeal(this.teal.approval);
+    this.teal.clear = this.prettyTeal(this.teal.clear);
 
-    this.approvalTeal.forEach((t, i) => {
+    this.teal.approval.forEach((t, i) => {
       if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
       this.srcMap.push({
         teal: i + 1,
@@ -1659,30 +1665,11 @@ export default class Compiler {
   }
 
   private push(node: ts.Node, teal: string, type: string) {
-    const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
-    const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
-    const targetTeal = this.compilingApproval ? this.approvalTeal : this.clearTeal;
-
     this.lastNode = node;
-
-    // const popTeal = () => {
-    //   const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
-
-    //   if (start.line < srcMap.source.start.line) {
-    //     srcMap.source.start = { line: start.line, col: start.character };
-    //   }
-
-    //   if (end.line > srcMap.source.end.line) {
-    //     srcMap.source.end = { line: end.line, col: end.character };
-    //   }
-
-    //   srcMap.teal = this.teal.length;
-    //   targetTeal.pop();
-    // };
 
     if (type !== 'void') this.lastType = type;
 
-    targetTeal.push({ teal, node });
+    this.teal[this.currentProgram].push({ teal, node });
   }
 
   private pushVoid(node: ts.Node, teal: string) {
@@ -1714,7 +1701,7 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    const switchIndex = this.approvalTeal.map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
+    const switchIndex = this.teal.approval.map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
 
     ON_COMPLETES.forEach((onComplete) => {
       if (onComplete === 'ClearState') return;
@@ -1725,7 +1712,7 @@ export default class Compiler {
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
-          this.approvalTeal[switchIndex].teal = this.approvalTeal[switchIndex].teal.replace(
+          this.teal.approval[switchIndex].teal = this.teal.approval[switchIndex].teal.replace(
             `${a}_${onComplete}`,
             'NOT_IMPLEMENTED'
           );
@@ -1763,7 +1750,7 @@ export default class Compiler {
       });
     });
 
-    if (this.approvalTeal[switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal.approval[switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];
@@ -1774,9 +1761,9 @@ export default class Compiler {
         return array;
       };
 
-      const switchLine = removeLastDuplicates(this.approvalTeal[switchIndex].teal.split(' ')).join(' ');
+      const switchLine = removeLastDuplicates(this.teal.approval[switchIndex].teal.split(' ')).join(' ');
 
-      this.approvalTeal[switchIndex].teal = switchLine;
+      this.teal.approval[switchIndex].teal = switchLine;
     }
   }
 
@@ -3055,11 +3042,11 @@ export default class Compiler {
       'err'
     );
 
-    this.compilingApproval = false;
+    this.currentProgram = 'clear';
 
     this.pushLines(node, '#pragma version 9');
 
-    this.compilingApproval = true;
+    this.currentProgram = 'approval';
 
     node.members.forEach((m) => {
       this.processNode(m);
@@ -3106,7 +3093,7 @@ export default class Compiler {
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
     if (desiredWidth === 64) {
-      if (this.approvalTeal.at(-1)!.teal === 'itob') return;
+      if (this.teal.approval.at(-1)!.teal === 'itob') return;
       this.pushLines(node, 'btoi', 'itob');
       return;
     }
@@ -3147,18 +3134,13 @@ export default class Compiler {
 
   private getStackTypeAfterFunction(fn: () => void): string {
     const preType = this.lastType;
-    const preTeal = new Array(...(this.compilingApproval ? this.approvalTeal : this.clearTeal));
+    const preTeal = this.teal[this.currentProgram].slice();
     const preLastComment = new Array(...this.lastSourceCommentRange) as [number, number];
     fn();
     const type = this.lastType;
     this.lastType = preType;
 
-    if (this.compilingApproval) {
-      this.approvalTeal = preTeal;
-    } else {
-      this.clearTeal = preTeal;
-    }
-
+    this.teal[this.currentProgram] = preTeal;
     this.lastSourceCommentRange = preLastComment;
     return this.customTypes[type] || type;
   }
@@ -4257,7 +4239,7 @@ export default class Compiler {
       if (this.lastType.startsWith('ImmediateArray:')) {
         this.push(
           n,
-          `${this.approvalTeal.pop()!.teal} ${n.argumentExpression.getText()}`,
+          `${this.teal.approval.pop()!.teal} ${n.argumentExpression.getText()}`,
           this.lastType.replace('ImmediateArray: ', '')
         );
         return false;
@@ -4280,8 +4262,7 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    const currentTeal = () => (this.compilingApproval ? this.approvalTeal : this.clearTeal);
-    const frameStart = currentTeal().length;
+    const frameStart = this.teal[this.currentProgram].length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
@@ -4306,11 +4287,12 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.teal.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(this.teal[this.currentProgram].at(-1)!.teal.split(' ')[0]))
+      this.pushVoid(fn, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
-      end: currentTeal().length,
+      end: this.teal[this.currentProgram].length,
       frame: {},
     };
 
@@ -4328,12 +4310,12 @@ export default class Compiler {
   private processClearState(fn: ts.MethodDeclaration) {
     if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
 
-    this.compilingApproval = false;
+    this.currentProgram = 'clear';
     if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
     this.pushLines(fn.body!, 'int 1', 'return');
     this.clearStateCompiled = true;
-    this.compilingApproval = true;
+    this.currentProgram = 'approval';
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
@@ -4695,7 +4677,7 @@ export default class Compiler {
   }
 
   async algodCompileProgram(program: 'approval' | 'clear'): Promise<string> {
-    const targetTeal = program === 'approval' ? this.approvalTeal : this.clearTeal;
+    const targetTeal = program === 'approval' ? this.teal.approval : this.teal.clear;
 
     // Replace template variables
     const body = targetTeal
@@ -4796,8 +4778,8 @@ export default class Compiler {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appSpec(): any {
-    const approval = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
-    const clear = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
+    const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
+    const clear = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
