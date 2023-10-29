@@ -2,16 +2,15 @@ import { LogicSig } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class LsigExample extends LogicSig {
-  private add(a: number, b: number): number {
-    return a + b;
-  }
-
-  logic(a: Asset): void {
+  /** Verify this is an opt in transaction */
+  logic(): void {
     verifyTxn(this.txn, {
       typeEnum: TransactionType.AssetTransfer,
-      amount: this.add(1, 2),
-      sender: this.txn.assetReceiver,
-      xferAsset: a,
+      amount: 0,
+      assetReceiver: this.txn.sender,
+      fee: 0,
+      rekeyTo: globals.zeroAddress,
+      assetCloseTo: globals.zeroAddress,
     });
   }
 }
