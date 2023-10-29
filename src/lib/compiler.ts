@@ -4677,10 +4677,8 @@ export default class Compiler {
   }
 
   async algodCompileProgram(program: 'approval' | 'clear'): Promise<string> {
-    const targetTeal = program === 'approval' ? this.teal.approval : this.teal.clear;
-
     // Replace template variables
-    const body = targetTeal
+    const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
         if (t.match(/(int|byte) TMPL_/)) {
@@ -4709,7 +4707,7 @@ export default class Compiler {
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
       console.error(
-        targetTeal
+        this.teal[program]
           .map((t) => t.teal)
           .map((l, i) => `${i + 1}: ${l}`)
           .join('\n')
