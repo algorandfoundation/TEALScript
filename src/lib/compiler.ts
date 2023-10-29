@@ -178,8 +178,8 @@ const TXN_METHODS = [
   'OfflineKeyRegistration',
 ].flatMap((m) => [`send${m}`, `add${m}`]);
 
-const CONTRACT_SUBCLASS = 'Contract';
-const LSIG_SUBCLASS = 'LogicSig';
+const CONTRACT_CLASS = 'Contract';
+const LSIG_CLASS = 'LogicSig';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Global
@@ -1118,7 +1118,7 @@ export default class Compiler {
       .filter(
         (body) =>
           ts.isClassDeclaration(body) &&
-          [CONTRACT_SUBCLASS, LSIG_SUBCLASS].includes(body.heritageClauses?.[0]?.types[0].expression.getText() || '')
+          [CONTRACT_CLASS, LSIG_CLASS].includes(body.heritageClauses?.[0]?.types[0].expression.getText() || '')
       )
       .map(async (body) => {
         if (!ts.isClassDeclaration(body)) throw Error();
@@ -1533,7 +1533,7 @@ export default class Compiler {
       if (body.heritageClauses === undefined || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)) return;
 
       const superClass = body.heritageClauses[0].types[0].expression.text;
-      if ([CONTRACT_SUBCLASS, LSIG_SUBCLASS].includes(superClass)) {
+      if ([CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
         const className = body.name!.text;
         this.contractClasses.push(className);
 
@@ -1544,7 +1544,7 @@ export default class Compiler {
             methods: [],
           };
 
-          if (superClass === LSIG_SUBCLASS) this.currentProgram = 'lsig';
+          if (superClass === LSIG_CLASS) this.currentProgram = 'lsig';
           this.processNode(body);
         }
       }
