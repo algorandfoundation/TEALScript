@@ -3619,7 +3619,7 @@ export default class Compiler {
             };
           }
 
-          if (node.type) this.typeComparison(this.lastType, node.type.getText(), 'fix');
+          if (node.type) this.typeComparison(initializerType, node.type.getText(), 'fix');
           return;
         }
       }
