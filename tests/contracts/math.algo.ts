@@ -40,9 +40,9 @@ class MathTest extends Contract {
     return a + b;
   }
 
-  maxU64(): void {
+  maxU64(): uint64 {
     // eslint-disable-next-line no-loss-of-precision
-    assert(18_446_744_073_709_551_615);
+    return 18_446_744_073_709_551_615;
   }
 
   btobigintFirst(input: string): uint64 {
@@ -50,18 +50,24 @@ class MathTest extends Contract {
   }
 
   btobigintSecond(input: string): uint64 {
-    return 1 / btobigint(input);
+    return 1000 / btobigint(input);
   }
 
-  exponent(): uint64 {
-    return 2 ** 4;
+  exponent(a: uint64, b: uint64): uint64 {
+    return a ** b;
   }
 
-  variableTypeHint(): uint<16> {
-    const x: uint<8> = 1;
-    const y: uint<8> = 2;
+  variableTypeHint(x: uint<8>, y: uint<8>): uint<16> {
     const z: uint<16> = x + y;
 
     return z;
+  }
+
+  uint8plus(a: uint<8>, b: uint<8>): uint<8> {
+    return a + b;
+  }
+
+  uint8exp(a: uint<8>, b: uint<8>): uint<8> {
+    return a ** b;
   }
 }
