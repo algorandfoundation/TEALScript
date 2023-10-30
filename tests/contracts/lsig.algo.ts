@@ -1,4 +1,4 @@
-import { LogicSig } from '../../src/lib/index';
+import { LogicSig, Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class BasicLsig extends LogicSig {
@@ -23,5 +23,19 @@ class LsigWithPrivateMethod extends LogicSig {
 
   logic(): void {
     assert(this.privateMethod());
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+class ContractWithLsigProgram extends Contract {
+  createApplication(): void {
+    log(BasicLsig.program());
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+class ContratWithLsigAddress extends Contract {
+  createApplication(): void {
+    log(BasicLsig.address());
   }
 }

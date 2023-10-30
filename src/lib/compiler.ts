@@ -366,6 +366,8 @@ export default class Compiler {
 
   private contractClasses: string[] = [];
 
+  private lsigClasses: string[] = [];
+
   name: string;
 
   pcToLine: { [key: number]: number } = {};
@@ -1419,9 +1421,15 @@ export default class Compiler {
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
             await c.compile();
-            const program = tealLine.startsWith('PENDING_COMPILE_CLEAR') ? 'clear' : 'approval';
-            const compiledProgram = await c.algodCompileProgram(program);
-            return { teal: `byte b64 ${compiledProgram}`, node: t.node };
+
+            if (tealLine.split(':')[0].endsWith('ADDR')) {
+              const compiledProgram = await c.algodCompileProgram('lsig');
+              return { teal: `addr ${compiledProgram.hash}`, node: t.node };
+            }
+
+            const target = tealLine.split(':')[0].split('_').at(-1)!.toLowerCase() as 'approval' | 'clear' | 'lsig';
+            const compiledProgram = await c.algodCompileProgram(target);
+            return { teal: `byte b64 ${compiledProgram.result}`, node: t.node };
           }
 
           const method = tealLine.split(' ')[1];
@@ -1535,7 +1543,8 @@ export default class Compiler {
       const superClass = body.heritageClauses[0].types[0].expression.text;
       if ([CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
         const className = body.name!.text;
-        this.contractClasses.push(className);
+        if (superClass === CONTRACT_CLASS) this.contractClasses.push(className);
+        else this.lsigClasses.push(className);
 
         if (className === this.name) {
           this.abi = {
@@ -4114,6 +4123,27 @@ export default class Compiler {
         }
       }
 
+      if (this.lsigClasses.includes(base.getText())) {
+        if (ts.isPropertyAccessExpression(chain[0])) {
+          const propName = chain[0].name.getText();
+
+          switch (propName) {
+            case 'program':
+              if (!ts.isCallExpression(chain[1])) throw Error(`program must be a function call`);
+              this.push(chain[1], `PENDING_COMPILE_LSIG: ${base.getText()}`, 'bytes');
+              chain.splice(0, 2);
+              break;
+            case 'address':
+              if (!ts.isCallExpression(chain[1])) throw Error(`address must be a function call`);
+              this.push(chain[1], `PENDING_COMPILE_LSIG_ADDR: ${base.getText()}`, 'bytes');
+              chain.splice(0, 2);
+              break;
+            default:
+              throw Error(`Unknown lsig property ${propName}`);
+          }
+        }
+      }
+
       // If this is a constant
       if (this.constants[base.getText()]) {
         this.processNode(this.constants[base.getText()]);
@@ -4733,7 +4763,7 @@ export default class Compiler {
     await this.algodCompileProgram('clear');
   }
 
-  async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<string> {
+  async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
     // Replace template variables
     const body = this.teal[program]
       .map((t) => t.teal)
@@ -4773,7 +4803,7 @@ export default class Compiler {
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
-    if (program === 'clear') return json.result;
+    if (program === 'clear') return json;
 
     const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
       const decoded = vlq.decode(m);
@@ -4809,7 +4839,7 @@ export default class Compiler {
       addrLine.teal += ` ${json.hash}`;
     }
 
-    return json.result;
+    return json;
   }
 
   private addSourceComment(node: ts.Node, force: boolean = false) {
