@@ -178,7 +178,8 @@ const TXN_METHODS = [
   'OfflineKeyRegistration',
 ].flatMap((m) => [`send${m}`, `add${m}`]);
 
-const CONTRACT_SUBCLASS = 'Contract';
+const CONTRACT_CLASS = 'Contract';
+const LSIG_CLASS = 'LogicSig';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Global
@@ -257,9 +258,17 @@ type NodeAndTEAL = {
 export default class Compiler {
   static diagsRan: string[] = [''];
 
-  approvalTeal: NodeAndTEAL[] = [];
+  private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
-  clearTeal: NodeAndTEAL[] = [];
+  teal: {
+    approval: NodeAndTEAL[];
+    clear: NodeAndTEAL[];
+    lsig: NodeAndTEAL[];
+  } = {
+    approval: [],
+    clear: [],
+    lsig: [],
+  };
 
   generatedTeal: string = '';
 
@@ -303,8 +312,6 @@ export default class Compiler {
   private subroutines: Subroutine[] = [];
 
   private clearStateCompiled: boolean = false;
-
-  private compilingApproval: boolean = true;
 
   private ifCount: number = -1;
 
@@ -358,6 +365,8 @@ export default class Compiler {
   private lastType: string = 'void';
 
   private contractClasses: string[] = [];
+
+  private lsigClasses: string[] = [];
 
   name: string;
 
@@ -796,15 +805,15 @@ export default class Compiler {
         if (!ts.isObjectLiteralExpression(node.arguments[1]))
           throw new Error('Expected object literal as second argument');
 
-        const preTealLength = this.approvalTeal.length;
+        const preTealLength = this.teal[this.currentProgram].length;
 
         this.processNode(node.arguments[0]);
 
-        const indexInScratch: boolean = this.approvalTeal.length - preTealLength > 1;
+        const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
 
         if (indexInScratch) {
           this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
-        } else this.approvalTeal.pop();
+        } else this.teal[this.currentProgram].pop();
 
         node.arguments[1].properties.forEach((p, i) => {
           if (!ts.isPropertyAssignment(p)) throw new Error();
@@ -1109,7 +1118,9 @@ export default class Compiler {
     const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2022, true);
     const compilers = src.statements
       .filter(
-        (body) => ts.isClassDeclaration(body) && body.heritageClauses?.[0]?.types[0].expression.getText() === 'Contract'
+        (body) =>
+          ts.isClassDeclaration(body) &&
+          [CONTRACT_CLASS, LSIG_CLASS].includes(body.heritageClauses?.[0]?.types[0].expression.getText() || '')
       )
       .map(async (body) => {
         if (!ts.isClassDeclaration(body)) throw Error();
@@ -1410,9 +1421,15 @@ export default class Compiler {
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
             await c.compile();
-            const program = tealLine.startsWith('PENDING_COMPILE_CLEAR') ? 'clear' : 'approval';
-            const compiledProgram = await c.algodCompileProgram(program);
-            return { teal: `byte b64 ${compiledProgram}`, node: t.node };
+
+            if (tealLine.split(':')[0].endsWith('ADDR')) {
+              const compiledProgram = await c.algodCompileProgram('lsig');
+              return { teal: `addr ${compiledProgram.hash}`, node: t.node };
+            }
+
+            const target = tealLine.split(':')[0].split('_').at(-1)!.toLowerCase() as 'approval' | 'clear' | 'lsig';
+            const compiledProgram = await c.algodCompileProgram(target);
+            return { teal: `byte b64 ${compiledProgram.result}`, node: t.node };
           }
 
           const method = tealLine.split(' ')[1];
@@ -1523,9 +1540,11 @@ export default class Compiler {
 
       if (body.heritageClauses === undefined || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)) return;
 
-      if (body.heritageClauses[0].types[0].expression.text === CONTRACT_SUBCLASS) {
+      const superClass = body.heritageClauses[0].types[0].expression.text;
+      if ([CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
         const className = body.name!.text;
-        this.contractClasses.push(className);
+        if (superClass === CONTRACT_CLASS) this.contractClasses.push(className);
+        else this.lsigClasses.push(className);
 
         if (className === this.name) {
           this.abi = {
@@ -1534,12 +1553,14 @@ export default class Compiler {
             methods: [],
           };
 
+          if (superClass === LSIG_CLASS) this.currentProgram = 'lsig';
           this.processNode(body);
         }
       }
     });
 
     if (
+      this.currentProgram !== 'lsig' &&
       this.subroutines.map((a) => a.allows.create).flat().length === 0 &&
       !Object.values(this.bareCallConfig)
         .map((c) => c.action)
@@ -1568,16 +1589,25 @@ export default class Compiler {
       this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
     }
 
-    this.routeAbiMethods();
+    if (this.currentProgram !== 'lsig') this.routeAbiMethods();
 
     Object.keys(this.compilerSubroutines).forEach((sub) => {
-      if (this.approvalTeal.map((t) => t.teal).includes(`callsub ${sub}`)) {
+      if (this.teal[this.currentProgram].map((t) => t.teal).includes(`callsub ${sub}`)) {
         this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
 
-    this.approvalTeal = await this.postProcessTeal(this.approvalTeal);
-    this.approvalTeal = optimizeTeal(this.approvalTeal);
+    this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
+    this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
+    this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
+
+    this.teal[this.currentProgram].forEach((t, i) => {
+      if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
+      this.srcMap.push({
+        teal: i + 1,
+        source: ts.getLineAndCharacterOfPosition(this.sourceFile, t.node.getStart()).line + 1,
+      });
+    });
 
     let hasNonAbi = false;
 
@@ -1588,8 +1618,8 @@ export default class Compiler {
     });
 
     if (hasNonAbi) {
-      const i = this.approvalTeal.map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
-      this.approvalTeal[i].teal =
+      const i = this.teal[this.currentProgram].map((t) => t.teal).findIndex((t) => t.includes('[ ARC4 ]'));
+      this.teal[this.currentProgram][i].teal =
         '// !!!! WARNING: This contract is *NOT* ARC4 compliant. It may contain ABI methods, but it also allows app calls where the first argument does NOT match an ABI selector';
     }
 
@@ -1631,9 +1661,13 @@ export default class Compiler {
       }
     });
 
-    this.compilingApproval = false;
+    if (this.currentProgram === 'lsig') return;
 
-    this.clearTeal
+    // Start of clear program compiliation
+
+    this.currentProgram = 'clear';
+
+    this.teal.clear
       .map((t) => t.teal)
       .forEach((t) => {
         if (t.startsWith('callsub')) {
@@ -1643,46 +1677,17 @@ export default class Compiler {
         }
       });
 
-    this.clearTeal = await this.postProcessTeal(this.clearTeal);
-    this.clearTeal = optimizeTeal(this.clearTeal);
-
-    this.approvalTeal = this.prettyTeal(this.approvalTeal);
-    this.clearTeal = this.prettyTeal(this.clearTeal);
-
-    this.approvalTeal.forEach((t, i) => {
-      if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
-      this.srcMap.push({
-        teal: i + 1,
-        source: ts.getLineAndCharacterOfPosition(this.sourceFile, t.node.getStart()).line + 1,
-      });
-    });
+    this.teal.clear = await this.postProcessTeal(this.teal.clear);
+    this.teal.clear = optimizeTeal(this.teal.clear);
+    this.teal.clear = this.prettyTeal(this.teal.clear);
   }
 
   private push(node: ts.Node, teal: string, type: string) {
-    const start = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getStart());
-    const end = ts.getLineAndCharacterOfPosition(this.sourceFile, node.getEnd());
-    const targetTeal = this.compilingApproval ? this.approvalTeal : this.clearTeal;
-
     this.lastNode = node;
-
-    // const popTeal = () => {
-    //   const srcMap = this.rawSrcMap.find((m) => m.teal === targetTeal.length)!;
-
-    //   if (start.line < srcMap.source.start.line) {
-    //     srcMap.source.start = { line: start.line, col: start.character };
-    //   }
-
-    //   if (end.line > srcMap.source.end.line) {
-    //     srcMap.source.end = { line: end.line, col: end.character };
-    //   }
-
-    //   srcMap.teal = this.teal.length;
-    //   targetTeal.pop();
-    // };
 
     if (type !== 'void') this.lastType = type;
 
-    targetTeal.push({ teal, node });
+    this.teal[this.currentProgram].push({ teal, node });
   }
 
   private pushVoid(node: ts.Node, teal: string) {
@@ -1714,7 +1719,7 @@ export default class Compiler {
   }
 
   private routeAbiMethods() {
-    const switchIndex = this.approvalTeal.map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
+    const switchIndex = this.teal[this.currentProgram].map((t) => t.teal).findIndex((t) => t.startsWith('switch '));
 
     ON_COMPLETES.forEach((onComplete) => {
       if (onComplete === 'ClearState') return;
@@ -1725,7 +1730,7 @@ export default class Compiler {
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
-          this.approvalTeal[switchIndex].teal = this.approvalTeal[switchIndex].teal.replace(
+          this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
             `${a}_${onComplete}`,
             'NOT_IMPLEMENTED'
           );
@@ -1763,7 +1768,7 @@ export default class Compiler {
       });
     });
 
-    if (this.approvalTeal[switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];
@@ -1774,9 +1779,9 @@ export default class Compiler {
         return array;
       };
 
-      const switchLine = removeLastDuplicates(this.approvalTeal[switchIndex].teal.split(' ')).join(' ');
+      const switchLine = removeLastDuplicates(this.teal[this.currentProgram][switchIndex].teal.split(' ')).join(' ');
 
-      this.approvalTeal[switchIndex].teal = switchLine;
+      this.teal[this.currentProgram][switchIndex].teal = switchLine;
     }
   }
 
@@ -2851,11 +2856,10 @@ export default class Compiler {
   }
 
   private processMethodDefinition(node: ts.MethodDeclaration) {
-    if (!ts.isIdentifier(node.name)) throw new Error('method name must be identifier');
+    if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
+    if (node.type === undefined) throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
-    const returnType = this.getABIType(node.type!.getText());
-    if (returnType === undefined)
-      throw new Error(`A return type annotation must be defined for ${node.name.getText()}`);
+    const returnType = this.getABIType(node.type.getText());
 
     this.currentSubroutine = {
       name: node.name.getText(),
@@ -2890,6 +2894,13 @@ export default class Compiler {
       this.processSubroutine(node);
       return;
     }
+
+    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
+      throw Error('Only one method called "logic" can be defined in a logic signature');
+    }
+
+    if (this.currentProgram === 'lsig' && returnType !== 'void')
+      throw Error('logic method must have a void return type');
 
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
@@ -3029,37 +3040,46 @@ export default class Compiler {
   private processClassDeclaration(node: ts.ClassDeclaration) {
     this.classNode = node;
 
+    this.pushLines(node, '#pragma version 9');
+
+    if (this.currentProgram === 'lsig') {
+      this.pushLines(node, '//#pragma mode logicsig');
+    }
+
     this.pushLines(
       node,
-      '#pragma version 9',
       '',
       `// This TEAL was generated by TEALScript v${VERSION}`,
       '// https://github.com/algorandfoundation/TEALScript',
-      '',
-      '// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]',
-      '',
-      '// The following ten lines of TEAL handle initial program flow',
-      '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
-      '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
-      '// Every possible action for this contract is represented in the switch statement',
-      '// If the action is not implmented in the contract, its repsective branch will be "NOT_IMPLMENTED" which just contains "err"',
-      'txn ApplicationID',
-      'int 0',
-      '>',
-      'int 6',
-      '*',
-      'txn OnCompletion',
-      '+',
-      'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
-      'NOT_IMPLEMENTED:',
-      'err'
+      ''
     );
 
-    this.compilingApproval = false;
+    if (this.currentProgram === 'approval') {
+      this.pushLines(
+        node,
+        '// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]',
+        '',
+        '// The following ten lines of TEAL handle initial program flow',
+        '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
+        '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
+        '// Every possible action for this contract is represented in the switch statement',
+        '// If the action is not implmented in the contract, its repsective branch will be "NOT_IMPLMENTED" which just contains "err"',
+        'txn ApplicationID',
+        'int 0',
+        '>',
+        'int 6',
+        '*',
+        'txn OnCompletion',
+        '+',
+        'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
+        'NOT_IMPLEMENTED:',
+        'err'
+      );
 
-    this.pushLines(node, '#pragma version 9');
-
-    this.compilingApproval = true;
+      this.teal.clear.push({ node, teal: '#pragma version 9' });
+    } else if (this.currentProgram === 'lsig') {
+      this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
+    }
 
     node.members.forEach((m) => {
       this.processNode(m);
@@ -3106,7 +3126,7 @@ export default class Compiler {
 
   private fixBitWidth(node: ts.Node, desiredWidth: number) {
     if (desiredWidth === 64) {
-      if (this.approvalTeal.at(-1)!.teal === 'itob') return;
+      if (this.teal[this.currentProgram].at(-1)!.teal === 'itob') return;
       this.pushLines(node, 'btoi', 'itob');
       return;
     }
@@ -3147,18 +3167,13 @@ export default class Compiler {
 
   private getStackTypeAfterFunction(fn: () => void): string {
     const preType = this.lastType;
-    const preTeal = new Array(...(this.compilingApproval ? this.approvalTeal : this.clearTeal));
+    const preTeal = this.teal[this.currentProgram].slice();
     const preLastComment = new Array(...this.lastSourceCommentRange) as [number, number];
     fn();
     const type = this.lastType;
     this.lastType = preType;
 
-    if (this.compilingApproval) {
-      this.approvalTeal = preTeal;
-    } else {
-      this.clearTeal = preTeal;
-    }
-
+    this.teal[this.currentProgram] = preTeal;
     this.lastSourceCommentRange = preLastComment;
     return this.customTypes[type] || type;
   }
@@ -3722,6 +3737,10 @@ export default class Compiler {
         node.initializer.expression.getText()
       )
     ) {
+      if (this.currentProgram === 'lsig') {
+        throw Error('Logic signatures cannot have stateful properties');
+      }
+
       let props: StorageProp;
       const klass = node.initializer.expression.getText();
       const type = klass.toLocaleLowerCase().replace('state', '').replace('map', '').replace('key', '') as StorageType;
@@ -3804,6 +3823,10 @@ export default class Compiler {
 
       this.storageProps[node.name.getText()] = props;
     } else if (ts.isNewExpression(node.initializer) && node.initializer.expression.getText() === 'EventLogger') {
+      if (this.currentProgram === 'lsig') {
+        throw Error('Logic signatures cannot log events');
+      }
+
       if (!ts.isTupleTypeNode(node.initializer.typeArguments![0])) throw Error();
 
       this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
@@ -4100,6 +4123,27 @@ export default class Compiler {
         }
       }
 
+      if (this.lsigClasses.includes(base.getText())) {
+        if (ts.isPropertyAccessExpression(chain[0])) {
+          const propName = chain[0].name.getText();
+
+          switch (propName) {
+            case 'program':
+              if (!ts.isCallExpression(chain[1])) throw Error(`program must be a function call`);
+              this.push(chain[1], `PENDING_COMPILE_LSIG: ${base.getText()}`, 'bytes');
+              chain.splice(0, 2);
+              break;
+            case 'address':
+              if (!ts.isCallExpression(chain[1])) throw Error(`address must be a function call`);
+              this.push(chain[1], `PENDING_COMPILE_LSIG_ADDR: ${base.getText()}`, 'bytes');
+              chain.splice(0, 2);
+              break;
+            default:
+              throw Error(`Unknown lsig property ${propName}`);
+          }
+        }
+      }
+
       // If this is a constant
       if (this.constants[base.getText()]) {
         this.processNode(this.constants[base.getText()]);
@@ -4257,7 +4301,7 @@ export default class Compiler {
       if (this.lastType.startsWith('ImmediateArray:')) {
         this.push(
           n,
-          `${this.approvalTeal.pop()!.teal} ${n.argumentExpression.getText()}`,
+          `${this.teal[this.currentProgram].pop()!.teal} ${n.argumentExpression.getText()}`,
           this.lastType.replace('ImmediateArray: ', '')
         );
         return false;
@@ -4280,8 +4324,7 @@ export default class Compiler {
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {
-    const currentTeal = () => (this.compilingApproval ? this.approvalTeal : this.clearTeal);
-    const frameStart = currentTeal().length;
+    const frameStart = this.teal[this.currentProgram].length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
@@ -4306,11 +4349,12 @@ export default class Compiler {
 
     this.processNode(fn.body!);
 
-    if (!['retsub', 'err'].includes(currentTeal().at(-1)!.teal.split(' ')[0])) this.pushVoid(fn, 'retsub');
+    if (!['retsub', 'err'].includes(this.teal[this.currentProgram].at(-1)!.teal.split(' ')[0]))
+      this.pushVoid(fn, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,
-      end: currentTeal().length,
+      end: this.teal[this.currentProgram].length,
       frame: {},
     };
 
@@ -4328,12 +4372,12 @@ export default class Compiler {
   private processClearState(fn: ts.MethodDeclaration) {
     if (this.clearStateCompiled) throw Error('duplicate clear state decorator defined');
 
-    this.compilingApproval = false;
+    this.currentProgram = 'clear';
     if (fn.parameters.length > 0) throw Error('clear state cannot have parameters');
     this.processNode(fn.body!);
     this.pushLines(fn.body!, 'int 1', 'return');
     this.clearStateCompiled = true;
-    this.compilingApproval = true;
+    this.currentProgram = 'approval';
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
@@ -4360,7 +4404,11 @@ export default class Compiler {
 
     while (headerComment.at(-1) === '// ') headerComment.pop();
 
-    this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+    if (this.currentProgram !== 'lsig') {
+      this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+    } else {
+      this.pushLines(fn, ...headerComment, `route_${this.currentSubroutine.name}:`);
+    }
 
     const argCount = fn.parameters.length;
 
@@ -4377,14 +4425,19 @@ export default class Compiler {
       this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace('bytes', 'byte[]')}`);
 
       if (!TXN_TYPES.includes(type)) {
-        this.pushVoid(p, `txna ApplicationArgs ${(nonTxnArgCount -= 1)}`);
+        if (this.currentProgram === 'lsig') this.pushLines(p, `int ${(nonTxnArgCount -= 1)}`, 'args');
+        else this.pushVoid(p, `txna ApplicationArgs ${(nonTxnArgCount -= 1)}`);
       }
 
       if (type === StackType.uint64) {
         this.pushVoid(p, 'btoi');
       } else if (isRefType(type)) {
-        this.pushVoid(p, 'btoi');
-        this.pushVoid(p, `txnas ${capitalizeFirstChar(type)}s`);
+        if (this.currentProgram === 'lsig') {
+          if (['application', 'asset'].includes(type)) this.pushVoid(p, 'btoi');
+        } else {
+          this.pushVoid(p, 'btoi');
+          this.pushVoid(p, `txnas ${capitalizeFirstChar(type)}s`);
+        }
       } else if (TXN_TYPES.includes(type)) {
         this.pushVoid(p, 'txn GroupIndex');
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
@@ -4433,6 +4486,10 @@ export default class Compiler {
       return;
     }
 
+    if (this.currentProgram === 'lsig' && opcodeName === 'log') {
+      throw Error('Logic signatures cannot log data');
+    }
+
     const opSpec = langspec.Ops.find((o) => o.Name === opcodeName)!;
     let line: string[] = [opcodeName];
 
@@ -4454,6 +4511,9 @@ export default class Compiler {
   }
 
   private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.NodeArray<ts.TypeNode>) {
+    if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
+    if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
+
     if (!ts.isObjectLiteralExpression(fields)) throw new Error('Transaction fields must be an object literal');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
@@ -4662,6 +4722,10 @@ export default class Compiler {
       const paramObj = this.OP_PARAMS[type].find((p) => {
         let paramName = p.name.replace(/^Acct/, '');
 
+        if (['asset', 'application', 'account', 'itxn'].includes(type) && this.currentProgram === 'lsig') {
+          throw Error(`Cannot access ${capitalizeFirstChar(type)} parameters in logic signature`);
+        }
+
         if (type === ForeignType.Application) paramName = paramName.replace(/^App/, '');
         if (type === ForeignType.Asset) paramName = paramName.replace(/^Asset/, '');
         return paramName === capitalizeFirstChar(name);
@@ -4690,15 +4754,18 @@ export default class Compiler {
   }
 
   async algodCompile(): Promise<void> {
+    if (this.currentProgram === 'lsig') {
+      await this.algodCompileProgram('lsig');
+      return;
+    }
+
     await this.algodCompileProgram('approval');
     await this.algodCompileProgram('clear');
   }
 
-  async algodCompileProgram(program: 'approval' | 'clear'): Promise<string> {
-    const targetTeal = program === 'approval' ? this.approvalTeal : this.clearTeal;
-
+  async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
     // Replace template variables
-    const body = targetTeal
+    const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
         if (t.match(/(int|byte) TMPL_/)) {
@@ -4727,7 +4794,7 @@ export default class Compiler {
     if (response.status !== 200) {
       // eslint-disable-next-line no-console
       console.error(
-        targetTeal
+        this.teal[program]
           .map((t) => t.teal)
           .map((l, i) => `${i + 1}: ${l}`)
           .join('\n')
@@ -4736,7 +4803,7 @@ export default class Compiler {
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
-    if (program === 'clear') return json.result;
+    if (program === 'clear') return json;
 
     const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
       const decoded = vlq.decode(m);
@@ -4767,7 +4834,12 @@ export default class Compiler {
       sm.pc = this.lineToPc[sm.teal - 1];
     });
 
-    return json.result;
+    if (program === 'lsig') {
+      const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
+      addrLine.teal += ` ${json.hash}`;
+    }
+
+    return json;
   }
 
   private addSourceComment(node: ts.Node, force: boolean = false) {
@@ -4796,8 +4868,8 @@ export default class Compiler {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appSpec(): any {
-    const approval = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
-    const clear = Buffer.from(this.approvalTeal.map((t) => t.teal).join('\n')).toString('base64');
+    const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
+    const clear = Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64');
 
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
@@ -4912,15 +4984,21 @@ export default class Compiler {
     teal.forEach((t, i) => {
       const tealLine = t.teal;
       if (tealLine === '// No extra bytes needed for this subroutine') return;
+      if (tealLine === '//#pragma mode logicsig') {
+        output.push({ node: this.classNode, teal: tealLine });
+        return;
+      }
 
       if (tealLine.startsWith('//')) {
+        if (comments.length === 0 && output.at(-1)!.teal !== '' && !lastIsLabel)
+          output.push({ node: this.classNode, teal: '' });
         comments.push(tealLine);
         return;
       }
 
       const isLabel = !tealLine.startsWith('byte ') && tealLine.split('//')[0].endsWith(':');
 
-      if ((!lastIsLabel && comments.length !== 0) || isLabel) output.push({ node: this.classNode, teal: '' });
+      if (isLabel && output.at(-1)!.teal !== '') output.push({ node: this.classNode, teal: '' });
 
       hitFirstLabel = hitFirstLabel || isLabel;
 
@@ -4928,7 +5006,7 @@ export default class Compiler {
         comments.forEach((c) => output.push({ node: t.node, teal: c }));
         comments = [];
         output.push({ node: t.node, teal: tealLine });
-        lastIsLabel = true;
+        lastIsLabel = isLabel;
       } else {
         comments.forEach((c) => output.push({ node: t.node, teal: `\t${c.replace(/\n/g, '\n\t')}` }));
         comments = [];

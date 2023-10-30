@@ -17,7 +17,7 @@ Here we are simply importing `Contract` from the tealscript npm package. `Contra
 
 ```ts
 // eslint-disable-next-line no-unused-vars
-class Dao extends Contract {
+class HelloWorld extends Contract {
 ```
 
 As mentioned above, every contract must extend `Contract`. You will also notice that there is the ESLint rule, `no-unused-vars` is disabled for this line. ESLint expects every class we define to be used in our codebase. Since we are developing a contract, however, we don't directly use this class in other TypeScript files, thus we expect it to be unused.

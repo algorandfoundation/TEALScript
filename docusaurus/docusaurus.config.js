@@ -80,17 +80,17 @@ const config = {
             label: 'Guides',
             position: 'left',
           },
-          // {
-          //   type: 'dropdown',
-          //   label: 'Tutorials',
-          //   items: [
-          //     {
-          //       type: 'docSidebar',
-          //       sidebarId: 'dao',
-          //       label: 'DAO Tutorial',
-          //     },
-          //   ],
-          // },
+          {
+            type: 'dropdown',
+            label: 'Tutorials',
+            items: [
+              {
+                type: 'docSidebar',
+                sidebarId: 'helloWorld',
+                label: 'Hello World',
+              },
+            ],
+          },
           {
             href: 'https://github.com/algorandfoundation/tealscript',
             label: 'GitHub',
