@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.58.0",
+  "version": "0.59.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorandfoundation/TEALScript",
   "bugs": {
@@ -40,7 +40,7 @@
     "compile-big_box": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/big_box/big_box.algo.ts examples/big_box/artifacts",
     "compile-arc72": "bun src/bin/tealscript.ts --unsafe-disable-typescript examples/arc72/arc72.algo.ts examples/arc72/artifacts",
     "compile-non_abi": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/non_abi/non_abi.algo.ts examples/non_abi/artifacts",
-    "compile-optin-lsig": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/lsig/lsig.algo.ts examples/lsig/artifacts",
+    "compile-optin-lsig": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/optin-lsig/lsig.algo.ts examples/optin-lsig/artifacts",
     "run-merkle": "bun examples/merkle/demo.ts",
     "run-tuple_in_box": "bun ./examples/tuple_in_box/client.ts",
     "run-itxns": "bun examples/itxns/demo.ts",
