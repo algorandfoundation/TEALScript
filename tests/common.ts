@@ -25,7 +25,7 @@ export function lowerFirstChar(str: string) {
   return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
 }
 
-export function artifactsTest(sourcePath: string, artifactsPath: string, className: string) {
+export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
   const compiler = new Compiler(content, className, {
     filename: sourcePath,
@@ -39,18 +39,21 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
     });
 
     test('Generates TEAL', () => {
-      expect(compiler.teal.approval.map((t) => t.teal).join('\n')).toEqual(
-        fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
+      const target = lsig ? 'lsig' : 'approval';
+      expect(compiler.teal[target].map((t) => t.teal).join('\n')).toEqual(
+        fs.readFileSync(`${artifactsPath}/${className}.${target}.teal`, 'utf-8')
       );
     });
 
-    test('Generates ABI JSON', () => {
-      expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
-    });
+    if (!lsig) {
+      test('Generates ABI JSON', () => {
+        expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
+      });
 
-    test('Generates App Spec', () => {
-      expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
-    });
+      test('Generates App Spec', () => {
+        expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
+      });
+    }
   });
 }
 
