@@ -203,7 +203,8 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
       }
     } else if (teal.startsWith('itob')) {
       if (outputTeal.at(-1)?.teal.startsWith('int ')) {
-        const n = BigInt(outputTeal.at(-1)!.teal.split(' ')[1]);
+        const intStr = outputTeal.at(-1)!.teal.split(' ')[1].replace(/_/g, '');
+        const n = BigInt(intStr);
         popTeal();
 
         pushTeal(`byte 0x${n.toString(16).padStart(16, '0')}`, node);

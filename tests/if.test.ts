@@ -1,171 +1,89 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
-import { expect, test, describe } from '@jest/globals';
-import { getMethodTeal, artifactsTest } from './common';
+import * as algokit from '@algorandfoundation/algokit-utils';
+import { describe, test, expect } from '@jest/globals';
+import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
 
-async function getTeal(methodName: string) {
-  return getMethodTeal('tests/contracts/if.algo.ts', 'IfTest', methodName);
-}
-
-artifactsTest('IfTest', 'tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
+const PATH = 'tests/contracts/if.algo.ts';
+const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
+const NAME = 'IfTest';
 
 describe('If', function () {
-  test('singleIf', async function () {
-    const teal = await getTeal('singleIf');
-    expect(teal).toEqual([
-      '// if0_condition',
-      '// 1',
-      'int 1',
-      'bz if0_end',
-      '// if0_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'if0_end:',
-    ]);
-  });
+  artifactsTest('tests/contracts/if.algo.ts', 'tests/contracts/artifacts/', 'IfTest');
 
-  test('ifElse', async function () {
-    const teal = await getTeal('ifElse');
-    expect(teal).toEqual([
-      '// if1_condition',
-      '// 1',
-      'int 1',
-      'bz if1_else',
-      '// if1_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'b if1_end',
-      'if1_else:',
-      "// log('else')",
-      'byte 0x656c7365 // "else"',
-      'log',
-      'if1_end:',
-    ]);
-  });
+  describe('E2E', function () {
+    const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
-  test('ifElseIf', async function () {
-    const teal = await getTeal('ifElseIf');
-    expect(teal).toEqual([
-      '// if2_condition',
-      '// 1',
-      'int 1',
-      'bz if2_elseif1_condition',
-      '// if2_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'b if2_end',
-      'if2_elseif1_condition:',
-      '// 2',
-      'int 2',
-      'bz if2_end',
-      '// if2_elseif1_consequent',
-      "// log('else if')",
-      'byte 0x656c7365206966 // "else if"',
-      'log',
-      'if2_end:',
-    ]);
-  });
+    test('singleIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'singleIf', methodArgs: [true] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'singleIf', methodArgs: [false] })).toBe('end');
+    });
 
-  test('ifElseIfElse', async function () {
-    const teal = await getTeal('ifElseIfElse');
-    expect(teal).toEqual([
-      '// if3_condition',
-      '// 1',
-      'int 1',
-      'bz if3_elseif1_condition',
-      '// if3_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'b if3_end',
-      'if3_elseif1_condition:',
-      '// 2',
-      'int 2',
-      'bz if3_else',
-      '// if3_elseif1_consequent',
-      "// log('else if')",
-      'byte 0x656c7365206966 // "else if"',
-      'log',
-      'b if3_end',
-      'if3_else:',
-      "// log('else')",
-      'byte 0x656c7365 // "else"',
-      'log',
-      'if3_end:',
-    ]);
-  });
+    test('ifElse', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'ifElse', methodArgs: [true] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'ifElse', methodArgs: [false] })).toBe('else');
+    });
 
-  test('ifElseIfElseIf', async function () {
-    const teal = await getTeal('ifElseIfElseIf');
-    expect(teal).toEqual([
-      '// if4_condition',
-      '// 1',
-      'int 1',
-      'bz if4_elseif1_condition',
-      '// if4_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'b if4_end',
-      'if4_elseif1_condition:',
-      '// 2',
-      'int 2',
-      'bz if4_elseif2_condition',
-      '// if4_elseif1_consequent',
-      "// log('else if 1')",
-      'byte 0x656c73652069662031 // "else if 1"',
-      'log',
-      'b if4_end',
-      'if4_elseif2_condition:',
-      '// 3',
-      'int 3',
-      'bz if4_end',
-      '// if4_elseif2_consequent',
-      "// log('else if 2')",
-      'byte 0x656c73652069662032 // "else if 2"',
-      'log',
-      'if4_end:',
-    ]);
-  });
+    test('ifElseIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'ifElseIf', methodArgs: [true, false] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'ifElseIf', methodArgs: [false, true] })).toBe('else if');
+      expect(await runMethod({ appClient, method: 'ifElseIf', methodArgs: [false, false] })).toBe('end');
+    });
 
-  test('ifElseIfElseIfElse', async function () {
-    const teal = await getTeal('ifElseIfElseIfElse');
-    expect(teal).toEqual([
-      '// if5_condition',
-      '// 1',
-      'int 1',
-      'bz if5_elseif1_condition',
-      '// if5_consequent',
-      "// log('if')",
-      'byte 0x6966 // "if"',
-      'log',
-      'b if5_end',
-      'if5_elseif1_condition:',
-      '// 2',
-      'int 2',
-      'bz if5_elseif2_condition',
-      '// if5_elseif1_consequent',
-      "// log('else if 1')",
-      'byte 0x656c73652069662031 // "else if 1"',
-      'log',
-      'b if5_end',
-      'if5_elseif2_condition:',
-      '// 3',
-      'int 3',
-      'bz if5_else',
-      '// if5_elseif2_consequent',
-      "// log('else if 2')",
-      'byte 0x656c73652069662032 // "else if 2"',
-      'log',
-      'b if5_end',
-      'if5_else:',
-      "// log('else')",
-      'byte 0x656c7365 // "else"',
-      'log',
-      'if5_end:',
-    ]);
+    test('ifElseIfElse', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'ifElseIfElse', methodArgs: [true, false] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'ifElseIfElse', methodArgs: [false, true] })).toBe('else if');
+      expect(await runMethod({ appClient, method: 'ifElseIfElse', methodArgs: [false, false] })).toBe('else');
+    });
+
+    test('ifElseIfElseIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIf', methodArgs: [true, false, false] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIf', methodArgs: [false, true, false] })).toBe(
+        'else if 1'
+      );
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIf', methodArgs: [false, false, true] })).toBe(
+        'else if 2'
+      );
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIf', methodArgs: [false, false, false] })).toBe('end');
+    });
+
+    test('ifElseIfElseIfElse', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIfElse', methodArgs: [true, false, false] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIfElse', methodArgs: [false, true, false] })).toBe(
+        'else if 1'
+      );
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIfElse', methodArgs: [false, false, true] })).toBe(
+        'else if 2'
+      );
+      expect(await runMethod({ appClient, method: 'ifElseIfElseIfElse', methodArgs: [false, false, false] })).toBe(
+        'else'
+      );
+    });
+
+    test('nestedIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'nestedIf', methodArgs: [true, true] })).toBe('nested if');
+      expect(await runMethod({ appClient, method: 'nestedIf', methodArgs: [true, false] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'nestedIf', methodArgs: [false, false] })).toBe('else');
+    });
+
+    test('bracketlessIfElse', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'bracketlessIfElse', methodArgs: [true] })).toBe('if');
+      expect(await runMethod({ appClient, method: 'bracketlessIfElse', methodArgs: [false] })).toBe('else');
+    });
+
+    test('nestedTernary', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'nestedTernary', methodArgs: [true, false] })).toBe(1n);
+      expect(await runMethod({ appClient, method: 'nestedTernary', methodArgs: [false, true] })).toBe(2n);
+      expect(await runMethod({ appClient, method: 'nestedTernary', methodArgs: [false, false] })).toBe(3n);
+    });
   });
 });

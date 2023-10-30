@@ -4,55 +4,121 @@
   "methods": [
     {
       "name": "singleIf",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
     {
       "name": "ifElse",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
     {
       "name": "ifElseIf",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
     {
       "name": "ifElseIfElse",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
     {
       "name": "ifElseIfElseIf",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg2",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
     {
       "name": "ifElseIfElseIfElse",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg2",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
         "desc": ""
       }
     },
@@ -60,12 +126,12 @@
       "name": "nestedIf",
       "args": [
         {
-          "name": "bool1",
+          "name": "arg0",
           "type": "bool",
           "desc": ""
         },
         {
-          "name": "bool2",
+          "name": "arg1",
           "type": "bool",
           "desc": ""
         }
@@ -78,10 +144,36 @@
     },
     {
       "name": "bracketlessIfElse",
-      "args": [],
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "string",
+        "desc": ""
+      }
+    },
+    {
+      "name": "nestedTernary",
+      "args": [
+        {
+          "name": "arg0",
+          "type": "bool",
+          "desc": ""
+        },
+        {
+          "name": "arg1",
+          "type": "bool",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
         "desc": ""
       }
     },

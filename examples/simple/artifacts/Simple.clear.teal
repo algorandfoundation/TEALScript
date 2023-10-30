@@ -1,4 +1,5 @@
 #pragma version 9
+
 // examples/simple/simple.algo.ts:27
 // this.incrementCounter(1)
 int 1
@@ -11,8 +12,6 @@ incrementCounter:
 
 	// examples/simple/simple.algo.ts:7
 	// this.counter.value = this.counter.value + i
-	byte 0x636f756e746572 // "counter"
-	app_global_get
 	byte 0x636f756e746572 // "counter"
 	byte 0x636f756e746572 // "counter"
 	app_global_get

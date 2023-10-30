@@ -6,11 +6,11 @@ import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-c
 import { artifactsTest, algodClient, kmdClient } from './common';
 import appSpec from './contracts/artifacts/LoopsTest.json';
 
-artifactsTest('LoopsTest', 'tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
-
 let appClient: ApplicationClient;
 
-describe('LoopsTest', function () {
+describe('Loops', function () {
+  artifactsTest('tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
+
   beforeAll(async function () {
     const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 

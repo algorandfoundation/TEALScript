@@ -187,7 +187,7 @@
       "args": [],
       "desc": "",
       "returns": {
-        "type": "void",
+        "type": "uint64",
         "desc": ""
       }
     },
@@ -223,10 +223,81 @@
     },
     {
       "name": "exponent",
-      "args": [],
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
         "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "variableTypeHint",
+      "args": [
+        {
+          "name": "x",
+          "type": "uint8",
+          "desc": ""
+        },
+        {
+          "name": "y",
+          "type": "uint8",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint16",
+        "desc": ""
+      }
+    },
+    {
+      "name": "uint8plus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint8",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint8",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint8",
+        "desc": ""
+      }
+    },
+    {
+      "name": "uint8exp",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint8",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint8",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint8",
         "desc": ""
       }
     },
