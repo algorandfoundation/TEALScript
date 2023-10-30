@@ -14,7 +14,7 @@ export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 400
 export async function getMethodTeal(filename: string, className: string, methodName: string): Promise<string[]> {
   const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, { disableWarnings: true });
   await compiler.compile();
-  const teal = compiler.approvalTeal.map((t) => t.teal.trim()).filter((t) => t.length > 0);
+  const teal = compiler.teal.approval.map((t) => t.teal.trim()).filter((t) => t.length > 0);
 
   const labelIndex = teal.indexOf(`${methodName}:`);
   const retsubIndex = teal.indexOf('retsub', labelIndex);
@@ -25,7 +25,7 @@ export function lowerFirstChar(str: string) {
   return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
 }
 
-export function artifactsTest(sourcePath: string, artifactsPath: string, className: string) {
+export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
   const compiler = new Compiler(content, className, {
     filename: sourcePath,
@@ -39,18 +39,21 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
     });
 
     test('Generates TEAL', () => {
-      expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(
-        fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
+      const target = lsig ? 'lsig' : 'approval';
+      expect(compiler.teal[target].map((t) => t.teal).join('\n')).toEqual(
+        fs.readFileSync(`${artifactsPath}/${className}.${target}.teal`, 'utf-8')
       );
     });
 
-    test('Generates ABI JSON', () => {
-      expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
-    });
+    if (!lsig) {
+      test('Generates ABI JSON', () => {
+        expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
+      });
 
-    test('Generates App Spec', () => {
-      expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
-    });
+      test('Generates App Spec', () => {
+        expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.json`, 'utf-8')));
+      });
+    }
   });
 }
 
@@ -72,7 +75,7 @@ export async function compileAndCreate(
   await compiler.compile();
   await compiler.algodCompile();
 
-  expect(compiler.approvalTeal.map((t) => t.teal).join('\n')).toEqual(
+  expect(compiler.teal.approval.map((t) => t.teal).join('\n')).toEqual(
     fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
   );
   expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.abi.json`, 'utf-8')));
