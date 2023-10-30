@@ -26,7 +26,7 @@ Required.fee
 
 #### Defined in
 
-[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L488)
+[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L488)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:495](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L495)
+[types/global.d.ts:495](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L495)
 
 ___
 
@@ -50,7 +50,7 @@ Required.note
 
 #### Defined in
 
-[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L491)
+[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L491)
 
 ___
 
@@ -64,7 +64,7 @@ Required.rekeyTo
 
 #### Defined in
 
-[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L490)
+[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L490)
 
 ___
 
@@ -78,7 +78,7 @@ Required.sender
 
 #### Defined in
 
-[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L489)
+[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L489)
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:496](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L496)
+[types/global.d.ts:496](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L496)

@@ -23,4 +23,4 @@ called via simulate to avoid fees
 
 #### Defined in
 
-[types/global.d.ts:909](https://github.com/algorandfoundation/tealscript/blob/8efb050/types/global.d.ts#L909)
+[types/global.d.ts:909](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L909)
