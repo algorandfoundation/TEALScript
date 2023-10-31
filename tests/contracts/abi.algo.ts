@@ -1135,3 +1135,13 @@ class ABITestBytesReturn extends Contract {
     return 'foo';
   }
 }
+
+type T5 = {
+  foo: uint64;
+  bar: uint64;
+};
+class ABITestNestedTypesInSignature extends Contract {
+  nestedTypesInSignature(): [T5, number] {
+    return [bzero<T5>(), 0];
+  }
+}
