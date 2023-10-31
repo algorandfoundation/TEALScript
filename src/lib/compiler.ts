@@ -2859,7 +2859,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
     if (node.type === undefined) throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
-    const returnType = this.getABIType(node.type.getText());
+    const returnType = this.getABIType(node.type.getText()).replace('bytes', 'byte[]');
 
     this.currentSubroutine = {
       name: node.name.getText(),
@@ -3200,7 +3200,7 @@ export default class Compiler {
 
     const sameTypes = [
       ['address', 'account'],
-      ['bytes', 'string'],
+      ['bytes', 'string', 'byte[]'],
     ];
 
     let typeEquality = false;

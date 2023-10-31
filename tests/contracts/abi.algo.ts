@@ -1129,3 +1129,9 @@ class ABITestExtractUint extends Contract {
     return x;
   }
 }
+
+class ABITestBytesReturn extends Contract {
+  bytesReturn(): bytes {
+    return 'foo';
+  }
+}
