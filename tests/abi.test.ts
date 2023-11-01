@@ -705,5 +705,17 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'extractUint', [1])).toEqual(1n);
     });
+
+    test('bytesReturn', async () => {
+      const { appClient } = await compileAndCreate('bytesReturn');
+
+      expect(await runMethod(appClient, 'bytesReturn')).toEqual([...Buffer.from('foo')]);
+    });
+
+    test('nestedTypesInSignature', async () => {
+      const { appClient } = await compileAndCreate('nestedTypesInSignature');
+
+      expect(await runMethod(appClient, 'nestedTypesInSignature')).toEqual([[0n, 0n], 0n]);
+    });
   });
 });

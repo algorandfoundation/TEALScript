@@ -1,0 +1,24 @@
+{
+  "name": "ABITestNestedTypesInSignature",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedTypesInSignature",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "((uint64,uint64),uint64)",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}
