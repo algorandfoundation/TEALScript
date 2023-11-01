@@ -1347,6 +1347,12 @@ export default class Compiler {
   // is useful for parsing, but the ABI/appspec JSON need the parens
   private getABITupleString(str: string) {
     let tupleStr = this.getABIType(str);
+    const expr = stringToExpression(tupleStr);
+
+    if (ts.isArrayLiteralExpression(expr)) {
+      const types = expr.elements.map((t) => this.getABITupleString(t.getText()));
+      tupleStr = `(${types.join(',')})`;
+    }
 
     if (tupleStr.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(tupleStr))
