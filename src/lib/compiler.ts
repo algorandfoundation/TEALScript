@@ -1349,7 +1349,7 @@ export default class Compiler {
     let tupleStr = this.getABIType(str);
     const expr = stringToExpression(tupleStr);
 
-    if (ts.isArrayLiteralExpression(expr)) {
+    if (tupleStr.startsWith('[') && ts.isArrayLiteralExpression(expr)) {
       const types = expr.elements.map((t) => this.getABITupleString(t.getText()));
       tupleStr = `(${types.join(',')})`;
     }
