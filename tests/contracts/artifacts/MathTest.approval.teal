@@ -169,7 +169,7 @@ u256plus:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:24
-	// return a + b;
+	// return <uint<256>>(a + b);
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b+
@@ -220,7 +220,7 @@ u256minus:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:28
-	// return a - b;
+	// return <uint<256>>(a - b);
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b-
@@ -271,7 +271,7 @@ u256mul:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:32
-	// return a * b;
+	// return <uint<256>>(a * b);
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b*
@@ -322,7 +322,7 @@ u256div:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:36
-	// return a / b;
+	// return <uint<256>>(a / b);
 	frame_dig -1 // a: uint256
 	frame_dig -2 // b: uint256
 	b/
@@ -365,7 +365,7 @@ u64Return256:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:40
-	// return a + b;
+	// return <uint<256>>(a + b);
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	+
@@ -414,9 +414,9 @@ btobigintFirst:
 	proto 1 0
 
 	// tests/contracts/math.algo.ts:49
-	// return btobigint(input) / 1;
+	// return <uint64>(btobigint(input) / 1);
 	frame_dig -1 // input: bytes
-	byte 0x0000000000000001
+	byte 0x01
 	b/
 	btoi
 	itob
@@ -441,8 +441,8 @@ btobigintSecond:
 	proto 1 0
 
 	// tests/contracts/math.algo.ts:53
-	// return 1000 / btobigint(input);
-	byte 0x00000000000003e8
+	// return <uint64>(1000 / btobigint(input));
+	byte 0x03e8
 	frame_dig -1 // input: bytes
 	b/
 	btoi
@@ -512,7 +512,7 @@ variableTypeHint:
 	proto 3 0
 
 	// tests/contracts/math.algo.ts:61
-	// z: uint<16> = x + y
+	// z = <uint<16>>(x + y)
 	frame_dig -1 // x: uint8
 	btoi
 	frame_dig -2 // y: uint8
@@ -521,10 +521,17 @@ variableTypeHint:
 	itob
 	dup
 	bitlen
+	int 8
+	<=
+	assert
+	extract 7 1
+	dup
+	bitlen
 	int 16
 	<=
 	assert
-	extract 6 2
+	byte 0xFFFF
+	b&
 	frame_bury -3 // z: uint16
 
 	// tests/contracts/math.algo.ts:63

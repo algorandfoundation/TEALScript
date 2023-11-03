@@ -109,13 +109,6 @@ class GeneralTest extends Contract {
     });
   }
 
-  uintNToUint64InMethodArgs(): void {
-    sendMethodCall<[number], void>({
-      name: 'registerCreature',
-      methodArgs: [1 as uint<8>],
-    });
-  }
-
   numberToString(): void {
     const n = 1;
     const s = '1';
