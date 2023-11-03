@@ -1145,3 +1145,11 @@ class ABITestNestedTypesInSignature extends Contract {
     return [bzero<T5>(), 0];
   }
 }
+
+class ABITestMaxUfixed extends Contract {
+  maxUfixed(): ufixed<64, 2> {
+    const u64max: ufixed<64, 2> = 184467440737095516.15;
+
+    return u64max;
+  }
+}

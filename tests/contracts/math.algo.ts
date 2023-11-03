@@ -21,23 +21,23 @@ class MathTest extends Contract {
   }
 
   u256plus(a: uint<256>, b: uint<256>): uint<256> {
-    return a + b;
+    return <uint<256>>(a + b);
   }
 
   u256minus(a: uint<256>, b: uint<256>): uint<256> {
-    return a - b;
+    return <uint<256>>(a - b);
   }
 
   u256mul(a: uint<256>, b: uint<256>): uint<256> {
-    return a * b;
+    return <uint<256>>(a * b);
   }
 
   u256div(a: uint<256>, b: uint<256>): uint<256> {
-    return a / b;
+    return <uint<256>>(a / b);
   }
 
   u64Return256(a: uint64, b: uint64): uint<256> {
-    return a + b;
+    return <uint<256>>(a + b);
   }
 
   maxU64(): uint64 {
@@ -46,11 +46,11 @@ class MathTest extends Contract {
   }
 
   btobigintFirst(input: string): uint64 {
-    return btobigint(input) / 1;
+    return <uint64>(btobigint(input) / 1);
   }
 
   btobigintSecond(input: string): uint64 {
-    return 1000 / btobigint(input);
+    return <uint64>(1000 / btobigint(input));
   }
 
   exponent(a: uint64, b: uint64): uint64 {
@@ -58,7 +58,7 @@ class MathTest extends Contract {
   }
 
   variableTypeHint(x: uint<8>, y: uint<8>): uint<16> {
-    const z: uint<16> = x + y;
+    const z = <uint<16>>(x + y);
 
     return z;
   }

@@ -16,9 +16,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/ban-ts-comment': 'warn',
@@ -47,6 +45,7 @@ module.exports = {
         'prefer-template': 'off',
         'prefer-destructuring': 'off',
         'dot-notation': 'off',
+        'no-loss-of-precision': 'off',
       },
     },
     {
