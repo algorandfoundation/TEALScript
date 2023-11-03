@@ -717,5 +717,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'nestedTypesInSignature')).toEqual([[0n, 0n], 0n]);
     });
+
+    test('maxUfixed', async () => {
+      const { appClient } = await compileAndCreate('maxUfixed');
+
+      expect(await runMethod(appClient, 'maxUfixed')).toEqual(BigInt('0xFFFFFFFFFFFFFFFF'));
+    });
   });
 });

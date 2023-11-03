@@ -2276,6 +2276,7 @@ export default class Compiler {
   } {
     let name = inputName;
     let currentFrame = this.frame[inputName];
+
     let type: 'frame' | 'storage' = 'frame';
     let storageExpression: ts.PropertyAccessExpression | undefined;
 
@@ -3201,7 +3202,7 @@ export default class Compiler {
     return this.customTypes[type] || type;
   }
 
-  private getStackTypeFromNode(node: ts.Node) {
+  private getStackTypeFromNode(node: ts.Node): string {
     return this.getStackTypeAfterFunction(() => this.processNode(node));
   }
 
@@ -3477,11 +3478,6 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.declarations.forEach((d) => {
-      if (d.initializer && ts.isNumericLiteral(d.initializer) && d.type) {
-        this.processNumericLiteralWithType(d.initializer, this.getABITupleString(d.type.getText()));
-        return;
-      }
-
       this.typeHint = d.type?.getText();
       this.processNode(d);
       this.typeHint = undefined;
@@ -3672,12 +3668,15 @@ export default class Compiler {
       }
 
       this.addSourceComment(node);
-
       const hint = node.type?.getText();
-      this.typeHint = hint;
-      this.processNode(node.initializer);
 
-      if (node.type) this.typeComparison(this.lastType, node.type.getText());
+      if (ts.isNumericLiteral(node.initializer) && this.typeHint) {
+        this.processNumericLiteralWithType(node.initializer, this.getABIType(this.typeHint));
+      } else {
+        this.typeHint = hint;
+        this.processNode(node.initializer);
+        if (node.type) this.typeComparison(this.lastType, node.type.getText());
+      }
 
       const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
 
@@ -3887,14 +3886,15 @@ export default class Compiler {
       const m = parseInt(match[1], 10);
 
       const numDecimals = node.getText().match(/(?<=\.)\d+/)![0].length;
-      const value = parseFloat(node.getText());
 
       if (numDecimals > m)
-        throw Error(`Value ${value} cannot be represented as ${type}. A more precise type is required.`);
+        throw Error(`Value ${node.getText()} cannot be represented as ${type}. A more precise type is required.`);
 
-      const fixedValue = Math.round(value * 10 ** m);
+      const valueStr = node.getText().replace('.', '') + '0'.repeat(m - numDecimals);
 
-      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 2, '0')}`, type);
+      const fixedValue = BigInt(valueStr);
+
+      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 8, '00')}`, type);
 
       return;
     }
