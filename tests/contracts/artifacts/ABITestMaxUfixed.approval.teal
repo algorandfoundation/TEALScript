@@ -22,38 +22,26 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// ufixed()ufixed64x2
-abi_route_ufixed:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+// maxUfixed()ufixed64x2
+abi_route_maxUfixed:
+	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
 
-	// execute ufixed()ufixed64x2
-	callsub ufixed
+	// execute maxUfixed()ufixed64x2
+	callsub maxUfixed
 	int 1
 	return
 
-ufixed:
-	proto 2 0
+maxUfixed:
+	proto 1 0
 
-	// tests/contracts/abi.algo.ts:735
-	// a = 1.23 as ufixed<64, 2>
-	byte 0x0000007b
-	frame_bury -1 // a: ufixed64x2
+	// tests/contracts/abi.algo.ts:1151
+	// u64max: ufixed<64, 2> = 184467440737095516.15
+	byte 0xffffffffffffffff
+	frame_bury -1 // u64max: ufixed64x2
 
-	// tests/contracts/abi.algo.ts:736
-	// b = 4.56 as ufixed<64, 2>
-	byte 0x000001c8
-	frame_bury -2 // b: ufixed64x2
-
-	// tests/contracts/abi.algo.ts:738
-	// return a + b;
-	byte 0x0000007b // a: ufixed64x2
-	byte 0x000001c8 // b: ufixed64x2
-	b+
-	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
+	// tests/contracts/abi.algo.ts:1153
+	// return u64max;
+	byte 0x151f7c75ffffffffffffffff
 	log
 	retsub
 
@@ -68,7 +56,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "ufixed()ufixed64x2"
+	method "maxUfixed()ufixed64x2"
 	txna ApplicationArgs 0
-	match abi_route_ufixed
+	match abi_route_maxUfixed
 	err
