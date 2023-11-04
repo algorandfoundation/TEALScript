@@ -3198,10 +3198,11 @@ export default class Compiler {
     const preType = this.lastType;
     const preTeal = this.teal[this.currentProgram].slice();
     const preLastComment = new Array(...this.lastSourceCommentRange) as [number, number];
+    const preTypeHint = this.typeHint;
     fn();
     const type = this.lastType;
     this.lastType = preType;
-
+    this.typeHint = preTypeHint;
     this.teal[this.currentProgram] = preTeal;
     this.lastSourceCommentRange = preLastComment;
     return this.customTypes[type] || type;
@@ -4323,6 +4324,17 @@ export default class Compiler {
         if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
         // If this is a property in an object ie. `myObj.foo`
         if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
+
+        const accessedType = this.getStackTypeAfterFunction(() => {
+          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValue);
+        });
+
+        const abiAccessedType = this.getABITupleString(accessedType);
+
+        if (!(abiAccessedType.endsWith(']') || abiAccessedType.endsWith(')'))) {
+          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValue);
+          accessors.length = 0;
+        }
 
         return false;
       }

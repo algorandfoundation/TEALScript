@@ -723,5 +723,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'maxUfixed')).toEqual(BigInt('0xFFFFFFFFFFFFFFFF'));
     });
+
+    test('chainedPropertyAfterTuple', async () => {
+      const { appClient } = await compileAndCreate('chainedPropertyAfterTuple');
+
+      await runMethod(appClient, 'chainedPropertyAfterTuple', [1337]);
+    });
   });
 });
