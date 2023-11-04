@@ -1153,3 +1153,23 @@ class ABITestMaxUfixed extends Contract {
     return u64max;
   }
 }
+
+type T6 = {
+  // This is a comment
+  foo: string; // this is another comment
+  /** This is a yet another comment */
+  bar: uint64;
+  /**
+   * This is a multiline comment
+   */
+  baz: uint64;
+};
+class ABITestNonE2E extends Contract {
+  typeWithComments(): T6 {
+    return {
+      foo: 'Hello World!',
+      bar: 1,
+      baz: 2,
+    };
+  }
+}
