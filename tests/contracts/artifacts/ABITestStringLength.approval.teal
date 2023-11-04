@@ -41,7 +41,6 @@ stringLength:
 
 	// tests/contracts/abi.algo.ts:754
 	// return s.length;
-	byte 0x666f6f20626172 // "foo bar" // s: bytes
 	byte 0x151f7c750000000000000007
 	log
 	retsub
