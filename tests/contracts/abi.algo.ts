@@ -1173,3 +1173,14 @@ class ABITestNonE2E extends Contract {
     };
   }
 }
+
+type T7 = {
+  foo: Address;
+};
+class ABITestChainedPropertyAfterTuple extends Contract {
+  chainedPropertyAfterTuple(asa: Asset): void {
+    const o: T7 = { foo: this.app.address };
+
+    assert(!o.foo.hasAsset(asa));
+  }
+}
