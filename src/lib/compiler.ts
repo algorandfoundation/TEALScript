@@ -1281,7 +1281,13 @@ export default class Compiler {
   }
 
   private getABIType(type: string): string {
-    const abiType = (this.customTypes[type] ? this.customTypes[type] : type).replace(/\s+/g, ' ');
+    const abiType = (this.customTypes[type] ? this.customTypes[type] : type)
+      .split('\n')
+      .map((line) => {
+        if (line.trim().startsWith('//')) return '';
+        return line.split('//')[0].trim().replace(/\s+/g, ' ');
+      })
+      .join(' ');
 
     if (abiType.endsWith('}')) return abiType;
 
