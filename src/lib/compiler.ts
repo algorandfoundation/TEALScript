@@ -1080,6 +1080,15 @@ export default class Compiler {
         this.lastType = 'bytes';
       },
     },
+    // string methods
+    substring: {
+      check: (node: ts.CallExpression) => ['byte[]', 'string', 'bytes'].includes(this.lastType),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.arguments[0]);
+        this.processNode(node.arguments[1]);
+        this.pushVoid(node, 'substring3');
+      },
+    },
   };
 
   private disableWarnings: boolean;
