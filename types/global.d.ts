@@ -547,8 +547,8 @@ interface AssetFreezeParams extends CommonTransactionParams {
 }
 
 interface PaymentParams extends CommonTransactionParams {
-  amount: uint64;
-  receiver: Address;
+  amount?: uint64;
+  receiver?: Address;
   closeRemainderTo?: Address;
 }
 
