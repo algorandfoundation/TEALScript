@@ -168,6 +168,15 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
       popTeal();
       pushTeal(`byte 0x${bytes.slice(start * 2, start * 2 + length * 2)}`, node);
       optimized = true;
+    } else if (teal.startsWith('substring ') && outputTeal.at(-1)?.teal.startsWith('byte 0x')) {
+      const bytes = outputTeal.at(-1)!.teal.split(' ')[1].slice(2);
+
+      const start = Number(teal.split(' ')[1]);
+      const end = Number(teal.split(' ')[2]);
+
+      popTeal();
+      pushTeal(`byte 0x${bytes.slice(start * 2, end * 2)}`, node);
+      optimized = true;
     } else if (teal.startsWith('extract3')) {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
@@ -181,6 +190,23 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
           popTeal();
 
           pushTeal(`extract ${a} ${b}`, node);
+
+          optimized = true;
+        }
+      }
+    } else if (teal.startsWith('substring3')) {
+      const aLine = outputTeal.at(-2)?.teal;
+      const bLine = outputTeal.at(-1)?.teal;
+
+      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+        const a = BigInt(aLine.split(' ')[1].replace('_', ''));
+        const b = BigInt(bLine.split(' ')[1].replace('_', ''));
+
+        if (a < 256 && b < 256) {
+          popTeal();
+          popTeal();
+
+          pushTeal(`substring ${a} ${b}`, node);
 
           optimized = true;
         }

@@ -1153,3 +1153,34 @@ class ABITestMaxUfixed extends Contract {
     return u64max;
   }
 }
+
+type T6 = {
+  // This is a comment
+  foo: string; // this is another comment
+  /** This is a yet another comment */
+  bar: uint64;
+  /**
+   * This is a multiline comment
+   */
+  baz: uint64;
+};
+class ABITestNonE2E extends Contract {
+  typeWithComments(): T6 {
+    return {
+      foo: 'Hello World!',
+      bar: 1,
+      baz: 2,
+    };
+  }
+}
+
+type T7 = {
+  foo: Address;
+};
+class ABITestChainedPropertyAfterTuple extends Contract {
+  chainedPropertyAfterTuple(asa: Asset): void {
+    const o: T7 = { foo: this.app.address };
+
+    assert(!o.foo.hasAsset(asa));
+  }
+}

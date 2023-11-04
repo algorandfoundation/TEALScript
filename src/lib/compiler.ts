@@ -688,7 +688,6 @@ export default class Compiler {
         return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
       },
       fn: (n: ts.PropertyAccessExpression) => {
-        this.processNode(n.expression);
         if (this.lastType === StackType.bytes || this.lastType === 'string') {
           this.push(n.name, 'len', StackType.uint64);
           return;
@@ -1079,6 +1078,15 @@ export default class Compiler {
 
         this.pushVoid(node, 'callsub itoa');
         this.lastType = 'bytes';
+      },
+    },
+    // string methods
+    substring: {
+      check: (node: ts.CallExpression) => ['byte[]', 'string', 'bytes'].includes(this.lastType),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.arguments[0]);
+        this.processNode(node.arguments[1]);
+        this.pushVoid(node, 'substring3');
       },
     },
   };
@@ -3199,10 +3207,11 @@ export default class Compiler {
     const preType = this.lastType;
     const preTeal = this.teal[this.currentProgram].slice();
     const preLastComment = new Array(...this.lastSourceCommentRange) as [number, number];
+    const preTypeHint = this.typeHint;
     fn();
     const type = this.lastType;
     this.lastType = preType;
-
+    this.typeHint = preTypeHint;
     this.teal[this.currentProgram] = preTeal;
     this.lastSourceCommentRange = preLastComment;
     return this.customTypes[type] || type;
@@ -3213,8 +3222,8 @@ export default class Compiler {
   }
 
   private typeComparison(inputType: string, expectedType: string): void {
-    const abiInputType = this.getABIType(inputType);
-    const abiExpectedType = this.getABIType(expectedType);
+    const abiInputType = this.getABITupleString(inputType);
+    const abiExpectedType = this.getABITupleString(expectedType);
 
     if (abiInputType === abiExpectedType) return;
 
@@ -4324,6 +4333,17 @@ export default class Compiler {
         if (ts.isElementAccessExpression(n)) accessors.push(n.argumentExpression);
         // If this is a property in an object ie. `myObj.foo`
         if (ts.isPropertyAccessExpression(n)) accessors.push(n.name.getText());
+
+        const accessedType = this.getStackTypeAfterFunction(() => {
+          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValue);
+        });
+
+        const abiAccessedType = this.getABITupleString(accessedType);
+
+        if (!(abiAccessedType.endsWith(']') || abiAccessedType.endsWith(')'))) {
+          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValue);
+          accessors.length = 0;
+        }
 
         return false;
       }
