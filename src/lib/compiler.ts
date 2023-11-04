@@ -688,7 +688,6 @@ export default class Compiler {
         return !!abiType.match(/\[\d*\]$/) || ['string', 'bytes', 'txnGroup'].includes(abiType);
       },
       fn: (n: ts.PropertyAccessExpression) => {
-        this.processNode(n.expression);
         if (this.lastType === StackType.bytes || this.lastType === 'string') {
           this.push(n.name, 'len', StackType.uint64);
           return;
