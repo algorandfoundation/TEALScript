@@ -3213,8 +3213,8 @@ export default class Compiler {
   }
 
   private typeComparison(inputType: string, expectedType: string): void {
-    const abiInputType = this.getABIType(inputType);
-    const abiExpectedType = this.getABIType(expectedType);
+    const abiInputType = this.getABITupleString(inputType);
+    const abiExpectedType = this.getABITupleString(expectedType);
 
     if (abiInputType === abiExpectedType) return;
 
