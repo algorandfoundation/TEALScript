@@ -36,9 +36,6 @@ stringLength:
 
 	// tests/contracts/abi.algo.ts:752
 	// s = 'foo bar'
-	byte 0x666f6f20626172 // "foo bar"
-	frame_bury -1 // s: bytes
-
 	// tests/contracts/abi.algo.ts:754
 	// return s.length;
 	byte 0x151f7c750000000000000007

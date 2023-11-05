@@ -36,9 +36,6 @@ rawBytesFunction:
 
 	// tests/contracts/abi.algo.ts:1062
 	// a: StaticArray<uint<8>, 3> = [1, 2, 3]
-	byte 0x010203
-	frame_bury -1 // a: uint8[3]
-
 	// tests/contracts/abi.algo.ts:1063
 	// return rawBytes(a);
 	byte 0x151f7c750003010203

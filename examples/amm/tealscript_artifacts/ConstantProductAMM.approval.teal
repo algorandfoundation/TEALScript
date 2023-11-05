@@ -277,9 +277,6 @@ tokensToSwap:
 
 	// examples/amm/amm.algo.ts:73
 	// factor = SCALE - FEE
-	int 995
-	frame_bury -4 // factor: uint64
-
 	// examples/amm/amm.algo.ts:74
 	// return wideRatio([inAmount, factor, outSupply], [inSupply * SCALE + inAmount * factor]);
 	frame_dig -1 // inAmount: uint64

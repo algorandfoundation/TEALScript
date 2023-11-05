@@ -12,7 +12,7 @@ const arglessOps = langspec.Ops.filter((op) => op.Args === undefined && op.Retur
 const arglessOpNames = ['byte', 'int', 'addr', ...arglessOps.map((op) => op.Name)];
 
 export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
-  const outputTeal = inputTeal.slice();
+  const outputTeal: NodeAndTEAL[] = [];
 
   const frames: {
     [frameIndex: string]: {
@@ -20,11 +20,12 @@ export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
       hasWrite: boolean;
       reads: number;
       line: string;
+      literalWrite: boolean;
     };
   }[] = [];
 
   let protoIndex = -1;
-  outputTeal.forEach((t, i) => {
+  inputTeal.forEach((t, i) => {
     const { teal } = t;
 
     if (teal.startsWith('proto')) {
@@ -37,9 +38,10 @@ export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
 
       if (frames[protoIndex][frameIndex]) {
         frames[protoIndex][frameIndex].hasWrite = true;
-      } else if (outputTeal[i - 1].teal.match(/^(byte|int)/)) {
+      } else if (inputTeal[i - 1].teal.match(/^(byte|int)/)) {
         frames[protoIndex][frameIndex] = {
-          lineBefore: outputTeal[i - 1].teal,
+          literalWrite: inputTeal[i - 1].teal.match(/^(byte|int|pushbyte|pushint)/) !== null,
+          lineBefore: inputTeal[i - 1].teal,
           hasWrite: false,
           reads: 0,
           line: teal,
@@ -59,28 +61,35 @@ export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
           hasWrite: true,
           reads: 0,
           line: '',
+          literalWrite: false,
         };
       }
     }
   });
 
   protoIndex = -1;
-  outputTeal.forEach((t, i) => {
+  inputTeal.forEach((t) => {
     const { teal } = t;
-    if (teal.startsWith('proto')) {
-      protoIndex += 1;
-      return;
-    }
+    if (teal.startsWith('proto')) protoIndex += 1;
 
-    if (teal.startsWith('frame_dig')) {
+    if (teal.startsWith('frame_')) {
       const frameIndex = teal.split(' ')[1];
+      const f = frames[protoIndex][frameIndex];
 
-      if (frames[protoIndex][frameIndex] && !frames[protoIndex][frameIndex].hasWrite) {
-        const comment = teal.split(' ').slice(2).join(' ');
-        const f = frames[protoIndex][frameIndex];
-        outputTeal[i].teal = outputTeal[i].teal.replace(teal, `${f.lineBefore} ${comment}`);
+      if (f && !f.hasWrite && f.literalWrite) {
+        if (teal.startsWith('frame_dig')) {
+          const comment = teal.split(' ').slice(2).join(' ');
+          outputTeal.push({ teal: teal.replace(teal, `${f.lineBefore} ${comment}`), node: t.node });
+          return;
+        }
+
+        if (teal.startsWith('frame_bury')) {
+          outputTeal.pop();
+          return;
+        }
       }
     }
+    outputTeal.push(t);
   });
 
   return outputTeal;

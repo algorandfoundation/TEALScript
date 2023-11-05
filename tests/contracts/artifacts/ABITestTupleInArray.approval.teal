@@ -39,9 +39,6 @@ tupleInArray:
 	//       [11, 22],
 	//       [33, 44],
 	//     ]
-	byte 0x000000000000000b00160000000000000021002c
-	frame_bury -1 // a: [uint64,uint16][2]
-
 	// tests/contracts/abi.algo.ts:278
 	// return a[1][1];
 	byte 0x151f7c75002c
