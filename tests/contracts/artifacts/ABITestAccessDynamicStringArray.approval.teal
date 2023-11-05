@@ -55,16 +55,16 @@ accessDynamicStringArray:
 	// tests/contracts/abi.algo.ts:712
 	// return a[1];
 	frame_dig -1 // a: string[]
-	store 0 // full array
+	store 255 // full array
 	int 4
-	load 0 // full array
-	load 0 // full array
+	load 255 // full array
+	load 255 // full array
 	uncover 2
 	extract_uint16
 	int 2
 	+ // add two for length
 	dup // duplicate start of element
-	load 0 // full array
+	load 255 // full array
 	swap
 	extract_uint16 // get number of elements
 	int 1 // get type length

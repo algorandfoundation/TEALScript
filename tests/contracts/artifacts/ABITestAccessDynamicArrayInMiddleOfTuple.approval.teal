@@ -52,14 +52,14 @@ accessDynamicArrayInMiddleOfTuple:
 	// tests/contracts/abi.algo.ts:668
 	// return a[1];
 	frame_dig -1 // a: [uint16,uint8[],uint16]
-	store 0 // full array
+	store 255 // full array
 	int 2
-	load 0 // full array
-	load 0 // full array
+	load 255 // full array
+	load 255 // full array
 	uncover 2
 	extract_uint16
 	dup // duplicate start of element
-	load 0 // full array
+	load 255 // full array
 	swap
 	extract_uint16 // get number of elements
 	int 1 // get type length

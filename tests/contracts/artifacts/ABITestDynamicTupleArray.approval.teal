@@ -45,8 +45,8 @@ dynamicTupleArray:
 	// tests/contracts/abi.algo.ts:384
 	// return a[1][1];
 	byte 0x000b00000000000000160021000000000000002c // a: [uint16,uint64][]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	extract 12 8
 	btoi
 	itob

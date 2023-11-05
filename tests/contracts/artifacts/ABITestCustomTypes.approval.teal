@@ -53,57 +53,57 @@ customTypes:
 	// tests/contracts/abi.algo.ts:637
 	// aa.bar = 'Hello World!'
 	frame_dig -1 // aa: CustomType
-	store 0 // full array
+	store 255 // full array
 	int 2
 	dup
-	store 4 // element head offset
-	load 0 // full array
-	load 0 // full array
+	store 251 // element head offset
+	load 255 // full array
+	load 255 // full array
 	uncover 2
 	extract_uint16
 	dup
-	store 1 // element start
+	store 254 // element start
 	dup // duplicate start of element
-	load 0 // full array
+	load 255 // full array
 	swap
 	extract_uint16 // get number of elements
 	int 1 // get type length
 	* // multiply by type length
 	int 2
 	+ // add two for length
-	store 2 // element length
-	load 0 // full array
+	store 253 // element length
+	load 255 // full array
 	int 0
-	load 1 // element start
+	load 254 // element start
 	substring3
 	byte 0x000c48656c6c6f20576f726c6421
 	byte 0x000c48656c6c6f20576f726c6421
-	store 3 // new element
-	load 0 // full array
-	load 1 // element start
-	load 2 // element length
+	store 252 // new element
+	load 255 // full array
+	load 254 // element start
+	load 253 // element length
 	+ // get end of Element
-	load 0 // full array
+	load 255 // full array
 	len
 	substring3
 	concat
 	concat
-	store 0 // full array
+	store 255 // full array
 	callsub get_length_difference
-	load 0 // full array
+	load 255 // full array
 	frame_bury -1 // aa: CustomType
 
 	// tests/contracts/abi.algo.ts:639
 	// return aa.bar;
 	frame_dig -1 // aa: CustomType
-	store 0 // full array
+	store 255 // full array
 	int 2
-	load 0 // full array
-	load 0 // full array
+	load 255 // full array
+	load 255 // full array
 	uncover 2
 	extract_uint16
 	dup // duplicate start of element
-	load 0 // full array
+	load 255 // full array
 	swap
 	extract_uint16 // get number of elements
 	int 1 // get type length
@@ -174,26 +174,26 @@ process_dynamic_tuple_element:
 	retsub
 
 get_length_difference:
-	load 3 // new element
+	load 252 // new element
 	len // length of new element
-	load 2 // element length
+	load 253 // element length
 	<
 	bnz swapped_difference
-	load 3 // new element
+	load 252 // new element
 	len // length of new element
-	load 2 // element length
+	load 253 // element length
 	int 1
-	store 7 // subtract head difference
+	store 249 // subtract head difference
 	b get_difference
 
 swapped_difference:
-	load 2 // element length
-	load 3 // new element
+	load 253 // element length
+	load 252 // new element
 	len // length of new element
 	int 0
-	store 7 // subtract head difference
+	store 249 // subtract head difference
 
 get_difference:
 	- // get length difference
-	store 5 // length difference
+	store 250 // length difference
 	retsub

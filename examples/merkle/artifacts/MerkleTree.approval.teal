@@ -108,13 +108,13 @@ for_1:
 	// examples/merkle/merkle.algo.ts:42
 	// this.isRightSibling(elem)
 	frame_dig -2 // path: byte[33][3]
-	store 0 // full array
+	store 255 // full array
 	int 0 // initial offset
 	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
-	load 0 // full array
+	load 255 // full array
 	swap
 	int 33
 	extract3
@@ -125,13 +125,13 @@ for_1:
 	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
 	frame_dig -2 // path: byte[33][3]
-	store 0 // full array
+	store 255 // full array
 	int 0 // initial offset
 	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
-	load 0 // full array
+	load 255 // full array
 	swap
 	int 33
 	extract3
@@ -146,13 +146,13 @@ if0_else:
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
 	frame_dig -1 // leaf: byte[32]
 	frame_dig -2 // path: byte[33][3]
-	store 0 // full array
+	store 255 // full array
 	int 0 // initial offset
 	frame_dig -4 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
-	load 0 // full array
+	load 255 // full array
 	swap
 	int 33
 	extract3

@@ -57,7 +57,7 @@ nonLiteralNestedArrayRef:
 	// tests/contracts/abi.algo.ts:794
 	// b[1] = 5 as uint<8>
 	frame_dig -1 // a: uint8[2][2]
-	store 0 // full array
+	store 255 // full array
 	int 0 // initial offset
 	frame_dig -3 // saved accessor: accessor//0//b
 	int 2
@@ -65,7 +65,7 @@ nonLiteralNestedArrayRef:
 	+
 	int 1 // acc * typeLength
 	+
-	load 0 // full array
+	load 255 // full array
 	swap
 	byte 0x05
 	replace3

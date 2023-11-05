@@ -71,8 +71,8 @@ dynamicBoolArrayAccess:
 	// tests/contracts/abi.algo.ts:950
 	// return a[8];
 	frame_dig -1 // a: bool[]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	int 8
 	getbit
 	byte 0x00
