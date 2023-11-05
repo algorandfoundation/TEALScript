@@ -4502,6 +4502,15 @@ export default class Compiler {
 
     this.currentInline = fn.name.getText();
     fn.parameters.forEach((p, i) => {
+      if (this.frame[p.name.getText()] !== undefined) {
+        throw Error(
+          `Cannot call "${this.currentInline}" in "${
+            this.currentSubroutine.name
+          }" because "${p.name.getText()}" is the name of a parameter in ${
+            this.currentInline
+          } and the name of a variable in "${this.currentSubroutine.name}"`
+        );
+      }
       this.initializeVariable(args[i], args[i], p.name.getText());
     });
     this.processNode(fn.body!);
