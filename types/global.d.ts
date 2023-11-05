@@ -333,6 +333,8 @@ declare class Asset {
 
   static readonly zeroIndex: Asset;
 
+  readonly id: uint64;
+
   readonly total: uint64;
 
   readonly decimals: uint64;
@@ -408,6 +410,8 @@ type BytesLike = bytes | Address | string;
 
 declare class Application {
   static fromID(appID: uint64): Application;
+
+  readonly id: uint64;
 
   static readonly zeroIndex: Application;
 

@@ -672,6 +672,43 @@ stringSubstring:
 	assert
 	retsub
 
+// idProperty()void
+abi_route_idProperty:
+	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute idProperty()void
+	callsub idProperty
+	int 1
+	return
+
+idProperty:
+	proto 2 0
+
+	// tests/contracts/general.algo.ts:128
+	// app = Application.zeroIndex
+	int 0
+	frame_bury -1 // app: application
+
+	// tests/contracts/general.algo.ts:129
+	// assert(Application.fromID(app.id) === app)
+	int 0 // app: application
+	int 0 // app: application
+	==
+	assert
+
+	// tests/contracts/general.algo.ts:131
+	// asa = Asset.zeroIndex
+	int 0
+	frame_bury -2 // asa: asset
+
+	// tests/contracts/general.algo.ts:132
+	// assert(Asset.fromID(asa.id) === asa)
+	int 0 // asa: asset
+	int 0 // asa: asset
+	==
+	assert
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -703,8 +740,9 @@ call_NoOp:
 	method "numberToString()void"
 	method "methodOnParens()void"
 	method "stringSubstring()void"
+	method "idProperty()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty
 	err
 
 intToAscii:

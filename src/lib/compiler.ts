@@ -670,6 +670,12 @@ export default class Compiler {
       check: (node: ts.PropertyAccessExpression) => boolean;
     };
   } = {
+    id: {
+      check: (node: ts.PropertyAccessExpression) => ['asset', 'application'].includes(this.lastType),
+      fn: (node: ts.PropertyAccessExpression) => {
+        this.lastType = StackType.uint64;
+      },
+    },
     zeroIndex: {
       check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.expression.getText()),
       fn: (node: ts.PropertyAccessExpression) => {

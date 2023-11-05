@@ -123,6 +123,14 @@ class GeneralTest extends Contract {
     const s = 'abcdef';
     assert(s.substring(1, 3) === 'bc');
   }
+
+  idProperty(): void {
+    const app = Application.zeroIndex;
+    assert(Application.fromID(app.id) === app);
+
+    const asa = Asset.zeroIndex;
+    assert(Asset.fromID(asa.id) === asa);
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
