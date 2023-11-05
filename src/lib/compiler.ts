@@ -226,6 +226,7 @@ interface Subroutine extends ABIMethod {
     call: string[];
   };
   node: ts.MethodDeclaration | ts.ClassDeclaration;
+  inline?: boolean;
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -416,6 +417,8 @@ export default class Compiler {
     gtxns: this.getOpParamObjects('gtxns'),
     asset: this.getOpParamObjects('asset_params_get'),
   };
+
+  currentInline?: string;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -2948,53 +2951,19 @@ export default class Compiler {
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
-    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
-      this.processSubroutine(node);
-      return;
-    }
-
-    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
-      throw Error('Only one method called "logic" can be defined in a logic signature');
-    }
-
-    if (this.currentProgram === 'lsig' && returnType !== 'void')
-      throw Error('logic method must have a void return type');
-
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
-
-    const n = this.currentSubroutine.name;
-    if (
-      [
-        'createApplication',
-        'updateApplication',
-        'deleteApplication',
-        'optInToApplication',
-        'closeOutOfApplication',
-        'clearState',
-      ].includes(n)
-    ) {
-      const isCreate = this.currentSubroutine.name === 'createApplication';
-      let oc: OnComplete;
-
-      if (n === 'createApplication') oc = 'NoOp';
-      else if (n === 'updateApplication') oc = 'UpdateApplication';
-      else if (n === 'deleteApplication') oc = 'DeleteApplication';
-      else if (n === 'optInToApplication') oc = 'OptIn';
-      else if (n === 'closeOutOfApplication') oc = 'CloseOut';
-      else if (n === 'clearState') oc = 'ClearState';
-      else throw Error();
-
-      const action = isCreate ? 'create' : 'call';
-
-      this.currentSubroutine.allows[action].push(oc);
-    }
 
     (ts.getDecorators(node) || []).forEach((d) => {
       if (ts.isPropertyAccessExpression(d.expression)) {
         if (d.expression.expression.getText() !== 'abi') throw Error(`Unknown decorator ${d.getText()}`);
         if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.getText()}`);
         this.currentSubroutine.readonly = true;
+        return;
+      }
+
+      if (d.expression.getText() === 'inline') {
+        this.currentSubroutine.inline = true;
         return;
       }
 
@@ -3078,6 +3047,49 @@ export default class Compiler {
       }
     });
 
+    if (this.currentSubroutine.inline) {
+      return;
+    }
+
+    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
+      this.processSubroutine(node);
+      return;
+    }
+
+    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
+      throw Error('Only one method called "logic" can be defined in a logic signature');
+    }
+
+    if (this.currentProgram === 'lsig' && returnType !== 'void')
+      throw Error('logic method must have a void return type');
+
+    const n = this.currentSubroutine.name;
+    if (
+      [
+        'createApplication',
+        'updateApplication',
+        'deleteApplication',
+        'optInToApplication',
+        'closeOutOfApplication',
+        'clearState',
+      ].includes(n)
+    ) {
+      const isCreate = this.currentSubroutine.name === 'createApplication';
+      let oc: OnComplete;
+
+      if (n === 'createApplication') oc = 'NoOp';
+      else if (n === 'updateApplication') oc = 'UpdateApplication';
+      else if (n === 'deleteApplication') oc = 'DeleteApplication';
+      else if (n === 'optInToApplication') oc = 'OptIn';
+      else if (n === 'closeOutOfApplication') oc = 'CloseOut';
+      else if (n === 'clearState') oc = 'ClearState';
+      else throw Error();
+
+      const action = isCreate ? 'create' : 'call';
+
+      this.currentSubroutine.allows[action].push(oc);
+    }
+
     const { allows, nonAbi } = this.currentSubroutine;
     if (nonAbi.call.length + nonAbi.create.length > 0) {
       if (allows.call.length + allows.create.length > 0) {
@@ -3151,7 +3163,15 @@ export default class Compiler {
   }
 
   private processReturnStatement(node: ts.ReturnStatement) {
+    if (this.currentInline) {
+      if (node.expression === undefined) return;
+
+      this.processNode(node.expression);
+      return;
+    }
+
     this.addSourceComment(node);
+
     const { name } = this.currentSubroutine;
     const returnType = this.currentSubroutine.returns.type;
 
@@ -3289,6 +3309,8 @@ export default class Compiler {
       this.typeHint = leftType;
 
       if (ts.isIdentifier(node.left)) {
+        if (this.currentInline) throw Error('Cannot set variable value in inline function. Use ScratchSlot instead');
+
         const name = node.left.getText();
         const processedFrame = this.processFrame(node.left, name, false);
         const target = this.frame[processedFrame.name];
@@ -3512,6 +3534,8 @@ export default class Compiler {
   }
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
+    if (this.currentInline) throw Error('Cannot create variables in inline function. Use ScratchSlot instead');
+
     node.declarations.forEach((d) => {
       this.typeHint = d.type?.getText();
       this.processNode(d);
@@ -3593,143 +3617,150 @@ export default class Compiler {
     }
   }
 
+  private initializeVariable(sourceNode: ts.Node, initializer: ts.Node, name: string) {
+    let initializerType = this.getStackTypeFromNode(initializer);
+
+    if (!this.customTypes[initializerType]) initializerType = this.getABIType(initializerType);
+
+    let lastFrameAccess: string | undefined;
+
+    const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
+
+    if (ts.isIdentifier(initializer) && !this.constants[initializer.getText()] && isArray) {
+      lastFrameAccess = initializer.getText();
+
+      this.frame[name] = {
+        framePointer: lastFrameAccess,
+        type: initializerType,
+      };
+
+      return;
+    }
+
+    if (ts.isElementAccessExpression(initializer) && isArray) {
+      const accessChain = this.getAccessChain(initializer);
+      lastFrameAccess = accessChain[0].expression.getText();
+
+      const type = this.getStackTypeFromNode(accessChain[0].expression);
+
+      if (type.endsWith(']') || type.endsWith('}')) {
+        // Only add source comments if there will be generated TEAL
+        if (accessChain.find((e) => ts.isNumericLiteral(e.argumentExpression))) {
+          this.addSourceComment(sourceNode);
+        }
+        const accessors = accessChain.map((e, i) => {
+          if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
+
+          if (ts.isNumericLiteral(e.argumentExpression)) {
+            this.push(e.argumentExpression, `int ${e.argumentExpression.getText()}`, StackType.uint64);
+          } else this.processNode(e.argumentExpression);
+
+          const accName = `accessor//${i}//${name}`;
+          this.pushVoid(initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
+
+          this.frame[accName] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+          };
+
+          this.frameIndex -= 1;
+
+          return accName;
+        });
+
+        if (lastFrameAccess.startsWith('this.')) {
+          if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
+          this.initializeStorageFrame(sourceNode, name, accessChain[0].expression, initializerType, accessors);
+        } else {
+          this.frame[name] = {
+            accessors,
+            framePointer: lastFrameAccess,
+            type: initializerType,
+          };
+        }
+
+        if (ts.isVariableDeclaration(sourceNode) && sourceNode.type)
+          this.typeComparison(this.lastType, sourceNode.type.getText());
+        return;
+      }
+    }
+
+    if (
+      ts.isPropertyAccessExpression(initializer) &&
+      getStorageName(initializer) &&
+      this.storageProps[getStorageName(initializer)!] &&
+      isArray
+    ) {
+      this.initializeStorageFrame(sourceNode, name, initializer, initializerType);
+
+      if (ts.isVariableDeclaration(sourceNode) && sourceNode.type)
+        this.typeComparison(this.lastType, sourceNode.type.getText());
+      return;
+    }
+
+    if (ts.isPropertyAccessExpression(initializer) && isArray) {
+      lastFrameAccess = initializer.expression.getText();
+
+      const type = this.getStackTypeFromNode(initializer.expression);
+      if (type.endsWith(']') || type.endsWith('}')) {
+        const index = Object.keys(this.getObjectTypes(type)).indexOf(initializer.name.getText());
+
+        if (lastFrameAccess.startsWith('this.')) {
+          if (!ts.isPropertyAccessExpression(initializer.expression)) throw new Error('Expected call expression');
+
+          this.initializeStorageFrame(sourceNode, name, initializer.expression, initializerType, [
+            stringToExpression(index.toString()) as ts.Expression,
+          ]);
+        } else {
+          this.frame[name] = {
+            accessors: [stringToExpression(index.toString()) as ts.Expression],
+            framePointer: lastFrameAccess,
+            type: initializerType,
+          };
+        }
+
+        if (ts.isVariableDeclaration(sourceNode) && sourceNode.type)
+          this.typeComparison(initializerType, sourceNode.type.getText());
+        return;
+      }
+    }
+
+    this.addSourceComment(sourceNode);
+    const hint = ts.isVariableDeclaration(sourceNode) ? sourceNode.type?.getText() : undefined;
+
+    if (ts.isNumericLiteral(initializer) && this.typeHint) {
+      this.processNumericLiteralWithType(initializer, this.getABIType(this.typeHint));
+    } else {
+      this.typeHint = hint;
+      this.processNode(initializer);
+      if (ts.isVariableDeclaration(sourceNode) && sourceNode.type)
+        this.typeComparison(this.lastType, sourceNode.type.getText());
+    }
+
+    const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
+
+    this.frame[name] = {
+      index: this.frameIndex,
+      type,
+    };
+
+    this.pushVoid(initializer, `frame_bury ${this.frameIndex} // ${name}: ${type}`);
+    this.frameIndex -= 1;
+  }
+
   private processVariableDeclarator(node: ts.VariableDeclaration) {
     const name = node.name.getText();
 
     if (node.initializer) {
-      let initializerType = this.getStackTypeFromNode(node.initializer);
-
-      if (!this.customTypes[initializerType]) initializerType = this.getABIType(initializerType);
-
-      let lastFrameAccess: string | undefined;
-
-      const isArray = initializerType.endsWith(']') || initializerType.endsWith('}');
-
-      if (ts.isIdentifier(node.initializer) && !this.constants[node.initializer.getText()] && isArray) {
-        lastFrameAccess = node.initializer.getText();
-
-        this.frame[name] = {
-          framePointer: lastFrameAccess,
-          type: initializerType,
-        };
-
-        return;
-      }
-
-      if (ts.isElementAccessExpression(node.initializer) && isArray) {
-        const accessChain = this.getAccessChain(node.initializer);
-        lastFrameAccess = accessChain[0].expression.getText();
-
-        const type = this.getStackTypeFromNode(accessChain[0].expression);
-
-        if (type.endsWith(']') || type.endsWith('}')) {
-          // Only add source comments if there will be generated TEAL
-          if (accessChain.find((e) => ts.isNumericLiteral(e.argumentExpression))) {
-            this.addSourceComment(node);
-          }
-          const accessors = accessChain.map((e, i) => {
-            if (ts.isNumericLiteral(e.argumentExpression)) return e.argumentExpression;
-
-            if (ts.isNumericLiteral(e.argumentExpression)) {
-              this.push(e.argumentExpression, `int ${e.argumentExpression.getText()}`, StackType.uint64);
-            } else this.processNode(e.argumentExpression);
-
-            const accName = `accessor//${i}//${name}`;
-            this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
-
-            this.frame[accName] = {
-              index: this.frameIndex,
-              type: StackType.uint64,
-            };
-
-            this.frameIndex -= 1;
-
-            return accName;
-          });
-
-          if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
-            this.initializeStorageFrame(node, name, accessChain[0].expression, initializerType, accessors);
-          } else {
-            this.frame[name] = {
-              accessors,
-              framePointer: lastFrameAccess,
-              type: initializerType,
-            };
-          }
-
-          if (node.type) this.typeComparison(this.lastType, node.type.getText());
-          return;
-        }
-      }
-
-      if (
-        ts.isPropertyAccessExpression(node.initializer) &&
-        getStorageName(node.initializer) &&
-        this.storageProps[getStorageName(node.initializer)!] &&
-        isArray
-      ) {
-        this.initializeStorageFrame(node, name, node.initializer, initializerType);
-
-        if (node.type) this.typeComparison(this.lastType, node.type.getText());
-        return;
-      }
-
-      if (ts.isPropertyAccessExpression(node.initializer) && isArray) {
-        lastFrameAccess = node.initializer.expression.getText();
-
-        const type = this.getStackTypeFromNode(node.initializer.expression);
-        if (type.endsWith(']') || type.endsWith('}')) {
-          const index = Object.keys(this.getObjectTypes(type)).indexOf(node.initializer.name.getText());
-
-          if (lastFrameAccess.startsWith('this.')) {
-            if (!ts.isPropertyAccessExpression(node.initializer.expression))
-              throw new Error('Expected call expression');
-
-            this.initializeStorageFrame(node, name, node.initializer.expression, initializerType, [
-              stringToExpression(index.toString()) as ts.Expression,
-            ]);
-          } else {
-            this.frame[name] = {
-              accessors: [stringToExpression(index.toString()) as ts.Expression],
-              framePointer: lastFrameAccess,
-              type: initializerType,
-            };
-          }
-
-          if (node.type) this.typeComparison(initializerType, node.type.getText());
-          return;
-        }
-      }
-
-      this.addSourceComment(node);
-      const hint = node.type?.getText();
-
-      if (ts.isNumericLiteral(node.initializer) && this.typeHint) {
-        this.processNumericLiteralWithType(node.initializer, this.getABIType(this.typeHint));
-      } else {
-        this.typeHint = hint;
-        this.processNode(node.initializer);
-        if (node.type) this.typeComparison(this.lastType, node.type.getText());
-      }
-
-      const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
-
-      this.frame[name] = {
-        index: this.frameIndex,
-        type,
-      };
-
-      this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${type}`);
+      this.initializeVariable(node, node.initializer, name);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
       this.frame[name] = {
         index: this.frameIndex,
         type: this.getABIType(node.type.getText()),
       };
+      this.frameIndex -= 1;
     }
-
-    this.frameIndex -= 1;
   }
 
   private processExpressionStatement(node: ts.ExpressionStatement) {
@@ -4161,9 +4192,17 @@ export default class Compiler {
     if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
       const methodName = chain[0].name.getText();
       const preArgsType = this.lastType;
-      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+
+      if (subroutine.inline) {
+        if (!ts.isMethodDeclaration(subroutine.node)) throw new Error();
+        this.processInline(subroutine.node, chain[1].arguments);
+        chain.splice(0, 2);
+        return;
+      }
+
+      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
 
       new Array(...chain[1].arguments).reverse().forEach((a) => {
         this.processNode(a);
@@ -4455,6 +4494,29 @@ export default class Compiler {
           n.getText()
         )}`
       );
+  }
+
+  private processInline(fn: ts.MethodDeclaration, args: ts.NodeArray<ts.Expression>) {
+    const lastInline = this.currentInline;
+    const preFrame = structuredClone(this.frame);
+
+    this.currentInline = fn.name.getText();
+    fn.parameters.forEach((p, i) => {
+      if (this.frame[p.name.getText()] !== undefined) {
+        throw Error(
+          `Cannot call "${this.currentInline}" in "${
+            this.currentSubroutine.name
+          }" because "${p.name.getText()}" is the name of a parameter in ${
+            this.currentInline
+          } and the name of a variable in "${this.currentSubroutine.name}"`
+        );
+      }
+      this.initializeVariable(args[i], args[i], p.name.getText());
+    });
+    this.processNode(fn.body!);
+
+    this.frame = preFrame;
+    this.currentInline = lastInline;
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {

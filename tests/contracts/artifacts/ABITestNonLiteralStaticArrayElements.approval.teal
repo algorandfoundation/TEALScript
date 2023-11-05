@@ -36,24 +36,12 @@ nonLiteralStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:33
 	// n1 = 11
-	int 11
-	frame_bury -1 // n1: uint64
-
 	// tests/contracts/abi.algo.ts:34
 	// n2 = 22
-	int 22
-	frame_bury -2 // n2: uint64
-
 	// tests/contracts/abi.algo.ts:35
 	// n3 = 33
-	int 33
-	frame_bury -3 // n3: uint64
-
 	// tests/contracts/abi.algo.ts:36
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
-	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -4 // a: uint64[3]
-
 	// tests/contracts/abi.algo.ts:38
 	// return a[1];
 	byte 0x151f7c750000000000000016

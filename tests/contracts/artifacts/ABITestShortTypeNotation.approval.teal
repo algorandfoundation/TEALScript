@@ -40,9 +40,6 @@ shortTypeNotation:
 	//       [33, 44],
 	//       [55, 66],
 	//     ]
-	byte 0x000b00160000000000000021000000000000002c00370042
-	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
-
 	// tests/contracts/abi.algo.ts:298
 	// return a[2][1];
 	byte 0x151f7c750042

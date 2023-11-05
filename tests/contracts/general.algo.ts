@@ -6,6 +6,27 @@ class DummyContract extends Contract {}
 class GeneralTest extends Contract {
   scratch = ScratchSlot<uint64>(0);
 
+  @inline
+  private inlineFunc(a: number, b: number): number {
+    return a + b;
+  }
+
+  @inline
+  private addNumber(numbers: number[], n: number): number {
+    return numbers.push(n);
+  }
+
+  callAddNumber(): void {
+    const nums: number[] = [1, 2, 3];
+    this.addNumber(nums, 4);
+    assert(nums.length === 4);
+  }
+
+  callInlineFunc(): void {
+    const x = 1;
+    assert(this.inlineFunc(x, 2 + 3) === 6);
+  }
+
   txnTypeEnum(): void {
     assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
   }

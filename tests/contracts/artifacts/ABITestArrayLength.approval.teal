@@ -36,9 +36,6 @@ arrayLength:
 
 	// tests/contracts/abi.algo.ts:744
 	// a: uint<8>[] = [11, 22, 33, 44, 55]
-	byte 0x0b16212c37
-	frame_bury -1 // a: uint8[]
-
 	// tests/contracts/abi.algo.ts:746
 	// return a.length;
 	byte 0x151f7c750000000000000005

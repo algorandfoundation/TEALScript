@@ -36,9 +36,6 @@ returnDynamicArray:
 
 	// tests/contracts/abi.algo.ts:356
 	// a: uint64[] = [11, 22, 33]
-	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -1 // a: uint64[]
-
 	// tests/contracts/abi.algo.ts:357
 	// return a;
 	byte 0x151f7c750003000000000000000b00000000000000160000000000000021
