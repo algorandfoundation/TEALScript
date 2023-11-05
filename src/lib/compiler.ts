@@ -418,7 +418,7 @@ export default class Compiler {
     asset: this.getOpParamObjects('asset_params_get'),
   };
 
-  currentInline?: { name: string; args: { [name: string]: ts.Node } };
+  currentInline?: string;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -3464,14 +3464,6 @@ export default class Compiler {
   }
 
   private processIdentifier(node: ts.Identifier) {
-    if (this.currentInline) {
-      const argNode = this.currentInline.args[node.getText()];
-      if (argNode) {
-        this.processNode(argNode);
-        return;
-      }
-    }
-
     // should only be true when calling getStackTypeFromNode
     if (node.getText() === 'globals') {
       this.lastType = 'globals';
@@ -4506,18 +4498,15 @@ export default class Compiler {
 
   private processInline(fn: ts.MethodDeclaration, args: ts.NodeArray<ts.Expression>) {
     const lastInline = this.currentInline;
-    this.currentInline = { name: fn.name.getText(), args: {} };
+    const preFrame = structuredClone(this.frame);
 
+    this.currentInline = fn.name.getText();
     fn.parameters.forEach((p, i) => {
-      if (this.frame[args[i].getText()] || this.constants[args[i].getText()] || ts.isLiteralExpression(args[i])) {
-        this.currentInline!.args[p.name.getText()] = args[i];
-      } else {
-        this.initializeVariable(args[i], args[i], p.name.getText());
-      }
+      this.initializeVariable(args[i], args[i], p.name.getText());
     });
-
     this.processNode(fn.body!);
 
+    this.frame = preFrame;
     this.currentInline = lastInline;
   }
 
