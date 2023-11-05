@@ -4,6 +4,8 @@ class DummyContract extends Contract {}
 
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
+  scratch = ScratchSlot<uint64>(0);
+
   txnTypeEnum(): void {
     assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
   }
@@ -130,6 +132,11 @@ class GeneralTest extends Contract {
 
     const asa = Asset.zeroIndex;
     assert(Asset.fromID(asa.id) === asa);
+  }
+
+  scratchSlot(): void {
+    this.scratch.value = 1337;
+    assert(this.scratch.value === 1337);
   }
 }
 

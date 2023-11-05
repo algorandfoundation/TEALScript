@@ -69,8 +69,8 @@ staticBoolArrayUpdate:
 	// tests/contracts/abi.algo.ts:958
 	// a[8] = true
 	frame_dig -1 // a: bool[9]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	int 8
 	int 1
 	setbit

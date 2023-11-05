@@ -42,8 +42,8 @@ updateDynamicArrayElement:
 	// tests/contracts/abi.algo.ts:371
 	// a[1] = 222
 	frame_dig -1 // a: uint64[]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	int 8
 	byte 0x00000000000000de
 	replace3
@@ -52,8 +52,8 @@ updateDynamicArrayElement:
 	// tests/contracts/abi.algo.ts:373
 	// return a[1];
 	frame_dig -1 // a: uint64[]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	extract 8 8
 	btoi
 	itob

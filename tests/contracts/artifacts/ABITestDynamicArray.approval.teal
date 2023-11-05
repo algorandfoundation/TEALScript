@@ -42,8 +42,8 @@ dynamicArray:
 	// tests/contracts/abi.algo.ts:350
 	// return a[1];
 	byte 0x000000000000000b00000000000000160000000000000021 // a: uint64[]
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	extract 8 8
 	btoi
 	itob

@@ -61,8 +61,8 @@ storageRefKey:
 	frame_dig -2 // storage key//r
 	app_global_get
 	extract 2 0
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	int 8
 	byte 0x0000000000000004
 	replace3
@@ -83,8 +83,8 @@ storageRefKey:
 	byte 0x0000000000000000
 	app_global_get
 	extract 2 0
-	store 0 // full array
-	load 0 // full array
+	store 255 // full array
+	load 255 // full array
 	extract 8 8
 	btoi
 	itob

@@ -939,3 +939,9 @@ declare function castBytes<T>(input: BytesLike): T;
 declare function rawBytes(input: any): bytes;
 
 declare function clone<T>(input: T): T;
+
+declare type ScratchValue<ValueType> = {
+  value: ValueType;
+};
+
+declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;
