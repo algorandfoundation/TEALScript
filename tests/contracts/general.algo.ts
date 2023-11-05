@@ -6,6 +6,16 @@ class DummyContract extends Contract {}
 class GeneralTest extends Contract {
   scratch = ScratchSlot<uint64>(0);
 
+  @inline
+  private inlineFunc(a: number, b: number): number {
+    return a + b;
+  }
+
+  callInlineFunc(): void {
+    const x = 1;
+    assert(this.inlineFunc(x, this.inlineFunc(2, 3)) === 6);
+  }
+
   txnTypeEnum(): void {
     assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
   }

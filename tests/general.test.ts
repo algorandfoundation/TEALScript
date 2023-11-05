@@ -27,6 +27,7 @@ describe('General', function () {
       'numberToString',
       'methodOnParens',
       'stringSubstring',
+      'callInlineFunc',
     ].forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);

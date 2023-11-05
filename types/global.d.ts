@@ -879,6 +879,8 @@ declare function verifyTxn(
 
 declare type decorator = (target: Object, key: string | symbol, descriptor: PropertyDescriptor) => PropertyDescriptor;
 
+declare const inline: decorator;
+
 declare class allow {
   static call(
     onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'

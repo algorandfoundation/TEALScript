@@ -226,6 +226,7 @@ interface Subroutine extends ABIMethod {
     call: string[];
   };
   node: ts.MethodDeclaration | ts.ClassDeclaration;
+  inline?: boolean;
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
@@ -416,6 +417,8 @@ export default class Compiler {
     gtxns: this.getOpParamObjects('gtxns'),
     asset: this.getOpParamObjects('asset_params_get'),
   };
+
+  currentInline?: { name: string; args: { [name: string]: ts.Node } };
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -2948,53 +2951,19 @@ export default class Compiler {
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
-    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
-      this.processSubroutine(node);
-      return;
-    }
-
-    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
-      throw Error('Only one method called "logic" can be defined in a logic signature');
-    }
-
-    if (this.currentProgram === 'lsig' && returnType !== 'void')
-      throw Error('logic method must have a void return type');
-
     this.currentSubroutine.allows = { create: [], call: [] };
     let bareAction = false;
-
-    const n = this.currentSubroutine.name;
-    if (
-      [
-        'createApplication',
-        'updateApplication',
-        'deleteApplication',
-        'optInToApplication',
-        'closeOutOfApplication',
-        'clearState',
-      ].includes(n)
-    ) {
-      const isCreate = this.currentSubroutine.name === 'createApplication';
-      let oc: OnComplete;
-
-      if (n === 'createApplication') oc = 'NoOp';
-      else if (n === 'updateApplication') oc = 'UpdateApplication';
-      else if (n === 'deleteApplication') oc = 'DeleteApplication';
-      else if (n === 'optInToApplication') oc = 'OptIn';
-      else if (n === 'closeOutOfApplication') oc = 'CloseOut';
-      else if (n === 'clearState') oc = 'ClearState';
-      else throw Error();
-
-      const action = isCreate ? 'create' : 'call';
-
-      this.currentSubroutine.allows[action].push(oc);
-    }
 
     (ts.getDecorators(node) || []).forEach((d) => {
       if (ts.isPropertyAccessExpression(d.expression)) {
         if (d.expression.expression.getText() !== 'abi') throw Error(`Unknown decorator ${d.getText()}`);
         if (d.expression.name.getText() !== 'readonly') throw Error(`Unknown decorator ${d.getText()}`);
         this.currentSubroutine.readonly = true;
+        return;
+      }
+
+      if (d.expression.getText() === 'inline') {
+        this.currentSubroutine.inline = true;
         return;
       }
 
@@ -3078,6 +3047,49 @@ export default class Compiler {
       }
     });
 
+    if (this.currentSubroutine.inline) {
+      return;
+    }
+
+    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
+      this.processSubroutine(node);
+      return;
+    }
+
+    if (this.currentProgram === 'lsig' && node.name.getText() !== 'logic') {
+      throw Error('Only one method called "logic" can be defined in a logic signature');
+    }
+
+    if (this.currentProgram === 'lsig' && returnType !== 'void')
+      throw Error('logic method must have a void return type');
+
+    const n = this.currentSubroutine.name;
+    if (
+      [
+        'createApplication',
+        'updateApplication',
+        'deleteApplication',
+        'optInToApplication',
+        'closeOutOfApplication',
+        'clearState',
+      ].includes(n)
+    ) {
+      const isCreate = this.currentSubroutine.name === 'createApplication';
+      let oc: OnComplete;
+
+      if (n === 'createApplication') oc = 'NoOp';
+      else if (n === 'updateApplication') oc = 'UpdateApplication';
+      else if (n === 'deleteApplication') oc = 'DeleteApplication';
+      else if (n === 'optInToApplication') oc = 'OptIn';
+      else if (n === 'closeOutOfApplication') oc = 'CloseOut';
+      else if (n === 'clearState') oc = 'ClearState';
+      else throw Error();
+
+      const action = isCreate ? 'create' : 'call';
+
+      this.currentSubroutine.allows[action].push(oc);
+    }
+
     const { allows, nonAbi } = this.currentSubroutine;
     if (nonAbi.call.length + nonAbi.create.length > 0) {
       if (allows.call.length + allows.create.length > 0) {
@@ -3151,7 +3163,15 @@ export default class Compiler {
   }
 
   private processReturnStatement(node: ts.ReturnStatement) {
+    if (this.currentInline) {
+      if (node.expression === undefined) return;
+
+      this.processNode(node.expression);
+      return;
+    }
+
     this.addSourceComment(node);
+
     const { name } = this.currentSubroutine;
     const returnType = this.currentSubroutine.returns.type;
 
@@ -3289,6 +3309,8 @@ export default class Compiler {
       this.typeHint = leftType;
 
       if (ts.isIdentifier(node.left)) {
+        if (this.currentInline) throw Error('Cannot set variable value in inline function. Use ScratchSlot instead');
+
         const name = node.left.getText();
         const processedFrame = this.processFrame(node.left, name, false);
         const target = this.frame[processedFrame.name];
@@ -3442,6 +3464,14 @@ export default class Compiler {
   }
 
   private processIdentifier(node: ts.Identifier) {
+    if (this.currentInline) {
+      const argNode = this.currentInline.args[node.getText()];
+      if (argNode) {
+        this.processNode(argNode);
+        return;
+      }
+    }
+
     // should only be true when calling getStackTypeFromNode
     if (node.getText() === 'globals') {
       this.lastType = 'globals';
@@ -3512,6 +3542,8 @@ export default class Compiler {
   }
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
+    if (this.currentInline) throw Error('Cannot create variables in inline function. Use ScratchSlot instead');
+
     node.declarations.forEach((d) => {
       this.typeHint = d.type?.getText();
       this.processNode(d);
@@ -4161,9 +4193,17 @@ export default class Compiler {
     if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
       const methodName = chain[0].name.getText();
       const preArgsType = this.lastType;
-      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+
+      if (subroutine.inline) {
+        if (!ts.isMethodDeclaration(subroutine.node)) throw new Error();
+        this.processInline(subroutine.node, chain[1].arguments);
+        chain.splice(0, 2);
+        return;
+      }
+
+      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
 
       new Array(...chain[1].arguments).reverse().forEach((a) => {
         this.processNode(a);
@@ -4455,6 +4495,19 @@ export default class Compiler {
           n.getText()
         )}`
       );
+  }
+
+  private processInline(fn: ts.MethodDeclaration, args: ts.NodeArray<ts.Expression>) {
+    const lastInline = this.currentInline;
+    this.currentInline = { name: fn.name.getText(), args: {} };
+
+    fn.parameters.forEach((p, i) => {
+      this.currentInline!.args[p.name.getText()] = args[i];
+    });
+
+    this.processNode(fn.body!);
+
+    this.currentInline = lastInline;
   }
 
   private processSubroutine(fn: ts.MethodDeclaration) {

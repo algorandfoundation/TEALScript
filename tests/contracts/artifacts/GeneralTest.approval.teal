@@ -22,6 +22,31 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
+// callInlineFunc()void
+abi_route_callInlineFunc:
+	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute callInlineFunc()void
+	callsub callInlineFunc
+	int 1
+	return
+
+callInlineFunc:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:15
+	// x = 1
+	int 1
+	frame_bury -1 // x: uint64
+
+	// tests/contracts/general.algo.ts:16
+	// assert(this.inlineFunc(x, this.inlineFunc(2, 3)) === 6)
+	int 6
+	int 6
+	==
+	assert
+	retsub
+
 // txnTypeEnum()void
 abi_route_txnTypeEnum:
 	// execute txnTypeEnum()void
@@ -32,7 +57,7 @@ abi_route_txnTypeEnum:
 txnTypeEnum:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:10
+	// tests/contracts/general.algo.ts:20
 	// assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall)
 	int 0
 	gtxns TypeEnum
@@ -51,7 +76,7 @@ abi_route_txnGroupLength:
 txnGroupLength:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:14
+	// tests/contracts/general.algo.ts:24
 	// assert(this.txnGroup.length === 1)
 	global GroupSize
 	int 1
@@ -89,7 +114,7 @@ abi_route_asserts:
 asserts:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:18
+	// tests/contracts/general.algo.ts:28
 	// assert(arg1, arg2, arg1 === arg2)
 	frame_dig -1 // arg1: bool
 	assert
@@ -121,7 +146,7 @@ abi_route_verifyTxnFromArg:
 verifyTxnFromArg:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:22
+	// tests/contracts/general.algo.ts:32
 	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
 	// verify receiver
 	frame_dig -1 // somePay: pay
@@ -148,7 +173,7 @@ abi_route_verifyTxnFromTxnGroup:
 verifyTxnFromTxnGroup:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:26
+	// tests/contracts/general.algo.ts:36
 	// verifyTxn(this.txnGroup[0], { sender: this.txn.sender })
 	// verify sender
 	int 0
@@ -168,7 +193,7 @@ abi_route_verifyTxnCondition:
 verifyTxnCondition:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:30
+	// tests/contracts/general.algo.ts:40
 	// verifyTxn(this.txn, {
 	//       applicationID: { greaterThan: 1 },
 	//     })
@@ -189,7 +214,7 @@ abi_route_verifyTxnIncludedIn:
 verifyTxnIncludedIn:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:36
+	// tests/contracts/general.algo.ts:46
 	// verifyTxn(this.txn, {
 	//       sender: { includedIn: [this.txn.sender] },
 	//     })
@@ -210,7 +235,7 @@ abi_route_verifyTxnNotIncludedIn:
 verifyTxnNotIncludedIn:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:42
+	// tests/contracts/general.algo.ts:52
 	// verifyTxn(this.txn, {
 	//       sender: { notIncludedIn: [globals.zeroAddress] },
 	//     })
@@ -231,18 +256,18 @@ abi_route_submitPendingGroup:
 submitPendingGroup:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:58
 	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:58
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:58
 	// receiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Receiver
@@ -251,13 +276,13 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:49
+	// tests/contracts/general.algo.ts:59
 	// this.pendingGroup.addAssetCreation({ configAssetTotal: 1 })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:49
+	// tests/contracts/general.algo.ts:59
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -266,7 +291,7 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:50
+	// tests/contracts/general.algo.ts:60
 	// this.pendingGroup.submit()
 	itxn_submit
 	retsub
@@ -281,7 +306,7 @@ abi_route_methodWithTxnArgs:
 methodWithTxnArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:54
+	// tests/contracts/general.algo.ts:64
 	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
 	//       name: 'foo',
 	//       methodArgs: [
@@ -297,12 +322,12 @@ methodWithTxnArgs:
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:57
+	// tests/contracts/general.algo.ts:67
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:57
+	// tests/contracts/general.algo.ts:67
 	// receiver: this.txn.sender
 	txn Sender
 	itxn_field Receiver
@@ -316,12 +341,12 @@ methodWithTxnArgs:
 	method "bar(uint64)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:60
+	// tests/contracts/general.algo.ts:70
 	// applicationID: Application.fromID(1337)
 	int 1337
 	itxn_field ApplicationID
 
-	// tests/contracts/general.algo.ts:61
+	// tests/contracts/general.algo.ts:71
 	// methodArgs: [1]
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
@@ -335,7 +360,7 @@ methodWithTxnArgs:
 	method "foo(pay,appl)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:56
+	// tests/contracts/general.algo.ts:66
 	// methodArgs: [
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
@@ -362,7 +387,7 @@ abi_route_shift:
 shift:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:68
+	// tests/contracts/general.algo.ts:78
 	// assert(1 << 2 === 4)
 	int 1
 	int 2
@@ -371,7 +396,7 @@ shift:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:69
+	// tests/contracts/general.algo.ts:79
 	// assert(4 >> 1 === 2)
 	int 4
 	int 1
@@ -391,7 +416,7 @@ abi_route_fromBytes:
 fromBytes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:73
+	// tests/contracts/general.algo.ts:83
 	// assert(Address.fromBytes('abc').minBalance)
 	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
@@ -409,14 +434,14 @@ abi_route_fromID:
 fromID:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:77
+	// tests/contracts/general.algo.ts:87
 	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	assert
 	log
 
-	// tests/contracts/general.algo.ts:78
+	// tests/contracts/general.algo.ts:88
 	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
@@ -436,28 +461,28 @@ abi_route_bzeroFunction:
 bzeroFunction:
 	proto 4 0
 
-	// tests/contracts/general.algo.ts:82
+	// tests/contracts/general.algo.ts:92
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:83
+	// tests/contracts/general.algo.ts:93
 	// x: bytes = bzero(2)
 	byte 0x0000
 	frame_bury -2 // x: bytes
 
-	// tests/contracts/general.algo.ts:84
+	// tests/contracts/general.algo.ts:94
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
 	frame_bury -3 // y: bytes
 
-	// tests/contracts/general.algo.ts:85
+	// tests/contracts/general.algo.ts:95
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
 	frame_bury -4 // z: [uint64,uint8]
 
-	// tests/contracts/general.algo.ts:86
+	// tests/contracts/general.algo.ts:96
 	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
 	frame_dig -3 // y: bytes
@@ -480,7 +505,7 @@ abi_route_events:
 events:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:92
+	// tests/contracts/general.algo.ts:102
 	// this.myEvent.log(this.app, 1)
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
@@ -505,7 +530,7 @@ abi_route_letOptimization:
 letOptimization:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:96
+	// tests/contracts/general.algo.ts:106
 	// assert(a[0])
 	frame_dig -1 // a: uint64[]
 	store 255 // full array
@@ -514,12 +539,12 @@ letOptimization:
 	btoi
 	assert
 
-	// tests/contracts/general.algo.ts:98
+	// tests/contracts/general.algo.ts:108
 	// b = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury -1 // b: uint64[]
 
-	// tests/contracts/general.algo.ts:100
+	// tests/contracts/general.algo.ts:110
 	// return b;
 	frame_dig -1 // a: uint64[]
 	dup
@@ -546,7 +571,7 @@ abi_route_staticContractProperties:
 staticContractProperties:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:104
+	// tests/contracts/general.algo.ts:114
 	// sendAppCall({
 	//       approvalProgram: DummyContract.approvalProgram(),
 	//       clearStateProgram: DummyContract.clearProgram(),
@@ -559,32 +584,32 @@ staticContractProperties:
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:105
+	// tests/contracts/general.algo.ts:115
 	// approvalProgram: DummyContract.approvalProgram()
 	byte b64 CTEYgQANgQYLMRkIjQEABACBAUOABLhEezY2GgCOAf/wAA==
 	itxn_field ApprovalProgram
 
-	// tests/contracts/general.algo.ts:106
+	// tests/contracts/general.algo.ts:116
 	// clearStateProgram: DummyContract.clearProgram()
 	byte b64 CQ==
 	itxn_field ClearStateProgram
 
-	// tests/contracts/general.algo.ts:107
+	// tests/contracts/general.algo.ts:117
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
 	int 0
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/general.algo.ts:108
+	// tests/contracts/general.algo.ts:118
 	// localNumUint: DummyContract.schema.local.numUint
 	int 0
 	itxn_field LocalNumUint
 
-	// tests/contracts/general.algo.ts:109
+	// tests/contracts/general.algo.ts:119
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
 	int 0
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/general.algo.ts:110
+	// tests/contracts/general.algo.ts:120
 	// globalNumUint: DummyContract.schema.global.numUint
 	int 0
 	itxn_field GlobalNumUint
@@ -609,17 +634,17 @@ abi_route_numberToString:
 numberToString:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:115
+	// tests/contracts/general.algo.ts:125
 	// n = 1
 	int 1
 	frame_bury -1 // n: uint64
 
-	// tests/contracts/general.algo.ts:116
+	// tests/contracts/general.algo.ts:126
 	// s = '1'
 	byte 0x31 // "1"
 	frame_bury -2 // s: bytes
 
-	// tests/contracts/general.algo.ts:117
+	// tests/contracts/general.algo.ts:127
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
@@ -638,7 +663,7 @@ abi_route_methodOnParens:
 methodOnParens:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:121
+	// tests/contracts/general.algo.ts:131
 	// assert((1 + 2).toString() === '3')
 	int 3
 	callsub itoa
@@ -659,12 +684,12 @@ abi_route_stringSubstring:
 stringSubstring:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:125
+	// tests/contracts/general.algo.ts:135
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
 	frame_bury -1 // s: bytes
 
-	// tests/contracts/general.algo.ts:126
+	// tests/contracts/general.algo.ts:136
 	// assert(s.substring(1, 3) === 'bc')
 	byte 0x6263
 	byte 0x6263 // "bc"
@@ -684,24 +709,24 @@ abi_route_idProperty:
 idProperty:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:130
+	// tests/contracts/general.algo.ts:140
 	// app = Application.zeroIndex
 	int 0
 	frame_bury -1 // app: application
 
-	// tests/contracts/general.algo.ts:131
+	// tests/contracts/general.algo.ts:141
 	// assert(Application.fromID(app.id) === app)
 	int 0 // app: application
 	int 0 // app: application
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:133
+	// tests/contracts/general.algo.ts:143
 	// asa = Asset.zeroIndex
 	int 0
 	frame_bury -2 // asa: asset
 
-	// tests/contracts/general.algo.ts:134
+	// tests/contracts/general.algo.ts:144
 	// assert(Asset.fromID(asa.id) === asa)
 	int 0 // asa: asset
 	int 0 // asa: asset
@@ -719,12 +744,12 @@ abi_route_scratchSlot:
 scratchSlot:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:138
+	// tests/contracts/general.algo.ts:148
 	// this.scratch.value = 1337
 	int 1337
 	store 0
 
-	// tests/contracts/general.algo.ts:139
+	// tests/contracts/general.algo.ts:149
 	// assert(this.scratch.value === 1337)
 	load 0
 	int 1337
@@ -743,6 +768,7 @@ create_NoOp:
 	err
 
 call_NoOp:
+	method "callInlineFunc()void"
 	method "txnTypeEnum()void"
 	method "txnGroupLength()void"
 	method "asserts(bool,bool)void"
@@ -766,7 +792,7 @@ call_NoOp:
 	method "idProperty()void"
 	method "scratchSlot()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot
+	match abi_route_callInlineFunc abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot
 	err
 
 intToAscii:
