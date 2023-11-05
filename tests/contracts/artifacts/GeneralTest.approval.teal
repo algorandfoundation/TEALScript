@@ -24,7 +24,7 @@ NOT_IMPLEMENTED:
 
 // callInlineFunc()void
 abi_route_callInlineFunc:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
 
 	// execute callInlineFunc()void
 	callsub callInlineFunc
@@ -32,7 +32,7 @@ abi_route_callInlineFunc:
 	return
 
 callInlineFunc:
-	proto 1 0
+	proto 3 0
 
 	// tests/contracts/general.algo.ts:15
 	// x = 1
@@ -40,7 +40,9 @@ callInlineFunc:
 	frame_bury -1 // x: uint64
 
 	// tests/contracts/general.algo.ts:16
-	// assert(this.inlineFunc(x, this.inlineFunc(2, 3)) === 6)
+	// assert(this.inlineFunc(x, 2 + 3) === 6)
+	int 5
+	frame_bury -3 // b: uint64
 	int 6
 	int 6
 	==

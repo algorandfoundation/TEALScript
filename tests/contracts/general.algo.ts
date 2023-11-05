@@ -13,7 +13,7 @@ class GeneralTest extends Contract {
 
   callInlineFunc(): void {
     const x = 1;
-    assert(this.inlineFunc(x, this.inlineFunc(2, 3)) === 6);
+    assert(this.inlineFunc(x, 2 + 3) === 6);
   }
 
   txnTypeEnum(): void {
