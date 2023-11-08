@@ -48,7 +48,7 @@
     "run-simple": "bun examples/simple/index.ts",
     "compile-examples": "conc \"bun compile-amm\" \"bun compile-arc75\" \"bun compile-auction\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-calculator\" \"bun compile-merkle\" \"bun compile-big_box\" \"bun compile-arc72\" \"bun compile-non_abi\" \"bun compile-optin-lsig\"",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
-    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\"",
+    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\" \"bun scripts/compile_all_smoketest.ts\"",
     "compile-all": "conc \"bun compile-tests\" \"bun compile-examples\""
   },
   "dependencies": {
@@ -78,6 +78,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "glob": "^10.3.10",
     "jest": "^29.5.0",
     "path-browserify": "^1.0.1",
     "prettier": "^3.0.3",

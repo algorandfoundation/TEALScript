@@ -1519,6 +1519,7 @@ export default class Compiler {
     );
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
+    project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
 
     const sourceFile = project.createSourceFile(this.filename, content);
 
