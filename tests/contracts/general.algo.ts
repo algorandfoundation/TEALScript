@@ -3,6 +3,14 @@ import { Contract } from '../../src/lib/index';
 class DummyContract extends Contract {}
 
 // eslint-disable-next-line no-unused-vars
+class Templates extends Contract {
+  tmpl(): void {
+    log(templateVar<bytes>('FOO'));
+    assert(templateVar<uint64>('BAR'));
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   scratch = ScratchSlot<uint64>(0);
 
@@ -138,12 +146,10 @@ class GeneralTest extends Contract {
     this.scratch.value = 1337;
     assert(this.scratch.value === 1337);
   }
-}
 
-// eslint-disable-next-line no-unused-vars
-class Templates extends Contract {
-  tmpl(): void {
-    log(templateVar<bytes>('FOO'));
-    assert(templateVar<uint64>('BAR'));
+  ecdsa(): [uint<512>, uint<512>] {
+    ecdsa_verify('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3, 4);
+    ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>);
+    return ecdsa_pk_recover('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3);
   }
 }

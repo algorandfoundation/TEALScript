@@ -720,6 +720,122 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    ecdsa_verify: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // data
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[32]');
+
+        // signature component
+        if (ts.isNumericLiteral(node.arguments[2])) {
+          this.processNumericLiteralWithType(node.arguments[2], 'bigint');
+        } else {
+          this.processNode(node.arguments[2]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // signature component
+        if (ts.isNumericLiteral(node.arguments[3])) {
+          this.processNumericLiteralWithType(node.arguments[3], 'bigint');
+        } else {
+          this.processNode(node.arguments[3]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // public key component
+        if (ts.isNumericLiteral(node.arguments[4])) {
+          this.processNumericLiteralWithType(node.arguments[4], 'bigint');
+        } else {
+          this.processNode(node.arguments[4]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // public key component
+        if (ts.isNumericLiteral(node.arguments[5])) {
+          this.processNumericLiteralWithType(node.arguments[5], 'bigint');
+        } else {
+          this.processNode(node.arguments[5]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+
+        this.push(node, `ecdsa_verify ${node.arguments[0].text}`, 'bool');
+      },
+    },
+    ecdsa_pk_decompress: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // pubkey
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[33]');
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+        this.pushVoid(node, `ecdsa_pk_decompress ${node.arguments[0].text}`);
+
+        this.pushLines(
+          node,
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          'concat'
+        );
+
+        this.lastType = '[uint512,uint512]';
+      },
+    },
+    ecdsa_pk_recover: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // data
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[32]');
+
+        // recovery ID
+        if (ts.isNumericLiteral(node.arguments[2])) {
+          this.processNumericLiteralWithType(node.arguments[2], 'uint64');
+        } else {
+          this.processNode(node.arguments[2]);
+          this.typeComparison(this.lastType, 'uint64');
+        }
+
+        // sig component
+        if (ts.isNumericLiteral(node.arguments[3])) {
+          this.processNumericLiteralWithType(node.arguments[3], 'bigint');
+        } else {
+          this.processNode(node.arguments[3]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // sig component
+        if (ts.isNumericLiteral(node.arguments[4])) {
+          this.processNumericLiteralWithType(node.arguments[4], 'bigint');
+        } else {
+          this.processNode(node.arguments[4]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+        this.pushVoid(node, `ecdsa_pk_recover ${node.arguments[0].text}`);
+
+        this.pushLines(
+          node,
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          'concat'
+        );
+
+        this.lastType = '[uint512,uint512]';
+      },
+    },
     // Global methods
     clone: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
@@ -3483,9 +3599,9 @@ export default class Compiler {
       const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
       const padBytes = width - str.length;
-      const paddedStr = str + '\\x00'.repeat(padBytes);
-      const hex = Buffer.from(paddedStr).toString('hex');
-      this.push(node, `byte 0x${hex} // "${str}"`, type);
+      const hex = Buffer.from(str).toString('hex');
+      const paddedHex = hex + '00'.repeat(padBytes);
+      this.push(node, `byte 0x${paddedHex} // "${str}"`, type);
       return;
     }
 
