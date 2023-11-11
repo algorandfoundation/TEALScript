@@ -236,17 +236,17 @@ function isRefType(t: string): boolean {
   return ['account', 'asset', 'application'].includes(t);
 }
 
-const scratch = {
-  fullArray: '0 // full array',
-  elementStart: '1 // element start',
-  elementLength: '2 // element length',
-  newElement: '3 // new element',
-  elementHeadOffset: '4 // element head offset',
-  lengthDifference: '5 // length difference',
-  subtractHeadDifference: '7 // subtract head difference',
-  verifyTxnIndex: '8 // verifyTxn index',
-  spliceStart: '12 // splice start',
-  spliceByteLength: '13 // splice byte length',
+const compilerScratch = {
+  fullArray: '255 // full array',
+  elementStart: '254 // element start',
+  elementLength: '253 // element length',
+  newElement: '252 // new element',
+  elementHeadOffset: '251 // element head offset',
+  lengthDifference: '250 // length difference',
+  subtractHeadDifference: '249 // subtract head difference',
+  verifyTxnIndex: '248 // verifyTxn index',
+  spliceStart: '247 // splice start',
+  spliceByteLength: '246 // splice byte length',
 };
 
 type NodeAndTEAL = {
@@ -257,6 +257,8 @@ type NodeAndTEAL = {
 /** @internal */
 export default class Compiler {
   static diagsRan: string[] = [''];
+
+  private scratch: { [name: string]: { slot: number; type: string } } = {};
 
   private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
@@ -670,6 +672,12 @@ export default class Compiler {
       check: (node: ts.PropertyAccessExpression) => boolean;
     };
   } = {
+    id: {
+      check: (node: ts.PropertyAccessExpression) => ['asset', 'application'].includes(this.lastType),
+      fn: (node: ts.PropertyAccessExpression) => {
+        this.lastType = StackType.uint64;
+      },
+    },
     zeroIndex: {
       check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.expression.getText()),
       fn: (node: ts.PropertyAccessExpression) => {
@@ -712,6 +720,122 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    ecdsa_verify: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // data
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[32]');
+
+        // signature component
+        if (ts.isNumericLiteral(node.arguments[2])) {
+          this.processNumericLiteralWithType(node.arguments[2], 'bigint');
+        } else {
+          this.processNode(node.arguments[2]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // signature component
+        if (ts.isNumericLiteral(node.arguments[3])) {
+          this.processNumericLiteralWithType(node.arguments[3], 'bigint');
+        } else {
+          this.processNode(node.arguments[3]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // public key component
+        if (ts.isNumericLiteral(node.arguments[4])) {
+          this.processNumericLiteralWithType(node.arguments[4], 'bigint');
+        } else {
+          this.processNode(node.arguments[4]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // public key component
+        if (ts.isNumericLiteral(node.arguments[5])) {
+          this.processNumericLiteralWithType(node.arguments[5], 'bigint');
+        } else {
+          this.processNode(node.arguments[5]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+
+        this.push(node, `ecdsa_verify ${node.arguments[0].text}`, 'bool');
+      },
+    },
+    ecdsa_pk_decompress: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // pubkey
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[33]');
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+        this.pushVoid(node, `ecdsa_pk_decompress ${node.arguments[0].text}`);
+
+        this.pushLines(
+          node,
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          'concat'
+        );
+
+        this.lastType = '[uint512,uint512]';
+      },
+    },
+    ecdsa_pk_recover: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => {
+        // data
+        this.processNode(node.arguments[1]);
+        this.typeComparison(this.lastType, 'byte[32]');
+
+        // recovery ID
+        if (ts.isNumericLiteral(node.arguments[2])) {
+          this.processNumericLiteralWithType(node.arguments[2], 'uint64');
+        } else {
+          this.processNode(node.arguments[2]);
+          this.typeComparison(this.lastType, 'uint64');
+        }
+
+        // sig component
+        if (ts.isNumericLiteral(node.arguments[3])) {
+          this.processNumericLiteralWithType(node.arguments[3], 'bigint');
+        } else {
+          this.processNode(node.arguments[3]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        // sig component
+        if (ts.isNumericLiteral(node.arguments[4])) {
+          this.processNumericLiteralWithType(node.arguments[4], 'bigint');
+        } else {
+          this.processNode(node.arguments[4]);
+          this.typeComparison(this.lastType, 'bigint');
+        }
+
+        if (!ts.isStringLiteral(node.arguments[0])) throw Error();
+        this.pushVoid(node, `ecdsa_pk_recover ${node.arguments[0].text}`);
+
+        this.pushLines(
+          node,
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          `byte 0x${'FF'.repeat(64)}`,
+          'b&',
+          'swap',
+          'concat'
+        );
+
+        this.lastType = '[uint512,uint512]';
+      },
+    },
     // Global methods
     clone: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
@@ -811,7 +935,7 @@ export default class Compiler {
         const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
 
         if (indexInScratch) {
-          this.pushVoid(node, `store ${scratch.verifyTxnIndex}`);
+          this.pushVoid(node, `store ${compilerScratch.verifyTxnIndex}`);
         } else this.teal[this.currentProgram].pop();
 
         node.arguments[1].properties.forEach((p, i) => {
@@ -820,7 +944,7 @@ export default class Compiler {
 
           const loadField = () => {
             if (indexInScratch) {
-              this.pushVoid(p, `load ${scratch.verifyTxnIndex}`);
+              this.pushVoid(p, `load ${compilerScratch.verifyTxnIndex}`);
             } else if (node.arguments[0].getText() !== 'this.txn') {
               this.processNode(node.arguments[0]);
             }
@@ -977,7 +1101,7 @@ export default class Compiler {
         // const spliceIndex = parseInt(node.arguments[0].getText(), 10);
         // const spliceStart = spliceIndex * this.getTypeLength(elementType);
         this.processNode(node.arguments[0]);
-        this.pushLines(node, `int ${this.getTypeLength(elementType)}`, '*', `store ${scratch.spliceStart}`);
+        this.pushLines(node, `int ${this.getTypeLength(elementType)}`, '*', `store ${compilerScratch.spliceStart}`);
 
         // const spliceElementLength = parseInt(node.arguments[1].getText(), 10);
         // const spliceByteLength = (spliceElementLength + 1) * this.getTypeLength(elementType);
@@ -988,12 +1112,12 @@ export default class Compiler {
           '*',
           `int ${this.getTypeLength(elementType)}`,
           '+',
-          `store ${scratch.spliceByteLength}`
+          `store ${compilerScratch.spliceByteLength}`
         );
 
         // extract first part
         this.processNode(node.expression.expression);
-        this.pushLines(node, 'int 0', `load ${scratch.spliceStart}`, 'substring3');
+        this.pushLines(node, 'int 0', `load ${compilerScratch.spliceStart}`, 'substring3');
 
         // extract second part
         this.processNode(node.expression.expression);
@@ -1003,8 +1127,8 @@ export default class Compiler {
           'dup',
           'len',
           // get start (end of splice)
-          `load ${scratch.spliceStart}`,
-          `load ${scratch.spliceByteLength}`,
+          `load ${compilerScratch.spliceStart}`,
+          `load ${compilerScratch.spliceByteLength}`,
           '+',
           `int ${this.getTypeLength(elementType)}`,
           '-',
@@ -1021,9 +1145,9 @@ export default class Compiler {
           this.processNode(node.expression.expression);
           this.pushLines(
             node,
-            `load ${scratch.spliceStart}`,
+            `load ${compilerScratch.spliceStart}`,
             // `int ${spliceByteLength - this.getTypeLength(elementType)}`,
-            `load ${scratch.spliceByteLength}`,
+            `load ${compilerScratch.spliceByteLength}`,
             `int ${this.getTypeLength(elementType)}`,
             '-',
             'extract3',
@@ -1511,6 +1635,7 @@ export default class Compiler {
     );
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
+    project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
 
     const sourceFile = project.createSourceFile(this.filename, content);
 
@@ -2504,11 +2629,11 @@ export default class Compiler {
       'update_dynamic_head:',
       'proto 2 0',
       'frame_dig -2 // length difference',
-      `load ${scratch.fullArray}`,
+      `load ${compilerScratch.fullArray}`,
       'frame_dig -1 // dynamic array offset',
       'extract_uint16 // extract dynamic array offset',
 
-      `load ${scratch.subtractHeadDifference}`,
+      `load ${compilerScratch.subtractHeadDifference}`,
       'bz subtract_head_difference',
       '+ // add difference to offset',
       'b end_calc_new_head',
@@ -2521,41 +2646,41 @@ export default class Compiler {
 
       'itob // convert to bytes',
       'extract 6 2 // convert to uint16',
-      `load ${scratch.fullArray}`,
+      `load ${compilerScratch.fullArray}`,
       'swap',
       'frame_dig -1 // offset',
       'swap',
       'replace3 // update offset',
-      `store ${scratch.fullArray}`,
+      `store ${compilerScratch.fullArray}`,
       'retsub',
     ],
 
     get_length_difference: () => [
       'get_length_difference:',
       // Get new element length
-      `load ${scratch.newElement}`,
+      `load ${compilerScratch.newElement}`,
       'len // length of new element',
-      `load ${scratch.elementLength}`,
+      `load ${compilerScratch.elementLength}`,
       '<',
 
       'bnz swapped_difference',
-      `load ${scratch.newElement}`,
+      `load ${compilerScratch.newElement}`,
       'len // length of new element',
-      `load ${scratch.elementLength}`,
+      `load ${compilerScratch.elementLength}`,
       'int 1',
-      `store ${scratch.subtractHeadDifference}`,
+      `store ${compilerScratch.subtractHeadDifference}`,
       'b get_difference',
 
       'swapped_difference:',
-      `load ${scratch.elementLength}`,
-      `load ${scratch.newElement}`,
+      `load ${compilerScratch.elementLength}`,
+      `load ${compilerScratch.newElement}`,
       'len // length of new element',
       'int 0',
-      `store ${scratch.subtractHeadDifference}`,
+      `store ${compilerScratch.subtractHeadDifference}`,
 
       'get_difference:',
       '- // get length difference',
-      `store ${scratch.lengthDifference}`,
+      `store ${compilerScratch.lengthDifference}`,
       'retsub',
     ],
   };
@@ -2640,7 +2765,7 @@ export default class Compiler {
       }
 
       if (this.isDynamicType(elem.type) && i !== accessors.length - 1) {
-        this.pushLines(acc, `load ${scratch.fullArray}`, 'swap', 'extract_uint16');
+        this.pushLines(acc, `load ${compilerScratch.fullArray}`, 'swap', 'extract_uint16');
       }
 
       previousTupleElement = elem;
@@ -2742,7 +2867,7 @@ export default class Compiler {
       return;
     }
 
-    this.pushLines(node, `store ${scratch.fullArray}`, 'int 0 // initial offset');
+    this.pushLines(node, `store ${compilerScratch.fullArray}`, 'int 0 // initial offset');
 
     const topLevelTuple = this.getTupleElement(parentType);
 
@@ -2756,23 +2881,29 @@ export default class Compiler {
       }
 
       if (newValue) {
-        this.pushLines(node, 'dup', `store ${scratch.elementHeadOffset}`);
+        this.pushLines(node, 'dup', `store ${compilerScratch.elementHeadOffset}`);
       }
 
-      this.pushLines(node, `load ${scratch.fullArray}`, `load ${scratch.fullArray}`, 'uncover 2', 'extract_uint16');
+      this.pushLines(
+        node,
+        `load ${compilerScratch.fullArray}`,
+        `load ${compilerScratch.fullArray}`,
+        'uncover 2',
+        'extract_uint16'
+      );
 
       if (element.parent!.type.endsWith('[]')) {
         this.pushLines(node, 'int 2', '+ // add two for length');
       }
 
       if (newValue) {
-        this.pushLines(node, 'dup', `store ${scratch.elementStart}`);
+        this.pushLines(node, 'dup', `store ${compilerScratch.elementStart}`);
       }
 
       this.pushLines(
         node,
         'dup // duplicate start of element',
-        `load ${scratch.fullArray}`,
+        `load ${compilerScratch.fullArray}`,
         'swap',
         'extract_uint16 // get number of elements',
         `int ${this.getTypeLength(baseType)} // get type length`,
@@ -2781,7 +2912,7 @@ export default class Compiler {
         '+ // add two for length'
       );
 
-      this.pushVoid(node, newValue ? `store ${scratch.elementLength}` : 'extract3');
+      this.pushVoid(node, newValue ? `store ${compilerScratch.elementLength}` : 'extract3');
     }
 
     if (newValue) {
@@ -2792,7 +2923,13 @@ export default class Compiler {
           );
         }
         // Get pre element
-        this.pushLines(node, `load ${scratch.fullArray}`, 'int 0', `load ${scratch.elementStart}`, 'substring3');
+        this.pushLines(
+          node,
+          `load ${compilerScratch.fullArray}`,
+          'int 0',
+          `load ${compilerScratch.elementStart}`,
+          'substring3'
+        );
 
         // Get new element
         if (ts.isNumericLiteral(newValue)) {
@@ -2804,22 +2941,22 @@ export default class Compiler {
 
         this.checkEncoding(newValue, this.lastType);
 
-        this.pushLines(newValue, 'dup', `store ${scratch.newElement}`);
+        this.pushLines(newValue, 'dup', `store ${compilerScratch.newElement}`);
 
         // Get post element
         this.pushLines(
           node,
-          `load ${scratch.fullArray}`,
-          `load ${scratch.elementStart}`,
-          `load ${scratch.elementLength}`,
+          `load ${compilerScratch.fullArray}`,
+          `load ${compilerScratch.elementStart}`,
+          `load ${compilerScratch.elementLength}`,
           '+ // get end of Element',
-          `load ${scratch.fullArray}`,
+          `load ${compilerScratch.fullArray}`,
           'len',
           'substring3'
         );
 
         // Form new tuple
-        this.pushLines(node, 'concat', 'concat', `store ${scratch.fullArray}`);
+        this.pushLines(node, 'concat', 'concat', `store ${compilerScratch.fullArray}`);
 
         // Get length difference
         this.pushLines(node, 'callsub get_length_difference');
@@ -2833,15 +2970,15 @@ export default class Compiler {
         headDiffs.forEach((diff) => {
           this.pushLines(
             node,
-            `load ${scratch.lengthDifference}`,
-            `load ${scratch.elementHeadOffset}`,
+            `load ${compilerScratch.lengthDifference}`,
+            `load ${compilerScratch.elementHeadOffset}`,
             `int ${diff}`,
             '+ // head ofset',
             'callsub update_dynamic_head'
           );
         });
 
-        this.pushVoid(node, `load ${scratch.fullArray}`);
+        this.pushVoid(node, `load ${compilerScratch.fullArray}`);
       } else if (element.type === 'bool') {
         if (!ts.isElementAccessExpression(node)) throw new Error();
 
@@ -2851,12 +2988,12 @@ export default class Compiler {
         if (element.parent!.arrayType === 'dynamic') {
           this.pushLines(node.argumentExpression, 'int 16', '+ // 16 bits for length prefix');
         }
-        this.pushLines(node.argumentExpression, `load ${scratch.fullArray}`, 'swap');
+        this.pushLines(node.argumentExpression, `load ${compilerScratch.fullArray}`, 'swap');
         this.processNode(newValue);
 
         this.pushVoid(node.argumentExpression, 'setbit');
       } else {
-        this.pushLines(node, `load ${scratch.fullArray}`, 'swap');
+        this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
         this.processNode(newValue);
         if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
         this.pushVoid(node, 'replace3');
@@ -2869,7 +3006,7 @@ export default class Compiler {
 
         this.pushLines(node.argumentExpression, 'int 8', '*');
         this.processNode(node.argumentExpression);
-        this.pushLines(node.argumentExpression, '+', `load ${scratch.fullArray}`, 'swap', 'getbit');
+        this.pushLines(node.argumentExpression, '+', `load ${compilerScratch.fullArray}`, 'swap', 'getbit');
 
         this.lastType = 'bool';
         return;
@@ -2878,7 +3015,7 @@ export default class Compiler {
       if (!this.isDynamicType(element.type)) {
         this.pushLines(
           node,
-          `load ${scratch.fullArray}`,
+          `load ${compilerScratch.fullArray}`,
           'swap',
           `int ${this.getTypeLength(element.type)}`,
           'extract3'
@@ -3462,9 +3599,9 @@ export default class Compiler {
       const str = node.expression.text;
       if (str.length > width) throw new Error(`String literal too long for ${type}`);
       const padBytes = width - str.length;
-      const paddedStr = str + '\\x00'.repeat(padBytes);
-      const hex = Buffer.from(paddedStr).toString('hex');
-      this.push(node, `byte 0x${hex} // "${str}"`, type);
+      const hex = Buffer.from(str).toString('hex');
+      const paddedHex = hex + '00'.repeat(padBytes);
+      this.push(node, `byte 0x${paddedHex} // "${str}"`, type);
       return;
     }
 
@@ -3873,9 +4010,26 @@ export default class Compiler {
         throw Error('Logic signatures cannot log events');
       }
 
-      if (!ts.isTupleTypeNode(node.initializer.typeArguments![0])) throw Error();
+      if (!ts.isTupleTypeNode(node.initializer.typeArguments![0]))
+        throw Error('EventLogger type argument must be a tuple of types');
 
       this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
+    } else if (ts.isCallExpression(node.initializer) && node.initializer.expression.getText() === 'ScratchSlot') {
+      if (node.initializer.typeArguments?.length !== 1) throw Error('ScratchSlot must have one type argument ');
+
+      if (node.initializer.arguments?.length !== 1) throw Error('ScratchSlot must have one argument');
+
+      if (!ts.isNumericLiteral(node.initializer.arguments[0]))
+        throw Error('ScratchSlot argument must be a literal number');
+
+      const type = node.initializer.typeArguments[0].getText();
+      const name = node.name.getText();
+      const slot = parseInt(node.initializer.arguments[0].getText(), 10);
+
+      if (slot < 0 || slot > 200)
+        throw Error('Scratch slot must be between 0 and 200 (inclusive). 201-256 is reserved for the compiler');
+
+      this.scratch[name] = { type, slot };
     } else {
       throw new Error();
     }
@@ -3942,9 +4096,9 @@ export default class Compiler {
    * Note this method will delete elements from the chain as they are processed
    *
    * @param chain Expression chain to process
-   * @param hasNewValue Whether the chain is being processed as part of an assignment
+   * @param newValue New value to assign to the chain expression
    */
-  private processThisBase(chain: ExpressionChainNode[], hasNewValue: boolean) {
+  private processThisBase(chain: ExpressionChainNode[], newValue?: ts.Node) {
     // If this is a pendingGroup call (ie. `this.pendingGroup.submit()`)
     if (chain[0] && ts.isPropertyAccessExpression(chain[0]) && chain[0].name.getText() === 'pendingGroup') {
       if (!ts.isPropertyAccessExpression(chain[1]))
@@ -3977,6 +4131,25 @@ export default class Compiler {
         throw Error(`Unsupported ${ts.SyntaxKind[chain[1].kind]} ${chain[1].getText()}`);
       this.processNode(chain[1].argumentExpression);
       this.lastType = 'txn';
+
+      chain.splice(0, 2);
+      return;
+    }
+
+    // If this is a scratch slot
+    if (ts.isPropertyAccessExpression(chain[0]) && this.scratch[chain[0].name.getText()]) {
+      if (!ts.isPropertyAccessExpression(chain[1])) throw Error(`Invalid scratch expression ${chain[1].getText()}`);
+      if (chain[1].name.getText() !== 'value') throw Error(`Invalid scratch expression ${chain[1].getText()}`);
+
+      const name = chain[0].name.getText();
+
+      if (newValue !== undefined) {
+        this.processNode(newValue);
+        this.typeComparison(this.lastType, this.scratch[name].type);
+        this.push(chain[1], `store ${this.scratch[name].slot}`, this.scratch[name].type);
+      } else {
+        this.push(chain[1], `load ${this.scratch[name].slot}`, this.scratch[name].type);
+      }
 
       chain.splice(0, 2);
       return;
@@ -4040,7 +4213,7 @@ export default class Compiler {
       }
 
       // Don't get the box value if we can use box_replace later when updating the array
-      if (!(hasNewValue && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
+      if (!(newValue !== undefined && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
         this.handleStorageAction({
           node: actionNode,
           name,
@@ -4147,7 +4320,7 @@ export default class Compiler {
       ) {
         storageBase = (ts.isCallExpression(chain[1]) ? chain[2] : chain[1]) as ts.PropertyAccessExpression;
       }
-      this.processThisBase(chain, newValue !== undefined);
+      this.processThisBase(chain, newValue);
     }
 
     /**

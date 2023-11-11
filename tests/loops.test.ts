@@ -4,7 +4,7 @@ import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import { artifactsTest, algodClient, kmdClient } from './common';
-import appSpec from './contracts/artifacts/LoopsTest.json';
+import appSpec from './contracts/artifacts/LoopsTest.arc32.json';
 
 let appClient: ApplicationClient;
 

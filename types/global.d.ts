@@ -333,6 +333,8 @@ declare class Asset {
 
   static readonly zeroIndex: Asset;
 
+  readonly id: uint64;
+
   readonly total: uint64;
 
   readonly decimals: uint64;
@@ -408,6 +410,8 @@ type BytesLike = bytes | Address | string;
 
 declare class Application {
   static fromID(appID: uint64): Application;
+
+  readonly id: uint64;
 
   static readonly zeroIndex: Application;
 
@@ -840,6 +844,56 @@ declare function divw(dividendHigh: IntLike, dividendLow: IntLike, divisor: IntL
 declare function sha3_256(data: BytesLike): StaticArray<byte, 32>;
 
 /**
+ *
+ * @param curve The curve being used
+ * @param data The data that was signed
+ * @param sSignatureComponent The s component of the lower-S signature
+ * @param rSignatureComponent The r component of the lower-S signature
+ * @param xPubkeyComponent The x component of the public key
+ * @param yPubkeyComponent The y component of the public key
+ *
+ * @returns true if the signature is valid, false otherwise
+ */
+declare function ecdsa_verify(
+  curve: 'Secp256k1' | 'Secp256r1',
+  data: StaticArray<byte, 32>,
+  sSignatureComponent: uint<512>,
+  rSignatureComponent: uint<512>,
+  xPubkeyComponent: uint<512>,
+  yPubkeyComponent: uint<512>
+): boolean;
+
+/**
+ *
+ * @param curve The curve being used
+ * @param pubKey The public key to decompress
+ *
+ * @returns The X and Y components of the decompressed public key
+ */
+declare function ecdsa_pk_decompress(
+  curve: 'Secp256k1' | 'Secp256r1',
+  pubKey: StaticArray<byte, 33>
+): [uint<512>, uint<512>];
+
+/**
+ *
+ * @param curve The curve being used
+ * @param data The data that was signed
+ * @param recoveryID The recovery ID
+ * @param sSignatureComponent The s component of the lower-S signature
+ * @param rSignatureComponent The r component of the lower-S signature
+ *
+ * @returns The X and Y components of the recovered public key
+ */
+declare function ecdsa_pk_recover(
+  curve: 'Secp256k1' | 'Secp256r1',
+  data: StaticArray<byte, 32>,
+  recoveryID: uint64,
+  sSignatureComponent: uint<512>,
+  rSignatureComponent: uint<512>
+): [uint<512>, uint<512>];
+
+/**
  * Returns zero bytes of the given size.
  *
  * @param size the number of zero bytes to return. If not given, returns the size of the type given
@@ -935,3 +989,9 @@ declare function castBytes<T>(input: BytesLike): T;
 declare function rawBytes(input: any): bytes;
 
 declare function clone<T>(input: T): T;
+
+declare type ScratchValue<ValueType> = {
+  value: ValueType;
+};
+
+declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;

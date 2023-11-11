@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.61.0",
+  "version": "0.62.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorandfoundation/TEALScript",
   "bugs": {
@@ -30,13 +30,13 @@
     "compile-lsig": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript tests/contracts/lsig.algo.ts tests/contracts/artifacts",
     "compile-tests": "conc \"bun compile-abi\" \"bun compile-account\" \"bun compile-binary\" \"bun compile-general\" \"bun compile-if\" \"bun compile-itxns-test\" \"bun compile-loops\" \"bun compile-math\" \"bun compile-storage\" \"bun compile-lsig\"",
     "compile-amm": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
-    "compile-arc75": "bun src/bin/tealscript.ts --unsafe-disable-typescript examples/arc75/arc75.algo.ts examples/arc75/artifacts && algokitgen generate -a examples/arc75/artifacts/ARC75.json -o examples/arc75/ARC75Client.ts",
+    "compile-arc75": "bun src/bin/tealscript.ts --unsafe-disable-typescript examples/arc75/arc75.algo.ts examples/arc75/artifacts && algokitgen generate -a examples/arc75/artifacts/ARC75.arc32.json -o examples/arc75/ARC75Client.ts",
     "compile-auction": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/auction/auction.algo.ts examples/auction/tealscript_artifacts",
-    "compile-itxns": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/itxns/itxns.algo.ts examples/itxns/artifacts && algokitgen generate -a examples/itxns/artifacts/FactoryCaller.json -o examples/itxns/FactoryCallerClient.ts",
-    "compile-simple": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/simple/simple.algo.ts examples/simple/artifacts && algokitgen generate -a examples/simple/artifacts/Simple.json -o examples/simple/SimpleClient.ts",
-    "compile-tuple_in_box": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/tuple_in_box/app.algo.ts examples/tuple_in_box/tealscript_artifacts && algokitgen generate -a examples/tuple_in_box/tealscript_artifacts/ContactsApp.json -o examples/tuple_in_box/ContactsAppClient.ts",
+    "compile-itxns": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/itxns/itxns.algo.ts examples/itxns/artifacts && algokitgen generate -a examples/itxns/artifacts/FactoryCaller.arc32.json -o examples/itxns/FactoryCallerClient.ts",
+    "compile-simple": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/simple/simple.algo.ts examples/simple/artifacts && algokitgen generate -a examples/simple/artifacts/Simple.arc32.json -o examples/simple/SimpleClient.ts",
+    "compile-tuple_in_box": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/tuple_in_box/app.algo.ts examples/tuple_in_box/tealscript_artifacts && algokitgen generate -a examples/tuple_in_box/tealscript_artifacts/ContactsApp.arc32.json -o examples/tuple_in_box/ContactsAppClient.ts",
     "compile-calculator": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/calculator/calculator.algo.ts examples/calculator/artifacts",
-    "compile-merkle": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/merkle/merkle.algo.ts examples/merkle/artifacts && algokitgen generate -a examples/merkle/artifacts/MerkleTree.json -o examples/merkle/MerkleTreeClient.ts",
+    "compile-merkle": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/merkle/merkle.algo.ts examples/merkle/artifacts && algokitgen generate -a examples/merkle/artifacts/MerkleTree.arc32.json -o examples/merkle/MerkleTreeClient.ts",
     "compile-big_box": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/big_box/big_box.algo.ts examples/big_box/artifacts",
     "compile-arc72": "bun src/bin/tealscript.ts --unsafe-disable-typescript examples/arc72/arc72.algo.ts examples/arc72/artifacts",
     "compile-non_abi": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/non_abi/non_abi.algo.ts examples/non_abi/artifacts",
@@ -48,7 +48,7 @@
     "run-simple": "bun examples/simple/index.ts",
     "compile-examples": "conc \"bun compile-amm\" \"bun compile-arc75\" \"bun compile-auction\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-calculator\" \"bun compile-merkle\" \"bun compile-big_box\" \"bun compile-arc72\" \"bun compile-non_abi\" \"bun compile-optin-lsig\"",
     "webpack-smoketest": "webpack --config tests/web/webpack.config.js",
-    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\"",
+    "pre-commit": "conc \"bun lint\" \"bun test\" \"bun test examples/\" \"bun run-examples\" \"bun webpack-smoketest\" \"bun scripts/compile_all_smoketest.ts\"",
     "compile-all": "conc \"bun compile-tests\" \"bun compile-examples\""
   },
   "dependencies": {
@@ -78,6 +78,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "glob": "^10.3.10",
     "jest": "^29.5.0",
     "path-browserify": "^1.0.1",
     "prettier": "^3.0.3",

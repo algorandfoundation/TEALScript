@@ -57,8 +57,8 @@ compilers.forEach(async (compilerPromise) => {
 
   const approvalPath = path.join(dir, `${name}.approval.teal`);
   const clearPath = path.join(dir, `${name}.clear.teal`);
-  const abiPath = path.join(dir, `${name}.abi.json`);
-  const appPath = path.join(dir, `${name}.json`);
+  const abiPath = path.join(dir, `${name}.arc4.json`);
+  const appPath = path.join(dir, `${name}.arc32.json`);
   const srcmapPath = path.join(dir, `${name}.src_map.json`);
   const lsigPath = path.join(dir, `${name}.lsig.teal`);
 

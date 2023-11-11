@@ -5,7 +5,7 @@ import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-c
 import { describe, test, expect, beforeAll } from '@jest/globals';
 import algosdk from 'algosdk';
 import { algodClient, kmdClient } from '../../tests/common';
-import appSpec from './artifacts/BigBox.json';
+import appSpec from './artifacts/BigBox.arc32.json';
 
 const COST_PER_BYTE = 400;
 const COST_PER_BOX = 2500;
