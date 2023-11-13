@@ -857,10 +857,10 @@ declare function sha3_256(data: BytesLike): StaticArray<byte, 32>;
 declare function ecdsa_verify(
   curve: 'Secp256k1' | 'Secp256r1',
   data: StaticArray<byte, 32>,
-  sSignatureComponent: uint<512>,
-  rSignatureComponent: uint<512>,
-  xPubkeyComponent: uint<512>,
-  yPubkeyComponent: uint<512>
+  sSignatureComponent: uint<256>,
+  rSignatureComponent: uint<256>,
+  xPubkeyComponent: uint<256>,
+  yPubkeyComponent: uint<256>
 ): boolean;
 
 /**
@@ -873,7 +873,7 @@ declare function ecdsa_verify(
 declare function ecdsa_pk_decompress(
   curve: 'Secp256k1' | 'Secp256r1',
   pubKey: StaticArray<byte, 33>
-): [uint<512>, uint<512>];
+): [uint<256>, uint<256>];
 
 /**
  *
@@ -889,9 +889,9 @@ declare function ecdsa_pk_recover(
   curve: 'Secp256k1' | 'Secp256r1',
   data: StaticArray<byte, 32>,
   recoveryID: uint64,
-  sSignatureComponent: uint<512>,
-  rSignatureComponent: uint<512>
-): [uint<512>, uint<512>];
+  sSignatureComponent: uint<256>,
+  rSignatureComponent: uint<256>
+): [uint<256>, uint<256>];
 
 /**
  * Returns zero bytes of the given size.

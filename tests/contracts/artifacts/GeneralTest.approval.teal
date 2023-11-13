@@ -732,9 +732,9 @@ scratchSlot:
 	assert
 	retsub
 
-// ecdsa()(uint512,uint512)
+// ecdsa()(uint256,uint256)
 abi_route_ecdsa:
-	// execute ecdsa()(uint512,uint512)
+	// execute ecdsa()(uint256,uint256)
 	callsub ecdsa
 	int 1
 	return
@@ -755,10 +755,10 @@ ecdsa:
 	// ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	swap
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	swap
 	concat
@@ -770,10 +770,10 @@ ecdsa:
 	byte 0x02
 	byte 0x03
 	ecdsa_pk_recover Secp256k1
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	swap
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
 	swap
 	concat
@@ -816,7 +816,7 @@ call_NoOp:
 	method "stringSubstring()void"
 	method "idProperty()void"
 	method "scratchSlot()void"
-	method "ecdsa()(uint512,uint512)"
+	method "ecdsa()(uint256,uint256)"
 	txna ApplicationArgs 0
 	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa
 	err
