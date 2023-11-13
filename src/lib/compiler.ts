@@ -776,16 +776,16 @@ export default class Compiler {
 
         this.pushLines(
           node,
-          `byte 0x${'FF'.repeat(64)}`,
+          `byte 0x${'FF'.repeat(32)}`,
           'b&',
           'swap',
-          `byte 0x${'FF'.repeat(64)}`,
+          `byte 0x${'FF'.repeat(32)}`,
           'b&',
           'swap',
           'concat'
         );
 
-        this.lastType = '[uint512,uint512]';
+        this.lastType = '[uint256,uint256]';
       },
     },
     ecdsa_pk_recover: {
@@ -824,16 +824,16 @@ export default class Compiler {
 
         this.pushLines(
           node,
-          `byte 0x${'FF'.repeat(64)}`,
+          `byte 0x${'FF'.repeat(32)}`,
           'b&',
           'swap',
-          `byte 0x${'FF'.repeat(64)}`,
+          `byte 0x${'FF'.repeat(32)}`,
           'b&',
           'swap',
           'concat'
         );
 
-        this.lastType = '[uint512,uint512]';
+        this.lastType = '[uint256,uint256]';
       },
     },
     // Global methods
