@@ -4594,7 +4594,7 @@ export default class Compiler {
         type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type: type.replace(/^string/, 'bytes') };
+      this.frame[p.name.getText()] = { index: this.frameIndex, type };
       this.frameIndex -= 1;
     });
 

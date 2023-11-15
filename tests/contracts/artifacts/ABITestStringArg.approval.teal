@@ -38,7 +38,7 @@ stringArg:
 
 	// tests/contracts/abi.algo.ts:536
 	// assert(s === 'Hello World!')
-	frame_dig -1 // s: bytes
+	frame_dig -1 // s: string
 	byte 0x48656c6c6f20576f726c6421 // "Hello World!"
 	==
 	assert

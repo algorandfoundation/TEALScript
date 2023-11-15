@@ -52,12 +52,12 @@ createNFT:
 
 	// examples/itxns/itxns.algo.ts:7
 	// configAssetName: name
-	frame_dig -1 // name: bytes
+	frame_dig -1 // name: string
 	itxn_field ConfigAssetName
 
 	// examples/itxns/itxns.algo.ts:8
 	// configAssetUnitName: unitName
-	frame_dig -2 // unitName: bytes
+	frame_dig -2 // unitName: string
 	itxn_field ConfigAssetUnitName
 
 	// examples/itxns/itxns.algo.ts:9
