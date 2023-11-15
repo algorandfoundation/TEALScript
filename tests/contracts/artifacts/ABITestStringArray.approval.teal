@@ -22,48 +22,24 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// staticStringArrayArg(string[3])string
-abi_route_staticStringArrayArg:
-	// a: string[3]
+// stringArray(string[])void
+abi_route_stringArray:
+	// a: string[]
 	txna ApplicationArgs 1
 
-	// execute staticStringArrayArg(string[3])string
-	callsub staticStringArrayArg
+	// execute stringArray(string[])void
+	callsub stringArray
 	int 1
 	return
 
-staticStringArrayArg:
+stringArray:
 	proto 1 0
 
-	// tests/contracts/abi.algo.ts:645
-	// return a[1];
-	frame_dig -1 // a: string[3]
-	store 255 // full array
-	int 2
-	load 255 // full array
-	load 255 // full array
-	uncover 2
-	extract_uint16
-	dup // duplicate start of element
-	load 255 // full array
-	swap
-	extract_uint16 // get number of elements
-	int 1 // get type length
-	* // multiply by type length
-	int 2
-	+ // add two for length
-	extract3
-	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+	// tests/contracts/abi.algo.ts:1192
+	// this.gKey.value = a
+	byte 0x674b6579 // "gKey"
+	frame_dig -1 // a: string[]
+	app_global_put
 	retsub
 
 abi_route_createApplication:
@@ -77,7 +53,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "staticStringArrayArg(string[3])string"
+	method "stringArray(string[])void"
 	txna ApplicationArgs 0
-	match abi_route_staticStringArrayArg
+	match abi_route_stringArray
 	err

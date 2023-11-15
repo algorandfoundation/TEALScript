@@ -44,7 +44,7 @@ dynamicAccessOfDynamicElementInStaticArray:
 
 	// tests/contracts/abi.algo.ts:652
 	// return a[i];
-	frame_dig -1 // a: bytes[3]
+	frame_dig -1 // a: string[3]
 	store 255 // full array
 	int 2
 	load 255 // full array
