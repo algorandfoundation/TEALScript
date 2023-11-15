@@ -1184,3 +1184,11 @@ class ABITestChainedPropertyAfterTuple extends Contract {
     assert(!o.foo.hasAsset(asa));
   }
 }
+
+class ABITestStringArray extends Contract {
+  gKey = GlobalStateKey<string[]>();
+
+  stringArray(a: string[]): void {
+    this.gKey.value = a;
+  }
+}
