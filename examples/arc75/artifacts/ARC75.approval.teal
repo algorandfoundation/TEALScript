@@ -144,7 +144,7 @@ addAppToWhiteList:
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
-	frame_dig -1 // arc: bytes
+	frame_dig -1 // arc: string
 	dup
 	len
 	itob
@@ -273,7 +273,7 @@ setAppWhitelist:
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
-	frame_dig -1 // arc: bytes
+	frame_dig -1 // arc: string
 	dup
 	len
 	itob
@@ -381,7 +381,7 @@ deleteWhitelist:
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
-	frame_dig -1 // arc: bytes
+	frame_dig -1 // arc: string
 	dup
 	len
 	itob
@@ -458,7 +458,7 @@ deleteAppFromWhitelist:
 	callsub process_static_tuple_element
 	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
-	frame_dig -1 // arc: bytes
+	frame_dig -1 // arc: string
 	dup
 	len
 	itob
