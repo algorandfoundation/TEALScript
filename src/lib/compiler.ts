@@ -504,7 +504,9 @@ export default class Compiler {
         const hex = Buffer.from(prefix).toString('hex');
         this.pushVoid(keyNode!, `byte 0x${hex} // "${prefix}"`);
       }
+      this.typeHint = keyType;
       this.processNode(keyNode!);
+      this.typeHint = undefined;
 
       if (keyType !== StackType.bytes) {
         this.checkEncoding(keyNode!, this.lastType);
@@ -4543,6 +4545,15 @@ export default class Compiler {
 
       // If this is a property access expression assume it's an opcode param
       if (ts.isPropertyAccessExpression(n)) {
+        // Check if this is a custom propertly like `zeroIndex`
+        if (ts.isPropertyAccessExpression(n)) {
+          const propName = n.name.getText();
+          if (this.customProperties[propName]?.check?.(n)) {
+            this.customProperties[propName].fn(n);
+            return false;
+          }
+        }
+
         if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
         this.processOpcodeImmediate(n, this.lastType, n.name.getText());
         return false;
