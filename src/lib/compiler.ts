@@ -4764,6 +4764,7 @@ export default class Compiler {
     } else if (opSpec.Size === 0) {
       line = line.concat(node.arguments.map((a) => a.getText()));
     } else {
+      node.arguments.slice(opSpec.Size - 1).forEach((a) => this.processNode(a));
       line = line.concat(node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()));
     }
 
