@@ -417,6 +417,8 @@ export default class Compiler {
     asset: this.getOpParamObjects('asset_params_get'),
   };
 
+  programVersion = 9;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
     if (type === 'bool') {
@@ -1548,6 +1550,10 @@ export default class Compiler {
       await Promise.all(
         input.map(async (t) => {
           const tealLine = t.teal;
+
+          if (tealLine.startsWith('#pragma')) {
+            return { teal: `#pragma version ${this.programVersion}`, node: t.node };
+          }
 
           if (tealLine.startsWith('PENDING_SCHEMA')) {
             const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
@@ -3219,7 +3225,7 @@ export default class Compiler {
   private processClassDeclaration(node: ts.ClassDeclaration) {
     this.classNode = node;
 
-    this.pushLines(node, '#pragma version 9');
+    this.pushLines(node, '#pragma version PROGAM_VERSION');
 
     if (this.currentProgram === 'lsig') {
       this.pushLines(node, '//#pragma mode logicsig');
@@ -3255,7 +3261,7 @@ export default class Compiler {
         'err'
       );
 
-      this.teal.clear.push({ node, teal: '#pragma version 9' });
+      this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
     } else if (this.currentProgram === 'lsig') {
       this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
     }
@@ -3917,6 +3923,15 @@ export default class Compiler {
 
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
     if (node.initializer === undefined) throw Error();
+
+    if (node.name.getText() === 'programVersion') {
+      if (!ts.isNumericLiteral(node.initializer)) throw Error('programVersion must be a number');
+
+      this.programVersion = parseInt(node.initializer.text, 10);
+
+      if (this.programVersion < 8) throw Error('programVersion must be >= 8');
+      return;
+    }
 
     if (
       ts.isCallExpression(node.initializer) &&

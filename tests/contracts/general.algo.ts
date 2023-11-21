@@ -11,6 +11,11 @@ class Templates extends Contract {
 }
 
 // eslint-disable-next-line no-unused-vars
+class ProgramVersion extends Contract {
+  programVersion = 8;
+}
+
+// eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   scratch = ScratchSlot<uint64>(0);
 
