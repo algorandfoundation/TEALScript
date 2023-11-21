@@ -535,7 +535,9 @@ export default class Compiler {
         }
 
         if (newValue) {
+          this.typeHint = valueType;
           this.processNode(newValue);
+          this.typeHint = undefined;
 
           this.typeComparison(this.lastType, valueType);
           if (valueType !== StackType.bytes) {
