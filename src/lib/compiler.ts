@@ -4764,7 +4764,17 @@ export default class Compiler {
     } else if (opSpec.Size === 0) {
       line = line.concat(node.arguments.map((a) => a.getText()));
     } else {
-      line = line.concat(node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()));
+      node.arguments.slice(opSpec.Size - 1).forEach((a) => this.processNode(a));
+      line = line.concat(
+        node.arguments.slice(0, opSpec.Size - 1).map((a) => {
+          const immediateArg = this.constants[a.getText()] ? this.constants[a.getText()] : a;
+
+          if (ts.isStringLiteral(immediateArg)) return immediateArg.text;
+          if (ts.isNumericLiteral(immediateArg)) return parseInt(immediateArg.text, 10).toString();
+
+          throw Error(`Cannot process ${a.getText()} as immediate argument`);
+        })
+      );
     }
 
     let returnType = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
