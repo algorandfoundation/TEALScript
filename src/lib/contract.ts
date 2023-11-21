@@ -53,6 +53,9 @@ export default abstract class Contract {
     };
   };
 
+  /** The program version to use in the generated TEAL. This is the number used in the "#pragma version" directive */
+  programVersion = 9;
+
   itxn!: Expand<
     AppOnChainTransactionParams &
       Partial<AppParams> &

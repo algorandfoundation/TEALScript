@@ -14,5 +14,8 @@ export default abstract class LogicSig {
 
   txnGroup!: Txn[];
 
+  /** The program version to use in the generated TEAL. This is the number used in the "#pragma version" directive */
+  programVersion = 9;
+
   abstract logic(...args: any[]): void;
 }

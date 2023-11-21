@@ -417,6 +417,8 @@ export default class Compiler {
     asset: this.getOpParamObjects('asset_params_get'),
   };
 
+  programVersion = 9;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
     if (type === 'bool') {
@@ -504,7 +506,9 @@ export default class Compiler {
         const hex = Buffer.from(prefix).toString('hex');
         this.pushVoid(keyNode!, `byte 0x${hex} // "${prefix}"`);
       }
+      this.typeHint = keyType;
       this.processNode(keyNode!);
+      this.typeHint = undefined;
 
       if (keyType !== StackType.bytes) {
         this.checkEncoding(keyNode!, this.lastType);
@@ -533,7 +537,9 @@ export default class Compiler {
         }
 
         if (newValue) {
+          this.typeHint = valueType;
           this.processNode(newValue);
+          this.typeHint = undefined;
 
           this.typeComparison(this.lastType, valueType);
           if (valueType !== StackType.bytes) {
@@ -1544,6 +1550,10 @@ export default class Compiler {
       await Promise.all(
         input.map(async (t) => {
           const tealLine = t.teal;
+
+          if (tealLine.startsWith('#pragma')) {
+            return { teal: `#pragma version ${this.programVersion}`, node: t.node };
+          }
 
           if (tealLine.startsWith('PENDING_SCHEMA')) {
             const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
@@ -3215,7 +3225,7 @@ export default class Compiler {
   private processClassDeclaration(node: ts.ClassDeclaration) {
     this.classNode = node;
 
-    this.pushLines(node, '#pragma version 9');
+    this.pushLines(node, '#pragma version PROGAM_VERSION');
 
     if (this.currentProgram === 'lsig') {
       this.pushLines(node, '//#pragma mode logicsig');
@@ -3251,7 +3261,7 @@ export default class Compiler {
         'err'
       );
 
-      this.teal.clear.push({ node, teal: '#pragma version 9' });
+      this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
     } else if (this.currentProgram === 'lsig') {
       this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
     }
@@ -3914,6 +3924,15 @@ export default class Compiler {
   private processPropertyDefinition(node: ts.PropertyDeclaration) {
     if (node.initializer === undefined) throw Error();
 
+    if (node.name.getText() === 'programVersion') {
+      if (!ts.isNumericLiteral(node.initializer)) throw Error('programVersion must be a number');
+
+      this.programVersion = parseInt(node.initializer.text, 10);
+
+      if (this.programVersion < 8) throw Error('programVersion must be >= 8');
+      return;
+    }
+
     if (
       ts.isCallExpression(node.initializer) &&
       ['BoxMap', 'GlobalStateMap', 'LocalStateMap', 'BoxKey', 'GlobalStateKey', 'LocalStateKey'].includes(
@@ -4543,6 +4562,15 @@ export default class Compiler {
 
       // If this is a property access expression assume it's an opcode param
       if (ts.isPropertyAccessExpression(n)) {
+        // Check if this is a custom propertly like `zeroIndex`
+        if (ts.isPropertyAccessExpression(n)) {
+          const propName = n.name.getText();
+          if (this.customProperties[propName]?.check?.(n)) {
+            this.customProperties[propName].fn(n);
+            return false;
+          }
+        }
+
         if (chain[i + 1] && ts.isCallExpression(chain[i + 1])) return false;
         this.processOpcodeImmediate(n, this.lastType, n.name.getText());
         return false;
@@ -4751,7 +4779,17 @@ export default class Compiler {
     } else if (opSpec.Size === 0) {
       line = line.concat(node.arguments.map((a) => a.getText()));
     } else {
-      line = line.concat(node.arguments.slice(0, opSpec.Size - 1).map((a) => a.getText()));
+      node.arguments.slice(opSpec.Size - 1).forEach((a) => this.processNode(a));
+      line = line.concat(
+        node.arguments.slice(0, opSpec.Size - 1).map((a) => {
+          const immediateArg = this.constants[a.getText()] ? this.constants[a.getText()] : a;
+
+          if (ts.isStringLiteral(immediateArg)) return immediateArg.text;
+          if (ts.isNumericLiteral(immediateArg)) return parseInt(immediateArg.text, 10).toString();
+
+          throw Error(`Cannot process ${a.getText()} as immediate argument`);
+        })
+      );
     }
 
     let returnType = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
