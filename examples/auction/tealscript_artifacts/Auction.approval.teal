@@ -81,12 +81,6 @@ optIntoAsset:
 	// Only allow app creator to opt the app account into a ASA
 	// examples/auction/auction.algo.ts:29
 	// verifyAppCallTxn(this.txn, { sender: globals.creatorAddress })
-	// verify appl
-	txn TypeEnum
-	int appl
-	==
-	assert
-
 	// verify sender
 	txn Sender
 	global CreatorAddress
@@ -173,12 +167,6 @@ startAuction:
 
 	// examples/auction/auction.algo.ts:46
 	// verifyAppCallTxn(this.txn, { sender: globals.creatorAddress })
-	// verify appl
-	txn TypeEnum
-	int appl
-	==
-	assert
-
 	// verify sender
 	txn Sender
 	global CreatorAddress

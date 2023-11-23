@@ -327,12 +327,6 @@ set_governor:
 
 	// examples/amm/amm.algo.ts:78
 	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
-	// verify appl
-	txn TypeEnum
-	int appl
-	==
-	assert
-
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"
@@ -379,12 +373,6 @@ bootstrap:
 
 	// examples/amm/amm.algo.ts:83
 	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
-	// verify appl
-	txn TypeEnum
-	int appl
-	==
-	assert
-
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"

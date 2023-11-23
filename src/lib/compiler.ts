@@ -746,7 +746,7 @@ export default class Compiler {
       this.pushVoid(fieldNode, `${txnOp} ${capitalizeFirstChar(field)}`);
     };
 
-    if (type !== undefined) {
+    if (type !== undefined && (this.currentProgram === 'lsig' || node.arguments[0].getText() !== 'this.txn')) {
       this.pushVoid(node, `// verify ${type}`);
       loadField(node, 'typeEnum');
       this.pushVoid(node, `int ${type}`);
