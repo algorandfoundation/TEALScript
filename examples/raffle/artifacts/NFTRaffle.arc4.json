@@ -41,6 +41,11 @@
       "name": "startRaffle",
       "args": [
         {
+          "name": "axfer",
+          "type": "axfer",
+          "desc": ""
+        },
+        {
           "name": "end",
           "type": "uint64",
           "desc": "The round number when the raffle ends"
@@ -66,21 +71,27 @@
           "desc": "The payment for the tickets"
         },
         {
-          "name": "quanity",
+          "name": "quantity",
           "type": "uint64",
-          "desc": "The number of tickets to buy"
+          "desc": ""
         }
       ],
       "desc": "Buy tickets. Note this can only be called once!It would be possible to allow multiple purchases, butfor simplicity, only one purchase is allowed.",
       "returns": {
         "type": "void",
-        "desc": "The total number of tickets owned by the sender"
+        "desc": ""
       }
     },
     {
       "name": "draw",
-      "args": [],
-      "desc": "Draw the winning ticket",
+      "args": [
+        {
+          "name": "_oracleReference",
+          "type": "application",
+          "desc": ""
+        }
+      ],
+      "desc": "",
       "returns": {
         "type": "bool",
         "desc": ""

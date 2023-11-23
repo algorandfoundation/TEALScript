@@ -42,7 +42,7 @@
     "compile-non_abi": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/non_abi/non_abi.algo.ts examples/non_abi/artifacts",
     "compile-optin-lsig": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/optin-lsig/lsig.algo.ts examples/optin-lsig/artifacts",
     "compile-lsig_with_app": "bun ./src/bin/tealscript.ts --unsafe-disable-typescript examples/lsig_with_app/lsig_with_app.algo.ts examples/lsig_with_app/artifacts",
-    "compile-raffle": "bun ./src/bin/tealscript.ts examples/raffle/raffle.algo.ts examples/raffle/artifacts",
+    "compile-raffle": "bun ./src/bin/tealscript.ts examples/raffle/raffle.algo.ts examples/raffle/artifacts && algokitgen generate -a examples/raffle/artifacts/NFTRaffle.arc32.json -o examples/raffle/NFTRaffleClient.ts && algokitgen generate -a examples/raffle/artifacts/MockVRFBeacon.arc32.json -o examples/raffle/MockVRFBeaconClient.ts",
     "run-merkle": "bun examples/merkle/demo.ts",
     "run-tuple_in_box": "bun ./examples/tuple_in_box/client.ts",
     "run-itxns": "bun examples/itxns/demo.ts",

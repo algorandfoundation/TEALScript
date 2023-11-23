@@ -70,8 +70,12 @@ class NFTRaffle extends Contract {
    * @param draw The round number when the raffle is drawn
    *
    */
-  startRaffle(end: number, draw: number): void {
-    assert(this.app.address.assetBalance(this.asset.value) > 0);
+  startRaffle(axfer: AssetTransferTxn, end: number, draw: number): void {
+    verifyTxn(axfer, {
+      assetAmount: { greaterThan: 0 },
+      assetReceiver: this.app.address,
+      xferAsset: this.asset.value,
+    });
 
     assert(draw > end);
     this.endRound.value = end;
@@ -88,19 +92,24 @@ class NFTRaffle extends Contract {
    *
    * @returns The total number of tickets owned by the sender
    */
-  buyTickets(payment: PayTxn, quanity: number): void {
+  buyTickets(payment: PayTxn, quantity: number): void {
     assert(globals.round < this.endRound.value);
-    assert(quanity > 0);
-
-    assert(payment.amount === this.ticketPrice.value * quanity);
-    assert(payment.sender === this.txn.sender);
-    assert(payment.receiver === this.app.address);
+    assert(quantity > 0);
 
     assert(!this.tickets(payment.sender).exists);
 
-    const newTotal = this.totalTickets.value + quanity + 1;
+    const newTotal = this.totalTickets.value + quantity + 1;
 
+    const preMBR = this.app.address.minBalance;
     this.tickets(payment.sender).value = { start: this.totalTickets.value, end: newTotal - 1 };
+    const mbrDelta = this.app.address.minBalance - preMBR;
+
+    verifyTxn(payment, {
+      amount: this.ticketPrice.value * quantity + mbrDelta,
+      sender: this.txn.sender,
+      receiver: this.app.address,
+    });
+
     this.totalTickets.value = newTotal;
   }
 
@@ -120,7 +129,9 @@ class NFTRaffle extends Contract {
   }
 
   /** Draw the winning ticket */
-  draw(): boolean {
+  // eslint-disable-next-line no-unused-vars
+  draw(_oracleReference: Application): boolean {
+    // assert(this.endRound.value < globals.round);
     assert(!this.winningTicket.exists);
     this.getRandomBytes();
 
@@ -180,5 +191,12 @@ class NFTRaffle extends Contract {
       receiver: this.txn.sender,
       fee: 0,
     });
+  }
+}
+
+// eslint-disable-next-line no-unused-vars
+class MockVRFBeacon extends Contract {
+  must_get(_round: uint64, data: bytes): bytes {
+    return sha256(data + itob(globals.round)) as bytes;
   }
 }
