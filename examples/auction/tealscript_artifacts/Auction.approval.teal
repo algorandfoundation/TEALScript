@@ -80,7 +80,13 @@ optIntoAsset:
 
 	// Only allow app creator to opt the app account into a ASA
 	// examples/auction/auction.algo.ts:29
-	// verifyTxn(this.txn, { sender: globals.creatorAddress })
+	// verifyAppCallTxn(this.txn, { sender: globals.creatorAddress })
+	// verify appl
+	txn TypeEnum
+	int appl
+	==
+	assert
+
 	// verify sender
 	txn Sender
 	global CreatorAddress
@@ -166,7 +172,13 @@ startAuction:
 	proto 3 0
 
 	// examples/auction/auction.algo.ts:46
-	// verifyTxn(this.txn, { sender: globals.creatorAddress })
+	// verifyAppCallTxn(this.txn, { sender: globals.creatorAddress })
+	// verify appl
+	txn TypeEnum
+	int appl
+	==
+	assert
+
 	// verify sender
 	txn Sender
 	global CreatorAddress
@@ -184,7 +196,14 @@ startAuction:
 
 	// Verify axfer
 	// examples/auction/auction.algo.ts:52
-	// verifyTxn(axfer, { assetReceiver: this.app.address })
+	// verifyAssetTransferTxn(axfer, { assetReceiver: this.app.address })
+	// verify axfer
+	frame_dig -3 // axfer: axfer
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
 	// verify assetReceiver
 	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
@@ -289,10 +308,17 @@ bid:
 
 	// Verify payment transaction
 	// examples/auction/auction.algo.ts:75
-	// verifyTxn(payment, {
+	// verifyPayTxn(payment, {
 	//       sender: this.txn.sender,
 	//       amount: { greaterThan: this.previousBid.value },
 	//     })
+	// verify pay
+	frame_dig -1 // payment: pay
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+
 	// verify sender
 	frame_dig -1 // payment: pay
 	gtxns Sender

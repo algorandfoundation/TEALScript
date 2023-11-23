@@ -326,7 +326,13 @@ set_governor:
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:78
-	// verifyTxn(this.txn, { sender: this.governor.value })
+	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
+	// verify appl
+	txn TypeEnum
+	int appl
+	==
+	assert
+
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"
@@ -372,7 +378,13 @@ bootstrap:
 	proto 3 0
 
 	// examples/amm/amm.algo.ts:83
-	// verifyTxn(this.txn, { sender: this.governor.value })
+	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
+	// verify appl
+	txn TypeEnum
+	int appl
+	==
+	assert
+
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"
@@ -388,7 +400,14 @@ bootstrap:
 	assert
 
 	// examples/amm/amm.algo.ts:87
-	// verifyTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } })
+	// verifyPayTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } })
+	// verify pay
+	frame_dig -1 // seed: pay
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+
 	// verify receiver
 	frame_dig -1 // seed: pay
 	gtxns Receiver
@@ -525,12 +544,19 @@ mint:
 
 	// valid asset A axfer
 	// examples/amm/amm.algo.ts:107
-	// verifyTxn(aXfer, {
+	// verifyAssetTransferTxn(aXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
 	//       xferAsset: aAsset,
 	//     })
+	// verify axfer
+	frame_dig -1 // aXfer: axfer
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
 	// verify sender
 	frame_dig -1 // aXfer: axfer
 	gtxns Sender
@@ -561,12 +587,19 @@ mint:
 
 	// valid asset B axfer
 	// examples/amm/amm.algo.ts:115
-	// verifyTxn(bXfer, {
+	// verifyAssetTransferTxn(bXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
 	//       xferAsset: bAsset,
 	//     })
+	// verify axfer
+	frame_dig -2 // bXfer: axfer
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
 	// verify sender
 	frame_dig -2 // bXfer: axfer
 	gtxns Sender
@@ -748,12 +781,19 @@ burn:
 
 	// valid pool axfer
 	// examples/amm/amm.algo.ts:149
-	// verifyTxn(poolXfer, {
+	// verifyAssetTransferTxn(poolXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
 	//       xferAsset: poolAsset,
 	//     })
+	// verify axfer
+	frame_dig -1 // poolXfer: axfer
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
 	// verify sender
 	frame_dig -1 // poolXfer: axfer
 	gtxns Sender
@@ -890,12 +930,19 @@ swap:
 	assert
 
 	// examples/amm/amm.algo.ts:173
-	// verifyTxn(swapXfer, {
+	// verifyAssetTransferTxn(swapXfer, {
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
 	//       sender: this.txn.sender,
 	//       xferAsset: { includedIn: [aAsset, bAsset] },
 	//     })
+	// verify axfer
+	frame_dig -1 // swapXfer: axfer
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
 	// verify assetAmount
 	frame_dig -1 // swapXfer: axfer
 	gtxns AssetAmount

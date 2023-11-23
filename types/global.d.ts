@@ -977,7 +977,7 @@ declare function verifyAssetTransferTxn(txn: Txn | AssetTransferParams, params: 
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyAppCallTxn(txn: Txn | AppCallTxn, params: AppCallTxnVerificationFields);
+declare function verifyAppCallTxn(txn: ThisTxnParams | Txn | AppCallTxn, params: AppCallTxnVerificationFields);
 
 /**
  * Verifies the fields of a key reg transaction against the given parameters.
