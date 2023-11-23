@@ -1,6 +1,6 @@
 import { Contract } from '../../src/lib/index';
 
-type TicketRange = {start: number, end: number};
+type TicketRange = { start: number; end: number };
 // eslint-disable-next-line no-loss-of-precision
 const RAND_MAX = 18_446_744_073_709_551_615;
 
@@ -134,9 +134,9 @@ class NFTRaffle extends Contract {
     do {
       x = extract_uint64(this.randomBytes.value, offset);
 
-      offset += 8;
+      offset = offset + 8;
 
-      maxCondition = x > (RAND_MAX - (((RAND_MAX % n) + 1) % n));
+      maxCondition = x > RAND_MAX - (((RAND_MAX % n) + 1) % n);
     } while (maxCondition && offset < 32);
 
     if (maxCondition) return false;

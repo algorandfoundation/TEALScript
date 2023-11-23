@@ -1,0 +1,108 @@
+{
+  "name": "NFTRaffle",
+  "desc": "",
+  "methods": [
+    {
+      "name": "createApplication",
+      "args": [
+        {
+          "name": "ticketPrice",
+          "type": "uint64",
+          "desc": "The price of a single ticket (uALGO)"
+        },
+        {
+          "name": "randomnessOracle",
+          "type": "uint64",
+          "desc": "The app ID of the randomness oracle"
+        }
+      ],
+      "desc": "Create the raffle",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "setAsset",
+      "args": [
+        {
+          "name": "asset",
+          "type": "asset",
+          "desc": "The asset to be raffled"
+        }
+      ],
+      "desc": "Set the asset to be raffled",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "startRaffle",
+      "args": [
+        {
+          "name": "end",
+          "type": "uint64",
+          "desc": "The round number when the raffle ends"
+        },
+        {
+          "name": "draw",
+          "type": "uint64",
+          "desc": "The round number when the raffle is drawn"
+        }
+      ],
+      "desc": "Start the raffle",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "buyTickets",
+      "args": [
+        {
+          "name": "payment",
+          "type": "pay",
+          "desc": "The payment for the tickets"
+        },
+        {
+          "name": "quanity",
+          "type": "uint64",
+          "desc": "The number of tickets to buy"
+        }
+      ],
+      "desc": "Buy tickets. Note this can only be called once!It would be possible to allow multiple purchases, butfor simplicity, only one purchase is allowed.",
+      "returns": {
+        "type": "void",
+        "desc": "The total number of tickets owned by the sender"
+      }
+    },
+    {
+      "name": "draw",
+      "args": [],
+      "desc": "Draw the winning ticket",
+      "returns": {
+        "type": "bool",
+        "desc": ""
+      }
+    },
+    {
+      "name": "claim",
+      "args": [],
+      "desc": "Send the asset to the the sender if they have the winning ticket",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "getRefund",
+      "args": [],
+      "desc": "Allows purchasers to get a refund if the winning ticket has not been drawnand 1512 rounds have passed since the draw round, meaning the oracle nolonger has the data for the draw round",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    }
+  ]
+}
