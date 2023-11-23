@@ -321,6 +321,8 @@ export default class Compiler {
 
   private whileCount: number = 0;
 
+  private doWhileCount: number = 0;
+
   private forCount: number = 0;
 
   filename: string;
@@ -1973,6 +1975,13 @@ export default class Compiler {
     else this.pushVoid(node, 'err');
   }
 
+  private processDoStatement(node: ts.DoStatement) {
+    this.pushVoid(node, `do_while_${this.doWhileCount}:`);
+    this.processNode(node.statement);
+    this.processNode(node.expression);
+    this.pushVoid(node, `bnz do_while_${this.doWhileCount}`);
+  }
+
   private processWhileStatement(node: ts.WhileStatement) {
     this.pushVoid(node, `while_${this.whileCount}:`);
     this.processNode(node.expression);
@@ -2039,6 +2048,7 @@ export default class Compiler {
       else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
       else if (ts.isWhileStatement(node)) this.processWhileStatement(node);
       else if (ts.isForStatement(node)) this.processForStatement(node);
+      else if (ts.isDoStatement(node)) this.processDoStatement(node);
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
       else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);

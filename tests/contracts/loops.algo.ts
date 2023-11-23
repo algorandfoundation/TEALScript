@@ -21,4 +21,14 @@ class LoopsTest extends Contract {
 
     return i;
   }
+
+  doWhileLoop(): uint64 {
+    let i = 0;
+
+    do {
+      i = i + 1;
+    } while (i < 10);
+
+    return i;
+  }
 }
