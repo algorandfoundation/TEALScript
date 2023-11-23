@@ -151,7 +151,7 @@ startUpload:
 	frame_bury -8 // totalCost: uint64
 
 	// examples/big_box/big_box.algo.ts:63
-	// verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
+	// verifyPayTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
 	// verify receiver
 	frame_dig -4 // mbrPayment: pay
 	gtxns Receiver

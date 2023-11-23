@@ -326,7 +326,7 @@ set_governor:
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:78
-	// verifyTxn(this.txn, { sender: this.governor.value })
+	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"
@@ -372,7 +372,7 @@ bootstrap:
 	proto 3 0
 
 	// examples/amm/amm.algo.ts:83
-	// verifyTxn(this.txn, { sender: this.governor.value })
+	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
 	// verify sender
 	txn Sender
 	byte 0x67 // "g"
@@ -388,7 +388,7 @@ bootstrap:
 	assert
 
 	// examples/amm/amm.algo.ts:87
-	// verifyTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } })
+	// verifyPayTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } })
 	// verify receiver
 	frame_dig -1 // seed: pay
 	gtxns Receiver
@@ -525,7 +525,7 @@ mint:
 
 	// valid asset A axfer
 	// examples/amm/amm.algo.ts:107
-	// verifyTxn(aXfer, {
+	// verifyAssetTransferTxn(aXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
@@ -561,7 +561,7 @@ mint:
 
 	// valid asset B axfer
 	// examples/amm/amm.algo.ts:115
-	// verifyTxn(bXfer, {
+	// verifyAssetTransferTxn(bXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
@@ -748,7 +748,7 @@ burn:
 
 	// valid pool axfer
 	// examples/amm/amm.algo.ts:149
-	// verifyTxn(poolXfer, {
+	// verifyAssetTransferTxn(poolXfer, {
 	//       sender: this.txn.sender,
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
@@ -890,7 +890,7 @@ swap:
 	assert
 
 	// examples/amm/amm.algo.ts:173
-	// verifyTxn(swapXfer, {
+	// verifyAssetTransferTxn(swapXfer, {
 	//       assetAmount: { greaterThan: 0 },
 	//       assetReceiver: this.app.address,
 	//       sender: this.txn.sender,

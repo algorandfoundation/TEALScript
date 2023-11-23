@@ -157,4 +157,26 @@ class GeneralTest extends Contract {
     ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>);
     return ecdsa_pk_recover('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3);
   }
+
+  verifyTxnTypes(): void {
+    verifyPayTxn(this.txnGroup[0], {
+      amount: { greaterThan: 0 },
+    });
+
+    verifyAppCallTxn(this.txnGroup[0], {
+      applicationID: Application.fromID(0),
+    });
+
+    verifyAssetTransferTxn(this.txnGroup[0], {
+      assetReceiver: this.app.address,
+    });
+
+    verifyAssetConfigTxn(this.txnGroup[0], {
+      configAsset: Asset.fromID(0),
+    });
+
+    verifyKeyRegTxn(this.txnGroup[0], {
+      voteFirst: 1337,
+    });
+  }
 }

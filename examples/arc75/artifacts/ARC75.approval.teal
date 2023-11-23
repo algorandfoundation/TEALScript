@@ -26,7 +26,7 @@ verifyMBRPayment:
 	proto 2 0
 
 	// examples/arc75/arc75.algo.ts:10
-	// verifyTxn(payment, {
+	// verifyPayTxn(payment, {
 	//       receiver: this.app.address,
 	//       amount: this.app.address.minBalance - preMBR,
 	//     })

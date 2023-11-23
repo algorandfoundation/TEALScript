@@ -257,7 +257,7 @@ declare type TxnVerificationTests = {
   notIncludedIn?: (IntLike | BytesLike)[];
 };
 
-declare type TxnVerificationFields = {
+declare type CommonTxnVerificationFields = {
   sender?: Address | TxnVerificationTests;
   fee?: IntLike | TxnVerificationTests;
   firstValid?: IntLike | TxnVerificationTests;
@@ -265,32 +265,35 @@ declare type TxnVerificationFields = {
   lastValid?: IntLike | TxnVerificationTests;
   note?: BytesLike | TxnVerificationTests;
   lease?: StaticArray<byte, 32> | TxnVerificationTests;
+  rekeyTo?: Address | TxnVerificationTests;
+  groupIndex?: IntLike | TxnVerificationTests;
+  txID?: StaticArray<byte, 32> | TxnVerificationTests;
+};
+
+declare type PayTxnVerificationFields = CommonTxnVerificationFields & {
   receiver?: Address | TxnVerificationTests;
   amount?: IntLike | TxnVerificationTests;
   closeRemainderTo?: Address | TxnVerificationTests;
+};
+
+declare type KeyRegTxnVerificationFields = CommonTxnVerificationFields & {
   votePK?: StaticArray<byte, 32> | TxnVerificationTests;
   selectionPK?: StaticArray<byte, 32> | TxnVerificationTests;
   voteFirst?: IntLike | TxnVerificationTests;
   voteLast?: IntLike | TxnVerificationTests;
   voteKeyDilution?: IntLike | TxnVerificationTests;
-  type?: BytesLike | TxnVerificationTests;
-  typeEnum?: IntLike | TxnVerificationTests;
-  xferAsset?: IntLike | TxnVerificationTests;
+  nonparticipation?: boolean | TxnVerificationTests;
+};
+
+declare type AssetTransferTxnVerificationFields = CommonTxnVerificationFields & {
+  xferAsset?: Asset | TxnVerificationTests;
   assetAmount?: IntLike | TxnVerificationTests;
   assetSender?: Address | TxnVerificationTests;
   assetReceiver?: Address | TxnVerificationTests;
   assetCloseTo?: Address | TxnVerificationTests;
-  groupIndex?: IntLike | TxnVerificationTests;
-  txID?: StaticArray<byte, 32> | TxnVerificationTests;
-  applicationID?: IntLike | TxnVerificationTests;
-  onCompletion?: IntLike | TxnVerificationTests;
-  applicationArgs?: BytesLike | TxnVerificationTests;
-  numAppArgs?: IntLike | TxnVerificationTests;
-  accounts?: Address | TxnVerificationTests;
-  numAccounts?: IntLike | TxnVerificationTests;
-  approvalProgram?: BytesLike | TxnVerificationTests;
-  clearStateProgram?: BytesLike | TxnVerificationTests;
-  rekeyTo?: Address | TxnVerificationTests;
+};
+
+declare type AssetConfigTxnVerificationFields = CommonTxnVerificationFields & {
   configAsset?: IntLike | TxnVerificationTests;
   configAssetTotal?: IntLike | TxnVerificationTests;
   configAssetDecimals?: IntLike | TxnVerificationTests;
@@ -306,27 +309,44 @@ declare type TxnVerificationFields = {
   freezeAsset?: IntLike | TxnVerificationTests;
   freezeAssetAccount?: Address | TxnVerificationTests;
   freezeAssetFrozen?: boolean | TxnVerificationTests;
-  assets?: IntLike | TxnVerificationTests;
+};
+
+declare type AppCallTxnVerificationFields = CommonTxnVerificationFields & {
+  // TODO: Add support for verifying arrays
+  // logs?: BytesLike | TxnVerificationTests;
+  // applicationArgs?: BytesLike | TxnVerificationTests;
+  // accounts?: Address | TxnVerificationTests;
+  // assets?: IntLike | TxnVerificationTests;
+  // applications?: IntLike | TxnVerificationTests;
+  applicationID?: Application | TxnVerificationTests;
+  onCompletion?: IntLike | TxnVerificationTests;
+  numAppArgs?: IntLike | TxnVerificationTests;
+  numAccounts?: IntLike | TxnVerificationTests;
+  approvalProgram?: BytesLike | TxnVerificationTests;
+  clearStateProgram?: BytesLike | TxnVerificationTests;
   numAssets?: IntLike | TxnVerificationTests;
-  applications?: IntLike | TxnVerificationTests;
   numApplications?: IntLike | TxnVerificationTests;
   globalNumUint?: IntLike | TxnVerificationTests;
   globalNumByteSlice?: IntLike | TxnVerificationTests;
   localNumUint?: IntLike | TxnVerificationTests;
   localNumByteSlice?: IntLike | TxnVerificationTests;
   extraProgramPages?: IntLike | TxnVerificationTests;
-  nonparticipation?: boolean | TxnVerificationTests;
-  logs?: BytesLike | TxnVerificationTests;
   numLogs?: IntLike | TxnVerificationTests;
-  createdAssetID?: IntLike | TxnVerificationTests;
-  createdApplicationID?: IntLike | TxnVerificationTests;
   lastLog?: BytesLike | TxnVerificationTests;
-  stateProofPK?: BytesLike | TxnVerificationTests;
   approvalProgramPages?: BytesLike | TxnVerificationTests;
   numApprovalProgramPages?: IntLike | TxnVerificationTests;
   clearStateProgramPages?: BytesLike | TxnVerificationTests;
   numClearStateProgramPages?: IntLike | TxnVerificationTests;
 };
+
+declare type TxnVerificationFields = PayTxnVerificationFields &
+  KeyRegTxnVerificationFields &
+  AssetTransferTxnVerificationFields &
+  AssetConfigTxnVerificationFields &
+  AppCallTxnVerificationFields & {
+    type?: BytesLike | TxnVerificationTests;
+    typeEnum?: IntLike | TxnVerificationTests;
+  };
 
 declare class Asset {
   static fromID(index: uint64): Asset;
@@ -926,6 +946,46 @@ declare function verifyTxn(
   txn: Txn | PayTxn | AssetConfigTxn | AppCallTxn | AssetTransferParams | AssetFreezeParams | KeyRegTxn | ThisTxnParams,
   params: TxnVerificationFields
 );
+
+/**
+ * Verifies the fields of a pay transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
+declare function verifyPayTxn(txn: Txn | PayTxn, params: PayTxnVerificationFields);
+
+/**
+ * Verifies the fields of an asset config transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
+declare function verifyAssetConfigTxn(txn: Txn | AssetConfigTxn, params: AssetConfigTxnVerificationFields);
+
+/**
+ * Verifies the fields of an asset transfer transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
+declare function verifyAssetTransferTxn(txn: Txn | AssetTransferParams, params: AssetTransferTxnVerificationFields);
+
+/**
+ * Verifies the fields of an app call transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
+declare function verifyAppCallTxn(txn: ThisTxnParams | Txn | AppCallTxn, params: AppCallTxnVerificationFields);
+
+/**
+ * Verifies the fields of a key reg transaction against the given parameters.
+ *
+ * @param txn the transaction to verify
+ * @param params the transaction fields to verify in the given transaction
+ */
+declare function verifyKeyRegTxn(txn: Txn | KeyRegTxn, params: KeyRegTxnVerificationFields);
 
 declare type decorator = (target: Object, key: string | symbol, descriptor: PropertyDescriptor) => PropertyDescriptor;
 

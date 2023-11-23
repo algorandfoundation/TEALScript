@@ -783,6 +783,107 @@ ecdsa:
 	log
 	retsub
 
+// verifyTxnTypes()void
+abi_route_verifyTxnTypes:
+	// execute verifyTxnTypes()void
+	callsub verifyTxnTypes
+	int 1
+	return
+
+verifyTxnTypes:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:162
+	// verifyPayTxn(this.txnGroup[0], {
+	//       amount: { greaterThan: 0 },
+	//     })
+	// verify pay
+	int 0
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+
+	// verify amount
+	int 0
+	gtxns Amount
+	int 0
+	>
+	assert
+
+	// tests/contracts/general.algo.ts:166
+	// verifyAppCallTxn(this.txnGroup[0], {
+	//       applicationID: Application.fromID(0),
+	//     })
+	// verify appl
+	int 0
+	gtxns TypeEnum
+	int appl
+	==
+	assert
+
+	// verify applicationID
+	int 0
+	gtxns ApplicationID
+	int 0
+	==
+	assert
+
+	// tests/contracts/general.algo.ts:170
+	// verifyAssetTransferTxn(this.txnGroup[0], {
+	//       assetReceiver: this.app.address,
+	//     })
+	// verify axfer
+	int 0
+	gtxns TypeEnum
+	int axfer
+	==
+	assert
+
+	// verify assetReceiver
+	int 0
+	gtxns AssetReceiver
+	global CurrentApplicationAddress
+	==
+	assert
+
+	// tests/contracts/general.algo.ts:174
+	// verifyAssetConfigTxn(this.txnGroup[0], {
+	//       configAsset: Asset.fromID(0),
+	//     })
+	// verify acfg
+	int 0
+	gtxns TypeEnum
+	int acfg
+	==
+	assert
+
+	// verify configAsset
+	int 0
+	gtxns ConfigAsset
+	int 0
+	==
+	assert
+
+	// tests/contracts/general.algo.ts:178
+	// verifyKeyRegTxn(this.txnGroup[0], {
+	//       voteFirst: 1337,
+	//     })
+	// verify keyreg
+	int 0
+	gtxns TypeEnum
+	int keyreg
+	==
+	assert
+
+	// verify voteFirst
+	int 0
+	gtxns VoteFirst
+	int 1337
+	==
+	assert
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -817,8 +918,9 @@ call_NoOp:
 	method "idProperty()void"
 	method "scratchSlot()void"
 	method "ecdsa()(uint256,uint256)"
+	method "verifyTxnTypes()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes
 	err
 
 intToAscii:

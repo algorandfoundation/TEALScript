@@ -186,7 +186,7 @@ deleteApplication:
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:53
-	// verifyTxn(this.txn, { sender: this.app.creator })
+	// verifyAppCallTxn(this.txn, { sender: this.app.creator })
 	// verify sender
 	txn Sender
 	txna Applications 0

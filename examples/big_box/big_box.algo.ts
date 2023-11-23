@@ -60,7 +60,7 @@ class BigBox extends Contract {
       numBoxes * 64 * COST_PER_BYTE + // cost of keys
       endBoxSize * COST_PER_BYTE; // cost of last box data
 
-    verifyTxn(mbrPayment, { receiver: this.app.address, amount: totalCost });
+    verifyPayTxn(mbrPayment, { receiver: this.app.address, amount: totalCost });
   }
 
   /**

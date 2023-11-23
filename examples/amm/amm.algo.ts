@@ -75,16 +75,16 @@ class ConstantProductAMM extends Contract {
   }
 
   set_governor(governor: Account): void {
-    verifyTxn(this.txn, { sender: this.governor.value });
+    verifyAppCallTxn(this.txn, { sender: this.governor.value });
     this.governor.value = governor;
   }
 
   bootstrap(seed: PayTxn, aAsset: Asset, bAsset: Asset): Asset {
-    verifyTxn(this.txn, { sender: this.governor.value });
+    verifyAppCallTxn(this.txn, { sender: this.governor.value });
 
     assert(globals.groupSize === 2);
 
-    verifyTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } });
+    verifyPayTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } });
     assert(aAsset < bAsset);
 
     this.assetA.value = aAsset;
@@ -104,7 +104,7 @@ class ConstantProductAMM extends Contract {
     assert(poolAsset === this.poolToken.value);
 
     /// valid asset A axfer
-    verifyTxn(aXfer, {
+    verifyAssetTransferTxn(aXfer, {
       sender: this.txn.sender,
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
@@ -112,7 +112,7 @@ class ConstantProductAMM extends Contract {
     });
 
     /// valid asset B axfer
-    verifyTxn(bXfer, {
+    verifyAssetTransferTxn(bXfer, {
       sender: this.txn.sender,
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
@@ -146,7 +146,7 @@ class ConstantProductAMM extends Contract {
     assert(bAsset === this.assetB.value);
 
     /// valid pool axfer
-    verifyTxn(poolXfer, {
+    verifyAssetTransferTxn(poolXfer, {
       sender: this.txn.sender,
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
@@ -170,7 +170,7 @@ class ConstantProductAMM extends Contract {
     assert(aAsset === this.assetA.value);
     assert(bAsset === this.assetB.value);
 
-    verifyTxn(swapXfer, {
+    verifyAssetTransferTxn(swapXfer, {
       assetAmount: { greaterThan: 0 },
       assetReceiver: this.app.address,
       sender: this.txn.sender,
