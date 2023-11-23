@@ -30,13 +30,6 @@ verifyMBRPayment:
 	//       receiver: this.app.address,
 	//       amount: this.app.address.minBalance - preMBR,
 	//     })
-	// verify pay
-	frame_dig -1 // payment: pay
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
 	// verify receiver
 	frame_dig -1 // payment: pay
 	gtxns Receiver

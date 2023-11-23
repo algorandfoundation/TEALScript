@@ -185,13 +185,6 @@ startAuction:
 	// Verify axfer
 	// examples/auction/auction.algo.ts:52
 	// verifyAssetTransferTxn(axfer, { assetReceiver: this.app.address })
-	// verify axfer
-	frame_dig -3 // axfer: axfer
-	gtxns TypeEnum
-	int axfer
-	==
-	assert
-
 	// verify assetReceiver
 	frame_dig -3 // axfer: axfer
 	gtxns AssetReceiver
@@ -300,13 +293,6 @@ bid:
 	//       sender: this.txn.sender,
 	//       amount: { greaterThan: this.previousBid.value },
 	//     })
-	// verify pay
-	frame_dig -1 // payment: pay
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
 	// verify sender
 	frame_dig -1 // payment: pay
 	gtxns Sender

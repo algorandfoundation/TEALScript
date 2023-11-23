@@ -389,13 +389,6 @@ bootstrap:
 
 	// examples/amm/amm.algo.ts:87
 	// verifyPayTxn(seed, { receiver: this.app.address, amount: { greaterThanEqualTo: 300_000 } })
-	// verify pay
-	frame_dig -1 // seed: pay
-	gtxns TypeEnum
-	int pay
-	==
-	assert
-
 	// verify receiver
 	frame_dig -1 // seed: pay
 	gtxns Receiver
@@ -538,13 +531,6 @@ mint:
 	//       assetReceiver: this.app.address,
 	//       xferAsset: aAsset,
 	//     })
-	// verify axfer
-	frame_dig -1 // aXfer: axfer
-	gtxns TypeEnum
-	int axfer
-	==
-	assert
-
 	// verify sender
 	frame_dig -1 // aXfer: axfer
 	gtxns Sender
@@ -581,13 +567,6 @@ mint:
 	//       assetReceiver: this.app.address,
 	//       xferAsset: bAsset,
 	//     })
-	// verify axfer
-	frame_dig -2 // bXfer: axfer
-	gtxns TypeEnum
-	int axfer
-	==
-	assert
-
 	// verify sender
 	frame_dig -2 // bXfer: axfer
 	gtxns Sender
@@ -775,13 +754,6 @@ burn:
 	//       assetReceiver: this.app.address,
 	//       xferAsset: poolAsset,
 	//     })
-	// verify axfer
-	frame_dig -1 // poolXfer: axfer
-	gtxns TypeEnum
-	int axfer
-	==
-	assert
-
 	// verify sender
 	frame_dig -1 // poolXfer: axfer
 	gtxns Sender
@@ -924,13 +896,6 @@ swap:
 	//       sender: this.txn.sender,
 	//       xferAsset: { includedIn: [aAsset, bAsset] },
 	//     })
-	// verify axfer
-	frame_dig -1 // swapXfer: axfer
-	gtxns TypeEnum
-	int axfer
-	==
-	assert
-
 	// verify assetAmount
 	frame_dig -1 // swapXfer: axfer
 	gtxns AssetAmount

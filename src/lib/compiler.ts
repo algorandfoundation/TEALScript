@@ -746,7 +746,20 @@ export default class Compiler {
       this.pushVoid(fieldNode, `${txnOp} ${capitalizeFirstChar(field)}`);
     };
 
-    if (type !== undefined && (this.currentProgram === 'lsig' || node.arguments[0].getText() !== 'this.txn')) {
+    // Don't perform type check on method arguments because they are checked in the method routing
+    let skipTypeCheck = false;
+    if (ts.isIdentifier(node.arguments[0])) {
+      const { name } = this.processFrame(node.arguments[0], node.arguments[0].getText(), false);
+      if (this.currentSubroutine.args.find((a) => a.name === node.arguments[0].getText())) {
+        skipTypeCheck = this.frame[name].type === type;
+      }
+    }
+
+    if (
+      type !== undefined &&
+      !skipTypeCheck &&
+      (this.currentProgram === 'lsig' || node.arguments[0].getText() !== 'this.txn')
+    ) {
       this.pushVoid(node, `// verify ${type}`);
       loadField(node, 'typeEnum');
       this.pushVoid(node, `int ${type}`);
