@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project } from 'ts-morph';
+import { Project, ts as tsMorphTs } from 'ts-morph';
 import path from 'path';
 import { readFileSync } from 'fs';
 // eslint-disable-next-line camelcase
@@ -1696,15 +1696,7 @@ export default class Compiler {
     const diags = sourceFile.getPreEmitDiagnostics();
 
     if (diags.length > 0) {
-      const messages = diags.map((d) => {
-        const file = d.getSourceFile()?.getFilePath();
-        if (file === undefined) return d.getMessageText();
-
-        const line = d.getLineNumber() || 0;
-        return `${file}:${line + 1}: ${d.getMessageText()}`;
-      });
-
-      throw Error(`TypeScript diagnostics failed:\n${messages.join('\n')}`);
+      throw Error(`TypeScript diagnostics failed\n${project.formatDiagnosticsWithColorAndContext(diags)}`);
     }
   }
 
