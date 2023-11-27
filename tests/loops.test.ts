@@ -40,4 +40,9 @@ describe('Loops', function () {
     const ret = await appClient.call({ method: 'forLoop', methodArgs: [], sendParams: { suppressLog: true } });
     expect(ret.return?.returnValue).toEqual(BigInt(10));
   });
+
+  test('doWhileLoop', async function () {
+    const ret = await appClient.call({ method: 'doWhileLoop', methodArgs: [], sendParams: { suppressLog: true } });
+    expect(ret.return?.returnValue).toEqual(BigInt(10));
+  });
 });

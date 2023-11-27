@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project } from 'ts-morph';
+import { Project, ts as tsMorphTs } from 'ts-morph';
 import path from 'path';
 import { readFileSync } from 'fs';
 // eslint-disable-next-line camelcase
@@ -320,6 +320,8 @@ export default class Compiler {
   private ternaryCount: number = 0;
 
   private whileCount: number = 0;
+
+  private doWhileCount: number = 0;
 
   private forCount: number = 0;
 
@@ -720,6 +722,101 @@ export default class Compiler {
     },
   };
 
+  private verifyTxn(node: ts.CallExpression, type?: string) {
+    if (!ts.isObjectLiteralExpression(node.arguments[1])) throw new Error('Expected object literal as second argument');
+
+    const preTealLength = this.teal[this.currentProgram].length;
+
+    this.processNode(node.arguments[0]);
+
+    const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
+
+    if (indexInScratch) {
+      this.pushVoid(node, `store ${compilerScratch.verifyTxnIndex}`);
+    } else this.teal[this.currentProgram].pop();
+
+    const loadField = (fieldNode: ts.Node, field: string) => {
+      if (indexInScratch) {
+        this.pushVoid(fieldNode, `load ${compilerScratch.verifyTxnIndex}`);
+      } else if (node.arguments[0].getText() !== 'this.txn') {
+        this.processNode(node.arguments[0]);
+      }
+
+      const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
+      this.pushVoid(fieldNode, `${txnOp} ${capitalizeFirstChar(field)}`);
+    };
+
+    // Don't perform type check on method arguments because they are checked in the method routing
+    let skipTypeCheck = false;
+    if (ts.isIdentifier(node.arguments[0])) {
+      const { name } = this.processFrame(node.arguments[0], node.arguments[0].getText(), false);
+      if (this.currentSubroutine.args.find((a) => a.name === node.arguments[0].getText())) {
+        skipTypeCheck = this.frame[name].type === type;
+      }
+    }
+
+    if (
+      type !== undefined &&
+      !skipTypeCheck &&
+      (this.currentProgram === 'lsig' || node.arguments[0].getText() !== 'this.txn')
+    ) {
+      this.pushVoid(node, `// verify ${type}`);
+      loadField(node, 'typeEnum');
+      this.pushVoid(node, `int ${type}`);
+      this.pushVoid(node, '==');
+      this.pushVoid(node, 'assert');
+    }
+
+    node.arguments[1].properties.forEach((p, i) => {
+      if (!ts.isPropertyAssignment(p)) throw new Error();
+      const field = p.name.getText();
+
+      this.pushVoid(p, `// verify ${field}`);
+
+      if (ts.isObjectLiteralExpression(p.initializer)) {
+        p.initializer.properties.forEach((c) => {
+          if (!ts.isPropertyAssignment(c)) throw new Error();
+
+          const condition = c.name.getText();
+
+          if (['includedIn', 'notIncludedIn'].includes(condition)) {
+            if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
+            c.initializer.elements.forEach((e, eIndex) => {
+              loadField(p, field);
+              this.processNode(e);
+              const op = condition === 'includedIn' ? '==' : '!=';
+              this.pushLines(c, op);
+              if (eIndex) this.pushLines(c, '||');
+            });
+
+            this.pushVoid(c, 'assert');
+            return;
+          }
+
+          const conditionMapping: Record<string, string> = {
+            greaterThan: '>',
+            greaterThanEqualTo: '>=',
+            lessThan: '<',
+            lessThanEqualTo: '<=',
+            not: '!=',
+          };
+
+          const op = conditionMapping[condition];
+
+          if (op === undefined) throw Error();
+          loadField(p, field);
+          this.processNode(c.initializer);
+          this.pushLines(c, op, 'assert');
+        });
+        return;
+      }
+
+      loadField(p, field);
+      this.processNode(p.initializer);
+      this.pushLines(p, '==', 'assert');
+    });
+  }
+
   private customMethods: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void;
@@ -930,80 +1027,27 @@ export default class Compiler {
     },
     verifyTxn: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-      fn: (node: ts.CallExpression) => {
-        if (!ts.isObjectLiteralExpression(node.arguments[1]))
-          throw new Error('Expected object literal as second argument');
-
-        const preTealLength = this.teal[this.currentProgram].length;
-
-        this.processNode(node.arguments[0]);
-
-        const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
-
-        if (indexInScratch) {
-          this.pushVoid(node, `store ${compilerScratch.verifyTxnIndex}`);
-        } else this.teal[this.currentProgram].pop();
-
-        node.arguments[1].properties.forEach((p, i) => {
-          if (!ts.isPropertyAssignment(p)) throw new Error();
-          const field = p.name.getText();
-
-          const loadField = () => {
-            if (indexInScratch) {
-              this.pushVoid(p, `load ${compilerScratch.verifyTxnIndex}`);
-            } else if (node.arguments[0].getText() !== 'this.txn') {
-              this.processNode(node.arguments[0]);
-            }
-
-            const txnOp = node.arguments[0].getText() === 'this.txn' ? 'txn' : 'gtxns';
-            this.pushVoid(p, `${txnOp} ${capitalizeFirstChar(field)}`);
-          };
-
-          this.pushVoid(p, `// verify ${field}`);
-
-          if (ts.isObjectLiteralExpression(p.initializer)) {
-            p.initializer.properties.forEach((c) => {
-              if (!ts.isPropertyAssignment(c)) throw new Error();
-
-              const condition = c.name.getText();
-
-              if (['includedIn', 'notIncludedIn'].includes(condition)) {
-                if (!ts.isArrayLiteralExpression(c.initializer)) throw Error('Expected array literal');
-                c.initializer.elements.forEach((e, eIndex) => {
-                  loadField();
-                  this.processNode(e);
-                  const op = condition === 'includedIn' ? '==' : '!=';
-                  this.pushLines(c, op);
-                  if (eIndex) this.pushLines(c, '||');
-                });
-
-                this.pushVoid(c, 'assert');
-                return;
-              }
-
-              const conditionMapping: Record<string, string> = {
-                greaterThan: '>',
-                greaterThanEqualTo: '>=',
-                lessThan: '<',
-                lessThanEqualTo: '<=',
-                not: '!=',
-              };
-
-              const op = conditionMapping[condition];
-
-              if (op === undefined) throw Error();
-              loadField();
-              this.processNode(c.initializer);
-              this.pushLines(c, op, 'assert');
-            });
-            return;
-          }
-
-          loadField();
-          this.processNode(p.initializer);
-          this.pushLines(p, '==', 'assert');
-        });
-      },
+      fn: (node: ts.CallExpression) => this.verifyTxn(node),
+    },
+    verifyPayTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.PaymentTx),
+    },
+    verifyAppCallTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.ApplicationCallTx),
+    },
+    verifyAssetTransferTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.AssetTransferTx),
+    },
+    verifyAssetConfigTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.AssetConfigTx),
+    },
+    verifyKeyRegTxn: {
+      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
+      fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.KeyRegistrationTx),
     },
     templateVar: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
@@ -1652,15 +1696,7 @@ export default class Compiler {
     const diags = sourceFile.getPreEmitDiagnostics();
 
     if (diags.length > 0) {
-      const messages = diags.map((d) => {
-        const file = d.getSourceFile()?.getFilePath();
-        if (file === undefined) return d.getMessageText();
-
-        const line = d.getLineNumber() || 0;
-        return `${file}:${line + 1}: ${d.getMessageText()}`;
-      });
-
-      throw Error(`TypeScript diagnostics failed:\n${messages.join('\n')}`);
+      throw Error(`TypeScript diagnostics failed\n${project.formatDiagnosticsWithColorAndContext(diags)}`);
     }
   }
 
@@ -1973,6 +2009,13 @@ export default class Compiler {
     else this.pushVoid(node, 'err');
   }
 
+  private processDoStatement(node: ts.DoStatement) {
+    this.pushVoid(node, `do_while_${this.doWhileCount}:`);
+    this.processNode(node.statement);
+    this.processNode(node.expression);
+    this.pushVoid(node, `bnz do_while_${this.doWhileCount}`);
+  }
+
   private processWhileStatement(node: ts.WhileStatement) {
     this.pushVoid(node, `while_${this.whileCount}:`);
     this.processNode(node.expression);
@@ -2039,6 +2082,7 @@ export default class Compiler {
       else if (ts.isThrowStatement(node)) this.processThrowStatement(node);
       else if (ts.isWhileStatement(node)) this.processWhileStatement(node);
       else if (ts.isForStatement(node)) this.processForStatement(node);
+      else if (ts.isDoStatement(node)) this.processDoStatement(node);
       // Vars/Consts
       else if (ts.isIdentifier(node)) this.processIdentifier(node);
       else if (ts.isVariableDeclarationList(node)) this.processVariableDeclaration(node);

@@ -26,7 +26,7 @@ class Auction extends Contract {
 
   optIntoAsset(asset: Asset): void {
     /// Only allow app creator to opt the app account into a ASA
-    verifyTxn(this.txn, { sender: globals.creatorAddress });
+    verifyAppCallTxn(this.txn, { sender: globals.creatorAddress });
 
     /// Verify a ASA hasn't already been opted into
     assert(this.asa.value === Asset.zeroIndex);
@@ -43,13 +43,13 @@ class Auction extends Contract {
   }
 
   startAuction(startingPrice: uint64, length: uint64, axfer: AssetTransferTxn): void {
-    verifyTxn(this.txn, { sender: globals.creatorAddress });
+    verifyAppCallTxn(this.txn, { sender: globals.creatorAddress });
 
     /// Ensure the auction hasn't already been started
     assert(this.auctionEnd.value === 0);
 
     /// Verify axfer
-    verifyTxn(axfer, { assetReceiver: this.app.address });
+    verifyAssetTransferTxn(axfer, { assetReceiver: this.app.address });
 
     /// Set global state
     this.asaAmt.value = axfer.assetAmount;
@@ -72,7 +72,7 @@ class Auction extends Contract {
     assert(globals.latestTimestamp < this.auctionEnd.value);
 
     /// Verify payment transaction
-    verifyTxn(payment, {
+    verifyPayTxn(payment, {
       sender: this.txn.sender,
       amount: { greaterThan: this.previousBid.value },
     });

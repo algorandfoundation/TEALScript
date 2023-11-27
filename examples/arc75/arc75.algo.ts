@@ -7,7 +7,7 @@ class ARC75 extends Contract {
   whitelist = BoxMap<Whitelist, uint64[]>();
 
   private verifyMBRPayment(payment: PayTxn, preMBR: uint64): void {
-    verifyTxn(payment, {
+    verifyPayTxn(payment, {
       receiver: this.app.address,
       amount: this.app.address.minBalance - preMBR,
     });
