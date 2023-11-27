@@ -1192,3 +1192,10 @@ class ABITestStringArray extends Contract {
     this.gKey.value = a;
   }
 }
+
+class ABITestUintCasting extends Contract {
+  uintCasting(a: uint<8>): void {
+    const b = a as uint<256>;
+    log(rawBytes(b));
+  }
+}
