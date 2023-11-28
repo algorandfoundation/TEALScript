@@ -39,3 +39,11 @@ class ContratWithLsigAddress extends Contract {
     log(BasicLsig.address());
   }
 }
+
+// eslint-disable-next-line no-unused-vars
+class LsigTests extends LogicSig {
+  logic(): void {
+    verifyPayTxn(this.txn, { amount: 1 });
+    verifyAssetTransferTxn(this.txn, { assetAmount: 1 });
+  }
+}

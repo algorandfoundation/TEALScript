@@ -767,6 +767,47 @@ export default class Compiler {
       this.pushVoid(node, 'assert');
     }
 
+    if (this.currentProgram === 'lsig' && node.arguments[0].getText() === 'this.txn') {
+      const propertyNames = node.arguments[1].properties.map((p) => p.name?.getText());
+
+      if (!propertyNames.includes('rekeyTo')) {
+        this.pushLines(
+          node,
+          '// verify the account is not being rekeyed',
+          'txn RekeyTo',
+          'global ZeroAddress',
+          '==',
+          'assert'
+        );
+      }
+
+      if (!propertyNames.includes('fee')) {
+        this.pushLines(node, '// verify the fee is zero', 'txn Fee', 'int 0', '==', 'assert');
+      }
+
+      if (type === 'pay' && !propertyNames.includes('closeRemainderTo')) {
+        this.pushLines(
+          node,
+          '// verify the account is not being closed',
+          'txn CloseRemainderTo',
+          'global ZeroAddress',
+          '==',
+          'assert'
+        );
+      }
+
+      if (type === 'axfer' && !propertyNames.includes('assetCloseTo')) {
+        this.pushLines(
+          node,
+          '// verify the asset is not being closed',
+          'txn AssetCloseTo',
+          'global ZeroAddress',
+          '==',
+          'assert'
+        );
+      }
+    }
+
     node.arguments[1].properties.forEach((p, i) => {
       if (!ts.isPropertyAssignment(p)) throw new Error();
       const field = p.name.getText();
