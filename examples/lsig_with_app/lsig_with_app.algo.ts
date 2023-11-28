@@ -9,12 +9,15 @@ class OptInLsig extends LogicSig {
   /** Verify this is an opt in transaction */
   logic(): void {
     /** Verify that the transaction this logic signature is approving is an ASA opt-in */
-    verifyTxn(this.txn, {
-      typeEnum: TransactionType.AssetTransfer,
+    verifyAssetTransferTxn(this.txn, {
       assetAmount: 0,
       assetReceiver: this.txn.sender,
+      // It's very important to set fee to 0 for delegated logic signatures
+      // Otherwise the fee can be used to drain the signer's account
       fee: 0,
+      // Also very important to check that the rekey is set to zero address
       rekeyTo: globals.zeroAddress,
+      // Finally we must ensure that this is not a close transaction, which will drain the signer's account of the given asset
       assetCloseTo: globals.zeroAddress,
     });
 
