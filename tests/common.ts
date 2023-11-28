@@ -4,6 +4,7 @@ import fs from 'fs';
 import algosdk from 'algosdk';
 import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
+// eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import Compiler from '../src/lib/compiler';
 

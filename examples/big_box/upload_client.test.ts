@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 import * as algokit from '@algorandfoundation/algokit-utils';
 import fs from 'fs';
+// eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import { describe, test, expect, beforeAll } from '@jest/globals';
 import algosdk from 'algosdk';
