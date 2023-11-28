@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 import * as algokit from '@algorandfoundation/algokit-utils';
+// eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import path from 'path';
 import { describe, test, expect } from '@jest/globals';

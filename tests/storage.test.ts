@@ -4,6 +4,7 @@ import { describe, test, expect, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import fs from 'fs';
 import path from 'path';
+// eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import { getMethodTeal, artifactsTest, algodClient, kmdClient } from './common';
 import Compiler from '../src/lib/compiler';

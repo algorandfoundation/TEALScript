@@ -9,9 +9,14 @@ import { CreatorVerifierClient } from './CreatorVerifierClient';
 const optInLsigTeal = readFileSync(`${__dirname}/artifacts/OptInLsig.lsig.teal`, 'utf8');
 
 async function getLsigAccount(algod: algosdk.Algodv2, appID: bigint, tealTemplate: string) {
+  // Replace the template variable in the lsig TEAL
   const teal = tealTemplate.replace('TMPL_APP_ID', appID.toString());
+
+  // Compile the TEAL
   const result = await algod.compile(Buffer.from(teal)).do();
   const b64program = result.result;
+
+  // Generate a LogicSigAccount object from the compiled program
   return new algosdk.LogicSigAccount(new Uint8Array(Buffer.from(b64program, 'base64')));
 }
 
@@ -47,6 +52,7 @@ describe('Lsig With App', () => {
 
     await appClient.create.createApplication({});
 
+    // Create an ASA to use in our tests
     const asaCreateTxn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
       suggestedParams: await algod.getTransactionParams().do(),
       from: testAccount.addr,
@@ -68,26 +74,25 @@ describe('Lsig With App', () => {
     const { appId } = await appClient.appClient.getAppReference();
 
     const lsigAccount = await getLsigAccount(algod, BigInt(appId), optInLsigTeal);
+
+    // Sign the program with bob's secret key
+    // This will allow transactions to be sent from bob's account if the logic signature is used
     lsigAccount.sign(bob.sk);
 
+    // Save bob's signature for later use
     bobSignature = lsigAccount.lsig.sig!;
   });
 
   test("bob allows opt ins for alice's ASAs", async () => {
     await appClient.appClient.fundAppAccount(algokit.microAlgos(28_500));
 
+    // Using bob's account, call the app and tell it to allow opt ins from alice
     appClient.allowOptInsFrom(
       { creator: alice.addr },
       {
         sender: bob,
-        boxes: [
-          {
-            appId: 0,
-            name: new Uint8Array(
-              Buffer.concat([algosdk.decodeAddress(bob.addr).publicKey, algosdk.decodeAddress(alice.addr).publicKey])
-            ),
-          },
-        ],
+        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
+        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
       }
     );
   });
@@ -98,29 +103,31 @@ describe('Lsig With App', () => {
 
     const lsigAccount = await getLsigAccount(algod, BigInt(appId), optInLsigTeal);
 
-    // Set the delegated account public key
+    // Specify that this will be a delegated account for bob by setting the sigkey to his publicKey
     lsigAccount.sigkey = algosdk.decodeAddress(bob.addr).publicKey;
 
-    // Set the program signature from the delegated account
+    // Set bob's signature so the node knows that this was indeed signed by Bob
     lsigAccount.lsig.sig = bobSignature;
 
+    // Form an opt in transaction from Bob
     const optInTxn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       from: bob.addr,
       to: bob.addr,
       assetIndex: Number(asa),
       amount: 0,
-      suggestedParams: await algod.getTransactionParams().do(),
+      suggestedParams: { ...(await algod.getTransactionParams().do()), fee: 0, flatFee: true },
     });
 
-    /*
-    URLTokenBaseHTTPError: Network request error. Received status 400 (Bad Request): TransactionPool.Remember: 
-    transaction 6RIO2CO2EDPMGILW3UJKTBUGUP4PAYTQWX2AJANIVTRMI24WV6WA: 
-    should have been authorized by ${bob.addr} 
-    but was actually authorized by ${alice.addr}
-    */
     await appClient.verifyCreator(
+      // Use the opt in transaction from Bob, but sign with the lsig account instead of Bob's account
       { optIn: { transaction: optInTxn, signer: lsigAccount }, _asaReference: asa },
-      { sender: alice }
+      {
+        // This transaction is being sent by alice, so bob is doing nothing to send this transaction since he alread signed the lsig
+        sender: alice,
+        sendParams: { fee: algokit.microAlgos(2_000) },
+        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
+        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
+      }
     );
   });
 });

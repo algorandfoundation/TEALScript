@@ -2,6 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
+// eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import { artifactsTest, algodClient, kmdClient } from './common';
 import appSpec from './contracts/artifacts/LoopsTest.arc32.json';
