@@ -1623,11 +1623,8 @@ export default class Compiler {
             let content: string;
 
             if (this.importRegistry[contractName]) {
-              const thisDir = path.dirname(this.filename);
-              const importPath = path.join(thisDir, this.importRegistry[contractName]);
-
-              content = readFileSync(importPath, 'utf8');
-              compilerOptions.filename = importPath;
+              content = readFileSync(this.importRegistry[contractName], 'utf8');
+              compilerOptions.filename = this.importRegistry[contractName];
             } else {
               content = this.content;
             }
@@ -1705,7 +1702,9 @@ export default class Compiler {
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
     project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
-
+    Object.values(this.importRegistry).forEach((p) => {
+      project.createSourceFile(p, readFileSync(p, 'utf8'));
+    });
     const sourceFile = project.createSourceFile(this.filename, content);
 
     const diags = sourceFile.getPreEmitDiagnostics();
@@ -1720,14 +1719,17 @@ export default class Compiler {
       if (ts.isImportDeclaration(body)) {
         body.importClause!.namedBindings!.forEachChild((b) => {
           const className = b.getText();
-          if (className === 'Contract') this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
-          else {
+          if (className === 'Contract' || className === 'LogicSig') {
+            this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+          } else {
             this.contractClasses.push(className);
             let importPath = body.moduleSpecifier.getText().slice(1, -1);
 
             if (!importPath.endsWith('.ts')) {
               importPath += '.ts';
             }
+
+            importPath = path.join(path.dirname(this.filename), importPath);
 
             this.importRegistry[className] = importPath;
           }
