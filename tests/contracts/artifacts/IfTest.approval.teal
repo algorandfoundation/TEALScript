@@ -43,20 +43,20 @@ singleIf:
 	proto 1 0
 
 	// if0_condition
-	// tests/contracts/if.algo.ts:8
+	// tests/contracts/if.algo.ts:7
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if0_end
 
 	// if0_consequent
-	// tests/contracts/if.algo.ts:9
+	// tests/contracts/if.algo.ts:8
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
 	retsub
 
 if0_end:
-	// tests/contracts/if.algo.ts:12
+	// tests/contracts/if.algo.ts:11
 	// return 'end';
 	byte 0x151f7c750003656e64
 	log
@@ -83,13 +83,13 @@ ifElse:
 	proto 1 0
 
 	// if1_condition
-	// tests/contracts/if.algo.ts:16
+	// tests/contracts/if.algo.ts:15
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if1_else
 
 	// if1_consequent
-	// tests/contracts/if.algo.ts:17
+	// tests/contracts/if.algo.ts:16
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -97,7 +97,7 @@ ifElse:
 	b if1_end
 
 if1_else:
-	// tests/contracts/if.algo.ts:19
+	// tests/contracts/if.algo.ts:18
 	// return 'else';
 	byte 0x151f7c750004656c7365
 	log
@@ -137,13 +137,13 @@ ifElseIf:
 	proto 2 0
 
 	// if2_condition
-	// tests/contracts/if.algo.ts:24
+	// tests/contracts/if.algo.ts:23
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if2_elseif1_condition
 
 	// if2_consequent
-	// tests/contracts/if.algo.ts:25
+	// tests/contracts/if.algo.ts:24
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -151,20 +151,20 @@ ifElseIf:
 	b if2_end
 
 if2_elseif1_condition:
-	// tests/contracts/if.algo.ts:26
+	// tests/contracts/if.algo.ts:25
 	// arg1
 	frame_dig -2 // arg1: bool
 	bz if2_end
 
 	// if2_elseif1_consequent
-	// tests/contracts/if.algo.ts:27
+	// tests/contracts/if.algo.ts:26
 	// return 'else if';
 	byte 0x151f7c750007656c7365206966
 	log
 	retsub
 
 if2_end:
-	// tests/contracts/if.algo.ts:30
+	// tests/contracts/if.algo.ts:29
 	// return 'end';
 	byte 0x151f7c750003656e64
 	log
@@ -201,13 +201,13 @@ ifElseIfElse:
 	proto 2 0
 
 	// if3_condition
-	// tests/contracts/if.algo.ts:34
+	// tests/contracts/if.algo.ts:33
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if3_elseif1_condition
 
 	// if3_consequent
-	// tests/contracts/if.algo.ts:35
+	// tests/contracts/if.algo.ts:34
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -215,13 +215,13 @@ ifElseIfElse:
 	b if3_end
 
 if3_elseif1_condition:
-	// tests/contracts/if.algo.ts:36
+	// tests/contracts/if.algo.ts:35
 	// arg1
 	frame_dig -2 // arg1: bool
 	bz if3_else
 
 	// if3_elseif1_consequent
-	// tests/contracts/if.algo.ts:37
+	// tests/contracts/if.algo.ts:36
 	// return 'else if';
 	byte 0x151f7c750007656c7365206966
 	log
@@ -229,7 +229,7 @@ if3_elseif1_condition:
 	b if3_end
 
 if3_else:
-	// tests/contracts/if.algo.ts:39
+	// tests/contracts/if.algo.ts:38
 	// return 'else';
 	byte 0x151f7c750004656c7365
 	log
@@ -279,13 +279,13 @@ ifElseIfElseIf:
 	proto 3 0
 
 	// if4_condition
-	// tests/contracts/if.algo.ts:44
+	// tests/contracts/if.algo.ts:43
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if4_elseif1_condition
 
 	// if4_consequent
-	// tests/contracts/if.algo.ts:45
+	// tests/contracts/if.algo.ts:44
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -293,13 +293,13 @@ ifElseIfElseIf:
 	b if4_end
 
 if4_elseif1_condition:
-	// tests/contracts/if.algo.ts:46
+	// tests/contracts/if.algo.ts:45
 	// arg1
 	frame_dig -2 // arg1: bool
 	bz if4_elseif2_condition
 
 	// if4_elseif1_consequent
-	// tests/contracts/if.algo.ts:47
+	// tests/contracts/if.algo.ts:46
 	// return 'else if 1';
 	byte 0x151f7c750009656c73652069662031
 	log
@@ -307,20 +307,20 @@ if4_elseif1_condition:
 	b if4_end
 
 if4_elseif2_condition:
-	// tests/contracts/if.algo.ts:48
+	// tests/contracts/if.algo.ts:47
 	// arg2
 	frame_dig -3 // arg2: bool
 	bz if4_end
 
 	// if4_elseif2_consequent
-	// tests/contracts/if.algo.ts:49
+	// tests/contracts/if.algo.ts:48
 	// return 'else if 2';
 	byte 0x151f7c750009656c73652069662032
 	log
 	retsub
 
 if4_end:
-	// tests/contracts/if.algo.ts:52
+	// tests/contracts/if.algo.ts:51
 	// return 'end';
 	byte 0x151f7c750003656e64
 	log
@@ -367,13 +367,13 @@ ifElseIfElseIfElse:
 	proto 3 0
 
 	// if5_condition
-	// tests/contracts/if.algo.ts:56
+	// tests/contracts/if.algo.ts:55
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if5_elseif1_condition
 
 	// if5_consequent
-	// tests/contracts/if.algo.ts:57
+	// tests/contracts/if.algo.ts:56
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -381,13 +381,13 @@ ifElseIfElseIfElse:
 	b if5_end
 
 if5_elseif1_condition:
-	// tests/contracts/if.algo.ts:58
+	// tests/contracts/if.algo.ts:57
 	// arg1
 	frame_dig -2 // arg1: bool
 	bz if5_elseif2_condition
 
 	// if5_elseif1_consequent
-	// tests/contracts/if.algo.ts:59
+	// tests/contracts/if.algo.ts:58
 	// return 'else if 1';
 	byte 0x151f7c750009656c73652069662031
 	log
@@ -395,13 +395,13 @@ if5_elseif1_condition:
 	b if5_end
 
 if5_elseif2_condition:
-	// tests/contracts/if.algo.ts:60
+	// tests/contracts/if.algo.ts:59
 	// arg2
 	frame_dig -3 // arg2: bool
 	bz if5_else
 
 	// if5_elseif2_consequent
-	// tests/contracts/if.algo.ts:61
+	// tests/contracts/if.algo.ts:60
 	// return 'else if 2';
 	byte 0x151f7c750009656c73652069662032
 	log
@@ -409,7 +409,7 @@ if5_elseif2_condition:
 	b if5_end
 
 if5_else:
-	// tests/contracts/if.algo.ts:63
+	// tests/contracts/if.algo.ts:62
 	// return 'else';
 	byte 0x151f7c750004656c7365
 	log
@@ -449,27 +449,27 @@ nestedIf:
 	proto 2 0
 
 	// if6_condition
-	// tests/contracts/if.algo.ts:68
+	// tests/contracts/if.algo.ts:67
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if6_else
 
 	// if6_consequent
 	// if7_condition
-	// tests/contracts/if.algo.ts:69
+	// tests/contracts/if.algo.ts:68
 	// arg1
 	frame_dig -2 // arg1: bool
 	bz if7_end
 
 	// if7_consequent
-	// tests/contracts/if.algo.ts:70
+	// tests/contracts/if.algo.ts:69
 	// return 'nested if';
 	byte 0x151f7c7500096e6573746564206966
 	log
 	retsub
 
 if7_end:
-	// tests/contracts/if.algo.ts:72
+	// tests/contracts/if.algo.ts:71
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -477,7 +477,7 @@ if7_end:
 	b if6_end
 
 if6_else:
-	// tests/contracts/if.algo.ts:74
+	// tests/contracts/if.algo.ts:73
 	// return 'else';
 	byte 0x151f7c750004656c7365
 	log
@@ -507,13 +507,13 @@ bracketlessIfElse:
 	proto 1 0
 
 	// if8_condition
-	// tests/contracts/if.algo.ts:79
+	// tests/contracts/if.algo.ts:78
 	// arg0
 	frame_dig -1 // arg0: bool
 	bz if8_else
 
 	// if8_consequent
-	// tests/contracts/if.algo.ts:79
+	// tests/contracts/if.algo.ts:78
 	// return 'if';
 	byte 0x151f7c7500026966
 	log
@@ -521,7 +521,7 @@ bracketlessIfElse:
 	b if8_end
 
 if8_else:
-	// tests/contracts/if.algo.ts:80
+	// tests/contracts/if.algo.ts:79
 	// return 'else';
 	byte 0x151f7c750004656c7365
 	log
@@ -560,7 +560,7 @@ abi_route_nestedTernary:
 nestedTernary:
 	proto 2 0
 
-	// tests/contracts/if.algo.ts:85
+	// tests/contracts/if.algo.ts:84
 	// return arg0 ? 1 : arg1 ? 2 : 3;
 	frame_dig -1 // arg0: bool
 	bz ternary0_false
