@@ -22,47 +22,35 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// ufixed()ufixed64x2
-abi_route_ufixed:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
+// uint64Casting(uint256)uint64
+abi_route_uint64Casting:
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
 
-	// execute ufixed()ufixed64x2
-	callsub ufixed
+	// execute uint64Casting(uint256)uint64
+	callsub uint64Casting
 	int 1
 	return
 
-ufixed:
-	proto 2 0
+uint64Casting:
+	proto 1 0
 
-	// tests/contracts/abi.algo.ts:735
-	// a = 1.23 as ufixed<64, 2>
-	byte 0x0000007b
-	frame_bury -1 // a: ufixed64x2
-
-	// tests/contracts/abi.algo.ts:736
-	// b = 4.56 as ufixed<64, 2>
-	byte 0x000001c8
-	frame_bury -2 // b: ufixed64x2
-
-	// tests/contracts/abi.algo.ts:738
-	// return a + b;
-	byte 0x0000007b // a: ufixed64x2
-	byte 0x000001c8 // b: ufixed64x2
-	b+
+	// tests/contracts/abi.algo.ts:1204
+	// return a as uint64;
+	frame_dig -1 // a: uint256
 	dup
 	bitlen
 	int 64
 	<=
 	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
+	extract 24 8
+	btoi
+	itob
 	byte 0x151f7c75
 	swap
 	concat
@@ -80,7 +68,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "ufixed()ufixed64x2"
+	method "uint64Casting(uint256)uint64"
 	txna ApplicationArgs 0
-	match abi_route_ufixed
+	match abi_route_uint64Casting
 	err

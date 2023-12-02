@@ -418,6 +418,20 @@ btobigintFirst:
 	frame_dig -1 // input: string
 	byte 0x01
 	b/
+	dup
+	bitlen
+	int 64
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 8
+	-
+	swap
+	substring3
 	btoi
 	itob
 	byte 0x151f7c75
@@ -445,6 +459,20 @@ btobigintSecond:
 	byte 0x03e8
 	frame_dig -1 // input: string
 	b/
+	dup
+	bitlen
+	int 64
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 8
+	-
+	swap
+	substring3
 	btoi
 	itob
 	byte 0x151f7c75

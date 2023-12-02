@@ -1194,8 +1194,13 @@ class ABITestStringArray extends Contract {
 }
 
 class ABITestUintCasting extends Contract {
-  uintCasting(a: uint<8>): void {
-    const b = a as uint<256>;
-    log(rawBytes(b));
+  uintCasting(a: uint<8>): uint<256> {
+    return <uint<256>>a;
+  }
+}
+
+class ABITestUint64Casting extends Contract {
+  uint64Casting(a: uint<256>): uint64 {
+    return a as uint64;
   }
 }

@@ -3353,10 +3353,14 @@ export default class Compiler {
     this.typeHint = undefined;
   }
 
-  private fixBitWidth(node: ts.Node, desiredWidth: number) {
-    if (desiredWidth === 64) {
+  private fixBitWidth(node: ts.Node, desiredWidth: number, preserveUint64 = false) {
+    const lastWidth = parseInt(this.lastType.match(/\d+/)?.[0] || '512', 10);
+
+    if (desiredWidth === 64 && lastWidth < 64) {
       if (this.teal[this.currentProgram].at(-1)!.teal === 'itob') return;
-      this.pushLines(node, 'btoi', 'itob');
+      this.pushVoid(node, 'btoi');
+      if (!preserveUint64) this.pushVoid(node, 'itob');
+
       return;
     }
 
@@ -3378,14 +3382,15 @@ export default class Compiler {
         'substring3'
       );
 
+      if (preserveUint64) this.pushVoid(node, 'btoi');
       this.lastType = `uint${desiredWidth}`;
       return;
     }
 
-    const lastWidth = parseInt(this.lastType.match(/\d+/)![0], 10);
-
     if (desiredWidth < lastWidth) {
       this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth / 8}`);
+
+      if (preserveUint64) this.pushVoid(node, 'btoi');
       this.lastType = `uint${desiredWidth}`;
       return;
     }
@@ -3667,15 +3672,10 @@ export default class Compiler {
     }
 
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
-      if (type === 'uint64') {
-        this.push(node, 'btoi', 'uint64');
-        return;
-      }
-
       const typeBitWidth = parseInt(type.replace('uint', ''), 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
-      this.fixBitWidth(node, typeBitWidth);
+      this.fixBitWidth(node, typeBitWidth, type === 'uint64');
     }
 
     this.typeHint = undefined;

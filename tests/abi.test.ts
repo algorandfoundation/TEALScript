@@ -730,5 +730,17 @@ describe('ABI', function () {
 
       await runMethod(appClient, 'chainedPropertyAfterTuple', [1337]);
     });
+
+    test('uintCasting', async () => {
+      const { appClient } = await compileAndCreate('uintCasting');
+
+      expect(await runMethod(appClient, 'uintCasting', [7])).toBe(7n);
+    });
+
+    test('uint64Casting', async () => {
+      const { appClient } = await compileAndCreate('uint64Casting');
+
+      expect(await runMethod(appClient, 'uint64Casting', [7])).toBe(7n);
+    });
   });
 });
