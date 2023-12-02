@@ -760,5 +760,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'smallerByteCasting', [[1, 0, 0, 0]])).toEqual([1, 0]);
     });
+
+    test('multiBytesTuple', async () => {
+      const { appClient } = await compileAndCreate('multiBytesTuple');
+
+      expect(await runMethod(appClient, 'multiBytesTuple')).toEqual([[1], [2]]);
+    });
   });
 });

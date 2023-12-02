@@ -3088,7 +3088,7 @@ export default class Compiler {
     if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
     if (node.type === undefined) throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
-    const returnType = this.getABIType(node.type.getText()).replace('bytes', 'byte[]');
+    const returnType = this.getABIType(node.type.getText()).replace(/bytes/g, 'byte[]');
 
     this.currentSubroutine = {
       name: node.name.getText(),
@@ -4777,7 +4777,7 @@ export default class Compiler {
       const type = this.getABIType(p!.type!.getText());
       const abiType = type;
 
-      this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace('bytes', 'byte[]')}`);
+      this.pushVoid(p, `// ${p.name.getText()}: ${this.getABIType(abiType).replace(/bytes/g, 'byte[]')}`);
 
       if (!TXN_TYPES.includes(type)) {
         if (this.currentProgram === 'lsig') this.pushLines(p, `int ${(nonTxnArgCount -= 1)}`, 'args');
@@ -4803,7 +4803,7 @@ export default class Compiler {
       }
       this.checkDecoding(p, type);
 
-      args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace('bytes', 'byte[]'), desc: '' });
+      args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace(/bytes/g, 'byte[]'), desc: '' });
     });
 
     const returnType = this.currentSubroutine.returns.type
