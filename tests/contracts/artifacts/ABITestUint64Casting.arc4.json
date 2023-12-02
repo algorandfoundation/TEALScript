@@ -1,19 +1,19 @@
 {
-  "name": "ABITestUintCasting",
+  "name": "ABITestUint64Casting",
   "desc": "",
   "methods": [
     {
-      "name": "uintCasting",
+      "name": "uint64Casting",
       "args": [
         {
           "name": "a",
-          "type": "uint8",
+          "type": "uint256",
           "desc": ""
         }
       ],
       "desc": "",
       "returns": {
-        "type": "uint256",
+        "type": "uint64",
         "desc": ""
       }
     },
