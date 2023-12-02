@@ -1204,3 +1204,21 @@ class ABITestUint64Casting extends Contract {
     return a as uint64;
   }
 }
+
+class ABITestBytesCasting extends Contract {
+  bytesCasting(a: bytes): StaticArray<byte, 2> {
+    return <StaticArray<byte, 2>>a;
+  }
+}
+
+class ABITestBiggerByteCasting extends Contract {
+  biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4> {
+    return <StaticArray<byte, 4>>a;
+  }
+}
+
+class ABITestSmallerByteCasting extends Contract {
+  smallerByteCasting(a: StaticArray<byte, 4>): StaticArray<byte, 2> {
+    return <StaticArray<byte, 2>>a;
+  }
+}

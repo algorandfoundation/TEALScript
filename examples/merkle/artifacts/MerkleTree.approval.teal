@@ -29,7 +29,12 @@ calcInitRoot:
 	// result = EMPTY_HASH
 	// examples/merkle/merkle.algo.ts:6
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
-	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550000000000000000000000000000000000000000000000000000000000000000
+	byte 0x
+	byte 0x
+	b==
+	assert
+	extract 0 32
 	frame_bury -1 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:21
@@ -287,7 +292,12 @@ appendLeaf:
 
 	// examples/merkle/merkle.algo.ts:6
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
-	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+	byte 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8550000000000000000000000000000000000000000000000000000000000000000
+	byte 0x
+	byte 0x
+	b==
+	assert
+	extract 0 32
 	callsub calcRoot
 	==
 	assert

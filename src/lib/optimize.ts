@@ -252,21 +252,6 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
 
         optimized = true;
       }
-    } else if (teal.startsWith('byte 0x')) {
-      const b = outputTeal.at(-1)?.teal;
-      const a = outputTeal.at(-2)?.teal;
-
-      if (a?.startsWith('byte 0x') && b?.startsWith('concat')) {
-        const aBytes = a.split(' ')[1].slice(2);
-        const bBytes = teal.split(' ')[1].slice(2);
-
-        popTeal();
-        popTeal();
-
-        pushTeal(`byte 0x${aBytes}${bBytes}`, node);
-
-        optimized = true;
-      }
     } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;

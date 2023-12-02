@@ -742,5 +742,23 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'uint64Casting', [7])).toBe(7n);
     });
+
+    test('bytesCasting', async () => {
+      const { appClient } = await compileAndCreate('bytesCasting');
+
+      expect(await runMethod(appClient, 'bytesCasting', [[1]])).toEqual([1, 0]);
+    });
+
+    test('biggerByteCasting', async () => {
+      const { appClient } = await compileAndCreate('biggerByteCasting');
+
+      expect(await runMethod(appClient, 'biggerByteCasting', [[1, 1]])).toEqual([1, 1, 0, 0]);
+    });
+
+    test('smallerByteCasting', async () => {
+      const { appClient } = await compileAndCreate('smallerByteCasting');
+
+      expect(await runMethod(appClient, 'smallerByteCasting', [[1, 0, 0, 0]])).toEqual([1, 0]);
+    });
   });
 });
