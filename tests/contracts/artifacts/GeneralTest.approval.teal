@@ -884,6 +884,35 @@ verifyTxnTypes:
 	assert
 	retsub
 
+// stringPlusEquals()void
+abi_route_stringPlusEquals:
+	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute stringPlusEquals()void
+	callsub stringPlusEquals
+	int 1
+	return
+
+stringPlusEquals:
+	proto 1 0
+
+	// tests/contracts/general.algo.ts:184
+	// s = 'foo'
+	byte 0x666f6f // "foo"
+	frame_bury -1 // s: bytes
+	frame_dig -1 // s: bytes
+	byte 0x626172 // "bar"
+	concat
+	frame_bury -1 // s: bytes
+
+	// tests/contracts/general.algo.ts:186
+	// assert(s === 'foobar')
+	frame_dig -1 // s: bytes
+	byte 0x666f6f626172 // "foobar"
+	==
+	assert
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -919,8 +948,9 @@ call_NoOp:
 	method "scratchSlot()void"
 	method "ecdsa()(uint256,uint256)"
 	method "verifyTxnTypes()void"
+	method "stringPlusEquals()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals
 	err
 
 intToAscii:

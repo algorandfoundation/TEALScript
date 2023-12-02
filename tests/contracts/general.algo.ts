@@ -179,4 +179,10 @@ class GeneralTest extends Contract {
       voteFirst: 1337,
     });
   }
+
+  stringPlusEquals(): void {
+    let s = 'foo';
+    s += 'bar';
+    assert(s === 'foobar');
+  }
 }

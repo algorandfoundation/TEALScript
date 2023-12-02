@@ -70,4 +70,20 @@ class MathTest extends Contract {
   uint8exp(a: uint<8>, b: uint<8>): uint<8> {
     return a ** b;
   }
+
+  plusEquals(a: number, b: number): number {
+    let x = a;
+
+    x += b;
+
+    return x;
+  }
+
+  plusEqualsFromGlobal(a: number, b: number): number {
+    this.gKey.value = a;
+
+    this.gKey.value += b;
+
+    return this.gKey.value;
+  }
 }

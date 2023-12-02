@@ -302,6 +302,46 @@
       }
     },
     {
+      "name": "plusEquals",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
+      "name": "plusEqualsFromGlobal",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "uint64",
+        "desc": ""
+      }
+    },
+    {
       "name": "createApplication",
       "desc": "",
       "returns": {
