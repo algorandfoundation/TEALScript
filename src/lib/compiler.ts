@@ -3515,13 +3515,19 @@ export default class Compiler {
       return;
     }
 
-    const operator = node.operatorToken
+    let operator = node.operatorToken
       .getText()
       .replace('>>', 'shr')
       .replace('<<', 'shl')
       .replace('===', '==')
       .replace('!==', '!=')
       .replace('**', 'exp');
+
+    let isOperatorAssignment = false;
+    if (['+=', '-=', '*=', '/='].includes(operator)) {
+      operator = operator.replace('=', '');
+      isOperatorAssignment = true;
+    }
 
     if (['&&', '||'].includes(operator)) {
       this.processLogicalExpression(node);
@@ -3554,8 +3560,9 @@ export default class Compiler {
       this.pushVoid(node.right, 'btoi');
     }
 
-    if (node.operatorToken.getText() === '+' && (leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
+    if (operator === '+' && (leftType === 'string' || leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
       this.push(node.operatorToken, 'concat', StackType.bytes);
+      if (isOperatorAssignment) this.updateValue(node.left);
       return;
     }
 
@@ -3590,6 +3597,10 @@ export default class Compiler {
       this.lastType = leftType;
 
       this.mathType = '';
+    }
+
+    if (isOperatorAssignment) {
+      this.updateValue(node.left);
     }
   }
 

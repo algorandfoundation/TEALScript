@@ -28,6 +28,8 @@ describe('Math', function () {
       exponent: BigInt(6 ** 3),
       variableTypeHint: 9n,
       uint8exp: BigInt(6 ** 3),
+      plusEquals: 9n,
+      plusEqualsFromGlobal: 9n,
     };
 
     Object.keys(methods).forEach((method) => {
