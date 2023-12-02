@@ -421,6 +421,8 @@ export default class Compiler {
 
   programVersion = 9;
 
+  importRegistry: Record<string, string> = {};
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
     if (type === 'bool') {
@@ -1617,7 +1619,20 @@ export default class Compiler {
           }
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
-            const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
+            const contractName = tealLine.split(' ')[1];
+            let content: string;
+
+            if (this.importRegistry[contractName]) {
+              const thisDir = path.dirname(this.filename);
+              const importPath = path.join(thisDir, this.importRegistry[contractName]);
+
+              content = readFileSync(importPath, 'utf8');
+              compilerOptions.filename = importPath;
+            } else {
+              content = this.content;
+            }
+
+            const c = new Compiler(content, contractName, compilerOptions);
             await c.compile();
 
             if (tealLine.split(':')[0].endsWith('ADDR')) {
@@ -1704,7 +1719,18 @@ export default class Compiler {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isImportDeclaration(body)) {
         body.importClause!.namedBindings!.forEachChild((b) => {
-          if (b.getText() === 'Contract') this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+          const className = b.getText();
+          if (className === 'Contract') this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+          else {
+            this.contractClasses.push(className);
+            let importPath = body.moduleSpecifier.getText().slice(1, -1);
+
+            if (!importPath.endsWith('.ts')) {
+              importPath += '.ts';
+            }
+
+            this.importRegistry[className] = importPath;
+          }
         });
       }
     });
