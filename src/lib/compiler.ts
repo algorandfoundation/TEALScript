@@ -3644,6 +3644,33 @@ export default class Compiler {
     this.lastType = this.getABIType(node.expression.getText());
   }
 
+  private fixByteWidth(node: ts.Node, desiredWidth: number) {
+    const lastType = this.getABIType(this.lastType);
+
+    if (lastType === 'string' || lastType === 'byte[]' || lastType === 'bytes') {
+      this.pushLines(
+        node,
+        `byte 0x${'00'.repeat(desiredWidth)}`,
+        'concat',
+        'dup',
+        `extract ${desiredWidth} 0`,
+        'byte 0x',
+        'b==',
+        'assert',
+        `extract 0 ${desiredWidth}`
+      );
+      return;
+    }
+
+    const lastWidth = parseInt(lastType.match(/\d+/)![0], 10);
+
+    if (lastWidth > desiredWidth) {
+      this.pushLines(node, `extract 0 ${desiredWidth}`);
+    } else if (lastWidth < desiredWidth) {
+      this.pushLines(node, `byte 0x${'00'.repeat(desiredWidth - lastWidth)}`, 'concat');
+    }
+  }
+
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     if (ts.isNumericLiteral(node.expression)) {
       this.processNumericLiteralWithType(node.expression, this.getABIType(node.type.getText()));
@@ -3666,13 +3693,18 @@ export default class Compiler {
 
     this.processNode(node.expression);
 
+    if (type.match(/byte\[\d+\]$/)) {
+      const typeWidth = parseInt(type.match(/\d+/)![0], 10);
+      this.fixByteWidth(node, typeWidth);
+    }
+
     if (this.lastType === 'any') {
       this.lastType = node.type.getText();
       return;
     }
 
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
-      const typeBitWidth = parseInt(type.replace('uint', ''), 10);
+      const typeBitWidth = parseInt(type.match(/\d+/)![0], 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
       this.fixBitWidth(node, typeBitWidth, type === 'uint64');

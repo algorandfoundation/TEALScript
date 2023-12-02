@@ -1,0 +1,30 @@
+{
+  "name": "ABITestSmallerByteCasting",
+  "desc": "",
+  "methods": [
+    {
+      "name": "smallerByteCasting",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[4]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "byte[2]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}

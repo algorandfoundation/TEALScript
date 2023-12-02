@@ -1023,13 +1023,10 @@ declare class abi {
   static readonly: decorator;
 }
 
-type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = (T extends byte
-  ? string
-  : N extends 0
-  ? never[]
-  : T extends boolean
-  ? (true | false)[]
-  : T[]) & { __type?: T; __length?: N };
+type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = Brand<
+  T extends byte ? string : N extends 0 ? never[] : T extends boolean ? (true | false)[] : T[],
+  T
+>;
 
 // eslint-disable-next-line no-shadow
 enum TransactionType {
