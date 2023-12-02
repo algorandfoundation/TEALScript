@@ -1222,3 +1222,9 @@ class ABITestSmallerByteCasting extends Contract {
     return <StaticArray<byte, 2>>a;
   }
 }
+
+class ABITestMultiBytesTuple extends Contract {
+  multiBytesTuple(): [bytes, bytes] {
+    return [hex('0x01'), hex('0x02')];
+  }
+}
