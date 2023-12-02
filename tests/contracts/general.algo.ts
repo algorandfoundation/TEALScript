@@ -1,4 +1,5 @@
 import { Contract } from '../../src/lib/index';
+import { IfTest } from './if.algo';
 
 class DummyContract extends Contract {}
 
@@ -184,5 +185,9 @@ class GeneralTest extends Contract {
     let s = 'foo';
     s += 'bar';
     assert(s === 'foobar');
+  }
+
+  importedProgram(): bytes {
+    return IfTest.approvalProgram();
   }
 }

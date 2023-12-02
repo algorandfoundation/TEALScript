@@ -421,6 +421,8 @@ export default class Compiler {
 
   programVersion = 9;
 
+  importRegistry: Record<string, string> = {};
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
     if (type === 'bool') {
@@ -1617,7 +1619,17 @@ export default class Compiler {
           }
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
-            const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
+            const contractName = tealLine.split(' ')[1];
+            let content: string;
+
+            if (this.importRegistry[contractName]) {
+              content = readFileSync(this.importRegistry[contractName], 'utf8');
+              compilerOptions.filename = this.importRegistry[contractName];
+            } else {
+              content = this.content;
+            }
+
+            const c = new Compiler(content, contractName, compilerOptions);
             await c.compile();
 
             if (tealLine.split(':')[0].endsWith('ADDR')) {
@@ -1690,7 +1702,9 @@ export default class Compiler {
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
     project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
-
+    Object.values(this.importRegistry).forEach((p) => {
+      project.createSourceFile(p, readFileSync(p, 'utf8'));
+    });
     const sourceFile = project.createSourceFile(this.filename, content);
 
     const diags = sourceFile.getPreEmitDiagnostics();
@@ -1704,7 +1718,21 @@ export default class Compiler {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isImportDeclaration(body)) {
         body.importClause!.namedBindings!.forEachChild((b) => {
-          if (b.getText() === 'Contract') this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+          const className = b.getText();
+          if (className === 'Contract' || className === 'LogicSig') {
+            this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
+          } else {
+            this.contractClasses.push(className);
+            let importPath = body.moduleSpecifier.getText().slice(1, -1);
+
+            if (!importPath.endsWith('.ts')) {
+              importPath += '.ts';
+            }
+
+            importPath = path.join(path.dirname(this.filename), importPath);
+
+            this.importRegistry[className] = importPath;
+          }
         });
       }
     });
