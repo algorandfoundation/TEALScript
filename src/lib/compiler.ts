@@ -3559,6 +3559,7 @@ export default class Compiler {
     if (['+=', '-=', '*=', '/='].includes(operator)) {
       operator = operator.replace('=', '');
       isOperatorAssignment = true;
+      this.addSourceComment(node, true);
     }
 
     if (['&&', '||'].includes(operator)) {
@@ -4479,6 +4480,16 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (ts.isIdentifier(base)) {
+      if (base.getText() === 'OnCompletion') {
+        if (ts.isPropertyAccessExpression(chain[0])) {
+          const oc = chain[0].name.getText() as OnComplete;
+
+          this.pushVoid(chain[0], `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
+
+          chain.splice(0, 1);
+        }
+      }
+
       if (this.contractClasses.includes(base.getText())) {
         if (ts.isPropertyAccessExpression(chain[0])) {
           const propName = chain[0].name.getText();

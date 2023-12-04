@@ -686,6 +686,9 @@ plusEquals:
 	// x = a
 	frame_dig -1 // a: uint64
 	frame_bury -3 // x: uint64
+
+	// tests/contracts/math.algo.ts:77
+	// x += b
 	frame_dig -3 // x: uint64
 	frame_dig -2 // b: uint64
 	+
@@ -726,7 +729,7 @@ plusEqualsFromGlobal:
 	app_global_put
 
 	// tests/contracts/math.algo.ts:85
-	// this.gKey.value
+	// this.gKey.value += b
 	byte 0x674b6579 // "gKey"
 	app_global_get
 	frame_dig -2 // b: uint64

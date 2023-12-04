@@ -900,6 +900,9 @@ stringPlusEquals:
 	// s = 'foo'
 	byte 0x666f6f // "foo"
 	frame_bury -1 // s: bytes
+
+	// tests/contracts/general.algo.ts:186
+	// s += 'bar'
 	frame_dig -1 // s: bytes
 	byte 0x626172 // "bar"
 	concat

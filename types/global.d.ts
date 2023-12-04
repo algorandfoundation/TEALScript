@@ -576,16 +576,19 @@ interface PaymentParams extends CommonTransactionParams {
   closeRemainderTo?: Address;
 }
 
+// eslint-disable-next-line no-shadow
+enum OnCompletion {
+  NoOp = 0,
+  OptIn = 1,
+  CloseOut = 2,
+  ClearState = 3,
+  UpdateApplication = 4,
+  DeleteApplication = 5,
+}
+
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application;
-  onCompletion?:
-    | 'NoOp'
-    | 'OptIn'
-    | 'CloseOut'
-    | 'ClearState'
-    | 'UpdateApplication'
-    | 'DeleteApplication'
-    | 'CreateApplication';
+  onCompletion?: OnCompletion;
   accounts?: Address[];
   approvalProgram?: bytes;
   applicationArgs?: bytes[];
