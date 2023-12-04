@@ -87,11 +87,15 @@ class MathTest extends Contract {
     return this.gKey.value;
   }
 
-  ufixedMul(): ufixed<64, 2> {
+  ufixedLiteralMul(): ufixed<64, 2> {
     const a: ufixed<64, 2> = 12.34;
     const b: ufixed<64, 2> = 12.34;
     const c = a * b;
 
     return c;
+  }
+
+  ufixedMul(a: ufixed<64, 2>, b: ufixed<64, 2>): ufixed<64, 2> {
+    return a * b;
   }
 }

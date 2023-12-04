@@ -1412,6 +1412,10 @@ export default class Compiler {
       return parseInt(type.slice(4), 10) / 8;
     }
 
+    if (type.match(/ufixed\d+x\d+$/)) {
+      return parseInt(type.slice(6), 10) / 8;
+    }
+
     if (type.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(type));
       let totalLength = 0;

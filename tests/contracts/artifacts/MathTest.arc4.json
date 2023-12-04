@@ -342,8 +342,28 @@
       }
     },
     {
-      "name": "ufixedMul",
+      "name": "ufixedLiteralMul",
       "args": [],
+      "desc": "",
+      "returns": {
+        "type": "ufixed64x2",
+        "desc": ""
+      }
+    },
+    {
+      "name": "ufixedMul",
+      "args": [
+        {
+          "name": "a",
+          "type": "ufixed64x2",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "ufixed64x2",
+          "desc": ""
+        }
+      ],
       "desc": "",
       "returns": {
         "type": "ufixed64x2",
