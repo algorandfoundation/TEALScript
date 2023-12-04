@@ -70,7 +70,25 @@ describe('Math', function () {
         msg = e.message;
       }
 
-      expect(msg).toMatch('intc_3 // 8; <=; assert');
+      expect(msg).toMatch('intc_2 // 8; <=; assert');
+    });
+
+    test('ufixedLiteralMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      expect(await runMethod({ appClient, method: 'ufixedLiteralMul' })).toBe(1522756n);
+    });
+
+    test('ufixedMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      expect(
+        await runMethod({
+          appClient,
+          method: 'ufixedMul',
+          methodArgs: [1234n, 1234n],
+        })
+      ).toBe(1522756n);
     });
   });
 

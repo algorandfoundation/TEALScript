@@ -746,6 +746,79 @@ plusEqualsFromGlobal:
 	log
 	retsub
 
+// ufixedLiteralMul()ufixed64x2
+abi_route_ufixedLiteralMul:
+	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
+
+	// execute ufixedLiteralMul()ufixed64x2
+	callsub ufixedLiteralMul
+	int 1
+	return
+
+ufixedLiteralMul:
+	proto 3 0
+
+	// tests/contracts/math.algo.ts:91
+	// a: ufixed<64, 2> = 12.34
+	byte 0x00000000000004d2
+	frame_bury -1 // a: ufixed64x2
+
+	// tests/contracts/math.algo.ts:92
+	// b: ufixed<64, 2> = 12.34
+	byte 0x00000000000004d2
+	frame_bury -2 // b: ufixed64x2
+
+	// tests/contracts/math.algo.ts:93
+	// c = a * b
+	byte 0x0000000000173c44
+	frame_bury -3 // c: ufixed64x2
+
+	// tests/contracts/math.algo.ts:95
+	// return c;
+	byte 0x151f7c750000000000173c44
+	log
+	retsub
+
+// ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
+abi_route_ufixedMul:
+	// b: ufixed64x2
+	txna ApplicationArgs 2
+	dup
+	len
+	int 8
+	==
+	assert
+
+	// a: ufixed64x2
+	txna ApplicationArgs 1
+	dup
+	len
+	int 8
+	==
+	assert
+
+	// execute ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
+	callsub ufixedMul
+	int 1
+	return
+
+ufixedMul:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:99
+	// return a * b;
+	frame_dig -1 // a: ufixed64x2
+	btoi
+	frame_dig -2 // b: ufixed64x2
+	btoi
+	*
+	itob
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -775,6 +848,8 @@ call_NoOp:
 	method "uint8exp(uint8,uint8)uint8"
 	method "plusEquals(uint64,uint64)uint64"
 	method "plusEqualsFromGlobal(uint64,uint64)uint64"
+	method "ufixedLiteralMul()ufixed64x2"
+	method "ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul
 	err

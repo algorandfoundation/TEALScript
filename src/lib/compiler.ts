@@ -1412,6 +1412,10 @@ export default class Compiler {
       return parseInt(type.slice(4), 10) / 8;
     }
 
+    if (type.match(/ufixed\d+x\d+$/)) {
+      return parseInt(type.slice(6), 10) / 8;
+    }
+
     if (type.startsWith('{')) {
       const types = Object.values(this.getObjectTypes(type));
       let totalLength = 0;
@@ -3563,8 +3567,12 @@ export default class Compiler {
     }
 
     const isSmallUint = (type: string) => {
-      if (!type.match(/uint\d+$/)) return false;
+      if (!type.match(/uint\d+$/) && !type.match(/ufixed\d+x\d+$/)) return false;
+
       const width = parseInt(type.match(/\d+/)![0], 10);
+
+      if (type.startsWith('ufixed')) return width <= 64;
+
       return width < 64;
     };
 
@@ -3615,7 +3623,8 @@ export default class Compiler {
       !this.isBinaryExpression(node.left) &&
       !this.isBinaryExpression(node.right) &&
       leftType !== StackType.uint64 &&
-      leftType !== 'bigint'
+      leftType !== 'bigint' &&
+      !leftType.startsWith('ufixed64')
     ) {
       if (optimizeSmallUint) {
         this.pushVoid(node, 'itob');
@@ -3625,6 +3634,12 @@ export default class Compiler {
       this.lastType = leftType;
 
       this.mathType = '';
+    }
+
+    if (leftType.match(/^ufixed64x\d+$/)) {
+      this.pushVoid(node, 'itob');
+
+      this.lastType = leftType;
     }
 
     if (isOperatorAssignment) {
@@ -4197,7 +4212,7 @@ export default class Compiler {
 
       const fixedValue = BigInt(valueStr);
 
-      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 8, '00')}`, type);
+      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 4, '00')}`, type);
 
       return;
     }
