@@ -4197,7 +4197,7 @@ export default class Compiler {
 
       const fixedValue = BigInt(valueStr);
 
-      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 8, '00')}`, type);
+      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 4, '00')}`, type);
 
       return;
     }
