@@ -46,26 +46,7 @@ ufixed:
 
 	// tests/contracts/abi.algo.ts:738
 	// return a + b;
-	byte 0x000000000000007b // a: ufixed64x2
-	byte 0x00000000000001c8 // b: ufixed64x2
-	b+
-	dup
-	bitlen
-	int 64
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
-	byte 0x151f7c75
-	swap
-	concat
+	byte 0x151f7c750000000000000243
 	log
 	retsub
 

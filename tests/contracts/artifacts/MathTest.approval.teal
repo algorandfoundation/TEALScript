@@ -770,30 +770,12 @@ ufixedMul:
 
 	// tests/contracts/math.algo.ts:93
 	// c = a * b
-	byte 0x00000000000004d2 // a: ufixed64x2
-	byte 0x00000000000004d2 // b: ufixed64x2
-	b*
-	dup
-	bitlen
-	int 64
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
+	byte 0x0000000000173c44
 	frame_bury -3 // c: ufixed64x2
 
 	// tests/contracts/math.algo.ts:95
 	// return c;
-	byte 0x151f7c75
-	frame_dig -3 // c: ufixed64x2
-	concat
+	byte 0x151f7c750000000000173c44
 	log
 	retsub
 
