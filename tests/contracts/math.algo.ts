@@ -98,4 +98,8 @@ class MathTest extends Contract {
   ufixedMul(a: ufixed<64, 2>, b: ufixed<64, 2>): ufixed<64, 2> {
     return a * b;
   }
+
+  BigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>): ufixed<128, 2> {
+    return a * b;
+  }
 }
