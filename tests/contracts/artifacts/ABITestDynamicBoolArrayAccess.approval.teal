@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // dynamicBoolArrayAccess()bool
 abi_route_dynamicBoolArrayAccess:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute dynamicBoolArrayAccess()bool
 	callsub dynamicBoolArrayAccess
 	int 1
 	return
 
 dynamicBoolArrayAccess:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:948
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
@@ -66,11 +64,11 @@ dynamicBoolArrayAccess:
 	int 0
 	setbit
 	concat
-	frame_bury -1 // a: bool[]
+	frame_bury 1 // a: bool[]
 
 	// tests/contracts/abi.algo.ts:950
 	// return a[8];
-	frame_dig -1 // a: bool[]
+	frame_dig 1 // a: bool[]
 	store 255 // full array
 	load 255 // full array
 	int 8

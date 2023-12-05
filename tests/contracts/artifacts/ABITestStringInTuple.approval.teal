@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // stringInTuple()(uint16,uint8[],string,uint8[])
 abi_route_stringInTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute stringInTuple()(uint16,uint8[],string,uint8[])
 	callsub stringInTuple
 	int 1
 	return
 
 stringInTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:542
 	// a: [uint<16>, uint<8>[], string, uint<8>[]] = [1, [2], 'Hello World!', [3]]
@@ -49,12 +47,12 @@ stringInTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],string,uint8[]]
+	frame_bury 1 // a: [uint16,uint8[],string,uint8[]]
 
 	// tests/contracts/abi.algo.ts:544
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [uint16,uint8[],string,uint8[]]
+	frame_dig 1 // a: [uint16,uint8[],string,uint8[]]
 	concat
 	log
 	retsub

@@ -24,34 +24,32 @@ NOT_IMPLEMENTED:
 
 // spliceFirstElementValue()uint16[]
 abi_route_spliceFirstElementValue:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute spliceFirstElementValue()uint16[]
 	callsub spliceFirstElementValue
 	int 1
 	return
 
 spliceFirstElementValue:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:520
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:522
 	// v = a.splice(0, 1)
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	int 1
 	int 0
 	store 247 // splice start
 	int 4
 	store 246 // splice byte length
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	dup
 	len
 	load 247 // splice start
@@ -62,19 +60,19 @@ spliceFirstElementValue:
 	swap
 	substring3
 	concat
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	load 247 // splice start
 	load 246 // splice byte length
 	int 2
 	-
 	extract3
 	swap
-	frame_bury -1 // a: uint16[]
-	frame_bury -2 // v: uint16[]
+	frame_bury 1 // a: uint16[]
+	frame_bury 2 // v: uint16[]
 
 	// tests/contracts/abi.algo.ts:524
 	// return v;
-	frame_dig -2 // v: uint16[]
+	frame_dig 2 // v: uint16[]
 	dup
 	len
 	int 2

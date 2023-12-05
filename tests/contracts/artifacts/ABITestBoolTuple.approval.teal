@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
 abi_route_boolTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
 	callsub boolTuple
 	int 1
 	return
 
 boolTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:888
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -74,12 +72,12 @@ boolTuple:
 	int 8
 	int 0
 	setbit
-	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:900
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	concat
 	log
 	retsub

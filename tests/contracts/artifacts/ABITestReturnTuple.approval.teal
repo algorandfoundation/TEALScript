@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // returnTuple()(uint64,uint16,uint64)
 abi_route_returnTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute returnTuple()(uint64,uint16,uint64)
 	callsub returnTuple
 	int 1
 	return
 
 returnTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:335
 	// a: [uint64, uint<16>, uint64] = [11, 22, 33]
 	byte 0x000000000000000b00160000000000000021
-	frame_bury -1 // a: [uint64,uint16,uint64]
+	frame_bury 1 // a: [uint64,uint16,uint64]
 
 	// tests/contracts/abi.algo.ts:336
 	// return a;

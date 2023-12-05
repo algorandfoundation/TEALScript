@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // shortTypeNotation()uint16
 abi_route_shortTypeNotation:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute shortTypeNotation()uint16
 	callsub shortTypeNotation
 	int 1
 	return
 
 shortTypeNotation:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:292
 	// a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
@@ -41,7 +39,7 @@ shortTypeNotation:
 	//       [55, 66],
 	//     ]
 	byte 0x000b00160000000000000021000000000000002c00370042
-	frame_bury -1 // a: [uint16[2],uint64[2],uint16[2]]
+	frame_bury 1 // a: [uint16[2],uint64[2],uint16[2]]
 
 	// tests/contracts/abi.algo.ts:298
 	// return a[2][1];

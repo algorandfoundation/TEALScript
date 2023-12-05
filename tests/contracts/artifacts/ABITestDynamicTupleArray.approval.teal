@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // dynamicTupleArray()uint64
 abi_route_dynamicTupleArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute dynamicTupleArray()uint64
 	callsub dynamicTupleArray
 	int 1
 	return
 
 dynamicTupleArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:379
 	// a: [uint<16>, uint64][] = [
@@ -40,7 +38,7 @@ dynamicTupleArray:
 	//       [33, 44],
 	//     ]
 	byte 0x000b00000000000000160021000000000000002c
-	frame_bury -1 // a: [uint16,uint64][]
+	frame_bury 1 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.algo.ts:384
 	// return a[1][1];

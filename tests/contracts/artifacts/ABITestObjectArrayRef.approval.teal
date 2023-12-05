@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // objectArrayRef()(uint8[2][2])
 abi_route_objectArrayRef:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute objectArrayRef()(uint8[2][2])
 	callsub objectArrayRef
 	int 1
 	return
 
 objectArrayRef:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:826
 	// a: ObjectRefType = {
@@ -42,21 +40,21 @@ objectArrayRef:
 	//       ],
 	//     }
 	byte 0x01020304
-	frame_bury -1 // a: ObjectRefType
+	frame_bury 1 // a: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:833
 	// c = b[1]
 	// tests/contracts/abi.algo.ts:835
 	// c[1] = 5 as uint<8>
-	frame_dig -1 // a: ObjectRefType
+	frame_dig 1 // a: ObjectRefType
 	byte 0x05
 	replace2 3
-	frame_bury -1 // c: ObjectRefType
+	frame_bury 1 // c: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:837
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: ObjectRefType
+	frame_dig 1 // a: ObjectRefType
 	concat
 	log
 	retsub

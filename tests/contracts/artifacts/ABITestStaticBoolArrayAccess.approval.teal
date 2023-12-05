@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // staticBoolArrayAccess()bool
 abi_route_staticBoolArrayAccess:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute staticBoolArrayAccess()bool
 	callsub staticBoolArrayAccess
 	int 1
 	return
 
 staticBoolArrayAccess:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:932
 	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
@@ -64,11 +62,11 @@ staticBoolArrayAccess:
 	int 8
 	int 0
 	setbit
-	frame_bury -1 // a: bool[9]
+	frame_bury 1 // a: bool[9]
 
 	// tests/contracts/abi.algo.ts:934
 	// return a[8];
-	frame_dig -1 // a: bool[9]
+	frame_dig 1 // a: bool[9]
 	store 255 // full array
 	load 255 // full array
 	int 8

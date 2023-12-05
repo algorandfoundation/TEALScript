@@ -23,7 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 calcInitRoot:
-	proto 2 1
+	proto 0 1; byte 0x; dupn 2
 
 	// examples/merkle/merkle.algo.ts:19
 	// result = EMPTY_HASH
@@ -35,39 +35,39 @@ calcInitRoot:
 	b==
 	assert
 	extract 0 32
-	frame_bury -1 // result: byte[32]
+	frame_bury 1 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:21
 	// i = 0
 	int 0
-	frame_bury -2 // i: uint64
+	frame_bury 2 // i: uint64
 
 for_0:
-	frame_dig -2 // i: uint64
+	frame_dig 2 // i: uint64
 	int 3
 	<
 	bz for_0_end
 
 	// examples/merkle/merkle.algo.ts:22
 	// result = sha256(result + result)
-	frame_dig -1 // result: byte[32]
-	frame_dig -1 // result: byte[32]
+	frame_dig 1 // result: byte[32]
+	frame_dig 1 // result: byte[32]
 	concat
 	sha256
-	frame_bury -1 // result: byte[32]
+	frame_bury 1 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:21
 	// i = i + 1
-	frame_dig -2 // i: uint64
+	frame_dig 2 // i: uint64
 	int 1
 	+
-	frame_bury -2 // i: uint64
+	frame_bury 2 // i: uint64
 	b for_0
 
 for_0_end:
 	// examples/merkle/merkle.algo.ts:25
 	// return result;
-	frame_dig -1 // result: byte[32]
+	frame_dig 1 // result: byte[32]
 	retsub
 
 hashConcat:
@@ -94,20 +94,20 @@ isRightSibling:
 	retsub
 
 calcRoot:
-	proto 4 1
+	proto 2 1; byte 0x; dupn 2
 
 	// examples/merkle/merkle.algo.ts:39
 	// i = 0
 	int 0
-	frame_bury -3 // i: uint64
+	frame_bury 1 // i: uint64
 
 for_1:
-	frame_dig -3 // i: uint64
+	frame_dig 1 // i: uint64
 	int 3
 	<
 	bz for_1_end
-	frame_dig -3 // i: uint64
-	frame_bury -4 // accessor: accessor//0//elem
+	frame_dig 1 // i: uint64
+	frame_bury 2 // accessor: accessor//0//elem
 
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:42
@@ -115,7 +115,7 @@ for_1:
 	frame_dig -2 // path: byte[33][3]
 	store 255 // full array
 	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
+	frame_dig 2 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -132,7 +132,7 @@ for_1:
 	frame_dig -2 // path: byte[33][3]
 	store 255 // full array
 	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
+	frame_dig 2 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -153,7 +153,7 @@ if0_else:
 	frame_dig -2 // path: byte[33][3]
 	store 255 // full array
 	int 0 // initial offset
-	frame_dig -4 // saved accessor: accessor//0//elem
+	frame_dig 2 // saved accessor: accessor//0//elem
 	int 33
 	* // acc * typeLength
 	+
@@ -168,10 +168,10 @@ if0_else:
 if0_end:
 	// examples/merkle/merkle.algo.ts:39
 	// i = i + 1
-	frame_dig -3 // i: uint64
+	frame_dig 1 // i: uint64
 	int 1
 	+
-	frame_bury -3 // i: uint64
+	frame_bury 1 // i: uint64
 	b for_1
 
 for_1_end:
@@ -214,7 +214,6 @@ createApplication:
 	// examples/merkle/merkle.algo.ts:57
 	// this.root.value = this.calcInitRoot()
 	byte 0x726f6f74 // "root"
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	callsub calcInitRoot
 	app_global_put
 	retsub
@@ -245,7 +244,6 @@ verify:
 	// assert(this.root.value === this.calcRoot(sha256(data), path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -1 // data: bytes
 	sha256
@@ -287,7 +285,6 @@ appendLeaf:
 	// assert(this.root.value === this.calcRoot(EMPTY_HASH, path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -2 // path: byte[33][3]
 
 	// examples/merkle/merkle.algo.ts:6
@@ -305,7 +302,6 @@ appendLeaf:
 	// examples/merkle/merkle.algo.ts:68
 	// this.root.value = this.calcRoot(sha256(data), path)
 	byte 0x726f6f74 // "root"
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -2 // path: byte[33][3]
 	frame_dig -1 // data: bytes
 	sha256
@@ -359,7 +355,6 @@ updateLeaf:
 	// assert(this.root.value === this.calcRoot(sha256(oldData), path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -3 // path: byte[33][3]
 	frame_dig -1 // oldData: bytes
 	sha256
@@ -370,7 +365,6 @@ updateLeaf:
 	// examples/merkle/merkle.algo.ts:77
 	// this.root.value = this.calcRoot(sha256(newData), path)
 	byte 0x726f6f74 // "root"
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
 	frame_dig -3 // path: byte[33][3]
 	frame_dig -2 // newData: bytes
 	sha256

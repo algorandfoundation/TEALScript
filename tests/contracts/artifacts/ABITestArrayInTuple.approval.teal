@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // arrayInTuple()uint64
 abi_route_arrayInTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute arrayInTuple()uint64
 	callsub arrayInTuple
 	int 1
 	return
 
 arrayInTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:265
 	// a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [11, 22, [33, 44], 55]
 	byte 0x000000000000000b00160000000000000021000000000000002c0037
-	frame_bury -1 // a: [uint64,uint16,uint64[2],uint16]
+	frame_bury 1 // a: [uint64,uint16,uint64[2],uint16]
 
 	// tests/contracts/abi.algo.ts:267
 	// return a[2][1];

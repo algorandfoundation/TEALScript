@@ -24,8 +24,6 @@ NOT_IMPLEMENTED:
 
 // dynamicAccessOfDynamicElementInStaticArray(string[3])string
 abi_route_dynamicAccessOfDynamicElementInStaticArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// a: string[3]
 	txna ApplicationArgs 1
 
@@ -35,12 +33,12 @@ abi_route_dynamicAccessOfDynamicElementInStaticArray:
 	return
 
 dynamicAccessOfDynamicElementInStaticArray:
-	proto 2 0
+	proto 1 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:651
 	// i = 1
 	int 1
-	frame_bury -2 // i: uint64
+	frame_bury 1 // i: uint64
 
 	// tests/contracts/abi.algo.ts:652
 	// return a[i];

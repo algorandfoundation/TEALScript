@@ -24,44 +24,42 @@ NOT_IMPLEMENTED:
 
 // arraySpliceValue()uint16[]
 abi_route_arraySpliceValue:
-	byte 0x; dupn 3 // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute arraySpliceValue()uint16[]
 	callsub arraySpliceValue
 	int 1
 	return
 
 arraySpliceValue:
-	proto 4 0
+	proto 0 0; byte 0x; dupn 4
 
 	// tests/contracts/abi.algo.ts:469
 	// a: uint<16>[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	byte 0x000100020003000400050006000700080009000a
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:471
 	// i = 1
 	int 1
-	frame_bury -2 // i: uint64
+	frame_bury 2 // i: uint64
 
 	// tests/contracts/abi.algo.ts:472
 	// l = 7
 	int 7
-	frame_bury -3 // l: uint64
+	frame_bury 3 // l: uint64
 
 	// tests/contracts/abi.algo.ts:473
 	// v = a.splice(i, l)
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	int 7 // l: uint64
 	int 2
 	store 247 // splice start
 	int 16
 	store 246 // splice byte length
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	dup
 	len
 	load 247 // splice start
@@ -72,19 +70,19 @@ arraySpliceValue:
 	swap
 	substring3
 	concat
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	load 247 // splice start
 	load 246 // splice byte length
 	int 2
 	-
 	extract3
 	swap
-	frame_bury -1 // a: uint16[]
-	frame_bury -4 // v: uint16[]
+	frame_bury 1 // a: uint16[]
+	frame_bury 4 // v: uint16[]
 
 	// tests/contracts/abi.algo.ts:475
 	// return v;
-	frame_dig -4 // v: uint16[]
+	frame_dig 4 // v: uint16[]
 	dup
 	len
 	int 2

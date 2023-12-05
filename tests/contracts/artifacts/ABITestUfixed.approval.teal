@@ -24,25 +24,23 @@ NOT_IMPLEMENTED:
 
 // ufixed()ufixed64x2
 abi_route_ufixed:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute ufixed()ufixed64x2
 	callsub ufixed
 	int 1
 	return
 
 ufixed:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:735
 	// a = 1.23 as ufixed<64, 2>
 	byte 0x000000000000007b
-	frame_bury -1 // a: ufixed64x2
+	frame_bury 1 // a: ufixed64x2
 
 	// tests/contracts/abi.algo.ts:736
 	// b = 4.56 as ufixed<64, 2>
 	byte 0x00000000000001c8
-	frame_bury -2 // b: ufixed64x2
+	frame_bury 2 // b: ufixed64x2
 
 	// tests/contracts/abi.algo.ts:738
 	// return a + b;

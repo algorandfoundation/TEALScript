@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // dynamicArray()uint64
 abi_route_dynamicArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute dynamicArray()uint64
 	callsub dynamicArray
 	int 1
 	return
 
 dynamicArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:348
 	// a: uint64[] = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -1 // a: uint64[]
+	frame_bury 1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:350
 	// return a[1];

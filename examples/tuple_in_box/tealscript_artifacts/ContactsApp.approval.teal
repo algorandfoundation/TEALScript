@@ -24,8 +24,6 @@ NOT_IMPLEMENTED:
 
 // setMyContact(string,string)void
 abi_route_setMyContact:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// company: string
 	txna ApplicationArgs 2
 	extract 2 0
@@ -40,7 +38,7 @@ abi_route_setMyContact:
 	return
 
 setMyContact:
-	proto 3 0
+	proto 2 0; byte 0x; dupn 1
 
 	// examples/tuple_in_box/app.algo.ts:12
 	// contact: Contact = { name: name, company: company }
@@ -65,12 +63,12 @@ setMyContact:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -3 // contact: Contact
+	frame_bury 1 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:14
 	// this.myContact.value = contact
 	byte 0x6d79436f6e74616374 // "myContact"
-	frame_dig -3 // contact: Contact
+	frame_dig 1 // contact: Contact
 	app_global_put
 
 	// examples/tuple_in_box/app.algo.ts:15
@@ -79,14 +77,12 @@ setMyContact:
 	dup
 	box_del
 	pop
-	frame_dig -3 // contact: Contact
+	frame_dig 1 // contact: Contact
 	box_put
 	retsub
 
 // addContact(address,string,string)void
 abi_route_addContact:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// address: address
 	txna ApplicationArgs 3
 	dup
@@ -109,7 +105,7 @@ abi_route_addContact:
 	return
 
 addContact:
-	proto 4 0
+	proto 3 0; byte 0x; dupn 1
 
 	// examples/tuple_in_box/app.algo.ts:19
 	// contact: Contact = { name: name, company: company }
@@ -134,7 +130,7 @@ addContact:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -4 // contact: Contact
+	frame_bury 1 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:20
 	// this.contacts(address).value = contact
@@ -142,7 +138,7 @@ addContact:
 	dup
 	box_del
 	pop
-	frame_dig -4 // contact: Contact
+	frame_dig 1 // contact: Contact
 	box_put
 	retsub
 

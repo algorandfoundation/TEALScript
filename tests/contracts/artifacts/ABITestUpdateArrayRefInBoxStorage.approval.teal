@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // updateArrayRefInBoxStorage()(uint8,uint64)
 abi_route_updateArrayRefInBoxStorage:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute updateArrayRefInBoxStorage()(uint8,uint64)
 	callsub updateArrayRefInBoxStorage
 	int 1
 	return
 
 updateArrayRefInBoxStorage:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1116
 	// this.bMap(this.txn.sender).value = [1, 2]
@@ -43,22 +41,22 @@ updateArrayRefInBoxStorage:
 	// tests/contracts/abi.algo.ts:1118
 	// v = this.bMap(this.txn.sender).value
 	txn Sender
-	frame_bury -1 // storage key//v
+	frame_bury 1 // storage key//v
 
 	// tests/contracts/abi.algo.ts:1120
 	// v[0] = 3
-	frame_dig -1 // storage key//v
+	frame_dig 1 // storage key//v
 	box_get
 	assert
 	byte 0x03
 	replace2 0
-	frame_dig -1 // storage key//v
+	frame_dig 1 // storage key//v
 	swap
 	box_put
 
 	// tests/contracts/abi.algo.ts:1122
 	// return v;
-	frame_dig -1 // storage key//v
+	frame_dig 1 // storage key//v
 	box_get
 	assert
 	byte 0x151f7c75

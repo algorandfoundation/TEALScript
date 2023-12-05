@@ -24,31 +24,29 @@ NOT_IMPLEMENTED:
 
 // nestedObjectType()uint64
 abi_route_nestedObjectType:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute nestedObjectType()uint64
 	callsub nestedObjectType
 	int 1
 	return
 
 nestedObjectType:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1105
 	// a: T4 = { b: { c: { d: 1 } } }
 	byte 0x0000000000000001
-	frame_bury -1 // a: T4
+	frame_bury 1 // a: T4
 
 	// tests/contracts/abi.algo.ts:1106
 	// a.b.c.d = 2
-	frame_dig -1 // a: T4
+	frame_dig 1 // a: T4
 	byte 0x0000000000000002
 	replace2 0
-	frame_bury -1 // a: T4
+	frame_bury 1 // a: T4
 
 	// tests/contracts/abi.algo.ts:1107
 	// return a.b.c.d;
-	frame_dig -1 // a: T4
+	frame_dig 1 // a: T4
 	extract 0 8
 	btoi
 	itob

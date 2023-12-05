@@ -24,8 +24,6 @@ NOT_IMPLEMENTED:
 
 // chainedPropertyAfterTuple(asset)void
 abi_route_chainedPropertyAfterTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// asa: asset
 	txna ApplicationArgs 1
 	btoi
@@ -37,16 +35,16 @@ abi_route_chainedPropertyAfterTuple:
 	return
 
 chainedPropertyAfterTuple:
-	proto 2 0
+	proto 1 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1182
 	// o: T7 = { foo: this.app.address }
 	global CurrentApplicationAddress
-	frame_bury -2 // o: T7
+	frame_bury 1 // o: T7
 
 	// tests/contracts/abi.algo.ts:1184
 	// assert(!o.foo.hasAsset(asa))
-	frame_dig -2 // o: T7
+	frame_dig 1 // o: T7
 	extract 0 32
 	frame_dig -1 // asa: asset
 	asset_holding_get AssetBalance

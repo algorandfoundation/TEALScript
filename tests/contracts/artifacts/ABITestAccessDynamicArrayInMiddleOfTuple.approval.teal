@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // accessDynamicArrayInMiddleOfTuple()uint8[]
 abi_route_accessDynamicArrayInMiddleOfTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute accessDynamicArrayInMiddleOfTuple()uint8[]
 	callsub accessDynamicArrayInMiddleOfTuple
 	int 1
 	return
 
 accessDynamicArrayInMiddleOfTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:666
 	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
@@ -47,11 +45,11 @@ accessDynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],uint16]
+	frame_bury 1 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:668
 	// return a[1];
-	frame_dig -1 // a: [uint16,uint8[],uint16]
+	frame_dig 1 // a: [uint16,uint8[],uint16]
 	store 255 // full array
 	int 2
 	load 255 // full array

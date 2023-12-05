@@ -24,31 +24,29 @@ NOT_IMPLEMENTED:
 
 // setStaticArrayElement()uint64
 abi_route_setStaticArrayElement:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute setStaticArrayElement()uint64
 	callsub setStaticArrayElement
 	int 1
 	return
 
 setStaticArrayElement:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:64
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -1 // a: uint64[3]
+	frame_bury 1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:66
 	// a[1] = 222
-	frame_dig -1 // a: uint64[3]
+	frame_dig 1 // a: uint64[3]
 	byte 0x00000000000000de
 	replace2 8
-	frame_bury -1 // a: uint64[3]
+	frame_bury 1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:68
 	// return a[1];
-	frame_dig -1 // a: uint64[3]
+	frame_dig 1 // a: uint64[3]
 	extract 8 8
 	btoi
 	itob

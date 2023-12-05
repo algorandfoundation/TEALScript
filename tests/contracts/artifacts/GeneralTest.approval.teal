@@ -426,41 +426,39 @@ fromID:
 
 // bzeroFunction()void
 abi_route_bzeroFunction:
-	byte 0x; dupn 3 // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute bzeroFunction()void
 	callsub bzeroFunction
 	int 1
 	return
 
 bzeroFunction:
-	proto 4 0
+	proto 0 0; byte 0x; dupn 4
 
 	// tests/contracts/general.algo.ts:96
 	// n = 1
 	int 1
-	frame_bury -1 // n: uint64
+	frame_bury 1 // n: uint64
 
 	// tests/contracts/general.algo.ts:97
 	// x: bytes = bzero(2)
 	byte 0x0000
-	frame_bury -2 // x: bytes
+	frame_bury 2 // x: bytes
 
 	// tests/contracts/general.algo.ts:98
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
-	frame_bury -3 // y: bytes
+	frame_bury 3 // y: bytes
 
 	// tests/contracts/general.algo.ts:99
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
-	frame_bury -4 // z: [uint64,uint8]
+	frame_bury 4 // z: [uint64,uint8]
 
 	// tests/contracts/general.algo.ts:100
 	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
-	frame_dig -3 // y: bytes
+	frame_dig 3 // y: bytes
 	concat
 	byte 0x000000000000000000 // z: [uint64,uint8]
 	concat
@@ -599,25 +597,23 @@ staticContractProperties:
 
 // numberToString()void
 abi_route_numberToString:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute numberToString()void
 	callsub numberToString
 	int 1
 	return
 
 numberToString:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/general.algo.ts:129
 	// n = 1
 	int 1
-	frame_bury -1 // n: uint64
+	frame_bury 1 // n: uint64
 
 	// tests/contracts/general.algo.ts:130
 	// s = '1'
 	byte 0x31 // "1"
-	frame_bury -2 // s: bytes
+	frame_bury 2 // s: bytes
 
 	// tests/contracts/general.algo.ts:131
 	// assert(n.toString() === s)
@@ -649,20 +645,18 @@ methodOnParens:
 
 // stringSubstring()void
 abi_route_stringSubstring:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute stringSubstring()void
 	callsub stringSubstring
 	int 1
 	return
 
 stringSubstring:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/general.algo.ts:139
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
-	frame_bury -1 // s: bytes
+	frame_bury 1 // s: bytes
 
 	// tests/contracts/general.algo.ts:140
 	// assert(s.substring(1, 3) === 'bc')
@@ -674,20 +668,18 @@ stringSubstring:
 
 // idProperty()void
 abi_route_idProperty:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute idProperty()void
 	callsub idProperty
 	int 1
 	return
 
 idProperty:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/general.algo.ts:144
 	// app = Application.zeroIndex
 	int 0
-	frame_bury -1 // app: application
+	frame_bury 1 // app: application
 
 	// tests/contracts/general.algo.ts:145
 	// assert(Application.fromID(app.id) === app)
@@ -699,7 +691,7 @@ idProperty:
 	// tests/contracts/general.algo.ts:147
 	// asa = Asset.zeroIndex
 	int 0
-	frame_bury -2 // asa: asset
+	frame_bury 2 // asa: asset
 
 	// tests/contracts/general.algo.ts:148
 	// assert(Asset.fromID(asa.id) === asa)
@@ -886,31 +878,29 @@ verifyTxnTypes:
 
 // stringPlusEquals()void
 abi_route_stringPlusEquals:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute stringPlusEquals()void
 	callsub stringPlusEquals
 	int 1
 	return
 
 stringPlusEquals:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/general.algo.ts:185
 	// s = 'foo'
 	byte 0x666f6f // "foo"
-	frame_bury -1 // s: bytes
+	frame_bury 1 // s: bytes
 
 	// tests/contracts/general.algo.ts:186
 	// s += 'bar'
-	frame_dig -1 // s: bytes
+	frame_dig 1 // s: bytes
 	byte 0x626172 // "bar"
 	concat
-	frame_bury -1 // s: bytes
+	frame_bury 1 // s: bytes
 
 	// tests/contracts/general.algo.ts:187
 	// assert(s === 'foobar')
-	frame_dig -1 // s: bytes
+	frame_dig 1 // s: bytes
 	byte 0x666f6f626172 // "foobar"
 	==
 	assert

@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])
 abi_route_updateStringInTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])
 	callsub updateStringInTuple
 	int 1
 	return
 
 updateStringInTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:560
 	// a: [uint<8>, uint<16>[], string, uint<16>[], uint<8>[]] = [9, [8], 'Hi?', [6], [5]]
@@ -51,21 +49,21 @@ updateStringInTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:562
 	// a[0] = 99 as uint<8>
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 255 // full array
 	load 255 // full array
 	int 0
 	byte 0x63
 	replace3
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:563
 	// a[1] = [10, 11]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 255 // full array
 	int 1
 	dup
@@ -119,11 +117,11 @@ updateStringInTuple:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:564
 	// a[2] = 'Hello World!'
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 255 // full array
 	int 3
 	dup
@@ -172,11 +170,11 @@ updateStringInTuple:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:565
 	// a[3] = [14, 15]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 255 // full array
 	int 5
 	dup
@@ -220,11 +218,11 @@ updateStringInTuple:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:566
 	// a[4] = [16, 17]
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	store 255 // full array
 	int 7
 	dup
@@ -263,12 +261,12 @@ updateStringInTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:568
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [uint8,uint16[],string,uint16[],uint8[]]
+	frame_dig 1 // a: [uint8,uint16[],string,uint16[],uint8[]]
 	concat
 	log
 	retsub

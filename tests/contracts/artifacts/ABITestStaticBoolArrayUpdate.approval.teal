@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // staticBoolArrayUpdate()bool[9]
 abi_route_staticBoolArrayUpdate:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute staticBoolArrayUpdate()bool[9]
 	callsub staticBoolArrayUpdate
 	int 1
 	return
 
 staticBoolArrayUpdate:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:956
 	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
@@ -64,22 +62,22 @@ staticBoolArrayUpdate:
 	int 8
 	int 0
 	setbit
-	frame_bury -1 // a: bool[9]
+	frame_bury 1 // a: bool[9]
 
 	// tests/contracts/abi.algo.ts:958
 	// a[8] = true
-	frame_dig -1 // a: bool[9]
+	frame_dig 1 // a: bool[9]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	int 1
 	setbit
-	frame_bury -1 // a: bool[9]
+	frame_bury 1 // a: bool[9]
 
 	// tests/contracts/abi.algo.ts:960
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: bool[9]
+	frame_dig 1 // a: bool[9]
 	concat
 	log
 	retsub
