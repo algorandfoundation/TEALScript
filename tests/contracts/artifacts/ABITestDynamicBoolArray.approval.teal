@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // dynamicBoolArray()bool[]
 abi_route_dynamicBoolArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute dynamicBoolArray()bool[]
 	callsub dynamicBoolArray
 	int 1
 	return
 
 dynamicBoolArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:940
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
@@ -66,12 +64,12 @@ dynamicBoolArray:
 	int 0
 	setbit
 	concat
-	frame_bury -1 // a: bool[]
+	frame_bury 1 // a: bool[]
 
 	// tests/contracts/abi.algo.ts:942
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: bool[]
+	frame_dig 1 // a: bool[]
 	concat
 	log
 	retsub

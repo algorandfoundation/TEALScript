@@ -513,8 +513,6 @@ exponent:
 
 // variableTypeHint(uint8,uint8)uint16
 abi_route_variableTypeHint:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// y: uint8
 	txna ApplicationArgs 2
 	dup
@@ -537,7 +535,7 @@ abi_route_variableTypeHint:
 	return
 
 variableTypeHint:
-	proto 3 0
+	proto 2 0; byte 0x; dupn 1
 
 	// tests/contracts/math.algo.ts:61
 	// z = <uint<16>>(x + y)
@@ -560,12 +558,12 @@ variableTypeHint:
 	assert
 	byte 0xFFFF
 	b&
-	frame_bury -3 // z: uint16
+	frame_bury 1 // z: uint16
 
 	// tests/contracts/math.algo.ts:63
 	// return z;
 	byte 0x151f7c75
-	frame_dig -3 // z: uint16
+	frame_dig 1 // z: uint16
 	concat
 	log
 	retsub
@@ -664,8 +662,6 @@ uint8exp:
 
 // plusEquals(uint64,uint64)uint64
 abi_route_plusEquals:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -680,23 +676,23 @@ abi_route_plusEquals:
 	return
 
 plusEquals:
-	proto 3 0
+	proto 2 0; byte 0x; dupn 1
 
 	// tests/contracts/math.algo.ts:75
 	// x = a
 	frame_dig -1 // a: uint64
-	frame_bury -3 // x: uint64
+	frame_bury 1 // x: uint64
 
 	// tests/contracts/math.algo.ts:77
 	// x += b
-	frame_dig -3 // x: uint64
+	frame_dig 1 // x: uint64
 	frame_dig -2 // b: uint64
 	+
-	frame_bury -3 // x: uint64
+	frame_bury 1 // x: uint64
 
 	// tests/contracts/math.algo.ts:79
 	// return x;
-	frame_dig -3 // x: uint64
+	frame_dig 1 // x: uint64
 	itob
 	byte 0x151f7c75
 	swap
@@ -751,30 +747,28 @@ plusEqualsFromGlobal:
 
 // ufixedLiteralMul()ufixed64x2
 abi_route_ufixedLiteralMul:
-	byte 0x; dupn 2 // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute ufixedLiteralMul()ufixed64x2
 	callsub ufixedLiteralMul
 	int 1
 	return
 
 ufixedLiteralMul:
-	proto 3 0
+	proto 0 0; byte 0x; dupn 3
 
 	// tests/contracts/math.algo.ts:91
 	// a: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury -1 // a: ufixed64x2
+	frame_bury 1 // a: ufixed64x2
 
 	// tests/contracts/math.algo.ts:92
 	// b: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury -2 // b: ufixed64x2
+	frame_bury 2 // b: ufixed64x2
 
 	// tests/contracts/math.algo.ts:93
 	// c = a * b
 	byte 0x0000000000003b7b
-	frame_bury -3 // c: ufixed64x2
+	frame_bury 3 // c: ufixed64x2
 
 	// tests/contracts/math.algo.ts:95
 	// return c;

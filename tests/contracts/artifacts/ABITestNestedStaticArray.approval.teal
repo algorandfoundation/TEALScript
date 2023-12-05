@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // nestedStaticArray()uint64
 abi_route_nestedStaticArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute nestedStaticArray()uint64
 	callsub nestedStaticArray
 	int 1
 	return
 
 nestedStaticArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:198
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [
@@ -41,7 +39,7 @@ nestedStaticArray:
 	//       [77, 88, 99],
 	//     ]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
-	frame_bury -1 // a: uint64[3][3]
+	frame_bury 1 // a: uint64[3][3]
 
 	// tests/contracts/abi.algo.ts:204
 	// return a[1][1];

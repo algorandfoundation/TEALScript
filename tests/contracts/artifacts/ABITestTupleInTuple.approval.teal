@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // tupleInTuple()uint64
 abi_route_tupleInTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute tupleInTuple()uint64
 	callsub tupleInTuple
 	int 1
 	return
 
 tupleInTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:284
 	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [11, 22, [33, 44], [55, 66]]
 	byte 0x000b00160000000000000021002c00370000000000000042
-	frame_bury -1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	frame_bury 1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
 	// tests/contracts/abi.algo.ts:286
 	// return a[3][1];

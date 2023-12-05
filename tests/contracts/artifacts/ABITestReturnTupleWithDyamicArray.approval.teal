@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])
 abi_route_returnTupleWithDyamicArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])
 	callsub returnTupleWithDyamicArray
 	int 1
 	return
 
 returnTupleWithDyamicArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:390
 	// a: [uint64, uint<16>, uint64[], uint<16>[]] = [1, 2, [3, 4], [5, 6]]
@@ -49,12 +47,12 @@ returnTupleWithDyamicArray:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_bury 1 // a: [uint64,uint16,uint64[],uint16[]]
 
 	// tests/contracts/abi.algo.ts:392
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_dig 1 // a: [uint64,uint16,uint64[],uint16[]]
 	concat
 	log
 	retsub

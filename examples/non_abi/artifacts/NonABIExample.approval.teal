@@ -63,24 +63,24 @@ abiAdd:
 	retsub
 
 nonAbiAdd:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// examples/non_abi/non_abi.algo.ts:15
 	// x = btoi(this.txn.applicationArgs![0])
 	txn ApplicationArgs 0
 	btoi
-	frame_bury -1 // x: uint64
+	frame_bury 1 // x: uint64
 
 	// examples/non_abi/non_abi.algo.ts:16
 	// y = btoi(this.txn.applicationArgs![1])
 	txn ApplicationArgs 1
 	btoi
-	frame_bury -2 // y: uint64
+	frame_bury 2 // y: uint64
 
 	// examples/non_abi/non_abi.algo.ts:17
 	// log(itob(this.add(x, y)))
-	frame_dig -2 // y: uint64
-	frame_dig -1 // x: uint64
+	frame_dig 2 // y: uint64
+	frame_dig 1 // x: uint64
 	callsub add
 	itob
 	log

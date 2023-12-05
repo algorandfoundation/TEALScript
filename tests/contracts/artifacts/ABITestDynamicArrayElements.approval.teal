@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // dynamicArrayElements()uint16[]
 abi_route_dynamicArrayElements:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute dynamicArrayElements()uint16[]
 	callsub dynamicArrayElements
 	int 1
 	return
 
 dynamicArrayElements:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:481
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:482
 	// newA: uint<16>[] = [a[0], a[1], a[2]]
@@ -55,11 +53,11 @@ dynamicArrayElements:
 	load 255 // full array
 	extract 4 2
 	concat
-	frame_bury -2 // newA: uint16[]
+	frame_bury 2 // newA: uint16[]
 
 	// tests/contracts/abi.algo.ts:484
 	// return newA;
-	frame_dig -2 // newA: uint16[]
+	frame_dig 2 // newA: uint16[]
 	dup
 	len
 	int 2

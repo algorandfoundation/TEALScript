@@ -1649,27 +1649,17 @@ export default class Compiler {
           const method = tealLine.split(' ')[1];
           const subroutine = this.subroutines.find((s) => s.name === method);
 
-          if (tealLine.startsWith('PENDING_DUPN')) {
-            if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
-
-            const nonArgFrameSize = this.frameSize[method] - subroutine.args.length;
-
-            if (nonArgFrameSize === 0) return { node: t.node, teal: '// No extra bytes needed for this subroutine' };
-
-            const comment = "// push empty bytes to fill the stack frame for this subroutine's local variables";
-
-            if (nonArgFrameSize === 1) return { node: t.node, teal: `byte 0x ${comment}` };
-            if (nonArgFrameSize === 2) return { node: t.node, teal: `byte 0x; dup ${comment}` };
-            return { node: t.node, teal: `byte 0x; dupn ${nonArgFrameSize - 1} ${comment}` };
-          }
-
           if (tealLine.startsWith('PENDING_PROTO')) {
             if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
             const isAbi = this.abi.methods.map((m) => m.name).includes(method);
+            let teal = `proto ${subroutine.args.length} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+
+            if (this.frameSize[method]) teal += `; byte 0x; dupn ${this.frameSize[method]}`;
+
             return {
               node: t.node,
-              teal: `proto ${this.frameSize[method]} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`,
+              teal,
             };
           }
 
@@ -3822,14 +3812,14 @@ export default class Compiler {
 
       const keyFrameName = `storage key//${name}`;
 
+      this.frameIndex += 1;
+
       this.pushVoid(keyNode, `frame_bury ${this.frameIndex} // ${keyFrameName}`);
 
       this.frame[keyFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
-
-      this.frameIndex -= 1;
 
       this.frame[name].storageKeyFrame = keyFrameName;
     }
@@ -3841,14 +3831,14 @@ export default class Compiler {
       this.addSourceComment(node, true);
       this.processNode(accountNode);
 
+      this.frameIndex += 1;
+
       this.pushVoid(accountNode, `frame_bury ${this.frameIndex} // ${accountFrameName}`);
 
       this.frame[accountFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
-
-      this.frameIndex -= 1;
 
       this.frame[name].storageAccountFrame = accountFrameName;
     }
@@ -3895,6 +3885,8 @@ export default class Compiler {
               this.push(e.argumentExpression, `int ${e.argumentExpression.getText()}`, StackType.uint64);
             } else this.processNode(e.argumentExpression);
 
+            this.frameIndex += 1;
+
             const accName = `accessor//${i}//${name}`;
             this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
 
@@ -3902,8 +3894,6 @@ export default class Compiler {
               index: this.frameIndex,
               type: StackType.uint64,
             };
-
-            this.frameIndex -= 1;
 
             return accName;
           });
@@ -3976,6 +3966,8 @@ export default class Compiler {
 
       const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
 
+      this.frameIndex += 1;
+
       this.frame[name] = {
         index: this.frameIndex,
         type,
@@ -3984,13 +3976,14 @@ export default class Compiler {
       this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${type}`);
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
+
+      this.frameIndex += 1;
+
       this.frame[name] = {
         index: this.frameIndex,
         type: this.getABIType(node.type.getText()),
       };
     }
-
-    this.frameIndex -= 1;
   }
 
   private processExpressionStatement(node: ts.ExpressionStatement) {
@@ -4431,7 +4424,6 @@ export default class Compiler {
     if (ts.isPropertyAccessExpression(chain[0]) && ts.isCallExpression(chain[1])) {
       const methodName = chain[0].name.getText();
       const preArgsType = this.lastType;
-      this.pushVoid(chain[1], `PENDING_DUPN: ${methodName}`);
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
@@ -4755,7 +4747,7 @@ export default class Compiler {
 
     this.pushVoid(fn, `PENDING_PROTO: ${this.currentSubroutine.name}`);
 
-    this.frameIndex = -1;
+    let argIndex = -1;
     const params = new Array(...fn.parameters);
     params.forEach((p) => {
       if (p.type === undefined) throw new Error();
@@ -4766,10 +4758,11 @@ export default class Compiler {
         type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: this.frameIndex, type };
-      this.frameIndex -= 1;
+      this.frame[p.name.getText()] = { index: argIndex, type };
+      argIndex -= 1;
     });
 
+    this.frameIndex = 0;
     this.processNode(fn.body!);
 
     if (!['retsub', 'err'].includes(this.teal[this.currentProgram].at(-1)!.teal.split(' ')[0]))
@@ -4789,7 +4782,7 @@ export default class Compiler {
     });
 
     this.frame = lastFrame;
-    this.frameSize[this.currentSubroutine.name] = this.frameIndex * -1 - 1;
+    this.frameSize[this.currentSubroutine.name] = this.frameIndex;
   }
 
   private processClearState(fn: ts.MethodDeclaration) {
@@ -4836,7 +4829,6 @@ export default class Compiler {
     const argCount = fn.parameters.length;
 
     const args: { name: string; type: string; desc: string }[] = [];
-    this.pushVoid(fn, `PENDING_DUPN: ${this.currentSubroutine.name}`);
 
     let nonTxnArgCount = argCount - fn.parameters.filter((p) => p.type?.getText().includes('Txn')).length + 1;
     let gtxnIndex = 0;

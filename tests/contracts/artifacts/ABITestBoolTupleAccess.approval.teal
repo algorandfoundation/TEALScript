@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // boolTupleAccess()bool
 abi_route_boolTupleAccess:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute boolTupleAccess()bool
 	callsub boolTupleAccess
 	int 1
 	return
 
 boolTupleAccess:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:914
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -74,11 +72,11 @@ boolTupleAccess:
 	int 8
 	int 1
 	setbit
-	frame_bury -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:926
 	// return a[8];
-	frame_dig -1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	store 255 // full array
 	load 255 // full array
 	int 8

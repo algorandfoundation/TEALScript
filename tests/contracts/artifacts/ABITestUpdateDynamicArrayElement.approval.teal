@@ -24,34 +24,32 @@ NOT_IMPLEMENTED:
 
 // updateDynamicArrayElement()uint64
 abi_route_updateDynamicArrayElement:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute updateDynamicArrayElement()uint64
 	callsub updateDynamicArrayElement
 	int 1
 	return
 
 updateDynamicArrayElement:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:369
 	// a: uint64[] = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -1 // a: uint64[]
+	frame_bury 1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:371
 	// a[1] = 222
-	frame_dig -1 // a: uint64[]
+	frame_dig 1 // a: uint64[]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	byte 0x00000000000000de
 	replace3
-	frame_bury -1 // a: uint64[]
+	frame_bury 1 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:373
 	// return a[1];
-	frame_dig -1 // a: uint64[]
+	frame_dig 1 // a: uint64[]
 	store 255 // full array
 	load 255 // full array
 	extract 8 8

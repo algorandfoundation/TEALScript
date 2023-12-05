@@ -24,31 +24,29 @@ NOT_IMPLEMENTED:
 
 // arrayPush()uint16[]
 abi_route_arrayPush:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute arrayPush()uint16[]
 	callsub arrayPush
 	int 1
 	return
 
 arrayPush:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:429
 	// a: uint<16>[] = [1, 2]
 	byte 0x00010002
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:431
 	// a.push(3 as uint<16>)
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	byte 0x0003
 	concat
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:433
 	// return a;
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	dup
 	len
 	int 2

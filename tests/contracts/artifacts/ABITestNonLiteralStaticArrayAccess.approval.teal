@@ -24,25 +24,23 @@ NOT_IMPLEMENTED:
 
 // nonLiteralStaticArrayAccess()uint64
 abi_route_nonLiteralStaticArrayAccess:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute nonLiteralStaticArrayAccess()uint64
 	callsub nonLiteralStaticArrayAccess
 	int 1
 	return
 
 nonLiteralStaticArrayAccess:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:55
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury -1 // a: uint64[3]
+	frame_bury 1 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:56
 	// n = 2
 	int 2
-	frame_bury -2 // n: uint64
+	frame_bury 2 // n: uint64
 
 	// tests/contracts/abi.algo.ts:58
 	// return a[n];

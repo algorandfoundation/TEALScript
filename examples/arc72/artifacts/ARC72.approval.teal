@@ -111,8 +111,6 @@ transferTo:
 //
 // Transfers ownership of an NFT
 abi_route_arc72_transferFrom:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// tokenId: uint256
 	txna ApplicationArgs 3
 	dup
@@ -143,19 +141,19 @@ abi_route_arc72_transferFrom:
 	return
 
 arc72_transferFrom:
-	proto 5 0
+	proto 3 0; byte 0x; dupn 2
 
 	// examples/arc72/arc72.algo.ts:48
 	// token = this.tokenBox(tokenId).value
 	frame_dig -3 // tokenId: uint256
-	frame_bury -4 // storage key//token
+	frame_bury 1 // storage key//token
 
 	// examples/arc72/arc72.algo.ts:50
 	// key: Control = { owner: this.txn.sender, controller: _from }
 	txn Sender
 	frame_dig -1 // _from: address
 	concat
-	frame_bury -5 // key: Control
+	frame_bury 2 // key: Control
 
 	// if0_condition
 	// examples/arc72/arc72.algo.ts:52
@@ -166,7 +164,7 @@ arc72_transferFrom:
 	dup
 	bnz skip_or0
 	txn Sender
-	frame_dig -4 // storage key//token
+	frame_dig 1 // storage key//token
 	box_get
 	assert
 	int 288
@@ -178,7 +176,7 @@ arc72_transferFrom:
 skip_or0:
 	dup
 	bnz skip_or1
-	frame_dig -5 // key: Control
+	frame_dig 2 // key: Control
 	box_len
 	swap
 	pop
@@ -250,8 +248,6 @@ arc72_approve:
 // @param approved true to give approval, false to revoke
 // @returns
 abi_route_arc72_setApprovalForAll:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// approved: bool
 	txna ApplicationArgs 2
 	dup
@@ -276,14 +272,14 @@ abi_route_arc72_setApprovalForAll:
 	return
 
 arc72_setApprovalForAll:
-	proto 3 0
+	proto 2 0; byte 0x; dupn 1
 
 	// examples/arc72/arc72.algo.ts:77
 	// key: Control = { owner: this.txn.sender, controller: operator }
 	txn Sender
 	frame_dig -1 // operator: address
 	concat
-	frame_bury -3 // key: Control
+	frame_bury 1 // key: Control
 
 	// if1_condition
 	// examples/arc72/arc72.algo.ts:79
@@ -294,7 +290,7 @@ arc72_setApprovalForAll:
 	// if1_consequent
 	// examples/arc72/arc72.algo.ts:79
 	// this.controlBox(key).value = ''
-	frame_dig -3 // key: Control
+	frame_dig 1 // key: Control
 	dup
 	box_del
 	pop
@@ -305,7 +301,7 @@ arc72_setApprovalForAll:
 if1_elseif1_condition:
 	// examples/arc72/arc72.algo.ts:80
 	// this.controlBox(key).exists
-	frame_dig -3 // key: Control
+	frame_dig 1 // key: Control
 	box_len
 	swap
 	pop
@@ -314,7 +310,7 @@ if1_elseif1_condition:
 	// if1_elseif1_consequent
 	// examples/arc72/arc72.algo.ts:80
 	// this.controlBox(key).delete()
-	frame_dig -3 // key: Control
+	frame_dig 1 // key: Control
 	box_del
 
 if1_end:
@@ -322,8 +318,6 @@ if1_end:
 
 // mint(address)void
 abi_route_mint:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// to: address
 	txna ApplicationArgs 1
 	dup
@@ -338,13 +332,13 @@ abi_route_mint:
 	return
 
 mint:
-	proto 3 0
+	proto 1 0; byte 0x; dupn 2
 
 	// examples/arc72/arc72.algo.ts:84
 	// index = this.index.value
 	byte 0x696e646578 // "index"
 	app_global_get
-	frame_bury -2 // index: uint256
+	frame_bury 1 // index: uint256
 
 	// examples/arc72/arc72.algo.ts:86
 	// token: Token = {
@@ -357,24 +351,24 @@ mint:
 	concat
 	global ZeroAddress
 	concat
-	frame_bury -3 // token: Token
+	frame_bury 2 // token: Token
 
 	// examples/arc72/arc72.algo.ts:92
 	// this.tokenBox(index).value = token
-	frame_dig -2 // index: uint256
-	frame_dig -3 // token: Token
+	frame_dig 1 // index: uint256
+	frame_dig 2 // token: Token
 	box_put
 
 	// examples/arc72/arc72.algo.ts:93
 	// this.transferTo(to, index)
-	frame_dig -2 // index: uint256
+	frame_dig 1 // index: uint256
 	frame_dig -1 // to: address
 	callsub transferTo
 
 	// examples/arc72/arc72.algo.ts:94
 	// this.index.value = index + 1
 	byte 0x696e646578 // "index"
-	frame_dig -2 // index: uint256
+	frame_dig 1 // index: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001
 	b+
 	dup

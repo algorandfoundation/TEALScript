@@ -24,24 +24,22 @@ NOT_IMPLEMENTED:
 
 // arrayPop()uint16[]
 abi_route_arrayPop:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute arrayPop()uint16[]
 	callsub arrayPop
 	int 1
 	return
 
 arrayPop:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:439
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:441
 	// a.pop()
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	dup
 	len
 	int 2
@@ -49,11 +47,11 @@ arrayPop:
 	int 0
 	swap
 	extract3
-	frame_bury -1 // a: uint16[]
+	frame_bury 1 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:443
 	// return a;
-	frame_dig -1 // a: uint16[]
+	frame_dig 1 // a: uint16[]
 	dup
 	len
 	int 2

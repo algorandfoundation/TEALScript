@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // nestedTuple()(uint16,(uint8,string),(uint16,string))
 abi_route_nestedTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute nestedTuple()(uint16,(uint8,string),(uint16,string))
 	callsub nestedTuple
 	int 1
 	return
 
 nestedTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:692
 	// a: [uint<16>, [uint<8>, string], [uint<16>, string]] = [11, [22, 'foo'], [33, 'bar']]
@@ -63,12 +61,12 @@ nestedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint16,[uint8,string],[uint16,string]]
+	frame_bury 1 // a: [uint16,[uint8,string],[uint16,string]]
 
 	// tests/contracts/abi.algo.ts:694
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [uint16,[uint8,string],[uint16,string]]
+	frame_dig 1 // a: [uint16,[uint8,string],[uint16,string]]
 	concat
 	log
 	retsub

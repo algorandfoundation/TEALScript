@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // threeDimensionalUint16Array()uint16
 abi_route_threeDimensionalUint16Array:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute threeDimensionalUint16Array()uint16
 	callsub threeDimensionalUint16Array
 	int 1
 	return
 
 threeDimensionalUint16Array:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:238
 	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
@@ -46,18 +44,18 @@ threeDimensionalUint16Array:
 	//       ],
 	//     ]
 	byte 0x000b00160021002c00370042004d0058
-	frame_bury -1 // a: uint16[2][2][2]
+	frame_bury 1 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.algo.ts:249
 	// a[1][1] = [777, 888]
-	frame_dig -1 // a: uint16[2][2][2]
+	frame_dig 1 // a: uint16[2][2][2]
 	byte 0x03090378
 	replace2 12
-	frame_bury -1 // a: uint16[2][2][2]
+	frame_bury 1 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.algo.ts:251
 	// return a[1][1][1];
-	frame_dig -1 // a: uint16[2][2][2]
+	frame_dig 1 // a: uint16[2][2][2]
 	extract 14 2
 	byte 0x151f7c75
 	swap

@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // updateNamedTuple()string
 abi_route_updateNamedTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute updateNamedTuple()string
 	callsub updateNamedTuple
 	int 1
 	return
 
 updateNamedTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:616
 	// a: {
@@ -51,11 +49,11 @@ updateNamedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: { foo: uint<16>; bar: string; }
+	frame_bury 1 // a: { foo: uint<16>; bar: string; }
 
 	// tests/contracts/abi.algo.ts:624
 	// a.bar = 'Hello World!'
-	frame_dig -1 // a: { foo: uint<16>; bar: string; }
+	frame_dig 1 // a: { foo: uint<16>; bar: string; }
 	store 255 // full array
 	int 2
 	dup
@@ -94,11 +92,11 @@ updateNamedTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury -1 // a: { foo: uint<16>; bar: string; }
+	frame_bury 1 // a: { foo: uint<16>; bar: string; }
 
 	// tests/contracts/abi.algo.ts:626
 	// return a.bar;
-	frame_dig -1 // a: { foo: uint<16>; bar: string; }
+	frame_dig 1 // a: { foo: uint<16>; bar: string; }
 	store 255 // full array
 	int 2
 	load 255 // full array

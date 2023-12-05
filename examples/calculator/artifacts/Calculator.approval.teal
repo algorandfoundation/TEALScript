@@ -64,8 +64,6 @@ ternary0_end:
 //
 // @returns The result of the operation
 abi_route_doMath:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// operation: string
 	txna ApplicationArgs 3
 	extract 2 0
@@ -84,7 +82,7 @@ abi_route_doMath:
 	return
 
 doMath:
-	proto 4 0
+	proto 3 0; byte 0x; dupn 1
 
 	// if0_condition
 	// examples/calculator/calculator.algo.ts:39
@@ -100,7 +98,7 @@ doMath:
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
-	frame_bury -4 // result: uint64
+	frame_bury 1 // result: uint64
 	b if0_end
 
 if0_elseif1_condition:
@@ -117,7 +115,7 @@ if0_elseif1_condition:
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference
-	frame_bury -4 // result: uint64
+	frame_bury 1 // result: uint64
 	b if0_end
 
 if0_else:
@@ -126,7 +124,7 @@ if0_else:
 if0_end:
 	// examples/calculator/calculator.algo.ts:45
 	// return result;
-	frame_dig -4 // result: uint64
+	frame_dig 1 // result: uint64
 	itob
 	byte 0x151f7c75
 	swap

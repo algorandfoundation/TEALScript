@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // stringAccessor()string
 abi_route_stringAccessor:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute stringAccessor()string
 	callsub stringAccessor
 	int 1
 	return
 
 stringAccessor:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:843
 	// s = 'Hello World'
 	byte 0x48656c6c6f20576f726c64 // "Hello World"
-	frame_bury -1 // s: bytes
+	frame_bury 1 // s: bytes
 
 	// tests/contracts/abi.algo.ts:845
 	// return s[1];

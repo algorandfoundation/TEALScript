@@ -24,35 +24,33 @@ NOT_IMPLEMENTED:
 
 // mixedStaticArrayElements()uint64
 abi_route_mixedStaticArrayElements:
-	byte 0x; dupn 3 // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute mixedStaticArrayElements()uint64
 	callsub mixedStaticArrayElements
 	int 1
 	return
 
 mixedStaticArrayElements:
-	proto 4 0
+	proto 0 0; byte 0x; dupn 4
 
 	// tests/contracts/abi.algo.ts:44
 	// n1 = 3
 	int 3
-	frame_bury -1 // n1: uint64
+	frame_bury 1 // n1: uint64
 
 	// tests/contracts/abi.algo.ts:45
 	// n2 = 4
 	int 4
-	frame_bury -2 // n2: uint64
+	frame_bury 2 // n2: uint64
 
 	// tests/contracts/abi.algo.ts:46
 	// n3 = 5
 	int 5
-	frame_bury -3 // n3: uint64
+	frame_bury 3 // n3: uint64
 
 	// tests/contracts/abi.algo.ts:47
 	// a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8]
 	byte 0x000000000000000000000000000000010000000000000002000000000000000300000000000000040000000000000005000000000000000600000000000000070000000000000008
-	frame_bury -4 // a: uint64[9]
+	frame_bury 4 // a: uint64[9]
 
 	// tests/contracts/abi.algo.ts:49
 	// return a[1] + a[4] + a[7];

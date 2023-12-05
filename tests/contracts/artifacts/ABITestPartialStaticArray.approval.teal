@@ -24,20 +24,18 @@ NOT_IMPLEMENTED:
 
 // partialStaticArray()uint16[3]
 abi_route_partialStaticArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute partialStaticArray()uint16[3]
 	callsub partialStaticArray
 	int 1
 	return
 
 partialStaticArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:859
 	// a: StaticArray<uint<16>, 3> = [1]
 	byte 0x000100000000
-	frame_bury -1 // a: uint16[3]
+	frame_bury 1 // a: uint16[3]
 
 	// tests/contracts/abi.algo.ts:861
 	// return a;

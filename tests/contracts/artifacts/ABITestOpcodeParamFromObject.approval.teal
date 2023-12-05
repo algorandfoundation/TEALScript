@@ -24,21 +24,19 @@ NOT_IMPLEMENTED:
 
 // opcodeParamFromObject()address
 abi_route_opcodeParamFromObject:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute opcodeParamFromObject()address
 	callsub opcodeParamFromObject
 	int 1
 	return
 
 opcodeParamFromObject:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1076
 	// a: { myApp: Application } = { myApp: this.app }
 	txna Applications 0
 	itob
-	frame_bury -1 // a: { myApp: Application }
+	frame_bury 1 // a: { myApp: Application }
 
 	// tests/contracts/abi.algo.ts:1078
 	// return this.app.address;

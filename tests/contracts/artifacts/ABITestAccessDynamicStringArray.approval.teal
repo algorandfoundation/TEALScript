@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // accessDynamicStringArray()string
 abi_route_accessDynamicStringArray:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute accessDynamicStringArray()string
 	callsub accessDynamicStringArray
 	int 1
 	return
 
 accessDynamicStringArray:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:710
 	// a: string[] = ['Hello', 'World', '!']
@@ -50,11 +48,11 @@ accessDynamicStringArray:
 	byte 0x0003
 	swap
 	concat
-	frame_bury -1 // a: string[]
+	frame_bury 1 // a: string[]
 
 	// tests/contracts/abi.algo.ts:712
 	// return a[1];
-	frame_dig -1 // a: string[]
+	frame_dig 1 // a: string[]
 	store 255 // full array
 	int 4
 	load 255 // full array

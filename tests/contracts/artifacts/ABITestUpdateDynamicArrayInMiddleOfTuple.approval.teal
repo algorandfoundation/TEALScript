@@ -24,15 +24,13 @@ NOT_IMPLEMENTED:
 
 // updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)
 abi_route_updateDynamicArrayInMiddleOfTuple:
-	byte 0x // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)
 	callsub updateDynamicArrayInMiddleOfTuple
 	int 1
 	return
 
 updateDynamicArrayInMiddleOfTuple:
-	proto 1 0
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:682
 	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
@@ -47,11 +45,11 @@ updateDynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury -1 // a: [uint16,uint8[],uint16]
+	frame_bury 1 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:684
 	// a[1] = [4, 5]
-	frame_dig -1 // a: [uint16,uint8[],uint16]
+	frame_dig 1 // a: [uint16,uint8[],uint16]
 	store 255 // full array
 	int 2
 	dup
@@ -90,12 +88,12 @@ updateDynamicArrayInMiddleOfTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury -1 // a: [uint16,uint8[],uint16]
+	frame_bury 1 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:686
 	// return a;
 	byte 0x151f7c75
-	frame_dig -1 // a: [uint16,uint8[],uint16]
+	frame_dig 1 // a: [uint16,uint8[],uint16]
 	concat
 	log
 	retsub

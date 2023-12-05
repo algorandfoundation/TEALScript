@@ -335,27 +335,25 @@ bid:
 
 // claimBids()void
 abi_route_claimBids:
-	byte 0x; dup // push empty bytes to fill the stack frame for this subroutine's local variables
-
 	// execute claimBids()void
 	callsub claimBids
 	int 1
 	return
 
 claimBids:
-	proto 2 0
+	proto 0 0; byte 0x; dupn 2
 
 	// examples/auction/auction.algo.ts:89
 	// originalAmount = this.claimableAmount(this.txn.sender).value
 	txn Sender
 	byte 0x636c61696d61626c65416d6f756e74 // "claimableAmount"
 	app_local_get
-	frame_bury -1 // originalAmount: uint64
+	frame_bury 1 // originalAmount: uint64
 
 	// examples/auction/auction.algo.ts:90
 	// amount = originalAmount
-	frame_dig -1 // originalAmount: uint64
-	frame_bury -2 // amount: uint64
+	frame_dig 1 // originalAmount: uint64
+	frame_bury 2 // amount: uint64
 
 	// subtract previous bid if sender is previous bidder
 	// if0_condition
@@ -370,16 +368,16 @@ claimBids:
 	// if0_consequent
 	// examples/auction/auction.algo.ts:93
 	// amount = amount - this.previousBid.value
-	frame_dig -2 // amount: uint64
+	frame_dig 2 // amount: uint64
 	byte 0x70726576696f7573426964 // "previousBid"
 	app_global_get
 	-
-	frame_bury -2 // amount: uint64
+	frame_bury 2 // amount: uint64
 
 if0_end:
 	// examples/auction/auction.algo.ts:95
 	// this.pay(this.txn.sender, amount)
-	frame_dig -2 // amount: uint64
+	frame_dig 2 // amount: uint64
 	txn Sender
 	callsub pay
 
@@ -387,8 +385,8 @@ if0_end:
 	// this.claimableAmount(this.txn.sender).value = originalAmount - amount
 	txn Sender
 	byte 0x636c61696d61626c65416d6f756e74 // "claimableAmount"
-	frame_dig -1 // originalAmount: uint64
-	frame_dig -2 // amount: uint64
+	frame_dig 1 // originalAmount: uint64
+	frame_dig 2 // amount: uint64
 	-
 	app_local_put
 	retsub
