@@ -3624,23 +3624,26 @@ export default class Compiler {
       !this.isBinaryExpression(node.left) &&
       !this.isBinaryExpression(node.right) &&
       leftType !== StackType.uint64 &&
-      leftType !== 'bigint' &&
-      !leftType.startsWith('ufixed64')
+      leftType !== 'bigint'
     ) {
       if (optimizeSmallUint) {
+        if (leftType.startsWith('ufixed')) {
+          const m = leftType.match(/ufixed(\d+)x(\d+)/)![2];
+          const div = BigInt(10) ** BigInt(m);
+          this.pushLines(node, `int ${div}`, '/');
+        }
         this.pushVoid(node, 'itob');
+      } else if (leftType.startsWith('ufixed')) {
+        const m = leftType.match(/ufixed(\d+)x(\d+)/)![2];
+        const div = BigInt(10) ** BigInt(m);
+        this.pushLines(node, `byte 0x${div.toString(16)}`, 'b/');
       }
-      this.fixBitWidth(node, parseInt(leftType.match(/\d+/)![0], 10));
+
+      if (!leftType.startsWith('ufixed64')) this.fixBitWidth(node, parseInt(leftType.match(/\d+/)![0], 10));
 
       this.lastType = leftType;
 
       this.mathType = '';
-    }
-
-    if (leftType.match(/^ufixed64x\d+$/)) {
-      this.pushVoid(node, 'itob');
-
-      this.lastType = leftType;
     }
 
     if (isOperatorAssignment) {
