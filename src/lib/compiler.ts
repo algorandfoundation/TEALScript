@@ -4084,7 +4084,7 @@ export default class Compiler {
       if (!ts.isTupleTypeNode(node.initializer.typeArguments![0]))
         throw Error('EventLogger type argument must be a tuple of types');
 
-      this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText()) || [];
+      this.events[node.name.getText()] = node.initializer.typeArguments![0]!.elements.map((t) => t.getText().replace(/bytes/g, 'byte[]')) || [];
     } else if (ts.isCallExpression(node.initializer) && node.initializer.expression.getText() === 'ScratchSlot') {
       if (node.initializer.typeArguments?.length !== 1) throw Error('ScratchSlot must have one type argument ');
 
