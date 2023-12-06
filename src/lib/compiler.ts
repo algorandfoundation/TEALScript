@@ -5034,9 +5034,12 @@ export default class Compiler {
       this.pushComments(p);
 
       if (key === 'onCompletion') {
-        if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer))
-          throw new Error('OnCompletion key must be a string');
-        this.pushVoid(p.initializer, `int ${p.initializer.text}`);
+        if (!ts.isPropertyAssignment(p) || !ts.isPropertyAccessExpression(p.initializer))
+          throw new Error('OnCompletion expects OnCompletion enum');
+        this.pushVoid(
+          p.initializer,
+          `int ${ON_COMPLETES.indexOf(p.initializer.name.getText() as OnComplete)} // ${p.initializer.name.getText()}`
+        );
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
         if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0]))

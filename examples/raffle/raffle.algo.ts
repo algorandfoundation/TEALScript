@@ -123,7 +123,7 @@ class NFTRaffle extends Contract {
         methodArgs: [this.drawRound.value, ''],
         applicationID: Application.fromID(this.randomnessOracle.value),
         fee: 0,
-        onCompletion: 'NoOp',
+        onCompletion: OnCompletion.NoOp,
       });
     }
   }
