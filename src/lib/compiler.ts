@@ -917,7 +917,7 @@ export default class Compiler {
 
         // sig component
         if (ts.isNumericLiteral(node.arguments[3])) {
-          this.processNumericLiteralWithType(node.arguments[3], 'bigint');
+          this.processNumericLiteralWithType(node.arguments[3], 'uint256');
         } else {
           this.processNode(node.arguments[3]);
           this.typeComparison(this.lastType, 'bigint');
@@ -925,10 +925,10 @@ export default class Compiler {
 
         // sig component
         if (ts.isNumericLiteral(node.arguments[4])) {
-          this.processNumericLiteralWithType(node.arguments[4], 'bigint');
+          this.processNumericLiteralWithType(node.arguments[4], 'uint256');
         } else {
           this.processNode(node.arguments[4]);
-          this.typeComparison(this.lastType, 'bigint');
+          this.typeComparison(this.lastType, 'uint256');
         }
 
         if (!ts.isStringLiteral(node.arguments[0])) throw Error();
