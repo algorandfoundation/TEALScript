@@ -45,14 +45,6 @@ class MathTest extends Contract {
     return 18_446_744_073_709_551_615;
   }
 
-  btobigintFirst(input: string): uint64 {
-    return <uint64>(btobigint(input) / 1);
-  }
-
-  btobigintSecond(input: string): uint64 {
-    return <uint64>(1000 / btobigint(input));
-  }
-
   exponent(a: uint64, b: uint64): uint64 {
     return a ** b;
   }
@@ -101,5 +93,11 @@ class MathTest extends Contract {
 
   BigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>): ufixed<128, 2> {
     return a * b;
+  }
+
+  TripleBigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>, c: ufixed<128, 2>): ufixed<128, 2> {
+    const ab = a * b;
+    const abc = ab * c;
+    return abc;
   }
 }

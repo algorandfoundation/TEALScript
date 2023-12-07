@@ -192,36 +192,6 @@
       }
     },
     {
-      "name": "btobigintFirst",
-      "args": [
-        {
-          "name": "input",
-          "type": "string",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "uint64",
-        "desc": ""
-      }
-    },
-    {
-      "name": "btobigintSecond",
-      "args": [
-        {
-          "name": "input",
-          "type": "string",
-          "desc": ""
-        }
-      ],
-      "desc": "",
-      "returns": {
-        "type": "uint64",
-        "desc": ""
-      }
-    },
-    {
       "name": "exponent",
       "args": [
         {
@@ -380,6 +350,31 @@
         },
         {
           "name": "b",
+          "type": "ufixed128x2",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "ufixed128x2",
+        "desc": ""
+      }
+    },
+    {
+      "name": "TripleBigUfixedMul",
+      "args": [
+        {
+          "name": "a",
+          "type": "ufixed128x2",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "ufixed128x2",
+          "desc": ""
+        },
+        {
+          "name": "c",
           "type": "ufixed128x2",
           "desc": ""
         }

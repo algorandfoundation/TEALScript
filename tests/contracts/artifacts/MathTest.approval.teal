@@ -399,88 +399,6 @@ maxU64:
 	log
 	retsub
 
-// btobigintFirst(string)uint64
-abi_route_btobigintFirst:
-	// input: string
-	txna ApplicationArgs 1
-	extract 2 0
-
-	// execute btobigintFirst(string)uint64
-	callsub btobigintFirst
-	int 1
-	return
-
-btobigintFirst:
-	proto 1 0
-
-	// tests/contracts/math.algo.ts:49
-	// return <uint64>(btobigint(input) / 1);
-	frame_dig -1 // input: string
-	byte 0x01
-	b/
-	dup
-	bitlen
-	int 64
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
-	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
-// btobigintSecond(string)uint64
-abi_route_btobigintSecond:
-	// input: string
-	txna ApplicationArgs 1
-	extract 2 0
-
-	// execute btobigintSecond(string)uint64
-	callsub btobigintSecond
-	int 1
-	return
-
-btobigintSecond:
-	proto 1 0
-
-	// tests/contracts/math.algo.ts:53
-	// return <uint64>(1000 / btobigint(input));
-	byte 0x03e8
-	frame_dig -1 // input: string
-	b/
-	dup
-	bitlen
-	int 64
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
-	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
-	retsub
-
 // exponent(uint64,uint64)uint64
 abi_route_exponent:
 	// b: uint64
@@ -499,7 +417,7 @@ abi_route_exponent:
 exponent:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:57
+	// tests/contracts/math.algo.ts:49
 	// return a ** b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -537,7 +455,7 @@ abi_route_variableTypeHint:
 variableTypeHint:
 	proto 2 0; byte 0x; dupn 1
 
-	// tests/contracts/math.algo.ts:61
+	// tests/contracts/math.algo.ts:53
 	// z = <uint<16>>(x + y)
 	frame_dig -1 // x: uint8
 	btoi
@@ -547,20 +465,21 @@ variableTypeHint:
 	itob
 	dup
 	bitlen
-	int 8
-	<=
-	assert
-	extract 7 1
-	dup
-	bitlen
 	int 16
 	<=
 	assert
 	byte 0xFFFF
 	b&
+	dup
+	len
+	dup
+	int 2
+	-
+	swap
+	substring3
 	frame_bury 1 // z: uint16
 
-	// tests/contracts/math.algo.ts:63
+	// tests/contracts/math.algo.ts:55
 	// return z;
 	byte 0x151f7c75
 	frame_dig 1 // z: uint16
@@ -594,7 +513,7 @@ abi_route_uint8plus:
 uint8plus:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:67
+	// tests/contracts/math.algo.ts:59
 	// return a + b;
 	frame_dig -1 // a: uint8
 	btoi
@@ -607,7 +526,15 @@ uint8plus:
 	int 8
 	<=
 	assert
-	extract 7 1
+	byte 0xFF
+	b&
+	dup
+	len
+	dup
+	int 1
+	-
+	swap
+	substring3
 	byte 0x151f7c75
 	swap
 	concat
@@ -640,7 +567,7 @@ abi_route_uint8exp:
 uint8exp:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:71
+	// tests/contracts/math.algo.ts:63
 	// return a ** b;
 	frame_dig -1 // a: uint8
 	btoi
@@ -653,7 +580,15 @@ uint8exp:
 	int 8
 	<=
 	assert
-	extract 7 1
+	byte 0xFF
+	b&
+	dup
+	len
+	dup
+	int 1
+	-
+	swap
+	substring3
 	byte 0x151f7c75
 	swap
 	concat
@@ -678,19 +613,19 @@ abi_route_plusEquals:
 plusEquals:
 	proto 2 0; byte 0x; dupn 1
 
-	// tests/contracts/math.algo.ts:75
+	// tests/contracts/math.algo.ts:67
 	// x = a
 	frame_dig -1 // a: uint64
 	frame_bury 1 // x: uint64
 
-	// tests/contracts/math.algo.ts:77
+	// tests/contracts/math.algo.ts:69
 	// x += b
 	frame_dig 1 // x: uint64
 	frame_dig -2 // b: uint64
 	+
 	frame_bury 1 // x: uint64
 
-	// tests/contracts/math.algo.ts:79
+	// tests/contracts/math.algo.ts:71
 	// return x;
 	frame_dig 1 // x: uint64
 	itob
@@ -718,13 +653,13 @@ abi_route_plusEqualsFromGlobal:
 plusEqualsFromGlobal:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:83
+	// tests/contracts/math.algo.ts:75
 	// this.gKey.value = a
 	byte 0x674b6579 // "gKey"
 	frame_dig -1 // a: uint64
 	app_global_put
 
-	// tests/contracts/math.algo.ts:85
+	// tests/contracts/math.algo.ts:77
 	// this.gKey.value += b
 	byte 0x674b6579 // "gKey"
 	app_global_get
@@ -734,7 +669,7 @@ plusEqualsFromGlobal:
 	swap
 	app_global_put
 
-	// tests/contracts/math.algo.ts:87
+	// tests/contracts/math.algo.ts:79
 	// return this.gKey.value;
 	byte 0x674b6579 // "gKey"
 	app_global_get
@@ -755,24 +690,41 @@ abi_route_ufixedLiteralMul:
 ufixedLiteralMul:
 	proto 0 0; byte 0x; dupn 3
 
-	// tests/contracts/math.algo.ts:91
+	// tests/contracts/math.algo.ts:83
 	// a: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
 	frame_bury 1 // a: ufixed64x2
 
-	// tests/contracts/math.algo.ts:92
+	// tests/contracts/math.algo.ts:84
 	// b: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
 	frame_bury 2 // b: ufixed64x2
 
-	// tests/contracts/math.algo.ts:93
+	// tests/contracts/math.algo.ts:85
 	// c = a * b
 	byte 0x0000000000003b7b
-	frame_bury 3 // c: ufixed64x2
+	frame_bury 3 // c: unsafe ufixed64x2
 
-	// tests/contracts/math.algo.ts:95
+	// tests/contracts/math.algo.ts:87
 	// return c;
-	byte 0x151f7c750000000000003b7b
+	byte 0x0000000000003b7b // c: unsafe ufixed64x2
+	byte 0x0000000000003b7b // c: unsafe ufixed64x2
+	bitlen
+	int 64
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 8
+	-
+	swap
+	substring3
+	byte 0x151f7c75
+	swap
+	concat
 	log
 	retsub
 
@@ -802,16 +754,32 @@ abi_route_ufixedMul:
 ufixedMul:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:99
+	// tests/contracts/math.algo.ts:91
 	// return a * b;
 	frame_dig -1 // a: ufixed64x2
 	btoi
 	frame_dig -2 // b: ufixed64x2
 	btoi
 	*
+	itob
+	btoi
 	int 100
 	/
 	itob
+	dup
+	bitlen
+	int 64
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 8
+	-
+	swap
+	substring3
 	byte 0x151f7c75
 	swap
 	concat
@@ -844,13 +812,88 @@ abi_route_BigUfixedMul:
 BigUfixedMul:
 	proto 2 0
 
-	// tests/contracts/math.algo.ts:103
+	// tests/contracts/math.algo.ts:95
 	// return a * b;
 	frame_dig -1 // a: ufixed128x2
 	frame_dig -2 // b: ufixed128x2
 	b*
 	byte 0x64
 	b/
+	dup
+	bitlen
+	int 128
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 16
+	-
+	swap
+	substring3
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
+// TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
+abi_route_TripleBigUfixedMul:
+	// c: ufixed128x2
+	txna ApplicationArgs 3
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// b: ufixed128x2
+	txna ApplicationArgs 2
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// a: ufixed128x2
+	txna ApplicationArgs 1
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// execute TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
+	callsub TripleBigUfixedMul
+	int 1
+	return
+
+TripleBigUfixedMul:
+	proto 3 0; byte 0x; dupn 2
+
+	// tests/contracts/math.algo.ts:99
+	// ab = a * b
+	frame_dig -1 // a: ufixed128x2
+	frame_dig -2 // b: ufixed128x2
+	b*
+	byte 0x64
+	b/
+	frame_bury 1 // ab: unsafe ufixed128x2
+
+	// tests/contracts/math.algo.ts:100
+	// abc = ab * c
+	frame_dig 1 // ab: unsafe ufixed128x2
+	frame_dig -3 // c: ufixed128x2
+	b*
+	byte 0x64
+	b/
+	frame_bury 2 // abc: unsafe ufixed128x2
+
+	// tests/contracts/math.algo.ts:101
+	// return abc;
+	frame_dig 2 // abc: unsafe ufixed128x2
 	dup
 	bitlen
 	int 128
@@ -892,8 +935,6 @@ call_NoOp:
 	method "u256div(uint256,uint256)uint256"
 	method "u64Return256(uint64,uint64)uint256"
 	method "maxU64()uint64"
-	method "btobigintFirst(string)uint64"
-	method "btobigintSecond(string)uint64"
 	method "exponent(uint64,uint64)uint64"
 	method "variableTypeHint(uint8,uint8)uint16"
 	method "uint8plus(uint8,uint8)uint8"
@@ -903,6 +944,7 @@ call_NoOp:
 	method "ufixedLiteralMul()ufixed64x2"
 	method "ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2"
 	method "BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2"
+	method "TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_btobigintFirst abi_route_btobigintSecond abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul
 	err
