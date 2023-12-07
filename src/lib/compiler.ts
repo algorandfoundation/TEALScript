@@ -533,7 +533,7 @@ export default class Compiler {
           this.maybeValue(node.expression, 'box_get', valueType);
         }
 
-        if (storageType === 'box' || (valueType !== StackType.bytes && !isNumeric(valueType))) {
+        if ((storageType === 'box' || !isNumeric(valueType)) && valueType !== StackType.bytes) {
           this.checkDecoding(node, valueType);
         }
 
@@ -2306,15 +2306,6 @@ export default class Compiler {
     const width = parseInt(abiType.match(/\d+/)?.[0] || '512', 10);
 
     if (type.startsWith('unsafe')) {
-      if (abiType.startsWith('ufixed')) {
-        const precision = parseInt(abiType.match(/\d+$/)![0], 10);
-        if (width <= 64) {
-          this.pushLines(node, 'btoi', `int ${BigInt(10) ** BigInt(precision)}`, '/', 'itob');
-        } else {
-          this.pushLines(node, `byte 0x${(BigInt(10) ** BigInt(precision)).toString(16)}`, 'b/');
-        }
-      }
-
       this.overflowCheck(node, width);
       this.fixBitWidth(node, width);
       this.lastType = abiType;
@@ -3385,7 +3376,6 @@ export default class Compiler {
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
     if (isAbiMethod) {
-      console.log(this.lastType);
       this.checkEncoding(node, this.lastType);
       this.typeComparison(this.lastType, returnType);
 
@@ -3607,6 +3597,17 @@ export default class Compiler {
       this.lastType = `unsafe ${leftType}`;
     }
 
+    if (leftType.match(/ufixed\d+x\d+$/) && isMathOp) {
+      const width = parseInt(leftType.match(/\d+/)?.[0] || '512', 10);
+      const precision = parseInt(leftType.match(/\d+$/)![0], 10);
+
+      if (width <= 64) {
+        this.pushLines(node, 'btoi', `int ${BigInt(10) ** BigInt(precision)}`, '/', 'itob');
+      } else {
+        this.pushLines(node, `byte 0x${(BigInt(10) ** BigInt(precision)).toString(16)}`, `b/`);
+      }
+    }
+
     if (operator === '==' || operator === '!=') {
       this.lastType = 'bool';
     }
@@ -3732,17 +3733,16 @@ export default class Compiler {
       return;
     }
 
-    if (!isNumeric(this.lastType) && type === StackType.uint64) {
-      this.push(node, 'btoi', StackType.uint64);
-      return;
-    }
-
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.match(/\d+/)![0], 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
       this.overflowCheck(node, typeBitWidth);
       this.fixBitWidth(node, typeBitWidth);
+
+      if (type === StackType.uint64) {
+        this.push(node, 'btoi', StackType.uint64);
+      }
     }
 
     this.typeHint = undefined;
@@ -4793,8 +4793,6 @@ export default class Compiler {
 
   private overflowCheck(node: ts.Node, width: number) {
     if (this.disableOverflowChecks) return;
-
-    if (width === 64) return;
 
     this.pushLines(node, 'dup', 'bitlen', `int ${width}`, '<=', 'assert');
   }
