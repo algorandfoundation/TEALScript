@@ -255,6 +255,7 @@ boxKeyGet:
 	byte 0x666f6f // "foo"
 	box_get
 	assert
+	extract 2 0
 	byte 0x626172 // "bar"
 	==
 	assert
@@ -495,6 +496,7 @@ boxMapGet:
 	byte 0x666f6f // "foo"
 	box_get
 	assert
+	extract 2 0
 	byte 0x626172 // "bar"
 	==
 	assert

@@ -429,6 +429,8 @@ export default class Compiler {
       this.pushLines(node, 'int 0', 'getbit');
     } else if (this.isDynamicArrayOfStaticType(type)) {
       this.pushVoid(node, 'extract 2 0');
+    } else if (isNumeric(type)) {
+      this.pushVoid(node, 'btoi');
     }
   }
 
@@ -518,7 +520,6 @@ export default class Compiler {
         this.checkEncoding(keyNode!, this.lastType);
       }
 
-      if (isNumeric(keyType)) this.pushVoid(keyNode!, 'itob');
       if (prefix) this.pushVoid(keyNode!, 'concat');
     }
 
@@ -530,9 +531,12 @@ export default class Compiler {
           this.push(node.expression, 'app_local_get', valueType);
         } else if (storageType === 'box') {
           this.maybeValue(node.expression, 'box_get', valueType);
-          if (isNumeric(valueType)) this.push(node.expression, 'btoi', valueType);
         }
-        if (valueType !== StackType.bytes) this.checkDecoding(node, valueType);
+
+        if (storageType === 'box' || (valueType !== StackType.bytes && !isNumeric(valueType))) {
+          this.checkDecoding(node, valueType);
+        }
+
         break;
 
       case 'set': {
@@ -545,19 +549,22 @@ export default class Compiler {
           this.processNode(newValue);
           this.typeHint = undefined;
 
-          this.typeComparison(this.lastType, valueType);
-          if (valueType !== StackType.bytes) {
+          // if valueType is not bytes
+          // or if storage type is box
+          if ((storageType === 'box' || !isNumeric(valueType)) && valueType !== StackType.bytes) {
             this.checkEncoding(newValue, this.lastType);
           }
+
+          this.typeComparison(this.lastType, valueType);
         } else {
           const command = storageType === 'box' ? 'swap' : storageType === 'local' ? 'uncover 2' : 'swap';
           this.pushVoid(node.expression, command);
-          if (valueType !== StackType.bytes) {
+
+          if ((storageType === 'box' || !isNumeric(valueType)) && valueType !== StackType.bytes) {
             this.checkEncoding(node, valueType);
           }
         }
 
-        if (isNumeric(valueType) && storageType === 'box') this.pushVoid(node.expression, 'itob');
         const operation =
           storageType === 'global' ? 'app_global_put' : storageType === 'local' ? 'app_local_put' : 'box_put';
         this.push(node.expression, operation, valueType);
@@ -978,7 +985,7 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         if (node.arguments.length !== 1) throw new Error();
         this.processNode(node.arguments[0]);
-        if (isNumeric(this.lastType)) this.pushVoid(node, 'itob');
+        this.checkEncoding(node.arguments[0], this.lastType);
         this.lastType = 'bytes';
       },
     },
@@ -1099,7 +1106,7 @@ export default class Compiler {
         if (!this.isDynamicArrayOfStaticType(this.lastType))
           throw new Error('Cannot push to dynamic array of dynamic types');
         this.processNode(node.arguments[0]);
-        if (isNumeric(this.lastType)) this.pushVoid(node.arguments[0], 'itob');
+        this.checkEncoding(node.arguments[0], this.lastType.replace(/\[\]$/, ''));
         this.pushVoid(node, 'concat');
 
         this.updateValue(node.expression.expression);
@@ -1129,6 +1136,8 @@ export default class Compiler {
         }
 
         this.updateValue(node.expression.expression);
+
+        if (this.topLevelNode !== node) this.checkDecoding(node, poppedType);
 
         this.lastType = poppedType;
       },
@@ -1262,7 +1271,7 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         this.processNode(node.arguments[0]);
         this.processNode(node.arguments[1]);
-        this.pushVoid(node, 'substring3');
+        this.push(node, 'substring3', 'bytes');
       },
     },
   };
@@ -2279,8 +2288,6 @@ export default class Compiler {
       this.typeComparison(this.lastType, types[i]);
       this.checkEncoding(e, types[i]);
 
-      if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
-
       if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
       else if (i !== 0) this.pushVoid(e, 'concat');
@@ -2295,7 +2302,26 @@ export default class Compiler {
   }
 
   private checkEncoding(node: ts.Node, type: string) {
-    const abiType = this.getABIType(type);
+    const abiType = this.getABIType(type.replace(/^unsafe /, ''));
+    const width = parseInt(abiType.match(/\d+/)?.[0] || '512', 10);
+
+    if (type.startsWith('unsafe')) {
+      if (abiType.startsWith('ufixed')) {
+        const precision = parseInt(abiType.match(/\d+$/)![0], 10);
+        if (width <= 64) {
+          this.pushLines(node, 'btoi', `int ${BigInt(10) ** BigInt(precision)}`, '/', 'itob');
+        } else {
+          this.pushLines(node, `byte 0x${(BigInt(10) ** BigInt(precision)).toString(16)}`, 'b/');
+        }
+      }
+
+      this.overflowCheck(node, width);
+      this.fixBitWidth(node, width);
+      this.lastType = abiType;
+
+      return;
+    }
+
     if (this.isDynamicArrayOfStaticType(type)) {
       const baseType = type.replace(/\[\]$/, '');
       if (baseType === 'bool') return;
@@ -2308,6 +2334,8 @@ export default class Compiler {
       this.pushLines(node, 'itob', 'extract 6 2', 'swap', 'concat');
     } else if (abiType === 'bool') {
       this.pushLines(node, 'byte 0x00', 'int 0', 'uncover 2', 'setbit');
+    } else if (isNumeric(abiType)) {
+      this.pushLines(node, 'itob');
     }
   }
 
@@ -2402,7 +2430,7 @@ export default class Compiler {
           this.processNode(e);
         }
         this.typeComparison(this.lastType, types[i]);
-        if (isNumeric(this.lastType)) this.pushVoid(e, 'itob');
+        this.checkEncoding(e, types[i]);
         if (i) this.pushVoid(parentNode, 'concat');
       });
     }
@@ -2898,7 +2926,7 @@ export default class Compiler {
         this.processNode(newValue);
       }
 
-      if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
+      this.checkEncoding(node, elem.type);
 
       if (!canBoxReplace) {
         if (over255) this.pushVoid(node, 'replace3');
@@ -2910,7 +2938,7 @@ export default class Compiler {
       if (over255) this.pushLines(node, `int ${length}`, 'extract3');
       else this.pushVoid(node, `extract ${offset} ${length}`);
 
-      if (isNumeric(elem.type)) this.pushVoid(node, 'btoi');
+      this.checkDecoding(node, elem.type);
       this.lastType = elem.type;
     }
   }
@@ -3013,7 +3041,6 @@ export default class Compiler {
         } else {
           this.processNode(newValue);
         }
-        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
 
         this.checkEncoding(newValue, this.lastType);
 
@@ -3071,7 +3098,7 @@ export default class Compiler {
       } else {
         this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
         this.processNode(newValue);
-        if (isNumeric(this.lastType)) this.pushVoid(newValue, 'itob');
+        this.checkEncoding(newValue, this.lastType);
         this.pushVoid(node, 'replace3');
       }
 
@@ -3097,8 +3124,6 @@ export default class Compiler {
           'extract3'
         );
       }
-
-      if (isNumeric(element.type)) this.pushVoid(node, 'btoi');
 
       this.checkDecoding(node, element.type);
 
@@ -3359,38 +3384,26 @@ export default class Compiler {
 
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
-    this.typeComparison(this.lastType, returnType);
-
-    if (isNumeric(this.lastType) && isAbiMethod) {
-      this.pushVoid(node.expression!, 'itob');
-    }
-
     if (isAbiMethod) {
-      this.checkEncoding(node, returnType);
+      this.checkEncoding(node, this.lastType);
+      this.typeComparison(this.lastType, returnType);
+
       this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
     } else {
+      this.typeComparison(this.lastType, returnType);
+
       this.pushVoid(node, 'retsub');
     }
 
     this.typeHint = undefined;
   }
 
-  private fixBitWidth(node: ts.Node, desiredWidth: number, preserveUint64 = false) {
+  private fixBitWidth(node: ts.Node, desiredWidth: number) {
+    if (desiredWidth === 64 && this.teal[this.currentProgram].at(-1)!.teal === 'itob') return;
+
     const lastWidth = parseInt(this.lastType.match(/\d+/)?.[0] || '512', 10);
 
-    if (desiredWidth === 64 && lastWidth < 64) {
-      if (this.teal[this.currentProgram].at(-1)!.teal === 'itob') return;
-      this.pushVoid(node, 'btoi');
-      if (!preserveUint64) this.pushVoid(node, 'itob');
-
-      return;
-    }
-
-    if (!this.disableOverflowChecks) {
-      this.pushLines(node, 'dup', 'bitlen', `int ${desiredWidth}`, '<=', 'assert');
-    }
-
-    if (this.lastType === 'bigint') {
+    if (this.lastType === 'bigint' || this.lastType.startsWith('unsafe')) {
       this.pushLines(
         node,
         `byte 0x${'FF'.repeat(desiredWidth / 8)}`,
@@ -3404,16 +3417,12 @@ export default class Compiler {
         'substring3'
       );
 
-      if (preserveUint64) this.pushVoid(node, 'btoi');
-      this.lastType = `uint${desiredWidth}`;
       return;
     }
 
     if (desiredWidth < lastWidth) {
       this.pushLines(node, `extract ${(lastWidth - desiredWidth) / 8} ${desiredWidth / 8}`);
 
-      if (preserveUint64) this.pushVoid(node, 'btoi');
-      this.lastType = `uint${desiredWidth}`;
       return;
     }
 
@@ -3557,35 +3566,22 @@ export default class Compiler {
       return;
     }
 
-    const isSmallUint = (type: string) => {
-      if (!type.match(/uint\d+$/) && !type.match(/ufixed\d+x\d+$/)) return false;
-
-      const width = parseInt(type.match(/\d+/)![0], 10);
-
-      if (type.startsWith('ufixed')) return width <= 64;
-
-      return width < 64;
-    };
-
     const rightType = this.getStackTypeFromNode(node.right);
     const leftType = this.getStackTypeFromNode(node.left);
 
     const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
-    const optimizeSmallUint = isSmallUint(leftType) && isSmallUint(rightType) && isMathOp;
 
     if (ts.isNumericLiteral(node.left)) {
       this.processNumericLiteralWithType(node.left, rightType);
     } else this.processNode(node.left);
-    if (optimizeSmallUint) {
-      this.pushVoid(node.left, 'btoi');
-    }
+
+    if (this.isSmallNumber(leftType) && isMathOp) this.pushVoid(node, 'btoi');
 
     if (ts.isNumericLiteral(node.right)) {
       this.processNumericLiteralWithType(node.right, leftType);
     } else this.processNode(node.right);
-    if (optimizeSmallUint) {
-      this.pushVoid(node.right, 'btoi');
-    }
+
+    if (this.isSmallNumber(leftType) && isMathOp) this.pushVoid(node, 'btoi');
 
     if (operator === '+' && (leftType === 'string' || leftType === StackType.bytes || leftType.match(/byte\[\d+\]$/))) {
       this.push(node.operatorToken, 'concat', StackType.bytes);
@@ -3593,52 +3589,32 @@ export default class Compiler {
       return;
     }
 
-    if (operator === 'exp' && this.lastType !== StackType.uint64 && !optimizeSmallUint) {
+    if (operator === 'exp' && leftType !== 'uint64' && !this.isSmallNumber(leftType)) {
       throw new Error(`Exponent operator only supported for uintN <= 64, got ${leftType} and ${rightType}`);
     }
 
-    if (this.lastType === StackType.uint64 || optimizeSmallUint) {
-      this.push(node.operatorToken, operator, StackType.uint64);
-    } else if (this.lastType.match(/uint\d+$/) || this.lastType.match(/ufixed\d+x\d+$/) || this.lastType === 'bigint') {
-      this.push(node.operatorToken, `b${operator}`, 'bigint');
+    if (leftType.match(/\d+$/) && !isNumeric(leftType) && (operator === '==' || operator === '!=')) {
+      this.push(node, `b${operator}`, 'bool');
+    } else if (isMathOp && leftType.match(/\d+$/) && !this.isSmallNumber(leftType) && !isNumeric(leftType)) {
+      this.push(node.operatorToken, `b${operator}`, `unsafe ${leftType}`);
     } else {
-      this.push(node.operatorToken, operator, StackType.uint64);
+      this.push(node.operatorToken, operator, leftType);
+    }
+
+    if (isMathOp && !isNumeric(leftType)) {
+      if (this.isSmallNumber(leftType)) this.pushVoid(node, 'itob');
+      this.lastType = `unsafe ${leftType}`;
     }
 
     if (operator === '==' || operator === '!=') {
       this.lastType = 'bool';
     }
 
-    if (
-      isMathOp &&
-      !this.isBinaryExpression(node.left) &&
-      !this.isBinaryExpression(node.right) &&
-      leftType !== StackType.uint64 &&
-      leftType !== 'bigint'
-    ) {
-      if (optimizeSmallUint) {
-        if (leftType.startsWith('ufixed')) {
-          const m = leftType.match(/ufixed(\d+)x(\d+)/)![2];
-          const div = BigInt(10) ** BigInt(m);
-          this.pushLines(node, `int ${div}`, '/');
-        }
-        this.pushVoid(node, 'itob');
-      } else if (leftType.startsWith('ufixed')) {
-        const m = leftType.match(/ufixed(\d+)x(\d+)/)![2];
-        const div = BigInt(10) ** BigInt(m);
-        this.pushLines(node, `byte 0x${div.toString(16)}`, 'b/');
-      }
-
-      if (!leftType.startsWith('ufixed64')) this.fixBitWidth(node, parseInt(leftType.match(/\d+/)![0], 10));
-
-      this.lastType = leftType;
-
-      this.mathType = '';
-    }
-
     if (isOperatorAssignment) {
       this.updateValue(node.left);
     }
+
+    if (!ts.isNumericLiteral(node.left) && !ts.isNumericLiteral(node.right)) this.typeComparison(leftType, rightType);
   }
 
   private processLogicalExpression(node: ts.BinaryExpression) {
@@ -3751,11 +3727,17 @@ export default class Compiler {
       return;
     }
 
+    if (!isNumeric(this.lastType) && type === StackType.uint64) {
+      this.push(node, 'btoi', StackType.uint64);
+      return;
+    }
+
     if ((type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/)) && type !== this.lastType) {
       const typeBitWidth = parseInt(type.match(/\d+/)![0], 10);
 
       if (this.lastType === 'uint64') this.pushVoid(node, 'itob');
-      this.fixBitWidth(node, typeBitWidth, type === 'uint64');
+      this.overflowCheck(node, typeBitWidth);
+      this.fixBitWidth(node, typeBitWidth);
     }
 
     this.typeHint = undefined;
@@ -3807,7 +3789,6 @@ export default class Compiler {
         this.checkEncoding(keyNode, this.lastType);
       }
 
-      if (isNumeric(storageProp.keyType)) this.pushVoid(keyNode, 'itob');
       if (storageProp.prefix) this.pushVoid(keyNode, 'concat');
 
       const keyFrameName = `storage key//${name}`;
@@ -4562,7 +4543,7 @@ export default class Compiler {
         const txType = chain[0].name.getText();
 
         if (!enums[txType]) throw new Error(`Unknown transaction type ${txType}`);
-        this.pushVoid(node, `int ${enums[txType]}`);
+        this.push(node, `int ${enums[txType]}`, StackType.uint64);
         return;
       }
 
@@ -4644,8 +4625,6 @@ export default class Compiler {
       // If accessing a specific byte in a string/byteslice
       if (['bytes', 'string'].includes(abiStr) && ts.isElementAccessExpression(n)) {
         this.processNode(n.argumentExpression);
-        // If the accessor is not a uint64 (but something like a uint8), convert it to uint64
-        if (!isNumeric(this.lastType)) this.push(n, 'btoi', 'uint64');
         this.pushLines(n, 'int 1', 'extract3');
         this.lastType = abiStr;
         return false;
@@ -4797,6 +4776,24 @@ export default class Compiler {
     this.currentProgram = 'approval';
   }
 
+  private isSmallNumber(type: string) {
+    const abiType = this.getABIType(type);
+
+    if (!(type.match(/uint\d+$/) || type.match(/ufixed\d+x\d+$/))) return false;
+    const width = Number(abiType.match(/\d+/)![0]);
+    if (type.startsWith('ufixed64')) return true;
+
+    return width < 64;
+  }
+
+  private overflowCheck(node: ts.Node, width: number) {
+    if (this.disableOverflowChecks) return;
+
+    if (width === 64) return;
+
+    this.pushLines(node, 'dup', 'bitlen', `int ${width}`, '<=', 'assert');
+  }
+
   private processRoutableMethod(fn: ts.MethodDeclaration) {
     if (this.currentSubroutine.allows.call.includes('ClearState') || this.currentSubroutine.name === 'clearState') {
       this.processClearState(fn);
@@ -4845,9 +4842,7 @@ export default class Compiler {
         else this.pushVoid(p, `txna ApplicationArgs ${(nonTxnArgCount -= 1)}`);
       }
 
-      if (type === StackType.uint64) {
-        this.pushVoid(p, 'btoi');
-      } else if (isRefType(type)) {
+      if (isRefType(type)) {
         if (this.currentProgram === 'lsig') {
           if (['application', 'asset'].includes(type)) this.pushVoid(p, 'btoi');
         } else {
@@ -4859,10 +4854,11 @@ export default class Compiler {
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
         this.pushVoid(p, '-');
         if (type !== 'txn') this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${type}`, '==', 'assert');
-      } else if (!this.isDynamicType(type)) {
+      } else if (!this.isDynamicType(type) && type !== 'uint64') {
         this.pushLines(p, 'dup', 'len', `int ${type === 'bool' ? 1 : this.getTypeLength(type)}`, '==', 'assert');
       }
-      this.checkDecoding(p, type);
+
+      if (!isRefType(type)) this.checkDecoding(p, type);
 
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace(/bytes/g, 'byte[]'), desc: '' });
     });
@@ -5106,7 +5102,7 @@ export default class Compiler {
         this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
 
         const returnType = this.getABIType(typeArgs![1].getText());
-        if (isNumeric(returnType)) this.pushVoid(typeArgs![1], 'btoi');
+        this.checkDecoding(typeArgs![1], returnType);
         this.lastType = returnType;
       } else if (name === 'sendAssetCreation') {
         this.push(node, 'itxn CreatedAssetID', 'asset');
