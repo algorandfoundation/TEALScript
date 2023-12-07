@@ -808,6 +808,79 @@ BigUfixedMul:
 	log
 	retsub
 
+// TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
+abi_route_TripleBigUfixedMul:
+	// c: ufixed128x2
+	txna ApplicationArgs 3
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// b: ufixed128x2
+	txna ApplicationArgs 2
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// a: ufixed128x2
+	txna ApplicationArgs 1
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// execute TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
+	callsub TripleBigUfixedMul
+	int 1
+	return
+
+TripleBigUfixedMul:
+	proto 3 0; byte 0x; dupn 2
+
+	// tests/contracts/math.algo.ts:99
+	// ab = a * b
+	frame_dig -1 // a: ufixed128x2
+	frame_dig -2 // b: ufixed128x2
+	b*
+	frame_bury 1 // ab: unsafe ufixed128x2
+
+	// tests/contracts/math.algo.ts:100
+	// abc = ab * c
+	frame_dig 1 // ab: unsafe ufixed128x2
+	frame_dig -3 // c: ufixed128x2
+	b*
+	frame_bury 2 // abc: unsafe ufixed128x2
+
+	// tests/contracts/math.algo.ts:101
+	// return abc;
+	frame_dig 2 // abc: unsafe ufixed128x2
+	byte 0x64
+	b/
+	dup
+	bitlen
+	int 128
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 16
+	-
+	swap
+	substring3
+	byte 0x151f7c75
+	swap
+	concat
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -838,6 +911,7 @@ call_NoOp:
 	method "ufixedLiteralMul()ufixed64x2"
 	method "ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2"
 	method "BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2"
+	method "TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul
 	err

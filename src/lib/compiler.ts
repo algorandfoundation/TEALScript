@@ -3385,6 +3385,7 @@ export default class Compiler {
     const isAbiMethod = this.abi.methods.find((m) => m.name === name);
 
     if (isAbiMethod) {
+      console.log(this.lastType);
       this.checkEncoding(node, this.lastType);
       this.typeComparison(this.lastType, returnType);
 
@@ -3614,7 +3615,11 @@ export default class Compiler {
       this.updateValue(node.left);
     }
 
-    if (!ts.isNumericLiteral(node.left) && !ts.isNumericLiteral(node.right)) this.typeComparison(leftType, rightType);
+    if (leftType.startsWith('unsafe') || rightType.startsWith('unsafe')) {
+      this.typeComparison(leftType.replace('unsafe ', ''), rightType.replace('unsafe ', ''));
+      this.lastType = `unsafe ${leftType.replace(/unsafe /g, '')}`;
+    } else if (!ts.isNumericLiteral(node.left) && !ts.isNumericLiteral(node.right))
+      this.typeComparison(leftType, rightType);
   }
 
   private processLogicalExpression(node: ts.BinaryExpression) {

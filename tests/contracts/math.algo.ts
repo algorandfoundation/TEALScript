@@ -94,4 +94,10 @@ class MathTest extends Contract {
   BigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>): ufixed<128, 2> {
     return a * b;
   }
+
+  TripleBigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>, c: ufixed<128, 2>): ufixed<128, 2> {
+    const ab = a * b;
+    const abc = ab * c;
+    return abc;
+  }
 }

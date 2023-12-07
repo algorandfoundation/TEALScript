@@ -361,6 +361,31 @@
       }
     },
     {
+      "name": "TripleBigUfixedMul",
+      "args": [
+        {
+          "name": "a",
+          "type": "ufixed128x2",
+          "desc": ""
+        },
+        {
+          "name": "b",
+          "type": "ufixed128x2",
+          "desc": ""
+        },
+        {
+          "name": "c",
+          "type": "ufixed128x2",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "ufixed128x2",
+        "desc": ""
+      }
+    },
+    {
       "name": "createApplication",
       "desc": "",
       "returns": {
