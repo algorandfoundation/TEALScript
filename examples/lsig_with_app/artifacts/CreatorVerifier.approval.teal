@@ -42,7 +42,7 @@ abi_route_allowOptInsFrom:
 allowOptInsFrom:
 	proto 1 0
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:39
+	// examples/lsig_with_app/lsig_with_app.algo.ts:41
 	// this.allowedCreators([this.txn.sender, creator]).value = true
 	txn Sender
 	frame_dig -1 // creator: address
@@ -75,7 +75,7 @@ abi_route_disableOptInsFrom:
 disableOptInsFrom:
 	proto 1 0
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:44
+	// examples/lsig_with_app/lsig_with_app.algo.ts:46
 	// this.allowedCreators([this.txn.sender, creator]).value = false
 	txn Sender
 	frame_dig -1 // creator: address
@@ -115,7 +115,7 @@ abi_route_verifyCreator:
 verifyCreator:
 	proto 2 0
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:50
+	// examples/lsig_with_app/lsig_with_app.algo.ts:52
 	// assert(this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value)
 	frame_dig -1 // optIn: axfer
 	gtxns Sender

@@ -20,7 +20,7 @@ route_logic:
 logic:
 	proto 0 0; byte 0x; dupn 1
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:12
+	// examples/lsig_with_app/lsig_with_app.algo.ts:14
 	// verifyAssetTransferTxn(this.txn, {
 	//       assetAmount: 0,
 	//       assetReceiver: this.txn.sender,
@@ -68,22 +68,22 @@ logic:
 	==
 	assert
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:24
+	// examples/lsig_with_app/lsig_with_app.algo.ts:26
 	// appCall = this.txnGroup[this.txn.groupIndex + 1]
 	txn GroupIndex
 	int 1
 	+
 	frame_bury 1 // appCall: txn
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:27
-	// assert(appCall.applicationID === Application.fromID(templateVar<uint64>('APP_ID')))
+	// examples/lsig_with_app/lsig_with_app.algo.ts:29
+	// assert(appCall.applicationID === this.APP_ID)
 	frame_dig 1 // appCall: txn
 	gtxns ApplicationID
-	int TMPL_APP_ID // TMPL_APP_ID
+	pushint TMPL_APP_ID
 	==
 	assert
 
-	// examples/lsig_with_app/lsig_with_app.algo.ts:28
+	// examples/lsig_with_app/lsig_with_app.algo.ts:30
 	// assert(appCall.applicationArgs[0] === method('verifyCreator(axfer,asset)void'))
 	frame_dig 1 // appCall: txn
 	gtxns ApplicationArgs 0
