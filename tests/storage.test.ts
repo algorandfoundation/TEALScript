@@ -6,8 +6,11 @@ import fs from 'fs';
 import path from 'path';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
-import { getMethodTeal, artifactsTest, algodClient, kmdClient } from './common';
+import algosdk from 'algosdk';
+import { getMethodTeal, artifactsTest, algodClient, kmdClient, compileAndCreate } from './common';
 import Compiler from '../src/lib/compiler';
+
+const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
@@ -224,6 +227,61 @@ describe('Storage', function () {
       });
 
       expect(result.return?.returnValue as string).toEqual('abc');
+    });
+  });
+
+  describe('Compile Errors', function () {
+    test('MapSizeCollision', async function () {
+      let msg: string;
+      try {
+        await compileAndCreate(
+          algosdk.generateAccount(),
+          'tests/contracts/storage_compile_errors.algo.ts',
+          ARTIFACTS_DIR,
+          'MapSizeCollision'
+        );
+        msg = 'No error';
+      } catch (e) {
+        msg = e.message;
+      }
+
+      expect(msg).toMatch('Prefix must be defined for "uint16" due to potential collision with "uint8s"');
+    });
+
+    test('KeyCollisionWithMap', async function () {
+      let msg: string;
+      try {
+        await compileAndCreate(
+          algosdk.generateAccount(),
+          'tests/contracts/storage_compile_errors.algo.ts',
+          ARTIFACTS_DIR,
+          'KeyCollisionWithMap'
+        );
+        msg = 'No error';
+      } catch (e) {
+        msg = e.message;
+      }
+
+      expect(msg).toMatch(
+        '"globalKey" has a potential key collision with "globalMap". "globalMap" must have a prefix or "globalKey" must have a different key name'
+      );
+    });
+
+    test('MapCollisionWithKey', async function () {
+      let msg: string;
+      try {
+        await compileAndCreate(
+          algosdk.generateAccount(),
+          'tests/contracts/storage_compile_errors.algo.ts',
+          ARTIFACTS_DIR,
+          'MapCollisionWithKey'
+        );
+        msg = 'No error';
+      } catch (e) {
+        msg = e.message;
+      }
+
+      expect(msg).toMatch('Prefix must be defined for "globalMap" due to potential collision with "globalKey"');
     });
   });
 });

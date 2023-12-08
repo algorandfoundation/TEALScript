@@ -479,6 +479,7 @@ declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boole
 declare function BoxMap<KeyType, ValueType>(options?: {
   dynamicSize?: boolean;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (key: KeyType) => BoxValue<ValueType>;
 
 declare type GlobalStateValue<ValueType> = {
@@ -491,6 +492,7 @@ declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalSt
 declare function GlobalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (key: KeyType) => GlobalStateValue<ValueType>;
 
 declare type LocalStateValue<ValueType> = {
@@ -504,6 +506,7 @@ declare function LocalStateKey<ValueType>(options?: { key?: string }): (account:
 declare function LocalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (account: Address, key: KeyType) => LocalStateValue<ValueType>;
 
 type IntLike = uint64 | Asset | Application | boolean | number;
