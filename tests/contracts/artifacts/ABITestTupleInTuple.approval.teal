@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // tupleInTuple()uint64
 abi_route_tupleInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute tupleInTuple()uint64
 	callsub tupleInTuple
+	itob
+	concat
+	log
 	int 1
 	return
 
 tupleInTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:284
 	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [11, 22, [33, 44], [55, 66]]
@@ -39,8 +46,11 @@ tupleInTuple:
 
 	// tests/contracts/abi.algo.ts:286
 	// return a[3][1];
-	byte 0x151f7c750000000000000042
-	log
+	int 66
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

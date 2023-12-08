@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // threeDimensionalUint16Array()uint16
 abi_route_threeDimensionalUint16Array:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute threeDimensionalUint16Array()uint16
 	callsub threeDimensionalUint16Array
+	concat
+	log
 	int 1
 	return
 
 threeDimensionalUint16Array:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:238
 	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
@@ -57,10 +63,10 @@ threeDimensionalUint16Array:
 	// return a[1][1][1];
 	frame_dig 1 // a: uint16[2][2][2]
 	extract 14 2
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // nestedObjectType()uint64
 abi_route_nestedObjectType:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute nestedObjectType()uint64
 	callsub nestedObjectType
+	itob
+	concat
+	log
 	int 1
 	return
 
 nestedObjectType:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1105
 	// a: T4 = { b: { c: { d: 1 } } }
@@ -49,11 +56,10 @@ nestedObjectType:
 	frame_dig 1 // a: T4
 	extract 0 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

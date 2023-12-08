@@ -24,13 +24,27 @@ NOT_IMPLEMENTED:
 
 // arraySpliceValue()uint16[]
 abi_route_arraySpliceValue:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arraySpliceValue()uint16[]
 	callsub arraySpliceValue
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 arraySpliceValue:
-	proto 0 0; byte 0x; dupn 4
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 4
 
 	// tests/contracts/abi.algo.ts:469
 	// a: uint<16>[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -83,18 +97,10 @@ arraySpliceValue:
 	// tests/contracts/abi.algo.ts:475
 	// return v;
 	frame_dig 4 // v: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 5
+	popn 5
 	retsub
 
 abi_route_createApplication:

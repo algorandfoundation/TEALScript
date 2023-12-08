@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // accessDynamicArrayElementInTuple()uint8
 abi_route_accessDynamicArrayElementInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute accessDynamicArrayElementInTuple()uint8
 	callsub accessDynamicArrayElementInTuple
+	concat
+	log
 	int 1
 	return
 
 accessDynamicArrayElementInTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:674
 	// a: [uint<16>, uint<8>[]] = [11, [22, 33, 44]]
@@ -60,10 +66,10 @@ accessDynamicArrayElementInTuple:
 	swap
 	int 1
 	extract3
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

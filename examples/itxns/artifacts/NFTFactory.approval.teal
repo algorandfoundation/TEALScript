@@ -24,6 +24,9 @@ NOT_IMPLEMENTED:
 
 // createNFT(string,string)uint64
 abi_route_createNFT:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// unitName: string
 	txna ApplicationArgs 2
 	extract 2 0
@@ -34,11 +37,15 @@ abi_route_createNFT:
 
 	// execute createNFT(string,string)uint64
 	callsub createNFT
+	itob
+	concat
+	log
 	int 1
 	return
 
 createNFT:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// examples/itxns/itxns.algo.ts:6
 	// return sendAssetCreation({
@@ -72,11 +79,6 @@ createNFT:
 	// Submit inner transaction
 	itxn_submit
 	itxn CreatedAssetID
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // transferNFT(account,asset)void
@@ -97,6 +99,7 @@ abi_route_transferNFT:
 	return
 
 transferNFT:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/itxns/itxns.algo.ts:14

@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // arrayInTuple()uint64
 abi_route_arrayInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arrayInTuple()uint64
 	callsub arrayInTuple
+	itob
+	concat
+	log
 	int 1
 	return
 
 arrayInTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:265
 	// a: [uint64, uint<16>, StaticArray<uint64, 2>, uint<16>] = [11, 22, [33, 44], 55]
@@ -39,8 +46,11 @@ arrayInTuple:
 
 	// tests/contracts/abi.algo.ts:267
 	// return a[2][1];
-	byte 0x151f7c75000000000000002c
-	log
+	int 44
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

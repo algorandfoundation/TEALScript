@@ -30,6 +30,7 @@ abi_route_createApplication:
 	return
 
 createApplication:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/lsig.algo.ts:32

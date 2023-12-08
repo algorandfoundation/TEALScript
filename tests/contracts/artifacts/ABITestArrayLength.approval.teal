@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // arrayLength()uint64
 abi_route_arrayLength:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arrayLength()uint64
 	callsub arrayLength
+	itob
+	concat
+	log
 	int 1
 	return
 
 arrayLength:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:744
 	// a: uint<8>[] = [11, 22, 33, 44, 55]
@@ -39,8 +46,11 @@ arrayLength:
 
 	// tests/contracts/abi.algo.ts:746
 	// return a.length;
-	byte 0x151f7c750000000000000005
-	log
+	int 5
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

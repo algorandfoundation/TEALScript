@@ -24,6 +24,9 @@ NOT_IMPLEMENTED:
 
 // biggerByteCasting(byte[2])byte[4]
 abi_route_biggerByteCasting:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: byte[2]
 	txna ApplicationArgs 1
 	dup
@@ -34,21 +37,20 @@ abi_route_biggerByteCasting:
 
 	// execute biggerByteCasting(byte[2])byte[4]
 	callsub biggerByteCasting
+	concat
+	log
 	int 1
 	return
 
 biggerByteCasting:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:1216
 	// return <StaticArray<byte, 4>>a;
 	frame_dig -1 // a: byte[2]
 	byte 0x0000
 	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

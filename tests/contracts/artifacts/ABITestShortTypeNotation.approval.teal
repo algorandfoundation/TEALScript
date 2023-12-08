@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // shortTypeNotation()uint16
 abi_route_shortTypeNotation:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute shortTypeNotation()uint16
 	callsub shortTypeNotation
+	concat
+	log
 	int 1
 	return
 
 shortTypeNotation:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:292
 	// a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>] = [
@@ -43,8 +49,11 @@ shortTypeNotation:
 
 	// tests/contracts/abi.algo.ts:298
 	// return a[2][1];
-	byte 0x151f7c750042
-	log
+	byte 0x0042
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

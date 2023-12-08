@@ -24,13 +24,27 @@ NOT_IMPLEMENTED:
 
 // dynamicArrayElements()uint16[]
 abi_route_dynamicArrayElements:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute dynamicArrayElements()uint16[]
 	callsub dynamicArrayElements
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 dynamicArrayElements:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:481
 	// a: uint<16>[] = [1, 2, 3]
@@ -58,18 +72,10 @@ dynamicArrayElements:
 	// tests/contracts/abi.algo.ts:484
 	// return newA;
 	frame_dig 2 // newA: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

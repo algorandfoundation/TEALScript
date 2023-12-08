@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 calcInitRoot:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1; byte 0x; dupn 2
 
 	// examples/merkle/merkle.algo.ts:19
@@ -68,9 +69,14 @@ for_0_end:
 	// examples/merkle/merkle.algo.ts:25
 	// return result;
 	frame_dig 1 // result: byte[32]
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 hashConcat:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/merkle/merkle.algo.ts:29
@@ -82,6 +88,7 @@ hashConcat:
 	retsub
 
 isRightSibling:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// examples/merkle/merkle.algo.ts:33
@@ -94,6 +101,7 @@ isRightSibling:
 	retsub
 
 calcRoot:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1; byte 0x; dupn 2
 
 	// examples/merkle/merkle.algo.ts:39
@@ -178,6 +186,10 @@ for_1_end:
 	// examples/merkle/merkle.algo.ts:49
 	// return result;
 	frame_dig -1 // leaf: byte[32]
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 // deleteApplication()void
@@ -188,6 +200,7 @@ abi_route_deleteApplication:
 	return
 
 deleteApplication:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:53
@@ -209,6 +222,7 @@ abi_route_createApplication:
 	return
 
 createApplication:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/merkle/merkle.algo.ts:57
@@ -238,6 +252,7 @@ abi_route_verify:
 	return
 
 verify:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/merkle/merkle.algo.ts:61
@@ -272,6 +287,7 @@ abi_route_appendLeaf:
 	return
 
 appendLeaf:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/merkle/merkle.algo.ts:65
@@ -342,6 +358,7 @@ abi_route_updateLeaf:
 	return
 
 updateLeaf:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// examples/merkle/merkle.algo.ts:74

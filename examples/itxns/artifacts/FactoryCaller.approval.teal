@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // mintAndGetAsset()uint64
 abi_route_mintAndGetAsset:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute mintAndGetAsset()uint64
 	callsub mintAndGetAsset
+	itob
+	concat
+	log
 	int 1
 	return
 
 mintAndGetAsset:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// examples/itxns/itxns.algo.ts:25
 	// sendMethodCall<[], void>({
@@ -51,7 +58,7 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:28
 	// approvalProgram: NFTFactory.approvalProgram()
-	byte b64 CSACAQAxGCMNgQYLMRkIjQcAYQAAAAAAAAAAAAAAbwA2GgJXAgA2GgFXAgCIAAIiQ4oCALGBA7IQi/+yJov+siUisiIjsgGztDwWgAQVH3x1TFCwiTYaAhfAHDYaARfAMIgAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkOABLhEezY2GgCOAf/xAIAE0gJMc4AESCFmcDYaAI4C/33/sgA=
+	byte b64 CSACAQAxGCMNgQYLMRkIjQcAYAAAAAAAAAAAAAAAbgCABBUffHU2GgJXAgA2GgFXAgCIAAUWULAiQ4oCAbGBA7IQi/+yJov+siUisiIjsgGztDyJNhoCF8AcNhoBF8AwiAACIkOKAgCxgQSyEIv+shQishKL/7IRI7IBs4kiQ4AEuER7NjYaAI4B//EAgATSAkxzgARIIWZwNhoAjgL/fv+yAA==
 	itxn_field ApprovalProgram
 
 	// Fee field not set, defaulting to 0
@@ -202,11 +209,10 @@ mintAndGetAsset:
 	// examples/itxns/itxns.algo.ts:56
 	// return createdAsset;
 	frame_dig 2 // createdAsset: asset
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

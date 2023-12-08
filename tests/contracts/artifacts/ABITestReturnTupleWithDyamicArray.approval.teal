@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])
 abi_route_returnTupleWithDyamicArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])
 	callsub returnTupleWithDyamicArray
+	concat
+	log
 	int 1
 	return
 
 returnTupleWithDyamicArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:390
 	// a: [uint64, uint<16>, uint64[], uint<16>[]] = [1, 2, [3, 4], [5, 6]]
@@ -51,10 +57,11 @@ returnTupleWithDyamicArray:
 
 	// tests/contracts/abi.algo.ts:392
 	// return a;
-	byte 0x151f7c75
 	frame_dig 1 // a: [uint64,uint16,uint64[],uint16[]]
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

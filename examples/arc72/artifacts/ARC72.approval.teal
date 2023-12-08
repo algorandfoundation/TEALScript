@@ -30,6 +30,9 @@ NOT_IMPLEMENTED:
 // @param tokenId The ID of the NFT
 // @returns The current owner of the NFT
 abi_route_arc72_ownerOf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// tokenId: uint256
 	txna ApplicationArgs 1
 	dup
@@ -40,11 +43,14 @@ abi_route_arc72_ownerOf:
 
 	// execute arc72_ownerOf(uint256)address
 	callsub arc72_ownerOf
+	concat
+	log
 	int 1
 	return
 
 arc72_ownerOf:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:25
 	// return this.tokenBox(tokenId).value.owner;
@@ -52,10 +58,6 @@ arc72_ownerOf:
 	box_get
 	assert
 	extract 0 32
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // arc72_tokenURI(uint256)byte[256]
@@ -66,6 +68,9 @@ arc72_ownerOf:
 // @param tokenId The ID of the NFT
 // @returns URI to token metadata
 abi_route_arc72_tokenURI:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// tokenId: uint256
 	txna ApplicationArgs 1
 	dup
@@ -76,11 +81,14 @@ abi_route_arc72_tokenURI:
 
 	// execute arc72_tokenURI(uint256)byte[256]
 	callsub arc72_tokenURI
+	concat
+	log
 	int 1
 	return
 
 arc72_tokenURI:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:37
 	// return this.tokenBox(tokenId).value.uri;
@@ -90,13 +98,10 @@ arc72_tokenURI:
 	int 32
 	int 256
 	extract3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 transferTo:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc72/arc72.algo.ts:41
@@ -141,6 +146,7 @@ abi_route_arc72_transferFrom:
 	return
 
 arc72_transferFrom:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0; byte 0x; dupn 2
 
 	// examples/arc72/arc72.algo.ts:48
@@ -229,6 +235,7 @@ abi_route_arc72_approve:
 	return
 
 arc72_approve:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc72/arc72.algo.ts:65
@@ -272,6 +279,7 @@ abi_route_arc72_setApprovalForAll:
 	return
 
 arc72_setApprovalForAll:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0; byte 0x; dupn 1
 
 	// examples/arc72/arc72.algo.ts:77
@@ -332,6 +340,7 @@ abi_route_mint:
 	return
 
 mint:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0; byte 0x; dupn 2
 
 	// examples/arc72/arc72.algo.ts:84
@@ -392,28 +401,33 @@ mint:
 //
 // Returns the number of NFTs currently defined by this contract
 abi_route_arc72_totalSupply:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arc72_totalSupply()uint256
 	callsub arc72_totalSupply
+	concat
+	log
 	int 1
 	return
 
 arc72_totalSupply:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// examples/arc72/arc72.algo.ts:102
 	// return this.index.value;
 	byte 0x696e646578 // "index"
 	app_global_get
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // arc72_tokenByIndex(uint256)uint256
 //
 // Returns the token ID of the token with the given index among all NFTs defined by the contract
 abi_route_arc72_tokenByIndex:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// index: uint256
 	txna ApplicationArgs 1
 	dup
@@ -424,18 +438,18 @@ abi_route_arc72_tokenByIndex:
 
 	// execute arc72_tokenByIndex(uint256)uint256
 	callsub arc72_tokenByIndex
+	concat
+	log
 	int 1
 	return
 
 arc72_tokenByIndex:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:110
 	// return index;
-	byte 0x151f7c75
 	frame_dig -1 // index: uint256
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

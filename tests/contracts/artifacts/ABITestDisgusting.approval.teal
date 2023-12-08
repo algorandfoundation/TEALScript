@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // disgusting()uint64
 abi_route_disgusting:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute disgusting()uint64
 	callsub disgusting
+	itob
+	concat
+	log
 	int 1
 	return
 
 disgusting:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:304
 	// a: StaticArray<
@@ -71,11 +78,10 @@ disgusting:
 	frame_dig 1 // a: [uint16[2],uint64,[uint16,uint64],uint64[2][2]][2]
 	extract 92 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

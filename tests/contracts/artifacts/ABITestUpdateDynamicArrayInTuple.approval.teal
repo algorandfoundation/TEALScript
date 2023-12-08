@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])
 abi_route_updateDynamicArrayInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])
 	callsub updateDynamicArrayInTuple
+	concat
+	log
 	int 1
 	return
 
 updateDynamicArrayInTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:406
 	// a: [uint<8>, uint<16>[], uint<8>[], uint<16>[], uint<8>[]] = [9, [8], [7], [6], [5]]
@@ -265,10 +271,11 @@ updateDynamicArrayInTuple:
 
 	// tests/contracts/abi.algo.ts:414
 	// return a;
-	byte 0x151f7c75
 	frame_dig 1 // a: [uint8,uint16[],uint8[],uint16[],uint8[]]
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

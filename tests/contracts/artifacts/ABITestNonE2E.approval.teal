@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // typeWithComments()(string,uint64,uint64)
 abi_route_typeWithComments:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute typeWithComments()(string,uint64,uint64)
 	callsub typeWithComments
+	concat
+	log
 	int 1
 	return
 
 typeWithComments:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:1169
 	// return {
@@ -49,10 +55,6 @@ typeWithComments:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

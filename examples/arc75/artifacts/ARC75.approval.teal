@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 verifyMBRPayment:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc75/arc75.algo.ts:10
@@ -50,6 +51,7 @@ verifyMBRPayment:
 	retsub
 
 sendMBRPayment:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/arc75/arc75.algo.ts:17
@@ -124,6 +126,7 @@ abi_route_addAppToWhiteList:
 	return
 
 addAppToWhiteList:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 4 0; byte 0x; dupn 3
 
 	// examples/arc75/arc75.algo.ts:33
@@ -251,6 +254,7 @@ abi_route_setAppWhitelist:
 	return
 
 setAppWhitelist:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0; byte 0x; dupn 2
 
 	// examples/arc75/arc75.algo.ts:55
@@ -357,6 +361,7 @@ abi_route_deleteWhitelist:
 	return
 
 deleteWhitelist:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0; byte 0x; dupn 2
 
 	// examples/arc75/arc75.algo.ts:77
@@ -432,6 +437,7 @@ abi_route_deleteAppFromWhitelist:
 	return
 
 deleteAppFromWhitelist:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 4 0; byte 0x; dupn 3
 
 	// examples/arc75/arc75.algo.ts:94

@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // whileLoop()uint64
 abi_route_whileLoop:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute whileLoop()uint64
 	callsub whileLoop
+	itob
+	concat
+	log
 	int 1
 	return
 
 whileLoop:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/loops.algo.ts:6
 	// i = 0
@@ -55,22 +62,28 @@ while_0_end:
 	// tests/contracts/loops.algo.ts:12
 	// return i;
 	frame_dig 1 // i: uint64
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 // forLoop()uint64
 abi_route_forLoop:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute forLoop()uint64
 	callsub forLoop
+	itob
+	concat
+	log
 	int 1
 	return
 
 forLoop:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/loops.algo.ts:16
 	// i = 0
@@ -107,22 +120,28 @@ for_0_end:
 	// tests/contracts/loops.algo.ts:22
 	// return i;
 	frame_dig 1 // i: uint64
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 // doWhileLoop()uint64
 abi_route_doWhileLoop:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute doWhileLoop()uint64
 	callsub doWhileLoop
+	itob
+	concat
+	log
 	int 1
 	return
 
 doWhileLoop:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/loops.algo.ts:26
 	// i = 0
@@ -144,11 +163,10 @@ do_while_0:
 	// tests/contracts/loops.algo.ts:32
 	// return i;
 	frame_dig 1 // i: uint64
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

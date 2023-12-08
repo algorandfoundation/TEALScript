@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // mixedStaticArrayElements()uint64
 abi_route_mixedStaticArrayElements:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute mixedStaticArrayElements()uint64
 	callsub mixedStaticArrayElements
+	itob
+	concat
+	log
 	int 1
 	return
 
 mixedStaticArrayElements:
-	proto 0 0; byte 0x; dupn 4
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 4
 
 	// tests/contracts/abi.algo.ts:44
 	// n1 = 3
@@ -54,8 +61,11 @@ mixedStaticArrayElements:
 
 	// tests/contracts/abi.algo.ts:49
 	// return a[1] + a[4] + a[7];
-	byte 0x151f7c75000000000000000c
-	log
+	int 12
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 5
+	popn 5
 	retsub
 
 abi_route_createApplication:

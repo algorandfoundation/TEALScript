@@ -8,6 +8,7 @@ int 1
 return
 
 incrementCounter:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:7

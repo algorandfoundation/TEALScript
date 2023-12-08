@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 getSum:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:13
@@ -33,6 +34,7 @@ getSum:
 	retsub
 
 getDifference:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:24
@@ -64,6 +66,9 @@ ternary0_end:
 //
 // @returns The result of the operation
 abi_route_doMath:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// operation: string
 	txna ApplicationArgs 3
 	extract 2 0
@@ -78,11 +83,15 @@ abi_route_doMath:
 
 	// execute doMath(string,uint64,uint64)uint64
 	callsub doMath
+	itob
+	concat
+	log
 	int 1
 	return
 
 doMath:
-	proto 3 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 1; byte 0x; dupn 1
 
 	// if0_condition
 	// examples/calculator/calculator.algo.ts:39
@@ -125,11 +134,10 @@ if0_end:
 	// examples/calculator/calculator.algo.ts:45
 	// return result;
 	frame_dig 1 // result: uint64
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

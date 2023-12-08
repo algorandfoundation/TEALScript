@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // stringInTuple()(uint16,uint8[],string,uint8[])
 abi_route_stringInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute stringInTuple()(uint16,uint8[],string,uint8[])
 	callsub stringInTuple
+	concat
+	log
 	int 1
 	return
 
 stringInTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:542
 	// a: [uint<16>, uint<8>[], string, uint<8>[]] = [1, [2], 'Hello World!', [3]]
@@ -51,10 +57,11 @@ stringInTuple:
 
 	// tests/contracts/abi.algo.ts:544
 	// return a;
-	byte 0x151f7c75
 	frame_dig 1 // a: [uint16,uint8[],string,uint8[]]
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

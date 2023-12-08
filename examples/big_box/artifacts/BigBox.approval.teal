@@ -60,6 +60,7 @@ abi_route_startUpload:
 	return
 
 startUpload:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 4 0; byte 0x; dupn 4
 
 	// examples/big_box/big_box.algo.ts:41
@@ -197,6 +198,7 @@ abi_route_upload:
 	return
 
 upload:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 4 0; byte 0x; dupn 1
 
 	// examples/big_box/big_box.algo.ts:76
@@ -307,6 +309,7 @@ abi_route_setStatus:
 	return
 
 setStatus:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0; byte 0x; dupn 1
 
 	// examples/big_box/big_box.algo.ts:95

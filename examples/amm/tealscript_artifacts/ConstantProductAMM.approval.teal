@@ -30,6 +30,7 @@ abi_route_createApplication:
 	return
 
 createApplication:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/amm/amm.algo.ts:20
@@ -40,6 +41,7 @@ createApplication:
 	retsub
 
 doCreatePoolToken:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/amm/amm.algo.ts:26
@@ -105,6 +107,7 @@ doCreatePoolToken:
 	retsub
 
 doAxfer:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// examples/amm/amm.algo.ts:37
@@ -141,6 +144,7 @@ doAxfer:
 	retsub
 
 doOptIn:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:45
@@ -152,6 +156,7 @@ doOptIn:
 	retsub
 
 tokensToMintIntial:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/amm/amm.algo.ts:49
@@ -163,6 +168,7 @@ tokensToMintIntial:
 	retsub
 
 tokensToMint:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 5 1; byte 0x; dupn 3
 
 	// examples/amm/amm.algo.ts:53
@@ -223,9 +229,14 @@ ternary1_end:
 	swap
 	!
 	assert
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 4
+	popn 4
 	retsub
 
 computeRatio:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// examples/amm/amm.algo.ts:62
@@ -255,6 +266,7 @@ computeRatio:
 	retsub
 
 tokensToBurn:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1
 
 	// examples/amm/amm.algo.ts:69
@@ -273,6 +285,7 @@ tokensToBurn:
 	retsub
 
 tokensToSwap:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1; byte 0x; dupn 1
 
 	// examples/amm/amm.algo.ts:73
@@ -308,6 +321,10 @@ tokensToSwap:
 	swap
 	!
 	assert
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 // set_governor(account)void
@@ -323,6 +340,7 @@ abi_route_set_governor:
 	return
 
 set_governor:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:78
@@ -343,6 +361,9 @@ set_governor:
 
 // bootstrap(asset,asset,pay)uint64
 abi_route_bootstrap:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// bAsset: asset
 	txna ApplicationArgs 2
 	btoi
@@ -365,11 +386,15 @@ abi_route_bootstrap:
 
 	// execute bootstrap(asset,asset,pay)uint64
 	callsub bootstrap
+	itob
+	concat
+	log
 	int 1
 	return
 
 bootstrap:
-	proto 3 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 1
 
 	// examples/amm/amm.algo.ts:83
 	// verifyAppCallTxn(this.txn, { sender: this.governor.value })
@@ -444,11 +469,6 @@ bootstrap:
 	// return this.poolToken.value;
 	byte 0x70 // "p"
 	app_global_get
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // mint(asset,asset,asset,axfer,axfer)void
@@ -494,6 +514,7 @@ abi_route_mint:
 	return
 
 mint:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 5 0; byte 0x; dupn 1
 
 	// well formed mint
@@ -714,6 +735,7 @@ abi_route_burn:
 	return
 
 burn:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 4 0; byte 0x; dupn 3
 
 	// well formed burn
@@ -863,6 +885,7 @@ abi_route_swap:
 	return
 
 swap:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0; byte 0x; dupn 3
 
 	// well formed swap

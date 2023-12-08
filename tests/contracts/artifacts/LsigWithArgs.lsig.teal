@@ -26,6 +26,7 @@ route_logic:
 	return
 
 logic:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/lsig.algo.ts:13

@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // ufixed()ufixed64x2
 abi_route_ufixed:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute ufixed()ufixed64x2
 	callsub ufixed
+	concat
+	log
 	int 1
 	return
 
 ufixed:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:735
 	// a = 1.23 as ufixed<64, 2>
@@ -59,10 +65,10 @@ ufixed:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

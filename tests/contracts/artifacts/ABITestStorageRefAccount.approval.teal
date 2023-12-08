@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // storageRefAccount()uint64
 abi_route_storageRefAccount:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute storageRefAccount()uint64
 	callsub storageRefAccount
+	itob
+	concat
+	log
 	int 1
 	return
 
 storageRefAccount:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:1028
 	// addr = this.txn.sender
@@ -88,11 +95,10 @@ storageRefAccount:
 	load 255 // full array
 	extract 8 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // dynamicBoolArray()bool[]
 abi_route_dynamicBoolArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute dynamicBoolArray()bool[]
 	callsub dynamicBoolArray
+	concat
+	log
 	int 1
 	return
 
 dynamicBoolArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:940
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
@@ -68,10 +74,11 @@ dynamicBoolArray:
 
 	// tests/contracts/abi.algo.ts:942
 	// return a;
-	byte 0x151f7c75
 	frame_dig 1 // a: bool[]
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

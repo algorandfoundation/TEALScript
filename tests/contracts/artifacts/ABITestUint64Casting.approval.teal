@@ -24,6 +24,9 @@ NOT_IMPLEMENTED:
 
 // uint64Casting(uint256)uint64
 abi_route_uint64Casting:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: uint256
 	txna ApplicationArgs 1
 	dup
@@ -34,11 +37,15 @@ abi_route_uint64Casting:
 
 	// execute uint64Casting(uint256)uint64
 	callsub uint64Casting
+	itob
+	concat
+	log
 	int 1
 	return
 
 uint64Casting:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:1204
 	// return a as uint64;
@@ -50,11 +57,6 @@ uint64Casting:
 	assert
 	extract 24 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

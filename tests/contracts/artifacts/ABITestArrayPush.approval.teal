@@ -24,13 +24,27 @@ NOT_IMPLEMENTED:
 
 // arrayPush()uint16[]
 abi_route_arrayPush:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arrayPush()uint16[]
 	callsub arrayPush
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 arrayPush:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:429
 	// a: uint<16>[] = [1, 2]
@@ -47,18 +61,10 @@ arrayPush:
 	// tests/contracts/abi.algo.ts:433
 	// return a;
 	frame_dig 1 // a: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

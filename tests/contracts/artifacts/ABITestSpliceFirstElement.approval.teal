@@ -24,13 +24,27 @@ NOT_IMPLEMENTED:
 
 // spliceFirstElement()uint16[]
 abi_route_spliceFirstElement:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute spliceFirstElement()uint16[]
 	callsub spliceFirstElement
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 spliceFirstElement:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:510
 	// a: uint<16>[] = [1, 2, 3]
@@ -65,18 +79,10 @@ spliceFirstElement:
 	// tests/contracts/abi.algo.ts:514
 	// return a;
 	frame_dig 1 // a: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:

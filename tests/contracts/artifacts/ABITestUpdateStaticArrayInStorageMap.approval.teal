@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // updateStaticArrayInStorageMap()uint64[3]
 abi_route_updateStaticArrayInStorageMap:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute updateStaticArrayInStorageMap()uint64[3]
 	callsub updateStaticArrayInStorageMap
+	concat
+	log
 	int 1
 	return
 
 updateStaticArrayInStorageMap:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/abi.algo.ts:176
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
@@ -114,10 +120,11 @@ updateStaticArrayInStorageMap:
 
 	// tests/contracts/abi.algo.ts:192
 	// return ret;
-	byte 0x151f7c75
 	frame_dig 2 // ret: uint64[3]
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

@@ -35,6 +35,7 @@ abi_route_chainedPropertyAfterTuple:
 	return
 
 chainedPropertyAfterTuple:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1182

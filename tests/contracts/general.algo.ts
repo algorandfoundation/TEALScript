@@ -202,4 +202,12 @@ class GeneralTest extends Contract {
   private privateMethod(msg: string): string {
     return msg;
   }
+
+  interalPublicMethod(a: uint64, b: uint64): uint64 {
+    return a + b;
+  }
+
+  callInternalPublicMethod(): void {
+    assert(this.interalPublicMethod(1, 2) === 3);
+  }
 }

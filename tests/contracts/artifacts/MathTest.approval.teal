@@ -24,6 +24,9 @@ NOT_IMPLEMENTED:
 
 // u64plus(uint64,uint64)uint64
 abi_route_u64plus:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -34,26 +37,28 @@ abi_route_u64plus:
 
 	// execute u64plus(uint64,uint64)uint64
 	callsub u64plus
+	itob
+	concat
+	log
 	int 1
 	return
 
 u64plus:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:8
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	+
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u64minus(uint64,uint64)uint64
 abi_route_u64minus:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -64,26 +69,28 @@ abi_route_u64minus:
 
 	// execute u64minus(uint64,uint64)uint64
 	callsub u64minus
+	itob
+	concat
+	log
 	int 1
 	return
 
 u64minus:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:12
 	// return a - b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	-
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u64mul(uint64,uint64)uint64
 abi_route_u64mul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -94,26 +101,28 @@ abi_route_u64mul:
 
 	// execute u64mul(uint64,uint64)uint64
 	callsub u64mul
+	itob
+	concat
+	log
 	int 1
 	return
 
 u64mul:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:16
 	// return a * b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	*
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u64div(uint64,uint64)uint64
 abi_route_u64div:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -124,26 +133,28 @@ abi_route_u64div:
 
 	// execute u64div(uint64,uint64)uint64
 	callsub u64div
+	itob
+	concat
+	log
 	int 1
 	return
 
 u64div:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:20
 	// return a / b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	/
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u256plus(uint256,uint256)uint256
 abi_route_u256plus:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -162,11 +173,14 @@ abi_route_u256plus:
 
 	// execute u256plus(uint256,uint256)uint256
 	callsub u256plus
+	concat
+	log
 	int 1
 	return
 
 u256plus:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:24
 	// return <uint<256>>(a + b);
@@ -187,14 +201,13 @@ u256plus:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u256minus(uint256,uint256)uint256
 abi_route_u256minus:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -213,11 +226,14 @@ abi_route_u256minus:
 
 	// execute u256minus(uint256,uint256)uint256
 	callsub u256minus
+	concat
+	log
 	int 1
 	return
 
 u256minus:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:28
 	// return <uint<256>>(a - b);
@@ -238,14 +254,13 @@ u256minus:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u256mul(uint256,uint256)uint256
 abi_route_u256mul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -264,11 +279,14 @@ abi_route_u256mul:
 
 	// execute u256mul(uint256,uint256)uint256
 	callsub u256mul
+	concat
+	log
 	int 1
 	return
 
 u256mul:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:32
 	// return <uint<256>>(a * b);
@@ -289,14 +307,13 @@ u256mul:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u256div(uint256,uint256)uint256
 abi_route_u256div:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -315,11 +332,14 @@ abi_route_u256div:
 
 	// execute u256div(uint256,uint256)uint256
 	callsub u256div
+	concat
+	log
 	int 1
 	return
 
 u256div:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:36
 	// return <uint<256>>(a / b);
@@ -340,14 +360,13 @@ u256div:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // u64Return256(uint64,uint64)uint256
 abi_route_u64Return256:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -358,11 +377,14 @@ abi_route_u64Return256:
 
 	// execute u64Return256(uint64,uint64)uint256
 	callsub u64Return256
+	concat
+	log
 	int 1
 	return
 
 u64Return256:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:40
 	// return <uint<256>>(a + b);
@@ -377,30 +399,35 @@ u64Return256:
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // maxU64()uint64
 abi_route_maxU64:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute maxU64()uint64
 	callsub maxU64
+	itob
+	concat
+	log
 	int 1
 	return
 
 maxU64:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/math.algo.ts:45
 	// return 18_446_744_073_709_551_615;
-	byte 0x151f7c75ffffffffffffffff
-	log
+	int 18_446_744_073_709_551_615
 	retsub
 
 // exponent(uint64,uint64)uint64
 abi_route_exponent:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -411,26 +438,28 @@ abi_route_exponent:
 
 	// execute exponent(uint64,uint64)uint64
 	callsub exponent
+	itob
+	concat
+	log
 	int 1
 	return
 
 exponent:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:49
 	// return a ** b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	exp
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // variableTypeHint(uint8,uint8)uint16
 abi_route_variableTypeHint:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// y: uint8
 	txna ApplicationArgs 2
 	dup
@@ -449,11 +478,14 @@ abi_route_variableTypeHint:
 
 	// execute variableTypeHint(uint8,uint8)uint16
 	callsub variableTypeHint
+	concat
+	log
 	int 1
 	return
 
 variableTypeHint:
-	proto 2 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1; byte 0x; dupn 1
 
 	// tests/contracts/math.algo.ts:53
 	// z = <uint<16>>(x + y)
@@ -481,14 +513,18 @@ variableTypeHint:
 
 	// tests/contracts/math.algo.ts:55
 	// return z;
-	byte 0x151f7c75
 	frame_dig 1 // z: uint16
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 // uint8plus(uint8,uint8)uint8
 abi_route_uint8plus:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint8
 	txna ApplicationArgs 2
 	dup
@@ -507,11 +543,14 @@ abi_route_uint8plus:
 
 	// execute uint8plus(uint8,uint8)uint8
 	callsub uint8plus
+	concat
+	log
 	int 1
 	return
 
 uint8plus:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:59
 	// return a + b;
@@ -535,14 +574,13 @@ uint8plus:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // uint8exp(uint8,uint8)uint8
 abi_route_uint8exp:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint8
 	txna ApplicationArgs 2
 	dup
@@ -561,11 +599,14 @@ abi_route_uint8exp:
 
 	// execute uint8exp(uint8,uint8)uint8
 	callsub uint8exp
+	concat
+	log
 	int 1
 	return
 
 uint8exp:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:63
 	// return a ** b;
@@ -589,14 +630,13 @@ uint8exp:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // plusEquals(uint64,uint64)uint64
 abi_route_plusEquals:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -607,11 +647,15 @@ abi_route_plusEquals:
 
 	// execute plusEquals(uint64,uint64)uint64
 	callsub plusEquals
+	itob
+	concat
+	log
 	int 1
 	return
 
 plusEquals:
-	proto 2 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1; byte 0x; dupn 1
 
 	// tests/contracts/math.algo.ts:67
 	// x = a
@@ -628,15 +672,17 @@ plusEquals:
 	// tests/contracts/math.algo.ts:71
 	// return x;
 	frame_dig 1 // x: uint64
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 // plusEqualsFromGlobal(uint64,uint64)uint64
 abi_route_plusEqualsFromGlobal:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -647,11 +693,15 @@ abi_route_plusEqualsFromGlobal:
 
 	// execute plusEqualsFromGlobal(uint64,uint64)uint64
 	callsub plusEqualsFromGlobal
+	itob
+	concat
+	log
 	int 1
 	return
 
 plusEqualsFromGlobal:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:75
 	// this.gKey.value = a
@@ -673,22 +723,23 @@ plusEqualsFromGlobal:
 	// return this.gKey.value;
 	byte 0x674b6579 // "gKey"
 	app_global_get
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // ufixedLiteralMul()ufixed64x2
 abi_route_ufixedLiteralMul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute ufixedLiteralMul()ufixed64x2
 	callsub ufixedLiteralMul
+	concat
+	log
 	int 1
 	return
 
 ufixedLiteralMul:
-	proto 0 0; byte 0x; dupn 3
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 3
 
 	// tests/contracts/math.algo.ts:83
 	// a: ufixed<64, 2> = 12.34
@@ -722,14 +773,17 @@ ufixedLiteralMul:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 4
+	popn 4
 	retsub
 
 // ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
 abi_route_ufixedMul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: ufixed64x2
 	txna ApplicationArgs 2
 	dup
@@ -748,11 +802,14 @@ abi_route_ufixedMul:
 
 	// execute ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
 	callsub ufixedMul
+	concat
+	log
 	int 1
 	return
 
 ufixedMul:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:91
 	// return a * b;
@@ -780,14 +837,13 @@ ufixedMul:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2
 abi_route_BigUfixedMul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: ufixed128x2
 	txna ApplicationArgs 2
 	dup
@@ -806,11 +862,14 @@ abi_route_BigUfixedMul:
 
 	// execute BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2
 	callsub BigUfixedMul
+	concat
+	log
 	int 1
 	return
 
 BigUfixedMul:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/math.algo.ts:95
 	// return a * b;
@@ -833,14 +892,13 @@ BigUfixedMul:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
 abi_route_TripleBigUfixedMul:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// c: ufixed128x2
 	txna ApplicationArgs 3
 	dup
@@ -867,11 +925,14 @@ abi_route_TripleBigUfixedMul:
 
 	// execute TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
 	callsub TripleBigUfixedMul
+	concat
+	log
 	int 1
 	return
 
 TripleBigUfixedMul:
-	proto 3 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 1; byte 0x; dupn 2
 
 	// tests/contracts/math.algo.ts:99
 	// ab = a * b
@@ -908,10 +969,10 @@ TripleBigUfixedMul:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 3
+	popn 3
 	retsub
 
 abi_route_createApplication:

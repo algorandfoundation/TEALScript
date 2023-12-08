@@ -24,17 +24,23 @@ NOT_IMPLEMENTED:
 
 // bytesCasting(bytes)byte[2]
 abi_route_bytesCasting:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: byte[]
 	txna ApplicationArgs 1
 	extract 2 0
 
 	// execute bytesCasting(bytes)byte[2]
 	callsub bytesCasting
+	concat
+	log
 	int 1
 	return
 
 bytesCasting:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:1210
 	// return <StaticArray<byte, 2>>a;
@@ -47,10 +53,6 @@ bytesCasting:
 	b==
 	assert
 	extract 0 2
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

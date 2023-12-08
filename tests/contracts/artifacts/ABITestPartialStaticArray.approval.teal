@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // partialStaticArray()uint16[3]
 abi_route_partialStaticArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute partialStaticArray()uint16[3]
 	callsub partialStaticArray
+	concat
+	log
 	int 1
 	return
 
 partialStaticArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:859
 	// a: StaticArray<uint<16>, 3> = [1]
@@ -39,8 +45,11 @@ partialStaticArray:
 
 	// tests/contracts/abi.algo.ts:861
 	// return a;
-	byte 0x151f7c75000100000000
-	log
+	byte 0x000100000000 // a: uint16[3]
+
+	// cover the return value and pop all of the stack used for local variables
+	cover 2
+	popn 2
 	retsub
 
 abi_route_createApplication:
