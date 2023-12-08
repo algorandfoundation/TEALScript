@@ -1,0 +1,35 @@
+{
+  "name": "MockVRFBeacon",
+  "desc": "",
+  "methods": [
+    {
+      "name": "must_get",
+      "args": [
+        {
+          "name": "_round",
+          "type": "uint64",
+          "desc": ""
+        },
+        {
+          "name": "data",
+          "type": "byte[]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "byte[]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}
