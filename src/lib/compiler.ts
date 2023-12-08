@@ -206,6 +206,7 @@ interface StorageProp {
   dynamicSize?: boolean;
   prefix?: string;
   maxKeys?: number;
+  allowPotentialCollisions?: boolean;
 }
 
 interface ABIMethod {
@@ -4097,6 +4098,15 @@ export default class Compiler {
               if (!ts.isNumericLiteral(p.initializer)) throw new Error('Storage maxKeys must be number');
               props.maxKeys = parseInt(p.initializer.text, 10);
               break;
+            case 'allowPotentialCollisions':
+              if (
+                p.initializer.kind !== ts.SyntaxKind.TrueKeyword &&
+                p.initializer.kind !== ts.SyntaxKind.FalseKeyword
+              ) {
+                throw new Error('Storage allowPotentialCollisions must be boolean');
+              }
+              props.allowPotentialCollisions = p.initializer.kind === ts.SyntaxKind.TrueKeyword;
+              break;
             default:
               throw new Error(`Unknown property ${name}`);
           }
@@ -4109,13 +4119,61 @@ export default class Compiler {
 
       if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
-      if (klass.includes('Map') && !props.prefix) {
-        const keyTypes = this.mapKeyTypes[type as 'box' | 'local' | 'global'];
-        if (keyTypes.includes(props.keyType))
-          throw Error(
-            `Duplicate key type ${props.keyType} for ${type} map. To prevent key collision, use the prefix argument in the constructor.`
+      if (klass.includes('Map') && props.allowPotentialCollisions !== true) {
+        const prefixRequired = Object.keys(this.storageProps).find((propName) => {
+          const p = this.storageProps[propName];
+          return (
+            p.type === type &&
+            (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
           );
-        keyTypes.push(props.keyType);
+        });
+
+        if (prefixRequired) {
+          if (props.prefix === undefined)
+            throw Error(
+              `Prefix must be defined for "${node.name.getText()}" due to potential collision with "${prefixRequired}"`
+            );
+
+          const collision = Object.keys(this.storageProps).find((propName) => {
+            const p = this.storageProps[propName];
+            return p.type === type && (p.key?.startsWith(props.prefix!) || p.prefix === props.prefix);
+          });
+
+          if (collision) {
+            throw Error(`Storage prefix "${props.prefix}" collides with existing storage property "${collision}"`);
+          }
+        }
+      } else if (props.allowPotentialCollisions !== true) {
+        const prefixRequired = Object.keys(this.storageProps).find((propName) => {
+          const p = this.storageProps[propName];
+          return (
+            p.type === type &&
+            p.key === undefined &&
+            p.prefix === undefined &&
+            (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
+          );
+        });
+
+        if (prefixRequired) {
+          throw Error(
+            `"${node.name.getText()}" has a potential key collision with "${prefixRequired}". "${prefixRequired}" must have a prefix or "${node.name.getText()}" must have a different key name`
+          );
+        }
+
+        const thisKey = props.key || node.name.getText();
+        const collision = Object.keys(this.storageProps).find((propName) => {
+          const p = this.storageProps[propName];
+
+          return (
+            p.type === type && (propName === thisKey || p.key === thisKey || (p.prefix && thisKey.startsWith(p.prefix)))
+          );
+        });
+
+        if (collision) {
+          throw Error(
+            `Storage key for "${node.name.getText()}" collides with existing storage property "${collision}". One of the names or prefixes must be changed`
+          );
+        }
       }
 
       this.storageProps[node.name.getText()] = props;
@@ -4267,7 +4325,6 @@ export default class Compiler {
     // If this is a template variable
     if (ts.isPropertyAccessExpression(chain[0]) && this.templateVars[chain[0].name.getText()]) {
       const { type, name } = this.templateVars[chain[0].name.getText()];
-      console.log(type);
       if (isNumeric(type)) {
         this.push(chain[0], `pushint TMPL_${name}`, type);
       } else {

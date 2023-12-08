@@ -4,21 +4,21 @@ import { Contract } from '../../src/lib/index';
 class StorageTest extends Contract {
   globalKey = GlobalStateKey<bytes>({ key: 'foo' });
 
-  globalMap = GlobalStateMap<bytes, bytes>({ maxKeys: 1 });
+  globalMap = GlobalStateMap<bytes, bytes>({ maxKeys: 1, allowPotentialCollisions: true });
 
   localKey = LocalStateKey<bytes>({ key: 'foo' });
 
-  localMap = LocalStateMap<bytes, bytes>({ maxKeys: 1 });
+  localMap = LocalStateMap<bytes, bytes>({ maxKeys: 1, allowPotentialCollisions: true });
 
   boxKey = BoxKey<bytes>({ key: 'foo', dynamicSize: false });
 
-  boxMap = BoxMap<bytes, bytes>({ dynamicSize: false });
+  boxMap = BoxMap<bytes, bytes>({ dynamicSize: false, allowPotentialCollisions: true });
 
-  boxMapWithPrefix = BoxMap<bytes, bytes>({ prefix: 'f' });
+  boxMapWithPrefix = BoxMap<bytes, bytes>({ prefix: 'f', allowPotentialCollisions: true });
 
-  globalMapWithPrefix = GlobalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1 });
+  globalMapWithPrefix = GlobalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1, allowPotentialCollisions: true });
 
-  localMapWithPrefix = LocalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1 });
+  localMapWithPrefix = LocalStateMap<bytes, bytes>({ prefix: 'f', maxKeys: 1, allowPotentialCollisions: true });
 
   prefix(): void {
     this.boxMapWithPrefix('oo').value = 'bar';
