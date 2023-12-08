@@ -37,33 +37,33 @@ abi_route_storageRefAccount:
 
 storageRefAccount:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 2
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1028
 	// addr = this.txn.sender
 	txn Sender
-	frame_bury 1 // addr: address
+	frame_bury 0 // addr: address
 
 	// tests/contracts/abi.algo.ts:1029
 	// this.lMap(addr, 0).value = [1, 2, 3]
-	frame_dig 1 // addr: address
+	frame_dig 0 // addr: address
 	byte 0x0000000000000000
 	byte 0x0003000000000000000100000000000000020000000000000003
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:1030
 	// r = this.lMap(addr, 0).value
-	frame_dig 1 // addr: address
-	frame_bury 2 // storage account//r
+	frame_dig 0 // addr: address
+	frame_bury 1 // storage account//r
 
 	// tests/contracts/abi.algo.ts:1032
 	// addr = globals.zeroAddress
 	global ZeroAddress
-	frame_bury 1 // addr: address
+	frame_bury 0 // addr: address
 
 	// tests/contracts/abi.algo.ts:1034
 	// r[1] = 4
-	frame_dig 2 // storage account//r
+	frame_dig 1 // storage account//r
 	byte 0x0000000000000000
 	app_local_get
 	extract 2 0
@@ -72,7 +72,7 @@ storageRefAccount:
 	int 8
 	byte 0x0000000000000004
 	replace3
-	frame_dig 2 // storage account//r
+	frame_dig 1 // storage account//r
 	byte 0x0000000000000000
 	uncover 2
 	dup
@@ -96,9 +96,9 @@ storageRefAccount:
 	extract 8 8
 	btoi
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 3
-	popn 3
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 2
 	retsub
 
 abi_route_createApplication:

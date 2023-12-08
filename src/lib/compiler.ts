@@ -3389,9 +3389,9 @@ export default class Compiler {
     if (this.frameIndex > 0) {
       this.pushLines(
         node,
-        '// cover the return value and pop all of the stack used for local variables',
-        `cover ${this.frameIndex + 1}`,
-        `popn ${this.frameIndex + 1}`
+        '// bury the return value and pop all of the stack used for local variables',
+        'frame_bury 0',
+        `popn ${this.frameIndex}`
       );
     }
     this.pushVoid(node, 'retsub');

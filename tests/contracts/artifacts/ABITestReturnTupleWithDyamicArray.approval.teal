@@ -36,7 +36,7 @@ abi_route_returnTupleWithDyamicArray:
 
 returnTupleWithDyamicArray:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:390
 	// a: [uint64, uint<16>, uint64[], uint<16>[]] = [1, 2, [3, 4], [5, 6]]
@@ -53,15 +53,15 @@ returnTupleWithDyamicArray:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_bury 0 // a: [uint64,uint16,uint64[],uint16[]]
 
 	// tests/contracts/abi.algo.ts:392
 	// return a;
-	frame_dig 1 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_dig 0 // a: [uint64,uint16,uint64[],uint16[]]
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

@@ -42,7 +42,7 @@ abi_route_customTypes:
 
 customTypes:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:632
 	// aa: CustomType = {
@@ -58,11 +58,11 @@ customTypes:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // aa: CustomType
+	frame_bury 0 // aa: CustomType
 
 	// tests/contracts/abi.algo.ts:637
 	// aa.bar = 'Hello World!'
-	frame_dig 1 // aa: CustomType
+	frame_dig 0 // aa: CustomType
 	store 255 // full array
 	int 2
 	dup
@@ -101,11 +101,11 @@ customTypes:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury 1 // aa: CustomType
+	frame_bury 0 // aa: CustomType
 
 	// tests/contracts/abi.algo.ts:639
 	// return aa.bar;
-	frame_dig 1 // aa: CustomType
+	frame_dig 0 // aa: CustomType
 	store 255 // full array
 	int 2
 	load 255 // full array
@@ -123,9 +123,9 @@ customTypes:
 	extract3
 	extract 2 0
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

@@ -42,7 +42,7 @@ abi_route_returnDynamicArrayFromTuple:
 
 returnDynamicArrayFromTuple:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:398
 	// a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]] = [1, 2, [3, 4], [5, 6], [7, 8]]
@@ -61,11 +61,11 @@ returnDynamicArrayFromTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	frame_bury 0 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:400
 	// return a[4];
-	frame_dig 1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	frame_dig 0 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 	store 255 // full array
 	int 7
 	load 255 // full array
@@ -83,9 +83,9 @@ returnDynamicArrayFromTuple:
 	extract3
 	extract 2 0
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

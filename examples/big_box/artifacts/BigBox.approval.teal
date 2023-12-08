@@ -61,22 +61,22 @@ abi_route_startUpload:
 
 startUpload:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 4
+	proto 4 0; byte 0x; dupn 3
 
 	// examples/big_box/big_box.algo.ts:41
 	// startBox = this.currentIndex.value
 	byte 0x63757272656e74496e646578 // "currentIndex"
 	app_global_get
-	frame_bury 1 // startBox: uint64
+	frame_bury 0 // startBox: uint64
 
 	// examples/big_box/big_box.algo.ts:42
 	// endBox = startBox + numBoxes - 1
-	frame_dig 1 // startBox: uint64
+	frame_dig 0 // startBox: uint64
 	frame_dig -2 // numBoxes: uint64
 	+
 	int 1
 	-
-	frame_bury 2 // endBox: uint64
+	frame_bury 1 // endBox: uint64
 
 	// examples/big_box/big_box.algo.ts:44
 	// metadata: Metadata = {
@@ -85,9 +85,9 @@ startUpload:
 	//       status: IN_PROGRESS,
 	//       endSize: endBoxSize,
 	//     }
-	frame_dig 1 // startBox: uint64
+	frame_dig 0 // startBox: uint64
 	itob
-	frame_dig 2 // endBox: uint64
+	frame_dig 1 // endBox: uint64
 	itob
 	concat
 	byte 0x00
@@ -95,7 +95,7 @@ startUpload:
 	frame_dig -3 // endBoxSize: uint64
 	itob
 	concat
-	frame_bury 3 // metadata: Metadata
+	frame_bury 2 // metadata: Metadata
 
 	// examples/big_box/big_box.algo.ts:51
 	// assert(!this.metadata(dataIdentifier).exists)
@@ -109,13 +109,13 @@ startUpload:
 	// examples/big_box/big_box.algo.ts:53
 	// this.metadata(dataIdentifier).value = metadata
 	frame_dig -1 // dataIdentifier: string
-	frame_dig 3 // metadata: Metadata
+	frame_dig 2 // metadata: Metadata
 	box_put
 
 	// examples/big_box/big_box.algo.ts:55
 	// this.currentIndex.value = endBox + 1
 	byte 0x63757272656e74496e646578 // "currentIndex"
-	frame_dig 2 // endBox: uint64
+	frame_dig 1 // endBox: uint64
 	int 1
 	+
 	app_global_put
@@ -147,7 +147,7 @@ startUpload:
 	int 400
 	*
 	+
-	frame_bury 4 // totalCost: uint64
+	frame_bury 3 // totalCost: uint64
 
 	// examples/big_box/big_box.algo.ts:63
 	// verifyPayTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
@@ -161,7 +161,7 @@ startUpload:
 	// verify amount
 	frame_dig -4 // mbrPayment: pay
 	gtxns Amount
-	frame_dig 4 // totalCost: uint64
+	frame_dig 3 // totalCost: uint64
 	==
 	assert
 	retsub
@@ -199,16 +199,16 @@ abi_route_upload:
 
 upload:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 1
+	proto 4 0; byte 0x
 
 	// examples/big_box/big_box.algo.ts:76
 	// metadata = this.metadata(dataIdentifier).value
 	frame_dig -1 // dataIdentifier: string
-	frame_bury 1 // storage key//metadata
+	frame_bury 0 // storage key//metadata
 
 	// examples/big_box/big_box.algo.ts:77
 	// assert(metadata.status === IN_PROGRESS)
-	frame_dig 1 // storage key//metadata
+	frame_dig 0 // storage key//metadata
 	box_get
 	assert
 	extract 16 1
@@ -218,7 +218,7 @@ upload:
 
 	// examples/big_box/big_box.algo.ts:78
 	// assert(metadata.start <= boxIndex && boxIndex <= metadata.end)
-	frame_dig 1 // storage key//metadata
+	frame_dig 0 // storage key//metadata
 	box_get
 	assert
 	extract 0 8
@@ -228,7 +228,7 @@ upload:
 	dup
 	bz skip_and0
 	frame_dig -2 // boxIndex: uint64
-	frame_dig 1 // storage key//metadata
+	frame_dig 0 // storage key//metadata
 	box_get
 	assert
 	extract 8 8
@@ -253,14 +253,14 @@ skip_and0:
 	frame_dig -2 // boxIndex: uint64
 	itob
 	frame_dig -2 // boxIndex: uint64
-	frame_dig 1 // storage key//metadata
+	frame_dig 0 // storage key//metadata
 	box_get
 	assert
 	extract 8 8
 	btoi
 	==
 	bz ternary0_false
-	frame_dig 1 // storage key//metadata
+	frame_dig 0 // storage key//metadata
 	box_get
 	assert
 	extract 17 8
@@ -310,7 +310,7 @@ abi_route_setStatus:
 
 setStatus:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 0; byte 0x; dupn 1
+	proto 2 0; byte 0x
 
 	// examples/big_box/big_box.algo.ts:95
 	// currentStatus = this.metadata(dataIdentifier).value.status
@@ -318,7 +318,7 @@ setStatus:
 	box_get
 	assert
 	extract 16 1
-	frame_bury 1 // currentStatus: uint8
+	frame_bury 0 // currentStatus: uint8
 
 	// examples/big_box/big_box.algo.ts:97
 	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
@@ -345,7 +345,7 @@ skip_or1:
 
 	// examples/big_box/big_box.algo.ts:98
 	// assert(currentStatus !== IMMUTABLE)
-	frame_dig 1 // currentStatus: uint8
+	frame_dig 0 // currentStatus: uint8
 	byte 0x02
 	b!=
 	assert

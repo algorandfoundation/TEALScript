@@ -36,7 +36,7 @@ abi_route_tupleInArray:
 
 tupleInArray:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:273
 	// a: StaticArray<[uint64, uint<16>], 2> = [
@@ -44,15 +44,16 @@ tupleInArray:
 	//       [33, 44],
 	//     ]
 	byte 0x000000000000000b00160000000000000021002c
-	frame_bury 1 // a: [uint64,uint16][2]
+	frame_bury 0 // a: [uint64,uint16][2]
 
 	// tests/contracts/abi.algo.ts:278
 	// return a[1][1];
-	byte 0x002c
+	frame_dig 0 // a: [uint64,uint16][2]
+	extract 18 2
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

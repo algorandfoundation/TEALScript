@@ -37,35 +37,35 @@ abi_route_whileLoop:
 
 whileLoop:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/loops.algo.ts:6
 	// i = 0
 	int 0
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 while_0:
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 	int 10
 	<
 	bz while_0_end
 
 	// tests/contracts/loops.algo.ts:9
 	// i = i + 1
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 	int 1
 	+
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 	b while_0
 
 while_0_end:
 	// tests/contracts/loops.algo.ts:12
 	// return i;
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 // forLoop()uint64
@@ -83,47 +83,47 @@ abi_route_forLoop:
 
 forLoop:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 2
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/loops.algo.ts:16
 	// i = 0
 	int 0
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 	// tests/contracts/loops.algo.ts:18
 	// j = 0
 	int 0
-	frame_bury 2 // j: uint64
+	frame_bury 1 // j: uint64
 
 for_0:
-	frame_dig 2 // j: uint64
+	frame_dig 1 // j: uint64
 	int 10
 	<
 	bz for_0_end
 
 	// tests/contracts/loops.algo.ts:19
 	// i = i + 1
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 	int 1
 	+
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 	// tests/contracts/loops.algo.ts:18
 	// j = j + 1
-	frame_dig 2 // j: uint64
+	frame_dig 1 // j: uint64
 	int 1
 	+
-	frame_bury 2 // j: uint64
+	frame_bury 1 // j: uint64
 	b for_0
 
 for_0_end:
 	// tests/contracts/loops.algo.ts:22
 	// return i;
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 3
-	popn 3
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 2
 	retsub
 
 // doWhileLoop()uint64
@@ -141,32 +141,32 @@ abi_route_doWhileLoop:
 
 doWhileLoop:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/loops.algo.ts:26
 	// i = 0
 	int 0
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 do_while_0:
 	// tests/contracts/loops.algo.ts:29
 	// i = i + 1
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 	int 1
 	+
-	frame_bury 1 // i: uint64
-	frame_dig 1 // i: uint64
+	frame_bury 0 // i: uint64
+	frame_dig 0 // i: uint64
 	int 10
 	<
 	bnz do_while_0
 
 	// tests/contracts/loops.algo.ts:32
 	// return i;
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

@@ -37,7 +37,7 @@ abi_route_storageRefKey:
 
 storageRefKey:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 2
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:1009
 	// this.gMap(0).value = [1, 2, 3]
@@ -48,22 +48,22 @@ storageRefKey:
 	// tests/contracts/abi.algo.ts:1011
 	// i = 0
 	int 0
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 	// tests/contracts/abi.algo.ts:1013
 	// r = this.gMap(i).value
-	frame_dig 1 // i: uint64
+	frame_dig 0 // i: uint64
 	itob
-	frame_bury 2 // storage key//r
+	frame_bury 1 // storage key//r
 
 	// tests/contracts/abi.algo.ts:1015
 	// i = 1
 	int 1
-	frame_bury 1 // i: uint64
+	frame_bury 0 // i: uint64
 
 	// tests/contracts/abi.algo.ts:1017
 	// r[1] = 4
-	frame_dig 2 // storage key//r
+	frame_dig 1 // storage key//r
 	app_global_get
 	extract 2 0
 	store 255 // full array
@@ -71,7 +71,7 @@ storageRefKey:
 	int 8
 	byte 0x0000000000000004
 	replace3
-	frame_dig 2 // storage key//r
+	frame_dig 1 // storage key//r
 	swap
 	dup
 	len
@@ -93,9 +93,9 @@ storageRefKey:
 	extract 8 8
 	btoi
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 3
-	popn 3
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 2
 	retsub
 
 abi_route_createApplication:

@@ -36,21 +36,21 @@ abi_route_opcodeParamFromObject:
 
 opcodeParamFromObject:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:1076
 	// a: { myApp: Application } = { myApp: this.app }
 	txna Applications 0
 	itob
-	frame_bury 1 // a: { myApp: Application }
+	frame_bury 0 // a: { myApp: Application }
 
 	// tests/contracts/abi.algo.ts:1078
 	// return this.app.address;
 	global CurrentApplicationAddress
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

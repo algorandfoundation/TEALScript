@@ -485,7 +485,7 @@ abi_route_variableTypeHint:
 
 variableTypeHint:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 1; byte 0x; dupn 1
+	proto 2 1; byte 0x
 
 	// tests/contracts/math.algo.ts:53
 	// z = <uint<16>>(x + y)
@@ -509,15 +509,15 @@ variableTypeHint:
 	-
 	swap
 	substring3
-	frame_bury 1 // z: uint16
+	frame_bury 0 // z: uint16
 
 	// tests/contracts/math.algo.ts:55
 	// return z;
-	frame_dig 1 // z: uint16
+	frame_dig 0 // z: uint16
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 // uint8plus(uint8,uint8)uint8
@@ -655,27 +655,27 @@ abi_route_plusEquals:
 
 plusEquals:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 1; byte 0x; dupn 1
+	proto 2 1; byte 0x
 
 	// tests/contracts/math.algo.ts:67
 	// x = a
 	frame_dig -1 // a: uint64
-	frame_bury 1 // x: uint64
+	frame_bury 0 // x: uint64
 
 	// tests/contracts/math.algo.ts:69
 	// x += b
-	frame_dig 1 // x: uint64
+	frame_dig 0 // x: uint64
 	frame_dig -2 // b: uint64
 	+
-	frame_bury 1 // x: uint64
+	frame_bury 0 // x: uint64
 
 	// tests/contracts/math.algo.ts:71
 	// return x;
-	frame_dig 1 // x: uint64
+	frame_dig 0 // x: uint64
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 // plusEqualsFromGlobal(uint64,uint64)uint64
@@ -739,27 +739,35 @@ abi_route_ufixedLiteralMul:
 
 ufixedLiteralMul:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 3
+	proto 0 1; byte 0x; dupn 2
 
 	// tests/contracts/math.algo.ts:83
 	// a: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury 1 // a: ufixed64x2
+	frame_bury 0 // a: ufixed64x2
 
 	// tests/contracts/math.algo.ts:84
 	// b: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury 2 // b: ufixed64x2
+	frame_bury 1 // b: ufixed64x2
 
 	// tests/contracts/math.algo.ts:85
 	// c = a * b
-	byte 0x0000000000003b7b
-	frame_bury 3 // c: unsafe ufixed64x2
+	frame_dig 0 // a: ufixed64x2
+	btoi
+	int 1234
+	*
+	itob
+	btoi
+	int 100
+	/
+	itob
+	frame_bury 2 // c: unsafe ufixed64x2
 
 	// tests/contracts/math.algo.ts:87
 	// return c;
-	byte 0x0000000000003b7b // c: unsafe ufixed64x2
-	byte 0x0000000000003b7b // c: unsafe ufixed64x2
+	frame_dig 2 // c: unsafe ufixed64x2
+	dup
 	bitlen
 	int 64
 	<=
@@ -774,9 +782,9 @@ ufixedLiteralMul:
 	swap
 	substring3
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 4
-	popn 4
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 3
 	retsub
 
 // ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
@@ -932,7 +940,7 @@ abi_route_TripleBigUfixedMul:
 
 TripleBigUfixedMul:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 1; byte 0x; dupn 2
+	proto 3 1; byte 0x; dupn 1
 
 	// tests/contracts/math.algo.ts:99
 	// ab = a * b
@@ -941,20 +949,20 @@ TripleBigUfixedMul:
 	b*
 	byte 0x64
 	b/
-	frame_bury 1 // ab: unsafe ufixed128x2
+	frame_bury 0 // ab: unsafe ufixed128x2
 
 	// tests/contracts/math.algo.ts:100
 	// abc = ab * c
-	frame_dig 1 // ab: unsafe ufixed128x2
+	frame_dig 0 // ab: unsafe ufixed128x2
 	frame_dig -3 // c: ufixed128x2
 	b*
 	byte 0x64
 	b/
-	frame_bury 2 // abc: unsafe ufixed128x2
+	frame_bury 1 // abc: unsafe ufixed128x2
 
 	// tests/contracts/math.algo.ts:101
 	// return abc;
-	frame_dig 2 // abc: unsafe ufixed128x2
+	frame_dig 1 // abc: unsafe ufixed128x2
 	dup
 	bitlen
 	int 128
@@ -970,9 +978,9 @@ TripleBigUfixedMul:
 	swap
 	substring3
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 3
-	popn 3
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 2
 	retsub
 
 abi_route_createApplication:

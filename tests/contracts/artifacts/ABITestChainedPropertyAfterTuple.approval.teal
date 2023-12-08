@@ -36,16 +36,16 @@ abi_route_chainedPropertyAfterTuple:
 
 chainedPropertyAfterTuple:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 1 0; byte 0x; dupn 1
+	proto 1 0; byte 0x
 
 	// tests/contracts/abi.algo.ts:1182
 	// o: T7 = { foo: this.app.address }
 	global CurrentApplicationAddress
-	frame_bury 1 // o: T7
+	frame_bury 0 // o: T7
 
 	// tests/contracts/abi.algo.ts:1184
 	// assert(!o.foo.hasAsset(asa))
-	frame_dig 1 // o: T7
+	frame_dig 0 // o: T7
 	extract 0 32
 	frame_dig -1 // asa: asset
 	asset_holding_get AssetBalance

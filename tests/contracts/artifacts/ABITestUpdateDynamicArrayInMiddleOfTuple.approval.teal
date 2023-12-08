@@ -36,7 +36,7 @@ abi_route_updateDynamicArrayInMiddleOfTuple:
 
 updateDynamicArrayInMiddleOfTuple:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:682
 	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
@@ -51,11 +51,11 @@ updateDynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // a: [uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:684
 	// a[1] = [4, 5]
-	frame_dig 1 // a: [uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint16,uint8[],uint16]
 	store 255 // full array
 	int 2
 	dup
@@ -94,15 +94,15 @@ updateDynamicArrayInMiddleOfTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury 1 // a: [uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:686
 	// return a;
-	frame_dig 1 // a: [uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint16,uint8[],uint16]
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

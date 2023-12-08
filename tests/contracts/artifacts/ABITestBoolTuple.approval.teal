@@ -36,7 +36,7 @@ abi_route_boolTuple:
 
 boolTuple:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:888
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -78,15 +78,15 @@ boolTuple:
 	int 8
 	int 0
 	setbit
-	frame_bury 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:900
 	// return a;
-	frame_dig 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

@@ -36,27 +36,27 @@ abi_route_objectRef:
 
 objectRef:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:995
 	// o: { foo: uint64 } = { foo: 1 }
 	byte 0x0000000000000001
-	frame_bury 1 // o: { foo: uint64 }
+	frame_bury 0 // o: { foo: uint64 }
 
 	// tests/contracts/abi.algo.ts:999
 	// r.foo = 2
-	frame_dig 1 // o: { foo: uint64 }
+	frame_dig 0 // o: { foo: uint64 }
 	byte 0x0000000000000002
 	replace2 0
-	frame_bury 1 // r: { foo: uint64 }
+	frame_bury 0 // r: { foo: uint64 }
 
 	// tests/contracts/abi.algo.ts:1001
 	// return o;
-	frame_dig 1 // o: { foo: uint64 }
+	frame_dig 0 // o: { foo: uint64 }
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

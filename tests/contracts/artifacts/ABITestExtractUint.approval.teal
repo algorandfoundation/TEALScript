@@ -40,7 +40,7 @@ abi_route_extractUint:
 
 extractUint:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 1 1; byte 0x; dupn 1
+	proto 1 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:1128
 	// x = <uint<8>>arg
@@ -52,15 +52,15 @@ extractUint:
 	<=
 	assert
 	extract 7 1
-	frame_bury 1 // x: uint8
+	frame_bury 0 // x: uint8
 
 	// tests/contracts/abi.algo.ts:1129
 	// return x;
-	frame_dig 1 // x: uint8
+	frame_dig 0 // x: uint8
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

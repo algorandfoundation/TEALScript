@@ -37,20 +37,22 @@ abi_route_tupleInTuple:
 
 tupleInTuple:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:284
 	// a: [uint<16>, uint<16>, [uint64, uint<16>], [uint<16>, uint64]] = [11, 22, [33, 44], [55, 66]]
 	byte 0x000b00160000000000000021002c00370000000000000042
-	frame_bury 1 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	frame_bury 0 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
 
 	// tests/contracts/abi.algo.ts:286
 	// return a[3][1];
-	int 66
+	frame_dig 0 // a: [uint16,uint16,[uint64,uint16],[uint16,uint64]]
+	extract 16 8
+	btoi
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

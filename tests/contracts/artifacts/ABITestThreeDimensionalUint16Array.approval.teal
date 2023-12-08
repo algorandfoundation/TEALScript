@@ -36,7 +36,7 @@ abi_route_threeDimensionalUint16Array:
 
 threeDimensionalUint16Array:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:238
 	// a: StaticArray<StaticArray<StaticArray<uint<16>, 2>, 2>, 2> = [
@@ -50,23 +50,23 @@ threeDimensionalUint16Array:
 	//       ],
 	//     ]
 	byte 0x000b00160021002c00370042004d0058
-	frame_bury 1 // a: uint16[2][2][2]
+	frame_bury 0 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.algo.ts:249
 	// a[1][1] = [777, 888]
-	frame_dig 1 // a: uint16[2][2][2]
+	frame_dig 0 // a: uint16[2][2][2]
 	byte 0x03090378
 	replace2 12
-	frame_bury 1 // a: uint16[2][2][2]
+	frame_bury 0 // a: uint16[2][2][2]
 
 	// tests/contracts/abi.algo.ts:251
 	// return a[1][1][1];
-	frame_dig 1 // a: uint16[2][2][2]
+	frame_dig 0 // a: uint16[2][2][2]
 	extract 14 2
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:

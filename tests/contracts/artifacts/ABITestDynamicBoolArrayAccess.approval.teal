@@ -40,7 +40,7 @@ abi_route_dynamicBoolArrayAccess:
 
 dynamicBoolArrayAccess:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 1
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:948
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
@@ -74,19 +74,19 @@ dynamicBoolArrayAccess:
 	int 0
 	setbit
 	concat
-	frame_bury 1 // a: bool[]
+	frame_bury 0 // a: bool[]
 
 	// tests/contracts/abi.algo.ts:950
 	// return a[8];
-	frame_dig 1 // a: bool[]
+	frame_dig 0 // a: bool[]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	getbit
 
-	// cover the return value and pop all of the stack used for local variables
-	cover 2
-	popn 2
+	// bury the return value and pop all of the stack used for local variables
+	frame_bury 0
+	popn 1
 	retsub
 
 abi_route_createApplication:
