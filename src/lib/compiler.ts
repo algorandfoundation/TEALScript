@@ -1700,6 +1700,48 @@ export default class Compiler {
     }
   }
 
+  /**
+   * Get all of the children of the class declaration so the ordering of method definition
+   * doesn't matter. Eventually also use this to get properties for the sake of inheritance.
+   */
+  getClassChildren() {
+    this.sourceFile.statements.forEach((body) => {
+      if (!ts.isClassDeclaration(body)) return;
+
+      if (body.name!.text !== this.name) return;
+
+      body.forEachChild((node) => {
+        if (ts.isMethodDeclaration(node)) {
+          if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
+          if (node.type === undefined)
+            throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
+
+          const returnType = this.getABIType(node.type.getText()).replace(/bytes/g, 'byte[]');
+
+          const sub = {
+            name: node.name.getText(),
+            allows: { call: [], create: [] },
+            nonAbi: { call: [], create: [] },
+            args: [],
+            desc: '',
+            returns: { type: returnType, desc: '' },
+            node,
+          } as Subroutine;
+
+          new Array(...node.parameters).reverse().forEach((p) => {
+            sub.args.push({
+              name: p.name.getText(),
+              type: this.getABIType(this.getABIType(p!.type!.getText())),
+              desc: '',
+            });
+          });
+
+          this.subroutines.push(sub);
+        }
+      });
+    });
+  }
+
   async compile() {
     this.sourceFile.statements.forEach((body) => {
       if (ts.isImportDeclaration(body)) {
@@ -1738,7 +1780,11 @@ export default class Compiler {
           this.constants[d.name.getText()] = d.initializer!;
         });
       }
+    });
 
+    this.getClassChildren();
+
+    this.sourceFile.statements.forEach((body) => {
       if (!ts.isClassDeclaration(body)) return;
 
       this.lastNode = body;
@@ -3111,25 +3157,7 @@ export default class Compiler {
 
     const returnType = this.getABIType(node.type.getText()).replace(/bytes/g, 'byte[]');
 
-    this.currentSubroutine = {
-      name: node.name.getText(),
-      allows: { call: [], create: [] },
-      nonAbi: { call: [], create: [] },
-      args: [],
-      desc: '',
-      returns: { type: returnType, desc: '' },
-      node,
-    };
-
-    new Array(...node.parameters).reverse().forEach((p) => {
-      this.currentSubroutine.args.push({
-        name: p.name.getText(),
-        type: this.getABIType(this.getABIType(p!.type!.getText())),
-        desc: '',
-      });
-    });
-
-    this.subroutines.push(this.currentSubroutine);
+    this.currentSubroutine = this.subroutines.find((s) => s.name === node.name.getText())!;
 
     const leadingCommentRanges = ts.getLeadingCommentRanges(this.sourceFile.text, node.pos) || [];
     const headerCommentRange = leadingCommentRanges.at(-1);

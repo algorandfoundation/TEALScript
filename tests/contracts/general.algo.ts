@@ -194,4 +194,12 @@ class GeneralTest extends Contract {
   importedProgram(): bytes {
     return IfTest.approvalProgram();
   }
+
+  callPrivateDefinedLater(): void {
+    log(this.privateMethod('hello'));
+  }
+
+  private privateMethod(msg: string): string {
+    return msg;
+  }
 }
