@@ -229,7 +229,7 @@ interface Subroutine extends ABIMethod {
 }
 // These should probably be types rather than strings?
 function isNumeric(t: string): boolean {
-  return ['uint64', 'asset', 'application'].includes(t);
+  return ['uint64', 'asset', 'application'].includes(t.toLowerCase());
 }
 
 function isRefType(t: string): boolean {
@@ -422,6 +422,8 @@ export default class Compiler {
   programVersion = 9;
 
   importRegistry: Record<string, string> = {};
+
+  templateVars: Record<string, { name: string; type: string }> = {};
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -1057,26 +1059,6 @@ export default class Compiler {
     verifyKeyRegTxn: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
       fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.KeyRegistrationTx),
-    },
-    templateVar: {
-      check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
-      fn: (node: ts.CallExpression) => {
-        if (node.typeArguments === undefined) throw new Error('templateVar must have type argument');
-        if (node.typeArguments.length !== 1) throw new Error('templateVar must have exactly one type argument');
-        if (!ts.isStringLiteral(node.arguments[0]))
-          throw new Error('templateVar must have exactly one string literal argument');
-        const type = node.typeArguments[0].getText();
-        const name = node.arguments[0].text;
-
-        if (name.replace(/_/g, '').match(/^[A-Z]+$/) === null)
-          throw Error('Template variable name may only contain capital letters and underscores');
-
-        if (type === 'bytes' || type === 'string') {
-          this.push(node, `byte TMPL_${name} // TMPL_${name}`, StackType.bytes);
-        } else if (type === 'uint64' || type === 'number') {
-          this.push(node, `int TMPL_${name} // TMPL_${name}`, StackType.uint64);
-        } else throw Error(`Invalid templateVar type ${type}`);
-      },
     },
     addr: {
       check: (node: ts.CallExpression) => ts.isIdentifier(node.expression),
@@ -4163,6 +4145,19 @@ export default class Compiler {
         throw Error('Scratch slot must be between 0 and 200 (inclusive). 201-256 is reserved for the compiler');
 
       this.scratch[name] = { type, slot };
+    } else if (ts.isCallExpression(node.initializer) && node.initializer.expression.getText() === 'TemplateVar') {
+      if (node.initializer.typeArguments?.length !== 1) throw Error('TemplateVar must have one type argument ');
+
+      if (node.initializer.arguments[0] && !ts.isNumericLiteral(node.initializer.arguments[0])) {
+        throw Error('TemplateVar name argument must be a string literal');
+      }
+
+      const name = node.initializer.arguments[0]?.getText() || node.name.getText();
+
+      this.templateVars[node.name.getText()] = {
+        type: node.initializer.typeArguments[0].getText(),
+        name,
+      };
     } else {
       throw new Error();
     }
@@ -4266,6 +4261,20 @@ export default class Compiler {
       this.lastType = 'txn';
 
       chain.splice(0, 2);
+      return;
+    }
+
+    // If this is a template variable
+    if (ts.isPropertyAccessExpression(chain[0]) && this.templateVars[chain[0].name.getText()]) {
+      const { type, name } = this.templateVars[chain[0].name.getText()];
+      console.log(type);
+      if (isNumeric(type)) {
+        this.push(chain[0], `pushint TMPL_${name}`, type);
+      } else {
+        this.push(chain[0], `pushbytes TMPL_${name}`, type);
+      }
+
+      chain.splice(0, 1);
       return;
     }
 
@@ -5193,11 +5202,11 @@ export default class Compiler {
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/(int|byte) TMPL_/)) {
+        if (t.match(/push(int|bytes) TMPL_/)) {
           const s = t.trim().split(' ');
           const hex = Buffer.from(s[1]).toString('hex');
 
-          if (s[0] === 'int') return `int ${parseInt(hex, 16) % 2 ** 64}`;
+          if (s[0] === 'pushint') return `pushint ${parseInt(hex, 16) % 2 ** 64}`;
           return `byte 0x${hex}`;
         }
 

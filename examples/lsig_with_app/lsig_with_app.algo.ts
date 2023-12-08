@@ -6,6 +6,8 @@ import { Contract, LogicSig } from '../../src/lib/index';
  */
 // eslint-disable-next-line no-unused-vars
 class OptInLsig extends LogicSig {
+  appID = TemplateVar<Application>();
+
   /** Verify this is an opt in transaction */
   logic(): void {
     /** Verify that the transaction this logic signature is approving is an ASA opt-in */
@@ -24,7 +26,7 @@ class OptInLsig extends LogicSig {
     const appCall = this.txnGroup[this.txn.groupIndex + 1];
 
     // Use assert instead of verifyTxn because applicationArgs array is not yet supported in verifyTxn
-    assert(appCall.applicationID === Application.fromID(templateVar<uint64>('APP_ID')));
+    assert(appCall.applicationID === this.appID);
     assert(appCall.applicationArgs[0] === method('verifyCreator(axfer,asset)void'));
   }
 }

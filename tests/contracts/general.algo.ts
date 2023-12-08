@@ -5,9 +5,13 @@ class DummyContract extends Contract {}
 
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
+  bytesTmplVar = TemplateVar<bytes>();
+
+  uint64TmplVar = TemplateVar<uint64>();
+
   tmpl(): void {
-    log(templateVar<bytes>('FOO'));
-    assert(templateVar<uint64>('BAR'));
+    log(this.bytesTmplVar);
+    assert(this.uint64TmplVar);
   }
 }
 
