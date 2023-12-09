@@ -332,14 +332,72 @@ export default class Compiler {
 
   private processErrorNodes: ts.Node[] = [];
 
-  private frame: {
+  private localVariables: {
     [name: string]: {
+      /** The index of the value in the current frame */
       index?: number;
+
+      /**
+       * The name of the frame that this object is pointing to. For example:
+       * ```ts
+       * const x = y
+       * ```
+       *
+       * results in
+       *
+       * ```ts
+       * this.localVariables.x.framePointer === 'y'
+       * ```
+       */
       framePointer?: string;
+
+      /** The type of the value in the variable */
       type: string;
+
+      /**
+       * The accessors used to access the underlying array. For example,
+       * ```ts
+       * const x = a[1][2]
+       * ```
+       *
+       * Results in
+       *
+       * ```ts
+       * this.localVariables.x.accessors === [1,2]
+       * ```
+       */
       accessors?: (ts.Expression | string)[];
+
+      /** The storage property expression if this object is accessing storage */
       storageExpression?: ts.PropertyAccessExpression;
+
+      /**
+       * If this variable is accessing a storage map, then this is the name of the saved key in `this.localVariables`.
+       * For example:
+       * ```ts
+       * const x = this.myMap('foo').value
+       *```
+       *
+       * Results in
+       *
+       * ```ts
+       * this.localVariables.x.storageKeyFrame === 'storage key//x'
+       * ```
+       */
       storageKeyFrame?: string;
+
+      /**
+       * If this variable is accessing local storage, then this is the name of the saved account in `this.localVariables`. For example:
+       * ```ts
+       * const x = this.localValue(this.txn.sender).value
+       * ```
+       *
+       * Results in
+       *
+       * ```ts
+       * this.localVariables.x.storageKeyFrame === 'storage account//x'
+       * ```
+       */
       storageAccountFrame?: string;
     };
   } = {};
@@ -455,9 +513,9 @@ export default class Compiler {
     name: string;
     /** The action to take on the storage property */
     action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size';
-    /** If the key for the target storage object is saved in a frame variable */
+    /** If the key for the target storage object is saved in the frame, then this is the name of the key in this.localVariables */
     storageKeyFrame?: string;
-    /** If the account for the target local storage is saved in a frame variable */
+    /** If the account for the target local storage is saved in the frame, then this is the name of the key in this.localVariables */
     storageAccountFrame?: string;
     /** Only provided when setting a value */
     newValue?: ts.Node;
@@ -486,7 +544,10 @@ export default class Compiler {
 
     // If accesing an account's local state that is saved in the frame
     if (storageAccountFrame && storageType === 'local') {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageAccountFrame].index} // ${storageAccountFrame}`);
+      this.pushVoid(
+        node.expression,
+        `frame_dig ${this.localVariables[storageAccountFrame].index} // ${storageAccountFrame}`
+      );
 
       // Accessing a local state for an account given as an argument
     } else if (storageType === 'local') {
@@ -507,7 +568,7 @@ export default class Compiler {
 
       // If the key is saved in frame
     } else if (storageKeyFrame) {
-      this.pushVoid(node.expression, `frame_dig ${this.frame[storageKeyFrame].index} // ${storageKeyFrame}`);
+      this.pushVoid(node.expression, `frame_dig ${this.localVariables[storageKeyFrame].index} // ${storageKeyFrame}`);
 
       // If the key is provided as an argument
     } else {
@@ -763,7 +824,7 @@ export default class Compiler {
     if (ts.isIdentifier(node.arguments[0])) {
       const { name } = this.processFrame(node.arguments[0], node.arguments[0].getText(), false);
       if (this.currentSubroutine.args.find((a) => a.name === node.arguments[0].getText())) {
-        skipTypeCheck = this.frame[name].type === type;
+        skipTypeCheck = this.localVariables[name].type === type;
       }
     }
 
@@ -2525,33 +2586,69 @@ export default class Compiler {
     return chain;
   }
 
+  /**
+   * Given a variable name, this function will return the value that we ultimately need to get from the frame
+   *
+   * For example:
+   *
+   * ```ts
+   * const x = a[1][2]
+   * const y = x[3][4]
+   * ```
+   *
+   * Given `y`, return that we are ultimately accessing `a[1][2][3][4]`
+   *
+   * @param node The node of the variable that we're accessing
+   * @param inputName The name of the variable that we're accessing
+   * @param load Whether or not to load the value and put it on the stack. If false, it will just return information about the frame object
+   * @returns
+   */
   private processFrame(
     node: ts.Node,
     inputName: string,
     load: boolean
   ): {
+    /** Access for an array. Ie. `a[0][1]` -> `[0, 1]` */
     accessors: (ts.Expression | string)[];
+    /** The name of the frame object */
     name: string;
+    /** Whether this is a object saved in the frame or in app storage */
     type: 'frame' | 'storage';
+    /** If storage, then this is the storage expression ie. `this.myBoxMap` */
     storageExpression?: ts.PropertyAccessExpression;
+    /** If this is a storage map, then this is the name of the frame object holding the map key */
     storageKeyFrame?: string;
+    /** If this is local storage, then this is the name of the frame object holding the local account */
     storageAccountFrame?: string;
   } {
     let name = inputName;
-    let currentFrame = this.frame[inputName];
+    let currentFrame = this.localVariables[inputName];
 
     let type: 'frame' | 'storage' = 'frame';
     let storageExpression: ts.PropertyAccessExpression | undefined;
 
     const accessors: (ts.Expression | string)[][] = [];
 
+    /* 
+    Walk through the pointers until we get the base frame object
+    Each step might include array access, which we need to return
+    For example:
+    
+    ```ts
+    const x = a[1][2]
+    const y = x[3][4]
+    ```
+
+    `y` frame object has the accessor [3,4] and `x` frame object has accessors `[1,2]`, giving us the full access chain `[1,2,3,4]`
+    */
     while (currentFrame.framePointer !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
 
       name = currentFrame.framePointer!;
-      currentFrame = this.frame[name];
+      currentFrame = this.localVariables[name];
     }
 
+    // If the base is saving a storage map or local storage, then we need to get the storage expression
     if (currentFrame.storageExpression !== undefined) {
       if (currentFrame.accessors) accessors.push(currentFrame.accessors);
       // eslint-disable-next-line prefer-destructuring
@@ -2560,6 +2657,7 @@ export default class Compiler {
       storageExpression = currentFrame.storageExpression;
     }
 
+    // If we aren't loading the value, the just retun the information about it
     if (!load) {
       return {
         name,
@@ -2571,6 +2669,7 @@ export default class Compiler {
       };
     }
 
+    // If we are loading, then either dig from the frame or load from storage
     if (currentFrame.storageExpression !== undefined) {
       this.handleStorageAction({
         node: currentFrame.storageExpression,
@@ -2597,10 +2696,10 @@ export default class Compiler {
     // Add back to frame/storage if necessary
     if (ts.isIdentifier(node)) {
       const name = node.getText();
-      const frameObj = this.frame[name];
+      const frameObj = this.localVariables[name];
 
       if (frameObj.index !== undefined) {
-        const { index, type } = this.frame[name];
+        const { index, type } = this.localVariables[name];
         if (currentArgs.find((s) => s.name === name && this.isArrayType(s.type))) {
           throw Error('Mutating argument array is not allowed. Use "clone()" method to create a deep copy.');
         }
@@ -2610,7 +2709,7 @@ export default class Compiler {
         const processedFrame = this.processFrame(node, name, false);
 
         if (processedFrame.type === 'frame') {
-          const frame = this.frame[processedFrame.name];
+          const frame = this.localVariables[processedFrame.name];
 
           if (currentArgs.find((s) => s.name === processedFrame.name && this.isArrayType(s.type))) {
             throw Error('Mutating argument array is not allowed. Use "clone()" method to create a deep copy.');
@@ -2829,7 +2928,7 @@ export default class Compiler {
 
         const elem = previousTupleElement[0];
 
-        const frame = this.frame[acc];
+        const frame = this.localVariables[acc];
 
         this.push(node, `frame_dig ${frame.index} // saved accessor: ${acc}`, StackType.uint64);
 
@@ -3499,7 +3598,7 @@ export default class Compiler {
       if (ts.isIdentifier(node.left)) {
         const name = node.left.getText();
         const processedFrame = this.processFrame(node.left, name, false);
-        const target = this.frame[processedFrame.name];
+        const target = this.localVariables[processedFrame.name];
 
         this.processNode(node.right);
 
@@ -3767,6 +3866,15 @@ export default class Compiler {
     });
   }
 
+  /**
+   * Saves information about storage access such as the key (and account if local storage) to the frame
+   *
+   * @param node The node that is saving storage access in a variable
+   * @param name The name of the new variable
+   * @param storageExpression The expression for accessing the storage property
+   * @param type The value type
+   * @param accessors If accessing an array, save the accessors used (ie. if `this.myArrays('foo').value[0][1]` then save [0, 1])
+   */
   private initializeStorageFrame(
     node: ts.Node,
     name: string,
@@ -3774,25 +3882,26 @@ export default class Compiler {
     type: string,
     accessors?: (string | ts.Expression)[]
   ) {
-    this.frame[name] = {
+    this.localVariables[name] = {
       accessors,
       storageExpression,
       type,
     };
 
+    // Get information about the storage access and ensure there are keys we need to save
     const storageName = getStorageName(storageExpression)!;
-
     const storageProp = this.storageProps[storageName];
-
     if (!ts.isCallExpression(storageExpression.expression)) throw Error();
 
+    // Save the key to the frame. For local storage this will be the second argument, for global and box storage it will be the first argument
     const argLength = storageExpression.expression.arguments.length;
-
     const keyNode = storageExpression.expression.arguments[argLength === 2 ? 1 : 0];
 
+    // If the storage object has a key (any GlobalStateMap, LocalStateMap, and BoxMap)
     if (keyNode !== undefined && !ts.isLiteralExpression(keyNode)) {
       this.addSourceComment(node, true);
 
+      // Add the prefix to the given key if it exists
       if (storageProp.prefix) {
         const hex = Buffer.from(storageProp.prefix).toString('hex');
         this.pushVoid(keyNode, `byte 0x${hex} // "${storageProp.prefix}"`);
@@ -3800,6 +3909,7 @@ export default class Compiler {
 
       this.processNode(keyNode);
 
+      // Ensure the key is properly encoded (except for bytes which are not ABI encoded)
       if (storageProp.keyType !== StackType.bytes) {
         this.checkEncoding(keyNode, this.lastType);
       }
@@ -3808,35 +3918,36 @@ export default class Compiler {
 
       const keyFrameName = `storage key//${name}`;
 
+      // Save the map key to the frame
       this.pushVoid(keyNode, `frame_bury ${this.frameIndex} // ${keyFrameName}`);
-
-      this.frame[keyFrameName] = {
+      this.localVariables[keyFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
-
       this.frameIndex += 1;
 
-      this.frame[name].storageKeyFrame = keyFrameName;
+      // Save the name of the storage key frame in the variable frame object
+      this.localVariables[name].storageKeyFrame = keyFrameName;
     }
 
+    // If we are saving access for local storage, we need to save the account to the frame as well
     if (storageProp.type === 'local') {
       const accountNode = storageExpression.expression.arguments[0];
       const accountFrameName = `storage account//${name}`;
 
       this.addSourceComment(node, true);
+
+      // Save the account in the frame
       this.processNode(accountNode);
-
       this.pushVoid(accountNode, `frame_bury ${this.frameIndex} // ${accountFrameName}`);
-
-      this.frame[accountFrameName] = {
+      this.localVariables[accountFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
-
       this.frameIndex += 1;
 
-      this.frame[name].storageAccountFrame = accountFrameName;
+      // Save the name of the storage frame in the variable frame object
+      this.localVariables[name].storageAccountFrame = accountFrameName;
     }
   }
 
@@ -3855,7 +3966,7 @@ export default class Compiler {
       if (ts.isIdentifier(node.initializer) && !this.constants[node.initializer.getText()] && isArray) {
         lastFrameAccess = node.initializer.getText();
 
-        this.frame[name] = {
+        this.localVariables[name] = {
           framePointer: lastFrameAccess,
           type: initializerType,
         };
@@ -3884,7 +3995,7 @@ export default class Compiler {
             const accName = `accessor//${i}//${name}`;
             this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
 
-            this.frame[accName] = {
+            this.localVariables[accName] = {
               index: this.frameIndex,
               type: StackType.uint64,
             };
@@ -3898,7 +4009,7 @@ export default class Compiler {
             if (!ts.isPropertyAccessExpression(accessChain[0].expression)) throw new Error('Expected call expression');
             this.initializeStorageFrame(node, name, accessChain[0].expression, initializerType, accessors);
           } else {
-            this.frame[name] = {
+            this.localVariables[name] = {
               accessors,
               framePointer: lastFrameAccess,
               type: initializerType,
@@ -3937,7 +4048,7 @@ export default class Compiler {
               stringToExpression(index.toString()) as ts.Expression,
             ]);
           } else {
-            this.frame[name] = {
+            this.localVariables[name] = {
               accessors: [stringToExpression(index.toString()) as ts.Expression],
               framePointer: lastFrameAccess,
               type: initializerType,
@@ -3962,7 +4073,7 @@ export default class Compiler {
 
       const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
 
-      this.frame[name] = {
+      this.localVariables[name] = {
         index: this.frameIndex,
         type,
       };
@@ -3973,7 +4084,7 @@ export default class Compiler {
     } else {
       if (!node.type) throw new Error('Uninitialized variables must have a type');
 
-      this.frame[name] = {
+      this.localVariables[name] = {
         index: this.frameIndex,
         type: this.getABIType(node.type.getText()),
       };
@@ -4683,8 +4794,8 @@ export default class Compiler {
         chain.splice(0, 1);
 
         // If the base is a variable
-      } else if (this.frame[base.getText()]) {
-        const frame = this.frame[base.getText()];
+      } else if (this.localVariables[base.getText()]) {
+        const frame = this.localVariables[base.getText()];
 
         // If this is an array reference, get the accessors
         if (frame && frame.index === undefined) {
@@ -4820,8 +4931,8 @@ export default class Compiler {
     const frameStart = this.teal[this.currentProgram].length;
 
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
-    const lastFrame = JSON.parse(JSON.stringify(this.frame));
-    this.frame = {};
+    const lastFrame = JSON.parse(JSON.stringify(this.localVariables));
+    this.localVariables = {};
 
     this.pushLines(
       fn,
@@ -4840,7 +4951,7 @@ export default class Compiler {
         type = this.getABIType(type);
       }
 
-      this.frame[p.name.getText()] = { index: argIndex, type };
+      this.localVariables[p.name.getText()] = { index: argIndex, type };
       argIndex -= 1;
     });
 
@@ -4856,14 +4967,14 @@ export default class Compiler {
       frame: {},
     };
 
-    const currentFrame = this.frame;
+    const currentFrame = this.localVariables;
     const currentFrameInfo = this.frameInfo[this.currentSubroutine.name];
 
-    Object.keys(this.frame).forEach((name) => {
+    Object.keys(this.localVariables).forEach((name) => {
       currentFrameInfo.frame[currentFrame[name].index!] = { name, type: currentFrame[name].type };
     });
 
-    this.frame = lastFrame;
+    this.localVariables = lastFrame;
     this.frameSize[this.currentSubroutine.name] = this.frameIndex;
   }
 
