@@ -63,9 +63,8 @@ while_0_end:
 	// return i;
 	frame_dig 0 // i: uint64
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 1
 	retsub
 
 // forLoop()uint64
@@ -121,9 +120,11 @@ for_0_end:
 	// return i;
 	frame_dig 0 // i: uint64
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 2
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 // doWhileLoop()uint64
@@ -164,9 +165,8 @@ do_while_0:
 	// return i;
 	frame_dig 0 // i: uint64
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 1
 	retsub
 
 abi_route_createApplication:

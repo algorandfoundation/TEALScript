@@ -70,9 +70,11 @@ for_0_end:
 	// return result;
 	frame_dig 0 // result: byte[32]
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 2
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 hashConcat:
@@ -187,9 +189,11 @@ for_1_end:
 	// return result;
 	frame_dig -1 // leaf: byte[32]
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 2
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 // deleteApplication()void

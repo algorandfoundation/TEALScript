@@ -86,9 +86,11 @@ mixedStaticArrayElements:
 	btoi
 	+
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 4
+
+	// pop all local variables from the stack
+	popn 3
 	retsub
 
 abi_route_createApplication:

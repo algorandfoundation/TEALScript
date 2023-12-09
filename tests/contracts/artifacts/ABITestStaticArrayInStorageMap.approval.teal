@@ -93,9 +93,11 @@ staticArrayInStorageMap:
 	// return ret;
 	frame_dig 1 // ret: uint64[3]
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 2
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 abi_route_createApplication:

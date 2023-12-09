@@ -47,9 +47,8 @@ returnStaticArray:
 	// return a;
 	frame_dig 0 // a: uint64[3]
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 1
 	retsub
 
 abi_route_createApplication:

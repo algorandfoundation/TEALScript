@@ -230,9 +230,11 @@ ternary1_end:
 	!
 	assert
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 3
+
+	// pop all local variables from the stack
+	popn 2
 	retsub
 
 computeRatio:
@@ -322,9 +324,8 @@ tokensToSwap:
 	!
 	assert
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 1
 	retsub
 
 // set_governor(account)void

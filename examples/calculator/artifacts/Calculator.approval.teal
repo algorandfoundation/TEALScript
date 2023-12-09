@@ -107,7 +107,7 @@ doMath:
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getSum
-	frame_bury 1 // result: uint64
+	frame_bury 0 // result: uint64
 	b if0_end
 
 if0_elseif1_condition:
@@ -124,7 +124,7 @@ if0_elseif1_condition:
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub getDifference
-	frame_bury 1 // result: uint64
+	frame_bury 0 // result: uint64
 	b if0_end
 
 if0_else:
@@ -133,11 +133,10 @@ if0_else:
 if0_end:
 	// examples/calculator/calculator.algo.ts:45
 	// return result;
-	frame_dig 1 // result: uint64
+	frame_dig 0 // result: uint64
 
-	// bury the return value and pop all of the stack used for local variables
+	// set the subroutine return value
 	frame_bury 0
-	popn 1
 	retsub
 
 abi_route_createApplication:
