@@ -40,6 +40,7 @@ abi_route_allowOptInsFrom:
 	return
 
 allowOptInsFrom:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:41
@@ -73,6 +74,7 @@ abi_route_disableOptInsFrom:
 	return
 
 disableOptInsFrom:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:46
@@ -113,6 +115,7 @@ abi_route_verifyCreator:
 	return
 
 verifyCreator:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:52

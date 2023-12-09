@@ -24,16 +24,28 @@ NOT_IMPLEMENTED:
 
 // staticStringArrayArg(string[3])string
 abi_route_staticStringArrayArg:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: string[3]
 	txna ApplicationArgs 1
 
 	// execute staticStringArrayArg(string[3])string
 	callsub staticStringArrayArg
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 staticStringArrayArg:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:645
 	// return a[1];
@@ -54,16 +66,6 @@ staticStringArrayArg:
 	+ // add two for length
 	extract3
 	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

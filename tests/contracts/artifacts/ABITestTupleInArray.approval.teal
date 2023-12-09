@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // tupleInArray()uint16
 abi_route_tupleInArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute tupleInArray()uint16
 	callsub tupleInArray
+	concat
+	log
 	int 1
 	return
 
 tupleInArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:273
 	// a: StaticArray<[uint64, uint<16>], 2> = [
@@ -38,12 +44,15 @@ tupleInArray:
 	//       [33, 44],
 	//     ]
 	byte 0x000000000000000b00160000000000000021002c
-	frame_bury 1 // a: [uint64,uint16][2]
+	frame_bury 0 // a: [uint64,uint16][2]
 
 	// tests/contracts/abi.algo.ts:278
 	// return a[1][1];
-	byte 0x151f7c75002c
-	log
+	frame_dig 0 // a: [uint64,uint16][2]
+	extract 18 2
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

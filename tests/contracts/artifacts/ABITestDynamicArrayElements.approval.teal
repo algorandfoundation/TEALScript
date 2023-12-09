@@ -24,40 +24,11 @@ NOT_IMPLEMENTED:
 
 // dynamicArrayElements()uint16[]
 abi_route_dynamicArrayElements:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute dynamicArrayElements()uint16[]
 	callsub dynamicArrayElements
-	int 1
-	return
-
-dynamicArrayElements:
-	proto 0 0; byte 0x; dupn 2
-
-	// tests/contracts/abi.algo.ts:481
-	// a: uint<16>[] = [1, 2, 3]
-	byte 0x000100020003
-	frame_bury 1 // a: uint16[]
-
-	// tests/contracts/abi.algo.ts:482
-	// newA: uint<16>[] = [a[0], a[1], a[2]]
-	byte 0x000100020003 // a: uint16[]
-	store 255 // full array
-	load 255 // full array
-	extract 0 2
-	byte 0x000100020003 // a: uint16[]
-	store 255 // full array
-	load 255 // full array
-	extract 2 2
-	concat
-	byte 0x000100020003 // a: uint16[]
-	store 255 // full array
-	load 255 // full array
-	extract 4 2
-	concat
-	frame_bury 2 // newA: uint16[]
-
-	// tests/contracts/abi.algo.ts:484
-	// return newA;
-	frame_dig 2 // newA: uint16[]
 	dup
 	len
 	int 2
@@ -66,10 +37,47 @@ dynamicArrayElements:
 	extract 6 2
 	swap
 	concat
-	byte 0x151f7c75
-	swap
 	concat
 	log
+	int 1
+	return
+
+dynamicArrayElements:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
+
+	// tests/contracts/abi.algo.ts:481
+	// a: uint<16>[] = [1, 2, 3]
+	byte 0x000100020003
+	frame_bury 0 // a: uint16[]
+
+	// tests/contracts/abi.algo.ts:482
+	// newA: uint<16>[] = [a[0], a[1], a[2]]
+	frame_dig 0 // a: uint16[]
+	store 255 // full array
+	load 255 // full array
+	extract 0 2
+	frame_dig 0 // a: uint16[]
+	store 255 // full array
+	load 255 // full array
+	extract 2 2
+	concat
+	frame_dig 0 // a: uint16[]
+	store 255 // full array
+	load 255 // full array
+	extract 4 2
+	concat
+	frame_bury 1 // newA: uint16[]
+
+	// tests/contracts/abi.algo.ts:484
+	// return newA;
+	frame_dig 1 // newA: uint16[]
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 abi_route_createApplication:

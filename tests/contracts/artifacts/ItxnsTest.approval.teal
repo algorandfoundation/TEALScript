@@ -30,6 +30,7 @@ abi_route_payment:
 	return
 
 payment:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:6
@@ -85,13 +86,20 @@ payment:
 
 // assetCreation()uint64
 abi_route_assetCreation:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute assetCreation()uint64
 	callsub assetCreation
+	itob
+	concat
+	log
 	int 1
 	return
 
 assetCreation:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:17
 	// return sendAssetCreation({
@@ -167,11 +175,6 @@ assetCreation:
 	// Submit inner transaction
 	itxn_submit
 	itxn CreatedAssetID
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // appCall()void
@@ -182,6 +185,7 @@ abi_route_appCall:
 	return
 
 appCall:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:32
@@ -281,6 +285,7 @@ abi_route_assetConfig:
 	return
 
 assetConfig:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:49
@@ -336,6 +341,7 @@ abi_route_assetFreeze:
 	return
 
 assetFreeze:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:59
@@ -379,6 +385,7 @@ abi_route_assetTransfer:
 	return
 
 assetTransfer:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:67
@@ -428,13 +435,20 @@ assetTransfer:
 
 // methodCall()uint64
 abi_route_methodCall:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute methodCall()uint64
 	callsub methodCall
+	itob
+	concat
+	log
 	int 1
 	return
 
 methodCall:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:77
 	// return sendMethodCall<[Application, Asset], Asset>({
@@ -470,11 +484,6 @@ methodCall:
 	itxnas Logs
 	extract 4 0
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // onlineKeyRegistration()void
@@ -485,6 +494,7 @@ abi_route_onlineKeyRegistration:
 	return
 
 onlineKeyRegistration:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:84
@@ -546,6 +556,7 @@ abi_route_offlineKeyRegistration:
 	return
 
 offlineKeyRegistration:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:95

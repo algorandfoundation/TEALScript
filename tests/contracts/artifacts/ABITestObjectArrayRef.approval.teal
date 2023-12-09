@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // objectArrayRef()(uint8[2][2])
 abi_route_objectArrayRef:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute objectArrayRef()(uint8[2][2])
 	callsub objectArrayRef
+	concat
+	log
 	int 1
 	return
 
 objectArrayRef:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:826
 	// a: ObjectRefType = {
@@ -40,23 +46,23 @@ objectArrayRef:
 	//       ],
 	//     }
 	byte 0x01020304
-	frame_bury 1 // a: ObjectRefType
+	frame_bury 0 // a: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:833
 	// c = b[1]
 	// tests/contracts/abi.algo.ts:835
 	// c[1] = 5 as uint<8>
-	frame_dig 1 // a: ObjectRefType
+	frame_dig 0 // a: ObjectRefType
 	byte 0x05
 	replace2 3
-	frame_bury 1 // c: ObjectRefType
+	frame_bury 0 // c: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:837
 	// return a;
-	byte 0x151f7c75
-	frame_dig 1 // a: ObjectRefType
-	concat
-	log
+	frame_dig 0 // a: ObjectRefType
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

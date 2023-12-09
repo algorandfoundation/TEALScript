@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 incrementCounter:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:7
@@ -47,6 +48,7 @@ abi_route_incr:
 	return
 
 incr:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:11
@@ -67,6 +69,7 @@ abi_route_decr:
 	return
 
 decr:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:15
@@ -81,6 +84,9 @@ decr:
 
 // add(uint256,uint256)uint256
 abi_route_add:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -99,11 +105,14 @@ abi_route_add:
 
 	// execute add(uint256,uint256)uint256
 	callsub add
+	concat
+	log
 	int 1
 	return
 
 add:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// examples/simple/simple.algo.ts:19
 	// return a + b;
@@ -124,14 +133,13 @@ add:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // sub(uint256,uint256)uint256
 abi_route_sub:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// b: uint256
 	txna ApplicationArgs 2
 	dup
@@ -150,11 +158,14 @@ abi_route_sub:
 
 	// execute sub(uint256,uint256)uint256
 	callsub sub
+	concat
+	log
 	int 1
 	return
 
 sub:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// examples/simple/simple.algo.ts:23
 	// return a - b;
@@ -175,10 +186,6 @@ sub:
 	-
 	swap
 	substring3
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

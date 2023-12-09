@@ -24,38 +24,57 @@ NOT_IMPLEMENTED:
 
 // nonLiteralStaticArrayElements()uint64
 abi_route_nonLiteralStaticArrayElements:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute nonLiteralStaticArrayElements()uint64
 	callsub nonLiteralStaticArrayElements
+	itob
+	concat
+	log
 	int 1
 	return
 
 nonLiteralStaticArrayElements:
-	proto 0 0; byte 0x; dupn 4
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 3
 
 	// tests/contracts/abi.algo.ts:33
 	// n1 = 11
 	int 11
-	frame_bury 1 // n1: uint64
+	frame_bury 0 // n1: uint64
 
 	// tests/contracts/abi.algo.ts:34
 	// n2 = 22
 	int 22
-	frame_bury 2 // n2: uint64
+	frame_bury 1 // n2: uint64
 
 	// tests/contracts/abi.algo.ts:35
 	// n3 = 33
 	int 33
-	frame_bury 3 // n3: uint64
+	frame_bury 2 // n3: uint64
 
 	// tests/contracts/abi.algo.ts:36
 	// a: StaticArray<uint64, 3> = [n1, n2, n3]
-	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury 4 // a: uint64[3]
+	frame_dig 0 // n1: uint64
+	itob
+	byte 0x0000000000000016
+	concat
+	byte 0x0000000000000021
+	concat
+	frame_bury 3 // a: uint64[3]
 
 	// tests/contracts/abi.algo.ts:38
 	// return a[1];
-	byte 0x151f7c750000000000000016
-	log
+	frame_dig 3 // a: uint64[3]
+	extract 8 8
+	btoi
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 3
 	retsub
 
 abi_route_createApplication:

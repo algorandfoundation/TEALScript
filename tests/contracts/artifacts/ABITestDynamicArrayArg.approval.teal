@@ -24,17 +24,24 @@ NOT_IMPLEMENTED:
 
 // dynamicArrayArg(uint64[])uint64
 abi_route_dynamicArrayArg:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: uint64[]
 	txna ApplicationArgs 1
 	extract 2 0
 
 	// execute dynamicArrayArg(uint64[])uint64
 	callsub dynamicArrayArg
+	itob
+	concat
+	log
 	int 1
 	return
 
 dynamicArrayArg:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/abi.algo.ts:363
 	// return a[1];
@@ -43,11 +50,6 @@ dynamicArrayArg:
 	load 255 // full array
 	extract 8 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

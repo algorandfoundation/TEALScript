@@ -24,17 +24,23 @@ NOT_IMPLEMENTED:
 
 // extractUint(uint64)uint8
 abi_route_extractUint:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg: uint64
 	txna ApplicationArgs 1
 	btoi
 
 	// execute extractUint(uint64)uint8
 	callsub extractUint
+	concat
+	log
 	int 1
 	return
 
 extractUint:
-	proto 1 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:1128
 	// x = <uint<8>>arg
@@ -46,14 +52,14 @@ extractUint:
 	<=
 	assert
 	extract 7 1
-	frame_bury 1 // x: uint8
+	frame_bury 0 // x: uint8
 
 	// tests/contracts/abi.algo.ts:1129
 	// return x;
-	byte 0x151f7c75
-	frame_dig 1 // x: uint8
-	concat
-	log
+	frame_dig 0 // x: uint8
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

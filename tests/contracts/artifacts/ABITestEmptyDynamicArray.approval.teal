@@ -24,18 +24,31 @@ NOT_IMPLEMENTED:
 
 // emptyDynamicArray()uint64[]
 abi_route_emptyDynamicArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute emptyDynamicArray()uint64[]
 	callsub emptyDynamicArray
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 emptyDynamicArray:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:877
 	// return [];
-	byte 0x151f7c750000
-	log
+	byte 0x
 	retsub
 
 abi_route_createApplication:

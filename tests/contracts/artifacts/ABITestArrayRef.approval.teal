@@ -24,42 +24,47 @@ NOT_IMPLEMENTED:
 
 // arrayRef()uint8[]
 abi_route_arrayRef:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arrayRef()uint8[]
 	callsub arrayRef
-	int 1
-	return
-
-arrayRef:
-	proto 0 0; byte 0x; dupn 1
-
-	// tests/contracts/abi.algo.ts:759
-	// a: uint<8>[] = [1, 2, 3]
-	byte 0x010203
-	frame_bury 1 // a: uint8[]
-
-	// tests/contracts/abi.algo.ts:762
-	// b[1] = 4 as uint<8>
-	frame_dig 1 // a: uint8[]
-	store 255 // full array
-	load 255 // full array
-	int 1
-	byte 0x04
-	replace3
-	frame_bury 1 // b: uint8[]
-
-	// tests/contracts/abi.algo.ts:764
-	// return a;
-	frame_dig 1 // a: uint8[]
 	dup
 	len
 	itob
 	extract 6 2
 	swap
 	concat
-	byte 0x151f7c75
-	swap
 	concat
 	log
+	int 1
+	return
+
+arrayRef:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
+
+	// tests/contracts/abi.algo.ts:759
+	// a: uint<8>[] = [1, 2, 3]
+	byte 0x010203
+	frame_bury 0 // a: uint8[]
+
+	// tests/contracts/abi.algo.ts:762
+	// b[1] = 4 as uint<8>
+	frame_dig 0 // a: uint8[]
+	store 255 // full array
+	load 255 // full array
+	int 1
+	byte 0x04
+	replace3
+	frame_bury 0 // b: uint8[]
+
+	// tests/contracts/abi.algo.ts:764
+	// return a;
+	frame_dig 0 // a: uint8[]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

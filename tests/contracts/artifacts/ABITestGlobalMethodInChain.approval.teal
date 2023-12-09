@@ -24,18 +24,23 @@ NOT_IMPLEMENTED:
 
 // globalMethodInChain()uint8
 abi_route_globalMethodInChain:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute globalMethodInChain()uint8
 	callsub globalMethodInChain
+	concat
+	log
 	int 1
 	return
 
 globalMethodInChain:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:1070
 	// return castBytes<T1>(hex('0x00')).bar;
-	byte 0x151f7c7500
-	log
+	byte 0x00
 	retsub
 
 abi_route_createApplication:

@@ -24,13 +24,25 @@ NOT_IMPLEMENTED:
 
 // accessDynamicArrayInMiddleOfTuple()uint8[]
 abi_route_accessDynamicArrayInMiddleOfTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute accessDynamicArrayInMiddleOfTuple()uint8[]
 	callsub accessDynamicArrayInMiddleOfTuple
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 accessDynamicArrayInMiddleOfTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:666
 	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
@@ -45,11 +57,11 @@ accessDynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // a: [uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint16,uint8[],uint16]
 
 	// tests/contracts/abi.algo.ts:668
 	// return a[1];
-	frame_dig 1 // a: [uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint16,uint8[],uint16]
 	store 255 // full array
 	int 2
 	load 255 // full array
@@ -66,16 +78,9 @@ accessDynamicArrayInMiddleOfTuple:
 	+ // add two for length
 	extract3
 	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

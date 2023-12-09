@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
 abi_route_boolTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
 	callsub boolTuple
+	concat
+	log
 	int 1
 	return
 
 boolTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:888
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -72,14 +78,14 @@ boolTuple:
 	int 8
 	int 0
 	setbit
-	frame_bury 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:900
 	// return a;
-	byte 0x151f7c75
-	frame_dig 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
-	concat
-	log
+	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

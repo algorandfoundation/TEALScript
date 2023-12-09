@@ -24,13 +24,23 @@ NOT_IMPLEMENTED:
 
 // boolTupleAccess()bool
 abi_route_boolTupleAccess:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute boolTupleAccess()bool
 	callsub boolTupleAccess
+	byte 0x00
+	int 0
+	uncover 2
+	setbit
+	concat
+	log
 	int 1
 	return
 
 boolTupleAccess:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:914
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -72,23 +82,18 @@ boolTupleAccess:
 	int 8
 	int 1
 	setbit
-	frame_bury 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 
 	// tests/contracts/abi.algo.ts:926
 	// return a[8];
-	frame_dig 1 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	getbit
-	byte 0x00
-	int 0
-	uncover 2
-	setbit
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

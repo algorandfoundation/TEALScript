@@ -24,32 +24,38 @@ NOT_IMPLEMENTED:
 
 // objectRef()(uint64)
 abi_route_objectRef:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute objectRef()(uint64)
 	callsub objectRef
+	concat
+	log
 	int 1
 	return
 
 objectRef:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:995
 	// o: { foo: uint64 } = { foo: 1 }
 	byte 0x0000000000000001
-	frame_bury 1 // o: { foo: uint64 }
+	frame_bury 0 // o: { foo: uint64 }
 
 	// tests/contracts/abi.algo.ts:999
 	// r.foo = 2
-	frame_dig 1 // o: { foo: uint64 }
+	frame_dig 0 // o: { foo: uint64 }
 	byte 0x0000000000000002
 	replace2 0
-	frame_bury 1 // r: { foo: uint64 }
+	frame_bury 0 // r: { foo: uint64 }
 
 	// tests/contracts/abi.algo.ts:1001
 	// return o;
-	byte 0x151f7c75
-	frame_dig 1 // o: { foo: uint64 }
-	concat
-	log
+	frame_dig 0 // o: { foo: uint64 }
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

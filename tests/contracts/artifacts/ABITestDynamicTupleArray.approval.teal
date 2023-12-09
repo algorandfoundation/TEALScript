@@ -24,13 +24,20 @@ NOT_IMPLEMENTED:
 
 // dynamicTupleArray()uint64
 abi_route_dynamicTupleArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute dynamicTupleArray()uint64
 	callsub dynamicTupleArray
+	itob
+	concat
+	log
 	int 1
 	return
 
 dynamicTupleArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:379
 	// a: [uint<16>, uint64][] = [
@@ -38,20 +45,18 @@ dynamicTupleArray:
 	//       [33, 44],
 	//     ]
 	byte 0x000b00000000000000160021000000000000002c
-	frame_bury 1 // a: [uint16,uint64][]
+	frame_bury 0 // a: [uint16,uint64][]
 
 	// tests/contracts/abi.algo.ts:384
 	// return a[1][1];
-	byte 0x000b00000000000000160021000000000000002c // a: [uint16,uint64][]
+	frame_dig 0 // a: [uint16,uint64][]
 	store 255 // full array
 	load 255 // full array
 	extract 12 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

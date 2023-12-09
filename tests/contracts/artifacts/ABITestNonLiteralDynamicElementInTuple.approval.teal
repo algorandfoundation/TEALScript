@@ -24,18 +24,24 @@ NOT_IMPLEMENTED:
 
 // nonLiteralDynamicElementInTuple()(uint8,uint16,uint8[],uint16[],uint8[])
 abi_route_nonLiteralDynamicElementInTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute nonLiteralDynamicElementInTuple()(uint8,uint16,uint8[],uint16[],uint8[])
 	callsub nonLiteralDynamicElementInTuple
+	concat
+	log
 	int 1
 	return
 
 nonLiteralDynamicElementInTuple:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:420
 	// e: uint<16>[] = [5, 6]
 	byte 0x00050006
-	frame_bury 1 // e: uint16[]
+	frame_bury 0 // e: uint16[]
 
 	// tests/contracts/abi.algo.ts:421
 	// a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]] = [1, 2, [3, 4], e, [7, 8]]
@@ -48,20 +54,31 @@ nonLiteralDynamicElementInTuple:
 	callsub process_static_tuple_element
 	byte 0x00020304
 	callsub process_dynamic_tuple_element
-	byte 0x000200050006
+	frame_dig 0 // e: uint16[]
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
 	callsub process_dynamic_tuple_element
 	byte 0x00020708
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	frame_bury 1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
 
 	// tests/contracts/abi.algo.ts:423
 	// return a;
-	byte 0x151f7c75
-	frame_dig 2 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
-	concat
-	log
+	frame_dig 1 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 abi_route_createApplication:

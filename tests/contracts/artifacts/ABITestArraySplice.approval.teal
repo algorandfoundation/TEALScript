@@ -24,32 +24,46 @@ NOT_IMPLEMENTED:
 
 // arraySplice()uint64[]
 abi_route_arraySplice:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arraySplice()uint64[]
 	callsub arraySplice
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 arraySplice:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:459
 	// a: uint64[] = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
-	frame_bury 1 // a: uint64[]
+	frame_bury 0 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:461
 	// a.splice(1, 1)
-	frame_dig 1 // a: uint64[]
+	frame_dig 0 // a: uint64[]
 	int 1
 	int 8
 	store 247 // splice start
 	int 16
 	store 246 // splice byte length
-	frame_dig 1 // a: uint64[]
+	frame_dig 0 // a: uint64[]
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig 1 // a: uint64[]
+	frame_dig 0 // a: uint64[]
 	dup
 	len
 	load 247 // splice start
@@ -60,23 +74,14 @@ arraySplice:
 	swap
 	substring3
 	concat
-	frame_bury 1 // a: uint64[]
+	frame_bury 0 // a: uint64[]
 
 	// tests/contracts/abi.algo.ts:463
 	// return a;
-	frame_dig 1 // a: uint64[]
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+	frame_dig 0 // a: uint64[]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

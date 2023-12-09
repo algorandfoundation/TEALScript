@@ -18,6 +18,7 @@ route_logic:
 	return
 
 logic:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/optin-lsig/lsig.algo.ts:7

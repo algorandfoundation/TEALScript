@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // staticBoolArrayUpdate()bool[9]
 abi_route_staticBoolArrayUpdate:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute staticBoolArrayUpdate()bool[9]
 	callsub staticBoolArrayUpdate
+	concat
+	log
 	int 1
 	return
 
 staticBoolArrayUpdate:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:956
 	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
@@ -62,24 +68,24 @@ staticBoolArrayUpdate:
 	int 8
 	int 0
 	setbit
-	frame_bury 1 // a: bool[9]
+	frame_bury 0 // a: bool[9]
 
 	// tests/contracts/abi.algo.ts:958
 	// a[8] = true
-	frame_dig 1 // a: bool[9]
+	frame_dig 0 // a: bool[9]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	int 1
 	setbit
-	frame_bury 1 // a: bool[9]
+	frame_bury 0 // a: bool[9]
 
 	// tests/contracts/abi.algo.ts:960
 	// return a;
-	byte 0x151f7c75
-	frame_dig 1 // a: bool[9]
-	concat
-	log
+	frame_dig 0 // a: bool[9]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

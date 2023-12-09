@@ -38,6 +38,7 @@ abi_route_and:
 	return
 
 and:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:6
@@ -68,6 +69,7 @@ abi_route_or:
 	return
 
 or:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:10
@@ -98,6 +100,7 @@ abi_route_equal:
 	return
 
 equal:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:14
@@ -124,6 +127,7 @@ abi_route_notEqual:
 	return
 
 notEqual:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:18
@@ -150,6 +154,7 @@ abi_route_bitAnd:
 	return
 
 bitAnd:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:22
@@ -176,6 +181,7 @@ abi_route_bitOr:
 	return
 
 bitOr:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:26
@@ -202,6 +208,7 @@ abi_route_bitXor:
 	return
 
 bitXor:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/binary.algo.ts:30
@@ -232,6 +239,7 @@ abi_route_combo:
 	return
 
 combo:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// tests/contracts/binary.algo.ts:34

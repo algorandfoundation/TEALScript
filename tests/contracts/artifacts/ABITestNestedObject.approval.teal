@@ -24,36 +24,41 @@ NOT_IMPLEMENTED:
 
 // nestedObject()uint64
 abi_route_nestedObject:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute nestedObject()uint64
 	callsub nestedObject
+	itob
+	concat
+	log
 	int 1
 	return
 
 nestedObject:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:1095
 	// a: { b: { c: { d: uint64 } } } = { b: { c: { d: 1 } } }
 	byte 0x0000000000000001
-	frame_bury 1 // a: { b: { c: { d: uint64 } } }
+	frame_bury 0 // a: { b: { c: { d: uint64 } } }
 
 	// tests/contracts/abi.algo.ts:1096
 	// a.b.c.d = 2
-	frame_dig 1 // a: { b: { c: { d: uint64 } } }
+	frame_dig 0 // a: { b: { c: { d: uint64 } } }
 	byte 0x0000000000000002
 	replace2 0
-	frame_bury 1 // a: { b: { c: { d: uint64 } } }
+	frame_bury 0 // a: { b: { c: { d: uint64 } } }
 
 	// tests/contracts/abi.algo.ts:1097
 	// return a.b.c.d;
-	frame_dig 1 // a: { b: { c: { d: uint64 } } }
+	frame_dig 0 // a: { b: { c: { d: uint64 } } }
 	extract 0 8
 	btoi
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

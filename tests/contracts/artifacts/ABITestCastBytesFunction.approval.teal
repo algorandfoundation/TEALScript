@@ -24,18 +24,23 @@ NOT_IMPLEMENTED:
 
 // castBytesFunction()uint8[3]
 abi_route_castBytesFunction:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute castBytesFunction()uint8[3]
 	callsub castBytesFunction
+	concat
+	log
 	int 1
 	return
 
 castBytesFunction:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:1056
 	// return castBytes<StaticArray<uint<8>, 3>>(hex('0x010203'));
-	byte 0x151f7c75010203
-	log
+	byte 0x010203
 	retsub
 
 abi_route_createApplication:

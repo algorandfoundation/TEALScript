@@ -24,6 +24,9 @@ NOT_IMPLEMENTED:
 
 // singleIf(bool)string
 abi_route_singleIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg0: bool
 	txna ApplicationArgs 1
 	dup
@@ -36,11 +39,20 @@ abi_route_singleIf:
 
 	// execute singleIf(bool)string
 	callsub singleIf
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 singleIf:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// if0_condition
 	// tests/contracts/if.algo.ts:7
@@ -51,19 +63,20 @@ singleIf:
 	// if0_consequent
 	// tests/contracts/if.algo.ts:8
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 
 if0_end:
 	// tests/contracts/if.algo.ts:11
 	// return 'end';
-	byte 0x151f7c750003656e64
-	log
+	byte 0x656e64 // "end"
 	retsub
 
 // ifElse(bool)string
 abi_route_ifElse:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg0: bool
 	txna ApplicationArgs 1
 	dup
@@ -76,11 +89,20 @@ abi_route_ifElse:
 
 	// execute ifElse(bool)string
 	callsub ifElse
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 ifElse:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// if1_condition
 	// tests/contracts/if.algo.ts:15
@@ -91,16 +113,14 @@ ifElse:
 	// if1_consequent
 	// tests/contracts/if.algo.ts:16
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if1_end
 
 if1_else:
 	// tests/contracts/if.algo.ts:18
 	// return 'else';
-	byte 0x151f7c750004656c7365
-	log
+	byte 0x656c7365 // "else"
 	retsub
 
 if1_end:
@@ -108,6 +128,9 @@ if1_end:
 
 // ifElseIf(bool,bool)string
 abi_route_ifElseIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg1: bool
 	txna ApplicationArgs 2
 	dup
@@ -130,11 +153,20 @@ abi_route_ifElseIf:
 
 	// execute ifElseIf(bool,bool)string
 	callsub ifElseIf
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 ifElseIf:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// if2_condition
 	// tests/contracts/if.algo.ts:23
@@ -145,8 +177,7 @@ ifElseIf:
 	// if2_consequent
 	// tests/contracts/if.algo.ts:24
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if2_end
 
@@ -159,19 +190,20 @@ if2_elseif1_condition:
 	// if2_elseif1_consequent
 	// tests/contracts/if.algo.ts:26
 	// return 'else if';
-	byte 0x151f7c750007656c7365206966
-	log
+	byte 0x656c7365206966 // "else if"
 	retsub
 
 if2_end:
 	// tests/contracts/if.algo.ts:29
 	// return 'end';
-	byte 0x151f7c750003656e64
-	log
+	byte 0x656e64 // "end"
 	retsub
 
 // ifElseIfElse(bool,bool)string
 abi_route_ifElseIfElse:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg1: bool
 	txna ApplicationArgs 2
 	dup
@@ -194,11 +226,20 @@ abi_route_ifElseIfElse:
 
 	// execute ifElseIfElse(bool,bool)string
 	callsub ifElseIfElse
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 ifElseIfElse:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// if3_condition
 	// tests/contracts/if.algo.ts:33
@@ -209,8 +250,7 @@ ifElseIfElse:
 	// if3_consequent
 	// tests/contracts/if.algo.ts:34
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if3_end
 
@@ -223,16 +263,14 @@ if3_elseif1_condition:
 	// if3_elseif1_consequent
 	// tests/contracts/if.algo.ts:36
 	// return 'else if';
-	byte 0x151f7c750007656c7365206966
-	log
+	byte 0x656c7365206966 // "else if"
 	retsub
 	b if3_end
 
 if3_else:
 	// tests/contracts/if.algo.ts:38
 	// return 'else';
-	byte 0x151f7c750004656c7365
-	log
+	byte 0x656c7365 // "else"
 	retsub
 
 if3_end:
@@ -240,6 +278,9 @@ if3_end:
 
 // ifElseIfElseIf(bool,bool,bool)string
 abi_route_ifElseIfElseIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg2: bool
 	txna ApplicationArgs 3
 	dup
@@ -272,11 +313,20 @@ abi_route_ifElseIfElseIf:
 
 	// execute ifElseIfElseIf(bool,bool,bool)string
 	callsub ifElseIfElseIf
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 ifElseIfElseIf:
-	proto 3 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 1
 
 	// if4_condition
 	// tests/contracts/if.algo.ts:43
@@ -287,8 +337,7 @@ ifElseIfElseIf:
 	// if4_consequent
 	// tests/contracts/if.algo.ts:44
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if4_end
 
@@ -301,8 +350,7 @@ if4_elseif1_condition:
 	// if4_elseif1_consequent
 	// tests/contracts/if.algo.ts:46
 	// return 'else if 1';
-	byte 0x151f7c750009656c73652069662031
-	log
+	byte 0x656c73652069662031 // "else if 1"
 	retsub
 	b if4_end
 
@@ -315,19 +363,20 @@ if4_elseif2_condition:
 	// if4_elseif2_consequent
 	// tests/contracts/if.algo.ts:48
 	// return 'else if 2';
-	byte 0x151f7c750009656c73652069662032
-	log
+	byte 0x656c73652069662032 // "else if 2"
 	retsub
 
 if4_end:
 	// tests/contracts/if.algo.ts:51
 	// return 'end';
-	byte 0x151f7c750003656e64
-	log
+	byte 0x656e64 // "end"
 	retsub
 
 // ifElseIfElseIfElse(bool,bool,bool)string
 abi_route_ifElseIfElseIfElse:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg2: bool
 	txna ApplicationArgs 3
 	dup
@@ -360,11 +409,20 @@ abi_route_ifElseIfElseIfElse:
 
 	// execute ifElseIfElseIfElse(bool,bool,bool)string
 	callsub ifElseIfElseIfElse
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 ifElseIfElseIfElse:
-	proto 3 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 1
 
 	// if5_condition
 	// tests/contracts/if.algo.ts:55
@@ -375,8 +433,7 @@ ifElseIfElseIfElse:
 	// if5_consequent
 	// tests/contracts/if.algo.ts:56
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if5_end
 
@@ -389,8 +446,7 @@ if5_elseif1_condition:
 	// if5_elseif1_consequent
 	// tests/contracts/if.algo.ts:58
 	// return 'else if 1';
-	byte 0x151f7c750009656c73652069662031
-	log
+	byte 0x656c73652069662031 // "else if 1"
 	retsub
 	b if5_end
 
@@ -403,16 +459,14 @@ if5_elseif2_condition:
 	// if5_elseif2_consequent
 	// tests/contracts/if.algo.ts:60
 	// return 'else if 2';
-	byte 0x151f7c750009656c73652069662032
-	log
+	byte 0x656c73652069662032 // "else if 2"
 	retsub
 	b if5_end
 
 if5_else:
 	// tests/contracts/if.algo.ts:62
 	// return 'else';
-	byte 0x151f7c750004656c7365
-	log
+	byte 0x656c7365 // "else"
 	retsub
 
 if5_end:
@@ -420,6 +474,9 @@ if5_end:
 
 // nestedIf(bool,bool)string
 abi_route_nestedIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg1: bool
 	txna ApplicationArgs 2
 	dup
@@ -442,11 +499,20 @@ abi_route_nestedIf:
 
 	// execute nestedIf(bool,bool)string
 	callsub nestedIf
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 nestedIf:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// if6_condition
 	// tests/contracts/if.algo.ts:67
@@ -464,23 +530,20 @@ nestedIf:
 	// if7_consequent
 	// tests/contracts/if.algo.ts:69
 	// return 'nested if';
-	byte 0x151f7c7500096e6573746564206966
-	log
+	byte 0x6e6573746564206966 // "nested if"
 	retsub
 
 if7_end:
 	// tests/contracts/if.algo.ts:71
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if6_end
 
 if6_else:
 	// tests/contracts/if.algo.ts:73
 	// return 'else';
-	byte 0x151f7c750004656c7365
-	log
+	byte 0x656c7365 // "else"
 	retsub
 
 if6_end:
@@ -488,6 +551,9 @@ if6_end:
 
 // bracketlessIfElse(bool)string
 abi_route_bracketlessIfElse:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg0: bool
 	txna ApplicationArgs 1
 	dup
@@ -500,11 +566,20 @@ abi_route_bracketlessIfElse:
 
 	// execute bracketlessIfElse(bool)string
 	callsub bracketlessIfElse
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 bracketlessIfElse:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// if8_condition
 	// tests/contracts/if.algo.ts:78
@@ -515,16 +590,14 @@ bracketlessIfElse:
 	// if8_consequent
 	// tests/contracts/if.algo.ts:78
 	// return 'if';
-	byte 0x151f7c7500026966
-	log
+	byte 0x6966 // "if"
 	retsub
 	b if8_end
 
 if8_else:
 	// tests/contracts/if.algo.ts:79
 	// return 'else';
-	byte 0x151f7c750004656c7365
-	log
+	byte 0x656c7365 // "else"
 	retsub
 
 if8_end:
@@ -532,6 +605,9 @@ if8_end:
 
 // nestedTernary(bool,bool)uint64
 abi_route_nestedTernary:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// arg1: bool
 	txna ApplicationArgs 2
 	dup
@@ -554,11 +630,15 @@ abi_route_nestedTernary:
 
 	// execute nestedTernary(bool,bool)uint64
 	callsub nestedTernary
+	itob
+	concat
+	log
 	int 1
 	return
 
 nestedTernary:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// tests/contracts/if.algo.ts:84
 	// return arg0 ? 1 : arg1 ? 2 : 3;
@@ -579,11 +659,6 @@ ternary1_false:
 ternary1_end:
 
 ternary0_end:
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

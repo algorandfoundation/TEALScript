@@ -24,18 +24,23 @@ NOT_IMPLEMENTED:
 
 // staticByteCasting()byte[5]
 abi_route_staticByteCasting:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute staticByteCasting()byte[5]
 	callsub staticByteCasting
+	concat
+	log
 	int 1
 	return
 
 staticByteCasting:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:1050
 	// return 'abc' as StaticArray<byte, 5>;
-	byte 0x151f7c756162630000
-	log
+	byte 0x6162630000 // "abc"
 	retsub
 
 abi_route_createApplication:

@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // nestedArrayRef()uint8[2][2]
 abi_route_nestedArrayRef:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute nestedArrayRef()uint8[2][2]
 	callsub nestedArrayRef
+	concat
+	log
 	int 1
 	return
 
 nestedArrayRef:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:770
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [
@@ -38,23 +44,23 @@ nestedArrayRef:
 	//       [3, 4],
 	//     ]
 	byte 0x01020304
-	frame_bury 1 // a: uint8[2][2]
+	frame_bury 0 // a: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:774
 	// b = a[1]
 	// tests/contracts/abi.algo.ts:776
 	// b[1] = 5 as uint<8>
-	frame_dig 1 // a: uint8[2][2]
+	frame_dig 0 // a: uint8[2][2]
 	byte 0x05
 	replace2 3
-	frame_bury 1 // b: uint8[2][2]
+	frame_bury 0 // b: uint8[2][2]
 
 	// tests/contracts/abi.algo.ts:778
 	// return a;
-	byte 0x151f7c75
-	frame_dig 1 // a: uint8[2][2]
-	concat
-	log
+	frame_dig 0 // a: uint8[2][2]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

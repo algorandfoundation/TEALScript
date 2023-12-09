@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 verifyMBRPayment:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc75/arc75.algo.ts:10
@@ -50,6 +51,7 @@ verifyMBRPayment:
 	retsub
 
 sendMBRPayment:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/arc75/arc75.algo.ts:17
@@ -124,14 +126,15 @@ abi_route_addAppToWhiteList:
 	return
 
 addAppToWhiteList:
-	proto 4 0; byte 0x; dupn 3
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 4 0; byte 0x; dupn 2
 
 	// examples/arc75/arc75.algo.ts:33
 	// preMBR = this.app.address.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	frame_bury 1 // preMBR: uint64
+	frame_bury 0 // preMBR: uint64
 
 	// examples/arc75/arc75.algo.ts:34
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
@@ -152,12 +155,12 @@ addAppToWhiteList:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 2 // whitelist: Whitelist
+	frame_bury 1 // whitelist: Whitelist
 
 	// if0_condition
 	// examples/arc75/arc75.algo.ts:36
 	// this.whitelist(whitelist).exists
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_len
 	swap
 	pop
@@ -166,14 +169,14 @@ addAppToWhiteList:
 	// if0_consequent
 	// examples/arc75/arc75.algo.ts:37
 	// this.whitelist(whitelist).value.push(appID)
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_get
 	assert
 	extract 2 0
 	frame_dig -3 // appID: uint64
 	itob
 	concat
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	dup
 	box_del
 	pop
@@ -194,15 +197,15 @@ if0_else:
 	// newWhitelist: uint64[] = [appID]
 	frame_dig -3 // appID: uint64
 	itob
-	frame_bury 3 // newWhitelist: uint64[]
+	frame_bury 2 // newWhitelist: uint64[]
 
 	// examples/arc75/arc75.algo.ts:40
 	// this.whitelist(whitelist).value = newWhitelist
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	dup
 	box_del
 	pop
-	frame_dig 3 // newWhitelist: uint64[]
+	frame_dig 2 // newWhitelist: uint64[]
 	dup
 	len
 	int 8
@@ -216,7 +219,7 @@ if0_else:
 if0_end:
 	// examples/arc75/arc75.algo.ts:43
 	// this.verifyMBRPayment(payment, preMBR)
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	frame_dig -4 // payment: pay
 	callsub verifyMBRPayment
 	retsub
@@ -251,14 +254,15 @@ abi_route_setAppWhitelist:
 	return
 
 setAppWhitelist:
-	proto 3 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 0; byte 0x; dupn 1
 
 	// examples/arc75/arc75.algo.ts:55
 	// preMBR = this.app.address.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	frame_bury 1 // preMBR: uint64
+	frame_bury 0 // preMBR: uint64
 
 	// examples/arc75/arc75.algo.ts:56
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
@@ -279,16 +283,16 @@ setAppWhitelist:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 2 // whitelist: Whitelist
+	frame_bury 1 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:58
 	// this.whitelist(whitelist).delete()
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_del
 
 	// examples/arc75/arc75.algo.ts:60
 	// this.whitelist(whitelist).value = appIDs
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	dup
 	box_del
 	pop
@@ -306,7 +310,7 @@ setAppWhitelist:
 	// if1_condition
 	// examples/arc75/arc75.algo.ts:62
 	// preMBR > this.app.address.minBalance
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
@@ -316,14 +320,14 @@ setAppWhitelist:
 	// if1_consequent
 	// examples/arc75/arc75.algo.ts:63
 	// this.sendMBRPayment(preMBR)
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	callsub sendMBRPayment
 	b if1_end
 
 if1_else:
 	// examples/arc75/arc75.algo.ts:65
 	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	txn GroupIndex
 	int 1
 	-
@@ -357,14 +361,15 @@ abi_route_deleteWhitelist:
 	return
 
 deleteWhitelist:
-	proto 2 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 0; byte 0x; dupn 1
 
 	// examples/arc75/arc75.algo.ts:77
 	// preMBR = this.app.address.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	frame_bury 1 // preMBR: uint64
+	frame_bury 0 // preMBR: uint64
 
 	// examples/arc75/arc75.algo.ts:78
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
@@ -385,16 +390,16 @@ deleteWhitelist:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 2 // whitelist: Whitelist
+	frame_bury 1 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:80
 	// this.whitelist(whitelist).delete()
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_del
 
 	// examples/arc75/arc75.algo.ts:82
 	// this.sendMBRPayment(preMBR)
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
 
@@ -432,14 +437,15 @@ abi_route_deleteAppFromWhitelist:
 	return
 
 deleteAppFromWhitelist:
-	proto 4 0; byte 0x; dupn 3
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 4 0; byte 0x; dupn 2
 
 	// examples/arc75/arc75.algo.ts:94
 	// preMBR = this.app.address.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctMinBalance
 	assert
-	frame_bury 1 // preMBR: uint64
+	frame_bury 0 // preMBR: uint64
 
 	// examples/arc75/arc75.algo.ts:95
 	// whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc }
@@ -460,11 +466,11 @@ deleteAppFromWhitelist:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 2 // whitelist: Whitelist
+	frame_bury 1 // whitelist: Whitelist
 
 	// examples/arc75/arc75.algo.ts:97
 	// spliced = this.whitelist(whitelist).value.splice(index, 1)
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_get
 	assert
 	extract 2 0
@@ -475,14 +481,14 @@ deleteAppFromWhitelist:
 	store 247 // splice start
 	int 16
 	store 246 // splice byte length
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_get
 	assert
 	extract 2 0
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_get
 	assert
 	extract 2 0
@@ -496,7 +502,7 @@ deleteAppFromWhitelist:
 	swap
 	substring3
 	concat
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	box_get
 	assert
 	extract 2 0
@@ -506,7 +512,7 @@ deleteAppFromWhitelist:
 	-
 	extract3
 	swap
-	frame_dig 2 // whitelist: Whitelist
+	frame_dig 1 // whitelist: Whitelist
 	dup
 	box_del
 	pop
@@ -520,11 +526,11 @@ deleteAppFromWhitelist:
 	swap
 	concat
 	box_put
-	frame_bury 3 // spliced: uint64[]
+	frame_bury 2 // spliced: uint64[]
 
 	// examples/arc75/arc75.algo.ts:99
 	// assert(spliced[0] === appID)
-	frame_dig 3 // spliced: uint64[]
+	frame_dig 2 // spliced: uint64[]
 	store 255 // full array
 	load 255 // full array
 	extract 0 8
@@ -535,7 +541,7 @@ deleteAppFromWhitelist:
 
 	// examples/arc75/arc75.algo.ts:101
 	// this.sendMBRPayment(preMBR)
-	frame_dig 1 // preMBR: uint64
+	frame_dig 0 // preMBR: uint64
 	callsub sendMBRPayment
 	retsub
 

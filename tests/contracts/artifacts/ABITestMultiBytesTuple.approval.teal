@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // multiBytesTuple()(byte[],byte[])
 abi_route_multiBytesTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute multiBytesTuple()(byte[],byte[])
 	callsub multiBytesTuple
+	concat
+	log
 	int 1
 	return
 
 multiBytesTuple:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/abi.algo.ts:1228
 	// return [hex('0x01'), hex('0x02')];
@@ -43,10 +49,6 @@ multiBytesTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 abi_route_createApplication:

@@ -19,7 +19,7 @@ export async function getMethodTeal(filename: string, className: string, methodN
 
   const labelIndex = teal.indexOf(`${methodName}:`);
   const retsubIndex = teal.indexOf('retsub', labelIndex);
-  return teal.slice(labelIndex + 2, retsubIndex);
+  return teal.slice(labelIndex + 3, retsubIndex);
 }
 
 export function lowerFirstChar(str: string) {

@@ -30,6 +30,7 @@ abi_route_txnTypeEnum:
 	return
 
 txnTypeEnum:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:28
@@ -49,6 +50,7 @@ abi_route_txnGroupLength:
 	return
 
 txnGroupLength:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:32
@@ -87,6 +89,7 @@ abi_route_asserts:
 	return
 
 asserts:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/general.algo.ts:36
@@ -119,6 +122,7 @@ abi_route_verifyTxnFromArg:
 	return
 
 verifyTxnFromArg:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/general.algo.ts:40
@@ -146,6 +150,7 @@ abi_route_verifyTxnFromTxnGroup:
 	return
 
 verifyTxnFromTxnGroup:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:44
@@ -166,6 +171,7 @@ abi_route_verifyTxnCondition:
 	return
 
 verifyTxnCondition:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:48
@@ -187,6 +193,7 @@ abi_route_verifyTxnIncludedIn:
 	return
 
 verifyTxnIncludedIn:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:54
@@ -208,6 +215,7 @@ abi_route_verifyTxnNotIncludedIn:
 	return
 
 verifyTxnNotIncludedIn:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:60
@@ -229,6 +237,7 @@ abi_route_submitPendingGroup:
 	return
 
 submitPendingGroup:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:66
@@ -279,6 +288,7 @@ abi_route_methodWithTxnArgs:
 	return
 
 methodWithTxnArgs:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:72
@@ -360,6 +370,7 @@ abi_route_shift:
 	return
 
 shift:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:86
@@ -389,6 +400,7 @@ abi_route_fromBytes:
 	return
 
 fromBytes:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:91
@@ -407,6 +419,7 @@ abi_route_fromID:
 	return
 
 fromID:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:95
@@ -432,33 +445,34 @@ abi_route_bzeroFunction:
 	return
 
 bzeroFunction:
-	proto 0 0; byte 0x; dupn 4
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x; dupn 3
 
 	// tests/contracts/general.algo.ts:100
 	// n = 1
 	int 1
-	frame_bury 1 // n: uint64
+	frame_bury 0 // n: uint64
 
 	// tests/contracts/general.algo.ts:101
 	// x: bytes = bzero(2)
 	byte 0x0000
-	frame_bury 2 // x: bytes
+	frame_bury 1 // x: bytes
 
 	// tests/contracts/general.algo.ts:102
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
-	frame_bury 3 // y: bytes
+	frame_bury 2 // y: bytes
 
 	// tests/contracts/general.algo.ts:103
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
-	frame_bury 4 // z: [uint64,uint8]
+	frame_bury 3 // z: [uint64,uint8]
 
 	// tests/contracts/general.algo.ts:104
 	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
-	frame_dig 3 // y: bytes
+	frame_dig 2 // y: bytes
 	concat
 	byte 0x000000000000000000 // z: [uint64,uint8]
 	concat
@@ -476,6 +490,7 @@ abi_route_events:
 	return
 
 events:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:110
@@ -491,17 +506,31 @@ events:
 
 // letOptimization(uint64[])uint64[]
 abi_route_letOptimization:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// a: uint64[]
 	txna ApplicationArgs 1
 	extract 2 0
 
 	// execute letOptimization(uint64[])uint64[]
 	callsub letOptimization
+	dup
+	len
+	int 8
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 letOptimization:
-	proto 1 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
 
 	// tests/contracts/general.algo.ts:114
 	// assert(a[0])
@@ -520,18 +549,6 @@ letOptimization:
 	// tests/contracts/general.algo.ts:118
 	// return b;
 	frame_dig -1 // a: uint64[]
-	dup
-	len
-	int 8
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // staticContractProperties()void
@@ -542,6 +559,7 @@ abi_route_staticContractProperties:
 	return
 
 staticContractProperties:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:122
@@ -603,17 +621,18 @@ abi_route_numberToString:
 	return
 
 numberToString:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/general.algo.ts:133
 	// n = 1
 	int 1
-	frame_bury 1 // n: uint64
+	frame_bury 0 // n: uint64
 
 	// tests/contracts/general.algo.ts:134
 	// s = '1'
 	byte 0x31 // "1"
-	frame_bury 2 // s: bytes
+	frame_bury 1 // s: bytes
 
 	// tests/contracts/general.algo.ts:135
 	// assert(n.toString() === s)
@@ -632,6 +651,7 @@ abi_route_methodOnParens:
 	return
 
 methodOnParens:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:139
@@ -651,12 +671,13 @@ abi_route_stringSubstring:
 	return
 
 stringSubstring:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x
 
 	// tests/contracts/general.algo.ts:143
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
-	frame_bury 1 // s: bytes
+	frame_bury 0 // s: bytes
 
 	// tests/contracts/general.algo.ts:144
 	// assert(s.substring(1, 3) === 'bc')
@@ -674,12 +695,13 @@ abi_route_idProperty:
 	return
 
 idProperty:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x; dupn 1
 
 	// tests/contracts/general.algo.ts:148
 	// app = Application.zeroIndex
 	int 0
-	frame_bury 1 // app: application
+	frame_bury 0 // app: application
 
 	// tests/contracts/general.algo.ts:149
 	// assert(Application.fromID(app.id) === app)
@@ -691,7 +713,7 @@ idProperty:
 	// tests/contracts/general.algo.ts:151
 	// asa = Asset.zeroIndex
 	int 0
-	frame_bury 2 // asa: asset
+	frame_bury 1 // asa: asset
 
 	// tests/contracts/general.algo.ts:152
 	// assert(Asset.fromID(asa.id) === asa)
@@ -709,6 +731,7 @@ abi_route_scratchSlot:
 	return
 
 scratchSlot:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:156
@@ -726,13 +749,19 @@ scratchSlot:
 
 // ecdsa()(uint256,uint256)
 abi_route_ecdsa:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute ecdsa()(uint256,uint256)
 	callsub ecdsa
+	concat
+	log
 	int 1
 	return
 
 ecdsa:
-	proto 0 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
 
 	// tests/contracts/general.algo.ts:161
 	// ecdsa_verify('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3, 4)
@@ -769,10 +798,6 @@ ecdsa:
 	b&
 	swap
 	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 // verifyTxnTypes()void
@@ -783,6 +808,7 @@ abi_route_verifyTxnTypes:
 	return
 
 verifyTxnTypes:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:167
@@ -884,23 +910,24 @@ abi_route_stringPlusEquals:
 	return
 
 stringPlusEquals:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x
 
 	// tests/contracts/general.algo.ts:189
 	// s = 'foo'
 	byte 0x666f6f // "foo"
-	frame_bury 1 // s: bytes
+	frame_bury 0 // s: bytes
 
 	// tests/contracts/general.algo.ts:190
 	// s += 'bar'
-	frame_dig 1 // s: bytes
+	frame_dig 0 // s: bytes
 	byte 0x626172 // "bar"
 	concat
-	frame_bury 1 // s: bytes
+	frame_bury 0 // s: bytes
 
 	// tests/contracts/general.algo.ts:191
 	// assert(s === 'foobar')
-	frame_dig 1 // s: bytes
+	frame_dig 0 // s: bytes
 	byte 0x666f6f626172 // "foobar"
 	==
 	assert
@@ -908,27 +935,29 @@ stringPlusEquals:
 
 // importedProgram()byte[]
 abi_route_importedProgram:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute importedProgram()byte[]
 	callsub importedProgram
-	int 1
-	return
-
-importedProgram:
-	proto 0 0
-
-	// tests/contracts/general.algo.ts:195
-	// return IfTest.approvalProgram();
-	byte b64 CSACAQAmBggVH3x1AAJpZgoVH3x1AARlbHNlCRUffHUAA2VuZA0VH3x1AAdlbHNlIGlmDxUffHUACWVsc2UgaWYgMQ8VH3x1AAllbHNlIGlmIDIxGCMNgQYLMRkIjQcB3wAAAAAAAAAAAAAB7QA2GgFJFSISRCNTiAACIkOKAQCL/0EAAyiwiSqwiTYaAUkVIhJEI1OIAAIiQ4oBAIv/QQAGKLCJQgADKbCJiTYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAgCL/0EABiiwiUIACIv+QQADK7CJKrCJNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAIiQ4oCAIv/QQAGKLCJQgAOi/5BAAYrsIlCAAMpsImJNhoDSRUiEkQjUzYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAwCL/0EABiiwiUIAFYv+QQAHJwSwiUIACYv9QQAEJwWwiSqwiTYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gAAiJDigMAi/9BAAYosIlCABuL/kEABycEsIlCAA+L/UEABycFsIlCAAMpsImJNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAIiQ4oCAIv/QQAei/5BABOADxUffHUACW5lc3RlZCBpZrCJKLCJQgADKbCJiTYaAUkVIhJEI1OIAAIiQ4oBAIv/QQAGKLCJQgADKbCJiTYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAgCL/0EABCJCAAyL/kEABYECQgACgQMWgAQVH3x1TFCwiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHg2GgCOCf3H/eT+Bf43/m3+tv8D/0b/ZwA=
-	byte b64 CSACAQAmBggVH3x1AAJpZgoVH3x1AARlbHNlCRUffHUAA2VuZA0VH3x1AAdlbHNlIGlmDxUffHUACWVsc2UgaWYgMQ8VH3x1AAllbHNlIGlmIDIxGCMNgQYLMRkIjQcB3wAAAAAAAAAAAAAB7QA2GgFJFSISRCNTiAACIkOKAQCL/0EAAyiwiSqwiTYaAUkVIhJEI1OIAAIiQ4oBAIv/QQAGKLCJQgADKbCJiTYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAgCL/0EABiiwiUIACIv+QQADK7CJKrCJNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAIiQ4oCAIv/QQAGKLCJQgAOi/5BAAYrsIlCAAMpsImJNhoDSRUiEkQjUzYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAwCL/0EABiiwiUIAFYv+QQAHJwSwiUIACYv9QQAEJwWwiSqwiTYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gAAiJDigMAi/9BAAYosIlCABuL/kEABycEsIlCAA+L/UEABycFsIlCAAMpsImJNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAIiQ4oCAIv/QQAei/5BABOADxUffHUACW5lc3RlZCBpZrCJKLCJQgADKbCJiTYaAUkVIhJEI1OIAAIiQ4oBAIv/QQAGKLCJQgADKbCJiTYaAkkVIhJEI1M2GgFJFSISRCNTiAACIkOKAgCL/0EABCJCAAyL/kEABYECQgACgQMWgAQVH3x1TFCwiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHg2GgCOCf3H/eT+Bf43/m3+tv8D/0b/ZwA=
+	dup
 	len
 	itob
 	extract 6 2
 	swap
 	concat
-	byte 0x151f7c75
-	swap
 	concat
 	log
+	int 1
+	return
+
+importedProgram:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:195
+	// return IfTest.approvalProgram();
+	byte b64 CSACAQAmBwQVH3x1AmlmBGVsc2UDZW5kB2Vsc2UgaWYJZWxzZSBpZiAxCWVsc2UgaWYgMjEYIw2BBgsxGQiNBwIWAAAAAAAAAAAAAAIkACg2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigEBi/9BAAIpiSuJKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EABSmJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigIBi/9BAAUpiUIACIv+QQADJwSJK4koNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAgGL/0EABSmJQgANi/5BAAYnBIlCAAIqiYkoNhoDSRUiEkQjUzYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigMBi/9BAAUpiUIAE4v+QQAGJwWJQgAIi/1BAAMnBokriSg2GgNJFSISRCNTNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAwGL/0EABSmJQgAYi/5BAAYnBYlCAA2L/UEABicGiUIAAiqJiSg2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oCAYv/QQAWi/5BAAyACW5lc3RlZCBpZokpiUIAAiqJiSg2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigEBi/9BAAUpiUIAAiqJiSg2GgJJFSISRCNTNhoBSRUiEkQjU4gABRZQsCJDigIBi/9BAAQiQgAMi/5BAAWBAkIAAoEDiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHg2GgCOCf2Q/bb94P4b/lr+qv7+/0P/bQA=
 	retsub
 
 // callPrivateDefinedLater()void
@@ -939,6 +968,7 @@ abi_route_callPrivateDefinedLater:
 	return
 
 callPrivateDefinedLater:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:199
@@ -949,11 +979,65 @@ callPrivateDefinedLater:
 	retsub
 
 privateMethod:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// tests/contracts/general.algo.ts:203
 	// return msg;
 	frame_dig -1 // msg: string
+	retsub
+
+// interalPublicMethod(uint64,uint64)uint64
+abi_route_interalPublicMethod:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute interalPublicMethod(uint64,uint64)uint64
+	callsub interalPublicMethod
+	itob
+	concat
+	log
+	int 1
+	return
+
+interalPublicMethod:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
+
+	// tests/contracts/general.algo.ts:207
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
+
+// callInternalPublicMethod()void
+abi_route_callInternalPublicMethod:
+	// execute callInternalPublicMethod()void
+	callsub callInternalPublicMethod
+	int 1
+	return
+
+callInternalPublicMethod:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:211
+	// assert(this.interalPublicMethod(1, 2) === 3)
+	int 2
+	int 1
+	callsub interalPublicMethod
+	int 3
+	==
+	assert
 	retsub
 
 abi_route_createApplication:
@@ -994,8 +1078,10 @@ call_NoOp:
 	method "stringPlusEquals()void"
 	method "importedProgram()byte[]"
 	method "callPrivateDefinedLater()void"
+	method "interalPublicMethod(uint64,uint64)uint64"
+	method "callInternalPublicMethod()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod
 	err
 
 intToAscii:

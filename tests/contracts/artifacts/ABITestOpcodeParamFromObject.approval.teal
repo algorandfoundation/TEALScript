@@ -24,26 +24,32 @@ NOT_IMPLEMENTED:
 
 // opcodeParamFromObject()address
 abi_route_opcodeParamFromObject:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute opcodeParamFromObject()address
 	callsub opcodeParamFromObject
+	concat
+	log
 	int 1
 	return
 
 opcodeParamFromObject:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:1076
 	// a: { myApp: Application } = { myApp: this.app }
 	txna Applications 0
 	itob
-	frame_bury 1 // a: { myApp: Application }
+	frame_bury 0 // a: { myApp: Application }
 
 	// tests/contracts/abi.algo.ts:1078
 	// return this.app.address;
-	byte 0x151f7c75
 	global CurrentApplicationAddress
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

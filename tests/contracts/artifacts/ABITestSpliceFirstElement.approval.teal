@@ -24,32 +24,46 @@ NOT_IMPLEMENTED:
 
 // spliceFirstElement()uint16[]
 abi_route_spliceFirstElement:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute spliceFirstElement()uint16[]
 	callsub spliceFirstElement
+	dup
+	len
+	int 2
+	/
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 spliceFirstElement:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:510
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury 1 // a: uint16[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:512
 	// a.splice(0, 1)
-	frame_dig 1 // a: uint16[]
+	frame_dig 0 // a: uint16[]
 	int 1
 	int 0
 	store 247 // splice start
 	int 4
 	store 246 // splice byte length
-	frame_dig 1 // a: uint16[]
+	frame_dig 0 // a: uint16[]
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig 1 // a: uint16[]
+	frame_dig 0 // a: uint16[]
 	dup
 	len
 	load 247 // splice start
@@ -60,23 +74,14 @@ spliceFirstElement:
 	swap
 	substring3
 	concat
-	frame_bury 1 // a: uint16[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:514
 	// return a;
-	frame_dig 1 // a: uint16[]
-	dup
-	len
-	int 2
-	/
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+	frame_dig 0 // a: uint16[]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

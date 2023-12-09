@@ -24,22 +24,28 @@ NOT_IMPLEMENTED:
 
 // arrayPopValue()uint16
 abi_route_arrayPopValue:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute arrayPopValue()uint16
 	callsub arrayPopValue
+	concat
+	log
 	int 1
 	return
 
 arrayPopValue:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x; dupn 1
 
 	// tests/contracts/abi.algo.ts:449
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury 1 // a: uint16[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:451
 	// v = a.pop()!
-	frame_dig 1 // a: uint16[]
+	frame_dig 0 // a: uint16[]
 	dup
 	len
 	int 2
@@ -50,19 +56,22 @@ arrayPopValue:
 	dup
 	len
 	int 2
-	frame_dig 1 // a: uint16[]
+	frame_dig 0 // a: uint16[]
 	cover 2
 	extract3
 	swap
-	frame_bury 1 // a: uint16[]
-	frame_bury 2 // v: uint16
+	frame_bury 0 // a: uint16[]
+	frame_bury 1 // v: uint16
 
 	// tests/contracts/abi.algo.ts:453
 	// return v;
-	byte 0x151f7c75
-	frame_dig 2 // v: uint16
-	concat
-	log
+	frame_dig 1 // v: uint16
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
 	retsub
 
 abi_route_createApplication:

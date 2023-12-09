@@ -24,13 +24,19 @@ NOT_IMPLEMENTED:
 
 // multiNestedArrayRef()uint8[2][2][2]
 abi_route_multiNestedArrayRef:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute multiNestedArrayRef()uint8[2][2][2]
 	callsub multiNestedArrayRef
+	concat
+	log
 	int 1
 	return
 
 multiNestedArrayRef:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:802
 	// a: StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2> = [
@@ -44,7 +50,7 @@ multiNestedArrayRef:
 	//       ],
 	//     ]
 	byte 0x0102030405060708
-	frame_bury 1 // a: uint8[2][2][2]
+	frame_bury 0 // a: uint8[2][2][2]
 
 	// tests/contracts/abi.algo.ts:813
 	// b = a[1]
@@ -52,17 +58,17 @@ multiNestedArrayRef:
 	// c = b[1]
 	// tests/contracts/abi.algo.ts:816
 	// c[1] = 9 as uint<8>
-	frame_dig 1 // a: uint8[2][2][2]
+	frame_dig 0 // a: uint8[2][2][2]
 	byte 0x09
 	replace2 7
-	frame_bury 1 // c: uint8[2][2][2]
+	frame_bury 0 // c: uint8[2][2][2]
 
 	// tests/contracts/abi.algo.ts:818
 	// return a;
-	byte 0x151f7c75
-	frame_dig 1 // a: uint8[2][2][2]
-	concat
-	log
+	frame_dig 0 // a: uint8[2][2][2]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

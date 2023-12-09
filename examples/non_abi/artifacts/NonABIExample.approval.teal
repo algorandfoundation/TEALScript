@@ -23,6 +23,7 @@ NOT_IMPLEMENTED:
 	err
 
 add:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/non_abi/non_abi.algo.ts:6
@@ -34,6 +35,9 @@ add:
 
 // abiAdd(uint64,uint64)uint64
 abi_route_abiAdd:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// y: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -44,43 +48,43 @@ abi_route_abiAdd:
 
 	// execute abiAdd(uint64,uint64)uint64
 	callsub abiAdd
+	itob
+	concat
+	log
 	int 1
 	return
 
 abiAdd:
-	proto 2 0
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 1
 
 	// examples/non_abi/non_abi.algo.ts:10
 	// return this.add(x, y);
 	frame_dig -2 // y: uint64
 	frame_dig -1 // x: uint64
 	callsub add
-	itob
-	byte 0x151f7c75
-	swap
-	concat
-	log
 	retsub
 
 nonAbiAdd:
-	proto 0 0; byte 0x; dupn 2
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0; byte 0x; dupn 1
 
 	// examples/non_abi/non_abi.algo.ts:15
 	// x = btoi(this.txn.applicationArgs![0])
 	txn ApplicationArgs 0
 	btoi
-	frame_bury 1 // x: uint64
+	frame_bury 0 // x: uint64
 
 	// examples/non_abi/non_abi.algo.ts:16
 	// y = btoi(this.txn.applicationArgs![1])
 	txn ApplicationArgs 1
 	btoi
-	frame_bury 2 // y: uint64
+	frame_bury 1 // y: uint64
 
 	// examples/non_abi/non_abi.algo.ts:17
 	// log(itob(this.add(x, y)))
-	frame_dig 2 // y: uint64
-	frame_dig 1 // x: uint64
+	frame_dig 1 // y: uint64
+	frame_dig 0 // x: uint64
 	callsub add
 	itob
 	log

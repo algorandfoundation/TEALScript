@@ -38,7 +38,8 @@ abi_route_setMyContact:
 	return
 
 setMyContact:
-	proto 2 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 2 0; byte 0x
 
 	// examples/tuple_in_box/app.algo.ts:12
 	// contact: Contact = { name: name, company: company }
@@ -63,12 +64,12 @@ setMyContact:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // contact: Contact
+	frame_bury 0 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:14
 	// this.myContact.value = contact
 	byte 0x6d79436f6e74616374 // "myContact"
-	frame_dig 1 // contact: Contact
+	frame_dig 0 // contact: Contact
 	app_global_put
 
 	// examples/tuple_in_box/app.algo.ts:15
@@ -77,7 +78,7 @@ setMyContact:
 	dup
 	box_del
 	pop
-	frame_dig 1 // contact: Contact
+	frame_dig 0 // contact: Contact
 	box_put
 	retsub
 
@@ -105,7 +106,8 @@ abi_route_addContact:
 	return
 
 addContact:
-	proto 3 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 3 0; byte 0x
 
 	// examples/tuple_in_box/app.algo.ts:19
 	// contact: Contact = { name: name, company: company }
@@ -130,7 +132,7 @@ addContact:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // contact: Contact
+	frame_bury 0 // contact: Contact
 
 	// examples/tuple_in_box/app.algo.ts:20
 	// this.contacts(address).value = contact
@@ -138,7 +140,7 @@ addContact:
 	dup
 	box_del
 	pop
-	frame_dig 1 // contact: Contact
+	frame_dig 0 // contact: Contact
 	box_put
 	retsub
 
@@ -166,6 +168,7 @@ abi_route_updateContactField:
 	return
 
 updateContactField:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// if0_condition
@@ -331,6 +334,7 @@ abi_route_verifyContactName:
 	return
 
 verifyContactName:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/tuple_in_box/app.algo.ts:32

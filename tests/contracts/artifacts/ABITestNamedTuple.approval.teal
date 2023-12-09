@@ -24,13 +24,25 @@ NOT_IMPLEMENTED:
 
 // namedTuple()string
 abi_route_namedTuple:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute namedTuple()string
 	callsub namedTuple
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
 namedTuple:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:602
 	// a: {
@@ -49,11 +61,11 @@ namedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 1 // a: { foo: uint<16>; bar: string; }
+	frame_bury 0 // a: { foo: uint<16>; bar: string; }
 
 	// tests/contracts/abi.algo.ts:610
 	// return a.bar;
-	frame_dig 1 // a: { foo: uint<16>; bar: string; }
+	frame_dig 0 // a: { foo: uint<16>; bar: string; }
 	store 255 // full array
 	int 2
 	load 255 // full array
@@ -70,16 +82,9 @@ namedTuple:
 	+ // add two for length
 	extract3
 	extract 2 0
-	dup
-	len
-	itob
-	extract 6 2
-	swap
-	concat
-	byte 0x151f7c75
-	swap
-	concat
-	log
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:

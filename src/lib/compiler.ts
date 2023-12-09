@@ -1644,10 +1644,10 @@ export default class Compiler {
           if (tealLine.startsWith('PENDING_PROTO')) {
             if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
-            const isAbi = this.abi.methods.map((m) => m.name).includes(method);
-            let teal = `proto ${subroutine.args.length} ${subroutine.returns.type === 'void' || isAbi ? 0 : 1}`;
+            let teal = `proto ${subroutine.args.length} ${subroutine.returns.type === 'void' ? 0 : 1}`;
 
-            if (this.frameSize[method]) teal += `; byte 0x; dupn ${this.frameSize[method]}`;
+            if (this.frameSize[method]) teal += `; byte 0x`;
+            if (this.frameSize[method] > 1) teal += `; dupn ${this.frameSize[method] - 1}`;
 
             return {
               node: t.node,
@@ -3372,7 +3372,7 @@ export default class Compiler {
 
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
-    const { name } = this.currentSubroutine;
+
     const returnType = this.currentSubroutine.returns.type;
 
     if (returnType === 'void') {
@@ -3384,18 +3384,17 @@ export default class Compiler {
 
     this.processNode(node.expression!);
 
-    const isAbiMethod = this.abi.methods.find((m) => m.name === name);
+    if (this.lastType.startsWith('unsafe ')) this.checkEncoding(node, this.lastType);
+    this.typeComparison(this.lastType, returnType);
 
-    if (isAbiMethod) {
-      this.checkEncoding(node, this.lastType);
-      this.typeComparison(this.lastType, returnType);
+    if (this.frameIndex > 0) {
+      this.pushLines(node, '// set the subroutine return value', 'frame_bury 0');
 
-      this.pushLines(node, 'byte 0x151f7c75', 'swap', 'concat', 'log', 'retsub');
-    } else {
-      this.typeComparison(this.lastType, returnType);
-
-      this.pushVoid(node, 'retsub');
+      if (this.frameIndex > 1) {
+        this.pushLines(node, '// pop all local variables from the stack', `popn ${this.frameIndex - 1}`);
+      }
     }
+    this.pushVoid(node, 'retsub');
 
     this.typeHint = undefined;
   }
@@ -3809,14 +3808,14 @@ export default class Compiler {
 
       const keyFrameName = `storage key//${name}`;
 
-      this.frameIndex += 1;
-
       this.pushVoid(keyNode, `frame_bury ${this.frameIndex} // ${keyFrameName}`);
 
       this.frame[keyFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
+
+      this.frameIndex += 1;
 
       this.frame[name].storageKeyFrame = keyFrameName;
     }
@@ -3828,14 +3827,14 @@ export default class Compiler {
       this.addSourceComment(node, true);
       this.processNode(accountNode);
 
-      this.frameIndex += 1;
-
       this.pushVoid(accountNode, `frame_bury ${this.frameIndex} // ${accountFrameName}`);
 
       this.frame[accountFrameName] = {
         index: this.frameIndex,
         type: StackType.uint64,
       };
+
+      this.frameIndex += 1;
 
       this.frame[name].storageAccountFrame = accountFrameName;
     }
@@ -3882,8 +3881,6 @@ export default class Compiler {
               this.push(e.argumentExpression, `int ${e.argumentExpression.getText()}`, StackType.uint64);
             } else this.processNode(e.argumentExpression);
 
-            this.frameIndex += 1;
-
             const accName = `accessor//${i}//${name}`;
             this.pushVoid(node.initializer!, `frame_bury ${this.frameIndex} // accessor: ${accName}`);
 
@@ -3891,6 +3888,8 @@ export default class Compiler {
               index: this.frameIndex,
               type: StackType.uint64,
             };
+
+            this.frameIndex += 1;
 
             return accName;
           });
@@ -3963,23 +3962,23 @@ export default class Compiler {
 
       const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
 
-      this.frameIndex += 1;
-
       this.frame[name] = {
         index: this.frameIndex,
         type,
       };
 
       this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${type}`);
-    } else {
-      if (!node.type) throw new Error('Uninitialized variables must have a type');
 
       this.frameIndex += 1;
+    } else {
+      if (!node.type) throw new Error('Uninitialized variables must have a type');
 
       this.frame[name] = {
         index: this.frameIndex,
         type: this.getABIType(node.type.getText()),
       };
+
+      this.frameIndex += 1;
     }
   }
 
@@ -4824,7 +4823,11 @@ export default class Compiler {
     const lastFrame = JSON.parse(JSON.stringify(this.frame));
     this.frame = {};
 
-    this.pushVoid(fn, `PENDING_PROTO: ${this.currentSubroutine.name}`);
+    this.pushLines(
+      fn,
+      '// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary',
+      `PENDING_PROTO: ${this.currentSubroutine.name}`
+    );
 
     let argIndex = -1;
     const params = new Array(...fn.parameters);
@@ -4921,6 +4924,12 @@ export default class Compiler {
       this.pushLines(fn, ...headerComment, `route_${this.currentSubroutine.name}:`);
     }
 
+    const returnType = this.currentSubroutine.returns.type
+      .replace(/asset|application/, 'uint64')
+      .replace('account', 'address');
+
+    if (returnType !== 'void') this.pushLines(fn, '// The ABI return prefix', 'byte 0x151f7c75');
+
     const argCount = fn.parameters.length;
 
     const args: { name: string; type: string; desc: string }[] = [];
@@ -4960,10 +4969,6 @@ export default class Compiler {
       args.push({ name: p.name.getText(), type: this.getABIType(abiType).replace(/bytes/g, 'byte[]'), desc: '' });
     });
 
-    const returnType = this.currentSubroutine.returns.type
-      .replace(/asset|application/, 'uint64')
-      .replace('account', 'address');
-
     // Only add an ABI method if it allows any non-bare OnComplete calls
     const currentAllows = Object.values(this.currentSubroutine.allows).flat();
     if (currentAllows.length > 0) {
@@ -4978,8 +4983,9 @@ export default class Compiler {
 
     this.pushVoid(fn, `// execute ${this.getSignature(this.currentSubroutine)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
-    this.pushVoid(fn, 'int 1');
-    this.pushVoid(fn, 'return');
+    this.checkEncoding(fn, returnType);
+    if (returnType !== 'void') this.pushLines(fn, 'concat', 'log');
+    this.pushLines(fn, 'int 1', 'return');
     this.processSubroutine(fn);
   }
 

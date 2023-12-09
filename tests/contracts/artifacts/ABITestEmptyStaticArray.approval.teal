@@ -24,23 +24,31 @@ NOT_IMPLEMENTED:
 
 // emptyStaticArray()uint16[3]
 abi_route_emptyStaticArray:
+	// The ABI return prefix
+	byte 0x151f7c75
+
 	// execute emptyStaticArray()uint16[3]
 	callsub emptyStaticArray
+	concat
+	log
 	int 1
 	return
 
 emptyStaticArray:
-	proto 0 0; byte 0x; dupn 1
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 1; byte 0x
 
 	// tests/contracts/abi.algo.ts:851
 	// a: StaticArray<uint<16>, 3> = []
 	byte 0x000000000000
-	frame_bury 1 // a: uint16[3]
+	frame_bury 0 // a: uint16[3]
 
 	// tests/contracts/abi.algo.ts:853
 	// return a;
-	byte 0x151f7c75000000000000
-	log
+	frame_dig 0 // a: uint16[3]
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:
