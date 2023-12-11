@@ -3440,7 +3440,7 @@ export default class Compiler {
         '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
         '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
         '// Every possible action for this contract is represented in the switch statement',
-        '// If the action is not implmented in the contract, its repsective branch will be "NOT_IMPLMENTED" which just contains "err"',
+        '// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"',
         'txn ApplicationID',
         'int 0',
         '>',
