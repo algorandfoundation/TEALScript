@@ -1,0 +1,30 @@
+{
+  "name": "ABITestBiggerByteCasting",
+  "desc": "",
+  "methods": [
+    {
+      "name": "biggerByteCasting",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[2]",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "byte[4]",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}

@@ -45,14 +45,6 @@ class MathTest extends Contract {
     return 18_446_744_073_709_551_615;
   }
 
-  btobigintFirst(input: string): uint64 {
-    return <uint64>(btobigint(input) / 1);
-  }
-
-  btobigintSecond(input: string): uint64 {
-    return <uint64>(1000 / btobigint(input));
-  }
-
   exponent(a: uint64, b: uint64): uint64 {
     return a ** b;
   }
@@ -69,5 +61,43 @@ class MathTest extends Contract {
 
   uint8exp(a: uint<8>, b: uint<8>): uint<8> {
     return a ** b;
+  }
+
+  plusEquals(a: number, b: number): number {
+    let x = a;
+
+    x += b;
+
+    return x;
+  }
+
+  plusEqualsFromGlobal(a: number, b: number): number {
+    this.gKey.value = a;
+
+    this.gKey.value += b;
+
+    return this.gKey.value;
+  }
+
+  ufixedLiteralMul(): ufixed<64, 2> {
+    const a: ufixed<64, 2> = 12.34;
+    const b: ufixed<64, 2> = 12.34;
+    const c = a * b;
+
+    return c;
+  }
+
+  ufixedMul(a: ufixed<64, 2>, b: ufixed<64, 2>): ufixed<64, 2> {
+    return a * b;
+  }
+
+  BigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>): ufixed<128, 2> {
+    return a * b;
+  }
+
+  TripleBigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>, c: ufixed<128, 2>): ufixed<128, 2> {
+    const ab = a * b;
+    const abc = ab * c;
+    return abc;
   }
 }

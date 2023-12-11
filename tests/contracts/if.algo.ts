@@ -2,8 +2,7 @@
 /* eslint-disable no-constant-condition */
 import { Contract } from '../../src/lib/index';
 
-// eslint-disable-next-line no-unused-vars
-class IfTest extends Contract {
+export class IfTest extends Contract {
   singleIf(arg0: boolean): string {
     if (arg0) {
       return 'if';

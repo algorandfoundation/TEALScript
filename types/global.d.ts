@@ -479,6 +479,7 @@ declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boole
 declare function BoxMap<KeyType, ValueType>(options?: {
   dynamicSize?: boolean;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (key: KeyType) => BoxValue<ValueType>;
 
 declare type GlobalStateValue<ValueType> = {
@@ -491,6 +492,7 @@ declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalSt
 declare function GlobalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (key: KeyType) => GlobalStateValue<ValueType>;
 
 declare type LocalStateValue<ValueType> = {
@@ -504,6 +506,7 @@ declare function LocalStateKey<ValueType>(options?: { key?: string }): (account:
 declare function LocalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
+  allowPotentialCollisions?: boolean;
 }): (account: Address, key: KeyType) => LocalStateValue<ValueType>;
 
 type IntLike = uint64 | Asset | Application | boolean | number;
@@ -576,16 +579,19 @@ interface PaymentParams extends CommonTransactionParams {
   closeRemainderTo?: Address;
 }
 
+// eslint-disable-next-line no-shadow
+enum OnCompletion {
+  NoOp = 0,
+  OptIn = 1,
+  CloseOut = 2,
+  ClearState = 3,
+  UpdateApplication = 4,
+  DeleteApplication = 5,
+}
+
 interface AppParams extends CommonTransactionParams {
   applicationID?: Application;
-  onCompletion?:
-    | 'NoOp'
-    | 'OptIn'
-    | 'CloseOut'
-    | 'ClearState'
-    | 'UpdateApplication'
-    | 'DeleteApplication'
-    | 'CreateApplication';
+  onCompletion?: OnCompletion;
   accounts?: Address[];
   approvalProgram?: bytes;
   applicationArgs?: bytes[];
@@ -1023,13 +1029,10 @@ declare class abi {
   static readonly: decorator;
 }
 
-type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = (T extends byte
-  ? string
-  : N extends 0
-  ? never[]
-  : T extends boolean
-  ? (true | false)[]
-  : T[]) & { __type?: T; __length?: N };
+type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = Brand<
+  T extends byte ? string : N extends 0 ? never[] : T extends boolean ? (true | false)[] : T[],
+  T
+>;
 
 // eslint-disable-next-line no-shadow
 enum TransactionType {
@@ -1042,7 +1045,7 @@ enum TransactionType {
   ApplicationCall, // appl
 }
 
-declare function templateVar<TmplType extends bytes | number>(name: string): TmplType;
+declare function TemplateVar<TmplType>(name?: string): TmplType;
 
 declare function castBytes<T>(input: BytesLike): T;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

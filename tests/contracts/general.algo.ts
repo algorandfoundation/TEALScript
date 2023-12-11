@@ -1,12 +1,17 @@
 import { Contract } from '../../src/lib/index';
+import { IfTest } from './if.algo';
 
 class DummyContract extends Contract {}
 
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
+  bytesTmplVar = TemplateVar<bytes>();
+
+  uint64TmplVar = TemplateVar<uint64>();
+
   tmpl(): void {
-    log(templateVar<bytes>('FOO'));
-    assert(templateVar<uint64>('BAR'));
+    log(this.bytesTmplVar);
+    assert(this.uint64TmplVar);
   }
 }
 
@@ -178,5 +183,31 @@ class GeneralTest extends Contract {
     verifyKeyRegTxn(this.txnGroup[0], {
       voteFirst: 1337,
     });
+  }
+
+  stringPlusEquals(): void {
+    let s = 'foo';
+    s += 'bar';
+    assert(s === 'foobar');
+  }
+
+  importedProgram(): bytes {
+    return IfTest.approvalProgram();
+  }
+
+  callPrivateDefinedLater(): void {
+    log(this.privateMethod('hello'));
+  }
+
+  private privateMethod(msg: string): string {
+    return msg;
+  }
+
+  interalPublicMethod(a: uint64, b: uint64): uint64 {
+    return a + b;
+  }
+
+  callInternalPublicMethod(): void {
+    assert(this.interalPublicMethod(1, 2) === 3);
   }
 }

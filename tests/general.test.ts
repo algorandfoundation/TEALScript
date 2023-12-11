@@ -27,6 +27,8 @@ describe('General', function () {
       'numberToString',
       'methodOnParens',
       'stringSubstring',
+      'stringPlusEquals',
+      'callInternalPublicMethod',
     ].forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);

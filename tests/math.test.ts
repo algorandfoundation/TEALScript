@@ -28,6 +28,8 @@ describe('Math', function () {
       exponent: BigInt(6 ** 3),
       variableTypeHint: 9n,
       uint8exp: BigInt(6 ** 3),
+      plusEquals: 9n,
+      plusEqualsFromGlobal: 9n,
     };
 
     Object.keys(methods).forEach((method) => {
@@ -42,21 +44,6 @@ describe('Math', function () {
       expect(await runMethod({ appClient, method: 'maxU64' })).toBe(BigInt('18446744073709551615'));
     });
 
-    // btobigintFirst
-    test('btobigintFirst', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
-      expect(await runMethod({ appClient, method: 'btobigintFirst', methodArgs: [algosdk.encodeUint64(1000)] })).toBe(
-        1000n
-      );
-    });
-
-    test('btobigintSecond', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
-      expect(await runMethod({ appClient, method: 'btobigintSecond', methodArgs: [algosdk.encodeUint64(1)] })).toBe(
-        1000n
-      );
-    });
-
     test('overflow', async function () {
       const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
@@ -69,6 +56,50 @@ describe('Math', function () {
       }
 
       expect(msg).toMatch('intc_3 // 8; <=; assert');
+    });
+
+    test('ufixedLiteralMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      expect(await runMethod({ appClient, method: 'ufixedLiteralMul' })).toBe(BigInt(Math.floor(12.34 * 12.34 * 100)));
+    });
+
+    test('ufixedMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      expect(
+        await runMethod({
+          appClient,
+          method: 'ufixedMul',
+          methodArgs: [1234n, 1234n],
+        })
+      ).toBe(BigInt(Math.floor(12.34 * 12.34 * 100)));
+    });
+
+    test('BigUfixedMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      expect(
+        await runMethod({
+          appClient,
+          method: 'BigUfixedMul',
+          methodArgs: [1234n, 1234n],
+        })
+      ).toBe(BigInt(Math.floor(12.34 * 12.34 * 100)));
+    });
+
+    test('TripleBigUfixedMul', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      const ab = Math.floor(1.23 * 4.56 * 100);
+      const abc = Math.floor(ab * 7.89 * 100);
+      expect(
+        await runMethod({
+          appClient,
+          method: 'TripleBigUfixedMul',
+          methodArgs: [123n, 456n, 789n],
+        })
+      ).toBe(BigInt(abc) / BigInt(100));
     });
   });
 

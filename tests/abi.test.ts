@@ -428,7 +428,7 @@ describe('ABI', function () {
 
     test('ufixed', async () => {
       const { appClient } = await compileAndCreate('ufixed');
-      expect(await runMethod(appClient, 'ufixed')).toEqual(BigInt(123 + 456));
+      expect(await runMethod(appClient, 'ufixed')).toEqual(BigInt(Math.floor((123 + 456) / 100)));
     });
 
     test('arrayLength', async () => {
@@ -729,6 +729,42 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('chainedPropertyAfterTuple');
 
       await runMethod(appClient, 'chainedPropertyAfterTuple', [1337]);
+    });
+
+    test('uintCasting', async () => {
+      const { appClient } = await compileAndCreate('uintCasting');
+
+      expect(await runMethod(appClient, 'uintCasting', [7])).toBe(7n);
+    });
+
+    test('uint64Casting', async () => {
+      const { appClient } = await compileAndCreate('uint64Casting');
+
+      expect(await runMethod(appClient, 'uint64Casting', [7])).toBe(7n);
+    });
+
+    test('bytesCasting', async () => {
+      const { appClient } = await compileAndCreate('bytesCasting');
+
+      expect(await runMethod(appClient, 'bytesCasting', [[1]])).toEqual([1, 0]);
+    });
+
+    test('biggerByteCasting', async () => {
+      const { appClient } = await compileAndCreate('biggerByteCasting');
+
+      expect(await runMethod(appClient, 'biggerByteCasting', [[1, 1]])).toEqual([1, 1, 0, 0]);
+    });
+
+    test('smallerByteCasting', async () => {
+      const { appClient } = await compileAndCreate('smallerByteCasting');
+
+      expect(await runMethod(appClient, 'smallerByteCasting', [[1, 0, 0, 0]])).toEqual([1, 0]);
+    });
+
+    test('multiBytesTuple', async () => {
+      const { appClient } = await compileAndCreate('multiBytesTuple');
+
+      expect(await runMethod(appClient, 'multiBytesTuple')).toEqual([[1], [2]]);
     });
   });
 });

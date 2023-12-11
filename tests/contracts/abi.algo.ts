@@ -76,11 +76,11 @@ class ABITestStaticArrayInStorageRef extends Contract {
 
   bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>({ allowPotentialCollisions: true });
 
   @allow.call('OptIn')
   staticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -103,11 +103,11 @@ class ABITestUpdateStaticArrayInStorageRef extends Contract {
 
   bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>({ allowPotentialCollisions: true });
 
   @allow.call('OptIn')
   updateStaticArrayInStorageRef(): StaticArray<uint64, 3> {
@@ -134,11 +134,11 @@ class ABITestStaticArrayInStorageMap extends Contract {
 
   bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>({ allowPotentialCollisions: true });
 
   @allow.call('OptIn')
   staticArrayInStorageMap(): StaticArray<uint64, 3> {
@@ -165,11 +165,11 @@ class ABITestUpdateStaticArrayInStorageMap extends Contract {
 
   bRef = BoxKey<StaticArray<uint64, 3>>({ key: 'bRef' });
 
-  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  gMap = GlobalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1 });
+  lMap = LocalStateMap<bytes, StaticArray<uint64, 3>>({ maxKeys: 1, allowPotentialCollisions: true });
 
-  bMap = BoxMap<bytes, StaticArray<uint64, 3>>();
+  bMap = BoxMap<bytes, StaticArray<uint64, 3>>({ allowPotentialCollisions: true });
 
   @allow.call('OptIn')
   updateStaticArrayInStorageMap(): StaticArray<uint64, 3> {
@@ -1194,8 +1194,37 @@ class ABITestStringArray extends Contract {
 }
 
 class ABITestUintCasting extends Contract {
-  uintCasting(a: uint<8>): void {
-    const b = a as uint<256>;
-    log(rawBytes(b));
+  uintCasting(a: uint<8>): uint<256> {
+    return <uint<256>>a;
+  }
+}
+
+class ABITestUint64Casting extends Contract {
+  uint64Casting(a: uint<256>): uint64 {
+    return a as uint64;
+  }
+}
+
+class ABITestBytesCasting extends Contract {
+  bytesCasting(a: bytes): StaticArray<byte, 2> {
+    return <StaticArray<byte, 2>>a;
+  }
+}
+
+class ABITestBiggerByteCasting extends Contract {
+  biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4> {
+    return <StaticArray<byte, 4>>a;
+  }
+}
+
+class ABITestSmallerByteCasting extends Contract {
+  smallerByteCasting(a: StaticArray<byte, 4>): StaticArray<byte, 2> {
+    return <StaticArray<byte, 2>>a;
+  }
+}
+
+class ABITestMultiBytesTuple extends Contract {
+  multiBytesTuple(): [bytes, bytes] {
+    return [hex('0x01'), hex('0x02')];
   }
 }
