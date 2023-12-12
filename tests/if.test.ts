@@ -85,5 +85,17 @@ describe('If', function () {
       expect(await runMethod({ appClient, method: 'nestedTernary', methodArgs: [false, true] })).toBe(2n);
       expect(await runMethod({ appClient, method: 'nestedTernary', methodArgs: [false, false] })).toBe(3n);
     });
+
+    test('stringIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'stringIf', methodArgs: [' '] })).toBe(1n);
+      expect(await runMethod({ appClient, method: 'stringIf', methodArgs: [''] })).toBe(2n);
+    });
+
+    test('stringTernary', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'stringTernary', methodArgs: [' '] })).toBe(1n);
+      expect(await runMethod({ appClient, method: 'stringTernary', methodArgs: [''] })).toBe(2n);
+    });
   });
 });

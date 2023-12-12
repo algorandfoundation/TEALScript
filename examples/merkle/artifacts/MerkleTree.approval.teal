@@ -44,6 +44,8 @@ calcInitRoot:
 	frame_bury 1 // i: uint64
 
 for_0:
+	// examples/merkle/merkle.algo.ts:21
+	// i < TREE_DEPTH
 	frame_dig 1 // i: uint64
 	int 3
 	<
@@ -112,6 +114,8 @@ calcRoot:
 	frame_bury 0 // i: uint64
 
 for_1:
+	// examples/merkle/merkle.algo.ts:39
+	// i < TREE_DEPTH
 	frame_dig 0 // i: uint64
 	int 3
 	<
