@@ -661,6 +661,83 @@ ternary1_end:
 ternary0_end:
 	retsub
 
+// stringIf(string)uint64
+abi_route_stringIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// arg0: string
+	txna ApplicationArgs 1
+	extract 2 0
+
+	// execute stringIf(string)uint64
+	callsub stringIf
+	itob
+	concat
+	log
+	int 1
+	return
+
+stringIf:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
+
+	// if9_condition
+	// tests/contracts/if.algo.ts:88
+	// arg0
+	frame_dig -1 // arg0: string
+	byte 0x
+	b!=
+	bz if9_end
+
+	// if9_consequent
+	// tests/contracts/if.algo.ts:89
+	// return 1;
+	int 1
+	retsub
+
+if9_end:
+	// tests/contracts/if.algo.ts:92
+	// return 2;
+	int 2
+	retsub
+
+// stringTernary(string)uint64
+abi_route_stringTernary:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// arg0: string
+	txna ApplicationArgs 1
+	extract 2 0
+
+	// execute stringTernary(string)uint64
+	callsub stringTernary
+	itob
+	concat
+	log
+	int 1
+	return
+
+stringTernary:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 1 1
+
+	// tests/contracts/if.algo.ts:96
+	// return arg0 ? 1 : 2;
+	frame_dig -1 // arg0: string
+	byte 0x
+	b!=
+	bz ternary2_false
+	int 1
+	b ternary2_end
+
+ternary2_false:
+	int 2
+
+ternary2_end:
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -681,6 +758,8 @@ call_NoOp:
 	method "nestedIf(bool,bool)string"
 	method "bracketlessIfElse(bool)string"
 	method "nestedTernary(bool,bool)uint64"
+	method "stringIf(string)uint64"
+	method "stringTernary(string)uint64"
 	txna ApplicationArgs 0
-	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse abi_route_nestedIf abi_route_bracketlessIfElse abi_route_nestedTernary
+	match abi_route_singleIf abi_route_ifElse abi_route_ifElseIf abi_route_ifElseIfElse abi_route_ifElseIfElseIf abi_route_ifElseIfElseIfElse abi_route_nestedIf abi_route_bracketlessIfElse abi_route_nestedTernary abi_route_stringIf abi_route_stringTernary
 	err
