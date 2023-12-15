@@ -1805,6 +1805,7 @@ export default class Compiler {
    */
   getClassChildren(): {
     methodNodes: ts.MethodDeclaration[];
+    propertyNodes: ts.PropertyDeclaration[];
   } {
     const classNode = this.sourceFile.statements.find((body) => {
       if (!ts.isClassDeclaration(body)) return false;
@@ -1817,12 +1818,14 @@ export default class Compiler {
     if (classNode === undefined) throw Error(`Class ${this.name} not found`);
 
     const methodNodes: ts.MethodDeclaration[] = [];
+    const propertyNodes: ts.PropertyDeclaration[] = [];
 
     classNode.forEachChild((c) => {
       if (ts.isMethodDeclaration(c)) methodNodes.push(c);
+      if (ts.isPropertyDeclaration(c)) propertyNodes.push(c);
     });
 
-    return { methodNodes };
+    return { methodNodes, propertyNodes };
   }
 
   async compile() {
@@ -1865,8 +1868,9 @@ export default class Compiler {
       }
     });
 
-    const { methodNodes } = this.getClassChildren();
+    const { methodNodes, propertyNodes } = this.getClassChildren();
     this.preProcessMethods(methodNodes);
+    propertyNodes.forEach((n) => this.processPropertyDefinition(n));
 
     this.sourceFile.statements.forEach((body) => {
       if (!ts.isClassDeclaration(body)) return;
@@ -3482,7 +3486,8 @@ export default class Compiler {
     }
 
     node.members.forEach((m) => {
-      this.processNode(m);
+      // Property declarations are already processed by this point
+      if (!ts.isPropertyDeclaration(m)) this.processNode(m);
     });
   }
 
