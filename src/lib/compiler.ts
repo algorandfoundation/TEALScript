@@ -1809,12 +1809,35 @@ export default class Compiler {
       if (body.name!.text === this.name) return true;
 
       return false;
-    });
+    }) as ts.ClassDeclaration | undefined;
 
     if (classNode === undefined) throw Error(`Class ${this.name} not found`);
 
     const methodNodes: ts.MethodDeclaration[] = [];
     const propertyNodes: ts.PropertyDeclaration[] = [];
+
+    if (classNode.heritageClauses === undefined || !ts.isIdentifier(classNode.heritageClauses[0].types[0].expression)) {
+      throw Error(`Contract ${this.name} must extend Contract, LogicSig, or an existing class`);
+    }
+
+    const superClass = classNode.heritageClauses[0].types[0].expression.text;
+
+    if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
+      const superCompiler = new Compiler(this.content, superClass, {
+        filename: this.importRegistry[superClass],
+        algodPort: this.algodPort,
+        algodServer: this.algodServer,
+        algodToken: this.algodToken,
+        disableWarnings: this.disableWarnings,
+        disableOverflowChecks: this.disableOverflowChecks,
+        disableTypeScript: this.disableTypeScript,
+      });
+
+      const superClassNodes = superCompiler.getClassChildren();
+
+      methodNodes.push(...superClassNodes.methodNodes);
+      propertyNodes.push(...superClassNodes.propertyNodes);
+    }
 
     classNode.forEachChild((c) => {
       if (ts.isMethodDeclaration(c)) methodNodes.push(c);
@@ -1933,6 +1956,7 @@ export default class Compiler {
         if (className === this.name) {
           if (superClass === LSIG_CLASS) this.currentProgram = 'lsig';
 
+          this.classNode = body;
           this.initializeTEAL(body);
 
           this.abi = {
@@ -1941,25 +1965,7 @@ export default class Compiler {
             methods: [],
           };
 
-          if ([...this.contractClasses, ...this.lsigClasses].includes(superClass)) {
-            // TODO: pass options
-            const superCompiler = new Compiler(this.content, superClass, {
-              filename: this.importRegistry[superClass],
-              algodPort: this.algodPort,
-              algodServer: this.algodServer,
-              algodToken: this.algodToken,
-              disableWarnings: this.disableWarnings,
-              disableOverflowChecks: this.disableOverflowChecks,
-              disableTypeScript: this.disableTypeScript,
-            });
-            const superChildren = superCompiler.getClassChildren();
-
-            this.preProcessMethods(superChildren.methodNodes);
-            superChildren.propertyNodes.forEach((n) => this.processPropertyDefinition(n));
-            superChildren.methodNodes.forEach((n) => this.processMethodDefinition(n));
-          }
-
-          this.processNode(body);
+          methodNodes.forEach((node) => this.processNode(node));
         }
       }
     });
@@ -3505,15 +3511,6 @@ export default class Compiler {
     }
 
     this.processRoutableMethod(node);
-  }
-
-  private processClassDeclaration(node: ts.ClassDeclaration) {
-    this.classNode = node;
-
-    node.members.forEach((m) => {
-      // Property declarations are already processed by this point
-      if (!ts.isPropertyDeclaration(m)) this.processNode(m);
-    });
   }
 
   private processBlockStatement(node: ts.Block) {

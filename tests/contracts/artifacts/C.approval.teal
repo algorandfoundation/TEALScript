@@ -66,6 +66,34 @@ assetFooAndSetBar:
 	app_global_put
 	retsub
 
+// assertFooAndBar()void
+abi_route_assertFooAndBar:
+	// execute assertFooAndBar()void
+	callsub assertFooAndBar
+	int 1
+	return
+
+assertFooAndBar:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0
+
+	// tests/contracts/inheritance.algo.ts:23
+	// assert(this.barKey.value === 42)
+	byte 0x626172 // "bar"
+	app_global_get
+	int 42
+	==
+	assert
+
+	// tests/contracts/inheritance.algo.ts:24
+	// assert(this.fooKey.value === 1337)
+	byte 0x666f6f // "foo"
+	app_global_get
+	int 1337
+	==
+	assert
+	retsub
+
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
@@ -74,6 +102,7 @@ create_NoOp:
 
 call_NoOp:
 	method "assetFooAndSetBar()void"
+	method "assertFooAndBar()void"
 	txna ApplicationArgs 0
-	match abi_route_assetFooAndSetBar
+	match abi_route_assetFooAndSetBar abi_route_assertFooAndBar
 	err
