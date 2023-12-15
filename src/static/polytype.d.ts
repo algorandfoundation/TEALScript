@@ -1,7 +1,9 @@
 /* eslint-disable */
 
-// This file is copied directly from the Polytype library. It's included here so it can be included during 
-// The internal TypeScript diagnostics TEALScript does on contracts.
+/* 
+This file is copied directly from the Polytype library. It's included here so it can be included  
+during the internal TypeScript diagnostics TEALScript does on contracts.
+*/
 
 // Type definitions for Polytype 0.17.0
 
