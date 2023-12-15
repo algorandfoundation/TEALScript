@@ -11,7 +11,7 @@ import path from 'path';
 import { readFileSync } from 'fs';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
-import langspec from '../langspec.json';
+import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 

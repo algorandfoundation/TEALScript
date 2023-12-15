@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect, test, describe } from '@jest/globals';
 import { getMethodTeal, lowerFirstChar, artifactsTest } from './common';
-import * as langspec from '../src/langspec.json';
+import * as langspec from '../src/static/langspec.json';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/account.algo.ts', 'AccountTest', methodName);
