@@ -1767,45 +1767,62 @@ export default class Compiler {
   }
 
   /**
-   * Get all of the children of the class declaration so the ordering of method definition
-   * doesn't matter. Eventually also use this to get properties for the sake of inheritance.
+   * Process the signatures of all of the subroutines so that they can be called in any order
+   *
+   * @param methods The methods to process
    */
-  getClassChildren() {
-    this.sourceFile.statements.forEach((body) => {
-      if (!ts.isClassDeclaration(body)) return;
+  preProcessMethods(methods: ts.MethodDeclaration[]) {
+    methods.forEach((node) => {
+      if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
+      if (node.type === undefined) throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
 
-      if (body.name!.text !== this.name) return;
+      const returnType = this.getABIType(node.type.getText()).replace(/bytes/g, 'byte[]');
 
-      body.forEachChild((node) => {
-        if (ts.isMethodDeclaration(node)) {
-          if (!ts.isIdentifier(node.name)) throw Error('Method name must be identifier');
-          if (node.type === undefined)
-            throw Error(`A return type annotation must be defined for ${node.name.getText()}`);
+      const sub = {
+        name: node.name.getText(),
+        allows: { call: [], create: [] },
+        nonAbi: { call: [], create: [] },
+        args: [],
+        desc: '',
+        returns: { type: returnType, desc: '' },
+        node,
+      } as Subroutine;
 
-          const returnType = this.getABIType(node.type.getText()).replace(/bytes/g, 'byte[]');
-
-          const sub = {
-            name: node.name.getText(),
-            allows: { call: [], create: [] },
-            nonAbi: { call: [], create: [] },
-            args: [],
-            desc: '',
-            returns: { type: returnType, desc: '' },
-            node,
-          } as Subroutine;
-
-          new Array(...node.parameters).reverse().forEach((p) => {
-            sub.args.push({
-              name: p.name.getText(),
-              type: this.getABIType(this.getABIType(p!.type!.getText())),
-              desc: '',
-            });
-          });
-
-          this.subroutines.push(sub);
-        }
+      new Array(...node.parameters).reverse().forEach((p) => {
+        sub.args.push({
+          name: p.name.getText(),
+          type: this.getABIType(this.getABIType(p!.type!.getText())),
+          desc: '',
+        });
       });
+
+      this.subroutines.push(sub);
     });
+  }
+
+  /**
+   * Get the child nodes of the contract class
+   */
+  getClassChildren(): {
+    methodNodes: ts.MethodDeclaration[];
+  } {
+    const classNode = this.sourceFile.statements.find((body) => {
+      if (!ts.isClassDeclaration(body)) return false;
+
+      if (body.name!.text === this.name) return true;
+
+      return false;
+    });
+
+    if (classNode === undefined) throw Error(`Class ${this.name} not found`);
+
+    const methodNodes: ts.MethodDeclaration[] = [];
+
+    classNode.forEachChild((c) => {
+      if (ts.isMethodDeclaration(c)) methodNodes.push(c);
+    });
+
+    return { methodNodes };
   }
 
   async compile() {
@@ -1848,7 +1865,8 @@ export default class Compiler {
       }
     });
 
-    this.getClassChildren();
+    const { methodNodes } = this.getClassChildren();
+    this.preProcessMethods(methodNodes);
 
     this.sourceFile.statements.forEach((body) => {
       if (!ts.isClassDeclaration(body)) return;
