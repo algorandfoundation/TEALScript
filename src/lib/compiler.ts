@@ -1734,6 +1734,7 @@ export default class Compiler {
         experimentalDecorators: true,
         paths: {
           '@algorandfoundation/tealscript': ['./src/lib/index'],
+          polytype: ['./'],
         },
       },
     });
@@ -1750,6 +1751,11 @@ export default class Compiler {
     project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
     project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
     project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
+    project.createSourceFile(
+      'src/polytype.d.ts',
+      readFileSync(path.join(__dirname, '..', 'static', 'polytype.d.ts'), 'utf8')
+    );
+
     Object.values(this.importRegistry).forEach((p) => {
       project.createSourceFile(p, readFileSync(p, 'utf8'));
     });
@@ -2312,8 +2318,7 @@ export default class Compiler {
     }
 
     try {
-      if (ts.isClassDeclaration(node)) this.processClassDeclaration(node);
-      else if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
+      if (ts.isPropertyDeclaration(node)) this.processPropertyDefinition(node);
       else if (ts.isMethodDeclaration(node)) this.processMethodDefinition(node);
       else if (ts.isPropertyAccessExpression(node)) this.processExpressionChain(node);
       else if (ts.isAsExpression(node)) this.processTypeCast(node);
