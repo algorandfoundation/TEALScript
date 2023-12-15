@@ -34,8 +34,8 @@ a:
 	proto 0 0
 
 	// tests/contracts/inheritance.algo.ts:8
-	// this.fooKey.value = 1337
-	byte 0x666f6f // "foo"
+	// this.aKey.value = 1337
+	byte 0x61 // "a"
 	int 1337
 	app_global_put
 	retsub
@@ -52,16 +52,16 @@ b:
 	proto 0 0
 
 	// tests/contracts/inheritance.algo.ts:16
-	// assert(this.fooKey.value === 1337)
-	byte 0x666f6f // "foo"
+	// assert(this.aKey.value === 1337)
+	byte 0x61 // "a"
 	app_global_get
 	int 1337
 	==
 	assert
 
 	// tests/contracts/inheritance.algo.ts:17
-	// this.barKey.value = 42
-	byte 0x626172 // "bar"
+	// this.bKey.value = 42
+	byte 0x62 // "b"
 	int 42
 	app_global_put
 	retsub
@@ -78,16 +78,16 @@ c:
 	proto 0 0
 
 	// tests/contracts/inheritance.algo.ts:23
-	// assert(this.barKey.value === 42)
-	byte 0x626172 // "bar"
+	// assert(this.bKey.value === 42)
+	byte 0x62 // "b"
 	app_global_get
 	int 42
 	==
 	assert
 
 	// tests/contracts/inheritance.algo.ts:24
-	// assert(this.fooKey.value === 1337)
-	byte 0x666f6f // "foo"
+	// assert(this.aKey.value === 1337)
+	byte 0x61 // "a"
 	app_global_get
 	int 1337
 	==

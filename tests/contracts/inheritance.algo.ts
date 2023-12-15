@@ -2,38 +2,40 @@
 import { Contract } from '../../src/lib/index';
 
 export class A extends Contract {
-  fooKey = GlobalStateKey<number>({ key: 'foo' });
+  aKey = GlobalStateKey<number>({ key: 'a' });
 
   a(): void {
-    this.fooKey.value = 1337;
+    this.aKey.value = 1337;
   }
 }
 
 export class B extends A {
-  barKey = GlobalStateKey<number>({ key: 'bar' });
+  bKey = GlobalStateKey<number>({ key: 'b' });
 
   b(): void {
-    assert(this.fooKey.value === 1337);
-    this.barKey.value = 42;
+    assert(this.aKey.value === 1337);
+    this.bKey.value = 42;
   }
 }
 
 export class C extends B {
   c(): void {
-    assert(this.barKey.value === 42);
-    assert(this.fooKey.value === 1337);
+    assert(this.bKey.value === 42);
+    assert(this.aKey.value === 1337);
   }
 }
 
 export class D extends Contract {
-  d(): string {
-    return 'Hello World';
+  dKey = GlobalStateKey<number>({ key: 'd' });
+
+  d(): void {
+    this.dKey.value = 42;
   }
 }
 
 export class AD extends Contract.extend(A, D) {
-  ad(): string {
-    assert(this.fooKey.value === 1337);
-    return this.d();
+  ad(): void {
+    assert(this.aKey.value === 1337);
+    assert(this.dKey.value === 42);
   }
 }

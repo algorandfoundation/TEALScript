@@ -34,8 +34,8 @@ a:
 	proto 0 0
 
 	// tests/contracts/inheritance.algo.ts:8
-	// this.fooKey.value = 1337
-	byte 0x666f6f // "foo"
+	// this.aKey.value = 1337
+	byte 0x61 // "a"
 	int 1337
 	app_global_put
 	retsub
