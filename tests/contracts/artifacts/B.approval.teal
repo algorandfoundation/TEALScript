@@ -22,14 +22,14 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// createApplication()void
-abi_route_createApplication:
-	// execute createApplication()void
-	callsub createApplication
+// a()void
+abi_route_a:
+	// execute a()void
+	callsub a
 	int 1
 	return
 
-createApplication:
+a:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
@@ -40,14 +40,14 @@ createApplication:
 	app_global_put
 	retsub
 
-// assetFooAndSetBar()void
-abi_route_assetFooAndSetBar:
-	// execute assetFooAndSetBar()void
-	callsub assetFooAndSetBar
+// b()void
+abi_route_b:
+	// execute b()void
+	callsub b
 	int 1
 	return
 
-assetFooAndSetBar:
+b:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
@@ -66,6 +66,10 @@ assetFooAndSetBar:
 	app_global_put
 	retsub
 
+abi_route_createApplication:
+	int 1
+	return
+
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
@@ -73,7 +77,8 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "assetFooAndSetBar()void"
+	method "a()void"
+	method "b()void"
 	txna ApplicationArgs 0
-	match abi_route_assetFooAndSetBar
+	match abi_route_a abi_route_b
 	err

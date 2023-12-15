@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-undef */
 /// <reference path="../../types/global.d.ts" />
+import { classes } from 'polytype';
 
 export class PendingGroup {
   /**
@@ -38,6 +39,11 @@ export class PendingGroup {
 }
 
 export default abstract class Contract {
+  /**
+   * Create a contract class that inherits from the given contracts. Inheritance is in order of arguments.
+   */
+  static extend: typeof classes;
+
   static approvalProgram: () => bytes;
 
   static clearProgram: () => bytes;

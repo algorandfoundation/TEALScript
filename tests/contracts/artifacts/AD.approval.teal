@@ -40,58 +40,66 @@ a:
 	app_global_put
 	retsub
 
-// b()void
-abi_route_b:
-	// execute b()void
-	callsub b
+// d()string
+abi_route_d:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute d()string
+	callsub d
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
-b:
+d:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0
+	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:16
-	// assert(this.fooKey.value === 1337)
-	byte 0x666f6f // "foo"
-	app_global_get
-	int 1337
-	==
-	assert
-
-	// tests/contracts/inheritance.algo.ts:17
-	// this.barKey.value = 42
-	byte 0x626172 // "bar"
-	int 42
-	app_global_put
+	// tests/contracts/inheritance.algo.ts:30
+	// return 'Hello World';
+	byte 0x48656c6c6f20576f726c64 // "Hello World"
 	retsub
 
-// c()void
-abi_route_c:
-	// execute c()void
-	callsub c
+// ad()string
+abi_route_ad:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute ad()string
+	callsub ad
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
-c:
+ad:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0
+	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:23
-	// assert(this.barKey.value === 42)
-	byte 0x626172 // "bar"
-	app_global_get
-	int 42
-	==
-	assert
-
-	// tests/contracts/inheritance.algo.ts:24
+	// tests/contracts/inheritance.algo.ts:36
 	// assert(this.fooKey.value === 1337)
 	byte 0x666f6f // "foo"
 	app_global_get
 	int 1337
 	==
 	assert
+
+	// tests/contracts/inheritance.algo.ts:37
+	// return this.d();
+	callsub d
 	retsub
 
 abi_route_createApplication:
@@ -106,8 +114,8 @@ create_NoOp:
 
 call_NoOp:
 	method "a()void"
-	method "b()void"
-	method "c()void"
+	method "d()string"
+	method "ad()string"
 	txna ApplicationArgs 0
-	match abi_route_a abi_route_b abi_route_c
+	match abi_route_a abi_route_d abi_route_ad
 	err

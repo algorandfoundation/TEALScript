@@ -22,22 +22,31 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// a()void
-abi_route_a:
-	// execute a()void
-	callsub a
+// d()string
+abi_route_d:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute d()string
+	callsub d
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
 	int 1
 	return
 
-a:
+d:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0
+	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:8
-	// this.fooKey.value = 1337
-	byte 0x666f6f // "foo"
-	int 1337
-	app_global_put
+	// tests/contracts/inheritance.algo.ts:30
+	// return 'Hello World';
+	byte 0x48656c6c6f20576f726c64 // "Hello World"
 	retsub
 
 abi_route_createApplication:
@@ -51,7 +60,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "a()void"
+	method "d()string"
 	txna ApplicationArgs 0
-	match abi_route_a
+	match abi_route_d
 	err

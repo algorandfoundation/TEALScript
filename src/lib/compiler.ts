@@ -1813,30 +1813,50 @@ export default class Compiler {
 
     if (classNode === undefined) throw Error(`Class ${this.name} not found`);
 
+    if (classNode.heritageClauses === undefined) {
+      throw Error(`Contract ${this.name} must extend Contract, LogicSig, a subclass of either, or .extend() of either`);
+    }
+
+    const options: CompilerOptions = {
+      algodPort: this.algodPort,
+      algodServer: this.algodServer,
+      algodToken: this.algodToken,
+      disableWarnings: this.disableWarnings,
+      disableOverflowChecks: this.disableOverflowChecks,
+      disableTypeScript: this.disableTypeScript,
+    };
+
     const methodNodes: ts.MethodDeclaration[] = [];
     const propertyNodes: ts.PropertyDeclaration[] = [];
 
-    if (classNode.heritageClauses === undefined || !ts.isIdentifier(classNode.heritageClauses[0].types[0].expression)) {
-      throw Error(`Contract ${this.name} must extend Contract, LogicSig, or an existing class`);
-    }
+    const superClassNode = classNode.heritageClauses[0].types[0].expression;
 
-    const superClass = classNode.heritageClauses[0].types[0].expression.text;
+    if (ts.isCallExpression(superClassNode)) {
+      if (!ts.isPropertyAccessExpression(superClassNode.expression)) throw Error();
 
-    if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
-      const superCompiler = new Compiler(this.content, superClass, {
-        filename: this.importRegistry[superClass],
-        algodPort: this.algodPort,
-        algodServer: this.algodServer,
-        algodToken: this.algodToken,
-        disableWarnings: this.disableWarnings,
-        disableOverflowChecks: this.disableOverflowChecks,
-        disableTypeScript: this.disableTypeScript,
+      if ([CONTRACT_CLASS, LSIG_CLASS].includes(superClassNode.expression.name.text)) throw Error();
+
+      superClassNode.arguments.forEach((a) => {
+        const superClass = a.getText();
+
+        const superCompiler = new Compiler(this.content, superClass, options);
+        const superClassNodes = superCompiler.getClassChildren();
+
+        methodNodes.push(...superClassNodes.methodNodes);
+        propertyNodes.push(...superClassNodes.propertyNodes);
       });
+    } else if (ts.isIdentifier(superClassNode)) {
+      const superClass = superClassNode.text;
 
-      const superClassNodes = superCompiler.getClassChildren();
+      if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
+        options.filename = this.importRegistry[superClass];
+        const superCompiler = new Compiler(this.content, superClass, options);
 
-      methodNodes.push(...superClassNodes.methodNodes);
-      propertyNodes.push(...superClassNodes.propertyNodes);
+        const superClassNodes = superCompiler.getClassChildren();
+
+        methodNodes.push(...superClassNodes.methodNodes);
+        propertyNodes.push(...superClassNodes.propertyNodes);
+      }
     }
 
     classNode.forEachChild((c) => {
@@ -1939,17 +1959,21 @@ export default class Compiler {
 
       this.lastNode = body;
 
-      if (body.heritageClauses === undefined || !ts.isIdentifier(body.heritageClauses[0].types[0].expression)) return;
-
-      const superClass = body.heritageClauses[0].types[0].expression.text;
+      const superClass = body.heritageClauses![0].types[0].expression.getText();
       if (
         [CONTRACT_CLASS, LSIG_CLASS].includes(superClass) ||
         this.contractClasses.includes(superClass) ||
-        this.lsigClasses.includes(superClass)
+        this.lsigClasses.includes(superClass) ||
+        superClass.startsWith(`${CONTRACT_CLASS}.extend(`) ||
+        superClass.startsWith(`${LSIG_CLASS}.extend(`)
       ) {
         const className = body.name!.text;
 
-        if (superClass === CONTRACT_CLASS || this.contractClasses.includes(superClass)) {
+        if (
+          superClass === CONTRACT_CLASS ||
+          this.contractClasses.includes(superClass) ||
+          superClass.startsWith(`${CONTRACT_CLASS}.extends`)
+        ) {
           this.contractClasses.push(className);
         } else this.lsigClasses.push(className);
 

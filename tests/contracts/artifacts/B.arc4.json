@@ -3,7 +3,7 @@
   "desc": "",
   "methods": [
     {
-      "name": "createApplication",
+      "name": "a",
       "args": [],
       "desc": "",
       "returns": {
@@ -12,13 +12,22 @@
       }
     },
     {
-      "name": "assetFooAndSetBar",
+      "name": "b",
       "args": [],
       "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
     }
   ]
 }
