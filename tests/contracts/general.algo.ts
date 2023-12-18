@@ -120,6 +120,7 @@ class GeneralTest extends Contract {
 
   staticContractProperties(): void {
     sendAppCall({
+      onCompletion: OnCompletion.NoOp,
       approvalProgram: DummyContract.approvalProgram(),
       clearStateProgram: DummyContract.clearProgram(),
       localNumByteSlice: DummyContract.schema.local.numByteSlice,

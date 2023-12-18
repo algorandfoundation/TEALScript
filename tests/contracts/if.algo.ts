@@ -83,4 +83,16 @@ export class IfTest extends Contract {
     // eslint-disable-next-line no-nested-ternary
     return arg0 ? 1 : arg1 ? 2 : 3;
   }
+
+  stringIf(arg0: string): number {
+    if (arg0) {
+      return 1;
+    }
+
+    return 2;
+  }
+
+  stringTernary(arg0: string): number {
+    return arg0 ? 1 : 2;
+  }
 }

@@ -2133,13 +2133,13 @@ export default class Compiler {
   private processDoStatement(node: ts.DoStatement) {
     this.pushVoid(node, `do_while_${this.doWhileCount}:`);
     this.processNode(node.statement);
-    this.processNode(node.expression);
+    this.processConditional(node.expression);
     this.pushVoid(node, `bnz do_while_${this.doWhileCount}`);
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
     this.pushVoid(node, `while_${this.whileCount}:`);
-    this.processNode(node.expression);
+    this.processConditional(node.expression);
     this.pushVoid(node, `bz while_${this.whileCount}_end`);
 
     this.processNode(node.statement);
@@ -2153,7 +2153,7 @@ export default class Compiler {
     this.processNode(node.initializer!);
 
     this.pushVoid(node, `for_${this.forCount}:`);
-    this.processNode(node.condition!);
+    this.processConditional(node.condition!);
     this.pushVoid(node, `bz for_${this.forCount}_end`);
 
     this.processNode(node.statement);
@@ -2272,7 +2272,7 @@ export default class Compiler {
     const tc = this.ternaryCount;
     this.ternaryCount += 1;
 
-    this.processNode(node.condition);
+    this.processConditional(node.condition);
     this.pushVoid(node, `bz ternary${tc}_false`);
     this.processNode(node.whenTrue);
     this.pushVoid(node, `b ternary${tc}_end`);
@@ -4103,6 +4103,15 @@ export default class Compiler {
     return ['string', 'bytes'].includes(type) || (type.endsWith('[]') && !this.isDynamicType(baseType));
   }
 
+  private processConditional(node: ts.Node) {
+    this.addSourceComment(node);
+    this.processNode(node);
+
+    if (!isNumeric(this.lastType) && this.lastType !== 'bool') {
+      this.pushLines(node, 'byte 0x', 'b!=');
+    }
+  }
+
   private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
     let labelPrefix: string;
 
@@ -4117,8 +4126,7 @@ export default class Compiler {
       this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
-    this.addSourceComment(node.expression);
-    this.processNode(node.expression);
+    this.processConditional(node.expression);
 
     if (node.elseStatement == null) {
       this.pushVoid(node, `bz if${ifCount}_end`);
@@ -5245,9 +5253,12 @@ export default class Compiler {
       this.pushComments(p);
 
       if (key === 'onCompletion') {
-        if (!ts.isPropertyAssignment(p) || !ts.isStringLiteral(p.initializer))
-          throw new Error('OnCompletion key must be a string');
-        this.pushVoid(p.initializer, `int ${p.initializer.text}`);
+        if (!ts.isPropertyAssignment(p) || !ts.isPropertyAccessExpression(p.initializer)) {
+          throw new Error('Must use OnCompletion enum');
+        }
+
+        const oc = p.initializer.name.getText() as OnComplete;
+        this.pushVoid(p.initializer, `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
         if (typeArgs === undefined || !ts.isTupleTypeNode(typeArgs[0]))
