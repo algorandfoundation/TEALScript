@@ -564,6 +564,7 @@ staticContractProperties:
 
 	// tests/contracts/general.algo.ts:122
 	// sendAppCall({
+	//       onCompletion: OnCompletion.NoOp,
 	//       approvalProgram: DummyContract.approvalProgram(),
 	//       clearStateProgram: DummyContract.clearProgram(),
 	//       localNumByteSlice: DummyContract.schema.local.numByteSlice,
@@ -576,31 +577,36 @@ staticContractProperties:
 	itxn_field TypeEnum
 
 	// tests/contracts/general.algo.ts:123
+	// onCompletion: OnCompletion.NoOp
+	int 0 // NoOp
+	itxn_field OnCompletion
+
+	// tests/contracts/general.algo.ts:124
 	// approvalProgram: DummyContract.approvalProgram()
 	byte b64 CTEYgQANgQYLMRkIjQEABACBAUOABLhEezY2GgCOAf/wAA==
 	itxn_field ApprovalProgram
 
-	// tests/contracts/general.algo.ts:124
+	// tests/contracts/general.algo.ts:125
 	// clearStateProgram: DummyContract.clearProgram()
 	byte b64 CQ==
 	itxn_field ClearStateProgram
 
-	// tests/contracts/general.algo.ts:125
+	// tests/contracts/general.algo.ts:126
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
 	int 0
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/general.algo.ts:126
+	// tests/contracts/general.algo.ts:127
 	// localNumUint: DummyContract.schema.local.numUint
 	int 0
 	itxn_field LocalNumUint
 
-	// tests/contracts/general.algo.ts:127
+	// tests/contracts/general.algo.ts:128
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
 	int 0
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/general.algo.ts:128
+	// tests/contracts/general.algo.ts:129
 	// globalNumUint: DummyContract.schema.global.numUint
 	int 0
 	itxn_field GlobalNumUint
@@ -624,17 +630,17 @@ numberToString:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0; byte 0x; dupn 1
 
-	// tests/contracts/general.algo.ts:133
+	// tests/contracts/general.algo.ts:134
 	// n = 1
 	int 1
 	frame_bury 0 // n: uint64
 
-	// tests/contracts/general.algo.ts:134
+	// tests/contracts/general.algo.ts:135
 	// s = '1'
 	byte 0x31 // "1"
 	frame_bury 1 // s: bytes
 
-	// tests/contracts/general.algo.ts:135
+	// tests/contracts/general.algo.ts:136
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
@@ -654,7 +660,7 @@ methodOnParens:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:139
+	// tests/contracts/general.algo.ts:140
 	// assert((1 + 2).toString() === '3')
 	int 3
 	callsub itoa
@@ -674,12 +680,12 @@ stringSubstring:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0; byte 0x
 
-	// tests/contracts/general.algo.ts:143
+	// tests/contracts/general.algo.ts:144
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
 	frame_bury 0 // s: bytes
 
-	// tests/contracts/general.algo.ts:144
+	// tests/contracts/general.algo.ts:145
 	// assert(s.substring(1, 3) === 'bc')
 	byte 0x6263
 	byte 0x6263 // "bc"
@@ -698,24 +704,24 @@ idProperty:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0; byte 0x; dupn 1
 
-	// tests/contracts/general.algo.ts:148
+	// tests/contracts/general.algo.ts:149
 	// app = Application.zeroIndex
 	int 0
 	frame_bury 0 // app: application
 
-	// tests/contracts/general.algo.ts:149
+	// tests/contracts/general.algo.ts:150
 	// assert(Application.fromID(app.id) === app)
 	int 0 // app: application
 	int 0 // app: application
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:151
+	// tests/contracts/general.algo.ts:152
 	// asa = Asset.zeroIndex
 	int 0
 	frame_bury 1 // asa: asset
 
-	// tests/contracts/general.algo.ts:152
+	// tests/contracts/general.algo.ts:153
 	// assert(Asset.fromID(asa.id) === asa)
 	int 0 // asa: asset
 	int 0 // asa: asset
@@ -734,12 +740,12 @@ scratchSlot:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:156
+	// tests/contracts/general.algo.ts:157
 	// this.scratch.value = 1337
 	int 1337
 	store 0
 
-	// tests/contracts/general.algo.ts:157
+	// tests/contracts/general.algo.ts:158
 	// assert(this.scratch.value === 1337)
 	load 0
 	int 1337
@@ -763,7 +769,7 @@ ecdsa:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:161
+	// tests/contracts/general.algo.ts:162
 	// ecdsa_verify('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3, 4)
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	byte 0x01
@@ -772,7 +778,7 @@ ecdsa:
 	byte 0x04
 	ecdsa_verify Secp256k1
 
-	// tests/contracts/general.algo.ts:162
+	// tests/contracts/general.algo.ts:163
 	// ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
@@ -784,7 +790,7 @@ ecdsa:
 	swap
 	concat
 
-	// tests/contracts/general.algo.ts:163
+	// tests/contracts/general.algo.ts:164
 	// return ecdsa_pk_recover('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3);
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	int 1
@@ -811,7 +817,7 @@ verifyTxnTypes:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:167
+	// tests/contracts/general.algo.ts:168
 	// verifyPayTxn(this.txnGroup[0], {
 	//       amount: { greaterThan: 0 },
 	//     })
@@ -829,7 +835,7 @@ verifyTxnTypes:
 	>
 	assert
 
-	// tests/contracts/general.algo.ts:171
+	// tests/contracts/general.algo.ts:172
 	// verifyAppCallTxn(this.txnGroup[0], {
 	//       applicationID: Application.fromID(0),
 	//     })
@@ -847,7 +853,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:175
+	// tests/contracts/general.algo.ts:176
 	// verifyAssetTransferTxn(this.txnGroup[0], {
 	//       assetReceiver: this.app.address,
 	//     })
@@ -865,7 +871,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:179
+	// tests/contracts/general.algo.ts:180
 	// verifyAssetConfigTxn(this.txnGroup[0], {
 	//       configAsset: Asset.fromID(0),
 	//     })
@@ -883,7 +889,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:183
+	// tests/contracts/general.algo.ts:184
 	// verifyKeyRegTxn(this.txnGroup[0], {
 	//       voteFirst: 1337,
 	//     })
@@ -913,19 +919,19 @@ stringPlusEquals:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0; byte 0x
 
-	// tests/contracts/general.algo.ts:189
+	// tests/contracts/general.algo.ts:190
 	// s = 'foo'
 	byte 0x666f6f // "foo"
 	frame_bury 0 // s: bytes
 
-	// tests/contracts/general.algo.ts:190
+	// tests/contracts/general.algo.ts:191
 	// s += 'bar'
 	frame_dig 0 // s: bytes
 	byte 0x626172 // "bar"
 	concat
 	frame_bury 0 // s: bytes
 
-	// tests/contracts/general.algo.ts:191
+	// tests/contracts/general.algo.ts:192
 	// assert(s === 'foobar')
 	frame_dig 0 // s: bytes
 	byte 0x666f6f626172 // "foobar"
@@ -955,7 +961,7 @@ importedProgram:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:195
+	// tests/contracts/general.algo.ts:196
 	// return IfTest.approvalProgram();
 	byte b64 CSADAQACJggEFR98dQJpZgRlbHNlA2VuZAdlbHNlIGlmCWVsc2UgaWYgMQllbHNlIGlmIDIAMRgjDYEGCzEZCI0HAlMAAAAAAAAAAAAAAmEAKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EAAimJK4koNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oBAYv/QQAFKYlCAAIqiYkoNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAgGL/0EABSmJQgAIi/5BAAMnBIkriSg2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oCAYv/QQAFKYlCAA2L/kEABicEiUIAAiqJiSg2GgNJFSISRCNTNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAwGL/0EABSmJQgATi/5BAAYnBYlCAAiL/UEAAycGiSuJKDYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oDAYv/QQAFKYlCABiL/kEABicFiUIADYv9QQAGJwaJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigIBi/9BABaL/kEADIAJbmVzdGVkIGlmiSmJQgACKomJKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EABSmJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAFFlCwIkOKAgGL/0EABCJCAAuL/kEABCRCAAKBA4koNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEAAiKJJIkoNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEABCJCAAEkiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHiABHS8yGiABEIS+QU2GgCOC/1D/Wn9k/3O/g3+Xf6x/vb/IP9V/3MA
 	retsub
@@ -971,7 +977,7 @@ callPrivateDefinedLater:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:199
+	// tests/contracts/general.algo.ts:200
 	// log(this.privateMethod('hello'))
 	byte 0x68656c6c6f // "hello"
 	callsub privateMethod
@@ -982,7 +988,7 @@ privateMethod:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
-	// tests/contracts/general.algo.ts:203
+	// tests/contracts/general.algo.ts:204
 	// return msg;
 	frame_dig -1 // msg: string
 	retsub
@@ -1012,7 +1018,7 @@ interalPublicMethod:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
-	// tests/contracts/general.algo.ts:207
+	// tests/contracts/general.algo.ts:208
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -1030,7 +1036,7 @@ callInternalPublicMethod:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:211
+	// tests/contracts/general.algo.ts:212
 	// assert(this.interalPublicMethod(1, 2) === 3)
 	int 2
 	int 1
