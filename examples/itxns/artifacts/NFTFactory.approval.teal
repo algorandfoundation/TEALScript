@@ -44,7 +44,6 @@ abi_route_createNFT:
 	return
 
 createNFT:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/itxns/itxns.algo.ts:6
@@ -99,7 +98,6 @@ abi_route_transferNFT:
 	return
 
 transferNFT:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/itxns/itxns.algo.ts:14

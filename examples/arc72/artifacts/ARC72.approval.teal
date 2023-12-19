@@ -49,7 +49,6 @@ abi_route_arc72_ownerOf:
 	return
 
 arc72_ownerOf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:25
@@ -87,7 +86,6 @@ abi_route_arc72_tokenURI:
 	return
 
 arc72_tokenURI:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:37
@@ -101,7 +99,6 @@ arc72_tokenURI:
 	retsub
 
 transferTo:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc72/arc72.algo.ts:41
@@ -146,8 +143,11 @@ abi_route_arc72_transferFrom:
 	return
 
 arc72_transferFrom:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 0; byte 0x; dupn 1
+	proto 3 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// examples/arc72/arc72.algo.ts:48
 	// token = this.tokenBox(tokenId).value
@@ -235,7 +235,6 @@ abi_route_arc72_approve:
 	return
 
 arc72_approve:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc72/arc72.algo.ts:65
@@ -279,8 +278,10 @@ abi_route_arc72_setApprovalForAll:
 	return
 
 arc72_setApprovalForAll:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 0; byte 0x
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/arc72/arc72.algo.ts:77
 	// key: Control = { owner: this.txn.sender, controller: operator }
@@ -340,8 +341,11 @@ abi_route_mint:
 	return
 
 mint:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 1 0; byte 0x; dupn 1
+	proto 1 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// examples/arc72/arc72.algo.ts:84
 	// index = this.index.value
@@ -412,7 +416,6 @@ abi_route_arc72_totalSupply:
 	return
 
 arc72_totalSupply:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// examples/arc72/arc72.algo.ts:102
@@ -444,7 +447,6 @@ abi_route_arc72_tokenByIndex:
 	return
 
 arc72_tokenByIndex:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// examples/arc72/arc72.algo.ts:110

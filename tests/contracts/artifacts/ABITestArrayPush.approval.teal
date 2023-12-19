@@ -43,8 +43,10 @@ abi_route_arrayPush:
 	return
 
 arrayPush:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:429
 	// a: uint<16>[] = [1, 2]

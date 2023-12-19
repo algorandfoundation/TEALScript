@@ -30,7 +30,6 @@ abi_route_payment:
 	return
 
 payment:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:6
@@ -98,7 +97,6 @@ abi_route_assetCreation:
 	return
 
 assetCreation:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:17
@@ -185,7 +183,6 @@ abi_route_appCall:
 	return
 
 appCall:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:32
@@ -285,7 +282,6 @@ abi_route_assetConfig:
 	return
 
 assetConfig:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:49
@@ -341,7 +337,6 @@ abi_route_assetFreeze:
 	return
 
 assetFreeze:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:59
@@ -385,7 +380,6 @@ abi_route_assetTransfer:
 	return
 
 assetTransfer:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:67
@@ -447,7 +441,6 @@ abi_route_methodCall:
 	return
 
 methodCall:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:77
@@ -494,7 +487,6 @@ abi_route_onlineKeyRegistration:
 	return
 
 onlineKeyRegistration:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:84
@@ -556,7 +548,6 @@ abi_route_offlineKeyRegistration:
 	return
 
 offlineKeyRegistration:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:95

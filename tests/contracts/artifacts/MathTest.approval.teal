@@ -44,7 +44,6 @@ abi_route_u64plus:
 	return
 
 u64plus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:8
@@ -76,7 +75,6 @@ abi_route_u64minus:
 	return
 
 u64minus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:12
@@ -108,7 +106,6 @@ abi_route_u64mul:
 	return
 
 u64mul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:16
@@ -140,7 +137,6 @@ abi_route_u64div:
 	return
 
 u64div:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:20
@@ -179,7 +175,6 @@ abi_route_u256plus:
 	return
 
 u256plus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:24
@@ -232,7 +227,6 @@ abi_route_u256minus:
 	return
 
 u256minus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:28
@@ -285,7 +279,6 @@ abi_route_u256mul:
 	return
 
 u256mul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:32
@@ -338,7 +331,6 @@ abi_route_u256div:
 	return
 
 u256div:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:36
@@ -383,7 +375,6 @@ abi_route_u64Return256:
 	return
 
 u64Return256:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:40
@@ -415,7 +406,6 @@ abi_route_maxU64:
 	return
 
 maxU64:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/math.algo.ts:45
@@ -445,7 +435,6 @@ abi_route_exponent:
 	return
 
 exponent:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:49
@@ -484,8 +473,10 @@ abi_route_variableTypeHint:
 	return
 
 variableTypeHint:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 1; byte 0x
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/math.algo.ts:53
 	// z = <uint<16>>(x + y)
@@ -548,7 +539,6 @@ abi_route_uint8plus:
 	return
 
 uint8plus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:59
@@ -604,7 +594,6 @@ abi_route_uint8exp:
 	return
 
 uint8exp:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:63
@@ -653,8 +642,10 @@ abi_route_plusEquals:
 	return
 
 plusEquals:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 1; byte 0x
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/math.algo.ts:67
 	// x = a
@@ -698,7 +689,6 @@ abi_route_plusEqualsFromGlobal:
 	return
 
 plusEqualsFromGlobal:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:75
@@ -736,8 +726,11 @@ abi_route_ufixedLiteralMul:
 	return
 
 ufixedLiteralMul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 2
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// tests/contracts/math.algo.ts:83
 	// a: ufixed<64, 2> = 12.34
@@ -816,7 +809,6 @@ abi_route_ufixedMul:
 	return
 
 ufixedMul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:91
@@ -876,7 +868,6 @@ abi_route_BigUfixedMul:
 	return
 
 BigUfixedMul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:95
@@ -939,8 +930,11 @@ abi_route_TripleBigUfixedMul:
 	return
 
 TripleBigUfixedMul:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 1; byte 0x; dupn 1
+	proto 3 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// tests/contracts/math.algo.ts:99
 	// ab = a * b

@@ -95,7 +95,6 @@ abi_route_txnTypes:
 	return
 
 txnTypes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 7 0
 
 	// tests/contracts/abi.algo.ts:726

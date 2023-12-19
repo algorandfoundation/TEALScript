@@ -30,13 +30,12 @@ abi_route_prefix:
 	return
 
 prefix:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:24
 	// this.boxMapWithPrefix('oo').value = 'bar'
 	byte 0x666f6f
-	byte 0x666f6f
+	dup
 	box_del
 	pop
 	byte 0x626172 // "bar"
@@ -64,7 +63,6 @@ abi_route_globalKeyPut:
 	return
 
 globalKeyPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:30
@@ -82,7 +80,6 @@ abi_route_globalKeyGet:
 	return
 
 globalKeyGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:34
@@ -102,7 +99,6 @@ abi_route_globalKeyDelete:
 	return
 
 globalKeyDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:38
@@ -119,7 +115,6 @@ abi_route_globalKeyExists:
 	return
 
 globalKeyExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:42
@@ -145,7 +140,6 @@ abi_route_localKeyPut:
 	return
 
 localKeyPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:46
@@ -169,7 +163,6 @@ abi_route_localKeyGet:
 	return
 
 localKeyGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:50
@@ -195,7 +188,6 @@ abi_route_localKeyDelete:
 	return
 
 localKeyDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:54
@@ -218,7 +210,6 @@ abi_route_localKeyExists:
 	return
 
 localKeyExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:58
@@ -240,7 +231,6 @@ abi_route_boxKeyPut:
 	return
 
 boxKeyPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:62
@@ -258,7 +248,6 @@ abi_route_boxKeyGet:
 	return
 
 boxKeyGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:66
@@ -279,7 +268,6 @@ abi_route_boxKeyDelete:
 	return
 
 boxKeyDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:70
@@ -296,7 +284,6 @@ abi_route_boxKeyExists:
 	return
 
 boxKeyExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:74
@@ -316,7 +303,6 @@ abi_route_globalMapPut:
 	return
 
 globalMapPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:78
@@ -334,7 +320,6 @@ abi_route_globalMapGet:
 	return
 
 globalMapGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:82
@@ -354,7 +339,6 @@ abi_route_globalMapDelete:
 	return
 
 globalMapDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:86
@@ -371,7 +355,6 @@ abi_route_globalMapExists:
 	return
 
 globalMapExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:90
@@ -397,7 +380,6 @@ abi_route_localMapPut:
 	return
 
 localMapPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:94
@@ -421,7 +403,6 @@ abi_route_localMapGet:
 	return
 
 localMapGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:98
@@ -447,7 +428,6 @@ abi_route_localMapDelete:
 	return
 
 localMapDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:102
@@ -470,7 +450,6 @@ abi_route_localMapExists:
 	return
 
 localMapExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/storage.algo.ts:106
@@ -492,7 +471,6 @@ abi_route_boxMapPut:
 	return
 
 boxMapPut:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:110
@@ -510,7 +488,6 @@ abi_route_boxMapGet:
 	return
 
 boxMapGet:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:114
@@ -531,7 +508,6 @@ abi_route_boxMapDelete:
 	return
 
 boxMapDelete:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:118
@@ -548,7 +524,6 @@ abi_route_boxMapExists:
 	return
 
 boxMapExists:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:122
@@ -568,7 +543,6 @@ abi_route_boxKeyCreate:
 	return
 
 boxKeyCreate:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:126
@@ -586,7 +560,6 @@ abi_route_boxMapCreate:
 	return
 
 boxMapCreate:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:130
@@ -610,7 +583,6 @@ abi_route_boxKeyLength:
 	return
 
 boxKeyLength:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:134
@@ -634,7 +606,6 @@ abi_route_boxMapLength:
 	return
 
 boxMapLength:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:138
@@ -652,7 +623,6 @@ abi_route_boxKeyReplace:
 	return
 
 boxKeyReplace:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:142
@@ -671,7 +641,6 @@ abi_route_boxMapReplace:
 	return
 
 boxMapReplace:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:146
@@ -701,7 +670,6 @@ abi_route_boxKeyExtract:
 	return
 
 boxKeyExtract:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:150
@@ -731,7 +699,6 @@ abi_route_boxMapExtract:
 	return
 
 boxMapExtract:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:154
@@ -759,7 +726,6 @@ abi_route_isOptedIn:
 	return
 
 isOptedIn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:158
@@ -777,7 +743,6 @@ abi_route_exGlobal:
 	return
 
 exGlobal:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:162
@@ -797,7 +762,6 @@ abi_route_exLocal:
 	return
 
 exLocal:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:166

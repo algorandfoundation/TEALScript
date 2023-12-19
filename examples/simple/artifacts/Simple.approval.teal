@@ -23,13 +23,12 @@ NOT_IMPLEMENTED:
 	err
 
 incrementCounter:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:7
 	// this.counter.value = this.counter.value + i
 	byte 0x636f756e746572 // "counter"
-	byte 0x636f756e746572 // "counter"
+	dup
 	app_global_get
 	frame_dig -1 // i: uint64
 	+
@@ -48,7 +47,6 @@ abi_route_incr:
 	return
 
 incr:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:11
@@ -69,13 +67,12 @@ abi_route_decr:
 	return
 
 decr:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:15
 	// this.counter.value = this.counter.value - i
 	byte 0x636f756e746572 // "counter"
-	byte 0x636f756e746572 // "counter"
+	dup
 	app_global_get
 	frame_dig -1 // i: uint64
 	-
@@ -111,7 +108,6 @@ abi_route_add:
 	return
 
 add:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/simple/simple.algo.ts:19
@@ -164,7 +160,6 @@ abi_route_sub:
 	return
 
 sub:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/simple/simple.algo.ts:23

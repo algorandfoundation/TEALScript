@@ -36,8 +36,11 @@ abi_route_nonLiteralStaticArrayElements:
 	return
 
 nonLiteralStaticArrayElements:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x; dupn 3
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 4
 
 	// tests/contracts/abi.algo.ts:33
 	// n1 = 11

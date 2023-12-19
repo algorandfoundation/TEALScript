@@ -39,8 +39,10 @@ abi_route_boolTupleAccess:
 	return
 
 boolTupleAccess:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:914
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
@@ -56,7 +58,7 @@ boolTupleAccess:
 	//     ]
 	byte 0x0000
 	int 0
-	int 0
+	dup
 	setbit
 	int 1
 	int 0

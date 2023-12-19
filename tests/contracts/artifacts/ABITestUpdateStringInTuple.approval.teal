@@ -35,8 +35,10 @@ abi_route_updateStringInTuple:
 	return
 
 updateStringInTuple:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:560
 	// a: [uint<8>, uint<16>[], string, uint<16>[], uint<8>[]] = [9, [8], 'Hi?', [6], [5]]
@@ -94,7 +96,7 @@ updateStringInTuple:
 	load 254 // element start
 	substring3
 	byte 0x0002000a000b
-	byte 0x0002000a000b
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -152,7 +154,7 @@ updateStringInTuple:
 	load 254 // element start
 	substring3
 	byte 0x000c48656c6c6f20576f726c6421
-	byte 0x000c48656c6c6f20576f726c6421
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -205,7 +207,7 @@ updateStringInTuple:
 	load 254 // element start
 	substring3
 	byte 0x0002000e000f
-	byte 0x0002000e000f
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -253,7 +255,7 @@ updateStringInTuple:
 	load 254 // element start
 	substring3
 	byte 0x00021011
-	byte 0x00021011
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start

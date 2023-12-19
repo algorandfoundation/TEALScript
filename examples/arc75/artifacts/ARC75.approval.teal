@@ -23,7 +23,6 @@ NOT_IMPLEMENTED:
 	err
 
 verifyMBRPayment:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/arc75/arc75.algo.ts:10
@@ -51,7 +50,6 @@ verifyMBRPayment:
 	retsub
 
 sendMBRPayment:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/arc75/arc75.algo.ts:17
@@ -126,8 +124,11 @@ abi_route_addAppToWhiteList:
 	return
 
 addAppToWhiteList:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 2
+	proto 4 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// examples/arc75/arc75.algo.ts:33
 	// preMBR = this.app.address.minBalance
@@ -254,8 +255,11 @@ abi_route_setAppWhitelist:
 	return
 
 setAppWhitelist:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 0; byte 0x; dupn 1
+	proto 3 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// examples/arc75/arc75.algo.ts:55
 	// preMBR = this.app.address.minBalance
@@ -361,8 +365,11 @@ abi_route_deleteWhitelist:
 	return
 
 deleteWhitelist:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 0; byte 0x; dupn 1
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// examples/arc75/arc75.algo.ts:77
 	// preMBR = this.app.address.minBalance
@@ -437,8 +444,11 @@ abi_route_deleteAppFromWhitelist:
 	return
 
 deleteAppFromWhitelist:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 2
+	proto 4 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// examples/arc75/arc75.algo.ts:94
 	// preMBR = this.app.address.minBalance

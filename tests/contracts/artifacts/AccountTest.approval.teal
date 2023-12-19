@@ -35,7 +35,6 @@ abi_route_hasAsset:
 	return
 
 hasAsset:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:6
@@ -61,7 +60,6 @@ abi_route_assetBalance:
 	return
 
 assetBalance:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:10
@@ -86,7 +84,6 @@ abi_route_assetFrozen:
 	return
 
 assetFrozen:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:14
@@ -111,7 +108,6 @@ abi_route_hasBalance:
 	return
 
 hasBalance:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:18
@@ -136,7 +132,6 @@ abi_route_balance:
 	return
 
 balance:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:22
@@ -160,7 +155,6 @@ abi_route_minBalance:
 	return
 
 minBalance:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:26
@@ -184,7 +178,6 @@ abi_route_authAddr:
 	return
 
 authAddr:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:30
@@ -208,7 +201,6 @@ abi_route_totalNumUint:
 	return
 
 totalNumUint:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:34
@@ -232,7 +224,6 @@ abi_route_totalNumByteSlice:
 	return
 
 totalNumByteSlice:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:38
@@ -256,7 +247,6 @@ abi_route_totalExtraAppPages:
 	return
 
 totalExtraAppPages:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:42
@@ -280,7 +270,6 @@ abi_route_totalAppsCreated:
 	return
 
 totalAppsCreated:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:46
@@ -304,7 +293,6 @@ abi_route_totalAppsOptedIn:
 	return
 
 totalAppsOptedIn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:50
@@ -328,7 +316,6 @@ abi_route_totalAssetsCreated:
 	return
 
 totalAssetsCreated:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:54
@@ -352,7 +339,6 @@ abi_route_totalAssets:
 	return
 
 totalAssets:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:58
@@ -376,7 +362,6 @@ abi_route_totalBoxes:
 	return
 
 totalBoxes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:62
@@ -400,7 +385,6 @@ abi_route_totalBoxBytes:
 	return
 
 totalBoxBytes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:66

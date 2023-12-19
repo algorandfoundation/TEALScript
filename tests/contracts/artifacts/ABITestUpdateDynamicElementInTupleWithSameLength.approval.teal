@@ -35,8 +35,10 @@ abi_route_updateDynamicElementInTupleWithSameLength:
 	return
 
 updateDynamicElementInTupleWithSameLength:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:700
 	// a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>] = [1, [2, 3, 4], 5, [6, 7, 8], 9]
@@ -84,7 +86,7 @@ updateDynamicElementInTupleWithSameLength:
 	load 254 // element start
 	substring3
 	byte 0x00030a0b0c
-	byte 0x00030a0b0c
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
