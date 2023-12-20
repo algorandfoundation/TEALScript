@@ -23,7 +23,6 @@ NOT_IMPLEMENTED:
 	err
 
 getSum:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:13
@@ -34,7 +33,6 @@ getSum:
 	retsub
 
 getDifference:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/calculator/calculator.algo.ts:24
@@ -90,8 +88,10 @@ abi_route_doMath:
 	return
 
 doMath:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 1; byte 0x
+	proto 3 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// if0_condition
 	// examples/calculator/calculator.algo.ts:39

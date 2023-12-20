@@ -51,7 +51,6 @@ abi_route_singleIf:
 	return
 
 singleIf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// if0_condition
@@ -101,7 +100,6 @@ abi_route_ifElse:
 	return
 
 ifElse:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// if1_condition
@@ -165,7 +163,6 @@ abi_route_ifElseIf:
 	return
 
 ifElseIf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// if2_condition
@@ -238,7 +235,6 @@ abi_route_ifElseIfElse:
 	return
 
 ifElseIfElse:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// if3_condition
@@ -325,7 +321,6 @@ abi_route_ifElseIfElseIf:
 	return
 
 ifElseIfElseIf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1
 
 	// if4_condition
@@ -421,7 +416,6 @@ abi_route_ifElseIfElseIfElse:
 	return
 
 ifElseIfElseIfElse:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1
 
 	// if5_condition
@@ -511,7 +505,6 @@ abi_route_nestedIf:
 	return
 
 nestedIf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// if6_condition
@@ -578,7 +571,6 @@ abi_route_bracketlessIfElse:
 	return
 
 bracketlessIfElse:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// if8_condition
@@ -637,7 +629,6 @@ abi_route_nestedTernary:
 	return
 
 nestedTernary:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/if.algo.ts:84
@@ -679,7 +670,6 @@ abi_route_stringIf:
 	return
 
 stringIf:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// if9_condition
@@ -720,7 +710,6 @@ abi_route_stringTernary:
 	return
 
 stringTernary:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// tests/contracts/if.algo.ts:96

@@ -38,8 +38,10 @@ abi_route_setMyContact:
 	return
 
 setMyContact:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 0; byte 0x
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/tuple_in_box/app.algo.ts:12
 	// contact: Contact = { name: name, company: company }
@@ -106,8 +108,10 @@ abi_route_addContact:
 	return
 
 addContact:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 0; byte 0x
+	proto 3 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/tuple_in_box/app.algo.ts:19
 	// contact: Contact = { name: name, company: company }
@@ -168,7 +172,6 @@ abi_route_updateContactField:
 	return
 
 updateContactField:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// if0_condition
@@ -334,7 +337,6 @@ abi_route_verifyContactName:
 	return
 
 verifyContactName:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/tuple_in_box/app.algo.ts:32

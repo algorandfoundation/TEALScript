@@ -35,8 +35,10 @@ abi_route_updateTupleWithOnlyDynamicTypes:
 	return
 
 updateTupleWithOnlyDynamicTypes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:574
 	// a: [uint<16>[], uint<16>[], uint<16>[]] = [[1], [2], [3]]
@@ -80,7 +82,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 254 // element start
 	substring3
 	byte 0x000200040005
-	byte 0x000200040005
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -133,7 +135,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 254 // element start
 	substring3
 	byte 0x000200060007
-	byte 0x000200060007
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -181,7 +183,7 @@ updateTupleWithOnlyDynamicTypes:
 	load 254 // element start
 	substring3
 	byte 0x000200080009
-	byte 0x000200080009
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start

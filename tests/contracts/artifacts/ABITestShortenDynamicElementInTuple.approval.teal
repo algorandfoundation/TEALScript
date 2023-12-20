@@ -35,8 +35,10 @@ abi_route_shortenDynamicElementInTuple:
 	return
 
 shortenDynamicElementInTuple:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 1; byte 0x
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/abi.algo.ts:586
 	// a: [uint<16>[], uint<16>[], uint<16>[]] = [
@@ -84,7 +86,7 @@ shortenDynamicElementInTuple:
 	load 254 // element start
 	substring3
 	byte 0x00010005
-	byte 0x00010005
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -137,7 +139,7 @@ shortenDynamicElementInTuple:
 	load 254 // element start
 	substring3
 	byte 0x00010006
-	byte 0x00010006
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start
@@ -185,7 +187,7 @@ shortenDynamicElementInTuple:
 	load 254 // element start
 	substring3
 	byte 0x00010007
-	byte 0x00010007
+	dup
 	store 252 // new element
 	load 255 // full array
 	load 254 // element start

@@ -293,6 +293,36 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
 
   return outputTeal;
 }
+/** optimizeOpcodes will undo dup opcodes and do multiple pushes of the literal value. This function takes multiple literals and replaces it with the dup/dupn opcode */
+function deDupTeal(inputTeal: NodeAndTEAL[]) {
+  const newTeal: NodeAndTEAL[] = [];
+  const oldTeal: NodeAndTEAL[] = inputTeal.slice();
+
+  let currentNodeAndTEAL: NodeAndTEAL | undefined;
+  let count = 0;
+
+  oldTeal.forEach((t) => {
+    const { teal } = t;
+
+    if (currentNodeAndTEAL && teal !== currentNodeAndTEAL.teal) {
+      newTeal.push({ node: currentNodeAndTEAL.node, teal: currentNodeAndTEAL.teal });
+      if (count === 2) newTeal.push({ node: currentNodeAndTEAL.node, teal: 'dup' });
+      else if (count > 2) newTeal.push({ node: currentNodeAndTEAL.node, teal: `dupn ${count}` });
+
+      count = 1;
+      currentNodeAndTEAL = undefined;
+    } else if (currentNodeAndTEAL) {
+      count += 1;
+      return;
+    }
+
+    if (teal.match('^(byte|int) ')) {
+      currentNodeAndTEAL = t;
+    } else newTeal.push(t);
+  });
+
+  return newTeal;
+}
 
 export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
   let newTeal: NodeAndTEAL[] = inputTeal.slice();
@@ -304,5 +334,5 @@ export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
     newTeal = optimizeFrames(newTeal);
   } while (JSON.stringify(newTeal.map((t) => t.teal)) !== JSON.stringify(oldTeal.map((t) => t.teal)));
 
-  return newTeal;
+  return deDupTeal(newTeal);
 }

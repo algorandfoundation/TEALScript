@@ -30,7 +30,6 @@ abi_route_createApplication:
 	return
 
 createApplication:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/auction/auction.algo.ts:18
@@ -77,7 +76,6 @@ abi_route_optIntoAsset:
 	return
 
 optIntoAsset:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// Only allow app creator to opt the app account into a ASA
@@ -165,7 +163,6 @@ abi_route_startAuction:
 	return
 
 startAuction:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// examples/auction/auction.algo.ts:46
@@ -219,7 +216,6 @@ startAuction:
 	retsub
 
 pay:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// examples/auction/auction.algo.ts:61
@@ -257,7 +253,6 @@ abi_route_optInToApplication:
 	return
 
 optInToApplication:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 	retsub
 
@@ -281,7 +276,6 @@ abi_route_bid:
 	return
 
 bid:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// Ensure auction hasn't ended
@@ -347,8 +341,11 @@ abi_route_claimBids:
 	return
 
 claimBids:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x; dupn 1
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// examples/auction/auction.algo.ts:89
 	// originalAmount = this.claimableAmount(this.txn.sender).value
@@ -411,7 +408,6 @@ abi_route_claim_asset:
 	return
 
 claim_asset:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/auction/auction.algo.ts:100
@@ -473,7 +469,6 @@ abi_route_deleteApplication:
 	return
 
 deleteApplication:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/auction/auction.algo.ts:112

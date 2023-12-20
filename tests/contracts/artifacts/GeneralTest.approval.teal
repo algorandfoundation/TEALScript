@@ -30,7 +30,6 @@ abi_route_txnTypeEnum:
 	return
 
 txnTypeEnum:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:28
@@ -50,7 +49,6 @@ abi_route_txnGroupLength:
 	return
 
 txnGroupLength:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:32
@@ -89,7 +87,6 @@ abi_route_asserts:
 	return
 
 asserts:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 0
 
 	// tests/contracts/general.algo.ts:36
@@ -122,7 +119,6 @@ abi_route_verifyTxnFromArg:
 	return
 
 verifyTxnFromArg:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// tests/contracts/general.algo.ts:40
@@ -150,7 +146,6 @@ abi_route_verifyTxnFromTxnGroup:
 	return
 
 verifyTxnFromTxnGroup:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:44
@@ -171,7 +166,6 @@ abi_route_verifyTxnCondition:
 	return
 
 verifyTxnCondition:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:48
@@ -193,7 +187,6 @@ abi_route_verifyTxnIncludedIn:
 	return
 
 verifyTxnIncludedIn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:54
@@ -215,7 +208,6 @@ abi_route_verifyTxnNotIncludedIn:
 	return
 
 verifyTxnNotIncludedIn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:60
@@ -237,7 +229,6 @@ abi_route_submitPendingGroup:
 	return
 
 submitPendingGroup:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:66
@@ -288,7 +279,6 @@ abi_route_methodWithTxnArgs:
 	return
 
 methodWithTxnArgs:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:72
@@ -370,7 +360,6 @@ abi_route_shift:
 	return
 
 shift:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:86
@@ -400,7 +389,6 @@ abi_route_fromBytes:
 	return
 
 fromBytes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:91
@@ -419,7 +407,6 @@ abi_route_fromID:
 	return
 
 fromID:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:95
@@ -445,8 +432,11 @@ abi_route_bzeroFunction:
 	return
 
 bzeroFunction:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x; dupn 3
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 4
 
 	// tests/contracts/general.algo.ts:100
 	// n = 1
@@ -490,7 +480,6 @@ abi_route_events:
 	return
 
 events:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:110
@@ -529,7 +518,6 @@ abi_route_letOptimization:
 	return
 
 letOptimization:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// tests/contracts/general.algo.ts:114
@@ -559,7 +547,6 @@ abi_route_staticContractProperties:
 	return
 
 staticContractProperties:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:122
@@ -627,8 +614,11 @@ abi_route_numberToString:
 	return
 
 numberToString:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x; dupn 1
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// tests/contracts/general.algo.ts:134
 	// n = 1
@@ -657,7 +647,6 @@ abi_route_methodOnParens:
 	return
 
 methodOnParens:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:140
@@ -677,8 +666,10 @@ abi_route_stringSubstring:
 	return
 
 stringSubstring:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/general.algo.ts:144
 	// s = 'abcdef'
@@ -701,8 +692,11 @@ abi_route_idProperty:
 	return
 
 idProperty:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x; dupn 1
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dup
 
 	// tests/contracts/general.algo.ts:149
 	// app = Application.zeroIndex
@@ -712,7 +706,7 @@ idProperty:
 	// tests/contracts/general.algo.ts:150
 	// assert(Application.fromID(app.id) === app)
 	int 0 // app: application
-	int 0 // app: application
+	dup
 	==
 	assert
 
@@ -724,7 +718,7 @@ idProperty:
 	// tests/contracts/general.algo.ts:153
 	// assert(Asset.fromID(asa.id) === asa)
 	int 0 // asa: asset
-	int 0 // asa: asset
+	dup
 	==
 	assert
 	retsub
@@ -737,7 +731,6 @@ abi_route_scratchSlot:
 	return
 
 scratchSlot:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:157
@@ -766,7 +759,6 @@ abi_route_ecdsa:
 	return
 
 ecdsa:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/general.algo.ts:162
@@ -814,7 +806,6 @@ abi_route_verifyTxnTypes:
 	return
 
 verifyTxnTypes:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:168
@@ -916,8 +907,10 @@ abi_route_stringPlusEquals:
 	return
 
 stringPlusEquals:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// tests/contracts/general.algo.ts:190
 	// s = 'foo'
@@ -958,7 +951,6 @@ abi_route_importedProgram:
 	return
 
 importedProgram:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// tests/contracts/general.algo.ts:196
@@ -974,7 +966,6 @@ abi_route_callPrivateDefinedLater:
 	return
 
 callPrivateDefinedLater:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:200
@@ -985,7 +976,6 @@ callPrivateDefinedLater:
 	retsub
 
 privateMethod:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 1
 
 	// tests/contracts/general.algo.ts:204
@@ -1015,7 +1005,6 @@ abi_route_interalPublicMethod:
 	return
 
 interalPublicMethod:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// tests/contracts/general.algo.ts:208
@@ -1033,7 +1022,6 @@ abi_route_callInternalPublicMethod:
 	return
 
 callInternalPublicMethod:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:212

@@ -1705,15 +1705,20 @@ export default class Compiler {
           if (tealLine.startsWith('PENDING_PROTO')) {
             if (subroutine === undefined) throw new Error(`Subroutine ${method} not found`);
 
-            let teal = `proto ${subroutine.args.length} ${subroutine.returns.type === 'void' ? 0 : 1}`;
+            const newLines = [];
 
-            if (this.frameSize[method]) teal += `; byte 0x`;
-            if (this.frameSize[method] > 1) teal += `; dupn ${this.frameSize[method] - 1}`;
+            newLines.push(`proto ${subroutine.args.length} ${subroutine.returns.type === 'void' ? 0 : 1}`);
 
-            return {
-              node: t.node,
-              teal,
-            };
+            if (this.frameSize[method])
+              newLines.push(
+                '// Push empty bytes after the frame pointer to reserve space for local variables',
+                'byte 0x'
+              );
+            if (this.frameSize[method] > 1) newLines.push(`dupn ${this.frameSize[method] - 1}`);
+
+            return newLines.map((l) => {
+              return { node: t.node, teal: l };
+            });
           }
 
           return { node: t.node, teal: tealLine };
@@ -4942,11 +4947,7 @@ export default class Compiler {
     const lastFrame = JSON.parse(JSON.stringify(this.localVariables));
     this.localVariables = {};
 
-    this.pushLines(
-      fn,
-      '// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary',
-      `PENDING_PROTO: ${this.currentSubroutine.name}`
-    );
+    this.pushLines(fn, `PENDING_PROTO: ${this.currentSubroutine.name}`);
 
     let argIndex = -1;
     const params = new Array(...fn.parameters);

@@ -60,8 +60,11 @@ abi_route_startUpload:
 	return
 
 startUpload:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 3
+	proto 4 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 4
 
 	// examples/big_box/big_box.algo.ts:41
 	// startBox = this.currentIndex.value
@@ -198,8 +201,10 @@ abi_route_upload:
 	return
 
 upload:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x
+	proto 4 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/big_box/big_box.algo.ts:76
 	// metadata = this.metadata(dataIdentifier).value
@@ -309,8 +314,10 @@ abi_route_setStatus:
 	return
 
 setStatus:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 2 0; byte 0x
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/big_box/big_box.algo.ts:95
 	// currentStatus = this.metadata(dataIdentifier).value.status

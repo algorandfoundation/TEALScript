@@ -30,7 +30,6 @@ abi_route_tmpl:
 	return
 
 tmpl:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:13

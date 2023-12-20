@@ -18,8 +18,10 @@ route_logic:
 	return
 
 logic:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 0 0; byte 0x
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:14
 	// verifyAssetTransferTxn(this.txn, {

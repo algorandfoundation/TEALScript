@@ -30,7 +30,6 @@ abi_route_createApplication:
 	return
 
 createApplication:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
 	// examples/amm/amm.algo.ts:20
@@ -41,7 +40,6 @@ createApplication:
 	retsub
 
 doCreatePoolToken:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/amm/amm.algo.ts:26
@@ -107,7 +105,6 @@ doCreatePoolToken:
 	retsub
 
 doAxfer:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 0
 
 	// examples/amm/amm.algo.ts:37
@@ -144,7 +141,6 @@ doAxfer:
 	retsub
 
 doOptIn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:45
@@ -156,7 +152,6 @@ doOptIn:
 	retsub
 
 tokensToMintIntial:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 2 1
 
 	// examples/amm/amm.algo.ts:49
@@ -168,8 +163,11 @@ tokensToMintIntial:
 	retsub
 
 tokensToMint:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 5 1; byte 0x; dupn 2
+	proto 5 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// examples/amm/amm.algo.ts:53
 	// aRatio = wideRatio([aAmount, SCALE], [aSupply])
@@ -238,7 +236,6 @@ ternary1_end:
 	retsub
 
 computeRatio:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 1
 
 	// examples/amm/amm.algo.ts:62
@@ -268,7 +265,6 @@ computeRatio:
 	retsub
 
 tokensToBurn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1
 
 	// examples/amm/amm.algo.ts:69
@@ -287,8 +283,10 @@ tokensToBurn:
 	retsub
 
 tokensToSwap:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 1; byte 0x
+	proto 3 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// examples/amm/amm.algo.ts:73
 	// factor = SCALE - FEE
@@ -341,7 +339,6 @@ abi_route_set_governor:
 	return
 
 set_governor:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/amm/amm.algo.ts:78
@@ -394,7 +391,6 @@ abi_route_bootstrap:
 	return
 
 bootstrap:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 3 1
 
 	// examples/amm/amm.algo.ts:83
@@ -515,8 +511,10 @@ abi_route_mint:
 	return
 
 mint:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 5 0; byte 0x
+	proto 5 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
 
 	// well formed mint
 	// examples/amm/amm.algo.ts:102
@@ -736,8 +734,11 @@ abi_route_burn:
 	return
 
 burn:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 4 0; byte 0x; dupn 2
+	proto 4 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// well formed burn
 	// examples/amm/amm.algo.ts:144
@@ -886,8 +887,11 @@ abi_route_swap:
 	return
 
 swap:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
-	proto 3 0; byte 0x; dupn 2
+	proto 3 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 3
 
 	// well formed swap
 	// examples/amm/amm.algo.ts:170
