@@ -22,22 +22,42 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// a()void
-abi_route_a:
-	// execute a()void
-	callsub a
+// externalMethod()void
+abi_route_externalMethod:
+	// execute externalMethod()void
+	callsub externalMethod
 	int 1
 	return
 
-a:
+externalMethod:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:9
-	// this.aKey.value = 1337
-	byte 0x61 // "a"
-	int 1337
+	// tests/contracts/inheritance.algo.ts:6
+	// this.externalKey.value = 7331
+	byte 0x65787465726e616c4b6579 // "externalKey"
+	int 7331
 	app_global_put
+	retsub
+
+// e()void
+abi_route_e:
+	// execute e()void
+	callsub e
+	int 1
+	return
+
+e:
+	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
+	proto 0 0
+
+	// tests/contracts/inheritance.algo.ts:46
+	// assert(this.externalKey.value === 7331)
+	byte 0x65787465726e616c4b6579 // "externalKey"
+	app_global_get
+	int 7331
+	==
+	assert
 	retsub
 
 abi_route_createApplication:
@@ -51,7 +71,8 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "a()void"
+	method "externalMethod()void"
+	method "e()void"
 	txna ApplicationArgs 0
-	match abi_route_a
+	match abi_route_externalMethod abi_route_e
 	err

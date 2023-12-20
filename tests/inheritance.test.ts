@@ -13,6 +13,7 @@ describe('Inheritance', function () {
   artifactsTest('tests/contracts/inheritance.algo.ts', 'tests/contracts/artifacts/', 'C');
   artifactsTest('tests/contracts/inheritance.algo.ts', 'tests/contracts/artifacts/', 'D');
   artifactsTest('tests/contracts/inheritance.algo.ts', 'tests/contracts/artifacts/', 'AD');
+  artifactsTest('tests/contracts/inheritance.algo.ts', 'tests/contracts/artifacts/', 'E');
 
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
@@ -34,6 +35,12 @@ describe('Inheritance', function () {
       await runMethod({ appClient, method: 'a', methodArgs: [] });
       await runMethod({ appClient, method: 'd', methodArgs: [] });
       await runMethod({ appClient, method: 'ad', methodArgs: [] });
+    });
+
+    test('E extends ExternalContract', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, 'E');
+      await runMethod({ appClient, method: 'externalMethod', methodArgs: [] });
+      await runMethod({ appClient, method: 'e', methodArgs: [] });
     });
   });
 });

@@ -33,7 +33,7 @@ d:
 	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:32
+	// tests/contracts/inheritance.algo.ts:33
 	// this.dKey.value = 42
 	byte 0x64 // "d"
 	int 42

@@ -1845,7 +1845,10 @@ export default class Compiler {
       superClassNode.arguments.forEach((a) => {
         const superClass = a.getText();
 
-        const superCompiler = new Compiler(this.content, superClass, options);
+        const content = this.importRegistry[superClass]
+          ? readFileSync(this.importRegistry[superClass], 'utf-8')
+          : this.content;
+        const superCompiler = new Compiler(content, superClass, options);
         const superClassNodes = superCompiler.getClassChildren();
 
         methodNodes.push(...superClassNodes.methodNodes);
@@ -1856,7 +1859,11 @@ export default class Compiler {
 
       if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
         options.filename = this.importRegistry[superClass];
-        const superCompiler = new Compiler(this.content, superClass, options);
+
+        const content = this.importRegistry[superClass]
+          ? readFileSync(this.importRegistry[superClass], 'utf-8')
+          : this.content;
+        const superCompiler = new Compiler(content, superClass, options);
 
         const superClassNodes = superCompiler.getClassChildren();
 
