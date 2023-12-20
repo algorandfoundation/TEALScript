@@ -46,3 +46,24 @@ export class E extends ExternalContract {
     assert(this.externalKey.value === 7331);
   }
 }
+
+export class F extends Contract {
+  publicMethod(): string {
+    return 'public';
+  }
+
+  private privateMethod(): string {
+    return 'private';
+  }
+
+  protected protectedMethod(): string {
+    return 'protected';
+  }
+}
+
+export class G extends F {
+  g(): void {
+    assert(this.protectedMethod() === 'protected');
+    assert(this.publicMethod() === 'public');
+  }
+}

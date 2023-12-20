@@ -3402,7 +3402,19 @@ export default class Compiler {
 
     if (!node.body) throw new Error(`A method body must be defined for ${node.name.getText()}`);
 
-    if (node.modifiers && node.modifiers[0].kind === ts.SyntaxKind.PrivateKeyword) {
+    let scope = 'public';
+
+    node.modifiers?.forEach((m) => {
+      if (ts.getDecorators(node)?.includes(m as ts.Decorator)) return;
+
+      if (m.kind === ts.SyntaxKind.PrivateKeyword) scope = 'private';
+      else if (m.kind === ts.SyntaxKind.ProtectedKeyword) scope = 'protected';
+      else if (m.kind !== ts.SyntaxKind.PublicKeyword) {
+        throw Error(`Method modifier "${m.getText()}" is not supported by TEALScript`);
+      }
+    });
+
+    if (scope !== 'public') {
       this.processSubroutine(node);
       return;
     }

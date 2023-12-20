@@ -42,5 +42,10 @@ describe('Inheritance', function () {
       await runMethod({ appClient, method: 'externalMethod', methodArgs: [] });
       await runMethod({ appClient, method: 'e', methodArgs: [] });
     });
+
+    test('G extends F (protected)', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, 'G');
+      await runMethod({ appClient, method: 'g', methodArgs: [] });
+    });
   });
 });
