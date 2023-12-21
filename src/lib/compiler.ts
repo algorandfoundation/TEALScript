@@ -1803,6 +1803,32 @@ export default class Compiler {
   }
 
   /**
+   * Gets the class child nodes for a superclass
+   */
+  getSuperClassNodes(superClass: string, methodNodes: ts.MethodDeclaration[], propertyNodes: ts.PropertyDeclaration[]) {
+    const options: CompilerOptions = {
+      algodPort: this.algodPort,
+      algodServer: this.algodServer,
+      algodToken: this.algodToken,
+      disableWarnings: this.disableWarnings,
+      disableOverflowChecks: this.disableOverflowChecks,
+      disableTypeScript: this.disableTypeScript,
+    };
+
+    const content = this.importRegistry[superClass]
+      ? readFileSync(this.importRegistry[superClass], 'utf-8')
+      : this.content;
+
+    options.filename = this.importRegistry[superClass] || this.filename;
+
+    const superCompiler = new Compiler(content, superClass, options);
+    const superClassNodes = superCompiler.getClassChildren();
+
+    methodNodes.push(...superClassNodes.methodNodes);
+    propertyNodes.push(...superClassNodes.propertyNodes);
+  }
+
+  /**
    * Get the child nodes of the contract class
    */
   getClassChildren(): {
@@ -1823,15 +1849,6 @@ export default class Compiler {
       throw Error(`Contract ${this.name} must extend Contract, LogicSig, a subclass of either, or .extend() of either`);
     }
 
-    const options: CompilerOptions = {
-      algodPort: this.algodPort,
-      algodServer: this.algodServer,
-      algodToken: this.algodToken,
-      disableWarnings: this.disableWarnings,
-      disableOverflowChecks: this.disableOverflowChecks,
-      disableTypeScript: this.disableTypeScript,
-    };
-
     const methodNodes: ts.MethodDeclaration[] = [];
     const propertyNodes: ts.PropertyDeclaration[] = [];
 
@@ -1843,32 +1860,13 @@ export default class Compiler {
       if ([CONTRACT_CLASS, LSIG_CLASS].includes(superClassNode.expression.name.text)) throw Error();
 
       superClassNode.arguments.forEach((a) => {
-        const superClass = a.getText();
-
-        const content = this.importRegistry[superClass]
-          ? readFileSync(this.importRegistry[superClass], 'utf-8')
-          : this.content;
-        const superCompiler = new Compiler(content, superClass, options);
-        const superClassNodes = superCompiler.getClassChildren();
-
-        methodNodes.push(...superClassNodes.methodNodes);
-        propertyNodes.push(...superClassNodes.propertyNodes);
+        this.getSuperClassNodes(a.getText(), methodNodes, propertyNodes);
       });
     } else if (ts.isIdentifier(superClassNode)) {
       const superClass = superClassNode.text;
 
       if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
-        options.filename = this.importRegistry[superClass];
-
-        const content = this.importRegistry[superClass]
-          ? readFileSync(this.importRegistry[superClass], 'utf-8')
-          : this.content;
-        const superCompiler = new Compiler(content, superClass, options);
-
-        const superClassNodes = superCompiler.getClassChildren();
-
-        methodNodes.push(...superClassNodes.methodNodes);
-        propertyNodes.push(...superClassNodes.propertyNodes);
+        this.getSuperClassNodes(superClass, methodNodes, propertyNodes);
       }
     }
 
