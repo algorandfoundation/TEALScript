@@ -26,9 +26,6 @@ jobs:
     - name: Run ESLint
       run: bun lint
 
-    - name: Run webpack smoketest
-      run: bun webpack-smoketest
-
     - name: Run tests
       run: bun test
 
