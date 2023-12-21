@@ -3938,12 +3938,12 @@ export default class Compiler {
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
     if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
-      this.processNumericLiteralWithType(expr, this.getABIType(node.getTypeNode().getText()));
+      this.processNumericLiteralWithType(expr, this.getABIType(node.getTypeNode()!.getText()));
       return;
     }
 
-    this.typeHint = this.getABIType(node.getTypeNode().getText());
-    const type = this.getABIType(node.getTypeNode().getText());
+    this.typeHint = this.getABIType(node.getTypeNode()!.getText());
+    const type = this.getABIType(node.getTypeNode()!.getText());
 
     if (expr.isKind(ts.SyntaxKind.StringLiteral)) {
       const width = parseInt(type.match(/\d+/)![0], 10);
@@ -3964,7 +3964,7 @@ export default class Compiler {
     }
 
     if (this.lastType === 'any') {
-      this.lastType = node.getTypeNode().getText();
+      this.lastType = node.getTypeNode()!.getText();
       return;
     }
 
@@ -4163,7 +4163,7 @@ export default class Compiler {
             };
           }
 
-          if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode().getText());
+          if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode()!.getText());
           return;
         }
       }
@@ -4176,7 +4176,7 @@ export default class Compiler {
       ) {
         this.initializeStorageFrame(node, name, init, initializerType);
 
-        if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode().getText());
+        if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode()!.getText());
         return;
       }
 
@@ -4202,7 +4202,7 @@ export default class Compiler {
             };
           }
 
-          if (node.getTypeNode()) this.typeComparison(initializerType, node.getTypeNode().getText());
+          if (node.getTypeNode()) this.typeComparison(initializerType, node.getTypeNode()!.getText());
           return;
         }
       }
@@ -4215,7 +4215,7 @@ export default class Compiler {
       } else {
         this.typeHint = hint;
         this.processNode(init!);
-        if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode().getText());
+        if (node.getTypeNode()) this.typeComparison(this.lastType, node.getTypeNode()!.getText());
       }
 
       const type = hint && this.customTypes[hint] ? hint : this.getABIType(this.lastType);
@@ -4233,7 +4233,7 @@ export default class Compiler {
 
       this.localVariables[name] = {
         index: this.frameIndex,
-        type: this.getABIType(node.getTypeNode().getText()),
+        type: this.getABIType(node.getTypeNode()!.getText()),
       };
 
       this.frameIndex += 1;
@@ -5143,7 +5143,7 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.getTypeNode() === undefined) throw new Error();
 
-      let type = this.getABIType(p.getTypeNode().getText());
+      let type = this.getABIType(p.getTypeNode()!.getText());
 
       if (type.startsWith('Static')) {
         type = this.getABIType(type);
