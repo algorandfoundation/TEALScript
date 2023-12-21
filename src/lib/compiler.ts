@@ -4,9 +4,8 @@
 /* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
-import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project, SourceFile, ts as tsMorphTs } from 'ts-morph';
+import { Project, SourceFile, ts } from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import langspec from '../static/langspec.json';
@@ -4212,7 +4211,7 @@ export default class Compiler {
   private processUnaryExpression(node: ts.PrefixUnaryExpression) {
     this.processNode(node.operand);
     switch (node.operator) {
-      case 53:
+      case ts.SyntaxKind.ExclamationToken:
         this.pushVoid(node.operand, '!');
         break;
       default:
