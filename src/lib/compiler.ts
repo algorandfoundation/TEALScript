@@ -6,9 +6,7 @@ import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project, ts as tsMorphTs } from 'ts-morph';
-import path from 'path';
-import { read, readFileSync } from 'fs';
+import { Project, SourceFile, ts as tsMorphTs } from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import langspec from '../static/langspec.json';
@@ -481,17 +479,12 @@ export default class Compiler {
   programVersion = 9;
 
   importRegistry: {
-    [contractClass: string]: {
-      importPath: string;
-      content: string;
-      context: {
-        customTypes: { [name: string]: string };
-        constants: { [name: string]: ts.Node };
-      };
-    };
+    [contractClass: string]: SourceFile;
   } = {};
 
   templateVars: Record<string, { name: string; type: string }> = {};
+
+  project: Project;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: string) {
@@ -1341,11 +1334,10 @@ export default class Compiler {
 
   private disableTypeScript: boolean;
 
-  private tealscriptImport!: string;
-
   private events: Record<string, string[]> = {};
 
-  constructor(content: string, className: string, options?: CompilerOptions) {
+  constructor(content: string, className: string, project: Project, options?: CompilerOptions) {
+    this.project = project;
     this.disableWarnings = options?.disableWarnings || false;
     this.algodServer = options?.algodServer || 'http://localhost';
     this.algodPort = options?.algodPort || 4001;
@@ -1360,7 +1352,7 @@ export default class Compiler {
     this.constants = {};
   }
 
-  static compileAll(content: string, options: CompilerOptions): Promise<Compiler>[] {
+  static compileAll(content: string, project: Project, options: CompilerOptions): Promise<Compiler>[] {
     const src = ts.createSourceFile(options.filename || '', content, ts.ScriptTarget.ES2022, true);
     const compilers = src.statements
       .filter((body) => ts.isClassDeclaration(body))
@@ -1368,7 +1360,7 @@ export default class Compiler {
         if (!ts.isClassDeclaration(body)) throw Error();
         const name = body.name!.text;
 
-        const compiler = new Compiler(content, name, options);
+        const compiler = new Compiler(content, name, project, options);
         await compiler.compile();
         await compiler.algodCompile();
 
@@ -1664,7 +1656,7 @@ export default class Compiler {
           }
 
           if (tealLine.startsWith('PENDING_SCHEMA')) {
-            const c = new Compiler(this.content, tealLine.split(' ')[1], compilerOptions);
+            const c = new Compiler(this.content, tealLine.split(' ')[1], this.project, compilerOptions);
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
               return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
@@ -1682,10 +1674,10 @@ export default class Compiler {
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const contractName = tealLine.split(' ')[1];
-            const content = this.importRegistry[contractName]?.content || this.content;
-            compilerOptions.filename = this.importRegistry[contractName]?.importPath || this.filename;
+            const content = this.importRegistry[contractName]?.getText() || this.content;
+            compilerOptions.filename = this.importRegistry[contractName]?.getFilePath() || this.filename;
 
-            const c = new Compiler(content, contractName, compilerOptions);
+            const c = new Compiler(content, contractName, this.project, compilerOptions);
             await c.compile();
 
             if (tealLine.split(':')[0].endsWith('ADDR')) {
@@ -1729,45 +1721,11 @@ export default class Compiler {
   private getTypeScriptDiagnostics() {
     Compiler.diagsRan.push(this.filename);
 
-    const project = new Project({
-      useInMemoryFileSystem: true,
-      compilerOptions: {
-        target: ts.ScriptTarget.ES2022,
-        skipLibCheck: true,
-        experimentalDecorators: true,
-        paths: {
-          '@algorandfoundation/tealscript': ['./src/lib/index'],
-          polytype: ['./'],
-        },
-      },
-    });
-
-    let { content } = this;
-
-    content = content.replace(this.tealscriptImport, 'src/lib/index');
-
-    // TODO: figure out how to embed these files for webpack
-    project.createSourceFile(
-      'types/global.d.ts',
-      readFileSync(path.join(__dirname, '../../types/global.d.ts'), 'utf8')
-    );
-    project.createSourceFile('src/lib/index.ts', readFileSync(path.join(__dirname, 'index.ts'), 'utf8'));
-    project.createSourceFile('src/lib/contract.ts', readFileSync(path.join(__dirname, 'contract.ts'), 'utf8'));
-    project.createSourceFile('src/lib/lsig.ts', readFileSync(path.join(__dirname, 'lsig.ts'), 'utf8'));
-    project.createSourceFile(
-      'src/polytype.d.ts',
-      readFileSync(path.join(__dirname, '..', 'static', 'polytype.d.ts'), 'utf8')
-    );
-
-    Object.values(this.importRegistry).forEach((p) => {
-      project.createSourceFile(p.importPath, p.content);
-    });
-    const sourceFile = project.createSourceFile(this.filename, content);
-
+    const sourceFile = this.project.getSourceFile(this.filename)!;
     const diags = sourceFile.getPreEmitDiagnostics();
 
     if (diags.length > 0) {
-      throw Error(`TypeScript diagnostics failed\n${project.formatDiagnosticsWithColorAndContext(diags)}`);
+      throw Error(`TypeScript diagnostics failed\n${this.project.formatDiagnosticsWithColorAndContext(diags)}`);
     }
   }
 
@@ -1818,11 +1776,11 @@ export default class Compiler {
       disableTypeScript: this.disableTypeScript,
     };
 
-    const content = this.importRegistry[superClass]?.content || this.content;
+    const content = this.importRegistry[superClass]?.getText() || this.content;
 
-    options.filename = this.importRegistry[superClass]?.importPath || this.filename;
+    options.filename = this.importRegistry[superClass]?.getFilePath() || this.filename;
 
-    const superCompiler = new Compiler(content, superClass, options);
+    const superCompiler = new Compiler(content, superClass, this.project, options);
     const superClassNodes = superCompiler.getClassChildren();
 
     methodNodes.push(...superClassNodes.methodNodes);
@@ -1923,33 +1881,28 @@ export default class Compiler {
   }
 
   async compile() {
-    this.sourceFile.statements.forEach((body) => {
-      if (ts.isImportDeclaration(body)) {
-        body.importClause!.namedBindings!.forEachChild((b) => {
-          const className = b.getText();
-          if (className === 'Contract' || className === 'LogicSig') {
-            this.tealscriptImport = body.moduleSpecifier.getText().slice(1, -1);
-          } else {
-            this.contractClasses.push(className);
-            let importPath = body.moduleSpecifier.getText().slice(1, -1);
+    const sourceFile = this.project.getSourceFile(this.filename);
 
-            if (!importPath.endsWith('.ts')) {
-              importPath += '.ts';
-            }
+    sourceFile?.getImportDeclarations().forEach((d) => {
+      const importSourceFile = d.getModuleSpecifierSourceFile();
+      d
+        .getImportClause()
+        ?.getNamedImports()
+        .forEach((i) => {
+          if (i.getText() === CONTRACT_CLASS || i.getText() === LSIG_CLASS) return;
+          this.importRegistry[i.getText()] = importSourceFile!;
 
-            importPath = path.join(path.dirname(this.filename), importPath);
+          // TODO support non-class imports
+          //       const superClass = body.heritageClauses![0].types[0].expression.getText();
 
-            this.importRegistry[className] = {
-              importPath,
-              content: readFileSync(importPath, 'utf-8'),
-              context: {
-                customTypes: {},
-                constants: {},
-              },
-            };
+          let baseClass = importSourceFile!.getClass(i.getText())!;
+          while (baseClass.getBaseClass() !== undefined) {
+            baseClass = baseClass.getBaseClass()!;
           }
+
+          if (baseClass?.getName() === CONTRACT_CLASS) this.contractClasses.push(i.getText());
+          else this.lsigClasses.push(i.getText());
         });
-      }
     });
 
     if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
