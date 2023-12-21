@@ -1683,7 +1683,7 @@ export default class Compiler {
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const contractName = tealLine.split(' ')[1];
             const content = this.importRegistry[contractName]?.content || this.content;
-            compilerOptions.filename = this.importRegistry[contractName].importPath || this.filename;
+            compilerOptions.filename = this.importRegistry[contractName]?.importPath || this.filename;
 
             const c = new Compiler(content, contractName, compilerOptions);
             await c.compile();
