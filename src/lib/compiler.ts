@@ -8,7 +8,7 @@ import ts from 'typescript';
 import * as tsdoc from '@microsoft/tsdoc';
 import { Project, ts as tsMorphTs } from 'ts-morph';
 import path from 'path';
-import { readFileSync } from 'fs';
+import { read, readFileSync } from 'fs';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import langspec from '../static/langspec.json';
@@ -480,7 +480,16 @@ export default class Compiler {
 
   programVersion = 9;
 
-  importRegistry: Record<string, string> = {};
+  importRegistry: {
+    [contractClass: string]: {
+      importPath: string;
+      content: string;
+      context: {
+        customTypes: { [name: string]: string };
+        constants: { [name: string]: ts.Node };
+      };
+    };
+  } = {};
 
   templateVars: Record<string, { name: string; type: string }> = {};
 
@@ -1673,14 +1682,8 @@ export default class Compiler {
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
             const contractName = tealLine.split(' ')[1];
-            let content: string;
-
-            if (this.importRegistry[contractName]) {
-              content = readFileSync(this.importRegistry[contractName], 'utf8');
-              compilerOptions.filename = this.importRegistry[contractName];
-            } else {
-              content = this.content;
-            }
+            const content = this.importRegistry[contractName]?.content || this.content;
+            compilerOptions.filename = this.importRegistry[contractName].importPath || this.filename;
 
             const c = new Compiler(content, contractName, compilerOptions);
             await c.compile();
@@ -1757,7 +1760,7 @@ export default class Compiler {
     );
 
     Object.values(this.importRegistry).forEach((p) => {
-      project.createSourceFile(p, readFileSync(p, 'utf8'));
+      project.createSourceFile(p.importPath, p.content);
     });
     const sourceFile = project.createSourceFile(this.filename, content);
 
@@ -1815,11 +1818,9 @@ export default class Compiler {
       disableTypeScript: this.disableTypeScript,
     };
 
-    const content = this.importRegistry[superClass]
-      ? readFileSync(this.importRegistry[superClass], 'utf-8')
-      : this.content;
+    const content = this.importRegistry[superClass]?.content || this.content;
 
-    options.filename = this.importRegistry[superClass] || this.filename;
+    options.filename = this.importRegistry[superClass]?.importPath || this.filename;
 
     const superCompiler = new Compiler(content, superClass, options);
     const superClassNodes = superCompiler.getClassChildren();
@@ -1938,7 +1939,14 @@ export default class Compiler {
 
             importPath = path.join(path.dirname(this.filename), importPath);
 
-            this.importRegistry[className] = importPath;
+            this.importRegistry[className] = {
+              importPath,
+              content: readFileSync(importPath, 'utf-8'),
+              context: {
+                customTypes: {},
+                constants: {},
+              },
+            };
           }
         });
       }
