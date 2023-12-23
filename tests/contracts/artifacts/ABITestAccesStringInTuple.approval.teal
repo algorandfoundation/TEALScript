@@ -61,11 +61,11 @@ accesStringInTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16,uint8[],string,uint8[]]
+	frame_bury 0 // a: [uint<16>, uint<8>[], string, uint<8>[]]
 
 	// tests/contracts/abi.algo.ts:552
 	// assert(a[2] === 'Hello World!')
-	frame_dig 0 // a: [uint16,uint8[],string,uint8[]]
+	frame_dig 0 // a: [uint<16>, uint<8>[], string, uint<8>[]]
 	store 255 // full array
 	int 4
 	load 255 // full array
@@ -88,7 +88,7 @@ accesStringInTuple:
 
 	// tests/contracts/abi.algo.ts:554
 	// return a[2];
-	frame_dig 0 // a: [uint16,uint8[],string,uint8[]]
+	frame_dig 0 // a: [uint<16>, uint<8>[], string, uint<8>[]]
 	store 255 // full array
 	int 4
 	load 255 // full array

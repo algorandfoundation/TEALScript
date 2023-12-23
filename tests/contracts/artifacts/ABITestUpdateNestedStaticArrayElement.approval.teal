@@ -48,18 +48,18 @@ updateNestedStaticArrayElement:
 	//       [77, 88, 99],
 	//     ]
 	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
-	frame_bury 0 // a: uint64[3][3]
+	frame_bury 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 
 	// tests/contracts/abi.algo.ts:216
 	// a[1][1] = 555
-	frame_dig 0 // a: uint64[3][3]
+	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 	byte 0x000000000000022b
 	replace2 32
-	frame_bury 0 // a: uint64[3][3]
+	frame_bury 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 
 	// tests/contracts/abi.algo.ts:218
 	// return a[1][1];
-	frame_dig 0 // a: uint64[3][3]
+	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 	extract 32 8
 	btoi
 

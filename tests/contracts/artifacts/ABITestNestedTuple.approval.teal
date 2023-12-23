@@ -69,11 +69,11 @@ nestedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16,[uint8,string],[uint16,string]]
+	frame_bury 0 // a: [uint<16>, [uint<8>, string], [uint<16>, string]]
 
 	// tests/contracts/abi.algo.ts:694
 	// return a;
-	frame_dig 0 // a: [uint16,[uint8,string],[uint16,string]]
+	frame_dig 0 // a: [uint<16>, [uint<8>, string], [uint<16>, string]]
 
 	// set the subroutine return value
 	frame_bury 0

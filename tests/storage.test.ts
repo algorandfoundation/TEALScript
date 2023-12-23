@@ -50,7 +50,7 @@ describe('Storage', function () {
             const teal = await getTeal(`${storageType}${storageClass}${method}`);
             const expectedTeal: string[] = [];
 
-            if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
+            if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: Account');
 
             if (['local', 'global'].includes(storageType) && method === 'Exists')
               expectedTeal.push('txna Applications 0');

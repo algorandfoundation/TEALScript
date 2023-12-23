@@ -48,7 +48,7 @@ staticStringArrayArg:
 
 	// tests/contracts/abi.algo.ts:645
 	// return a[1];
-	frame_dig -1 // a: string[3]
+	frame_dig -1 // a: StaticArray<string, 3>
 	store 255 // full array
 	int 2
 	load 255 // full array

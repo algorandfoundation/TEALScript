@@ -70,21 +70,21 @@ staticBoolArrayUpdate:
 	int 8
 	int 0
 	setbit
-	frame_bury 0 // a: bool[9]
+	frame_bury 0 // a: StaticArray<boolean, 9>
 
 	// tests/contracts/abi.algo.ts:958
 	// a[8] = true
-	frame_dig 0 // a: bool[9]
+	frame_dig 0 // a: StaticArray<boolean, 9>
 	store 255 // full array
 	load 255 // full array
 	int 8
 	int 1
 	setbit
-	frame_bury 0 // a: bool[9]
+	frame_bury 0 // a: StaticArray<boolean, 9>
 
 	// tests/contracts/abi.algo.ts:960
 	// return a;
-	frame_dig 0 // a: bool[9]
+	frame_dig 0 // a: StaticArray<boolean, 9>
 
 	// set the subroutine return value
 	frame_bury 0

@@ -63,11 +63,11 @@ returnDynamicArrayFromTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	frame_bury 0 // a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]]
 
 	// tests/contracts/abi.algo.ts:400
 	// return a[4];
-	frame_dig 0 // a: [uint8,uint16,uint8[],uint16[],uint8[]]
+	frame_dig 0 // a: [uint<8>, uint<16>, uint<8>[], uint<16>[], uint<8>[]]
 	store 255 // full array
 	int 7
 	load 255 // full array

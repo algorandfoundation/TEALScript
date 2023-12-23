@@ -112,8 +112,8 @@ add:
 
 	// examples/simple/simple.algo.ts:19
 	// return a + b;
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b+
 	dup
 	bitlen
@@ -164,8 +164,8 @@ sub:
 
 	// examples/simple/simple.algo.ts:23
 	// return a - b;
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b-
 	dup
 	bitlen

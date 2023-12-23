@@ -44,25 +44,25 @@ staticArrayInStorageMap:
 	// tests/contracts/abi.algo.ts:145
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury 0 // a: uint64[3]
+	frame_bury 0 // a: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:147
 	// this.gMap('gMap').value = a
 	byte 0x674d6170 // "gMap"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:148
 	// this.lMap(this.txn.sender, 'lMap').value = a
 	txn Sender
 	byte 0x6c4d6170 // "lMap"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:149
 	// this.bMap('bMap').value = a
 	byte 0x624d6170 // "bMap"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	box_put
 
 	// tests/contracts/abi.algo.ts:151
@@ -90,11 +90,11 @@ staticArrayInStorageMap:
 	btoi
 	itob
 	concat
-	frame_bury 1 // ret: uint64[3]
+	frame_bury 1 // ret: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:157
 	// return ret;
-	frame_dig 1 // ret: uint64[3]
+	frame_dig 1 // ret: StaticArray<uint64, 3>
 
 	// set the subroutine return value
 	frame_bury 0

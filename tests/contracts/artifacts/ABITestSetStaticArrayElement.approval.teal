@@ -44,18 +44,18 @@ setStaticArrayElement:
 	// tests/contracts/abi.algo.ts:64
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury 0 // a: uint64[3]
+	frame_bury 0 // a: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:66
 	// a[1] = 222
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	byte 0x00000000000000de
 	replace2 8
-	frame_bury 0 // a: uint64[3]
+	frame_bury 0 // a: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:68
 	// return a[1];
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	extract 8 8
 	btoi
 

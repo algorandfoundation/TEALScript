@@ -44,25 +44,25 @@ updateStaticArrayInStorageRef:
 	// tests/contracts/abi.algo.ts:114
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury 0 // a: uint64[3]
+	frame_bury 0 // a: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:116
 	// this.gRef.value = a
 	byte 0x67526566 // "gRef"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	app_global_put
 
 	// tests/contracts/abi.algo.ts:117
 	// this.lRef(this.txn.sender).value = a
 	txn Sender
 	byte 0x6c526566 // "lRef"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	app_local_put
 
 	// tests/contracts/abi.algo.ts:118
 	// this.bRef.value = a
 	byte 0x62526566 // "bRef"
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	box_put
 
 	// tests/contracts/abi.algo.ts:120
@@ -115,11 +115,11 @@ updateStaticArrayInStorageRef:
 	btoi
 	itob
 	concat
-	frame_bury 1 // ret: uint64[3]
+	frame_bury 1 // ret: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:126
 	// return ret;
-	frame_dig 1 // ret: uint64[3]
+	frame_dig 1 // ret: StaticArray<uint64, 3>
 
 	// set the subroutine return value
 	frame_bury 0

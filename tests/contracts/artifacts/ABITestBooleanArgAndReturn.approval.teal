@@ -53,7 +53,7 @@ booleanArgAndReturn:
 
 	// tests/contracts/abi.algo.ts:882
 	// return a;
-	frame_dig -1 // a: bool
+	frame_dig -1 // a: boolean
 	retsub
 
 abi_route_createApplication:

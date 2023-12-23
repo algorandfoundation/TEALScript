@@ -57,11 +57,11 @@ updateDynamicElementInTupleWithSameLength:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16,uint8[],uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>]
 
 	// tests/contracts/abi.algo.ts:702
 	// a[1] = [10, 11, 12]
-	frame_dig 0 // a: [uint16,uint8[],uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>]
 	store 255 // full array
 	int 2
 	dup
@@ -105,11 +105,11 @@ updateDynamicElementInTupleWithSameLength:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury 0 // a: [uint16,uint8[],uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>]
 
 	// tests/contracts/abi.algo.ts:704
 	// return a;
-	frame_dig 0 // a: [uint16,uint8[],uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint<16>, uint<8>[], uint<16>, uint<8>[], uint<16>]
 
 	// set the subroutine return value
 	frame_bury 0

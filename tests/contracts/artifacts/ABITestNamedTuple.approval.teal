@@ -63,11 +63,11 @@ namedTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: { foo: uint<16>; bar: string; }
+	frame_bury 0 // a: {       foo: uint<16>;       bar: string;     }
 
 	// tests/contracts/abi.algo.ts:610
 	// return a.bar;
-	frame_dig 0 // a: { foo: uint<16>; bar: string; }
+	frame_dig 0 // a: {       foo: uint<16>;       bar: string;     }
 	store 255 // full array
 	int 2
 	load 255 // full array

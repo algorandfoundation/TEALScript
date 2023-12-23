@@ -44,11 +44,11 @@ stringLength:
 	// tests/contracts/abi.algo.ts:752
 	// s = 'foo bar'
 	byte 0x666f6f20626172 // "foo bar"
-	frame_bury 0 // s: bytes
+	frame_bury 0 // s: byte[]
 
 	// tests/contracts/abi.algo.ts:754
 	// return s.length;
-	frame_dig 0 // s: bytes
+	frame_dig 0 // s: byte[]
 	len
 
 	// set the subroutine return value

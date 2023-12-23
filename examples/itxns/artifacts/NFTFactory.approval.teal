@@ -112,7 +112,7 @@ transferNFT:
 
 	// examples/itxns/itxns.algo.ts:15
 	// assetReceiver: receiver
-	frame_dig -2 // receiver: account
+	frame_dig -2 // receiver: Account
 	itxn_field AssetReceiver
 
 	// examples/itxns/itxns.algo.ts:16
@@ -122,7 +122,7 @@ transferNFT:
 
 	// examples/itxns/itxns.algo.ts:17
 	// xferAsset: asset
-	frame_dig -1 // asset: asset
+	frame_dig -1 // asset: Asset
 	itxn_field XferAsset
 
 	// Fee field not set, defaulting to 0

@@ -53,11 +53,11 @@ updateDynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint<16>, uint<8>[], uint<16>]
 
 	// tests/contracts/abi.algo.ts:684
 	// a[1] = [4, 5]
-	frame_dig 0 // a: [uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint<16>, uint<8>[], uint<16>]
 	store 255 // full array
 	int 2
 	dup
@@ -96,11 +96,11 @@ updateDynamicArrayInMiddleOfTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury 0 // a: [uint16,uint8[],uint16]
+	frame_bury 0 // a: [uint<16>, uint<8>[], uint<16>]
 
 	// tests/contracts/abi.algo.ts:686
 	// return a;
-	frame_dig 0 // a: [uint16,uint8[],uint16]
+	frame_dig 0 // a: [uint<16>, uint<8>[], uint<16>]
 
 	// set the subroutine return value
 	frame_bury 0

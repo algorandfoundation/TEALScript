@@ -47,11 +47,11 @@ shortTypeNotation:
 	//       [55, 66],
 	//     ]
 	byte 0x000b00160000000000000021000000000000002c00370042
-	frame_bury 0 // a: [uint16[2],uint64[2],uint16[2]]
+	frame_bury 0 // a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>]
 
 	// tests/contracts/abi.algo.ts:298
 	// return a[2][1];
-	frame_dig 0 // a: [uint16[2],uint64[2],uint16[2]]
+	frame_dig 0 // a: [StaticArray<uint<16>, 2>, StaticArray<uint64, 2>, StaticArray<uint<16>, 2>]
 	extract 22 2
 
 	// set the subroutine return value

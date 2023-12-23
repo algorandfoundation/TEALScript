@@ -57,11 +57,11 @@ shortenDynamicElementInTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16[],uint16[],uint16[]]
+	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 
 	// tests/contracts/abi.algo.ts:592
 	// a[0] = [5]
-	frame_dig 0 // a: [uint16[],uint16[],uint16[]]
+	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 	store 255 // full array
 	int 0
 	dup
@@ -110,11 +110,11 @@ shortenDynamicElementInTuple:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury 0 // a: [uint16[],uint16[],uint16[]]
+	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 
 	// tests/contracts/abi.algo.ts:593
 	// a[1] = [6]
-	frame_dig 0 // a: [uint16[],uint16[],uint16[]]
+	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 	store 255 // full array
 	int 2
 	dup
@@ -158,11 +158,11 @@ shortenDynamicElementInTuple:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury 0 // a: [uint16[],uint16[],uint16[]]
+	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 
 	// tests/contracts/abi.algo.ts:594
 	// a[2] = [7]
-	frame_dig 0 // a: [uint16[],uint16[],uint16[]]
+	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 	store 255 // full array
 	int 4
 	dup
@@ -201,11 +201,11 @@ shortenDynamicElementInTuple:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury 0 // a: [uint16[],uint16[],uint16[]]
+	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 
 	// tests/contracts/abi.algo.ts:596
 	// return a;
-	frame_dig 0 // a: [uint16[],uint16[],uint16[]]
+	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
 
 	// set the subroutine return value
 	frame_bury 0

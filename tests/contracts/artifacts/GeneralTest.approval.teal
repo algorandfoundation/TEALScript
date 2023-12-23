@@ -91,12 +91,12 @@ asserts:
 
 	// tests/contracts/general.algo.ts:36
 	// assert(arg1, arg2, arg1 === arg2)
-	frame_dig -1 // arg1: bool
+	frame_dig -1 // arg1: boolean
 	assert
-	frame_dig -2 // arg2: bool
+	frame_dig -2 // arg2: boolean
 	assert
-	frame_dig -1 // arg1: bool
-	frame_dig -2 // arg2: bool
+	frame_dig -1 // arg1: boolean
+	frame_dig -2 // arg2: boolean
 	==
 	assert
 	retsub
@@ -124,14 +124,14 @@ verifyTxnFromArg:
 	// tests/contracts/general.algo.ts:40
 	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
 	// verify receiver
-	frame_dig -1 // somePay: pay
+	frame_dig -1 // somePay: PayTxn
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
 	assert
 
 	// verify amount
-	frame_dig -1 // somePay: pay
+	frame_dig -1 // somePay: PayTxn
 	gtxns Amount
 	int 100_000
 	==
@@ -457,14 +457,14 @@ bzeroFunction:
 	// tests/contracts/general.algo.ts:103
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
-	frame_bury 3 // z: [uint64,uint8]
+	frame_bury 3 // z: [uint64, uint<8>]
 
 	// tests/contracts/general.algo.ts:104
 	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
 	frame_dig 2 // y: bytes
 	concat
-	byte 0x000000000000000000 // z: [uint64,uint8]
+	byte 0x000000000000000000 // z: [uint64, uint<8>]
 	concat
 	len
 	int 12
@@ -628,13 +628,13 @@ numberToString:
 	// tests/contracts/general.algo.ts:135
 	// s = '1'
 	byte 0x31 // "1"
-	frame_bury 1 // s: bytes
+	frame_bury 1 // s: byte[]
 
 	// tests/contracts/general.algo.ts:136
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
-	byte 0x31 // "1" // s: bytes
+	byte 0x31 // "1" // s: byte[]
 	==
 	assert
 	retsub
@@ -674,7 +674,7 @@ stringSubstring:
 	// tests/contracts/general.algo.ts:144
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
-	frame_bury 0 // s: bytes
+	frame_bury 0 // s: byte[]
 
 	// tests/contracts/general.algo.ts:145
 	// assert(s.substring(1, 3) === 'bc')
@@ -915,18 +915,18 @@ stringPlusEquals:
 	// tests/contracts/general.algo.ts:190
 	// s = 'foo'
 	byte 0x666f6f // "foo"
-	frame_bury 0 // s: bytes
+	frame_bury 0 // s: byte[]
 
 	// tests/contracts/general.algo.ts:191
 	// s += 'bar'
-	frame_dig 0 // s: bytes
+	frame_dig 0 // s: byte[]
 	byte 0x626172 // "bar"
 	concat
-	frame_bury 0 // s: bytes
+	frame_bury 0 // s: byte[]
 
 	// tests/contracts/general.algo.ts:192
 	// assert(s === 'foobar')
-	frame_dig 0 // s: bytes
+	frame_dig 0 // s: byte[]
 	byte 0x666f6f626172 // "foobar"
 	==
 	assert

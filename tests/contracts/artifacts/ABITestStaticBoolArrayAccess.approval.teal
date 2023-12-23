@@ -74,11 +74,11 @@ staticBoolArrayAccess:
 	int 8
 	int 0
 	setbit
-	frame_bury 0 // a: bool[9]
+	frame_bury 0 // a: StaticArray<boolean, 9>
 
 	// tests/contracts/abi.algo.ts:934
 	// return a[8];
-	frame_dig 0 // a: bool[9]
+	frame_dig 0 // a: StaticArray<boolean, 9>
 	store 255 // full array
 	load 255 // full array
 	int 8

@@ -70,11 +70,11 @@ staticBoolArray:
 	int 8
 	int 0
 	setbit
-	frame_bury 0 // a: bool[9]
+	frame_bury 0 // a: StaticArray<boolean, 9>
 
 	// tests/contracts/abi.algo.ts:908
 	// return a;
-	frame_dig 0 // a: bool[9]
+	frame_dig 0 // a: StaticArray<boolean, 9>
 
 	// set the subroutine return value
 	frame_bury 0

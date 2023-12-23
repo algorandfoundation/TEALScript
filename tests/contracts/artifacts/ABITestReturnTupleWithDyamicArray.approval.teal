@@ -55,11 +55,11 @@ returnTupleWithDyamicArray:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_bury 0 // a: [uint64, uint<16>, uint64[], uint<16>[]]
 
 	// tests/contracts/abi.algo.ts:392
 	// return a;
-	frame_dig 0 // a: [uint64,uint16,uint64[],uint16[]]
+	frame_dig 0 // a: [uint64, uint<16>, uint64[], uint<16>[]]
 
 	// set the subroutine return value
 	frame_bury 0

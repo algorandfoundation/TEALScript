@@ -72,11 +72,11 @@ dynamicBoolArray:
 	int 0
 	setbit
 	concat
-	frame_bury 0 // a: bool[]
+	frame_bury 0 // a: boolean[]
 
 	// tests/contracts/abi.algo.ts:942
 	// return a;
-	frame_dig 0 // a: bool[]
+	frame_dig 0 // a: boolean[]
 
 	// set the subroutine return value
 	frame_bury 0

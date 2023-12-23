@@ -46,7 +46,7 @@ extractUint:
 
 	// tests/contracts/abi.algo.ts:1128
 	// x = <uint<8>>arg
-	frame_dig -1 // arg: uint64
+	frame_dig -1 // arg: number
 	itob
 	dup
 	bitlen

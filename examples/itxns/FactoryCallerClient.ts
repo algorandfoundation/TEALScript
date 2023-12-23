@@ -84,12 +84,12 @@ export const APP_SPEC: AppSpec = {
       },
       {
         "name": "createApplication",
+        "args": [],
         "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
-        },
-        "args": []
+        }
       }
     ]
   }

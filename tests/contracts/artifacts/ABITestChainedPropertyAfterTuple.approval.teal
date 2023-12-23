@@ -49,7 +49,7 @@ chainedPropertyAfterTuple:
 	// assert(!o.foo.hasAsset(asa))
 	frame_dig 0 // o: T7
 	extract 0 32
-	frame_dig -1 // asa: asset
+	frame_dig -1 // asa: Asset
 	asset_holding_get AssetBalance
 	swap
 	pop

@@ -155,21 +155,21 @@ startUpload:
 	// examples/big_box/big_box.algo.ts:63
 	// verifyPayTxn(mbrPayment, { receiver: this.app.address, amount: totalCost })
 	// verify receiver
-	frame_dig -4 // mbrPayment: pay
+	frame_dig -4 // mbrPayment: PayTxn
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
 	assert
 
 	// verify amount
-	frame_dig -4 // mbrPayment: pay
+	frame_dig -4 // mbrPayment: PayTxn
 	gtxns Amount
 	frame_dig 3 // totalCost: uint64
 	==
 	assert
 	retsub
 
-// upload(bytes,uint64,uint64,string)void
+// upload(byte[],uint64,uint64,string)void
 //
 //
 // Upload data to a specific offset in a box
@@ -195,7 +195,7 @@ abi_route_upload:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute upload(bytes,uint64,uint64,string)void
+	// execute upload(byte[],uint64,uint64,string)void
 	callsub upload
 	int 1
 	return
@@ -329,12 +329,12 @@ setStatus:
 
 	// examples/big_box/big_box.algo.ts:97
 	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
-	frame_dig -2 // status: uint8
+	frame_dig -2 // status: uint<8>
 	byte 0x01
 	b==
 	dup
 	bnz skip_or0
-	frame_dig -2 // status: uint8
+	frame_dig -2 // status: uint<8>
 	byte 0x02
 	b==
 	||
@@ -342,7 +342,7 @@ setStatus:
 skip_or0:
 	dup
 	bnz skip_or1
-	frame_dig -2 // status: uint8
+	frame_dig -2 // status: uint<8>
 	byte 0x00
 	b==
 	||
@@ -361,7 +361,7 @@ skip_or1:
 	// this.metadata(dataIdentifier).value.status = status
 	frame_dig -1 // dataIdentifier: string
 	int 16
-	frame_dig -2 // status: uint8
+	frame_dig -2 // status: uint<8>
 	box_replace
 	retsub
 

@@ -100,7 +100,7 @@ optIntoAsset:
 	// examples/auction/auction.algo.ts:35
 	// this.asa.value = asset
 	byte 0x617361 // "asa"
-	frame_dig -1 // asset: asset
+	frame_dig -1 // asset: Asset
 	app_global_put
 
 	// Submit opt-in transaction: 0 asset transfer to self
@@ -121,7 +121,7 @@ optIntoAsset:
 
 	// examples/auction/auction.algo.ts:40
 	// xferAsset: asset
-	frame_dig -1 // asset: asset
+	frame_dig -1 // asset: Asset
 	itxn_field XferAsset
 
 	// examples/auction/auction.algo.ts:41
@@ -186,7 +186,7 @@ startAuction:
 	// examples/auction/auction.algo.ts:52
 	// verifyAssetTransferTxn(axfer, { assetReceiver: this.app.address })
 	// verify assetReceiver
-	frame_dig -3 // axfer: axfer
+	frame_dig -3 // axfer: AssetTransferTxn
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
@@ -196,7 +196,7 @@ startAuction:
 	// examples/auction/auction.algo.ts:55
 	// this.asaAmt.value = axfer.assetAmount
 	byte 0x617361416d74 // "asaAmt"
-	frame_dig -3 // axfer: axfer
+	frame_dig -3 // axfer: AssetTransferTxn
 	gtxns AssetAmount
 	app_global_put
 
@@ -229,7 +229,7 @@ pay:
 
 	// examples/auction/auction.algo.ts:62
 	// receiver: receiver
-	frame_dig -1 // receiver: account
+	frame_dig -1 // receiver: Account
 	itxn_field Receiver
 
 	// examples/auction/auction.algo.ts:63
@@ -294,14 +294,14 @@ bid:
 	//       amount: { greaterThan: this.previousBid.value },
 	//     })
 	// verify sender
-	frame_dig -1 // payment: pay
+	frame_dig -1 // payment: PayTxn
 	gtxns Sender
 	txn Sender
 	==
 	assert
 
 	// verify amount
-	frame_dig -1 // payment: pay
+	frame_dig -1 // payment: PayTxn
 	gtxns Amount
 	byte 0x70726576696f7573426964 // "previousBid"
 	app_global_get
@@ -312,14 +312,14 @@ bid:
 	// examples/auction/auction.algo.ts:81
 	// this.previousBid.value = payment.amount
 	byte 0x70726576696f7573426964 // "previousBid"
-	frame_dig -1 // payment: pay
+	frame_dig -1 // payment: PayTxn
 	gtxns Amount
 	app_global_put
 
 	// examples/auction/auction.algo.ts:82
 	// this.previousBidder.value = payment.sender
 	byte 0x70726576696f7573426964646572 // "previousBidder"
-	frame_dig -1 // payment: pay
+	frame_dig -1 // payment: PayTxn
 	gtxns Sender
 	app_global_put
 
@@ -328,7 +328,7 @@ bid:
 	// this.claimableAmount(this.txn.sender).value = payment.amount
 	txn Sender
 	byte 0x636c61696d61626c65416d6f756e74 // "claimableAmount"
-	frame_dig -1 // payment: pay
+	frame_dig -1 // payment: PayTxn
 	gtxns Amount
 	app_local_put
 	retsub
@@ -438,7 +438,7 @@ claim_asset:
 
 	// examples/auction/auction.algo.ts:105
 	// xferAsset: asset
-	frame_dig -1 // asset: asset
+	frame_dig -1 // asset: Asset
 	itxn_field XferAsset
 
 	// examples/auction/auction.algo.ts:106
