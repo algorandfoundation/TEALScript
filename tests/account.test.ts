@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 import { expect, test, describe } from '@jest/globals';
 import { getMethodTeal, lowerFirstChar, artifactsTest } from './common';
-import * as langspec from '../src/static/langspec.json';
+import langspec from '../src/static/langspec.json';
 
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/account.algo.ts', 'AccountTest', methodName);
@@ -17,7 +17,7 @@ describe('Account', function () {
       if (fn === 'authAddr') {
         expect(await getTeal(fn)).toEqual([
           `// log(a.${fn})`,
-          'frame_dig -1 // a: account',
+          'frame_dig -1 // a: Account',
           `acct_params_get ${a}`,
           'assert',
           'log',
@@ -25,7 +25,7 @@ describe('Account', function () {
       } else {
         expect(await getTeal(fn)).toEqual([
           `// assert(a.${fn})`,
-          'frame_dig -1 // a: account',
+          'frame_dig -1 // a: Account',
           `acct_params_get ${a}`,
           'assert',
           'assert',
@@ -37,7 +37,7 @@ describe('Account', function () {
   test('assetBalance', async function () {
     expect(await getTeal('assetBalance')).toEqual([
       '// assert(a.assetBalance(Asset.fromID(123)))',
-      'frame_dig -1 // a: account',
+      'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
       'assert',
@@ -48,7 +48,7 @@ describe('Account', function () {
   test('assetFrozen', async function () {
     expect(await getTeal('assetFrozen')).toEqual([
       '// assert(a.assetFrozen(Asset.fromID(123)))',
-      'frame_dig -1 // a: account',
+      'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetFrozen',
       'assert',
@@ -59,7 +59,7 @@ describe('Account', function () {
   test('hasAsset', async function () {
     expect(await getTeal('hasAsset')).toEqual([
       '// assert(a.hasAsset(Asset.fromID(123)))',
-      'frame_dig -1 // a: account',
+      'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
       'swap',
