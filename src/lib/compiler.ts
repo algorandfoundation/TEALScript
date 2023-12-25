@@ -10,7 +10,6 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { isEqual } from 'lodash';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -119,6 +118,10 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertAppAndAsset: boolean = f
   }
 
   throw Error();
+}
+
+function equalTypes(a: TypeInfo, b: TypeInfo) {
+  return typeInfoToABIString(a) === typeInfoToABIString(b);
 }
 
 function getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
@@ -813,7 +816,7 @@ export default class Compiler {
       this.processNode(keyNode!);
       this.typeHint = undefined;
 
-      if (!isEqual(keyType, StackType.bytes)) {
+      if (!equalTypes(keyType, StackType.bytes)) {
         this.checkEncoding(keyNode!, this.lastType);
       }
 
@@ -830,7 +833,7 @@ export default class Compiler {
           this.maybeValue(node.getExpression(), 'box_get', valueType);
         }
 
-        if ((storageType === 'box' || !isNumeric(valueType)) && !isEqual(valueType, StackType.bytes)) {
+        if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
           this.checkDecoding(node, valueType);
         }
 
@@ -848,7 +851,7 @@ export default class Compiler {
 
           // if valueType is not bytes
           // or if storage type is box
-          if ((storageType === 'box' || !isNumeric(valueType)) && !isEqual(valueType, StackType.bytes)) {
+          if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
             this.checkEncoding(newValue, this.lastType);
           }
 
@@ -857,7 +860,7 @@ export default class Compiler {
           const command = storageType === 'box' ? 'swap' : storageType === 'local' ? 'uncover 2' : 'swap';
           this.pushVoid(node.getExpression(), command);
 
-          if ((storageType === 'box' || !isNumeric(valueType)) && !isEqual(valueType, StackType.bytes)) {
+          if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
             this.checkEncoding(node, valueType);
           }
         }
@@ -1011,7 +1014,7 @@ export default class Compiler {
         return isBytes(this.lastType) || this.lastType.kind === 'dynamicArray';
       },
       fn: (n: ts.PropertyAccessExpression) => {
-        if (isEqual(this.lastType, StackType.bytes) || isEqual(this.lastType, 'string')) {
+        if (isBytes(this.lastType)) {
           this.push(n.getNameNode(), 'len', StackType.uint64);
           return;
         }
@@ -1622,7 +1625,7 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         if (this.lastType.kind !== 'base') throw Error();
 
-        if (!isEqual(this.lastType, StackType.uint64)) {
+        if (!equalTypes(this.lastType, StackType.uint64)) {
           const width = parseInt(this.lastType.type.match(/\d+/)![0], 10);
           if (width > 64) throw Error('toString is only supported for uint64 and smaller');
           this.pushVoid(node, 'btoi');
@@ -1742,7 +1745,7 @@ export default class Compiler {
 
   private getTypeLength(inputType: TypeInfo): number {
     if (inputType.kind === 'staticArray') {
-      if (isEqual(inputType.base, { kind: 'base', type: 'bool' })) {
+      if (equalTypes(inputType.base, { kind: 'base', type: 'bool' })) {
         return Math.ceil(inputType.length / 8);
       }
 
@@ -1754,7 +1757,7 @@ export default class Compiler {
       let consecutiveBools = 0;
 
       inputType.elements.forEach((e) => {
-        if (isEqual(e, { kind: 'base', type: 'bool' })) {
+        if (equalTypes(e, { kind: 'base', type: 'bool' })) {
           consecutiveBools += 1;
         } else {
           if (consecutiveBools > 0) {
@@ -1775,7 +1778,7 @@ export default class Compiler {
       let consecutiveBools = 0;
 
       Object.values(inputType.properties).forEach((e) => {
-        if (isEqual(e, { kind: 'base', type: 'bool' })) {
+        if (equalTypes(e, { kind: 'base', type: 'bool' })) {
           consecutiveBools += 1;
         } else {
           if (consecutiveBools > 0) {
@@ -1888,7 +1891,7 @@ export default class Compiler {
             const newLines = [];
 
             newLines.push(
-              `proto ${subroutine.args.length} ${isEqual(subroutine.returns.type, StackType.void) ? 0 : 1}`
+              `proto ${subroutine.args.length} ${equalTypes(subroutine.returns.type, StackType.void) ? 0 : 1}`
             );
 
             if (this.frameSize[method])
@@ -2288,7 +2291,7 @@ export default class Compiler {
   private push(node: ts.Node, teal: string, type: TypeInfo) {
     this.lastNode = node;
 
-    if (!isEqual(type, StackType.void)) this.lastType = type;
+    if (!equalTypes(type, StackType.void)) this.lastType = type;
 
     this.teal[this.currentProgram].push({ teal, node });
   }
@@ -2639,7 +2642,7 @@ export default class Compiler {
         );
       }
 
-      if (isEqual(types[i], { kind: 'base', type: 'bool' })) {
+      if (equalTypes(types[i], { kind: 'base', type: 'bool' })) {
         consecutiveBools.push(e);
         return;
       }
@@ -2789,7 +2792,7 @@ export default class Compiler {
 
     if (
       (typeHint.kind === 'staticArray' || typeHint.kind === 'dynamicArray') &&
-      isEqual(typeHint.base, { kind: 'base', type: 'bool' })
+      equalTypes(typeHint.base, { kind: 'base', type: 'bool' })
     ) {
       this.processBools(elements, typeHint.kind === 'dynamicArray');
     } else {
@@ -3600,7 +3603,7 @@ export default class Compiler {
       throw Error('Only one method called "logic" can be defined in a logic signature');
     }
 
-    if (this.currentProgram === 'lsig' && !isEqual(returnType, StackType.void))
+    if (this.currentProgram === 'lsig' && !equalTypes(returnType, StackType.void))
       throw Error('logic method must have a void return type');
 
     this.currentSubroutine.allows = { create: [], call: [] };
@@ -3711,7 +3714,7 @@ export default class Compiler {
               throw Error(`Unknown decorator ${d.getText()}`);
             if (this.currentSubroutine.args.length !== 0)
               throw Error('Non-ABI methods must not have arguments defined');
-            if (!isEqual(this.currentSubroutine.returns.type, StackType.void))
+            if (!equalTypes(this.currentSubroutine.returns.type, StackType.void))
               throw Error('Non-ABI methods must return void');
 
             this.currentSubroutine.nonAbi[decoratorFunction as 'call' | 'create'].push(oc);
@@ -3831,7 +3834,7 @@ export default class Compiler {
 
   // eslint-disable-next-line class-methods-use-this
   private typeComparison(inputType: TypeInfo, expectedType: TypeInfo): void {
-    if (isEqual(inputType, expectedType)) return;
+    if (equalTypes(inputType, expectedType)) return;
     if (inputType.kind === 'base' && expectedType.kind === 'base') {
       const sameTypes = [
         ['address', 'account'],
@@ -3969,7 +3972,8 @@ export default class Compiler {
 
     if (
       operator === '+' &&
-      (isBytes(leftType) || (leftType.kind === 'staticArray' && isEqual(leftType.base, { kind: 'base', type: 'byte' })))
+      (isBytes(leftType) ||
+        (leftType.kind === 'staticArray' && equalTypes(leftType.base, { kind: 'base', type: 'byte' })))
     ) {
       this.push(node.getOperatorToken(), 'concat', StackType.bytes);
       if (isOperatorAssignment) this.updateValue(leftNode);
@@ -4214,7 +4218,7 @@ export default class Compiler {
       this.processNode(keyNode);
 
       // Ensure the key is properly encoded (except for bytes which are not ABI encoded)
-      if (!isEqual(storageProp.keyType, StackType.bytes)) {
+      if (!equalTypes(storageProp.keyType, StackType.bytes)) {
         this.checkEncoding(keyNode, this.lastType);
       }
 
@@ -5488,7 +5492,7 @@ export default class Compiler {
     this.pushVoid(fn, `// execute ${this.getSignature(this.currentSubroutine)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
     this.checkEncoding(fn, returnType);
-    if (!isEqual(returnType, StackType.void)) this.pushLines(fn, 'concat', 'log');
+    if (!equalTypes(returnType, StackType.void)) this.pushLines(fn, 'concat', 'log');
     this.pushLines(fn, 'int 1', 'return');
     this.processSubroutine(fn);
   }
@@ -5772,7 +5776,7 @@ export default class Compiler {
 
     if (TXN_TYPES.includes(typeStr) && !thisTxn) {
       typeStr = 'gtxns';
-    } else if (isEqual(type, ForeignType.Address)) {
+    } else if (equalTypes(type, ForeignType.Address)) {
       typeStr = 'account';
     } else if (typeStr === 'app') {
       typeStr = 'application';
