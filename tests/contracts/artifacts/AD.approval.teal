@@ -32,7 +32,7 @@ abi_route_a:
 a:
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:9
+	// tests/contracts/inheritance.algo.ts:11
 	// this.aKey.value = 1337
 	byte 0x61 // "a"
 	int 1337
@@ -49,7 +49,7 @@ abi_route_d:
 d:
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:33
+	// tests/contracts/inheritance.algo.ts:35
 	// this.dKey.value = 42
 	byte 0x64 // "d"
 	int 42
@@ -66,7 +66,7 @@ abi_route_ad:
 ad:
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:39
+	// tests/contracts/inheritance.algo.ts:41
 	// assert(this.aKey.value === 1337)
 	byte 0x61 // "a"
 	app_global_get
@@ -74,7 +74,7 @@ ad:
 	==
 	assert
 
-	// tests/contracts/inheritance.algo.ts:40
+	// tests/contracts/inheritance.algo.ts:42
 	// assert(this.dKey.value === 42)
 	byte 0x64 // "d"
 	app_global_get

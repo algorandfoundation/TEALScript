@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import { Contract } from '../../src/lib/index';
-import { ExternalContract, CustomType } from './inheritance-external.algo';
+import { ExternalContract, CustomType as ExternalCustomType } from './inheritance-external.algo';
+
+type CustomType = uint<256>;
 
 export class A extends Contract {
   aKey = GlobalStateKey<number>({ key: 'a' });
@@ -43,8 +45,12 @@ export class AD extends Contract.extend(A, D) {
 
 export class E extends ExternalContract {
   e(): void {
-    const val: CustomType = <CustomType>123;
+    const val: ExternalCustomType = <ExternalCustomType>123;
     assert(this.externalKey.value === val);
+    const x = <uint<256>>321;
+    const y = <CustomType>321;
+
+    assert(x === y);
   }
 }
 

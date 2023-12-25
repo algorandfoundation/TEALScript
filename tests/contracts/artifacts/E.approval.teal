@@ -43,7 +43,7 @@ externalMethod:
 	byte 0x7b
 	app_global_put
 
-	// tests/contracts/inheritance.algo.ts:13
+	// tests/contracts/inheritance.algo.ts:10
 	// return this.externalKey.value;
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
@@ -61,17 +61,35 @@ e:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
+	dupn 3
 
-	// tests/contracts/inheritance.algo.ts:46
-	// val: CustomType = <CustomType>123
+	// tests/contracts/inheritance.algo.ts:48
+	// val: ExternalCustomType = <ExternalCustomType>123
 	byte 0x7b
-	frame_bury 0 // val: CustomType
+	frame_bury 0 // val: ExternalCustomType
 
-	// tests/contracts/inheritance.algo.ts:47
+	// tests/contracts/inheritance.algo.ts:49
 	// assert(this.externalKey.value === val)
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
-	byte 0x7b // val: CustomType
+	byte 0x7b // val: ExternalCustomType
+	b==
+	assert
+
+	// tests/contracts/inheritance.algo.ts:50
+	// x = <uint<256>>321
+	byte 0x0000000000000000000000000000000000000000000000000000000000000141
+	frame_bury 1 // x: uint256
+
+	// tests/contracts/inheritance.algo.ts:51
+	// y = <CustomType>321
+	byte 0x0000000000000000000000000000000000000000000000000000000000000141
+	frame_bury 2 // y: uint256
+
+	// tests/contracts/inheritance.algo.ts:53
+	// assert(x === y)
+	byte 0x0000000000000000000000000000000000000000000000000000000000000141 // x: uint256
+	byte 0x0000000000000000000000000000000000000000000000000000000000000141 // y: uint256
 	b==
 	assert
 	retsub

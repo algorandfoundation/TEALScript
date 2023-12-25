@@ -43,7 +43,7 @@ abi_route_publicMethod:
 publicMethod:
 	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:53
+	// tests/contracts/inheritance.algo.ts:59
 	// return 'public';
 	byte 0x7075626c6963 // "public"
 	retsub
@@ -51,7 +51,7 @@ publicMethod:
 privateMethod:
 	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:57
+	// tests/contracts/inheritance.algo.ts:63
 	// return 'private';
 	byte 0x70726976617465 // "private"
 	retsub
@@ -59,7 +59,7 @@ privateMethod:
 protectedMethod:
 	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:61
+	// tests/contracts/inheritance.algo.ts:67
 	// return 'protected';
 	byte 0x70726f746563746564 // "protected"
 	retsub
