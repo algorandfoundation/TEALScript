@@ -4042,8 +4042,14 @@ export default class Compiler {
       return;
     }
 
-    if (this.constants[node.getText()]) {
-      this.processNode(this.constants[node.getText()]);
+    const definitionNode = node.getDefinitionNodes().at(-1);
+    const greatGrandParentNode = definitionNode?.getParent()?.getParent()?.getParent();
+
+    if (
+      definitionNode?.isKind(ts.SyntaxKind.VariableDeclaration) &&
+      greatGrandParentNode?.isKind(ts.SyntaxKind.SourceFile)
+    ) {
+      this.processNode(definitionNode.getInitializer()!);
       return;
     }
 

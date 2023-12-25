@@ -32,7 +32,7 @@ abi_route_a:
 a:
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:11
+	// tests/contracts/inheritance.algo.ts:16
 	// this.aKey.value = 1337
 	byte 0x61 // "a"
 	int 1337

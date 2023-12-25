@@ -2,6 +2,7 @@
 import { Contract } from '../../src/lib/index';
 
 export type CustomType = uint<8>;
+export const MY_CONST = 654;
 
 export class ExternalContract extends Contract {
   externalKey = GlobalStateKey<CustomType>();

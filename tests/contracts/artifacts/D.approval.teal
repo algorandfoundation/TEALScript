@@ -32,7 +32,7 @@ abi_route_d:
 d:
 	proto 0 0
 
-	// tests/contracts/inheritance.algo.ts:35
+	// tests/contracts/inheritance.algo.ts:40
 	// this.dKey.value = 42
 	byte 0x64 // "d"
 	int 42

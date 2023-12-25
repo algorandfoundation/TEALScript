@@ -37,13 +37,13 @@ abi_route_externalMethod:
 externalMethod:
 	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:8
+	// tests/contracts/inheritance.algo.ts:12
 	// this.externalKey.value = <CustomType>123
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	byte 0x7b
 	app_global_put
 
-	// tests/contracts/inheritance.algo.ts:10
+	// tests/contracts/inheritance.algo.ts:13
 	// return this.externalKey.value;
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
@@ -63,12 +63,12 @@ e:
 	byte 0x
 	dupn 3
 
-	// tests/contracts/inheritance.algo.ts:48
+	// tests/contracts/inheritance.algo.ts:53
 	// val: ExternalCustomType = <ExternalCustomType>123
 	byte 0x7b
 	frame_bury 0 // val: ExternalCustomType
 
-	// tests/contracts/inheritance.algo.ts:49
+	// tests/contracts/inheritance.algo.ts:54
 	// assert(this.externalKey.value === val)
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
@@ -76,21 +76,35 @@ e:
 	b==
 	assert
 
-	// tests/contracts/inheritance.algo.ts:50
+	// tests/contracts/inheritance.algo.ts:55
 	// x = <uint<256>>321
 	byte 0x0000000000000000000000000000000000000000000000000000000000000141
 	frame_bury 1 // x: uint256
 
-	// tests/contracts/inheritance.algo.ts:51
+	// tests/contracts/inheritance.algo.ts:56
 	// y = <CustomType>321
 	byte 0x0000000000000000000000000000000000000000000000000000000000000141
 	frame_bury 2 // y: uint256
 
-	// tests/contracts/inheritance.algo.ts:53
+	// tests/contracts/inheritance.algo.ts:58
 	// assert(x === y)
 	byte 0x0000000000000000000000000000000000000000000000000000000000000141 // x: uint256
 	byte 0x0000000000000000000000000000000000000000000000000000000000000141 // y: uint256
 	b==
+	assert
+
+	// tests/contracts/inheritance.algo.ts:60
+	// assert(MY_CONST === 456)
+	int 456
+	dup
+	==
+	assert
+
+	// tests/contracts/inheritance.algo.ts:61
+	// assert(EXTERNAL_CONST === 654)
+	int 654
+	dup
+	==
 	assert
 	retsub
 
