@@ -2076,10 +2076,11 @@ export default class Compiler {
           if (i.getText() === CONTRACT_CLASS || i.getText() === LSIG_CLASS) return;
           this.importRegistry[i.getText()] = importSourceFile!;
 
-          // TODO support non-class imports
-          //       const superClass = body.heritageClauses![0].types[0].getExpression().getText();
+          let baseClass = importSourceFile?.getClass(i.getText())!;
 
-          let baseClass = importSourceFile!.getClass(i.getText())!;
+          // baseClass will be undefined if a type is being imported
+          if (baseClass === undefined) return;
+
           while (baseClass.getBaseClass() !== undefined) {
             baseClass = baseClass.getBaseClass()!;
           }
@@ -3837,7 +3838,7 @@ export default class Compiler {
       if (typeEquality) return;
     }
 
-    throw Error(`Type mismatch: got ${JSON.stringify(inputType)} expected ${JSON.stringify(expectedType)}`);
+    throw Error(`Type mismatch: got ${typeInfoToABIString(inputType)} expected ${typeInfoToABIString(expectedType)}`);
   }
 
   private isBinaryExpression(node: ts.Node): boolean {

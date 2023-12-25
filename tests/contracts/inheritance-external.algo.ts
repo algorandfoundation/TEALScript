@@ -1,10 +1,13 @@
 /* eslint-disable max-classes-per-file */
 import { Contract } from '../../src/lib/index';
 
-export class ExternalContract extends Contract {
-  externalKey = GlobalStateKey<number>();
+export type CustomType = uint<8>;
 
-  externalMethod(): void {
-    this.externalKey.value = 7331;
+export class ExternalContract extends Contract {
+  externalKey = GlobalStateKey<CustomType>();
+
+  externalMethod(): CustomType {
+    this.externalKey.value = <CustomType>123;
+    return this.externalKey.value;
   }
 }

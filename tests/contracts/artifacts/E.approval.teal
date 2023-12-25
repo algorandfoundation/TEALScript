@@ -22,21 +22,31 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// externalMethod()void
+// externalMethod()uint8
 abi_route_externalMethod:
-	// execute externalMethod()void
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute externalMethod()uint8
 	callsub externalMethod
+	concat
+	log
 	int 1
 	return
 
 externalMethod:
-	proto 0 0
+	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:6
-	// this.externalKey.value = 7331
+	// tests/contracts/inheritance.algo.ts:8
+	// this.externalKey.value = <CustomType>123
 	byte 0x65787465726e616c4b6579 // "externalKey"
-	int 7331
+	byte 0x7b
 	app_global_put
+
+	// tests/contracts/inheritance.algo.ts:13
+	// return this.externalKey.value;
+	byte 0x65787465726e616c4b6579 // "externalKey"
+	app_global_get
 	retsub
 
 // e()void
@@ -49,12 +59,20 @@ abi_route_e:
 e:
 	proto 0 0
 
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
 	// tests/contracts/inheritance.algo.ts:46
-	// assert(this.externalKey.value === 7331)
+	// val: CustomType = <CustomType>123
+	byte 0x7b
+	frame_bury 0 // val: CustomType
+
+	// tests/contracts/inheritance.algo.ts:47
+	// assert(this.externalKey.value === val)
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
-	int 7331
-	==
+	byte 0x7b // val: CustomType
+	b==
 	assert
 	retsub
 
@@ -69,7 +87,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "externalMethod()void"
+	method "externalMethod()uint8"
 	method "e()void"
 	txna ApplicationArgs 0
 	match abi_route_externalMethod abi_route_e
