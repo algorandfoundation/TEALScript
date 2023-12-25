@@ -71,6 +71,26 @@ type TypeInfo =
       length: number;
     };
 
+function getConstantInitializer(node: ts.Node): ts.Node | undefined {
+  if (!node.isKind(ts.SyntaxKind.Identifier)) return undefined;
+  const definitionNode = node.getDefinitionNodes().at(-1);
+  const greatGrandParentNode = definitionNode?.getParent()?.getParent()?.getParent();
+
+  if (
+    definitionNode?.isKind(ts.SyntaxKind.VariableDeclaration) &&
+    greatGrandParentNode?.isKind(ts.SyntaxKind.SourceFile)
+  ) {
+    const initializer = definitionNode.getInitializer();
+    if (initializer?.isKind(ts.SyntaxKind.Identifier)) {
+      return getConstantInitializer(initializer) ?? definitionNode.getInitializer();
+    }
+
+    return initializer;
+  }
+
+  return undefined;
+}
+
 function typeInfoToABIString(typeInfo: TypeInfo, convertAppAndAsset: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertAppAndAsset && ['application', 'asset'].includes(typeInfo.type)) {
@@ -647,8 +667,6 @@ export default class Compiler {
   private comments: number[] = [];
 
   private typeHint?: TypeInfo;
-
-  private constants: { [name: string]: ts.Node };
 
   private readonly OP_PARAMS: {
     [type: string]: { name: string; type?: string; args: number; fn: (node: ts.Node) => void }[];
@@ -1652,7 +1670,6 @@ export default class Compiler {
     this.content = content;
     this.name = className;
     this.sourceFile = this.project.getSourceFile(this.filename)!;
-    this.constants = {};
   }
 
   static compileAll(content: string, project: Project, options: CompilerOptions): Promise<Compiler>[] {
@@ -2098,12 +2115,6 @@ export default class Compiler {
       if (body.isKind(ts.SyntaxKind.VariableStatement)) {
         if (body.getDeclarationList().getFlags() !== ts.NodeFlags.Const)
           throw new Error('Top-level variables must be constants');
-        body
-          .getDeclarationList()
-          .getDeclarations()
-          .forEach((d) => {
-            this.constants[d.getNameNode().getText()] = d.getInitializer()!!;
-          });
       }
     });
 
@@ -4042,14 +4053,10 @@ export default class Compiler {
       return;
     }
 
-    const definitionNode = node.getDefinitionNodes().at(-1);
-    const greatGrandParentNode = definitionNode?.getParent()?.getParent()?.getParent();
+    const constantInitializer = getConstantInitializer(node);
 
-    if (
-      definitionNode?.isKind(ts.SyntaxKind.VariableDeclaration) &&
-      greatGrandParentNode?.isKind(ts.SyntaxKind.SourceFile)
-    ) {
-      this.processNode(definitionNode.getInitializer()!);
+    if (constantInitializer !== undefined) {
+      this.processNode(constantInitializer);
       return;
     }
 
@@ -4260,9 +4267,11 @@ export default class Compiler {
 
       const isArray = this.isArrayType(initializerType);
 
+      const intiailizerConstantInitializer = getConstantInitializer(node.getInitializer()!);
+
       if (
         node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
-        !this.constants[node.getInitializer()!.getText()] &&
+        intiailizerConstantInitializer === undefined &&
         isArray
       ) {
         lastFrameAccess = node.getInitializer()!.getText();
@@ -5108,9 +5117,10 @@ export default class Compiler {
         }
       }
 
+      const constantInitializer = getConstantInitializer(base);
       // If this is a constant
-      if (this.constants[base.getText()]) {
-        this.processNode(this.constants[base.getText()]);
+      if (constantInitializer) {
+        this.processNode(constantInitializer);
       }
 
       // If getting a txn type via the TransactionType enum
@@ -5518,7 +5528,9 @@ export default class Compiler {
           .getArguments()
           .slice(0, opSpec.Size - 1)
           .map((a) => {
-            const immediateArg = this.constants[a.getText()] ? this.constants[a.getText()] : a;
+            const constantInitializer = getConstantInitializer(node.getArguments()[0]);
+
+            const immediateArg = constantInitializer ?? a;
 
             if (immediateArg.isKind(ts.SyntaxKind.StringLiteral)) return immediateArg.getLiteralText();
             if (immediateArg.isKind(ts.SyntaxKind.NumericLiteral))
