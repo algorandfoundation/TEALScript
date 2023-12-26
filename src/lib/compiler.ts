@@ -2549,14 +2549,15 @@ export default class Compiler {
       const errNode = this.processErrorNodes[0];
       const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.compilerNode.pos);
       const lines: string[] = [];
+      const errPath = path.relative(process.cwd(), errNode.getSourceFile().getFilePath());
       errNode
         .getText()
         .split('\n')
         .forEach((l: string, i: number) => {
-          lines.push(`${this.filename}:${loc.line + i + 1}: ${l}`);
+          lines.push(`${errPath}:${loc.line + i}: ${l}`);
         });
 
-      const msg = `TEALScript can not process ${errNode.getKindName()} at ${this.filename}:${loc.line}:${
+      const msg = `TEALScript can not process ${errNode.getKindName()} at ${errPath}:${loc.line}:${
         loc.character
       }\n    ${lines.join('\n    ')}\n`;
 
@@ -5913,11 +5914,8 @@ export default class Compiler {
       return;
     }
 
-    const lineNum = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, node.getStart()).line + 1;
-
-    if (this.filename.length > 0) {
-      this.pushVoid(node, `// ${this.filename}:${lineNum}`);
-    }
+    const nodePath = path.relative(process.cwd(), node.getSourceFile().getFilePath());
+    this.pushVoid(node, `// ${nodePath}:${node.getStartLineNumber()}`);
 
     const lines = node
       .getText()

@@ -37,13 +37,13 @@ abi_route_externalMethod:
 externalMethod:
 	proto 0 1
 
-	// tests/contracts/inheritance.algo.ts:12
+	// tests/contracts/inheritance-external.algo.ts:11
 	// this.externalKey.value = <CustomType>123
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	byte 0x7b
 	app_global_put
 
-	// tests/contracts/inheritance.algo.ts:13
+	// tests/contracts/inheritance-external.algo.ts:12
 	// return this.externalKey.value;
 	byte 0x65787465726e616c4b6579 // "externalKey"
 	app_global_get
