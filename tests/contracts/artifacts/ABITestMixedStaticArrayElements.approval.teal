@@ -73,18 +73,18 @@ mixedStaticArrayElements:
 	concat
 	byte 0x0000000000000008
 	concat
-	frame_bury 3 // a: uint64[9]
+	frame_bury 3 // a: StaticArray<uint64, 9>
 
 	// tests/contracts/abi.algo.ts:49
 	// return a[1] + a[4] + a[7];
-	frame_dig 3 // a: uint64[9]
+	frame_dig 3 // a: StaticArray<uint64, 9>
 	extract 8 8
 	btoi
-	frame_dig 3 // a: uint64[9]
+	frame_dig 3 // a: StaticArray<uint64, 9>
 	extract 32 8
 	btoi
 	+
-	frame_dig 3 // a: uint64[9]
+	frame_dig 3 // a: StaticArray<uint64, 9>
 	extract 56 8
 	btoi
 	+

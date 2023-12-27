@@ -76,11 +76,11 @@ dynamicBoolArrayAccess:
 	int 0
 	setbit
 	concat
-	frame_bury 0 // a: bool[]
+	frame_bury 0 // a: boolean[]
 
 	// tests/contracts/abi.algo.ts:950
 	// return a[8];
-	frame_dig 0 // a: bool[]
+	frame_dig 0 // a: boolean[]
 	store 255 // full array
 	load 255 // full array
 	int 8

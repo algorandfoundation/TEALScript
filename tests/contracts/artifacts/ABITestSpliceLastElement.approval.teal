@@ -51,21 +51,21 @@ spliceLastElement:
 	// tests/contracts/abi.algo.ts:490
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury 0 // a: uint16[]
+	frame_bury 0 // a: uint<16>[]
 
 	// tests/contracts/abi.algo.ts:492
 	// a.splice(2, 1)
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	int 1
 	int 4
 	store 247 // splice start
 	int 4
 	store 246 // splice byte length
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	int 0
 	load 247 // splice start
 	substring3
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	dup
 	len
 	load 247 // splice start
@@ -76,11 +76,11 @@ spliceLastElement:
 	swap
 	substring3
 	concat
-	frame_bury 0 // a: uint16[]
+	frame_bury 0 // a: uint<16>[]
 
 	// tests/contracts/abi.algo.ts:494
 	// return a;
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 
 	// set the subroutine return value
 	frame_bury 0

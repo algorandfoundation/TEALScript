@@ -144,7 +144,7 @@ localKeyPut:
 
 	// tests/contracts/storage.algo.ts:46
 	// this.localKey(a).value = 'bar'
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	byte 0x626172 // "bar"
 	app_local_put
@@ -167,7 +167,7 @@ localKeyGet:
 
 	// tests/contracts/storage.algo.ts:50
 	// assert(this.localKey(a).value === 'bar')
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	app_local_get
 	byte 0x626172 // "bar"
@@ -192,7 +192,7 @@ localKeyDelete:
 
 	// tests/contracts/storage.algo.ts:54
 	// this.localKey(a).delete()
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	app_local_del
 	retsub
@@ -214,7 +214,7 @@ localKeyExists:
 
 	// tests/contracts/storage.algo.ts:58
 	// assert(this.localKey(a).exists)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	txna Applications 0
 	byte 0x666f6f // "foo"
 	app_local_get_ex
@@ -384,7 +384,7 @@ localMapPut:
 
 	// tests/contracts/storage.algo.ts:94
 	// this.localMap(a, 'foo').value = 'bar'
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	byte 0x626172 // "bar"
 	app_local_put
@@ -407,7 +407,7 @@ localMapGet:
 
 	// tests/contracts/storage.algo.ts:98
 	// assert(this.localMap(a, 'foo').value === 'bar')
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	app_local_get
 	byte 0x626172 // "bar"
@@ -432,7 +432,7 @@ localMapDelete:
 
 	// tests/contracts/storage.algo.ts:102
 	// this.localMap(a, 'foo').delete()
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	byte 0x666f6f // "foo"
 	app_local_del
 	retsub
@@ -454,7 +454,7 @@ localMapExists:
 
 	// tests/contracts/storage.algo.ts:106
 	// assert(this.localMap(a, 'foo').exists)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	txna Applications 0
 	byte 0x666f6f // "foo"
 	app_local_get_ex

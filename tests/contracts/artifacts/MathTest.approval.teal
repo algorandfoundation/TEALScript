@@ -179,8 +179,8 @@ u256plus:
 
 	// tests/contracts/math.algo.ts:24
 	// return <uint<256>>(a + b);
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b+
 	dup
 	bitlen
@@ -231,8 +231,8 @@ u256minus:
 
 	// tests/contracts/math.algo.ts:28
 	// return <uint<256>>(a - b);
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b-
 	dup
 	bitlen
@@ -283,8 +283,8 @@ u256mul:
 
 	// tests/contracts/math.algo.ts:32
 	// return <uint<256>>(a * b);
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b*
 	dup
 	bitlen
@@ -335,8 +335,8 @@ u256div:
 
 	// tests/contracts/math.algo.ts:36
 	// return <uint<256>>(a / b);
-	frame_dig -1 // a: uint256
-	frame_dig -2 // b: uint256
+	frame_dig -1 // a: uint<256>
+	frame_dig -2 // b: uint<256>
 	b/
 	dup
 	bitlen
@@ -480,9 +480,9 @@ variableTypeHint:
 
 	// tests/contracts/math.algo.ts:53
 	// z = <uint<16>>(x + y)
-	frame_dig -1 // x: uint8
+	frame_dig -1 // x: uint<8>
 	btoi
-	frame_dig -2 // y: uint8
+	frame_dig -2 // y: uint<8>
 	btoi
 	+
 	itob
@@ -543,9 +543,9 @@ uint8plus:
 
 	// tests/contracts/math.algo.ts:59
 	// return a + b;
-	frame_dig -1 // a: uint8
+	frame_dig -1 // a: uint<8>
 	btoi
-	frame_dig -2 // b: uint8
+	frame_dig -2 // b: uint<8>
 	btoi
 	+
 	itob
@@ -598,9 +598,9 @@ uint8exp:
 
 	// tests/contracts/math.algo.ts:63
 	// return a ** b;
-	frame_dig -1 // a: uint8
+	frame_dig -1 // a: uint<8>
 	btoi
-	frame_dig -2 // b: uint8
+	frame_dig -2 // b: uint<8>
 	btoi
 	exp
 	itob
@@ -649,13 +649,13 @@ plusEquals:
 
 	// tests/contracts/math.algo.ts:67
 	// x = a
-	frame_dig -1 // a: uint64
+	frame_dig -1 // a: number
 	frame_bury 0 // x: uint64
 
 	// tests/contracts/math.algo.ts:69
 	// x += b
 	frame_dig 0 // x: uint64
-	frame_dig -2 // b: uint64
+	frame_dig -2 // b: number
 	+
 	frame_bury 0 // x: uint64
 
@@ -694,14 +694,14 @@ plusEqualsFromGlobal:
 	// tests/contracts/math.algo.ts:75
 	// this.gKey.value = a
 	byte 0x674b6579 // "gKey"
-	frame_dig -1 // a: uint64
+	frame_dig -1 // a: number
 	app_global_put
 
 	// tests/contracts/math.algo.ts:77
 	// this.gKey.value += b
 	byte 0x674b6579 // "gKey"
 	app_global_get
-	frame_dig -2 // b: uint64
+	frame_dig -2 // b: number
 	+
 	byte 0x674b6579 // "gKey"
 	swap
@@ -735,16 +735,16 @@ ufixedLiteralMul:
 	// tests/contracts/math.algo.ts:83
 	// a: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury 0 // a: ufixed64x2
+	frame_bury 0 // a: ufixed<64, 2>
 
 	// tests/contracts/math.algo.ts:84
 	// b: ufixed<64, 2> = 12.34
 	byte 0x00000000000004d2
-	frame_bury 1 // b: ufixed64x2
+	frame_bury 1 // b: ufixed<64, 2>
 
 	// tests/contracts/math.algo.ts:85
 	// c = a * b
-	frame_dig 0 // a: ufixed64x2
+	frame_dig 0 // a: ufixed<64, 2>
 	btoi
 	int 1234
 	*
@@ -813,9 +813,9 @@ ufixedMul:
 
 	// tests/contracts/math.algo.ts:91
 	// return a * b;
-	frame_dig -1 // a: ufixed64x2
+	frame_dig -1 // a: ufixed<64, 2>
 	btoi
-	frame_dig -2 // b: ufixed64x2
+	frame_dig -2 // b: ufixed<64, 2>
 	btoi
 	*
 	itob
@@ -872,8 +872,8 @@ BigUfixedMul:
 
 	// tests/contracts/math.algo.ts:95
 	// return a * b;
-	frame_dig -1 // a: ufixed128x2
-	frame_dig -2 // b: ufixed128x2
+	frame_dig -1 // a: ufixed<128, 2>
+	frame_dig -2 // b: ufixed<128, 2>
 	b*
 	byte 0x64
 	b/
@@ -938,8 +938,8 @@ TripleBigUfixedMul:
 
 	// tests/contracts/math.algo.ts:99
 	// ab = a * b
-	frame_dig -1 // a: ufixed128x2
-	frame_dig -2 // b: ufixed128x2
+	frame_dig -1 // a: ufixed<128, 2>
+	frame_dig -2 // b: ufixed<128, 2>
 	b*
 	byte 0x64
 	b/
@@ -948,7 +948,7 @@ TripleBigUfixedMul:
 	// tests/contracts/math.algo.ts:100
 	// abc = ab * c
 	frame_dig 0 // ab: unsafe ufixed128x2
-	frame_dig -3 // c: ufixed128x2
+	frame_dig -3 // c: ufixed<128, 2>
 	b*
 	byte 0x64
 	b/

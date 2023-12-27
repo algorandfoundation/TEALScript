@@ -52,29 +52,29 @@ dynamicArrayElements:
 	// tests/contracts/abi.algo.ts:481
 	// a: uint<16>[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury 0 // a: uint16[]
+	frame_bury 0 // a: uint<16>[]
 
 	// tests/contracts/abi.algo.ts:482
 	// newA: uint<16>[] = [a[0], a[1], a[2]]
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	store 255 // full array
 	load 255 // full array
 	extract 0 2
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	store 255 // full array
 	load 255 // full array
 	extract 2 2
 	concat
-	frame_dig 0 // a: uint16[]
+	frame_dig 0 // a: uint<16>[]
 	store 255 // full array
 	load 255 // full array
 	extract 4 2
 	concat
-	frame_bury 1 // newA: uint16[]
+	frame_bury 1 // newA: uint<16>[]
 
 	// tests/contracts/abi.algo.ts:484
 	// return newA;
-	frame_dig 1 // newA: uint16[]
+	frame_dig 1 // newA: uint<16>[]
 
 	// set the subroutine return value
 	frame_bury 0

@@ -80,11 +80,11 @@ boolTuple:
 	int 8
 	int 0
 	setbit
-	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
 	// tests/contracts/abi.algo.ts:900
 	// return a;
-	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
 	// set the subroutine return value
 	frame_bury 0

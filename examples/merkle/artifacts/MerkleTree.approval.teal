@@ -87,8 +87,8 @@ hashConcat:
 
 	// examples/merkle/merkle.algo.ts:29
 	// return sha256(left + right);
-	frame_dig -1 // left: byte[32]
-	frame_dig -2 // right: byte[32]
+	frame_dig -1 // left: byte32
+	frame_dig -2 // right: byte32
 	concat
 	sha256
 	retsub
@@ -98,7 +98,7 @@ isRightSibling:
 
 	// examples/merkle/merkle.algo.ts:33
 	// return getbyte(elem, 0) === RIGHT_SIBLING_PREFIX;
-	frame_dig -1 // elem: byte[33]
+	frame_dig -1 // elem: Branch
 	int 0
 	getbyte
 	int 170
@@ -130,7 +130,7 @@ for_1:
 	// if0_condition
 	// examples/merkle/merkle.algo.ts:42
 	// this.isRightSibling(elem)
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -2 // path: Path
 	store 255 // full array
 	int 0 // initial offset
 	frame_dig 1 // saved accessor: accessor//0//elem
@@ -147,7 +147,7 @@ for_1:
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:43
 	// result = this.hashConcat(result, extract3(elem, 1, 32))
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -2 // path: Path
 	store 255 // full array
 	int 0 // initial offset
 	frame_dig 1 // saved accessor: accessor//0//elem
@@ -159,16 +159,16 @@ for_1:
 	int 33
 	extract3
 	extract 1 32
-	frame_dig -1 // leaf: byte[32]
+	frame_dig -1 // leaf: byte32
 	callsub hashConcat
-	frame_bury -1 // result: byte[32]
+	frame_bury -1 // result: byte32
 	b if0_end
 
 if0_else:
 	// examples/merkle/merkle.algo.ts:45
 	// result = this.hashConcat(extract3(elem, 1, 32), result)
-	frame_dig -1 // leaf: byte[32]
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -1 // leaf: byte32
+	frame_dig -2 // path: Path
 	store 255 // full array
 	int 0 // initial offset
 	frame_dig 1 // saved accessor: accessor//0//elem
@@ -181,7 +181,7 @@ if0_else:
 	extract3
 	extract 1 32
 	callsub hashConcat
-	frame_bury -1 // result: byte[32]
+	frame_bury -1 // result: byte32
 
 if0_end:
 	// examples/merkle/merkle.algo.ts:39
@@ -195,7 +195,7 @@ if0_end:
 for_1_end:
 	// examples/merkle/merkle.algo.ts:49
 	// return result;
-	frame_dig -1 // leaf: byte[32]
+	frame_dig -1 // leaf: byte32
 
 	// set the subroutine return value
 	frame_bury 0
@@ -242,7 +242,7 @@ createApplication:
 	app_global_put
 	retsub
 
-// verify(byte[33][3],bytes)void
+// verify(byte[33][3],byte[])void
 abi_route_verify:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
@@ -256,7 +256,7 @@ abi_route_verify:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute verify(byte[33][3],bytes)void
+	// execute verify(byte[33][3],byte[])void
 	callsub verify
 	int 1
 	return
@@ -268,7 +268,7 @@ verify:
 	// assert(this.root.value === this.calcRoot(sha256(data), path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -2 // path: Path
 	frame_dig -1 // data: bytes
 	sha256
 	callsub calcRoot
@@ -276,7 +276,7 @@ verify:
 	assert
 	retsub
 
-// appendLeaf(byte[33][3],bytes)void
+// appendLeaf(byte[33][3],byte[])void
 abi_route_appendLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
@@ -290,7 +290,7 @@ abi_route_appendLeaf:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute appendLeaf(byte[33][3],bytes)void
+	// execute appendLeaf(byte[33][3],byte[])void
 	callsub appendLeaf
 	int 1
 	return
@@ -309,7 +309,7 @@ appendLeaf:
 	// assert(this.root.value === this.calcRoot(EMPTY_HASH, path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -2 // path: Path
 
 	// examples/merkle/merkle.algo.ts:6
 	// hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
@@ -326,7 +326,7 @@ appendLeaf:
 	// examples/merkle/merkle.algo.ts:68
 	// this.root.value = this.calcRoot(sha256(data), path)
 	byte 0x726f6f74 // "root"
-	frame_dig -2 // path: byte[33][3]
+	frame_dig -2 // path: Path
 	frame_dig -1 // data: bytes
 	sha256
 	callsub calcRoot
@@ -342,7 +342,7 @@ appendLeaf:
 	app_global_put
 	retsub
 
-// updateLeaf(byte[33][3],bytes,bytes)void
+// updateLeaf(byte[33][3],byte[],byte[])void
 abi_route_updateLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 3
@@ -360,7 +360,7 @@ abi_route_updateLeaf:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute updateLeaf(byte[33][3],bytes,bytes)void
+	// execute updateLeaf(byte[33][3],byte[],byte[])void
 	callsub updateLeaf
 	int 1
 	return
@@ -379,7 +379,7 @@ updateLeaf:
 	// assert(this.root.value === this.calcRoot(sha256(oldData), path))
 	byte 0x726f6f74 // "root"
 	app_global_get
-	frame_dig -3 // path: byte[33][3]
+	frame_dig -3 // path: Path
 	frame_dig -1 // oldData: bytes
 	sha256
 	callsub calcRoot
@@ -389,7 +389,7 @@ updateLeaf:
 	// examples/merkle/merkle.algo.ts:77
 	// this.root.value = this.calcRoot(sha256(newData), path)
 	byte 0x726f6f74 // "root"
-	frame_dig -3 // path: byte[33][3]
+	frame_dig -3 // path: Path
 	frame_dig -2 // newData: bytes
 	sha256
 	callsub calcRoot

@@ -424,7 +424,7 @@ declare class Address {
   state(app: Application, key: BytesLike): any;
 }
 
-type Account = Address;
+class Account extends Address {}
 
 type BytesLike = bytes | Address | string;
 
@@ -676,15 +676,15 @@ declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionPara
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void;
 declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void;
 
-declare type InnerPayment = Expand<PaymentParams>;
-declare type InnerAppCall = Expand<AppParams>;
-declare type InnerAssetTransfer = Expand<AssetTransferParams>;
-declare type InnerAssetConfig = Expand<AssetConfigParams>;
-declare type InnerAssetCreation = Expand<AssetCreateParams>;
-declare type InnerAssetFreeze = Expand<AssetFreezeParams>;
-declare type InnerOnlineKeyRegistration = Expand<OnlineKeyRegParams>;
-declare type InnerOfflineKeyRegistration = Expand<CommonTransactionParams>;
-declare type InnerMethodCall<ArgsType, ReturnType> = Expand<MethodCallParams<ArgsType>>;
+declare type InnerPayment = PaymentParams;
+declare type InnerAppCall = AppParams;
+declare type InnerAssetTransfer = AssetTransferParams;
+declare type InnerAssetConfig = AssetConfigParams;
+declare type InnerAssetCreation = AssetCreateParams;
+declare type InnerAssetFreeze = AssetFreezeParams;
+declare type InnerOnlineKeyRegistration = OnlineKeyRegParams;
+declare type InnerOfflineKeyRegistration = CommonTransactionParams;
+declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
 
 /**
  * Sends ABI method call. The two type arguments in combination with the

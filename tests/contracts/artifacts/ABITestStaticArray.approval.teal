@@ -44,11 +44,11 @@ staticArray:
 	// tests/contracts/abi.algo.ts:11
 	// a: StaticArray<uint64, 3> = [11, 22, 33]
 	byte 0x000000000000000b00000000000000160000000000000021
-	frame_bury 0 // a: uint64[3]
+	frame_bury 0 // a: StaticArray<uint64, 3>
 
 	// tests/contracts/abi.algo.ts:13
 	// return a[1];
-	frame_dig 0 // a: uint64[3]
+	frame_dig 0 // a: StaticArray<uint64, 3>
 	extract 8 8
 	btoi
 

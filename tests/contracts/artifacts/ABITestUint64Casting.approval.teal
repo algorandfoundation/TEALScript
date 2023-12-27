@@ -48,7 +48,7 @@ uint64Casting:
 
 	// tests/contracts/abi.algo.ts:1204
 	// return a as uint64;
-	frame_dig -1 // a: uint256
+	frame_dig -1 // a: uint<256>
 	dup
 	bitlen
 	int 64

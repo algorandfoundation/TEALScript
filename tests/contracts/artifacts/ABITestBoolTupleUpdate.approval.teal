@@ -80,21 +80,21 @@ boolTupleUpdate:
 	int 8
 	int 0
 	setbit
-	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
 	// tests/contracts/abi.algo.ts:988
 	// a[8] = true
-	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 	store 255 // full array
 	load 255 // full array
 	int 8
 	int 1
 	setbit
-	frame_bury 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_bury 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
 	// tests/contracts/abi.algo.ts:989
 	// return a;
-	frame_dig 0 // a: [bool,bool,bool,bool,bool,bool,bool,bool,bool]
+	frame_dig 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
 	// set the subroutine return value
 	frame_bury 0

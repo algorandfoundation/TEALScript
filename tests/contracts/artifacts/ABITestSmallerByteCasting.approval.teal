@@ -47,7 +47,7 @@ smallerByteCasting:
 
 	// tests/contracts/abi.algo.ts:1222
 	// return <StaticArray<byte, 2>>a;
-	frame_dig -1 // a: byte[4]
+	frame_dig -1 // a: StaticArray<byte, 4>
 	extract 0 2
 	retsub
 

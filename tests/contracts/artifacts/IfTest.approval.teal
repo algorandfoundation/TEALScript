@@ -56,7 +56,7 @@ singleIf:
 	// if0_condition
 	// tests/contracts/if.algo.ts:7
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if0_end
 
 	// if0_consequent
@@ -105,7 +105,7 @@ ifElse:
 	// if1_condition
 	// tests/contracts/if.algo.ts:15
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if1_else
 
 	// if1_consequent
@@ -168,7 +168,7 @@ ifElseIf:
 	// if2_condition
 	// tests/contracts/if.algo.ts:23
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if2_elseif1_condition
 
 	// if2_consequent
@@ -181,7 +181,7 @@ ifElseIf:
 if2_elseif1_condition:
 	// tests/contracts/if.algo.ts:25
 	// arg1
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz if2_end
 
 	// if2_elseif1_consequent
@@ -240,7 +240,7 @@ ifElseIfElse:
 	// if3_condition
 	// tests/contracts/if.algo.ts:33
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if3_elseif1_condition
 
 	// if3_consequent
@@ -253,7 +253,7 @@ ifElseIfElse:
 if3_elseif1_condition:
 	// tests/contracts/if.algo.ts:35
 	// arg1
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz if3_else
 
 	// if3_elseif1_consequent
@@ -326,7 +326,7 @@ ifElseIfElseIf:
 	// if4_condition
 	// tests/contracts/if.algo.ts:43
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if4_elseif1_condition
 
 	// if4_consequent
@@ -339,7 +339,7 @@ ifElseIfElseIf:
 if4_elseif1_condition:
 	// tests/contracts/if.algo.ts:45
 	// arg1
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz if4_elseif2_condition
 
 	// if4_elseif1_consequent
@@ -352,7 +352,7 @@ if4_elseif1_condition:
 if4_elseif2_condition:
 	// tests/contracts/if.algo.ts:47
 	// arg2
-	frame_dig -3 // arg2: bool
+	frame_dig -3 // arg2: boolean
 	bz if4_end
 
 	// if4_elseif2_consequent
@@ -421,7 +421,7 @@ ifElseIfElseIfElse:
 	// if5_condition
 	// tests/contracts/if.algo.ts:55
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if5_elseif1_condition
 
 	// if5_consequent
@@ -434,7 +434,7 @@ ifElseIfElseIfElse:
 if5_elseif1_condition:
 	// tests/contracts/if.algo.ts:57
 	// arg1
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz if5_elseif2_condition
 
 	// if5_elseif1_consequent
@@ -447,7 +447,7 @@ if5_elseif1_condition:
 if5_elseif2_condition:
 	// tests/contracts/if.algo.ts:59
 	// arg2
-	frame_dig -3 // arg2: bool
+	frame_dig -3 // arg2: boolean
 	bz if5_else
 
 	// if5_elseif2_consequent
@@ -510,14 +510,14 @@ nestedIf:
 	// if6_condition
 	// tests/contracts/if.algo.ts:67
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if6_else
 
 	// if6_consequent
 	// if7_condition
 	// tests/contracts/if.algo.ts:68
 	// arg1
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz if7_end
 
 	// if7_consequent
@@ -576,7 +576,7 @@ bracketlessIfElse:
 	// if8_condition
 	// tests/contracts/if.algo.ts:78
 	// arg0
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz if8_else
 
 	// if8_consequent
@@ -633,13 +633,13 @@ nestedTernary:
 
 	// tests/contracts/if.algo.ts:84
 	// return arg0 ? 1 : arg1 ? 2 : 3;
-	frame_dig -1 // arg0: bool
+	frame_dig -1 // arg0: boolean
 	bz ternary0_false
 	int 1
 	b ternary0_end
 
 ternary0_false:
-	frame_dig -2 // arg1: bool
+	frame_dig -2 // arg1: boolean
 	bz ternary1_false
 	int 2
 	b ternary1_end

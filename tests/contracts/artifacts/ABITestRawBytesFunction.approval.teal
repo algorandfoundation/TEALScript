@@ -49,11 +49,11 @@ rawBytesFunction:
 	// tests/contracts/abi.algo.ts:1062
 	// a: StaticArray<uint<8>, 3> = [1, 2, 3]
 	byte 0x010203
-	frame_bury 0 // a: uint8[3]
+	frame_bury 0 // a: StaticArray<uint<8>, 3>
 
 	// tests/contracts/abi.algo.ts:1063
 	// return rawBytes(a);
-	frame_dig 0 // a: uint8[3]
+	frame_dig 0 // a: StaticArray<uint<8>, 3>
 
 	// set the subroutine return value
 	frame_bury 0

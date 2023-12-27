@@ -27,8 +27,8 @@ add:
 
 	// examples/non_abi/non_abi.algo.ts:6
 	// return x + y;
-	frame_dig -1 // x: uint64
-	frame_dig -2 // y: uint64
+	frame_dig -1 // x: number
+	frame_dig -2 // y: number
 	+
 	retsub
 
@@ -58,8 +58,8 @@ abiAdd:
 
 	// examples/non_abi/non_abi.algo.ts:10
 	// return this.add(x, y);
-	frame_dig -2 // y: uint64
-	frame_dig -1 // x: uint64
+	frame_dig -2 // y: number
+	frame_dig -1 // x: number
 	callsub add
 	retsub
 

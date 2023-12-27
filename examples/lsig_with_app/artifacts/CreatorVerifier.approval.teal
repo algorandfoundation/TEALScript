@@ -45,7 +45,7 @@ allowOptInsFrom:
 	// examples/lsig_with_app/lsig_with_app.algo.ts:41
 	// this.allowedCreators([this.txn.sender, creator]).value = true
 	txn Sender
-	frame_dig -1 // creator: address
+	frame_dig -1 // creator: Address
 	concat
 	int 1
 	byte 0x00
@@ -78,7 +78,7 @@ disableOptInsFrom:
 	// examples/lsig_with_app/lsig_with_app.algo.ts:46
 	// this.allowedCreators([this.txn.sender, creator]).value = false
 	txn Sender
-	frame_dig -1 // creator: address
+	frame_dig -1 // creator: Address
 	concat
 	int 0
 	byte 0x00
@@ -117,9 +117,9 @@ verifyCreator:
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:52
 	// assert(this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value)
-	frame_dig -1 // optIn: axfer
+	frame_dig -1 // optIn: AssetTransferTxn
 	gtxns Sender
-	frame_dig -1 // optIn: axfer
+	frame_dig -1 // optIn: AssetTransferTxn
 	gtxns XferAsset
 	asset_params_get AssetCreator
 	assert

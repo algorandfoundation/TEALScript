@@ -140,7 +140,7 @@ addContact:
 
 	// examples/tuple_in_box/app.algo.ts:20
 	// this.contacts(address).value = contact
-	frame_dig -3 // address: address
+	frame_dig -3 // address: Address
 	dup
 	box_del
 	pop
@@ -185,7 +185,7 @@ updateContactField:
 	// if0_consequent
 	// examples/tuple_in_box/app.algo.ts:25
 	// this.contacts(address).value.name = value
-	frame_dig -3 // address: address
+	frame_dig -3 // address: Address
 	box_get
 	assert
 	store 255 // full array
@@ -237,7 +237,7 @@ updateContactField:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_dig -3 // address: address
+	frame_dig -3 // address: Address
 	dup
 	box_del
 	pop
@@ -256,7 +256,7 @@ if0_elseif1_condition:
 	// if0_elseif1_consequent
 	// examples/tuple_in_box/app.algo.ts:27
 	// this.contacts(address).value.company = value
-	frame_dig -3 // address: address
+	frame_dig -3 // address: Address
 	box_get
 	assert
 	store 255 // full array
@@ -303,7 +303,7 @@ if0_elseif1_condition:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_dig -3 // address: address
+	frame_dig -3 // address: Address
 	dup
 	box_del
 	pop
@@ -341,7 +341,7 @@ verifyContactName:
 
 	// examples/tuple_in_box/app.algo.ts:32
 	// assert(this.contacts(address).value.name === name)
-	frame_dig -2 // address: address
+	frame_dig -2 // address: Address
 	box_get
 	assert
 	store 255 // full array

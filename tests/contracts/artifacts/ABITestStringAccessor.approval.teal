@@ -49,11 +49,11 @@ stringAccessor:
 	// tests/contracts/abi.algo.ts:843
 	// s = 'Hello World'
 	byte 0x48656c6c6f20576f726c64 // "Hello World"
-	frame_bury 0 // s: bytes
+	frame_bury 0 // s: byte[]
 
 	// tests/contracts/abi.algo.ts:845
 	// return s[1];
-	frame_dig 0 // s: bytes
+	frame_dig 0 // s: byte[]
 	extract 1 1
 
 	// set the subroutine return value

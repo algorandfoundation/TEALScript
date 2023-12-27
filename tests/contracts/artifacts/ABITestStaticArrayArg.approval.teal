@@ -48,7 +48,7 @@ staticArrayArg:
 
 	// tests/contracts/abi.algo.ts:27
 	// return a[1];
-	frame_dig -1 // a: uint64[3]
+	frame_dig -1 // a: StaticArray<uint64, 3>
 	extract 8 8
 	btoi
 	retsub

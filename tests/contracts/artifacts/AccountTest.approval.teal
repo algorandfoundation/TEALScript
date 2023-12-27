@@ -39,7 +39,7 @@ hasAsset:
 
 	// tests/contracts/account.algo.ts:6
 	// assert(a.hasAsset(Asset.fromID(123)))
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetBalance
 	swap
@@ -64,7 +64,7 @@ assetBalance:
 
 	// tests/contracts/account.algo.ts:10
 	// assert(a.assetBalance(Asset.fromID(123)))
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetBalance
 	assert
@@ -88,7 +88,7 @@ assetFrozen:
 
 	// tests/contracts/account.algo.ts:14
 	// assert(a.assetFrozen(Asset.fromID(123)))
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetFrozen
 	assert
@@ -112,7 +112,7 @@ hasBalance:
 
 	// tests/contracts/account.algo.ts:18
 	// assert(a.hasBalance)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctBalance
 	swap
 	pop
@@ -136,7 +136,7 @@ balance:
 
 	// tests/contracts/account.algo.ts:22
 	// assert(a.balance)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctBalance
 	assert
 	assert
@@ -159,7 +159,7 @@ minBalance:
 
 	// tests/contracts/account.algo.ts:26
 	// assert(a.minBalance)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctMinBalance
 	assert
 	assert
@@ -182,7 +182,7 @@ authAddr:
 
 	// tests/contracts/account.algo.ts:30
 	// log(a.authAddr)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctAuthAddr
 	assert
 	log
@@ -205,7 +205,7 @@ totalNumUint:
 
 	// tests/contracts/account.algo.ts:34
 	// assert(a.totalNumUint)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalNumUint
 	assert
 	assert
@@ -228,7 +228,7 @@ totalNumByteSlice:
 
 	// tests/contracts/account.algo.ts:38
 	// assert(a.totalNumByteSlice)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalNumByteSlice
 	assert
 	assert
@@ -251,7 +251,7 @@ totalExtraAppPages:
 
 	// tests/contracts/account.algo.ts:42
 	// assert(a.totalExtraAppPages)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalExtraAppPages
 	assert
 	assert
@@ -274,7 +274,7 @@ totalAppsCreated:
 
 	// tests/contracts/account.algo.ts:46
 	// assert(a.totalAppsCreated)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAppsCreated
 	assert
 	assert
@@ -297,7 +297,7 @@ totalAppsOptedIn:
 
 	// tests/contracts/account.algo.ts:50
 	// assert(a.totalAppsOptedIn)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAppsOptedIn
 	assert
 	assert
@@ -320,7 +320,7 @@ totalAssetsCreated:
 
 	// tests/contracts/account.algo.ts:54
 	// assert(a.totalAssetsCreated)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAssetsCreated
 	assert
 	assert
@@ -343,7 +343,7 @@ totalAssets:
 
 	// tests/contracts/account.algo.ts:58
 	// assert(a.totalAssets)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAssets
 	assert
 	assert
@@ -366,7 +366,7 @@ totalBoxes:
 
 	// tests/contracts/account.algo.ts:62
 	// assert(a.totalBoxes)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalBoxes
 	assert
 	assert
@@ -389,7 +389,7 @@ totalBoxBytes:
 
 	// tests/contracts/account.algo.ts:66
 	// assert(a.totalBoxBytes)
-	frame_dig -1 // a: account
+	frame_dig -1 // a: Account
 	acct_params_get AcctTotalBoxBytes
 	assert
 	assert

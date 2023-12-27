@@ -4,7 +4,6 @@
   "methods": [
     {
       "name": "arc72_ownerOf",
-      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -20,7 +19,6 @@
     },
     {
       "name": "arc72_tokenURI",
-      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -116,7 +114,6 @@
     },
     {
       "name": "arc72_totalSupply",
-      "readonly": true,
       "args": [],
       "desc": "Returns the number of NFTs currently defined by this contract",
       "returns": {
@@ -126,7 +123,6 @@
     },
     {
       "name": "arc72_tokenByIndex",
-      "readonly": true,
       "args": [
         {
           "name": "index",
@@ -142,12 +138,12 @@
     },
     {
       "name": "createApplication",
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
-      },
-      "args": []
+      }
     }
   ]
 }

@@ -4,8 +4,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-undef */
 /// <reference path="../../types/global.d.ts" />
+import { classes } from 'polytype';
 
 export default abstract class LogicSig {
+  /**
+   * Create a contract class that inherits from the given contracts. Inheritance is in order of arguments.
+   */
+  static extend: typeof classes;
+
   static address: () => bytes;
 
   static program: () => bytes;

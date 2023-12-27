@@ -22,7 +22,7 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// bytesCasting(bytes)byte[2]
+// bytesCasting(byte[])byte[2]
 abi_route_bytesCasting:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -31,7 +31,7 @@ abi_route_bytesCasting:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute bytesCasting(bytes)byte[2]
+	// execute bytesCasting(byte[])byte[2]
 	callsub bytesCasting
 	concat
 	log

@@ -51,11 +51,11 @@ accessDynamicArrayElementInTuple:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint16,uint8[]]
+	frame_bury 0 // a: [uint<16>, uint<8>[]]
 
 	// tests/contracts/abi.algo.ts:676
 	// return a[1][1];
-	frame_dig 0 // a: [uint16,uint8[]]
+	frame_dig 0 // a: [uint<16>, uint<8>[]]
 	store 255 // full array
 	load 255 // full array
 	int 2

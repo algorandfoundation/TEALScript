@@ -47,7 +47,7 @@ biggerByteCasting:
 
 	// tests/contracts/abi.algo.ts:1216
 	// return <StaticArray<byte, 4>>a;
-	frame_dig -1 // a: byte[2]
+	frame_dig -1 // a: StaticArray<byte, 2>
 	byte 0x0000
 	concat
 	retsub

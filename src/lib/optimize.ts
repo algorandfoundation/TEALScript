@@ -1,5 +1,5 @@
-import * as ts from 'typescript';
-import langspec from '../langspec.json';
+import * as ts from 'ts-morph';
+import langspec from '../static/langspec.json';
 
 type NodeAndTEAL = {
   node: ts.Node;
