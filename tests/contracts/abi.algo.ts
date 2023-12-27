@@ -1400,7 +1400,7 @@ class ABITestStaticArrayLength extends Contract {
 class ABITestArrayInMethodCall extends Contract {
   arrayInMethodCall() {
     sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-      applicationID: AppID.fromID(0),
+      applicationID: AppID.fromUint64(0),
       name: 'foo',
       methodArgs: [[1, 2], this.txn.sender, 3, false],
     });

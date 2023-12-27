@@ -2007,8 +2007,8 @@ export default class Compiler {
         this.lastType = ForeignType.Address;
       },
     },
-    // Asset / Application fromID
-    fromID: {
+    // Asset / Application fromUint64
+    fromUint64: {
       check: (node: ts.CallExpression) =>
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         ((node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'AssetID' ||

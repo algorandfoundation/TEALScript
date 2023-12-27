@@ -134,9 +134,9 @@ ___
 
 ___
 
-### fromID
+### fromUint64
 
-▸ `Static` **fromID**(`appID`): [`Application`](Application.md)
+▸ `Static` **fromUint64**(`appID`): [`Application`](Application.md)
 
 #### Parameters
 

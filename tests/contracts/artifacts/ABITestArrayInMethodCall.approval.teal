@@ -34,7 +34,7 @@ arrayInMethodCall:
 
 	// tests/contracts/abi.algo.ts:1402
 	// sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-	//       applicationID: AppID.fromID(0),
+	//       applicationID: AppID.fromUint64(0),
 	//       name: 'foo',
 	//       methodArgs: [[1, 2], this.txn.sender, 3, false],
 	//     })
@@ -45,7 +45,7 @@ arrayInMethodCall:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/abi.algo.ts:1403
-	// applicationID: AppID.fromID(0)
+	// applicationID: AppID.fromUint64(0)
 	int 0
 	itxn_field ApplicationID
 

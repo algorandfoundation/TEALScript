@@ -100,7 +100,7 @@ class GeneralTest extends Contract {
         { amount: 100_000, receiver: this.txn.sender },
         {
           name: 'bar',
-          applicationID: AppID.fromID(1337),
+          applicationID: AppID.fromUint64(1337),
           methodArgs: [1],
         },
       ],
@@ -116,9 +116,9 @@ class GeneralTest extends Contract {
     assert(Address.fromBytes('abc').minBalance);
   }
 
-  fromID(): void {
-    log(AppID.fromID(123).creator);
-    log(AssetID.fromID(123).creator);
+  fromUint64(): void {
+    log(AppID.fromUint64(123).creator);
+    log(AssetID.fromUint64(123).creator);
   }
 
   bzeroFunction(): void {
@@ -181,10 +181,10 @@ class GeneralTest extends Contract {
 
   idProperty(): void {
     const app = AppID.zeroIndex;
-    assert(AppID.fromID(app.id) === app);
+    assert(AppID.fromUint64(app.id) === app);
 
     const asa = AssetID.zeroIndex;
-    assert(AssetID.fromID(asa.id) === asa);
+    assert(AssetID.fromUint64(asa.id) === asa);
   }
 
   scratchSlot(): void {
@@ -209,7 +209,7 @@ class GeneralTest extends Contract {
     });
 
     verifyAppCallTxn(this.txnGroup[0], {
-      applicationID: AppID.fromID(0),
+      applicationID: AppID.fromUint64(0),
       applicationArgs: {
         0: 'foo',
         1: {
@@ -223,7 +223,7 @@ class GeneralTest extends Contract {
     });
 
     verifyAssetConfigTxn(this.txnGroup[0], {
-      configAsset: AssetID.fromID(0),
+      configAsset: AssetID.fromUint64(0),
     });
 
     verifyKeyRegTxn(this.txnGroup[0], {

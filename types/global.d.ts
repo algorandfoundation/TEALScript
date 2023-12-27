@@ -364,7 +364,7 @@ declare type TxnVerificationFields = PayTxnVerificationFields &
   };
 
 declare class AssetID {
-  static fromID(index: uint64): AssetID;
+  static fromUint64(index: uint64): AssetID;
 
   static readonly zeroIndex: AssetID;
 
@@ -443,7 +443,7 @@ class AccountReference extends Address {}
 type BytesLike = bytes | Address | string;
 
 declare class AppID {
-  static fromID(appID: uint64): AppID;
+  static fromUint64(appID: uint64): AppID;
 
   readonly id: uint64;
 
