@@ -22,13 +22,13 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// d()void
 abi_route_d:
 	// execute d()void
 	callsub d
 	int 1
 	return
 
+// d()void
 d:
 	proto 0 0
 

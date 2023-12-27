@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// setMyContact(string,string)void
 abi_route_setMyContact:
 	// company: string
 	txna ApplicationArgs 2
@@ -37,6 +36,7 @@ abi_route_setMyContact:
 	int 1
 	return
 
+// setMyContact(string,string)void
 setMyContact:
 	proto 2 0
 
@@ -84,7 +84,6 @@ setMyContact:
 	box_put
 	retsub
 
-// addContact(address,string,string)void
 abi_route_addContact:
 	// address: address
 	txna ApplicationArgs 3
@@ -107,6 +106,7 @@ abi_route_addContact:
 	int 1
 	return
 
+// addContact(address,string,string)void
 addContact:
 	proto 3 0
 
@@ -148,7 +148,6 @@ addContact:
 	box_put
 	retsub
 
-// updateContactField(address,string,string)void
 abi_route_updateContactField:
 	// address: address
 	txna ApplicationArgs 3
@@ -171,6 +170,7 @@ abi_route_updateContactField:
 	int 1
 	return
 
+// updateContactField(address,string,string)void
 updateContactField:
 	proto 3 0
 
@@ -317,7 +317,6 @@ if0_else:
 if0_end:
 	retsub
 
-// verifyContactName(address,string)void
 abi_route_verifyContactName:
 	// address: address
 	txna ApplicationArgs 2
@@ -336,6 +335,7 @@ abi_route_verifyContactName:
 	int 1
 	return
 
+// verifyContactName(address,string)void
 verifyContactName:
 	proto 2 0
 

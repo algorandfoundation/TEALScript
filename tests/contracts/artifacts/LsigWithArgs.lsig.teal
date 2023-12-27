@@ -8,7 +8,6 @@
 
 b route_logic
 
-// logic(uint64[],asset)void
 route_logic:
 	// b: uint64[]
 	int 2
@@ -25,6 +24,7 @@ route_logic:
 	int 1
 	return
 
+// logic(uint64[],asset)void
 logic:
 	proto 2 0
 

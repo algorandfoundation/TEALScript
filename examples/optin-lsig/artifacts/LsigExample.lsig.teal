@@ -8,15 +8,15 @@
 
 b route_logic
 
-// logic()void
-//
-// Verify this is an opt in transaction
 route_logic:
 	// execute logic()void
 	callsub logic
 	int 1
 	return
 
+// logic()void
+//
+// Verify this is an opt in transaction
 logic:
 	proto 0 0
 

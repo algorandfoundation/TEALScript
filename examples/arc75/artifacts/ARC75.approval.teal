@@ -22,6 +22,7 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
+// verifyMBRPayment(uint64,pay)void
 verifyMBRPayment:
 	proto 2 0
 
@@ -49,6 +50,7 @@ verifyMBRPayment:
 	assert
 	retsub
 
+// sendMBRPayment(uint64)void
 sendMBRPayment:
 	proto 1 0
 
@@ -83,14 +85,6 @@ sendMBRPayment:
 	itxn_submit
 	retsub
 
-// addAppToWhiteList(pay,uint64,uint16,string)void
-//
-// Add app to whitelist box
-//
-// @param arc - The ARC the whitelist corresponds to
-// @param boxIndex - The index of the whitelist box to add the app to
-// @param appID - The app ID to add to the whitelist
-// @param payment - The payment transaction to cover the MBR change
 abi_route_addAppToWhiteList:
 	// payment: pay
 	txn GroupIndex
@@ -123,6 +117,14 @@ abi_route_addAppToWhiteList:
 	int 1
 	return
 
+// addAppToWhiteList(pay,uint64,uint16,string)void
+//
+// Add app to whitelist box
+//
+// @param arc - The ARC the whitelist corresponds to
+// @param boxIndex - The index of the whitelist box to add the app to
+// @param appID - The app ID to add to the whitelist
+// @param payment - The payment transaction to cover the MBR change
 addAppToWhiteList:
 	proto 4 0
 
@@ -225,13 +227,6 @@ if0_end:
 	callsub verifyMBRPayment
 	retsub
 
-// setAppWhitelist(uint64[],uint16,string)void
-//
-// Sets a app whitelist for the sender. Should only be used when adding/removing
-// more than one app
-//
-// @param boxIndex - The index of the whitelist box to put the app IDs in
-// @param appIDs - Array of app IDs that signify the whitelisted apps
 abi_route_setAppWhitelist:
 	// appIDs: uint64[]
 	txna ApplicationArgs 3
@@ -254,6 +249,13 @@ abi_route_setAppWhitelist:
 	int 1
 	return
 
+// setAppWhitelist(uint64[],uint16,string)void
+//
+// Sets a app whitelist for the sender. Should only be used when adding/removing
+// more than one app
+//
+// @param boxIndex - The index of the whitelist box to put the app IDs in
+// @param appIDs - Array of app IDs that signify the whitelisted apps
 setAppWhitelist:
 	proto 3 0
 
@@ -340,12 +342,6 @@ if1_else:
 if1_end:
 	retsub
 
-// deleteWhitelist(uint16,string)void
-//
-// Deletes a app whitelist for the sender
-//
-// @param arc - The ARC the whitelist corresponds to
-// @param boxIndex - The index of the whitelist box to delete
 abi_route_deleteWhitelist:
 	// boxIndex: uint16
 	txna ApplicationArgs 2
@@ -364,6 +360,12 @@ abi_route_deleteWhitelist:
 	int 1
 	return
 
+// deleteWhitelist(uint16,string)void
+//
+// Deletes a app whitelist for the sender
+//
+// @param arc - The ARC the whitelist corresponds to
+// @param boxIndex - The index of the whitelist box to delete
 deleteWhitelist:
 	proto 2 0
 
@@ -410,13 +412,6 @@ deleteWhitelist:
 	callsub sendMBRPayment
 	retsub
 
-// deleteAppFromWhitelist(uint64,uint64,uint16,string)void
-//
-// Deletes a app from a whitelist for the sender
-//
-// @param boxIndex - The index of the whitelist box to delete from
-// @param appID - The app ID to delete from the whitelist
-// @param index - The index of the app in the whitelist
 abi_route_deleteAppFromWhitelist:
 	// index: uint64
 	txna ApplicationArgs 4
@@ -443,6 +438,13 @@ abi_route_deleteAppFromWhitelist:
 	int 1
 	return
 
+// deleteAppFromWhitelist(uint64,uint64,uint16,string)void
+//
+// Deletes a app from a whitelist for the sender
+//
+// @param boxIndex - The index of the whitelist box to delete from
+// @param appID - The app ID to delete from the whitelist
+// @param index - The index of the app in the whitelist
 deleteAppFromWhitelist:
 	proto 4 0
 

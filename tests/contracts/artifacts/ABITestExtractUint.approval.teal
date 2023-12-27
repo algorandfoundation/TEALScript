@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// extractUint(uint64)uint8
 abi_route_extractUint:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -38,6 +37,7 @@ abi_route_extractUint:
 	int 1
 	return
 
+// extractUint(uint64)uint8
 extractUint:
 	proto 1 1
 

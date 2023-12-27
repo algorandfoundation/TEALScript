@@ -22,13 +22,13 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// txnTypeEnum()void
 abi_route_txnTypeEnum:
 	// execute txnTypeEnum()void
 	callsub txnTypeEnum
 	int 1
 	return
 
+// txnTypeEnum()void
 txnTypeEnum:
 	proto 0 0
 
@@ -41,13 +41,13 @@ txnTypeEnum:
 	assert
 	retsub
 
-// txnGroupLength()void
 abi_route_txnGroupLength:
 	// execute txnGroupLength()void
 	callsub txnGroupLength
 	int 1
 	return
 
+// txnGroupLength()void
 txnGroupLength:
 	proto 0 0
 
@@ -59,7 +59,6 @@ txnGroupLength:
 	assert
 	retsub
 
-// asserts(bool,bool)void
 abi_route_asserts:
 	// arg2: bool
 	txna ApplicationArgs 2
@@ -86,6 +85,7 @@ abi_route_asserts:
 	int 1
 	return
 
+// asserts(bool,bool)void
 asserts:
 	proto 2 0
 
@@ -101,7 +101,6 @@ asserts:
 	assert
 	retsub
 
-// verifyTxnFromArg(pay)void
 abi_route_verifyTxnFromArg:
 	// somePay: pay
 	txn GroupIndex
@@ -118,6 +117,7 @@ abi_route_verifyTxnFromArg:
 	int 1
 	return
 
+// verifyTxnFromArg(pay)void
 verifyTxnFromArg:
 	proto 1 0
 
@@ -138,13 +138,13 @@ verifyTxnFromArg:
 	assert
 	retsub
 
-// verifyTxnFromTxnGroup()void
 abi_route_verifyTxnFromTxnGroup:
 	// execute verifyTxnFromTxnGroup()void
 	callsub verifyTxnFromTxnGroup
 	int 1
 	return
 
+// verifyTxnFromTxnGroup()void
 verifyTxnFromTxnGroup:
 	proto 0 0
 
@@ -158,13 +158,13 @@ verifyTxnFromTxnGroup:
 	assert
 	retsub
 
-// verifyTxnCondition()void
 abi_route_verifyTxnCondition:
 	// execute verifyTxnCondition()void
 	callsub verifyTxnCondition
 	int 1
 	return
 
+// verifyTxnCondition()void
 verifyTxnCondition:
 	proto 0 0
 
@@ -179,13 +179,13 @@ verifyTxnCondition:
 	assert
 	retsub
 
-// verifyTxnIncludedIn()void
 abi_route_verifyTxnIncludedIn:
 	// execute verifyTxnIncludedIn()void
 	callsub verifyTxnIncludedIn
 	int 1
 	return
 
+// verifyTxnIncludedIn()void
 verifyTxnIncludedIn:
 	proto 0 0
 
@@ -200,13 +200,13 @@ verifyTxnIncludedIn:
 	assert
 	retsub
 
-// verifyTxnNotIncludedIn()void
 abi_route_verifyTxnNotIncludedIn:
 	// execute verifyTxnNotIncludedIn()void
 	callsub verifyTxnNotIncludedIn
 	int 1
 	return
 
+// verifyTxnNotIncludedIn()void
 verifyTxnNotIncludedIn:
 	proto 0 0
 
@@ -221,13 +221,13 @@ verifyTxnNotIncludedIn:
 	assert
 	retsub
 
-// submitPendingGroup()void
 abi_route_submitPendingGroup:
 	// execute submitPendingGroup()void
 	callsub submitPendingGroup
 	int 1
 	return
 
+// submitPendingGroup()void
 submitPendingGroup:
 	proto 0 0
 
@@ -271,13 +271,13 @@ submitPendingGroup:
 	itxn_submit
 	retsub
 
-// methodWithTxnArgs()void
 abi_route_methodWithTxnArgs:
 	// execute methodWithTxnArgs()void
 	callsub methodWithTxnArgs
 	int 1
 	return
 
+// methodWithTxnArgs()void
 methodWithTxnArgs:
 	proto 0 0
 
@@ -352,13 +352,13 @@ methodWithTxnArgs:
 	itxn_submit
 	retsub
 
-// shift()void
 abi_route_shift:
 	// execute shift()void
 	callsub shift
 	int 1
 	return
 
+// shift()void
 shift:
 	proto 0 0
 
@@ -381,13 +381,13 @@ shift:
 	assert
 	retsub
 
-// fromBytes()void
 abi_route_fromBytes:
 	// execute fromBytes()void
 	callsub fromBytes
 	int 1
 	return
 
+// fromBytes()void
 fromBytes:
 	proto 0 0
 
@@ -399,13 +399,13 @@ fromBytes:
 	assert
 	retsub
 
-// fromID()void
 abi_route_fromID:
 	// execute fromID()void
 	callsub fromID
 	int 1
 	return
 
+// fromID()void
 fromID:
 	proto 0 0
 
@@ -424,13 +424,13 @@ fromID:
 	log
 	retsub
 
-// bzeroFunction()void
 abi_route_bzeroFunction:
 	// execute bzeroFunction()void
 	callsub bzeroFunction
 	int 1
 	return
 
+// bzeroFunction()void
 bzeroFunction:
 	proto 0 0
 
@@ -472,13 +472,13 @@ bzeroFunction:
 	assert
 	retsub
 
-// events()void
 abi_route_events:
 	// execute events()void
 	callsub events
 	int 1
 	return
 
+// events()void
 events:
 	proto 0 0
 
@@ -493,7 +493,6 @@ events:
 	log
 	retsub
 
-// letOptimization(uint64[])uint64[]
 abi_route_letOptimization:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -517,6 +516,7 @@ abi_route_letOptimization:
 	int 1
 	return
 
+// letOptimization(uint64[])uint64[]
 letOptimization:
 	proto 1 1
 
@@ -539,13 +539,13 @@ letOptimization:
 	frame_dig -1 // a: uint64[]
 	retsub
 
-// staticContractProperties()void
 abi_route_staticContractProperties:
 	// execute staticContractProperties()void
 	callsub staticContractProperties
 	int 1
 	return
 
+// staticContractProperties()void
 staticContractProperties:
 	proto 0 0
 
@@ -606,13 +606,13 @@ staticContractProperties:
 	itxn_submit
 	retsub
 
-// numberToString()void
 abi_route_numberToString:
 	// execute numberToString()void
 	callsub numberToString
 	int 1
 	return
 
+// numberToString()void
 numberToString:
 	proto 0 0
 
@@ -639,13 +639,13 @@ numberToString:
 	assert
 	retsub
 
-// methodOnParens()void
 abi_route_methodOnParens:
 	// execute methodOnParens()void
 	callsub methodOnParens
 	int 1
 	return
 
+// methodOnParens()void
 methodOnParens:
 	proto 0 0
 
@@ -658,13 +658,13 @@ methodOnParens:
 	assert
 	retsub
 
-// stringSubstring()void
 abi_route_stringSubstring:
 	// execute stringSubstring()void
 	callsub stringSubstring
 	int 1
 	return
 
+// stringSubstring()void
 stringSubstring:
 	proto 0 0
 
@@ -684,13 +684,13 @@ stringSubstring:
 	assert
 	retsub
 
-// idProperty()void
 abi_route_idProperty:
 	// execute idProperty()void
 	callsub idProperty
 	int 1
 	return
 
+// idProperty()void
 idProperty:
 	proto 0 0
 
@@ -723,13 +723,13 @@ idProperty:
 	assert
 	retsub
 
-// scratchSlot()void
 abi_route_scratchSlot:
 	// execute scratchSlot()void
 	callsub scratchSlot
 	int 1
 	return
 
+// scratchSlot()void
 scratchSlot:
 	proto 0 0
 
@@ -746,7 +746,6 @@ scratchSlot:
 	assert
 	retsub
 
-// ecdsa()(uint256,uint256)
 abi_route_ecdsa:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -758,6 +757,7 @@ abi_route_ecdsa:
 	int 1
 	return
 
+// ecdsa()(uint256,uint256)
 ecdsa:
 	proto 0 1
 
@@ -798,13 +798,13 @@ ecdsa:
 	concat
 	retsub
 
-// verifyTxnTypes()void
 abi_route_verifyTxnTypes:
 	// execute verifyTxnTypes()void
 	callsub verifyTxnTypes
 	int 1
 	return
 
+// verifyTxnTypes()void
 verifyTxnTypes:
 	proto 0 0
 
@@ -899,13 +899,13 @@ verifyTxnTypes:
 	assert
 	retsub
 
-// stringPlusEquals()void
 abi_route_stringPlusEquals:
 	// execute stringPlusEquals()void
 	callsub stringPlusEquals
 	int 1
 	return
 
+// stringPlusEquals()void
 stringPlusEquals:
 	proto 0 0
 
@@ -932,7 +932,6 @@ stringPlusEquals:
 	assert
 	retsub
 
-// importedProgram()byte[]
 abi_route_importedProgram:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -950,6 +949,7 @@ abi_route_importedProgram:
 	int 1
 	return
 
+// importedProgram()byte[]
 importedProgram:
 	proto 0 1
 
@@ -958,13 +958,13 @@ importedProgram:
 	byte b64 CSADAQACJggEFR98dQJpZgRlbHNlA2VuZAdlbHNlIGlmCWVsc2UgaWYgMQllbHNlIGlmIDIAMRgjDYEGCzEZCI0HAlMAAAAAAAAAAAAAAmEAKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EAAimJK4koNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oBAYv/QQAFKYlCAAIqiYkoNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAgGL/0EABSmJQgAIi/5BAAMnBIkriSg2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oCAYv/QQAFKYlCAA2L/kEABicEiUIAAiqJiSg2GgNJFSISRCNTNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAwGL/0EABSmJQgATi/5BAAYnBYlCAAiL/UEAAycGiSuJKDYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oDAYv/QQAFKYlCABiL/kEABicFiUIADYv9QQAGJwaJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigIBi/9BABaL/kEADIAJbmVzdGVkIGlmiSmJQgACKomJKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EABSmJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAFFlCwIkOKAgGL/0EABCJCAAuL/kEABCRCAAKBA4koNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEAAiKJJIkoNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEABCJCAAEkiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHiABHS8yGiABEIS+QU2GgCOC/1D/Wn9k/3O/g3+Xf6x/vb/IP9V/3MA
 	retsub
 
-// callPrivateDefinedLater()void
 abi_route_callPrivateDefinedLater:
 	// execute callPrivateDefinedLater()void
 	callsub callPrivateDefinedLater
 	int 1
 	return
 
+// callPrivateDefinedLater()void
 callPrivateDefinedLater:
 	proto 0 0
 
@@ -975,6 +975,7 @@ callPrivateDefinedLater:
 	log
 	retsub
 
+// privateMethod(string)string
 privateMethod:
 	proto 1 1
 
@@ -983,7 +984,6 @@ privateMethod:
 	frame_dig -1 // msg: string
 	retsub
 
-// interalPublicMethod(uint64,uint64)uint64
 abi_route_interalPublicMethod:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -1004,6 +1004,7 @@ abi_route_interalPublicMethod:
 	int 1
 	return
 
+// interalPublicMethod(uint64,uint64)uint64
 interalPublicMethod:
 	proto 2 1
 
@@ -1014,13 +1015,13 @@ interalPublicMethod:
 	+
 	retsub
 
-// callInternalPublicMethod()void
 abi_route_callInternalPublicMethod:
 	// execute callInternalPublicMethod()void
 	callsub callInternalPublicMethod
 	int 1
 	return
 
+// callInternalPublicMethod()void
 callInternalPublicMethod:
 	proto 0 0
 

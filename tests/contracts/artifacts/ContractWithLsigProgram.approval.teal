@@ -22,13 +22,13 @@ switch create_NoOp
 NOT_IMPLEMENTED:
 	err
 
-// createApplication()void
 abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
 
+// createApplication()void
 createApplication:
 	proto 0 0
 

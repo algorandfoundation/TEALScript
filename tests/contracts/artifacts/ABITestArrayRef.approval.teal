@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// arrayRef()uint8[]
 abi_route_arrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,6 +39,7 @@ abi_route_arrayRef:
 	int 1
 	return
 
+// arrayRef()uint8[]
 arrayRef:
 	proto 0 1
 

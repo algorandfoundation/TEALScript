@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// rawBytesFunction()string
 abi_route_rawBytesFunction:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,6 +39,7 @@ abi_route_rawBytesFunction:
 	int 1
 	return
 
+// rawBytesFunction()string
 rawBytesFunction:
 	proto 0 1
 

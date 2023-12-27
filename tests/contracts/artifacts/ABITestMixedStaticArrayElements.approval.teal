@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// mixedStaticArrayElements()uint64
 abi_route_mixedStaticArrayElements:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -35,6 +34,7 @@ abi_route_mixedStaticArrayElements:
 	int 1
 	return
 
+// mixedStaticArrayElements()uint64
 mixedStaticArrayElements:
 	proto 0 1
 

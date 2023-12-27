@@ -3590,12 +3590,10 @@ export default class Compiler {
 
     this.currentSubroutine = this.subroutines.find((s) => s.name === node.getNameNode().getText())!;
 
-    const leadingCommentRanges = ts.ts.getLeadingCommentRanges(this.sourceFile.getText(), node.compilerNode.pos) || [];
-    const headerCommentRange = leadingCommentRanges.at(-1);
-    if (headerCommentRange) {
-      const comment = this.sourceFile.getText().slice(headerCommentRange.pos, headerCommentRange.end);
-      this.currentSubroutine.desc = comment;
-    }
+    this.currentSubroutine.desc = node
+      .getJsDocs()
+      .map((j) => j.getText())
+      .join('\n');
 
     if (!node.getBody()) throw new Error(`A method body must be defined for ${node.getNameNode().getText()}`);
 
@@ -5319,6 +5317,26 @@ export default class Compiler {
   private processSubroutine(fn: ts.MethodDeclaration) {
     const frameStart = this.teal[this.currentProgram].length;
 
+    const headerComment = [`// ${getSignature(this.currentSubroutine)}`];
+
+    if (this.currentSubroutine.desc !== '') {
+      headerComment.push('//');
+      const descLines = this.currentSubroutine.desc.split('\n');
+      descLines.forEach((line, i) => {
+        const newLine = line
+          .trim()
+          .replace(/^\/\*\*/, '')
+          .replace(/\*\/$/, '')
+          .replace(/^\*/, '');
+        if (newLine.trim() !== '' || !(i === 0 || i === descLines.length - 1))
+          headerComment.push(`// ${newLine.trim()}`);
+      });
+    }
+
+    while (headerComment.at(-1) === '// ') headerComment.pop();
+
+    this.pushLines(fn, ...headerComment);
+
     this.pushVoid(fn, `${this.currentSubroutine.name}:`);
     const lastFrame = JSON.parse(JSON.stringify(this.localVariables));
     this.localVariables = {};
@@ -5386,28 +5404,10 @@ export default class Compiler {
       return;
     }
 
-    const headerComment = [`// ${getSignature(this.currentSubroutine)}`];
-
-    if (this.currentSubroutine.desc !== '') {
-      headerComment.push('//');
-      const descLines = this.currentSubroutine.desc.split('\n');
-      descLines.forEach((line, i) => {
-        const newLine = line
-          .trim()
-          .replace(/^\/\*\*/, '')
-          .replace(/\*\/$/, '')
-          .replace(/^\*/, '');
-        if (newLine.trim() !== '' || !(i === 0 || i === descLines.length - 1))
-          headerComment.push(`// ${newLine.trim()}`);
-      });
-    }
-
-    while (headerComment.at(-1) === '// ') headerComment.pop();
-
     if (this.currentProgram !== 'lsig') {
-      this.pushLines(fn, ...headerComment, `abi_route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `abi_route_${this.currentSubroutine.name}:`);
     } else {
-      this.pushLines(fn, ...headerComment, `route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `route_${this.currentSubroutine.name}:`);
     }
 
     const returnType = this.currentSubroutine.returns.type;

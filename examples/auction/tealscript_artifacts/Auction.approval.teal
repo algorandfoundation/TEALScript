@@ -22,13 +22,13 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// createApplication()void
 abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
 
+// createApplication()void
 createApplication:
 	proto 0 0
 
@@ -63,7 +63,6 @@ createApplication:
 	app_global_put
 	retsub
 
-// optIntoAsset(asset)void
 abi_route_optIntoAsset:
 	// asset: asset
 	txna ApplicationArgs 1
@@ -75,6 +74,7 @@ abi_route_optIntoAsset:
 	int 1
 	return
 
+// optIntoAsset(asset)void
 optIntoAsset:
 	proto 1 0
 
@@ -137,7 +137,6 @@ optIntoAsset:
 	itxn_submit
 	retsub
 
-// startAuction(axfer,uint64,uint64)void
 abi_route_startAuction:
 	// axfer: axfer
 	txn GroupIndex
@@ -162,6 +161,7 @@ abi_route_startAuction:
 	int 1
 	return
 
+// startAuction(axfer,uint64,uint64)void
 startAuction:
 	proto 3 0
 
@@ -215,6 +215,7 @@ startAuction:
 	app_global_put
 	retsub
 
+// pay(uint64,account)void
 pay:
 	proto 2 0
 
@@ -245,20 +246,17 @@ pay:
 	itxn_submit
 	retsub
 
-// optInToApplication()void
 abi_route_optInToApplication:
 	// execute optInToApplication()void
 	callsub optInToApplication
 	int 1
 	return
 
+// optInToApplication()void
 optInToApplication:
 	proto 0 0
 	retsub
 
-// bid(pay)void
-//
-// // eslint-disable-next-line no-unused-vars
 abi_route_bid:
 	// payment: pay
 	txn GroupIndex
@@ -275,6 +273,7 @@ abi_route_bid:
 	int 1
 	return
 
+// bid(pay)void
 bid:
 	proto 1 0
 
@@ -333,13 +332,13 @@ bid:
 	app_local_put
 	retsub
 
-// claimBids()void
 abi_route_claimBids:
 	// execute claimBids()void
 	callsub claimBids
 	int 1
 	return
 
+// claimBids()void
 claimBids:
 	proto 0 0
 
@@ -395,7 +394,6 @@ if0_end:
 	app_local_put
 	retsub
 
-// claim_asset(asset)void
 abi_route_claim_asset:
 	// asset: asset
 	txna ApplicationArgs 1
@@ -407,6 +405,7 @@ abi_route_claim_asset:
 	int 1
 	return
 
+// claim_asset(asset)void
 claim_asset:
 	proto 1 0
 
@@ -461,13 +460,13 @@ claim_asset:
 	itxn_submit
 	retsub
 
-// deleteApplication()void
 abi_route_deleteApplication:
 	// execute deleteApplication()void
 	callsub deleteApplication
 	int 1
 	return
 
+// deleteApplication()void
 deleteApplication:
 	proto 0 0
 

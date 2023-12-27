@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])
 abi_route_updateStringInTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -34,6 +33,7 @@ abi_route_updateStringInTuple:
 	int 1
 	return
 
+// updateStringInTuple()(uint8,uint16[],string,uint16[],uint8[])
 updateStringInTuple:
 	proto 0 1
 
