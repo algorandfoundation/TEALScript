@@ -241,7 +241,8 @@ describe('Storage', function () {
           'MapSizeCollision'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 
@@ -258,7 +259,8 @@ describe('Storage', function () {
           'KeyCollisionWithMap'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 
@@ -277,7 +279,8 @@ describe('Storage', function () {
           'MapCollisionWithKey'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 

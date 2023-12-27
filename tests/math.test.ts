@@ -35,7 +35,8 @@ describe('Math', function () {
     Object.keys(methods).forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
-        expect(await runMethod({ appClient, method, methodArgs: [6, 3] })).toBe(methods[method]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expect(await runMethod({ appClient, method, methodArgs: [6, 3] })).toBe((methods as any)[method]);
       });
     });
 
@@ -51,7 +52,8 @@ describe('Math', function () {
       try {
         await runMethod({ appClient, method: 'uint8plus', methodArgs: [2 ** 8 - 1, 1] });
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 
@@ -114,7 +116,8 @@ describe('Math', function () {
           'Uint8Exp'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 

@@ -35,7 +35,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
   ];
 
   let fundAmount = 0;
-  let callType = 'call';
+  let callType: 'call' | 'optIn' = 'call';
 
   if (name.includes('Storage') || name.includes('RefAccount')) {
     fundAmount = 127_400;
