@@ -1073,7 +1073,7 @@ class ABITestGlobalMethodInChain extends Contract {
 
 class ABITestOpcodeParamFromObject extends Contract {
   opcodeParamFromObject(): Address {
-    const a: { myApp: Application } = { myApp: this.app };
+    const a: { myApp: AppID } = { myApp: this.app };
 
     return this.app.address;
   }
@@ -1178,7 +1178,7 @@ type T7 = {
   foo: Address;
 };
 class ABITestChainedPropertyAfterTuple extends Contract {
-  chainedPropertyAfterTuple(asa: Asset): void {
+  chainedPropertyAfterTuple(asa: AssetID): void {
     const o: T7 = { foo: this.app.address };
 
     assert(!o.foo.isOptedInToAsset(asa));
@@ -1400,7 +1400,7 @@ class ABITestStaticArrayLength extends Contract {
 class ABITestArrayInMethodCall extends Contract {
   arrayInMethodCall() {
     sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-      applicationID: Application.fromID(0),
+      applicationID: AppID.fromID(0),
       name: 'foo',
       methodArgs: [[1, 2], this.txn.sender, 3, false],
     });

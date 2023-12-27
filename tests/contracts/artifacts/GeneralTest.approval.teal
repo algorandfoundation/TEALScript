@@ -307,7 +307,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromID(1337),
+	//           applicationID: AppID.fromID(1337),
 	//           methodArgs: [1],
 	//         },
 	//       ],
@@ -336,7 +336,7 @@ methodWithTxnArgs:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/general.algo.ts:103
-	// applicationID: Application.fromID(1337)
+	// applicationID: AppID.fromID(1337)
 	int 1337
 	itxn_field ApplicationID
 
@@ -359,7 +359,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromID(1337),
+	//           applicationID: AppID.fromID(1337),
 	//           methodArgs: [1],
 	//         },
 	//       ]
@@ -432,14 +432,14 @@ fromID:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:120
-	// log(Application.fromID(123).creator)
+	// log(AppID.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	pop
 	log
 
 	// tests/contracts/general.algo.ts:121
-	// log(Asset.fromID(123).creator)
+	// log(AssetID.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
 	pop
@@ -703,25 +703,25 @@ idProperty:
 	dup
 
 	// tests/contracts/general.algo.ts:183
-	// app = Application.zeroIndex
+	// app = AppID.zeroIndex
 	int 0
-	frame_bury 0 // app: application
+	frame_bury 0 // app: uint64
 
 	// tests/contracts/general.algo.ts:184
-	// assert(Application.fromID(app.id) === app)
-	int 0 // app: application
+	// assert(AppID.fromID(app.id) === app)
+	int 0 // app: uint64
 	dup
 	==
 	assert
 
 	// tests/contracts/general.algo.ts:186
-	// asa = Asset.zeroIndex
+	// asa = AssetID.zeroIndex
 	int 0
-	frame_bury 1 // asa: asset
+	frame_bury 1 // asa: uint64
 
 	// tests/contracts/general.algo.ts:187
-	// assert(Asset.fromID(asa.id) === asa)
-	int 0 // asa: asset
+	// assert(AssetID.fromID(asa.id) === asa)
+	int 0 // asa: uint64
 	dup
 	==
 	assert
@@ -841,7 +841,7 @@ verifyTxnTypes:
 
 	// tests/contracts/general.algo.ts:211
 	// verifyAppCallTxn(this.txnGroup[0], {
-	//       applicationID: Application.fromID(0),
+	//       applicationID: AppID.fromID(0),
 	//       applicationArgs: {
 	//         0: 'foo',
 	//         1: {
@@ -903,7 +903,7 @@ verifyTxnTypes:
 
 	// tests/contracts/general.algo.ts:225
 	// verifyAssetConfigTxn(this.txnGroup[0], {
-	//       configAsset: Asset.fromID(0),
+	//       configAsset: AssetID.fromID(0),
 	//     })
 	// verify acfg
 	int 0

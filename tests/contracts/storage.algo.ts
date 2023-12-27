@@ -44,19 +44,19 @@ class StorageTest extends Contract {
     assert(this.globalKey.exists);
   }
 
-  localKeyPut(a: Account): void {
+  localKeyPut(a: Address): void {
     this.localKey(a).value = 'bar';
   }
 
-  localKeyGet(a: Account): void {
+  localKeyGet(a: Address): void {
     assert(this.localKey(a).value === 'bar');
   }
 
-  localKeyDelete(a: Account): void {
+  localKeyDelete(a: Address): void {
     this.localKey(a).delete();
   }
 
-  localKeyExists(a: Account): void {
+  localKeyExists(a: Address): void {
     assert(this.localKey(a).exists);
   }
 
@@ -92,19 +92,19 @@ class StorageTest extends Contract {
     assert(this.globalMap('foo').exists);
   }
 
-  localMapPut(a: Account): void {
+  localMapPut(a: Address): void {
     this.localMap(a, 'foo').value = 'bar';
   }
 
-  localMapGet(a: Account): void {
+  localMapGet(a: Address): void {
     assert(this.localMap(a, 'foo').value === 'bar');
   }
 
-  localMapDelete(a: Account): void {
+  localMapDelete(a: Address): void {
     this.localMap(a, 'foo').delete();
   }
 
-  localMapExists(a: Account): void {
+  localMapExists(a: Address): void {
     assert(this.localMap(a, 'foo').exists);
   }
 

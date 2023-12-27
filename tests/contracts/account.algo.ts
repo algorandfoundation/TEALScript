@@ -2,67 +2,67 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class AccountTest extends Contract {
-  hasAsset(a: Account): void {
-    assert(a.isOptedInToAsset(Asset.fromID(123)));
+  hasAsset(a: Address): void {
+    assert(a.isOptedInToAsset(AssetID.fromID(123)));
   }
 
-  assetBalance(a: Account): void {
-    assert(a.assetBalance(Asset.fromID(123)));
+  assetBalance(a: Address): void {
+    assert(a.assetBalance(AssetID.fromID(123)));
   }
 
-  assetFrozen(a: Account): void {
-    assert(a.assetFrozen(Asset.fromID(123)));
+  assetFrozen(a: Address): void {
+    assert(a.assetFrozen(AssetID.fromID(123)));
   }
 
-  hasBalance(a: Account): void {
+  hasBalance(a: Address): void {
     assert(a.isInLedger);
   }
 
-  balance(a: Account): void {
+  balance(a: Address): void {
     assert(a.balance);
   }
 
-  minBalance(a: Account): void {
+  minBalance(a: Address): void {
     assert(a.minBalance);
   }
 
-  authAddr(a: Account): void {
+  authAddr(a: Address): void {
     log(a.authAddr);
   }
 
-  totalNumUint(a: Account): void {
+  totalNumUint(a: Address): void {
     assert(a.totalNumUint);
   }
 
-  totalNumByteSlice(a: Account): void {
+  totalNumByteSlice(a: Address): void {
     assert(a.totalNumByteSlice);
   }
 
-  totalExtraAppPages(a: Account): void {
+  totalExtraAppPages(a: Address): void {
     assert(a.totalExtraAppPages);
   }
 
-  totalAppsCreated(a: Account): void {
+  totalAppsCreated(a: Address): void {
     assert(a.totalAppsCreated);
   }
 
-  totalAppsOptedIn(a: Account): void {
+  totalAppsOptedIn(a: Address): void {
     assert(a.totalAppsOptedIn);
   }
 
-  totalAssetsCreated(a: Account): void {
+  totalAssetsCreated(a: Address): void {
     assert(a.totalAssetsCreated);
   }
 
-  totalAssets(a: Account): void {
+  totalAssets(a: Address): void {
     assert(a.totalAssets);
   }
 
-  totalBoxes(a: Account): void {
+  totalBoxes(a: Address): void {
     assert(a.totalBoxes);
   }
 
-  totalBoxBytes(a: Account): void {
+  totalBoxBytes(a: Address): void {
     assert(a.totalBoxBytes);
   }
 }

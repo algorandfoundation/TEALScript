@@ -164,15 +164,15 @@ function processBinaryConstant(b: ts.BinaryExpression): number {
 
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
-    if (convertRefs && ['application', 'asset'].includes(typeInfo.type)) {
+    if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
       return 'uint64';
     }
 
-    if (convertRefs && typeInfo.type === 'account') {
+    if (convertRefs && typeInfo.type === 'accountreference') {
       return 'address';
     }
 
-    return typeInfo.type.replace('bytes', 'byte[]');
+    return typeInfo.type.replace('bytes', 'byte[]').replace('assetid', 'uint64').replace('appid', 'uint64');
   }
 
   if (typeInfo.kind === 'tuple') {
@@ -343,9 +343,9 @@ enum TransactionType {
 }
 
 const ForeignType = {
-  Asset: { kind: 'base', type: 'asset' } as TypeInfo,
+  Asset: { kind: 'base', type: 'assetid' } as TypeInfo,
   Address: { kind: 'base', type: 'address' } as TypeInfo,
-  Application: { kind: 'base', type: 'application' } as TypeInfo,
+  Application: { kind: 'base', type: 'appid' } as TypeInfo,
 };
 
 const TXN_TYPES = ['txn', 'pay', 'keyreg', 'acfg', 'axfer', 'afrz', 'appl'];
@@ -367,17 +367,17 @@ const LSIG_CLASS = 'LogicSig';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Global
-  CurrentApplicationID: 'application',
+  CurrentApplicationID: 'appid',
   // Txn
-  XferAsset: 'asset',
-  ApplicationID: 'application',
-  ConfigAsset: 'asset',
-  FreezeAsset: 'asset',
-  CreatedAssetID: 'asset',
-  CreatedApplicationID: 'application',
+  XferAsset: 'assetid',
+  ApplicationID: 'appid',
+  ConfigAsset: 'assetid',
+  FreezeAsset: 'assetid',
+  CreatedAssetID: 'assetid',
+  CreatedApplicationID: 'appid',
   ApplicationArgs: `ImmediateArray: bytes`,
-  Applications: `ImmediateArray: application`,
-  Assets: `ImmediateArray: asset`,
+  Applications: `ImmediateArray: appid`,
+  Assets: `ImmediateArray: assetid`,
   Accounts: `ImmediateArray: address`,
 };
 
@@ -415,7 +415,7 @@ interface Subroutine extends ABIMethod {
 }
 // These should probably be types rather than strings?
 function isNumeric(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['uint64', 'asset', 'application'].includes(t.type);
+  return t.kind === 'base' && ['uint64', 'assetid', 'appid'].includes(t.type);
 }
 
 function isBytes(t: TypeInfo): boolean {
@@ -423,7 +423,7 @@ function isBytes(t: TypeInfo): boolean {
 }
 
 function isRefType(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['account', 'asset', 'application'].includes(t.type);
+  return t.kind === 'base' && ['accountreference', 'assetreference', 'appreference'].includes(t.type);
 }
 
 function getObjectTypes(givenType: TypeInfo): Record<string, TypeInfo> {
@@ -1107,7 +1107,7 @@ export default class Compiler {
       };
     }
 
-    if (['address', 'application', 'asset', 'account'].includes(typeString)) {
+    if (['address', 'appid', 'assetid'].includes(typeString)) {
       return {
         kind: 'base',
         type: typeString,
@@ -1268,13 +1268,13 @@ export default class Compiler {
   } = {
     id: {
       check: (node: ts.PropertyAccessExpression) =>
-        this.lastType.kind === 'base' && ['asset', 'application'].includes(this.lastType.type),
+        this.lastType.kind === 'base' && ['assetid', 'appid'].includes(this.lastType.type),
       fn: (node: ts.PropertyAccessExpression) => {
         this.lastType = StackType.uint64;
       },
     },
     zeroIndex: {
-      check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.getExpression().getText()),
+      check: (node: ts.PropertyAccessExpression) => ['AssetID', 'AppID'].includes(node.getExpression().getText()),
       fn: (node: ts.PropertyAccessExpression) => {
         this.push(node.getNameNode(), 'int 0', this.getTypeInfo(node.getType()));
       },
@@ -2011,8 +2011,8 @@ export default class Compiler {
     fromID: {
       check: (node: ts.CallExpression) =>
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-        ((node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'Asset' ||
-          (node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'Application'),
+        ((node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'AssetID' ||
+          (node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'AppID'),
       fn: (node: ts.CallExpression) => {
         if (!node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
 
@@ -2215,8 +2215,8 @@ export default class Compiler {
       }
 
       switch (type) {
-        case 'asset':
-        case 'application':
+        case 'assetid':
+        case 'appid':
           return 8;
         case 'byte':
         case 'string':
@@ -6333,7 +6333,7 @@ export default class Compiler {
 
       if (isRefType(type)) {
         if (this.currentProgram === 'lsig') {
-          if (['application', 'asset'].includes(typeStr)) this.pushVoid(p, 'btoi');
+          if (['appreference', 'assetreference'].includes(typeStr)) this.pushVoid(p, 'btoi');
         } else {
           this.pushVoid(p, 'btoi');
           this.pushVoid(p, `txnas ${capitalizeFirstChar(typeStr)}s`);
@@ -6767,19 +6767,19 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           throw new Error('methodArgs must be an array');
         }
         init.getElements().forEach((e, i: number) => {
-          if (argTypeStrings[i] === 'account') {
+          if (argTypeStrings[i] === 'accountreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Accounts');
             this.pushVoid(e, `int ${accountIndex}`);
             this.pushVoid(e, 'itob');
             accountIndex += 1;
-          } else if (argTypeStrings[i] === 'asset') {
+          } else if (argTypeStrings[i] === 'assetreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Assets');
             this.pushVoid(e, `int ${assetIndex}`);
             this.pushVoid(e, 'itob');
             assetIndex += 1;
-          } else if (argTypeStrings[i] === 'application') {
+          } else if (argTypeStrings[i] === 'appreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Applications');
             this.pushVoid(e, `int ${appIndex}`);
@@ -6845,14 +6845,17 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     thisTxn: boolean = false
   ): void {
     const type = calleeType;
+
     let typeStr = typeInfoToABIString(type);
+
+    if (type.kind === 'base') {
+      if (type.type === 'assetid') typeStr = 'asset';
+      if (type.type === 'appid') typeStr = 'application';
+      if (type.type === 'address') typeStr = 'account';
+    }
 
     if (TXN_TYPES.includes(typeStr) && !thisTxn) {
       typeStr = 'gtxns';
-    } else if (equalTypes(type, ForeignType.Address)) {
-      typeStr = 'account';
-    } else if (typeStr === 'app') {
-      typeStr = 'application';
     }
 
     if (typeStr === 'account') {
@@ -6880,7 +6883,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         return paramName === capitalizeFirstChar(name);
       });
 
-      if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()}`);
+      if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()} for ${typeStr}`);
 
       if (!checkArgs || paramObj.args === 1) {
         paramObj.fn(node);

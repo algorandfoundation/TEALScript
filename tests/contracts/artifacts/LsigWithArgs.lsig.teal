@@ -8,30 +8,30 @@
 
 b *route_logic
 
-// logic(asset,uint64[])void
+// logic(uint64,uint64[])void
 *route_logic:
 	// b: uint64[]
 	int 1
 	args
 	extract 2 0
 
-	// a: asset
+	// a: uint64
 	int 0
 	args
 	btoi
 
-	// execute logic(asset,uint64[])void
+	// execute logic(uint64,uint64[])void
 	callsub logic
 	int 1
 	return
 
-// logic(a: Asset, b: uint64[]): void
+// logic(a: AssetID, b: uint64[]): void
 logic:
 	proto 2 0
 
 	// tests/contracts/lsig.algo.ts:13
 	// assert(a)
-	frame_dig -1 // a: Asset
+	frame_dig -1 // a: AssetID
 	assert
 
 	// tests/contracts/lsig.algo.ts:14

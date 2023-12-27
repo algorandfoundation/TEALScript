@@ -96,7 +96,7 @@ payment:
 	int 1
 	return
 
-// assetCreation(): Asset
+// assetCreation(): AssetID
 assetCreation:
 	proto 0 1
 
@@ -194,7 +194,7 @@ appCall:
 	//       applicationID: this.app,
 	//       applications: [this.app],
 	//       approvalProgram: 'approval',
-	//       assets: [Asset.zeroIndex],
+	//       assets: [AssetID.zeroIndex],
 	//       clearStateProgram: 'clear',
 	//       globalNumByteSlice: 1,
 	//       globalNumUint: 1,
@@ -234,7 +234,7 @@ appCall:
 	itxn_field ApprovalProgram
 
 	// tests/contracts/itxns.algo.ts:38
-	// assets: [Asset.zeroIndex]
+	// assets: [AssetID.zeroIndex]
 	int 0
 	itxn_field Assets
 
@@ -289,7 +289,7 @@ assetConfig:
 
 	// tests/contracts/itxns.algo.ts:49
 	// sendAssetConfig({
-	//       configAsset: Asset.zeroIndex,
+	//       configAsset: AssetID.zeroIndex,
 	//       configAssetManager: this.app.address,
 	//       configAssetReserve: this.app.address,
 	//       configAssetFreeze: this.app.address,
@@ -300,7 +300,7 @@ assetConfig:
 	itxn_field TypeEnum
 
 	// tests/contracts/itxns.algo.ts:50
-	// configAsset: Asset.zeroIndex
+	// configAsset: AssetID.zeroIndex
 	int 0
 	itxn_field ConfigAsset
 
@@ -347,7 +347,7 @@ assetFreeze:
 	// sendAssetFreeze({
 	//       freezeAssetFrozen: true,
 	//       freezeAssetAccount: this.app.address,
-	//       freezeAsset: Asset.zeroIndex,
+	//       freezeAsset: AssetID.zeroIndex,
 	//     })
 	itxn_begin
 	int afrz
@@ -364,7 +364,7 @@ assetFreeze:
 	itxn_field FreezeAssetAccount
 
 	// tests/contracts/itxns.algo.ts:62
-	// freezeAsset: Asset.zeroIndex
+	// freezeAsset: AssetID.zeroIndex
 	int 0
 	itxn_field FreezeAsset
 
@@ -393,7 +393,7 @@ assetTransfer:
 	//       assetCloseTo: this.app.address,
 	//       assetReceiver: this.app.address,
 	//       assetSender: this.app.address,
-	//       xferAsset: Asset.zeroIndex,
+	//       xferAsset: AssetID.zeroIndex,
 	//     })
 	itxn_begin
 	int axfer
@@ -420,7 +420,7 @@ assetTransfer:
 	itxn_field AssetSender
 
 	// tests/contracts/itxns.algo.ts:72
-	// xferAsset: Asset.zeroIndex
+	// xferAsset: AssetID.zeroIndex
 	int 0
 	itxn_field XferAsset
 
@@ -445,29 +445,26 @@ assetTransfer:
 	int 1
 	return
 
-// methodCall(): Asset
+// methodCall(): AssetID
 methodCall:
 	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:77
-	// return sendMethodCall<[Application, Asset], Asset>({
+	// return sendMethodCall<[AppID, AssetID], AssetID>({
 	//       name: 'method',
-	//       methodArgs: [this.app, Asset.zeroIndex],
+	//       methodArgs: [this.app, AssetID.zeroIndex],
 	//     });
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
-	method "method(application,asset)uint64"
+	method "method(uint64,uint64)uint64"
 	itxn_field ApplicationArgs
 
 	// tests/contracts/itxns.algo.ts:79
-	// methodArgs: [this.app, Asset.zeroIndex]
+	// methodArgs: [this.app, AssetID.zeroIndex]
 	txna Applications 0
-	itxn_field Applications
-	byte 0x0000000000000001
+	itob
 	itxn_field ApplicationArgs
-	int 0
-	itxn_field Assets
 	byte 0x0000000000000000
 	itxn_field ApplicationArgs
 

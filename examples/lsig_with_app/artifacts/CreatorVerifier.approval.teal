@@ -89,12 +89,11 @@ disableOptInsFrom:
 	box_put
 	retsub
 
-// verifyCreator(axfer,asset)void
+// verifyCreator(axfer,uint64)void
 *abi_route_verifyCreator:
-	// _asaReference: asset
+	// _asaReference: uint64
 	txna ApplicationArgs 1
 	btoi
-	txnas Assets
 
 	// optIn: axfer
 	txn GroupIndex
@@ -106,12 +105,12 @@ disableOptInsFrom:
 	==
 	assert
 
-	// execute verifyCreator(axfer,asset)void
+	// execute verifyCreator(axfer,uint64)void
 	callsub verifyCreator
 	int 1
 	return
 
-// verifyCreator(optIn: AssetTransferTxn, _asaReference: Asset): void
+// verifyCreator(optIn: AssetTransferTxn, _asaReference: AssetID): void
 verifyCreator:
 	proto 2 0
 
@@ -144,7 +143,7 @@ verifyCreator:
 *call_NoOp:
 	method "allowOptInsFrom(address)void"
 	method "disableOptInsFrom(address)void"
-	method "verifyCreator(axfer,asset)void"
+	method "verifyCreator(axfer,uint64)void"
 	txna ApplicationArgs 0
 	match *abi_route_allowOptInsFrom *abi_route_disableOptInsFrom *abi_route_verifyCreator
 	err

@@ -77,7 +77,7 @@ export default abstract class Contract {
   /** Provides access to the transactions in the most recent inner transaction group send via `pendingGroup` */
   lastInnerGroup!: Txn[];
 
-  app!: Application;
+  app!: AppID;
 
   pendingGroup!: PendingGroup;
 

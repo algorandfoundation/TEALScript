@@ -9,7 +9,7 @@ class BasicLsig extends LogicSig {
 
 // eslint-disable-next-line no-unused-vars
 class LsigWithArgs extends LogicSig {
-  logic(a: Asset, b: uint64[]): void {
+  logic(a: AssetID, b: uint64[]): void {
     assert(a);
     assert(b[2]);
   }

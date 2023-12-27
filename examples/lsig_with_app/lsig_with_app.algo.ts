@@ -6,7 +6,7 @@ import { Contract, LogicSig } from '../../src/lib/index';
  */
 // eslint-disable-next-line no-unused-vars
 class OptInLsig extends LogicSig {
-  APP_ID = TemplateVar<Application>();
+  APP_ID = TemplateVar<AppID>();
 
   /** Verify this is an opt in transaction */
   logic(): void {
@@ -47,7 +47,7 @@ class CreatorVerifier extends Contract {
   }
 
   // eslint-disable-next-line no-unused-vars
-  verifyCreator(optIn: AssetTransferTxn, _asaReference: Asset): void {
+  verifyCreator(optIn: AssetTransferTxn, _asaReference: AssetID): void {
     /** assert that the user has allowed optIns from the ASA creator */
     assert(this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value);
   }

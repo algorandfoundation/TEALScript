@@ -10,7 +10,7 @@ class Auction extends Contract {
 
   asaAmt = GlobalStateKey<uint64>();
 
-  asa = GlobalStateKey<Asset>();
+  asa = GlobalStateKey<AssetID>();
 
   claimableAmount = LocalStateKey<uint64>();
 
@@ -18,18 +18,18 @@ class Auction extends Contract {
     this.auctionEnd.value = 0;
     this.previousBid.value = 0;
     this.asaAmt.value = 0;
-    this.asa.value = Asset.zeroIndex;
+    this.asa.value = AssetID.zeroIndex;
 
     // Use zero address rather than an empty string for Account type safety
     this.previousBidder.value = globals.zeroAddress;
   }
 
-  optIntoAsset(asset: Asset): void {
+  optIntoAsset(asset: AssetID): void {
     /// Only allow app creator to opt the app account into a ASA
     verifyAppCallTxn(this.txn, { sender: globals.creatorAddress });
 
     /// Verify a ASA hasn't already been opted into
-    assert(this.asa.value === Asset.zeroIndex);
+    assert(this.asa.value === AssetID.zeroIndex);
 
     /// Save ASA ID in global state
     this.asa.value = asset;
@@ -57,7 +57,7 @@ class Auction extends Contract {
     this.previousBid.value = startingPrice;
   }
 
-  private pay(receiver: Account, amount: uint64): void {
+  private pay(receiver: Address, amount: uint64): void {
     sendPayment({
       receiver: receiver,
       amount: amount,
@@ -96,7 +96,7 @@ class Auction extends Contract {
     this.claimableAmount(this.txn.sender).value = originalAmount - amount;
   }
 
-  claim_asset(asset: Asset): void {
+  claim_asset(asset: AssetID): void {
     assert(globals.latestTimestamp > this.auctionEnd.value);
 
     /// Send ASA to previous bidder
