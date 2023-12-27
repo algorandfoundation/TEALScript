@@ -22,15 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// startUpload(pay,uint64,uint64,string)void
-//
-//
-// Allocate boxes to begin data upload process
-//
-// @param dataIdentifier The unique identifier for the data
-// @param numBoxes The number of boxes that the data will take up
-// @param endBoxSize The size of the last box
-// @param mbrPayment Payment from the uploader to cover the box MBR
 abi_route_startUpload:
 	// mbrPayment: pay
 	txn GroupIndex
@@ -59,6 +50,15 @@ abi_route_startUpload:
 	int 1
 	return
 
+// startUpload(pay,uint64,uint64,string)void
+//
+//
+// Allocate boxes to begin data upload process
+//
+// @param dataIdentifier The unique identifier for the data
+// @param numBoxes The number of boxes that the data will take up
+// @param endBoxSize The size of the last box
+// @param mbrPayment Payment from the uploader to cover the box MBR
 startUpload:
 	proto 4 0
 
@@ -169,15 +169,6 @@ startUpload:
 	assert
 	retsub
 
-// upload(byte[],uint64,uint64,string)void
-//
-//
-// Upload data to a specific offset in a box
-//
-// @param dataIdentifier The unique identifier for the data
-// @param boxIndex The index of the box to upload the given chunk of data to
-// @param offset The offset within the box to start writing the data
-// @param data The data to write
 abi_route_upload:
 	// data: byte[]
 	txna ApplicationArgs 4
@@ -200,6 +191,15 @@ abi_route_upload:
 	int 1
 	return
 
+// upload(byte[],uint64,uint64,string)void
+//
+//
+// Upload data to a specific offset in a box
+//
+// @param dataIdentifier The unique identifier for the data
+// @param boxIndex The index of the box to upload the given chunk of data to
+// @param offset The offset within the box to start writing the data
+// @param data The data to write
 upload:
 	proto 4 0
 
@@ -288,13 +288,6 @@ if0_end:
 	box_replace
 	retsub
 
-// setStatus(uint8,string)void
-//
-//
-// Set the status of the data
-//
-// @param dataIdentifier The unique identifier for the data
-// @param status The new status for the data
 abi_route_setStatus:
 	// status: uint8
 	txna ApplicationArgs 2
@@ -313,6 +306,13 @@ abi_route_setStatus:
 	int 1
 	return
 
+// setStatus(uint8,string)void
+//
+//
+// Set the status of the data
+//
+// @param dataIdentifier The unique identifier for the data
+// @param status The new status for the data
 setStatus:
 	proto 2 0
 

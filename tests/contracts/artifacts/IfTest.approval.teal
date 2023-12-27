@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// singleIf(bool)string
 abi_route_singleIf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -50,6 +49,7 @@ abi_route_singleIf:
 	int 1
 	return
 
+// singleIf(bool)string
 singleIf:
 	proto 1 1
 
@@ -71,7 +71,6 @@ if0_end:
 	byte 0x656e64 // "end"
 	retsub
 
-// ifElse(bool)string
 abi_route_ifElse:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -99,6 +98,7 @@ abi_route_ifElse:
 	int 1
 	return
 
+// ifElse(bool)string
 ifElse:
 	proto 1 1
 
@@ -124,7 +124,6 @@ if1_else:
 if1_end:
 	retsub
 
-// ifElseIf(bool,bool)string
 abi_route_ifElseIf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -162,6 +161,7 @@ abi_route_ifElseIf:
 	int 1
 	return
 
+// ifElseIf(bool,bool)string
 ifElseIf:
 	proto 2 1
 
@@ -196,7 +196,6 @@ if2_end:
 	byte 0x656e64 // "end"
 	retsub
 
-// ifElseIfElse(bool,bool)string
 abi_route_ifElseIfElse:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -234,6 +233,7 @@ abi_route_ifElseIfElse:
 	int 1
 	return
 
+// ifElseIfElse(bool,bool)string
 ifElseIfElse:
 	proto 2 1
 
@@ -272,7 +272,6 @@ if3_else:
 if3_end:
 	retsub
 
-// ifElseIfElseIf(bool,bool,bool)string
 abi_route_ifElseIfElseIf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -320,6 +319,7 @@ abi_route_ifElseIfElseIf:
 	int 1
 	return
 
+// ifElseIfElseIf(bool,bool,bool)string
 ifElseIfElseIf:
 	proto 3 1
 
@@ -367,7 +367,6 @@ if4_end:
 	byte 0x656e64 // "end"
 	retsub
 
-// ifElseIfElseIfElse(bool,bool,bool)string
 abi_route_ifElseIfElseIfElse:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -415,6 +414,7 @@ abi_route_ifElseIfElseIfElse:
 	int 1
 	return
 
+// ifElseIfElseIfElse(bool,bool,bool)string
 ifElseIfElseIfElse:
 	proto 3 1
 
@@ -466,7 +466,6 @@ if5_else:
 if5_end:
 	retsub
 
-// nestedIf(bool,bool)string
 abi_route_nestedIf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -504,6 +503,7 @@ abi_route_nestedIf:
 	int 1
 	return
 
+// nestedIf(bool,bool)string
 nestedIf:
 	proto 2 1
 
@@ -542,7 +542,6 @@ if6_else:
 if6_end:
 	retsub
 
-// bracketlessIfElse(bool)string
 abi_route_bracketlessIfElse:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -570,6 +569,7 @@ abi_route_bracketlessIfElse:
 	int 1
 	return
 
+// bracketlessIfElse(bool)string
 bracketlessIfElse:
 	proto 1 1
 
@@ -595,7 +595,6 @@ if8_else:
 if8_end:
 	retsub
 
-// nestedTernary(bool,bool)uint64
 abi_route_nestedTernary:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -628,6 +627,7 @@ abi_route_nestedTernary:
 	int 1
 	return
 
+// nestedTernary(bool,bool)uint64
 nestedTernary:
 	proto 2 1
 
@@ -652,7 +652,6 @@ ternary1_end:
 ternary0_end:
 	retsub
 
-// stringIf(string)uint64
 abi_route_stringIf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -669,6 +668,7 @@ abi_route_stringIf:
 	int 1
 	return
 
+// stringIf(string)uint64
 stringIf:
 	proto 1 1
 
@@ -692,7 +692,6 @@ if9_end:
 	int 2
 	retsub
 
-// stringTernary(string)uint64
 abi_route_stringTernary:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -709,6 +708,7 @@ abi_route_stringTernary:
 	int 1
 	return
 
+// stringTernary(string)uint64
 stringTernary:
 	proto 1 1
 

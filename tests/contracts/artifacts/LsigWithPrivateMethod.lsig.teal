@@ -8,6 +8,7 @@
 
 b route_logic
 
+// privateMethod()bool
 privateMethod:
 	proto 0 1
 
@@ -16,13 +17,13 @@ privateMethod:
 	int 1
 	retsub
 
-// logic()void
 route_logic:
 	// execute logic()void
 	callsub logic
 	int 1
 	return
 
+// logic()void
 logic:
 	proto 0 0
 

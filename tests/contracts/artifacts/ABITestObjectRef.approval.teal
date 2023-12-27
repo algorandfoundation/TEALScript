@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// objectRef()(uint64)
 abi_route_objectRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -34,6 +33,7 @@ abi_route_objectRef:
 	int 1
 	return
 
+// objectRef()(uint64)
 objectRef:
 	proto 0 1
 

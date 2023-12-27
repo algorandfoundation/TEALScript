@@ -22,13 +22,13 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// tmpl()void
 abi_route_tmpl:
 	// execute tmpl()void
 	callsub tmpl
 	int 1
 	return
 
+// tmpl()void
 tmpl:
 	proto 0 0
 

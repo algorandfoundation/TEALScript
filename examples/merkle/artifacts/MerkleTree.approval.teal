@@ -22,6 +22,7 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
+// calcInitRoot()byte[32]
 calcInitRoot:
 	proto 0 1
 
@@ -82,6 +83,7 @@ for_0_end:
 	popn 1
 	retsub
 
+// hashConcat(byte[32],byte[32])byte[32]
 hashConcat:
 	proto 2 1
 
@@ -93,6 +95,7 @@ hashConcat:
 	sha256
 	retsub
 
+// isRightSibling(byte[33])bool
 isRightSibling:
 	proto 1 1
 
@@ -105,6 +108,7 @@ isRightSibling:
 	==
 	retsub
 
+// calcRoot(byte[33][3],byte[32])byte[32]
 calcRoot:
 	proto 2 1
 
@@ -204,13 +208,13 @@ for_1_end:
 	popn 1
 	retsub
 
-// deleteApplication()void
 abi_route_deleteApplication:
 	// execute deleteApplication()void
 	callsub deleteApplication
 	int 1
 	return
 
+// deleteApplication()void
 deleteApplication:
 	proto 0 0
 
@@ -225,13 +229,13 @@ deleteApplication:
 	assert
 	retsub
 
-// createApplication()void
 abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
 
+// createApplication()void
 createApplication:
 	proto 0 0
 
@@ -242,7 +246,6 @@ createApplication:
 	app_global_put
 	retsub
 
-// verify(byte[33][3],byte[])void
 abi_route_verify:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
@@ -261,6 +264,7 @@ abi_route_verify:
 	int 1
 	return
 
+// verify(byte[33][3],byte[])void
 verify:
 	proto 2 0
 
@@ -276,7 +280,6 @@ verify:
 	assert
 	retsub
 
-// appendLeaf(byte[33][3],byte[])void
 abi_route_appendLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 2
@@ -295,6 +298,7 @@ abi_route_appendLeaf:
 	int 1
 	return
 
+// appendLeaf(byte[33][3],byte[])void
 appendLeaf:
 	proto 2 0
 
@@ -342,7 +346,6 @@ appendLeaf:
 	app_global_put
 	retsub
 
-// updateLeaf(byte[33][3],byte[],byte[])void
 abi_route_updateLeaf:
 	// path: byte[33][3]
 	txna ApplicationArgs 3
@@ -365,6 +368,7 @@ abi_route_updateLeaf:
 	int 1
 	return
 
+// updateLeaf(byte[33][3],byte[],byte[])void
 updateLeaf:
 	proto 3 0
 

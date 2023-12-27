@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// staticArrayInStorageMap()uint64[3]
 abi_route_staticArrayInStorageMap:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -34,6 +33,7 @@ abi_route_staticArrayInStorageMap:
 	int 1
 	return
 
+// staticArrayInStorageMap()uint64[3]
 staticArrayInStorageMap:
 	proto 0 1
 

@@ -22,13 +22,13 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// createApplication()void
 abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
 
+// createApplication()void
 createApplication:
 	proto 0 0
 
@@ -39,6 +39,7 @@ createApplication:
 	app_global_put
 	retsub
 
+// doCreatePoolToken(asset,asset)uint64
 doCreatePoolToken:
 	proto 2 1
 
@@ -104,6 +105,7 @@ doCreatePoolToken:
 	itxn CreatedAssetID
 	retsub
 
+// doAxfer(uint64,asset,account)void
 doAxfer:
 	proto 3 0
 
@@ -140,6 +142,7 @@ doAxfer:
 	itxn_submit
 	retsub
 
+// doOptIn(asset)void
 doOptIn:
 	proto 1 0
 
@@ -151,6 +154,7 @@ doOptIn:
 	callsub doAxfer
 	retsub
 
+// tokensToMintIntial(uint64,uint64)uint64
 tokensToMintIntial:
 	proto 2 1
 
@@ -162,6 +166,7 @@ tokensToMintIntial:
 	sqrt
 	retsub
 
+// tokensToMint(uint64,uint64,uint64,uint64,uint64)uint64
 tokensToMint:
 	proto 5 1
 
@@ -235,6 +240,7 @@ ternary1_end:
 	popn 2
 	retsub
 
+// computeRatio()uint64
 computeRatio:
 	proto 0 1
 
@@ -264,6 +270,7 @@ computeRatio:
 	assert
 	retsub
 
+// tokensToBurn(uint64,uint64,uint64)uint64
 tokensToBurn:
 	proto 3 1
 
@@ -282,6 +289,7 @@ tokensToBurn:
 	assert
 	retsub
 
+// tokensToSwap(uint64,uint64,uint64)uint64
 tokensToSwap:
 	proto 3 1
 
@@ -326,7 +334,6 @@ tokensToSwap:
 	frame_bury 0
 	retsub
 
-// set_governor(account)void
 abi_route_set_governor:
 	// governor: account
 	txna ApplicationArgs 1
@@ -338,6 +345,7 @@ abi_route_set_governor:
 	int 1
 	return
 
+// set_governor(account)void
 set_governor:
 	proto 1 0
 
@@ -357,7 +365,6 @@ set_governor:
 	app_global_put
 	retsub
 
-// bootstrap(asset,asset,pay)uint64
 abi_route_bootstrap:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -390,6 +397,7 @@ abi_route_bootstrap:
 	int 1
 	return
 
+// bootstrap(asset,asset,pay)uint64
 bootstrap:
 	proto 3 1
 
@@ -468,7 +476,6 @@ bootstrap:
 	app_global_get
 	retsub
 
-// mint(asset,asset,asset,axfer,axfer)void
 abi_route_mint:
 	// bAsset: asset
 	txna ApplicationArgs 3
@@ -510,6 +517,7 @@ abi_route_mint:
 	int 1
 	return
 
+// mint(asset,asset,asset,axfer,axfer)void
 mint:
 	proto 5 0
 
@@ -701,7 +709,6 @@ if0_else:
 if0_end:
 	retsub
 
-// burn(asset,asset,asset,axfer)void
 abi_route_burn:
 	// bAsset: asset
 	txna ApplicationArgs 3
@@ -733,6 +740,7 @@ abi_route_burn:
 	int 1
 	return
 
+// burn(asset,asset,asset,axfer)void
 burn:
 	proto 4 0
 
@@ -859,7 +867,6 @@ burn:
 	app_global_put
 	retsub
 
-// swap(asset,asset,axfer)void
 abi_route_swap:
 	// bAsset: asset
 	txna ApplicationArgs 2
@@ -886,6 +893,7 @@ abi_route_swap:
 	int 1
 	return
 
+// swap(asset,asset,axfer)void
 swap:
 	proto 3 0
 

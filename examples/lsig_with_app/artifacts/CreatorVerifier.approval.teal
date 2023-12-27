@@ -22,9 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// allowOptInsFrom(address)void
-//
-// Allow anyone to use the lsig to opt in the txn sender into an asset created by the creator
 abi_route_allowOptInsFrom:
 	// creator: address
 	txna ApplicationArgs 1
@@ -39,6 +36,9 @@ abi_route_allowOptInsFrom:
 	int 1
 	return
 
+// allowOptInsFrom(address)void
+//
+// Allow anyone to use the lsig to opt in the txn sender into an asset created by the creator
 allowOptInsFrom:
 	proto 1 0
 
@@ -55,9 +55,6 @@ allowOptInsFrom:
 	box_put
 	retsub
 
-// disableOptInsFrom(address)void
-//
-// Disable opt-ins for ASAs from the given creator
 abi_route_disableOptInsFrom:
 	// creator: address
 	txna ApplicationArgs 1
@@ -72,6 +69,9 @@ abi_route_disableOptInsFrom:
 	int 1
 	return
 
+// disableOptInsFrom(address)void
+//
+// Disable opt-ins for ASAs from the given creator
 disableOptInsFrom:
 	proto 1 0
 
@@ -88,9 +88,6 @@ disableOptInsFrom:
 	box_put
 	retsub
 
-// verifyCreator(asset,axfer)void
-//
-// // eslint-disable-next-line no-unused-vars
 abi_route_verifyCreator:
 	// _asaReference: asset
 	txna ApplicationArgs 1
@@ -112,6 +109,7 @@ abi_route_verifyCreator:
 	int 1
 	return
 
+// verifyCreator(asset,axfer)void
 verifyCreator:
 	proto 2 0
 

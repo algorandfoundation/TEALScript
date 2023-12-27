@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// arrayPop()uint16[]
 abi_route_arrayPop:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -42,6 +41,7 @@ abi_route_arrayPop:
 	int 1
 	return
 
+// arrayPop()uint16[]
 arrayPop:
 	proto 0 1
 

@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// u64plus(uint64,uint64)uint64
 abi_route_u64plus:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -43,6 +42,7 @@ abi_route_u64plus:
 	int 1
 	return
 
+// u64plus(uint64,uint64)uint64
 u64plus:
 	proto 2 1
 
@@ -53,7 +53,6 @@ u64plus:
 	+
 	retsub
 
-// u64minus(uint64,uint64)uint64
 abi_route_u64minus:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -74,6 +73,7 @@ abi_route_u64minus:
 	int 1
 	return
 
+// u64minus(uint64,uint64)uint64
 u64minus:
 	proto 2 1
 
@@ -84,7 +84,6 @@ u64minus:
 	-
 	retsub
 
-// u64mul(uint64,uint64)uint64
 abi_route_u64mul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -105,6 +104,7 @@ abi_route_u64mul:
 	int 1
 	return
 
+// u64mul(uint64,uint64)uint64
 u64mul:
 	proto 2 1
 
@@ -115,7 +115,6 @@ u64mul:
 	*
 	retsub
 
-// u64div(uint64,uint64)uint64
 abi_route_u64div:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -136,6 +135,7 @@ abi_route_u64div:
 	int 1
 	return
 
+// u64div(uint64,uint64)uint64
 u64div:
 	proto 2 1
 
@@ -146,7 +146,6 @@ u64div:
 	/
 	retsub
 
-// u256plus(uint256,uint256)uint256
 abi_route_u256plus:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -174,6 +173,7 @@ abi_route_u256plus:
 	int 1
 	return
 
+// u256plus(uint256,uint256)uint256
 u256plus:
 	proto 2 1
 
@@ -198,7 +198,6 @@ u256plus:
 	substring3
 	retsub
 
-// u256minus(uint256,uint256)uint256
 abi_route_u256minus:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -226,6 +225,7 @@ abi_route_u256minus:
 	int 1
 	return
 
+// u256minus(uint256,uint256)uint256
 u256minus:
 	proto 2 1
 
@@ -250,7 +250,6 @@ u256minus:
 	substring3
 	retsub
 
-// u256mul(uint256,uint256)uint256
 abi_route_u256mul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -278,6 +277,7 @@ abi_route_u256mul:
 	int 1
 	return
 
+// u256mul(uint256,uint256)uint256
 u256mul:
 	proto 2 1
 
@@ -302,7 +302,6 @@ u256mul:
 	substring3
 	retsub
 
-// u256div(uint256,uint256)uint256
 abi_route_u256div:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -330,6 +329,7 @@ abi_route_u256div:
 	int 1
 	return
 
+// u256div(uint256,uint256)uint256
 u256div:
 	proto 2 1
 
@@ -354,7 +354,6 @@ u256div:
 	substring3
 	retsub
 
-// u64Return256(uint64,uint64)uint256
 abi_route_u64Return256:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -374,6 +373,7 @@ abi_route_u64Return256:
 	int 1
 	return
 
+// u64Return256(uint64,uint64)uint256
 u64Return256:
 	proto 2 1
 
@@ -392,7 +392,6 @@ u64Return256:
 	b&
 	retsub
 
-// maxU64()uint64
 abi_route_maxU64:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -405,6 +404,7 @@ abi_route_maxU64:
 	int 1
 	return
 
+// maxU64()uint64
 maxU64:
 	proto 0 1
 
@@ -413,7 +413,6 @@ maxU64:
 	int 18_446_744_073_709_551_615
 	retsub
 
-// exponent(uint64,uint64)uint64
 abi_route_exponent:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -434,6 +433,7 @@ abi_route_exponent:
 	int 1
 	return
 
+// exponent(uint64,uint64)uint64
 exponent:
 	proto 2 1
 
@@ -444,7 +444,6 @@ exponent:
 	exp
 	retsub
 
-// variableTypeHint(uint8,uint8)uint16
 abi_route_variableTypeHint:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -472,6 +471,7 @@ abi_route_variableTypeHint:
 	int 1
 	return
 
+// variableTypeHint(uint8,uint8)uint16
 variableTypeHint:
 	proto 2 1
 
@@ -510,7 +510,6 @@ variableTypeHint:
 	frame_bury 0
 	retsub
 
-// uint8plus(uint8,uint8)uint8
 abi_route_uint8plus:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -538,6 +537,7 @@ abi_route_uint8plus:
 	int 1
 	return
 
+// uint8plus(uint8,uint8)uint8
 uint8plus:
 	proto 2 1
 
@@ -565,7 +565,6 @@ uint8plus:
 	substring3
 	retsub
 
-// uint8exp(uint8,uint8)uint8
 abi_route_uint8exp:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -593,6 +592,7 @@ abi_route_uint8exp:
 	int 1
 	return
 
+// uint8exp(uint8,uint8)uint8
 uint8exp:
 	proto 2 1
 
@@ -620,7 +620,6 @@ uint8exp:
 	substring3
 	retsub
 
-// plusEquals(uint64,uint64)uint64
 abi_route_plusEquals:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -641,6 +640,7 @@ abi_route_plusEquals:
 	int 1
 	return
 
+// plusEquals(uint64,uint64)uint64
 plusEquals:
 	proto 2 1
 
@@ -667,7 +667,6 @@ plusEquals:
 	frame_bury 0
 	retsub
 
-// plusEqualsFromGlobal(uint64,uint64)uint64
 abi_route_plusEqualsFromGlobal:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -688,6 +687,7 @@ abi_route_plusEqualsFromGlobal:
 	int 1
 	return
 
+// plusEqualsFromGlobal(uint64,uint64)uint64
 plusEqualsFromGlobal:
 	proto 2 1
 
@@ -713,7 +713,6 @@ plusEqualsFromGlobal:
 	app_global_get
 	retsub
 
-// ufixedLiteralMul()ufixed64x2
 abi_route_ufixedLiteralMul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -725,6 +724,7 @@ abi_route_ufixedLiteralMul:
 	int 1
 	return
 
+// ufixedLiteralMul()ufixed64x2
 ufixedLiteralMul:
 	proto 0 1
 
@@ -780,7 +780,6 @@ ufixedLiteralMul:
 	popn 2
 	retsub
 
-// ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
 abi_route_ufixedMul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -808,6 +807,7 @@ abi_route_ufixedMul:
 	int 1
 	return
 
+// ufixedMul(ufixed64x2,ufixed64x2)ufixed64x2
 ufixedMul:
 	proto 2 1
 
@@ -839,7 +839,6 @@ ufixedMul:
 	substring3
 	retsub
 
-// BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2
 abi_route_BigUfixedMul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -867,6 +866,7 @@ abi_route_BigUfixedMul:
 	int 1
 	return
 
+// BigUfixedMul(ufixed128x2,ufixed128x2)ufixed128x2
 BigUfixedMul:
 	proto 2 1
 
@@ -893,7 +893,6 @@ BigUfixedMul:
 	substring3
 	retsub
 
-// TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
 abi_route_TripleBigUfixedMul:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -929,6 +928,7 @@ abi_route_TripleBigUfixedMul:
 	int 1
 	return
 
+// TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2
 TripleBigUfixedMul:
 	proto 3 1
 

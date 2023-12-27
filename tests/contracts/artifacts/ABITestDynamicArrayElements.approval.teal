@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// dynamicArrayElements()uint16[]
 abi_route_dynamicArrayElements:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -42,6 +41,7 @@ abi_route_dynamicArrayElements:
 	int 1
 	return
 
+// dynamicArrayElements()uint16[]
 dynamicArrayElements:
 	proto 0 1
 

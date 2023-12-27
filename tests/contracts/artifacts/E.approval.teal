@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// externalMethod()uint8
 abi_route_externalMethod:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -34,6 +33,7 @@ abi_route_externalMethod:
 	int 1
 	return
 
+// externalMethod()uint8
 externalMethod:
 	proto 0 1
 
@@ -49,13 +49,13 @@ externalMethod:
 	app_global_get
 	retsub
 
-// e()void
 abi_route_e:
 	// execute e()void
 	callsub e
 	int 1
 	return
 
+// e()void
 e:
 	proto 0 0
 

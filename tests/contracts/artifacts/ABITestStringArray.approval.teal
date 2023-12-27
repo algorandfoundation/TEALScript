@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// stringArray(string[])void
 abi_route_stringArray:
 	// a: string[]
 	txna ApplicationArgs 1
@@ -32,6 +31,7 @@ abi_route_stringArray:
 	int 1
 	return
 
+// stringArray(string[])void
 stringArray:
 	proto 1 0
 

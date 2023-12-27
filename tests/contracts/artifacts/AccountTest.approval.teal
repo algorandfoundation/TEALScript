@@ -22,7 +22,6 @@ switch create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENT
 NOT_IMPLEMENTED:
 	err
 
-// hasAsset(account)void
 abi_route_hasAsset:
 	// a: account
 	txna ApplicationArgs 1
@@ -34,6 +33,7 @@ abi_route_hasAsset:
 	int 1
 	return
 
+// hasAsset(account)void
 hasAsset:
 	proto 1 0
 
@@ -47,7 +47,6 @@ hasAsset:
 	assert
 	retsub
 
-// assetBalance(account)void
 abi_route_assetBalance:
 	// a: account
 	txna ApplicationArgs 1
@@ -59,6 +58,7 @@ abi_route_assetBalance:
 	int 1
 	return
 
+// assetBalance(account)void
 assetBalance:
 	proto 1 0
 
@@ -71,7 +71,6 @@ assetBalance:
 	assert
 	retsub
 
-// assetFrozen(account)void
 abi_route_assetFrozen:
 	// a: account
 	txna ApplicationArgs 1
@@ -83,6 +82,7 @@ abi_route_assetFrozen:
 	int 1
 	return
 
+// assetFrozen(account)void
 assetFrozen:
 	proto 1 0
 
@@ -95,7 +95,6 @@ assetFrozen:
 	assert
 	retsub
 
-// hasBalance(account)void
 abi_route_hasBalance:
 	// a: account
 	txna ApplicationArgs 1
@@ -107,6 +106,7 @@ abi_route_hasBalance:
 	int 1
 	return
 
+// hasBalance(account)void
 hasBalance:
 	proto 1 0
 
@@ -119,7 +119,6 @@ hasBalance:
 	assert
 	retsub
 
-// balance(account)void
 abi_route_balance:
 	// a: account
 	txna ApplicationArgs 1
@@ -131,6 +130,7 @@ abi_route_balance:
 	int 1
 	return
 
+// balance(account)void
 balance:
 	proto 1 0
 
@@ -142,7 +142,6 @@ balance:
 	assert
 	retsub
 
-// minBalance(account)void
 abi_route_minBalance:
 	// a: account
 	txna ApplicationArgs 1
@@ -154,6 +153,7 @@ abi_route_minBalance:
 	int 1
 	return
 
+// minBalance(account)void
 minBalance:
 	proto 1 0
 
@@ -165,7 +165,6 @@ minBalance:
 	assert
 	retsub
 
-// authAddr(account)void
 abi_route_authAddr:
 	// a: account
 	txna ApplicationArgs 1
@@ -177,6 +176,7 @@ abi_route_authAddr:
 	int 1
 	return
 
+// authAddr(account)void
 authAddr:
 	proto 1 0
 
@@ -188,7 +188,6 @@ authAddr:
 	log
 	retsub
 
-// totalNumUint(account)void
 abi_route_totalNumUint:
 	// a: account
 	txna ApplicationArgs 1
@@ -200,6 +199,7 @@ abi_route_totalNumUint:
 	int 1
 	return
 
+// totalNumUint(account)void
 totalNumUint:
 	proto 1 0
 
@@ -211,7 +211,6 @@ totalNumUint:
 	assert
 	retsub
 
-// totalNumByteSlice(account)void
 abi_route_totalNumByteSlice:
 	// a: account
 	txna ApplicationArgs 1
@@ -223,6 +222,7 @@ abi_route_totalNumByteSlice:
 	int 1
 	return
 
+// totalNumByteSlice(account)void
 totalNumByteSlice:
 	proto 1 0
 
@@ -234,7 +234,6 @@ totalNumByteSlice:
 	assert
 	retsub
 
-// totalExtraAppPages(account)void
 abi_route_totalExtraAppPages:
 	// a: account
 	txna ApplicationArgs 1
@@ -246,6 +245,7 @@ abi_route_totalExtraAppPages:
 	int 1
 	return
 
+// totalExtraAppPages(account)void
 totalExtraAppPages:
 	proto 1 0
 
@@ -257,7 +257,6 @@ totalExtraAppPages:
 	assert
 	retsub
 
-// totalAppsCreated(account)void
 abi_route_totalAppsCreated:
 	// a: account
 	txna ApplicationArgs 1
@@ -269,6 +268,7 @@ abi_route_totalAppsCreated:
 	int 1
 	return
 
+// totalAppsCreated(account)void
 totalAppsCreated:
 	proto 1 0
 
@@ -280,7 +280,6 @@ totalAppsCreated:
 	assert
 	retsub
 
-// totalAppsOptedIn(account)void
 abi_route_totalAppsOptedIn:
 	// a: account
 	txna ApplicationArgs 1
@@ -292,6 +291,7 @@ abi_route_totalAppsOptedIn:
 	int 1
 	return
 
+// totalAppsOptedIn(account)void
 totalAppsOptedIn:
 	proto 1 0
 
@@ -303,7 +303,6 @@ totalAppsOptedIn:
 	assert
 	retsub
 
-// totalAssetsCreated(account)void
 abi_route_totalAssetsCreated:
 	// a: account
 	txna ApplicationArgs 1
@@ -315,6 +314,7 @@ abi_route_totalAssetsCreated:
 	int 1
 	return
 
+// totalAssetsCreated(account)void
 totalAssetsCreated:
 	proto 1 0
 
@@ -326,7 +326,6 @@ totalAssetsCreated:
 	assert
 	retsub
 
-// totalAssets(account)void
 abi_route_totalAssets:
 	// a: account
 	txna ApplicationArgs 1
@@ -338,6 +337,7 @@ abi_route_totalAssets:
 	int 1
 	return
 
+// totalAssets(account)void
 totalAssets:
 	proto 1 0
 
@@ -349,7 +349,6 @@ totalAssets:
 	assert
 	retsub
 
-// totalBoxes(account)void
 abi_route_totalBoxes:
 	// a: account
 	txna ApplicationArgs 1
@@ -361,6 +360,7 @@ abi_route_totalBoxes:
 	int 1
 	return
 
+// totalBoxes(account)void
 totalBoxes:
 	proto 1 0
 
@@ -372,7 +372,6 @@ totalBoxes:
 	assert
 	retsub
 
-// totalBoxBytes(account)void
 abi_route_totalBoxBytes:
 	// a: account
 	txna ApplicationArgs 1
@@ -384,6 +383,7 @@ abi_route_totalBoxBytes:
 	int 1
 	return
 
+// totalBoxBytes(account)void
 totalBoxBytes:
 	proto 1 0
 
