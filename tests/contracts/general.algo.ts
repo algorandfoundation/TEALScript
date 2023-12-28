@@ -213,6 +213,6 @@ class GeneralTest extends Contract {
   }
 
   appLoadScratch(): void {
-    this.txnGroup[1].loadScratch(2);
+    log(this.txnGroup[1].loadScratch(2) as bytes);
   }
 }

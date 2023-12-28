@@ -450,11 +450,9 @@ declare class Application {
 
   readonly address: Address;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  globalState(key: BytesLike): any;
+  globalState(key: BytesLike): unknown;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  localState(account: Address, key: BytesLike): any;
+  localState(account: Address, key: BytesLike): unknown;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -535,8 +533,7 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   numLogs: uint64;
   numApprovalProgrammPages: uint64;
   numClearStateProgramPages: uint64;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  loadScratch: (slot: uint64) => any;
+  loadScratch: (slot: uint64) => unknown;
 }
 
 interface AssetTransferParams extends CommonTransactionParams {

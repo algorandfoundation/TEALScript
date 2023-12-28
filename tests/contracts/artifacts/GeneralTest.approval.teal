@@ -1046,8 +1046,9 @@ appLoadScratch:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:216
-	// this.txnGroup[1].loadScratch(2)
+	// log(this.txnGroup[1].loadScratch(2) as bytes)
 	gload 1 2
+	log
 	retsub
 
 abi_route_createApplication:
