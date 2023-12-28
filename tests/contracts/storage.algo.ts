@@ -159,10 +159,10 @@ class StorageTest extends Contract {
   }
 
   exGlobal(): void {
-    log(this.app.global('foo') as bytes);
+    log(this.app.globalState('foo') as bytes);
   }
 
   exLocal(): void {
-    log(this.txn.sender.state(this.app, 'foo') as bytes);
+    log(this.app.localState(this.txn.sender, 'foo') as bytes);
   }
 }

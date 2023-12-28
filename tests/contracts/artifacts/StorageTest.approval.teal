@@ -746,7 +746,7 @@ exGlobal:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:162
-	// log(this.app.global('foo') as bytes)
+	// log(this.app.globalState('foo') as bytes)
 	txna Applications 0
 	byte 0x666f6f // "foo"
 	app_global_get_ex
@@ -765,7 +765,7 @@ exLocal:
 	proto 0 0
 
 	// tests/contracts/storage.algo.ts:166
-	// log(this.txn.sender.state(this.app, 'foo') as bytes)
+	// log(this.app.localState(this.txn.sender, 'foo') as bytes)
 	txn Sender
 	txna Applications 0
 	byte 0x666f6f // "foo"
