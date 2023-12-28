@@ -108,7 +108,23 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
     const teal = nodeAndTeal.teal.trim();
     const { node } = nodeAndTeal;
 
-    if (teal.startsWith('cover ')) {
+    if (teal.startsWith('gloadss')) {
+      if (outputTeal.at(-1)?.teal.startsWith('int ')) {
+        const scratchSlot = Number(outputTeal.at(-1)?.teal.split(' ')[1]);
+        popTeal();
+        pushTeal(`gloads ${scratchSlot}`, node);
+        optimized = true;
+      }
+    } else if (teal.startsWith('gloads')) {
+      if (outputTeal.at(-1)?.teal.startsWith('int ')) {
+        const scratchSlot = Number(teal.split(' ')[1]);
+        const txnIndex = Number(outputTeal.at(-1)?.teal.split(' ')[1]);
+
+        popTeal();
+        pushTeal(`gload ${txnIndex} ${scratchSlot}`, node);
+        optimized = true;
+      }
+    } else if (teal.startsWith('cover ')) {
       const n = Number(teal.split(' ')[1]);
       const movedTeal = outputTeal.slice(-n - 1, -1);
 

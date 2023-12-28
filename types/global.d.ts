@@ -419,9 +419,6 @@ declare class Address {
   assetFrozen(asa: Asset): uint64;
 
   isOptedInToApp(app: Application): boolean;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  state(app: Application, key: BytesLike): any;
 }
 
 class Account extends Address {}
@@ -453,8 +450,9 @@ declare class Application {
 
   readonly address: Address;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  global(key: BytesLike): any;
+  globalState(key: BytesLike): unknown;
+
+  localState(account: Address, key: BytesLike): unknown;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -535,6 +533,7 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   numLogs: uint64;
   numApprovalProgrammPages: uint64;
   numClearStateProgramPages: uint64;
+  loadScratch: (slot: uint64) => unknown;
 }
 
 interface AssetTransferParams extends CommonTransactionParams {

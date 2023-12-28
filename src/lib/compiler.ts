@@ -727,33 +727,41 @@ export default class Compiler {
   private readonly OP_PARAMS: {
     [type: string]: { name: string; type?: string; args: number; fn: (node: ts.Node) => void }[];
   } = {
-    account: [
-      ...this.getOpParamObjects('acct_params_get'),
-      ...this.getOpParamObjects('asset_holding_get'),
-      {
-        name: 'State',
-        type: 'any',
-        args: 3,
-        fn: (node: ts.Node) => {
-          this.maybeValue(node, 'app_local_get_ex', StackType.any);
-        },
-      },
-    ],
+    account: [...this.getOpParamObjects('acct_params_get'), ...this.getOpParamObjects('asset_holding_get')],
     application: [
       ...this.getOpParamObjects('app_params_get'),
       {
-        name: 'Global',
+        name: 'GlobalState',
+        type: 'any',
+        args: 1,
+        fn: (node: ts.Node) => {
+          this.maybeValue(node, 'app_global_get_ex', StackType.any);
+        },
+      },
+      {
+        name: 'LocalState',
         type: 'any',
         args: 2,
         fn: (node: ts.Node) => {
-          this.maybeValue(node, 'app_global_get_ex', StackType.any);
+          this.pushLines(node, 'swap', 'cover 2');
+          this.maybeValue(node, 'app_local_get_ex', StackType.any);
         },
       },
     ],
     txn: this.getOpParamObjects('txn'),
     global: this.getOpParamObjects('global'),
     itxn: this.getOpParamObjects('itxn'),
-    gtxns: this.getOpParamObjects('gtxns'),
+    gtxns: [
+      ...this.getOpParamObjects('gtxns'),
+      {
+        name: 'LoadScratch',
+        type: 'any',
+        args: 1,
+        fn: (node: ts.Node) => {
+          this.push(node, 'gloadss', StackType.any);
+        },
+      },
+    ],
     asset: this.getOpParamObjects('asset_params_get'),
   };
 
