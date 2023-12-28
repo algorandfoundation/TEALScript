@@ -733,7 +733,7 @@ export default class Compiler {
       {
         name: 'GlobalState',
         type: 'any',
-        args: 2,
+        args: 1,
         fn: (node: ts.Node) => {
           this.maybeValue(node, 'app_global_get_ex', StackType.any);
         },
@@ -751,7 +751,17 @@ export default class Compiler {
     txn: this.getOpParamObjects('txn'),
     global: this.getOpParamObjects('global'),
     itxn: this.getOpParamObjects('itxn'),
-    gtxns: this.getOpParamObjects('gtxns'),
+    gtxns: [
+      ...this.getOpParamObjects('gtxns'),
+      {
+        name: 'LoadScratch',
+        type: 'any',
+        args: 1,
+        fn: (node: ts.Node) => {
+          this.push(node, 'gloadss', StackType.any);
+        },
+      },
+    ],
     asset: this.getOpParamObjects('asset_params_get'),
   };
 

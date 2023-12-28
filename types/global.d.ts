@@ -535,6 +535,8 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
   numLogs: uint64;
   numApprovalProgrammPages: uint64;
   numClearStateProgramPages: uint64;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  loadScratch: (slot: uint64) => any;
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
