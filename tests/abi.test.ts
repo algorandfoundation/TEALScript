@@ -766,5 +766,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'multiBytesTuple')).toEqual([[1], [2]]);
     });
+
+    test('boolInObj', async () => {
+      const { appClient } = await compileAndCreate('boolInObj');
+
+      await runMethod(appClient, 'boolInObj');
+    });
   });
 });
