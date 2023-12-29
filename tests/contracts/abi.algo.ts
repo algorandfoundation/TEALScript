@@ -1228,3 +1228,10 @@ class ABITestMultiBytesTuple extends Contract {
     return [hex('0x01'), hex('0x02')];
   }
 }
+
+class ABITestBoolInObj extends Contract {
+  boolInObj(): void {
+    const x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: false, baz: true };
+    assert(x.foo === true, x.bar === false, x.baz === true);
+  }
+}

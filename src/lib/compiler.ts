@@ -3559,15 +3559,20 @@ export default class Compiler {
       this.updateValue(parentExpression);
     } else {
       if (typeInfoToABIString(element.type) === 'bool') {
-        if (!node.isKind(ts.SyntaxKind.ElementAccessExpression))
-          throw new Error(`${node.getKindName()}: ${node.getText()}`);
+        this.pushLines(node, 'int 8', '*');
 
-        const argExpr = node.getArgumentExpression();
-        if (argExpr === undefined) throw Error();
+        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+          const argExpr = node.getArgumentExpression();
+          if (argExpr === undefined) throw Error();
 
-        this.pushLines(argExpr, 'int 8', '*');
-        this.processNode(argExpr);
-        this.pushLines(argExpr, '+', `load ${compilerScratch.fullArray}`, 'swap', 'getbit');
+          this.processNode(argExpr);
+        } else if (node.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          if (parentType?.kind !== 'object') throw Error();
+          const idx = Object.keys(parentType.properties).indexOf(node.getName());
+          this.pushVoid(node, `int ${idx}`);
+        } else throw Error();
+
+        this.pushLines(node, '+', `load ${compilerScratch.fullArray}`, 'swap', 'getbit');
 
         this.lastType = { kind: 'base', type: 'bool' };
         return;
