@@ -36,13 +36,13 @@ boolInObj:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:1234
-	// x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: false, baz: true }
+	// x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: true, baz: true }
 	byte 0x00
 	int 0
 	int 1
 	setbit
 	int 1
-	int 0
+	dup
 	setbit
 	int 2
 	int 1
@@ -50,6 +50,16 @@ boolInObj:
 	frame_bury 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 
 	// tests/contracts/abi.algo.ts:1235
+	// x.bar = false
+	frame_dig 0 // x: { foo: boolean; bar: boolean; baz: boolean }
+	store 255 // full array
+	load 255 // full array
+	int 1
+	int 0
+	setbit
+	frame_bury 0 // x: { foo: boolean; bar: boolean; baz: boolean }
+
+	// tests/contracts/abi.algo.ts:1236
 	// assert(x.foo === true, x.bar === false, x.baz === true)
 	frame_dig 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 	store 255 // full array
