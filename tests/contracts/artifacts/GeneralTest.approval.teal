@@ -919,14 +919,11 @@ stringPlusEquals:
 
 	// tests/contracts/general.algo.ts:191
 	// s += 'bar'
-	frame_dig 0 // s: byte[]
-	byte 0x626172 // "bar"
-	concat
-	frame_bury 0 // s: byte[]
+	byte 0x666f6f626172
 
 	// tests/contracts/general.algo.ts:192
 	// assert(s === 'foobar')
-	frame_dig 0 // s: byte[]
+	byte 0x666f6f // "foo" // s: byte[]
 	byte 0x666f6f626172 // "foobar"
 	==
 	assert
