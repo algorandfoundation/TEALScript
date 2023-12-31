@@ -4020,6 +4020,7 @@ export default class Compiler {
         (leftType.kind === 'staticArray' && equalTypes(leftType.base, { kind: 'base', type: 'byte' })))
     ) {
       this.push(node.getOperatorToken(), 'concat', StackType.bytes);
+      if (updateValue) this.updateValue(leftNode);
       return;
     }
 
