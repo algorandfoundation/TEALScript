@@ -1231,7 +1231,24 @@ class ABITestMultiBytesTuple extends Contract {
 
 class ABITestBoolInObj extends Contract {
   boolInObj(): void {
-    const x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: false, baz: true };
+    const x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: true, baz: true };
+    x.bar = false;
     assert(x.foo === true, x.bar === false, x.baz === true);
+  }
+}
+
+class ABITestPlusEqualsArrayValue extends Contract {
+  plusEqualsArrayValue(): StaticArray<uint64, 2> {
+    const a: StaticArray<uint64, 2> = [1, 2];
+    a[1] += 1;
+    return a;
+  }
+}
+
+class ABITestPlusEqualsObjValue extends Contract {
+  plusEqualsObjValue(): { foo: uint64; bar: uint64 } {
+    const a: { foo: uint64; bar: uint64 } = { foo: 3, bar: 4 };
+    a.bar += 1;
+    return a;
   }
 }

@@ -786,6 +786,14 @@ export default class Compiler {
     }
   }
 
+  private processNewValue(node: ts.Node) {
+    if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
+      this.processBinaryExpression(node, true);
+    } else {
+      this.processNode(node);
+    }
+  }
+
   /** Handle any action related to boxes or local/global state */
   private handleStorageAction({
     node,
@@ -907,7 +915,7 @@ export default class Compiler {
 
         if (newValue) {
           this.typeHint = valueType;
-          this.processNode(newValue);
+          this.processNewValue(newValue);
           this.typeHint = undefined;
 
           // if valueType is not bytes
@@ -3369,7 +3377,7 @@ export default class Compiler {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
         this.processNumericLiteralWithType(newValue, elem.type);
       } else {
-        this.processNode(newValue);
+        this.processNewValue(newValue);
       }
 
       this.checkEncoding(node, elem.type);
@@ -3491,7 +3499,7 @@ export default class Compiler {
         if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
           this.processNumericLiteralWithType(newValue, element.type);
         } else {
-          this.processNode(newValue);
+          this.processNewValue(newValue);
         }
 
         this.checkEncoding(newValue, this.lastType);
@@ -3535,23 +3543,30 @@ export default class Compiler {
 
         this.pushVoid(node, `load ${compilerScratch.fullArray}`);
       } else if (typeInfoToABIString(element.type) === 'bool') {
-        if (!node.isKind(ts.SyntaxKind.ElementAccessExpression)) throw new Error();
-        const argExpr = node.getArgumentExpression();
-        if (argExpr === undefined) throw Error();
+        this.pushLines(node, 'int 8', '* // get bit offset');
 
-        this.pushLines(argExpr, 'int 8', '* // get bit offset');
-        this.processNode(argExpr);
-        this.pushLines(argExpr, '+ // add accessor bits');
+        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+          const argExpr = node.getArgumentExpression();
+          if (argExpr === undefined) throw Error();
+
+          this.processNode(argExpr);
+        } else if (node.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          if (parentType?.kind !== 'object') throw Error();
+          const idx = Object.keys(parentType.properties).indexOf(node.getName());
+          this.pushVoid(node, `int ${idx}`);
+        } else throw Error();
+
+        this.pushLines(node, '+ // add accessor bits');
         if (element.parent!.arrayType === 'dynamic') {
-          this.pushLines(argExpr, 'int 16', '+ // 16 bits for length prefix');
+          this.pushLines(node, 'int 16', '+ // 16 bits for length prefix');
         }
-        this.pushLines(argExpr, `load ${compilerScratch.fullArray}`, 'swap');
-        this.processNode(newValue);
+        this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
+        this.processNewValue(newValue);
 
-        this.pushVoid(argExpr, 'setbit');
+        this.pushVoid(node, 'setbit');
       } else {
         this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
-        this.processNode(newValue);
+        this.processNewValue(newValue);
         this.checkEncoding(newValue, this.lastType);
         this.pushVoid(node, 'replace3');
       }
@@ -3879,7 +3894,7 @@ export default class Compiler {
 
   mathType = '';
 
-  private processBinaryExpression(node: ts.BinaryExpression) {
+  private processBinaryExpression(node: ts.BinaryExpression, processAssignmentOp = false) {
     const leftNode = node.getLeft();
     const rightNode = node.getRight();
 
@@ -3949,11 +3964,30 @@ export default class Compiler {
       .replace('!==', '!=')
       .replace('**', 'exp');
 
-    let isOperatorAssignment = false;
+    let updateValue = false;
+
     if (['+=', '-=', '*=', '/='].includes(operator)) {
+      if (processAssignmentOp === false) {
+        this.addSourceComment(node);
+
+        const isStorageExpr = leftNode
+          .getFirstChild()
+          ?.getType()
+          .getText()
+          .match(/(Box|LocalState|GlobalState)Value/);
+
+        const isExprChain =
+          leftNode.isKind(ts.SyntaxKind.ElementAccessExpression) ||
+          leftNode.isKind(ts.SyntaxKind.PropertyAccessExpression);
+
+        if (!isStorageExpr && isExprChain && getTypeInfo(leftNode.getFirstChild()!.getType()).kind !== 'base') {
+          this.processExpressionChain(leftNode, node);
+          return;
+        }
+
+        updateValue = true;
+      }
       operator = operator.replace('=', '');
-      isOperatorAssignment = true;
-      this.addSourceComment(node, true);
     }
 
     if (['&&', '||'].includes(operator)) {
@@ -3986,7 +4020,7 @@ export default class Compiler {
         (leftType.kind === 'staticArray' && equalTypes(leftType.base, { kind: 'base', type: 'byte' })))
     ) {
       this.push(node.getOperatorToken(), 'concat', StackType.bytes);
-      if (isOperatorAssignment) this.updateValue(leftNode);
+      if (updateValue) this.updateValue(leftNode);
       return;
     }
 
@@ -4022,10 +4056,6 @@ export default class Compiler {
       this.lastType = { kind: 'base', type: 'bool' };
     }
 
-    if (isOperatorAssignment) {
-      this.updateValue(leftNode);
-    }
-
     if (leftTypeStr.startsWith('unsafe') || rightTypeStr.startsWith('unsafe')) {
       typeComparison(
         { kind: 'base', type: leftTypeStr.replace('unsafe ', '') },
@@ -4034,6 +4064,10 @@ export default class Compiler {
       this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
     } else if (!leftNode.isKind(ts.SyntaxKind.NumericLiteral) && !rightNode.isKind(ts.SyntaxKind.NumericLiteral))
       typeComparison(leftType, rightType);
+
+    if (updateValue) {
+      this.updateValue(leftNode);
+    }
   }
 
   private processLogicalExpression(node: ts.BinaryExpression) {
@@ -4859,7 +4893,7 @@ export default class Compiler {
       const name = chain[0].getNameNode().getText();
 
       if (newValue !== undefined) {
-        this.processNode(newValue);
+        this.processNewValue(newValue);
         typeComparison(this.lastType, this.scratch[name].type);
         this.push(chain[1], `store ${this.scratch[name].slot}`, this.scratch[name].type);
       } else {
