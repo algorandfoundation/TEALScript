@@ -33,6 +33,14 @@ async function processFile(filename: string, parsed: any) {
     tsConfigFilePath,
   });
 
+  if (project.getCompilerOptions().experimentalDecorators !== true) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `WARNING: 'experiementalDecorators' is not enabled in your tsconfig.json. TEALScript is manually overriding this option (in memory) for compilation. This will slightly increase the TEALSCript compile time. Please set 'experiementalDecorators' to 'true' in ${tsConfigFilePath}.`
+    );
+    project.compilerOptions.set({ experimentalDecorators: true });
+  }
+
   const compilers = Compiler.compileAll(content, project, options);
 
   compilers.forEach(async (compilerPromise) => {
