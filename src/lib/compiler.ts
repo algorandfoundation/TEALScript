@@ -3535,20 +3535,27 @@ export default class Compiler {
 
         this.pushVoid(node, `load ${compilerScratch.fullArray}`);
       } else if (typeInfoToABIString(element.type) === 'bool') {
-        if (!node.isKind(ts.SyntaxKind.ElementAccessExpression)) throw new Error();
-        const argExpr = node.getArgumentExpression();
-        if (argExpr === undefined) throw Error();
+        this.pushLines(node, 'int 8', '* // get bit offset');
 
-        this.pushLines(argExpr, 'int 8', '* // get bit offset');
-        this.processNode(argExpr);
-        this.pushLines(argExpr, '+ // add accessor bits');
+        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+          const argExpr = node.getArgumentExpression();
+          if (argExpr === undefined) throw Error();
+
+          this.processNode(argExpr);
+        } else if (node.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          if (parentType?.kind !== 'object') throw Error();
+          const idx = Object.keys(parentType.properties).indexOf(node.getName());
+          this.pushVoid(node, `int ${idx}`);
+        } else throw Error();
+
+        this.pushLines(node, '+ // add accessor bits');
         if (element.parent!.arrayType === 'dynamic') {
-          this.pushLines(argExpr, 'int 16', '+ // 16 bits for length prefix');
+          this.pushLines(node, 'int 16', '+ // 16 bits for length prefix');
         }
-        this.pushLines(argExpr, `load ${compilerScratch.fullArray}`, 'swap');
+        this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
         this.processNode(newValue);
 
-        this.pushVoid(argExpr, 'setbit');
+        this.pushVoid(node, 'setbit');
       } else {
         this.pushLines(node, `load ${compilerScratch.fullArray}`, 'swap');
         this.processNode(newValue);
