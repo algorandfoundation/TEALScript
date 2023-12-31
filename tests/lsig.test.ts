@@ -31,11 +31,13 @@ describe('Logic Signatures', function () {
             contractName
           );
           msg = 'No error';
-        } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (e: any) {
           msg = e.message;
         }
 
-        expect(msg).toMatch(errorMessages[contractName]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expect(msg).toMatch((errorMessages as any)[contractName]);
       });
     });
   });

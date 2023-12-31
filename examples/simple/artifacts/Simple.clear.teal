@@ -7,14 +7,14 @@ callsub incrementCounter
 int 1
 return
 
+// incrementCounter(uint64)void
 incrementCounter:
-	// Setup the frame for args and return value. Use empty bytes to create space on the stack for local variables if necessary
 	proto 1 0
 
 	// examples/simple/simple.algo.ts:7
 	// this.counter.value = this.counter.value + i
 	byte 0x636f756e746572 // "counter"
-	byte 0x636f756e746572 // "counter"
+	dup
 	app_global_get
 	frame_dig -1 // i: uint64
 	+

@@ -7,7 +7,7 @@ import path from 'path';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import algosdk from 'algosdk';
-import { getMethodTeal, artifactsTest, algodClient, kmdClient, compileAndCreate } from './common';
+import { getMethodTeal, artifactsTest, algodClient, kmdClient, compileAndCreate, TESTS_PROJECT } from './common';
 import Compiler from '../src/lib/compiler';
 
 const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
@@ -50,7 +50,7 @@ describe('Storage', function () {
             const teal = await getTeal(`${storageType}${storageClass}${method}`);
             const expectedTeal: string[] = [];
 
-            if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: account');
+            if (storageType === 'local') expectedTeal.push('frame_dig -1 // a: Account');
 
             if (['local', 'global'].includes(storageType) && method === 'Exists')
               expectedTeal.push('txna Applications 0');
@@ -91,7 +91,7 @@ describe('Storage', function () {
 
       const sourcePath = path.join('tests', 'contracts', 'storage.algo.ts');
       const content = fs.readFileSync(sourcePath, 'utf-8');
-      const compiler = new Compiler(content, className, {
+      const compiler = new Compiler(content, className, TESTS_PROJECT, {
         filename: sourcePath,
         disableWarnings: true,
       });
@@ -241,7 +241,8 @@ describe('Storage', function () {
           'MapSizeCollision'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 
@@ -258,7 +259,8 @@ describe('Storage', function () {
           'KeyCollisionWithMap'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 
@@ -277,7 +279,8 @@ describe('Storage', function () {
           'MapCollisionWithKey'
         );
         msg = 'No error';
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         msg = e.message;
       }
 

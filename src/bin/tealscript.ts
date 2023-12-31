@@ -3,6 +3,8 @@
 import path from 'path';
 import * as fs from 'fs';
 import { ArgumentParser } from 'argparse';
+import ts from 'typescript';
+import { Project } from 'ts-morph';
 import Compiler, { CompilerOptions } from '../lib/compiler';
 
 import 'dotenv/config';
@@ -25,7 +27,13 @@ async function processFile(filename: string, parsed: any) {
     disableTypeScript: parsed.unsafe_disable_typescript as boolean,
   } as CompilerOptions;
 
-  const compilers = Compiler.compileAll(content, options);
+  const tsConfigFilePath = path.join(process.cwd(), ts.findConfigFile(filename, ts.sys.fileExists, 'tsconfig.json')!);
+
+  const project = new Project({
+    tsConfigFilePath,
+  });
+
+  const compilers = Compiler.compileAll(content, project, options);
 
   compilers.forEach(async (compilerPromise) => {
     const compiler = await compilerPromise;
@@ -54,7 +62,7 @@ async function processFile(filename: string, parsed: any) {
 
     fs.writeFileSync(approvalPath, compiler.teal.approval.map((t) => t.teal).join('\n'));
     fs.writeFileSync(clearPath, compiler.teal.clear.map((t) => t.teal).join('\n'));
-    fs.writeFileSync(abiPath, JSON.stringify(compiler.abi, null, 2));
+    fs.writeFileSync(abiPath, JSON.stringify(compiler.abiJSON(), null, 2));
     fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
     fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
   });

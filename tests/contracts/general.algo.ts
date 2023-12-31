@@ -211,4 +211,8 @@ class GeneralTest extends Contract {
   callInternalPublicMethod(): void {
     assert(this.interalPublicMethod(1, 2) === 3);
   }
+
+  appLoadScratch(): void {
+    log(this.txnGroup[1].loadScratch(2) as bytes);
+  }
 }

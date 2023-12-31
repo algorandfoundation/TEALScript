@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-undef */
 /// <reference path="../../types/global.d.ts" />
+import { classes } from 'polytype';
 
 export class PendingGroup {
   /**
@@ -37,7 +38,18 @@ export class PendingGroup {
   submit(): void {}
 }
 
+type ItxnParams = AppOnChainTransactionParams &
+  Partial<AppParams> &
+  Partial<PaymentParams> &
+  Partial<AssetCreateParams> &
+  Partial<AssetTransferParams>;
+
 export default abstract class Contract {
+  /**
+   * Create a contract class that inherits from the given contracts. Inheritance is in order of arguments.
+   */
+  static extend: typeof classes;
+
   static approvalProgram: () => bytes;
 
   static clearProgram: () => bytes;
@@ -56,15 +68,9 @@ export default abstract class Contract {
   /** The program version to use in the generated TEAL. This is the number used in the "#pragma version" directive */
   programVersion = 9;
 
-  itxn!: Expand<
-    AppOnChainTransactionParams &
-      Partial<AppParams> &
-      Partial<PaymentParams> &
-      Partial<AssetCreateParams> &
-      Partial<AssetTransferParams>
-  >;
+  itxn!: ItxnParams;
 
-  txn!: Expand<ThisTxnParams>;
+  txn!: ThisTxnParams;
 
   txnGroup!: Txn[];
 

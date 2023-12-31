@@ -6,14 +6,24 @@ import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
+import * as ts from 'ts-morph';
+import path from 'path';
 import Compiler from '../src/lib/compiler';
 
 export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
 export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
 export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
+export const TESTS_PROJECT = new ts.Project({ tsConfigFilePath: path.join(__dirname, 'contracts', 'tsconfig.json') });
+export const EXAMPLES_PROJECT = new ts.Project({
+  tsConfigFilePath: path.join(__dirname, '..', 'examples', 'tsconfig.json'),
+});
+
 export async function getMethodTeal(filename: string, className: string, methodName: string): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, { disableWarnings: true });
+  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, TESTS_PROJECT, {
+    filename,
+    disableWarnings: true,
+  });
   await compiler.compile();
   const teal = compiler.teal.approval.map((t) => t.teal.trim()).filter((t) => t.length > 0);
 
@@ -28,7 +38,8 @@ export function lowerFirstChar(str: string) {
 
 export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, {
+  const project = sourcePath.startsWith('examples/') ? EXAMPLES_PROJECT : TESTS_PROJECT;
+  const compiler = new Compiler(content, className, project, {
     filename: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
@@ -48,7 +59,9 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
 
     if (!lsig) {
       test('Generates ABI JSON', () => {
-        expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8')));
+        expect(compiler.abiJSON()).toEqual(
+          JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8'))
+        );
       });
 
       test('Generates App Spec', () => {
@@ -70,7 +83,7 @@ export async function compileAndCreate(
   appId: number | bigint;
 }> {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, {
+  const compiler = new Compiler(content, className, TESTS_PROJECT, {
     filename: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
@@ -81,7 +94,7 @@ export async function compileAndCreate(
   expect(compiler.teal.approval.map((t) => t.teal).join('\n')).toEqual(
     fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
   );
-  expect(compiler.abi).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8')));
+  expect(compiler.abiJSON()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8')));
   expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8')));
 
   const appClient = algokit.getAppClient(

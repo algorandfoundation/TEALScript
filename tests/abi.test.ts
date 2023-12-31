@@ -35,7 +35,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
   ];
 
   let fundAmount = 0;
-  let callType = 'call';
+  let callType: 'call' | 'optIn' = 'call';
 
   if (name.includes('Storage') || name.includes('RefAccount')) {
     fundAmount = 127_400;
@@ -765,6 +765,12 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('multiBytesTuple');
 
       expect(await runMethod(appClient, 'multiBytesTuple')).toEqual([[1], [2]]);
+    });
+
+    test('boolInObj', async () => {
+      const { appClient } = await compileAndCreate('boolInObj');
+
+      await runMethod(appClient, 'boolInObj');
     });
   });
 });

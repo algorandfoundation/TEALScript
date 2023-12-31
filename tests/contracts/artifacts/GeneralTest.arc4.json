@@ -298,13 +298,22 @@
       }
     },
     {
-      "name": "createApplication",
+      "name": "appLoadScratch",
+      "args": [],
       "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
-      },
-      "args": []
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
     }
   ]
 }

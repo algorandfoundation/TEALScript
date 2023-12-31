@@ -20,14 +20,8 @@ jobs:
     - name: Ensure version constant is up-to-date
       run: bun scripts/version.ts
 
-    - name: Run compile smoketest
-      run: bun scripts/compile_all_smoketest.ts
-
     - name: Run ESLint
       run: bun lint
-
-    - name: Run webpack smoketest
-      run: bun webpack-smoketest
 
     - name: Run tests
       run: bun test
@@ -35,4 +29,6 @@ jobs:
     - name: Run examples
       run: bun run-examples
 
+    - name: Compile all
+      run: bun compile-all
 
