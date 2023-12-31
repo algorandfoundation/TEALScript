@@ -7,22 +7,20 @@ import * as algokit from '@algorandfoundation/algokit-utils';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
 import * as ts from 'ts-morph';
+import path from 'path';
 import Compiler from '../src/lib/compiler';
 
 export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
 export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
 export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
-export function getProject(filename: string) {
-  const tsConfigFilePath = ts.ts.findConfigFile(filename, ts.ts.sys.fileExists, 'tsconfig.json')!;
-
-  return new ts.Project({
-    tsConfigFilePath,
-  });
-}
+export const TESTS_PROJECT = new ts.Project({ tsConfigFilePath: path.join(__dirname, 'contracts', 'tsconfig.json') });
+export const EXAMPLES_PROJECT = new ts.Project({
+  tsConfigFilePath: path.join(__dirname, '..', 'examples', 'tsconfig.json'),
+});
 
 export async function getMethodTeal(filename: string, className: string, methodName: string): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, getProject(filename), {
+  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, TESTS_PROJECT, {
     filename,
     disableWarnings: true,
   });
@@ -40,7 +38,8 @@ export function lowerFirstChar(str: string) {
 
 export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, getProject(sourcePath), {
+  const project = sourcePath.startsWith('examples/') ? EXAMPLES_PROJECT : TESTS_PROJECT;
+  const compiler = new Compiler(content, className, project, {
     filename: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
@@ -84,7 +83,7 @@ export async function compileAndCreate(
   appId: number | bigint;
 }> {
   const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, getProject(sourcePath), {
+  const compiler = new Compiler(content, className, TESTS_PROJECT, {
     filename: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
