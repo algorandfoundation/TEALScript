@@ -772,5 +772,17 @@ describe('ABI', function () {
 
       await runMethod(appClient, 'boolInObj');
     });
+
+    test('plusEqualsArrayValue', async () => {
+      const { appClient } = await compileAndCreate('plusEqualsArrayValue');
+
+      expect(await runMethod(appClient, 'plusEqualsArrayValue')).toEqual([1n, 3n]);
+    });
+
+    test('plusEqualsObjValue', async () => {
+      const { appClient } = await compileAndCreate('plusEqualsObjValue');
+
+      expect(await runMethod(appClient, 'plusEqualsObjValue')).toEqual([3n, 5n]);
+    });
   });
 });
