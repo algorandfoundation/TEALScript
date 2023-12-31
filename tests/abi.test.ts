@@ -37,9 +37,9 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
   let fundAmount = 0;
   let callType: 'call' | 'optIn' = 'call';
 
-  if (name.includes('Storage') || name.includes('RefAccount')) {
+  if (name.includes('Storage') || name.includes('RefAccount') || name.includes('InBox')) {
     fundAmount = 127_400;
-    callType = 'optIn';
+    if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
   return commonRunMethod({ appClient, boxes, method: name, methodArgs, fundAmount, callType });
 }
@@ -783,6 +783,12 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('plusEqualsObjValue');
 
       expect(await runMethod(appClient, 'plusEqualsObjValue')).toEqual([3n, 5n]);
+    });
+
+    test('plusEqualsObjValueInBox', async () => {
+      const { appClient } = await compileAndCreate('plusEqualsObjValueInBox');
+
+      expect(await runMethod(appClient, 'plusEqualsObjValueInBox')).toEqual([3n, 5n]);
     });
   });
 });

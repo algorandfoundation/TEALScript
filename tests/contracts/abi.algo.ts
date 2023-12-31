@@ -1252,3 +1252,13 @@ class ABITestPlusEqualsObjValue extends Contract {
     return a;
   }
 }
+
+class ABITestPlusEqualsObjValueInBox extends Contract {
+  bMap = BoxMap<bytes, { foo: uint64; bar: uint64 }>();
+
+  plusEqualsObjValueInBox(): { foo: uint64; bar: uint64 } {
+    this.bMap('bMap').value = { foo: 3, bar: 4 };
+    this.bMap('bMap').value.bar += 1;
+    return this.bMap('bMap').value;
+  }
+}
