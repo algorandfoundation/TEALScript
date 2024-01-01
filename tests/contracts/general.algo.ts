@@ -104,10 +104,19 @@ class GeneralTest extends Contract {
     assert(len(x + y + z) === 12);
   }
 
-  myEvent = new EventLogger<[Application, number]>();
+  /**
+   * This is my event
+   * It has some args
+   */
+  myEvent = new EventLogger<{
+    /** Some app */
+    app: Application;
+    /** Some number */
+    num: number;
+  }>();
 
   events(): void {
-    this.myEvent.log(this.app, 1);
+    this.myEvent.log({ app: this.app, num: 1 });
   }
 
   letOptimization(a: uint64[]): uint64[] {

@@ -455,11 +455,10 @@ declare class Application {
   localState(account: Address, key: BytesLike): unknown;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare class EventLogger<ArgumentTypes extends any[]> {
+declare class EventLogger<ArgumentTypes extends Object> {
   constructor();
 
-  log(...args: ArgumentTypes): void;
+  log(args: ArgumentTypes): void;
 }
 
 declare type BoxValue<ValueType> = {
