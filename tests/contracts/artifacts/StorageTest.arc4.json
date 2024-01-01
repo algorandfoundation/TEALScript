@@ -6,40 +6,35 @@
       "name": "prefix",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalKeyPut",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalKeyGet",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalKeyDelete",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalKeyExists",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -47,12 +42,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -60,12 +54,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -73,12 +66,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -86,76 +78,67 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyPut",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyGet",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyDelete",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyExists",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalMapPut",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalMapGet",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalMapDelete",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "globalMapExists",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -163,12 +146,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -176,12 +158,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -189,12 +170,11 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -202,142 +182,124 @@
       "args": [
         {
           "name": "a",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapPut",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapGet",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapDelete",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapExists",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyCreate",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapCreate",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyLength",
       "args": [],
       "returns": {
-        "type": "uint64",
-        "desc": ""
+        "type": "uint64"
       }
     },
     {
       "name": "boxMapLength",
       "args": [],
       "returns": {
-        "type": "uint64",
-        "desc": ""
+        "type": "uint64"
       }
     },
     {
       "name": "boxKeyReplace",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxMapReplace",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "boxKeyExtract",
       "args": [],
       "returns": {
-        "type": "string",
-        "desc": ""
+        "type": "string"
       }
     },
     {
       "name": "boxMapExtract",
       "args": [],
       "returns": {
-        "type": "string",
-        "desc": ""
+        "type": "string"
       }
     },
     {
       "name": "isOptedIn",
       "args": [],
       "returns": {
-        "type": "bool",
-        "desc": ""
+        "type": "bool"
       }
     },
     {
       "name": "exGlobal",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "exLocal",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "createApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
-  ],
-  "events": []
+  ]
 }

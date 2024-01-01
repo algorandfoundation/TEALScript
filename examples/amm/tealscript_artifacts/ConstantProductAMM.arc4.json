@@ -6,8 +6,7 @@
       "name": "createApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -15,12 +14,11 @@
       "args": [
         {
           "name": "governor",
-          "type": "account"
+          "type": "address"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -32,16 +30,15 @@
         },
         {
           "name": "aAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "bAsset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "uint64",
-        "desc": ""
+        "type": "uint64"
       }
     },
     {
@@ -57,20 +54,19 @@
         },
         {
           "name": "poolAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "aAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "bAsset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -82,20 +78,19 @@
         },
         {
           "name": "poolAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "aAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "bAsset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -107,18 +102,16 @@
         },
         {
           "name": "aAsset",
-          "type": "asset"
+          "type": "uint64"
         },
         {
           "name": "bAsset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
-  ],
-  "events": []
+  ]
 }

@@ -64,8 +64,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -73,27 +72,24 @@
         "args": [
           {
             "name": "asset",
-            "type": "asset"
+            "type": "uint64"
           },
           {
             "name": "receiver",
-            "type": "account"
+            "type": "address"
           }
         ],
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "createApplication",
         "args": [],
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       }
-    ],
-    "events": []
+    ]
   }
 }

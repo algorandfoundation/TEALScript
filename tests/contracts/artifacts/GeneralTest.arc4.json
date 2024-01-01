@@ -6,16 +6,14 @@
       "name": "txnTypeEnum",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "txnGroupLength",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -31,8 +29,7 @@
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -44,97 +41,103 @@
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "verifyTxnFromTxnGroup",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "verifyTxnCondition",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "verifyTxnIncludedIn",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "verifyTxnNotIncludedIn",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "submitPendingGroup",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "methodWithTxnArgs",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "shift",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "fromBytes",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "fromID",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "bzeroFunction",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "events",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
-      }
+        "type": "void"
+      },
+      "events": [
+        {
+          "name": "myEvent",
+          "args": [
+            {
+              "name": "app",
+              "type": "uint64",
+              "desc": "Some app"
+            },
+            {
+              "name": "num",
+              "type": "uint64",
+              "desc": "Some number"
+            }
+          ],
+          "desc": "This is my event\nIt has some args"
+        }
+      ]
     },
     {
       "name": "letOptimization",
@@ -145,96 +148,84 @@
         }
       ],
       "returns": {
-        "type": "uint64[]",
-        "desc": ""
+        "type": "uint64[]"
       }
     },
     {
       "name": "staticContractProperties",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "numberToString",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "methodOnParens",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "stringSubstring",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "idProperty",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "scratchSlot",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "ecdsa",
       "args": [],
       "returns": {
-        "type": "(uint256,uint256)",
-        "desc": ""
+        "type": "(uint256,uint256)"
       }
     },
     {
       "name": "verifyTxnTypes",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "stringPlusEquals",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "importedProgram",
       "args": [],
       "returns": {
-        "type": "byte[]",
-        "desc": ""
+        "type": "byte[]"
       }
     },
     {
       "name": "callPrivateDefinedLater",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -250,32 +241,28 @@
         }
       ],
       "returns": {
-        "type": "uint64",
-        "desc": ""
+        "type": "uint64"
       }
     },
     {
       "name": "callInternalPublicMethod",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "appLoadScratch",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "createApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
   ],
@@ -285,7 +272,7 @@
       "args": [
         {
           "name": "app",
-          "type": "application",
+          "type": "uint64",
           "desc": "Some app"
         },
         {

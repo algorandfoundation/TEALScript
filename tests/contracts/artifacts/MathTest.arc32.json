@@ -159,8 +159,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -176,8 +175,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -193,8 +191,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -210,8 +207,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -227,8 +223,7 @@
           }
         ],
         "returns": {
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       },
       {
@@ -244,8 +239,7 @@
           }
         ],
         "returns": {
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       },
       {
@@ -261,8 +255,7 @@
           }
         ],
         "returns": {
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       },
       {
@@ -278,8 +271,7 @@
           }
         ],
         "returns": {
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       },
       {
@@ -295,16 +287,14 @@
           }
         ],
         "returns": {
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       },
       {
         "name": "maxU64",
         "args": [],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -320,8 +310,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -337,8 +326,7 @@
           }
         ],
         "returns": {
-          "type": "uint16",
-          "desc": ""
+          "type": "uint16"
         }
       },
       {
@@ -354,8 +342,7 @@
           }
         ],
         "returns": {
-          "type": "uint8",
-          "desc": ""
+          "type": "uint8"
         }
       },
       {
@@ -371,8 +358,7 @@
           }
         ],
         "returns": {
-          "type": "uint8",
-          "desc": ""
+          "type": "uint8"
         }
       },
       {
@@ -388,8 +374,7 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -405,16 +390,14 @@
           }
         ],
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
         "name": "ufixedLiteralMul",
         "args": [],
         "returns": {
-          "type": "ufixed64x2",
-          "desc": ""
+          "type": "ufixed64x2"
         }
       },
       {
@@ -430,8 +413,7 @@
           }
         ],
         "returns": {
-          "type": "ufixed64x2",
-          "desc": ""
+          "type": "ufixed64x2"
         }
       },
       {
@@ -447,8 +429,7 @@
           }
         ],
         "returns": {
-          "type": "ufixed128x2",
-          "desc": ""
+          "type": "ufixed128x2"
         }
       },
       {
@@ -468,19 +449,16 @@
           }
         ],
         "returns": {
-          "type": "ufixed128x2",
-          "desc": ""
+          "type": "ufixed128x2"
         }
       },
       {
         "name": "createApplication",
         "args": [],
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       }
-    ],
-    "events": []
+    ]
   }
 }

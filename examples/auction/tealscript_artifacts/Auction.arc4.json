@@ -6,8 +6,7 @@
       "name": "createApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -15,12 +14,11 @@
       "args": [
         {
           "name": "asset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -40,16 +38,14 @@
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "optInToApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -61,16 +57,14 @@
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "claimBids",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -78,22 +72,19 @@
       "args": [
         {
           "name": "asset",
-          "type": "asset"
+          "type": "uint64"
         }
       ],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "deleteApplication",
       "args": [],
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
-  ],
-  "events": []
+  ]
 }
