@@ -70,6 +70,13 @@ type TypeInfo =
       length: number;
     };
 
+type Event = {
+  name: string;
+  args: { name: string; type: TypeInfo; desc: string }[];
+  desc: string;
+  argTupleType: TypeInfo;
+};
+
 function getConstantInitializer(node: ts.Node): ts.Node | undefined {
   if (!node.isKind(ts.SyntaxKind.Identifier)) return undefined;
   const definitionNode = node.getDefinitionNodes().at(-1);
@@ -1719,7 +1726,7 @@ export default class Compiler {
 
   private disableTypeScript: boolean;
 
-  private events: Record<string, TypeInfo[]> = {};
+  private events: Record<string, Event> = {};
 
   constructor(content: string, className: string, project: Project, options?: CompilerOptions) {
     this.project = project;
@@ -4720,11 +4727,32 @@ export default class Compiler {
       }
 
       const initTypeArgs = init.getTypeArguments();
-      if (!initTypeArgs[0].isKind(ts.SyntaxKind.TupleType))
-        throw Error('EventLogger type argument must be a tuple of types');
+      if (!initTypeArgs[0].isKind(ts.SyntaxKind.TypeLiteral)) {
+        throw Error(`EventLogger type argument must be a type literal`);
+      }
 
-      this.events[node.getNameNode().getText()] =
-        initTypeArgs[0].getElements().map((t) => getTypeInfo(t.getType())) || [];
+      this.events[node.getNameNode().getText()] = {
+        name: node.getNameNode().getText(),
+        args: [],
+        desc: node
+          .getJsDocs()
+          .map((d) => d.getCommentText())
+          .join(''),
+        argTupleType: getTypeInfo(initTypeArgs[0].getType()),
+      };
+
+      const event = this.events[node.getNameNode().getText()];
+
+      initTypeArgs[0].getProperties().forEach((p) => {
+        const desc = p
+          .getJsDocs()
+          .map((d) => d.getCommentText())
+          .join();
+
+        const name = p.getName();
+        const type = getTypeInfo(p.getType());
+        event.args.push({ name, type, desc });
+      });
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'ScratchSlot') {
       if (init.getTypeArguments()?.length !== 1) throw Error('ScratchSlot must have one type argument ');
 
@@ -4913,8 +4941,7 @@ export default class Compiler {
     // If this is an event
     if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) && this.events[chain[0].getNameNode().getText()]) {
       const name = chain[0].getNameNode().getText();
-      const types = this.events[name];
-      const typesTuple: TypeInfo = { kind: 'tuple', elements: types };
+      const { argTupleType } = this.events[name];
 
       if (!chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression) || !chain[2].isKind(ts.SyntaxKind.CallExpression))
         throw Error(`Unsupported ${chain[1].getKindName()} ${chain[1].getText()}`);
@@ -4922,7 +4949,7 @@ export default class Compiler {
       if (chain[1].getNameNode().getText() !== 'log')
         throw Error(`Unsupported event method ${chain[1].getNameNode().getText()}`);
 
-      const argTypes = typeInfoToABIString(typesTuple)
+      const argTypes = typeInfoToABIString(argTupleType)
         .replace(/asset/g, 'uint64')
         .replace(/account/g, 'address')
         .replace(/application/g, 'uint64');
@@ -4931,9 +4958,9 @@ export default class Compiler {
 
       const selector = sha512_256(Buffer.from(signature)).slice(0, 8);
 
-      this.typeHint = typesTuple;
+      this.typeHint = argTupleType;
       this.pushVoid(chain[2], `byte 0x${selector} // ${signature}`);
-      this.processArrayElements(chain[2].getArguments(), chain[2]);
+      this.processNode(chain[2].getArguments()[0]);
       this.pushVoid(chain[2], 'concat');
 
       this.pushVoid(chain[2], 'log');
