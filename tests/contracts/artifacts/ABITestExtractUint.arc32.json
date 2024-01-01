@@ -51,11 +51,9 @@
         "args": [
           {
             "name": "arg",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "uint8",
           "desc": ""
@@ -64,12 +62,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

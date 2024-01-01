@@ -51,11 +51,9 @@
         "args": [
           {
             "name": "asa",
-            "type": "asset",
-            "desc": ""
+            "type": "asset"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -64,12 +62,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

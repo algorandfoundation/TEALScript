@@ -63,6 +63,7 @@
     "methods": [
       {
         "name": "startUpload",
+        "desc": "Allocate boxes to begin data upload process",
         "args": [
           {
             "name": "dataIdentifier",
@@ -85,7 +86,6 @@
             "desc": "Payment from the uploader to cover the box MBR"
           }
         ],
-        "desc": "Allocate boxes to begin data upload process",
         "returns": {
           "type": "void",
           "desc": ""
@@ -93,6 +93,7 @@
       },
       {
         "name": "upload",
+        "desc": "Upload data to a specific offset in a box",
         "args": [
           {
             "name": "dataIdentifier",
@@ -115,7 +116,6 @@
             "desc": "The data to write"
           }
         ],
-        "desc": "Upload data to a specific offset in a box",
         "returns": {
           "type": "void",
           "desc": ""
@@ -123,6 +123,7 @@
       },
       {
         "name": "setStatus",
+        "desc": "Set the status of the data",
         "args": [
           {
             "name": "dataIdentifier",
@@ -135,7 +136,6 @@
             "desc": "The new status for the data"
           }
         ],
-        "desc": "Set the status of the data",
         "returns": {
           "type": "void",
           "desc": ""
@@ -144,12 +144,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

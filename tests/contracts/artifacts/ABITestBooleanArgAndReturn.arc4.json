@@ -7,11 +7,9 @@
       "args": [
         {
           "name": "a",
-          "type": "bool",
-          "desc": ""
+          "type": "bool"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "bool",
         "desc": ""
@@ -20,11 +18,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

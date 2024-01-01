@@ -7,11 +7,9 @@
       "args": [
         {
           "name": "a",
-          "type": "(uint64,uint16,uint64)",
-          "desc": ""
+          "type": "(uint64,uint16,uint64)"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "uint16",
         "desc": ""
@@ -20,11 +18,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

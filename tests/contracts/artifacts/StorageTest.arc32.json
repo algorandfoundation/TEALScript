@@ -234,7 +234,6 @@
       {
         "name": "prefix",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -243,7 +242,6 @@
       {
         "name": "globalKeyPut",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -252,7 +250,6 @@
       {
         "name": "globalKeyGet",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -261,7 +258,6 @@
       {
         "name": "globalKeyDelete",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -270,7 +266,6 @@
       {
         "name": "globalKeyExists",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -281,11 +276,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -296,11 +289,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -311,11 +302,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -326,11 +315,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -339,7 +326,6 @@
       {
         "name": "boxKeyPut",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -348,7 +334,6 @@
       {
         "name": "boxKeyGet",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -357,7 +342,6 @@
       {
         "name": "boxKeyDelete",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -366,7 +350,6 @@
       {
         "name": "boxKeyExists",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -375,7 +358,6 @@
       {
         "name": "globalMapPut",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -384,7 +366,6 @@
       {
         "name": "globalMapGet",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -393,7 +374,6 @@
       {
         "name": "globalMapDelete",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -402,7 +382,6 @@
       {
         "name": "globalMapExists",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -413,11 +392,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -428,11 +405,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -443,11 +418,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -458,11 +431,9 @@
         "args": [
           {
             "name": "a",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -471,7 +442,6 @@
       {
         "name": "boxMapPut",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -480,7 +450,6 @@
       {
         "name": "boxMapGet",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -489,7 +458,6 @@
       {
         "name": "boxMapDelete",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -498,7 +466,6 @@
       {
         "name": "boxMapExists",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -507,7 +474,6 @@
       {
         "name": "boxKeyCreate",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -516,7 +482,6 @@
       {
         "name": "boxMapCreate",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -525,7 +490,6 @@
       {
         "name": "boxKeyLength",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "uint64",
           "desc": ""
@@ -534,7 +498,6 @@
       {
         "name": "boxMapLength",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "uint64",
           "desc": ""
@@ -543,7 +506,6 @@
       {
         "name": "boxKeyReplace",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -552,7 +514,6 @@
       {
         "name": "boxMapReplace",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -561,7 +522,6 @@
       {
         "name": "boxKeyExtract",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "string",
           "desc": ""
@@ -570,7 +530,6 @@
       {
         "name": "boxMapExtract",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "string",
           "desc": ""
@@ -579,7 +538,6 @@
       {
         "name": "isOptedIn",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "bool",
           "desc": ""
@@ -588,7 +546,6 @@
       {
         "name": "exGlobal",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -597,7 +554,6 @@
       {
         "name": "exLocal",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -606,12 +562,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

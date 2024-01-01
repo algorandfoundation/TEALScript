@@ -5,7 +5,6 @@
     {
       "name": "payment",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -14,7 +13,6 @@
     {
       "name": "assetCreation",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "uint64",
         "desc": ""
@@ -23,7 +21,6 @@
     {
       "name": "appCall",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -32,7 +29,6 @@
     {
       "name": "assetConfig",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -41,7 +37,6 @@
     {
       "name": "assetFreeze",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -50,7 +45,6 @@
     {
       "name": "assetTransfer",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -59,7 +53,6 @@
     {
       "name": "methodCall",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "uint64",
         "desc": ""
@@ -68,7 +61,6 @@
     {
       "name": "onlineKeyRegistration",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -77,7 +69,6 @@
     {
       "name": "offlineKeyRegistration",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -86,11 +77,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

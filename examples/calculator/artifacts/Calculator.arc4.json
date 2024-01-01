@@ -4,6 +4,7 @@
   "methods": [
     {
       "name": "doMath",
+      "desc": "A method that takes two numbers and does either addition or subtraction",
       "args": [
         {
           "name": "a",
@@ -21,7 +22,6 @@
           "desc": "The operation to perform. Can be either 'sum' or 'difference'"
         }
       ],
-      "desc": "A method that takes two numbers and does either addition or subtraction",
       "returns": {
         "type": "uint64",
         "desc": "The result of the operation"
@@ -30,11 +30,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

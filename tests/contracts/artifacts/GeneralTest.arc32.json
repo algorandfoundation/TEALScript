@@ -194,7 +194,6 @@
       {
         "name": "txnTypeEnum",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -203,7 +202,6 @@
       {
         "name": "txnGroupLength",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -214,16 +212,13 @@
         "args": [
           {
             "name": "arg1",
-            "type": "bool",
-            "desc": ""
+            "type": "bool"
           },
           {
             "name": "arg2",
-            "type": "bool",
-            "desc": ""
+            "type": "bool"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -234,11 +229,9 @@
         "args": [
           {
             "name": "somePay",
-            "type": "pay",
-            "desc": ""
+            "type": "pay"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -247,7 +240,6 @@
       {
         "name": "verifyTxnFromTxnGroup",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -256,7 +248,6 @@
       {
         "name": "verifyTxnCondition",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -265,7 +256,6 @@
       {
         "name": "verifyTxnIncludedIn",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -274,7 +264,6 @@
       {
         "name": "verifyTxnNotIncludedIn",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -283,7 +272,6 @@
       {
         "name": "submitPendingGroup",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -292,7 +280,6 @@
       {
         "name": "methodWithTxnArgs",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -301,7 +288,6 @@
       {
         "name": "shift",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -310,7 +296,6 @@
       {
         "name": "fromBytes",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -319,7 +304,6 @@
       {
         "name": "fromID",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -328,7 +312,6 @@
       {
         "name": "bzeroFunction",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -337,7 +320,6 @@
       {
         "name": "events",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -348,11 +330,9 @@
         "args": [
           {
             "name": "a",
-            "type": "uint64[]",
-            "desc": ""
+            "type": "uint64[]"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "uint64[]",
           "desc": ""
@@ -361,7 +341,6 @@
       {
         "name": "staticContractProperties",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -370,7 +349,6 @@
       {
         "name": "numberToString",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -379,7 +357,6 @@
       {
         "name": "methodOnParens",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -388,7 +365,6 @@
       {
         "name": "stringSubstring",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -397,7 +373,6 @@
       {
         "name": "idProperty",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -406,7 +381,6 @@
       {
         "name": "scratchSlot",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -415,7 +389,6 @@
       {
         "name": "ecdsa",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "(uint256,uint256)",
           "desc": ""
@@ -424,7 +397,6 @@
       {
         "name": "verifyTxnTypes",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -433,7 +405,6 @@
       {
         "name": "stringPlusEquals",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -442,7 +413,6 @@
       {
         "name": "importedProgram",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "byte[]",
           "desc": ""
@@ -451,7 +421,6 @@
       {
         "name": "callPrivateDefinedLater",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -462,16 +431,13 @@
         "args": [
           {
             "name": "a",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           },
           {
             "name": "b",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "uint64",
           "desc": ""
@@ -480,7 +446,6 @@
       {
         "name": "callInternalPublicMethod",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -489,7 +454,6 @@
       {
         "name": "appLoadScratch",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -498,11 +462,28 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
+      }
+    ],
+    "events": [
+      {
+        "name": "myEvent",
+        "args": [
+          {
+            "name": "app",
+            "type": "application",
+            "desc": "Some app"
+          },
+          {
+            "name": "num",
+            "type": "uint64",
+            "desc": "Some number"
+          }
+        ],
+        "desc": "This is my event\nIt has some args"
       }
     ]
   }

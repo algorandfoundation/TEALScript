@@ -71,11 +71,9 @@
         "args": [
           {
             "name": "i",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -86,11 +84,9 @@
         "args": [
           {
             "name": "i",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
@@ -101,16 +97,13 @@
         "args": [
           {
             "name": "a",
-            "type": "uint256",
-            "desc": ""
+            "type": "uint256"
           },
           {
             "name": "b",
-            "type": "uint256",
-            "desc": ""
+            "type": "uint256"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "uint256",
           "desc": ""
@@ -121,16 +114,13 @@
         "args": [
           {
             "name": "a",
-            "type": "uint256",
-            "desc": ""
+            "type": "uint256"
           },
           {
             "name": "b",
-            "type": "uint256",
-            "desc": ""
+            "type": "uint256"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "uint256",
           "desc": ""
@@ -139,12 +129,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

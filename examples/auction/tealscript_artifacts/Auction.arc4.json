@@ -5,7 +5,6 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -16,11 +15,9 @@
       "args": [
         {
           "name": "asset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -31,21 +28,17 @@
       "args": [
         {
           "name": "startingPrice",
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         },
         {
           "name": "length",
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         },
         {
           "name": "axfer",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -54,7 +47,6 @@
     {
       "name": "optInToApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -65,11 +57,9 @@
       "args": [
         {
           "name": "payment",
-          "type": "pay",
-          "desc": ""
+          "type": "pay"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -78,7 +68,6 @@
     {
       "name": "claimBids",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -89,11 +78,9 @@
       "args": [
         {
           "name": "asset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -102,11 +89,11 @@
     {
       "name": "deleteApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

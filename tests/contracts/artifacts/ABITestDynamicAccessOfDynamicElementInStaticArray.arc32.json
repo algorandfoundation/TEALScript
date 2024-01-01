@@ -51,11 +51,9 @@
         "args": [
           {
             "name": "a",
-            "type": "string[3]",
-            "desc": ""
+            "type": "string[3]"
           }
         ],
-        "desc": "",
         "returns": {
           "type": "string",
           "desc": ""
@@ -64,12 +62,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

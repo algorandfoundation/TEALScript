@@ -1118,13 +1118,14 @@ export default class Compiler {
       const args = m.args.map((a) => ({
         name: a.name,
         type: typeInfoToABIString(a.type),
-        desc: a.desc,
+        desc: a.desc === '' ? undefined : a.desc,
       }));
 
       methods.push({
         name: m.name,
+        desc: m.desc === '' ? undefined : m.desc,
+        readonly: m.readonly,
         args,
-        desc: m.desc,
         returns: {
           type: typeInfoToABIString(m.returns.type)
             .replace(/asset/g, 'uint64')
@@ -1135,7 +1136,17 @@ export default class Compiler {
       });
     });
 
-    return { name: this.abi.name, desc: this.abi.desc, methods };
+    const events = Object.values(this.events).map((e) => {
+      const args = e.args.map((a) => ({
+        name: a.name,
+        type: typeInfoToABIString(a.type),
+        desc: a.desc === '' ? undefined : a.desc,
+      }));
+
+      return { name: e.name, args, desc: e.desc };
+    });
+
+    return { name: this.abi.name, desc: this.abi.desc, methods, events };
   }
 
   private verifyTxn(node: ts.CallExpression, type?: string) {

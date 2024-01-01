@@ -63,6 +63,7 @@
     "methods": [
       {
         "name": "addAppToWhiteList",
+        "desc": "Add app to whitelist box",
         "args": [
           {
             "name": "arc",
@@ -85,7 +86,6 @@
             "desc": "The payment transaction to cover the MBR change"
           }
         ],
-        "desc": "Add app to whitelist box",
         "returns": {
           "type": "void",
           "desc": ""
@@ -93,11 +93,11 @@
       },
       {
         "name": "setAppWhitelist",
+        "desc": "Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app",
         "args": [
           {
             "name": "arc",
-            "type": "string",
-            "desc": ""
+            "type": "string"
           },
           {
             "name": "boxIndex",
@@ -110,7 +110,6 @@
             "desc": "Array of app IDs that signify the whitelisted apps"
           }
         ],
-        "desc": "Sets a app whitelist for the sender. Should only be used when adding/removingmore than one app",
         "returns": {
           "type": "void",
           "desc": ""
@@ -118,6 +117,7 @@
       },
       {
         "name": "deleteWhitelist",
+        "desc": "Deletes a app whitelist for the sender",
         "args": [
           {
             "name": "arc",
@@ -130,7 +130,6 @@
             "desc": "The index of the whitelist box to delete"
           }
         ],
-        "desc": "Deletes a app whitelist for the sender",
         "returns": {
           "type": "void",
           "desc": ""
@@ -138,11 +137,11 @@
       },
       {
         "name": "deleteAppFromWhitelist",
+        "desc": "Deletes a app from a whitelist for the sender",
         "args": [
           {
             "name": "arc",
-            "type": "string",
-            "desc": ""
+            "type": "string"
           },
           {
             "name": "boxIndex",
@@ -160,7 +159,6 @@
             "desc": "The index of the app in the whitelist"
           }
         ],
-        "desc": "Deletes a app from a whitelist for the sender",
         "returns": {
           "type": "void",
           "desc": ""
@@ -169,12 +167,12 @@
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
           "type": "void",
           "desc": ""
         }
       }
-    ]
+    ],
+    "events": []
   }
 }

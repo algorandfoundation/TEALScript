@@ -7,16 +7,13 @@
       "args": [
         {
           "name": "name",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "company",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -27,21 +24,17 @@
       "args": [
         {
           "name": "name",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "company",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "address",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -52,21 +45,17 @@
       "args": [
         {
           "name": "field",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "value",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "address",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -77,16 +66,13 @@
       "args": [
         {
           "name": "name",
-          "type": "string",
-          "desc": ""
+          "type": "string"
         },
         {
           "name": "address",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
@@ -95,11 +81,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }

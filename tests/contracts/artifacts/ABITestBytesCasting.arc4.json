@@ -7,11 +7,9 @@
       "args": [
         {
           "name": "a",
-          "type": "byte[]",
-          "desc": ""
+          "type": "byte[]"
         }
       ],
-      "desc": "",
       "returns": {
         "type": "byte[2]",
         "desc": ""
@@ -20,11 +18,11 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
         "type": "void",
         "desc": ""
       }
     }
-  ]
+  ],
+  "events": []
 }
