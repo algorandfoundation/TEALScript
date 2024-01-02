@@ -5,10 +5,8 @@
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -16,14 +14,11 @@
       "args": [
         {
           "name": "governor",
-          "type": "account",
-          "desc": ""
+          "type": "account"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -31,24 +26,19 @@
       "args": [
         {
           "name": "seed",
-          "type": "pay",
-          "desc": ""
+          "type": "pay"
         },
         {
           "name": "aAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "bAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "uint64",
-        "desc": ""
+        "type": "uint64"
       }
     },
     {
@@ -56,34 +46,27 @@
       "args": [
         {
           "name": "aXfer",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "bXfer",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "poolAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "aAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "bAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -91,29 +74,23 @@
       "args": [
         {
           "name": "poolXfer",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "poolAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "aAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "bAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -121,24 +98,19 @@
       "args": [
         {
           "name": "swapXfer",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "aAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         },
         {
           "name": "bAsset",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
   ]

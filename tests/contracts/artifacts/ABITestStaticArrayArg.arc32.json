@@ -51,23 +51,18 @@
         "args": [
           {
             "name": "a",
-            "type": "uint64[3]",
-            "desc": ""
+            "type": "uint64[3]"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       }
     ]

@@ -73,19 +73,15 @@
       {
         "name": "deleteApplication",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -93,19 +89,15 @@
         "args": [
           {
             "name": "data",
-            "type": "byte[]",
-            "desc": ""
+            "type": "byte[]"
           },
           {
             "name": "path",
-            "type": "byte[33][3]",
-            "desc": ""
+            "type": "byte[33][3]"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -113,19 +105,15 @@
         "args": [
           {
             "name": "data",
-            "type": "byte[]",
-            "desc": ""
+            "type": "byte[]"
           },
           {
             "name": "path",
-            "type": "byte[33][3]",
-            "desc": ""
+            "type": "byte[33][3]"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -133,24 +121,19 @@
         "args": [
           {
             "name": "oldData",
-            "type": "byte[]",
-            "desc": ""
+            "type": "byte[]"
           },
           {
             "name": "newData",
-            "type": "byte[]",
-            "desc": ""
+            "type": "byte[]"
           },
           {
             "name": "path",
-            "type": "byte[33][3]",
-            "desc": ""
+            "type": "byte[33][3]"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       }
     ]

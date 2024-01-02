@@ -56,19 +56,15 @@
         "args": [
           {
             "name": "name",
-            "type": "string",
-            "desc": ""
+            "type": "string"
           },
           {
             "name": "unitName",
-            "type": "string",
-            "desc": ""
+            "type": "string"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
@@ -76,28 +72,22 @@
         "args": [
           {
             "name": "asset",
-            "type": "asset",
-            "desc": ""
+            "type": "asset"
           },
           {
             "name": "receiver",
-            "type": "account",
-            "desc": ""
+            "type": "account"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       }
     ]

@@ -4,6 +4,8 @@
   "methods": [
     {
       "name": "arc72_ownerOf",
+      "desc": "Returns the address of the current owner of the NFT with the given tokenId",
+      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -11,7 +13,6 @@
           "desc": "The ID of the NFT"
         }
       ],
-      "desc": "Returns the address of the current owner of the NFT with the given tokenId",
       "returns": {
         "type": "address",
         "desc": "The current owner of the NFT"
@@ -19,6 +20,8 @@
     },
     {
       "name": "arc72_tokenURI",
+      "desc": "Returns a URI pointing to the NFT metadata",
+      "readonly": true,
       "args": [
         {
           "name": "tokenId",
@@ -26,7 +29,6 @@
           "desc": "The ID of the NFT"
         }
       ],
-      "desc": "Returns a URI pointing to the NFT metadata",
       "returns": {
         "type": "byte[256]",
         "desc": "URI to token metadata"
@@ -34,31 +36,28 @@
     },
     {
       "name": "arc72_transferFrom",
+      "desc": "Transfers ownership of an NFT",
       "args": [
         {
           "name": "_from",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         },
         {
           "name": "to",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         },
         {
           "name": "tokenId",
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       ],
-      "desc": "Transfers ownership of an NFT",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "arc72_approve",
+      "desc": "Approve a controller for a single NFT",
       "args": [
         {
           "name": "approved",
@@ -71,14 +70,13 @@
           "desc": "The ID of the NFT"
         }
       ],
-      "desc": "Approve a controller for a single NFT",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "arc72_setApprovalForAll",
+      "desc": "Approve an operator for all NFTs for a user",
       "args": [
         {
           "name": "operator",
@@ -91,10 +89,8 @@
           "desc": "true to give approval, false to revoke"
         }
       ],
-      "desc": "Approve an operator for all NFTs for a user",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -102,47 +98,41 @@
       "args": [
         {
           "name": "to",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "arc72_totalSupply",
-      "args": [],
       "desc": "Returns the number of NFTs currently defined by this contract",
+      "readonly": true,
+      "args": [],
       "returns": {
-        "type": "uint256",
-        "desc": ""
+        "type": "uint256"
       }
     },
     {
       "name": "arc72_tokenByIndex",
+      "desc": "Returns the token ID of the token with the given index among all NFTs defined by the contract",
+      "readonly": true,
       "args": [
         {
           "name": "index",
-          "type": "uint256",
-          "desc": ""
+          "type": "uint256"
         }
       ],
-      "desc": "Returns the token ID of the token with the given index among all NFTs defined by the contract",
       "returns": {
-        "type": "uint256",
-        "desc": ""
+        "type": "uint256"
       }
     },
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
   ]

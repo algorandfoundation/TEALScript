@@ -194,19 +194,15 @@
       {
         "name": "txnTypeEnum",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "txnGroupLength",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -214,19 +210,15 @@
         "args": [
           {
             "name": "arg1",
-            "type": "bool",
-            "desc": ""
+            "type": "bool"
           },
           {
             "name": "arg2",
-            "type": "bool",
-            "desc": ""
+            "type": "bool"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -234,227 +226,195 @@
         "args": [
           {
             "name": "somePay",
-            "type": "pay",
-            "desc": ""
+            "type": "pay"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "verifyTxnFromTxnGroup",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "verifyTxnCondition",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "verifyTxnIncludedIn",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "verifyTxnNotIncludedIn",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "submitPendingGroup",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "methodWithTxnArgs",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "shift",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "fromBytes",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "fromID",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "bzeroFunction",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "events",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
-        }
+          "type": "void"
+        },
+        "events": [
+          {
+            "name": "myEvent",
+            "args": [
+              {
+                "name": "app",
+                "type": "uint64",
+                "desc": "Some app"
+              },
+              {
+                "name": "num",
+                "type": "uint64",
+                "desc": "Some number"
+              }
+            ],
+            "desc": "This is my event\nIt has some args"
+          }
+        ]
       },
       {
         "name": "letOptimization",
         "args": [
           {
             "name": "a",
-            "type": "uint64[]",
-            "desc": ""
+            "type": "uint64[]"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "uint64[]",
-          "desc": ""
+          "type": "uint64[]"
         }
       },
       {
         "name": "staticContractProperties",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "numberToString",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "methodOnParens",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "stringSubstring",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "idProperty",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "scratchSlot",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "ecdsa",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "(uint256,uint256)",
-          "desc": ""
+          "type": "(uint256,uint256)"
         }
       },
       {
         "name": "verifyTxnTypes",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "stringPlusEquals",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "importedProgram",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "byte[]",
-          "desc": ""
+          "type": "byte[]"
         }
       },
       {
         "name": "callPrivateDefinedLater",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
@@ -462,47 +422,55 @@
         "args": [
           {
             "name": "a",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           },
           {
             "name": "b",
-            "type": "uint64",
-            "desc": ""
+            "type": "uint64"
           }
         ],
-        "desc": "",
         "returns": {
-          "type": "uint64",
-          "desc": ""
+          "type": "uint64"
         }
       },
       {
         "name": "callInternalPublicMethod",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "appLoadScratch",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
       },
       {
         "name": "createApplication",
         "args": [],
-        "desc": "",
         "returns": {
-          "type": "void",
-          "desc": ""
+          "type": "void"
         }
+      }
+    ],
+    "events": [
+      {
+        "name": "myEvent",
+        "args": [
+          {
+            "name": "app",
+            "type": "uint64",
+            "desc": "Some app"
+          },
+          {
+            "name": "num",
+            "type": "uint64",
+            "desc": "Some number"
+          }
+        ],
+        "desc": "This is my event\nIt has some args"
       }
     ]
   }
