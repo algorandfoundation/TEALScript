@@ -23,11 +23,11 @@
       "args": [
         {
           "name": "asset",
-          "type": "uint64"
+          "type": "asset"
         },
         {
           "name": "receiver",
-          "type": "address"
+          "type": "account"
         }
       ],
       "returns": {

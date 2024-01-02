@@ -99,7 +99,7 @@
         "args": [
           {
             "name": "governor",
-            "type": "address"
+            "type": "account"
           }
         ],
         "returns": {
@@ -115,11 +115,11 @@
           },
           {
             "name": "aAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "bAsset",
-            "type": "uint64"
+            "type": "asset"
           }
         ],
         "returns": {
@@ -139,15 +139,15 @@
           },
           {
             "name": "poolAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "aAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "bAsset",
-            "type": "uint64"
+            "type": "asset"
           }
         ],
         "returns": {
@@ -163,15 +163,15 @@
           },
           {
             "name": "poolAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "aAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "bAsset",
-            "type": "uint64"
+            "type": "asset"
           }
         ],
         "returns": {
@@ -187,11 +187,11 @@
           },
           {
             "name": "aAsset",
-            "type": "uint64"
+            "type": "asset"
           },
           {
             "name": "bAsset",
-            "type": "uint64"
+            "type": "asset"
           }
         ],
         "returns": {

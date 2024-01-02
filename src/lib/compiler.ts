@@ -1132,7 +1132,7 @@ export default class Compiler {
     this.abi.methods.forEach((m) => {
       const args = m.args.map((a) => ({
         name: a.name,
-        type: typeInfoToABIString(a.type, true),
+        type: typeInfoToABIString(a.type),
         desc: a.desc ? a.desc : undefined,
       }));
 
