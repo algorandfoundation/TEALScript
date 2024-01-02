@@ -42,6 +42,7 @@
     "compile-non_abi": "bun ./src/bin/tealscript.ts examples/non_abi/non_abi.algo.ts examples/non_abi/artifacts",
     "compile-optin-lsig": "bun ./src/bin/tealscript.ts examples/optin-lsig/lsig.algo.ts examples/optin-lsig/artifacts",
     "compile-lsig_with_app": "bun ./src/bin/tealscript.ts examples/lsig_with_app/lsig_with_app.algo.ts examples/lsig_with_app/artifacts",
+    "generate-clients": "conc \"bun compile-arc75\" \"bun compile-itxns\" \"bun compile-simple\" \"bun compile-tuple_in_box\" \"bun compile-merkle\"",
     "run-merkle": "bun examples/merkle/demo.ts",
     "run-tuple_in_box": "bun ./examples/tuple_in_box/client.ts",
     "run-itxns": "bun examples/itxns/demo.ts",
