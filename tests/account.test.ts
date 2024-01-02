@@ -17,7 +17,7 @@ describe('Account', function () {
       if (fn === 'authAddr') {
         expect(await getTeal(fn)).toEqual([
           `// log(a.${fn})`,
-          'frame_dig -1 // a: Account',
+          'frame_dig -1 // a: Address',
           `acct_params_get ${a}`,
           'pop',
           'log',
@@ -25,7 +25,7 @@ describe('Account', function () {
       } else {
         expect(await getTeal(fn)).toEqual([
           `// assert(a.${fn})`,
-          'frame_dig -1 // a: Account',
+          'frame_dig -1 // a: Address',
           `acct_params_get ${a}`,
           'pop',
           'assert',
@@ -36,8 +36,8 @@ describe('Account', function () {
 
   test('assetBalance', async function () {
     expect(await getTeal('assetBalance')).toEqual([
-      '// assert(a.assetBalance(Asset.fromUint64(123)))',
-      'frame_dig -1 // a: Account',
+      '// assert(a.assetBalance(AssetID.fromUint64(123)))',
+      'frame_dig -1 // a: Address',
       'int 123',
       'asset_holding_get AssetBalance',
       'pop',
@@ -47,8 +47,8 @@ describe('Account', function () {
 
   test('assetFrozen', async function () {
     expect(await getTeal('assetFrozen')).toEqual([
-      '// assert(a.assetFrozen(Asset.fromUint64(123)))',
-      'frame_dig -1 // a: Account',
+      '// assert(a.assetFrozen(AssetID.fromUint64(123)))',
+      'frame_dig -1 // a: Address',
       'int 123',
       'asset_holding_get AssetFrozen',
       'pop',
@@ -58,7 +58,7 @@ describe('Account', function () {
 
   test('isOptedIntoAsset', async function () {
     expect(await getTeal('hasAsset')).toEqual([
-      '// assert(a.isOptedInToAsset(AssetID.fromID(123)))',
+      '// assert(a.isOptedInToAsset(AssetID.fromUint64(123)))',
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
