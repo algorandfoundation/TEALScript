@@ -2137,6 +2137,12 @@ export default class Compiler {
     );
 
     if (this.currentProgram === 'approval') {
+      const createLabels =
+        'create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication ';
+
+      const callLabels =
+        'call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication';
+
       this.pushLines(
         node,
         '// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]',
@@ -2147,13 +2153,12 @@ export default class Compiler {
         '// Every possible action for this contract is represented in the switch statement',
         '// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"',
         'txn ApplicationID',
-        'int 0',
-        '>',
+        '!',
         'int 6',
         '*',
         'txn OnCompletion',
         '+',
-        'switch create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication',
+        `switch ${callLabels} ${createLabels}`,
         'NOT_IMPLEMENTED:',
         'err'
       );
