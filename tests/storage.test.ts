@@ -2,7 +2,6 @@
 /* eslint-disable prefer-arrow-callback */
 import { describe, test, expect, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
-import fs from 'fs';
 import path from 'path';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
@@ -90,9 +89,11 @@ describe('Storage', function () {
       const className = 'StorageTest';
 
       const sourcePath = path.join('tests', 'contracts', 'storage.algo.ts');
-      const content = fs.readFileSync(sourcePath, 'utf-8');
-      const compiler = new Compiler(content, className, TESTS_PROJECT, {
-        filename: sourcePath,
+      const compiler = new Compiler({
+        project: TESTS_PROJECT,
+        className,
+        cwd: process.cwd(),
+        srcPath: sourcePath,
         disableWarnings: true,
       });
       await compiler.compile();
