@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const { spawnSync } = require('child_process');
 
 const config = {
   entry: path.resolve(__dirname, 'index.ts'),
@@ -21,6 +22,9 @@ const config = {
   plugins: [
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
+    }),
+    new webpack.DefinePlugin({
+      TEALSCRIPT_REF: JSON.stringify(spawnSync('git', ['rev-parse', 'HEAD']).stdout.toString().trim()),
     }),
   ],
   resolve: {

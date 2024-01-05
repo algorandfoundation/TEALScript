@@ -1,6 +1,5 @@
 import { Project } from 'ts-morph';
 import fetch from 'node-fetch';
-import { VERSION } from '../../src/version';
 import Compiler from '../../src/lib/compiler';
 
 const CALCULATOR = `import { Contract } from '../../src/lib/index';
@@ -74,7 +73,13 @@ async function main() {
   const compilerPath = `${libDir}/compiler.ts`;
 
   const promises = [indexPath, typesPath, contractPath, lsigPath, compilerPath].map(async (p) => {
-    const response = await fetch(`https://raw.githubusercontent.com/algorandfoundation/TEALScript/${VERSION}/${p}`);
+    // In production you'd probably want to serve these files yourself
+    // If you want to use githubusercontent, just make sure you are using the correct commit/version
+    const response = await fetch(
+      // @ts-expect-error - TEALSCRIPT_REF is defined in webpack config
+      // eslint-disable-next-line no-undef
+      `https://raw.githubusercontent.com/algorandfoundation/TEALScript/${TEALSCRIPT_REF}/${p}`
+    );
     const text = await response.text();
     project.createSourceFile(p, text);
   });
