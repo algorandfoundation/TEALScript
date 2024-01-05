@@ -4,32 +4,28 @@
   "methods": [
     {
       "name": "allowOptInsFrom",
+      "desc": "Allow anyone to use the lsig to opt in the txn sender into an asset created by the creator",
       "args": [
         {
           "name": "creator",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "Allow anyone to use the lsig to opt in the txn sender into an asset created by the creator",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "disableOptInsFrom",
+      "desc": "Disable opt-ins for ASAs from the given creator",
       "args": [
         {
           "name": "creator",
-          "type": "address",
-          "desc": ""
+          "type": "address"
         }
       ],
-      "desc": "Disable opt-ins for ASAs from the given creator",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
@@ -37,28 +33,22 @@
       "args": [
         {
           "name": "optIn",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "_asaReference",
-          "type": "asset",
-          "desc": ""
+          "type": "asset"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
   ]

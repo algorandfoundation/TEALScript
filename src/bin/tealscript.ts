@@ -5,27 +5,15 @@ import * as fs from 'fs';
 import { ArgumentParser } from 'argparse';
 import ts from 'typescript';
 import { Project } from 'ts-morph';
-import Compiler, { CompilerOptions } from '../lib/compiler';
+import Compiler from '../lib/compiler';
 
 import 'dotenv/config';
 import { VERSION } from '../version';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function processFile(filename: string, parsed: any) {
-  const content = fs.readFileSync(filename, 'utf-8');
-
   // Output dir for artifacts
   const dir = parsed.output;
-
-  const options = {
-    filename,
-    algodPort: process.env.ALGOD_PORT ? Number(process.env.ALGOD_PORT) : undefined,
-    algodServer: process.env.ALGOD_SERVER,
-    algodToken: process.env.ALGOD_TOKEN,
-    disableWarnings: parsed.disable_warnings as boolean,
-    disableOverflowChecks: parsed.unsafe_disable_overflow_checks as boolean,
-    disableTypeScript: parsed.unsafe_disable_typescript as boolean,
-  } as CompilerOptions;
 
   const tsConfigFilePath = path.join(process.cwd(), ts.findConfigFile(filename, ts.sys.fileExists, 'tsconfig.json')!);
 
@@ -41,7 +29,19 @@ async function processFile(filename: string, parsed: any) {
     project.compilerOptions.set({ experimentalDecorators: true });
   }
 
-  const compilers = Compiler.compileAll(content, project, options);
+  const options = {
+    algodPort: process.env.ALGOD_PORT ? Number(process.env.ALGOD_PORT) : undefined,
+    algodServer: process.env.ALGOD_SERVER,
+    algodToken: process.env.ALGOD_TOKEN,
+    disableWarnings: parsed.disable_warnings as boolean,
+    disableOverflowChecks: parsed.unsafe_disable_overflow_checks as boolean,
+    disableTypeScript: parsed.unsafe_disable_typescript as boolean,
+    srcPath: filename,
+    project,
+    cwd: process.cwd(),
+  };
+
+  const compilers = Compiler.compileAll(options);
 
   compilers.forEach(async (compilerPromise) => {
     const compiler = await compilerPromise;

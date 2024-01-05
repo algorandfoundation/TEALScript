@@ -1,0 +1,29 @@
+{
+  "name": "ABITestUintNComparison",
+  "desc": "",
+  "methods": [
+    {
+      "name": "uintNComparison",
+      "args": [
+        {
+          "name": "x",
+          "type": "uint256"
+        },
+        {
+          "name": "y",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

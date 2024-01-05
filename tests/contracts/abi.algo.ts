@@ -1262,3 +1262,9 @@ class ABITestPlusEqualsObjValueInBox extends Contract {
     return this.bMap('bMap').value;
   }
 }
+
+class ABITestUintNComparison extends Contract {
+  uintNComparison(x: uint<256>, y: uint<256>): boolean {
+    return x >= y;
+  }
+}

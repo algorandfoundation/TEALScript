@@ -790,5 +790,13 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'plusEqualsObjValueInBox')).toEqual([3n, 5n]);
     });
+
+    test('uintNComparison', async () => {
+      const { appClient } = await compileAndCreate('uintNComparison');
+
+      expect(await runMethod(appClient, 'uintNComparison', [2n, 2n])).toEqual(true);
+      expect(await runMethod(appClient, 'uintNComparison', [1n, 2n])).toEqual(false);
+      expect(await runMethod(appClient, 'uintNComparison', [2n, 1n])).toEqual(true);
+    });
   });
 });

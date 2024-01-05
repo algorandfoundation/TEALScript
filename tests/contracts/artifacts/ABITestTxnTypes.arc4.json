@@ -7,53 +7,42 @@
       "args": [
         {
           "name": "t",
-          "type": "txn",
-          "desc": ""
+          "type": "txn"
         },
         {
           "name": "a",
-          "type": "appl",
-          "desc": ""
+          "type": "appl"
         },
         {
           "name": "ac",
-          "type": "acfg",
-          "desc": ""
+          "type": "acfg"
         },
         {
           "name": "af",
-          "type": "afrz",
-          "desc": ""
+          "type": "afrz"
         },
         {
           "name": "at",
-          "type": "axfer",
-          "desc": ""
+          "type": "axfer"
         },
         {
           "name": "kr",
-          "type": "keyreg",
-          "desc": ""
+          "type": "keyreg"
         },
         {
           "name": "p",
-          "type": "pay",
-          "desc": ""
+          "type": "pay"
         }
       ],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     },
     {
       "name": "createApplication",
       "args": [],
-      "desc": "",
       "returns": {
-        "type": "void",
-        "desc": ""
+        "type": "void"
       }
     }
   ]
