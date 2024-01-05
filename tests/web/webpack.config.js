@@ -1,9 +1,10 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
+const webpack = require('webpack');
 
 const config = {
-  entry: './tests/web/index.ts',
+  entry: path.resolve(__dirname, 'index.ts'),
   output: {
     path: path.resolve(__dirname, 'dist'),
   },
@@ -15,13 +16,19 @@ const config = {
         exclude: ['/node_modules/'],
       },
     ],
-    noParse: [require.resolve('typescript/lib/typescript.js')],
+    noParse: [require.resolve('@ts-morph/common/dist/typescript.js')],
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
     fallback: {
       fs: false,
       path: require.resolve('path-browserify'),
+      buffer: require.resolve('buffer/'),
     },
   },
 };
