@@ -33,5 +33,5 @@ jobs:
       run: bun compile-all
 
     - name: Web test
-      run: bun web-test
+      run: bunx playwright install && bun web-test
 
