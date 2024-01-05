@@ -4104,7 +4104,11 @@ export default class Compiler {
       throw new Error(`Exponent operator only supported for uintN <= 64, got ${leftTypeStr} and ${rightTypeStr}`);
     }
 
-    if (leftTypeStr.match(/\d+$/) && !isNumeric(leftType) && (operator === '==' || operator === '!=')) {
+    if (
+      leftTypeStr.match(/\d+$/) &&
+      !isNumeric(leftType) &&
+      (operator === '==' || operator === '!=' || operator.startsWith('<') || operator.startsWith('>'))
+    ) {
       this.push(node, `b${operator}`, { kind: 'base', type: 'bool' });
     } else if (isMathOp && leftTypeStr.match(/\d+$/) && !isSmallNumber(leftType) && !isNumeric(leftType)) {
       this.push(node.getOperatorToken(), `b${operator}`, { kind: 'base', type: `unsafe ${leftTypeStr}` });
