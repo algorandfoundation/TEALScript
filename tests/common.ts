@@ -20,9 +20,12 @@ export const EXAMPLES_PROJECT = new ts.Project({
 });
 
 export async function getMethodTeal(filename: string, className: string, methodName: string): Promise<string[]> {
-  const compiler = new Compiler(fs.readFileSync(filename, 'utf-8'), className, TESTS_PROJECT, {
-    filename,
+  const compiler = new Compiler({
     disableWarnings: true,
+    project: TESTS_PROJECT,
+    cwd: process.cwd(),
+    className,
+    srcPath: filename,
   });
   await compiler.compile();
   const teal = compiler.teal.approval.map((t) => t.teal.trim()).filter((t) => t.length > 0);
@@ -37,12 +40,14 @@ export function lowerFirstChar(str: string) {
 }
 
 export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
-  const content = fs.readFileSync(sourcePath, 'utf-8');
   const project = sourcePath.startsWith('examples/') ? EXAMPLES_PROJECT : TESTS_PROJECT;
-  const compiler = new Compiler(content, className, project, {
-    filename: sourcePath,
+  const compiler = new Compiler({
+    srcPath: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
+    project,
+    className,
+    cwd: process.cwd(),
   });
   describe(`${className} Artifacts`, () => {
     beforeAll(async () => {
@@ -82,9 +87,11 @@ export async function compileAndCreate(
   appClient: ApplicationClient;
   appId: number | bigint;
 }> {
-  const content = fs.readFileSync(sourcePath, 'utf-8');
-  const compiler = new Compiler(content, className, TESTS_PROJECT, {
-    filename: sourcePath,
+  const compiler = new Compiler({
+    cwd: process.cwd(),
+    className,
+    project: TESTS_PROJECT,
+    srcPath: sourcePath,
     disableWarnings: true,
     disableTypeScript: true,
   });
