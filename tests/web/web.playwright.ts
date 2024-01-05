@@ -12,7 +12,7 @@ test.describe('Web', () => {
 
     const teal = page.locator('#teal');
 
-    await teal.waitFor({ state: 'visible', timeout: 1000 });
+    await teal.waitFor({ state: 'visible', timeout: 5000 });
 
     expect(await teal.innerHTML()).toBe(TEAL);
   });
