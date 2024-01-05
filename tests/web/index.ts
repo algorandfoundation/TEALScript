@@ -7,46 +7,15 @@ const CALCULATOR = `import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line no-unused-vars
 class Calculator extends Contract {
   /**
-   * Calculates the sum of two numbers
-   *
-   * @param a
-   * @param b
-   * @returns The sum of a and b
-   */
-  private getSum(a: number, b: number): number {
-    return a + b;
-  }
-
-  /**
-   * Calculates the difference between two numbers
-   *
-   * @param a
-   * @param b
-   * @returns The difference between a and b.
-   */
-  private getDifference(a: number, b: number): number {
-    return a >= b ? a - b : b - a;
-  }
-
-  /**
-   * A method that takes two numbers and does either addition or subtraction
+   * A method that gets the sum of two numbers
    *
    * @param a The first number
    * @param b The second number
-   * @param operation The operation to perform. Can be either 'sum' or 'difference'
    *
-   * @returns The result of the operation
+   * @returns The sum
    */
-  doMath(a: number, b: number, operation: string): number {
-    let result: number;
-
-    if (operation === 'sum') {
-      result = this.getSum(a, b);
-    } else if (operation === 'difference') {
-      result = this.getDifference(a, b);
-    } else throw Error('Invalid operation');
-
-    return result;
+  doMath(a: number, b: number): number {
+    return a + b;
   }
 }`;
 
@@ -95,8 +64,9 @@ async function main() {
   await compiler.compile();
   await compiler.algodCompile();
 
-  document.getElementById('teal').innerHTML = compiler.teal.approval.map((a) => a.teal).join('\n');
-  document.getElementById('appspec').innerHTML = JSON.stringify(compiler.appSpec(), null, 2);
+  document.getElementById('test').innerHTML = `<span style="white-space: pre-wrap" id="teal">${compiler.teal.approval
+    .map((a) => a.teal)
+    .join('\n')}</span>`;
 }
 
 main();
