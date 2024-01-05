@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { globSync } from 'glob';
-import fs, { readFileSync } from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { Project } from 'ts-morph';
 import { Compiler } from '../src/lib';
@@ -25,7 +25,14 @@ async function main() {
     if (file.includes('compile_errors')) return;
     const isExample = file.includes('examples/');
     const project = isExample ? EXAMPLES_PROJECT : TESTS_PROJECT;
-    const compilers = Compiler.compileAll(readFileSync(file, 'utf-8'), project, { filename: file });
+
+    const options = {
+      cwd: process.cwd(),
+      project,
+      srcPath: file,
+    };
+
+    const compilers = Compiler.compileAll(options);
 
     let dir = path.join(__dirname, '..', 'tests', 'contracts', 'artifacts');
 

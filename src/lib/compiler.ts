@@ -14,9 +14,6 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 
-const TEALSCRIPT_TYPES_DIR = path.join(__dirname, '..', '..', 'types');
-const TEALSCRIPT_LIB_DIR = __dirname;
-
 type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
@@ -32,13 +29,42 @@ const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplicati
 type StorageType = 'global' | 'local' | 'box';
 
 export type CompilerOptions = {
-  filename?: string;
+  /** The path in the ts-morph Project that contains the source file to compile */
+  srcPath: string;
+  /** The name of the contract class to use as an entry point */
+  className: string;
+  /** The ts-morph Project containing all of the source files and TEALScript */
+  project: Project;
+  /**
+   * The path to use as a current working directory.
+   * This is used when writing source locations in the TEAL and when generating error messages.
+   */
+  cwd: string;
+  /** TEALScript will console.warn compiler warnings unless this is set to true */
   disableWarnings?: boolean;
+  /** The algod server to use when compiling and getting the source map */
   algodServer?: string;
+  /** The algod token to use when compiling and getting the source map */
   algodToken?: string;
+  /** The port to use when compiling and getting the source map */
   algodPort?: number;
+  /** Disables overflow checks for numeric operations. This is NOT safe but does save some opcodes */
   disableOverflowChecks?: boolean;
+  /**
+   * Disables the type checker. This is NOT safe but does save some compile time.
+   * Generally this should NEVER be used and instead the developer should use ts-expect-error
+   */
   disableTypeScript?: boolean;
+  /**
+   * The path in the ts-morph Project that contains the TEALScript lib directory.
+   * This should only need to be provided when used in a browser.
+   */
+  tealscriptLibDir?: string;
+  /**
+   * The path in the ts-morph Project that contains the TEALScript types directory.
+   * This should only need to be provided when used in a browser.
+   */
+  tealscriptTypesDir?: string;
 };
 
 export type SourceInfo = {
@@ -133,144 +159,6 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
 
 function equalTypes(a: TypeInfo, b: TypeInfo) {
   return typeInfoToABIString(a) === typeInfoToABIString(b);
-}
-
-function getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
-  const isUserTypeAlias = (d: ts.Node<ts.ts.Node> | undefined) => {
-    return (
-      d?.isKind(ts.SyntaxKind.TypeAliasDeclaration) &&
-      !d.getSourceFile().getFilePath().startsWith(TEALSCRIPT_TYPES_DIR) &&
-      !d.getSourceFile().getFilePath().startsWith(TEALSCRIPT_LIB_DIR)
-    );
-  };
-
-  let currentTypeNode;
-
-  const firstDeclaration = type.getAliasSymbol()?.getDeclarations().at(-1) as ts.TypeAliasDeclaration;
-
-  if (isUserTypeAlias(firstDeclaration)) {
-    currentTypeNode = firstDeclaration?.getTypeNode();
-  }
-
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    if (currentTypeNode === undefined) break;
-    const declaration = currentTypeNode.getSymbol()?.getDeclarations().at(-1) as ts.TypeAliasDeclaration;
-
-    if (isUserTypeAlias(declaration)) {
-      currentTypeNode = declaration.getTypeNode();
-    } else break;
-  }
-
-  return currentTypeNode;
-}
-
-function getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
-  if (type.isVoid()) return { kind: 'base', type: 'void' };
-
-  if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
-  if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
-  if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
-  if (type.getText() === 'AppCallTxn') return { kind: 'base', type: 'appl' };
-  if (type.getText() === 'Required<KeyRegParams>') return { kind: 'base', type: 'keyreg' };
-  if (type.getText() === 'Required<AssetConfigParams>') return { kind: 'base', type: 'acfg' };
-  if (type.getText() === 'Required<AssetFreezeParams>') return { kind: 'base', type: 'afrz' };
-
-  const aliasedTypeNode = getAliasedTypeNode(type);
-
-  const typeString = (aliasedTypeNode?.getText() ?? type.getText())
-    .toLowerCase()
-    .replace(/</g, '')
-    .replace(/>/g, '')
-    .replace('typeof ', '')
-    .replace(/, */g, 'x');
-
-  const txnTypes = {
-    thistxnparams: 'txn',
-    paymentparams: 'pay',
-    appparams: 'appl',
-    assettransferparams: 'axfer',
-    assetconfigparams: 'acfg',
-    assetcreateparams: 'acfg',
-    assetfreezeparams: 'afrz',
-    onlinekeyregparams: 'keyreg',
-    methodcallparams: 'appl',
-  } as { [key: string]: string };
-
-  if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
-  if (typeString.startsWith('innermethodcall')) return { kind: 'base', type: 'appl' };
-  if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
-
-  if (type.isBoolean()) return { kind: 'base', type: 'bool' };
-
-  if (type.isTuple()) {
-    const typeInfo: TypeInfo = {
-      kind: 'tuple',
-      elements: [],
-    };
-
-    type.getTupleElements().forEach((e) => {
-      typeInfo.elements.push(getTypeInfo(e));
-    });
-
-    return typeInfo;
-  }
-
-  if (type.isArray()) {
-    return {
-      kind: 'dynamicArray',
-      base: getTypeInfo(type.getArrayElementType()!),
-    };
-  }
-
-  if (['address', 'application', 'asset', 'account'].includes(typeString)) {
-    return {
-      kind: 'base',
-      type: typeString,
-    };
-  }
-
-  if (type.isObject()) {
-    const typeInfo: TypeInfo = { kind: 'object', properties: {} };
-    type.getProperties().forEach((p) => {
-      p.getDeclarations().forEach((d) => {
-        if (!d.isKind(ts.SyntaxKind.PropertySignature)) throw Error(`${type.getText()} ${d.getKindName()}`);
-        typeInfo.properties[p.getName()] = getTypeInfo(d.getType()!);
-      });
-    });
-
-    return typeInfo;
-  }
-
-  if (aliasedTypeNode?.isKind(ts.SyntaxKind.TypeReference) && aliasedTypeNode?.getText().startsWith('StaticArray')) {
-    const typeArgs = aliasedTypeNode.getTypeArguments();
-    return {
-      kind: 'staticArray',
-      length: Number(typeArgs[1].getType().getText()),
-      base: getTypeInfo(typeArgs[0].getType()),
-    };
-  }
-
-  if (type.getText().startsWith('StaticArray')) {
-    const typeArgs = type.getAliasTypeArguments();
-
-    return {
-      kind: 'staticArray',
-      length: Number(typeArgs[1].getText()),
-      base: getTypeInfo(typeArgs[0]),
-    };
-  }
-
-  if (
-    type.getUnionTypes()[0]?.isNumber() ||
-    type.getUnionTypes()[0]?.isString() ||
-    type.isString() ||
-    type.isNumber()
-  ) {
-    return { kind: 'base', type: typeString.replace('number', 'uint64') };
-  }
-
-  throw Error(`Cannot resolve type ${type.getText()}`);
 }
 
 // TODO: Merge this functionality directly into TypeInfo
@@ -613,9 +501,7 @@ export default class Compiler {
 
   private forCount: number = 0;
 
-  filename: string;
-
-  content: string;
+  srcPath: string;
 
   private processErrorNodes: ts.Node[] = [];
 
@@ -1019,6 +905,144 @@ export default class Compiler {
    */
   private topLevelNode!: ts.Node;
 
+  private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.isVoid()) return { kind: 'base', type: 'void' };
+
+    if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
+    if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
+    if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
+    if (type.getText() === 'AppCallTxn') return { kind: 'base', type: 'appl' };
+    if (type.getText() === 'Required<KeyRegParams>') return { kind: 'base', type: 'keyreg' };
+    if (type.getText() === 'Required<AssetConfigParams>') return { kind: 'base', type: 'acfg' };
+    if (type.getText() === 'Required<AssetFreezeParams>') return { kind: 'base', type: 'afrz' };
+
+    const aliasedTypeNode = this.getAliasedTypeNode(type);
+
+    const typeString = (aliasedTypeNode?.getText() ?? type.getText())
+      .toLowerCase()
+      .replace(/</g, '')
+      .replace(/>/g, '')
+      .replace('typeof ', '')
+      .replace(/, */g, 'x');
+
+    const txnTypes = {
+      thistxnparams: 'txn',
+      paymentparams: 'pay',
+      appparams: 'appl',
+      assettransferparams: 'axfer',
+      assetconfigparams: 'acfg',
+      assetcreateparams: 'acfg',
+      assetfreezeparams: 'afrz',
+      onlinekeyregparams: 'keyreg',
+      methodcallparams: 'appl',
+    } as { [key: string]: string };
+
+    if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
+    if (typeString.startsWith('innermethodcall')) return { kind: 'base', type: 'appl' };
+    if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
+
+    if (type.isBoolean()) return { kind: 'base', type: 'bool' };
+
+    if (type.isTuple()) {
+      const typeInfo: TypeInfo = {
+        kind: 'tuple',
+        elements: [],
+      };
+
+      type.getTupleElements().forEach((e) => {
+        typeInfo.elements.push(this.getTypeInfo(e));
+      });
+
+      return typeInfo;
+    }
+
+    if (type.isArray()) {
+      return {
+        kind: 'dynamicArray',
+        base: this.getTypeInfo(type.getArrayElementType()!),
+      };
+    }
+
+    if (['address', 'application', 'asset', 'account'].includes(typeString)) {
+      return {
+        kind: 'base',
+        type: typeString,
+      };
+    }
+
+    if (type.isObject()) {
+      const typeInfo: TypeInfo = { kind: 'object', properties: {} };
+      type.getProperties().forEach((p) => {
+        p.getDeclarations().forEach((d) => {
+          if (!d.isKind(ts.SyntaxKind.PropertySignature)) throw Error(`${type.getText()} ${d.getKindName()}`);
+          typeInfo.properties[p.getName()] = this.getTypeInfo(d.getType()!);
+        });
+      });
+
+      return typeInfo;
+    }
+
+    if (aliasedTypeNode?.isKind(ts.SyntaxKind.TypeReference) && aliasedTypeNode?.getText().startsWith('StaticArray')) {
+      const typeArgs = aliasedTypeNode.getTypeArguments();
+      return {
+        kind: 'staticArray',
+        length: Number(typeArgs[1].getType().getText()),
+        base: this.getTypeInfo(typeArgs[0].getType()),
+      };
+    }
+
+    if (type.getText().startsWith('StaticArray')) {
+      const typeArgs = type.getAliasTypeArguments();
+
+      return {
+        kind: 'staticArray',
+        length: Number(typeArgs[1].getText()),
+        base: this.getTypeInfo(typeArgs[0]),
+      };
+    }
+
+    if (
+      type.getUnionTypes()[0]?.isNumber() ||
+      type.getUnionTypes()[0]?.isString() ||
+      type.isString() ||
+      type.isNumber()
+    ) {
+      return { kind: 'base', type: typeString.replace('number', 'uint64') };
+    }
+
+    throw Error(`Cannot resolve type ${type.getText()}`);
+  }
+
+  private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
+    const isUserTypeAlias = (d: ts.Node<ts.ts.Node> | undefined) => {
+      return (
+        d?.isKind(ts.SyntaxKind.TypeAliasDeclaration) &&
+        !d.getSourceFile().getFilePath().startsWith(this.typesDir) &&
+        !d.getSourceFile().getFilePath().startsWith(this.libDir)
+      );
+    };
+
+    let currentTypeNode;
+
+    const firstDeclaration = type.getAliasSymbol()?.getDeclarations().at(-1) as ts.TypeAliasDeclaration;
+
+    if (isUserTypeAlias(firstDeclaration)) {
+      currentTypeNode = firstDeclaration?.getTypeNode();
+    }
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (currentTypeNode === undefined) break;
+      const declaration = currentTypeNode.getSymbol()?.getDeclarations().at(-1) as ts.TypeAliasDeclaration;
+
+      if (isUserTypeAlias(declaration)) {
+        currentTypeNode = declaration.getTypeNode();
+      } else break;
+    }
+
+    return currentTypeNode;
+  }
+
   private multiplyWideRatioFactors(node: ts.Node, factors: ts.Expression[]) {
     if (factors.length === 1) {
       this.pushVoid(node, 'int 0');
@@ -1080,13 +1104,13 @@ export default class Compiler {
     zeroIndex: {
       check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.getExpression().getText()),
       fn: (node: ts.PropertyAccessExpression) => {
-        this.push(node.getNameNode(), 'int 0', getTypeInfo(node.getType()));
+        this.push(node.getNameNode(), 'int 0', this.getTypeInfo(node.getType()));
       },
     },
     zeroAddress: {
       check: (node: ts.PropertyAccessExpression) => ['Address', 'Account'].includes(node.getExpression().getText()),
       fn: (node: ts.PropertyAccessExpression) => {
-        this.push(node.getNameNode(), 'global ZeroAddress', getTypeInfo(node.getType()));
+        this.push(node.getNameNode(), 'global ZeroAddress', this.getTypeInfo(node.getType()));
       },
     },
     length: {
@@ -1423,7 +1447,7 @@ export default class Compiler {
         const arg = node.getArguments()[0];
 
         if (typeArg && !arg) {
-          const typeInfo = getTypeInfo(typeArg.getType());
+          const typeInfo = this.getTypeInfo(typeArg.getType());
           if (this.isDynamicType(typeInfo)) {
             throw Error('bzero cannot be used with dynamic types');
           }
@@ -1459,7 +1483,7 @@ export default class Compiler {
         if (node.getTypeArguments()?.length !== 1) throw Error('castBytes must be given a single type argument');
         this.processNode(node.getArguments()[0]);
         const typeArg = node.getTypeArguments()[0];
-        this.lastType = getTypeInfo(typeArg.getType());
+        this.lastType = this.getTypeInfo(typeArg.getType());
         if (!this.disableWarnings)
           // eslint-disable-next-line no-console
           console.warn('WARNING: castBytes is UNSAFE and does not validate encoding. Use at your own risk.');
@@ -1702,7 +1726,9 @@ export default class Compiler {
         if (!node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
 
         this.processNode(node.getArguments()[0]);
-        this.lastType = getTypeInfo((node.getExpression() as ts.PropertyAccessExpression).getExpression().getType());
+        this.lastType = this.getTypeInfo(
+          (node.getExpression() as ts.PropertyAccessExpression).getExpression().getType()
+        );
       },
     },
     // number methods
@@ -1746,31 +1772,40 @@ export default class Compiler {
 
   private events: Record<string, Event> = {};
 
-  constructor(content: string, className: string, project: Project, options?: CompilerOptions) {
-    this.project = project;
-    this.disableWarnings = options?.disableWarnings || false;
-    this.algodServer = options?.algodServer || 'http://localhost';
-    this.algodPort = options?.algodPort || 4001;
-    this.algodToken = options?.algodToken || 'a'.repeat(64);
-    this.filename = options?.filename || '';
-    this.disableOverflowChecks = options?.disableOverflowChecks || false;
-    this.disableTypeScript = options?.disableTypeScript || false;
+  private libDir: string;
 
-    this.content = content;
-    this.name = className;
-    this.sourceFile = this.project.getSourceFile(this.filename)!;
+  private typesDir: string;
+
+  private cwd: string;
+
+  constructor(options: CompilerOptions) {
+    this.project = options.project;
+    this.disableWarnings = options.disableWarnings || false;
+    this.algodServer = options.algodServer || 'http://localhost';
+    this.algodPort = options.algodPort || 4001;
+    this.algodToken = options.algodToken || 'a'.repeat(64);
+    this.srcPath = options.srcPath;
+    this.disableOverflowChecks = options.disableOverflowChecks || false;
+    this.disableTypeScript = options.disableTypeScript || false;
+
+    this.libDir = options.tealscriptLibDir || __dirname;
+    this.typesDir = options.tealscriptTypesDir || path.join(__dirname, '..', '..', 'types');
+    this.cwd = options.cwd;
+
+    this.name = options.className;
+    this.sourceFile = this.project.getSourceFile(this.srcPath)!;
   }
 
-  static compileAll(content: string, project: Project, options: CompilerOptions): Promise<Compiler>[] {
-    const compilers = project
-      .getSourceFile(options.filename!)!
+  static compileAll(options: Omit<CompilerOptions, 'className'>): Promise<Compiler>[] {
+    const compilers = options.project
+      .getSourceFile(options.srcPath)!
       .getStatements()
       .filter((body) => body.isKind(ts.SyntaxKind.ClassDeclaration))
       .map(async (body) => {
         if (!body.isKind(ts.SyntaxKind.ClassDeclaration)) throw Error();
         const name = body.getNameNode()!.getText();
 
-        const compiler = new Compiler(content, name, project, options);
+        const compiler = new Compiler({ ...options, className: name });
         await compiler.compile();
         await compiler.algodCompile();
 
@@ -1908,13 +1943,14 @@ export default class Compiler {
 
   private async postProcessTeal(input: NodeAndTEAL[]): Promise<NodeAndTEAL[]> {
     const compilerOptions = {
-      filename: this.filename,
       algodPort: this.algodPort,
       algodServer: this.algodServer,
       algodToken: this.algodToken,
       disableWarnings: this.disableWarnings,
       disableOverflowChecks: this.disableOverflowChecks,
       disableTypeScript: this.disableTypeScript,
+      project: this.project,
+      cwd: this.cwd,
     };
 
     return (
@@ -1927,7 +1963,10 @@ export default class Compiler {
           }
 
           if (tealLine.startsWith('PENDING_SCHEMA')) {
-            const c = new Compiler(this.content, tealLine.split(' ')[1], this.project, compilerOptions);
+            const className = tealLine.split(' ')[1];
+            const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
+
+            const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
               return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
@@ -1944,11 +1983,10 @@ export default class Compiler {
           }
 
           if (tealLine.startsWith('PENDING_COMPILE')) {
-            const contractName = tealLine.split(' ')[1];
-            const content = this.importRegistry[contractName]?.getText() || this.content;
-            compilerOptions.filename = this.importRegistry[contractName]?.getFilePath() || this.filename;
+            const className = tealLine.split(' ')[1];
+            const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
 
-            const c = new Compiler(content, contractName, this.project, compilerOptions);
+            const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
 
             if (tealLine.split(':')[0].endsWith('ADDR')) {
@@ -1992,9 +2030,9 @@ export default class Compiler {
   }
 
   private getTypeScriptDiagnostics() {
-    Compiler.diagsRan.push(this.filename);
+    Compiler.diagsRan.push(this.srcPath);
 
-    const sourceFile = this.project.getSourceFile(this.filename)!;
+    const sourceFile = this.project.getSourceFile(this.srcPath)!;
     const diags = sourceFile.getPreEmitDiagnostics();
 
     if (diags.length > 0) {
@@ -2014,7 +2052,7 @@ export default class Compiler {
       if (typeNode === undefined)
         throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-      const returnType = getTypeInfo(node.getReturnTypeNode()!.getType());
+      const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
 
       const sub = {
         name: node.getNameNode().getText(),
@@ -2028,7 +2066,7 @@ export default class Compiler {
       } as Subroutine;
 
       new Array(...node.getParameters()).reverse().forEach((p) => {
-        let type = getTypeInfo(p.getType());
+        let type = this.getTypeInfo(p.getType());
 
         if (p.getTypeNode()?.getText() === 'Account') {
           type = { kind: 'base', type: 'account' };
@@ -2049,20 +2087,20 @@ export default class Compiler {
    * Gets the class child nodes for a superclass
    */
   getSuperClassNodes(superClass: string, methodNodes: ts.MethodDeclaration[], propertyNodes: ts.PropertyDeclaration[]) {
-    const options: CompilerOptions = {
+    const options = {
       algodPort: this.algodPort,
       algodServer: this.algodServer,
       algodToken: this.algodToken,
       disableWarnings: this.disableWarnings,
       disableOverflowChecks: this.disableOverflowChecks,
       disableTypeScript: this.disableTypeScript,
+      project: this.project,
+      cwd: this.cwd,
     };
 
-    const content = this.importRegistry[superClass]?.getText() || this.content;
+    const srcPath = this.importRegistry[superClass]?.getFilePath() || this.srcPath;
 
-    options.filename = this.importRegistry[superClass]?.getFilePath() || this.filename;
-
-    const superCompiler = new Compiler(content, superClass, this.project, options);
+    const superCompiler = new Compiler({ ...options, srcPath, className: superClass });
     const superClassNodes = superCompiler.getClassChildren();
 
     methodNodes.push(...superClassNodes.methodNodes);
@@ -2170,7 +2208,7 @@ export default class Compiler {
   }
 
   async compile() {
-    const sourceFile = this.project.getSourceFile(this.filename);
+    const sourceFile = this.project.getSourceFile(this.srcPath);
 
     sourceFile?.getImportDeclarations().forEach((d) => {
       const importSourceFile = d.getModuleSpecifierSourceFile();
@@ -2195,7 +2233,7 @@ export default class Compiler {
         });
     });
 
-    if (!Compiler.diagsRan.includes(this.filename) && !this.disableTypeScript) {
+    if (!Compiler.diagsRan.includes(this.srcPath) && !this.disableTypeScript) {
       this.getTypeScriptDiagnostics();
     }
 
@@ -2597,7 +2635,7 @@ export default class Compiler {
       const errNode = this.processErrorNodes[0];
       const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.compilerNode.pos);
       const lines: string[] = [];
-      const errPath = path.relative(process.cwd(), errNode.getSourceFile().getFilePath());
+      const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
       errNode
         .getText()
         .split('\n')
@@ -3652,7 +3690,7 @@ export default class Compiler {
     if (node.getReturnType() === undefined)
       throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-    const returnType = getTypeInfo(node.getReturnTypeNode()!.getType());
+    const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
 
     this.currentSubroutine = this.subroutines.find((s) => s.name === node.getNameNode().getText())!;
 
@@ -4018,7 +4056,7 @@ export default class Compiler {
           leftNode.isKind(ts.SyntaxKind.ElementAccessExpression) ||
           leftNode.isKind(ts.SyntaxKind.PropertyAccessExpression);
 
-        if (!isStorageExpr && isExprChain && getTypeInfo(leftNode.getFirstChild()!.getType()).kind !== 'base') {
+        if (!isStorageExpr && isExprChain && this.getTypeInfo(leftNode.getFirstChild()!.getType()).kind !== 'base') {
           this.processExpressionChain(leftNode, node);
           return;
         }
@@ -4158,7 +4196,7 @@ export default class Compiler {
       this.processNode(a);
     });
 
-    this.lastType = getTypeInfo(node.getExpression().getType());
+    this.lastType = this.getTypeInfo(node.getExpression().getType());
   }
 
   private fixByteWidth(node: ts.Node, desiredWidth: number) {
@@ -4191,11 +4229,11 @@ export default class Compiler {
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
     if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
-      this.processNumericLiteralWithType(expr, getTypeInfo(node.getTypeNode()!.getType()));
+      this.processNumericLiteralWithType(expr, this.getTypeInfo(node.getTypeNode()!.getType()));
       return;
     }
 
-    this.typeHint = getTypeInfo(node.getTypeNode()!.getType());
+    this.typeHint = this.getTypeInfo(node.getTypeNode()!.getType());
     const typeStr = typeInfoToABIString(this.typeHint);
 
     if (expr.isKind(ts.SyntaxKind.StringLiteral)) {
@@ -4242,7 +4280,7 @@ export default class Compiler {
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.getDeclarations().forEach((d) => {
-      if (d.getTypeNode()) this.typeHint = getTypeInfo(d.getTypeNode()!.getType());
+      if (d.getTypeNode()) this.typeHint = this.getTypeInfo(d.getTypeNode()!.getType());
       this.processNode(d);
       this.typeHint = undefined;
     });
@@ -4424,7 +4462,7 @@ export default class Compiler {
           };
         }
 
-        if (node.getTypeNode()) typeComparison(this.lastType, getTypeInfo(node.getTypeNode()!.getType()));
+        if (node.getTypeNode()) typeComparison(this.lastType, this.getTypeInfo(node.getTypeNode()!.getType()));
         return;
       }
 
@@ -4436,7 +4474,7 @@ export default class Compiler {
       ) {
         this.initializeStorageFrame(node, name, init, initializerType);
 
-        if (node.getTypeNode()) typeComparison(this.lastType, getTypeInfo(node.getTypeNode()!.getType()));
+        if (node.getTypeNode()) typeComparison(this.lastType, this.getTypeInfo(node.getTypeNode()!.getType()));
         return;
       }
 
@@ -4463,13 +4501,13 @@ export default class Compiler {
             };
           }
 
-          if (node.getTypeNode()) typeComparison(initializerType, getTypeInfo(node.getTypeNode()!.getType()));
+          if (node.getTypeNode()) typeComparison(initializerType, this.getTypeInfo(node.getTypeNode()!.getType()));
           return;
         }
       }
 
       this.addSourceComment(node);
-      const hint = node.getTypeNode() ? getTypeInfo(node.getTypeNode()!.getType()) : undefined;
+      const hint = node.getTypeNode() ? this.getTypeInfo(node.getTypeNode()!.getType()) : undefined;
 
       if (init?.isKind(ts.SyntaxKind.NumericLiteral) && this.typeHint) {
         this.processNumericLiteralWithType(init, this.typeHint);
@@ -4497,7 +4535,7 @@ export default class Compiler {
 
       this.localVariables[name] = {
         index: this.frameIndex,
-        type: getTypeInfo(node.getTypeNode()!.getType()),
+        type: this.getTypeInfo(node.getTypeNode()!.getType()),
         typeString: node.getTypeNode()!.getText().replace(/\n/g, ' '),
       };
 
@@ -4611,8 +4649,8 @@ export default class Compiler {
         if (typeArgs.length !== 2) throw new Error(`Expected 2 type arguments for ${klass}`);
         props = {
           type,
-          keyType: getTypeInfo(typeArgs[0].getType()),
-          valueType: getTypeInfo(typeArgs[1].getType()),
+          keyType: this.getTypeInfo(typeArgs[0].getType()),
+          valueType: this.getTypeInfo(typeArgs[1].getType()),
         };
       } else {
         if (typeArgs.length !== 1) throw new Error(`Expected a type argument for ${klass}`);
@@ -4620,7 +4658,7 @@ export default class Compiler {
         props = {
           type,
           keyType: StackType.bytes,
-          valueType: getTypeInfo(typeArgs[0].getType()),
+          valueType: this.getTypeInfo(typeArgs[0].getType()),
         };
       }
 
@@ -4763,7 +4801,7 @@ export default class Compiler {
           .getJsDocs()
           .map((d) => d.getCommentText())
           .join(''),
-        argTupleType: getTypeInfo(initTypeArgs[0].getType()),
+        argTupleType: this.getTypeInfo(initTypeArgs[0].getType()),
       };
 
       const event = this.events[node.getNameNode().getText()];
@@ -4775,7 +4813,7 @@ export default class Compiler {
           .join();
 
         const name = p.getName();
-        const type = getTypeInfo(p.getType());
+        const type = this.getTypeInfo(p.getType());
         event.args.push({ name, type, desc });
       });
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'ScratchSlot') {
@@ -4786,7 +4824,7 @@ export default class Compiler {
       if (!init.getArguments()[0].isKind(ts.SyntaxKind.NumericLiteral))
         throw Error('ScratchSlot argument must be a literal number');
 
-      const type = getTypeInfo(init.getTypeArguments()[0].getType());
+      const type = this.getTypeInfo(init.getTypeArguments()[0].getType());
       const name = node.getNameNode().getText();
       const slot = parseInt(init.getArguments()[0].getText(), 10);
 
@@ -4804,7 +4842,7 @@ export default class Compiler {
       const name = init.getArguments()[0]?.getText() || node.getNameNode().getText();
 
       this.templateVars[node.getNameNode().getText()] = {
-        type: getTypeInfo(init.getTypeArguments()[0].getType()),
+        type: this.getTypeInfo(init.getTypeArguments()[0].getType()),
         name,
       };
     } else {
@@ -5089,7 +5127,7 @@ export default class Compiler {
 
       this.processOpcodeImmediate(
         chain[0],
-        getTypeInfo(chain[0].getNameNode().getType()),
+        this.getTypeInfo(chain[0].getNameNode().getType()),
         chain[1].getNameNode().getText(),
         false,
         true
@@ -5454,7 +5492,7 @@ export default class Compiler {
     params.forEach((p) => {
       if (p.getTypeNode() === undefined) throw new Error();
 
-      const type = getTypeInfo(p.getTypeNode()!.getType());
+      const type = this.getTypeInfo(p.getTypeNode()!.getType());
 
       this.localVariables[p.getNameNode().getText()] = {
         index: argIndex,
@@ -5532,7 +5570,7 @@ export default class Compiler {
     let gtxnIndex = 0;
 
     new Array(...fn.getParameters()).reverse().forEach((p) => {
-      let type = getTypeInfo(p!.getTypeNode()!.getType());
+      let type = this.getTypeInfo(p!.getTypeNode()!.getType());
 
       if (p.getTypeNode()?.getText() === 'Account') {
         type = { kind: 'base', type: 'account' };
@@ -5738,9 +5776,9 @@ export default class Compiler {
       if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType))
         throw new Error('Transaction call type arguments[0] must be a tuple type');
 
-      const argTypes = typeArgs[0].getElements().map((t) => typeInfoToABIString(getTypeInfo(t.getType())));
+      const argTypes = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
 
-      const returnType = typeInfoToABIString(getTypeInfo(typeArgs![1].getType()), true)
+      const returnType = typeInfoToABIString(this.getTypeInfo(typeArgs![1].getType()), true)
         .toLowerCase()
         .replace('account', 'address');
 
@@ -5779,8 +5817,8 @@ export default class Compiler {
         if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
           throw new Error('Transaction call type arguments[0] must be a tuple type');
         }
-        const argTypesStr = typeArgs[0].getElements().map((t) => typeInfoToABIString(getTypeInfo(t.getType())));
-        const argTypes = typeArgs[0].getElements().map((t) => getTypeInfo(t.getType()));
+        const argTypesStr = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
+        const argTypes = typeArgs[0].getElements().map((t) => this.getTypeInfo(t.getType()));
 
         let accountIndex = 1;
         let appIndex = 1;
@@ -5846,7 +5884,7 @@ export default class Compiler {
       if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
         this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
 
-        const returnType = getTypeInfo(typeArgs![1].getType());
+        const returnType = this.getTypeInfo(typeArgs![1].getType());
         this.checkDecoding(typeArgs![1], returnType);
         this.lastType = returnType;
       } else if (name === 'sendAssetCreation') {
@@ -6021,7 +6059,7 @@ export default class Compiler {
       return;
     }
 
-    const nodePath = path.relative(process.cwd(), node.getSourceFile().getFilePath());
+    const nodePath = path.relative(this.cwd, node.getSourceFile().getFilePath());
     this.pushVoid(node, `// ${nodePath}:${node.getStartLineNumber()}`);
 
     const lines = node
