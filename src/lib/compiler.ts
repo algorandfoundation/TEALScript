@@ -824,6 +824,11 @@ export default class Compiler {
 
           typeComparison(this.lastType, valueType);
         } else {
+          const isUnsafe = this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ');
+          if (isUnsafe) {
+            this.checkEncoding(node, this.lastType);
+          }
+
           const command = storageType === 'box' ? 'swap' : storageType === 'local' ? 'uncover 2' : 'swap';
           this.pushVoid(node.getExpression(), command);
 
