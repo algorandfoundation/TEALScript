@@ -2776,8 +2776,8 @@ export default class Compiler {
         this.processNode(e);
       }
 
+      this.checkEncoding(e, this.lastType);
       typeComparison(this.lastType, types[i]);
-      this.checkEncoding(e, types[i]);
 
       if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
       else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
@@ -3145,8 +3145,9 @@ export default class Compiler {
       const storageProp = this.storageProps[storageName!];
 
       const { type, valueType } = storageProp;
-      const action = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
+      let action: 'set' | 'replace' = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
 
+      if (valueType.kind === 'base') action = 'set';
       // Honestly not sure why I needed to add this after b89ddc6c24d6102f9e890a0e76222de7e0ca79b5 (0.67.2)
       // But it works...
       if (type === 'box' && this.teal[this.currentProgram].at(-1)?.teal.startsWith('replace3')) {
