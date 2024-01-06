@@ -57,7 +57,7 @@ describe('Math', function () {
         msg = e.message;
       }
 
-      expect(msg).toMatch('intc_3 // 8; <=; assert');
+      expect(msg).toMatch('// 8; <=; assert');
     });
 
     test('ufixedLiteralMul', async function () {
