@@ -100,4 +100,13 @@ class MathTest extends Contract {
     const abc = ab * c;
     return abc;
   }
+
+  boxKey = BoxKey<uint<256>>();
+
+  boxTest(): uint<256> {
+    this.boxKey.value = <uint<256>>1;
+    this.boxKey.value += 1;
+
+    return this.boxKey.value;
+  }
 }
