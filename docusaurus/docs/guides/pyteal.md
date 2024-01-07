@@ -11,6 +11,7 @@ title: PyTeal Migration
 | `Assert`     | `assert`                                    |
 | `NamedTuple` | See Objects section [here](types/tuples.md) |
 | `Gtxn`       | `this.txnGroup`                             |
+| `precompile` | See [multiple contracts](./multiple_contracts.md) |
 
 ## Maybe Values
 
