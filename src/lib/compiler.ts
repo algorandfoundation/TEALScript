@@ -2792,6 +2792,7 @@ export default class Compiler {
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
       if (!isStatic) this.pushVoid(parentNode, 'callsub process_static_tuple_element');
+      if (consecutiveBools.length !== elements.length) this.pushVoid(parentNode, 'concat');
     }
 
     if (!isStatic) this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');

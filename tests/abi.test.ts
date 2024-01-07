@@ -798,5 +798,11 @@ describe('ABI', function () {
       expect(await runMethod(appClient, 'uintNComparison', [1n, 2n])).toEqual(false);
       expect(await runMethod(appClient, 'uintNComparison', [2n, 1n])).toEqual(true);
     });
+
+    test('booleanLastInObj', async () => {
+      const { appClient } = await compileAndCreate('booleanLastInObj');
+
+      expect(await runMethod(appClient, 'booleanLastInObj')).toEqual([1n, false]);
+    });
   });
 });
