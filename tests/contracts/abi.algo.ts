@@ -1268,3 +1268,12 @@ class ABITestUintNComparison extends Contract {
     return x >= y;
   }
 }
+
+class ABITestBooleanLastInObj extends Contract {
+  booleanLastInObj(): { n: uint64; b: boolean } {
+    return {
+      n: 1,
+      b: false,
+    };
+  }
+}
