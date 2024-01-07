@@ -10,7 +10,11 @@ custom_edit_url: null
 
 ### constructor
 
-• **new Asset**()
+• **new Asset**(): [`Asset`](Asset.md)
+
+#### Returns
+
+[`Asset`](Asset.md)
 
 ## Properties
 
@@ -20,7 +24,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:356](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L356)
+[types/global.d.ts:378](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L378)
 
 ___
 
@@ -30,7 +34,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:358](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L358)
+[types/global.d.ts:380](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L380)
 
 ___
 
@@ -40,7 +44,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:338](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L338)
+[types/global.d.ts:360](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L360)
 
 ___
 
@@ -50,7 +54,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:340](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L340)
+[types/global.d.ts:362](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L362)
 
 ___
 
@@ -60,7 +64,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:354](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L354)
+[types/global.d.ts:376](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L376)
+
+___
+
+### id
+
+• `Readonly` **id**: [`uint64`](../modules.md#uint64)
+
+#### Defined in
+
+[types/global.d.ts:356](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L356)
 
 ___
 
@@ -70,7 +84,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:350](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L350)
+[types/global.d.ts:372](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L372)
 
 ___
 
@@ -80,7 +94,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:348](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L348)
+[types/global.d.ts:370](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L370)
 
 ___
 
@@ -90,7 +104,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:342](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L342)
+[types/global.d.ts:364](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L364)
 
 ___
 
@@ -100,7 +114,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:352](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L352)
+[types/global.d.ts:374](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L374)
 
 ___
 
@@ -110,7 +124,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:336](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L336)
+[types/global.d.ts:358](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L358)
 
 ___
 
@@ -120,7 +134,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:344](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L344)
+[types/global.d.ts:366](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L366)
 
 ___
 
@@ -130,7 +144,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:346](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L346)
+[types/global.d.ts:368](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L368)
 
 ___
 
@@ -140,13 +154,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:334](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L334)
+[types/global.d.ts:354](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L354)
 
 ## Methods
 
 ### fromUint64
 
-▸ `Static` **fromUint64**(`index`): [`Asset`](Asset.md)
+▸ **fromID**(`index`): [`Asset`](Asset.md)
 
 #### Parameters
 
@@ -160,4 +174,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:332](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L332)
+[types/global.d.ts:352](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L352)

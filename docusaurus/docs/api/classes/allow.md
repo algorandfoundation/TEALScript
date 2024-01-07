@@ -10,13 +10,17 @@ custom_edit_url: null
 
 ### constructor
 
-• **new allow**()
+• **new allow**(): [`allow`](allow.md)
+
+#### Returns
+
+[`allow`](allow.md)
 
 ## Methods
 
 ### bareCall
 
-▸ `Static` **bareCall**(`onComplete`): [`decorator`](../modules.md#decorator)
+▸ **bareCall**(`onComplete`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -30,13 +34,13 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:887](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L887)
+[types/global.d.ts:1005](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1005)
 
 ___
 
 ### bareCreate
 
-▸ `Static` **bareCreate**(`onComplete?`): [`decorator`](../modules.md#decorator)
+▸ **bareCreate**(`onComplete?`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -50,13 +54,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:891](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L891)
+[types/global.d.ts:1009](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1009)
 
 ___
 
 ### call
 
-▸ `Static` **call**(`onComplete`): [`decorator`](../modules.md#decorator)
+▸ **call**(`onComplete`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -70,13 +74,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:879](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L879)
+[types/global.d.ts:997](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L997)
 
 ___
 
 ### create
 
-▸ `Static` **create**(`onComplete?`): [`decorator`](../modules.md#decorator)
+▸ **create**(`onComplete?`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -90,4 +94,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:883](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L883)
+[types/global.d.ts:1001](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1001)

@@ -9,10 +9,12 @@ custom_edit_url: null
 
 ## Enumerations
 
+- [OnCompletion](enums/OnCompletion.md)
 - [TransactionType](enums/TransactionType.md)
 
 ## Classes
 
+- [Account](classes/Account.md)
 - [Address](classes/Address.md)
 - [Application](classes/Application.md)
 - [Asset](classes/Asset.md)
@@ -41,59 +43,79 @@ custom_edit_url: null
 
 ## Type Aliases
 
-### Account
+### AppCallTxn
 
-Ƭ **Account**: [`Address`](classes/Address.md)
+Ƭ **AppCallTxn**: [`AppOnChainTransactionParams`](interfaces/AppOnChainTransactionParams.md) & `Required`\<[`AppParams`](interfaces/AppParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:405](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L405)
+[types/global.d.ts:626](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L626)
 
 ___
 
-### AppCallTxn
+### AppCallTxnVerificationFields
 
-Ƭ **AppCallTxn**: [`AppOnChainTransactionParams`](interfaces/AppOnChainTransactionParams.md) & `Required`<[`AppParams`](interfaces/AppParams.md)\>
+Ƭ **AppCallTxnVerificationFields**: [`CommonTxnVerificationFields`](modules.md#commontxnverificationfields) & \{ `applicationID?`: [`Application`](classes/Application.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `approvalProgram?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `approvalProgramPages?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `clearStateProgram?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `clearStateProgramPages?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `extraProgramPages?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `globalNumByteSlice?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `globalNumUint?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `lastLog?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `localNumByteSlice?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `localNumUint?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numAccounts?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numAppArgs?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numApplications?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numApprovalProgramPages?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numAssets?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numClearStateProgramPages?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `numLogs?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `onCompletion?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
 
 #### Defined in
 
-[types/global.d.ts:598](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L598)
+[types/global.d.ts:314](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L314)
 
 ___
 
 ### AssetConfigTxn
 
-Ƭ **AssetConfigTxn**: `Required`<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\>
+Ƭ **AssetConfigTxn**: `Required`\<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:600](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L600)
+[types/global.d.ts:628](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L628)
+
+___
+
+### AssetConfigTxnVerificationFields
+
+Ƭ **AssetConfigTxnVerificationFields**: [`CommonTxnVerificationFields`](modules.md#commontxnverificationfields) & \{ `configAsset?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetClawback?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetDecimals?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetDefaultFrozen?`: `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetFreeze?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetManager?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetMetadataHash?`: [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetName?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetReserve?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetTotal?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetURL?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `configAssetUnitName?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `freezeAsset?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `freezeAssetAccount?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `freezeAssetFrozen?`: `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
+
+#### Defined in
+
+[types/global.d.ts:296](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L296)
 
 ___
 
 ### AssetFreezeTxn
 
-Ƭ **AssetFreezeTxn**: `Required`<[`AssetFreezeParams`](interfaces/AssetFreezeParams.md)\>
+Ƭ **AssetFreezeTxn**: `Required`\<[`AssetFreezeParams`](interfaces/AssetFreezeParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:601](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L601)
+[types/global.d.ts:629](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L629)
 
 ___
 
 ### AssetTransferTxn
 
-Ƭ **AssetTransferTxn**: `Required`<[`AssetTransferParams`](interfaces/AssetTransferParams.md)\>
+Ƭ **AssetTransferTxn**: `Required`\<[`AssetTransferParams`](interfaces/AssetTransferParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:597](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L597)
+[types/global.d.ts:625](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L625)
+
+___
+
+### AssetTransferTxnVerificationFields
+
+Ƭ **AssetTransferTxnVerificationFields**: [`CommonTxnVerificationFields`](modules.md#commontxnverificationfields) & \{ `assetAmount?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `assetCloseTo?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `assetReceiver?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `assetSender?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `xferAsset?`: [`Asset`](classes/Asset.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
+
+#### Defined in
+
+[types/global.d.ts:288](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L288)
 
 ___
 
 ### BoxValue
 
-Ƭ **BoxValue**<`ValueType`\>: `Object`
+Ƭ **BoxValue**\<`ValueType`\>: `Object`
 
 #### Type parameters
 
@@ -115,13 +137,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:443](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L443)
+[types/global.d.ts:464](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L464)
 
 ___
 
 ### Brand
 
-Ƭ **Brand**<`K`, `T`\>: `K` & { `__brand?`: `T`  }
+Ƭ **Brand**\<`K`, `T`\>: `K` \| `K` & \{ `__brand?`: `T`  }
 
 #### Type parameters
 
@@ -132,7 +154,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:241](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L241)
+[types/global.d.ts:241](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L241)
 
 ___
 
@@ -142,13 +164,38 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:407](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L407)
+[types/global.d.ts:426](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L426)
+
+___
+
+### CommonTxnVerificationFields
+
+Ƭ **CommonTxnVerificationFields**: `Object`
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `fee?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `firstValid?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `firstValidTime?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `groupIndex?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `lastValid?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `lease?` | [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `note?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `rekeyTo?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `sender?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+| `txID?` | [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+
+#### Defined in
+
+[types/global.d.ts:260](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L260)
 
 ___
 
 ### Expand
 
-Ƭ **Expand**<`T`\>: `T` extends (...`args`: infer A) => infer R ? (...`args`: [`Expand`](modules.md#expand)<`A`\>) => [`Expand`](modules.md#expand)<`R`\> : `T` extends infer O ? { [K in keyof O]: O[K] } : `never`
+Ƭ **Expand**\<`T`\>: `T` extends (...`args`: infer A) => infer R ? (...`args`: [`Expand`](modules.md#expand)\<`A`\>) => [`Expand`](modules.md#expand)\<`R`\> : `T` extends infer O ? \{ [K in keyof O]: O[K] } : `never`
 
 #### Type parameters
 
@@ -158,13 +205,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:6](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L6)
+[types/global.d.ts:6](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L6)
 
 ___
 
 ### GlobalStateValue
 
-Ƭ **GlobalStateValue**<`ValueType`\>: `Object`
+Ƭ **GlobalStateValue**\<`ValueType`\>: `Object`
 
 #### Type parameters
 
@@ -182,63 +229,63 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:460](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L460)
+[types/global.d.ts:482](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L482)
 
 ___
 
 ### InnerAppCall
 
-Ƭ **InnerAppCall**: [`Expand`](modules.md#expand)<[`AppParams`](interfaces/AppParams.md)\>
+Ƭ **InnerAppCall**: [`AppParams`](interfaces/AppParams.md)
 
 #### Defined in
 
-[types/global.d.ts:650](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L650)
+[types/global.d.ts:678](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L678)
 
 ___
 
 ### InnerAssetConfig
 
-Ƭ **InnerAssetConfig**: [`Expand`](modules.md#expand)<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\>
+Ƭ **InnerAssetConfig**: [`AssetConfigParams`](interfaces/AssetConfigParams.md)
 
 #### Defined in
 
-[types/global.d.ts:652](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L652)
+[types/global.d.ts:680](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L680)
 
 ___
 
 ### InnerAssetCreation
 
-Ƭ **InnerAssetCreation**: [`Expand`](modules.md#expand)<[`AssetCreateParams`](interfaces/AssetCreateParams.md)\>
+Ƭ **InnerAssetCreation**: [`AssetCreateParams`](interfaces/AssetCreateParams.md)
 
 #### Defined in
 
-[types/global.d.ts:653](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L653)
+[types/global.d.ts:681](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L681)
 
 ___
 
 ### InnerAssetFreeze
 
-Ƭ **InnerAssetFreeze**: [`Expand`](modules.md#expand)<[`AssetFreezeParams`](interfaces/AssetFreezeParams.md)\>
+Ƭ **InnerAssetFreeze**: [`AssetFreezeParams`](interfaces/AssetFreezeParams.md)
 
 #### Defined in
 
-[types/global.d.ts:654](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L654)
+[types/global.d.ts:682](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L682)
 
 ___
 
 ### InnerAssetTransfer
 
-Ƭ **InnerAssetTransfer**: [`Expand`](modules.md#expand)<[`AssetTransferParams`](interfaces/AssetTransferParams.md)\>
+Ƭ **InnerAssetTransfer**: [`AssetTransferParams`](interfaces/AssetTransferParams.md)
 
 #### Defined in
 
-[types/global.d.ts:651](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L651)
+[types/global.d.ts:679](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L679)
 
 ___
 
 ### InnerMethodCall
 
-Ƭ **InnerMethodCall**<`ArgsType`, `ReturnType`\>: [`Expand`](modules.md#expand)<[`MethodCallParams`](interfaces/MethodCallParams.md)<`ArgsType`\>\>
+Ƭ **InnerMethodCall**\<`ArgsType`, `ReturnType`\>: [`MethodCallParams`](interfaces/MethodCallParams.md)\<`ArgsType`\>
 
 #### Type parameters
 
@@ -249,37 +296,37 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:657](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L657)
+[types/global.d.ts:685](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L685)
 
 ___
 
 ### InnerOfflineKeyRegistration
 
-Ƭ **InnerOfflineKeyRegistration**: [`Expand`](modules.md#expand)<[`CommonTransactionParams`](interfaces/CommonTransactionParams.md)\>
+Ƭ **InnerOfflineKeyRegistration**: [`CommonTransactionParams`](interfaces/CommonTransactionParams.md)
 
 #### Defined in
 
-[types/global.d.ts:656](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L656)
+[types/global.d.ts:684](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L684)
 
 ___
 
 ### InnerOnlineKeyRegistration
 
-Ƭ **InnerOnlineKeyRegistration**: [`Expand`](modules.md#expand)<[`OnlineKeyRegParams`](interfaces/OnlineKeyRegParams.md)\>
+Ƭ **InnerOnlineKeyRegistration**: [`OnlineKeyRegParams`](interfaces/OnlineKeyRegParams.md)
 
 #### Defined in
 
-[types/global.d.ts:655](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L655)
+[types/global.d.ts:683](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L683)
 
 ___
 
 ### InnerPayment
 
-Ƭ **InnerPayment**: [`Expand`](modules.md#expand)<[`PaymentParams`](interfaces/PaymentParams.md)\>
+Ƭ **InnerPayment**: [`PaymentParams`](interfaces/PaymentParams.md)
 
 #### Defined in
 
-[types/global.d.ts:649](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L649)
+[types/global.d.ts:677](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L677)
 
 ___
 
@@ -289,23 +336,33 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:485](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L485)
+[types/global.d.ts:509](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L509)
 
 ___
 
 ### KeyRegTxn
 
-Ƭ **KeyRegTxn**: `Required`<[`KeyRegParams`](interfaces/KeyRegParams.md)\>
+Ƭ **KeyRegTxn**: `Required`\<[`KeyRegParams`](interfaces/KeyRegParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:599](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L599)
+[types/global.d.ts:627](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L627)
+
+___
+
+### KeyRegTxnVerificationFields
+
+Ƭ **KeyRegTxnVerificationFields**: [`CommonTxnVerificationFields`](modules.md#commontxnverificationfields) & \{ `nonparticipation?`: `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `selectionPK?`: [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `voteFirst?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `voteKeyDilution?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `voteLast?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `votePK?`: [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
+
+#### Defined in
+
+[types/global.d.ts:279](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L279)
 
 ___
 
 ### LocalStateValue
 
-Ƭ **LocalStateValue**<`ValueType`\>: `Object`
+Ƭ **LocalStateValue**\<`ValueType`\>: `Object`
 
 #### Type parameters
 
@@ -323,23 +380,55 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:472](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L472)
+[types/global.d.ts:495](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L495)
 
 ___
 
 ### PayTxn
 
-Ƭ **PayTxn**: `Required`<[`PaymentParams`](interfaces/PaymentParams.md)\>
+Ƭ **PayTxn**: `Required`\<[`PaymentParams`](interfaces/PaymentParams.md)\>
 
 #### Defined in
 
-[types/global.d.ts:596](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L596)
+[types/global.d.ts:624](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L624)
+
+___
+
+### PayTxnVerificationFields
+
+Ƭ **PayTxnVerificationFields**: [`CommonTxnVerificationFields`](modules.md#commontxnverificationfields) & \{ `amount?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `closeRemainderTo?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `receiver?`: [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
+
+#### Defined in
+
+[types/global.d.ts:273](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L273)
+
+___
+
+### ScratchValue
+
+Ƭ **ScratchValue**\<`ValueType`\>: `Object`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `ValueType` |
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `value` | `ValueType` |
+
+#### Defined in
+
+[types/global.d.ts:1054](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1054)
 
 ___
 
 ### StaticArray
 
-Ƭ **StaticArray**<`T`, `N`\>: `T` extends [`byte`](modules.md#byte) ? `string` : `N` extends ``0`` ? `never`[] : `T` extends `boolean` ? (`boolean`)[] : `T`[] & { `__length?`: `N` ; `__type?`: `T`  }
+Ƭ **StaticArray**\<`T`, `N`\>: [`Brand`](modules.md#brand)\<`T` extends [`byte`](modules.md#byte) ? `string` : `N` extends ``0`` ? `never`[] : `T` extends `boolean` ? (`boolean`)[] : `T`[], `T`\>
 
 #### Type parameters
 
@@ -350,7 +439,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:912](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L912)
+[types/global.d.ts:1030](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1030)
 
 ___
 
@@ -360,100 +449,27 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:610](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L610)
+[types/global.d.ts:638](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L638)
 
 ___
 
 ### Txn
 
-Ƭ **Txn**: [`PayTxn`](modules.md#paytxn) & [`AssetTransferTxn`](modules.md#assettransfertxn) & [`AppCallTxn`](modules.md#appcalltxn) & [`KeyRegTxn`](modules.md#keyregtxn) & [`AssetConfigTxn`](modules.md#assetconfigtxn) & [`AssetFreezeTxn`](modules.md#assetfreezetxn) & { `typeEnum`: [`TransactionType`](enums/TransactionType.md)  }
+Ƭ **Txn**: [`PayTxn`](modules.md#paytxn) & [`AssetTransferTxn`](modules.md#assettransfertxn) & [`AppCallTxn`](modules.md#appcalltxn) & [`KeyRegTxn`](modules.md#keyregtxn) & [`AssetConfigTxn`](modules.md#assetconfigtxn) & [`AssetFreezeTxn`](modules.md#assetfreezetxn) & \{ `typeEnum`: [`TransactionType`](enums/TransactionType.md)  }
 
 #### Defined in
 
-[types/global.d.ts:612](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L612)
+[types/global.d.ts:640](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L640)
 
 ___
 
 ### TxnVerificationFields
 
-Ƭ **TxnVerificationFields**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `accounts?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `amount?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `applicationArgs?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `applicationID?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `applications?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `approvalProgram?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `approvalProgramPages?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `assetAmount?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `assetCloseTo?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `assetReceiver?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `assetSender?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `assets?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `clearStateProgram?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `clearStateProgramPages?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `closeRemainderTo?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAsset?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetClawback?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetDecimals?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetDefaultFrozen?` | `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetFreeze?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetManager?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetMetadataHash?` | [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetName?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetReserve?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetTotal?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetURL?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `configAssetUnitName?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `createdApplicationID?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `createdAssetID?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `extraProgramPages?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `fee?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `firstValid?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `firstValidTime?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `freezeAsset?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `freezeAssetAccount?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `freezeAssetFrozen?` | `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `globalNumByteSlice?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `globalNumUint?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `groupIndex?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `lastLog?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `lastValid?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `lease?` | [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `localNumByteSlice?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `localNumUint?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `logs?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `nonparticipation?` | `boolean` \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `note?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numAccounts?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numAppArgs?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numApplications?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numApprovalProgramPages?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numAssets?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numClearStateProgramPages?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `numLogs?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `onCompletion?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `receiver?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `rekeyTo?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `selectionPK?` | [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `sender?` | [`Address`](classes/Address.md) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `stateProofPK?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `txID?` | [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `type?` | [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `typeEnum?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `voteFirst?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `voteKeyDilution?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `voteLast?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `votePK?` | [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\> \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
-| `xferAsset?` | [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) |
+Ƭ **TxnVerificationFields**: [`PayTxnVerificationFields`](modules.md#paytxnverificationfields) & [`KeyRegTxnVerificationFields`](modules.md#keyregtxnverificationfields) & [`AssetTransferTxnVerificationFields`](modules.md#assettransfertxnverificationfields) & [`AssetConfigTxnVerificationFields`](modules.md#assetconfigtxnverificationfields) & [`AppCallTxnVerificationFields`](modules.md#appcalltxnverificationfields) & \{ `type?`: [`BytesLike`](modules.md#byteslike) \| [`TxnVerificationTests`](modules.md#txnverificationtests) ; `typeEnum?`: [`IntLike`](modules.md#intlike) \| [`TxnVerificationTests`](modules.md#txnverificationtests)  }
 
 #### Defined in
 
-[types/global.d.ts:260](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L260)
+[types/global.d.ts:342](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L342)
 
 ___
 
@@ -475,27 +491,27 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:250](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L250)
+[types/global.d.ts:250](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L250)
 
 ___
 
 ### byte
 
-Ƭ **byte**: [`Brand`](modules.md#brand)<`string`, ``"byte"``\>
+Ƭ **byte**: [`Brand`](modules.md#brand)\<`string`, ``"byte"``\>
 
 #### Defined in
 
-[types/global.d.ts:247](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L247)
+[types/global.d.ts:247](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L247)
 
 ___
 
 ### bytes
 
-Ƭ **bytes**: [`Brand`](modules.md#brand)<`string`, ``"bytes"``\>
+Ƭ **bytes**: [`Brand`](modules.md#brand)\<`string`, ``"bytes"``\>
 
 #### Defined in
 
-[types/global.d.ts:248](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L248)
+[types/global.d.ts:248](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L248)
 
 ___
 
@@ -521,7 +537,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:876](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L876)
+[types/global.d.ts:994](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L994)
 
 ___
 
@@ -531,13 +547,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:78](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L78)
+[types/global.d.ts:78](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L78)
 
 ___
 
 ### ufixed
 
-Ƭ **ufixed**<`N`, `M`\>: [`Brand`](modules.md#brand)<`number`, \`ufixed${N}x${M}\`\>
+Ƭ **ufixed**\<`N`, `M`\>: [`Brand`](modules.md#brand)\<`number`, \`ufixed$\{N}x$\{M}\`\>
 
 #### Type parameters
 
@@ -548,13 +564,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:245](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L245)
+[types/global.d.ts:245](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L245)
 
 ___
 
 ### uint
 
-Ƭ **uint**<`N`\>: [`Brand`](modules.md#brand)<`number`, \`uint${N}\`\>
+Ƭ **uint**\<`N`\>: [`Brand`](modules.md#brand)\<`number`, \`uint$\{N}\`\>
 
 #### Type parameters
 
@@ -564,17 +580,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:243](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L243)
+[types/global.d.ts:243](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L243)
 
 ___
 
 ### uint64
 
-Ƭ **uint64**: [`uint`](modules.md#uint)<``64``\> \| `number`
+Ƭ **uint64**: [`uint`](modules.md#uint)\<``64``\> \| `number`
 
 #### Defined in
 
-[types/global.d.ts:244](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L244)
+[types/global.d.ts:244](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L244)
 
 ___
 
@@ -584,7 +600,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:12](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L12)
+[types/global.d.ts:12](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L12)
 
 ## Variables
 
@@ -614,13 +630,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:619](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L619)
+[types/global.d.ts:647](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L647)
 
 ## Functions
 
 ### BoxKey
 
-▸ **BoxKey**<`ValueType`\>(`options?`): [`BoxValue`](modules.md#boxvalue)<`ValueType`\>
+▸ **BoxKey**\<`ValueType`\>(`options?`): [`BoxValue`](modules.md#boxvalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -638,17 +654,17 @@ ___
 
 #### Returns
 
-[`BoxValue`](modules.md#boxvalue)<`ValueType`\>
+[`BoxValue`](modules.md#boxvalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:453](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L453)
+[types/global.d.ts:474](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L474)
 
 ___
 
 ### BoxMap
 
-▸ **BoxMap**<`KeyType`, `ValueType`\>(`options?`): (`key`: `KeyType`) => [`BoxValue`](modules.md#boxvalue)<`ValueType`\>
+▸ **BoxMap**\<`KeyType`, `ValueType`\>(`options?`): (`key`: `KeyType`) => [`BoxValue`](modules.md#boxvalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -662,6 +678,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `options?` | `Object` |
+| `options.allowPotentialCollisions?` | `boolean` |
 | `options.dynamicSize?` | `boolean` |
 | `options.prefix?` | `string` |
 
@@ -669,7 +686,7 @@ ___
 
 `fn`
 
-▸ (`key`): [`BoxValue`](modules.md#boxvalue)<`ValueType`\>
+▸ (`key`): [`BoxValue`](modules.md#boxvalue)\<`ValueType`\>
 
 ##### Parameters
 
@@ -679,17 +696,17 @@ ___
 
 ##### Returns
 
-[`BoxValue`](modules.md#boxvalue)<`ValueType`\>
+[`BoxValue`](modules.md#boxvalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:455](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L455)
+[types/global.d.ts:476](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L476)
 
 ___
 
 ### GlobalStateKey
 
-▸ **GlobalStateKey**<`ValueType`\>(`options?`): [`GlobalStateValue`](modules.md#globalstatevalue)<`ValueType`\>
+▸ **GlobalStateKey**\<`ValueType`\>(`options?`): [`GlobalStateValue`](modules.md#globalstatevalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -706,17 +723,17 @@ ___
 
 #### Returns
 
-[`GlobalStateValue`](modules.md#globalstatevalue)<`ValueType`\>
+[`GlobalStateValue`](modules.md#globalstatevalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:466](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L466)
+[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L488)
 
 ___
 
 ### GlobalStateMap
 
-▸ **GlobalStateMap**<`KeyType`, `ValueType`\>(`options`): (`key`: `KeyType`) => [`GlobalStateValue`](modules.md#globalstatevalue)<`ValueType`\>
+▸ **GlobalStateMap**\<`KeyType`, `ValueType`\>(`options`): (`key`: `KeyType`) => [`GlobalStateValue`](modules.md#globalstatevalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -730,6 +747,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `options` | `Object` |
+| `options.allowPotentialCollisions?` | `boolean` |
 | `options.maxKeys` | `number` |
 | `options.prefix?` | `string` |
 
@@ -737,7 +755,7 @@ ___
 
 `fn`
 
-▸ (`key`): [`GlobalStateValue`](modules.md#globalstatevalue)<`ValueType`\>
+▸ (`key`): [`GlobalStateValue`](modules.md#globalstatevalue)\<`ValueType`\>
 
 ##### Parameters
 
@@ -747,17 +765,17 @@ ___
 
 ##### Returns
 
-[`GlobalStateValue`](modules.md#globalstatevalue)<`ValueType`\>
+[`GlobalStateValue`](modules.md#globalstatevalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:467](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L467)
+[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L489)
 
 ___
 
 ### LocalStateKey
 
-▸ **LocalStateKey**<`ValueType`\>(`options?`): (`account`: [`Address`](classes/Address.md)) => [`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+▸ **LocalStateKey**\<`ValueType`\>(`options?`): (`account`: [`Address`](classes/Address.md)) => [`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -776,7 +794,7 @@ ___
 
 `fn`
 
-▸ (`account`): [`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+▸ (`account`): [`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 ##### Parameters
 
@@ -786,17 +804,17 @@ ___
 
 ##### Returns
 
-[`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+[`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:478](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L478)
+[types/global.d.ts:501](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L501)
 
 ___
 
 ### LocalStateMap
 
-▸ **LocalStateMap**<`KeyType`, `ValueType`\>(`options`): (`account`: [`Address`](classes/Address.md), `key`: `KeyType`) => [`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+▸ **LocalStateMap**\<`KeyType`, `ValueType`\>(`options`): (`account`: [`Address`](classes/Address.md), `key`: `KeyType`) => [`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 #### Type parameters
 
@@ -810,6 +828,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `options` | `Object` |
+| `options.allowPotentialCollisions?` | `boolean` |
 | `options.maxKeys` | `number` |
 | `options.prefix?` | `string` |
 
@@ -817,7 +836,7 @@ ___
 
 `fn`
 
-▸ (`account`, `key`): [`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+▸ (`account`, `key`): [`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 ##### Parameters
 
@@ -828,11 +847,63 @@ ___
 
 ##### Returns
 
-[`LocalStateValue`](modules.md#localstatevalue)<`ValueType`\>
+[`LocalStateValue`](modules.md#localstatevalue)\<`ValueType`\>
 
 #### Defined in
 
-[types/global.d.ts:480](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L480)
+[types/global.d.ts:503](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L503)
+
+___
+
+### ScratchSlot
+
+▸ **ScratchSlot**\<`ValueType`\>(`slot`): [`ScratchValue`](modules.md#scratchvalue)\<`ValueType`\>
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `ValueType` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `slot` | `number` |
+
+#### Returns
+
+[`ScratchValue`](modules.md#scratchvalue)\<`ValueType`\>
+
+#### Defined in
+
+[types/global.d.ts:1058](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1058)
+
+___
+
+### TemplateVar
+
+▸ **TemplateVar**\<`TmplType`\>(`name?`): `TmplType`
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `TmplType` |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `name?` | `string` |
+
+#### Returns
+
+`TmplType`
+
+#### Defined in
+
+[types/global.d.ts:1046](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1046)
 
 ___
 
@@ -852,7 +923,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:638](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L638)
+[types/global.d.ts:666](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L666)
 
 ___
 
@@ -876,29 +947,29 @@ if one of the given conditions is 0 or false
 
 #### Defined in
 
-[types/global.d.ts:722](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L722)
+[types/global.d.ts:750](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L750)
 
 ___
 
 ### bsqrt
 
-▸ **bsqrt**(`arg0`): [`uint`](modules.md#uint)<[`widths`](modules.md#widths)\>
+▸ **bsqrt**(`arg0`): [`uint`](modules.md#uint)\<[`widths`](modules.md#widths)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `arg0` | [`uint`](modules.md#uint)<[`widths`](modules.md#widths)\> |
+| `arg0` | [`uint`](modules.md#uint)\<[`widths`](modules.md#widths)\> |
 
 #### Returns
 
-[`uint`](modules.md#uint)<[`widths`](modules.md#widths)\>
+[`uint`](modules.md#uint)\<[`widths`](modules.md#widths)\>
 
 square root of the given uintN
 
 #### Defined in
 
-[types/global.d.ts:828](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L828)
+[types/global.d.ts:856](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L856)
 
 ___
 
@@ -920,7 +991,7 @@ bytes interpreted as a number
 
 #### Defined in
 
-[types/global.d.ts:863](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L863)
+[types/global.d.ts:941](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L941)
 
 ___
 
@@ -946,13 +1017,13 @@ if the input data is longer than 8 bytes
 
 #### Defined in
 
-[types/global.d.ts:688](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L688)
+[types/global.d.ts:716](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L716)
 
 ___
 
 ### bzero
 
-▸ **bzero**<`T`\>(`size?`): `T`
+▸ **bzero**\<`T`\>(`size?`): `T`
 
 Returns zero bytes of the given size.
 
@@ -966,7 +1037,7 @@ Returns zero bytes of the given size.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `size?` | [`IntLike`](modules.md#intlike) | the number of zero bytes to return. If not given, returns the size of the type given the type argument |
+| `size?` | `number` \| `boolean` \| [`Application`](classes/Application.md) \| `number` & \{ `__brand?`: ``"uint64"``  } \| [`Asset`](classes/Asset.md) | the number of zero bytes to return. If not given, returns the size of the type given the type argument |
 
 #### Returns
 
@@ -974,13 +1045,13 @@ Returns zero bytes of the given size.
 
 #### Defined in
 
-[types/global.d.ts:849](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L849)
+[types/global.d.ts:927](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L927)
 
 ___
 
 ### castBytes
 
-▸ **castBytes**<`T`\>(`input`): `T`
+▸ **castBytes**\<`T`\>(`input`): `T`
 
 #### Type parameters
 
@@ -1000,13 +1071,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:933](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L933)
+[types/global.d.ts:1048](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1048)
 
 ___
 
 ### clone
 
-▸ **clone**<`T`\>(`input`): `T`
+▸ **clone**\<`T`\>(`input`): `T`
 
 #### Type parameters
 
@@ -1026,7 +1097,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:937](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L937)
+[types/global.d.ts:1052](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1052)
 
 ___
 
@@ -1049,7 +1120,7 @@ The concatenation of two [bytes](modules.md#bytes)
 
 #### Defined in
 
-[types/global.d.ts:725](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L725)
+[types/global.d.ts:753](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L753)
 
 ___
 
@@ -1073,7 +1144,83 @@ Combines two uint64 into one uint128 and then divides it by another uint64
 
 #### Defined in
 
-[types/global.d.ts:837](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L837)
+[types/global.d.ts:865](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L865)
+
+___
+
+### ecdsa\_pk\_decompress
+
+▸ **ecdsa_pk_decompress**(`curve`, `pubKey`): [[`uint`](modules.md#uint)\<``256``\>, [`uint`](modules.md#uint)\<``256``\>]
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `curve` | ``"Secp256k1"`` \| ``"Secp256r1"`` | The curve being used |
+| `pubKey` | [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``33``\> | The public key to decompress |
+
+#### Returns
+
+[[`uint`](modules.md#uint)\<``256``\>, [`uint`](modules.md#uint)\<``256``\>]
+
+The X and Y components of the decompressed public key
+
+#### Defined in
+
+[types/global.d.ts:897](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L897)
+
+___
+
+### ecdsa\_pk\_recover
+
+▸ **ecdsa_pk_recover**(`curve`, `data`, `recoveryID`, `sSignatureComponent`, `rSignatureComponent`): [[`uint`](modules.md#uint)\<``256``\>, [`uint`](modules.md#uint)\<``256``\>]
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `curve` | ``"Secp256k1"`` \| ``"Secp256r1"`` | The curve being used |
+| `data` | [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> | The data that was signed |
+| `recoveryID` | [`uint64`](modules.md#uint64) | The recovery ID |
+| `sSignatureComponent` | [`uint`](modules.md#uint)\<``256``\> | The s component of the lower-S signature |
+| `rSignatureComponent` | [`uint`](modules.md#uint)\<``256``\> | The r component of the lower-S signature |
+
+#### Returns
+
+[[`uint`](modules.md#uint)\<``256``\>, [`uint`](modules.md#uint)\<``256``\>]
+
+The X and Y components of the recovered public key
+
+#### Defined in
+
+[types/global.d.ts:912](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L912)
+
+___
+
+### ecdsa\_verify
+
+▸ **ecdsa_verify**(`curve`, `data`, `sSignatureComponent`, `rSignatureComponent`, `xPubkeyComponent`, `yPubkeyComponent`): `boolean`
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `curve` | ``"Secp256k1"`` \| ``"Secp256r1"`` | The curve being used |
+| `data` | [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\> | The data that was signed |
+| `sSignatureComponent` | [`uint`](modules.md#uint)\<``256``\> | The s component of the lower-S signature |
+| `rSignatureComponent` | [`uint`](modules.md#uint)\<``256``\> | The r component of the lower-S signature |
+| `xPubkeyComponent` | [`uint`](modules.md#uint)\<``256``\> | The x component of the public key |
+| `yPubkeyComponent` | [`uint`](modules.md#uint)\<``256``\> | The y component of the public key |
+
+#### Returns
+
+`boolean`
+
+true if the signature is valid, false otherwise
+
+#### Defined in
+
+[types/global.d.ts:881](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L881)
 
 ___
 
@@ -1100,7 +1247,7 @@ true if the signature is valid, false otherwise
 
 #### Defined in
 
-[types/global.d.ts:716](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L716)
+[types/global.d.ts:744](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L744)
 
 ___
 
@@ -1126,7 +1273,7 @@ true if the signature is valid, false otherwise
 
 #### Defined in
 
-[types/global.d.ts:822](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L822)
+[types/global.d.ts:850](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L850)
 
 ___
 
@@ -1152,7 +1299,7 @@ extracted bytes
 
 #### Defined in
 
-[types/global.d.ts:770](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L770)
+[types/global.d.ts:798](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L798)
 
 ___
 
@@ -1177,7 +1324,7 @@ uint16 as uint64
 
 #### Defined in
 
-[types/global.d.ts:780](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L780)
+[types/global.d.ts:808](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L808)
 
 ___
 
@@ -1202,7 +1349,7 @@ uint32 as uint64
 
 #### Defined in
 
-[types/global.d.ts:790](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L790)
+[types/global.d.ts:818](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L818)
 
 ___
 
@@ -1227,7 +1374,7 @@ uint64
 
 #### Defined in
 
-[types/global.d.ts:800](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L800)
+[types/global.d.ts:828](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L828)
 
 ___
 
@@ -1250,7 +1397,7 @@ The value of the bit at the given index
 
 #### Defined in
 
-[types/global.d.ts:738](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L738)
+[types/global.d.ts:766](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L766)
 
 ___
 
@@ -1273,7 +1420,7 @@ The value of the byte at the given index
 
 #### Defined in
 
-[types/global.d.ts:750](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L750)
+[types/global.d.ts:778](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L778)
 
 ___
 
@@ -1295,7 +1442,7 @@ hex input decoded to bytes
 
 #### Defined in
 
-[types/global.d.ts:860](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L860)
+[types/global.d.ts:938](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L938)
 
 ___
 
@@ -1317,13 +1464,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:691](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L691)
+[types/global.d.ts:719](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L719)
 
 ___
 
 ### keccak256
 
-▸ **keccak256**(`data`): [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+▸ **keccak256**(`data`): [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 #### Parameters
 
@@ -1333,13 +1480,13 @@ ___
 
 #### Returns
 
-[`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+[`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 the keccak256 hash of the given data
 
 #### Defined in
 
-[types/global.d.ts:700](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L700)
+[types/global.d.ts:728](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L728)
 
 ___
 
@@ -1361,7 +1508,7 @@ the length of the data
 
 #### Defined in
 
-[types/global.d.ts:719](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L719)
+[types/global.d.ts:747](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L747)
 
 ___
 
@@ -1383,7 +1530,7 @@ Logs data to the chain. Logs only persist if the app call is successful
 
 #### Defined in
 
-[types/global.d.ts:694](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L694)
+[types/global.d.ts:722](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L722)
 
 ___
 
@@ -1403,7 +1550,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:637](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L637)
+[types/global.d.ts:665](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L665)
 
 ___
 
@@ -1423,7 +1570,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:935](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L935)
+[types/global.d.ts:1050](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1050)
 
 ___
 
@@ -1449,7 +1596,7 @@ updated data
 
 #### Defined in
 
-[types/global.d.ts:811](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L811)
+[types/global.d.ts:839](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L839)
 
 ___
 
@@ -1466,17 +1613,17 @@ ___
 | `params.applicationArgs?` | [`bytes`](modules.md#bytes)[] |
 | `params.applicationID?` | [`Application`](classes/Application.md) |
 | `params.applications?` | [`Application`](classes/Application.md)[] |
-| `params.approvalProgram?` | [`bytes`](modules.md#bytes) |
+| `params.approvalProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
 | `params.assets?` | [`Asset`](classes/Asset.md)[] |
-| `params.clearStateProgram?` | [`bytes`](modules.md#bytes) |
-| `params.extraProgramPages?` | [`uint64`](modules.md#uint64) |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
-| `params.globalNumByteSlice?` | [`uint64`](modules.md#uint64) |
-| `params.globalNumUint?` | [`uint64`](modules.md#uint64) |
-| `params.localNumByteSlice?` | [`uint64`](modules.md#uint64) |
-| `params.localNumUint?` | [`uint64`](modules.md#uint64) |
+| `params.clearStateProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.extraProgramPages?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.globalNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.globalNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.localNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.localNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
-| `params.onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` |
+| `params.onCompletion?` | [`NoOp`](enums/OnCompletion.md#noop) \| [`OptIn`](enums/OnCompletion.md#optin) \| [`CloseOut`](enums/OnCompletion.md#closeout) \| [`ClearState`](enums/OnCompletion.md#clearstate) \| [`UpdateApplication`](enums/OnCompletion.md#updateapplication) \| [`DeleteApplication`](enums/OnCompletion.md#deleteapplication) |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
 
@@ -1486,7 +1633,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:641](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L641)
+[types/global.d.ts:669](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L669)
 
 ___
 
@@ -1504,7 +1651,7 @@ ___
 | `params.configAssetFreeze?` | [`Address`](classes/Address.md) |
 | `params.configAssetManager?` | [`Address`](classes/Address.md) |
 | `params.configAssetReserve?` | [`Address`](classes/Address.md) |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
@@ -1515,7 +1662,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:646](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L646)
+[types/global.d.ts:674](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L674)
 
 ___
 
@@ -1529,17 +1676,17 @@ ___
 | :------ | :------ |
 | `params` | `Object` |
 | `params.configAssetClawback?` | [`Address`](classes/Address.md) |
-| `params.configAssetDecimals?` | [`uint64`](modules.md#uint64) |
-| `params.configAssetDefaultFrozen?` | [`uint64`](modules.md#uint64) |
+| `params.configAssetDecimals?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.configAssetDefaultFrozen?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.configAssetFreeze?` | [`Address`](classes/Address.md) |
 | `params.configAssetManager?` | [`Address`](classes/Address.md) |
-| `params.configAssetMetadataHash?` | [`bytes`](modules.md#bytes) |
-| `params.configAssetName?` | [`bytes`](modules.md#bytes) |
+| `params.configAssetMetadataHash?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.configAssetName?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
 | `params.configAssetReserve?` | [`Address`](classes/Address.md) |
 | `params.configAssetTotal` | [`uint64`](modules.md#uint64) |
-| `params.configAssetURL?` | [`bytes`](modules.md#bytes) |
-| `params.configAssetUnitName?` | [`bytes`](modules.md#bytes) |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.configAssetURL?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.configAssetUnitName?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
@@ -1550,7 +1697,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:643](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L643)
+[types/global.d.ts:671](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L671)
 
 ___
 
@@ -1563,7 +1710,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.freezeAsset` | [`Asset`](classes/Asset.md) |
 | `params.freezeAssetAccount` | [`Address`](classes/Address.md) |
 | `params.freezeAssetFrozen` | `boolean` |
@@ -1577,7 +1724,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:647](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L647)
+[types/global.d.ts:675](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L675)
 
 ___
 
@@ -1594,7 +1741,7 @@ ___
 | `params.assetCloseTo?` | [`Address`](classes/Address.md) |
 | `params.assetReceiver` | [`Address`](classes/Address.md) |
 | `params.assetSender?` | [`Address`](classes/Address.md) |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
@@ -1606,13 +1753,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:642](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L642)
+[types/global.d.ts:670](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L670)
 
 ___
 
 ### sendMethodCall
 
-▸ **sendMethodCall**<`ArgsType`, `ReturnType`\>(`params`): `ReturnType`
+▸ **sendMethodCall**\<`ArgsType`, `ReturnType`\>(`params`): `ReturnType`
 
 Sends ABI method call. The two type arguments in combination with the
 name argument are used to form the the method signature to ensure typesafety.
@@ -1633,19 +1780,19 @@ name argument are used to form the the method signature to ensure typesafety.
 | `params.applicationArgs?` | [`bytes`](modules.md#bytes)[] | - |
 | `params.applicationID?` | [`Application`](classes/Application.md) | - |
 | `params.applications?` | [`Application`](classes/Application.md)[] | - |
-| `params.approvalProgram?` | [`bytes`](modules.md#bytes) | - |
+| `params.approvalProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } | - |
 | `params.assets?` | [`Asset`](classes/Asset.md)[] | - |
-| `params.clearStateProgram?` | [`bytes`](modules.md#bytes) | - |
-| `params.extraProgramPages?` | [`uint64`](modules.md#uint64) | - |
-| `params.fee?` | [`uint64`](modules.md#uint64) | - |
-| `params.globalNumByteSlice?` | [`uint64`](modules.md#uint64) | - |
-| `params.globalNumUint?` | [`uint64`](modules.md#uint64) | - |
-| `params.localNumByteSlice?` | [`uint64`](modules.md#uint64) | - |
-| `params.localNumUint?` | [`uint64`](modules.md#uint64) | - |
+| `params.clearStateProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } | - |
+| `params.extraProgramPages?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.globalNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.globalNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.localNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.localNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
 | `params.methodArgs?` | `ArgsType` | ABI method arguments |
 | `params.name` | `string` | Name of the ABI method |
 | `params.note?` | `string` | - |
-| `params.onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` | - |
+| `params.onCompletion?` | [`NoOp`](enums/OnCompletion.md#noop) \| [`OptIn`](enums/OnCompletion.md#optin) \| [`CloseOut`](enums/OnCompletion.md#closeout) \| [`ClearState`](enums/OnCompletion.md#clearstate) \| [`UpdateApplication`](enums/OnCompletion.md#updateapplication) \| [`DeleteApplication`](enums/OnCompletion.md#deleteapplication) | - |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) | - |
 | `params.sender?` | [`Address`](classes/Address.md) | - |
 
@@ -1669,7 +1816,7 @@ const createdAsset = sendMethodCall<[string, string], Asset>({
 
 #### Defined in
 
-[types/global.d.ts:682](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L682)
+[types/global.d.ts:710](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L710)
 
 ___
 
@@ -1682,7 +1829,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
@@ -1693,7 +1840,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:645](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L645)
+[types/global.d.ts:673](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L673)
 
 ___
 
@@ -1706,7 +1853,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.selectionPK` | [`bytes`](modules.md#bytes) |
@@ -1723,7 +1870,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:644](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L644)
+[types/global.d.ts:672](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L672)
 
 ___
 
@@ -1736,11 +1883,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.amount` | [`uint64`](modules.md#uint64) |
+| `params.amount?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.closeRemainderTo?` | [`Address`](classes/Address.md) |
-| `params.fee?` | [`uint64`](modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
-| `params.receiver` | [`Address`](classes/Address.md) |
+| `params.receiver?` | [`Address`](classes/Address.md) |
 | `params.rekeyTo?` | [`Address`](classes/Address.md) |
 | `params.sender?` | [`Address`](classes/Address.md) |
 
@@ -1750,7 +1897,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:640](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L640)
+[types/global.d.ts:668](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L668)
 
 ___
 
@@ -1774,7 +1921,7 @@ The updated data
 
 #### Defined in
 
-[types/global.d.ts:747](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L747)
+[types/global.d.ts:775](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L775)
 
 ___
 
@@ -1798,13 +1945,13 @@ The updated data
 
 #### Defined in
 
-[types/global.d.ts:759](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L759)
+[types/global.d.ts:787](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L787)
 
 ___
 
 ### sha256
 
-▸ **sha256**(`data`): [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+▸ **sha256**(`data`): [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 #### Parameters
 
@@ -1814,19 +1961,19 @@ ___
 
 #### Returns
 
-[`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+[`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 the sha256 hash of the given data
 
 #### Defined in
 
-[types/global.d.ts:697](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L697)
+[types/global.d.ts:725](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L725)
 
 ___
 
 ### sha3\_256
 
-▸ **sha3_256**(`data`): [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+▸ **sha3_256**(`data`): [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 #### Parameters
 
@@ -1836,19 +1983,19 @@ ___
 
 #### Returns
 
-[`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+[`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 sha3_256 hash of the given data
 
 #### Defined in
 
-[types/global.d.ts:840](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L840)
+[types/global.d.ts:868](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L868)
 
 ___
 
 ### sha512\_256
 
-▸ **sha512_256**(`data`): [`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+▸ **sha512_256**(`data`): [`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 #### Parameters
 
@@ -1858,13 +2005,13 @@ ___
 
 #### Returns
 
-[`StaticArray`](modules.md#staticarray)<[`byte`](modules.md#byte), ``32``\>
+[`StaticArray`](modules.md#staticarray)\<[`byte`](modules.md#byte), ``32``\>
 
 the sha512_256 hash of the given data
 
 #### Defined in
 
-[types/global.d.ts:703](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L703)
+[types/global.d.ts:731](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L731)
 
 ___
 
@@ -1886,7 +2033,7 @@ square root of the given uint64
 
 #### Defined in
 
-[types/global.d.ts:825](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L825)
+[types/global.d.ts:853](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L853)
 
 ___
 
@@ -1910,33 +2057,122 @@ Extracted bytes
 
 #### Defined in
 
-[types/global.d.ts:735](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L735)
+[types/global.d.ts:763](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L763)
 
 ___
 
-### templateVar
+### verifyAppCallTxn
 
-▸ **templateVar**<`TmplType`\>(`name`): `TmplType`
+▸ **verifyAppCallTxn**(`txn`, `params`): `any`
 
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `TmplType` | extends `number` \| [`bytes`](modules.md#bytes) |
+Verifies the fields of an app call transaction against the given parameters.
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `name` | `string` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `txn` | [`ThisTxnParams`](modules.md#thistxnparams) \| [`AppCallTxn`](modules.md#appcalltxn) \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `params` | [`AppCallTxnVerificationFields`](modules.md#appcalltxnverificationfields) | the transaction fields to verify in the given transaction |
 
 #### Returns
 
-`TmplType`
+`any`
 
 #### Defined in
 
-[types/global.d.ts:931](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L931)
+[types/global.d.ts:984](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L984)
+
+___
+
+### verifyAssetConfigTxn
+
+▸ **verifyAssetConfigTxn**(`txn`, `params`): `any`
+
+Verifies the fields of an asset config transaction against the given parameters.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `txn` | `Required`\<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\> \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `params` | [`AssetConfigTxnVerificationFields`](modules.md#assetconfigtxnverificationfields) | the transaction fields to verify in the given transaction |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+[types/global.d.ts:968](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L968)
+
+___
+
+### verifyAssetTransferTxn
+
+▸ **verifyAssetTransferTxn**(`txn`, `params`): `any`
+
+Verifies the fields of an asset transfer transaction against the given parameters.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `txn` | [`AssetTransferParams`](interfaces/AssetTransferParams.md) \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `params` | [`AssetTransferTxnVerificationFields`](modules.md#assettransfertxnverificationfields) | the transaction fields to verify in the given transaction |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+[types/global.d.ts:976](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L976)
+
+___
+
+### verifyKeyRegTxn
+
+▸ **verifyKeyRegTxn**(`txn`, `params`): `any`
+
+Verifies the fields of a key reg transaction against the given parameters.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `txn` | `Required`\<[`KeyRegParams`](interfaces/KeyRegParams.md)\> \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `params` | [`KeyRegTxnVerificationFields`](modules.md#keyregtxnverificationfields) | the transaction fields to verify in the given transaction |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+[types/global.d.ts:992](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L992)
+
+___
+
+### verifyPayTxn
+
+▸ **verifyPayTxn**(`txn`, `params`): `any`
+
+Verifies the fields of a pay transaction against the given parameters.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `txn` | `Required`\<[`PaymentParams`](interfaces/PaymentParams.md)\> \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `params` | [`PayTxnVerificationFields`](modules.md#paytxnverificationfields) | the transaction fields to verify in the given transaction |
+
+#### Returns
+
+`any`
+
+#### Defined in
+
+[types/global.d.ts:960](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L960)
 
 ___
 
@@ -1950,7 +2186,7 @@ Verifies the fields of a transaction against the given parameters.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `txn` | [`AssetTransferParams`](interfaces/AssetTransferParams.md) \| [`AssetFreezeParams`](interfaces/AssetFreezeParams.md) \| [`ThisTxnParams`](modules.md#thistxnparams) \| `Required`<[`PaymentParams`](interfaces/PaymentParams.md)\> \| [`AppCallTxn`](modules.md#appcalltxn) \| `Required`<[`KeyRegParams`](interfaces/KeyRegParams.md)\> \| `Required`<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\> \| [`Txn`](modules.md#txn) | the transaction to verify |
+| `txn` | [`AssetTransferParams`](interfaces/AssetTransferParams.md) \| [`AssetFreezeParams`](interfaces/AssetFreezeParams.md) \| [`ThisTxnParams`](modules.md#thistxnparams) \| `Required`\<[`PaymentParams`](interfaces/PaymentParams.md)\> \| [`AppCallTxn`](modules.md#appcalltxn) \| `Required`\<[`KeyRegParams`](interfaces/KeyRegParams.md)\> \| `Required`\<[`AssetConfigParams`](interfaces/AssetConfigParams.md)\> \| [`Txn`](modules.md#txn) | the transaction to verify |
 | `params` | [`TxnVerificationFields`](modules.md#txnverificationfields) | the transaction fields to verify in the given transaction |
 
 #### Returns
@@ -1959,7 +2195,7 @@ Verifies the fields of a transaction against the given parameters.
 
 #### Defined in
 
-[types/global.d.ts:871](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L871)
+[types/global.d.ts:949](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L949)
 
 ___
 
@@ -1986,4 +2222,4 @@ product of numerators divided by product of denominator
 
 #### Defined in
 
-[types/global.d.ts:857](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L857)
+[types/global.d.ts:935](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L935)

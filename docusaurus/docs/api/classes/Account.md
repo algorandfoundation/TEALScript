@@ -1,32 +1,40 @@
 ---
-id: "Address"
-title: "Class: Address"
-sidebar_label: "Address"
+id: "Account"
+title: "Class: Account"
+sidebar_label: "Account"
 sidebar_position: 0
 custom_edit_url: null
 ---
 
 ## Hierarchy
 
-- **`Address`**
+- [`Address`](Address.md)
 
-  ↳ [`Account`](Account.md)
+  ↳ **`Account`**
 
 ## Constructors
 
 ### constructor
 
-• **new Address**(): [`Address`](Address.md)
+• **new Account**(): [`Account`](Account.md)
 
 #### Returns
 
-[`Address`](Address.md)
+[`Account`](Account.md)
+
+#### Inherited from
+
+[Address](Address.md).[constructor](Address.md#constructor)
 
 ## Properties
 
 ### authAddr
 
 • `Readonly` **authAddr**: [`Address`](Address.md)
+
+#### Inherited from
+
+[Address](Address.md).[authAddr](Address.md#authaddr)
 
 #### Defined in
 
@@ -38,6 +46,10 @@ ___
 
 • `Readonly` **balance**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[balance](Address.md#balance)
+
 #### Defined in
 
 [types/global.d.ts:388](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L388)
@@ -47,6 +59,10 @@ ___
 ### hasBalance
 
 • `Readonly` **hasBalance**: [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[hasBalance](Address.md#hasbalance)
 
 #### Defined in
 
@@ -58,6 +74,10 @@ ___
 
 • `Readonly` **minBalance**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[minBalance](Address.md#minbalance)
+
 #### Defined in
 
 [types/global.d.ts:392](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L392)
@@ -67,6 +87,10 @@ ___
 ### totalAppsCreated
 
 • `Readonly` **totalAppsCreated**: [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[totalAppsCreated](Address.md#totalappscreated)
 
 #### Defined in
 
@@ -78,6 +102,10 @@ ___
 
 • `Readonly` **totalAppsOptedIn**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[totalAppsOptedIn](Address.md#totalappsoptedin)
+
 #### Defined in
 
 [types/global.d.ts:407](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L407)
@@ -87,6 +115,10 @@ ___
 ### totalAssets
 
 • `Readonly` **totalAssets**: [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[totalAssets](Address.md#totalassets)
 
 #### Defined in
 
@@ -98,6 +130,10 @@ ___
 
 • `Readonly` **totalAssetsCreated**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[totalAssetsCreated](Address.md#totalassetscreated)
+
 #### Defined in
 
 [types/global.d.ts:409](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L409)
@@ -107,6 +143,10 @@ ___
 ### totalBoxBytes
 
 • `Readonly` **totalBoxBytes**: [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[totalBoxBytes](Address.md#totalboxbytes)
 
 #### Defined in
 
@@ -118,6 +158,10 @@ ___
 
 • `Readonly` **totalBoxes**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[totalBoxes](Address.md#totalboxes)
+
 #### Defined in
 
 [types/global.d.ts:411](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L411)
@@ -127,6 +171,10 @@ ___
 ### totalExtraAppPages
 
 • `Readonly` **totalExtraAppPages**: [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[totalExtraAppPages](Address.md#totalextraapppages)
 
 #### Defined in
 
@@ -138,6 +186,10 @@ ___
 
 • `Readonly` **totalNumByteSlice**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[totalNumByteSlice](Address.md#totalnumbyteslice)
+
 #### Defined in
 
 [types/global.d.ts:401](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L401)
@@ -148,6 +200,10 @@ ___
 
 • `Readonly` **totalNumUint**: [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[totalNumUint](Address.md#totalnumuint)
+
 #### Defined in
 
 [types/global.d.ts:399](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L399)
@@ -157,6 +213,10 @@ ___
 ### zeroAddress
 
 ▪ `Static` `Readonly` **zeroAddress**: [`Address`](Address.md)
+
+#### Inherited from
+
+[Address](Address.md).[zeroAddress](Address.md#zeroaddress)
 
 #### Defined in
 
@@ -178,6 +238,10 @@ ___
 
 [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[assetBalance](Address.md#assetbalance)
+
 #### Defined in
 
 [types/global.d.ts:415](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L415)
@@ -197,6 +261,10 @@ ___
 #### Returns
 
 [`uint64`](../modules.md#uint64)
+
+#### Inherited from
+
+[Address](Address.md).[assetFrozen](Address.md#assetfrozen)
 
 #### Defined in
 
@@ -218,6 +286,10 @@ ___
 
 [`uint64`](../modules.md#uint64)
 
+#### Inherited from
+
+[Address](Address.md).[hasAsset](Address.md#hasasset)
+
 #### Defined in
 
 [types/global.d.ts:417](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L417)
@@ -238,6 +310,10 @@ ___
 
 `boolean`
 
+#### Inherited from
+
+[Address](Address.md).[isOptedInToApp](Address.md#isoptedintoapp)
+
 #### Defined in
 
 [types/global.d.ts:421](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L421)
@@ -257,6 +333,10 @@ ___
 #### Returns
 
 [`Address`](Address.md)
+
+#### Inherited from
+
+[Address](Address.md).[fromBytes](Address.md#frombytes)
 
 #### Defined in
 

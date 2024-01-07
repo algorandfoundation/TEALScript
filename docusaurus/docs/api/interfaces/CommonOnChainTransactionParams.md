@@ -8,7 +8,7 @@ custom_edit_url: null
 
 ## Hierarchy
 
-- `Required`<[`CommonTransactionParams`](CommonTransactionParams.md)\>
+- `Required`\<[`CommonTransactionParams`](CommonTransactionParams.md)\>
 
   ↳ **`CommonOnChainTransactionParams`**
 
@@ -26,7 +26,7 @@ Required.fee
 
 #### Defined in
 
-[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L488)
+[types/global.d.ts:512](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L512)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:495](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L495)
+[types/global.d.ts:519](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L519)
 
 ___
 
@@ -50,7 +50,7 @@ Required.note
 
 #### Defined in
 
-[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L491)
+[types/global.d.ts:515](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L515)
 
 ___
 
@@ -64,7 +64,7 @@ Required.rekeyTo
 
 #### Defined in
 
-[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L490)
+[types/global.d.ts:514](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L514)
 
 ___
 
@@ -78,7 +78,7 @@ Required.sender
 
 #### Defined in
 
-[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L489)
+[types/global.d.ts:513](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L513)
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:496](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L496)
+[types/global.d.ts:520](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L520)

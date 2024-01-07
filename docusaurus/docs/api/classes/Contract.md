@@ -10,7 +10,11 @@ custom_edit_url: null
 
 ### constructor
 
-• **new Contract**()
+• **new Contract**(): [`Contract`](Contract.md)
+
+#### Returns
+
+[`Contract`](Contract.md)
 
 ## Properties
 
@@ -20,70 +24,17 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/lib/contract.ts:68](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L68)
+[src/lib/contract.ts:77](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L77)
 
 ___
 
 ### itxn
 
-• **itxn**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `accounts?` | [`Address`](Address.md)[] |
-| `amount?` | [`uint64`](../modules.md#uint64) |
-| `applicationArgs?` | [`bytes`](../modules.md#bytes)[] |
-| `applicationID` | [`Application`](Application.md) |
-| `applications?` | [`Application`](Application.md)[] |
-| `approvalProgram?` | [`bytes`](../modules.md#bytes) |
-| `assetAmount?` | [`uint64`](../modules.md#uint64) |
-| `assetCloseTo?` | [`Address`](Address.md) |
-| `assetReceiver?` | [`Address`](Address.md) |
-| `assetSender?` | [`Address`](Address.md) |
-| `assets?` | [`Asset`](Asset.md)[] |
-| `clearStateProgram?` | [`bytes`](../modules.md#bytes) |
-| `closeRemainderTo?` | [`Address`](Address.md) |
-| `configAssetClawback?` | [`Address`](Address.md) |
-| `configAssetDecimals?` | [`uint64`](../modules.md#uint64) |
-| `configAssetDefaultFrozen?` | [`uint64`](../modules.md#uint64) |
-| `configAssetFreeze?` | [`Address`](Address.md) |
-| `configAssetManager?` | [`Address`](Address.md) |
-| `configAssetMetadataHash?` | [`bytes`](../modules.md#bytes) |
-| `configAssetName?` | [`bytes`](../modules.md#bytes) |
-| `configAssetReserve?` | [`Address`](Address.md) |
-| `configAssetTotal?` | [`uint64`](../modules.md#uint64) |
-| `configAssetURL?` | [`bytes`](../modules.md#bytes) |
-| `configAssetUnitName?` | [`bytes`](../modules.md#bytes) |
-| `createdApplicationID` | [`Application`](Application.md) |
-| `createdAssetID` | [`Asset`](Asset.md) |
-| `extraProgramPages?` | [`uint64`](../modules.md#uint64) |
-| `fee` | `Object` |
-| `globalNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `globalNumUint?` | [`uint64`](../modules.md#uint64) |
-| `groupIndex` | [`uint64`](../modules.md#uint64) |
-| `lastLog` | [`bytes`](../modules.md#bytes) |
-| `localNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `localNumUint?` | [`uint64`](../modules.md#uint64) |
-| `note` | `string` |
-| `numAccounts` | [`uint64`](../modules.md#uint64) |
-| `numAppArgs` | [`uint64`](../modules.md#uint64) |
-| `numApplicatons` | [`uint64`](../modules.md#uint64) |
-| `numApprovalProgrammPages` | [`uint64`](../modules.md#uint64) |
-| `numAssets` | [`uint64`](../modules.md#uint64) |
-| `numClearStateProgramPages` | [`uint64`](../modules.md#uint64) |
-| `numLogs` | [`uint64`](../modules.md#uint64) |
-| `onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` |
-| `receiver?` | [`Address`](Address.md) |
-| `rekeyTo` | [`Address`](Address.md) |
-| `sender` | [`Address`](Address.md) |
-| `txID` | `string` |
-| `xferAsset?` | [`Asset`](Asset.md) |
+• **itxn**: `ItxnParams`
 
 #### Defined in
 
-[src/lib/contract.ts:56](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L56)
+[src/lib/contract.ts:71](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L71)
 
 ___
 
@@ -93,51 +44,29 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:70](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L70)
+[src/lib/contract.ts:79](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L79)
+
+___
+
+### programVersion
+
+• **programVersion**: `number` = `9`
+
+The program version to use in the generated TEAL. This is the number used in the "#pragma version" directive
+
+#### Defined in
+
+[src/lib/contract.ts:69](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L69)
 
 ___
 
 ### txn
 
-• **txn**: `Object`
-
-#### Type declaration
-
-| Name | Type |
-| :------ | :------ |
-| `accounts?` | [`Address`](Address.md)[] |
-| `applicationArgs?` | [`bytes`](../modules.md#bytes)[] |
-| `applicationID` | [`Application`](Application.md) |
-| `applications?` | [`Application`](Application.md)[] |
-| `approvalProgram?` | [`bytes`](../modules.md#bytes) |
-| `assets?` | [`Asset`](Asset.md)[] |
-| `clearStateProgram?` | [`bytes`](../modules.md#bytes) |
-| `createdApplicationID` | [`Application`](Application.md) |
-| `createdAssetID` | [`Asset`](Asset.md) |
-| `extraProgramPages?` | [`uint64`](../modules.md#uint64) |
-| `fee` | `Object` |
-| `globalNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `globalNumUint?` | [`uint64`](../modules.md#uint64) |
-| `groupIndex` | [`uint64`](../modules.md#uint64) |
-| `lastLog` | [`bytes`](../modules.md#bytes) |
-| `localNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `localNumUint?` | [`uint64`](../modules.md#uint64) |
-| `note` | `string` |
-| `numAccounts` | [`uint64`](../modules.md#uint64) |
-| `numAppArgs` | [`uint64`](../modules.md#uint64) |
-| `numApplicatons` | [`uint64`](../modules.md#uint64) |
-| `numApprovalProgrammPages` | [`uint64`](../modules.md#uint64) |
-| `numAssets` | [`uint64`](../modules.md#uint64) |
-| `numClearStateProgramPages` | [`uint64`](../modules.md#uint64) |
-| `numLogs` | [`uint64`](../modules.md#uint64) |
-| `onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` |
-| `rekeyTo` | [`Address`](Address.md) |
-| `sender` | [`Address`](Address.md) |
-| `txID` | `string` |
+• **txn**: [`ThisTxnParams`](../modules.md#thistxnparams)
 
 #### Defined in
 
-[src/lib/contract.ts:64](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L64)
+[src/lib/contract.ts:73](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L73)
 
 ___
 
@@ -147,7 +76,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:66](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L66)
+[src/lib/contract.ts:75](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L75)
 
 ___
 
@@ -165,7 +94,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:41](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L41)
+[src/lib/contract.ts:53](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L53)
 
 ___
 
@@ -183,7 +112,41 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:43](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L43)
+[src/lib/contract.ts:55](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L55)
+
+___
+
+### extend
+
+▪ `Static` **extend**: \<T\>(...`types`: `T`) => `Polytype.ClusteredConstructor`\<`T`\>
+
+Create a contract class that inherits from the given contracts. Inheritance is in order of arguments.
+
+#### Type declaration
+
+▸ \<`T`\>(`...types`): `Polytype.ClusteredConstructor`\<`T`\>
+
+Create a contract class that inherits from the given contracts. Inheritance is in order of arguments.
+
+##### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends [`SuperConstructor`, ...SuperConstructor[]] |
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `...types` | `T` |
+
+##### Returns
+
+`Polytype.ClusteredConstructor`\<`T`\>
+
+#### Defined in
+
+[src/lib/contract.ts:51](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L51)
 
 ___
 
@@ -195,16 +158,16 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `global` | { `numByteSlice`: `number` ; `numUint`: `number`  } |
+| `global` | \{ `numByteSlice`: `number` ; `numUint`: `number`  } |
 | `global.numByteSlice` | `number` |
 | `global.numUint` | `number` |
-| `local` | { `numByteSlice`: `number` ; `numUint`: `number`  } |
+| `local` | \{ `numByteSlice`: `number` ; `numUint`: `number`  } |
 | `local.numByteSlice` | `number` |
 | `local.numUint` | `number` |
 
 #### Defined in
 
-[src/lib/contract.ts:45](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L45)
+[src/lib/contract.ts:57](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L57)
 
 ## Methods
 
@@ -222,7 +185,7 @@ reagrdless of logic.
 
 #### Defined in
 
-[src/lib/contract.ts:120](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L120)
+[src/lib/contract.ts:129](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L129)
 
 ___
 
@@ -245,7 +208,7 @@ will always throw an error
 
 #### Defined in
 
-[src/lib/contract.ts:111](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L111)
+[src/lib/contract.ts:120](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L120)
 
 ___
 
@@ -269,7 +232,7 @@ with any arguments.
 
 #### Defined in
 
-[src/lib/contract.ts:77](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L77)
+[src/lib/contract.ts:86](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L86)
 
 ___
 
@@ -292,7 +255,7 @@ always throw an error
 
 #### Defined in
 
-[src/lib/contract.ts:95](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L95)
+[src/lib/contract.ts:104](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L104)
 
 ___
 
@@ -315,7 +278,7 @@ always throw an error
 
 #### Defined in
 
-[src/lib/contract.ts:103](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L103)
+[src/lib/contract.ts:112](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L112)
 
 ___
 
@@ -338,4 +301,4 @@ always throw an error
 
 #### Defined in
 
-[src/lib/contract.ts:87](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L87)
+[src/lib/contract.ts:96](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L96)

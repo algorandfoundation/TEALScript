@@ -10,7 +10,11 @@ custom_edit_url: null
 
 ### constructor
 
-• **new abi**()
+• **new abi**(): [`abi`](abi.md)
+
+#### Returns
+
+[`abi`](abi.md)
 
 ## Properties
 
@@ -23,4 +27,4 @@ called via simulate to avoid fees
 
 #### Defined in
 
-[types/global.d.ts:909](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L909)
+[types/global.d.ts:1027](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1027)

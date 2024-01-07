@@ -10,35 +10,39 @@ custom_edit_url: null
 
 | Name | Type |
 | :------ | :------ |
-| `ArgumentTypes` | extends `any`[] |
+| `ArgumentTypes` | extends `Object` |
 
 ## Constructors
 
 ### constructor
 
-• **new EventLogger**<`ArgumentTypes`\>()
+• **new EventLogger**\<`ArgumentTypes`\>(): [`EventLogger`](EventLogger.md)\<`ArgumentTypes`\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `ArgumentTypes` | extends `any`[] |
+| `ArgumentTypes` | extends `Object` |
+
+#### Returns
+
+[`EventLogger`](EventLogger.md)\<`ArgumentTypes`\>
 
 #### Defined in
 
-[types/global.d.ts:438](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L438)
+[types/global.d.ts:459](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L459)
 
 ## Methods
 
 ### log
 
-▸ **log**(`...args`): `void`
+▸ **log**(`args`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `...args` | `ArgumentTypes` |
+| `args` | `ArgumentTypes` |
 
 #### Returns
 
@@ -46,4 +50,4 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:440](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L440)
+[types/global.d.ts:461](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L461)
