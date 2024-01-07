@@ -58,8 +58,8 @@ uintNComparison:
 
 	// tests/contracts/abi.algo.ts:1268
 	// return x >= y;
-	frame_dig -1 // x: uint<256>
-	frame_dig -2 // y: uint<256>
+	frame_dig -1 // x: uint256
+	frame_dig -2 // y: uint256
 	b>=
 	retsub
 

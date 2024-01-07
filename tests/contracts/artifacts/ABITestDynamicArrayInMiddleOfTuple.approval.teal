@@ -40,7 +40,7 @@ dynamicArrayInMiddleOfTuple:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:658
-	// a: [uint<16>, uint<8>[], uint<16>] = [1, [2], 3]
+	// a: [uint16, uint<8>[], uint16] = [1, [2], 3]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
@@ -52,11 +52,11 @@ dynamicArrayInMiddleOfTuple:
 	callsub process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint<16>, uint<8>[], uint<16>]
+	frame_bury 0 // a: [uint16, uint<8>[], uint16]
 
 	// tests/contracts/abi.algo.ts:660
 	// return a;
-	frame_dig 0 // a: [uint<16>, uint<8>[], uint<16>]
+	frame_dig 0 // a: [uint16, uint<8>[], uint16]
 
 	// set the subroutine return value
 	frame_bury 0

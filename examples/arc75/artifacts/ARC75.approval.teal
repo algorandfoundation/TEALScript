@@ -145,7 +145,7 @@ addAppToWhiteList:
 	byte 0x0024 // initial head offset
 	txn Sender
 	callsub process_static_tuple_element
-	frame_dig -2 // boxIndex: uint<16>
+	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: string
 	dup
@@ -276,7 +276,7 @@ setAppWhitelist:
 	byte 0x0024 // initial head offset
 	txn Sender
 	callsub process_static_tuple_element
-	frame_dig -2 // boxIndex: uint<16>
+	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: string
 	dup
@@ -386,7 +386,7 @@ deleteWhitelist:
 	byte 0x0024 // initial head offset
 	txn Sender
 	callsub process_static_tuple_element
-	frame_dig -2 // boxIndex: uint<16>
+	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: string
 	dup
@@ -465,7 +465,7 @@ deleteAppFromWhitelist:
 	byte 0x0024 // initial head offset
 	txn Sender
 	callsub process_static_tuple_element
-	frame_dig -2 // boxIndex: uint<16>
+	frame_dig -2 // boxIndex: uint16
 	callsub process_static_tuple_element
 	frame_dig -1 // arc: string
 	dup

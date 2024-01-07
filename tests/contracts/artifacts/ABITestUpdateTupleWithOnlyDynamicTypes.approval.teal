@@ -40,7 +40,7 @@ updateTupleWithOnlyDynamicTypes:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:574
-	// a: [uint<16>[], uint<16>[], uint<16>[]] = [[1], [2], [3]]
+	// a: [uint16[], uint16[], uint16[]] = [[1], [2], [3]]
 	byte 0x // initial head
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
@@ -52,11 +52,11 @@ updateTupleWithOnlyDynamicTypes:
 	callsub process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
-	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_bury 0 // a: [uint16[], uint16[], uint16[]]
 
 	// tests/contracts/abi.algo.ts:576
 	// a[0] = [4, 5]
-	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_dig 0 // a: [uint16[], uint16[], uint16[]]
 	store 255 // full array
 	int 0
 	dup
@@ -105,11 +105,11 @@ updateTupleWithOnlyDynamicTypes:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_bury 0 // a: [uint16[], uint16[], uint16[]]
 
 	// tests/contracts/abi.algo.ts:577
 	// a[1] = [6, 7]
-	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_dig 0 // a: [uint16[], uint16[], uint16[]]
 	store 255 // full array
 	int 2
 	dup
@@ -153,11 +153,11 @@ updateTupleWithOnlyDynamicTypes:
 	+ // head ofset
 	callsub update_dynamic_head
 	load 255 // full array
-	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_bury 0 // a: [uint16[], uint16[], uint16[]]
 
 	// tests/contracts/abi.algo.ts:578
 	// a[2] = [8, 9]
-	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_dig 0 // a: [uint16[], uint16[], uint16[]]
 	store 255 // full array
 	int 4
 	dup
@@ -196,11 +196,11 @@ updateTupleWithOnlyDynamicTypes:
 	store 255 // full array
 	callsub get_length_difference
 	load 255 // full array
-	frame_bury 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_bury 0 // a: [uint16[], uint16[], uint16[]]
 
 	// tests/contracts/abi.algo.ts:580
 	// return a;
-	frame_dig 0 // a: [uint<16>[], uint<16>[], uint<16>[]]
+	frame_dig 0 // a: [uint16[], uint16[], uint16[]]
 
 	// set the subroutine return value
 	frame_bury 0

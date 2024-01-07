@@ -40,7 +40,7 @@ angularCasting:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:1042
-	// x = <uint<256>>1337
+	// x = <uint256>1337
 	byte 0x0000000000000000000000000000000000000000000000000000000000000539
 	frame_bury 0 // x: uint256
 

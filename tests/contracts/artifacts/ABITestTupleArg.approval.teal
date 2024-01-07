@@ -46,7 +46,7 @@ tupleArg:
 
 	// tests/contracts/abi.algo.ts:342
 	// return a[1];
-	frame_dig -1 // a: [uint64, uint<16>, uint64]
+	frame_dig -1 // a: [uint64, uint16, uint64]
 	extract 8 2
 	retsub
 

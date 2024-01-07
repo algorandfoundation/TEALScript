@@ -41,13 +41,13 @@ arrayPopValue:
 	dup
 
 	// tests/contracts/abi.algo.ts:449
-	// a: uint<16>[] = [1, 2, 3]
+	// a: uint16[] = [1, 2, 3]
 	byte 0x000100020003
-	frame_bury 0 // a: uint<16>[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:451
 	// v = a.pop()!
-	frame_dig 0 // a: uint<16>[]
+	frame_dig 0 // a: uint16[]
 	dup
 	len
 	int 2
@@ -58,11 +58,11 @@ arrayPopValue:
 	dup
 	len
 	int 2
-	frame_dig 0 // a: uint<16>[]
+	frame_dig 0 // a: uint16[]
 	cover 2
 	extract3
 	swap
-	frame_bury 0 // a: uint<16>[]
+	frame_bury 0 // a: uint16[]
 	frame_bury 1 // v: uint16
 
 	// tests/contracts/abi.algo.ts:453
