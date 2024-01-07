@@ -945,6 +945,8 @@ export default class Compiler {
     if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
     if (typeString.startsWith('innermethodcall')) return { kind: 'base', type: 'appl' };
     if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
+    if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
+    if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
 
     if (type.isBoolean()) return { kind: 'base', type: 'bool' };
 

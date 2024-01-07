@@ -251,6 +251,8 @@ declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufi
 
 declare type byte = Brand<string, 'byte'>;
 declare type bytes = Brand<string, 'bytes'>;
+declare type bytes32 = StaticArray<byte, 32>;
+declare type bytes64 = StaticArray<byte, 64>;
 
 declare type TxnVerificationTests = {
   lessThan?: IntLike;
@@ -269,10 +271,10 @@ declare type CommonTxnVerificationFields = {
   firstValidTime?: IntLike | TxnVerificationTests;
   lastValid?: IntLike | TxnVerificationTests;
   note?: BytesLike | TxnVerificationTests;
-  lease?: StaticArray<byte, 32> | TxnVerificationTests;
+  lease?: bytes32 | TxnVerificationTests;
   rekeyTo?: Address | TxnVerificationTests;
   groupIndex?: IntLike | TxnVerificationTests;
-  txID?: StaticArray<byte, 32> | TxnVerificationTests;
+  txID?: bytes32 | TxnVerificationTests;
 };
 
 declare type PayTxnVerificationFields = CommonTxnVerificationFields & {
@@ -282,8 +284,8 @@ declare type PayTxnVerificationFields = CommonTxnVerificationFields & {
 };
 
 declare type KeyRegTxnVerificationFields = CommonTxnVerificationFields & {
-  votePK?: StaticArray<byte, 32> | TxnVerificationTests;
-  selectionPK?: StaticArray<byte, 32> | TxnVerificationTests;
+  votePK?: bytes32 | TxnVerificationTests;
+  selectionPK?: bytes32 | TxnVerificationTests;
   voteFirst?: IntLike | TxnVerificationTests;
   voteLast?: IntLike | TxnVerificationTests;
   voteKeyDilution?: IntLike | TxnVerificationTests;
@@ -306,7 +308,7 @@ declare type AssetConfigTxnVerificationFields = CommonTxnVerificationFields & {
   configAssetUnitName?: BytesLike | TxnVerificationTests;
   configAssetName?: BytesLike | TxnVerificationTests;
   configAssetURL?: BytesLike | TxnVerificationTests;
-  configAssetMetadataHash?: StaticArray<byte, 32> | TxnVerificationTests;
+  configAssetMetadataHash?: bytes32 | TxnVerificationTests;
   configAssetManager?: Address | TxnVerificationTests;
   configAssetReserve?: Address | TxnVerificationTests;
   configAssetFreeze?: Address | TxnVerificationTests;
@@ -727,13 +729,13 @@ declare function itob(int: IntLike): bytes;
 declare function log(content: BytesLike): void;
 
 /** @returns the sha256 hash of the given data */
-declare function sha256(data: BytesLike): StaticArray<byte, 32>;
+declare function sha256(data: BytesLike): bytes32;
 
 /** @returns the keccak256 hash of the given data */
-declare function keccak256(data: BytesLike): StaticArray<byte, 32>;
+declare function keccak256(data: BytesLike): bytes32;
 
 /** @returns the sha512_256 hash of the given data */
-declare function sha512_256(data: BytesLike): StaticArray<byte, 32>;
+declare function sha512_256(data: BytesLike): bytes32;
 
 /**
  *
@@ -870,7 +872,7 @@ declare function bsqrt(arg0: uint<widths>): uint<widths>;
 declare function divw(dividendHigh: IntLike, dividendLow: IntLike, divisor: IntLike): uint64;
 
 /** @returns sha3_256 hash of the given data */
-declare function sha3_256(data: BytesLike): StaticArray<byte, 32>;
+declare function sha3_256(data: BytesLike): bytes32;
 
 /**
  *
@@ -885,7 +887,7 @@ declare function sha3_256(data: BytesLike): StaticArray<byte, 32>;
  */
 declare function ecdsa_verify(
   curve: 'Secp256k1' | 'Secp256r1',
-  data: StaticArray<byte, 32>,
+  data: bytes32,
   sSignatureComponent: uint<256>,
   rSignatureComponent: uint<256>,
   xPubkeyComponent: uint<256>,
@@ -916,7 +918,7 @@ declare function ecdsa_pk_decompress(
  */
 declare function ecdsa_pk_recover(
   curve: 'Secp256k1' | 'Secp256r1',
-  data: StaticArray<byte, 32>,
+  data: bytes32,
   recoveryID: uint64,
   sSignatureComponent: uint<256>,
   rSignatureComponent: uint<256>

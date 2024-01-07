@@ -168,9 +168,9 @@ class GeneralTest extends Contract {
   }
 
   ecdsa(): [uint256, uint256] {
-    ecdsa_verify('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3, 4);
+    ecdsa_verify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
     ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>);
-    return ecdsa_pk_recover('Secp256k1', '' as StaticArray<byte, 32>, 1, 2, 3);
+    return ecdsa_pk_recover('Secp256k1', '' as bytes32, 1, 2, 3);
   }
 
   verifyTxnTypes(): void {
