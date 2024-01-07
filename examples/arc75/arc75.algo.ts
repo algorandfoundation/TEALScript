@@ -1,6 +1,6 @@
 import { Contract } from '../../src/lib/index';
 
-type Whitelist = { account: Address; boxIndex: uint<16>; arc: string };
+type Whitelist = { account: Address; boxIndex: uint16; arc: string };
 
 // eslint-disable-next-line no-unused-vars
 class ARC75 extends Contract {
@@ -29,7 +29,7 @@ class ARC75 extends Contract {
    * @param payment - The payment transaction to cover the MBR change
    *
    */
-  addAppToWhiteList(arc: string, boxIndex: uint<16>, appID: uint64, payment: PayTxn): void {
+  addAppToWhiteList(arc: string, boxIndex: uint16, appID: uint64, payment: PayTxn): void {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
@@ -51,7 +51,7 @@ class ARC75 extends Contract {
    * @param appIDs - Array of app IDs that signify the whitelisted apps
    *
    */
-  setAppWhitelist(arc: string, boxIndex: uint<16>, appIDs: uint64[]): void {
+  setAppWhitelist(arc: string, boxIndex: uint16, appIDs: uint64[]): void {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
@@ -73,7 +73,7 @@ class ARC75 extends Contract {
    * @param boxIndex - The index of the whitelist box to delete
    *
    */
-  deleteWhitelist(arc: string, boxIndex: uint<16>): void {
+  deleteWhitelist(arc: string, boxIndex: uint16): void {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 
@@ -90,7 +90,7 @@ class ARC75 extends Contract {
    * @param index - The index of the app in the whitelist
    *
    */
-  deleteAppFromWhitelist(arc: string, boxIndex: uint<16>, appID: uint64, index: uint64): void {
+  deleteAppFromWhitelist(arc: string, boxIndex: uint16, appID: uint64, index: uint64): void {
     const preMBR = this.app.address.minBalance;
     const whitelist: Whitelist = { account: this.txn.sender, boxIndex: boxIndex, arc: arc };
 

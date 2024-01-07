@@ -6,7 +6,7 @@ import {
   MY_CONST as EXTERNAL_CONST,
 } from './inheritance-external.algo';
 
-type CustomType = uint<256>;
+type CustomType = uint256;
 const MY_CONST = 456;
 
 export class A extends Contract {
@@ -52,7 +52,7 @@ export class E extends ExternalContract {
   e(): void {
     const val: ExternalCustomType = <ExternalCustomType>123;
     assert(this.externalKey.value === val);
-    const x = <uint<256>>321;
+    const x = <uint256>321;
     const y = <CustomType>321;
 
     assert(x === y);

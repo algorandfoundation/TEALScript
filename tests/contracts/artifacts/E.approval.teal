@@ -76,7 +76,7 @@ e:
 	assert
 
 	// tests/contracts/inheritance.algo.ts:55
-	// x = <uint<256>>321
+	// x = <uint256>321
 	byte 0x0000000000000000000000000000000000000000000000000000000000000141
 	frame_bury 1 // x: uint256
 

@@ -7,9 +7,9 @@ type Control = { owner: Address; controller: Address };
 
 // eslint-disable-next-line no-unused-vars
 class ARC72 extends Contract {
-  index = GlobalStateKey<uint<256>>();
+  index = GlobalStateKey<uint256>();
 
-  tokenBox = BoxMap<uint<256>, Token>();
+  tokenBox = BoxMap<uint256, Token>();
 
   controlBox = BoxMap<Control, bytes>();
 
@@ -21,7 +21,7 @@ class ARC72 extends Contract {
    * @returns The current owner of the NFT
    */
   @abi.readonly
-  arc72_ownerOf(tokenId: uint<256>): Address {
+  arc72_ownerOf(tokenId: uint256): Address {
     return this.tokenBox(tokenId).value.owner;
   }
 
@@ -33,18 +33,18 @@ class ARC72 extends Contract {
    * @returns URI to token metadata
    */
   @abi.readonly
-  arc72_tokenURI(tokenId: uint<256>): Bytes256 {
+  arc72_tokenURI(tokenId: uint256): Bytes256 {
     return this.tokenBox(tokenId).value.uri;
   }
 
-  private transferTo(to: Address, tokenId: uint<256>): void {
+  private transferTo(to: Address, tokenId: uint256): void {
     this.tokenBox(tokenId).value.owner = to;
   }
 
   /**
    * Transfers ownership of an NFT
    */
-  arc72_transferFrom(_from: Address, to: Address, tokenId: uint<256>): void {
+  arc72_transferFrom(_from: Address, to: Address, tokenId: uint256): void {
     const token = this.tokenBox(tokenId).value;
 
     const key: Control = { owner: this.txn.sender, controller: _from };
@@ -61,7 +61,7 @@ class ARC72 extends Contract {
    * @param approved Approved controller address
    * @param tokenId The ID of the NFT
    */
-  arc72_approve(approved: Address, tokenId: uint<256>): void {
+  arc72_approve(approved: Address, tokenId: uint256): void {
     this.tokenBox(tokenId).value.controller = approved;
   }
 
@@ -98,7 +98,7 @@ class ARC72 extends Contract {
    * Returns the number of NFTs currently defined by this contract
    */
   @abi.readonly
-  arc72_totalSupply(): uint<256> {
+  arc72_totalSupply(): uint256 {
     return this.index.value;
   }
 
@@ -106,7 +106,7 @@ class ARC72 extends Contract {
    * Returns the token ID of the token with the given index among all NFTs defined by the contract
    */
   @abi.readonly
-  arc72_tokenByIndex(index: uint<256>): uint<256> {
+  arc72_tokenByIndex(index: uint256): uint256 {
     return index;
   }
 }

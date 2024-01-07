@@ -40,13 +40,13 @@ returnTuple:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:335
-	// a: [uint64, uint<16>, uint64] = [11, 22, 33]
+	// a: [uint64, uint16, uint64] = [11, 22, 33]
 	byte 0x000000000000000b00160000000000000021
-	frame_bury 0 // a: [uint64, uint<16>, uint64]
+	frame_bury 0 // a: [uint64, uint16, uint64]
 
 	// tests/contracts/abi.algo.ts:336
 	// return a;
-	frame_dig 0 // a: [uint64, uint<16>, uint64]
+	frame_dig 0 // a: [uint64, uint16, uint64]
 
 	// set the subroutine return value
 	frame_bury 0

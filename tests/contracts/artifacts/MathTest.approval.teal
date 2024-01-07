@@ -177,9 +177,9 @@ u256plus:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:24
-	// return <uint<256>>(a + b);
-	frame_dig -1 // a: uint<256>
-	frame_dig -2 // b: uint<256>
+	// return <uint256>(a + b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
 	b+
 	dup
 	bitlen
@@ -229,9 +229,9 @@ u256minus:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:28
-	// return <uint<256>>(a - b);
-	frame_dig -1 // a: uint<256>
-	frame_dig -2 // b: uint<256>
+	// return <uint256>(a - b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
 	b-
 	dup
 	bitlen
@@ -281,9 +281,9 @@ u256mul:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:32
-	// return <uint<256>>(a * b);
-	frame_dig -1 // a: uint<256>
-	frame_dig -2 // b: uint<256>
+	// return <uint256>(a * b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
 	b*
 	dup
 	bitlen
@@ -333,9 +333,9 @@ u256div:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:36
-	// return <uint<256>>(a / b);
-	frame_dig -1 // a: uint<256>
-	frame_dig -2 // b: uint<256>
+	// return <uint256>(a / b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
 	b/
 	dup
 	bitlen
@@ -377,7 +377,7 @@ u64Return256:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:40
-	// return <uint<256>>(a + b);
+	// return <uint256>(a + b);
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
 	+
@@ -478,7 +478,7 @@ variableTypeHint:
 	byte 0x
 
 	// tests/contracts/math.algo.ts:53
-	// z = <uint<16>>(x + y)
+	// z = <uint16>(x + y)
 	frame_dig -1 // x: uint<8>
 	btoi
 	frame_dig -2 // y: uint<8>
@@ -994,7 +994,7 @@ boxTest:
 	proto 0 1
 
 	// tests/contracts/math.algo.ts:107
-	// this.boxKey.value = <uint<256>>1
+	// this.boxKey.value = <uint256>1
 	byte 0x626f784b6579 // "boxKey"
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001
 	box_put

@@ -40,13 +40,13 @@ simpleTuple:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:257
-	// a: [uint64, uint<16>, uint64, uint<16>] = [11, 22, 33, 44]
+	// a: [uint64, uint16, uint64, uint16] = [11, 22, 33, 44]
 	byte 0x000000000000000b00160000000000000021002c
-	frame_bury 0 // a: [uint64, uint<16>, uint64, uint<16>]
+	frame_bury 0 // a: [uint64, uint16, uint64, uint16]
 
 	// tests/contracts/abi.algo.ts:259
 	// return a[3];
-	frame_dig 0 // a: [uint64, uint<16>, uint64, uint<16>]
+	frame_dig 0 // a: [uint64, uint16, uint64, uint16]
 	extract 18 2
 
 	// set the subroutine return value

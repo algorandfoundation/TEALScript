@@ -15,11 +15,11 @@ export default class Simple extends Contract {
     this.counter.value = this.counter.value - i;
   }
 
-  add(a: uint<256>, b: uint<256>): uint<256> {
+  add(a: uint256, b: uint256): uint256 {
     return a + b;
   }
 
-  sub(a: uint<256>, b: uint<256>): uint<256> {
+  sub(a: uint256, b: uint256): uint256 {
     return a - b;
   }
 

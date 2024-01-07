@@ -40,13 +40,13 @@ partialStaticArray:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:859
-	// a: StaticArray<uint<16>, 3> = [1]
+	// a: StaticArray<uint16, 3> = [1]
 	byte 0x000100000000
-	frame_bury 0 // a: StaticArray<uint<16>, 3>
+	frame_bury 0 // a: StaticArray<uint16, 3>
 
 	// tests/contracts/abi.algo.ts:861
 	// return a;
-	frame_dig 0 // a: StaticArray<uint<16>, 3>
+	frame_dig 0 // a: StaticArray<uint16, 3>
 
 	// set the subroutine return value
 	frame_bury 0

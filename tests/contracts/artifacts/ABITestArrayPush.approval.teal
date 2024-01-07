@@ -48,20 +48,20 @@ arrayPush:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:429
-	// a: uint<16>[] = [1, 2]
+	// a: uint16[] = [1, 2]
 	byte 0x00010002
-	frame_bury 0 // a: uint<16>[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:431
-	// a.push(3 as uint<16>)
-	frame_dig 0 // a: uint<16>[]
+	// a.push(3 as uint16)
+	frame_dig 0 // a: uint16[]
 	byte 0x0003
 	concat
-	frame_bury 0 // a: uint<16>[]
+	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:433
 	// return a;
-	frame_dig 0 // a: uint<16>[]
+	frame_dig 0 // a: uint16[]
 
 	// set the subroutine return value
 	frame_bury 0
