@@ -73,7 +73,7 @@ You can use standard math operators (`+`, `-`, `/`, `*`, `%`) on any type of num
 
 ### Overflows
 
-During runtime, there will be an overflow check upon storage of values, returning values, or type casting. This means there is no type checking of intermediate values of math operations, with the exception of uint64 math. This means the following example will NOT throw an error, even though the intermediate value of `a + b` is larger than the max `uint8` value. 
+During runtime, there will be an overflow check upon storage of values, returning values, or type casting. This means there is no type checking of intermediate values of math operations. This means the following example will NOT throw an error, even though the intermediate value of `a + b` is larger than the max `uint8` value. 
 
 ```ts
 const a: uint8 = 255
