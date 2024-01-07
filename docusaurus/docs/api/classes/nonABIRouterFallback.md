@@ -10,13 +10,17 @@ custom_edit_url: null
 
 ### constructor
 
-• **new nonABIRouterFallback**()
+• **new nonABIRouterFallback**(): [`nonABIRouterFallback`](nonABIRouterFallback.md)
+
+#### Returns
+
+[`nonABIRouterFallback`](nonABIRouterFallback.md)
 
 ## Methods
 
 ### call
 
-▸ `Static` **call**(`onComplete`): [`decorator`](../modules.md#decorator)
+▸ **call**(`onComplete`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -30,13 +34,13 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:897](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L897)
+[types/global.d.ts:1015](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1015)
 
 ___
 
 ### create
 
-▸ `Static` **create**(`onComplete?`): [`decorator`](../modules.md#decorator)
+▸ **create**(`onComplete?`): [`decorator`](../modules.md#decorator)
 
 #### Parameters
 
@@ -50,4 +54,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:901](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L901)
+[types/global.d.ts:1019](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1019)

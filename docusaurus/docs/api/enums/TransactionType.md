@@ -14,7 +14,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:928](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L928)
+[types/global.d.ts:1043](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1043)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:925](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L925)
+[types/global.d.ts:1040](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1040)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:927](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L927)
+[types/global.d.ts:1042](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1042)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:926](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L926)
+[types/global.d.ts:1041](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1041)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:924](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L924)
+[types/global.d.ts:1039](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1039)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:923](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L923)
+[types/global.d.ts:1038](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1038)
 
 ___
 
@@ -74,4 +74,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:922](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L922)
+[types/global.d.ts:1037](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L1037)

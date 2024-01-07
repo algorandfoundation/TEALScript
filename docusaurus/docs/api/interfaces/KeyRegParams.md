@@ -16,7 +16,7 @@ custom_edit_url: null
 
 ### fee
 
-• `Optional` **fee**: [`uint64`](../modules.md#uint64)
+• `Optional` **fee**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Inherited from
 
@@ -24,7 +24,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L488)
+[types/global.d.ts:512](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L512)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L491)
+[types/global.d.ts:515](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L515)
 
 ___
 
@@ -52,17 +52,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L490)
+[types/global.d.ts:514](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L514)
 
 ___
 
 ### selectionPK
 
-• `Optional` **selectionPK**: [`bytes`](../modules.md#bytes)
+• `Optional` **selectionPK**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:580](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L580)
+[types/global.d.ts:608](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L608)
 
 ___
 
@@ -76,54 +76,54 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L489)
+[types/global.d.ts:513](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L513)
 
 ___
 
 ### stateProofPk
 
-• `Optional` **stateProofPk**: [`bytes`](../modules.md#bytes)
+• `Optional` **stateProofPk**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:581](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L581)
+[types/global.d.ts:609](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L609)
 
 ___
 
 ### voteFirst
 
-• `Optional` **voteFirst**: [`uint64`](../modules.md#uint64)
+• `Optional` **voteFirst**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:582](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L582)
+[types/global.d.ts:610](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L610)
 
 ___
 
 ### voteKeyDilution
 
-• `Optional` **voteKeyDilution**: [`uint64`](../modules.md#uint64)
+• `Optional` **voteKeyDilution**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:584](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L584)
+[types/global.d.ts:612](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L612)
 
 ___
 
 ### voteLast
 
-• `Optional` **voteLast**: [`uint64`](../modules.md#uint64)
+• `Optional` **voteLast**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:583](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L583)
+[types/global.d.ts:611](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L611)
 
 ___
 
 ### votePk
 
-• `Optional` **votePk**: [`bytes`](../modules.md#bytes)
+• `Optional` **votePk**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:579](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L579)
+[types/global.d.ts:607](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L607)

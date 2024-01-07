@@ -10,7 +10,11 @@ custom_edit_url: null
 
 ### constructor
 
-• **new Application**()
+• **new Application**(): [`Application`](Application.md)
+
+#### Returns
+
+[`Application`](Application.md)
 
 ## Properties
 
@@ -20,7 +24,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:430](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L430)
+[types/global.d.ts:451](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L451)
 
 ___
 
@@ -30,7 +34,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:414](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L414)
+[types/global.d.ts:435](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L435)
 
 ___
 
@@ -40,7 +44,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:416](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L416)
+[types/global.d.ts:437](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L437)
 
 ___
 
@@ -50,7 +54,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:428](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L428)
+[types/global.d.ts:449](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L449)
 
 ___
 
@@ -60,7 +64,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:426](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L426)
+[types/global.d.ts:447](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L447)
 
 ___
 
@@ -70,7 +74,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:420](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L420)
+[types/global.d.ts:441](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L441)
 
 ___
 
@@ -80,7 +84,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:418](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L418)
+[types/global.d.ts:439](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L439)
+
+___
+
+### id
+
+• `Readonly` **id**: [`uint64`](../modules.md#uint64)
+
+#### Defined in
+
+[types/global.d.ts:431](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L431)
 
 ___
 
@@ -90,7 +104,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:424](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L424)
+[types/global.d.ts:445](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L445)
 
 ___
 
@@ -100,7 +114,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:422](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L422)
+[types/global.d.ts:443](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L443)
 
 ___
 
@@ -110,13 +124,13 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:412](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L412)
+[types/global.d.ts:433](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L433)
 
 ## Methods
 
-### global
+### globalState
 
-▸ **global**(`key`): `any`
+▸ **globalState**(`key`): `unknown`
 
 #### Parameters
 
@@ -126,17 +140,38 @@ ___
 
 #### Returns
 
-`any`
+`unknown`
 
 #### Defined in
 
-[types/global.d.ts:433](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L433)
+[types/global.d.ts:453](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L453)
+
+___
+
+### localState
+
+▸ **localState**(`account`, `key`): `unknown`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `account` | [`Address`](Address.md) |
+| `key` | [`BytesLike`](../modules.md#byteslike) |
+
+#### Returns
+
+`unknown`
+
+#### Defined in
+
+[types/global.d.ts:455](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L455)
 
 ___
 
 ### fromID
 
-▸ `Static` **fromID**(`appID`): [`Application`](Application.md)
+▸ **fromID**(`appID`): [`Application`](Application.md)
 
 #### Parameters
 
@@ -150,4 +185,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:410](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L410)
+[types/global.d.ts:429](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L429)

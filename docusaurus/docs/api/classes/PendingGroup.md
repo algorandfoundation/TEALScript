@@ -10,7 +10,11 @@ custom_edit_url: null
 
 ### constructor
 
-• **new PendingGroup**()
+• **new PendingGroup**(): [`PendingGroup`](PendingGroup.md)
+
+#### Returns
+
+[`PendingGroup`](PendingGroup.md)
 
 ## Methods
 
@@ -27,17 +31,17 @@ custom_edit_url: null
 | `params.applicationArgs?` | [`bytes`](../modules.md#bytes)[] |
 | `params.applicationID?` | [`Application`](Application.md) |
 | `params.applications?` | [`Application`](Application.md)[] |
-| `params.approvalProgram?` | [`bytes`](../modules.md#bytes) |
+| `params.approvalProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
 | `params.assets?` | [`Asset`](Asset.md)[] |
-| `params.clearStateProgram?` | [`bytes`](../modules.md#bytes) |
-| `params.extraProgramPages?` | [`uint64`](../modules.md#uint64) |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
-| `params.globalNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `params.globalNumUint?` | [`uint64`](../modules.md#uint64) |
-| `params.localNumByteSlice?` | [`uint64`](../modules.md#uint64) |
-| `params.localNumUint?` | [`uint64`](../modules.md#uint64) |
+| `params.clearStateProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.extraProgramPages?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.globalNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.globalNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.localNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.localNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
-| `params.onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` |
+| `params.onCompletion?` | [`NoOp`](../enums/OnCompletion.md#noop) \| [`OptIn`](../enums/OnCompletion.md#optin) \| [`CloseOut`](../enums/OnCompletion.md#closeout) \| [`ClearState`](../enums/OnCompletion.md#clearstate) \| [`UpdateApplication`](../enums/OnCompletion.md#updateapplication) \| [`DeleteApplication`](../enums/OnCompletion.md#deleteapplication) |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
 
@@ -47,7 +51,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/lib/contract.ts:23](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L23)
+[src/lib/contract.ts:24](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L24)
 
 ___
 
@@ -65,7 +69,7 @@ ___
 | `params.configAssetFreeze?` | [`Address`](Address.md) |
 | `params.configAssetManager?` | [`Address`](Address.md) |
 | `params.configAssetReserve?` | [`Address`](Address.md) |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
@@ -76,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:33](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L33)
+[src/lib/contract.ts:34](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L34)
 
 ___
 
@@ -90,17 +94,17 @@ ___
 | :------ | :------ |
 | `params` | `Object` |
 | `params.configAssetClawback?` | [`Address`](Address.md) |
-| `params.configAssetDecimals?` | [`uint64`](../modules.md#uint64) |
-| `params.configAssetDefaultFrozen?` | [`uint64`](../modules.md#uint64) |
+| `params.configAssetDecimals?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
+| `params.configAssetDefaultFrozen?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.configAssetFreeze?` | [`Address`](Address.md) |
 | `params.configAssetManager?` | [`Address`](Address.md) |
-| `params.configAssetMetadataHash?` | [`bytes`](../modules.md#bytes) |
-| `params.configAssetName?` | [`bytes`](../modules.md#bytes) |
+| `params.configAssetMetadataHash?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.configAssetName?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
 | `params.configAssetReserve?` | [`Address`](Address.md) |
 | `params.configAssetTotal` | [`uint64`](../modules.md#uint64) |
-| `params.configAssetURL?` | [`bytes`](../modules.md#bytes) |
-| `params.configAssetUnitName?` | [`bytes`](../modules.md#bytes) |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.configAssetURL?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.configAssetUnitName?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
@@ -111,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:27](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L27)
+[src/lib/contract.ts:28](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L28)
 
 ___
 
@@ -124,7 +128,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.freezeAsset` | [`Asset`](Asset.md) |
 | `params.freezeAssetAccount` | [`Address`](Address.md) |
 | `params.freezeAssetFrozen` | `boolean` |
@@ -138,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:35](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L35)
+[src/lib/contract.ts:36](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L36)
 
 ___
 
@@ -155,7 +159,7 @@ ___
 | `params.assetCloseTo?` | [`Address`](Address.md) |
 | `params.assetReceiver` | [`Address`](Address.md) |
 | `params.assetSender?` | [`Address`](Address.md) |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
@@ -167,13 +171,13 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:25](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L25)
+[src/lib/contract.ts:26](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L26)
 
 ___
 
 ### addMethodCall
 
-▸ **addMethodCall**<`ArgsType`, `ReturnType`\>(`params`): `void`
+▸ **addMethodCall**\<`ArgsType`, `ReturnType`\>(`params`): `void`
 
 Adds ABI method to the pending transaction group. The two type arguments in combination with the
 name argument are used to form the the method signature to ensure typesafety.
@@ -194,19 +198,19 @@ name argument are used to form the the method signature to ensure typesafety.
 | `params.applicationArgs?` | [`bytes`](../modules.md#bytes)[] | - |
 | `params.applicationID?` | [`Application`](Application.md) | - |
 | `params.applications?` | [`Application`](Application.md)[] | - |
-| `params.approvalProgram?` | [`bytes`](../modules.md#bytes) | - |
+| `params.approvalProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } | - |
 | `params.assets?` | [`Asset`](Asset.md)[] | - |
-| `params.clearStateProgram?` | [`bytes`](../modules.md#bytes) | - |
-| `params.extraProgramPages?` | [`uint64`](../modules.md#uint64) | - |
-| `params.fee?` | [`uint64`](../modules.md#uint64) | - |
-| `params.globalNumByteSlice?` | [`uint64`](../modules.md#uint64) | - |
-| `params.globalNumUint?` | [`uint64`](../modules.md#uint64) | - |
-| `params.localNumByteSlice?` | [`uint64`](../modules.md#uint64) | - |
-| `params.localNumUint?` | [`uint64`](../modules.md#uint64) | - |
+| `params.clearStateProgram?` | `string` \| `string` & \{ `__brand?`: ``"bytes"``  } | - |
+| `params.extraProgramPages?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.globalNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.globalNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.localNumByteSlice?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
+| `params.localNumUint?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } | - |
 | `params.methodArgs?` | `ArgsType` | ABI method arguments |
 | `params.name` | `string` | Name of the ABI method |
 | `params.note?` | `string` | - |
-| `params.onCompletion?` | ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"`` | - |
+| `params.onCompletion?` | [`NoOp`](../enums/OnCompletion.md#noop) \| [`OptIn`](../enums/OnCompletion.md#optin) \| [`CloseOut`](../enums/OnCompletion.md#closeout) \| [`ClearState`](../enums/OnCompletion.md#clearstate) \| [`UpdateApplication`](../enums/OnCompletion.md#updateapplication) \| [`DeleteApplication`](../enums/OnCompletion.md#deleteapplication) | - |
 | `params.rekeyTo?` | [`Address`](Address.md) | - |
 | `params.sender?` | [`Address`](Address.md) | - |
 
@@ -216,7 +220,7 @@ name argument are used to form the the method signature to ensure typesafety.
 
 #### Defined in
 
-[src/lib/contract.ts:19](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L19)
+[src/lib/contract.ts:20](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L20)
 
 ___
 
@@ -229,7 +233,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
@@ -240,7 +244,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:31](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L31)
+[src/lib/contract.ts:32](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L32)
 
 ___
 
@@ -253,7 +257,7 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.selectionPK` | [`bytes`](../modules.md#bytes) |
@@ -270,7 +274,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:29](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L29)
+[src/lib/contract.ts:30](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L30)
 
 ___
 
@@ -283,11 +287,11 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `params` | `Object` |
-| `params.amount` | [`uint64`](../modules.md#uint64) |
+| `params.amount?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.closeRemainderTo?` | [`Address`](Address.md) |
-| `params.fee?` | [`uint64`](../modules.md#uint64) |
+| `params.fee?` | `number` \| `number` & \{ `__brand?`: ``"uint64"``  } |
 | `params.note?` | `string` |
-| `params.receiver` | [`Address`](Address.md) |
+| `params.receiver?` | [`Address`](Address.md) |
 | `params.rekeyTo?` | [`Address`](Address.md) |
 | `params.sender?` | [`Address`](Address.md) |
 
@@ -297,7 +301,7 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:21](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L21)
+[src/lib/contract.ts:22](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L22)
 
 ___
 
@@ -311,4 +315,4 @@ ___
 
 #### Defined in
 
-[src/lib/contract.ts:37](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/src/lib/contract.ts#L37)
+[src/lib/contract.ts:38](https://github.com/algorandfoundation/tealscript/blob/d1eab388/src/lib/contract.ts#L38)

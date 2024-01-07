@@ -22,7 +22,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:565](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L565)
+[types/global.d.ts:593](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L593)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:567](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L567)
+[types/global.d.ts:595](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L595)
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:556](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L556)
+[types/global.d.ts:591](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L591)
 
 ___
 
@@ -52,17 +52,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:569](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L569)
+[types/global.d.ts:597](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L597)
 
 ___
 
 ### approvalProgram
 
-• `Optional` **approvalProgram**: [`bytes`](../modules.md#bytes)
+• `Optional` **approvalProgram**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:566](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L566)
+[types/global.d.ts:594](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L594)
 
 ___
 
@@ -72,33 +72,33 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:570](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L570)
+[types/global.d.ts:598](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L598)
 
 ___
 
 ### clearStateProgram
 
-• `Optional` **clearStateProgram**: [`bytes`](../modules.md#bytes)
+• `Optional` **clearStateProgram**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:568](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L568)
+[types/global.d.ts:596](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L596)
 
 ___
 
 ### extraProgramPages
 
-• `Optional` **extraProgramPages**: [`uint64`](../modules.md#uint64)
+• `Optional` **extraProgramPages**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:575](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L575)
+[types/global.d.ts:603](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L603)
 
 ___
 
 ### fee
 
-• `Optional` **fee**: [`uint64`](../modules.md#uint64)
+• `Optional` **fee**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Inherited from
 
@@ -106,47 +106,47 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L488)
+[types/global.d.ts:512](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L512)
 
 ___
 
 ### globalNumByteSlice
 
-• `Optional` **globalNumByteSlice**: [`uint64`](../modules.md#uint64)
+• `Optional` **globalNumByteSlice**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:571](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L571)
+[types/global.d.ts:599](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L599)
 
 ___
 
 ### globalNumUint
 
-• `Optional` **globalNumUint**: [`uint64`](../modules.md#uint64)
+• `Optional` **globalNumUint**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:572](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L572)
+[types/global.d.ts:600](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L600)
 
 ___
 
 ### localNumByteSlice
 
-• `Optional` **localNumByteSlice**: [`uint64`](../modules.md#uint64)
+• `Optional` **localNumByteSlice**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:573](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L573)
+[types/global.d.ts:601](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L601)
 
 ___
 
 ### localNumUint
 
-• `Optional` **localNumUint**: [`uint64`](../modules.md#uint64)
+• `Optional` **localNumUint**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:574](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L574)
+[types/global.d.ts:602](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L602)
 
 ___
 
@@ -160,17 +160,17 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L491)
+[types/global.d.ts:515](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L515)
 
 ___
 
 ### onCompletion
 
-• `Optional` **onCompletion**: ``"NoOp"`` \| ``"OptIn"`` \| ``"CloseOut"`` \| ``"ClearState"`` \| ``"UpdateApplication"`` \| ``"DeleteApplication"`` \| ``"CreateApplication"``
+• `Optional` **onCompletion**: [`NoOp`](../enums/OnCompletion.md#noop) \| [`OptIn`](../enums/OnCompletion.md#optin) \| [`CloseOut`](../enums/OnCompletion.md#closeout) \| [`ClearState`](../enums/OnCompletion.md#clearstate) \| [`UpdateApplication`](../enums/OnCompletion.md#updateapplication) \| [`DeleteApplication`](../enums/OnCompletion.md#deleteapplication)
 
 #### Defined in
 
-[types/global.d.ts:557](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L557)
+[types/global.d.ts:592](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L592)
 
 ___
 
@@ -184,7 +184,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L490)
+[types/global.d.ts:514](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L514)
 
 ___
 
@@ -198,4 +198,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L489)
+[types/global.d.ts:513](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L513)

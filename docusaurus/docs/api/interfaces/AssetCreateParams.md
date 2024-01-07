@@ -20,27 +20,27 @@ custom_edit_url: null
 
 #### Defined in
 
-[types/global.d.ts:537](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L537)
+[types/global.d.ts:562](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L562)
 
 ___
 
 ### configAssetDecimals
 
-• `Optional` **configAssetDecimals**: [`uint64`](../modules.md#uint64)
+• `Optional` **configAssetDecimals**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:533](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L533)
+[types/global.d.ts:558](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L558)
 
 ___
 
 ### configAssetDefaultFrozen
 
-• `Optional` **configAssetDefaultFrozen**: [`uint64`](../modules.md#uint64)
+• `Optional` **configAssetDefaultFrozen**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Defined in
 
-[types/global.d.ts:538](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L538)
+[types/global.d.ts:563](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L563)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:536](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L536)
+[types/global.d.ts:561](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L561)
 
 ___
 
@@ -60,27 +60,27 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:534](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L534)
+[types/global.d.ts:559](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L559)
 
 ___
 
 ### configAssetMetadataHash
 
-• `Optional` **configAssetMetadataHash**: [`bytes`](../modules.md#bytes)
+• `Optional` **configAssetMetadataHash**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:540](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L540)
+[types/global.d.ts:565](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L565)
 
 ___
 
 ### configAssetName
 
-• `Optional` **configAssetName**: [`bytes`](../modules.md#bytes)
+• `Optional` **configAssetName**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:530](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L530)
+[types/global.d.ts:555](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L555)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:535](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L535)
+[types/global.d.ts:560](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L560)
 
 ___
 
@@ -100,33 +100,33 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:532](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L532)
+[types/global.d.ts:557](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L557)
 
 ___
 
 ### configAssetURL
 
-• `Optional` **configAssetURL**: [`bytes`](../modules.md#bytes)
+• `Optional` **configAssetURL**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:539](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L539)
+[types/global.d.ts:564](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L564)
 
 ___
 
 ### configAssetUnitName
 
-• `Optional` **configAssetUnitName**: [`bytes`](../modules.md#bytes)
+• `Optional` **configAssetUnitName**: `string` \| `string` & \{ `__brand?`: ``"bytes"``  }
 
 #### Defined in
 
-[types/global.d.ts:531](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L531)
+[types/global.d.ts:556](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L556)
 
 ___
 
 ### fee
 
-• `Optional` **fee**: [`uint64`](../modules.md#uint64)
+• `Optional` **fee**: `number` \| `number` & \{ `__brand?`: ``"uint64"``  }
 
 #### Inherited from
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:488](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L488)
+[types/global.d.ts:512](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L512)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:491](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L491)
+[types/global.d.ts:515](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L515)
 
 ___
 
@@ -162,7 +162,7 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:490](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L490)
+[types/global.d.ts:514](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L514)
 
 ___
 
@@ -176,4 +176,4 @@ ___
 
 #### Defined in
 
-[types/global.d.ts:489](https://github.com/algorandfoundation/tealscript/blob/ca0f445c/types/global.d.ts#L489)
+[types/global.d.ts:513](https://github.com/algorandfoundation/tealscript/blob/d1eab388/types/global.d.ts#L513)
