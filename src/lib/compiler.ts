@@ -1234,6 +1234,40 @@ export default class Compiler {
       this.pushVoid(node, 'assert');
     }
 
+    const processConditionProp = (c: ts.PropertyAssignment, p: ts.ObjectLiteralElementLike, field: string) => {
+      const condition = c.getNameNode().getText();
+
+      if (['includedIn', 'notIncludedIn'].includes(condition)) {
+        const propInit = c.getInitializer();
+        if (!propInit?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw Error('Expected array literal');
+        propInit.getElements().forEach((e, eIndex) => {
+          loadField(p, field);
+          this.processNode(e);
+          const op = condition === 'includedIn' ? '==' : '!=';
+          this.pushLines(c, op);
+          if (eIndex) this.pushLines(c, '||');
+        });
+
+        this.pushVoid(c, 'assert');
+        return;
+      }
+
+      const conditionMapping: Record<string, string> = {
+        greaterThan: '>',
+        greaterThanEqualTo: '>=',
+        lessThan: '<',
+        lessThanEqualTo: '<=',
+        not: '!=',
+      };
+
+      const op = conditionMapping[condition];
+
+      if (op === undefined) throw Error();
+      loadField(p, field);
+      this.processNode(c.getInitializer()!);
+      this.pushLines(c, op, 'assert');
+    };
+
     firstArg.getProperties().forEach((p, i) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
       const field = p.getNameNode().getText();
@@ -1244,38 +1278,22 @@ export default class Compiler {
       if (init?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
         init.getProperties().forEach((c) => {
           if (!c.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+          const initializer = c.getInitializer();
 
-          const condition = c.getNameNode().getText();
+          if (c.getName().match(/^\d+$/)) {
+            this.pushVoid(c, `// verify ${field} ${c.getName()}`);
+            if (initializer?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+              initializer.getProperties().forEach((cc) => {
+                if (!cc.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
 
-          if (['includedIn', 'notIncludedIn'].includes(condition)) {
-            const propInit = c.getInitializer();
-            if (!propInit?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw Error('Expected array literal');
-            propInit.getElements().forEach((e, eIndex) => {
-              loadField(p, field);
-              this.processNode(e);
-              const op = condition === 'includedIn' ? '==' : '!=';
-              this.pushLines(c, op);
-              if (eIndex) this.pushLines(c, '||');
-            });
-
-            this.pushVoid(c, 'assert');
-            return;
-          }
-
-          const conditionMapping: Record<string, string> = {
-            greaterThan: '>',
-            greaterThanEqualTo: '>=',
-            lessThan: '<',
-            lessThanEqualTo: '<=',
-            not: '!=',
-          };
-
-          const op = conditionMapping[condition];
-
-          if (op === undefined) throw Error();
-          loadField(p, field);
-          this.processNode(c.getInitializer()!);
-          this.pushLines(c, op, 'assert');
+                processConditionProp(cc, p, `${field} ${c.getName()}`);
+              });
+            } else {
+              loadField(c, `${field} ${c.getName()}`);
+              this.processNode(c.getInitializer()!);
+              this.pushLines(c, '==', 'assert');
+            }
+          } else processConditionProp(c, p, field);
         });
         return;
       }
