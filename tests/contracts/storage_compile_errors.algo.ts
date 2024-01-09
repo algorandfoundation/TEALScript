@@ -18,5 +18,5 @@ class MapCollisionWithKey extends Contract {
 class MapSizeCollision extends Contract {
   uint8s = BoxMap<[uint<8>, uint<8>], bytes>();
 
-  uint16 = BoxMap<uint<16>, bytes>();
+  uint16 = BoxMap<uint16, bytes>();
 }

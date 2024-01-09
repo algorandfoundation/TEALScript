@@ -20,24 +20,24 @@ class MathTest extends Contract {
     return a / b;
   }
 
-  u256plus(a: uint<256>, b: uint<256>): uint<256> {
-    return <uint<256>>(a + b);
+  u256plus(a: uint256, b: uint256): uint256 {
+    return <uint256>(a + b);
   }
 
-  u256minus(a: uint<256>, b: uint<256>): uint<256> {
-    return <uint<256>>(a - b);
+  u256minus(a: uint256, b: uint256): uint256 {
+    return <uint256>(a - b);
   }
 
-  u256mul(a: uint<256>, b: uint<256>): uint<256> {
-    return <uint<256>>(a * b);
+  u256mul(a: uint256, b: uint256): uint256 {
+    return <uint256>(a * b);
   }
 
-  u256div(a: uint<256>, b: uint<256>): uint<256> {
-    return <uint<256>>(a / b);
+  u256div(a: uint256, b: uint256): uint256 {
+    return <uint256>(a / b);
   }
 
-  u64Return256(a: uint64, b: uint64): uint<256> {
-    return <uint<256>>(a + b);
+  u64Return256(a: uint64, b: uint64): uint256 {
+    return <uint256>(a + b);
   }
 
   maxU64(): uint64 {
@@ -49,8 +49,8 @@ class MathTest extends Contract {
     return a ** b;
   }
 
-  variableTypeHint(x: uint<8>, y: uint<8>): uint<16> {
-    const z = <uint<16>>(x + y);
+  variableTypeHint(x: uint<8>, y: uint<8>): uint16 {
+    const z = <uint16>(x + y);
 
     return z;
   }
@@ -101,12 +101,22 @@ class MathTest extends Contract {
     return abc;
   }
 
-  boxKey = BoxKey<uint<256>>();
+  boxKey = BoxKey<uint256>();
 
-  boxTest(): uint<256> {
-    this.boxKey.value = <uint<256>>1;
+  boxTest(): uint256 {
+    this.boxKey.value = <uint256>1;
     this.boxKey.value += 1;
 
     return this.boxKey.value;
+  }
+
+  private foo(x: uint256): uint256 {
+    return x;
+  }
+
+  unsafeMethodArgs(a: uint256, b: uint256): uint256 {
+    const c = a + b;
+
+    return this.foo(c);
   }
 }

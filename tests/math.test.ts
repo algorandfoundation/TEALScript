@@ -30,6 +30,7 @@ describe('Math', function () {
       uint8exp: BigInt(6 ** 3),
       plusEquals: 9n,
       plusEqualsFromGlobal: 9n,
+      unsafeMethodArgs: 9n,
     };
 
     Object.keys(methods).forEach((method) => {
