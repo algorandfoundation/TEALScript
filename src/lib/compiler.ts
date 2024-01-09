@@ -5158,6 +5158,9 @@ export default class Compiler {
 
       new Array(...chain[1].getArguments()).reverse().forEach((a) => {
         this.processNode(a);
+        if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
+          this.checkEncoding(a, this.lastType);
+        }
       });
 
       this.lastType = preArgsType;

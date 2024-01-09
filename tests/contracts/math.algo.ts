@@ -109,4 +109,14 @@ class MathTest extends Contract {
 
     return this.boxKey.value;
   }
+
+  private foo(x: uint256): uint256 {
+    return x;
+  }
+
+  unsafeMethodArgs(a: uint256, b: uint256): uint256 {
+    const c = a + b;
+
+    return this.foo(c);
+  }
 }
