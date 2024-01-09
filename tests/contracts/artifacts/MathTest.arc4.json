@@ -316,6 +316,22 @@
       }
     },
     {
+      "name": "unsafeMethodArgs",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
