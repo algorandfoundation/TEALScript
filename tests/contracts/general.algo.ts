@@ -180,6 +180,12 @@ class GeneralTest extends Contract {
 
     verifyAppCallTxn(this.txnGroup[0], {
       applicationID: Application.fromID(0),
+      applicationArgs: {
+        0: 'foo',
+        1: {
+          includedIn: ['bar', 'baz'],
+        },
+      },
     });
 
     verifyAssetTransferTxn(this.txnGroup[0], {

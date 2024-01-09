@@ -1234,55 +1234,77 @@ export default class Compiler {
       this.pushVoid(node, 'assert');
     }
 
-    firstArg.getProperties().forEach((p, i) => {
-      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
-      const field = p.getNameNode().getText();
+    const processConditionProp = (
+      condAssignment: ts.PropertyAssignment,
+      topProp: ts.ObjectLiteralElementLike,
+      field: string
+    ) => {
+      const condition = condAssignment.getNameNode().getText();
 
-      this.pushVoid(p, `// verify ${field}`);
+      if (['includedIn', 'notIncludedIn'].includes(condition)) {
+        const propInit = condAssignment.getInitializer();
+        if (!propInit?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw Error('Expected array literal');
+        propInit.getElements().forEach((e, eIndex) => {
+          loadField(topProp, field);
+          this.processNode(e);
+          const op = condition === 'includedIn' ? '==' : '!=';
+          this.pushLines(condAssignment, op);
+          if (eIndex) this.pushLines(condAssignment, '||');
+        });
 
-      const init = p.getInitializer();
+        this.pushVoid(condAssignment, 'assert');
+        return;
+      }
+
+      const conditionMapping: Record<string, string> = {
+        greaterThan: '>',
+        greaterThanEqualTo: '>=',
+        lessThan: '<',
+        lessThanEqualTo: '<=',
+        not: '!=',
+      };
+
+      const op = conditionMapping[condition];
+
+      if (op === undefined) throw Error();
+      loadField(topProp, field);
+      this.processNode(condAssignment.getInitializer()!);
+      this.pushLines(condAssignment, op, 'assert');
+    };
+
+    firstArg.getProperties().forEach((topProp, i) => {
+      if (!topProp.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+      const field = topProp.getNameNode().getText();
+
+      this.pushVoid(topProp, `// verify ${field}`);
+
+      const init = topProp.getInitializer();
       if (init?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
-        init.getProperties().forEach((c) => {
-          if (!c.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+        init.getProperties().forEach((childProp) => {
+          if (!childProp.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+          const initializer = childProp.getInitializer();
 
-          const condition = c.getNameNode().getText();
+          if (childProp.getName().match(/^\d+$/)) {
+            this.pushVoid(childProp, `// verify ${field} ${childProp.getName()}`);
+            if (initializer?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+              initializer.getProperties().forEach((grandChildProp) => {
+                if (!grandChildProp.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
 
-          if (['includedIn', 'notIncludedIn'].includes(condition)) {
-            const propInit = c.getInitializer();
-            if (!propInit?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw Error('Expected array literal');
-            propInit.getElements().forEach((e, eIndex) => {
-              loadField(p, field);
-              this.processNode(e);
-              const op = condition === 'includedIn' ? '==' : '!=';
-              this.pushLines(c, op);
-              if (eIndex) this.pushLines(c, '||');
-            });
-
-            this.pushVoid(c, 'assert');
-            return;
-          }
-
-          const conditionMapping: Record<string, string> = {
-            greaterThan: '>',
-            greaterThanEqualTo: '>=',
-            lessThan: '<',
-            lessThanEqualTo: '<=',
-            not: '!=',
-          };
-
-          const op = conditionMapping[condition];
-
-          if (op === undefined) throw Error();
-          loadField(p, field);
-          this.processNode(c.getInitializer()!);
-          this.pushLines(c, op, 'assert');
+                processConditionProp(grandChildProp, topProp, `${field} ${childProp.getName()}`);
+              });
+            } else {
+              loadField(childProp, `${field} ${childProp.getName()}`);
+              this.processNode(childProp.getInitializer()!);
+              this.pushLines(childProp, '==', 'assert');
+            }
+          } else processConditionProp(childProp, topProp, field);
         });
         return;
       }
 
-      loadField(p, field);
-      this.processNode(p.getInitializer()!);
-      this.pushLines(p, '==', 'assert');
+      loadField(topProp, field);
+      this.processNode(topProp.getInitializer()!);
+      this.pushLines(topProp, '==', 'assert');
     });
   }
 

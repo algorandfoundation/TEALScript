@@ -318,13 +318,20 @@ declare type AssetConfigTxnVerificationFields = CommonTxnVerificationFields & {
   freezeAssetFrozen?: boolean | TxnVerificationTests;
 };
 
+declare type TxnArrayVerificationField<K, T> = { [P in K]?: T };
+
 declare type AppCallTxnVerificationFields = CommonTxnVerificationFields & {
-  // TODO: Add support for verifying arrays
-  // logs?: BytesLike | TxnVerificationTests;
-  // applicationArgs?: BytesLike | TxnVerificationTests;
-  // accounts?: Address | TxnVerificationTests;
-  // assets?: IntLike | TxnVerificationTests;
-  // applications?: IntLike | TxnVerificationTests;
+  logs?: TxnArrayVerificationField<
+    0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+    BytesLike | TxnVerificationTests
+  >;
+  applicationArgs?: TxnArrayVerificationField<
+    0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15,
+    BytesLike | TxnVerificationTests
+  >;
+  accounts?: TxnArrayVerificationField<0 | 1 | 2 | 3, Address | TxnVerificationTests>;
+  assets?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
+  applications?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
   applicationID?: Application | TxnVerificationTests;
   onCompletion?: IntLike | TxnVerificationTests;
   numAppArgs?: IntLike | TxnVerificationTests;
