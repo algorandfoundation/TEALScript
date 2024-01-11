@@ -861,7 +861,7 @@ declare function replace3(data: BytesLike, byteIndex: IntLike, newData: BytesLik
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ed25519verify_bare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): uint64;
+declare function ed25519verify_bare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
 
 /** @returns square root of the given uint64 */
 declare function sqrt(n: IntLike): uint64;
