@@ -4172,7 +4172,7 @@ export default class Compiler {
         { kind: 'base', type: leftTypeStr.replace('unsafe ', '') },
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
-      this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
+      if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
     } else if (!leftNode.isKind(ts.SyntaxKind.NumericLiteral) && !rightNode.isKind(ts.SyntaxKind.NumericLiteral))
       typeComparison(leftType, rightType);
 
@@ -4753,12 +4753,22 @@ export default class Compiler {
 
       if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
+      // If this is a state map
       if (klass.includes('Map') && props.allowPotentialCollisions !== true) {
         const prefixRequired = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          // If the existing prop is a key, make sure the length of the new key doesn't match the length of the existing key
+          if (p.key !== undefined) {
+            return this.isDynamicType(props.keyType) || p.key.length === this.getTypeLength(props.keyType);
+          }
+
           return (
-            p.type === type &&
-            (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
+            p.keyType === props.keyType ||
+            this.isDynamicType(p.keyType) ||
+            this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType)
           );
         });
 
@@ -4772,19 +4782,28 @@ export default class Compiler {
 
           const collision = Object.keys(this.storageProps).find((propName) => {
             const p = this.storageProps[propName];
-            return p.type === type && (p.key?.startsWith(props.prefix!) || p.prefix === props.prefix);
+            // Only check the same storage type (box, local, global)
+            if (p.type !== type) return false;
+
+            return p.key?.startsWith(props.prefix!) || p.prefix === props.prefix;
           });
 
           if (collision) {
             throw Error(`Storage prefix "${props.prefix}" collides with existing storage property "${collision}"`);
           }
         }
+        // If this is a state key
       } else if (props.allowPotentialCollisions !== true) {
+        // Get potential a Map that collides with this key and doesn't have a prefix
         const prefixRequired = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          // Only check storage map
+          if (p.key !== undefined) return false;
+
           return (
-            p.type === type &&
-            p.key === undefined &&
             p.prefix === undefined &&
             (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
           );
@@ -4804,9 +4823,10 @@ export default class Compiler {
         const collision = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
 
-          return (
-            p.type === type && (propName === thisKey || p.key === thisKey || (p.prefix && thisKey.startsWith(p.prefix)))
-          );
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          return p.key === thisKey || (p.prefix && thisKey.startsWith(p.prefix));
         });
 
         if (collision) {
@@ -4887,6 +4907,7 @@ export default class Compiler {
 
   private processNumericLiteralWithType(node: ts.NumericLiteral, typeInfo: TypeInfo) {
     const type = typeInfoToABIString(typeInfo);
+    const textWithoutUnderscores = node.getText().replace(/_/g, '');
 
     if (type === 'uint64') {
       this.processNode(node);
@@ -4894,7 +4915,7 @@ export default class Compiler {
     }
 
     if (type === 'bigint') {
-      const value = Number(node.getText());
+      const value = Number(textWithoutUnderscores);
       let hex = value.toString(16);
       if (hex.length % 2) hex = `0${hex}`;
       this.push(node, `byte 0x${hex}`, typeInfo);
@@ -4906,12 +4927,12 @@ export default class Compiler {
       const n = parseInt(match[0], 10);
       const m = parseInt(match[1], 10);
 
-      const numDecimals = node.getText().match(/(?<=\.)\d+/)![0].length;
+      const numDecimals = textWithoutUnderscores.match(/(?<=\.)\d+/)![0].length;
 
       if (numDecimals > m)
         throw Error(`Value ${node.getText()} cannot be represented as ${type}. A more precise type is required.`);
 
-      const valueStr = node.getText().replace('.', '') + '0'.repeat(m - numDecimals);
+      const valueStr = textWithoutUnderscores.replace('.', '') + '0'.repeat(m - numDecimals);
 
       const fixedValue = BigInt(valueStr);
 
@@ -4922,7 +4943,7 @@ export default class Compiler {
 
     if (type.match(/uint\d+$/)) {
       const width = Number(type.match(/\d+/)![0]);
-      const value = Number(node.getText());
+      const value = Number(textWithoutUnderscores);
       const maxValue = 2 ** width - 1;
 
       if (value > maxValue) {

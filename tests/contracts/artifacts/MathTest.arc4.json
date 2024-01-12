@@ -332,6 +332,22 @@
       }
     },
     {
+      "name": "uint256ComparisonType",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
