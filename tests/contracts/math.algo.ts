@@ -119,4 +119,13 @@ class MathTest extends Contract {
 
     return this.foo(c);
   }
+
+  uint256ComparisonType(a: uint256, b: uint256): void {
+    const senderBalanceAfter = a - b;
+    if (senderBalanceAfter > <uint256>0) {
+      log('nonZero');
+    } else {
+      log('zero');
+    }
+  }
 }
