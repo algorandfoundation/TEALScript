@@ -1104,6 +1104,66 @@ unsafeMethodArgs:
 	frame_bury 0
 	retsub
 
+abi_route_uint256ComparisonType:
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute uint256ComparisonType(uint256,uint256)void
+	callsub uint256ComparisonType
+	int 1
+	return
+
+// uint256ComparisonType(uint256,uint256)void
+uint256ComparisonType:
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/math.algo.ts:124
+	// senderBalanceAfter = a - b
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b-
+	frame_bury 0 // senderBalanceAfter: unsafe uint256
+
+	// if0_condition
+	// tests/contracts/math.algo.ts:125
+	// senderBalanceAfter > <uint256>0
+	frame_dig 0 // senderBalanceAfter: unsafe uint256
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000
+	b>
+	bz if0_else
+
+	// if0_consequent
+	// tests/contracts/math.algo.ts:126
+	// log('nonZero')
+	byte 0x6e6f6e5a65726f // "nonZero"
+	log
+	b if0_end
+
+if0_else:
+	// tests/contracts/math.algo.ts:128
+	// log('zero')
+	byte 0x7a65726f // "zero"
+	log
+
+if0_end:
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1137,6 +1197,7 @@ call_NoOp:
 	method "TripleBigUfixedMul(ufixed128x2,ufixed128x2,ufixed128x2)ufixed128x2"
 	method "boxTest()uint256"
 	method "unsafeMethodArgs(uint256,uint256)uint256"
+	method "uint256ComparisonType(uint256,uint256)void"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType
 	err

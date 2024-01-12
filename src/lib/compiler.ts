@@ -4172,7 +4172,7 @@ export default class Compiler {
         { kind: 'base', type: leftTypeStr.replace('unsafe ', '') },
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
-      this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
+      if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
     } else if (!leftNode.isKind(ts.SyntaxKind.NumericLiteral) && !rightNode.isKind(ts.SyntaxKind.NumericLiteral))
       typeComparison(leftType, rightType);
 
