@@ -128,7 +128,6 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxKeyCreate',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -136,12 +135,9 @@ describe('Storage', function () {
     });
 
     test('boxKeyLength', async () => {
-      const box = new Uint8Array(Buffer.from('foo'));
-
       const result = await appClient.call({
         method: 'boxKeyLength',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -154,7 +150,6 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxKeyReplace',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -162,12 +157,9 @@ describe('Storage', function () {
     });
 
     test('boxKeyExtract', async () => {
-      const box = new Uint8Array(Buffer.from('foo'));
-
       const result = await appClient.call({
         method: 'boxKeyExtract',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -184,7 +176,6 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxMapCreate',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -192,12 +183,9 @@ describe('Storage', function () {
     });
 
     test('boxMapLength', async () => {
-      const box = new Uint8Array(Buffer.from('bar'));
-
       const result = await appClient.call({
         method: 'boxMapLength',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -210,7 +198,6 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxMapReplace',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
@@ -218,12 +205,9 @@ describe('Storage', function () {
     });
 
     test('boxMapExtract', async () => {
-      const box = new Uint8Array(Buffer.from('bar'));
-
       const result = await appClient.call({
         method: 'boxMapExtract',
         methodArgs: [],
-        boxes: [{ appIndex: 0, name: box }],
         sendParams: SUPPRESS_LOG,
       });
 
