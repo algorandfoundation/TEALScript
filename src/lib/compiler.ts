@@ -4753,12 +4753,22 @@ export default class Compiler {
 
       if (klass.includes('StateMap') && !props.maxKeys) throw new Error('maxKeys must be specified for state maps');
 
+      // If this is a state map
       if (klass.includes('Map') && props.allowPotentialCollisions !== true) {
         const prefixRequired = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          // If the existing prop is a key, make sure the length of the new key doesn't match the length of the existing key
+          if (p.key !== undefined) {
+            return this.isDynamicType(props.keyType) || p.key.length === this.getTypeLength(props.keyType);
+          }
+
           return (
-            p.type === type &&
-            (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
+            p.keyType === props.keyType ||
+            this.isDynamicType(p.keyType) ||
+            this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType)
           );
         });
 
@@ -4772,19 +4782,28 @@ export default class Compiler {
 
           const collision = Object.keys(this.storageProps).find((propName) => {
             const p = this.storageProps[propName];
-            return p.type === type && (p.key?.startsWith(props.prefix!) || p.prefix === props.prefix);
+            // Only check the same storage type (box, local, global)
+            if (p.type !== type) return false;
+
+            return p.key?.startsWith(props.prefix!) || p.prefix === props.prefix;
           });
 
           if (collision) {
             throw Error(`Storage prefix "${props.prefix}" collides with existing storage property "${collision}"`);
           }
         }
+        // If this is a state key
       } else if (props.allowPotentialCollisions !== true) {
+        // Get potential a Map that collides with this key and doesn't have a prefix
         const prefixRequired = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          // Only check storage map
+          if (p.key !== undefined) return false;
+
           return (
-            p.type === type &&
-            p.key === undefined &&
             p.prefix === undefined &&
             (this.isDynamicType(p.keyType) || this.getTypeLength(p.keyType) === this.getTypeLength(props.keyType))
           );
@@ -4804,9 +4823,10 @@ export default class Compiler {
         const collision = Object.keys(this.storageProps).find((propName) => {
           const p = this.storageProps[propName];
 
-          return (
-            p.type === type && (propName === thisKey || p.key === thisKey || (p.prefix && thisKey.startsWith(p.prefix)))
-          );
+          // Only check the same storage type (box, local, global)
+          if (p.type !== type) return false;
+
+          return p.key === thisKey || (p.prefix && thisKey.startsWith(p.prefix));
         });
 
         if (collision) {
