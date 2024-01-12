@@ -230,4 +230,8 @@ class GeneralTest extends Contract {
   appLoadScratch(): void {
     log(this.txnGroup[1].loadScratch(2) as bytes);
   }
+
+  uintNWithUnderscore(): uint256 {
+    return <uint256>123_456;
+  }
 }
