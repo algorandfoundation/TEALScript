@@ -5701,12 +5701,14 @@ export default class Compiler {
       return;
     }
 
-    if (opcodeName === 'bsqrt') {
+    if (opcodeName === 'sqrt') {
       this.processNode(node.getArguments()[0]);
       const type = this.lastType;
-      this.pushVoid(node, 'bsqrt');
+      const opcode = isNumeric(type) ? 'sqrt' : 'bsqrt';
 
-      if (type.kind === 'base' && !type.type.startsWith('unsafe ')) {
+      this.pushVoid(node, opcode);
+
+      if (!isNumeric(type) && type.kind === 'base' && !type.type.startsWith('unsafe ')) {
         this.lastType = { kind: 'base', type: `unsafe ${type.type}` };
       }
 

@@ -31,7 +31,8 @@ describe('Math', function () {
       plusEquals: 9n,
       plusEqualsFromGlobal: 9n,
       unsafeMethodArgs: 9n,
-      squareRoot: 4n,
+      squareRoot64: 4n,
+      squareRoot256: 4n,
     };
 
     Object.keys(methods).forEach((method) => {

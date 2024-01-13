@@ -863,11 +863,8 @@ declare function replace3(data: BytesLike, byteIndex: IntLike, newData: BytesLik
  */
 declare function ed25519verify_bare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
 
-/** @returns square root of the given uint64 */
-declare function sqrt(n: IntLike): uint64;
-
-/** @returns square root of the given uintN */
-declare function bsqrt(arg0: uint<widths>): uint<widths>;
+/** @returns square root of the given integer */
+declare function sqrt(n: IntLike | uint): uint;
 
 /**
  * Combines two uint64 into one uint128 and then divides it by another uint64
