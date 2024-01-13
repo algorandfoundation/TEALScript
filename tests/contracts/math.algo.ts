@@ -128,4 +128,12 @@ class MathTest extends Contract {
       log('zero');
     }
   }
+
+  squareRoot256(a: uint256, b: uint256): uint256 {
+    return sqrt(a * b);
+  }
+
+  squareRoot64(a: uint64, b: uint64): uint64 {
+    return sqrt(a * b);
+  }
 }
