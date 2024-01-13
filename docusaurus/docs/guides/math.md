@@ -4,12 +4,15 @@ title: Math
 
 **Reminder:** In TEALScript, `uint64` and `number` are the same.
 
+## Truncation
+
+It is important to note that `number` in TEALScript represents `uint64`. This means that there are no fractional values or negative numbers. The AVM, and thus TEALScript, will always truncate the result of division operations. For example, `99 / 100 === 0` will be true.
+
 ## Opcode Cost
 
 Every app call has a limited compute budget, measured by opcode budget. Working with the native AVM number type in TEALScript (`uint64`) is the most efficient in terms of opcode cost. 
 
 Performing math operations with a integer with a width less than 64 bits is **2x more expensive** than working with the same value as `uint64`. Performing math operations with a integer width more than 64 bits can be up to **20x more expensive** (see table below). As such, if you find yourself running out of opcode budget, it is best to manually cast to `uint64` and then cast back when possible.
-
 
 ### Opcode Costs
 
