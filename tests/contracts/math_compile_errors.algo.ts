@@ -7,3 +7,10 @@ class Uint8Exp extends Contract {
     return a ** b;
   }
 }
+
+// eslint-disable-next-line no-unused-vars
+class BytesComparison extends Contract {
+  bytesComparison(a: string, b: string): boolean {
+    return a <= b;
+  }
+}
