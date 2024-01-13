@@ -126,5 +126,25 @@ describe('Math', function () {
 
       expect(msg).toMatch('Exponent operator only supported for uintN <= 64, got uint256 and uint256');
     });
+
+    test('bytesComparison', async function () {
+      let msg: string;
+      try {
+        await compileAndCreate(
+          algosdk.generateAccount(),
+          'tests/contracts/math_compile_errors.algo.ts',
+          ARTIFACTS_DIR,
+          'BytesComparison'
+        );
+        msg = 'No error';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
+        msg = e.message;
+      }
+
+      expect(msg).toMatch(
+        'TEALScript only supports number comparison. If you want to compare these values as numbers, use btobigint'
+      );
+    });
   });
 });

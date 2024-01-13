@@ -10,6 +10,7 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
+import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -4106,6 +4107,12 @@ export default class Compiler {
     const leftType = this.getStackTypeFromNode(leftNode);
     const leftTypeStr = typeInfoToABIString(leftType);
     const rightTypeStr = typeInfoToABIString(rightType);
+
+    if (!isNumeric(leftType) && !leftTypeStr.match(/\d+$/) && (operator.startsWith('<') || operator.startsWith('>'))) {
+      throw Error(
+        'TEALScript only supports number comparison. If you want to compare these values as numbers, use btobigint'
+      );
+    }
 
     const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
 
