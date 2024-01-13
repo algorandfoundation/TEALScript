@@ -348,6 +348,38 @@
       }
     },
     {
+      "name": "squareRoot256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
+      "name": "squareRoot64",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
