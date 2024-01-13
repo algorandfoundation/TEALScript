@@ -5701,6 +5701,18 @@ export default class Compiler {
       return;
     }
 
+    if (opcodeName === 'bsqrt') {
+      this.processNode(node.getArguments()[0]);
+      const type = this.lastType;
+      this.pushVoid(node, 'bsqrt');
+
+      if (type.kind === 'base' && !type.type.startsWith('unsafe ')) {
+        this.lastType = { kind: 'base', type: `unsafe ${type.type}` };
+      }
+
+      return;
+    }
+
     if (this.currentProgram === 'lsig' && opcodeName === 'log') {
       throw Error('Logic signatures cannot log data');
     }

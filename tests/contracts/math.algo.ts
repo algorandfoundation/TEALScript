@@ -128,4 +128,8 @@ class MathTest extends Contract {
       log('zero');
     }
   }
+
+  squareRoot(a: uint256, b: uint256): uint256 {
+    return bsqrt(a * b);
+  }
 }
