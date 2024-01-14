@@ -4338,10 +4338,11 @@ export default class Compiler {
       typeStr !== typeInfoToABIString(this.lastType)
     ) {
       if (equalTypes(this.typeHint, StackType.uint64)) {
-        this.overflowCheck(node, 64);
-        this.fixBitWidth(node, 64);
-        if (!isSmallNumber(this.lastType)) this.push(node, 'btoi', StackType.uint64);
-        else this.lastType = StackType.uint64;
+        if (!isSmallNumber(this.lastType)) {
+          this.overflowCheck(node, 64);
+          this.fixBitWidth(node, 64);
+          this.push(node, 'btoi', StackType.uint64);
+        } else this.lastType = StackType.uint64;
         return;
       }
 

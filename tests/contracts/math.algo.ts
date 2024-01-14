@@ -140,4 +140,9 @@ class MathTest extends Contract {
   addressToBigInt(addr: Address): boolean {
     return btobigint(addr) > btobigint(this.txn.sender);
   }
+
+  u8Tou64(): uint64 {
+    const x: uint8 = 7;
+    return <uint64>x;
+  }
 }
