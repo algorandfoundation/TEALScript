@@ -243,6 +243,7 @@ type Brand<K, T> = K | (K & { __brand?: T });
 declare type uint<N extends widths> = Brand<number, `uint${N}`>;
 declare type uint8 = uint<8> | number;
 declare type uint16 = uint<16> | number;
+declare type uint32 = uint<32> | number;
 declare type uint64 = uint<64> | number;
 declare type uint128 = uint<128> | number;
 declare type uint256 = uint<256> | number;
