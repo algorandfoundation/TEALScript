@@ -46,43 +46,6 @@ const n = 1.23 // ERROR: Missing type
 const n: ufixed<64, 2> = 1.234 // ERROR: Precision of 2 decimals places, but 3 are given
 ```
 
-## Type casting
-
-You can cast types of one number to another (but only `uint` -> `uint` or `ufixed` -> `ufixed`). The compiler will automatically pad smaller values to bigger ones where applicable (such as return values), but will throw an runtime error if there is a value overflow when going from a bigger width to a smaller width. 
-
-### Examples
-
-#### Correct: Implicit Padding
-```ts
-foo(): uint16 {
-    const n: uint8 = 1
-    return n // Compiler will convert n (0x01) to uint16 (0x0001)
-}
-```
-
-#### Correct: Explicit Bit Reduction
-```ts
-foo(): uint8 {
-    const n: uint16 = 1
-    return n // Compiler will convert n (0x0001) to uint8 (0x01). Runtime error if there is an overflow.
-```
-
 ## Math
 
-You can use standard math operators (`+`, `-`, `/`, `*`, `%`) on any type of numner as long as both operands are the same. Exponents (`**`) work as long as the power is 2^64 or less. 
-
-### Overflows
-
-During runtime, there will be an overflow check upon storage of values, returning values, or type casting. This means there is no type checking of intermediate values of math operations. This means the following example will NOT throw an error, even though the intermediate value of `a + b` is larger than the max `uint8` value. 
-
-```ts
-const a: uint8 = 255
-const b: uint8 = 1
-const c = a + b - b
-```
-
-The only exception to intermediate arithmetic overflows is if the value is larger than 2^512 because this is the largest value supported by the AVM.
-
-### Underflows
-
-Any operation that results in a value less than 0 will cause a panic in the AVM.
+See [math](../math.md)
