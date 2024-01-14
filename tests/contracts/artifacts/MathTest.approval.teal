@@ -1229,6 +1229,40 @@ squareRoot64:
 	sqrt
 	retsub
 
+abi_route_addressToBigInt:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// addr: address
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute addressToBigInt(address)bool
+	callsub addressToBigInt
+	byte 0x00
+	int 0
+	uncover 2
+	setbit
+	concat
+	log
+	int 1
+	return
+
+// addressToBigInt(address)bool
+addressToBigInt:
+	proto 1 1
+
+	// tests/contracts/math.algo.ts:141
+	// return btobigint(addr) > btobigint(this.txn.sender);
+	frame_dig -1 // addr: Address
+	txn Sender
+	b>
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1265,6 +1299,7 @@ call_NoOp:
 	method "uint256ComparisonType(uint256,uint256)void"
 	method "squareRoot256(uint256,uint256)uint256"
 	method "squareRoot64(uint64,uint64)uint64"
+	method "addressToBigInt(address)bool"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt
 	err

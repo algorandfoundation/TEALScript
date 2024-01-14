@@ -4139,7 +4139,12 @@ export default class Compiler {
     const leftTypeStr = typeInfoToABIString(leftType);
     const rightTypeStr = typeInfoToABIString(rightType);
 
-    if (!isNumeric(leftType) && !leftTypeStr.match(/\d+$/) && (operator.startsWith('<') || operator.startsWith('>'))) {
+    if (
+      !isNumeric(leftType) &&
+      !leftTypeStr.match(/\d+$/) &&
+      leftTypeStr !== 'bigint' &&
+      (operator.startsWith('<') || operator.startsWith('>'))
+    ) {
       throw Error(
         'TEALScript only supports number comparison. If you want to compare these values as numbers, use btobigint'
       );
@@ -4170,7 +4175,7 @@ export default class Compiler {
     }
 
     if (
-      leftTypeStr.match(/\d+$/) &&
+      (leftTypeStr.match(/\d+$/) || leftTypeStr === 'bigint') &&
       !isNumeric(leftType) &&
       !isSmallNumber(leftType) &&
       (operator === '==' || operator === '!=' || operator.startsWith('<') || operator.startsWith('>'))
@@ -4182,7 +4187,7 @@ export default class Compiler {
       this.push(node.getOperatorToken(), operator, leftType);
     }
 
-    if (isMathOp && !isNumeric(leftType) && !leftTypeStr.startsWith('ufixed64')) {
+    if (isMathOp && !isNumeric(leftType) && !leftTypeStr.startsWith('ufixed64') && leftTypeStr !== 'bigint') {
       this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr}` };
     }
 
