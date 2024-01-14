@@ -380,6 +380,18 @@
       }
     },
     {
+      "name": "addressToBigInt",
+      "args": [
+        {
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

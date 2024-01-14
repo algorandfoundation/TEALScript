@@ -136,4 +136,8 @@ class MathTest extends Contract {
   squareRoot64(a: uint64, b: uint64): uint64 {
     return sqrt(a * b);
   }
+
+  addressToBigInt(addr: Address): boolean {
+    return btobigint(addr) > btobigint(this.txn.sender);
+  }
 }
