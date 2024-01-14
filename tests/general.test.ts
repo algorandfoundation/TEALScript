@@ -29,10 +29,11 @@ describe('General', function () {
       'stringSubstring',
       'stringPlusEquals',
       'callInternalPublicMethod',
+      'opUp',
     ].forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
-        await runMethod({ appClient, method });
+        await runMethod({ appClient, method, fee: 2000 });
       });
     });
   });

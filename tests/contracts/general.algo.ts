@@ -234,4 +234,11 @@ class GeneralTest extends Contract {
   uintNWithUnderscore(): uint256 {
     return <uint256>123_456;
   }
+
+  opUp(): void {
+    increaseOpcodeBudget();
+    for (let i = 1; i < 75; i += 1) {
+      assert(i);
+    }
+  }
 }
