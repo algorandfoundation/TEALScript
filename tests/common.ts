@@ -130,7 +130,7 @@ export async function runMethod({
   callType = 'call',
   boxes = [],
   fundAmount = 0,
-  fee = 0,
+  fee = 1000,
 }: {
   appClient: ApplicationClient;
   method: string;
