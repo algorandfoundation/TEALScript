@@ -31,6 +31,13 @@ abi_route_extractUint:
 
 	// execute extractUint(uint64)uint8
 	callsub extractUint
+	itob
+	dup
+	bitlen
+	int 8
+	<=
+	assert
+	extract 7 1
 	concat
 	log
 	int 1
@@ -46,18 +53,11 @@ extractUint:
 	// tests/contracts/abi.algo.ts:1128
 	// x = <uint<8>>arg
 	frame_dig -1 // arg: number
-	itob
-	dup
-	bitlen
-	int 8
-	<=
-	assert
-	extract 7 1
-	frame_bury 0 // x: uint8
+	frame_bury 0 // x: unsafe uint8
 
 	// tests/contracts/abi.algo.ts:1129
 	// return x;
-	frame_dig 0 // x: uint8
+	frame_dig 0 // x: unsafe uint8
 
 	// set the subroutine return value
 	frame_bury 0

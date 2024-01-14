@@ -27,6 +27,13 @@ abi_route_tupleInArray:
 
 	// execute tupleInArray()uint16
 	callsub tupleInArray
+	itob
+	dup
+	bitlen
+	int 16
+	<=
+	assert
+	extract 6 2
 	concat
 	log
 	int 1
@@ -51,6 +58,7 @@ tupleInArray:
 	// return a[1][1];
 	frame_dig 0 // a: StaticArray<[uint64, uint16], 2>
 	extract 18 2
+	btoi
 
 	// set the subroutine return value
 	frame_bury 0

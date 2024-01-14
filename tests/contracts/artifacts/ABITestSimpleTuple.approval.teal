@@ -27,6 +27,13 @@ abi_route_simpleTuple:
 
 	// execute simpleTuple()uint16
 	callsub simpleTuple
+	itob
+	dup
+	bitlen
+	int 16
+	<=
+	assert
+	extract 6 2
 	concat
 	log
 	int 1
@@ -48,6 +55,7 @@ simpleTuple:
 	// return a[3];
 	frame_dig 0 // a: [uint64, uint16, uint64, uint16]
 	extract 18 2
+	btoi
 
 	// set the subroutine return value
 	frame_bury 0

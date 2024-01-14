@@ -216,8 +216,9 @@ upload:
 	box_get
 	assert
 	extract 16 1
-	byte 0x00
-	b==
+	btoi
+	int 0
+	==
 	assert
 
 	// examples/big_box/big_box.algo.ts:78
@@ -295,6 +296,7 @@ abi_route_setStatus:
 	int 1
 	==
 	assert
+	btoi
 
 	// dataIdentifier: string
 	txna ApplicationArgs 1
@@ -324,26 +326,27 @@ setStatus:
 	box_get
 	assert
 	extract 16 1
+	btoi
 	frame_bury 0 // currentStatus: uint8
 
 	// examples/big_box/big_box.algo.ts:97
 	// assert(status === READY || status === IMMUTABLE || status === IN_PROGRESS)
 	frame_dig -2 // status: uint<8>
-	byte 0x01
-	b==
+	int 1
+	==
 	dup
 	bnz skip_or0
 	frame_dig -2 // status: uint<8>
-	byte 0x02
-	b==
+	int 2
+	==
 	||
 
 skip_or0:
 	dup
 	bnz skip_or1
 	frame_dig -2 // status: uint<8>
-	byte 0x00
-	b==
+	int 0
+	==
 	||
 
 skip_or1:
@@ -352,15 +355,18 @@ skip_or1:
 	// examples/big_box/big_box.algo.ts:98
 	// assert(currentStatus !== IMMUTABLE)
 	frame_dig 0 // currentStatus: uint8
-	byte 0x02
-	b!=
+	int 2
+	!=
 	assert
 
 	// examples/big_box/big_box.algo.ts:100
 	// this.metadata(dataIdentifier).value.status = status
-	frame_dig -1 // dataIdentifier: string
 	int 16
 	frame_dig -2 // status: uint<8>
+	itob
+	extract 7 1
+	frame_dig -1 // dataIdentifier: string
+	cover 2
 	box_replace
 	retsub
 
