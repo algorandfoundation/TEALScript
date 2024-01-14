@@ -27,6 +27,20 @@ abi_route_angularCasting:
 
 	// execute angularCasting()uint256
 	callsub angularCasting
+	dup
+	bitlen
+	int 256
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	concat
 	log
 	int 1

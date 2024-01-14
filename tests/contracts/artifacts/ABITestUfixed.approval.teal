@@ -27,6 +27,8 @@ abi_route_ufixed:
 
 	// execute ufixed()ufixed64x2
 	callsub ufixed
+	itob
+	extract 0 8
 	concat
 	log
 	int 1
@@ -42,39 +44,21 @@ ufixed:
 
 	// tests/contracts/abi.algo.ts:735
 	// a = 1.23 as ufixed<64, 2>
-	byte 0x000000000000007b
+	int 123
 	frame_bury 0 // a: ufixed64x2
 
 	// tests/contracts/abi.algo.ts:736
 	// b = 4.56 as ufixed<64, 2>
-	byte 0x00000000000001c8
+	int 456
 	frame_bury 1 // b: ufixed64x2
 
 	// tests/contracts/abi.algo.ts:738
 	// return a + b;
 	frame_dig 0 // a: ufixed64x2
-	btoi
-	int 456
+	int 456 // b: ufixed64x2
 	+
-	itob
-	btoi
 	int 100
 	/
-	itob
-	dup
-	bitlen
-	int 64
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFF
-	b&
-	dup
-	len
-	dup
-	int 8
-	-
-	swap
-	substring3
 
 	// set the subroutine return value
 	frame_bury 0

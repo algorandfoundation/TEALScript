@@ -59,15 +59,24 @@ dynamicArrayElements:
 	store 255 // full array
 	load 255 // full array
 	extract 0 2
+	btoi
+	itob
+	extract 6 2
 	frame_dig 0 // a: uint16[]
 	store 255 // full array
 	load 255 // full array
 	extract 2 2
+	btoi
+	itob
+	extract 6 2
 	concat
 	frame_dig 0 // a: uint16[]
 	store 255 // full array
 	load 255 // full array
 	extract 4 2
+	btoi
+	itob
+	extract 6 2
 	concat
 	frame_bury 1 // newA: uint16[]
 

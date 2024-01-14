@@ -32,9 +32,24 @@ abi_route_uintCasting:
 	int 1
 	==
 	assert
+	btoi
 
 	// execute uintCasting(uint8)uint256
 	callsub uintCasting
+	dup
+	bitlen
+	int 256
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
 	concat
 	log
 	int 1
@@ -47,13 +62,7 @@ uintCasting:
 	// tests/contracts/abi.algo.ts:1198
 	// return <uint256>a;
 	frame_dig -1 // a: uint<8>
-	dup
-	bitlen
-	int 256
-	<=
-	assert
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
+	itob
 	retsub
 
 abi_route_createApplication:

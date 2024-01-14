@@ -158,7 +158,10 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
   throw Error();
 }
 
-function equalTypes(a: TypeInfo, b: TypeInfo) {
+function equalTypes(a: TypeInfo, b: TypeInfo, ignoreUnsafe: boolean = false) {
+  if (ignoreUnsafe) {
+    return typeInfoToABIString(a).replace('unsafe ', '') === typeInfoToABIString(b).replace('unsafe ', '');
+  }
   return typeInfoToABIString(a) === typeInfoToABIString(b);
 }
 
@@ -383,8 +386,8 @@ function isArrayType(type: TypeInfo) {
   return type.kind !== 'base';
 }
 
-function typeComparison(inputType: TypeInfo, expectedType: TypeInfo): void {
-  if (equalTypes(inputType, expectedType)) return;
+function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsafe: boolean = false): void {
+  if (equalTypes(inputType, expectedType, ignoreUnsafe)) return;
   if (inputType.kind === 'base' && expectedType.kind === 'base') {
     const sameTypes = [
       ['address', 'account'],
@@ -680,7 +683,7 @@ export default class Compiler {
       this.pushLines(node, 'int 0', 'getbit');
     } else if (this.isDynamicArrayOfStaticType(type) || isBytes(type)) {
       this.pushVoid(node, 'extract 2 0');
-    } else if (isNumeric(type)) {
+    } else if (isNumeric(type) || isSmallNumber(type)) {
       this.pushVoid(node, 'btoi');
     }
   }
@@ -2825,8 +2828,20 @@ export default class Compiler {
 
   private checkEncoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base') {
+      const width = parseInt(type.type.match(/\d+/)?.[0] || '512', 10);
+
+      if (isSmallNumber(type)) {
+        this.pushVoid(node, 'itob');
+
+        if (type.type.startsWith('unsafe')) this.overflowCheck(node, width);
+        this.pushLines(node, `extract ${(64 - width) / 8} ${width / 8}`);
+
+        this.lastType = { kind: 'base', type: type.type.replace(/unsafe /g, '') };
+
+        return;
+      }
+
       if (type.type.startsWith('unsafe')) {
-        const width = parseInt(type.type.match(/\d+/)?.[0] || '512', 10);
         this.overflowCheck(node, width);
         this.fixBitWidth(node, width);
         this.lastType = { kind: 'base', type: type.type.replace(/unsafe /g, '') };
@@ -3919,11 +3934,7 @@ export default class Compiler {
 
     this.processNode(node.getExpression()!);
 
-    if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
-      this.checkEncoding(node, this.lastType);
-    }
-
-    typeComparison(this.lastType, returnType);
+    typeComparison(this.lastType, returnType, true);
 
     if (this.frameIndex > 0) {
       this.pushLines(node, '// set the subroutine return value', 'frame_bury 0');
@@ -4120,13 +4131,9 @@ export default class Compiler {
       this.processNumericLiteralWithType(leftNode, rightType);
     } else this.processNode(leftNode);
 
-    if (isSmallNumber(leftType) && isMathOp) this.pushVoid(node, 'btoi');
-
     if (rightNode.isKind(ts.SyntaxKind.NumericLiteral)) {
       this.processNumericLiteralWithType(rightNode, leftType);
     } else this.processNode(rightNode);
-
-    if (isSmallNumber(leftType) && isMathOp) this.pushVoid(node, 'btoi');
 
     if (
       operator === '+' &&
@@ -4145,6 +4152,7 @@ export default class Compiler {
     if (
       leftTypeStr.match(/\d+$/) &&
       !isNumeric(leftType) &&
+      !isSmallNumber(leftType) &&
       (operator === '==' || operator === '!=' || operator.startsWith('<') || operator.startsWith('>'))
     ) {
       this.push(node, `b${operator}`, { kind: 'base', type: 'bool' });
@@ -4154,8 +4162,7 @@ export default class Compiler {
       this.push(node.getOperatorToken(), operator, leftType);
     }
 
-    if (isMathOp && !isNumeric(leftType)) {
-      if (isSmallNumber(leftType)) this.pushVoid(node, 'itob');
+    if (isMathOp && !isNumeric(leftType) && !leftTypeStr.startsWith('ufixed64')) {
       this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr}` };
     }
 
@@ -4164,7 +4171,7 @@ export default class Compiler {
       const precision = parseInt(leftTypeStr.match(/\d+$/)![0], 10);
 
       if (width <= 64) {
-        this.pushLines(node, 'btoi', `int ${BigInt(10) ** BigInt(precision)}`, '/', 'itob');
+        this.pushLines(node, `int ${BigInt(10) ** BigInt(precision)}`, '/');
       } else {
         this.pushLines(node, `byte 0x${(BigInt(10) ** BigInt(precision)).toString(16)}`, `b/`);
       }
@@ -4305,15 +4312,28 @@ export default class Compiler {
       (typeStr.match(/uint\d+$/) || typeStr.match(/ufixed\d+x\d+$/)) &&
       typeStr !== typeInfoToABIString(this.lastType)
     ) {
-      const typeBitWidth = parseInt(typeStr.match(/\d+/)![0], 10);
-
-      if (typeInfoToABIString(this.lastType) === 'uint64') this.pushVoid(node, 'itob');
-      this.overflowCheck(node, typeBitWidth);
-      this.fixBitWidth(node, typeBitWidth);
-
-      if (typeStr === 'uint64') {
-        this.push(node, 'btoi', StackType.uint64);
+      if (equalTypes(this.typeHint, StackType.uint64)) {
+        this.overflowCheck(node, 64);
+        this.fixBitWidth(node, 64);
+        if (!isSmallNumber(this.lastType)) this.push(node, 'btoi', StackType.uint64);
+        else this.lastType = StackType.uint64;
+        return;
       }
+
+      // If going from uint64
+      if (equalTypes(this.lastType, StackType.uint64)) {
+        // itob it only if its bigger
+        if (!isSmallNumber(this.typeHint)) this.pushVoid(node, 'itob');
+        // if going from a small int to a bigger int
+      } else if (isSmallNumber(this.lastType) && !isSmallNumber(this.typeHint)) {
+        this.pushLines(node, 'itob');
+        // going from a big into a smaller int
+      } else if (!isSmallNumber(this.lastType) && isSmallNumber(this.typeHint)) {
+        this.pushLines(node, 'btoi');
+      }
+
+      this.lastType = { kind: 'base', type: `unsafe ${typeStr}` };
+      return;
     }
 
     this.lastType = this.typeHint;
@@ -4943,7 +4963,9 @@ export default class Compiler {
 
       const fixedValue = BigInt(valueStr);
 
-      this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 4, '00')}`, typeInfo);
+      if (isSmallNumber(typeInfo)) {
+        this.push(node, `int ${fixedValue}`, typeInfo);
+      } else this.push(node, `byte 0x${fixedValue.toString(16).padStart(n / 4, '00')}`, typeInfo);
 
       return;
     }
@@ -4957,7 +4979,8 @@ export default class Compiler {
         throw Error(`Value ${value} is too large for ${type}. Max value is ${maxValue}`);
       }
 
-      this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, typeInfo);
+      if (isSmallNumber(typeInfo)) this.push(node, `int ${value}`, typeInfo);
+      else this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, typeInfo);
     }
   }
 
@@ -5214,7 +5237,13 @@ export default class Compiler {
       });
 
       this.lastType = preArgsType;
-      this.push(chain[1], `callsub ${methodName}`, subroutine.returns.type);
+      const returnTypeStr = typeInfoToABIString(subroutine.returns.type);
+
+      let returnType = subroutine.returns.type;
+      if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
+        returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
+      }
+      this.push(chain[1], `callsub ${methodName}`, returnType);
       chain.splice(0, 2);
     }
   }
@@ -5690,7 +5719,12 @@ export default class Compiler {
 
     this.pushVoid(fn, `// execute ${getSignature(this.currentSubroutine)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
-    this.checkEncoding(fn, returnType);
+
+    if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
+      this.lastType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
+      this.checkEncoding(fn, this.lastType);
+    } else this.checkEncoding(fn, returnType);
+
     if (!equalTypes(returnType, StackType.void)) this.pushLines(fn, 'concat', 'log');
     this.pushLines(fn, 'int 1', 'return');
     this.processSubroutine(fn);
