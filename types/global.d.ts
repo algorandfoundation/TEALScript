@@ -1067,3 +1067,10 @@ declare type ScratchValue<ValueType> = {
 };
 
 declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;
+
+/**
+ * Send an inner transaction app call to increase the current opcode budget.
+ * This will also send any pending transaction in the same group.
+ * For every call of this function, the required fee is increased by 1000 microAlgos.
+ */
+declare function increaseOpcodeBudget();

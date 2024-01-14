@@ -1318,6 +1318,26 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    increaseOpcodeBudget: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        this.pushLines(
+          node,
+          'itxn_begin',
+          'int appl',
+          'itxn_field TypeEnum',
+          'int 0',
+          'itxn_field Fee',
+          'byte b64 CoEB // #pragma version 10; int 1',
+          'dup',
+          'itxn_field ApprovalProgram',
+          'itxn_field ClearStateProgram',
+          'int DeleteApplication',
+          'itxn_field OnCompletion',
+          'itxn_submit'
+        );
+      },
+    },
     ecdsa_verify: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
