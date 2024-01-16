@@ -75,7 +75,7 @@ async function setApps(mbr: number, boxIndex: number, appIDs: number[]) {
     suggestedParams: sp,
   });
 
-  await atc.execute(algodClient, 3);
+  await algokit.sendAtomicTransactionComposer({ atc }, algodClient);
 }
 
 let id = 0;
