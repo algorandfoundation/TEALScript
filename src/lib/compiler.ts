@@ -4302,6 +4302,7 @@ export default class Compiler {
 
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
+
     if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
       this.processNumericLiteralWithType(expr, this.getTypeInfo(node.getTypeNode()!.getType()));
       return;
@@ -4309,6 +4310,16 @@ export default class Compiler {
 
     this.typeHint = this.getTypeInfo(node.getTypeNode()!.getType());
     const typeStr = typeInfoToABIString(this.typeHint);
+
+    if (TXN_TYPES.includes(typeStr)) {
+      const lastTypeStr = typeInfoToABIString(this.getTypeInfo(expr.getType()));
+      if (lastTypeStr !== typeStr && lastTypeStr !== 'txn') {
+        throw new Error(`Cannot cast ${lastTypeStr} to ${typeStr}`);
+      }
+
+      this.processNode(expr);
+      this.pushLines(node, 'gtxns TypeEnum', `int ${typeStr}`, 'assert');
+    }
 
     if (expr.isKind(ts.SyntaxKind.StringLiteral)) {
       const width = parseInt(typeStr.match(/\d+/)![0], 10);

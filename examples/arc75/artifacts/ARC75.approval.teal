@@ -342,6 +342,12 @@ if1_else:
 	txn GroupIndex
 	int 1
 	-
+	gtxns TypeEnum
+	int pay
+	assert
+	txn GroupIndex
+	int 1
+	-
 	callsub verifyMBRPayment
 
 if1_end:
