@@ -1295,6 +1295,49 @@ u8Tou64:
 	frame_bury 0
 	retsub
 
+// privateFuncName(uint64,uint8)void
+privateFuncName:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:150
+	// assert(<uint8>y < x)
+	frame_dig -2 // y: uint64
+	frame_dig -1 // x: uint8
+	<
+	assert
+	retsub
+
+abi_route_funcName:
+	// x: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute funcName(uint256)void
+	callsub funcName
+	int 1
+	return
+
+// funcName(uint256)void
+funcName:
+	proto 1 0
+
+	// tests/contracts/math.algo.ts:154
+	// this.privateFuncName(<uint8>x, 1337)
+	int 1337
+	frame_dig -1 // x: uint256
+	dup
+	bitlen
+	int 8
+	<=
+	assert
+	btoi
+	callsub privateFuncName
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1333,6 +1376,7 @@ call_NoOp:
 	method "squareRoot64(uint64,uint64)uint64"
 	method "addressToBigInt(address)bool"
 	method "u8Tou64()uint64"
+	method "funcName(uint256)void"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64 abi_route_funcName
 	err

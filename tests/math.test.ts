@@ -106,6 +106,16 @@ describe('Math', function () {
         })
       ).toBe(BigInt(abc) / BigInt(100));
     });
+
+    test('funcName', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      await runMethod({
+        appClient,
+        method: 'funcName',
+        methodArgs: [3n],
+      });
+    });
   });
 
   describe('Compile Errors', function () {

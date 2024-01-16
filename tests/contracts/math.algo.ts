@@ -145,4 +145,12 @@ class MathTest extends Contract {
     const x: uint8 = 7;
     return <uint64>x;
   }
+
+  private privateFuncName(x: uint8, y: uint64): void {
+    assert(<uint8>y < x);
+  }
+
+  funcName(x: uint256): void {
+    this.privateFuncName(<uint8>x, 1337);
+  }
 }

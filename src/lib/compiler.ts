@@ -4355,7 +4355,10 @@ export default class Compiler {
         this.pushLines(node, 'itob');
         // going from a big into a smaller int
       } else if (!isSmallNumber(this.lastType) && isSmallNumber(this.typeHint)) {
-        this.pushLines(node, 'btoi');
+        const width = parseInt(typeStr.match(/\d+/)![0], 10);
+        this.overflowCheck(node, width);
+        this.push(node, 'btoi', this.typeHint);
+        return;
       }
 
       this.lastType = { kind: 'base', type: `unsafe ${typeStr}` };
@@ -5255,11 +5258,12 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
-      new Array(...chain[1].getArguments()).reverse().forEach((a) => {
+      new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
         this.processNode(a);
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
           this.checkEncoding(a, this.lastType);
         }
+        typeComparison(this.lastType, subroutine.args[i].type);
       });
 
       this.lastType = preArgsType;

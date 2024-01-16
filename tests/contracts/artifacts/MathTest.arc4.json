@@ -399,6 +399,18 @@
       }
     },
     {
+      "name": "funcName",
+      "args": [
+        {
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
