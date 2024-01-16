@@ -68,7 +68,6 @@ describe('Big Box', () => {
     await appClient.call({
       method: 'startUpload',
       methodArgs: ['TEAL.pdf', numBoxes, endBoxSize, mbrPayment],
-      boxes: [dataName],
       sendParams: { suppressLog: true },
     });
 

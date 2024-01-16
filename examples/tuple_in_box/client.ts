@@ -51,10 +51,7 @@ async function main() {
 
   await contacts.appClient.fundAppAccount(algokit.microAlgos(28100));
 
-  await contacts.setMyContact(
-    { name: 'Alice', company: 'Algorand Foundation' },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(alice.addr).publicKey }] }
-  );
+  await contacts.setMyContact({ name: 'Alice', company: 'Algorand Foundation' });
 
   const state = await contacts.appClient.getGlobalState();
 
@@ -69,10 +66,7 @@ async function main() {
 
   await contacts.appClient.fundAppAccount(algokit.microAlgos(27300));
 
-  await contacts.addContact(
-    { name: 'Bob', company: 'Algorand Foundation', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
-  );
+  await contacts.addContact({ name: 'Bob', company: 'Algorand Foundation', address: bob.addr });
 
   await printContacts(contacts);
 
@@ -84,9 +78,7 @@ async function main() {
       value: 'Algorand Inc',
       address: bob.addr,
     },
-    {
-      boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }],
-    }
+    {}
   );
 
   await printContacts(contacts);
@@ -95,18 +87,12 @@ async function main() {
 
   await contacts.appClient.fundAppAccount(algokit.microAlgos(1200));
 
-  await contacts.updateContactField(
-    { field: 'name', value: 'Bob McBobface', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
-  );
+  await contacts.updateContactField({ field: 'name', value: 'Bob McBobface', address: bob.addr });
 
   await printContacts(contacts);
   console.log("Verifying Bob's name...");
 
-  await contacts.verifyContactName(
-    { name: 'Bob McBobface', address: bob.addr },
-    { boxes: [{ appIndex: 0, name: algosdk.decodeAddress(bob.addr).publicKey }] }
-  );
+  await contacts.verifyContactName({ name: 'Bob McBobface', address: bob.addr });
 }
 
 main();

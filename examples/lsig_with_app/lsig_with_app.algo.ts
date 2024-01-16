@@ -47,7 +47,7 @@ class CreatorVerifier extends Contract {
   }
 
   // eslint-disable-next-line no-unused-vars
-  verifyCreator(optIn: AssetTransferTxn, _asaReference: AssetID): void {
+  verifyCreator(optIn: AssetTransferTxn): void {
     /** assert that the user has allowed optIns from the ASA creator */
     assert(this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value);
   }

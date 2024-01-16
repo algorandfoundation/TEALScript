@@ -91,8 +91,6 @@ describe('Lsig With App', () => {
       { creator: alice.addr },
       {
         sender: bob,
-        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
-        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
       }
     );
   });
@@ -125,8 +123,6 @@ describe('Lsig With App', () => {
         // This transaction is being sent by alice, so bob is doing nothing to send this transaction since he alread signed the lsig
         sender: alice,
         sendParams: { fee: algokit.microAlgos(2_000) },
-        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
-        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
       }
     );
   });
