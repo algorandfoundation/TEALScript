@@ -149,7 +149,7 @@ for_1:
 
 	// if0_consequent
 	// examples/merkle/merkle.algo.ts:41
-	// result = this.hashConcat(result, extract3(elem, 1, 32))
+	// result = this.hashConcat(result, extract3(elem, 1, 32) as bytes32)
 	frame_dig -2 // path: Path
 	store 255 // full array
 	int 0 // initial offset
@@ -162,6 +162,14 @@ for_1:
 	int 33
 	extract3
 	extract 1 32
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000
+	concat
+	dup
+	extract 32 0
+	byte 0x
+	b==
+	assert
+	extract 0 32
 	frame_dig -1 // leaf: bytes32
 	callsub hashConcat
 	frame_bury -1 // result: bytes32
@@ -169,7 +177,7 @@ for_1:
 
 if0_else:
 	// examples/merkle/merkle.algo.ts:43
-	// result = this.hashConcat(extract3(elem, 1, 32), result)
+	// result = this.hashConcat(extract3(elem, 1, 32) as bytes32, result)
 	frame_dig -1 // leaf: bytes32
 	frame_dig -2 // path: Path
 	store 255 // full array
@@ -183,6 +191,14 @@ if0_else:
 	int 33
 	extract3
 	extract 1 32
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000
+	concat
+	dup
+	extract 32 0
+	byte 0x
+	b==
+	assert
+	extract 0 32
 	callsub hashConcat
 	frame_bury -1 // result: bytes32
 

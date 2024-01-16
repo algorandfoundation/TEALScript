@@ -337,11 +337,16 @@ setAppWhitelist:
 
 if1_else:
 	// examples/arc75/arc75.algo.ts:65
-	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR)
+	// this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1] as PayTxn, preMBR)
 	frame_dig 0 // preMBR: uint64
 	txn GroupIndex
 	int 1
 	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
 	callsub verifyMBRPayment
 
 if1_end:

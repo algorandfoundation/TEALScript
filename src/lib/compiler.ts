@@ -10,7 +10,6 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -389,6 +388,7 @@ function isArrayType(type: TypeInfo) {
 function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsafe: boolean = false): void {
   if (equalTypes(inputType, expectedType, ignoreUnsafe)) return;
   if (inputType.kind === 'base' && expectedType.kind === 'base') {
+    if (expectedType.type === 'txn' && TXN_TYPES.includes(inputType.type)) return;
     const sameTypes = [
       ['address', 'account'],
       ['bytes', 'string', 'byte[]', 'byte'],
@@ -4302,6 +4302,7 @@ export default class Compiler {
 
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
+
     if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
       this.processNumericLiteralWithType(expr, this.getTypeInfo(node.getTypeNode()!.getType()));
       return;
@@ -4309,6 +4310,18 @@ export default class Compiler {
 
     this.typeHint = this.getTypeInfo(node.getTypeNode()!.getType());
     const typeStr = typeInfoToABIString(this.typeHint);
+
+    if (TXN_TYPES.includes(typeStr)) {
+      const lastTypeStr = typeInfoToABIString(this.getTypeInfo(expr.getType()));
+      if (lastTypeStr !== typeStr && lastTypeStr !== 'txn') {
+        throw new Error(`Cannot cast ${lastTypeStr} to ${typeStr}`);
+      }
+
+      this.processNode(expr);
+      this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
+      this.lastType = this.typeHint;
+      return;
+    }
 
     if (expr.isKind(ts.SyntaxKind.StringLiteral)) {
       const width = parseInt(typeStr.match(/\d+/)![0], 10);
@@ -4355,7 +4368,11 @@ export default class Compiler {
         this.pushLines(node, 'itob');
         // going from a big into a smaller int
       } else if (!isSmallNumber(this.lastType) && isSmallNumber(this.typeHint)) {
-        this.pushLines(node, 'btoi');
+        const width = parseInt(typeStr.match(/\d+/)![0], 10);
+        this.overflowCheck(node, width);
+        this.fixBitWidth(node, width);
+        this.push(node, 'btoi', this.typeHint);
+        return;
       }
 
       this.lastType = { kind: 'base', type: `unsafe ${typeStr}` };
@@ -5255,11 +5272,12 @@ export default class Compiler {
       const subroutine = this.subroutines.find((s) => s.name === methodName);
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
-      new Array(...chain[1].getArguments()).reverse().forEach((a) => {
+      new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
         this.processNode(a);
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
           this.checkEncoding(a, this.lastType);
         }
+        typeComparison(this.lastType, subroutine.args[i].type);
       });
 
       this.lastType = preArgsType;
