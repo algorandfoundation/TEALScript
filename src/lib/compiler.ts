@@ -10,7 +10,6 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -389,6 +388,7 @@ function isArrayType(type: TypeInfo) {
 function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsafe: boolean = false): void {
   if (equalTypes(inputType, expectedType, ignoreUnsafe)) return;
   if (inputType.kind === 'base' && expectedType.kind === 'base') {
+    if (expectedType.type === 'txn' && TXN_TYPES.includes(inputType.type)) return;
     const sameTypes = [
       ['address', 'account'],
       ['bytes', 'string', 'byte[]', 'byte'],
