@@ -147,7 +147,7 @@ class MathTest extends Contract {
   }
 
   private privateFuncName(x: uint8, y: uint64): void {
-    assert(<uint8>y < x);
+    assert(<uint8>y > x);
   }
 
   funcName(x: uint256): void {

@@ -4370,6 +4370,7 @@ export default class Compiler {
       } else if (!isSmallNumber(this.lastType) && isSmallNumber(this.typeHint)) {
         const width = parseInt(typeStr.match(/\d+/)![0], 10);
         this.overflowCheck(node, width);
+        this.fixBitWidth(node, width);
         this.push(node, 'btoi', this.typeHint);
         return;
       }

@@ -1300,10 +1300,10 @@ privateFuncName:
 	proto 2 0
 
 	// tests/contracts/math.algo.ts:150
-	// assert(<uint8>y < x)
+	// assert(<uint8>y > x)
 	frame_dig -2 // y: uint64
 	frame_dig -1 // x: uint8
-	<
+	>
 	assert
 	retsub
 
@@ -1334,6 +1334,7 @@ funcName:
 	int 8
 	<=
 	assert
+	extract 31 1
 	btoi
 	callsub privateFuncName
 	retsub
