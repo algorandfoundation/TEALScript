@@ -62,7 +62,7 @@ class ARC75 extends Contract {
     if (preMBR > this.app.address.minBalance) {
       this.sendMBRPayment(preMBR);
     } else {
-      this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1], preMBR);
+      this.verifyMBRPayment(this.txnGroup[this.txn.groupIndex - 1] as PayTxn, preMBR);
     }
   }
 

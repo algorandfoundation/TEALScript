@@ -243,6 +243,7 @@ type Brand<K, T> = K | (K & { __brand?: T });
 declare type uint<N extends widths> = Brand<number, `uint${N}`>;
 declare type uint8 = uint<8> | number;
 declare type uint16 = uint<16> | number;
+declare type uint32 = uint<32> | number;
 declare type uint64 = uint<64> | number;
 declare type uint128 = uint<128> | number;
 declare type uint256 = uint<256> | number;
@@ -968,7 +969,7 @@ declare function verifyTxn(
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyPayTxn(txn: Txn | PayTxn, params: PayTxnVerificationFields);
+declare function verifyPayTxn(txn: Txn | PayTxn, params: PayTxnVerificationFields): txn is PayTxn;
 
 /**
  * Verifies the fields of an asset config transaction against the given parameters.
@@ -976,7 +977,10 @@ declare function verifyPayTxn(txn: Txn | PayTxn, params: PayTxnVerificationField
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyAssetConfigTxn(txn: Txn | AssetConfigTxn, params: AssetConfigTxnVerificationFields);
+declare function verifyAssetConfigTxn(
+  txn: Txn | AssetConfigTxn,
+  params: AssetConfigTxnVerificationFields
+): txn is AssetConfigTxn;
 
 /**
  * Verifies the fields of an asset transfer transaction against the given parameters.
@@ -984,7 +988,10 @@ declare function verifyAssetConfigTxn(txn: Txn | AssetConfigTxn, params: AssetCo
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyAssetTransferTxn(txn: Txn | AssetTransferParams, params: AssetTransferTxnVerificationFields);
+declare function verifyAssetTransferTxn(
+  txn: Txn | AssetTransferTxn,
+  params: AssetTransferTxnVerificationFields
+): txn is AssetTransferTxn;
 
 /**
  * Verifies the fields of an app call transaction against the given parameters.
@@ -992,7 +999,10 @@ declare function verifyAssetTransferTxn(txn: Txn | AssetTransferParams, params: 
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyAppCallTxn(txn: ThisTxnParams | Txn | AppCallTxn, params: AppCallTxnVerificationFields);
+declare function verifyAppCallTxn(
+  txn: ThisTxnParams | Txn | AppCallTxn,
+  params: AppCallTxnVerificationFields
+): txn is AppCallTxn;
 
 /**
  * Verifies the fields of a key reg transaction against the given parameters.
@@ -1000,7 +1010,7 @@ declare function verifyAppCallTxn(txn: ThisTxnParams | Txn | AppCallTxn, params:
  * @param txn the transaction to verify
  * @param params the transaction fields to verify in the given transaction
  */
-declare function verifyKeyRegTxn(txn: Txn | KeyRegTxn, params: KeyRegTxnVerificationFields);
+declare function verifyKeyRegTxn(txn: Txn | KeyRegTxn, params: KeyRegTxnVerificationFields): txn is KeyRegTxn;
 
 declare type decorator = (target: Object, key: string | symbol, descriptor: PropertyDescriptor) => PropertyDescriptor;
 
