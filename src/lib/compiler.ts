@@ -4318,7 +4318,9 @@ export default class Compiler {
       }
 
       this.processNode(expr);
-      this.pushLines(node, 'gtxns TypeEnum', `int ${typeStr}`, 'assert');
+      this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
+      this.lastType = this.typeHint;
+      return;
     }
 
     if (expr.isKind(ts.SyntaxKind.StringLiteral)) {
