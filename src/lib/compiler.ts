@@ -2215,7 +2215,11 @@ export default class Compiler {
       if (c.isKind(ts.SyntaxKind.PropertyDeclaration)) propertyNodes.push(c);
     });
 
-    return { methodNodes, propertyNodes };
+    const uniqueNodes = (n: ts.Node, i: number, arr: ts.Node[]) => {
+      return arr.indexOf(n) === i;
+    };
+
+    return { methodNodes: methodNodes.filter(uniqueNodes), propertyNodes: propertyNodes.filter(uniqueNodes) };
   }
 
   private initializeTEAL(node: ts.Node) {

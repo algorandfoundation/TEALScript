@@ -82,3 +82,11 @@ export class G extends F {
     assert(this.publicMethod() === 'public');
   }
 }
+
+export class B2 extends A {
+  b2(): void {
+    log('b2');
+  }
+}
+
+export class MultiInheritance extends Contract.extend(B, B2) {}
