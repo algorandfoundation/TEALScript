@@ -2155,15 +2155,11 @@ export default class Compiler {
       cwd: this.cwd,
     };
 
-    const srcPath = superClassNode
-      .getSymbol()!
-      .getAliasedSymbol()!
-      .getDeclarations()!
-      .at(-1)!
-      .getSourceFile()
-      .getFilePath();
+    const symbol = superClassNode.getSymbol()?.getAliasedSymbol() || superClassNode.getSymbol()!;
 
-    const superCompiler = new Compiler({ ...options, srcPath, className: superClassNode.getText() });
+    const srcPath = symbol.getDeclarations()!.at(-1)!.getSourceFile().getFilePath();
+
+    const superCompiler = new Compiler({ ...options, srcPath, className: symbol.getName() });
     const superClassNodes = superCompiler.getClassChildren();
 
     methodNodes.push(...superClassNodes.methodNodes);
