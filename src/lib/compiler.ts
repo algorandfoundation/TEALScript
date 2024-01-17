@@ -5286,6 +5286,7 @@ export default class Compiler {
         this.processNode(a);
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
           this.checkEncoding(a, this.lastType);
+          if (isSmallNumber(this.lastType)) this.push(a, 'btoi', this.lastType);
         }
         typeComparison(this.lastType, subroutine.args[i].type);
       });
