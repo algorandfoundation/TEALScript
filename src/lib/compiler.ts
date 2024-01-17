@@ -2139,7 +2139,11 @@ export default class Compiler {
   /**
    * Gets the class child nodes for a superclass
    */
-  getSuperClassNodes(superClass: string, methodNodes: ts.MethodDeclaration[], propertyNodes: ts.PropertyDeclaration[]) {
+  getSuperClassNodes(
+    superClassNode: ts.Node,
+    methodNodes: ts.MethodDeclaration[],
+    propertyNodes: ts.PropertyDeclaration[]
+  ) {
     const options = {
       algodPort: this.algodPort,
       algodServer: this.algodServer,
@@ -2151,9 +2155,15 @@ export default class Compiler {
       cwd: this.cwd,
     };
 
-    const srcPath = this.importRegistry[superClass]?.getFilePath() || this.srcPath;
+    const srcPath = superClassNode
+      .getSymbol()!
+      .getAliasedSymbol()!
+      .getDeclarations()!
+      .at(-1)!
+      .getSourceFile()
+      .getFilePath();
 
-    const superCompiler = new Compiler({ ...options, srcPath, className: superClass });
+    const superCompiler = new Compiler({ ...options, srcPath, className: superClassNode.getText() });
     const superClassNodes = superCompiler.getClassChildren();
 
     methodNodes.push(...superClassNodes.methodNodes);
@@ -2194,13 +2204,13 @@ export default class Compiler {
       if ([CONTRACT_CLASS, LSIG_CLASS].includes(superExpr.getName())) throw Error();
 
       superClassNode.getArguments().forEach((a) => {
-        this.getSuperClassNodes(a.getText(), methodNodes, propertyNodes);
+        this.getSuperClassNodes(a, methodNodes, propertyNodes);
       });
     } else if (superClassNode.isKind(ts.SyntaxKind.Identifier)) {
       const superClass = superClassNode.getText();
 
       if (![CONTRACT_CLASS, LSIG_CLASS].includes(superClass)) {
-        this.getSuperClassNodes(superClass, methodNodes, propertyNodes);
+        this.getSuperClassNodes(superClassNode, methodNodes, propertyNodes);
       }
     }
 
