@@ -42,12 +42,12 @@ staticForOf:
 	byte 0x
 	dupn 4
 
-	// tests/contracts/abi.algo.ts:1463
+	// tests/contracts/abi.algo.ts:1462
 	// a: StaticArray<uint64, 3> = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury 0 // a: StaticArray<uint64, 3>
 
-	// tests/contracts/abi.algo.ts:1464
+	// tests/contracts/abi.algo.ts:1463
 	// sum = 0
 	int 0
 	frame_bury 1 // sum: uint64
@@ -61,7 +61,7 @@ staticForOf:
 	frame_bury 4 // the offset we are extracting the next element from
 
 *forOf_0:
-	// tests/contracts/abi.algo.ts:1468
+	// tests/contracts/abi.algo.ts:1467
 	// sum += v
 	frame_dig 1 // sum: uint64
 	frame_dig 3 // v: uint64
@@ -87,7 +87,7 @@ staticForOf:
 	b *forOf_0
 
 *forOf_0_end:
-	// tests/contracts/abi.algo.ts:1470
+	// tests/contracts/abi.algo.ts:1469
 	// return sum;
 	frame_dig 1 // sum: uint64
 

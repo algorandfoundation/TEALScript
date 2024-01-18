@@ -172,7 +172,13 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
       return 'address';
     }
 
-    return typeInfo.type.replace('bytes', 'byte[]').replace('assetid', 'uint64').replace('appid', 'uint64');
+    return typeInfo.type
+      .replace('bytes', 'byte[]')
+      .replace('assetid', 'uint64')
+      .replace('appid', 'uint64')
+      .replace(/^accountreference$/, 'account')
+      .replace(/^appreference$/, 'application')
+      .replace(/^assetreference$/, 'asset');
   }
 
   if (typeInfo.kind === 'tuple') {
@@ -1107,7 +1113,7 @@ export default class Compiler {
       };
     }
 
-    if (['address', 'appid', 'assetid'].includes(typeString)) {
+    if (['address', 'appid', 'assetid', 'assetreference', 'appreference', 'accountreference'].includes(typeString)) {
       return {
         kind: 'base',
         type: typeString,
@@ -6849,9 +6855,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     let typeStr = typeInfoToABIString(type);
 
     if (type.kind === 'base') {
-      if (type.type === 'assetid') typeStr = 'asset';
-      if (type.type === 'appid') typeStr = 'application';
-      if (type.type === 'address') typeStr = 'account';
+      if (['assetid', 'assetreference'].includes(type.type)) typeStr = 'asset';
+      if (['appid', 'appreference'].includes(type.type)) typeStr = 'application';
+      if (['address', 'accountreference'].includes(type.type)) typeStr = 'account';
     }
 
     if (TXN_TYPES.includes(typeStr) && !thisTxn) {

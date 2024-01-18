@@ -21,46 +21,53 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 *NOT_IMPLEMENTED:
 	err
 
-// accessStaticArrayInBoxInVariable()uint64
-*abi_route_accessStaticArrayInBoxInVariable:
-	// The ABI return prefix
-	byte 0x151f7c75
+// refTypes(account,application,asset)void
+*abi_route_refTypes:
+	// asa: asset
+	txna ApplicationArgs 3
+	btoi
+	txnas Assets
 
-	// execute accessStaticArrayInBoxInVariable()uint64
-	callsub accessStaticArrayInBoxInVariable
-	itob
-	concat
-	log
+	// app: application
+	txna ApplicationArgs 2
+	btoi
+	txnas Applications
+
+	// acct: account
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+
+	// execute refTypes(account,application,asset)void
+	callsub refTypes
 	int 1
 	return
 
-// accessStaticArrayInBoxInVariable(): uint64
-accessStaticArrayInBoxInVariable:
-	proto 0 1
+// refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void
+refTypes:
+	proto 3 0
 
-	// tests/contracts/abi.algo.ts:1525
-	// this.bKey.create()
-	byte 0x7374616b657273 // "stakers"
-	int 120
-	box_create
+	// tests/contracts/abi.algo.ts:1535
+	// assert(!acct.isOptedInToAsset(asa))
+	frame_dig -1 // acct: AccountReference
+	frame_dig -3 // asa: AssetReference
+	asset_holding_get AssetBalance
+	swap
 	pop
+	!
+	assert
 
-	// tests/contracts/abi.algo.ts:1526
-	// val = this.bKey.value[i]
-	// tests/contracts/abi.algo.ts:1528
-	// val.u64 = 1
-	byte 0x7374616b657273 // "stakers"
-	int 0
-	byte 0x0000000000000001
-	box_replace
-
-	// tests/contracts/abi.algo.ts:1530
-	// return val.u64;
-	byte 0x7374616b657273 // "stakers"
-	int 0
-	int 8
-	box_extract
-	btoi
+	// tests/contracts/abi.algo.ts:1536
+	// assert(!app.address.isOptedInToAsset(asa))
+	frame_dig -2 // app: AppReference
+	app_params_get AppAddress
+	pop
+	frame_dig -3 // asa: AssetReference
+	asset_holding_get AssetBalance
+	swap
+	pop
+	!
+	assert
 	retsub
 
 *abi_route_createApplication:
@@ -74,7 +81,7 @@ accessStaticArrayInBoxInVariable:
 	err
 
 *call_NoOp:
-	method "accessStaticArrayInBoxInVariable()uint64"
+	method "refTypes(account,application,asset)void"
 	txna ApplicationArgs 0
-	match *abi_route_accessStaticArrayInBoxInVariable
+	match *abi_route_refTypes
 	err

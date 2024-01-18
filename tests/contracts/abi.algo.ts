@@ -1446,7 +1446,6 @@ class ABITestNestedArrayLengthInObjectVariable extends Contract {
     return b.length;
   }
 }
-
 class ABITestBoolInNestedTuple extends Contract {
   boolInNestedTuple(): boolean {
     const a: [[uint64, uint64, uint64], boolean, boolean] = [[0, 0, 0], true, false];
@@ -1529,5 +1528,11 @@ class ABITestAccessStaticArrayInBoxInVariable extends Contract {
     val.u64 = 1;
 
     return val.u64;
+  }
+}
+class ABITestRefTypes extends Contract {
+  refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void {
+    assert(!acct.isOptedInToAsset(asa));
+    assert(!app.address.isOptedInToAsset(asa));
   }
 }
