@@ -1026,10 +1026,11 @@ export default class Compiler {
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
     const isUserTypeAlias = (d: ts.Node<ts.ts.Node> | undefined) => {
+      const sourcePath = path.format(path.posix.parse(d?.getSourceFile().getFilePath() ?? ''));
       return (
         d?.isKind(ts.SyntaxKind.TypeAliasDeclaration) &&
-        !d.getSourceFile().getFilePath().startsWith(this.typesDir) &&
-        !d.getSourceFile().getFilePath().startsWith(this.libDir)
+        !sourcePath.startsWith(this.typesDir) &&
+        !sourcePath.startsWith(this.libDir)
       );
     };
 
