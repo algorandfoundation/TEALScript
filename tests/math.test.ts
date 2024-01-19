@@ -33,6 +33,7 @@ describe('Math', function () {
       unsafeMethodArgs: 9n,
       squareRoot64: 4n,
       squareRoot256: 4n,
+      bigintPlus: 9n,
     };
 
     Object.keys(methods).forEach((method) => {
