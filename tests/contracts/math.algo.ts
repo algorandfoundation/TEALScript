@@ -153,4 +153,10 @@ class MathTest extends Contract {
   funcName(x: uint256): void {
     this.privateFuncName(<uint8>x, 1337);
   }
+
+  bigintPlus(a: uint64, b: uint64): uint64 {
+    const x = itob(a);
+    const y = itob(b);
+    return (btobigint(x) + btobigint(y)) as uint64;
+  }
 }

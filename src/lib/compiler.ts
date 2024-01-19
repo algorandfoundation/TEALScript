@@ -4193,6 +4193,8 @@ export default class Compiler {
       this.push(node, `b${operator}`, { kind: 'base', type: 'bool' });
     } else if (isMathOp && leftTypeStr.match(/\d+$/) && !isSmallNumber(leftType) && !isNumeric(leftType)) {
       this.push(node.getOperatorToken(), `b${operator}`, { kind: 'base', type: `unsafe ${leftTypeStr}` });
+    } else if (isMathOp && leftTypeStr === 'bigint') {
+      this.push(node.getOperatorToken(), `b${operator}`, leftType);
     } else {
       this.push(node.getOperatorToken(), operator, leftType);
     }

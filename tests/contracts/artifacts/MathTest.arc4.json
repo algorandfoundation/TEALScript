@@ -411,6 +411,22 @@
       }
     },
     {
+      "name": "bigintPlus",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
