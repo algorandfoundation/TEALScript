@@ -30,6 +30,7 @@ async function main() {
       cwd: process.cwd(),
       project,
       srcPath: file,
+      skipAlgod: process.env.SKIP_ALGOD === 'true',
     };
 
     const compilers = Compiler.compileAll(options);
@@ -44,6 +45,8 @@ async function main() {
 
     compilers.forEach(async (compilerPromise) => {
       const compiler = await compilerPromise;
+
+      if (process.env.SKIP_ALGOD === 'true') return;
 
       const { name } = compiler;
 
@@ -76,4 +79,4 @@ async function main() {
   });
 }
 
-await main();
+main();
