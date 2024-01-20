@@ -6153,7 +6153,6 @@ export default class Compiler {
   }
 
   async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
-    console.trace();
     // Replace template variables
     const body = this.teal[program]
       .map((t) => t.teal)
