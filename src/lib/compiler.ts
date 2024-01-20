@@ -65,6 +65,10 @@ export type CompilerOptions = {
    * This should only need to be provided when used in a browser.
    */
   tealscriptTypesDir?: string;
+  /**
+   * Skip algod compilation. This results in no source mapping and no algod assebmler error checking.
+   */
+  skipAlgod?: boolean;
 };
 
 export type SourceInfo = {
@@ -676,6 +680,8 @@ export default class Compiler {
   templateVars: Record<string, { name: string; type: TypeInfo }> = {};
 
   project: Project;
+
+  skipAlgod: boolean;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
@@ -1841,6 +1847,7 @@ export default class Compiler {
     this.srcPath = options.srcPath;
     this.disableOverflowChecks = options.disableOverflowChecks || false;
     this.disableTypeScript = options.disableTypeScript || false;
+    this.skipAlgod = options.skipAlgod || false;
 
     this.libDir = options.tealscriptLibDir || __dirname;
     this.typesDir = options.tealscriptTypesDir || path.join(__dirname, '..', '..', 'types');
@@ -1861,7 +1868,7 @@ export default class Compiler {
 
         const compiler = new Compiler({ ...options, className: name });
         await compiler.compile();
-        await compiler.algodCompile();
+        if (!options.skipAlgod) await compiler.algodCompile();
 
         return compiler;
       });
@@ -2005,6 +2012,7 @@ export default class Compiler {
       disableTypeScript: this.disableTypeScript,
       project: this.project,
       cwd: this.cwd,
+      skipAlgod: this.skipAlgod,
     };
 
     return (
@@ -2036,7 +2044,7 @@ export default class Compiler {
             }
           }
 
-          if (tealLine.startsWith('PENDING_COMPILE')) {
+          if (tealLine.startsWith('PENDING_COMPILE') && !compilerOptions.skipAlgod) {
             const className = tealLine.split(' ')[1];
             const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
 
@@ -6145,6 +6153,7 @@ export default class Compiler {
   }
 
   async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
+    console.trace();
     // Replace template variables
     const body = this.teal[program]
       .map((t) => t.teal)

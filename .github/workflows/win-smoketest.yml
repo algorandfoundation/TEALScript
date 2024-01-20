@@ -1,0 +1,14 @@
+name: TEALScript CI
+on:
+  pull_request:
+    branches: [ main, dev ]
+jobs:
+  windows-smoketest:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Compile all
+      env: 
+        SKIP_ALGOD: 'true'
+      run: bun compile-all
