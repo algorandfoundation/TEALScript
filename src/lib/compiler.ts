@@ -1357,27 +1357,7 @@ export default class Compiler {
         throw Error('bzero cannot be called with both a type argument and an argument');
       },
     },
-    increaseOpcodeBudget: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        this.pushLines(
-          node,
-          'itxn_begin',
-          'int appl',
-          'itxn_field TypeEnum',
-          'int 0',
-          'itxn_field Fee',
-          'byte b64 CoEB // #pragma version 10; int 1',
-          'dup',
-          'itxn_field ApprovalProgram',
-          'itxn_field ClearStateProgram',
-          'int DeleteApplication',
-          'itxn_field OnCompletion',
-          'itxn_submit'
-        );
-      },
-    },
-    ecdsa_verify: {
+    ecdsaVerify: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         // data
@@ -1432,7 +1412,7 @@ export default class Compiler {
         this.push(node, `ecdsa_verify ${firstArg.getLiteralText()}`, { kind: 'base', type: 'bool' });
       },
     },
-    ecdsa_pk_decompress: {
+    ecdsaPkDecompress: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         // pubkey
@@ -1466,7 +1446,7 @@ export default class Compiler {
         };
       },
     },
-    ecdsa_pk_recover: {
+    ecdsaPkRecover: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         const args = node.getArguments();
@@ -1543,14 +1523,6 @@ export default class Compiler {
         this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
       },
     },
-    substring: {
-      check: (node: ts.CallExpression) => isBytes(this.lastType),
-      fn: (node: ts.CallExpression) => {
-        this.processNode(node.getArguments()[0]);
-        this.processNode(node.getArguments()[1]);
-        this.push(node, 'substring3', StackType.bytes);
-      },
-    },
   };
 
   private customMethods: {
@@ -1560,6 +1532,35 @@ export default class Compiler {
     };
   } = {
     ...this.opcodeImplementations,
+    // String.subtring
+    substring: {
+      check: (node: ts.CallExpression) => isBytes(this.lastType),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.getArguments()[0]);
+        this.processNode(node.getArguments()[1]);
+        this.push(node, 'substring3', StackType.bytes);
+      },
+    },
+    increaseOpcodeBudget: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        this.pushLines(
+          node,
+          'itxn_begin',
+          'int appl',
+          'itxn_field TypeEnum',
+          'int 0',
+          'itxn_field Fee',
+          'byte b64 CoEB // #pragma version 10; int 1',
+          'dup',
+          'itxn_field ApprovalProgram',
+          'itxn_field ClearStateProgram',
+          'int DeleteApplication',
+          'itxn_field OnCompletion',
+          'itxn_submit'
+        );
+      },
+    },
     // Global methods
     clone: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
@@ -5851,7 +5852,7 @@ export default class Compiler {
       } else if (
         chain[0] &&
         chain[0].isKind(ts.SyntaxKind.CallExpression) &&
-        langspec.Ops.map((o) => o.Name).includes(base.getText())
+        langspec.Ops.map((o) => o.Name).includes(this.opcodeAliases[base.getText()] ?? base.getText())
       ) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
@@ -6194,8 +6195,18 @@ export default class Compiler {
     this.processSubroutine(fn);
   }
 
+  private opcodeAliases: Record<string, string> = {
+    extractUint16: 'extract_uint16',
+    extractUint32: 'extract_uint32',
+    extractUint64: 'extract_uint64',
+    ed25519VerifyBare: 'ed25519verify_bare',
+    ed25519Verify: 'ed25519verify',
+  };
+
   private processOpcode(node: ts.CallExpression) {
-    const opcodeName = node.getExpression().getText();
+    const nodeText = node.getExpression().getText();
+
+    const opcodeName = this.opcodeAliases[nodeText] ?? nodeText;
 
     if (opcodeName === 'assert') {
       const args = node.getArguments();

@@ -756,7 +756,7 @@ declare function sha512_256(data: BytesLike): bytes32;
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ed25519verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
+declare function ed25519Verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
 
 /** @returns the length of the data */
 declare function len(data: BytesLike): uint64;
@@ -823,7 +823,7 @@ declare function extract3(data: BytesLike, start: IntLike, length: IntLike): byt
  *
  * @returns uint16 as uint64
  */
-declare function extract_uint16(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint16(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Extracts 4 bytes from the given data starting at the given index and converts them to uint32
@@ -833,7 +833,7 @@ declare function extract_uint16(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns uint32 as uint64
  */
-declare function extract_uint32(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint32(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Extracts 8 bytes from the given data starting at the given index and converts them to uint64
@@ -843,7 +843,7 @@ declare function extract_uint32(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns uint64
  */
-declare function extract_uint64(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint64(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Replace bytes in the given data starting at the given index
@@ -865,7 +865,7 @@ declare function replace3(data: BytesLike, byteIndex: IntLike, newData: BytesLik
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ed25519verify_bare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
+declare function ed25519VerifyBare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
 
 /** @returns square root of the given integer */
 declare function sqrt(n: IntLike | uint): uint;
@@ -893,7 +893,7 @@ declare function sha3_256(data: BytesLike): bytes32;
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ecdsa_verify(
+declare function ecdsaVerify(
   curve: 'Secp256k1' | 'Secp256r1',
   data: bytes32,
   sSignatureComponent: uint<256>,
@@ -909,7 +909,7 @@ declare function ecdsa_verify(
  *
  * @returns The X and Y components of the decompressed public key
  */
-declare function ecdsa_pk_decompress(
+declare function ecdsaPkDecompress(
   curve: 'Secp256k1' | 'Secp256r1',
   pubKey: StaticArray<byte, 33>
 ): [uint<256>, uint<256>];
@@ -924,7 +924,7 @@ declare function ecdsa_pk_decompress(
  *
  * @returns The X and Y components of the recovered public key
  */
-declare function ecdsa_pk_recover(
+declare function ecdsaPkRecover(
   curve: 'Secp256k1' | 'Secp256r1',
   data: bytes32,
   recoveryID: uint64,

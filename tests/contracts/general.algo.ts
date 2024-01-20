@@ -177,9 +177,9 @@ class GeneralTest extends Contract {
   }
 
   ecdsa(): [uint256, uint256] {
-    ecdsa_verify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
-    ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>);
-    return ecdsa_pk_recover('Secp256k1', '' as bytes32, 1, 2, 3);
+    ecdsaVerify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
+    ecdsaPkDecompress('Secp256k1', '' as StaticArray<byte, 33>);
+    return ecdsaPkRecover('Secp256k1', '' as bytes32, 1, 2, 3);
   }
 
   verifyTxnTypes(): void {
@@ -299,5 +299,13 @@ class GeneralTest extends Contract {
 
   assertWithMessage(): void {
     assert(false, 'this is false');
+  }
+
+  opcodeAliases(): void {
+    extractUint16(bzero(64), 0);
+    extractUint32(bzero(64), 0);
+    extractUint64(bzero(64), 0);
+    ed25519VerifyBare(bzero(64), bzero(64), bzero(32));
+    ed25519Verify(bzero(64), bzero(64), bzero(32));
   }
 }
