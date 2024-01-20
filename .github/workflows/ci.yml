@@ -3,7 +3,8 @@ on:
   pull_request:
     branches: [ main, dev ]
 jobs:
-  test:
+  # Setup the environment
+  setup-env:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -20,15 +21,30 @@ jobs:
     - name: Ensure version constant is up-to-date
       run: bun scripts/version.ts
 
+  # Lint the code
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup-env
+    steps:     
     - name: Run ESLint
       run: bun lint
 
+  # Run tests
+  test:
+    runs-on: ubuntu-latest
+    needs: setup-env
+    steps:     
     - name: Run tests
       run: bun test
 
     - name: Run examples
       run: bun run-examples
 
+  # Run compile and web smoketests
+  smoketets:
+    runs-on: ubuntu-latest
+    needs: setup-env
+    steps:     
     - name: Compile all
       run: bun compile-all
 
