@@ -14,4 +14,4 @@ jobs:
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'
-      run: tsx compile-all
+      run: tsx scripts/compile_all.ts
