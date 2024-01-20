@@ -8,13 +8,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install bun
-      run: npm i -g bun
-
-    - name: Install modules
-      run: bun install --frozen-lockfile
+    - name: Install tsx and dependencies
+      run: npm i -g tsx && npm i
 
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'
-      run: bun compile-all
+      run: tsx compile-all
