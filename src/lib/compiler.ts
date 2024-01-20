@@ -1314,7 +1314,7 @@ export default class Compiler {
     });
   }
 
-  private customMethods: {
+  private opcodeImplementations: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void;
       check: (node: ts.CallExpression) => boolean;
@@ -1327,6 +1327,34 @@ export default class Compiler {
           this.processNode(a);
           this.pushVoid(a, 'assert');
         });
+      },
+    },
+    bzero: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const typeArg = node.getTypeArguments()?.[0];
+        const arg = node.getArguments()[0];
+
+        if (typeArg && !arg) {
+          const typeInfo = this.getTypeInfo(typeArg.getType());
+          if (this.isDynamicType(typeInfo)) {
+            throw Error('bzero cannot be used with dynamic types');
+          }
+          this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeInfo))}`, typeInfo);
+          return;
+        }
+
+        if (arg && !typeArg) {
+          if (arg.isKind(ts.SyntaxKind.NumericLiteral))
+            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, StackType.bytes);
+          else {
+            this.processNode(arg);
+            this.push(node, 'bzero', StackType.bytes);
+          }
+          return;
+        }
+
+        throw Error('bzero cannot be called with both a type argument and an argument');
       },
     },
     increaseOpcodeBudget: {
@@ -1497,36 +1525,46 @@ export default class Compiler {
         };
       },
     },
+    addr: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        // TODO: add pseudo op type parsing/assertion to handle this
+        // not currently exported in langspeg.json
+        const args = node.getArguments();
+        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('addr() argument must be a string literal');
+        this.push(args[0], `addr ${args[0].getLiteralText()}`, ForeignType.Address);
+      },
+    },
+    method: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('method() argument must be a string literal');
+        this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
+      },
+    },
+    substring: {
+      check: (node: ts.CallExpression) => isBytes(this.lastType),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.getArguments()[0]);
+        this.processNode(node.getArguments()[1]);
+        this.push(node, 'substring3', StackType.bytes);
+      },
+    },
+  };
+
+  private customMethods: {
+    [methodName: string]: {
+      fn: (node: ts.CallExpression) => void;
+      check: (node: ts.CallExpression) => boolean;
+    };
+  } = {
+    ...this.opcodeImplementations,
     // Global methods
     clone: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         this.processNode(node.getArguments()[0]);
-      },
-    },
-    bzero: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        const typeArg = node.getTypeArguments()?.[0];
-        const arg = node.getArguments()[0];
-
-        if (typeArg && !arg) {
-          const typeInfo = this.getTypeInfo(typeArg.getType());
-          if (this.isDynamicType(typeInfo)) {
-            throw Error('bzero cannot be used with dynamic types');
-          }
-          this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeInfo))}`, typeInfo);
-          return;
-        }
-
-        if (arg && !typeArg) {
-          this.processNode(arg);
-          this.push(node, 'bzero', StackType.bytes);
-
-          return;
-        }
-
-        throw Error('bzero cannot be called with both a type argument and an argument');
       },
     },
     rawBytes: {
@@ -1614,24 +1652,6 @@ export default class Compiler {
     verifyKeyRegTxn: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.KeyRegistrationTx),
-    },
-    addr: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        // TODO: add pseudo op type parsing/assertion to handle this
-        // not currently exported in langspeg.json
-        const args = node.getArguments();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('addr() argument must be a string literal');
-        this.push(args[0], `addr ${args[0].getLiteralText()}`, ForeignType.Address);
-      },
-    },
-    method: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        const args = node.getArguments();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('method() argument must be a string literal');
-        this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
-      },
     },
     // Array methods
     push: {
@@ -2004,15 +2024,6 @@ export default class Compiler {
 
         this.pushVoid(node, 'callsub itoa');
         this.lastType = StackType.bytes;
-      },
-    },
-    // string methods
-    substring: {
-      check: (node: ts.CallExpression) => isBytes(this.lastType),
-      fn: (node: ts.CallExpression) => {
-        this.processNode(node.getArguments()[0]);
-        this.processNode(node.getArguments()[1]);
-        this.push(node, 'substring3', StackType.bytes);
       },
     },
   };
