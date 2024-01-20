@@ -8,6 +8,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install bun
+      run: npm i -g bun
+
+    - name: Install modules
+      run: bun install --frozen-lockfile
+
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'
