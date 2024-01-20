@@ -65,6 +65,10 @@ export type CompilerOptions = {
    * This should only need to be provided when used in a browser.
    */
   tealscriptTypesDir?: string;
+  /**
+   * Skip algod compilation. This results in no source mapping and no algod assebmler error checking.
+   */
+  skipAlgod?: boolean;
 };
 
 export type SourceInfo = {
@@ -677,6 +681,8 @@ export default class Compiler {
 
   project: Project;
 
+  skipAlgod: boolean;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -1026,10 +1032,11 @@ export default class Compiler {
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
     const isUserTypeAlias = (d: ts.Node<ts.ts.Node> | undefined) => {
+      const sourcePath = path.format(path.posix.parse(d?.getSourceFile().getFilePath() ?? ''));
       return (
         d?.isKind(ts.SyntaxKind.TypeAliasDeclaration) &&
-        !d.getSourceFile().getFilePath().startsWith(this.typesDir) &&
-        !d.getSourceFile().getFilePath().startsWith(this.libDir)
+        !sourcePath.startsWith(this.typesDir) &&
+        !sourcePath.startsWith(this.libDir)
       );
     };
 
@@ -1840,6 +1847,7 @@ export default class Compiler {
     this.srcPath = options.srcPath;
     this.disableOverflowChecks = options.disableOverflowChecks || false;
     this.disableTypeScript = options.disableTypeScript || false;
+    this.skipAlgod = options.skipAlgod || false;
 
     this.libDir = options.tealscriptLibDir || __dirname;
     this.typesDir = options.tealscriptTypesDir || path.join(__dirname, '..', '..', 'types');
@@ -1860,7 +1868,7 @@ export default class Compiler {
 
         const compiler = new Compiler({ ...options, className: name });
         await compiler.compile();
-        await compiler.algodCompile();
+        if (!options.skipAlgod) await compiler.algodCompile();
 
         return compiler;
       });
@@ -2004,6 +2012,7 @@ export default class Compiler {
       disableTypeScript: this.disableTypeScript,
       project: this.project,
       cwd: this.cwd,
+      skipAlgod: this.skipAlgod,
     };
 
     return (
@@ -2035,7 +2044,7 @@ export default class Compiler {
             }
           }
 
-          if (tealLine.startsWith('PENDING_COMPILE')) {
+          if (tealLine.startsWith('PENDING_COMPILE') && !compilerOptions.skipAlgod) {
             const className = tealLine.split(' ')[1];
             const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
 
