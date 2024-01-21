@@ -308,4 +308,20 @@ class GeneralTest extends Contract {
     ed25519VerifyBare(bzero(64), bzero(64), bzero(32));
     ed25519Verify(bzero(64), bzero(64), bzero(32));
   }
+
+  vrfVerifyOp(): void {
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+
+    const r = vrfVefiry('VrfAlgorand', bzero(32), bzero(80), bzero(32));
+    assert(!r.verified);
+    log(r.output);
+  }
 }

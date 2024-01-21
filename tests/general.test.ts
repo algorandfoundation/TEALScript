@@ -15,6 +15,11 @@ describe('General', function () {
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
+    test('vrfVerifyOp', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      await runMethod({ appClient, method: 'vrfVerifyOp', fee: 10_000 });
+    });
+
     [
       'txnTypeEnum',
       'txnGroupLength',

@@ -6201,6 +6201,7 @@ export default class Compiler {
     extractUint64: 'extract_uint64',
     ed25519VerifyBare: 'ed25519verify_bare',
     ed25519Verify: 'ed25519verify',
+    vrfVefiry: 'vrf_verify',
   };
 
   private processOpcode(node: ts.CallExpression) {
@@ -6290,6 +6291,27 @@ export default class Compiler {
     }
 
     this.push(node.getExpression(), line.join(' '), returnType);
+
+    const returnTypeInfo = this.getTypeInfo(node.getReturnType());
+
+    if (opcodeName === 'vrf_verify') {
+      this.pushLines(
+        node,
+        'byte 0x000003 // tuple head',
+        'int 0 // offset for setbit',
+        'uncover 2 // verification flag',
+        'setbit',
+        'uncover 1',
+        'dup',
+        'len',
+        'itob',
+        'extract 6 2',
+        'swap',
+        'concat',
+        'concat'
+      );
+      this.lastType = returnTypeInfo;
+    }
   }
 
   private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.TypeNode[]) {

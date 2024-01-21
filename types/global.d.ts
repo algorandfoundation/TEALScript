@@ -1087,3 +1087,20 @@ declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;
  * For every call of this function, the required fee is increased by 1000 microAlgos.
  */
 declare function increaseOpcodeBudget();
+
+declare type ECGroup = 'BN254g1' | 'BN254g2' | 'BLS12_381g1' | 'BLS12_381g2';
+
+/**
+ * Verify VRF proof of a message against the given public key
+ *
+ * @param standard VRF standard to use. Currently only VrfAlgorand is supported which is ECVRF-ED25519-SHA512-Elligator2, specified in the IETF internet draft [draft-irtf-cfrg-vrf-03](https://datatracker.ietf.org/doc/draft-irtf-cfrg-vrf/03/).
+ * @param message The message to verify
+ * @param proof The VRF proof
+ * @param pubkey The VRF public key
+ */
+declare function vrfVefiry(
+  standard: 'VrfAlgorand',
+  message: bytes,
+  proof: StaticArray<byte, 80>,
+  pubkey: bytes32
+): { verified: boolean; output: bytes };

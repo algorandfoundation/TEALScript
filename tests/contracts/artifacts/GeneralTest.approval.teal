@@ -1526,6 +1526,207 @@ opcodeAliases:
 	ed25519verify
 	retsub
 
+// vrfVerifyOp()void
+abi_route_vrfVerifyOp:
+	// execute vrfVerifyOp()void
+	callsub vrfVerifyOp
+	int 1
+	return
+
+// vrfVerifyOp(): void
+vrfVerifyOp:
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/general.algo.ts:313
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:314
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:315
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:316
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:317
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:318
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:319
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:320
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:321
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:323
+	// r = vrfVefiry('VrfAlgorand', bzero(32), bzero(80), bzero(32))
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000
+	vrf_verify VrfAlgorand
+	byte 0x000003 // tuple head
+	int 0 // offset for setbit
+	uncover 2 // verification flag
+	setbit
+	uncover 1
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	frame_bury 0 // r: (bool,byte[])
+
+	// tests/contracts/general.algo.ts:324
+	// assert(!r.verified)
+	frame_dig 0 // r: (bool,byte[])
+	store 255 // full array
+	load 255 // full array
+	int 0
+	getbit
+	!
+	assert
+
+	// tests/contracts/general.algo.ts:325
+	// log(r.output)
+	frame_dig 0 // r: (bool,byte[])
+	store 255 // full array
+	int 1
+	load 255 // full array
+	load 255 // full array
+	uncover 2
+	extract_uint16
+	dup // duplicate start of element
+	load 255 // full array
+	swap
+	extract_uint16 // get number of elements
+	int 1 // get type length
+	* // multiply by type length
+	int 2
+	+ // add two for length
+	extract3
+	extract 2 0
+	log
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1578,8 +1779,9 @@ call_NoOp:
 	method "consts()void"
 	method "assertWithMessage()void"
 	method "opcodeAliases()void"
+	method "vrfVerifyOp()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases abi_route_vrfVerifyOp
 	err
 
 intToAscii:
