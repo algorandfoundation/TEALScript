@@ -1104,3 +1104,63 @@ declare function vrfVefiry(
   proof: StaticArray<byte, 80>,
   pubkey: bytes32
 ): { verified: boolean; output: bytes };
+
+/**
+ * Sum two curve points
+ * @param group The target group
+ * @param a The first point to add
+ * @param b The second point to add
+ */
+declare function ecAdd(group: ECGroup, a: bytes, b: bytes): bytes;
+
+/**
+ * Return the point multiplied by the scalar
+ *
+ * @param point The point to multiply
+ * @param scalar The scalar to multiply
+ */
+declare function ecScalarMul(group: ECGroup, point: bytes, scalar: bytes): bytes;
+
+/**
+ * Checks if the product of the pairing of each point in A with its respective point in B is equal to the identity element of the target group
+ *
+ * @param group The target group
+ * @param a Concatenated points of the target group
+ * @param b Concatenated if the associated group
+ */
+declare function ecPairingCheck(group: ECGroup, a: bytes, b: bytes): boolean;
+
+/**
+ * for curve points A and scalars B, return curve point B0A0 + B1A1 + B2A2 + ... + BnAn
+ *
+ * @param group The target group
+ * @param points The concatenated points to multiply
+ * @param scalars The scalars to multiply
+ *
+ */
+declare function ecMultiScalarMul(group: ECGroup, points: bytes, scalars: bytes32[]): bytes;
+
+/**
+ * Checks if the given point is in the main prime-order subgroup of the target group. Fails if the point is not in the group at all.
+ *
+ * @param group The target group
+ * @param point The point to check
+ *
+ */
+declare function ecSubgroupCheck(group: ECGroup, point: bytes): boolean;
+
+/**
+ * Maps field element to the target group.
+ *
+ * BN254 points are mapped by the SVDW map. BLS12-381 points are mapped by the SSWU map.
+ * G1 element inputs are base field elements and G2 element inputs are quadratic field elements,
+ * with nearly the same encoding rules (for field elements) as defined in ec_add.
+ *
+ * There is one difference of encoding rule: G1 element inputs do not need to be 0-padded if
+ * they fit in less than 32 bytes for BN254 and less than 48 bytes for BLS12-381. (As usual,
+ * the empty byte array represents 0.) G2 elements inputs need to be always have the required size.
+ *
+ * @param group The target group
+ * @param fieldElement The field element to map
+ */
+declare function ecMapTo(group: ECGroup, fieldElement: bytes): bytes;

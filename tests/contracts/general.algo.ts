@@ -27,6 +27,8 @@ class ProgramVersion extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
+  programVersion = 10;
+
   scratch = ScratchSlot<uint64>(0);
 
   gKey = GlobalStateKey<uint64>();
@@ -323,5 +325,15 @@ class GeneralTest extends Contract {
     const r = vrfVefiry('VrfAlgorand', bzero(32) as bytes, bzero(80), bzero(32));
     assert(!r.verified);
     log(r.output);
+  }
+
+  ecMath(): void {
+    ecScalarMul('BN254g1', '', '');
+    ecPairingCheck('BN254g1', '', '');
+    const scalars: bytes32[] = [bzero(32), bzero(32)];
+    ecMultiScalarMul('BN254g1', '', scalars);
+    ecSubgroupCheck('BN254g1', '');
+    ecMapTo('BN254g1', '');
+    ecAdd('BN254g1', '', '');
   }
 }

@@ -6242,6 +6242,12 @@ export default class Compiler {
     ed25519VerifyBare: 'ed25519verify_bare',
     ed25519Verify: 'ed25519verify',
     vrfVefiry: 'vrf_verify',
+    ecScalarMul: 'ec_scalar_mul',
+    ecPairingCheck: 'ec_pairing_check',
+    ecMultiScalarMul: 'ec_multi_scalar_mul',
+    ecSubgroupCheck: 'ec_subgroup_check',
+    ecMapTo: 'ec_map_to',
+    ecAdd: 'ec_add',
   };
 
   private processOpcode(node: ts.CallExpression) {
