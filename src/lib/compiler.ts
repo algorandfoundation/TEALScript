@@ -6331,7 +6331,7 @@ export default class Compiler {
         m.returns.type
       )
         .replace(/asset/g, 'uint64')
-        .replace(/gapplication/g, 'uint64')
+        .replace(/application/g, 'uint64')
         .replace(/account/g, 'address')}`;
 
       hints[signature] = {
