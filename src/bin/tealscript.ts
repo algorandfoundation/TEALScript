@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { ArgumentParser } from 'argparse';
 import ts from 'typescript';
 import { Project } from 'ts-morph';
+import { globSync } from 'glob';
 import Compiler from '../lib/compiler';
 
 import 'dotenv/config';
@@ -39,6 +40,7 @@ async function processFile(filename: string, parsed: any) {
     srcPath: filename,
     project,
     cwd: process.cwd(),
+    skipAlgod: parsed.skip_algod as boolean,
   };
 
   const compilers = Compiler.compileAll(options);
@@ -98,7 +100,16 @@ parser.add_argument('--unsafe-disable-typescript', {
   action: 'store_true',
   default: false,
 });
+parser.add_argument('--skip-algod', {
+  help: 'Skip algod compilation. This results in no source mapping and no algod assebmler error checking. The emitted TEAL may not properly compile without additional steps.',
+  action: 'store_true',
+  default: false,
+});
 
 const parsed = parser.parse_args();
 
-parsed.input.forEach((f: string) => processFile(f, parsed));
+parsed.input.forEach((f: string) =>
+  globSync(f).forEach((gf) => {
+    processFile(gf, parsed);
+  })
+);

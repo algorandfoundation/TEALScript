@@ -11,6 +11,9 @@ jobs:
     - name: Install tsx and dependencies
       run: npm i -g tsx && npm i
 
+    - name: Test binary
+      run: tsx src/bin/tealscript.ts --skip-algod ./examples/**/*.algo.ts ./
+
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'

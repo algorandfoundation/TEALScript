@@ -1032,7 +1032,7 @@ export default class Compiler {
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
     const isUserTypeAlias = (d: ts.Node<ts.ts.Node> | undefined) => {
-      const sourcePath = path.format(path.posix.parse(d?.getSourceFile().getFilePath() ?? ''));
+      const sourcePath = path.normalize(d?.getSourceFile().getFilePath() ?? '');
       return (
         d?.isKind(ts.SyntaxKind.TypeAliasDeclaration) &&
         !sourcePath.startsWith(this.typesDir) &&
@@ -1849,8 +1849,8 @@ export default class Compiler {
     this.disableTypeScript = options.disableTypeScript || false;
     this.skipAlgod = options.skipAlgod || false;
 
-    this.libDir = options.tealscriptLibDir || __dirname;
-    this.typesDir = options.tealscriptTypesDir || path.join(__dirname, '..', '..', 'types');
+    this.libDir = path.normalize(options.tealscriptLibDir || __dirname);
+    this.typesDir = path.normalize(options.tealscriptTypesDir || path.join(__dirname, '..', '..', 'types'));
     this.cwd = options.cwd;
 
     this.name = options.className;
@@ -6331,7 +6331,7 @@ export default class Compiler {
         m.returns.type
       )
         .replace(/asset/g, 'uint64')
-        .replace(/gapplication/g, 'uint64')
+        .replace(/application/g, 'uint64')
         .replace(/account/g, 'address')}`;
 
       hints[signature] = {
