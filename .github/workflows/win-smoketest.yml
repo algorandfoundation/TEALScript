@@ -14,4 +14,4 @@ jobs:
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'
-      run: tsx scripts/compile_all.ts
+      run: tsx src/bin/tealscript.ts ./**/*.algo.ts ./

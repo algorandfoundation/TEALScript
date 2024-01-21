@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { ArgumentParser } from 'argparse';
 import ts from 'typescript';
 import { Project } from 'ts-morph';
+import { globSync } from 'glob';
 import Compiler from '../lib/compiler';
 
 import 'dotenv/config';
@@ -101,4 +102,8 @@ parser.add_argument('--unsafe-disable-typescript', {
 
 const parsed = parser.parse_args();
 
-parsed.input.forEach((f: string) => processFile(f, parsed));
+parsed.input.forEach((f: string) =>
+  globSync(f).forEach((gf) => {
+    processFile(gf, parsed);
+  })
+);
