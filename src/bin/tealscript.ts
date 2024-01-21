@@ -40,6 +40,7 @@ async function processFile(filename: string, parsed: any) {
     srcPath: filename,
     project,
     cwd: process.cwd(),
+    skipAlgod: parsed.skip_algod as boolean,
   };
 
   const compilers = Compiler.compileAll(options);
@@ -96,6 +97,11 @@ parser.add_argument('--unsafe-disable-overflow-checks', {
 });
 parser.add_argument('--unsafe-disable-typescript', {
   help: 'disables typescript diagnostics',
+  action: 'store_true',
+  default: false,
+});
+parser.add_argument('--skip-algod', {
+  help: 'Skip algod compilation. This results in no source mapping and no algod assebmler error checking. The emitted TEAL may not properly compile without additional steps.',
   action: 'store_true',
   default: false,
 });

@@ -12,9 +12,7 @@ jobs:
       run: npm i -g tsx && npm i
 
     - name: Test binary
-      env: 
-        SKIP_ALGOD: 'true'
-      run: tsx src/bin/tealscript.ts ./examples/**/*.algo.ts ./
+      run: tsx src/bin/tealscript.ts --skip-algod ./examples/**/*.algo.ts ./
 
     - name: Compile all
       env: 
