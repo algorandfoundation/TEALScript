@@ -661,7 +661,7 @@ export default class Compiler {
     asset: this.getOpParamObjects('asset_params_get'),
   };
 
-  programVersion = 9;
+  programVersion = 10;
 
   importRegistry: {
     [contractClass: string]: SourceFile;
@@ -721,7 +721,7 @@ export default class Compiler {
     /** The name of the storage property as defined in the contract */
     name: string;
     /** The action to take on the storage property */
-    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size';
+    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size' | 'resize' | 'splice';
     /** If the key for the target storage object is saved in the frame, then this is the name of the key in this.localVariables */
     storageKeyFrame?: string;
     /** If the account for the target local storage is saved in the frame, then this is the name of the key in this.localVariables */
@@ -870,6 +870,22 @@ export default class Compiler {
         this.pushVoid(node.getExpression(), deleteAction);
         break;
       }
+
+      case 'resize':
+        if (!equalTypes(valueType, StackType.bytes)) throw Error(`resize only supported on bytes, not ${keyType}`);
+
+        this.processNode(args[0]);
+        this.pushVoid(node.getExpression(), 'box_resize');
+        break;
+
+      case 'splice':
+        if (!equalTypes(valueType, StackType.bytes)) throw Error(`splice only supported on bytes, not ${keyType}`);
+
+        this.processNode(args[0]);
+        this.processNode(args[1]);
+        this.processNode(args[2]);
+        this.pushVoid(node.getExpression(), 'box_splice');
+        break;
 
       case 'create':
         if (args[0]) {

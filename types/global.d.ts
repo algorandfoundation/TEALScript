@@ -484,6 +484,21 @@ declare type BoxValue<ValueType> = {
   replace(offset: uint64, value: bytes): void;
   extract(offset: uint64, length: uint64): bytes;
   size: uint64;
+  /**
+   * Change the size of the box dding zero bytes to end or removing bytes from the end, as needed.
+   * Throws error if the box does not exist or the size is larger than 32,768.
+   *
+   * @param size The new size of the box
+   */
+  resize(size: uint64): void;
+  /**
+   * Remove bytes from the box starting at the given offset and replace them with the given data.
+   *
+   * @param offset
+   * @param length
+   * @param data
+   */
+  splice(offset: uint64, length: uint64, data: bytes): void;
 };
 
 declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boolean }): BoxValue<ValueType>;
