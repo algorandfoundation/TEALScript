@@ -11,7 +11,12 @@ jobs:
     - name: Install tsx and dependencies
       run: npm i -g tsx && npm i
 
+    - name: Test binary
+      env: 
+        SKIP_ALGOD: 'true'
+      run: tsx src/bin/tealscript.ts ./examples/**/*.algo.ts ./
+
     - name: Compile all
       env: 
         SKIP_ALGOD: 'true'
-      run: tsx src/bin/tealscript.ts ./**/*.algo.ts ./
+      run: tsx scripts/compile_all.ts
