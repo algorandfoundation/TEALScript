@@ -142,6 +142,25 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
 }
 
 function equalTypes(a: TypeInfo, b: TypeInfo, ignoreUnsafe: boolean = false) {
+  if (b.kind === 'base' && b.type === 'byteslike') {
+    return (
+      // eslint-disable-next-line no-use-before-define
+      isBytes(a) ||
+      // eslint-disable-next-line no-use-before-define
+      (a.kind === 'staticArray' && isBytes(a.base)) ||
+      // eslint-disable-next-line no-use-before-define
+      (a.kind === 'dynamicArray' && isBytes(a.base)) ||
+      (a.kind === 'base' && a.type === 'address')
+    );
+  }
+
+  if (b.kind === 'base' && b.type === 'intlike') {
+    return (
+      // eslint-disable-next-line no-use-before-define
+      isNumeric(a)
+    );
+  }
+
   if (ignoreUnsafe) {
     return typeInfoToABIString(a).replace('unsafe ', '') === typeInfoToABIString(b).replace('unsafe ', '');
   }
@@ -341,7 +360,7 @@ function isNumeric(t: TypeInfo): boolean {
 }
 
 function isBytes(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['bytes', 'byte[]', 'string'].includes(t.type);
+  return t.kind === 'base' && ['bytes', 'byte[]', 'string', 'byte'].includes(t.type);
 }
 
 function isRefType(t: TypeInfo): boolean {
@@ -359,6 +378,7 @@ function isArrayType(type: TypeInfo) {
 }
 
 function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsafe: boolean = false): void {
+  if (equalTypes(expectedType, StackType.any)) return;
   if (equalTypes(inputType, expectedType, ignoreUnsafe)) return;
   if (inputType.kind === 'base' && expectedType.kind === 'base') {
     if (expectedType.type === 'txn' && TXN_TYPES.includes(inputType.type)) return;
@@ -1022,6 +1042,18 @@ export default class Compiler {
       return { kind: 'base', type: typeString.replace('number', 'uint64') };
     }
 
+    if (type.isNumberLiteral()) {
+      return { kind: 'base', type: `uint64` };
+    }
+
+    if (type.isStringLiteral()) {
+      return { kind: 'base', type: `string` };
+    }
+
+    if (type.isAny()) {
+      return { kind: 'base', type: 'any' };
+    }
+
     throw Error(`Cannot resolve type ${type.getText()}`);
   }
 
@@ -1345,8 +1377,16 @@ export default class Compiler {
         }
 
         if (arg && !typeArg) {
+          const staticType: TypeInfo = {
+            kind: 'staticArray',
+            base: { kind: 'base', type: 'byte' },
+            length: parseInt(arg.getText(), 10),
+          };
+
+          const type = this.typeHint && isBytes(this.typeHint) ? this.typeHint : staticType;
+
           if (arg.isKind(ts.SyntaxKind.NumericLiteral))
-            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, StackType.bytes);
+            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, type);
           else {
             this.processNode(arg);
             this.push(node, 'bzero', StackType.bytes);
@@ -6242,9 +6282,19 @@ export default class Compiler {
     const opSpec = langspec.Ops.find((o) => o.Name === opcodeName)!;
     let line: string[] = [opcodeName];
 
+    const declaration = node.getExpression()?.getType()?.getCallSignatures()?.[0]?.getDeclaration();
+
+    const argTypes: ts.Type[] = [];
+    if (declaration?.isKind(ts.SyntaxKind.FunctionDeclaration)) {
+      declaration.getParameters().forEach((p) => argTypes.push(p.getType()));
+    }
+
     if (opSpec.Size === 1) {
       const preArgsType = this.lastType;
-      node.getArguments().forEach((a) => this.processNode(a));
+      node.getArguments().forEach((a, i) => {
+        this.processNode(a);
+        if (declaration) typeComparison(this.lastType, this.getTypeInfo(argTypes[i]));
+      });
       this.lastType = preArgsType;
     } else if (opSpec.Size === 0) {
       line = line.concat(node.getArguments().map((a) => a.getText()));
@@ -6252,7 +6302,11 @@ export default class Compiler {
       node
         .getArguments()
         .slice(opSpec.Size - 1)
-        .forEach((a) => this.processNode(a));
+        .forEach((a, i) => {
+          this.processNode(a);
+          if (declaration) typeComparison(this.lastType, this.getTypeInfo(argTypes[i + opSpec.Size - 1]));
+        });
+
       line = line.concat(
         node
           .getArguments()

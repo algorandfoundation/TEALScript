@@ -320,7 +320,7 @@ class GeneralTest extends Contract {
     increaseOpcodeBudget();
     increaseOpcodeBudget();
 
-    const r = vrfVefiry('VrfAlgorand', bzero(32), bzero(80), bzero(32));
+    const r = vrfVefiry('VrfAlgorand', bzero(32) as bytes, bzero(80), bzero(32));
     assert(!r.verified);
     log(r.output);
   }
