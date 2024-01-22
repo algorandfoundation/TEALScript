@@ -80,7 +80,7 @@
 | | | Natively supported |
 | & | Natively supported |
 | ^ | Natively supported |
-| ~ | Not yet supported or tested |
+| ~ | Natively supported |
 | mulw | Not yet supported or tested |
 | addw | Not yet supported or tested |
 | divmodw | Not yet supported or tested |
@@ -202,7 +202,7 @@
 | b| | Natively supported |
 | b& | Natively supported |
 | b^ | Natively supported |
-| b~ | Not yet supported or tested |
+| b~ | Natively supported |
 
 ### Inner Transactions
 | Opcode | TEALScript |

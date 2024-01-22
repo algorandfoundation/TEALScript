@@ -5119,8 +5119,12 @@ export default class Compiler {
       case ts.SyntaxKind.ExclamationToken:
         this.pushVoid(node.getOperand(), '!');
         break;
+      case ts.SyntaxKind.TildeToken:
+        if (isNumeric(this.lastType) || isSmallNumber(this.lastType)) this.pushVoid(node.getOperand(), '~');
+        else this.pushVoid(node.getOperand(), 'b~');
+        break;
       default:
-        throw new Error(`Unsupported unary operator ${node.getOperatorToken()}`);
+        throw new Error(`Unsupported unary operator ${ts.SyntaxKind[node.getOperatorToken()]}`);
     }
   }
 

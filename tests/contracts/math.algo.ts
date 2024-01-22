@@ -183,4 +183,12 @@ class MathTest extends Contract {
   bitwiseXorU256(a: uint256, b: uint256): uint256 {
     return a ^ b;
   }
+
+  bitwiseNot(a: uint64): uint64 {
+    return ~a;
+  }
+
+  bitwiseNotU256(a: uint256): uint256 {
+    return ~a;
+  }
 }

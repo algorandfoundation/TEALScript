@@ -51,6 +51,20 @@ describe('Math', function () {
       });
     });
 
+    test('bitwiseNot', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'bitwiseNot', methodArgs: [6n] })).toBe(
+        BigInt(`0b${'1'.repeat(61)}001`)
+      );
+    });
+
+    test('bitwiseNotU256', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'bitwiseNotU256', methodArgs: [6n] })).toBe(
+        BigInt(`0b${'1'.repeat(253)}001`)
+      );
+    });
+
     test('maxU64', async function () {
       const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'maxU64' })).toBe(BigInt('18446744073709551615'));
