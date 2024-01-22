@@ -95,7 +95,7 @@
 ### Byte Array Manipulation
 | Opcode | TEALScript |
 | --- | --- |
-| len | .length on bytes |
+| len | `.length` on bytes |
 | concat | `concat` or `+` |
 | substring | `String.substring` or `substring` |
 | substring3 | `String.substring` or `substring` |
@@ -105,9 +105,9 @@
 | setbyte | Not yet supported or tested |
 | extract | `extract3` |
 | extract3 | `extract3` |
-| extract_uint16 | extractUint16 |
-| extract_uint32 | extractUint32 |
-| extract_uint64 | extractUint64 |
+| extract_uint16 | `extractUint16` |
+| extract_uint32 | `extractUint32` |
+| extract_uint64 | `extractUint64` |
 | replace2 | `replace3` |
 | replace3 | `replace3` |
 | base64_decode | Not yet supported or tested |
@@ -128,11 +128,11 @@
 | bytec_1 | Constant block not officially supported |
 | bytec_2 | Constant block not officially supported |
 | bytec_3 | Constant block not officially supported |
-| arg | LogicSig.logic arguments |
-| arg_0 | LogicSig.logic arguments |
-| arg_1 | LogicSig.logic arguments |
-| arg_2 | LogicSig.logic arguments |
-| arg_3 | LogicSig.logic arguments |
+| arg | `LogicSig.logic` arguments |
+| arg_0 | `LogicSig.logic` arguments |
+| arg_1 | `LogicSig.logic` arguments |
+| arg_2 | `LogicSig.logic` arguments |
+| arg_3 | `LogicSig.logic` arguments |
 | txn | `this.txn` |
 | global | `globals` |
 | gtxn | `this.txnGroup` or transaction argument |
@@ -156,7 +156,7 @@
 | txnas | `this.txn` |
 | gtxnas | `this.txnGroup` or transaction argument |
 | gtxnsas | `this.txnGroup` or transaction argument |
-| args | LogicSig.logic arguments |
+| args | `LogicSig.logic` arguments |
 | gloadss | `Txn.load` |
 
 ### State Access
