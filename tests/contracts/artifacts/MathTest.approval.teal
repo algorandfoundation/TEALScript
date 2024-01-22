@@ -1436,6 +1436,261 @@ bigintPlus:
 	popn 1
 	retsub
 
+// bitwiseOr(uint64,uint64)uint64
+abi_route_bitwiseOr:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseOr(uint64,uint64)uint64
+	callsub bitwiseOr
+	itob
+	concat
+	log
+	int 1
+	return
+
+// bitwiseOr(a: uint64, b: uint64): uint64
+bitwiseOr:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:164
+	// return a | b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	|
+	retsub
+
+// bitwiseAnd(uint64,uint64)uint64
+abi_route_bitwiseAnd:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseAnd(uint64,uint64)uint64
+	callsub bitwiseAnd
+	itob
+	concat
+	log
+	int 1
+	return
+
+// bitwiseAnd(a: uint64, b: uint64): uint64
+bitwiseAnd:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:168
+	// return a & b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	&
+	retsub
+
+// bitwiseXor(uint64,uint64)uint64
+abi_route_bitwiseXor:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseXor(uint64,uint64)uint64
+	callsub bitwiseXor
+	itob
+	concat
+	log
+	int 1
+	return
+
+// bitwiseXor(a: uint64, b: uint64): uint64
+bitwiseXor:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:172
+	// return a ^ b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	^
+	retsub
+
+// bitwiseOrU256(uint256,uint256)uint256
+abi_route_bitwiseOrU256:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute bitwiseOrU256(uint256,uint256)uint256
+	callsub bitwiseOrU256
+	dup
+	bitlen
+	int 256
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
+	concat
+	log
+	int 1
+	return
+
+// bitwiseOrU256(a: uint256, b: uint256): uint256
+bitwiseOrU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:176
+	// return a | b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b|
+	retsub
+
+// bitwiseAndU256(uint256,uint256)uint256
+abi_route_bitwiseAndU256:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute bitwiseAndU256(uint256,uint256)uint256
+	callsub bitwiseAndU256
+	dup
+	bitlen
+	int 256
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
+	concat
+	log
+	int 1
+	return
+
+// bitwiseAndU256(a: uint256, b: uint256): uint256
+bitwiseAndU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:180
+	// return a & b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b&
+	retsub
+
+// bitwiseXorU256(uint256,uint256)uint256
+abi_route_bitwiseXorU256:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	int 32
+	==
+	assert
+
+	// execute bitwiseXorU256(uint256,uint256)uint256
+	callsub bitwiseXorU256
+	dup
+	bitlen
+	int 256
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 32
+	-
+	swap
+	substring3
+	concat
+	log
+	int 1
+	return
+
+// bitwiseXorU256(a: uint256, b: uint256): uint256
+bitwiseXorU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:184
+	// return a ^ b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b^
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1476,6 +1731,12 @@ call_NoOp:
 	method "u8Tou64()uint64"
 	method "funcName(uint256)void"
 	method "bigintPlus(uint64,uint64)uint64"
+	method "bitwiseOr(uint64,uint64)uint64"
+	method "bitwiseAnd(uint64,uint64)uint64"
+	method "bitwiseXor(uint64,uint64)uint64"
+	method "bitwiseOrU256(uint256,uint256)uint256"
+	method "bitwiseAndU256(uint256,uint256)uint256"
+	method "bitwiseXorU256(uint256,uint256)uint256"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64 abi_route_funcName abi_route_bigintPlus
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64 abi_route_funcName abi_route_bigintPlus abi_route_bitwiseOr abi_route_bitwiseAnd abi_route_bitwiseXor abi_route_bitwiseOrU256 abi_route_bitwiseAndU256 abi_route_bitwiseXorU256
 	err

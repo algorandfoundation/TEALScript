@@ -38,7 +38,7 @@ lines.push('');
 lines.push('## Opcodes');
 const ops = {};
 
-let mathOps = ['+', '-', '*', '/', '%', '>', '<', '>=', '<=', '==', '!=', 'sqrt'];
+let mathOps = ['+', '-', '*', '/', '%', '>', '<', '>=', '<=', '==', '!=', 'sqrt', '|', '&', '^'];
 mathOps = [...mathOps, ...mathOps.map((op) => `b${op}`)];
 const tealscriptMapping = {
   '`throw Error()`': ['err'],

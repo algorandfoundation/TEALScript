@@ -159,4 +159,28 @@ class MathTest extends Contract {
     const y = itob(b);
     return (btobigint(x) + btobigint(y)) as uint64;
   }
+
+  bitwiseOr(a: uint64, b: uint64): uint64 {
+    return a | b;
+  }
+
+  bitwiseAnd(a: uint64, b: uint64): uint64 {
+    return a & b;
+  }
+
+  bitwiseXor(a: uint64, b: uint64): uint64 {
+    return a ^ b;
+  }
+
+  bitwiseOrU256(a: uint256, b: uint256): uint256 {
+    return a | b;
+  }
+
+  bitwiseAndU256(a: uint256, b: uint256): uint256 {
+    return a & b;
+  }
+
+  bitwiseXorU256(a: uint256, b: uint256): uint256 {
+    return a ^ b;
+  }
 }

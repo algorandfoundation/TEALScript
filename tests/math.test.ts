@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
 import { test, expect, describe } from '@jest/globals';
@@ -34,6 +35,12 @@ describe('Math', function () {
       squareRoot64: 4n,
       squareRoot256: 4n,
       bigintPlus: 9n,
+      bitwiseAnd: 6n & 3n,
+      bitwiseOr: 6n | 3n,
+      bitwiseXor: 6n ^ 3n,
+      bitwiseAndU256: 6n & 3n,
+      bitwiseOrU256: 6n | 3n,
+      bitwiseXorU256: 6n ^ 3n,
     };
 
     Object.keys(methods).forEach((method) => {

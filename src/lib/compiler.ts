@@ -4547,7 +4547,7 @@ export default class Compiler {
       );
     }
 
-    const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
+    const isMathOp = ['+', '-', '*', '/', '%', 'exp', '|', '&', '^'].includes(operator);
 
     if (leftNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(leftNode, rightType);
