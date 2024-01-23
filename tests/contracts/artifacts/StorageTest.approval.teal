@@ -798,7 +798,7 @@ accessStaticValueInLargeBox:
 	proto 0 1
 
 	// tests/contracts/storage.algo.ts:172
-	// this.largeStaticArrayInBox.create(8000)
+	// this.largeStaticArrayInBox.create()
 	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
 	int 8000
 	box_create
@@ -847,7 +847,7 @@ dynamicAccessStaticValueInLargeBox:
 	proto 1 1
 
 	// tests/contracts/storage.algo.ts:179
-	// this.largeStaticArrayInBox.create(8000)
+	// this.largeStaticArrayInBox.create()
 	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
 	int 8000
 	box_create

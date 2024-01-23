@@ -869,7 +869,12 @@ export default class Compiler {
       }
 
       case 'create':
-        this.processNode(args[0]);
+        if (args[0]) {
+          this.processNode(args[0]);
+        } else if (this.isDynamicType(valueType)) {
+          throw Error('Size must be given to create call when the box value is dynamic');
+        } else this.pushVoid(node, `int ${this.getTypeLength(valueType)}`);
+
         this.pushLines(node.getExpression(), 'box_create', 'pop');
         break;
 
