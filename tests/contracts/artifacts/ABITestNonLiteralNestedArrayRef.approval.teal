@@ -63,16 +63,11 @@ nonLiteralNestedArrayRef:
 	// tests/contracts/abi.algo.ts:794
 	// b[1] = 5 as uint<8>
 	frame_dig 0 // a: StaticArray<StaticArray<uint<8>, 2>, 2>
-	store 255 // full array
-	int 0 // initial offset
 	frame_dig 2 // saved accessor: accessor//0//b
 	int 2
 	* // acc * typeLength
+	int 1
 	+
-	int 1 // acc * typeLength
-	+
-	load 255 // full array
-	swap
 	byte 0x05
 	replace3
 	frame_bury 0 // b: StaticArray<StaticArray<uint<8>, 2>, 2>

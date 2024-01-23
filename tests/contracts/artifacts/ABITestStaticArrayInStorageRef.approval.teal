@@ -79,9 +79,9 @@ staticArrayInStorageRef:
 	itob
 	concat
 	byte 0x62526566 // "bRef"
-	box_get
-	assert
-	extract 8 8
+	int 8
+	dup
+	box_extract
 	btoi
 	itob
 	concat

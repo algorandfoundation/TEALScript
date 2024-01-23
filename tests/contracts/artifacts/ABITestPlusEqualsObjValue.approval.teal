@@ -47,13 +47,14 @@ plusEqualsObjValue:
 	// tests/contracts/abi.algo.ts:1251
 	// a.bar += 1
 	frame_dig 0 // a: { foo: uint64; bar: uint64 }
+	int 8 // headOffset
 	frame_dig 0 // a: { foo: uint64; bar: uint64 }
 	extract 8 8
 	btoi
 	int 1
 	+
 	itob
-	replace2 8
+	replace3
 	frame_bury 0 // a: { foo: uint64; bar: uint64 }
 
 	// tests/contracts/abi.algo.ts:1252

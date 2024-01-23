@@ -175,9 +175,9 @@ addAppToWhiteList:
 	// examples/arc75/arc75.algo.ts:37
 	// this.whitelist(whitelist).value.push(appID)
 	frame_dig 1 // whitelist: Whitelist
-	box_get
-	assert
-	extract 2 0
+	int 2
+	int 0
+	box_extract
 	frame_dig -3 // appID: uint64
 	itob
 	concat
@@ -499,9 +499,9 @@ deleteAppFromWhitelist:
 	// examples/arc75/arc75.algo.ts:97
 	// spliced = this.whitelist(whitelist).value.splice(index, 1)
 	frame_dig 1 // whitelist: Whitelist
-	box_get
-	assert
-	extract 2 0
+	int 2
+	int 0
+	box_extract
 	int 1
 	frame_dig -4 // index: uint64
 	int 8
@@ -510,16 +510,16 @@ deleteAppFromWhitelist:
 	int 16
 	store 246 // splice byte length
 	frame_dig 1 // whitelist: Whitelist
-	box_get
-	assert
-	extract 2 0
+	int 2
+	int 0
+	box_extract
 	int 0
 	load 247 // splice start
 	substring3
 	frame_dig 1 // whitelist: Whitelist
-	box_get
-	assert
-	extract 2 0
+	int 2
+	int 0
+	box_extract
 	dup
 	len
 	load 247 // splice start
@@ -531,9 +531,9 @@ deleteAppFromWhitelist:
 	substring3
 	concat
 	frame_dig 1 // whitelist: Whitelist
-	box_get
-	assert
-	extract 2 0
+	int 2
+	int 0
+	box_extract
 	load 247 // splice start
 	load 246 // splice byte length
 	int 8

@@ -63,9 +63,8 @@ updateStringInTuple:
 	frame_dig 0 // a: [uint<8>, uint16[], string, uint16[], uint<8>[]]
 	store 255 // full array
 	load 255 // full array
-	int 0
 	byte 0x63
-	replace3
+	replace2 0
 	frame_bury 0 // a: [uint<8>, uint16[], string, uint16[], uint<8>[]]
 
 	// tests/contracts/abi.algo.ts:563

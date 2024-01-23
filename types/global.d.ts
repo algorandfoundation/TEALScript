@@ -480,7 +480,7 @@ declare type BoxValue<ValueType> = {
   value: ValueType;
   delete: () => void;
   exists: boolean;
-  create(size: uint64): void;
+  create(size?: uint64): void;
   replace(offset: uint64, value: bytes): void;
   extract(offset: uint64, length: uint64): bytes;
   size: uint64;

@@ -53,13 +53,9 @@ updateArrayRefInBoxStorage:
 	// tests/contracts/abi.algo.ts:1120
 	// v[0] = 3
 	frame_dig 0 // storage key//v
-	box_get
-	assert
+	int 0
 	byte 0x03
-	replace2 0
-	frame_dig 0 // storage key//v
-	swap
-	box_put
+	box_replace
 
 	// tests/contracts/abi.algo.ts:1122
 	// return v;

@@ -71,9 +71,8 @@ storageRefAccount:
 	extract 2 0
 	store 255 // full array
 	load 255 // full array
-	int 8
 	byte 0x0000000000000004
-	replace3
+	replace2 8
 	frame_dig 1 // storage account//r
 	byte 0x0000000000000000
 	uncover 2

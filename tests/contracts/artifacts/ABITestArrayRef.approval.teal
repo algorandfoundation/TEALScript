@@ -55,9 +55,8 @@ arrayRef:
 	frame_dig 0 // a: uint<8>[]
 	store 255 // full array
 	load 255 // full array
-	int 1
 	byte 0x04
-	replace3
+	replace2 1
 	frame_bury 0 // b: uint<8>[]
 
 	// tests/contracts/abi.algo.ts:764

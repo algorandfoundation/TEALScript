@@ -10,6 +10,7 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
+import { access } from 'fs';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -868,13 +869,22 @@ export default class Compiler {
       }
 
       case 'create':
-        this.processNode(args[0]);
-        this.pushVoid(node.getExpression(), 'box_create');
+        if (args[0]) {
+          this.processNode(args[0]);
+        } else if (this.isDynamicType(valueType)) {
+          throw Error('Size must be given to create call when the box value is dynamic');
+        } else this.pushVoid(node, `int ${this.getTypeLength(valueType)}`);
+
+        this.pushLines(node.getExpression(), 'box_create', 'pop');
         break;
 
       case 'extract':
-        this.processNode(args[0]);
-        this.processNode(args[1]);
+        if (args[0] && args[1]) {
+          this.processNode(args[0]);
+          this.processNode(args[1]);
+        } else {
+          this.pushVoid(node.getExpression(), 'cover 2');
+        }
         this.push(node.getExpression(), 'box_extract', StackType.bytes);
         break;
 
@@ -3206,14 +3216,13 @@ export default class Compiler {
 
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.typeString}`);
         } else {
-          // TODO: fix this so box_replace is used when updating a storage ref from frame
-          // const { type, valueType } = this.storageProps[processedFrame.name];
-          // const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+          const { type, valueType } = this.storageProps[processedFrame.name];
+          const action = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
           this.handleStorageAction({
             node: processedFrame.storageExpression!,
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
-            action: 'set',
+            action,
             name: processedFrame.name,
           });
         }
@@ -3502,38 +3511,48 @@ export default class Compiler {
   ) {
     const parentType = this.lastType;
 
-    let offset = 0;
     let previousTupleElement = this.getTupleElement(parentType);
+
     accessors.forEach((acc, i) => {
-      let accNumber: number;
+      let accNumber: number | undefined;
+
       if (typeof acc === 'string') {
-        accNumber = Object.keys(getObjectTypes(previousTupleElement.type)).indexOf(acc);
-      } else accNumber = parseInt((acc as ts.Expression).getText(), 10);
+        if (acc.startsWith('accessor//')) {
+          const frame = this.localVariables[acc];
 
-      const elem = previousTupleElement[accNumber] || previousTupleElement[0];
+          this.push(node, `frame_dig ${frame.index} // saved accessor: ${acc}`, StackType.uint64);
+        } else accNumber = Object.keys(getObjectTypes(previousTupleElement.type)).indexOf(acc);
+      } else if (acc.isKind(ts.SyntaxKind.NumericLiteral)) {
+        accNumber = parseInt((acc as ts.Expression).getText(), 10);
+      } else {
+        this.processNode(acc);
+      }
 
-      if (previousTupleElement[accNumber]) offset += elem.headOffset;
-      else offset += accNumber * this.getTypeLength(elem.type);
+      const accessedElem = previousTupleElement[accNumber ?? 0] || previousTupleElement[0];
 
-      previousTupleElement = elem;
+      if (accNumber && previousTupleElement[accNumber]) {
+        this.pushLines(node, `int ${accessedElem.headOffset} // headOffset`);
+      } else {
+        if (accNumber !== undefined) this.pushVoid(node, `int ${accNumber}`);
+        this.pushLines(node, `int ${this.getTypeLength(accessedElem.type)}`, '* // acc * typeLength');
+      }
+
+      if (i) this.pushVoid(node, '+');
+
+      previousTupleElement = accessedElem;
     });
 
     const elem = previousTupleElement;
 
     const length = this.getTypeLength(elem.type);
 
-    // If one of the immediate args is over 255, then replace2/extract won't work
-    const over255 = length > 255 || offset > 255;
-
-    const canBoxReplace =
-      newValue &&
-      parentExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-      getStorageName(parentExpression) &&
-      this.storageProps[getStorageName(parentExpression)!] &&
-      this.storageProps[getStorageName(parentExpression)!].type === 'box' &&
-      !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
-
-    if (over255 || canBoxReplace) this.pushVoid(node, `int ${offset}`);
+    const storageExpression = this.localVariables[parentExpression.getText()]?.storageExpression ?? parentExpression;
+    const isBox =
+      storageExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      getStorageName(storageExpression) &&
+      this.storageProps[getStorageName(storageExpression)!] &&
+      this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
+      !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
@@ -3544,15 +3563,20 @@ export default class Compiler {
 
       this.checkEncoding(node, elem.type);
 
-      if (!canBoxReplace) {
-        if (over255) this.pushVoid(node, 'replace3');
-        else this.pushVoid(node, `replace2 ${offset}`);
+      if (!isBox) {
+        this.pushVoid(node, 'replace3');
       }
 
       this.updateValue(parentExpression);
     } else {
-      if (over255) this.pushLines(node, `int ${length}`, 'extract3');
-      else this.pushVoid(node, `extract ${offset} ${length}`);
+      this.pushVoid(node, `int ${length}`);
+      if (isBox) {
+        this.handleStorageAction({
+          node: storageExpression,
+          name: getStorageName(storageExpression)!,
+          action: 'extract',
+        });
+      } else this.pushLines(node, 'extract3');
 
       this.checkDecoding(node, elem.type);
       this.lastType = elem.type;
@@ -3582,7 +3606,7 @@ export default class Compiler {
       if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
     });
 
-    if (isNonBoolStatic && literalAccessors) {
+    if (isNonBoolStatic) {
       this.processLiteralStaticTupleAccess(node, accessors, parentExpression, newValue);
       return;
     }
@@ -4439,7 +4463,8 @@ export default class Compiler {
     const storageName = getStorageName(storageExpression)!;
     const storageProp = this.storageProps[storageName];
     const expr = storageExpression.getExpression();
-    if (!expr.isKind(ts.SyntaxKind.CallExpression)) throw Error();
+
+    if (!expr.isKind(ts.SyntaxKind.CallExpression)) return;
 
     const exprArgs = expr.getArguments();
 
@@ -5214,8 +5239,14 @@ export default class Compiler {
         action = (actionNode.getExpression() as ts.PropertyAccessExpression).getNameNode().getText();
       }
 
-      // Don't get the box value if we can use box_replace later when updating the array
-      if (!(newValue !== undefined && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
+      const getFullValue = actionNode.getText() === chain.at(-1)?.getText();
+
+      // Don't get the box value if we can use box_replace or box_extract later
+      if (
+        action! !== 'value' ||
+        getFullValue ||
+        !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
+      ) {
         this.handleStorageAction({
           node: actionNode,
           name,
@@ -5493,7 +5524,24 @@ export default class Compiler {
 
         // If this is an array reference, get the accessors
         if (frame && frame.index === undefined) {
-          const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
+          const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
+
+          const { storageExpression } = frameFollow;
+
+          // If this is a box with a static array, don't load the value here and use box_extract/replace later
+          const isStaticBox =
+            storageExpression &&
+            storageExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+            getStorageName(storageExpression) &&
+            this.storageProps[getStorageName(storageExpression)!] &&
+            this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
+            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
+
+          if (!isStaticBox) {
+            this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
+          } else {
+            this.lastType = this.storageProps[getStorageName(storageExpression)!].valueType;
+          }
 
           frameFollow.accessors.forEach((e) => accessors.push(e));
 
