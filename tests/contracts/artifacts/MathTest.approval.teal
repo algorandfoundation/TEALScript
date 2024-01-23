@@ -967,9 +967,6 @@ boxTest:
 
 	// tests/contracts/math.algo.ts:108
 	// this.boxKey.value += 1
-	byte 0x626f784b6579 // "boxKey"
-	box_get
-	assert
 	byte 0x0000000000000000000000000000000000000000000000000000000000000001
 	b+
 	byte 0x626f784b6579 // "boxKey"
@@ -992,9 +989,6 @@ boxTest:
 
 	// tests/contracts/math.algo.ts:110
 	// return this.boxKey.value;
-	byte 0x626f784b6579 // "boxKey"
-	box_get
-	assert
 	retsub
 
 // foo(uint256)uint256

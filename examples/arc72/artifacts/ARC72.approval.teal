@@ -90,11 +90,9 @@ arc72_tokenURI:
 	// examples/arc72/arc72.algo.ts:37
 	// return this.tokenBox(tokenId).value.uri;
 	frame_dig -1 // tokenId: uint256
-	box_get
-	assert
 	int 32 // headOffset
 	int 256
-	extract3
+	box_extract
 	retsub
 
 // transferTo(uint256,address)void
@@ -170,12 +168,10 @@ arc72_transferFrom:
 	dup
 	bnz skip_or0
 	txn Sender
-	frame_dig 0 // storage key//token
-	box_get
-	assert
+	frame_dig -3 // tokenId: uint256
 	int 288 // headOffset
 	int 32
-	extract3
+	box_extract
 	==
 	||
 

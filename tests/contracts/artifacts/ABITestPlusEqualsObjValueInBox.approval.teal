@@ -46,8 +46,8 @@ plusEqualsObjValueInBox:
 	// this.bMap('bMap').value.bar += 1
 	int 8 // headOffset
 	byte 0x624d6170 // "bMap"
+	int 8 // headOffset
 	int 8
-	dup
 	box_extract
 	btoi
 	int 1
@@ -59,9 +59,6 @@ plusEqualsObjValueInBox:
 
 	// tests/contracts/abi.algo.ts:1262
 	// return this.bMap('bMap').value;
-	byte 0x624d6170 // "bMap"
-	box_get
-	assert
 	retsub
 
 abi_route_createApplication:

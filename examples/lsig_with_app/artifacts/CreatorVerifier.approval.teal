@@ -114,17 +114,6 @@ verifyCreator:
 
 	// examples/lsig_with_app/lsig_with_app.algo.ts:52
 	// assert(this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value)
-	frame_dig -1 // optIn: AssetTransferTxn
-	gtxns Sender
-	frame_dig -1 // optIn: AssetTransferTxn
-	gtxns XferAsset
-	asset_params_get AssetCreator
-	assert
-	concat
-	box_get
-	assert
-	int 0
-	getbit
 	assert
 	retsub
 
