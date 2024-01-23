@@ -3216,14 +3216,13 @@ export default class Compiler {
 
           this.pushVoid(node, `frame_bury ${frame.index} // ${name}: ${frame.typeString}`);
         } else {
-          // TODO: fix this so box_replace is used when updating a storage ref from frame
-          // const { type, valueType } = this.storageProps[processedFrame.name];
-          // const action = (type === 'box' && !this.isDynamicType(valueType)) ? 'replace' : 'set';
+          const { type, valueType } = this.storageProps[processedFrame.name];
+          const action = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
           this.handleStorageAction({
             node: processedFrame.storageExpression!,
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
-            action: 'set',
+            action,
             name: processedFrame.name,
           });
         }
@@ -5240,8 +5239,14 @@ export default class Compiler {
         action = (actionNode.getExpression() as ts.PropertyAccessExpression).getNameNode().getText();
       }
 
+      const getFullValue = actionNode.getText() === chain.at(-1)?.getText();
+
       // Don't get the box value if we can use box_replace or box_extract later
-      if (!(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType)) || action! !== 'value') {
+      if (
+        action! !== 'value' ||
+        getFullValue ||
+        !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
+      ) {
         this.handleStorageAction({
           node: actionNode,
           name,
