@@ -870,12 +870,16 @@ export default class Compiler {
 
       case 'create':
         this.processNode(args[0]);
-        this.pushVoid(node.getExpression(), 'box_create');
+        this.pushLines(node.getExpression(), 'box_create', 'pop');
         break;
 
       case 'extract':
-        this.processNode(args[0]);
-        this.processNode(args[1]);
+        if (args[0] && args[1]) {
+          this.processNode(args[0]);
+          this.processNode(args[1]);
+        } else {
+          this.pushVoid(node.getExpression(), 'cover 2');
+        }
         this.push(node.getExpression(), 'box_extract', StackType.bytes);
         break;
 
@@ -3538,8 +3542,7 @@ export default class Compiler {
 
     const length = this.getTypeLength(elem.type);
 
-    const canBoxReplace =
-      newValue &&
+    const isBox =
       parentExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
       getStorageName(parentExpression) &&
       this.storageProps[getStorageName(parentExpression)!] &&
@@ -3555,13 +3558,20 @@ export default class Compiler {
 
       this.checkEncoding(node, elem.type);
 
-      if (!canBoxReplace) {
+      if (!isBox) {
         this.pushVoid(node, 'replace3');
       }
 
       this.updateValue(parentExpression);
     } else {
-      this.pushLines(node, `int ${length}`, 'extract3');
+      this.pushVoid(node, `int ${length}`);
+      if (isBox) {
+        this.handleStorageAction({
+          node: parentExpression,
+          name: getStorageName(parentExpression)!,
+          action: 'extract',
+        });
+      } else this.pushLines(node, 'extract3');
 
       this.checkDecoding(node, elem.type);
       this.lastType = elem.type;
@@ -5223,8 +5233,8 @@ export default class Compiler {
         action = (actionNode.getExpression() as ts.PropertyAccessExpression).getNameNode().getText();
       }
 
-      // Don't get the box value if we can use box_replace later when updating the array
-      if (!(newValue !== undefined && storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))) {
+      // Don't get the box value if we can use box_replace or box_extract later
+      if (!(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType)) || action! !== 'value') {
         this.handleStorageAction({
           node: actionNode,
           name,

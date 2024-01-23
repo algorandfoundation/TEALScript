@@ -175,7 +175,7 @@ class StorageTest extends Contract {
     return this.largeStaticArrayInBox.value[123];
   }
 
-  dyamicAccessStaticValueInLargeBox(i: uint64): uint16 {
+  dynamicAccessStaticValueInLargeBox(i: uint64): uint16 {
     this.largeStaticArrayInBox.create(8000);
     this.largeStaticArrayInBox.value[i] = 456;
 

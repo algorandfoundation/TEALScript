@@ -549,6 +549,7 @@ boxKeyCreate:
 	byte 0x666f6f // "foo"
 	int 1024
 	box_create
+	pop
 	retsub
 
 abi_route_boxMapCreate:
@@ -566,6 +567,7 @@ boxMapCreate:
 	byte 0x626172 // "bar"
 	int 1024
 	box_create
+	pop
 	retsub
 
 abi_route_boxKeyLength:
@@ -800,6 +802,7 @@ accessStaticValueInLargeBox:
 	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
 	int 8000
 	box_create
+	pop
 
 	// tests/contracts/storage.algo.ts:173
 	// this.largeStaticArrayInBox.value[123] = 456
@@ -817,7 +820,7 @@ accessStaticValueInLargeBox:
 	btoi
 	retsub
 
-abi_route_dyamicAccessStaticValueInLargeBox:
+abi_route_dynamicAccessStaticValueInLargeBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -825,8 +828,8 @@ abi_route_dyamicAccessStaticValueInLargeBox:
 	txna ApplicationArgs 1
 	btoi
 
-	// execute dyamicAccessStaticValueInLargeBox(uint64)uint16
-	callsub dyamicAccessStaticValueInLargeBox
+	// execute dynamicAccessStaticValueInLargeBox(uint64)uint16
+	callsub dynamicAccessStaticValueInLargeBox
 	itob
 	dup
 	bitlen
@@ -839,8 +842,8 @@ abi_route_dyamicAccessStaticValueInLargeBox:
 	int 1
 	return
 
-// dyamicAccessStaticValueInLargeBox(uint64)uint16
-dyamicAccessStaticValueInLargeBox:
+// dynamicAccessStaticValueInLargeBox(uint64)uint16
+dynamicAccessStaticValueInLargeBox:
 	proto 1 1
 
 	// tests/contracts/storage.algo.ts:179
@@ -848,6 +851,7 @@ dyamicAccessStaticValueInLargeBox:
 	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
 	int 8000
 	box_create
+	pop
 
 	// tests/contracts/storage.algo.ts:180
 	// this.largeStaticArrayInBox.value[i] = 456
@@ -861,14 +865,13 @@ dyamicAccessStaticValueInLargeBox:
 
 	// tests/contracts/storage.algo.ts:182
 	// return this.largeStaticArrayInBox.value[i];
-	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
-	box_get
-	assert
 	frame_dig -1 // i: uint64
 	int 2
 	* // acc * typeLength
 	int 2
-	extract3
+	byte 0x6c617267655374617469634172726179496e426f78 // "largeStaticArrayInBox"
+	cover 2
+	box_extract
 	btoi
 	retsub
 
@@ -920,7 +923,7 @@ call_NoOp:
 	method "exGlobal()void"
 	method "exLocal()void"
 	method "accessStaticValueInLargeBox()uint16"
-	method "dyamicAccessStaticValueInLargeBox(uint64)uint16"
+	method "dynamicAccessStaticValueInLargeBox(uint64)uint16"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn abi_route_exGlobal abi_route_exLocal abi_route_accessStaticValueInLargeBox abi_route_dyamicAccessStaticValueInLargeBox
+	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn abi_route_exGlobal abi_route_exLocal abi_route_accessStaticValueInLargeBox abi_route_dynamicAccessStaticValueInLargeBox
 	err

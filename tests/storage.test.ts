@@ -229,6 +229,58 @@ describe('Storage', function () {
 
       expect(result.return?.returnValue as string).toEqual('abc');
     });
+
+    test('accessStaticValueInLargeBox', async () => {
+      const box = new Uint8Array(Buffer.from('largeStaticArrayInBox'));
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(3310900),
+        sendParams: SUPPRESS_LOG,
+      });
+
+      const result = await appClient.call({
+        method: 'accessStaticValueInLargeBox',
+        methodArgs: [],
+        boxes: [
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+        ],
+        sendParams: SUPPRESS_LOG,
+      });
+
+      expect(result.return?.returnValue?.valueOf()).toEqual(456n);
+    });
+
+    test('dynamicAccessStaticValueInLargeBox', async () => {
+      const box = new Uint8Array(Buffer.from('largeStaticArrayInBox'));
+      await appClient.fundAppAccount({
+        amount: algokit.microAlgos(3310900),
+        sendParams: SUPPRESS_LOG,
+      });
+
+      const result = await appClient.call({
+        method: 'dynamicAccessStaticValueInLargeBox',
+        methodArgs: [123n],
+        boxes: [
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+          { appIndex: 0, name: box },
+        ],
+        sendParams: SUPPRESS_LOG,
+      });
+
+      expect(result.return?.returnValue?.valueOf()).toEqual(456n);
+    });
   });
 
   describe('Compile Errors', function () {
