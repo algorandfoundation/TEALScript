@@ -213,9 +213,9 @@ upload:
 	// examples/big_box/big_box.algo.ts:77
 	// assert(metadata.status === IN_PROGRESS)
 	frame_dig 0 // storage key//metadata
-	box_get
-	assert
-	extract 16 1
+	int 16
+	int 1
+	box_extract
 	btoi
 	int 0
 	==
@@ -224,9 +224,9 @@ upload:
 	// examples/big_box/big_box.algo.ts:78
 	// assert(metadata.start <= boxIndex && boxIndex <= metadata.end)
 	frame_dig 0 // storage key//metadata
-	box_get
-	assert
-	extract 0 8
+	int 0
+	int 8
+	box_extract
 	btoi
 	frame_dig -2 // boxIndex: uint64
 	<=
@@ -234,9 +234,9 @@ upload:
 	bz skip_and0
 	frame_dig -2 // boxIndex: uint64
 	frame_dig 0 // storage key//metadata
-	box_get
-	assert
-	extract 8 8
+	int 8
+	dup
+	box_extract
 	btoi
 	<=
 	&&
@@ -259,16 +259,16 @@ skip_and0:
 	itob
 	frame_dig -2 // boxIndex: uint64
 	frame_dig 0 // storage key//metadata
-	box_get
-	assert
-	extract 8 8
+	int 8
+	dup
+	box_extract
 	btoi
 	==
 	bz ternary0_false
 	frame_dig 0 // storage key//metadata
-	box_get
-	assert
-	extract 17 8
+	int 17
+	int 8
+	box_extract
 	btoi
 	b ternary0_end
 
@@ -323,9 +323,9 @@ setStatus:
 	// examples/big_box/big_box.algo.ts:95
 	// currentStatus = this.metadata(dataIdentifier).value.status
 	frame_dig -1 // dataIdentifier: string
-	box_get
-	assert
-	extract 16 1
+	int 16
+	int 1
+	box_extract
 	btoi
 	frame_bury 0 // currentStatus: uint8
 
@@ -361,7 +361,7 @@ skip_or1:
 
 	// examples/big_box/big_box.algo.ts:100
 	// this.metadata(dataIdentifier).value.status = status
-	int 16
+	int 16 // headOffset
 	frame_dig -2 // status: uint<8>
 	itob
 	extract 7 1

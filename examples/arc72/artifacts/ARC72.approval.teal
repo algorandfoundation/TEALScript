@@ -53,9 +53,9 @@ arc72_ownerOf:
 	// examples/arc72/arc72.algo.ts:25
 	// return this.tokenBox(tokenId).value.owner;
 	frame_dig -1 // tokenId: uint256
-	box_get
-	assert
-	extract 0 32
+	int 0
+	int 32
+	box_extract
 	retsub
 
 abi_route_arc72_tokenURI:
@@ -92,7 +92,7 @@ arc72_tokenURI:
 	frame_dig -1 // tokenId: uint256
 	box_get
 	assert
-	int 32
+	int 32 // headOffset
 	int 256
 	extract3
 	retsub
@@ -173,7 +173,7 @@ arc72_transferFrom:
 	frame_dig 0 // storage key//token
 	box_get
 	assert
-	int 288
+	int 288 // headOffset
 	int 32
 	extract3
 	==
@@ -240,7 +240,7 @@ arc72_approve:
 	// examples/arc72/arc72.algo.ts:65
 	// this.tokenBox(tokenId).value.controller = approved
 	frame_dig -2 // tokenId: uint256
-	int 288
+	int 288 // headOffset
 	frame_dig -1 // approved: Address
 	box_replace
 	retsub
