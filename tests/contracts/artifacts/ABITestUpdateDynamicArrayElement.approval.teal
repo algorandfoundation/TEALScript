@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// updateDynamicArrayElement()uint64
 abi_route_updateDynamicArrayElement:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_updateDynamicArrayElement:
 	int 1
 	return
 
-// updateDynamicArrayElement()uint64
+// updateDynamicArrayElement(): uint64
 updateDynamicArrayElement:
 	proto 0 1
 

@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// dynamicArrayArg(uint64[])uint64
 abi_route_dynamicArrayArg:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -37,7 +38,7 @@ abi_route_dynamicArrayArg:
 	int 1
 	return
 
-// dynamicArrayArg(uint64[])uint64
+// dynamicArrayArg(a: uint64[]): uint64
 dynamicArrayArg:
 	proto 1 1
 

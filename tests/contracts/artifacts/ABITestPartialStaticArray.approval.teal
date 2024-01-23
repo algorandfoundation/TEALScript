@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// partialStaticArray()uint16[3]
 abi_route_partialStaticArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_partialStaticArray:
 	int 1
 	return
 
-// partialStaticArray()uint16[3]
+// partialStaticArray(): StaticArray<uint16, 3>
 partialStaticArray:
 	proto 0 1
 

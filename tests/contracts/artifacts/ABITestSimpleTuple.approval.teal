@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// simpleTuple()uint16
 abi_route_simpleTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -39,7 +40,7 @@ abi_route_simpleTuple:
 	int 1
 	return
 
-// simpleTuple()uint16
+// simpleTuple(): uint16
 simpleTuple:
 	proto 0 1
 

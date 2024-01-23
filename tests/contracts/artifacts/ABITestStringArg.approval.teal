@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// stringArg(string)void
 abi_route_stringArg:
 	// s: string
 	txna ApplicationArgs 1
@@ -31,7 +32,7 @@ abi_route_stringArg:
 	int 1
 	return
 
-// stringArg(string)void
+// stringArg(s: string): void
 stringArg:
 	proto 1 0
 

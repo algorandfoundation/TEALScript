@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])
 abi_route_updateDynamicArrayInTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_updateDynamicArrayInTuple:
 	int 1
 	return
 
-// updateDynamicArrayInTuple()(uint8,uint16[],uint8[],uint16[],uint8[])
+// updateDynamicArrayInTuple(): [uint<8>, uint16[], uint<8>[], uint16[], uint<8>[]]
 updateDynamicArrayInTuple:
 	proto 0 1
 

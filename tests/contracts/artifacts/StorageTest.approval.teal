@@ -21,13 +21,14 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// prefix()void
 abi_route_prefix:
 	// execute prefix()void
 	callsub prefix
 	int 1
 	return
 
-// prefix()void
+// prefix(): void
 prefix:
 	proto 0 0
 
@@ -54,13 +55,14 @@ prefix:
 	app_local_put
 	retsub
 
+// globalKeyPut()void
 abi_route_globalKeyPut:
 	// execute globalKeyPut()void
 	callsub globalKeyPut
 	int 1
 	return
 
-// globalKeyPut()void
+// globalKeyPut(): void
 globalKeyPut:
 	proto 0 0
 
@@ -71,13 +73,14 @@ globalKeyPut:
 	app_global_put
 	retsub
 
+// globalKeyGet()void
 abi_route_globalKeyGet:
 	// execute globalKeyGet()void
 	callsub globalKeyGet
 	int 1
 	return
 
-// globalKeyGet()void
+// globalKeyGet(): void
 globalKeyGet:
 	proto 0 0
 
@@ -90,13 +93,14 @@ globalKeyGet:
 	assert
 	retsub
 
+// globalKeyDelete()void
 abi_route_globalKeyDelete:
 	// execute globalKeyDelete()void
 	callsub globalKeyDelete
 	int 1
 	return
 
-// globalKeyDelete()void
+// globalKeyDelete(): void
 globalKeyDelete:
 	proto 0 0
 
@@ -106,13 +110,14 @@ globalKeyDelete:
 	app_global_del
 	retsub
 
+// globalKeyExists()void
 abi_route_globalKeyExists:
 	// execute globalKeyExists()void
 	callsub globalKeyExists
 	int 1
 	return
 
-// globalKeyExists()void
+// globalKeyExists(): void
 globalKeyExists:
 	proto 0 0
 
@@ -126,6 +131,7 @@ globalKeyExists:
 	assert
 	retsub
 
+// localKeyPut(account)void
 abi_route_localKeyPut:
 	// a: account
 	txna ApplicationArgs 1
@@ -137,7 +143,7 @@ abi_route_localKeyPut:
 	int 1
 	return
 
-// localKeyPut(account)void
+// localKeyPut(a: Account): void
 localKeyPut:
 	proto 1 0
 
@@ -149,6 +155,7 @@ localKeyPut:
 	app_local_put
 	retsub
 
+// localKeyGet(account)void
 abi_route_localKeyGet:
 	// a: account
 	txna ApplicationArgs 1
@@ -160,7 +167,7 @@ abi_route_localKeyGet:
 	int 1
 	return
 
-// localKeyGet(account)void
+// localKeyGet(a: Account): void
 localKeyGet:
 	proto 1 0
 
@@ -174,6 +181,7 @@ localKeyGet:
 	assert
 	retsub
 
+// localKeyDelete(account)void
 abi_route_localKeyDelete:
 	// a: account
 	txna ApplicationArgs 1
@@ -185,7 +193,7 @@ abi_route_localKeyDelete:
 	int 1
 	return
 
-// localKeyDelete(account)void
+// localKeyDelete(a: Account): void
 localKeyDelete:
 	proto 1 0
 
@@ -196,6 +204,7 @@ localKeyDelete:
 	app_local_del
 	retsub
 
+// localKeyExists(account)void
 abi_route_localKeyExists:
 	// a: account
 	txna ApplicationArgs 1
@@ -207,7 +216,7 @@ abi_route_localKeyExists:
 	int 1
 	return
 
-// localKeyExists(account)void
+// localKeyExists(a: Account): void
 localKeyExists:
 	proto 1 0
 
@@ -222,13 +231,14 @@ localKeyExists:
 	assert
 	retsub
 
+// boxKeyPut()void
 abi_route_boxKeyPut:
 	// execute boxKeyPut()void
 	callsub boxKeyPut
 	int 1
 	return
 
-// boxKeyPut()void
+// boxKeyPut(): void
 boxKeyPut:
 	proto 0 0
 
@@ -239,13 +249,14 @@ boxKeyPut:
 	box_put
 	retsub
 
+// boxKeyGet()void
 abi_route_boxKeyGet:
 	// execute boxKeyGet()void
 	callsub boxKeyGet
 	int 1
 	return
 
-// boxKeyGet()void
+// boxKeyGet(): void
 boxKeyGet:
 	proto 0 0
 
@@ -259,13 +270,14 @@ boxKeyGet:
 	assert
 	retsub
 
+// boxKeyDelete()void
 abi_route_boxKeyDelete:
 	// execute boxKeyDelete()void
 	callsub boxKeyDelete
 	int 1
 	return
 
-// boxKeyDelete()void
+// boxKeyDelete(): void
 boxKeyDelete:
 	proto 0 0
 
@@ -275,13 +287,14 @@ boxKeyDelete:
 	box_del
 	retsub
 
+// boxKeyExists()void
 abi_route_boxKeyExists:
 	// execute boxKeyExists()void
 	callsub boxKeyExists
 	int 1
 	return
 
-// boxKeyExists()void
+// boxKeyExists(): void
 boxKeyExists:
 	proto 0 0
 
@@ -294,13 +307,14 @@ boxKeyExists:
 	assert
 	retsub
 
+// globalMapPut()void
 abi_route_globalMapPut:
 	// execute globalMapPut()void
 	callsub globalMapPut
 	int 1
 	return
 
-// globalMapPut()void
+// globalMapPut(): void
 globalMapPut:
 	proto 0 0
 
@@ -311,13 +325,14 @@ globalMapPut:
 	app_global_put
 	retsub
 
+// globalMapGet()void
 abi_route_globalMapGet:
 	// execute globalMapGet()void
 	callsub globalMapGet
 	int 1
 	return
 
-// globalMapGet()void
+// globalMapGet(): void
 globalMapGet:
 	proto 0 0
 
@@ -330,13 +345,14 @@ globalMapGet:
 	assert
 	retsub
 
+// globalMapDelete()void
 abi_route_globalMapDelete:
 	// execute globalMapDelete()void
 	callsub globalMapDelete
 	int 1
 	return
 
-// globalMapDelete()void
+// globalMapDelete(): void
 globalMapDelete:
 	proto 0 0
 
@@ -346,13 +362,14 @@ globalMapDelete:
 	app_global_del
 	retsub
 
+// globalMapExists()void
 abi_route_globalMapExists:
 	// execute globalMapExists()void
 	callsub globalMapExists
 	int 1
 	return
 
-// globalMapExists()void
+// globalMapExists(): void
 globalMapExists:
 	proto 0 0
 
@@ -366,6 +383,7 @@ globalMapExists:
 	assert
 	retsub
 
+// localMapPut(account)void
 abi_route_localMapPut:
 	// a: account
 	txna ApplicationArgs 1
@@ -377,7 +395,7 @@ abi_route_localMapPut:
 	int 1
 	return
 
-// localMapPut(account)void
+// localMapPut(a: Account): void
 localMapPut:
 	proto 1 0
 
@@ -389,6 +407,7 @@ localMapPut:
 	app_local_put
 	retsub
 
+// localMapGet(account)void
 abi_route_localMapGet:
 	// a: account
 	txna ApplicationArgs 1
@@ -400,7 +419,7 @@ abi_route_localMapGet:
 	int 1
 	return
 
-// localMapGet(account)void
+// localMapGet(a: Account): void
 localMapGet:
 	proto 1 0
 
@@ -414,6 +433,7 @@ localMapGet:
 	assert
 	retsub
 
+// localMapDelete(account)void
 abi_route_localMapDelete:
 	// a: account
 	txna ApplicationArgs 1
@@ -425,7 +445,7 @@ abi_route_localMapDelete:
 	int 1
 	return
 
-// localMapDelete(account)void
+// localMapDelete(a: Account): void
 localMapDelete:
 	proto 1 0
 
@@ -436,6 +456,7 @@ localMapDelete:
 	app_local_del
 	retsub
 
+// localMapExists(account)void
 abi_route_localMapExists:
 	// a: account
 	txna ApplicationArgs 1
@@ -447,7 +468,7 @@ abi_route_localMapExists:
 	int 1
 	return
 
-// localMapExists(account)void
+// localMapExists(a: Account): void
 localMapExists:
 	proto 1 0
 
@@ -462,13 +483,14 @@ localMapExists:
 	assert
 	retsub
 
+// boxMapPut()void
 abi_route_boxMapPut:
 	// execute boxMapPut()void
 	callsub boxMapPut
 	int 1
 	return
 
-// boxMapPut()void
+// boxMapPut(): void
 boxMapPut:
 	proto 0 0
 
@@ -479,13 +501,14 @@ boxMapPut:
 	box_put
 	retsub
 
+// boxMapGet()void
 abi_route_boxMapGet:
 	// execute boxMapGet()void
 	callsub boxMapGet
 	int 1
 	return
 
-// boxMapGet()void
+// boxMapGet(): void
 boxMapGet:
 	proto 0 0
 
@@ -499,13 +522,14 @@ boxMapGet:
 	assert
 	retsub
 
+// boxMapDelete()void
 abi_route_boxMapDelete:
 	// execute boxMapDelete()void
 	callsub boxMapDelete
 	int 1
 	return
 
-// boxMapDelete()void
+// boxMapDelete(): void
 boxMapDelete:
 	proto 0 0
 
@@ -515,13 +539,14 @@ boxMapDelete:
 	box_del
 	retsub
 
+// boxMapExists()void
 abi_route_boxMapExists:
 	// execute boxMapExists()void
 	callsub boxMapExists
 	int 1
 	return
 
-// boxMapExists()void
+// boxMapExists(): void
 boxMapExists:
 	proto 0 0
 
@@ -534,13 +559,14 @@ boxMapExists:
 	assert
 	retsub
 
+// boxKeyCreate()void
 abi_route_boxKeyCreate:
 	// execute boxKeyCreate()void
 	callsub boxKeyCreate
 	int 1
 	return
 
-// boxKeyCreate()void
+// boxKeyCreate(): void
 boxKeyCreate:
 	proto 0 0
 
@@ -552,13 +578,14 @@ boxKeyCreate:
 	pop
 	retsub
 
+// boxMapCreate()void
 abi_route_boxMapCreate:
 	// execute boxMapCreate()void
 	callsub boxMapCreate
 	int 1
 	return
 
-// boxMapCreate()void
+// boxMapCreate(): void
 boxMapCreate:
 	proto 0 0
 
@@ -570,6 +597,7 @@ boxMapCreate:
 	pop
 	retsub
 
+// boxKeyLength()uint64
 abi_route_boxKeyLength:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -582,7 +610,7 @@ abi_route_boxKeyLength:
 	int 1
 	return
 
-// boxKeyLength()uint64
+// boxKeyLength(): uint64
 boxKeyLength:
 	proto 0 1
 
@@ -593,6 +621,7 @@ boxKeyLength:
 	assert
 	retsub
 
+// boxMapLength()uint64
 abi_route_boxMapLength:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -605,7 +634,7 @@ abi_route_boxMapLength:
 	int 1
 	return
 
-// boxMapLength()uint64
+// boxMapLength(): uint64
 boxMapLength:
 	proto 0 1
 
@@ -616,13 +645,14 @@ boxMapLength:
 	assert
 	retsub
 
+// boxKeyReplace()void
 abi_route_boxKeyReplace:
 	// execute boxKeyReplace()void
 	callsub boxKeyReplace
 	int 1
 	return
 
-// boxKeyReplace()void
+// boxKeyReplace(): void
 boxKeyReplace:
 	proto 0 0
 
@@ -634,13 +664,14 @@ boxKeyReplace:
 	box_replace
 	retsub
 
+// boxMapReplace()void
 abi_route_boxMapReplace:
 	// execute boxMapReplace()void
 	callsub boxMapReplace
 	int 1
 	return
 
-// boxMapReplace()void
+// boxMapReplace(): void
 boxMapReplace:
 	proto 0 0
 
@@ -652,6 +683,7 @@ boxMapReplace:
 	box_replace
 	retsub
 
+// boxKeyExtract()string
 abi_route_boxKeyExtract:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -669,7 +701,7 @@ abi_route_boxKeyExtract:
 	int 1
 	return
 
-// boxKeyExtract()string
+// boxKeyExtract(): string
 boxKeyExtract:
 	proto 0 1
 
@@ -681,6 +713,7 @@ boxKeyExtract:
 	box_extract
 	retsub
 
+// boxMapExtract()string
 abi_route_boxMapExtract:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -698,7 +731,7 @@ abi_route_boxMapExtract:
 	int 1
 	return
 
-// boxMapExtract()string
+// boxMapExtract(): string
 boxMapExtract:
 	proto 0 1
 
@@ -710,6 +743,7 @@ boxMapExtract:
 	box_extract
 	retsub
 
+// isOptedIn()bool
 abi_route_isOptedIn:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -725,7 +759,7 @@ abi_route_isOptedIn:
 	int 1
 	return
 
-// isOptedIn()bool
+// isOptedIn(): boolean
 isOptedIn:
 	proto 0 1
 
@@ -736,13 +770,14 @@ isOptedIn:
 	app_opted_in
 	retsub
 
+// exGlobal()void
 abi_route_exGlobal:
 	// execute exGlobal()void
 	callsub exGlobal
 	int 1
 	return
 
-// exGlobal()void
+// exGlobal(): void
 exGlobal:
 	proto 0 0
 
@@ -755,13 +790,14 @@ exGlobal:
 	log
 	retsub
 
+// exLocal()void
 abi_route_exLocal:
 	// execute exLocal()void
 	callsub exLocal
 	int 1
 	return
 
-// exLocal()void
+// exLocal(): void
 exLocal:
 	proto 0 0
 
@@ -775,6 +811,7 @@ exLocal:
 	log
 	retsub
 
+// accessStaticValueInLargeBox()uint16
 abi_route_accessStaticValueInLargeBox:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -793,7 +830,7 @@ abi_route_accessStaticValueInLargeBox:
 	int 1
 	return
 
-// accessStaticValueInLargeBox()uint16
+// accessStaticValueInLargeBox(): uint16
 accessStaticValueInLargeBox:
 	proto 0 1
 
@@ -820,6 +857,7 @@ accessStaticValueInLargeBox:
 	btoi
 	retsub
 
+// dynamicAccessStaticValueInLargeBox(uint64)uint16
 abi_route_dynamicAccessStaticValueInLargeBox:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -842,7 +880,7 @@ abi_route_dynamicAccessStaticValueInLargeBox:
 	int 1
 	return
 
-// dynamicAccessStaticValueInLargeBox(uint64)uint16
+// dynamicAccessStaticValueInLargeBox(i: uint64): uint16
 dynamicAccessStaticValueInLargeBox:
 	proto 1 1
 

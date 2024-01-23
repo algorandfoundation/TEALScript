@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// uintCasting(uint8)uint256
 abi_route_uintCasting:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -55,7 +56,7 @@ abi_route_uintCasting:
 	int 1
 	return
 
-// uintCasting(uint8)uint256
+// uintCasting(a: uint<8>): uint256
 uintCasting:
 	proto 1 1
 

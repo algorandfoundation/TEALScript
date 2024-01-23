@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// uintNComparison(uint256,uint256)bool
 abi_route_uintNComparison:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -52,7 +53,7 @@ abi_route_uintNComparison:
 	int 1
 	return
 
-// uintNComparison(uint256,uint256)bool
+// uintNComparison(x: uint256, y: uint256): boolean
 uintNComparison:
 	proto 2 1
 

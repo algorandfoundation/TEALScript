@@ -21,13 +21,14 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// a()void
 abi_route_a:
 	// execute a()void
 	callsub a
 	int 1
 	return
 
-// a()void
+// a(): void
 a:
 	proto 0 0
 
@@ -38,13 +39,14 @@ a:
 	app_global_put
 	retsub
 
+// b()void
 abi_route_b:
 	// execute b()void
 	callsub b
 	int 1
 	return
 
-// b()void
+// b(): void
 b:
 	proto 0 0
 
@@ -63,13 +65,14 @@ b:
 	app_global_put
 	retsub
 
+// b2()void
 abi_route_b2:
 	// execute b2()void
 	callsub b2
 	int 1
 	return
 
-// b2()void
+// b2(): void
 b2:
 	proto 0 0
 

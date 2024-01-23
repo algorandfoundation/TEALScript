@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// booleanLastInObj()(uint64,bool)
 abi_route_booleanLastInObj:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_booleanLastInObj:
 	int 1
 	return
 
-// booleanLastInObj()(uint64,bool)
+// booleanLastInObj(): { n: uint64; b: boolean }
 booleanLastInObj:
 	proto 0 1
 

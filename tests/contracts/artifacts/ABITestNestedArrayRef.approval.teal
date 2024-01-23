@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// nestedArrayRef()uint8[2][2]
 abi_route_nestedArrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_nestedArrayRef:
 	int 1
 	return
 
-// nestedArrayRef()uint8[2][2]
+// nestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2>
 nestedArrayRef:
 	proto 0 1
 

@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// dynamicAccessOfDynamicElementInStaticArray(string[3])string
 abi_route_dynamicAccessOfDynamicElementInStaticArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -41,7 +42,7 @@ abi_route_dynamicAccessOfDynamicElementInStaticArray:
 	int 1
 	return
 
-// dynamicAccessOfDynamicElementInStaticArray(string[3])string
+// dynamicAccessOfDynamicElementInStaticArray(a: StaticArray<string, 3>): string
 dynamicAccessOfDynamicElementInStaticArray:
 	proto 1 1
 

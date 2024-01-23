@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// nonLiteralNestedArrayRef()uint8[2][2]
 abi_route_nonLiteralNestedArrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_nonLiteralNestedArrayRef:
 	int 1
 	return
 
-// nonLiteralNestedArrayRef()uint8[2][2]
+// nonLiteralNestedArrayRef(): StaticArray<StaticArray<uint<8>, 2>, 2>
 nonLiteralNestedArrayRef:
 	proto 0 1
 

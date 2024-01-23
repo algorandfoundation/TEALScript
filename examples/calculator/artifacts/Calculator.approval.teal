@@ -21,7 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// getSum(uint64,uint64)uint64
+// getSum(a: number, b: number): number
 //
 // Calculates the sum of two numbers
 //
@@ -38,7 +38,7 @@ getSum:
 	+
 	retsub
 
-// getDifference(uint64,uint64)uint64
+// getDifference(a: number, b: number): number
 //
 // Calculates the difference between two numbers
 //
@@ -67,6 +67,7 @@ ternary0_false:
 ternary0_end:
 	retsub
 
+// doMath(uint64,uint64,string)uint64
 abi_route_doMath:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -83,7 +84,7 @@ abi_route_doMath:
 	txna ApplicationArgs 1
 	btoi
 
-	// execute doMath(string,uint64,uint64)uint64
+	// execute doMath(uint64,uint64,string)uint64
 	callsub doMath
 	itob
 	concat
@@ -91,7 +92,7 @@ abi_route_doMath:
 	int 1
 	return
 
-// doMath(string,uint64,uint64)uint64
+// doMath(a: number, b: number, operation: string): number
 //
 // A method that takes two numbers and does either addition or subtraction
 //

@@ -23,6 +23,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// doMath(uint64,uint64)uint64
 abi_route_doMath:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -43,7 +44,7 @@ abi_route_doMath:
 	int 1
 	return
 
-// doMath(uint64,uint64)uint64
+// doMath(a: number, b: number): number
 //
 // A method that gets the sum of two numbers
 //

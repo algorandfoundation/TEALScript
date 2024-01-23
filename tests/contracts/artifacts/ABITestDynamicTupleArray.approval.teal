@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// dynamicTupleArray()uint64
 abi_route_dynamicTupleArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_dynamicTupleArray:
 	int 1
 	return
 
-// dynamicTupleArray()uint64
+// dynamicTupleArray(): uint64
 dynamicTupleArray:
 	proto 0 1
 

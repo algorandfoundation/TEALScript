@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// dynamicBoolArray()bool[]
 abi_route_dynamicBoolArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_dynamicBoolArray:
 	int 1
 	return
 
-// dynamicBoolArray()bool[]
+// dynamicBoolArray(): boolean[]
 dynamicBoolArray:
 	proto 0 1
 

@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// booleanArgAndReturn(bool)bool
 abi_route_booleanArgAndReturn:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -46,7 +47,7 @@ abi_route_booleanArgAndReturn:
 	int 1
 	return
 
-// booleanArgAndReturn(bool)bool
+// booleanArgAndReturn(a: boolean): boolean
 booleanArgAndReturn:
 	proto 1 1
 

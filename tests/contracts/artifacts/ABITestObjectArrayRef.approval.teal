@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// objectArrayRef()(uint8[2][2])
 abi_route_objectArrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_objectArrayRef:
 	int 1
 	return
 
-// objectArrayRef()(uint8[2][2])
+// objectArrayRef(): ObjectRefType
 objectArrayRef:
 	proto 0 1
 

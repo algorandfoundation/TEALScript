@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// and(uint64,uint64)void
 abi_route_and:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -35,7 +36,7 @@ abi_route_and:
 	int 1
 	return
 
-// and(uint64,uint64)void
+// and(a: uint64, b: uint64): void
 and:
 	proto 2 0
 
@@ -51,6 +52,7 @@ skip_and0:
 	assert
 	retsub
 
+// or(uint64,uint64)void
 abi_route_or:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -65,7 +67,7 @@ abi_route_or:
 	int 1
 	return
 
-// or(uint64,uint64)void
+// or(a: uint64, b: uint64): void
 or:
 	proto 2 0
 
@@ -81,6 +83,7 @@ skip_or0:
 	assert
 	retsub
 
+// equal(uint64,uint64)void
 abi_route_equal:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -95,7 +98,7 @@ abi_route_equal:
 	int 1
 	return
 
-// equal(uint64,uint64)void
+// equal(a: uint64, b: uint64): void
 equal:
 	proto 2 0
 
@@ -107,6 +110,7 @@ equal:
 	assert
 	retsub
 
+// notEqual(uint64,uint64)void
 abi_route_notEqual:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -121,7 +125,7 @@ abi_route_notEqual:
 	int 1
 	return
 
-// notEqual(uint64,uint64)void
+// notEqual(a: uint64, b: uint64): void
 notEqual:
 	proto 2 0
 
@@ -133,6 +137,7 @@ notEqual:
 	assert
 	retsub
 
+// bitAnd(uint64,uint64)void
 abi_route_bitAnd:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -147,7 +152,7 @@ abi_route_bitAnd:
 	int 1
 	return
 
-// bitAnd(uint64,uint64)void
+// bitAnd(a: uint64, b: uint64): void
 bitAnd:
 	proto 2 0
 
@@ -159,6 +164,7 @@ bitAnd:
 	assert
 	retsub
 
+// bitOr(uint64,uint64)void
 abi_route_bitOr:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -173,7 +179,7 @@ abi_route_bitOr:
 	int 1
 	return
 
-// bitOr(uint64,uint64)void
+// bitOr(a: uint64, b: uint64): void
 bitOr:
 	proto 2 0
 
@@ -185,6 +191,7 @@ bitOr:
 	assert
 	retsub
 
+// bitXor(uint64,uint64)void
 abi_route_bitXor:
 	// b: uint64
 	txna ApplicationArgs 2
@@ -199,7 +206,7 @@ abi_route_bitXor:
 	int 1
 	return
 
-// bitXor(uint64,uint64)void
+// bitXor(a: uint64, b: uint64): void
 bitXor:
 	proto 2 0
 
@@ -211,6 +218,7 @@ bitXor:
 	assert
 	retsub
 
+// combo(uint64,uint64,uint64)void
 abi_route_combo:
 	// c: uint64
 	txna ApplicationArgs 3
@@ -229,7 +237,7 @@ abi_route_combo:
 	int 1
 	return
 
-// combo(uint64,uint64,uint64)void
+// combo(a: uint64, b: uint64, c: uint64): void
 combo:
 	proto 3 0
 

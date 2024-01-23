@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// opcodeParamFromObject()address
 abi_route_opcodeParamFromObject:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_opcodeParamFromObject:
 	int 1
 	return
 
-// opcodeParamFromObject()address
+// opcodeParamFromObject(): Address
 opcodeParamFromObject:
 	proto 0 1
 

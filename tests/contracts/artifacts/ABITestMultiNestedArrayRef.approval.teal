@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// multiNestedArrayRef()uint8[2][2][2]
 abi_route_multiNestedArrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_multiNestedArrayRef:
 	int 1
 	return
 
-// multiNestedArrayRef()uint8[2][2][2]
+// multiNestedArrayRef(): StaticArray<StaticArray<StaticArray<uint<8>, 2>, 2>, 2>
 multiNestedArrayRef:
 	proto 0 1
 

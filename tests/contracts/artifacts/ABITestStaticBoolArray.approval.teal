@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// staticBoolArray()bool[9]
 abi_route_staticBoolArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_staticBoolArray:
 	int 1
 	return
 
-// staticBoolArray()bool[9]
+// staticBoolArray(): StaticArray<boolean, 9>
 staticBoolArray:
 	proto 0 1
 

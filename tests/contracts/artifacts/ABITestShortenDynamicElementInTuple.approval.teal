@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])
 abi_route_shortenDynamicElementInTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_shortenDynamicElementInTuple:
 	int 1
 	return
 
-// shortenDynamicElementInTuple()(uint16[],uint16[],uint16[])
+// shortenDynamicElementInTuple(): [uint16[], uint16[], uint16[]]
 shortenDynamicElementInTuple:
 	proto 0 1
 

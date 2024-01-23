@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// nestedTuple()(uint16,(uint8,string),(uint16,string))
 abi_route_nestedTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_nestedTuple:
 	int 1
 	return
 
-// nestedTuple()(uint16,(uint8,string),(uint16,string))
+// nestedTuple(): [uint16, [uint<8>, string], [uint16, string]]
 nestedTuple:
 	proto 0 1
 

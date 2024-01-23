@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// maxUfixed()ufixed64x2
 abi_route_maxUfixed:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -34,7 +35,7 @@ abi_route_maxUfixed:
 	int 1
 	return
 
-// maxUfixed()ufixed64x2
+// maxUfixed(): ufixed<64, 2>
 maxUfixed:
 	proto 0 1
 

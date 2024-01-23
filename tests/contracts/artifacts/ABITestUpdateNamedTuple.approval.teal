@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// updateNamedTuple()string
 abi_route_updateNamedTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -38,7 +39,7 @@ abi_route_updateNamedTuple:
 	int 1
 	return
 
-// updateNamedTuple()string
+// updateNamedTuple(): string
 updateNamedTuple:
 	proto 0 1
 

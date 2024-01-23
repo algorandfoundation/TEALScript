@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// accesStringInTuple()string
 abi_route_accesStringInTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -38,7 +39,7 @@ abi_route_accesStringInTuple:
 	int 1
 	return
 
-// accesStringInTuple()string
+// accesStringInTuple(): string
 accesStringInTuple:
 	proto 0 1
 

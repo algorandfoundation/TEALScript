@@ -7,7 +7,7 @@ callsub incrementCounter
 int 1
 return
 
-// incrementCounter(uint64)void
+// incrementCounter(i: uint64): void
 incrementCounter:
 	proto 1 0
 
