@@ -21,7 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// incrementCounter(uint64)void
+// incrementCounter(i: uint64): void
 incrementCounter:
 	proto 1 0
 
@@ -35,6 +35,7 @@ incrementCounter:
 	app_global_put
 	retsub
 
+// incr(uint64)void
 abi_route_incr:
 	// i: uint64
 	txna ApplicationArgs 1
@@ -45,7 +46,7 @@ abi_route_incr:
 	int 1
 	return
 
-// incr(uint64)void
+// incr(i: uint64): void
 incr:
 	proto 1 0
 
@@ -55,6 +56,7 @@ incr:
 	callsub incrementCounter
 	retsub
 
+// decr(uint64)void
 abi_route_decr:
 	// i: uint64
 	txna ApplicationArgs 1
@@ -65,7 +67,7 @@ abi_route_decr:
 	int 1
 	return
 
-// decr(uint64)void
+// decr(i: uint64): void
 decr:
 	proto 1 0
 
@@ -79,6 +81,7 @@ decr:
 	app_global_put
 	retsub
 
+// add(uint256,uint256)uint256
 abi_route_add:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -120,7 +123,7 @@ abi_route_add:
 	int 1
 	return
 
-// add(uint256,uint256)uint256
+// add(a: uint256, b: uint256): uint256
 add:
 	proto 2 1
 
@@ -131,6 +134,7 @@ add:
 	b+
 	retsub
 
+// sub(uint256,uint256)uint256
 abi_route_sub:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -172,7 +176,7 @@ abi_route_sub:
 	int 1
 	return
 
-// sub(uint256,uint256)uint256
+// sub(a: uint256, b: uint256): uint256
 sub:
 	proto 2 1
 

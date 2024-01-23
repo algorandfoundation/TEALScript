@@ -375,17 +375,6 @@ function getObjectTypes(givenType: TypeInfo): Record<string, TypeInfo> {
   return givenType.properties;
 }
 
-function getSignature(subroutine: ABIMethod): string {
-  const abiArgs = subroutine.args.map((a) => typeInfoToABIString(a.type));
-
-  const abiReturns = subroutine.returns.type;
-
-  return `${subroutine.name}(${abiArgs.join(',')})${typeInfoToABIString(abiReturns)
-    .replace(/account/g, 'address')
-    .replace(/asset/g, 'uint64')
-    .replace(/application/g, 'uint64')}`;
-}
-
 function isArrayType(type: TypeInfo) {
   return type.kind !== 'base';
 }
@@ -2506,8 +2495,23 @@ export default class Compiler {
     this.push(node, teal, StackType.void);
   }
 
-  private pushMethod(subroutine: ABIMethod) {
-    this.pushVoid(this.lastNode, `method "${getSignature(subroutine)}"`);
+  private getSignature(node: ts.MethodDeclaration | ts.ClassDeclaration): string {
+    if (node.isKind(ts.SyntaxKind.ClassDeclaration)) {
+      return 'createApplication()void';
+    }
+
+    const abiArgs = node.getParameters().map((p) => {
+      return typeInfoToABIString(this.getTypeInfo(p.getType()));
+    });
+
+    return `${node.getName()}(${abiArgs.join(',')})${typeInfoToABIString(this.getTypeInfo(node.getReturnType()))
+      .replace(/account/g, 'address')
+      .replace(/asset/g, 'uint64')
+      .replace(/application/g, 'uint64')}`;
+  }
+
+  private pushMethod(subroutine: ts.MethodDeclaration) {
+    this.pushVoid(this.lastNode, `method "${this.getSignature(subroutine)}"`);
   }
 
   private routeAbiMethods() {
@@ -2541,7 +2545,7 @@ export default class Compiler {
         }
 
         methods.forEach((m) => {
-          this.pushMethod(m);
+          this.pushMethod(this.subroutines.find((s) => s.name === m.name)!.node);
         });
 
         this.pushLines(
@@ -5670,7 +5674,12 @@ export default class Compiler {
   private processSubroutine(fn: ts.MethodDeclaration) {
     const frameStart = this.teal[this.currentProgram].length;
 
-    const headerComment = [`// ${getSignature(this.currentSubroutine)}`];
+    const sigParams = fn
+      .getSignature()
+      .getParameters()
+      .map((p) => p.getDeclarations()[0].getText());
+
+    const headerComment = [`// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText()}`];
 
     if (this.currentSubroutine.desc !== '') {
       headerComment.push('//');
@@ -5757,6 +5766,7 @@ export default class Compiler {
       return;
     }
 
+    this.pushVoid(fn, `// ${this.getSignature(fn)}`);
     if (this.currentProgram !== 'lsig') {
       this.pushLines(fn, `abi_route_${this.currentSubroutine.name}:`);
     } else {
@@ -5831,7 +5841,7 @@ export default class Compiler {
       });
     }
 
-    this.pushVoid(fn, `// execute ${getSignature(this.currentSubroutine)}`);
+    this.pushVoid(fn, `// execute ${this.getSignature(this.currentSubroutine.node)}`);
     this.pushVoid(fn, `callsub ${this.currentSubroutine.name}`);
 
     if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {

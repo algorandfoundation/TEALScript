@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// globalMethodInChain()uint8
 abi_route_globalMethodInChain:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -39,7 +40,7 @@ abi_route_globalMethodInChain:
 	int 1
 	return
 
-// globalMethodInChain()uint8
+// globalMethodInChain(): uint<8>
 globalMethodInChain:
 	proto 0 1
 

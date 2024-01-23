@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// multiBytesTuple()(byte[],byte[])
 abi_route_multiBytesTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_multiBytesTuple:
 	int 1
 	return
 
-// multiBytesTuple()(byte[],byte[])
+// multiBytesTuple(): [bytes, bytes]
 multiBytesTuple:
 	proto 0 1
 

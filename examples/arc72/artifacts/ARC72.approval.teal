@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// arc72_ownerOf(uint256)address
 abi_route_arc72_ownerOf:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,7 +41,7 @@ abi_route_arc72_ownerOf:
 	int 1
 	return
 
-// arc72_ownerOf(uint256)address
+// arc72_ownerOf(tokenId: uint256): Address
 //
 //
 // Returns the address of the current owner of the NFT with the given tokenId
@@ -58,6 +59,7 @@ arc72_ownerOf:
 	box_extract
 	retsub
 
+// arc72_tokenURI(uint256)byte[256]
 abi_route_arc72_tokenURI:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -77,7 +79,7 @@ abi_route_arc72_tokenURI:
 	int 1
 	return
 
-// arc72_tokenURI(uint256)byte[256]
+// arc72_tokenURI(tokenId: uint256): Bytes256
 //
 //
 // Returns a URI pointing to the NFT metadata
@@ -95,7 +97,7 @@ arc72_tokenURI:
 	box_extract
 	retsub
 
-// transferTo(uint256,address)void
+// transferTo(to: Address, tokenId: uint256): void
 transferTo:
 	proto 2 0
 
@@ -107,6 +109,7 @@ transferTo:
 	box_replace
 	retsub
 
+// arc72_transferFrom(address,address,uint256)void
 abi_route_arc72_transferFrom:
 	// tokenId: uint256
 	txna ApplicationArgs 3
@@ -132,12 +135,12 @@ abi_route_arc72_transferFrom:
 	==
 	assert
 
-	// execute arc72_transferFrom(uint256,address,address)void
+	// execute arc72_transferFrom(address,address,uint256)void
 	callsub arc72_transferFrom
 	int 1
 	return
 
-// arc72_transferFrom(uint256,address,address)void
+// arc72_transferFrom(_from: Address, to: Address, tokenId: uint256): void
 //
 // Transfers ownership of an NFT
 arc72_transferFrom:
@@ -201,6 +204,7 @@ if0_else:
 if0_end:
 	retsub
 
+// arc72_approve(address,uint256)void
 abi_route_arc72_approve:
 	// tokenId: uint256
 	txna ApplicationArgs 2
@@ -218,12 +222,12 @@ abi_route_arc72_approve:
 	==
 	assert
 
-	// execute arc72_approve(uint256,address)void
+	// execute arc72_approve(address,uint256)void
 	callsub arc72_approve
 	int 1
 	return
 
-// arc72_approve(uint256,address)void
+// arc72_approve(approved: Address, tokenId: uint256): void
 //
 //
 // Approve a controller for a single NFT
@@ -241,6 +245,7 @@ arc72_approve:
 	box_replace
 	retsub
 
+// arc72_setApprovalForAll(address,bool)void
 abi_route_arc72_setApprovalForAll:
 	// approved: bool
 	txna ApplicationArgs 2
@@ -260,12 +265,12 @@ abi_route_arc72_setApprovalForAll:
 	==
 	assert
 
-	// execute arc72_setApprovalForAll(bool,address)void
+	// execute arc72_setApprovalForAll(address,bool)void
 	callsub arc72_setApprovalForAll
 	int 1
 	return
 
-// arc72_setApprovalForAll(bool,address)void
+// arc72_setApprovalForAll(operator: Address, approved: boolean): void
 //
 //
 // Approve an operator for all NFTs for a user
@@ -321,6 +326,7 @@ if1_elseif1_condition:
 if1_end:
 	retsub
 
+// mint(address)void
 abi_route_mint:
 	// to: address
 	txna ApplicationArgs 1
@@ -335,7 +341,7 @@ abi_route_mint:
 	int 1
 	return
 
-// mint(address)void
+// mint(to: Address): void
 mint:
 	proto 1 0
 
@@ -397,6 +403,7 @@ mint:
 	app_global_put
 	retsub
 
+// arc72_totalSupply()uint256
 abi_route_arc72_totalSupply:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -422,7 +429,7 @@ abi_route_arc72_totalSupply:
 	int 1
 	return
 
-// arc72_totalSupply()uint256
+// arc72_totalSupply(): uint256
 //
 // Returns the number of NFTs currently defined by this contract
 arc72_totalSupply:
@@ -434,6 +441,7 @@ arc72_totalSupply:
 	app_global_get
 	retsub
 
+// arc72_tokenByIndex(uint256)uint256
 abi_route_arc72_tokenByIndex:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -467,7 +475,7 @@ abi_route_arc72_tokenByIndex:
 	int 1
 	return
 
-// arc72_tokenByIndex(uint256)uint256
+// arc72_tokenByIndex(index: uint256): uint256
 //
 // Returns the token ID of the token with the given index among all NFTs defined by the contract
 arc72_tokenByIndex:

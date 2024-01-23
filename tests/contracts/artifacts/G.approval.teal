@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// publicMethod()string
 abi_route_publicMethod:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -38,7 +39,7 @@ abi_route_publicMethod:
 	int 1
 	return
 
-// publicMethod()string
+// publicMethod(): string
 publicMethod:
 	proto 0 1
 
@@ -47,7 +48,7 @@ publicMethod:
 	byte 0x7075626c6963 // "public"
 	retsub
 
-// privateMethod()string
+// privateMethod(): string
 privateMethod:
 	proto 0 1
 
@@ -56,7 +57,7 @@ privateMethod:
 	byte 0x70726976617465 // "private"
 	retsub
 
-// protectedMethod()string
+// protectedMethod(): string
 protectedMethod:
 	proto 0 1
 
@@ -65,13 +66,14 @@ protectedMethod:
 	byte 0x70726f746563746564 // "protected"
 	retsub
 
+// g()void
 abi_route_g:
 	// execute g()void
 	callsub g
 	int 1
 	return
 
-// g()void
+// g(): void
 g:
 	proto 0 0
 

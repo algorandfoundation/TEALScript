@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// biggerByteCasting(byte[2])byte[4]
 abi_route_biggerByteCasting:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,7 +41,7 @@ abi_route_biggerByteCasting:
 	int 1
 	return
 
-// biggerByteCasting(byte[2])byte[4]
+// biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4>
 biggerByteCasting:
 	proto 1 1
 

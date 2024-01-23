@@ -21,6 +21,7 @@ switch NOT_IMPLEMENTED call_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTE
 NOT_IMPLEMENTED:
 	err
 
+// updateStaticArrayInStorageRef()uint64[3]
 abi_route_updateStaticArrayInStorageRef:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_updateStaticArrayInStorageRef:
 	int 1
 	return
 
-// updateStaticArrayInStorageRef()uint64[3]
+// updateStaticArrayInStorageRef(): StaticArray<uint64, 3>
 updateStaticArrayInStorageRef:
 	proto 0 1
 

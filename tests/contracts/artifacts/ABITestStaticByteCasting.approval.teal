@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// staticByteCasting()byte[5]
 abi_route_staticByteCasting:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_staticByteCasting:
 	int 1
 	return
 
-// staticByteCasting()byte[5]
+// staticByteCasting(): StaticArray<byte, 5>
 staticByteCasting:
 	proto 0 1
 

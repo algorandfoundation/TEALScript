@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// plusEqualsObjValue()(uint64,uint64)
 abi_route_plusEqualsObjValue:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_plusEqualsObjValue:
 	int 1
 	return
 
-// plusEqualsObjValue()(uint64,uint64)
+// plusEqualsObjValue(): { foo: uint64; bar: uint64 }
 plusEqualsObjValue:
 	proto 0 1
 

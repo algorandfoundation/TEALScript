@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// arrayPush()uint16[]
 abi_route_arrayPush:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,7 +41,7 @@ abi_route_arrayPush:
 	int 1
 	return
 
-// arrayPush()uint16[]
+// arrayPush(): uint16[]
 arrayPush:
 	proto 0 1
 

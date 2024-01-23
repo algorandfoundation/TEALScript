@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// plusEqualsArrayValue()uint64[2]
 abi_route_plusEqualsArrayValue:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_plusEqualsArrayValue:
 	int 1
 	return
 
-// plusEqualsArrayValue()uint64[2]
+// plusEqualsArrayValue(): StaticArray<uint64, 2>
 plusEqualsArrayValue:
 	proto 0 1
 

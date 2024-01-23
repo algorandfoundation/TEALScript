@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// startUpload(string,uint64,uint64,pay)void
 abi_route_startUpload:
 	// mbrPayment: pay
 	txn GroupIndex
@@ -44,12 +45,12 @@ abi_route_startUpload:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute startUpload(pay,uint64,uint64,string)void
+	// execute startUpload(string,uint64,uint64,pay)void
 	callsub startUpload
 	int 1
 	return
 
-// startUpload(pay,uint64,uint64,string)void
+// startUpload(dataIdentifier: string, numBoxes: uint64, endBoxSize: uint64, mbrPayment: PayTxn): void
 //
 //
 // Allocate boxes to begin data upload process
@@ -168,6 +169,7 @@ startUpload:
 	assert
 	retsub
 
+// upload(string,uint64,uint64,byte[])void
 abi_route_upload:
 	// data: byte[]
 	txna ApplicationArgs 4
@@ -185,12 +187,12 @@ abi_route_upload:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute upload(byte[],uint64,uint64,string)void
+	// execute upload(string,uint64,uint64,byte[])void
 	callsub upload
 	int 1
 	return
 
-// upload(byte[],uint64,uint64,string)void
+// upload(dataIdentifier: string, boxIndex: uint64, offset: uint64, data: bytes): void
 //
 //
 // Upload data to a specific offset in a box
@@ -289,6 +291,7 @@ if0_end:
 	box_replace
 	retsub
 
+// setStatus(string,uint8)void
 abi_route_setStatus:
 	// status: uint8
 	txna ApplicationArgs 2
@@ -303,12 +306,12 @@ abi_route_setStatus:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute setStatus(uint8,string)void
+	// execute setStatus(string,uint8)void
 	callsub setStatus
 	int 1
 	return
 
-// setStatus(uint8,string)void
+// setStatus(dataIdentifier: string, status: uint<8>): void
 //
 //
 // Set the status of the data

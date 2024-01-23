@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
 abi_route_boolTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_boolTuple:
 	int 1
 	return
 
-// boolTuple()(bool,bool,bool,bool,bool,bool,bool,bool,bool)
+// boolTuple(): [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 boolTuple:
 	proto 0 1
 

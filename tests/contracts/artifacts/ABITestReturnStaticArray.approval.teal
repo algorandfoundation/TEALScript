@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// returnStaticArray()uint64[3]
 abi_route_returnStaticArray:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_returnStaticArray:
 	int 1
 	return
 
-// returnStaticArray()uint64[3]
+// returnStaticArray(): StaticArray<uint64, 3>
 returnStaticArray:
 	proto 0 1
 

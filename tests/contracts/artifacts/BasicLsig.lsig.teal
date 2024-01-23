@@ -8,13 +8,14 @@
 
 b route_logic
 
+// logic()void
 route_logic:
 	// execute logic()void
 	callsub logic
 	int 1
 	return
 
-// logic()void
+// logic(): void
 logic:
 	proto 0 0
 

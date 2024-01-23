@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// arrayLength()uint64
 abi_route_arrayLength:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_arrayLength:
 	int 1
 	return
 
-// arrayLength()uint64
+// arrayLength(): uint64
 arrayLength:
 	proto 0 1
 

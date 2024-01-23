@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// dynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)
 abi_route_dynamicArrayInMiddleOfTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -32,7 +33,7 @@ abi_route_dynamicArrayInMiddleOfTuple:
 	int 1
 	return
 
-// dynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)
+// dynamicArrayInMiddleOfTuple(): [uint16, uint<8>[], uint16]
 dynamicArrayInMiddleOfTuple:
 	proto 0 1
 

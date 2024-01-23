@@ -21,13 +21,14 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// boolInObj()void
 abi_route_boolInObj:
 	// execute boolInObj()void
 	callsub boolInObj
 	int 1
 	return
 
-// boolInObj()void
+// boolInObj(): void
 boolInObj:
 	proto 0 0
 

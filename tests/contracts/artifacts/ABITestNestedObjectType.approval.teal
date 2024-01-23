@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// nestedObjectType()uint64
 abi_route_nestedObjectType:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_nestedObjectType:
 	int 1
 	return
 
-// nestedObjectType()uint64
+// nestedObjectType(): uint64
 nestedObjectType:
 	proto 0 1
 

@@ -21,7 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// add(uint64,uint64)uint64
+// add(x: number, y: number): number
 add:
 	proto 2 1
 
@@ -32,6 +32,7 @@ add:
 	+
 	retsub
 
+// abiAdd(uint64,uint64)uint64
 abi_route_abiAdd:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -52,7 +53,7 @@ abi_route_abiAdd:
 	int 1
 	return
 
-// abiAdd(uint64,uint64)uint64
+// abiAdd(x: number, y: number): number
 abiAdd:
 	proto 2 1
 
@@ -63,7 +64,7 @@ abiAdd:
 	callsub add
 	retsub
 
-// nonAbiAdd()void
+// nonAbiAdd(): void
 nonAbiAdd:
 	proto 0 0
 

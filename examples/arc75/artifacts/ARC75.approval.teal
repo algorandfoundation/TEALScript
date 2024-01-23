@@ -21,7 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// verifyMBRPayment(uint64,pay)void
+// verifyMBRPayment(payment: PayTxn, preMBR: uint64): void
 verifyMBRPayment:
 	proto 2 0
 
@@ -49,7 +49,7 @@ verifyMBRPayment:
 	assert
 	retsub
 
-// sendMBRPayment(uint64)void
+// sendMBRPayment(preMBR: uint64): void
 sendMBRPayment:
 	proto 1 0
 
@@ -84,6 +84,7 @@ sendMBRPayment:
 	itxn_submit
 	retsub
 
+// addAppToWhiteList(string,uint16,uint64,pay)void
 abi_route_addAppToWhiteList:
 	// payment: pay
 	txn GroupIndex
@@ -112,12 +113,12 @@ abi_route_addAppToWhiteList:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute addAppToWhiteList(pay,uint64,uint16,string)void
+	// execute addAppToWhiteList(string,uint16,uint64,pay)void
 	callsub addAppToWhiteList
 	int 1
 	return
 
-// addAppToWhiteList(pay,uint64,uint16,string)void
+// addAppToWhiteList(arc: string, boxIndex: uint16, appID: uint64, payment: PayTxn): void
 //
 // Add app to whitelist box
 //
@@ -229,6 +230,7 @@ if0_end:
 	callsub verifyMBRPayment
 	retsub
 
+// setAppWhitelist(string,uint16,uint64[])void
 abi_route_setAppWhitelist:
 	// appIDs: uint64[]
 	txna ApplicationArgs 3
@@ -247,12 +249,12 @@ abi_route_setAppWhitelist:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute setAppWhitelist(uint64[],uint16,string)void
+	// execute setAppWhitelist(string,uint16,uint64[])void
 	callsub setAppWhitelist
 	int 1
 	return
 
-// setAppWhitelist(uint64[],uint16,string)void
+// setAppWhitelist(arc: string, boxIndex: uint16, appIDs: uint64[]): void
 //
 // Sets a app whitelist for the sender. Should only be used when adding/removing
 // more than one app
@@ -352,6 +354,7 @@ if1_else:
 if1_end:
 	retsub
 
+// deleteWhitelist(string,uint16)void
 abi_route_deleteWhitelist:
 	// boxIndex: uint16
 	txna ApplicationArgs 2
@@ -366,12 +369,12 @@ abi_route_deleteWhitelist:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute deleteWhitelist(uint16,string)void
+	// execute deleteWhitelist(string,uint16)void
 	callsub deleteWhitelist
 	int 1
 	return
 
-// deleteWhitelist(uint16,string)void
+// deleteWhitelist(arc: string, boxIndex: uint16): void
 //
 // Deletes a app whitelist for the sender
 //
@@ -425,6 +428,7 @@ deleteWhitelist:
 	callsub sendMBRPayment
 	retsub
 
+// deleteAppFromWhitelist(string,uint16,uint64,uint64)void
 abi_route_deleteAppFromWhitelist:
 	// index: uint64
 	txna ApplicationArgs 4
@@ -447,12 +451,12 @@ abi_route_deleteAppFromWhitelist:
 	txna ApplicationArgs 1
 	extract 2 0
 
-	// execute deleteAppFromWhitelist(uint64,uint64,uint16,string)void
+	// execute deleteAppFromWhitelist(string,uint16,uint64,uint64)void
 	callsub deleteAppFromWhitelist
 	int 1
 	return
 
-// deleteAppFromWhitelist(uint64,uint64,uint16,string)void
+// deleteAppFromWhitelist(arc: string, boxIndex: uint16, appID: uint64, index: uint64): void
 //
 // Deletes a app from a whitelist for the sender
 //

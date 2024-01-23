@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// spliceFirstElement()uint16[]
 abi_route_spliceFirstElement:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -40,7 +41,7 @@ abi_route_spliceFirstElement:
 	int 1
 	return
 
-// spliceFirstElement()uint16[]
+// spliceFirstElement(): uint16[]
 spliceFirstElement:
 	proto 0 1
 

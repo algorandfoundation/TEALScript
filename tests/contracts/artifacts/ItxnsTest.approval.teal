@@ -21,13 +21,14 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// payment()void
 abi_route_payment:
 	// execute payment()void
 	callsub payment
 	int 1
 	return
 
-// payment()void
+// payment(): void
 payment:
 	proto 0 0
 
@@ -82,6 +83,7 @@ payment:
 	itxn_submit
 	retsub
 
+// assetCreation()uint64
 abi_route_assetCreation:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -94,7 +96,7 @@ abi_route_assetCreation:
 	int 1
 	return
 
-// assetCreation()uint64
+// assetCreation(): Asset
 assetCreation:
 	proto 0 1
 
@@ -174,13 +176,14 @@ assetCreation:
 	itxn CreatedAssetID
 	retsub
 
+// appCall()void
 abi_route_appCall:
 	// execute appCall()void
 	callsub appCall
 	int 1
 	return
 
-// appCall()void
+// appCall(): void
 appCall:
 	proto 0 0
 
@@ -273,13 +276,14 @@ appCall:
 	itxn_submit
 	retsub
 
+// assetConfig()void
 abi_route_assetConfig:
 	// execute assetConfig()void
 	callsub assetConfig
 	int 1
 	return
 
-// assetConfig()void
+// assetConfig(): void
 assetConfig:
 	proto 0 0
 
@@ -328,13 +332,14 @@ assetConfig:
 	itxn_submit
 	retsub
 
+// assetFreeze()void
 abi_route_assetFreeze:
 	// execute assetFreeze()void
 	callsub assetFreeze
 	int 1
 	return
 
-// assetFreeze()void
+// assetFreeze(): void
 assetFreeze:
 	proto 0 0
 
@@ -371,13 +376,14 @@ assetFreeze:
 	itxn_submit
 	retsub
 
+// assetTransfer()void
 abi_route_assetTransfer:
 	// execute assetTransfer()void
 	callsub assetTransfer
 	int 1
 	return
 
-// assetTransfer()void
+// assetTransfer(): void
 assetTransfer:
 	proto 0 0
 
@@ -426,6 +432,7 @@ assetTransfer:
 	itxn_submit
 	retsub
 
+// methodCall()uint64
 abi_route_methodCall:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -438,7 +445,7 @@ abi_route_methodCall:
 	int 1
 	return
 
-// methodCall()uint64
+// methodCall(): Asset
 methodCall:
 	proto 0 1
 
@@ -478,13 +485,14 @@ methodCall:
 	btoi
 	retsub
 
+// onlineKeyRegistration()void
 abi_route_onlineKeyRegistration:
 	// execute onlineKeyRegistration()void
 	callsub onlineKeyRegistration
 	int 1
 	return
 
-// onlineKeyRegistration()void
+// onlineKeyRegistration(): void
 onlineKeyRegistration:
 	proto 0 0
 
@@ -539,13 +547,14 @@ onlineKeyRegistration:
 	itxn_submit
 	retsub
 
+// offlineKeyRegistration()void
 abi_route_offlineKeyRegistration:
 	// execute offlineKeyRegistration()void
 	callsub offlineKeyRegistration
 	int 1
 	return
 
-// offlineKeyRegistration()void
+// offlineKeyRegistration(): void
 offlineKeyRegistration:
 	proto 0 0
 

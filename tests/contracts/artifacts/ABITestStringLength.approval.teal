@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// stringLength()uint64
 abi_route_stringLength:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_stringLength:
 	int 1
 	return
 
-// stringLength()uint64
+// stringLength(): uint64
 stringLength:
 	proto 0 1
 

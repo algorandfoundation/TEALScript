@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// chainedPropertyAfterTuple(asset)void
 abi_route_chainedPropertyAfterTuple:
 	// asa: asset
 	txna ApplicationArgs 1
@@ -32,7 +33,7 @@ abi_route_chainedPropertyAfterTuple:
 	int 1
 	return
 
-// chainedPropertyAfterTuple(asset)void
+// chainedPropertyAfterTuple(asa: Asset): void
 chainedPropertyAfterTuple:
 	proto 1 0
 

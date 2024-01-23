@@ -21,6 +21,7 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
+// mintAndGetAsset()uint64
 abi_route_mintAndGetAsset:
 	// The ABI return prefix
 	byte 0x151f7c75
@@ -33,7 +34,7 @@ abi_route_mintAndGetAsset:
 	int 1
 	return
 
-// mintAndGetAsset()uint64
+// mintAndGetAsset(): Asset
 mintAndGetAsset:
 	proto 0 1
 

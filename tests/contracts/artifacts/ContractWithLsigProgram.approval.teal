@@ -21,13 +21,14 @@ switch NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLE
 NOT_IMPLEMENTED:
 	err
 
+// createApplication()void
 abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
 	return
 
-// createApplication()void
+// createApplication(): void
 createApplication:
 	proto 0 0
 

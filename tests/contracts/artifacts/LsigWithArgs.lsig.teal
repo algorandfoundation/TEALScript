@@ -8,6 +8,7 @@
 
 b route_logic
 
+// logic(asset,uint64[])void
 route_logic:
 	// b: uint64[]
 	int 2
@@ -19,12 +20,12 @@ route_logic:
 	args
 	btoi
 
-	// execute logic(uint64[],asset)void
+	// execute logic(asset,uint64[])void
 	callsub logic
 	int 1
 	return
 
-// logic(uint64[],asset)void
+// logic(a: Asset, b: uint64[]): void
 logic:
 	proto 2 0
 
