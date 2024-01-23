@@ -2510,7 +2510,7 @@ export default class Compiler {
       .replace(/application/g, 'uint64')}`;
   }
 
-  private pushMethod(subroutine: ts.MethodDeclaration) {
+  private pushMethod(subroutine: ts.MethodDeclaration | ts.ClassDeclaration) {
     this.pushVoid(this.lastNode, `method "${this.getSignature(subroutine)}"`);
   }
 
