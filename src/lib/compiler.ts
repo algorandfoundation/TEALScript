@@ -728,6 +728,7 @@ export default class Compiler {
     /** Only provided when setting a value */
     newValue?: ts.Node;
   }) {
+    const preType = this.lastType;
     const args: ts.Node[] = [];
     let keyNode: ts.Node;
 
@@ -885,7 +886,7 @@ export default class Compiler {
         } else {
           this.pushVoid(node.getExpression(), 'cover 2');
         }
-        this.push(node.getExpression(), 'box_extract', StackType.bytes);
+        this.push(node.getExpression(), 'box_extract', valueType);
         break;
 
       case 'replace':
@@ -896,6 +897,7 @@ export default class Compiler {
           this.pushVoid(node.getExpression(), 'cover 2');
         }
         this.pushVoid(node.getExpression(), 'box_replace');
+        this.lastType = preType;
         break;
 
       case 'size':
