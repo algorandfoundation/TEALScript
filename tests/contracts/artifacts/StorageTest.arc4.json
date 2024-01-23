@@ -295,6 +295,25 @@
       }
     },
     {
+      "name": "accessStaticValueInLargeBox",
+      "args": [],
+      "returns": {
+        "type": "uint16"
+      }
+    },
+    {
+      "name": "dynamicAccessStaticValueInLargeBox",
+      "args": [
+        {
+          "name": "i",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint16"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

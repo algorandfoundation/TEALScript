@@ -804,5 +804,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'booleanLastInObj')).toEqual([1n, false]);
     });
+
+    test('nestedStructInBoxMap', async () => {
+      const { appClient } = await compileAndCreate('nestedStructInBoxMap');
+
+      expect(await runMethod(appClient, 'nestedStructInBoxMap')).toEqual([[2n]]);
+    });
   });
 });

@@ -1277,3 +1277,17 @@ class ABITestBooleanLastInObj extends Contract {
     };
   }
 }
+
+type T8 = {
+  foo: { bar: uint8 };
+};
+
+class ABITestNestedStructInBoxMap extends Contract {
+  bMap = BoxMap<bytes, T8>();
+
+  nestedStructInBoxMap(): T8 {
+    this.bMap('bMap').value = { foo: { bar: 1 } };
+    this.bMap('bMap').value.foo.bar = 2;
+    return this.bMap('bMap').value;
+  }
+}

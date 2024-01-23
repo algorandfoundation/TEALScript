@@ -2,6 +2,8 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class StorageTest extends Contract {
+  largeStaticArrayInBox = BoxKey<StaticArray<uint16, 4000>>();
+
   globalKey = GlobalStateKey<bytes>({ key: 'foo' });
 
   globalMap = GlobalStateMap<bytes, bytes>({ maxKeys: 1, allowPotentialCollisions: true });
@@ -164,5 +166,21 @@ class StorageTest extends Contract {
 
   exLocal(): void {
     log(this.app.localState(this.txn.sender, 'foo') as bytes);
+  }
+
+  accessStaticValueInLargeBox(): uint16 {
+    this.largeStaticArrayInBox.create();
+    this.largeStaticArrayInBox.value[123] = 456;
+
+    return this.largeStaticArrayInBox.value[123];
+  }
+
+  dynamicAccessStaticValueInLargeBox(i: uint64): uint16 {
+    this.largeStaticArrayInBox.create();
+    this.largeStaticArrayInBox.value[i] = 456;
+
+    const a = this.largeStaticArrayInBox.value;
+
+    return a[i];
   }
 }
