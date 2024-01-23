@@ -179,6 +179,8 @@ class StorageTest extends Contract {
     this.largeStaticArrayInBox.create(8000);
     this.largeStaticArrayInBox.value[i] = 456;
 
-    return this.largeStaticArrayInBox.value[i];
+    const a = this.largeStaticArrayInBox.value;
+
+    return a[i];
   }
 }

@@ -863,8 +863,8 @@ dynamicAccessStaticValueInLargeBox:
 	cover 2
 	box_replace
 
-	// tests/contracts/storage.algo.ts:182
-	// return this.largeStaticArrayInBox.value[i];
+	// tests/contracts/storage.algo.ts:184
+	// return a[i];
 	frame_dig -1 // i: uint64
 	int 2
 	* // acc * typeLength

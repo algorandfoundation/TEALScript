@@ -3542,12 +3542,13 @@ export default class Compiler {
 
     const length = this.getTypeLength(elem.type);
 
+    const storageExpression = this.localVariables[parentExpression.getText()]?.storageExpression ?? parentExpression;
     const isBox =
-      parentExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-      getStorageName(parentExpression) &&
-      this.storageProps[getStorageName(parentExpression)!] &&
-      this.storageProps[getStorageName(parentExpression)!].type === 'box' &&
-      !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
+      storageExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      getStorageName(storageExpression) &&
+      this.storageProps[getStorageName(storageExpression)!] &&
+      this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
+      !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
@@ -3567,8 +3568,8 @@ export default class Compiler {
       this.pushVoid(node, `int ${length}`);
       if (isBox) {
         this.handleStorageAction({
-          node: parentExpression,
-          name: getStorageName(parentExpression)!,
+          node: storageExpression,
+          name: getStorageName(storageExpression)!,
           action: 'extract',
         });
       } else this.pushLines(node, 'extract3');
@@ -4458,7 +4459,8 @@ export default class Compiler {
     const storageName = getStorageName(storageExpression)!;
     const storageProp = this.storageProps[storageName];
     const expr = storageExpression.getExpression();
-    if (!expr.isKind(ts.SyntaxKind.CallExpression)) throw Error();
+
+    if (!expr.isKind(ts.SyntaxKind.CallExpression)) return;
 
     const exprArgs = expr.getArguments();
 
@@ -5512,7 +5514,24 @@ export default class Compiler {
 
         // If this is an array reference, get the accessors
         if (frame && frame.index === undefined) {
-          const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
+          const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
+
+          const { storageExpression } = frameFollow;
+
+          // If this is a box with a static array, don't load the value here and use box_extract/replace later
+          const isStaticBox =
+            storageExpression &&
+            storageExpression.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+            getStorageName(storageExpression) &&
+            this.storageProps[getStorageName(storageExpression)!] &&
+            this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
+            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
+
+          if (!isStaticBox) {
+            this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
+          } else {
+            this.lastType = this.storageProps[getStorageName(storageExpression)!].valueType;
+          }
 
           frameFollow.accessors.forEach((e) => accessors.push(e));
 
