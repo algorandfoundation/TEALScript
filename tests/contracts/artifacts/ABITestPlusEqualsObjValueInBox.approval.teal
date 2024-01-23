@@ -44,11 +44,11 @@ plusEqualsObjValueInBox:
 
 	// tests/contracts/abi.algo.ts:1261
 	// this.bMap('bMap').value.bar += 1
-	int 8
+	int 8 // headOffset
 	byte 0x624d6170 // "bMap"
-	box_get
-	assert
-	extract 8 8
+	int 8
+	dup
+	box_extract
 	btoi
 	int 1
 	+

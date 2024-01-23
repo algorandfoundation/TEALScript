@@ -47,13 +47,14 @@ plusEqualsArrayValue:
 	// tests/contracts/abi.algo.ts:1243
 	// a[1] += 1
 	frame_dig 0 // a: StaticArray<uint64, 2>
+	int 8
 	frame_dig 0 // a: StaticArray<uint64, 2>
 	extract 8 8
 	btoi
 	int 1
 	+
 	itob
-	replace2 8
+	replace3
 	frame_bury 0 // a: StaticArray<uint64, 2>
 
 	// tests/contracts/abi.algo.ts:1244

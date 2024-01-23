@@ -108,7 +108,19 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
     const teal = nodeAndTeal.teal.trim();
     const { node } = nodeAndTeal;
 
-    if (teal.startsWith('gloadss')) {
+    if (teal.startsWith('replace3')) {
+      if (outputTeal.at(-1)?.teal.startsWith('byte 0x') && outputTeal.at(-2)?.teal.startsWith('int ')) {
+        const bytes = outputTeal.at(-1)!;
+        const start = parseInt(outputTeal.at(-2)!.teal.split(' ')[1].replace('_', ''), 10);
+
+        popTeal();
+        popTeal();
+        pushTeal(bytes.teal, bytes.node);
+        pushTeal(`replace2 ${start}`, node);
+
+        optimized = true;
+      }
+    } else if (teal.startsWith('gloadss')) {
       if (outputTeal.at(-1)?.teal.startsWith('int ')) {
         const scratchSlot = Number(outputTeal.at(-1)?.teal.split(' ')[1]);
         popTeal();

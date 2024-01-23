@@ -3509,7 +3509,11 @@ export default class Compiler {
       let accNumber: number | undefined;
 
       if (typeof acc === 'string') {
-        accNumber = Object.keys(getObjectTypes(previousTupleElement.type)).indexOf(acc);
+        if (acc.startsWith('accessor//')) {
+          const frame = this.localVariables[acc];
+
+          this.push(node, `frame_dig ${frame.index} // saved accessor: ${acc}`, StackType.uint64);
+        } else accNumber = Object.keys(getObjectTypes(previousTupleElement.type)).indexOf(acc);
       } else if (acc.isKind(ts.SyntaxKind.NumericLiteral)) {
         accNumber = parseInt((acc as ts.Expression).getText(), 10);
       } else {
@@ -3521,7 +3525,7 @@ export default class Compiler {
       if (accNumber && previousTupleElement[accNumber]) {
         this.pushLines(node, `int ${accessedElem.headOffset} // headOffset`);
       } else {
-        if (accNumber) this.pushVoid(node, `int ${accNumber}`);
+        if (accNumber !== undefined) this.pushVoid(node, `int ${accNumber}`);
         this.pushLines(node, `int ${this.getTypeLength(accessedElem.type)}`, '* // acc * typeLength');
       }
 
