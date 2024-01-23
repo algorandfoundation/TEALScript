@@ -175,15 +175,26 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
 
         optimized = true;
       }
-    } else if (teal.startsWith('extract ') && outputTeal.at(-1)?.teal.startsWith('byte 0x')) {
-      const bytes = outputTeal.at(-1)!.teal.split(' ')[1].slice(2);
+    } else if (teal.startsWith('extract ')) {
+      const lastLine = outputTeal.at(-1)?.teal;
 
       const start = Number(teal.split(' ')[1]);
       const length = Number(teal.split(' ')[2]);
 
-      popTeal();
-      pushTeal(`byte 0x${bytes.slice(start * 2, start * 2 + length * 2)}`, node);
-      optimized = true;
+      if (lastLine?.startsWith('byte 0x')) {
+        const bytes = outputTeal.at(-1)!.teal.split(' ')[1].slice(2);
+
+        popTeal();
+        pushTeal(`byte 0x${bytes.slice(start * 2, start * 2 + length * 2)}`, node);
+        optimized = true;
+      } else if (lastLine?.startsWith('assert') && outputTeal.at(-2)?.teal.startsWith('box_get')) {
+        popTeal();
+        popTeal();
+        pushTeal(`int ${start}`, node);
+        pushTeal(`int ${length}`, node);
+        pushTeal('box_extract', node);
+        optimized = true;
+      }
     } else if (teal.startsWith('substring ') && outputTeal.at(-1)?.teal.startsWith('byte 0x')) {
       const bytes = outputTeal.at(-1)!.teal.split(' ')[1].slice(2);
 

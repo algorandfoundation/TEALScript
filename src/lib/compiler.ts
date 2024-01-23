@@ -10,6 +10,7 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
+import { access } from 'fs';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -3502,28 +3503,36 @@ export default class Compiler {
   ) {
     const parentType = this.lastType;
 
-    let offset = 0;
     let previousTupleElement = this.getTupleElement(parentType);
+
     accessors.forEach((acc, i) => {
-      let accNumber: number;
+      let accNumber: number | undefined;
+
       if (typeof acc === 'string') {
         accNumber = Object.keys(getObjectTypes(previousTupleElement.type)).indexOf(acc);
-      } else accNumber = parseInt((acc as ts.Expression).getText(), 10);
+      } else if (acc.isKind(ts.SyntaxKind.NumericLiteral)) {
+        accNumber = parseInt((acc as ts.Expression).getText(), 10);
+      } else {
+        this.processNode(acc);
+      }
 
-      const elem = previousTupleElement[accNumber] || previousTupleElement[0];
+      const accessedElem = previousTupleElement[accNumber ?? 0] || previousTupleElement[0];
 
-      if (previousTupleElement[accNumber]) offset += elem.headOffset;
-      else offset += accNumber * this.getTypeLength(elem.type);
+      if (accNumber && previousTupleElement[accNumber]) {
+        this.pushLines(node, `int ${accessedElem.headOffset} // headOffset`);
+      } else {
+        if (accNumber) this.pushVoid(node, `int ${accNumber}`);
+        this.pushLines(node, `int ${this.getTypeLength(accessedElem.type)}`, '* // acc * typeLength');
+      }
 
-      previousTupleElement = elem;
+      if (i) this.pushVoid(node, '+');
+
+      previousTupleElement = accessedElem;
     });
 
     const elem = previousTupleElement;
 
     const length = this.getTypeLength(elem.type);
-
-    // If one of the immediate args is over 255, then replace2/extract won't work
-    const over255 = length > 255 || offset > 255;
 
     const canBoxReplace =
       newValue &&
@@ -3532,8 +3541,6 @@ export default class Compiler {
       this.storageProps[getStorageName(parentExpression)!] &&
       this.storageProps[getStorageName(parentExpression)!].type === 'box' &&
       !this.isDynamicType(this.storageProps[getStorageName(parentExpression)!].valueType);
-
-    if (over255 || canBoxReplace) this.pushVoid(node, `int ${offset}`);
 
     if (newValue) {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
@@ -3545,14 +3552,12 @@ export default class Compiler {
       this.checkEncoding(node, elem.type);
 
       if (!canBoxReplace) {
-        if (over255) this.pushVoid(node, 'replace3');
-        else this.pushVoid(node, `replace2 ${offset}`);
+        this.pushVoid(node, 'replace3');
       }
 
       this.updateValue(parentExpression);
     } else {
-      if (over255) this.pushLines(node, `int ${length}`, 'extract3');
-      else this.pushVoid(node, `extract ${offset} ${length}`);
+      this.pushLines(node, `int ${length}`, 'extract3');
 
       this.checkDecoding(node, elem.type);
       this.lastType = elem.type;
@@ -3582,7 +3587,7 @@ export default class Compiler {
       if (Number.isNaN(parseInt((a as ts.Expression).getText(), 10))) literalAccessors = false;
     });
 
-    if (isNonBoolStatic && literalAccessors) {
+    if (isNonBoolStatic) {
       this.processLiteralStaticTupleAccess(node, accessors, parentExpression, newValue);
       return;
     }
