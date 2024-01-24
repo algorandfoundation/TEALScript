@@ -717,7 +717,6 @@ export default class Compiler {
     /** Only provided when setting a value */
     newValue?: ts.Node;
   }) {
-    const preType = this.lastType;
     const args: ts.Node[] = [];
     let keyNode: ts.Node;
 
@@ -886,7 +885,6 @@ export default class Compiler {
           this.pushVoid(node.getExpression(), 'cover 2');
         }
         this.pushVoid(node.getExpression(), 'box_replace');
-        this.lastType = preType;
         break;
 
       case 'size':
@@ -5597,12 +5595,15 @@ export default class Compiler {
         // If this is a property in an object ie. `myObj.foo`
         if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) accessors.push(n.getNameNode().getText());
 
+        const newValueValue = i === chain.length - 1 ? newValue : undefined;
+
         const accessedType = this.getStackTypeAfterFunction(() => {
-          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValue);
+          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValueValue);
         });
 
         if (!isArrayType(accessedType)) {
-          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValue);
+          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValueValue);
+
           accessors.length = 0;
         }
 
