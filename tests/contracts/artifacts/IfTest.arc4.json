@@ -167,6 +167,18 @@
       }
     },
     {
+      "name": "smallUintConditional",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint16"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
