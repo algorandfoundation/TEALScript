@@ -38,7 +38,7 @@ hasAsset:
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:6
-	// assert(a.hasAsset(Asset.fromID(123)))
+	// assert(a.isOptedInToAsset(Asset.fromID(123)))
 	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetBalance
@@ -68,7 +68,7 @@ assetBalance:
 	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetBalance
-	assert
+	pop
 	assert
 	retsub
 
@@ -93,7 +93,7 @@ assetFrozen:
 	frame_dig -1 // a: Account
 	int 123
 	asset_holding_get AssetFrozen
-	assert
+	pop
 	assert
 	retsub
 
@@ -114,7 +114,7 @@ hasBalance:
 	proto 1 0
 
 	// tests/contracts/account.algo.ts:18
-	// assert(a.hasBalance)
+	// assert(a.isInLedger)
 	frame_dig -1 // a: Account
 	acct_params_get AcctBalance
 	swap
@@ -142,7 +142,7 @@ balance:
 	// assert(a.balance)
 	frame_dig -1 // a: Account
 	acct_params_get AcctBalance
-	assert
+	pop
 	assert
 	retsub
 
@@ -166,7 +166,7 @@ minBalance:
 	// assert(a.minBalance)
 	frame_dig -1 // a: Account
 	acct_params_get AcctMinBalance
-	assert
+	pop
 	assert
 	retsub
 
@@ -190,7 +190,7 @@ authAddr:
 	// log(a.authAddr)
 	frame_dig -1 // a: Account
 	acct_params_get AcctAuthAddr
-	assert
+	pop
 	log
 	retsub
 
@@ -214,7 +214,7 @@ totalNumUint:
 	// assert(a.totalNumUint)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalNumUint
-	assert
+	pop
 	assert
 	retsub
 
@@ -238,7 +238,7 @@ totalNumByteSlice:
 	// assert(a.totalNumByteSlice)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalNumByteSlice
-	assert
+	pop
 	assert
 	retsub
 
@@ -262,7 +262,7 @@ totalExtraAppPages:
 	// assert(a.totalExtraAppPages)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalExtraAppPages
-	assert
+	pop
 	assert
 	retsub
 
@@ -286,7 +286,7 @@ totalAppsCreated:
 	// assert(a.totalAppsCreated)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAppsCreated
-	assert
+	pop
 	assert
 	retsub
 
@@ -310,7 +310,7 @@ totalAppsOptedIn:
 	// assert(a.totalAppsOptedIn)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAppsOptedIn
-	assert
+	pop
 	assert
 	retsub
 
@@ -334,7 +334,7 @@ totalAssetsCreated:
 	// assert(a.totalAssetsCreated)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAssetsCreated
-	assert
+	pop
 	assert
 	retsub
 
@@ -358,7 +358,7 @@ totalAssets:
 	// assert(a.totalAssets)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalAssets
-	assert
+	pop
 	assert
 	retsub
 
@@ -382,7 +382,7 @@ totalBoxes:
 	// assert(a.totalBoxes)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalBoxes
-	assert
+	pop
 	assert
 	retsub
 
@@ -406,7 +406,7 @@ totalBoxBytes:
 	// assert(a.totalBoxBytes)
 	frame_dig -1 // a: Account
 	acct_params_get AcctTotalBoxBytes
-	assert
+	pop
 	assert
 	retsub
 

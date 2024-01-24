@@ -225,7 +225,7 @@ deleteApplication:
 	txn Sender
 	txna Applications 0
 	app_params_get AppCreator
-	assert
+	pop
 	==
 	assert
 	retsub

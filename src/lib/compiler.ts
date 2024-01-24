@@ -632,7 +632,7 @@ export default class Compiler {
         type: 'any',
         args: 1,
         fn: (node: ts.Node) => {
-          this.maybeValue(node, 'app_global_get_ex', StackType.any);
+          this.assertMaybeValue(node, 'app_global_get_ex', StackType.any);
         },
       },
       {
@@ -641,7 +641,7 @@ export default class Compiler {
         args: 2,
         fn: (node: ts.Node) => {
           this.pushLines(node, 'swap', 'cover 2');
-          this.maybeValue(node, 'app_local_get_ex', StackType.any);
+          this.assertMaybeValue(node, 'app_local_get_ex', StackType.any);
         },
       },
     ],
@@ -805,7 +805,7 @@ export default class Compiler {
         } else if (storageType === 'local') {
           this.push(node.getExpression(), 'app_local_get', valueType);
         } else if (storageType === 'box') {
-          this.maybeValue(node.getExpression(), 'box_get', valueType);
+          this.assertMaybeValue(node.getExpression(), 'box_get', valueType);
         }
 
         if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
@@ -897,7 +897,7 @@ export default class Compiler {
         break;
 
       case 'size':
-        this.maybeValue(node.getExpression(), 'box_len', StackType.uint64);
+        this.assertMaybeValue(node.getExpression(), 'box_len', StackType.uint64);
         break;
       default:
         throw new Error();
@@ -1901,7 +1901,7 @@ export default class Compiler {
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, typeInfo);
       } else {
-        fn = (node: ts.Node) => this.maybeValue(node, `${op} ${arg}`, typeInfo);
+        fn = (node: ts.Node) => this.popMaybeValue(node, `${op} ${arg}`, typeInfo);
       }
       return {
         name: arg,
@@ -2592,9 +2592,14 @@ export default class Compiler {
     }
   }
 
-  private maybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
+  private assertMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
     this.pushVoid(node, opcode);
     this.push(node, 'assert', type);
+  }
+
+  private popMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
+    this.pushVoid(node, opcode);
+    this.push(node, 'pop', type);
   }
 
   private hasMaybeValue(node: ts.Node, opcode: string) {
@@ -6199,7 +6204,7 @@ export default class Compiler {
       }
     }
 
-    if (!name.startsWith('has')) {
+    if (!['isInLedger', 'isOptedInToAsset'].includes(name)) {
       if (this.OP_PARAMS[typeStr] === undefined) {
         throw Error(`Unknown or unsupported method: ${node.getText()} for type ${typeStr}`);
       }
@@ -6225,10 +6230,10 @@ export default class Compiler {
     }
 
     switch (name) {
-      case 'hasBalance':
+      case 'isInLedger':
         this.hasMaybeValue(node, 'acct_params_get AcctBalance');
         return;
-      case 'hasAsset':
+      case 'isOptedInToAsset':
         if (!checkArgs) {
           this.hasMaybeValue(node, 'asset_holding_get AssetBalance');
         }

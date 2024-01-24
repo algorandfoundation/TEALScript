@@ -46,7 +46,7 @@ chainedPropertyAfterTuple:
 	frame_bury 0 // o: T7
 
 	// tests/contracts/abi.algo.ts:1184
-	// assert(!o.foo.hasAsset(asa))
+	// assert(!o.foo.isOptedInToAsset(asa))
 	frame_dig 0 // o: T7
 	extract 0 32
 	frame_dig -1 // asa: Asset
