@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import { Contract } from '../../src/lib/index';
 import { IfTest } from './if.algo';
 
@@ -23,6 +24,10 @@ class ProgramVersion extends Contract {
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
   scratch = ScratchSlot<uint64>(0);
+
+  gKey = GlobalStateKey<uint64>();
+
+  storageArray = GlobalStateKey<StaticArray<uint64, 3>>();
 
   txnTypeEnum(): void {
     assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall);
@@ -240,5 +245,45 @@ class GeneralTest extends Contract {
     for (let i = 1; i < 75; i += 1) {
       assert(i);
     }
+  }
+
+  returnValueOnAssignment(): string {
+    let message = 'hi';
+
+    if (this.txn.sender === this.app.address) {
+      message = 'in block';
+    }
+    // eslint-disable-next-line no-unused-vars
+    return (message = 'bye');
+  }
+
+  returnArrayValueOnAssignment(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+
+    return (a[0] = 4);
+  }
+
+  returnStorageValueOnAssignment(): uint64 {
+    this.gKey.value = 1;
+
+    return (this.gKey.value = 2);
+  }
+
+  returnOperatorAssignmentValue(): uint64 {
+    let a = 1;
+
+    return (a += 2);
+  }
+
+  returnArrayValueOnOperatorAssignment(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+
+    return (a[0] += 4);
+  }
+
+  returnArrayInStorageValueOnOperatorAssignment(): uint64 {
+    this.storageArray.value = [1, 2, 3];
+
+    return (this.storageArray.value[0] += 4);
   }
 }

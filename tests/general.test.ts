@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 
 import * as algokit from '@algorandfoundation/algokit-utils';
-import { describe, test } from '@jest/globals';
+import { describe, test, expect } from '@jest/globals';
 import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
 
 const NAME = 'GeneralTest';
@@ -35,6 +35,36 @@ describe('General', function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
         await runMethod({ appClient, method, fee: 2000 });
       });
+    });
+
+    test('returnValueOnAssignment', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnValueOnAssignment' })).toBe('bye');
+    });
+
+    test('returnArrayValueOnAssignment', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnArrayValueOnAssignment' })).toBe(4n);
+    });
+
+    test('returnStorageValueOnAssignment', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnStorageValueOnAssignment' })).toBe(2n);
+    });
+
+    test('returnOperatorAssignmentValue', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnOperatorAssignmentValue' })).toBe(3n);
+    });
+
+    test('returnArrayValueOnOperatorAssignment', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnArrayValueOnOperatorAssignment' })).toBe(5n);
+    });
+
+    test('returnArrayInStorageValueOnOperatorAssignment', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'returnArrayInStorageValueOnOperatorAssignment' })).toBe(5n);
     });
   });
 });

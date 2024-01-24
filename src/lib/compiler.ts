@@ -423,6 +423,7 @@ const compilerScratch = {
   verifyTxnIndex: '248 // verifyTxn index',
   spliceStart: '247 // splice start',
   spliceByteLength: '246 // splice byte length',
+  assignmentValue: '245 // assignment value',
 };
 
 type NodeAndTEAL = {
@@ -684,11 +685,17 @@ export default class Compiler {
     }
   }
 
-  private processNewValue(node: ts.Node) {
-    if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
+  private processNewValue(node: ts.Node, numericType?: TypeInfo) {
+    if (node.isKind(ts.SyntaxKind.NumericLiteral) && numericType) {
+      this.processNumericLiteralWithType(node, numericType);
+    } else if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
       this.processBinaryExpression(node, true);
     } else {
       this.processNode(node);
+    }
+
+    if (this.usingValue(node.getParentOrThrow())) {
+      this.pushLines(node.getParentOrThrow(), 'dup', `store ${compilerScratch.assignmentValue}`);
     }
   }
 
@@ -906,7 +913,7 @@ export default class Compiler {
   private nodeDepth: number = 0;
 
   /**
-     The current top level node being processed within a class
+     The current top level node being processed within a method
 
     This is used to determine if a function call should return a value or not. For example,
 
@@ -3564,7 +3571,7 @@ export default class Compiler {
 
     if (newValue) {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
-        this.processNumericLiteralWithType(newValue, elem.type);
+        this.processNewValue(newValue, elem.type);
       } else {
         this.processNewValue(newValue);
       }
@@ -4084,6 +4091,19 @@ export default class Compiler {
 
   mathType = '';
 
+  private usingValue(node: ts.Node): boolean {
+    const parent = node.getParentOrThrow();
+
+    if (parent.isKind(ts.SyntaxKind.ForStatement)) {
+      if (node.getStart() === parent.getIncrementor()?.getStart()) return false;
+    }
+    if (parent.isKind(ts.SyntaxKind.ParenthesizedExpression)) return this.usingValue(parent);
+    if (parent.isKind(ts.SyntaxKind.ExpressionStatement)) return false;
+    if (parent.isKind(ts.SyntaxKind.Block)) return false;
+
+    return true;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression, processAssignmentOp = false) {
     const leftNode = node.getLeft();
     const rightNode = node.getRight();
@@ -4102,6 +4122,9 @@ export default class Compiler {
         const target = this.localVariables[processedFrame.name];
 
         this.processNode(rightNode);
+        if (this.usingValue(node)) {
+          this.pushVoid(node, 'dup');
+        }
 
         const currentArgs = this.currentSubroutine.args;
         if (currentArgs.find((s) => s.name === name && isArrayType(s.type))) {
@@ -4112,6 +4135,9 @@ export default class Compiler {
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.typeString}`);
       } else if (leftNode.isKind(ts.SyntaxKind.ElementAccessExpression)) {
         this.processExpressionChain(leftNode, rightNode);
+        if (this.usingValue(node)) {
+          this.pushVoid(node, `load ${compilerScratch.assignmentValue}`);
+        }
       } else if (leftNode.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
         const storageName = getStorageName(leftNode);
 
@@ -4122,11 +4148,11 @@ export default class Compiler {
             action: 'set',
             newValue: rightNode,
           });
+        } else this.processExpressionChain(leftNode, rightNode);
 
-          return;
+        if (this.usingValue(node)) {
+          this.pushVoid(node, `load ${compilerScratch.assignmentValue}`);
         }
-
-        this.processExpressionChain(leftNode, rightNode);
       }
 
       this.typeHint = prevTypeHint;
@@ -4160,6 +4186,10 @@ export default class Compiler {
 
         if (!isStorageExpr && isExprChain && this.getTypeInfo(leftNode.getFirstChild()!.getType()).kind !== 'base') {
           this.processExpressionChain(leftNode, node);
+          if (this.usingValue(node)) {
+            this.pushLines(node, `load ${compilerScratch.assignmentValue}`);
+            this.lastType = this.getTypeInfo(rightNode.getType());
+          }
           return;
         }
 
@@ -4257,7 +4287,10 @@ export default class Compiler {
       typeComparison(leftType, rightType);
 
     if (updateValue) {
+      if (this.usingValue(node)) this.pushLines(node, 'dup', `store ${compilerScratch.assignmentValue}`);
       this.updateValue(leftNode);
+      if (this.usingValue(node)) this.pushLines(node, `load ${compilerScratch.assignmentValue}`);
+      this.lastType = this.getTypeInfo(rightNode.getType());
     }
   }
 
