@@ -423,6 +423,7 @@ const compilerScratch = {
   verifyTxnIndex: '248 // verifyTxn index',
   spliceStart: '247 // splice start',
   spliceByteLength: '246 // splice byte length',
+  assignmentValue: '245 // assignment value',
 };
 
 type NodeAndTEAL = {
@@ -631,7 +632,7 @@ export default class Compiler {
         type: 'any',
         args: 1,
         fn: (node: ts.Node) => {
-          this.maybeValue(node, 'app_global_get_ex', StackType.any);
+          this.assertMaybeValue(node, 'app_global_get_ex', StackType.any);
         },
       },
       {
@@ -640,7 +641,7 @@ export default class Compiler {
         args: 2,
         fn: (node: ts.Node) => {
           this.pushLines(node, 'swap', 'cover 2');
-          this.maybeValue(node, 'app_local_get_ex', StackType.any);
+          this.assertMaybeValue(node, 'app_local_get_ex', StackType.any);
         },
       },
     ],
@@ -684,11 +685,17 @@ export default class Compiler {
     }
   }
 
-  private processNewValue(node: ts.Node) {
-    if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
+  private processNewValue(node: ts.Node, numericType?: TypeInfo) {
+    if (node.isKind(ts.SyntaxKind.NumericLiteral) && numericType) {
+      this.processNumericLiteralWithType(node, numericType);
+    } else if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
       this.processBinaryExpression(node, true);
     } else {
       this.processNode(node);
+    }
+
+    if (this.usingValue(node.getParentOrThrow())) {
+      this.pushLines(node.getParentOrThrow(), 'dup', `store ${compilerScratch.assignmentValue}`);
     }
   }
 
@@ -798,7 +805,7 @@ export default class Compiler {
         } else if (storageType === 'local') {
           this.push(node.getExpression(), 'app_local_get', valueType);
         } else if (storageType === 'box') {
-          this.maybeValue(node.getExpression(), 'box_get', valueType);
+          this.assertMaybeValue(node.getExpression(), 'box_get', valueType);
         }
 
         if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
@@ -890,7 +897,7 @@ export default class Compiler {
         break;
 
       case 'size':
-        this.maybeValue(node.getExpression(), 'box_len', StackType.uint64);
+        this.assertMaybeValue(node.getExpression(), 'box_len', StackType.uint64);
         break;
       default:
         throw new Error();
@@ -906,7 +913,7 @@ export default class Compiler {
   private nodeDepth: number = 0;
 
   /**
-     The current top level node being processed within a class
+     The current top level node being processed within a method
 
     This is used to determine if a function call should return a value or not. For example,
 
@@ -1894,7 +1901,7 @@ export default class Compiler {
       if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, typeInfo);
       } else {
-        fn = (node: ts.Node) => this.maybeValue(node, `${op} ${arg}`, typeInfo);
+        fn = (node: ts.Node) => this.popMaybeValue(node, `${op} ${arg}`, typeInfo);
       }
       return {
         name: arg,
@@ -2585,9 +2592,14 @@ export default class Compiler {
     }
   }
 
-  private maybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
+  private assertMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
     this.pushVoid(node, opcode);
     this.push(node, 'assert', type);
+  }
+
+  private popMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
+    this.pushVoid(node, opcode);
+    this.push(node, 'pop', type);
   }
 
   private hasMaybeValue(node: ts.Node, opcode: string) {
@@ -3564,7 +3576,7 @@ export default class Compiler {
 
     if (newValue) {
       if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
-        this.processNumericLiteralWithType(newValue, elem.type);
+        this.processNewValue(newValue, elem.type);
       } else {
         this.processNewValue(newValue);
       }
@@ -4084,6 +4096,19 @@ export default class Compiler {
 
   mathType = '';
 
+  private usingValue(node: ts.Node): boolean {
+    const parent = node.getParentOrThrow();
+
+    if (parent.isKind(ts.SyntaxKind.ForStatement)) {
+      if (node.getStart() === parent.getIncrementor()?.getStart()) return false;
+    }
+    if (parent.isKind(ts.SyntaxKind.ParenthesizedExpression)) return this.usingValue(parent);
+    if (parent.isKind(ts.SyntaxKind.ExpressionStatement)) return false;
+    if (parent.isKind(ts.SyntaxKind.Block)) return false;
+
+    return true;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression, processAssignmentOp = false) {
     const leftNode = node.getLeft();
     const rightNode = node.getRight();
@@ -4102,6 +4127,9 @@ export default class Compiler {
         const target = this.localVariables[processedFrame.name];
 
         this.processNode(rightNode);
+        if (this.usingValue(node)) {
+          this.pushVoid(node, 'dup');
+        }
 
         const currentArgs = this.currentSubroutine.args;
         if (currentArgs.find((s) => s.name === name && isArrayType(s.type))) {
@@ -4112,6 +4140,9 @@ export default class Compiler {
         this.pushVoid(node, `frame_bury ${target.index} // ${name}: ${target.typeString}`);
       } else if (leftNode.isKind(ts.SyntaxKind.ElementAccessExpression)) {
         this.processExpressionChain(leftNode, rightNode);
+        if (this.usingValue(node)) {
+          this.pushVoid(node, `load ${compilerScratch.assignmentValue}`);
+        }
       } else if (leftNode.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
         const storageName = getStorageName(leftNode);
 
@@ -4122,11 +4153,11 @@ export default class Compiler {
             action: 'set',
             newValue: rightNode,
           });
+        } else this.processExpressionChain(leftNode, rightNode);
 
-          return;
+        if (this.usingValue(node)) {
+          this.pushVoid(node, `load ${compilerScratch.assignmentValue}`);
         }
-
-        this.processExpressionChain(leftNode, rightNode);
       }
 
       this.typeHint = prevTypeHint;
@@ -4160,6 +4191,10 @@ export default class Compiler {
 
         if (!isStorageExpr && isExprChain && this.getTypeInfo(leftNode.getFirstChild()!.getType()).kind !== 'base') {
           this.processExpressionChain(leftNode, node);
+          if (this.usingValue(node)) {
+            this.pushLines(node, `load ${compilerScratch.assignmentValue}`);
+            this.lastType = this.getTypeInfo(rightNode.getType());
+          }
           return;
         }
 
@@ -4257,7 +4292,10 @@ export default class Compiler {
       typeComparison(leftType, rightType);
 
     if (updateValue) {
+      if (this.usingValue(node)) this.pushLines(node, 'dup', `store ${compilerScratch.assignmentValue}`);
       this.updateValue(leftNode);
+      if (this.usingValue(node)) this.pushLines(node, `load ${compilerScratch.assignmentValue}`);
+      this.lastType = this.getTypeInfo(rightNode.getType());
     }
   }
 
@@ -4626,7 +4664,11 @@ export default class Compiler {
       ) {
         this.initializeStorageFrame(node, name, init, initializerType);
 
-        if (node.getTypeNode()) typeComparison(this.lastType, this.getTypeInfo(node.getTypeNode()!.getType()));
+        if (node.getTypeNode())
+          typeComparison(
+            this.storageProps[getStorageName(init)!].valueType,
+            this.getTypeInfo(node.getTypeNode()!.getType())
+          );
         return;
       }
 
@@ -6162,7 +6204,7 @@ export default class Compiler {
       }
     }
 
-    if (!name.startsWith('has')) {
+    if (!['isInLedger', 'isOptedInToAsset'].includes(name)) {
       if (this.OP_PARAMS[typeStr] === undefined) {
         throw Error(`Unknown or unsupported method: ${node.getText()} for type ${typeStr}`);
       }
@@ -6188,10 +6230,10 @@ export default class Compiler {
     }
 
     switch (name) {
-      case 'hasBalance':
+      case 'isInLedger':
         this.hasMaybeValue(node, 'acct_params_get AcctBalance');
         return;
-      case 'hasAsset':
+      case 'isOptedInToAsset':
         if (!checkArgs) {
           this.hasMaybeValue(node, 'asset_holding_get AssetBalance');
         }

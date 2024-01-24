@@ -1181,7 +1181,7 @@ class ABITestChainedPropertyAfterTuple extends Contract {
   chainedPropertyAfterTuple(asa: Asset): void {
     const o: T7 = { foo: this.app.address };
 
-    assert(!o.foo.hasAsset(asa));
+    assert(!o.foo.isOptedInToAsset(asa));
   }
 }
 
@@ -1299,5 +1299,15 @@ class ABITestTypedConst extends Contract {
   maxPools(): void {
     const uint16Var: uint16 = 256;
     assert(uint16Var === UINT16_CONST);
+  }
+}
+
+class ABITestTypedVarFromStorage extends Contract {
+  boxMapTest = BoxMap<uint<32>, bytes32>();
+
+  typedVarFromStorage(key: uint<32>): bytes32 {
+    const value: bytes32 = this.boxMapTest(key).value;
+
+    return value;
   }
 }

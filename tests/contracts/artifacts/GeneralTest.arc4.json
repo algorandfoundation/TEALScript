@@ -273,6 +273,48 @@
       }
     },
     {
+      "name": "returnValueOnAssignment",
+      "args": [],
+      "returns": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "returnArrayValueOnAssignment",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "returnStorageValueOnAssignment",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "returnOperatorAssignmentValue",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "returnArrayValueOnOperatorAssignment",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "returnArrayInStorageValueOnOperatorAssignment",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
