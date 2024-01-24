@@ -95,4 +95,10 @@ export class IfTest extends Contract {
   stringTernary(arg0: string): number {
     return arg0 ? 1 : 2;
   }
+
+  smallUintConditional(a: uint16): void {
+    if (a) {
+      log('foo');
+    }
+  }
 }
