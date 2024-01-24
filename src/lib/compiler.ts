@@ -4659,7 +4659,11 @@ export default class Compiler {
       ) {
         this.initializeStorageFrame(node, name, init, initializerType);
 
-        if (node.getTypeNode()) typeComparison(this.lastType, this.getTypeInfo(node.getTypeNode()!.getType()));
+        if (node.getTypeNode())
+          typeComparison(
+            this.storageProps[getStorageName(init)!].valueType,
+            this.getTypeInfo(node.getTypeNode()!.getType())
+          );
         return;
       }
 
