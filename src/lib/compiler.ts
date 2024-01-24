@@ -920,6 +920,8 @@ export default class Compiler {
   private topLevelNode!: ts.Node;
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
+    if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
 
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
