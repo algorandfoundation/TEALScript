@@ -2721,14 +2721,14 @@ export default class Compiler {
       this.processErrorNodes.push(node);
 
       const errNode = this.processErrorNodes[0];
-      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.compilerNode.pos);
+      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
       const lines: string[] = [];
       const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
       errNode
         .getText()
         .split('\n')
         .forEach((l: string, i: number) => {
-          lines.push(`${errPath}:${loc.line + i}: ${l}`);
+          lines.push(`${errPath}:${loc.line + i + 1}: ${l}`);
         });
 
       const msg = `TEALScript can not process ${errNode.getKindName()} at ${errPath}:${loc.line}:${
