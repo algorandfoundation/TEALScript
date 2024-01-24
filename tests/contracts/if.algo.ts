@@ -101,4 +101,16 @@ export class IfTest extends Contract {
       log('foo');
     }
   }
+
+  smallUintComparisonConditional(a: uint16, b: uint16): void {
+    if (a <= b) {
+      log('foo');
+    }
+  }
+
+  uint256ComparsionConditional(a: uint256, b: uint256): void {
+    if (a <= b) {
+      log('foo');
+    }
+  }
 }

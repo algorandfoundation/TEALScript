@@ -4278,10 +4278,6 @@ export default class Compiler {
       }
     }
 
-    if (operator === '==' || operator === '!=') {
-      this.lastType = { kind: 'base', type: 'bool' };
-    }
-
     if (leftTypeStr.startsWith('unsafe') || rightTypeStr.startsWith('unsafe')) {
       typeComparison(
         { kind: 'base', type: leftTypeStr.replace('unsafe ', '') },
@@ -4296,6 +4292,10 @@ export default class Compiler {
       this.updateValue(leftNode);
       if (this.usingValue(node)) this.pushLines(node, `load ${compilerScratch.assignmentValue}`);
       this.lastType = this.getTypeInfo(rightNode.getType());
+    }
+
+    if (operator === '==' || operator === '!=' || operator.startsWith('<') || operator.startsWith('>')) {
+      this.lastType = { kind: 'base', type: 'bool' };
     }
   }
 

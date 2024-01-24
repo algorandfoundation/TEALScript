@@ -179,6 +179,38 @@
       }
     },
     {
+      "name": "smallUintComparisonConditional",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint16"
+        },
+        {
+          "name": "b",
+          "type": "uint16"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "uint256ComparsionConditional",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
