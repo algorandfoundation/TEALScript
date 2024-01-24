@@ -1301,3 +1301,13 @@ class ABITestTypedConst extends Contract {
     assert(uint16Var === UINT16_CONST);
   }
 }
+
+class ABITestTypedVarFromStorage extends Contract {
+  boxMapTest = BoxMap<uint<32>, bytes32>();
+
+  typedVarFromStorage(key: uint<32>): bytes32 {
+    const value: bytes32 = this.boxMapTest(key).value;
+
+    return value;
+  }
+}
