@@ -920,6 +920,8 @@ export default class Compiler {
   private topLevelNode!: ts.Node;
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
+    if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
 
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
@@ -4304,6 +4306,7 @@ export default class Compiler {
 
     if (constantInitializer !== undefined) {
       this.processNode(constantInitializer);
+      this.lastType = this.getTypeInfo(node.getType());
       return;
     }
 
@@ -5462,6 +5465,7 @@ export default class Compiler {
       // If this is a constant
       if (constantInitializer) {
         this.processNode(constantInitializer);
+        this.lastType = this.getTypeInfo(base.getType());
       }
 
       // If getting a txn type via the TransactionType enum
