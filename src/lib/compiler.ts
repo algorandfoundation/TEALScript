@@ -717,7 +717,6 @@ export default class Compiler {
     /** Only provided when setting a value */
     newValue?: ts.Node;
   }) {
-    const preType = this.lastType;
     const args: ts.Node[] = [];
     let keyNode: ts.Node;
 
@@ -886,7 +885,6 @@ export default class Compiler {
           this.pushVoid(node.getExpression(), 'cover 2');
         }
         this.pushVoid(node.getExpression(), 'box_replace');
-        this.lastType = preType;
         break;
 
       case 'size':
@@ -922,6 +920,8 @@ export default class Compiler {
   private topLevelNode!: ts.Node;
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
+    if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
 
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
@@ -2721,14 +2721,14 @@ export default class Compiler {
       this.processErrorNodes.push(node);
 
       const errNode = this.processErrorNodes[0];
-      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.compilerNode.pos);
+      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
       const lines: string[] = [];
       const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
       errNode
         .getText()
         .split('\n')
         .forEach((l: string, i: number) => {
-          lines.push(`${errPath}:${loc.line + i}: ${l}`);
+          lines.push(`${errPath}:${loc.line + i + 1}: ${l}`);
         });
 
       const msg = `TEALScript can not process ${errNode.getKindName()} at ${errPath}:${loc.line}:${
@@ -4306,6 +4306,7 @@ export default class Compiler {
 
     if (constantInitializer !== undefined) {
       this.processNode(constantInitializer);
+      this.lastType = this.getTypeInfo(node.getType());
       return;
     }
 
@@ -5464,6 +5465,7 @@ export default class Compiler {
       // If this is a constant
       if (constantInitializer) {
         this.processNode(constantInitializer);
+        this.lastType = this.getTypeInfo(base.getType());
       }
 
       // If getting a txn type via the TransactionType enum
@@ -5597,12 +5599,15 @@ export default class Compiler {
         // If this is a property in an object ie. `myObj.foo`
         if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) accessors.push(n.getNameNode().getText());
 
+        const newValueValue = i === chain.length - 1 ? newValue : undefined;
+
         const accessedType = this.getStackTypeAfterFunction(() => {
-          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValue);
+          this.processParentArrayAccess(lastAccessor!, accessors.slice(), storageBase || base, newValueValue);
         });
 
         if (!isArrayType(accessedType)) {
-          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValue);
+          this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base, newValueValue);
+
           accessors.length = 0;
         }
 

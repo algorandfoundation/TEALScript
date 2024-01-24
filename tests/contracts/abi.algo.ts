@@ -1287,7 +1287,17 @@ class ABITestNestedStructInBoxMap extends Contract {
 
   nestedStructInBoxMap(): T8 {
     this.bMap('bMap').value = { foo: { bar: 1 } };
-    this.bMap('bMap').value.foo.bar = 2;
+    this.bMap('bMap').value.foo.bar = 3;
+    this.bMap('bMap').value.foo.bar = <uint8>2;
     return this.bMap('bMap').value;
+  }
+}
+
+const UINT16_CONST: uint16 = 256;
+
+class ABITestTypedConst extends Contract {
+  maxPools(): void {
+    const uint16Var: uint16 = 256;
+    assert(uint16Var === UINT16_CONST);
   }
 }
