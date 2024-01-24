@@ -32,7 +32,7 @@ abi_route_txnTypeEnum:
 txnTypeEnum:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:28
+	// tests/contracts/general.algo.ts:33
 	// assert(this.txnGroup[0].typeEnum === TransactionType.ApplicationCall)
 	int 0
 	gtxns TypeEnum
@@ -52,7 +52,7 @@ abi_route_txnGroupLength:
 txnGroupLength:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:32
+	// tests/contracts/general.algo.ts:37
 	// assert(this.txnGroup.length === 1)
 	global GroupSize
 	int 1
@@ -91,7 +91,7 @@ abi_route_asserts:
 asserts:
 	proto 2 0
 
-	// tests/contracts/general.algo.ts:36
+	// tests/contracts/general.algo.ts:41
 	// assert(arg1, arg2, arg1 === arg2)
 	frame_dig -1 // arg1: boolean
 	assert
@@ -124,7 +124,7 @@ abi_route_verifyTxnFromArg:
 verifyTxnFromArg:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:40
+	// tests/contracts/general.algo.ts:45
 	// verifyTxn(somePay, { receiver: this.app.address, amount: 100_000 })
 	// verify receiver
 	frame_dig -1 // somePay: PayTxn
@@ -152,7 +152,7 @@ abi_route_verifyTxnFromTxnGroup:
 verifyTxnFromTxnGroup:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:44
+	// tests/contracts/general.algo.ts:49
 	// verifyTxn(this.txnGroup[0], { sender: this.txn.sender })
 	// verify sender
 	int 0
@@ -173,7 +173,7 @@ abi_route_verifyTxnCondition:
 verifyTxnCondition:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:48
+	// tests/contracts/general.algo.ts:53
 	// verifyTxn(this.txn, {
 	//       applicationID: { greaterThan: 1 },
 	//     })
@@ -195,7 +195,7 @@ abi_route_verifyTxnIncludedIn:
 verifyTxnIncludedIn:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:54
+	// tests/contracts/general.algo.ts:59
 	// verifyTxn(this.txn, {
 	//       sender: { includedIn: [this.txn.sender] },
 	//     })
@@ -217,7 +217,7 @@ abi_route_verifyTxnNotIncludedIn:
 verifyTxnNotIncludedIn:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:60
+	// tests/contracts/general.algo.ts:65
 	// verifyTxn(this.txn, {
 	//       sender: { notIncludedIn: [globals.zeroAddress] },
 	//     })
@@ -239,18 +239,18 @@ abi_route_submitPendingGroup:
 submitPendingGroup:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:66
+	// tests/contracts/general.algo.ts:71
 	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:66
+	// tests/contracts/general.algo.ts:71
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:66
+	// tests/contracts/general.algo.ts:71
 	// receiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Receiver
@@ -259,13 +259,13 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:67
+	// tests/contracts/general.algo.ts:72
 	// this.pendingGroup.addAssetCreation({ configAssetTotal: 1 })
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:67
+	// tests/contracts/general.algo.ts:72
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -274,7 +274,7 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// tests/contracts/general.algo.ts:68
+	// tests/contracts/general.algo.ts:73
 	// this.pendingGroup.submit()
 	itxn_submit
 	retsub
@@ -290,7 +290,7 @@ abi_route_methodWithTxnArgs:
 methodWithTxnArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:72
+	// tests/contracts/general.algo.ts:77
 	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
 	//       name: 'foo',
 	//       methodArgs: [
@@ -306,12 +306,12 @@ methodWithTxnArgs:
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:75
+	// tests/contracts/general.algo.ts:80
 	// amount: 100_000
 	int 100_000
 	itxn_field Amount
 
-	// tests/contracts/general.algo.ts:75
+	// tests/contracts/general.algo.ts:80
 	// receiver: this.txn.sender
 	txn Sender
 	itxn_field Receiver
@@ -325,12 +325,12 @@ methodWithTxnArgs:
 	method "bar(uint64)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:78
+	// tests/contracts/general.algo.ts:83
 	// applicationID: Application.fromID(1337)
 	int 1337
 	itxn_field ApplicationID
 
-	// tests/contracts/general.algo.ts:79
+	// tests/contracts/general.algo.ts:84
 	// methodArgs: [1]
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
@@ -344,7 +344,7 @@ methodWithTxnArgs:
 	method "foo(pay,appl)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:74
+	// tests/contracts/general.algo.ts:79
 	// methodArgs: [
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
@@ -372,7 +372,7 @@ abi_route_shift:
 shift:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:86
+	// tests/contracts/general.algo.ts:91
 	// assert(1 << 2 === 4)
 	int 1
 	int 2
@@ -381,7 +381,7 @@ shift:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:87
+	// tests/contracts/general.algo.ts:92
 	// assert(4 >> 1 === 2)
 	int 4
 	int 1
@@ -402,7 +402,7 @@ abi_route_fromBytes:
 fromBytes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:91
+	// tests/contracts/general.algo.ts:96
 	// assert(Address.fromBytes('abc').minBalance)
 	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
@@ -421,14 +421,14 @@ abi_route_fromID:
 fromID:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:95
+	// tests/contracts/general.algo.ts:100
 	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
 	assert
 	log
 
-	// tests/contracts/general.algo.ts:96
+	// tests/contracts/general.algo.ts:101
 	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
@@ -451,28 +451,28 @@ bzeroFunction:
 	byte 0x
 	dupn 4
 
-	// tests/contracts/general.algo.ts:100
+	// tests/contracts/general.algo.ts:105
 	// n = 1
 	int 1
 	frame_bury 0 // n: uint64
 
-	// tests/contracts/general.algo.ts:101
+	// tests/contracts/general.algo.ts:106
 	// x: bytes = bzero(2)
 	byte 0x0000
 	frame_bury 1 // x: bytes
 
-	// tests/contracts/general.algo.ts:102
+	// tests/contracts/general.algo.ts:107
 	// y: bytes = bzero(n)
 	int 1 // n: uint64
 	bzero
 	frame_bury 2 // y: bytes
 
-	// tests/contracts/general.algo.ts:103
+	// tests/contracts/general.algo.ts:108
 	// z: [uint64, uint<8>] = bzero<[uint64, uint<8>]>()
 	byte 0x000000000000000000
 	frame_bury 3 // z: [uint64, uint<8>]
 
-	// tests/contracts/general.algo.ts:104
+	// tests/contracts/general.algo.ts:109
 	// assert(len(x + y + z) === 12)
 	byte 0x0000 // x: bytes
 	frame_dig 2 // y: bytes
@@ -496,7 +496,7 @@ abi_route_events:
 events:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:119
+	// tests/contracts/general.algo.ts:124
 	// this.myEvent.log({ app: this.app, num: 1 })
 	byte 0x87528196 // myEvent(uint64,uint64)
 	txna Applications 0
@@ -535,7 +535,7 @@ abi_route_letOptimization:
 letOptimization:
 	proto 1 1
 
-	// tests/contracts/general.algo.ts:123
+	// tests/contracts/general.algo.ts:128
 	// assert(a[0])
 	frame_dig -1 // a: uint64[]
 	store 255 // full array
@@ -544,12 +544,12 @@ letOptimization:
 	btoi
 	assert
 
-	// tests/contracts/general.algo.ts:125
+	// tests/contracts/general.algo.ts:130
 	// b = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury -1 // b: uint64[]
 
-	// tests/contracts/general.algo.ts:127
+	// tests/contracts/general.algo.ts:132
 	// return b;
 	frame_dig -1 // a: uint64[]
 	retsub
@@ -565,7 +565,7 @@ abi_route_staticContractProperties:
 staticContractProperties:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:131
+	// tests/contracts/general.algo.ts:136
 	// sendAppCall({
 	//       onCompletion: OnCompletion.NoOp,
 	//       approvalProgram: DummyContract.approvalProgram(),
@@ -579,37 +579,37 @@ staticContractProperties:
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:132
+	// tests/contracts/general.algo.ts:137
 	// onCompletion: OnCompletion.NoOp
 	int 0 // NoOp
 	itxn_field OnCompletion
 
-	// tests/contracts/general.algo.ts:133
+	// tests/contracts/general.algo.ts:138
 	// approvalProgram: DummyContract.approvalProgram()
 	byte b64 CTEYFIEGCzEZCI0MAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIEBQ4AEuER7NjYaAI4B//AA
 	itxn_field ApprovalProgram
 
-	// tests/contracts/general.algo.ts:134
+	// tests/contracts/general.algo.ts:139
 	// clearStateProgram: DummyContract.clearProgram()
 	byte b64 CQ==
 	itxn_field ClearStateProgram
 
-	// tests/contracts/general.algo.ts:135
+	// tests/contracts/general.algo.ts:140
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
 	int 0
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/general.algo.ts:136
+	// tests/contracts/general.algo.ts:141
 	// localNumUint: DummyContract.schema.local.numUint
 	int 0
 	itxn_field LocalNumUint
 
-	// tests/contracts/general.algo.ts:137
+	// tests/contracts/general.algo.ts:142
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
 	int 0
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/general.algo.ts:138
+	// tests/contracts/general.algo.ts:143
 	// globalNumUint: DummyContract.schema.global.numUint
 	int 0
 	itxn_field GlobalNumUint
@@ -637,17 +637,17 @@ numberToString:
 	byte 0x
 	dup
 
-	// tests/contracts/general.algo.ts:143
+	// tests/contracts/general.algo.ts:148
 	// n = 1
 	int 1
 	frame_bury 0 // n: uint64
 
-	// tests/contracts/general.algo.ts:144
+	// tests/contracts/general.algo.ts:149
 	// s = '1'
 	byte 0x31 // "1"
 	frame_bury 1 // s: byte[]
 
-	// tests/contracts/general.algo.ts:145
+	// tests/contracts/general.algo.ts:150
 	// assert(n.toString() === s)
 	int 1 // n: uint64
 	callsub itoa
@@ -667,7 +667,7 @@ abi_route_methodOnParens:
 methodOnParens:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:149
+	// tests/contracts/general.algo.ts:154
 	// assert((1 + 2).toString() === '3')
 	int 3
 	callsub itoa
@@ -690,12 +690,12 @@ stringSubstring:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:153
+	// tests/contracts/general.algo.ts:158
 	// s = 'abcdef'
 	byte 0x616263646566 // "abcdef"
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/general.algo.ts:154
+	// tests/contracts/general.algo.ts:159
 	// assert(s.substring(1, 3) === 'bc')
 	byte 0x6263
 	byte 0x6263 // "bc"
@@ -718,24 +718,24 @@ idProperty:
 	byte 0x
 	dup
 
-	// tests/contracts/general.algo.ts:158
+	// tests/contracts/general.algo.ts:163
 	// app = Application.zeroIndex
 	int 0
 	frame_bury 0 // app: application
 
-	// tests/contracts/general.algo.ts:159
+	// tests/contracts/general.algo.ts:164
 	// assert(Application.fromID(app.id) === app)
 	int 0 // app: application
 	dup
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:161
+	// tests/contracts/general.algo.ts:166
 	// asa = Asset.zeroIndex
 	int 0
 	frame_bury 1 // asa: asset
 
-	// tests/contracts/general.algo.ts:162
+	// tests/contracts/general.algo.ts:167
 	// assert(Asset.fromID(asa.id) === asa)
 	int 0 // asa: asset
 	dup
@@ -754,12 +754,12 @@ abi_route_scratchSlot:
 scratchSlot:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:166
+	// tests/contracts/general.algo.ts:171
 	// this.scratch.value = 1337
 	int 1337
 	store 0
 
-	// tests/contracts/general.algo.ts:167
+	// tests/contracts/general.algo.ts:172
 	// assert(this.scratch.value === 1337)
 	load 0
 	int 1337
@@ -783,7 +783,7 @@ abi_route_ecdsa:
 ecdsa:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:171
+	// tests/contracts/general.algo.ts:176
 	// ecdsa_verify('Secp256k1', '' as bytes32, 1, 2, 3, 4)
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	byte 0x01
@@ -792,7 +792,7 @@ ecdsa:
 	byte 0x04
 	ecdsa_verify Secp256k1
 
-	// tests/contracts/general.algo.ts:172
+	// tests/contracts/general.algo.ts:177
 	// ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
@@ -804,7 +804,7 @@ ecdsa:
 	swap
 	concat
 
-	// tests/contracts/general.algo.ts:173
+	// tests/contracts/general.algo.ts:178
 	// return ecdsa_pk_recover('Secp256k1', '' as bytes32, 1, 2, 3);
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	int 1
@@ -831,7 +831,7 @@ abi_route_verifyTxnTypes:
 verifyTxnTypes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:177
+	// tests/contracts/general.algo.ts:182
 	// verifyPayTxn(this.txnGroup[0], {
 	//       amount: { greaterThan: 0 },
 	//     })
@@ -849,7 +849,7 @@ verifyTxnTypes:
 	>
 	assert
 
-	// tests/contracts/general.algo.ts:181
+	// tests/contracts/general.algo.ts:186
 	// verifyAppCallTxn(this.txnGroup[0], {
 	//       applicationID: Application.fromID(0),
 	//       applicationArgs: {
@@ -893,7 +893,7 @@ verifyTxnTypes:
 	||
 	assert
 
-	// tests/contracts/general.algo.ts:191
+	// tests/contracts/general.algo.ts:196
 	// verifyAssetTransferTxn(this.txnGroup[0], {
 	//       assetReceiver: this.app.address,
 	//     })
@@ -911,7 +911,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:195
+	// tests/contracts/general.algo.ts:200
 	// verifyAssetConfigTxn(this.txnGroup[0], {
 	//       configAsset: Asset.fromID(0),
 	//     })
@@ -929,7 +929,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:199
+	// tests/contracts/general.algo.ts:204
 	// verifyKeyRegTxn(this.txnGroup[0], {
 	//       voteFirst: 1337,
 	//     })
@@ -962,19 +962,19 @@ stringPlusEquals:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:205
+	// tests/contracts/general.algo.ts:210
 	// s = 'foo'
 	byte 0x666f6f // "foo"
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/general.algo.ts:206
+	// tests/contracts/general.algo.ts:211
 	// s += 'bar'
 	frame_dig 0 // s: byte[]
 	byte 0x626172 // "bar"
 	concat
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/general.algo.ts:207
+	// tests/contracts/general.algo.ts:212
 	// assert(s === 'foobar')
 	frame_dig 0 // s: byte[]
 	byte 0x666f6f626172 // "foobar"
@@ -1004,7 +1004,7 @@ abi_route_importedProgram:
 importedProgram:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:211
+	// tests/contracts/general.algo.ts:216
 	// return IfTest.approvalProgram();
 	byte b64 CSADAQACJggEFR98dQJpZgRlbHNlA2VuZAdlbHNlIGlmCWVsc2UgaWYgMQllbHNlIGlmIDIAMRgUgQYLMRkIjQwCYQAAAAAAAAAAAAACUwAAAAAAAAAAAAAAKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EAAimJK4koNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oBAYv/QQAFKYlCAAIqiYkoNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAgGL/0EABSmJQgAIi/5BAAMnBIkriSg2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oCAYv/QQAFKYlCAA2L/kEABicEiUIAAiqJiSg2GgNJFSISRCNTNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAwGL/0EABSmJQgATi/5BAAYnBYlCAAiL/UEAAycGiSuJKDYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oDAYv/QQAFKYlCABiL/kEABicFiUIADYv9QQAGJwaJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigIBi/9BABaL/kEADIAJbmVzdGVkIGlmiSmJQgACKomJKDYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAQGL/0EABSmJQgACKomJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAFFlCwIkOKAgGL/0EABCJCAAuL/kEABCRCAAKBA4koNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEAAiKJJIkoNhoBVwIAiAAFFlCwIkOKAQGL/ycHqUEABCJCAAEkiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHiABHS8yGiABEIS+QU2GgCOC/1D/Wn9k/3O/g3+Xf6x/vb/IP9V/3MA
 	retsub
@@ -1020,7 +1020,7 @@ abi_route_callPrivateDefinedLater:
 callPrivateDefinedLater:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:215
+	// tests/contracts/general.algo.ts:220
 	// log(this.privateMethod('hello'))
 	byte 0x68656c6c6f // "hello"
 	callsub privateMethod
@@ -1031,7 +1031,7 @@ callPrivateDefinedLater:
 privateMethod:
 	proto 1 1
 
-	// tests/contracts/general.algo.ts:219
+	// tests/contracts/general.algo.ts:224
 	// return msg;
 	frame_dig -1 // msg: string
 	retsub
@@ -1061,7 +1061,7 @@ abi_route_interalPublicMethod:
 interalPublicMethod:
 	proto 2 1
 
-	// tests/contracts/general.algo.ts:223
+	// tests/contracts/general.algo.ts:228
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -1079,7 +1079,7 @@ abi_route_callInternalPublicMethod:
 callInternalPublicMethod:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:227
+	// tests/contracts/general.algo.ts:232
 	// assert(this.interalPublicMethod(1, 2) === 3)
 	int 2
 	int 1
@@ -1100,7 +1100,7 @@ abi_route_appLoadScratch:
 appLoadScratch:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:231
+	// tests/contracts/general.algo.ts:236
 	// log(this.txnGroup[1].loadScratch(2) as bytes)
 	gload 1 2
 	log
@@ -1136,7 +1136,7 @@ abi_route_uintNWithUnderscore:
 uintNWithUnderscore:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:235
+	// tests/contracts/general.algo.ts:240
 	// return <uint256>123_456;
 	byte 0x000000000000000000000000000000000000000000000000000000000001e240
 	retsub
@@ -1155,7 +1155,7 @@ opUp:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:239
+	// tests/contracts/general.algo.ts:244
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -1170,25 +1170,25 @@ opUp:
 	itxn_field OnCompletion
 	itxn_submit
 
-	// tests/contracts/general.algo.ts:240
+	// tests/contracts/general.algo.ts:245
 	// i = 1
 	int 1
 	frame_bury 0 // i: uint64
 
 for_0:
-	// tests/contracts/general.algo.ts:240
+	// tests/contracts/general.algo.ts:245
 	// i < 75
 	frame_dig 0 // i: uint64
 	int 75
 	<
 	bz for_0_end
 
-	// tests/contracts/general.algo.ts:241
+	// tests/contracts/general.algo.ts:246
 	// assert(i)
 	frame_dig 0 // i: uint64
 	assert
 
-	// tests/contracts/general.algo.ts:240
+	// tests/contracts/general.algo.ts:245
 	// i += 1
 	frame_dig 0 // i: uint64
 	int 1
@@ -1197,6 +1197,263 @@ for_0:
 	b for_0
 
 for_0_end:
+	retsub
+
+// returnValueOnAssignment()string
+abi_route_returnValueOnAssignment:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnValueOnAssignment()string
+	callsub returnValueOnAssignment
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
+	int 1
+	return
+
+// returnValueOnAssignment(): string
+returnValueOnAssignment:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/general.algo.ts:251
+	// message = 'hi'
+	byte 0x6869 // "hi"
+	frame_bury 0 // message: byte[]
+
+	// if0_condition
+	// tests/contracts/general.algo.ts:253
+	// this.txn.sender === this.app.address
+	txn Sender
+	global CurrentApplicationAddress
+	==
+	bz if0_end
+
+	// if0_consequent
+	// tests/contracts/general.algo.ts:254
+	// message = 'in block'
+	byte 0x696e20626c6f636b // "in block"
+	frame_bury 0 // message: byte[]
+
+if0_end:
+	// tests/contracts/general.algo.ts:257
+	// return (message = 'bye');
+	byte 0x627965 // "bye"
+	dup
+	frame_bury 0 // message: byte[]
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// returnArrayValueOnAssignment()uint64
+abi_route_returnArrayValueOnAssignment:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnArrayValueOnAssignment()uint64
+	callsub returnArrayValueOnAssignment
+	itob
+	concat
+	log
+	int 1
+	return
+
+// returnArrayValueOnAssignment(): uint64
+returnArrayValueOnAssignment:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/general.algo.ts:261
+	// a: StaticArray<uint64, 3> = [1, 2, 3]
+	byte 0x000000000000000100000000000000020000000000000003
+	frame_bury 0 // a: StaticArray<uint64, 3>
+
+	// tests/contracts/general.algo.ts:263
+	// return (a[0] = 4);
+	frame_dig 0 // a: StaticArray<uint64, 3>
+	int 0
+	int 4
+	dup
+	store 245 // assignment value
+	itob
+	replace3
+	frame_bury 0 // a: StaticArray<uint64, 3>
+	load 245 // assignment value
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// returnStorageValueOnAssignment()uint64
+abi_route_returnStorageValueOnAssignment:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnStorageValueOnAssignment()uint64
+	callsub returnStorageValueOnAssignment
+	itob
+	concat
+	log
+	int 1
+	return
+
+// returnStorageValueOnAssignment(): uint64
+returnStorageValueOnAssignment:
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:267
+	// this.gKey.value = 1
+	byte 0x674b6579 // "gKey"
+	int 1
+	app_global_put
+
+	// tests/contracts/general.algo.ts:269
+	// return (this.gKey.value = 2);
+	byte 0x674b6579 // "gKey"
+	int 2
+	dup
+	store 245 // assignment value
+	app_global_put
+	load 245 // assignment value
+	retsub
+
+// returnOperatorAssignmentValue()uint64
+abi_route_returnOperatorAssignmentValue:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnOperatorAssignmentValue()uint64
+	callsub returnOperatorAssignmentValue
+	itob
+	concat
+	log
+	int 1
+	return
+
+// returnOperatorAssignmentValue(): uint64
+returnOperatorAssignmentValue:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/general.algo.ts:273
+	// a = 1
+	int 1
+	frame_bury 0 // a: uint64
+
+	// tests/contracts/general.algo.ts:275
+	// return (a += 2);
+	frame_dig 0 // a: uint64
+	int 2
+	+
+	dup
+	store 245 // assignment value
+	frame_bury 0 // a: uint64
+	load 245 // assignment value
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// returnArrayValueOnOperatorAssignment()uint64
+abi_route_returnArrayValueOnOperatorAssignment:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnArrayValueOnOperatorAssignment()uint64
+	callsub returnArrayValueOnOperatorAssignment
+	itob
+	concat
+	log
+	int 1
+	return
+
+// returnArrayValueOnOperatorAssignment(): uint64
+returnArrayValueOnOperatorAssignment:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/general.algo.ts:279
+	// a: StaticArray<uint64, 3> = [1, 2, 3]
+	byte 0x000000000000000100000000000000020000000000000003
+	frame_bury 0 // a: StaticArray<uint64, 3>
+
+	// tests/contracts/general.algo.ts:281
+	// return (a[0] += 4);
+	frame_dig 0 // a: StaticArray<uint64, 3>
+	int 0
+	frame_dig 0 // a: StaticArray<uint64, 3>
+	extract 0 8
+	btoi
+	int 4
+	+
+	dup
+	store 245 // assignment value
+	itob
+	replace3
+	frame_bury 0 // a: StaticArray<uint64, 3>
+	load 245 // assignment value
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// returnArrayInStorageValueOnOperatorAssignment()uint64
+abi_route_returnArrayInStorageValueOnOperatorAssignment:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute returnArrayInStorageValueOnOperatorAssignment()uint64
+	callsub returnArrayInStorageValueOnOperatorAssignment
+	itob
+	concat
+	log
+	int 1
+	return
+
+// returnArrayInStorageValueOnOperatorAssignment(): uint64
+returnArrayInStorageValueOnOperatorAssignment:
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:285
+	// this.storageArray.value = [1, 2, 3]
+	byte 0x73746f726167654172726179 // "storageArray"
+	byte 0x000000000000000100000000000000020000000000000003
+	app_global_put
+
+	// tests/contracts/general.algo.ts:287
+	// return (this.storageArray.value[0] += 4);
+	byte 0x73746f726167654172726179 // "storageArray"
+	app_global_get
+	int 0
+	byte 0x73746f726167654172726179 // "storageArray"
+	app_global_get
+	extract 0 8
+	btoi
+	int 4
+	+
+	dup
+	store 245 // assignment value
+	itob
+	replace3
+	byte 0x73746f726167654172726179 // "storageArray"
+	swap
+	app_global_put
+	load 245 // assignment value
 	retsub
 
 abi_route_createApplication:
@@ -1242,8 +1499,14 @@ call_NoOp:
 	method "appLoadScratch()void"
 	method "uintNWithUnderscore()uint256"
 	method "opUp()void"
+	method "returnValueOnAssignment()string"
+	method "returnArrayValueOnAssignment()uint64"
+	method "returnStorageValueOnAssignment()uint64"
+	method "returnOperatorAssignmentValue()uint64"
+	method "returnArrayValueOnOperatorAssignment()uint64"
+	method "returnArrayInStorageValueOnOperatorAssignment()uint64"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment
 	err
 
 intToAscii:
