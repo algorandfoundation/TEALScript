@@ -779,9 +779,10 @@ export default class Compiler {
         const hex = Buffer.from(prefix).toString('hex');
         this.pushVoid(keyNode!, `byte 0x${hex} // "${prefix}"`);
       }
+      const prevTypeHint = this.typeHint;
       this.typeHint = keyType;
       this.processNode(keyNode!);
-      this.typeHint = undefined;
+      this.typeHint = prevTypeHint;
 
       if (!equalTypes(keyType, StackType.bytes)) {
         this.checkEncoding(keyNode!, this.lastType);
@@ -812,9 +813,10 @@ export default class Compiler {
         }
 
         if (newValue) {
+          const prevTypeHint = this.typeHint;
           this.typeHint = valueType;
           this.processNewValue(newValue);
-          this.typeHint = undefined;
+          this.typeHint = prevTypeHint;
 
           // if valueType is not bytes
           // or if storage type is box
@@ -4085,8 +4087,10 @@ export default class Compiler {
   private processBinaryExpression(node: ts.BinaryExpression, processAssignmentOp = false) {
     const leftNode = node.getLeft();
     const rightNode = node.getRight();
+    let prevTypeHint = this.typeHint;
 
     if (node.getOperatorToken().getText() === '=') {
+      prevTypeHint = undefined;
       this.addSourceComment(node);
 
       const leftType = this.getStackTypeFromNode(leftNode);
@@ -4123,23 +4127,9 @@ export default class Compiler {
         }
 
         this.processExpressionChain(leftNode, rightNode);
-
-        // const expressionType = this.getStackTypeFromNode(leftNode.getExpression());
-        // const index = Object
-        //   .keys(getObjectTypes(expressionType)).indexOf(leftNode.getNameNode().getText());
-
-        // this.processNode(leftNode.getExpression());
-        // this.processParentArrayAccess(
-        //   node,
-        //   [stringToExpression(index.toString())],
-        //   leftNode.getExpression(),
-        //   rightNode,
-        // );
       }
 
-      // TODO: Type check
-
-      this.typeHint = undefined;
+      this.typeHint = prevTypeHint;
       return;
     }
 
@@ -4360,7 +4350,9 @@ export default class Compiler {
       return;
     }
 
+    const prevTypeHint = this.typeHint;
     this.typeHint = this.getTypeInfo(node.getTypeNode()!.getType());
+
     const typeStr = typeInfoToABIString(this.typeHint);
 
     if (TXN_TYPES.includes(typeStr)) {
@@ -4432,12 +4424,14 @@ export default class Compiler {
     }
 
     this.lastType = this.typeHint;
-    this.typeHint = undefined;
+    this.typeHint = prevTypeHint;
   }
 
   private processVariableDeclaration(node: ts.VariableDeclarationList) {
     node.getDeclarations().forEach((d) => {
-      if (d.getTypeNode()) this.typeHint = this.getTypeInfo(d.getTypeNode()!.getType());
+      const typeNode = d.getTypeNode();
+      this.typeHint = typeNode === undefined ? undefined : this.getTypeInfo(typeNode.getType());
+
       this.processNode(d);
       this.typeHint = undefined;
     });
