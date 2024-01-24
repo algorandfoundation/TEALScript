@@ -122,7 +122,7 @@ verifyCreator:
 	frame_dig -1 // optIn: AssetTransferTxn
 	gtxns XferAsset
 	asset_params_get AssetCreator
-	assert
+	pop
 	concat
 	box_get
 	assert

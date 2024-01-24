@@ -19,7 +19,7 @@ describe('Account', function () {
           `// log(a.${fn})`,
           'frame_dig -1 // a: Account',
           `acct_params_get ${a}`,
-          'assert',
+          'pop',
           'log',
         ]);
       } else {
@@ -27,7 +27,7 @@ describe('Account', function () {
           `// assert(a.${fn})`,
           'frame_dig -1 // a: Account',
           `acct_params_get ${a}`,
-          'assert',
+          'pop',
           'assert',
         ]);
       }
@@ -40,7 +40,7 @@ describe('Account', function () {
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',
-      'assert',
+      'pop',
       'assert',
     ]);
   });
@@ -51,14 +51,14 @@ describe('Account', function () {
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetFrozen',
-      'assert',
+      'pop',
       'assert',
     ]);
   });
 
-  test('hasAsset', async function () {
+  test('isOptedIntoAsset', async function () {
     expect(await getTeal('hasAsset')).toEqual([
-      '// assert(a.hasAsset(Asset.fromID(123)))',
+      '// assert(a.isOptedInToAsset(Asset.fromID(123)))',
       'frame_dig -1 // a: Account',
       'int 123',
       'asset_holding_get AssetBalance',

@@ -61,13 +61,13 @@ doCreatePoolToken:
 	byte 0x4450542d // "DPT-"
 	frame_dig -1 // aAsset: Asset
 	asset_params_get AssetUnitName
-	assert
+	pop
 	concat
 	byte 0x2d // "-"
 	concat
 	frame_dig -2 // bAsset: Asset
 	asset_params_get AssetUnitName
-	assert
+	pop
 	concat
 	itxn_field ConfigAssetName
 
@@ -253,7 +253,7 @@ computeRatio:
 	byte 0x61 // "a"
 	app_global_get
 	asset_holding_get AssetBalance
-	assert
+	pop
 	int 1_000
 	mulw
 	int 0
@@ -261,7 +261,7 @@ computeRatio:
 	byte 0x62 // "b"
 	app_global_get
 	asset_holding_get AssetBalance
-	assert
+	pop
 	divmodw
 	pop
 	pop
@@ -631,7 +631,7 @@ mint:
 	global CurrentApplicationAddress
 	frame_dig -4 // aAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -1 // aXfer: AssetTransferTxn
 	gtxns AssetAmount
 	==
@@ -640,7 +640,7 @@ mint:
 	global CurrentApplicationAddress
 	frame_dig -5 // bAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -2 // bXfer: AssetTransferTxn
 	gtxns AssetAmount
 	==
@@ -675,14 +675,14 @@ if0_else:
 	global CurrentApplicationAddress
 	frame_dig -5 // bAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -2 // bXfer: AssetTransferTxn
 	gtxns AssetAmount
 	-
 	global CurrentApplicationAddress
 	frame_dig -4 // aAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -1 // aXfer: AssetTransferTxn
 	gtxns AssetAmount
 	-
@@ -690,7 +690,7 @@ if0_else:
 	global CurrentApplicationAddress
 	frame_dig -3 // poolAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	-
 	callsub tokensToMint
 	frame_bury 0 // toMint: uint64
@@ -819,7 +819,7 @@ burn:
 	global CurrentApplicationAddress
 	frame_dig -2 // poolAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -1 // poolXfer: AssetTransferTxn
 	gtxns AssetAmount
 	-
@@ -833,7 +833,7 @@ burn:
 	global CurrentApplicationAddress
 	frame_dig -3 // aAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig 0 // issued: uint64
 	callsub tokensToBurn
 	frame_bury 1 // aAmt: uint64
@@ -845,7 +845,7 @@ burn:
 	global CurrentApplicationAddress
 	frame_dig -4 // bAsset: Asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig 0 // issued: uint64
 	callsub tokensToBurn
 	frame_bury 2 // bAmt: uint64
@@ -994,11 +994,11 @@ ternary3_end:
 	global CurrentApplicationAddress
 	frame_dig 0 // outId: asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	global CurrentApplicationAddress
 	frame_dig 1 // inId: asset
 	asset_holding_get AssetBalance
-	assert
+	pop
 	frame_dig -1 // swapXfer: AssetTransferTxn
 	gtxns AssetAmount
 	-

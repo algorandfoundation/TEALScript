@@ -402,7 +402,7 @@ declare class Address {
 
   readonly balance: uint64;
 
-  readonly hasBalance: uint64;
+  readonly isInLedger: uint64;
 
   readonly minBalance: uint64;
 
@@ -429,7 +429,7 @@ declare class Address {
 
   assetBalance(asa: Asset): uint64;
 
-  hasAsset(asa: Asset): uint64;
+  isOptedInToAsset(asa: Asset): uint64;
 
   assetFrozen(asa: Asset): uint64;
 

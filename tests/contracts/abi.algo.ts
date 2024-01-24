@@ -1181,7 +1181,7 @@ class ABITestChainedPropertyAfterTuple extends Contract {
   chainedPropertyAfterTuple(asa: Asset): void {
     const o: T7 = { foo: this.app.address };
 
-    assert(!o.foo.hasAsset(asa));
+    assert(!o.foo.isOptedInToAsset(asa));
   }
 }
 

@@ -406,7 +406,7 @@ fromBytes:
 	// assert(Address.fromBytes('abc').minBalance)
 	byte 0x616263 // "abc"
 	acct_params_get AcctMinBalance
-	assert
+	pop
 	assert
 	retsub
 
@@ -425,14 +425,14 @@ fromID:
 	// log(Application.fromID(123).creator)
 	int 123
 	app_params_get AppCreator
-	assert
+	pop
 	log
 
 	// tests/contracts/general.algo.ts:101
 	// log(Asset.fromID(123).creator)
 	int 123
 	asset_params_get AssetCreator
-	assert
+	pop
 	log
 	retsub
 

@@ -94,7 +94,7 @@ mintAndGetAsset:
 	// receiver: factoryApp.address
 	frame_dig 0 // factoryApp: application
 	app_params_get AppAddress
-	assert
+	pop
 	itxn_field Receiver
 
 	// Fee field not set, defaulting to 0
