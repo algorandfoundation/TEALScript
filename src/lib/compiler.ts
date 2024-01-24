@@ -4304,6 +4304,7 @@ export default class Compiler {
 
     if (constantInitializer !== undefined) {
       this.processNode(constantInitializer);
+      this.lastType = this.getTypeInfo(node.getType());
       return;
     }
 
@@ -5462,6 +5463,7 @@ export default class Compiler {
       // If this is a constant
       if (constantInitializer) {
         this.processNode(constantInitializer);
+        this.lastType = this.getTypeInfo(base.getType());
       }
 
       // If getting a txn type via the TransactionType enum
