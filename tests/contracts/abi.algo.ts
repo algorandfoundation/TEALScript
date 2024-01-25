@@ -1233,7 +1233,7 @@ class ABITestBoolInObj extends Contract {
   boolInObj(): void {
     const x: { foo: boolean; bar: boolean; baz: boolean } = { foo: true, bar: true, baz: true };
     x.bar = false;
-    assert(x.foo === true, x.bar === false, x.baz === true);
+    asserts(x.foo === true, x.bar === false, x.baz === true);
   }
 }
 

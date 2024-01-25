@@ -1314,6 +1314,15 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    asserts: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        node.getArguments().forEach((a) => {
+          this.processNode(a);
+          this.pushVoid(a, 'assert');
+        });
+      },
+    },
     increaseOpcodeBudget: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
@@ -5921,11 +5930,14 @@ export default class Compiler {
     const opcodeName = node.getExpression().getText();
 
     if (opcodeName === 'assert') {
-      node.getArguments().forEach((a) => {
-        this.processNode(a);
-        this.pushVoid(a, 'assert');
-      });
+      const args = node.getArguments();
+      this.processNode(args[0]);
 
+      if (args[1] && args[1].getType().isStringLiteral()) {
+        this.pushVoid(node, `// ${args[1].getType().getLiteralValueOrThrow().valueOf()}`);
+      }
+
+      this.pushVoid(node, 'assert');
       return;
     }
 
