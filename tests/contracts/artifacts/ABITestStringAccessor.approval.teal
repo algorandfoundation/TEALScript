@@ -47,8 +47,8 @@ stringAccessor:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:843
-	// s = 'Hello World'
-	byte 0x48656c6c6f20576f726c64 // "Hello World"
+	// s = concat('Hello ', 'World')
+	byte 0x48656c6c6f20576f726c64
 	frame_bury 0 // s: byte[]
 
 	// tests/contracts/abi.algo.ts:845

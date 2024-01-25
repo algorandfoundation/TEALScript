@@ -4,6 +4,10 @@ import { IfTest } from './if.algo';
 
 class DummyContract extends Contract {}
 
+const STRING_CONST = 'foo';
+const NUM_CONST = 123;
+const NESTED_CONST = NUM_CONST;
+
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
   bytesTmplVar = TemplateVar<bytes>();
@@ -285,5 +289,11 @@ class GeneralTest extends Contract {
     this.storageArray.value = [1, 2, 3];
 
     return (this.storageArray.value[0] += 4);
+  }
+
+  consts(): void {
+    assert(STRING_CONST === 'foo');
+    assert(NUM_CONST === 123);
+    assert(NESTED_CONST === 123);
   }
 }

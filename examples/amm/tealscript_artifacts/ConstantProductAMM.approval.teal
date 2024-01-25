@@ -78,7 +78,7 @@ doCreatePoolToken:
 
 	// examples/amm/amm.algo.ts:29
 	// configAssetTotal: TOTAL_SUPPLY
-	int 10_000_000_000
+	int 10000000000
 	itxn_field ConfigAssetTotal
 
 	// examples/amm/amm.algo.ts:30
@@ -177,7 +177,7 @@ tokensToMint:
 	// examples/amm/amm.algo.ts:53
 	// aRatio = wideRatio([aAmount, SCALE], [aSupply])
 	frame_dig -4 // aAmount: uint64
-	int 1_000
+	int 1000
 	mulw
 	int 0
 	frame_dig -2 // aSupply: uint64
@@ -192,7 +192,7 @@ tokensToMint:
 	// examples/amm/amm.algo.ts:54
 	// bRatio = wideRatio([bAmount, SCALE], [bSupply])
 	frame_dig -5 // bAmount: uint64
-	int 1_000
+	int 1000
 	mulw
 	int 0
 	frame_dig -3 // bSupply: uint64
@@ -225,7 +225,7 @@ ternary1_end:
 	frame_dig -1 // issued: uint64
 	mulw
 	int 0
-	int 1_000
+	int 1000
 	divmodw
 	pop
 	pop
@@ -254,7 +254,7 @@ computeRatio:
 	app_global_get
 	asset_holding_get AssetBalance
 	pop
-	int 1_000
+	int 1000
 	mulw
 	int 0
 	global CurrentApplicationAddress
@@ -317,7 +317,7 @@ tokensToSwap:
 	swap
 	int 0
 	frame_dig -2 // inSupply: uint64
-	int 1_000
+	int 1000
 	*
 	frame_dig -1 // inAmount: uint64
 	frame_dig 0 // factor: uint64
@@ -686,7 +686,7 @@ if0_else:
 	frame_dig -1 // aXfer: AssetTransferTxn
 	gtxns AssetAmount
 	-
-	int 10_000_000_000
+	int 10000000000
 	global CurrentApplicationAddress
 	frame_dig -3 // poolAsset: Asset
 	asset_holding_get AssetBalance
@@ -815,7 +815,7 @@ burn:
 
 	// examples/amm/amm.algo.ts:156
 	// issued = TOTAL_SUPPLY - (this.app.address.assetBalance(poolAsset) - poolXfer.assetAmount)
-	int 10_000_000_000
+	int 10000000000
 	global CurrentApplicationAddress
 	frame_dig -2 // poolAsset: Asset
 	asset_holding_get AssetBalance

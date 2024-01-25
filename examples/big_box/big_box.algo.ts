@@ -8,9 +8,9 @@ endSize - The size of the last box
 */
 type Metadata = { start: uint64; end: uint64; status: uint<8>; endSize: uint64 };
 
-const IN_PROGRESS = 0 as uint<8>;
-const READY = 1 as uint<8>;
-const IMMUTABLE = 2 as uint<8>;
+const IN_PROGRESS = 0;
+const READY = 1;
+const IMMUTABLE = 2;
 
 const COST_PER_BYTE = 400;
 const COST_PER_BOX = 2500;

@@ -42,8 +42,8 @@ stringLength:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:752
-	// s = 'foo bar'
-	byte 0x666f6f20626172 // "foo bar"
+	// s = concat('foo ', 'bar')
+	byte 0x666f6f20626172
 	frame_bury 0 // s: byte[]
 
 	// tests/contracts/abi.algo.ts:754

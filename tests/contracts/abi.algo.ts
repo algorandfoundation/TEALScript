@@ -30,9 +30,9 @@ class ABITestStaticArrayArg extends Contract {
 
 class ABITestNonLiteralStaticArrayElements extends Contract {
   nonLiteralStaticArrayElements(): uint64 {
-    const n1 = 11;
-    const n2 = 22;
-    const n3 = 33;
+    const n1 = btoi(itob(11));
+    const n2 = btoi(itob(22));
+    const n3 = btoi(itob(33));
     const a: StaticArray<uint64, 3> = [n1, n2, n3];
 
     return a[1];
@@ -41,9 +41,9 @@ class ABITestNonLiteralStaticArrayElements extends Contract {
 
 class ABITestMixedStaticArrayElements extends Contract {
   mixedStaticArrayElements(): uint64 {
-    const n1 = 3;
-    const n2 = 4;
-    const n3 = 5;
+    const n1 = btoi(itob(3));
+    const n2 = btoi(itob(4));
+    const n3 = btoi(itob(5));
     const a: StaticArray<uint64, 9> = [0, 1, 2, n1, n2, n3, 6, 7, 8];
 
     return a[1] + a[4] + a[7];
@@ -53,7 +53,7 @@ class ABITestMixedStaticArrayElements extends Contract {
 class ABITestNonLiteralStaticArrayAccess extends Contract {
   nonLiteralStaticArrayAccess(): uint64 {
     const a: StaticArray<uint64, 3> = [11, 22, 33];
-    const n = 2;
+    const n = btoi(itob(2));
 
     return a[n];
   }
@@ -468,8 +468,8 @@ class ABITestArraySpliceValue extends Contract {
   arraySpliceValue(): uint16[] {
     const a: uint16[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    const i = 1;
-    const l = 7;
+    const i = btoi(itob(1));
+    const l = btoi(itob(7));
     const v = a.splice(i, l);
 
     return v;
@@ -648,7 +648,7 @@ class ABITestStaticStringArrayArg extends Contract {
 
 class ABITestDynamicAccessOfDynamicElementInStaticArray extends Contract {
   dynamicAccessOfDynamicElementInStaticArray(a: StaticArray<string, 3>): string {
-    const i = 1;
+    const i = btoi(itob(1));
     return a[i];
   }
 }
@@ -749,7 +749,7 @@ class ABITestArrayLength extends Contract {
 
 class ABITestStringLength extends Contract {
   stringLength(): uint64 {
-    const s = 'foo bar';
+    const s = concat('foo ', 'bar');
 
     return s.length;
   }
@@ -840,7 +840,7 @@ class ABITestObjectArrayRef extends Contract {
 
 class ABITestStringAccessor extends Contract {
   stringAccessor(): string {
-    const s = 'Hello World';
+    const s = concat('Hello ', 'World');
 
     return s[1];
   }
@@ -1293,7 +1293,7 @@ class ABITestNestedStructInBoxMap extends Contract {
   }
 }
 
-const UINT16_CONST: uint16 = 256;
+const UINT16_CONST = 256;
 
 class ABITestTypedConst extends Contract {
   maxPools(): void {

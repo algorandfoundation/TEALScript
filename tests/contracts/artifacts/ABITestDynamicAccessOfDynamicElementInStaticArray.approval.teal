@@ -50,7 +50,7 @@ dynamicAccessOfDynamicElementInStaticArray:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:651
-	// i = 1
+	// i = btoi(itob(1))
 	int 1
 	frame_bury 0 // i: uint64
 
