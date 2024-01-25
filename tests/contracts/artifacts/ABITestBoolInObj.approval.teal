@@ -60,7 +60,7 @@ boolInObj:
 	frame_bury 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 
 	// tests/contracts/abi.algo.ts:1236
-	// assert(x.foo === true, x.bar === false, x.baz === true)
+	// asserts(x.foo === true, x.bar === false, x.baz === true)
 	frame_dig 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 	store 255 // full array
 	load 255 // full array

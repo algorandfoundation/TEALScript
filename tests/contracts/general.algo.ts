@@ -42,7 +42,7 @@ class GeneralTest extends Contract {
   }
 
   asserts(arg1: boolean, arg2: boolean): void {
-    assert(arg1, arg2, arg1 === arg2);
+    asserts(arg1, arg2, arg1 === arg2);
   }
 
   verifyTxnFromArg(somePay: PayTxn): void {
@@ -295,5 +295,9 @@ class GeneralTest extends Contract {
     assert(STRING_CONST === 'foo');
     assert(NUM_CONST === 123);
     assert(NESTED_CONST === 123);
+  }
+
+  assertWithMessage(): void {
+    assert(false, 'this is false');
   }
 }
