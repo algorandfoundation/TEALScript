@@ -810,5 +810,12 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'nestedStructInBoxMap')).toEqual([[2n]]);
     });
+
+    // forEach
+    test('forEach', async () => {
+      const { appClient } = await compileAndCreate('staticForEach');
+
+      expect(await runMethod(appClient, 'staticForEach')).toEqual(6n);
+    });
   });
 });

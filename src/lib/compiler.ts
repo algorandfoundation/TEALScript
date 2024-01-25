@@ -1761,7 +1761,95 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
-        throw Error('forEach not yet supported. Use for loop instead');
+        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
+        const exprTypeInfo = this.getTypeInfo(expr.getType());
+
+        // TODO: Support dynamic array of static type as well
+        if (exprTypeInfo.kind !== 'staticArray') throw Error();
+
+        if (this.isDynamicType(exprTypeInfo)) throw Error('Cannot iterate over dynamic elements');
+        const baseType = exprTypeInfo.base;
+        const typeLength = this.getTypeLength(baseType);
+
+        const fn = node.getArguments()[0];
+
+        if (!fn.isKind(ts.SyntaxKind.ArrowFunction)) throw Error();
+        const params = fn.getChildrenOfKind(ts.SyntaxKind.SyntaxList)[0].getChildrenOfKind(ts.SyntaxKind.Parameter);
+
+        if (params.length !== 1) throw Error('forEach function must have exactly one parameter in TEALScript');
+
+        const paramName = params[0].getName();
+
+        const arrayType = this.lastType;
+        const arrayTypeString = typeInfoToABIString(arrayType);
+
+        const frameName = `forEach//${node.getStartLinePos()}`;
+
+        // TODO: instead of saving the variable, save the index of the variable
+        // Save the full variable
+        this.localVariables[`${frameName}//aray`] = {
+          index: this.frameIndex,
+          type: arrayType,
+          typeString: arrayTypeString,
+        };
+        this.pushLines(
+          node,
+          'dup',
+          `frame_bury ${this.frameIndex} // ${frameName}//array: ${arrayTypeString}`,
+          `extract 0 ${typeLength}`
+        );
+        this.frameIndex += 1;
+        this.checkDecoding(node, baseType);
+
+        // Save the current element
+        this.localVariables[paramName] = {
+          index: this.frameIndex,
+          type: baseType,
+          typeString: typeInfoToABIString(baseType),
+        };
+        this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+        this.frameIndex += 1;
+
+        // Save the offset
+        this.localVariables[`${frameName}//offset`] = {
+          index: this.frameIndex,
+          type: baseType,
+          typeString: typeInfoToABIString(baseType),
+        };
+        this.pushLines(node, 'int 0', `frame_bury ${this.frameIndex} // ${frameName}//offset`);
+        this.frameIndex += 1;
+
+        const label = `forEach_${node.getStart()}`;
+        // TODO: Use global counter instead of getStart
+        this.pushLines(node, `${label}:`);
+
+        this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+
+        const offsetIndex = this.localVariables[`${frameName}//offset`].index;
+        const arrayIndex = this.localVariables[`${frameName}//aray`].index;
+        const elementIndex = this.localVariables[paramName].index;
+
+        // End of for each logic
+        this.pushLines(
+          node,
+          '// increment offset and loop if not out of bounds',
+          `frame_dig ${offsetIndex} // ${frameName}//offset`,
+          `int ${typeLength}`,
+          '+',
+          'dup',
+          `int ${exprTypeInfo.length * typeLength} // offset of last element`,
+          '<',
+          `bz ${label}_end`,
+          `frame_bury ${offsetIndex} // ${frameName}//offset`,
+          `frame_dig ${arrayIndex} // ${frameName}//array`,
+          `frame_dig ${offsetIndex} // ${frameName}//offset`,
+          `int ${typeLength}`,
+          'extract'
+        );
+
+        this.checkDecoding(node, baseType);
+
+        this.pushLines(node, `frame_bury ${elementIndex} // ${paramName}`, `b ${label}`, `${label}_end:`);
       },
     },
     // Address methods

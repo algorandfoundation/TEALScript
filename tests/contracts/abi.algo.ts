@@ -1311,3 +1311,15 @@ class ABITestTypedVarFromStorage extends Contract {
     return value;
   }
 }
+
+class ABITestStaticForEach extends Contract {
+  staticForEach(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    a.forEach((v) => {
+      sum += v;
+    });
+    return sum;
+  }
+}
