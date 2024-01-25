@@ -10,7 +10,6 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { access } from 'fs';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -107,26 +106,6 @@ type Event = {
   desc: string;
   argTupleType: TypeInfo;
 };
-
-function getConstantInitializer(node: ts.Node): ts.Node | undefined {
-  if (!node.isKind(ts.SyntaxKind.Identifier)) return undefined;
-  const definitionNode = node.getDefinitionNodes().at(-1);
-  const greatGrandParentNode = definitionNode?.getParent()?.getParent()?.getParent();
-
-  if (
-    definitionNode?.isKind(ts.SyntaxKind.VariableDeclaration) &&
-    greatGrandParentNode?.isKind(ts.SyntaxKind.SourceFile)
-  ) {
-    const initializer = definitionNode.getInitializer();
-    if (initializer?.isKind(ts.SyntaxKind.Identifier)) {
-      return getConstantInitializer(initializer) ?? definitionNode.getInitializer();
-    }
-
-    return initializer;
-  }
-
-  return undefined;
-}
 
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
@@ -686,7 +665,7 @@ export default class Compiler {
   }
 
   private processNewValue(node: ts.Node, numericType?: TypeInfo) {
-    if (node.isKind(ts.SyntaxKind.NumericLiteral) && numericType) {
+    if (node.getType().isNumberLiteral() && numericType) {
       this.processNumericLiteralWithType(node, numericType);
     } else if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
       this.processBinaryExpression(node, true);
@@ -1370,7 +1349,7 @@ export default class Compiler {
 
         // signature component
         const thirdArg = node.getArguments()[2];
-        if (thirdArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (thirdArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(thirdArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(thirdArg);
@@ -1379,7 +1358,7 @@ export default class Compiler {
 
         // signature component
         const fourthArg = node.getArguments()[3];
-        if (fourthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (fourthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(fourthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(fourthArg);
@@ -1388,7 +1367,7 @@ export default class Compiler {
 
         // public key component
         const fifthArg = node.getArguments()[4];
-        if (fifthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (fifthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(fifthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(fifthArg);
@@ -1397,7 +1376,7 @@ export default class Compiler {
 
         // public key component
         const sixthArg = node.getArguments()[5];
-        if (sixthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (sixthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(sixthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(sixthArg);
@@ -1459,7 +1438,7 @@ export default class Compiler {
         const bigintType = { kind: 'base', type: 'bigint' } as TypeInfo;
 
         // recovery ID
-        if (args[2].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[2].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[2], StackType.uint64);
         } else {
           this.processNode(args[2]);
@@ -1467,7 +1446,7 @@ export default class Compiler {
         }
 
         // sig component
-        if (args[3].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[3].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[3], { kind: 'base', type: 'uint256' });
         } else {
           this.processNode(args[3]);
@@ -1475,7 +1454,7 @@ export default class Compiler {
         }
 
         // sig component
-        if (args[4].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[4].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[4], { kind: 'base', type: 'uint256' });
         } else {
           this.processNode(args[4]);
@@ -1526,12 +1505,9 @@ export default class Compiler {
         }
 
         if (arg && !typeArg) {
-          if (arg.isKind(ts.SyntaxKind.NumericLiteral))
-            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, StackType.bytes);
-          else {
-            this.processNode(arg);
-            this.push(node, 'bzero', StackType.bytes);
-          }
+          this.processNode(arg);
+          this.push(node, 'bzero', StackType.bytes);
+
           return;
         }
 
@@ -1583,9 +1559,14 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         const args = node.getArguments();
         if (args.length !== 1) throw new Error();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error();
+        const arg0Type = args[0].getType();
+        if (!arg0Type.isStringLiteral()) throw new Error('Hex argument must be string literal');
 
-        this.push(args[0], `byte 0x${args[0].getLiteralText().replace(/^0x/, '')}`, StackType.bytes);
+        this.push(
+          args[0],
+          `byte 0x${arg0Type.getLiteralValueOrThrow().toString().replace(/^0x/, '')}`,
+          StackType.bytes
+        );
       },
     },
     btobigint: {
@@ -1803,7 +1784,9 @@ export default class Compiler {
     },
     // number methods
     toString: {
-      check: (node: ts.CallExpression) => this.lastType.kind === 'base' && !!this.lastType.type.match(/uint\d+$/),
+      check: (node: ts.CallExpression) => {
+        return this.lastType.kind === 'base' && !!this.lastType.type.match(/uint\d+$/);
+      },
       fn: (node: ts.CallExpression) => {
         if (this.lastType.kind !== 'base') throw Error();
 
@@ -2320,9 +2303,31 @@ export default class Compiler {
     }
 
     this.sourceFile.getStatements().forEach((body) => {
+      const errNode = body;
+      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
+      const lines: string[] = [];
+      const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
+      errNode
+        .getText()
+        .split('\n')
+        .forEach((l: string, i: number) => {
+          lines.push(`${errPath}:${loc.line + i + 1}: ${l}`);
+        });
+
+      const msg = `${errNode.getKindName()} at ${errPath}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+
       if (body.isKind(ts.SyntaxKind.VariableStatement)) {
-        if (body.getDeclarationList().getFlags() !== ts.NodeFlags.Const)
-          throw new Error('Top-level variables must be constants');
+        if (body.getDeclarationKind() !== ts.VariableDeclarationKind.Const) {
+          throw new Error(`Top-level variables must be constants\n${msg}`);
+        }
+
+        const delcarationType = body.getDeclarations()[0].getType();
+
+        if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
+          throw Error(
+            `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
+          );
+        }
       }
     });
 
@@ -2872,7 +2877,7 @@ export default class Compiler {
 
       this.typeHint = types[i];
 
-      if (e.isKind(ts.SyntaxKind.NumericLiteral)) {
+      if (e.getType().isNumberLiteral()) {
         this.processNumericLiteralWithType(e, types[i]);
       } else {
         this.processNode(e);
@@ -3027,7 +3032,7 @@ export default class Compiler {
       elements.forEach((e, i) => {
         this.typeHint = types[i];
 
-        if (e.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (e.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(e, types[i]);
         } else {
           this.processNode(e);
@@ -3575,7 +3580,7 @@ export default class Compiler {
       !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
-      if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
+      if (newValue.getType().isNumberLiteral()) {
         this.processNewValue(newValue, elem.type);
       } else {
         this.processNewValue(newValue);
@@ -3702,7 +3707,7 @@ export default class Compiler {
         );
 
         // Get new element
-        if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (newValue.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(newValue, element.type);
         } else {
           this.processNewValue(newValue);
@@ -4226,11 +4231,11 @@ export default class Compiler {
 
     const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
 
-    if (leftNode.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (leftNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(leftNode, rightType);
     } else this.processNode(leftNode);
 
-    if (rightNode.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (rightNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(rightNode, leftType);
     } else this.processNode(rightNode);
 
@@ -4284,7 +4289,7 @@ export default class Compiler {
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
       if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
-    } else if (!leftNode.isKind(ts.SyntaxKind.NumericLiteral) && !rightNode.isKind(ts.SyntaxKind.NumericLiteral))
+    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral())
       typeComparison(leftType, rightType);
 
     if (updateValue) {
@@ -4330,11 +4335,15 @@ export default class Compiler {
       return;
     }
 
-    const constantInitializer = getConstantInitializer(node);
+    const type = node.getType();
 
-    if (constantInitializer !== undefined) {
-      this.processNode(constantInitializer);
-      this.lastType = this.getTypeInfo(node.getType());
+    if (type.isStringLiteral()) {
+      this.push(node, `byte "${type.getLiteralValueOrThrow()}"`, StackType.bytes);
+      return;
+    }
+
+    if (type.isNumberLiteral()) {
+      this.push(node, `int ${type.getLiteralValueOrThrow()}`, StackType.uint64);
       return;
     }
 
@@ -4383,7 +4392,7 @@ export default class Compiler {
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
 
-    if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (expr.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(expr, this.getTypeInfo(node.getTypeNode()!.getType()));
       return;
     }
@@ -4512,11 +4521,7 @@ export default class Compiler {
     const keyNode = exprArgs[argLength === 2 ? 1 : 0];
 
     // If the storage object has a key (any GlobalStateMap, LocalStateMap, and BoxMap)
-    if (
-      keyNode !== undefined &&
-      !keyNode.isKind(ts.SyntaxKind.StringLiteral) &&
-      !keyNode.isKind(ts.SyntaxKind.NumericLiteral)
-    ) {
+    if (keyNode !== undefined && !keyNode.isKind(ts.SyntaxKind.StringLiteral) && !keyNode.getType().isNumberLiteral()) {
       this.addSourceComment(node, true);
 
       // Add the prefix to the given key if it exists
@@ -4572,6 +4577,8 @@ export default class Compiler {
   }
 
   private processVariableDeclarator(node: ts.VariableDeclaration) {
+    if (node.getType().isStringLiteral() || node.getType().isNumberLiteral()) return;
+
     const name = node.getNameNode().getText();
 
     if (node.getInitializer()!) {
@@ -4581,13 +4588,7 @@ export default class Compiler {
 
       const isArray = isArrayType(initializerType);
 
-      const intiailizerConstantInitializer = getConstantInitializer(node.getInitializer()!);
-
-      if (
-        node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
-        intiailizerConstantInitializer === undefined &&
-        isArray
-      ) {
+      if (node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) && isArray) {
         lastFrameAccess = node.getInitializer()!.getText();
 
         this.localVariables[name] = {
@@ -4604,16 +4605,14 @@ export default class Compiler {
         const accessChain = this.getAccessChain(init);
         lastFrameAccess = accessChain[0].getExpression().getText();
 
-        const type = this.getStackTypeFromNode(accessChain[0].getExpression());
-
         // Only add source comments if there will be generated TEAL
-        if (accessChain.find((e) => e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral))) {
+        if (accessChain.find((e) => e.getArgumentExpression()?.getType().isNumberLiteral())) {
           this.addSourceComment(node);
         }
         const accessors = accessChain.map((e, i) => {
-          if (e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) return e.getArgumentExpression()!;
+          if (e.getArgumentExpression()?.getType().isNumberLiteral()) return e.getArgumentExpression()!;
 
-          if (e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) {
+          if (e.getArgumentExpression()?.getType().isNumberLiteral()) {
             this.push(e.getArgumentExpression()!, `int ${e.getArgumentExpression()!.getText()}`, StackType.uint64);
           } else this.processNode(e.getArgumentExpression()!);
 
@@ -4703,7 +4702,7 @@ export default class Compiler {
       this.addSourceComment(node);
       const hint = node.getTypeNode() ? this.getTypeInfo(node.getTypeNode()!.getType()) : undefined;
 
-      if (init?.isKind(ts.SyntaxKind.NumericLiteral) && this.typeHint) {
+      if (init?.getType().isNumberLiteral() && this.typeHint) {
         this.processNumericLiteralWithType(init, this.typeHint);
       } else {
         this.typeHint = hint;
@@ -5064,9 +5063,27 @@ export default class Compiler {
     }
   }
 
-  private processNumericLiteralWithType(node: ts.NumericLiteral, typeInfo: TypeInfo) {
+  private getNumericLiteralValueString(node: ts.Node): string {
+    let value = '';
+    if (node.isKind(ts.SyntaxKind.Identifier)) {
+      const symbol = node.getSymbol()?.getAliasedSymbol() || node.getSymbolOrThrow();
+
+      symbol.getDeclarations().forEach((d) => {
+        if (d.isKind(ts.SyntaxKind.VariableDeclaration)) {
+          value = this.getNumericLiteralValueString(d.getInitializerOrThrow());
+        }
+      });
+    } else return node.getText().replace(/_/g, '');
+
+    if (value === '') throw Error();
+    return value;
+  }
+
+  private processNumericLiteralWithType(node: ts.Node, typeInfo: TypeInfo) {
     const type = typeInfoToABIString(typeInfo);
-    const textWithoutUnderscores = node.getText().replace(/_/g, '');
+    if (!node.getType().isNumberLiteral()) throw Error();
+
+    const textWithoutUnderscores = this.getNumericLiteralValueString(node);
 
     if (type === 'uint64') {
       this.processNode(node);
@@ -5497,11 +5514,14 @@ export default class Compiler {
         }
       }
 
-      const constantInitializer = getConstantInitializer(base);
-      // If this is a constant
-      if (constantInitializer) {
-        this.processNode(constantInitializer);
-        this.lastType = this.getTypeInfo(base.getType());
+      const type = base.getType();
+
+      if (type.isStringLiteral()) {
+        this.push(base, `byte "${type.getLiteralValueOrThrow()}"`, StackType.bytes);
+      }
+
+      if (type.isNumberLiteral()) {
+        this.push(base, `int ${type.getLiteralValueOrThrow()}`, StackType.uint64);
       }
 
       // If getting a txn type via the TransactionType enum
@@ -5945,16 +5965,17 @@ export default class Compiler {
         node
           .getArguments()
           .slice(0, opSpec.Size - 1)
-          .map((a) => {
-            const constantInitializer = getConstantInitializer(node.getArguments()[0]);
+          .map((immediateArg) => {
+            const immediateArgType = immediateArg.getType();
 
-            const immediateArg = constantInitializer ?? a;
+            if (immediateArgType.isStringLiteral()) {
+              return immediateArgType.getLiteralValueOrThrow().valueOf() as string;
+            }
+            if (immediateArgType.isNumberLiteral()) {
+              return immediateArgType.getLiteralValueOrThrow().valueOf().toString();
+            }
 
-            if (immediateArg.isKind(ts.SyntaxKind.StringLiteral)) return immediateArg.getLiteralText();
-            if (immediateArg.isKind(ts.SyntaxKind.NumericLiteral))
-              return parseInt(immediateArg.getLiteralText(), 10).toString();
-
-            throw Error(`Cannot process ${a.getText()} as immediate argument`);
+            throw Error(`Cannot process ${immediateArg.getText()} as immediate argument`);
           })
       );
     }

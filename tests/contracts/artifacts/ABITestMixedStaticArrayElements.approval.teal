@@ -43,17 +43,17 @@ mixedStaticArrayElements:
 	dupn 4
 
 	// tests/contracts/abi.algo.ts:44
-	// n1 = 3
+	// n1 = btoi(itob(3))
 	int 3
 	frame_bury 0 // n1: uint64
 
 	// tests/contracts/abi.algo.ts:45
-	// n2 = 4
+	// n2 = btoi(itob(4))
 	int 4
 	frame_bury 1 // n2: uint64
 
 	// tests/contracts/abi.algo.ts:46
-	// n3 = 5
+	// n3 = btoi(itob(5))
 	int 5
 	frame_bury 2 // n3: uint64
 

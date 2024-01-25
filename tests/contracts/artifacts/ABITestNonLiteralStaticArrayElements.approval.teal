@@ -43,17 +43,17 @@ nonLiteralStaticArrayElements:
 	dupn 4
 
 	// tests/contracts/abi.algo.ts:33
-	// n1 = 11
+	// n1 = btoi(itob(11))
 	int 11
 	frame_bury 0 // n1: uint64
 
 	// tests/contracts/abi.algo.ts:34
-	// n2 = 22
+	// n2 = btoi(itob(22))
 	int 22
 	frame_bury 1 // n2: uint64
 
 	// tests/contracts/abi.algo.ts:35
-	// n3 = 33
+	// n3 = btoi(itob(33))
 	int 33
 	frame_bury 2 // n3: uint64
 
