@@ -1340,3 +1340,22 @@ class ABITestNestedStaticForEach extends Contract {
     return sum;
   }
 }
+
+class ABITestNestedStaticForEachInBox extends Contract {
+  bKey = BoxKey<StaticArray<StaticArray<uint64, 3>, 3>>();
+
+  nestedStaticForEachInBox(): uint64 {
+    this.bKey.value = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    let sum = 0;
+
+    this.bKey.value[1].forEach((v) => {
+      sum += v;
+    });
+
+    return sum;
+  }
+}

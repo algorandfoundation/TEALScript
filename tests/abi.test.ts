@@ -31,6 +31,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
   const boxes = [
     { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
     { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
+    { appIndex: 0, name: new Uint8Array(Buffer.from('bKey')) },
     { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
   ];
 
@@ -38,7 +39,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
   let callType: 'call' | 'optIn' = 'call';
 
   if (name.includes('Storage') || name.includes('RefAccount') || name.includes('InBox')) {
-    fundAmount = 127_400;
+    fundAmount = 132_900;
     if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
   return commonRunMethod({ appClient, boxes, method: name, methodArgs, fundAmount, callType });
@@ -821,6 +822,12 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('nestedStaticForEach');
 
       expect(await runMethod(appClient, 'nestedStaticForEach')).toEqual(15n);
+    });
+
+    test('nestedStaticForEachInBox', async () => {
+      const { appClient } = await compileAndCreate('nestedStaticForEachInBox');
+
+      expect(await runMethod(appClient, 'nestedStaticForEachInBox')).toEqual(15n);
     });
   });
 });
