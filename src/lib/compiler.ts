@@ -4213,6 +4213,11 @@ export default class Compiler {
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
 
+    if (this.currentForEachLabel) {
+      this.pushVoid(node, `b ${this.currentForEachLabel}_end`);
+      return;
+    }
+
     const returnType = this.currentSubroutine.returns.type;
 
     if (typeInfoToABIString(returnType) === 'void') {

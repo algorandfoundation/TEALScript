@@ -1375,3 +1375,16 @@ class ABITestLargeNestedStaticForEachInBox extends Contract {
     return sum;
   }
 }
+
+class ABITestForEachReturn extends Contract {
+  forEachReturn(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    a.forEach((v) => {
+      if (sum > 2) return;
+      sum += v;
+    });
+    return sum;
+  }
+}
