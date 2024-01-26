@@ -2313,7 +2313,9 @@ export default class Compiler {
       if (typeNode === undefined)
         throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-      const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
+      const returnType = node.getReturnTypeNode()?.getType()
+        ? this.getTypeInfo(node.getReturnTypeNode()!.getType())
+        : StackType.void;
 
       const sub = {
         name: node.getNameNode().getText(),
@@ -4057,7 +4059,9 @@ export default class Compiler {
     if (node.getReturnType() === undefined)
       throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-    const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
+    const returnType = node.getReturnTypeNode()?.getType()
+      ? this.getTypeInfo(node.getReturnTypeNode()!.getType())
+      : StackType.void;
 
     this.currentSubroutine = this.subroutines.find((s) => s.name === node.getNameNode().getText())!;
 
@@ -4251,6 +4255,15 @@ export default class Compiler {
     const returnType = this.currentSubroutine.returns.type;
 
     if (typeInfoToABIString(returnType) === 'void') {
+      if (
+        node.getExpression() &&
+        this.currentSubroutine.node.isKind(ts.SyntaxKind.MethodDeclaration) &&
+        this.currentSubroutine.node.getReturnTypeNode()?.getType() === undefined
+      ) {
+        throw Error(
+          `TEALScript does not support implicit return types. Please add a return type to ${this.currentSubroutine.name}`
+        );
+      }
       this.pushVoid(node, 'retsub');
       return;
     }
@@ -5993,7 +6006,9 @@ export default class Compiler {
       .getParameters()
       .map((p) => p.getDeclarations()[0].getText());
 
-    const headerComment = [`// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText()}`];
+    const headerComment = [
+      `// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText() || 'void'}`,
+    ];
 
     if (this.currentSubroutine.desc !== '') {
       headerComment.push('//');
