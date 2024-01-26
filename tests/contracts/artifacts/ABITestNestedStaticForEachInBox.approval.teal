@@ -64,12 +64,12 @@ nestedStaticForEachInBox:
 	dup
 	box_extract
 	dup
-	frame_bury 1 // forEach//29597//array: uint64[3]
+	frame_bury 1 // copy of the array we are iterating over
 	extract 0 8
 	btoi
 	frame_bury 2 // v: uint64
 	int 0
-	frame_bury 3 // forEach//29597//offset
+	frame_bury 3 // the offset we are extracting the next element from
 
 forEach_29601:
 	// tests/contracts/abi.algo.ts:1356
@@ -80,20 +80,20 @@ forEach_29601:
 	frame_bury 0 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 3 // forEach//29597//offset
+	frame_dig 3 // the offset we are extracting the next element from
 	int 8
 	+
 	dup
 	int 24 // offset of last element
 	<
 	bz forEach_29601_end
-	frame_bury 3 // forEach//29597//offset
-	frame_dig 1 // forEach//29597//array
-	frame_dig 3 // forEach//29597//offset
+	frame_bury 3 // the offset we are extracting the next element from
+	frame_dig 1 // copy of the array we are iterating over
+	frame_dig 3 // the offset we are extracting the next element from
 	int 8
 	extract
 	btoi
-	frame_bury 2 // v
+	frame_bury 2 // v: uint64
 	b forEach_29601
 
 forEach_29601_end:

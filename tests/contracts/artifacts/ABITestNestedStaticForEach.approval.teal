@@ -61,12 +61,12 @@ nestedStaticForEach:
 	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 	extract 24 24
 	dup
-	frame_bury 2 // forEach//29267//array: uint64[3]
+	frame_bury 2 // copy of the array we are iterating over
 	extract 0 8
 	btoi
 	frame_bury 3 // v: uint64
 	int 0
-	frame_bury 4 // forEach//29267//offset
+	frame_bury 4 // the offset we are extracting the next element from
 
 forEach_29271:
 	// tests/contracts/abi.algo.ts:1337
@@ -77,20 +77,20 @@ forEach_29271:
 	frame_bury 1 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 4 // forEach//29267//offset
+	frame_dig 4 // the offset we are extracting the next element from
 	int 8
 	+
 	dup
 	int 24 // offset of last element
 	<
 	bz forEach_29271_end
-	frame_bury 4 // forEach//29267//offset
-	frame_dig 2 // forEach//29267//array
-	frame_dig 4 // forEach//29267//offset
+	frame_bury 4 // the offset we are extracting the next element from
+	frame_dig 2 // copy of the array we are iterating over
+	frame_dig 4 // the offset we are extracting the next element from
 	int 8
 	extract
 	btoi
-	frame_bury 3 // v
+	frame_bury 3 // v: uint64
 	b forEach_29271
 
 forEach_29271_end:

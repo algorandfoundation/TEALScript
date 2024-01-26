@@ -1799,19 +1799,23 @@ export default class Compiler {
             type: StackType.bytes,
             typeString: 'byte[]',
           };
-          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${frameName}//box_key`);
+          this.pushVoid(
+            node,
+            `frame_bury ${this.frameIndex} // key for the box that contains the array we are iterating over`
+          );
           const keyIndex = this.frameIndex;
           this.frameIndex += 1;
 
-          this.pushVoid(node, 'pop // pop type length');
+          this.pushVoid(node, 'pop // pop type length since we are not using it');
 
+          // TODO: save end offset here
           // Save offset
           this.localVariables[`${frameName}//offset`] = {
             index: this.frameIndex,
             type: StackType.uint64,
             typeString: 'uint64',
           };
-          this.pushLines(node, `frame_bury ${this.frameIndex} // ${frameName}//offset`);
+          this.pushLines(node, `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`);
           const offsetIndex = this.frameIndex;
           this.frameIndex += 1;
 
@@ -1823,8 +1827,8 @@ export default class Compiler {
           };
           this.pushLines(
             node,
-            `frame_dig ${keyIndex} // ${frameName}//box_key`,
-            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `frame_dig ${keyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
             `int ${typeLength}`,
             'box_extract'
           );
@@ -1843,7 +1847,7 @@ export default class Compiler {
           this.pushLines(
             node,
             'dup',
-            `frame_bury ${this.frameIndex} // ${frameName}//array: ${arrayTypeString}`,
+            `frame_bury ${this.frameIndex} // copy of the array we are iterating over`,
             `extract 0 ${typeLength}`
           );
           this.frameIndex += 1;
@@ -1865,7 +1869,11 @@ export default class Compiler {
             type: StackType.uint64,
             typeString: 'uint64',
           };
-          this.pushLines(node, 'int 0', `frame_bury ${this.frameIndex} // ${frameName}//offset`);
+          this.pushLines(
+            node,
+            'int 0',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`
+          );
           this.frameIndex += 1;
         }
         const label = `forEach_${node.getStart()}`;
@@ -1883,29 +1891,30 @@ export default class Compiler {
         this.pushLines(
           node,
           '// increment offset and loop if not out of bounds',
-          `frame_dig ${offsetIndex} // ${frameName}//offset`,
+          `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
           `int ${typeLength}`,
           '+',
           'dup',
           `int ${arrayType.length * typeLength} // offset of last element`,
+          // TODO: if box, load saved end offset
           '<',
           `bz ${label}_end`,
-          `frame_bury ${offsetIndex} // ${frameName}//offset`
+          `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
         );
 
         if (arrayIndex) {
           this.pushLines(
             node,
-            `frame_dig ${arrayIndex} // ${frameName}//array`,
-            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
             `int ${typeLength}`,
             'extract'
           );
         } else {
           this.pushLines(
             node,
-            `frame_dig ${boxKeyIndex} // ${frameName}//box_key`,
-            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `frame_dig ${boxKeyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
             `int ${typeLength}`,
             'box_extract'
           );
@@ -1913,7 +1922,12 @@ export default class Compiler {
 
         this.checkDecoding(node, baseType);
 
-        this.pushLines(node, `frame_bury ${elementIndex} // ${paramName}`, `b ${label}`, `${label}_end:`);
+        this.pushLines(
+          node,
+          `frame_bury ${elementIndex} // ${paramName}: ${typeInfoToABIString(arrayType.base)}`,
+          `b ${label}`,
+          `${label}_end:`
+        );
       },
     },
     // Address methods

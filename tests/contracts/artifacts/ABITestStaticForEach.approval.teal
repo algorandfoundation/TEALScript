@@ -53,12 +53,12 @@ staticForEach:
 	frame_bury 1 // sum: uint64
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	dup
-	frame_bury 2 // forEach//28979//array: uint64[3]
+	frame_bury 2 // copy of the array we are iterating over
 	extract 0 8
 	btoi
 	frame_bury 3 // v: uint64
 	int 0
-	frame_bury 4 // forEach//28979//offset
+	frame_bury 4 // the offset we are extracting the next element from
 
 forEach_28983:
 	// tests/contracts/abi.algo.ts:1321
@@ -69,20 +69,20 @@ forEach_28983:
 	frame_bury 1 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 4 // forEach//28979//offset
+	frame_dig 4 // the offset we are extracting the next element from
 	int 8
 	+
 	dup
 	int 24 // offset of last element
 	<
 	bz forEach_28983_end
-	frame_bury 4 // forEach//28979//offset
-	frame_dig 2 // forEach//28979//array
-	frame_dig 4 // forEach//28979//offset
+	frame_bury 4 // the offset we are extracting the next element from
+	frame_dig 2 // copy of the array we are iterating over
+	frame_dig 4 // the offset we are extracting the next element from
 	int 8
 	extract
 	btoi
-	frame_bury 3 // v
+	frame_bury 3 // v: uint64
 	b forEach_28983
 
 forEach_28983_end:
