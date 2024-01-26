@@ -653,6 +653,10 @@ export default class Compiler {
 
   skipAlgod: boolean;
 
+  currentForEachLabel?: string;
+
+  forEachCount: number = 0;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -1761,7 +1765,198 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
-        throw Error('forEach not yet supported. Use for loop instead');
+        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
+        const arrayType = this.getStackTypeFromNode(expr);
+
+        // TODO: Support dynamic array of static type as well
+        if (arrayType.kind !== 'staticArray') throw Error();
+        if (typeInfoToABIString(arrayType.base) === 'bool') {
+          throw Error('Iterating over boolean arrays is not currently supported');
+        }
+        if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
+        const baseType = arrayType.base;
+        const typeLength = this.getTypeLength(baseType);
+
+        const fn = node.getArguments()[0];
+
+        if (!fn.isKind(ts.SyntaxKind.ArrowFunction)) throw Error();
+        const params = fn.getChildrenOfKind(ts.SyntaxKind.SyntaxList)[0].getChildrenOfKind(ts.SyntaxKind.Parameter);
+
+        if (params.length !== 1) throw Error('forEach function must have exactly one parameter in TEALScript');
+
+        const paramName = params[0].getName();
+
+        const arrayTypeString = typeInfoToABIString(arrayType);
+
+        const frameName = `forEach//${node.getStartLinePos()}`;
+
+        this.processNode(expr);
+
+        const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
+
+        // If this is a value larger than 4096 bytes in a box, use box_extract
+        if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
+          this.teal[this.currentProgram].pop(); // pop box_extract
+          this.teal[this.currentProgram].pop(); // pop cover 2
+
+          // Save box key
+          this.localVariables[`${frameName}//box_key`] = {
+            index: this.frameIndex,
+            type: StackType.bytes,
+            typeString: 'byte[]',
+          };
+          this.pushVoid(
+            node,
+            `frame_bury ${this.frameIndex} // key for the box that contains the array we are iterating over`
+          );
+          const keyIndex = this.frameIndex;
+          this.frameIndex += 1;
+
+          // Save offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'swap',
+            'dup',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from `
+          );
+          const offsetIndex = this.frameIndex;
+          this.frameIndex += 1;
+
+          // Save end offset
+          this.localVariables[`${frameName}//end_offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(node, '+', `frame_bury ${this.frameIndex} // the offset of the last element`);
+          this.frameIndex += 1;
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushLines(
+            node,
+            `frame_dig ${keyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+
+          this.checkDecoding(node, baseType);
+
+          this.pushLines(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+        } else {
+          // Save the full array
+          this.localVariables[`${frameName}//aray`] = {
+            index: this.frameIndex,
+            type: arrayType,
+            typeString: arrayTypeString,
+          };
+          this.pushLines(
+            node,
+            'dup',
+            `frame_bury ${this.frameIndex} // copy of the array we are iterating over`,
+            `extract 0 ${typeLength}`
+          );
+          this.frameIndex += 1;
+
+          this.checkDecoding(node, baseType);
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+
+          // Save the offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'int 0',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`
+          );
+          this.frameIndex += 1;
+        }
+        const label = `forEach_${this.forEachCount}`;
+        this.pushLines(node, `${label}:`);
+        this.forEachCount += 1;
+
+        const prevForEachLabel = this.currentForEachLabel;
+        this.currentForEachLabel = label;
+        this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+        this.currentForEachLabel = prevForEachLabel;
+
+        const offsetIndex = this.localVariables[`${frameName}//offset`].index;
+        const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
+        const elementIndex = this.localVariables[paramName].index;
+        const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
+        const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
+
+        // End of for each logic
+        this.pushLines(
+          node,
+          '// increment offset and loop if not out of bounds',
+          `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+          `int ${typeLength}`,
+          '+',
+          'dup'
+        );
+
+        if (arrayIndex) {
+          this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
+        } else {
+          this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
+        }
+        this.pushLines(
+          node,
+          // TODO: if box, load saved end offset
+          '<',
+          `bz ${label}_end`,
+          `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
+        );
+
+        if (arrayIndex) {
+          this.pushLines(
+            node,
+            `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'extract'
+          );
+        } else {
+          this.pushLines(
+            node,
+            `frame_dig ${boxKeyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+        }
+
+        this.checkDecoding(node, baseType);
+
+        this.pushLines(
+          node,
+          `frame_bury ${elementIndex} // ${paramName}: ${typeInfoToABIString(arrayType.base)}`,
+          `b ${label}`,
+          `${label}_end:`
+        );
       },
     },
     // Address methods
@@ -4020,6 +4215,11 @@ export default class Compiler {
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
 
+    if (this.currentForEachLabel) {
+      this.pushVoid(node, `b ${this.currentForEachLabel}_end`);
+      return;
+    }
+
     const returnType = this.currentSubroutine.returns.type;
 
     if (typeInfoToABIString(returnType) === 'void') {
@@ -5420,6 +5620,19 @@ export default class Compiler {
    * @param newValue If we are setting the value of an array, the new value will be passed here
    */
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
+    // Check for forEach first because the chain is processed differently
+    if (node.isKind(ts.SyntaxKind.CallExpression)) {
+      const expr = node.getExpression();
+      if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+        const methodName = expr.getNameNode().getText();
+
+        if (methodName === 'forEach') {
+          this.customMethods.forEach.fn(node);
+          return;
+        }
+      }
+    }
+
     const { base, chain } = this.getExpressionChain(node);
 
     if (base.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
@@ -5689,6 +5902,7 @@ export default class Compiler {
         // If this is a custom method
         if (this.customMethods[methodName]?.check?.(n)) {
           this.customMethods[methodName].fn(n);
+          accessors.length = 0;
           return false;
         }
 

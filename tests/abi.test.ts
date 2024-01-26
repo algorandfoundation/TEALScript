@@ -28,20 +28,14 @@ async function compileAndCreate(name: string): Promise<{
 }
 
 async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {
-  const boxes = [
-    { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
-    { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
-    { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
-  ];
-
   let fundAmount = 0;
   let callType: 'call' | 'optIn' = 'call';
 
   if (name.includes('Storage') || name.includes('RefAccount') || name.includes('InBox')) {
-    fundAmount = 127_400;
+    fundAmount = 1780900;
     if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
-  return commonRunMethod({ appClient, boxes, method: name, methodArgs, fundAmount, callType });
+  return commonRunMethod({ appClient, method: name, methodArgs, fundAmount, callType, fee: 2_000 });
 }
 
 describe('ABI', function () {
@@ -809,6 +803,36 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('nestedStructInBoxMap');
 
       expect(await runMethod(appClient, 'nestedStructInBoxMap')).toEqual([[2n]]);
+    });
+
+    test('staticForEach', async () => {
+      const { appClient } = await compileAndCreate('staticForEach');
+
+      expect(await runMethod(appClient, 'staticForEach')).toEqual(6n);
+    });
+
+    test('nestedStaticForEach', async () => {
+      const { appClient } = await compileAndCreate('nestedStaticForEach');
+
+      expect(await runMethod(appClient, 'nestedStaticForEach')).toEqual(15n);
+    });
+
+    test('nestedStaticForEachInBox', async () => {
+      const { appClient } = await compileAndCreate('nestedStaticForEachInBox');
+
+      expect(await runMethod(appClient, 'nestedStaticForEachInBox')).toEqual(15n);
+    });
+
+    test('largeNestedStaticForEachInBox', async () => {
+      const { appClient } = await compileAndCreate('largeNestedStaticForEachInBox');
+
+      expect(await runMethod(appClient, 'largeNestedStaticForEachInBox')).toEqual(65n);
+    });
+
+    test('forEachReturn', async () => {
+      const { appClient } = await compileAndCreate('forEachReturn');
+
+      expect(await runMethod(appClient, 'forEachReturn')).toEqual(3n);
     });
   });
 });

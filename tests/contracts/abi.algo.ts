@@ -1311,3 +1311,80 @@ class ABITestTypedVarFromStorage extends Contract {
     return value;
   }
 }
+
+class ABITestStaticForEach extends Contract {
+  staticForEach(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    a.forEach((v) => {
+      sum += v;
+    });
+    return sum;
+  }
+}
+
+class ABITestNestedStaticForEach extends Contract {
+  nestedStaticForEach(): uint64 {
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    let sum = 0;
+
+    a[1].forEach((v) => {
+      sum += v;
+    });
+
+    return sum;
+  }
+}
+
+class ABITestNestedStaticForEachInBox extends Contract {
+  bKey = BoxKey<StaticArray<StaticArray<uint64, 3>, 3>>();
+
+  nestedStaticForEachInBox(): uint64 {
+    this.bKey.value = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    let sum = 0;
+
+    this.bKey.value[1].forEach((v) => {
+      sum += v;
+    });
+
+    return sum;
+  }
+}
+
+class ABITestLargeNestedStaticForEachInBox extends Contract {
+  bKey = BoxKey<[bytes32, StaticArray<uint<512>, 65>]>();
+
+  largeNestedStaticForEachInBox(): uint64 {
+    increaseOpcodeBudget();
+    this.bKey.create();
+    let sum = 0;
+
+    this.bKey.value[1].forEach((v) => {
+      sum += 1;
+    });
+
+    return sum;
+  }
+}
+
+class ABITestForEachReturn extends Contract {
+  forEachReturn(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    a.forEach((v) => {
+      if (sum > 2) return;
+      sum += v;
+    });
+    return sum;
+  }
+}
