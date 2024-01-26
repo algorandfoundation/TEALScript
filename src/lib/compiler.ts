@@ -1808,7 +1808,21 @@ export default class Compiler {
 
           this.pushVoid(node, 'pop // pop type length since we are not using it');
 
-          // TODO: save end offset here
+          // Save end offset
+          this.localVariables[`${frameName}//end_offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'dup',
+            `int ${arrayType.length * typeLength}`,
+            '+',
+            `frame_bury ${this.frameIndex} // the offset of the last element`
+          );
+          this.frameIndex += 1;
+
           // Save offset
           this.localVariables[`${frameName}//offset`] = {
             index: this.frameIndex,
@@ -1886,6 +1900,7 @@ export default class Compiler {
         const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
         const elementIndex = this.localVariables[paramName].index;
         const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
+        const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
 
         // End of for each logic
         this.pushLines(
@@ -1894,8 +1909,16 @@ export default class Compiler {
           `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
           `int ${typeLength}`,
           '+',
-          'dup',
-          `int ${arrayType.length * typeLength} // offset of last element`,
+          'dup'
+        );
+
+        if (arrayIndex) {
+          this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
+        } else {
+          this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
+        }
+        this.pushLines(
+          node,
           // TODO: if box, load saved end offset
           '<',
           `bz ${label}_end`,

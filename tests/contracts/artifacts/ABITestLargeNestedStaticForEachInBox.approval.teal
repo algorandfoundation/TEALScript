@@ -40,7 +40,7 @@ largeNestedStaticForEachInBox:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 4
+	dupn 5
 
 	// tests/contracts/abi.algo.ts:1367
 	// increaseOpcodeBudget()
@@ -76,12 +76,16 @@ largeNestedStaticForEachInBox:
 	byte 0x624b6579 // "bKey"
 	frame_bury 1 // key for the box that contains the array we are iterating over
 	pop // pop type length since we are not using it
-	frame_bury 2 // the offset we are extracting the next element from
+	dup
+	int 4160
+	+
+	frame_bury 2 // the offset of the last element
+	frame_bury 3 // the offset we are extracting the next element from
 	byte 0x624b6579 // "bKey" // key for the box that contains the array we are iterating over
-	frame_dig 2 // the offset we are extracting the next element from
+	frame_dig 3 // the offset we are extracting the next element from
 	int 64
 	box_extract
-	frame_bury 3 // v: uint512
+	frame_bury 4 // v: uint512
 
 forEach_29924:
 	// tests/contracts/abi.algo.ts:1372
@@ -92,19 +96,19 @@ forEach_29924:
 	frame_bury 0 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 2 // the offset we are extracting the next element from
+	frame_dig 3 // the offset we are extracting the next element from
 	int 64
 	+
 	dup
-	int 4160 // offset of last element
+	frame_dig 2 // offset of last element
 	<
 	bz forEach_29924_end
-	frame_bury 2 // the offset we are extracting the next element from
+	frame_bury 3 // the offset we are extracting the next element from
 	byte 0x624b6579 // "bKey" // key for the box that contains the array we are iterating over
-	frame_dig 2 // the offset we are extracting the next element from
+	frame_dig 3 // the offset we are extracting the next element from
 	int 64
 	box_extract
-	frame_bury 3 // v: uint512
+	frame_bury 4 // v: uint512
 	b forEach_29924
 
 forEach_29924_end:
@@ -116,7 +120,7 @@ forEach_29924_end:
 	frame_bury 0
 
 	// pop all local variables from the stack
-	popn 3
+	popn 4
 	retsub
 
 abi_route_createApplication:
