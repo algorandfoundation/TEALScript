@@ -1770,7 +1770,9 @@ export default class Compiler {
 
         // TODO: Support dynamic array of static type as well
         if (arrayType.kind !== 'staticArray') throw Error();
-
+        if (typeInfoToABIString(arrayType.base) === 'bool') {
+          throw Error('Iterating over boolean arrays is not currently supported');
+        }
         if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
         const baseType = arrayType.base;
         const typeLength = this.getTypeLength(baseType);
