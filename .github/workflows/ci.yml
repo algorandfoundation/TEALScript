@@ -20,6 +20,9 @@ jobs:
     - name: Ensure version constant is up-to-date
       run: bun scripts/version.ts
 
+    - name: Run TypeScript
+      run: bun tsc --noEmit
+
     - name: Run ESLint
       run: bun lint
 
