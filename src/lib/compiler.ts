@@ -657,6 +657,8 @@ export default class Compiler {
 
   forEachCount: number = 0;
 
+  currentLoop: string;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -2841,38 +2843,60 @@ export default class Compiler {
   }
 
   private processDoStatement(node: ts.DoStatement) {
-    this.pushVoid(node, `do_while_${this.doWhileCount}:`);
+    const thisLoop = `do_while_${this.doWhileCount}`;
+    this.doWhileCount += 1;
+
+    const prevLoop = this.currentLoop;
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}_statement:`);
     this.processNode(node.getStatement());
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getExpression());
-    this.pushVoid(node, `bnz do_while_${this.doWhileCount}`);
+    this.pushVoid(node, `bnz ${thisLoop}_statement`);
+    this.pushVoid(node, `${thisLoop}_end:`);
+
+    this.currentLoop = prevLoop;
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
-    this.pushVoid(node, `while_${this.whileCount}:`);
+    const thisLoop = `while_${this.whileCount}`;
+    this.whileCount += 1;
+
+    const prevLoop = this.currentLoop;
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getExpression());
-    this.pushVoid(node, `bz while_${this.whileCount}_end`);
+    this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
-    this.pushVoid(node, `b while_${this.whileCount}`);
-    this.pushVoid(node, `while_${this.whileCount}_end:`);
+    this.pushVoid(node, `b ${thisLoop}`);
+    this.pushVoid(node, `${thisLoop}_end:`);
 
-    this.whileCount += 1;
+    this.currentLoop = prevLoop;
   }
 
   private processForStatement(node: ts.ForStatement) {
     this.processNode(node.getInitializer()!!);
 
-    this.pushVoid(node, `for_${this.forCount}:`);
+    const preLoop = this.currentLoop;
+    const thisLoop = `for_${this.forCount}`;
+    this.forCount += 1;
+
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getConditionOrThrow());
-    this.pushVoid(node, `bz for_${this.forCount}_end`);
+    this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
 
     this.processNode(node.getIncrementorOrThrow());
-    this.pushVoid(node, `b for_${this.forCount}`);
-    this.pushVoid(node, `for_${this.forCount}_end:`);
+    this.pushVoid(node, `b ${thisLoop}`);
+    this.pushVoid(node, `${thisLoop}_end:`);
 
-    this.forCount += 1;
+    this.currentLoop = preLoop;
   }
 
   /**
@@ -2935,6 +2959,10 @@ export default class Compiler {
         this.push(node, 'int 1', { kind: 'base', type: 'bool' });
       } else if (node.compilerNode.kind === ts.SyntaxKind.FalseKeyword) {
         this.push(node, 'int 0', { kind: 'base', type: 'bool' });
+      } else if (node.isKind(ts.SyntaxKind.BreakStatement)) {
+        this.pushVoid(node, `b ${this.currentLoop}_end`);
+      } else if (node.isKind(ts.SyntaxKind.ContinueStatement)) {
+        this.pushVoid(node, `b ${this.currentLoop}`);
       } else throw new Error(`Unknown node type: ${node.getKindName()}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
