@@ -1388,3 +1388,11 @@ class ABITestForEachReturn extends Contract {
     return sum;
   }
 }
+
+class ABITestStaticArrayLength extends Contract {
+  staticArrayLength(): uint64 {
+    const a: StaticArray<uint8, 5> = [11, 22, 33, 44, 55];
+
+    return a.length;
+  }
+}
