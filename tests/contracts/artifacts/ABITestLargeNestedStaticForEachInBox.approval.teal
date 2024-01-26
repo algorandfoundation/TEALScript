@@ -86,7 +86,7 @@ largeNestedStaticForEachInBox:
 	box_extract
 	frame_bury 4 // v: uint512
 
-forEach_29924:
+forEach_0:
 	// tests/contracts/abi.algo.ts:1372
 	// sum += 1
 	frame_dig 0 // sum: uint64
@@ -101,16 +101,16 @@ forEach_29924:
 	dup
 	frame_dig 3 // offset of last element
 	<
-	bz forEach_29924_end
+	bz forEach_0_end
 	frame_bury 2 // the offset we are extracting the next element from
 	byte 0x624b6579 // "bKey" // key for the box that contains the array we are iterating over
 	frame_dig 2 // the offset we are extracting the next element from
 	int 64
 	box_extract
 	frame_bury 4 // v: uint512
-	b forEach_29924
+	b forEach_0
 
-forEach_29924_end:
+forEach_0_end:
 	// tests/contracts/abi.algo.ts:1375
 	// return sum;
 	frame_dig 0 // sum: uint64

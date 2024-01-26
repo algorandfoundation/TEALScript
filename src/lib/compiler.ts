@@ -653,6 +653,10 @@ export default class Compiler {
 
   skipAlgod: boolean;
 
+  currentForEachLabel?: string;
+
+  forEachCount: number = 0;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -1887,11 +1891,14 @@ export default class Compiler {
           );
           this.frameIndex += 1;
         }
-        const label = `forEach_${node.getStart()}`;
-        // TODO: Use global counter instead of getStart
+        const label = `forEach_${this.forEachCount}`;
         this.pushLines(node, `${label}:`);
+        this.forEachCount += 1;
 
+        const prevForEachLabel = this.currentForEachLabel;
+        this.currentForEachLabel = label;
         this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+        this.currentForEachLabel = prevForEachLabel;
 
         const offsetIndex = this.localVariables[`${frameName}//offset`].index;
         const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;

@@ -60,7 +60,7 @@ staticForEach:
 	int 0
 	frame_bury 4 // the offset we are extracting the next element from
 
-forEach_28983:
+forEach_0:
 	// tests/contracts/abi.algo.ts:1321
 	// sum += v
 	frame_dig 1 // sum: uint64
@@ -75,7 +75,7 @@ forEach_28983:
 	dup
 	int 24 // offset of last element
 	<
-	bz forEach_28983_end
+	bz forEach_0_end
 	frame_bury 4 // the offset we are extracting the next element from
 	frame_dig 2 // copy of the array we are iterating over
 	frame_dig 4 // the offset we are extracting the next element from
@@ -83,9 +83,9 @@ forEach_28983:
 	extract
 	btoi
 	frame_bury 3 // v: uint64
-	b forEach_28983
+	b forEach_0
 
-forEach_28983_end:
+forEach_0_end:
 	// tests/contracts/abi.algo.ts:1323
 	// return sum;
 	frame_dig 1 // sum: uint64

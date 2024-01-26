@@ -68,7 +68,7 @@ nestedStaticForEach:
 	int 0
 	frame_bury 4 // the offset we are extracting the next element from
 
-forEach_29271:
+forEach_0:
 	// tests/contracts/abi.algo.ts:1337
 	// sum += v
 	frame_dig 1 // sum: uint64
@@ -83,7 +83,7 @@ forEach_29271:
 	dup
 	int 24 // offset of last element
 	<
-	bz forEach_29271_end
+	bz forEach_0_end
 	frame_bury 4 // the offset we are extracting the next element from
 	frame_dig 2 // copy of the array we are iterating over
 	frame_dig 4 // the offset we are extracting the next element from
@@ -91,9 +91,9 @@ forEach_29271:
 	extract
 	btoi
 	frame_bury 3 // v: uint64
-	b forEach_29271
+	b forEach_0
 
-forEach_29271_end:
+forEach_0_end:
 	// tests/contracts/abi.algo.ts:1340
 	// return sum;
 	frame_dig 1 // sum: uint64
