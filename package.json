@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.76.1",
+  "version": "0.77.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorandfoundation/TEALScript",
   "bugs": {
@@ -53,7 +53,6 @@
     "compile-all": "bun scripts/compile_all.ts"
   },
   "dependencies": {
-    "@algorandfoundation/algokit-utils": "5.0.1",
     "@microsoft/tsdoc": "^0.14.2",
     "@playwright/test": "^1.40.1",
     "argparse": "^2.0.1",
@@ -69,6 +68,7 @@
   },
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "v2.3.1-beta.1",
+    "@algorandfoundation/algokit-utils": "^5.3.2",
     "@jest/globals": "^29.5.0",
     "@types/argparse": "^2.0.11",
     "@types/express": "^4.17.21",
@@ -76,7 +76,7 @@
     "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
-    "algosdk": "^2.4.0",
+    "algosdk": "^2.7.0",
     "concurrently": "^8.2.1",
     "eslint": "^8.37.0",
     "eslint-config-airbnb-base": "^15.0.0",

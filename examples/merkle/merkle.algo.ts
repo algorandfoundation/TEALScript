@@ -1,7 +1,7 @@
 import { Contract } from '../../src/lib/index';
 
 const TREE_DEPTH = 3;
-const EMPTY_HASH = hex('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855') as bytes32;
+const EMPTY_HASH = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
 const RIGHT_SIBLING_PREFIX = 170;
 
 type Branch = StaticArray<byte, 33>;
@@ -14,7 +14,7 @@ class MerkleTree extends Contract {
   size = GlobalStateKey<uint64>();
 
   private calcInitRoot(): bytes32 {
-    let result = EMPTY_HASH;
+    let result = hex(EMPTY_HASH) as bytes32;
 
     for (let i = 0; i < TREE_DEPTH; i = i + 1) {
       result = sha256(result + result);
@@ -61,7 +61,7 @@ class MerkleTree extends Contract {
 
   appendLeaf(data: bytes, path: Path): void {
     assert(data !== '');
-    assert(this.root.value === this.calcRoot(EMPTY_HASH, path));
+    assert(this.root.value === this.calcRoot(hex(EMPTY_HASH) as bytes32, path));
 
     this.root.value = this.calcRoot(sha256(data), path);
 

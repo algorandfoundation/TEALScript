@@ -761,8 +761,11 @@ declare function ed25519verify(data: BytesLike, signature: BytesLike, pubkey: By
 /** @returns the length of the data */
 declare function len(data: BytesLike): uint64;
 
-/** @throws if one of the given conditions is 0 or false */
-declare function assert(...conditions: IntLike[]): void;
+/** @throws if the given condition is false */
+declare function assert(condition: IntLike, message?: string): void;
+
+/** @throws if one of the given conditions is false */
+declare function asserts(...conditions: IntLike[]): void;
 
 /** @returns The concatenation of two {@link bytes} */
 declare function concat(a: BytesLike, b: BytesLike): bytes;

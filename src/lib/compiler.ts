@@ -10,7 +10,6 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { access } from 'fs';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -107,26 +106,6 @@ type Event = {
   desc: string;
   argTupleType: TypeInfo;
 };
-
-function getConstantInitializer(node: ts.Node): ts.Node | undefined {
-  if (!node.isKind(ts.SyntaxKind.Identifier)) return undefined;
-  const definitionNode = node.getDefinitionNodes().at(-1);
-  const greatGrandParentNode = definitionNode?.getParent()?.getParent()?.getParent();
-
-  if (
-    definitionNode?.isKind(ts.SyntaxKind.VariableDeclaration) &&
-    greatGrandParentNode?.isKind(ts.SyntaxKind.SourceFile)
-  ) {
-    const initializer = definitionNode.getInitializer();
-    if (initializer?.isKind(ts.SyntaxKind.Identifier)) {
-      return getConstantInitializer(initializer) ?? definitionNode.getInitializer();
-    }
-
-    return initializer;
-  }
-
-  return undefined;
-}
 
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
@@ -674,6 +653,12 @@ export default class Compiler {
 
   skipAlgod: boolean;
 
+  currentForEachLabel?: string;
+
+  forEachCount: number = 0;
+
+  currentLoop: string;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -686,7 +671,7 @@ export default class Compiler {
   }
 
   private processNewValue(node: ts.Node, numericType?: TypeInfo) {
-    if (node.isKind(ts.SyntaxKind.NumericLiteral) && numericType) {
+    if (node.getType().isNumberLiteral() && numericType) {
       this.processNumericLiteralWithType(node, numericType);
     } else if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
       this.processBinaryExpression(node, true);
@@ -1335,6 +1320,15 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    asserts: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        node.getArguments().forEach((a) => {
+          this.processNode(a);
+          this.pushVoid(a, 'assert');
+        });
+      },
+    },
     increaseOpcodeBudget: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
@@ -1370,7 +1364,7 @@ export default class Compiler {
 
         // signature component
         const thirdArg = node.getArguments()[2];
-        if (thirdArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (thirdArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(thirdArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(thirdArg);
@@ -1379,7 +1373,7 @@ export default class Compiler {
 
         // signature component
         const fourthArg = node.getArguments()[3];
-        if (fourthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (fourthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(fourthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(fourthArg);
@@ -1388,7 +1382,7 @@ export default class Compiler {
 
         // public key component
         const fifthArg = node.getArguments()[4];
-        if (fifthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (fifthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(fifthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(fifthArg);
@@ -1397,7 +1391,7 @@ export default class Compiler {
 
         // public key component
         const sixthArg = node.getArguments()[5];
-        if (sixthArg.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (sixthArg.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(sixthArg, { kind: 'base', type: 'bigint' });
         } else {
           this.processNode(sixthArg);
@@ -1459,7 +1453,7 @@ export default class Compiler {
         const bigintType = { kind: 'base', type: 'bigint' } as TypeInfo;
 
         // recovery ID
-        if (args[2].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[2].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[2], StackType.uint64);
         } else {
           this.processNode(args[2]);
@@ -1467,7 +1461,7 @@ export default class Compiler {
         }
 
         // sig component
-        if (args[3].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[3].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[3], { kind: 'base', type: 'uint256' });
         } else {
           this.processNode(args[3]);
@@ -1475,7 +1469,7 @@ export default class Compiler {
         }
 
         // sig component
-        if (args[4].isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (args[4].getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(args[4], { kind: 'base', type: 'uint256' });
         } else {
           this.processNode(args[4]);
@@ -1526,12 +1520,9 @@ export default class Compiler {
         }
 
         if (arg && !typeArg) {
-          if (arg.isKind(ts.SyntaxKind.NumericLiteral))
-            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, StackType.bytes);
-          else {
-            this.processNode(arg);
-            this.push(node, 'bzero', StackType.bytes);
-          }
+          this.processNode(arg);
+          this.push(node, 'bzero', StackType.bytes);
+
           return;
         }
 
@@ -1583,9 +1574,14 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         const args = node.getArguments();
         if (args.length !== 1) throw new Error();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error();
+        const arg0Type = args[0].getType();
+        if (!arg0Type.isStringLiteral()) throw new Error('Hex argument must be string literal');
 
-        this.push(args[0], `byte 0x${args[0].getLiteralText().replace(/^0x/, '')}`, StackType.bytes);
+        this.push(
+          args[0],
+          `byte 0x${arg0Type.getLiteralValueOrThrow().toString().replace(/^0x/, '')}`,
+          StackType.bytes
+        );
       },
     },
     btobigint: {
@@ -1771,7 +1767,198 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
-        throw Error('forEach not yet supported. Use for loop instead');
+        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
+        const arrayType = this.getStackTypeFromNode(expr);
+
+        // TODO: Support dynamic array of static type as well
+        if (arrayType.kind !== 'staticArray') throw Error();
+        if (typeInfoToABIString(arrayType.base) === 'bool') {
+          throw Error('Iterating over boolean arrays is not currently supported');
+        }
+        if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
+        const baseType = arrayType.base;
+        const typeLength = this.getTypeLength(baseType);
+
+        const fn = node.getArguments()[0];
+
+        if (!fn.isKind(ts.SyntaxKind.ArrowFunction)) throw Error();
+        const params = fn.getChildrenOfKind(ts.SyntaxKind.SyntaxList)[0].getChildrenOfKind(ts.SyntaxKind.Parameter);
+
+        if (params.length !== 1) throw Error('forEach function must have exactly one parameter in TEALScript');
+
+        const paramName = params[0].getName();
+
+        const arrayTypeString = typeInfoToABIString(arrayType);
+
+        const frameName = `forEach//${node.getStartLinePos()}`;
+
+        this.processNode(expr);
+
+        const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
+
+        // If this is a value larger than 4096 bytes in a box, use box_extract
+        if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
+          this.teal[this.currentProgram].pop(); // pop box_extract
+          this.teal[this.currentProgram].pop(); // pop cover 2
+
+          // Save box key
+          this.localVariables[`${frameName}//box_key`] = {
+            index: this.frameIndex,
+            type: StackType.bytes,
+            typeString: 'byte[]',
+          };
+          this.pushVoid(
+            node,
+            `frame_bury ${this.frameIndex} // key for the box that contains the array we are iterating over`
+          );
+          const keyIndex = this.frameIndex;
+          this.frameIndex += 1;
+
+          // Save offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'swap',
+            'dup',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from `
+          );
+          const offsetIndex = this.frameIndex;
+          this.frameIndex += 1;
+
+          // Save end offset
+          this.localVariables[`${frameName}//end_offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(node, '+', `frame_bury ${this.frameIndex} // the offset of the last element`);
+          this.frameIndex += 1;
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushLines(
+            node,
+            `frame_dig ${keyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+
+          this.checkDecoding(node, baseType);
+
+          this.pushLines(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+        } else {
+          // Save the full array
+          this.localVariables[`${frameName}//aray`] = {
+            index: this.frameIndex,
+            type: arrayType,
+            typeString: arrayTypeString,
+          };
+          this.pushLines(
+            node,
+            'dup',
+            `frame_bury ${this.frameIndex} // copy of the array we are iterating over`,
+            `extract 0 ${typeLength}`
+          );
+          this.frameIndex += 1;
+
+          this.checkDecoding(node, baseType);
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+
+          // Save the offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'int 0',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`
+          );
+          this.frameIndex += 1;
+        }
+        const label = `forEach_${this.forEachCount}`;
+        this.pushLines(node, `${label}:`);
+        this.forEachCount += 1;
+
+        const prevForEachLabel = this.currentForEachLabel;
+        this.currentForEachLabel = label;
+        this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+        this.currentForEachLabel = prevForEachLabel;
+
+        const offsetIndex = this.localVariables[`${frameName}//offset`].index;
+        const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
+        const elementIndex = this.localVariables[paramName].index;
+        const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
+        const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
+
+        // End of for each logic
+        this.pushLines(
+          node,
+          '// increment offset and loop if not out of bounds',
+          `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+          `int ${typeLength}`,
+          '+',
+          'dup'
+        );
+
+        if (arrayIndex) {
+          this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
+        } else {
+          this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
+        }
+        this.pushLines(
+          node,
+          // TODO: if box, load saved end offset
+          '<',
+          `bz ${label}_end`,
+          `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
+        );
+
+        if (arrayIndex) {
+          this.pushLines(
+            node,
+            `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'extract'
+          );
+        } else {
+          this.pushLines(
+            node,
+            `frame_dig ${boxKeyIndex} // key for the box that contains the array we are iterating over`,
+            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+        }
+
+        this.checkDecoding(node, baseType);
+
+        this.pushLines(
+          node,
+          `frame_bury ${elementIndex} // ${paramName}: ${typeInfoToABIString(arrayType.base)}`,
+          `b ${label}`,
+          `${label}_end:`
+        );
       },
     },
     // Address methods
@@ -1803,7 +1990,9 @@ export default class Compiler {
     },
     // number methods
     toString: {
-      check: (node: ts.CallExpression) => this.lastType.kind === 'base' && !!this.lastType.type.match(/uint\d+$/),
+      check: (node: ts.CallExpression) => {
+        return this.lastType.kind === 'base' && !!this.lastType.type.match(/uint\d+$/);
+      },
       fn: (node: ts.CallExpression) => {
         if (this.lastType.kind !== 'base') throw Error();
 
@@ -2124,7 +2313,9 @@ export default class Compiler {
       if (typeNode === undefined)
         throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-      const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
+      const returnType = node.getReturnTypeNode()?.getType()
+        ? this.getTypeInfo(node.getReturnTypeNode()!.getType())
+        : StackType.void;
 
       const sub = {
         name: node.getNameNode().getText(),
@@ -2320,9 +2511,31 @@ export default class Compiler {
     }
 
     this.sourceFile.getStatements().forEach((body) => {
+      const errNode = body;
+      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
+      const lines: string[] = [];
+      const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
+      errNode
+        .getText()
+        .split('\n')
+        .forEach((l: string, i: number) => {
+          lines.push(`${errPath}:${loc.line + i + 1}: ${l}`);
+        });
+
+      const msg = `${errNode.getKindName()} at ${errPath}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
+
       if (body.isKind(ts.SyntaxKind.VariableStatement)) {
-        if (body.getDeclarationList().getFlags() !== ts.NodeFlags.Const)
-          throw new Error('Top-level variables must be constants');
+        if (body.getDeclarationKind() !== ts.VariableDeclarationKind.Const) {
+          throw new Error(`Top-level variables must be constants\n${msg}`);
+        }
+
+        const delcarationType = body.getDeclarations()[0].getType();
+
+        if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
+          throw Error(
+            `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
+          );
+        }
       }
     });
 
@@ -2632,38 +2845,60 @@ export default class Compiler {
   }
 
   private processDoStatement(node: ts.DoStatement) {
-    this.pushVoid(node, `do_while_${this.doWhileCount}:`);
+    const thisLoop = `do_while_${this.doWhileCount}`;
+    this.doWhileCount += 1;
+
+    const prevLoop = this.currentLoop;
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}_statement:`);
     this.processNode(node.getStatement());
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getExpression());
-    this.pushVoid(node, `bnz do_while_${this.doWhileCount}`);
+    this.pushVoid(node, `bnz ${thisLoop}_statement`);
+    this.pushVoid(node, `${thisLoop}_end:`);
+
+    this.currentLoop = prevLoop;
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
-    this.pushVoid(node, `while_${this.whileCount}:`);
+    const thisLoop = `while_${this.whileCount}`;
+    this.whileCount += 1;
+
+    const prevLoop = this.currentLoop;
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getExpression());
-    this.pushVoid(node, `bz while_${this.whileCount}_end`);
+    this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
-    this.pushVoid(node, `b while_${this.whileCount}`);
-    this.pushVoid(node, `while_${this.whileCount}_end:`);
+    this.pushVoid(node, `b ${thisLoop}`);
+    this.pushVoid(node, `${thisLoop}_end:`);
 
-    this.whileCount += 1;
+    this.currentLoop = prevLoop;
   }
 
   private processForStatement(node: ts.ForStatement) {
     this.processNode(node.getInitializer()!!);
 
-    this.pushVoid(node, `for_${this.forCount}:`);
+    const preLoop = this.currentLoop;
+    const thisLoop = `for_${this.forCount}`;
+    this.forCount += 1;
+
+    this.currentLoop = thisLoop;
+
+    this.pushVoid(node, `${thisLoop}:`);
     this.processConditional(node.getConditionOrThrow());
-    this.pushVoid(node, `bz for_${this.forCount}_end`);
+    this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
 
     this.processNode(node.getIncrementorOrThrow());
-    this.pushVoid(node, `b for_${this.forCount}`);
-    this.pushVoid(node, `for_${this.forCount}_end:`);
+    this.pushVoid(node, `b ${thisLoop}`);
+    this.pushVoid(node, `${thisLoop}_end:`);
 
-    this.forCount += 1;
+    this.currentLoop = preLoop;
   }
 
   /**
@@ -2726,6 +2961,10 @@ export default class Compiler {
         this.push(node, 'int 1', { kind: 'base', type: 'bool' });
       } else if (node.compilerNode.kind === ts.SyntaxKind.FalseKeyword) {
         this.push(node, 'int 0', { kind: 'base', type: 'bool' });
+      } else if (node.isKind(ts.SyntaxKind.BreakStatement)) {
+        this.pushVoid(node, `b ${this.currentLoop}_end`);
+      } else if (node.isKind(ts.SyntaxKind.ContinueStatement)) {
+        this.pushVoid(node, `b ${this.currentLoop}`);
       } else throw new Error(`Unknown node type: ${node.getKindName()}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -2872,7 +3111,7 @@ export default class Compiler {
 
       this.typeHint = types[i];
 
-      if (e.isKind(ts.SyntaxKind.NumericLiteral)) {
+      if (e.getType().isNumberLiteral()) {
         this.processNumericLiteralWithType(e, types[i]);
       } else {
         this.processNode(e);
@@ -3027,7 +3266,7 @@ export default class Compiler {
       elements.forEach((e, i) => {
         this.typeHint = types[i];
 
-        if (e.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (e.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(e, types[i]);
         } else {
           this.processNode(e);
@@ -3575,7 +3814,7 @@ export default class Compiler {
       !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
-      if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
+      if (newValue.getType().isNumberLiteral()) {
         this.processNewValue(newValue, elem.type);
       } else {
         this.processNewValue(newValue);
@@ -3702,7 +3941,7 @@ export default class Compiler {
         );
 
         // Get new element
-        if (newValue.isKind(ts.SyntaxKind.NumericLiteral)) {
+        if (newValue.getType().isNumberLiteral()) {
           this.processNumericLiteralWithType(newValue, element.type);
         } else {
           this.processNewValue(newValue);
@@ -3820,7 +4059,9 @@ export default class Compiler {
     if (node.getReturnType() === undefined)
       throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
 
-    const returnType = this.getTypeInfo(node.getReturnTypeNode()!.getType());
+    const returnType = node.getReturnTypeNode()?.getType()
+      ? this.getTypeInfo(node.getReturnTypeNode()!.getType())
+      : StackType.void;
 
     this.currentSubroutine = this.subroutines.find((s) => s.name === node.getNameNode().getText())!;
 
@@ -4006,9 +4247,23 @@ export default class Compiler {
   private processReturnStatement(node: ts.ReturnStatement) {
     this.addSourceComment(node);
 
+    if (this.currentForEachLabel) {
+      this.pushVoid(node, `b ${this.currentForEachLabel}_end`);
+      return;
+    }
+
     const returnType = this.currentSubroutine.returns.type;
 
     if (typeInfoToABIString(returnType) === 'void') {
+      if (
+        node.getExpression() &&
+        this.currentSubroutine.node.isKind(ts.SyntaxKind.MethodDeclaration) &&
+        this.currentSubroutine.node.getReturnTypeNode()?.getType() === undefined
+      ) {
+        throw Error(
+          `TEALScript does not support implicit return types. Please add a return type to ${this.currentSubroutine.name}`
+        );
+      }
       this.pushVoid(node, 'retsub');
       return;
     }
@@ -4226,11 +4481,11 @@ export default class Compiler {
 
     const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
 
-    if (leftNode.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (leftNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(leftNode, rightType);
     } else this.processNode(leftNode);
 
-    if (rightNode.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (rightNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(rightNode, leftType);
     } else this.processNode(rightNode);
 
@@ -4284,7 +4539,7 @@ export default class Compiler {
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
       if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
-    } else if (!leftNode.isKind(ts.SyntaxKind.NumericLiteral) && !rightNode.isKind(ts.SyntaxKind.NumericLiteral))
+    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral())
       typeComparison(leftType, rightType);
 
     if (updateValue) {
@@ -4330,11 +4585,15 @@ export default class Compiler {
       return;
     }
 
-    const constantInitializer = getConstantInitializer(node);
+    const type = node.getType();
 
-    if (constantInitializer !== undefined) {
-      this.processNode(constantInitializer);
-      this.lastType = this.getTypeInfo(node.getType());
+    if (type.isStringLiteral()) {
+      this.push(node, `byte "${type.getLiteralValueOrThrow()}"`, StackType.bytes);
+      return;
+    }
+
+    if (type.isNumberLiteral()) {
+      this.push(node, `int ${type.getLiteralValueOrThrow()}`, StackType.uint64);
       return;
     }
 
@@ -4383,7 +4642,7 @@ export default class Compiler {
   private processTypeCast(node: ts.AsExpression | ts.TypeAssertion) {
     const expr = node.getExpression();
 
-    if (expr.isKind(ts.SyntaxKind.NumericLiteral)) {
+    if (expr.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(expr, this.getTypeInfo(node.getTypeNode()!.getType()));
       return;
     }
@@ -4512,11 +4771,7 @@ export default class Compiler {
     const keyNode = exprArgs[argLength === 2 ? 1 : 0];
 
     // If the storage object has a key (any GlobalStateMap, LocalStateMap, and BoxMap)
-    if (
-      keyNode !== undefined &&
-      !keyNode.isKind(ts.SyntaxKind.StringLiteral) &&
-      !keyNode.isKind(ts.SyntaxKind.NumericLiteral)
-    ) {
+    if (keyNode !== undefined && !keyNode.isKind(ts.SyntaxKind.StringLiteral) && !keyNode.getType().isNumberLiteral()) {
       this.addSourceComment(node, true);
 
       // Add the prefix to the given key if it exists
@@ -4572,6 +4827,8 @@ export default class Compiler {
   }
 
   private processVariableDeclarator(node: ts.VariableDeclaration) {
+    if (node.getType().isStringLiteral() || node.getType().isNumberLiteral()) return;
+
     const name = node.getNameNode().getText();
 
     if (node.getInitializer()!) {
@@ -4581,13 +4838,7 @@ export default class Compiler {
 
       const isArray = isArrayType(initializerType);
 
-      const intiailizerConstantInitializer = getConstantInitializer(node.getInitializer()!);
-
-      if (
-        node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
-        intiailizerConstantInitializer === undefined &&
-        isArray
-      ) {
+      if (node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) && isArray) {
         lastFrameAccess = node.getInitializer()!.getText();
 
         this.localVariables[name] = {
@@ -4604,16 +4855,14 @@ export default class Compiler {
         const accessChain = this.getAccessChain(init);
         lastFrameAccess = accessChain[0].getExpression().getText();
 
-        const type = this.getStackTypeFromNode(accessChain[0].getExpression());
-
         // Only add source comments if there will be generated TEAL
-        if (accessChain.find((e) => e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral))) {
+        if (accessChain.find((e) => e.getArgumentExpression()?.getType().isNumberLiteral())) {
           this.addSourceComment(node);
         }
         const accessors = accessChain.map((e, i) => {
-          if (e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) return e.getArgumentExpression()!;
+          if (e.getArgumentExpression()?.getType().isNumberLiteral()) return e.getArgumentExpression()!;
 
-          if (e.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) {
+          if (e.getArgumentExpression()?.getType().isNumberLiteral()) {
             this.push(e.getArgumentExpression()!, `int ${e.getArgumentExpression()!.getText()}`, StackType.uint64);
           } else this.processNode(e.getArgumentExpression()!);
 
@@ -4703,7 +4952,7 @@ export default class Compiler {
       this.addSourceComment(node);
       const hint = node.getTypeNode() ? this.getTypeInfo(node.getTypeNode()!.getType()) : undefined;
 
-      if (init?.isKind(ts.SyntaxKind.NumericLiteral) && this.typeHint) {
+      if (init?.getType().isNumberLiteral() && this.typeHint) {
         this.processNumericLiteralWithType(init, this.typeHint);
       } else {
         this.typeHint = hint;
@@ -5064,9 +5313,27 @@ export default class Compiler {
     }
   }
 
-  private processNumericLiteralWithType(node: ts.NumericLiteral, typeInfo: TypeInfo) {
+  private getNumericLiteralValueString(node: ts.Node): string {
+    let value = '';
+    if (node.isKind(ts.SyntaxKind.Identifier)) {
+      const symbol = node.getSymbol()?.getAliasedSymbol() || node.getSymbolOrThrow();
+
+      symbol.getDeclarations().forEach((d) => {
+        if (d.isKind(ts.SyntaxKind.VariableDeclaration)) {
+          value = this.getNumericLiteralValueString(d.getInitializerOrThrow());
+        }
+      });
+    } else return node.getText().replace(/_/g, '');
+
+    if (value === '') throw Error();
+    return value;
+  }
+
+  private processNumericLiteralWithType(node: ts.Node, typeInfo: TypeInfo) {
     const type = typeInfoToABIString(typeInfo);
-    const textWithoutUnderscores = node.getText().replace(/_/g, '');
+    if (!node.getType().isNumberLiteral()) throw Error();
+
+    const textWithoutUnderscores = this.getNumericLiteralValueString(node);
 
     if (type === 'uint64') {
       this.processNode(node);
@@ -5394,6 +5661,19 @@ export default class Compiler {
    * @param newValue If we are setting the value of an array, the new value will be passed here
    */
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
+    // Check for forEach first because the chain is processed differently
+    if (node.isKind(ts.SyntaxKind.CallExpression)) {
+      const expr = node.getExpression();
+      if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+        const methodName = expr.getNameNode().getText();
+
+        if (methodName === 'forEach') {
+          this.customMethods.forEach.fn(node);
+          return;
+        }
+      }
+    }
+
     const { base, chain } = this.getExpressionChain(node);
 
     if (base.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
@@ -5497,11 +5777,14 @@ export default class Compiler {
         }
       }
 
-      const constantInitializer = getConstantInitializer(base);
-      // If this is a constant
-      if (constantInitializer) {
-        this.processNode(constantInitializer);
-        this.lastType = this.getTypeInfo(base.getType());
+      const type = base.getType();
+
+      if (type.isStringLiteral()) {
+        this.push(base, `byte "${type.getLiteralValueOrThrow()}"`, StackType.bytes);
+      }
+
+      if (type.isNumberLiteral()) {
+        this.push(base, `int ${type.getLiteralValueOrThrow()}`, StackType.uint64);
       }
 
       // If getting a txn type via the TransactionType enum
@@ -5660,6 +5943,7 @@ export default class Compiler {
         // If this is a custom method
         if (this.customMethods[methodName]?.check?.(n)) {
           this.customMethods[methodName].fn(n);
+          accessors.length = 0;
           return false;
         }
 
@@ -5722,7 +6006,9 @@ export default class Compiler {
       .getParameters()
       .map((p) => p.getDeclarations()[0].getText());
 
-    const headerComment = [`// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText()}`];
+    const headerComment = [
+      `// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText() || 'void'}`,
+    ];
 
     if (this.currentSubroutine.desc !== '') {
       headerComment.push('//');
@@ -5901,11 +6187,14 @@ export default class Compiler {
     const opcodeName = node.getExpression().getText();
 
     if (opcodeName === 'assert') {
-      node.getArguments().forEach((a) => {
-        this.processNode(a);
-        this.pushVoid(a, 'assert');
-      });
+      const args = node.getArguments();
+      this.processNode(args[0]);
 
+      if (args[1] && args[1].getType().isStringLiteral()) {
+        this.pushVoid(node, `// ${args[1].getType().getLiteralValueOrThrow().valueOf()}`);
+      }
+
+      this.pushVoid(node, 'assert');
       return;
     }
 
@@ -5945,16 +6234,17 @@ export default class Compiler {
         node
           .getArguments()
           .slice(0, opSpec.Size - 1)
-          .map((a) => {
-            const constantInitializer = getConstantInitializer(node.getArguments()[0]);
+          .map((immediateArg) => {
+            const immediateArgType = immediateArg.getType();
 
-            const immediateArg = constantInitializer ?? a;
+            if (immediateArgType.isStringLiteral()) {
+              return immediateArgType.getLiteralValueOrThrow().valueOf() as string;
+            }
+            if (immediateArgType.isNumberLiteral()) {
+              return immediateArgType.getLiteralValueOrThrow().valueOf().toString();
+            }
 
-            if (immediateArg.isKind(ts.SyntaxKind.StringLiteral)) return immediateArg.getLiteralText();
-            if (immediateArg.isKind(ts.SyntaxKind.NumericLiteral))
-              return parseInt(immediateArg.getLiteralText(), 10).toString();
-
-            throw Error(`Cannot process ${a.getText()} as immediate argument`);
+            throw Error(`Cannot process ${immediateArg.getText()} as immediate argument`);
           })
       );
     }
