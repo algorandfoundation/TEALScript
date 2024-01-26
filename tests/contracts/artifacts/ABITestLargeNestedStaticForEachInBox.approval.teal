@@ -21,83 +21,94 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// nestedStaticForEachInBox()uint64
-abi_route_nestedStaticForEachInBox:
+// largeNestedStaticForEachInBox()uint64
+abi_route_largeNestedStaticForEachInBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
-	// execute nestedStaticForEachInBox()uint64
-	callsub nestedStaticForEachInBox
+	// execute largeNestedStaticForEachInBox()uint64
+	callsub largeNestedStaticForEachInBox
 	itob
 	concat
 	log
 	int 1
 	return
 
-// nestedStaticForEachInBox(): uint64
-nestedStaticForEachInBox:
+// largeNestedStaticForEachInBox(): uint64
+largeNestedStaticForEachInBox:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 	dupn 4
 
-	// tests/contracts/abi.algo.ts:1348
-	// this.bKey.value = [
-	//       [1, 2, 3],
-	//       [4, 5, 6],
-	//       [7, 8, 9],
-	//     ]
-	byte 0x624b6579 // "bKey"
-	byte 0x000000000000000100000000000000020000000000000003000000000000000400000000000000050000000000000006000000000000000700000000000000080000000000000009
-	box_put
+	// tests/contracts/abi.algo.ts:1367
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
 
-	// tests/contracts/abi.algo.ts:1353
+	// tests/contracts/abi.algo.ts:1368
+	// this.bKey.create()
+	byte 0x624b6579 // "bKey"
+	int 4192
+	box_create
+	pop
+
+	// tests/contracts/abi.algo.ts:1369
 	// sum = 0
 	int 0
 	frame_bury 0 // sum: uint64
 
-	// tests/contracts/abi.algo.ts:1355
+	// tests/contracts/abi.algo.ts:1371
 	// this.bKey.value[1]
+	int 32 // headOffset
+	int 4160
 	byte 0x624b6579 // "bKey"
-	int 24
-	dup
+	frame_bury 1 // forEach//29920//box_key
+	pop // pop type length
+	frame_bury 2 // forEach//29920//offset
+	byte 0x624b6579 // "bKey" // forEach//29920//box_key
+	frame_dig 2 // forEach//29920//offset
+	int 64
 	box_extract
-	dup
-	frame_bury 1 // forEach//29597//array: uint64[3]
-	extract 0 8
-	btoi
-	frame_bury 2 // v: uint64
-	int 0
-	frame_bury 3 // forEach//29597//offset
+	frame_bury 3 // v: uint512
 
-forEach_29601:
-	// tests/contracts/abi.algo.ts:1356
-	// sum += v
+forEach_29924:
+	// tests/contracts/abi.algo.ts:1372
+	// sum += 1
 	frame_dig 0 // sum: uint64
-	frame_dig 2 // v: uint64
+	int 1
 	+
 	frame_bury 0 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 3 // forEach//29597//offset
-	int 8
+	frame_dig 2 // forEach//29920//offset
+	int 64
 	+
 	dup
-	int 24 // offset of last element
+	int 4160 // offset of last element
 	<
-	bz forEach_29601_end
-	frame_bury 3 // forEach//29597//offset
-	frame_dig 1 // forEach//29597//array
-	frame_dig 3 // forEach//29597//offset
-	int 8
-	extract
-	btoi
-	frame_bury 2 // v
-	b forEach_29601
+	bz forEach_29924_end
+	frame_bury 2 // forEach//29920//offset
+	byte 0x624b6579 // "bKey" // forEach//29920//box_key
+	frame_dig 2 // forEach//29920//offset
+	int 64
+	box_extract
+	frame_bury 3 // v
+	b forEach_29924
 
-forEach_29601_end:
-	// tests/contracts/abi.algo.ts:1359
+forEach_29924_end:
+	// tests/contracts/abi.algo.ts:1375
 	// return sum;
 	frame_dig 0 // sum: uint64
 
@@ -119,7 +130,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "nestedStaticForEachInBox()uint64"
+	method "largeNestedStaticForEachInBox()uint64"
 	txna ApplicationArgs 0
-	match abi_route_nestedStaticForEachInBox
+	match abi_route_largeNestedStaticForEachInBox
 	err

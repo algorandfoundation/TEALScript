@@ -53,7 +53,7 @@ staticForEach:
 	frame_bury 1 // sum: uint64
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	dup
-	frame_bury 2 // forEach//28979//array: uint64
+	frame_bury 2 // forEach//28979//array: uint64[3]
 	extract 0 8
 	btoi
 	frame_bury 3 // v: uint64

@@ -28,21 +28,14 @@ async function compileAndCreate(name: string): Promise<{
 }
 
 async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {
-  const boxes = [
-    { appIndex: 0, name: new Uint8Array(Buffer.from('bRef')) },
-    { appIndex: 0, name: new Uint8Array(Buffer.from('bMap')) },
-    { appIndex: 0, name: new Uint8Array(Buffer.from('bKey')) },
-    { appIndex: 0, name: algosdk.decodeAddress((await sender).addr).publicKey },
-  ];
-
   let fundAmount = 0;
   let callType: 'call' | 'optIn' = 'call';
 
   if (name.includes('Storage') || name.includes('RefAccount') || name.includes('InBox')) {
-    fundAmount = 132_900;
+    fundAmount = 1780900;
     if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
-  return commonRunMethod({ appClient, boxes, method: name, methodArgs, fundAmount, callType });
+  return commonRunMethod({ appClient, method: name, methodArgs, fundAmount, callType, fee: 2_000 });
 }
 
 describe('ABI', function () {
@@ -828,6 +821,12 @@ describe('ABI', function () {
       const { appClient } = await compileAndCreate('nestedStaticForEachInBox');
 
       expect(await runMethod(appClient, 'nestedStaticForEachInBox')).toEqual(15n);
+    });
+
+    test('largeNestedStaticForEachInBox', async () => {
+      const { appClient } = await compileAndCreate('largeNestedStaticForEachInBox');
+
+      expect(await runMethod(appClient, 'largeNestedStaticForEachInBox')).toEqual(65n);
     });
   });
 });

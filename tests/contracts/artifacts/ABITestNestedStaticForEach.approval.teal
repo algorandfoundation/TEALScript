@@ -61,7 +61,7 @@ nestedStaticForEach:
 	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 	extract 24 24
 	dup
-	frame_bury 2 // forEach//29267//array: uint64
+	frame_bury 2 // forEach//29267//array: uint64[3]
 	extract 0 8
 	btoi
 	frame_bury 3 // v: uint64

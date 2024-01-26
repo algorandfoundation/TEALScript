@@ -1359,3 +1359,19 @@ class ABITestNestedStaticForEachInBox extends Contract {
     return sum;
   }
 }
+
+class ABITestLargeNestedStaticForEachInBox extends Contract {
+  bKey = BoxKey<[bytes32, StaticArray<uint<512>, 65>]>();
+
+  largeNestedStaticForEachInBox(): uint64 {
+    increaseOpcodeBudget();
+    this.bKey.create();
+    let sum = 0;
+
+    this.bKey.value[1].forEach((v) => {
+      sum += 1;
+    });
+
+    return sum;
+  }
+}

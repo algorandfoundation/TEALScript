@@ -147,7 +147,7 @@ export async function runMethod({
     method,
     methodArgs,
     boxes,
-    sendParams: { suppressLog: true, fee: algokit.microAlgos(fee) },
+    sendParams: { suppressLog: true, fee: algokit.microAlgos(fee), populateAppCallResources: true },
   };
 
   try {
@@ -157,7 +157,6 @@ export async function runMethod({
         sendParams: { suppressLog: true },
       });
     }
-
     return (await appClient[callType](params)).return?.returnValue;
   } catch (e) {
     // eslint-disable-next-line no-console

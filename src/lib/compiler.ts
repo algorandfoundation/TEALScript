@@ -1762,13 +1762,13 @@ export default class Compiler {
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
-        const exprTypeInfo = this.getStackTypeFromNode(expr);
+        const arrayType = this.getStackTypeFromNode(expr);
 
         // TODO: Support dynamic array of static type as well
-        if (exprTypeInfo.kind !== 'staticArray') throw Error();
+        if (arrayType.kind !== 'staticArray') throw Error();
 
-        if (this.isDynamicType(exprTypeInfo)) throw Error('Cannot iterate over dynamic elements');
-        const baseType = exprTypeInfo.base;
+        if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
+        const baseType = arrayType.base;
         const typeLength = this.getTypeLength(baseType);
 
         const fn = node.getArguments()[0];
@@ -1780,47 +1780,94 @@ export default class Compiler {
 
         const paramName = params[0].getName();
 
-        const arrayType = this.lastType;
         const arrayTypeString = typeInfoToABIString(arrayType);
 
         const frameName = `forEach//${node.getStartLinePos()}`;
 
         this.processNode(expr);
 
-        // TODO: instead of saving the variable, save the index of the variable
-        // Save the full variable
-        this.localVariables[`${frameName}//aray`] = {
-          index: this.frameIndex,
-          type: arrayType,
-          typeString: arrayTypeString,
-        };
-        this.pushLines(
-          node,
-          'dup',
-          `frame_bury ${this.frameIndex} // ${frameName}//array: ${arrayTypeString}`,
-          `extract 0 ${typeLength}`
-        );
-        this.frameIndex += 1;
-        this.checkDecoding(node, baseType);
+        const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
 
-        // Save the current element
-        this.localVariables[paramName] = {
-          index: this.frameIndex,
-          type: baseType,
-          typeString: typeInfoToABIString(baseType),
-        };
-        this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
-        this.frameIndex += 1;
+        // If this is a value larger than 4096 bytes in a box, use box_extract
+        if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
+          this.teal[this.currentProgram].pop(); // pop box_extract
+          this.teal[this.currentProgram].pop(); // pop cover 2
 
-        // Save the offset
-        this.localVariables[`${frameName}//offset`] = {
-          index: this.frameIndex,
-          type: baseType,
-          typeString: typeInfoToABIString(baseType),
-        };
-        this.pushLines(node, 'int 0', `frame_bury ${this.frameIndex} // ${frameName}//offset`);
-        this.frameIndex += 1;
+          // Save box key
+          this.localVariables[`${frameName}//box_key`] = {
+            index: this.frameIndex,
+            type: StackType.bytes,
+            typeString: 'byte[]',
+          };
+          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${frameName}//box_key`);
+          const keyIndex = this.frameIndex;
+          this.frameIndex += 1;
 
+          this.pushVoid(node, 'pop // pop type length');
+
+          // Save offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(node, `frame_bury ${this.frameIndex} // ${frameName}//offset`);
+          const offsetIndex = this.frameIndex;
+          this.frameIndex += 1;
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushLines(
+            node,
+            `frame_dig ${keyIndex} // ${frameName}//box_key`,
+            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+
+          this.checkDecoding(node, baseType);
+
+          this.pushLines(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+        } else {
+          // Save the full array
+          this.localVariables[`${frameName}//aray`] = {
+            index: this.frameIndex,
+            type: arrayType,
+            typeString: arrayTypeString,
+          };
+          this.pushLines(
+            node,
+            'dup',
+            `frame_bury ${this.frameIndex} // ${frameName}//array: ${arrayTypeString}`,
+            `extract 0 ${typeLength}`
+          );
+          this.frameIndex += 1;
+
+          this.checkDecoding(node, baseType);
+
+          // Save the current element
+          this.localVariables[paramName] = {
+            index: this.frameIndex,
+            type: baseType,
+            typeString: typeInfoToABIString(baseType),
+          };
+          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
+          this.frameIndex += 1;
+
+          // Save the offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(node, 'int 0', `frame_bury ${this.frameIndex} // ${frameName}//offset`);
+          this.frameIndex += 1;
+        }
         const label = `forEach_${node.getStart()}`;
         // TODO: Use global counter instead of getStart
         this.pushLines(node, `${label}:`);
@@ -1828,8 +1875,9 @@ export default class Compiler {
         this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
 
         const offsetIndex = this.localVariables[`${frameName}//offset`].index;
-        const arrayIndex = this.localVariables[`${frameName}//aray`].index;
+        const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
         const elementIndex = this.localVariables[paramName].index;
+        const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
 
         // End of for each logic
         this.pushLines(
@@ -1839,15 +1887,29 @@ export default class Compiler {
           `int ${typeLength}`,
           '+',
           'dup',
-          `int ${exprTypeInfo.length * typeLength} // offset of last element`,
+          `int ${arrayType.length * typeLength} // offset of last element`,
           '<',
           `bz ${label}_end`,
-          `frame_bury ${offsetIndex} // ${frameName}//offset`,
-          `frame_dig ${arrayIndex} // ${frameName}//array`,
-          `frame_dig ${offsetIndex} // ${frameName}//offset`,
-          `int ${typeLength}`,
-          'extract'
+          `frame_bury ${offsetIndex} // ${frameName}//offset`
         );
+
+        if (arrayIndex) {
+          this.pushLines(
+            node,
+            `frame_dig ${arrayIndex} // ${frameName}//array`,
+            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `int ${typeLength}`,
+            'extract'
+          );
+        } else {
+          this.pushLines(
+            node,
+            `frame_dig ${boxKeyIndex} // ${frameName}//box_key`,
+            `frame_dig ${offsetIndex} // ${frameName}//offset`,
+            `int ${typeLength}`,
+            'box_extract'
+          );
+        }
 
         this.checkDecoding(node, baseType);
 
