@@ -1806,7 +1806,20 @@ export default class Compiler {
           const keyIndex = this.frameIndex;
           this.frameIndex += 1;
 
-          this.pushVoid(node, 'pop // pop type length since we are not using it');
+          // Save offset
+          this.localVariables[`${frameName}//offset`] = {
+            index: this.frameIndex,
+            type: StackType.uint64,
+            typeString: 'uint64',
+          };
+          this.pushLines(
+            node,
+            'swap',
+            'dup',
+            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from `
+          );
+          const offsetIndex = this.frameIndex;
+          this.frameIndex += 1;
 
           // Save end offset
           this.localVariables[`${frameName}//end_offset`] = {
@@ -1814,23 +1827,7 @@ export default class Compiler {
             type: StackType.uint64,
             typeString: 'uint64',
           };
-          this.pushLines(
-            node,
-            'dup',
-            `int ${arrayType.length * typeLength}`,
-            '+',
-            `frame_bury ${this.frameIndex} // the offset of the last element`
-          );
-          this.frameIndex += 1;
-
-          // Save offset
-          this.localVariables[`${frameName}//offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(node, `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`);
-          const offsetIndex = this.frameIndex;
+          this.pushLines(node, '+', `frame_bury ${this.frameIndex} // the offset of the last element`);
           this.frameIndex += 1;
 
           // Save the current element
