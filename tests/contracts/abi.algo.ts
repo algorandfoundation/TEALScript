@@ -1323,3 +1323,20 @@ class ABITestStaticForEach extends Contract {
     return sum;
   }
 }
+
+class ABITestNestedStaticForEach extends Contract {
+  nestedStaticForEach(): uint64 {
+    const a: StaticArray<StaticArray<uint64, 3>, 3> = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    let sum = 0;
+
+    a[1].forEach((v) => {
+      sum += v;
+    });
+
+    return sum;
+  }
+}

@@ -811,11 +811,16 @@ describe('ABI', function () {
       expect(await runMethod(appClient, 'nestedStructInBoxMap')).toEqual([[2n]]);
     });
 
-    // forEach
-    test('forEach', async () => {
+    test('staticForEach', async () => {
       const { appClient } = await compileAndCreate('staticForEach');
 
       expect(await runMethod(appClient, 'staticForEach')).toEqual(6n);
+    });
+
+    test('nestedStaticForEach', async () => {
+      const { appClient } = await compileAndCreate('nestedStaticForEach');
+
+      expect(await runMethod(appClient, 'nestedStaticForEach')).toEqual(15n);
     });
   });
 });

@@ -1762,7 +1762,7 @@ export default class Compiler {
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
-        const exprTypeInfo = this.getTypeInfo(expr.getType());
+        const exprTypeInfo = this.getStackTypeFromNode(expr);
 
         // TODO: Support dynamic array of static type as well
         if (exprTypeInfo.kind !== 'staticArray') throw Error();
@@ -1784,6 +1784,8 @@ export default class Compiler {
         const arrayTypeString = typeInfoToABIString(arrayType);
 
         const frameName = `forEach//${node.getStartLinePos()}`;
+
+        this.processNode(expr);
 
         // TODO: instead of saving the variable, save the index of the variable
         // Save the full variable
@@ -5508,6 +5510,19 @@ export default class Compiler {
    * @param newValue If we are setting the value of an array, the new value will be passed here
    */
   private processExpressionChain(node: ExpressionChainNode, newValue?: ts.Node) {
+    // Check for forEach first because the chain is processed differently
+    if (node.isKind(ts.SyntaxKind.CallExpression)) {
+      const expr = node.getExpression();
+      if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+        const methodName = expr.getNameNode().getText();
+
+        if (methodName === 'forEach') {
+          this.customMethods.forEach.fn(node);
+          return;
+        }
+      }
+    }
+
     const { base, chain } = this.getExpressionChain(node);
 
     if (base.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
@@ -5777,6 +5792,7 @@ export default class Compiler {
         // If this is a custom method
         if (this.customMethods[methodName]?.check?.(n)) {
           this.customMethods[methodName].fn(n);
+          accessors.length = 0;
           return false;
         }
 

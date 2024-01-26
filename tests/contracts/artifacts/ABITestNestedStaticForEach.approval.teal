@@ -21,47 +21,55 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// staticForEach()uint64
-abi_route_staticForEach:
+// nestedStaticForEach()uint64
+abi_route_nestedStaticForEach:
 	// The ABI return prefix
 	byte 0x151f7c75
 
-	// execute staticForEach()uint64
-	callsub staticForEach
+	// execute nestedStaticForEach()uint64
+	callsub nestedStaticForEach
 	itob
 	concat
 	log
 	int 1
 	return
 
-// staticForEach(): uint64
-staticForEach:
+// nestedStaticForEach(): uint64
+nestedStaticForEach:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 	dupn 5
 
-	// tests/contracts/abi.algo.ts:1317
-	// a: StaticArray<uint64, 3> = [1, 2, 3]
-	byte 0x000000000000000100000000000000020000000000000003
-	frame_bury 0 // a: StaticArray<uint64, 3>
+	// tests/contracts/abi.algo.ts:1329
+	// a: StaticArray<StaticArray<uint64, 3>, 3> = [
+	//       [1, 2, 3],
+	//       [4, 5, 6],
+	//       [7, 8, 9],
+	//     ]
+	byte 0x000000000000000100000000000000020000000000000003000000000000000400000000000000050000000000000006000000000000000700000000000000080000000000000009
+	frame_bury 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 
-	// tests/contracts/abi.algo.ts:1318
+	// tests/contracts/abi.algo.ts:1334
 	// sum = 0
 	int 0
 	frame_bury 1 // sum: uint64
-	frame_dig 0 // a: StaticArray<uint64, 3>
+
+	// tests/contracts/abi.algo.ts:1336
+	// a[1]
+	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
+	extract 24 24
 	dup
-	frame_bury 2 // forEach//28979//array: uint64
+	frame_bury 2 // forEach//29267//array: uint64
 	extract 0 8
 	btoi
 	frame_bury 3 // v: uint64
 	int 0
-	frame_bury 4 // forEach//28979//offset
+	frame_bury 4 // forEach//29267//offset
 
-forEach_28983:
-	// tests/contracts/abi.algo.ts:1321
+forEach_29271:
+	// tests/contracts/abi.algo.ts:1337
 	// sum += v
 	frame_dig 1 // sum: uint64
 	frame_dig 3 // v: uint64
@@ -69,24 +77,24 @@ forEach_28983:
 	frame_bury 1 // sum: uint64
 
 	// increment offset and loop if not out of bounds
-	frame_dig 4 // forEach//28979//offset
+	frame_dig 4 // forEach//29267//offset
 	int 8
 	+
 	dup
 	int 24 // offset of last element
 	<
-	bz forEach_28983_end
-	frame_bury 4 // forEach//28979//offset
-	frame_dig 2 // forEach//28979//array
-	frame_dig 4 // forEach//28979//offset
+	bz forEach_29271_end
+	frame_bury 4 // forEach//29267//offset
+	frame_dig 2 // forEach//29267//array
+	frame_dig 4 // forEach//29267//offset
 	int 8
 	extract
 	btoi
 	frame_bury 3 // v
-	b forEach_28983
+	b forEach_29271
 
-forEach_28983_end:
-	// tests/contracts/abi.algo.ts:1323
+forEach_29271_end:
+	// tests/contracts/abi.algo.ts:1340
 	// return sum;
 	frame_dig 1 // sum: uint64
 
@@ -108,7 +116,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "staticForEach()uint64"
+	method "nestedStaticForEach()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticForEach
+	match abi_route_nestedStaticForEach
 	err
