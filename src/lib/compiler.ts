@@ -657,7 +657,7 @@ export default class Compiler {
 
   forEachCount: number = 0;
 
-  currentLoop: string;
+  currentLoop?: string;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
