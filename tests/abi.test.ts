@@ -834,5 +834,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'forEachReturn')).toEqual(3n);
     });
+
+    test('staticArrayLength', async () => {
+      const { appClient } = await compileAndCreate('staticArrayLength');
+
+      expect(await runMethod(appClient, 'staticArrayLength')).toEqual(5n);
+    });
   });
 });

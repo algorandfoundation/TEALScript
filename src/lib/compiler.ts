@@ -1128,10 +1128,14 @@ export default class Compiler {
     },
     length: {
       check: (node: ts.PropertyAccessExpression) => {
-        const abiType = this.lastType;
-        return isBytes(this.lastType) || this.lastType.kind === 'dynamicArray';
+        return isBytes(this.lastType) || this.lastType.kind === 'dynamicArray' || this.lastType.kind === 'staticArray';
       },
       fn: (n: ts.PropertyAccessExpression) => {
+        if (this.lastType.kind === 'staticArray') {
+          this.push(n.getNameNode(), `int ${this.lastType.length}`, StackType.uint64);
+          return;
+        }
+
         if (isBytes(this.lastType)) {
           this.push(n.getNameNode(), 'len', StackType.uint64);
           return;
@@ -1143,11 +1147,7 @@ export default class Compiler {
           return;
         }
 
-        if (this.lastType.kind === 'dynamicArray') {
-          throw new Error('.length is currently only supported on dynamic arrays');
-        }
-        this.pushLines(n.getNameNode(), 'extract 0 2', 'btoi');
-        this.lastType = StackType.uint64;
+        throw Error(`Unsupported length property for type ${typeInfoToABIString(this.lastType)}`);
       },
     },
   };
