@@ -797,7 +797,7 @@ declare function substring3(data: BytesLike, start: IntLike, end: IntLike): byte
 
 /** @returns The value of the bit at the given index */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare function getbit(data: bytes | uint64, bitIndex: uint64): boolean;
+declare function getbit(data: BytesLike | uint64, bitIndex: uint64): boolean;
 
 /**
  * @param data The input data to update
@@ -814,7 +814,7 @@ declare function setbit<InputType extends bytes | uint64>(
 ): InputType extends string ? bytes : uint64;
 
 /** @returns The value of the byte at the given index */
-declare function getbyte(data: bytes, byteIndex: uint64): uint64;
+declare function getbyte(data: BytesLike, byteIndex: uint64): uint64;
 
 /**
  * @param data The input data to update
