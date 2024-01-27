@@ -81,7 +81,7 @@
 | & | Natively supported |
 | ^ | Natively supported |
 | ~ | Natively supported |
-| mulw | Not yet supported or tested |
+| mulw | `mulw` |
 | addw | Not yet supported or tested |
 | divmodw | Not yet supported or tested |
 | shl | `<<` |

@@ -41,6 +41,7 @@ describe('Math', function () {
       bitwiseAndU256: 6n & 3n,
       bitwiseOrU256: 6n | 3n,
       bitwiseXorU256: 6n ^ 3n,
+      mulwOp: 6n * 3n,
     };
 
     Object.keys(methods).forEach((method) => {

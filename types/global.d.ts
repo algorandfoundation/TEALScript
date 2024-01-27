@@ -1216,3 +1216,10 @@ declare function jsonRef<TypeEncoded extends 'JSONString' | 'JSONUint64' | 'JSON
   input: bytes,
   key: bytes
 ): TypeEncoded extends 'JSONString' ? bytes : TypeEncoded extends 'JSONUint64' ? uint64 : bytes;
+
+declare type SplitUint128 = { low: uint64; high: uint64 };
+
+/**
+ * A * B with the result being 128 bits split across two uint64s
+ */
+declare function mulw(a: uint64, b: uint64): SplitUint128;

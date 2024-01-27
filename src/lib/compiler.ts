@@ -577,6 +577,11 @@ export default class Compiler {
        * ```
        */
       storageAccountFrame?: string;
+
+      /**
+       * The comment to use when using frame_bury/dig
+       */
+      comment?: string;
     };
   } = {};
 
@@ -953,6 +958,7 @@ export default class Compiler {
   private topLevelNode!: ts.Node;
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
     if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
@@ -3533,8 +3539,11 @@ export default class Compiler {
         storageAccountFrame: currentFrame.storageAccountFrame,
         action: 'get',
       });
-    } else {
+      // Don't actually load split uint128 because there's an explicit load later when processing the property access
+    } else if (currentFrame.typeString !== 'split uint128') {
       this.push(node, `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.typeString}`, currentFrame.type);
+    } else {
+      this.lastType = currentFrame.type;
     }
 
     return { name, type, accessors: accessors.reverse().flat() };
@@ -4922,14 +4931,18 @@ export default class Compiler {
 
     const name = node.getNameNode().getText();
 
-    if (node.getInitializer()!) {
+    if (node.getInitializer()) {
       const initializerType = this.getStackTypeFromNode(node.getInitializer()!);
+      const initializerTypeString = typeInfoToABIString(initializerType);
 
       let lastFrameAccess: string | undefined;
 
       const isArray = isArrayType(initializerType);
 
-      if (node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) && isArray) {
+      if (
+        node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
+        (isArray || initializerTypeString === 'split uint128')
+      ) {
         lastFrameAccess = node.getInitializer()!.getText();
 
         this.localVariables[name] = {
@@ -5060,6 +5073,8 @@ export default class Compiler {
         type,
         typeString,
       };
+
+      if (typeString === 'split uint128') return;
 
       this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${typeString}`);
 
@@ -5973,7 +5988,7 @@ export default class Compiler {
         const frame = this.localVariables[base.getText()];
 
         // If this is an array reference, get the accessors
-        if (frame && frame.index === undefined) {
+        if (frame && frame.index === undefined && typeInfoToABIString(frame.type) !== 'split uint128') {
           const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
 
           const { storageExpression } = frameFollow;
@@ -5997,7 +6012,7 @@ export default class Compiler {
 
           // otherwise just load the value
         } else {
-          this.push(node, `frame_dig ${frame.index} // ${base.getText()}: ${frame.typeString}`, frame.type);
+          this.processNode(base);
         }
       }
     }
@@ -6080,6 +6095,14 @@ export default class Compiler {
 
       // If this is a property access expression assume it's an opcode param
       if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+        if (typeInfoToABIString(this.lastType) === 'split uint128') {
+          const parent = n.getExpressionIfKindOrThrow(ts.SyntaxKind.Identifier);
+          const parentName = parent.getText();
+          const frameName = this.processFrame(parent, parentName, false).name;
+          this.frameDig(n, `${frameName} ${n.getName()}: uint64`);
+          return false;
+        }
+
         // Check if this is a custom propertly like `zeroIndex`
         if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const propName = n.getNameNode().getText();
@@ -6447,6 +6470,54 @@ export default class Compiler {
       );
       this.lastType = returnTypeInfo;
     }
+
+    if (opcodeName === 'mulw') {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error('mulw output must be assigned to a variable before usage');
+      }
+      const name = parent.getName();
+
+      const low = `${name} low: uint64`;
+      const high = `${name} high:  uint64`;
+
+      this.initialFrameBury(node, low, StackType.uint64, low);
+      this.initialFrameBury(node, high, StackType.uint64, high);
+
+      this.lastType = returnTypeInfo;
+    }
+  }
+
+  private initialFrameBury(node: ts.Node, name: string, type: TypeInfo, comment?: string) {
+    const defaultComment = `${name}: ${typeInfoToABIString(type)}`;
+    // Save box key
+    this.localVariables[name] = {
+      index: this.frameIndex,
+      type,
+      typeString: typeInfoToABIString(type),
+      comment,
+    };
+    this.pushVoid(node, `frame_bury ${this.frameIndex} // ${comment ?? defaultComment}`);
+    this.frameIndex += 1;
+  }
+
+  private frameBury(node: ts.Node, name: string) {
+    const frame = this.localVariables[name];
+    if (!frame) throw Error(`Unknown variable ${name}`);
+
+    typeComparison(this.lastType, frame.type, true);
+
+    const defaultComment = `${name}: ${typeInfoToABIString(this.lastType)}`;
+
+    this.pushVoid(node, `frame_bury ${frame.index} // ${frame.comment ?? defaultComment}`);
+  }
+
+  private frameDig(node: ts.Node, name: string) {
+    const frame = this.localVariables[name];
+    if (!frame) throw Error(`Unknown variable ${name}`);
+
+    this.pushVoid(node, `frame_dig ${frame.index} // ${frame.comment ?? name}`);
+    this.lastType = frame.type;
   }
 
   private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.TypeNode[]) {

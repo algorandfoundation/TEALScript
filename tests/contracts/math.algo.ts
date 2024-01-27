@@ -191,4 +191,12 @@ class MathTest extends Contract {
   bitwiseNotU256(a: uint256): uint256 {
     return ~a;
   }
+
+  mulwOp(a: uint64, b: uint64): uint64 {
+    const p = mulw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
 }
