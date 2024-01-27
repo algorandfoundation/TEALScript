@@ -84,8 +84,8 @@
 | mulw | Not yet supported or tested |
 | addw | Not yet supported or tested |
 | divmodw | Not yet supported or tested |
-| shl | Not yet supported or tested |
-| shr | Not yet supported or tested |
+| shl | `<<` |
+| shr | `>>` |
 | sqrt | Natively supported |
 | bitlen | Not yet supported or tested |
 | exp | `**` |
