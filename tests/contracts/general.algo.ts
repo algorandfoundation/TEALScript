@@ -344,4 +344,16 @@ class GeneralTest extends Contract {
 
     log(anotherTxn.sender);
   }
+
+  getSetBytes() {
+    log(setbit('foo', 0, true));
+    getbit('foo', 0);
+    getbyte('foo', 0);
+    setbyte('foo', 0, 1);
+  }
+
+  getSetUint64() {
+    assert(setbit(123, 0, true));
+    getbit(123, 0);
+  }
 }

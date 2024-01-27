@@ -10,6 +10,7 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
+import { equal } from 'assert';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
@@ -1578,6 +1579,26 @@ export default class Compiler {
         const args = node.getArguments();
         if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('method() argument must be a string literal');
         this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
+      },
+    },
+    setbit: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        this.processNode(args[0]);
+        const inputType = this.lastType;
+        this.processNode(args[1]);
+        this.processNode(args[2]);
+        this.push(node, 'setbit', inputType);
+      },
+    },
+    getbit: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        this.processNode(args[0]);
+        this.processNode(args[1]);
+        this.push(node, 'getbit', StackType.uint64);
       },
     },
   };

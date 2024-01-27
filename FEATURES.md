@@ -99,10 +99,10 @@
 | concat | `concat` or `+` |
 | substring | `String.substring` or `substring` |
 | substring3 | `String.substring` or `substring` |
-| getbit | Not yet supported or tested |
-| setbit | Not yet supported or tested |
-| getbyte | Not yet supported or tested |
-| setbyte | Not yet supported or tested |
+| getbit | `getbit` |
+| setbit | `setbit` |
+| getbyte | `getbyte` |
+| setbyte | `setbyte` |
 | extract | `extract3` |
 | extract3 | `extract3` |
 | extract_uint16 | `extractUint16` |

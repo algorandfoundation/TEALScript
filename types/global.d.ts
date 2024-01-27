@@ -796,7 +796,8 @@ declare function concat(a: BytesLike, b: BytesLike): bytes;
 declare function substring3(data: BytesLike, start: IntLike, end: IntLike): bytes;
 
 /** @returns The value of the bit at the given index */
-declare function getbit(data: BytesLike, bitIndex: IntLike): boolean;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function getbit(data: bytes | uint64, bitIndex: uint64): boolean;
 
 /**
  * @param data The input data to update
@@ -805,10 +806,15 @@ declare function getbit(data: BytesLike, bitIndex: IntLike): boolean;
  *
  * @returns The updated data
  */
-declare function setbit(data: BytesLike, bitIndex: IntLike, value: IntLike): bytes;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function setbit<InputType extends bytes | uint64>(
+  data: InputType,
+  bitIndex: uint64,
+  value: boolean
+): InputType extends string ? bytes : uint64;
 
 /** @returns The value of the byte at the given index */
-declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64;
+declare function getbyte(data: bytes, byteIndex: uint64): uint64;
 
 /**
  * @param data The input data to update
@@ -817,7 +823,7 @@ declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns The updated data
  */
-declare function setbyte(data: BytesLike, byteIndex: IntLike, value: IntLike): bytes;
+declare function setbyte(data: bytes, byteIndex: uint64, value: uint64): bytes;
 
 /**
  * Extracts a subtstring of the given length starting at the given index
@@ -1179,3 +1185,11 @@ declare function ecSubgroupCheck(group: ECGroup, point: bytes): boolean;
  * @param fieldElement The field element to map
  */
 declare function ecMapTo(group: ECGroup, fieldElement: bytes): bytes;
+
+/**
+ * The highest set bit in the input. If the input is a byte-array, it is interpreted as a big-endian unsigned integer. bitlen of 0 is 0, bitlen of 8 is 4
+ *
+ * @param input The input to get the higher bit from
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function bitlen(input: any): uint64;
