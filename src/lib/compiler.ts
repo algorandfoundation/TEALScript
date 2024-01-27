@@ -661,6 +661,7 @@ export default class Compiler {
     ],
     asset: this.getOpParamObjects('asset_params_get'),
     gitxn: this.getOpParamObjects('gitxn'),
+    block: this.getOpParamObjects('block'),
   };
 
   programVersion = 10;
@@ -2173,11 +2174,11 @@ export default class Compiler {
 
     return opSpec.ArgEnum!.map((arg, i) => {
       let fn;
-      const type = PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace(/[\d*]byte/, 'btyes');
+      const type = PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace(/\[\d*\]byte/, 'bytes');
 
       const typeInfo = { kind: 'base', type } as TypeInfo;
 
-      if (['txn', 'global', 'itxn', 'gtxns', 'gitxn'].includes(op)) {
+      if (['txn', 'global', 'itxn', 'gtxns', 'gitxn', 'block'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, typeInfo);
       } else {
         fn = (node: ts.Node) => this.popMaybeValue(node, `${op} ${arg}`, typeInfo);
@@ -5823,6 +5824,13 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (base.isKind(ts.SyntaxKind.Identifier)) {
+      if (base.getText() === 'blocks') {
+        if (chain[0].isKind(ts.SyntaxKind.ElementAccessExpression)) {
+          this.processNode(chain[0].getArgumentExpressionOrThrow());
+          this.lastType = { kind: 'base', type: 'block' };
+          chain.splice(0, 1);
+        } else throw Error('Blocks must be accessed via array index');
+      }
       if (base.getText() === 'OnCompletion') {
         if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const oc = chain[0].getNameNode().getText() as OnComplete;
@@ -6667,7 +6675,7 @@ export default class Compiler {
       }
 
       const paramObj = this.OP_PARAMS[typeStr].find((p) => {
-        let paramName = p.name.replace(/^Acct/, '');
+        let paramName = p.name.replace(/^Acct/, '').replace(/^Blk/, '');
 
         if (['asset', 'application', 'account', 'itxn'].includes(typeStr) && this.currentProgram === 'lsig') {
           throw Error(`Cannot access ${capitalizeFirstChar(typeStr)} parameters in logic signature`);

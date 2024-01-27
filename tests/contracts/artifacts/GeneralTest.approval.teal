@@ -1876,6 +1876,34 @@ getSetUint64:
 	getbit
 	retsub
 
+// blockOp()void
+abi_route_blockOp:
+	// execute blockOp()void
+	callsub blockOp
+	int 1
+	return
+
+// blockOp(): void
+blockOp:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:361
+	// log(blocks[globals.round - 1].seed)
+	global Round
+	int 1
+	-
+	block BlkSeed
+	log
+
+	// tests/contracts/general.algo.ts:362
+	// assert(blocks[globals.round - 1].timestamp)
+	global Round
+	int 1
+	-
+	block BlkTimestamp
+	assert
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1933,8 +1961,9 @@ call_NoOp:
 	method "gitxn()void"
 	method "getSetBytes()void"
 	method "getSetUint64()void"
+	method "blockOp()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases abi_route_vrfVerifyOp abi_route_ecMath abi_route_gitxn abi_route_getSetBytes abi_route_getSetUint64
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases abi_route_vrfVerifyOp abi_route_ecMath abi_route_gitxn abi_route_getSetBytes abi_route_getSetUint64 abi_route_blockOp
 	err
 
 intToAscii:

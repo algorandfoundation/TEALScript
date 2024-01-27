@@ -692,6 +692,15 @@ declare const globals: {
   callerApplicationAddress: Address;
 };
 
+/** Get information from the given block.
+ * Fails unless the block falls between `this.txn.lastValid-1002` and `this.txn.firstValid` (exclusive) */
+declare const blocks: {
+  /** The block seed */
+  seed: bytes;
+  /** The timestamp of the block */
+  timestamp: uint64;
+}[];
+
 declare function method(signature: string): bytes;
 declare function addr(address: string): Address;
 

@@ -178,7 +178,7 @@
 | acct_params_get | Method calls on `Address` |
 | min_balance | `Address.minBalance` |
 | log | `log` or `EventEmitter` |
-| block | Not yet supported or tested |
+| block | `blocks` |
 
 ### Byte Array Arithmetic
 | Opcode | TEALScript |

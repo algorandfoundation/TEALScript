@@ -356,4 +356,9 @@ class GeneralTest extends Contract {
     assert(setbit(123, 0, true));
     getbit(123, 0);
   }
+
+  blockOp() {
+    log(blocks[globals.round - 1].seed);
+    assert(blocks[globals.round - 1].timestamp);
+  }
 }
