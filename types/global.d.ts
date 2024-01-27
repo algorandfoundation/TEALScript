@@ -1202,3 +1202,17 @@ declare function ecMapTo(group: ECGroup, fieldElement: bytes): bytes;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function bitlen(input: any): uint64;
+
+/**
+ * decode the given base64 encoded bytes
+ *
+ * @param encoding The encoding of the bytes
+ * @param input The bytes to decode
+ */
+declare function base64Decode(encoding: 'URLEncoding' | 'StdEncoding', input: bytes): bytes;
+
+declare function jsonRef<TypeEncoded extends 'JSONString' | 'JSONUint64' | 'JSONObject'>(
+  type: TypeEncoded,
+  input: bytes,
+  key: bytes
+): TypeEncoded extends 'JSONString' ? bytes : TypeEncoded extends 'JSONUint64' ? uint64 : bytes;

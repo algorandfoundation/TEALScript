@@ -361,4 +361,14 @@ class GeneralTest extends Contract {
     log(blocks[globals.round - 1].seed);
     assert(blocks[globals.round - 1].timestamp);
   }
+
+  b64() {
+    log(base64Decode('StdEncoding', ''));
+  }
+
+  json() {
+    log(jsonRef('JSONObject', '', ''));
+    log(jsonRef('JSONString', '', ''));
+    assert(jsonRef('JSONUint64', '', ''));
+  }
 }

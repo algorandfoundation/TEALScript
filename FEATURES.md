@@ -110,8 +110,8 @@
 | extract_uint64 | `extractUint64` |
 | replace2 | `replace3` |
 | replace3 | `replace3` |
-| base64_decode | Not yet supported or tested |
-| json_ref | Not yet supported or tested |
+| base64_decode | `base64Decode` |
+| json_ref | `jsonRef` |
 
 ### Loading Values
 | Opcode | TEALScript |

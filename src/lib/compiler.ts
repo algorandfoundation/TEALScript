@@ -6319,6 +6319,8 @@ export default class Compiler {
     ecSubgroupCheck: 'ec_subgroup_check',
     ecMapTo: 'ec_map_to',
     ecAdd: 'ec_add',
+    base64Decode: 'base64_decode',
+    jsonRef: 'json_ref',
   };
 
   private processOpcode(node: ts.CallExpression) {
@@ -6420,6 +6422,8 @@ export default class Compiler {
     } else {
       returnType = { kind: 'base', type: returnTypeStr } as TypeInfo;
     }
+
+    if (equalTypes(returnType, StackType.any)) returnType = this.getTypeInfo(node.getType());
 
     this.push(node.getExpression(), line.join(' '), returnType);
 
