@@ -87,7 +87,7 @@
 | shl | `<<` |
 | shr | `>>` |
 | sqrt | Natively supported |
-| bitlen | Not yet supported or tested |
+| bitlen | `bitlen` |
 | exp | `**` |
 | expw | Not yet supported or tested |
 | divw | Not yet supported or tested |

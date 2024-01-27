@@ -371,4 +371,9 @@ class GeneralTest extends Contract {
     log(jsonRef('JSONString', '', ''));
     assert(jsonRef('JSONUint64', '', ''));
   }
+
+  bitlenOp() {
+    bitlen(123);
+    bitlen('foo');
+  }
 }

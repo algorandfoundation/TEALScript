@@ -150,7 +150,8 @@ const tealscriptMapping = {
   '`jsonRef`': ['json_ref'],
   '`base64Decode`': ['base64_decode'],
   '`<<`': ['shl'],
-  '`>>`': ['shr']
+  '`>>`': ['shr'],
+  '`bitlen`': ['bitlen'],
 };
 Object.keys(langspec.Ops).forEach((key) => {
   const group = langspec.Ops[key].Groups[0];
