@@ -108,7 +108,14 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
     const teal = nodeAndTeal.teal.trim();
     const { node } = nodeAndTeal;
 
-    if (teal.startsWith('replace3')) {
+    // gitxn with one immediate arg is not an actual op but TEALScript pretends it is to make life easier
+    if (teal.startsWith('gitxn ') && teal.split(' ').length < 3) {
+      const index = Number(outputTeal.at(-1)!.teal.split(' ')[1]);
+      popTeal();
+      const gitxnField = teal.split(' ')[1];
+      pushTeal(`gitxn ${index} ${gitxnField}`, node);
+      optimized = true;
+    } else if (teal.startsWith('replace3')) {
       if (outputTeal.at(-1)?.teal.startsWith('byte 0x') && outputTeal.at(-2)?.teal.startsWith('int ')) {
         const bytes = outputTeal.at(-1)!;
         const start = parseInt(outputTeal.at(-2)!.teal.split(' ')[1].replace('_', ''), 10);
@@ -369,8 +376,10 @@ export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
 
   do {
     oldTeal = newTeal.slice();
-    newTeal = optimizeOpcodes(newTeal);
+
+    // it's important to optimize frames first to gitxn works properly
     newTeal = optimizeFrames(newTeal);
+    newTeal = optimizeOpcodes(newTeal);
   } while (JSON.stringify(newTeal.map((t) => t.teal)) !== JSON.stringify(oldTeal.map((t) => t.teal)));
 
   return deDupTeal(newTeal);

@@ -336,4 +336,12 @@ class GeneralTest extends Contract {
     ecMapTo('BN254g1', '');
     ecAdd('BN254g1', '', '');
   }
+
+  gitxn() {
+    log(this.lastInnerGroup[0].sender);
+
+    const anotherTxn = this.lastInnerGroup[1];
+
+    log(anotherTxn.sender);
+  }
 }

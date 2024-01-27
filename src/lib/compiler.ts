@@ -659,6 +659,7 @@ export default class Compiler {
       },
     ],
     asset: this.getOpParamObjects('asset_params_get'),
+    gitxn: this.getOpParamObjects('gitxn'),
   };
 
   programVersion = 10;
@@ -2155,7 +2156,7 @@ export default class Compiler {
 
       const typeInfo = { kind: 'base', type } as TypeInfo;
 
-      if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
+      if (['txn', 'global', 'itxn', 'gtxns', 'gitxn'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, typeInfo);
       } else {
         fn = (node: ts.Node) => this.popMaybeValue(node, `${op} ${arg}`, typeInfo);
@@ -5517,6 +5518,27 @@ export default class Compiler {
         throw Error(`Unsupported ${chain[1].getKindName()} ${chain[1].getText()}`);
       this.processNode(chain[1].getArgumentExpression()!);
       this.lastType = { kind: 'base', type: 'txn' };
+
+      chain.splice(0, 2);
+      return;
+    }
+
+    // If accessing the inner txn group
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'lastInnerGroup'
+    ) {
+      // Otherwise this should be a group index
+      if (!chain[1].isKind(ts.SyntaxKind.ElementAccessExpression))
+        throw Error(`Unsupported ${chain[1].getKindName()} ${chain[1].getText()}`);
+
+      const index = chain[1].getArgumentExpression()?.getType().getLiteralValue();
+
+      if (index === undefined) throw Error('Inner group txn index must be a literal');
+      this.processNode(chain[1].getArgumentExpression()!);
+
+      this.lastType = { kind: 'base', type: 'gitxn' };
 
       chain.splice(0, 2);
       return;

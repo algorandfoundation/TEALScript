@@ -213,10 +213,10 @@
 | itxn | `this.itxn` |
 | itxna | `this.itxn` |
 | itxn_next | `this.pendingGroup.add...` |
-| gitxn | Not yet supported or tested |
-| gitxna | Not yet supported or tested |
+| gitxn | `this.lastInnerGroup` |
+| gitxna | `this.lastInnerGroup` |
 | itxnas | `this.itxn` |
-| gitxnas | Not yet supported or tested |
+| gitxnas | `this.lastInnerGroup` |
 
 ### Box Access
 | Opcode | TEALScript |

@@ -141,6 +141,7 @@ const tealscriptMapping = {
   'Method calls on `AppID`': ['app_params_get'],
   'Method calls on `Address`': ['acct_params_get'],
   '`Address.minBalance`': ['min_balance'],
+  '`this.lastInnerGroup`': ['gitxn', 'gitxna', 'gitxnas'],
 };
 Object.keys(langspec.Ops).forEach((key) => {
   const group = langspec.Ops[key].Groups[0];
