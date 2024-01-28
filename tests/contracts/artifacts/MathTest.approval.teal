@@ -1797,7 +1797,7 @@ mulw:
 	frame_dig -2 // b: uint64
 	mulw
 	frame_bury 2 // p low: uint64
-	frame_bury 3 // p high:  uint64
+	frame_bury 3 // p high: uint64
 
 	// tests/contracts/math.algo.ts:200
 	// return p2.low;
@@ -1845,7 +1845,7 @@ addw:
 	frame_dig -2 // b: uint64
 	addw
 	frame_bury 2 // p low: uint64
-	frame_bury 3 // p high:  uint64
+	frame_bury 3 // p high: uint64
 
 	// tests/contracts/math.algo.ts:208
 	// return p2.low;
@@ -1893,7 +1893,7 @@ expw:
 	frame_dig -2 // b: uint64
 	expw
 	frame_bury 2 // p low: uint64
-	frame_bury 3 // p high:  uint64
+	frame_bury 3 // p high: uint64
 
 	// tests/contracts/math.algo.ts:216
 	// return p2.low;

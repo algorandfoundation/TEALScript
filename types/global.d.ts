@@ -1120,6 +1120,8 @@ declare function increaseOpcodeBudget();
 
 declare type ECGroup = 'BN254g1' | 'BN254g2' | 'BLS12_381g1' | 'BLS12_381g2';
 
+declare type VRFReturnValues = { verified: boolean; output: bytes };
+
 /**
  * Verify VRF proof of a message against the given public key
  *
@@ -1133,7 +1135,7 @@ declare function vrfVefiry(
   message: bytes,
   proof: StaticArray<byte, 80>,
   pubkey: bytes32
-): { verified: boolean; output: bytes };
+): VRFReturnValues;
 
 /**
  * Sum two curve points

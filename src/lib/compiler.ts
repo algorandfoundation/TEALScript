@@ -14,7 +14,7 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 
-const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output'];
+const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values'];
 
 type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
@@ -961,6 +961,7 @@ export default class Compiler {
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
     if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
     if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
+    if (type.getText() === 'VRFReturnValues') return { kind: 'base', type: 'vrf return values' };
     if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
@@ -6101,7 +6102,7 @@ export default class Compiler {
           const parent = n.getExpressionIfKindOrThrow(ts.SyntaxKind.Identifier);
           const parentName = parent.getText();
           const frameName = this.processFrame(parent, parentName, false).name;
-          this.frameDig(n, `${frameName} ${n.getName()}: uint64`);
+          this.frameDig(n, `${frameName} ${n.getName()}`);
           return false;
         }
 
@@ -6455,21 +6456,18 @@ export default class Compiler {
     const returnTypeInfo = this.getTypeInfo(node.getReturnType());
 
     if (opcodeName === 'vrf_verify') {
-      this.pushLines(
-        node,
-        'byte 0x000003 // tuple head',
-        'int 0 // offset for setbit',
-        'uncover 2 // verification flag',
-        'setbit',
-        'uncover 1',
-        'dup',
-        'len',
-        'itob',
-        'extract 6 2',
-        'swap',
-        'concat',
-        'concat'
-      );
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const verified = `${name} verified`;
+      const output = `${name} output`;
+
+      this.initialFrameBury(node, verified, { kind: 'base', type: 'bool' }, `${verified}: bool`);
+      this.initialFrameBury(node, output, StackType.bytes, `${output}: byte[]`);
+
       this.lastType = returnTypeInfo;
     }
 
@@ -6480,11 +6478,11 @@ export default class Compiler {
       }
       const name = parent.getName();
 
-      const low = `${name} low: uint64`;
-      const high = `${name} high:  uint64`;
+      const low = `${name} low`;
+      const high = `${name} high`;
 
-      this.initialFrameBury(node, low, StackType.uint64, low);
-      this.initialFrameBury(node, high, StackType.uint64, high);
+      this.initialFrameBury(node, low, StackType.uint64, `${low}: uint64`);
+      this.initialFrameBury(node, high, StackType.uint64, `${high}: uint64`);
 
       this.lastType = returnTypeInfo;
     }
@@ -6496,15 +6494,15 @@ export default class Compiler {
       }
       const name = parent.getName();
 
-      const quotientLow = `${name} quotientLow: uint64`;
-      const quotientHigh = `${name} quotientHigh: uint64`;
-      const remainderHigh = `${name} remainderHigh: uint64`;
-      const remainderLow = `${name} remainderLow: uint64`;
+      const quotientLow = `${name} quotientLow`;
+      const quotientHigh = `${name} quotientHigh`;
+      const remainderHigh = `${name} remainderHigh`;
+      const remainderLow = `${name} remainderLow`;
 
-      this.initialFrameBury(node, remainderLow, StackType.uint64, remainderLow);
-      this.initialFrameBury(node, remainderHigh, StackType.uint64, remainderHigh);
-      this.initialFrameBury(node, quotientLow, StackType.uint64, quotientLow);
-      this.initialFrameBury(node, quotientHigh, StackType.uint64, quotientHigh);
+      this.initialFrameBury(node, remainderLow, StackType.uint64, `${remainderLow}: uint64`);
+      this.initialFrameBury(node, remainderHigh, StackType.uint64, `${remainderHigh}: uint64`);
+      this.initialFrameBury(node, quotientLow, StackType.uint64, `${quotientLow}: uint64`);
+      this.initialFrameBury(node, quotientHigh, StackType.uint64, `${quotientHigh}: uint64`);
 
       this.lastType = returnTypeInfo;
     }
