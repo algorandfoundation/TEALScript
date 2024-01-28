@@ -2278,6 +2278,13 @@ export default class Compiler {
     if (inputType.kind === 'base') {
       const { type } = inputType;
 
+      if (MULTI_OUTPUT_TYPES.includes(type)) {
+        // TODO: Link to docs
+        throw Error(
+          'You cannot directly use a multi-output opcode in an array. You must fist assign the output to a variable.'
+        );
+      }
+
       if (inputType.type.startsWith('uint') || inputType.type.startsWith('ufixed')) {
         return parseInt(type.match(/\d+/)![0], 10) / 8;
       }
