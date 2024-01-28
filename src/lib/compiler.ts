@@ -6471,10 +6471,10 @@ export default class Compiler {
       this.lastType = returnTypeInfo;
     }
 
-    if (opcodeName === 'mulw') {
+    if (['mulw', 'addw', 'expw'].includes(opcodeName)) {
       const parent = node.getParent();
       if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
-        throw Error('mulw output must be assigned to a variable before usage');
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
       }
       const name = parent.getName();
 

@@ -82,15 +82,15 @@
 | ^ | Natively supported |
 | ~ | Natively supported |
 | mulw | `mulw` |
-| addw | Not yet supported or tested |
+| addw | `addw` |
 | divmodw | Not yet supported or tested |
 | shl | `<<` |
 | shr | `>>` |
 | sqrt | Natively supported |
 | bitlen | `bitlen` |
 | exp | `**` |
-| expw | Not yet supported or tested |
-| divw | Not yet supported or tested |
+| expw | `expw` |
+| divw | `divw` |
 
 ### Byte Array Manipulation
 | Opcode | TEALScript |

@@ -192,11 +192,31 @@ class MathTest extends Contract {
     return ~a;
   }
 
-  mulwOp(a: uint64, b: uint64): uint64 {
+  mulw(a: uint64, b: uint64): uint64 {
     const p = mulw(a, b);
 
     const p2 = p;
 
     return p2.low;
+  }
+
+  addw(a: uint64, b: uint64): uint64 {
+    const p = addw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
+
+  expw(a: uint64, b: uint64): uint64 {
+    const p = expw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
+
+  divw(a: uint64, b: uint64): uint64 {
+    return divw(0, a, b);
   }
 }

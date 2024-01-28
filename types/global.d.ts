@@ -1223,3 +1223,13 @@ declare type SplitUint128 = { low: uint64; high: uint64 };
  * A * B with the result being 128 bits split across two uint64s
  */
 declare function mulw(a: uint64, b: uint64): SplitUint128;
+
+/**
+ * A + B with the result being 128 bits split across two uint64s
+ */
+declare function addw(a: uint64, b: uint64): SplitUint128;
+
+/**
+ * A ** B with the result being 128 bits split across two uint64s
+ */
+declare function expw(a: uint64, b: uint64): SplitUint128;
