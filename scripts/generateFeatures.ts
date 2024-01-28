@@ -33,7 +33,31 @@ arcs.forEach((arc) => {
   lines.push(`| ${arc.arc} | ${arc.name} | ${arc.desc} |`);
 });
 
-lines.push('');
+lines.push(...['', '## ABI Types', '| ABI Type | TEALScript |', '| --- | --- |']);
+
+const types = {
+  '`address`': '`Address`',
+  '`uintN`': '`uint64`, `uint32`, `uint16`, `uint8`, `uint128`, `uint256`, or `uint<N>`',
+  '`bool`': '`boolean`',
+  '`ufixedNxM`': '`ufixed<N, M>`',
+  '`T[]`': '`T[]`',
+  '`T[N]`': '`StaticArray<T, N>`, `bytes32`, or `bytes64`',
+  '`[T1, T2, ..., TN]`': '`[T1, T2, ..., TN]` or `{keyone: T1, keytwo: T2, ..., keyN: TN}`',
+  '`string`': '`string`',
+  '`application`': '`Application`',
+  '`asset`': '`Asset`',
+  '`account`': '`Account`',
+  '`txn`': '`Txn`',
+  '`pay`': '`PayTxn`',
+  '`keyreg`': '`KeyRegTxn`',
+  '`acfg`': '`AssetConfigTxn`',
+  '`axfer`': '`AssetTransferTxn`',
+  '`afrz`': '`AssetFreezeTxn`',
+};
+
+Object.keys(types).forEach((key) => {
+  lines.push(`| ${key} | ${types[key]} |`);
+});
 
 lines.push('## Opcodes');
 const ops = {};
@@ -176,7 +200,12 @@ Object.keys(ops).forEach((group) => {
   ops[group].forEach((op) => {
     const desc = Object.keys(tealscriptMapping).find((key) => tealscriptMapping[key].includes(op));
 
-    lines.push(`| ${op} | ${desc ?? 'Not yet supported or tested'} |`);
+    let opcodeString = op;
+    if (op === '||') opcodeString = '\\|\\|';
+    if (op === '|') opcodeString = '\\|';
+    if (op === 'b|') opcodeString = 'b\\|';
+
+    lines.push(`| ${opcodeString} | ${desc ?? 'Not yet supported or tested'} |`);
   });
 });
 

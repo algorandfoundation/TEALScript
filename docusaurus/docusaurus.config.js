@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const fs = require('fs');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -18,6 +19,19 @@ const config = {
         plugin: ['typedoc-plugin-merge-modules'],
       },
     ],
+    () => ({
+      name: 'test',
+      loadContent() {
+        const content = fs.readFileSync('../FEATURES.md', 'utf-8');
+        const newContent = content
+          .split('\n')
+          .map((line) => {
+            return line.replace(/{/g, '&#123;').replace(/}/g, '&#125;').replace(/</g, '&#60;');
+          })
+          .join('\n');
+        fs.writeFileSync('./docs/guides/features.md', newContent);
+      },
+    }),
   ],
   title: 'TEALScript',
   tagline: 'Algorand Smart Contracts in TypeScript',
