@@ -183,4 +183,14 @@ class StorageTest extends Contract {
 
     return a[i];
   }
+
+  boxResize(): void {
+    this.boxKey.resize(1024);
+    this.boxMap('bar').resize(1024);
+  }
+
+  boxSplice(): void {
+    this.boxKey.splice(0, 1, 'abc');
+    this.boxMap('bar').splice(0, 1, 'abc');
+  }
 }

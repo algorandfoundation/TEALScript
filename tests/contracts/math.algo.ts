@@ -159,4 +159,72 @@ class MathTest extends Contract {
     const y = itob(b);
     return (btobigint(x) + btobigint(y)) as uint64;
   }
+
+  bitwiseOr(a: uint64, b: uint64): uint64 {
+    return a | b;
+  }
+
+  bitwiseAnd(a: uint64, b: uint64): uint64 {
+    return a & b;
+  }
+
+  bitwiseXor(a: uint64, b: uint64): uint64 {
+    return a ^ b;
+  }
+
+  bitwiseOrU256(a: uint256, b: uint256): uint256 {
+    return a | b;
+  }
+
+  bitwiseAndU256(a: uint256, b: uint256): uint256 {
+    return a & b;
+  }
+
+  bitwiseXorU256(a: uint256, b: uint256): uint256 {
+    return a ^ b;
+  }
+
+  bitwiseNot(a: uint64): uint64 {
+    return ~a;
+  }
+
+  bitwiseNotU256(a: uint256): uint256 {
+    return ~a;
+  }
+
+  mulw(a: uint64, b: uint64): uint64 {
+    const p = mulw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
+
+  addw(a: uint64, b: uint64): uint64 {
+    const p = addw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
+
+  expw(a: uint64, b: uint64): uint64 {
+    const p = expw(a, b);
+
+    const p2 = p;
+
+    return p2.low;
+  }
+
+  divw(a: uint64, b: uint64): uint64 {
+    return divw(0, a, b);
+  }
+
+  divmodw(a: uint64, b: uint64): uint64 {
+    const p = divmodw(0, a, 0, b);
+
+    const p2 = p;
+
+    return p2.quotientLow;
+  }
 }

@@ -427,6 +427,206 @@
       }
     },
     {
+      "name": "bitwiseOr",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "bitwiseAnd",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "bitwiseXor",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "bitwiseOrU256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
+      "name": "bitwiseAndU256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
+      "name": "bitwiseXorU256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
+      "name": "bitwiseNot",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "bitwiseNotU256",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint256"
+      }
+    },
+    {
+      "name": "mulw",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "addw",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "expw",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "divw",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "divmodw",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
