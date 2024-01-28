@@ -8,26 +8,6 @@
 | 28 | Algorand Event Log Spec | Use `EventLogger` to log ARC28 events |
 | 32 | Application Specification | Compiler generates an arc32 JSON file |
 
-## ABI Types
-| ABI Type | TEALScript |
-| --- | --- |
-| `address` | `Address` |
-| `uintN` | `uint64`, `uint32`, `uint16`, `uint8`, `uint128`, `uint256`, or `uint<N>` |
-| `bool` | `boolean` |
-| `ufixedNxM` | `ufixed<N, M>` |
-| `T[]` | `T[]` |
-| `T[N]` | `StaticArray<T, N>`, `bytes32`, or `bytes64` |
-| `[T1, T2, ..., TN]` | `[T1, T2, ..., TN]` or `{keyone: T1, keytwo: T2, ..., keyN: TN}` |
-| `string` | `string` |
-| `application` | `Application` |
-| `asset` | `Asset` |
-| `account` | `Account` |
-| `txn` | `Txn` |
-| `pay` | `PayTxn` |
-| `keyreg` | `KeyRegTxn` |
-| `acfg` | `AssetConfigTxn` |
-| `axfer` | `AssetTransferTxn` |
-| `afrz` | `AssetFreezeTxn` |
 ## Opcodes
 
 ### Flow Control
@@ -85,26 +65,26 @@
 | - | Natively supported |
 | / | Natively supported |
 | * | Natively supported |
-| < | Natively supported |
+| \&#60; | Natively supported |
 | > | Natively supported |
-| <= | Natively supported |
+| &#60;= | Natively supported |
 | >= | Natively supported |
 | && | Natively supported |
-| \|\| | Natively supported |
+| || | Natively supported |
 | == | Natively supported |
 | != | Natively supported |
 | ! | Natively supported |
 | itob | Natively supported |
 | btoi | Natively supported |
 | % | Natively supported |
-| \| | Natively supported |
+| | | Natively supported |
 | & | Natively supported |
 | ^ | Natively supported |
 | ~ | Natively supported |
 | mulw | `mulw` |
 | addw | `addw` |
 | divmodw | `divmodw` |
-| shl | `<<` |
+| shl | `&#60;&#60;` |
 | shr | `>>` |
 | sqrt | Natively supported |
 | bitlen | `bitlen` |
@@ -208,9 +188,9 @@
 | b- | Natively supported |
 | b/ | Natively supported |
 | b* | Natively supported |
-| b< | Natively supported |
+| b&#60; | Natively supported |
 | b> | Natively supported |
-| b<= | Natively supported |
+| b&#60;= | Natively supported |
 | b>= | Natively supported |
 | b== | Natively supported |
 | b!= | Natively supported |
@@ -219,7 +199,7 @@
 ### Byte Array Logic
 | Opcode | TEALScript |
 | --- | --- |
-| b\| | Natively supported |
+| b| | Natively supported |
 | b& | Natively supported |
 | b^ | Natively supported |
 | b~ | Natively supported |
