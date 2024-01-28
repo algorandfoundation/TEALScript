@@ -17,7 +17,7 @@ y[0] = 4
 log(y) // [4, 2, 3]
 log(x) // [4, 2, 3]
 
-const z = clone(z)
+const z = clone(x)
 z[1] = 5
 
 log(x) // [4, 2, 3] note x has NOT changed
