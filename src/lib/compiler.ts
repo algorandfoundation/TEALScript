@@ -10,10 +10,11 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { equal } from 'assert';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
+
+const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output'];
 
 type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
@@ -959,6 +960,7 @@ export default class Compiler {
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
     if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
+    if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
     if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
@@ -3539,8 +3541,8 @@ export default class Compiler {
         storageAccountFrame: currentFrame.storageAccountFrame,
         action: 'get',
       });
-      // Don't actually load split uint128 because there's an explicit load later when processing the property access
-    } else if (currentFrame.typeString !== 'split uint128') {
+      // Don't actually load the result of multi-output opcodes because there's an explicit load later when processing the property access
+    } else if (!MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(currentFrame.type))) {
       this.push(node, `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.typeString}`, currentFrame.type);
     } else {
       this.lastType = currentFrame.type;
@@ -4941,7 +4943,7 @@ export default class Compiler {
 
       if (
         node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
-        (isArray || initializerTypeString === 'split uint128')
+        (isArray || MULTI_OUTPUT_TYPES.includes(initializerTypeString))
       ) {
         lastFrameAccess = node.getInitializer()!.getText();
 
@@ -5074,7 +5076,7 @@ export default class Compiler {
         typeString,
       };
 
-      if (typeString === 'split uint128') return;
+      if (MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(type))) return;
 
       this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${typeString}`);
 
@@ -5988,7 +5990,7 @@ export default class Compiler {
         const frame = this.localVariables[base.getText()];
 
         // If this is an array reference, get the accessors
-        if (frame && frame.index === undefined && typeInfoToABIString(frame.type) !== 'split uint128') {
+        if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
           const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
 
           const { storageExpression } = frameFollow;
@@ -6095,7 +6097,7 @@ export default class Compiler {
 
       // If this is a property access expression assume it's an opcode param
       if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
-        if (typeInfoToABIString(this.lastType) === 'split uint128') {
+        if (MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(this.lastType))) {
           const parent = n.getExpressionIfKindOrThrow(ts.SyntaxKind.Identifier);
           const parentName = parent.getText();
           const frameName = this.processFrame(parent, parentName, false).name;
@@ -6483,6 +6485,26 @@ export default class Compiler {
 
       this.initialFrameBury(node, low, StackType.uint64, low);
       this.initialFrameBury(node, high, StackType.uint64, high);
+
+      this.lastType = returnTypeInfo;
+    }
+
+    if (opcodeName === 'divmodw') {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const quotientLow = `${name} quotientLow: uint64`;
+      const quotientHigh = `${name} quotientHigh: uint64`;
+      const remainderHigh = `${name} remainderHigh: uint64`;
+      const remainderLow = `${name} remainderLow: uint64`;
+
+      this.initialFrameBury(node, remainderLow, StackType.uint64, remainderLow);
+      this.initialFrameBury(node, remainderHigh, StackType.uint64, remainderHigh);
+      this.initialFrameBury(node, quotientLow, StackType.uint64, quotientLow);
+      this.initialFrameBury(node, quotientHigh, StackType.uint64, quotientHigh);
 
       this.lastType = returnTypeInfo;
     }

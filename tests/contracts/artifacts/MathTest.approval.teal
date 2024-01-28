@@ -1939,6 +1939,58 @@ divw:
 	divw
 	retsub
 
+// divmodw(uint64,uint64)uint64
+abi_route_divmodw:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute divmodw(uint64,uint64)uint64
+	callsub divmodw
+	itob
+	concat
+	log
+	int 1
+	return
+
+// divmodw(a: uint64, b: uint64): uint64
+divmodw:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 8
+
+	// tests/contracts/math.algo.ts:224
+	// p = divmodw(0, a, 0, b)
+	int 0
+	frame_dig -1 // a: uint64
+	int 0
+	frame_dig -2 // b: uint64
+	divmodw
+	frame_bury 4 // p remainderLow: uint64
+	frame_bury 5 // p remainderHigh: uint64
+	frame_bury 6 // p quotientLow: uint64
+	frame_bury 7 // p quotientHigh: uint64
+
+	// tests/contracts/math.algo.ts:228
+	// return p2.quotientLow;
+	frame_dig 6 // p quotientLow: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 7
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -1991,6 +2043,7 @@ call_NoOp:
 	method "addw(uint64,uint64)uint64"
 	method "expw(uint64,uint64)uint64"
 	method "divw(uint64,uint64)uint64"
+	method "divmodw(uint64,uint64)uint64"
 	txna ApplicationArgs 0
-	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64 abi_route_funcName abi_route_bigintPlus abi_route_bitwiseOr abi_route_bitwiseAnd abi_route_bitwiseXor abi_route_bitwiseOrU256 abi_route_bitwiseAndU256 abi_route_bitwiseXorU256 abi_route_bitwiseNot abi_route_bitwiseNotU256 abi_route_mulw abi_route_addw abi_route_expw abi_route_divw
+	match abi_route_u64plus abi_route_u64minus abi_route_u64mul abi_route_u64div abi_route_u256plus abi_route_u256minus abi_route_u256mul abi_route_u256div abi_route_u64Return256 abi_route_maxU64 abi_route_exponent abi_route_variableTypeHint abi_route_uint8plus abi_route_uint8exp abi_route_plusEquals abi_route_plusEqualsFromGlobal abi_route_ufixedLiteralMul abi_route_ufixedMul abi_route_BigUfixedMul abi_route_TripleBigUfixedMul abi_route_boxTest abi_route_unsafeMethodArgs abi_route_uint256ComparisonType abi_route_squareRoot256 abi_route_squareRoot64 abi_route_addressToBigInt abi_route_u8Tou64 abi_route_funcName abi_route_bigintPlus abi_route_bitwiseOr abi_route_bitwiseAnd abi_route_bitwiseXor abi_route_bitwiseOrU256 abi_route_bitwiseAndU256 abi_route_bitwiseXorU256 abi_route_bitwiseNot abi_route_bitwiseNotU256 abi_route_mulw abi_route_addw abi_route_expw abi_route_divw abi_route_divmodw
 	err

@@ -219,4 +219,12 @@ class MathTest extends Contract {
   divw(a: uint64, b: uint64): uint64 {
     return divw(0, a, b);
   }
+
+  divmodw(a: uint64, b: uint64): uint64 {
+    const p = divmodw(0, a, 0, b);
+
+    const p2 = p;
+
+    return p2.quotientLow;
+  }
 }

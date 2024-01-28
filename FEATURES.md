@@ -83,7 +83,7 @@
 | ~ | Natively supported |
 | mulw | `mulw` |
 | addw | `addw` |
-| divmodw | Not yet supported or tested |
+| divmodw | `divmodw` |
 | shl | `<<` |
 | shr | `>>` |
 | sqrt | Natively supported |

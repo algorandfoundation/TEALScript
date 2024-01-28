@@ -156,6 +156,7 @@ const tealscriptMapping = {
   '`addw`': ['addw'],
   '`expw`': ['expw'],
   '`divw`': ['divw'],
+  '`divmodw`': ['divmodw'],
 };
 Object.keys(langspec.Ops).forEach((key) => {
   const group = langspec.Ops[key].Groups[0];

@@ -1233,3 +1233,13 @@ declare function addw(a: uint64, b: uint64): SplitUint128;
  * A ** B with the result being 128 bits split across two uint64s
  */
 declare function expw(a: uint64, b: uint64): SplitUint128;
+
+declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remainderHigh: uint64; remainderLow: uint64 };
+/**
+ * Get AB / CD and AB % CD with the result for both being 128 bits split across two uint64s
+ * @param a The numerator high bits
+ * @param b The numerator low bits
+ * @param c The denominator high bits
+ * @param d The denominator low bits
+ */
+declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;

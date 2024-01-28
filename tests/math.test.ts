@@ -45,6 +45,7 @@ describe('Math', function () {
       addw: 6n + 3n,
       expw: 6n ** 3n,
       divw: 6n / 3n,
+      divmodw: 6n / 3n,
     };
 
     Object.keys(methods).forEach((method) => {
