@@ -22,14 +22,7 @@ const config = {
     () => ({
       name: 'test',
       loadContent() {
-        const content = fs.readFileSync('../FEATURES.md', 'utf-8');
-        const newContent = content
-          .split('\n')
-          .map((line) => {
-            return line.replace(/{/g, '&#123;').replace(/}/g, '&#125;').replace(/</g, '&#60;');
-          })
-          .join('\n');
-        fs.writeFileSync('./docs/guides/features.md', newContent);
+        fs.copyFileSync('../FEATURES.md', './docs/guides/features.md');
       },
     }),
   ],

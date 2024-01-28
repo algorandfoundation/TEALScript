@@ -205,7 +205,7 @@ Object.keys(ops).forEach((group) => {
     if (op === '|') opcodeString = '\\|';
     if (op === 'b|') opcodeString = 'b\\|';
 
-    lines.push(`| ${opcodeString} | ${desc ?? 'Not yet supported or tested'} |`);
+    lines.push(`| \`${opcodeString}\` | ${desc ?? 'Not yet supported or tested'} |`);
   });
 });
 
