@@ -69,7 +69,7 @@ The following array methods are supported on static arrays (note the limitations
 
 ## Dynamic Arrays
 
-Dynamic arrays are supported in TEALScript but anything beyond dynamic arrays of static types is very inefficient. For example, `uint64[]` is fairly efficient but `uint64[]` is much less efficient. 
+Dynamic arrays are supported in TEALScript but anything beyond dynamic arrays of static types is very inefficient. For example, `uint64[]` is fairly efficient but `uint64[][]` is much less efficient. 
 
 ### Tecnical Explanation
 
