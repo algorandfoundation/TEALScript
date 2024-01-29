@@ -40,7 +40,7 @@ nestedStaticForEachInBox:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 4
+	dupn 3
 
 	// tests/contracts/abi.algo.ts:1348
 	// this.bKey.value = [
