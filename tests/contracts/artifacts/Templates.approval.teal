@@ -32,12 +32,12 @@ abi_route_tmpl:
 tmpl:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:18
+	// tests/contracts/general.algo.ts:19
 	// log(this.bytesTmplVar)
 	pushbytes TMPL_bytesTmplVar
 	log
 
-	// tests/contracts/general.algo.ts:19
+	// tests/contracts/general.algo.ts:20
 	// assert(this.uint64TmplVar)
 	pushint TMPL_uint64TmplVar
 	assert

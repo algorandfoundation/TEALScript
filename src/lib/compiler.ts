@@ -2636,9 +2636,45 @@ export default class Compiler {
           throw new Error(`Top-level variables must be constants\n${msg}`);
         }
 
-        const delcarationType = body.getDeclarations()[0].getType();
+        const declaration = body.getDeclarations()[0];
+        const delcarationType = declaration.getType();
+        const dInit = declaration.getInitializer();
 
-        if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
+        if (dInit?.isKind(ts.SyntaxKind.BinaryExpression)) {
+          const processBinaryConstant = (b: ts.BinaryExpression) => {
+            const op = b.getOperatorToken().getText();
+            const leftVal = b.getLeft().getType().getLiteralValue() as number;
+            const rightVal = b.getRight().getType().getLiteralValue() as number;
+
+            if (op === '+') {
+              return leftVal + rightVal;
+            }
+
+            if (op === '-') {
+              return leftVal - rightVal;
+            }
+
+            if (op === '*') {
+              return leftVal * rightVal;
+            }
+
+            if (op === '/') {
+              return leftVal / rightVal;
+            }
+
+            if (op === '%') {
+              return leftVal % rightVal;
+            }
+
+            if (op === '**') {
+              return leftVal ** rightVal;
+            }
+            throw Error();
+          };
+
+          const val = processBinaryConstant(dInit);
+          body.getDeclarations()[0].setType(val.toString());
+        } else if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
           throw Error(
             `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
           );

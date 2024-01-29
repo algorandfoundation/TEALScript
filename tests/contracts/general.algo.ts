@@ -7,6 +7,7 @@ class DummyContract extends Contract {}
 const STRING_CONST = 'foo';
 const NUM_CONST = 123;
 const NESTED_CONST = NUM_CONST;
+const COMPUTED_CONST = NUM_CONST + NESTED_CONST;
 
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
@@ -375,5 +376,9 @@ class GeneralTest extends Contract {
   bitlenOp() {
     bitlen(123);
     bitlen('foo');
+  }
+
+  computedConst() {
+    assert(COMPUTED_CONST);
   }
 }
