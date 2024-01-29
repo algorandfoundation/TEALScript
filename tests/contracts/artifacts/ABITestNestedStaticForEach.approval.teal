@@ -40,7 +40,7 @@ nestedStaticForEach:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 5
+	dupn 4
 
 	// tests/contracts/abi.algo.ts:1329
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [

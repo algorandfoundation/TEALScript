@@ -40,7 +40,7 @@ forEachReturn:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 5
+	dupn 4
 
 	// tests/contracts/abi.algo.ts:1381
 	// a: StaticArray<uint64, 3> = [1, 2, 3]

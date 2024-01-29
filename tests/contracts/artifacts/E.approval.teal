@@ -70,7 +70,7 @@ e:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dupn 2
 
 	// tests/contracts/inheritance.algo.ts:53
 	// val: ExternalCustomType = <ExternalCustomType>123

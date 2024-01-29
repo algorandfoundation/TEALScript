@@ -131,7 +131,7 @@ addAppToWhiteList:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dupn 2
 
 	// examples/arc75/arc75.algo.ts:33
 	// preMBR = this.app.address.minBalance
@@ -468,7 +468,7 @@ deleteAppFromWhitelist:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dupn 2
 
 	// examples/arc75/arc75.algo.ts:94
 	// preMBR = this.app.address.minBalance

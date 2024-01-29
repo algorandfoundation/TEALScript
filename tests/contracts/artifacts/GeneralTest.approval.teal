@@ -449,7 +449,7 @@ bzeroFunction:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dupn 2
 
 	// tests/contracts/general.algo.ts:116
 	// x: bytes = bzero(2)
@@ -1539,7 +1539,7 @@ vrfVerifyOp:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 4
+	dupn 3
 
 	// tests/contracts/general.algo.ts:319
 	// increaseOpcodeBudget()

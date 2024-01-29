@@ -344,27 +344,23 @@ function deDupTeal(inputTeal: NodeAndTEAL[]) {
   const newTeal: NodeAndTEAL[] = [];
   const oldTeal: NodeAndTEAL[] = inputTeal.slice();
 
-  let currentNodeAndTEAL: NodeAndTEAL | undefined;
-  let count = 0;
+  let count = 1;
 
-  oldTeal.forEach((t) => {
-    const { teal } = t;
+  oldTeal.forEach((currentNodeAndTeal) => {
+    const currentLine = currentNodeAndTeal.teal;
+    const lastLine = newTeal.at(-1)?.teal;
+    const isDupable = currentLine.match(/^(byte|int)/);
 
-    if (currentNodeAndTEAL && teal !== currentNodeAndTEAL.teal) {
-      newTeal.push({ node: currentNodeAndTEAL.node, teal: currentNodeAndTEAL.teal });
-      if (count === 2) newTeal.push({ node: currentNodeAndTEAL.node, teal: 'dup' });
-      else if (count > 2) newTeal.push({ node: currentNodeAndTEAL.node, teal: `dupn ${count}` });
-
-      count = 1;
-      currentNodeAndTEAL = undefined;
-    } else if (currentNodeAndTEAL) {
+    if (isDupable && currentLine === lastLine) {
       count += 1;
-      return;
+    } else {
+      if (count > 1) {
+        if (count === 2) newTeal.push({ teal: 'dup', node: newTeal.at(-1)!.node });
+        else newTeal.push({ teal: `dupn ${count - 1}`, node: newTeal.at(-1)!.node });
+      }
+      newTeal.push(currentNodeAndTeal);
+      count = 1;
     }
-
-    if (teal.match('^(byte|int) ')) {
-      currentNodeAndTEAL = t;
-    } else newTeal.push(t);
   });
 
   return newTeal;

@@ -39,7 +39,7 @@ nonLiteralNestedArrayRef:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dupn 2
 
 	// tests/contracts/abi.algo.ts:784
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [
