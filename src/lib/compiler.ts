@@ -109,6 +109,53 @@ type Event = {
   argTupleType: TypeInfo;
 };
 
+function getBinaryVal(n: ts.Node): number {
+  if (n.isKind(ts.SyntaxKind.BinaryExpression)) {
+    if (!n.getType().isNumber()) throw Error();
+    // eslint-disable-next-line no-use-before-define
+    return processBinaryConstant(n);
+  }
+
+  if (n.getType().isNumberLiteral()) {
+    return n.getType().getLiteralValue() as number;
+  }
+  throw Error('Binary expressions in constants must be a numeric constant or literal');
+}
+
+function processBinaryConstant(b: ts.BinaryExpression): number {
+  const op = b.getOperatorToken().getText();
+  const left = b.getLeft();
+  const right = b.getRight();
+
+  const leftVal = getBinaryVal(left);
+  const rightVal = getBinaryVal(right);
+
+  if (op === '+') {
+    return leftVal + rightVal;
+  }
+
+  if (op === '-') {
+    return leftVal - rightVal;
+  }
+
+  if (op === '*') {
+    return leftVal * rightVal;
+  }
+
+  if (op === '/') {
+    return leftVal / rightVal;
+  }
+
+  if (op === '%') {
+    return leftVal % rightVal;
+  }
+
+  if (op === '**') {
+    return leftVal ** rightVal;
+  }
+  throw Error();
+}
+
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertRefs && ['application', 'asset'].includes(typeInfo.type)) {
@@ -2636,9 +2683,14 @@ export default class Compiler {
           throw new Error(`Top-level variables must be constants\n${msg}`);
         }
 
-        const delcarationType = body.getDeclarations()[0].getType();
+        const declaration = body.getDeclarations()[0];
+        const delcarationType = declaration.getType();
+        const dInit = declaration.getInitializer();
 
-        if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
+        if (dInit?.isKind(ts.SyntaxKind.BinaryExpression)) {
+          const val = processBinaryConstant(dInit);
+          body.getDeclarations()[0].setType(val.toString());
+        } else if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
           throw Error(
             `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
           );
