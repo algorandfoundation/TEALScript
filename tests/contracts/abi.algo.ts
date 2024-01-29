@@ -1388,3 +1388,21 @@ class ABITestForEachReturn extends Contract {
     return sum;
   }
 }
+
+class ABITestStaticArrayLength extends Contract {
+  staticArrayLength(): uint64 {
+    const a: StaticArray<uint8, 5> = [11, 22, 33, 44, 55];
+
+    return a.length;
+  }
+}
+
+class ABITestArrayInMethodCall extends Contract {
+  arrayInMethodCall() {
+    sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
+      applicationID: Application.fromID(0),
+      name: 'foo',
+      methodArgs: [[1, 2], this.txn.sender, 3, false],
+    });
+  }
+}

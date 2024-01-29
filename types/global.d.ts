@@ -484,6 +484,21 @@ declare type BoxValue<ValueType> = {
   replace(offset: uint64, value: bytes): void;
   extract(offset: uint64, length: uint64): bytes;
   size: uint64;
+  /**
+   * Change the size of the box dding zero bytes to end or removing bytes from the end, as needed.
+   * Throws error if the box does not exist or the size is larger than 32,768.
+   *
+   * @param size The new size of the box
+   */
+  resize(size: uint64): void;
+  /**
+   * Remove bytes from the box starting at the given offset and replace them with the given data.
+   *
+   * @param offset
+   * @param length
+   * @param data
+   */
+  splice(offset: uint64, length: uint64, data: bytes): void;
 };
 
 declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boolean }): BoxValue<ValueType>;
@@ -677,6 +692,15 @@ declare const globals: {
   callerApplicationAddress: Address;
 };
 
+/** Get information from the given block.
+ * Fails unless the block falls between `this.txn.lastValid-1002` and `this.txn.firstValid` (exclusive) */
+declare const blocks: {
+  /** The block seed */
+  seed: bytes;
+  /** The timestamp of the block */
+  timestamp: uint64;
+}[];
+
 declare function method(signature: string): bytes;
 declare function addr(address: string): Address;
 
@@ -756,7 +780,7 @@ declare function sha512_256(data: BytesLike): bytes32;
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ed25519verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
+declare function ed25519Verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
 
 /** @returns the length of the data */
 declare function len(data: BytesLike): uint64;
@@ -781,7 +805,8 @@ declare function concat(a: BytesLike, b: BytesLike): bytes;
 declare function substring3(data: BytesLike, start: IntLike, end: IntLike): bytes;
 
 /** @returns The value of the bit at the given index */
-declare function getbit(data: BytesLike, bitIndex: IntLike): boolean;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function getbit(data: BytesLike | uint64, bitIndex: uint64): boolean;
 
 /**
  * @param data The input data to update
@@ -790,10 +815,15 @@ declare function getbit(data: BytesLike, bitIndex: IntLike): boolean;
  *
  * @returns The updated data
  */
-declare function setbit(data: BytesLike, bitIndex: IntLike, value: IntLike): bytes;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function setbit<InputType extends bytes | uint64>(
+  data: InputType,
+  bitIndex: uint64,
+  value: boolean
+): InputType extends string ? bytes : uint64;
 
 /** @returns The value of the byte at the given index */
-declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64;
+declare function getbyte(data: BytesLike, byteIndex: uint64): uint64;
 
 /**
  * @param data The input data to update
@@ -802,7 +832,7 @@ declare function getbyte(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns The updated data
  */
-declare function setbyte(data: BytesLike, byteIndex: IntLike, value: IntLike): bytes;
+declare function setbyte(data: bytes, byteIndex: uint64, value: uint64): bytes;
 
 /**
  * Extracts a subtstring of the given length starting at the given index
@@ -823,7 +853,7 @@ declare function extract3(data: BytesLike, start: IntLike, length: IntLike): byt
  *
  * @returns uint16 as uint64
  */
-declare function extract_uint16(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint16(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Extracts 4 bytes from the given data starting at the given index and converts them to uint32
@@ -833,7 +863,7 @@ declare function extract_uint16(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns uint32 as uint64
  */
-declare function extract_uint32(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint32(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Extracts 8 bytes from the given data starting at the given index and converts them to uint64
@@ -843,7 +873,7 @@ declare function extract_uint32(data: BytesLike, byteIndex: IntLike): uint64;
  *
  * @returns uint64
  */
-declare function extract_uint64(data: BytesLike, byteIndex: IntLike): uint64;
+declare function extractUint64(data: BytesLike, byteIndex: IntLike): uint64;
 
 /**
  * Replace bytes in the given data starting at the given index
@@ -865,7 +895,7 @@ declare function replace3(data: BytesLike, byteIndex: IntLike, newData: BytesLik
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ed25519verify_bare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
+declare function ed25519VerifyBare(message: BytesLike, signature: BytesLike, publicKey: BytesLike): boolean;
 
 /** @returns square root of the given integer */
 declare function sqrt(n: IntLike | uint): uint;
@@ -893,7 +923,7 @@ declare function sha3_256(data: BytesLike): bytes32;
  *
  * @returns true if the signature is valid, false otherwise
  */
-declare function ecdsa_verify(
+declare function ecdsaVerify(
   curve: 'Secp256k1' | 'Secp256r1',
   data: bytes32,
   sSignatureComponent: uint<256>,
@@ -909,7 +939,7 @@ declare function ecdsa_verify(
  *
  * @returns The X and Y components of the decompressed public key
  */
-declare function ecdsa_pk_decompress(
+declare function ecdsaPkDecompress(
   curve: 'Secp256k1' | 'Secp256r1',
   pubKey: StaticArray<byte, 33>
 ): [uint<256>, uint<256>];
@@ -924,7 +954,7 @@ declare function ecdsa_pk_decompress(
  *
  * @returns The X and Y components of the recovered public key
  */
-declare function ecdsa_pk_recover(
+declare function ecdsaPkRecover(
   curve: 'Secp256k1' | 'Secp256r1',
   data: bytes32,
   recoveryID: uint64,
@@ -1087,3 +1117,131 @@ declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;
  * For every call of this function, the required fee is increased by 1000 microAlgos.
  */
 declare function increaseOpcodeBudget();
+
+declare type ECGroup = 'BN254g1' | 'BN254g2' | 'BLS12_381g1' | 'BLS12_381g2';
+
+declare type VRFReturnValues = { verified: boolean; output: bytes };
+
+/**
+ * Verify VRF proof of a message against the given public key
+ *
+ * @param standard VRF standard to use. Currently only VrfAlgorand is supported which is ECVRF-ED25519-SHA512-Elligator2, specified in the IETF internet draft [draft-irtf-cfrg-vrf-03](https://datatracker.ietf.org/doc/draft-irtf-cfrg-vrf/03/).
+ * @param message The message to verify
+ * @param proof The VRF proof
+ * @param pubkey The VRF public key
+ */
+declare function vrfVefiry(
+  standard: 'VrfAlgorand',
+  message: bytes,
+  proof: StaticArray<byte, 80>,
+  pubkey: bytes32
+): VRFReturnValues;
+
+/**
+ * Sum two curve points
+ * @param group The target group
+ * @param a The first point to add
+ * @param b The second point to add
+ */
+declare function ecAdd(group: ECGroup, a: bytes, b: bytes): bytes;
+
+/**
+ * Return the point multiplied by the scalar
+ *
+ * @param point The point to multiply
+ * @param scalar The scalar to multiply
+ */
+declare function ecScalarMul(group: ECGroup, point: bytes, scalar: bytes): bytes;
+
+/**
+ * Checks if the product of the pairing of each point in A with its respective point in B is equal to the identity element of the target group
+ *
+ * @param group The target group
+ * @param a Concatenated points of the target group
+ * @param b Concatenated if the associated group
+ */
+declare function ecPairingCheck(group: ECGroup, a: bytes, b: bytes): boolean;
+
+/**
+ * for curve points A and scalars B, return curve point B0A0 + B1A1 + B2A2 + ... + BnAn
+ *
+ * @param group The target group
+ * @param points The concatenated points to multiply
+ * @param scalars The scalars to multiply
+ *
+ */
+declare function ecMultiScalarMul(group: ECGroup, points: bytes, scalars: bytes32[]): bytes;
+
+/**
+ * Checks if the given point is in the main prime-order subgroup of the target group. Fails if the point is not in the group at all.
+ *
+ * @param group The target group
+ * @param point The point to check
+ *
+ */
+declare function ecSubgroupCheck(group: ECGroup, point: bytes): boolean;
+
+/**
+ * Maps field element to the target group.
+ *
+ * BN254 points are mapped by the SVDW map. BLS12-381 points are mapped by the SSWU map.
+ * G1 element inputs are base field elements and G2 element inputs are quadratic field elements,
+ * with nearly the same encoding rules (for field elements) as defined in ec_add.
+ *
+ * There is one difference of encoding rule: G1 element inputs do not need to be 0-padded if
+ * they fit in less than 32 bytes for BN254 and less than 48 bytes for BLS12-381. (As usual,
+ * the empty byte array represents 0.) G2 elements inputs need to be always have the required size.
+ *
+ * @param group The target group
+ * @param fieldElement The field element to map
+ */
+declare function ecMapTo(group: ECGroup, fieldElement: bytes): bytes;
+
+/**
+ * The highest set bit in the input. If the input is a byte-array, it is interpreted as a big-endian unsigned integer. bitlen of 0 is 0, bitlen of 8 is 4
+ *
+ * @param input The input to get the higher bit from
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function bitlen(input: any): uint64;
+
+/**
+ * decode the given base64 encoded bytes
+ *
+ * @param encoding The encoding of the bytes
+ * @param input The bytes to decode
+ */
+declare function base64Decode(encoding: 'URLEncoding' | 'StdEncoding', input: bytes): bytes;
+
+declare function jsonRef<TypeEncoded extends 'JSONString' | 'JSONUint64' | 'JSONObject'>(
+  type: TypeEncoded,
+  input: bytes,
+  key: bytes
+): TypeEncoded extends 'JSONString' ? bytes : TypeEncoded extends 'JSONUint64' ? uint64 : bytes;
+
+declare type SplitUint128 = { low: uint64; high: uint64 };
+
+/**
+ * A * B with the result being 128 bits split across two uint64s
+ */
+declare function mulw(a: uint64, b: uint64): SplitUint128;
+
+/**
+ * A + B with the result being 128 bits split across two uint64s
+ */
+declare function addw(a: uint64, b: uint64): SplitUint128;
+
+/**
+ * A ** B with the result being 128 bits split across two uint64s
+ */
+declare function expw(a: uint64, b: uint64): SplitUint128;
+
+declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remainderHigh: uint64; remainderLow: uint64 };
+/**
+ * Get AB / CD and AB % CD with the result for both being 128 bits split across two uint64s
+ * @param a The numerator high bits
+ * @param b The numerator low bits
+ * @param c The denominator high bits
+ * @param d The denominator low bits
+ */
+declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;

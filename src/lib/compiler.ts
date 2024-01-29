@@ -14,6 +14,8 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 
+const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values'];
+
 type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
@@ -142,6 +144,25 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
 }
 
 function equalTypes(a: TypeInfo, b: TypeInfo, ignoreUnsafe: boolean = false) {
+  if (b.kind === 'base' && b.type === 'byteslike') {
+    return (
+      // eslint-disable-next-line no-use-before-define
+      isBytes(a) ||
+      // eslint-disable-next-line no-use-before-define
+      (a.kind === 'staticArray' && isBytes(a.base)) ||
+      // eslint-disable-next-line no-use-before-define
+      (a.kind === 'dynamicArray' && isBytes(a.base)) ||
+      (a.kind === 'base' && a.type === 'address')
+    );
+  }
+
+  if (b.kind === 'base' && b.type === 'intlike') {
+    return (
+      // eslint-disable-next-line no-use-before-define
+      isNumeric(a)
+    );
+  }
+
   if (ignoreUnsafe) {
     return typeInfoToABIString(a).replace('unsafe ', '') === typeInfoToABIString(b).replace('unsafe ', '');
   }
@@ -341,7 +362,7 @@ function isNumeric(t: TypeInfo): boolean {
 }
 
 function isBytes(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['bytes', 'byte[]', 'string'].includes(t.type);
+  return t.kind === 'base' && ['bytes', 'byte[]', 'string', 'byte'].includes(t.type);
 }
 
 function isRefType(t: TypeInfo): boolean {
@@ -359,6 +380,7 @@ function isArrayType(type: TypeInfo) {
 }
 
 function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsafe: boolean = false): void {
+  if (equalTypes(expectedType, StackType.any)) return;
   if (equalTypes(inputType, expectedType, ignoreUnsafe)) return;
   if (inputType.kind === 'base' && expectedType.kind === 'base') {
     if (expectedType.type === 'txn' && TXN_TYPES.includes(inputType.type)) return;
@@ -556,6 +578,11 @@ export default class Compiler {
        * ```
        */
       storageAccountFrame?: string;
+
+      /**
+       * The comment to use when using frame_bury/dig
+       */
+      comment?: string;
     };
   } = {};
 
@@ -639,9 +666,11 @@ export default class Compiler {
       },
     ],
     asset: this.getOpParamObjects('asset_params_get'),
+    gitxn: this.getOpParamObjects('gitxn'),
+    block: this.getOpParamObjects('block'),
   };
 
-  programVersion = 9;
+  programVersion = 10;
 
   importRegistry: {
     [contractClass: string]: SourceFile;
@@ -701,7 +730,7 @@ export default class Compiler {
     /** The name of the storage property as defined in the contract */
     name: string;
     /** The action to take on the storage property */
-    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size';
+    action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size' | 'resize' | 'splice';
     /** If the key for the target storage object is saved in the frame, then this is the name of the key in this.localVariables */
     storageKeyFrame?: string;
     /** If the account for the target local storage is saved in the frame, then this is the name of the key in this.localVariables */
@@ -851,6 +880,22 @@ export default class Compiler {
         break;
       }
 
+      case 'resize':
+        if (!equalTypes(valueType, StackType.bytes)) throw Error(`resize only supported on bytes, not ${keyType}`);
+
+        this.processNode(args[0]);
+        this.pushVoid(node.getExpression(), 'box_resize');
+        break;
+
+      case 'splice':
+        if (!equalTypes(valueType, StackType.bytes)) throw Error(`splice only supported on bytes, not ${keyType}`);
+
+        this.processNode(args[0]);
+        this.processNode(args[1]);
+        this.processNode(args[2]);
+        this.pushVoid(node.getExpression(), 'box_splice');
+        break;
+
       case 'create':
         if (args[0]) {
           this.processNode(args[0]);
@@ -914,6 +959,9 @@ export default class Compiler {
   private topLevelNode!: ts.Node;
 
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
+    if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
+    if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
+    if (type.getText() === 'VRFReturnValues') return { kind: 'base', type: 'vrf return values' };
     if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
@@ -1022,6 +1070,18 @@ export default class Compiler {
       return { kind: 'base', type: typeString.replace('number', 'uint64') };
     }
 
+    if (type.isNumberLiteral()) {
+      return { kind: 'base', type: `uint64` };
+    }
+
+    if (type.isStringLiteral()) {
+      return { kind: 'base', type: `string` };
+    }
+
+    if (type.isAny()) {
+      return { kind: 'base', type: 'any' };
+    }
+
     throw Error(`Cannot resolve type ${type.getText()}`);
   }
 
@@ -1128,10 +1188,14 @@ export default class Compiler {
     },
     length: {
       check: (node: ts.PropertyAccessExpression) => {
-        const abiType = this.lastType;
-        return isBytes(this.lastType) || this.lastType.kind === 'dynamicArray';
+        return isBytes(this.lastType) || this.lastType.kind === 'dynamicArray' || this.lastType.kind === 'staticArray';
       },
       fn: (n: ts.PropertyAccessExpression) => {
+        if (this.lastType.kind === 'staticArray') {
+          this.push(n.getNameNode(), `int ${this.lastType.length}`, StackType.uint64);
+          return;
+        }
+
         if (isBytes(this.lastType)) {
           this.push(n.getNameNode(), 'len', StackType.uint64);
           return;
@@ -1143,11 +1207,7 @@ export default class Compiler {
           return;
         }
 
-        if (this.lastType.kind === 'dynamicArray') {
-          throw new Error('.length is currently only supported on dynamic arrays');
-        }
-        this.pushLines(n.getNameNode(), 'extract 0 2', 'btoi');
-        this.lastType = StackType.uint64;
+        throw Error(`Unsupported length property for type ${typeInfoToABIString(this.lastType)}`);
       },
     },
   };
@@ -1314,7 +1374,7 @@ export default class Compiler {
     });
   }
 
-  private customMethods: {
+  private opcodeImplementations: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void;
       check: (node: ts.CallExpression) => boolean;
@@ -1329,27 +1389,43 @@ export default class Compiler {
         });
       },
     },
-    increaseOpcodeBudget: {
+    bzero: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
-        this.pushLines(
-          node,
-          'itxn_begin',
-          'int appl',
-          'itxn_field TypeEnum',
-          'int 0',
-          'itxn_field Fee',
-          'byte b64 CoEB // #pragma version 10; int 1',
-          'dup',
-          'itxn_field ApprovalProgram',
-          'itxn_field ClearStateProgram',
-          'int DeleteApplication',
-          'itxn_field OnCompletion',
-          'itxn_submit'
-        );
+        const typeArg = node.getTypeArguments()?.[0];
+        const arg = node.getArguments()[0];
+
+        if (typeArg && !arg) {
+          const typeInfo = this.getTypeInfo(typeArg.getType());
+          if (this.isDynamicType(typeInfo)) {
+            throw Error('bzero cannot be used with dynamic types');
+          }
+          this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeInfo))}`, typeInfo);
+          return;
+        }
+
+        if (arg && !typeArg) {
+          const staticType: TypeInfo = {
+            kind: 'staticArray',
+            base: { kind: 'base', type: 'byte' },
+            length: parseInt(arg.getText(), 10),
+          };
+
+          const type = this.typeHint && isBytes(this.typeHint) ? this.typeHint : staticType;
+
+          if (arg.isKind(ts.SyntaxKind.NumericLiteral))
+            this.push(node, `byte 0x${'00'.repeat(parseInt(arg.getText(), 10))}`, type);
+          else {
+            this.processNode(arg);
+            this.push(node, 'bzero', StackType.bytes);
+          }
+          return;
+        }
+
+        throw Error('bzero cannot be called with both a type argument and an argument');
       },
     },
-    ecdsa_verify: {
+    ecdsaVerify: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         // data
@@ -1404,7 +1480,7 @@ export default class Compiler {
         this.push(node, `ecdsa_verify ${firstArg.getLiteralText()}`, { kind: 'base', type: 'bool' });
       },
     },
-    ecdsa_pk_decompress: {
+    ecdsaPkDecompress: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         // pubkey
@@ -1438,7 +1514,7 @@ export default class Compiler {
         };
       },
     },
-    ecdsa_pk_recover: {
+    ecdsaPkRecover: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         const args = node.getArguments();
@@ -1497,36 +1573,87 @@ export default class Compiler {
         };
       },
     },
+    addr: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        // TODO: add pseudo op type parsing/assertion to handle this
+        // not currently exported in langspeg.json
+        const args = node.getArguments();
+        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('addr() argument must be a string literal');
+        this.push(args[0], `addr ${args[0].getLiteralText()}`, ForeignType.Address);
+      },
+    },
+    method: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('method() argument must be a string literal');
+        this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
+      },
+    },
+    setbit: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        this.processNode(args[0]);
+        const inputType = this.lastType;
+        this.processNode(args[1]);
+        this.processNode(args[2]);
+        this.push(node, 'setbit', inputType);
+      },
+    },
+    getbit: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        this.processNode(args[0]);
+        this.processNode(args[1]);
+        this.push(node, 'getbit', StackType.uint64);
+      },
+    },
+  };
+
+  private customMethods: {
+    [methodName: string]: {
+      fn: (node: ts.CallExpression) => void;
+      check: (node: ts.CallExpression) => boolean;
+    };
+  } = {
+    ...this.opcodeImplementations,
+    // String.subtring
+    substring: {
+      check: (node: ts.CallExpression) => isBytes(this.lastType),
+      fn: (node: ts.CallExpression) => {
+        this.processNode(node.getArguments()[0]);
+        this.processNode(node.getArguments()[1]);
+        this.push(node, 'substring3', StackType.bytes);
+      },
+    },
+    increaseOpcodeBudget: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        this.pushLines(
+          node,
+          'itxn_begin',
+          'int appl',
+          'itxn_field TypeEnum',
+          'int 0',
+          'itxn_field Fee',
+          'byte b64 CoEB // #pragma version 10; int 1',
+          'dup',
+          'itxn_field ApprovalProgram',
+          'itxn_field ClearStateProgram',
+          'int DeleteApplication',
+          'itxn_field OnCompletion',
+          'itxn_submit'
+        );
+      },
+    },
     // Global methods
     clone: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
         this.processNode(node.getArguments()[0]);
-      },
-    },
-    bzero: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        const typeArg = node.getTypeArguments()?.[0];
-        const arg = node.getArguments()[0];
-
-        if (typeArg && !arg) {
-          const typeInfo = this.getTypeInfo(typeArg.getType());
-          if (this.isDynamicType(typeInfo)) {
-            throw Error('bzero cannot be used with dynamic types');
-          }
-          this.push(node, `byte 0x${'00'.repeat(this.getTypeLength(typeInfo))}`, typeInfo);
-          return;
-        }
-
-        if (arg && !typeArg) {
-          this.processNode(arg);
-          this.push(node, 'bzero', StackType.bytes);
-
-          return;
-        }
-
-        throw Error('bzero cannot be called with both a type argument and an argument');
       },
     },
     rawBytes: {
@@ -1614,24 +1741,6 @@ export default class Compiler {
     verifyKeyRegTxn: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => this.verifyTxn(node, TransactionType.KeyRegistrationTx),
-    },
-    addr: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        // TODO: add pseudo op type parsing/assertion to handle this
-        // not currently exported in langspeg.json
-        const args = node.getArguments();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('addr() argument must be a string literal');
-        this.push(args[0], `addr ${args[0].getLiteralText()}`, ForeignType.Address);
-      },
-    },
-    method: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        const args = node.getArguments();
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw new Error('method() argument must be a string literal');
-        this.push(args[0], `method "${args[0].getLiteralText()}"`, StackType.bytes);
-      },
     },
     // Array methods
     push: {
@@ -2006,15 +2115,6 @@ export default class Compiler {
         this.lastType = StackType.bytes;
       },
     },
-    // string methods
-    substring: {
-      check: (node: ts.CallExpression) => isBytes(this.lastType),
-      fn: (node: ts.CallExpression) => {
-        this.processNode(node.getArguments()[0]);
-        this.processNode(node.getArguments()[1]);
-        this.push(node, 'substring3', StackType.bytes);
-      },
-    },
   };
 
   private disableWarnings: boolean;
@@ -2083,11 +2183,11 @@ export default class Compiler {
 
     return opSpec.ArgEnum!.map((arg, i) => {
       let fn;
-      const type = PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace(/[\d*]byte/, 'btyes');
+      const type = PARAM_TYPES[arg] || opSpec.ArgEnumTypes![i].replace(/\[\d*\]byte/, 'bytes');
 
       const typeInfo = { kind: 'base', type } as TypeInfo;
 
-      if (['txn', 'global', 'itxn', 'gtxns'].includes(op)) {
+      if (['txn', 'global', 'itxn', 'gtxns', 'gitxn', 'block'].includes(op)) {
         fn = (node: ts.Node) => this.push(node, `${op} ${arg}`, typeInfo);
       } else {
         fn = (node: ts.Node) => this.popMaybeValue(node, `${op} ${arg}`, typeInfo);
@@ -2177,6 +2277,13 @@ export default class Compiler {
 
     if (inputType.kind === 'base') {
       const { type } = inputType;
+
+      if (MULTI_OUTPUT_TYPES.includes(type)) {
+        // TODO: Link to docs
+        throw Error(
+          'You cannot directly use a multi-output opcode in an array. You must fist assign the output to a variable.'
+        );
+      }
 
       if (inputType.type.startsWith('uint') || inputType.type.startsWith('ufixed')) {
         return parseInt(type.match(/\d+/)![0], 10) / 8;
@@ -3442,8 +3549,11 @@ export default class Compiler {
         storageAccountFrame: currentFrame.storageAccountFrame,
         action: 'get',
       });
-    } else {
+      // Don't actually load the result of multi-output opcodes because there's an explicit load later when processing the property access
+    } else if (!MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(currentFrame.type))) {
       this.push(node, `frame_dig ${currentFrame.index!} // ${name}: ${currentFrame.typeString}`, currentFrame.type);
+    } else {
+      this.lastType = currentFrame.type;
     }
 
     return { name, type, accessors: accessors.reverse().flat() };
@@ -4479,7 +4589,7 @@ export default class Compiler {
       );
     }
 
-    const isMathOp = ['+', '-', '*', '/', '%', 'exp'].includes(operator);
+    const isMathOp = ['+', '-', '*', '/', '%', 'exp', '|', '&', '^'].includes(operator);
 
     if (leftNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(leftNode, rightType);
@@ -4831,14 +4941,18 @@ export default class Compiler {
 
     const name = node.getNameNode().getText();
 
-    if (node.getInitializer()!) {
+    if (node.getInitializer()) {
       const initializerType = this.getStackTypeFromNode(node.getInitializer()!);
+      const initializerTypeString = typeInfoToABIString(initializerType);
 
       let lastFrameAccess: string | undefined;
 
       const isArray = isArrayType(initializerType);
 
-      if (node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) && isArray) {
+      if (
+        node.getInitializer()!.isKind(ts.SyntaxKind.Identifier) &&
+        (isArray || MULTI_OUTPUT_TYPES.includes(initializerTypeString))
+      ) {
         lastFrameAccess = node.getInitializer()!.getText();
 
         this.localVariables[name] = {
@@ -4970,6 +5084,8 @@ export default class Compiler {
         typeString,
       };
 
+      if (MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(type))) return;
+
       this.pushVoid(node, `frame_bury ${this.frameIndex} // ${name}: ${typeString}`);
 
       this.frameIndex += 1;
@@ -5051,8 +5167,12 @@ export default class Compiler {
       case ts.SyntaxKind.ExclamationToken:
         this.pushVoid(node.getOperand(), '!');
         break;
+      case ts.SyntaxKind.TildeToken:
+        if (isNumeric(this.lastType) || isSmallNumber(this.lastType)) this.pushVoid(node.getOperand(), '~');
+        else this.pushVoid(node.getOperand(), 'b~');
+        break;
       default:
-        throw new Error(`Unsupported unary operator ${node.getOperatorToken()}`);
+        throw new Error(`Unsupported unary operator ${ts.SyntaxKind[node.getOperatorToken()]}`);
     }
   }
 
@@ -5450,6 +5570,27 @@ export default class Compiler {
       return;
     }
 
+    // If accessing the inner txn group
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'lastInnerGroup'
+    ) {
+      // Otherwise this should be a group index
+      if (!chain[1].isKind(ts.SyntaxKind.ElementAccessExpression))
+        throw Error(`Unsupported ${chain[1].getKindName()} ${chain[1].getText()}`);
+
+      const index = chain[1].getArgumentExpression()?.getType().getLiteralValue();
+
+      if (index === undefined) throw Error('Inner group txn index must be a literal');
+      this.processNode(chain[1].getArgumentExpression()!);
+
+      this.lastType = { kind: 'base', type: 'gitxn' };
+
+      chain.splice(0, 2);
+      return;
+    }
+
     // If this is a template variable
     if (
       chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
@@ -5708,6 +5849,13 @@ export default class Compiler {
     const accessors: (string | ts.Expression)[] = [];
 
     if (base.isKind(ts.SyntaxKind.Identifier)) {
+      if (base.getText() === 'blocks') {
+        if (chain[0].isKind(ts.SyntaxKind.ElementAccessExpression)) {
+          this.processNode(chain[0].getArgumentExpressionOrThrow());
+          this.lastType = { kind: 'base', type: 'block' };
+          chain.splice(0, 1);
+        } else throw Error('Blocks must be accessed via array index');
+      }
       if (base.getText() === 'OnCompletion') {
         if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const oc = chain[0].getNameNode().getText() as OnComplete;
@@ -5840,7 +5988,7 @@ export default class Compiler {
       } else if (
         chain[0] &&
         chain[0].isKind(ts.SyntaxKind.CallExpression) &&
-        langspec.Ops.map((o) => o.Name).includes(base.getText())
+        langspec.Ops.map((o) => o.Name).includes(this.opcodeAliases[base.getText()] ?? base.getText())
       ) {
         this.processOpcode(chain[0]);
         chain.splice(0, 1);
@@ -5850,7 +5998,7 @@ export default class Compiler {
         const frame = this.localVariables[base.getText()];
 
         // If this is an array reference, get the accessors
-        if (frame && frame.index === undefined) {
+        if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
           const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
 
           const { storageExpression } = frameFollow;
@@ -5874,7 +6022,7 @@ export default class Compiler {
 
           // otherwise just load the value
         } else {
-          this.push(node, `frame_dig ${frame.index} // ${base.getText()}: ${frame.typeString}`, frame.type);
+          this.processNode(base);
         }
       }
     }
@@ -5957,6 +6105,14 @@ export default class Compiler {
 
       // If this is a property access expression assume it's an opcode param
       if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+        if (MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(this.lastType))) {
+          const parent = n.getExpressionIfKindOrThrow(ts.SyntaxKind.Identifier);
+          const parentName = parent.getText();
+          const frameName = this.processFrame(parent, parentName, false).name;
+          this.frameDig(n, `${frameName} ${n.getName()}`);
+          return false;
+        }
+
         // Check if this is a custom propertly like `zeroIndex`
         if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const propName = n.getNameNode().getText();
@@ -6183,8 +6339,27 @@ export default class Compiler {
     this.processSubroutine(fn);
   }
 
+  private opcodeAliases: Record<string, string> = {
+    extractUint16: 'extract_uint16',
+    extractUint32: 'extract_uint32',
+    extractUint64: 'extract_uint64',
+    ed25519VerifyBare: 'ed25519verify_bare',
+    ed25519Verify: 'ed25519verify',
+    vrfVefiry: 'vrf_verify',
+    ecScalarMul: 'ec_scalar_mul',
+    ecPairingCheck: 'ec_pairing_check',
+    ecMultiScalarMul: 'ec_multi_scalar_mul',
+    ecSubgroupCheck: 'ec_subgroup_check',
+    ecMapTo: 'ec_map_to',
+    ecAdd: 'ec_add',
+    base64Decode: 'base64_decode',
+    jsonRef: 'json_ref',
+  };
+
   private processOpcode(node: ts.CallExpression) {
-    const opcodeName = node.getExpression().getText();
+    const nodeText = node.getExpression().getText();
+
+    const opcodeName = this.opcodeAliases[nodeText] ?? nodeText;
 
     if (opcodeName === 'assert') {
       const args = node.getArguments();
@@ -6219,9 +6394,19 @@ export default class Compiler {
     const opSpec = langspec.Ops.find((o) => o.Name === opcodeName)!;
     let line: string[] = [opcodeName];
 
+    const declaration = node.getExpression()?.getType()?.getCallSignatures()?.[0]?.getDeclaration();
+
+    const argTypes: ts.Type[] = [];
+    if (declaration?.isKind(ts.SyntaxKind.FunctionDeclaration)) {
+      declaration.getParameters().forEach((p) => argTypes.push(p.getType()));
+    }
+
     if (opSpec.Size === 1) {
       const preArgsType = this.lastType;
-      node.getArguments().forEach((a) => this.processNode(a));
+      node.getArguments().forEach((a, i) => {
+        this.processNode(a);
+        if (declaration) typeComparison(this.lastType, this.getTypeInfo(argTypes[i]));
+      });
       this.lastType = preArgsType;
     } else if (opSpec.Size === 0) {
       line = line.concat(node.getArguments().map((a) => a.getText()));
@@ -6229,7 +6414,11 @@ export default class Compiler {
       node
         .getArguments()
         .slice(opSpec.Size - 1)
-        .forEach((a) => this.processNode(a));
+        .forEach((a, i) => {
+          this.processNode(a);
+          if (declaration) typeComparison(this.lastType, this.getTypeInfo(argTypes[i + opSpec.Size - 1]));
+        });
+
       line = line.concat(
         node
           .getArguments()
@@ -6267,7 +6456,95 @@ export default class Compiler {
       returnType = { kind: 'base', type: returnTypeStr } as TypeInfo;
     }
 
+    if (equalTypes(returnType, StackType.any)) returnType = this.getTypeInfo(node.getType());
+
     this.push(node.getExpression(), line.join(' '), returnType);
+
+    const returnTypeInfo = this.getTypeInfo(node.getReturnType());
+
+    if (opcodeName === 'vrf_verify') {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const verified = `${name} verified`;
+      const output = `${name} output`;
+
+      this.initialFrameBury(node, verified, { kind: 'base', type: 'bool' }, `${verified}: bool`);
+      this.initialFrameBury(node, output, StackType.bytes, `${output}: byte[]`);
+
+      this.lastType = returnTypeInfo;
+    }
+
+    if (['mulw', 'addw', 'expw'].includes(opcodeName)) {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const low = `${name} low`;
+      const high = `${name} high`;
+
+      this.initialFrameBury(node, low, StackType.uint64, `${low}: uint64`);
+      this.initialFrameBury(node, high, StackType.uint64, `${high}: uint64`);
+
+      this.lastType = returnTypeInfo;
+    }
+
+    if (opcodeName === 'divmodw') {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const quotientLow = `${name} quotientLow`;
+      const quotientHigh = `${name} quotientHigh`;
+      const remainderHigh = `${name} remainderHigh`;
+      const remainderLow = `${name} remainderLow`;
+
+      this.initialFrameBury(node, remainderLow, StackType.uint64, `${remainderLow}: uint64`);
+      this.initialFrameBury(node, remainderHigh, StackType.uint64, `${remainderHigh}: uint64`);
+      this.initialFrameBury(node, quotientLow, StackType.uint64, `${quotientLow}: uint64`);
+      this.initialFrameBury(node, quotientHigh, StackType.uint64, `${quotientHigh}: uint64`);
+
+      this.lastType = returnTypeInfo;
+    }
+  }
+
+  private initialFrameBury(node: ts.Node, name: string, type: TypeInfo, comment?: string) {
+    const defaultComment = `${name}: ${typeInfoToABIString(type)}`;
+    // Save box key
+    this.localVariables[name] = {
+      index: this.frameIndex,
+      type,
+      typeString: typeInfoToABIString(type),
+      comment,
+    };
+    this.pushVoid(node, `frame_bury ${this.frameIndex} // ${comment ?? defaultComment}`);
+    this.frameIndex += 1;
+  }
+
+  private frameBury(node: ts.Node, name: string) {
+    const frame = this.localVariables[name];
+    if (!frame) throw Error(`Unknown variable ${name}`);
+
+    typeComparison(this.lastType, frame.type, true);
+
+    const defaultComment = `${name}: ${typeInfoToABIString(this.lastType)}`;
+
+    this.pushVoid(node, `frame_bury ${frame.index} // ${frame.comment ?? defaultComment}`);
+  }
+
+  private frameDig(node: ts.Node, name: string) {
+    const frame = this.localVariables[name];
+    if (!frame) throw Error(`Unknown variable ${name}`);
+
+    this.pushVoid(node, `frame_dig ${frame.index} // ${frame.comment ?? name}`);
+    this.lastType = frame.type;
   }
 
   private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.TypeNode[]) {
@@ -6424,8 +6701,11 @@ export default class Compiler {
           } else if (TXN_TYPES.includes(argTypesStr[i])) {
             return;
           } else {
+            const prevTypeHint = this.typeHint;
+            this.typeHint = argTypes[i];
             this.processNode(e);
             this.checkEncoding(e, argTypes[i]);
+            this.typeHint = prevTypeHint;
           }
           this.pushVoid(e, 'itxn_field ApplicationArgs');
         });
@@ -6500,7 +6780,7 @@ export default class Compiler {
       }
 
       const paramObj = this.OP_PARAMS[typeStr].find((p) => {
-        let paramName = p.name.replace(/^Acct/, '');
+        let paramName = p.name.replace(/^Acct/, '').replace(/^Blk/, '');
 
         if (['asset', 'application', 'account', 'itxn'].includes(typeStr) && this.currentProgram === 'lsig') {
           throw Error(`Cannot access ${capitalizeFirstChar(typeStr)} parameters in logic signature`);

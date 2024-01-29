@@ -27,6 +27,8 @@ class ProgramVersion extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class GeneralTest extends Contract {
+  programVersion = 10;
+
   scratch = ScratchSlot<uint64>(0);
 
   gKey = GlobalStateKey<uint64>();
@@ -177,9 +179,9 @@ class GeneralTest extends Contract {
   }
 
   ecdsa(): [uint256, uint256] {
-    ecdsa_verify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
-    ecdsa_pk_decompress('Secp256k1', '' as StaticArray<byte, 33>);
-    return ecdsa_pk_recover('Secp256k1', '' as bytes32, 1, 2, 3);
+    ecdsaVerify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
+    ecdsaPkDecompress('Secp256k1', '' as StaticArray<byte, 33>);
+    return ecdsaPkRecover('Secp256k1', '' as bytes32, 1, 2, 3);
   }
 
   verifyTxnTypes(): void {
@@ -299,5 +301,79 @@ class GeneralTest extends Contract {
 
   assertWithMessage(): void {
     assert(false, 'this is false');
+  }
+
+  opcodeAliases(): void {
+    extractUint16(bzero(64), 0);
+    extractUint32(bzero(64), 0);
+    extractUint64(bzero(64), 0);
+    ed25519VerifyBare(bzero(64), bzero(64), bzero(32));
+    ed25519Verify(bzero(64), bzero(64), bzero(32));
+  }
+
+  vrfVerifyOp(): void {
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+    increaseOpcodeBudget();
+
+    const r = vrfVefiry('VrfAlgorand', bzero(32) as bytes, bzero(80), bzero(32));
+    assert(!r.verified);
+    log(r.output);
+  }
+
+  ecMath(): void {
+    ecScalarMul('BN254g1', '', '');
+    ecPairingCheck('BN254g1', '', '');
+    const scalars: bytes32[] = [bzero(32), bzero(32)];
+    ecMultiScalarMul('BN254g1', '', scalars);
+    ecSubgroupCheck('BN254g1', '');
+    ecMapTo('BN254g1', '');
+    ecAdd('BN254g1', '', '');
+  }
+
+  gitxn() {
+    log(this.lastInnerGroup[0].sender);
+
+    const anotherTxn = this.lastInnerGroup[1];
+
+    log(anotherTxn.sender);
+  }
+
+  getSetBytes() {
+    log(setbit('foo', 0, true));
+    getbit('foo', 0);
+    getbyte('foo', 0);
+    setbyte('foo', 0, 1);
+  }
+
+  getSetUint64() {
+    assert(setbit(123, 0, true));
+    getbit(123, 0);
+  }
+
+  blockOp() {
+    log(blocks[globals.round - 1].seed);
+    assert(blocks[globals.round - 1].timestamp);
+  }
+
+  b64() {
+    log(base64Decode('StdEncoding', ''));
+  }
+
+  json() {
+    log(jsonRef('JSONObject', '', ''));
+    log(jsonRef('JSONString', '', ''));
+    assert(jsonRef('JSONUint64', '', ''));
+  }
+
+  bitlenOp() {
+    bitlen(123);
+    bitlen('foo');
   }
 }
