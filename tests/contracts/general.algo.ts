@@ -10,6 +10,8 @@ const NESTED_CONST = NUM_CONST;
 const COMPUTED_CONST = NUM_CONST + NESTED_CONST;
 const MUTLI_COMPUTED_CONST = NUM_CONST + NESTED_CONST * COMPUTED_CONST;
 
+type MyType = StaticArray<uint8, typeof COMPUTED_CONST>;
+
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
   bytesTmplVar = TemplateVar<bytes>();
@@ -385,5 +387,10 @@ class GeneralTest extends Contract {
 
   multiComputedConst() {
     assert(MUTLI_COMPUTED_CONST);
+  }
+
+  computedConstAsStaticArrayLength() {
+    const a: MyType = [];
+    assert(a.length === COMPUTED_CONST);
   }
 }
