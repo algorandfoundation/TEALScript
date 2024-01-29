@@ -4759,8 +4759,9 @@ export default class Compiler {
 
     const prevTypeHint = this.typeHint;
     this.typeHint = this.getTypeInfo(node.getTypeNode()!.getType());
+    const { typeHint } = this;
 
-    const typeStr = typeInfoToABIString(this.typeHint);
+    const typeStr = typeInfoToABIString(typeHint);
 
     if (TXN_TYPES.includes(typeStr)) {
       const lastTypeStr = typeInfoToABIString(this.getTypeInfo(expr.getType()));
@@ -4770,7 +4771,7 @@ export default class Compiler {
 
       this.processNode(expr);
       this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
-      this.lastType = this.typeHint;
+      this.lastType = typeHint;
       return;
     }
 
@@ -4781,7 +4782,7 @@ export default class Compiler {
       const padBytes = width - str.length;
       const hex = Buffer.from(str).toString('hex');
       const paddedHex = hex + '00'.repeat(padBytes);
-      this.push(node, `byte 0x${paddedHex} // "${str}"`, this.typeHint);
+      this.push(node, `byte 0x${paddedHex} // "${str}"`, typeHint);
       return;
     }
 
@@ -4793,7 +4794,7 @@ export default class Compiler {
     }
 
     if (typeInfoToABIString(this.lastType) === 'any') {
-      this.lastType = this.typeHint;
+      this.lastType = typeHint;
       return;
     }
 
@@ -4801,7 +4802,7 @@ export default class Compiler {
       (typeStr.match(/uint\d+$/) || typeStr.match(/ufixed\d+x\d+$/)) &&
       typeStr !== typeInfoToABIString(this.lastType)
     ) {
-      if (equalTypes(this.typeHint, StackType.uint64)) {
+      if (equalTypes(typeHint, StackType.uint64)) {
         if (!isSmallNumber(this.lastType)) {
           this.overflowCheck(node, 64);
           this.fixBitWidth(node, 64);
@@ -4813,16 +4814,16 @@ export default class Compiler {
       // If going from uint64
       if (equalTypes(this.lastType, StackType.uint64)) {
         // itob it only if its bigger
-        if (!isSmallNumber(this.typeHint)) this.pushVoid(node, 'itob');
+        if (!isSmallNumber(typeHint)) this.pushVoid(node, 'itob');
         // if going from a small int to a bigger int
-      } else if (isSmallNumber(this.lastType) && !isSmallNumber(this.typeHint)) {
+      } else if (isSmallNumber(this.lastType) && !isSmallNumber(typeHint)) {
         this.pushLines(node, 'itob');
         // going from a big into a smaller int
-      } else if (!isSmallNumber(this.lastType) && isSmallNumber(this.typeHint)) {
+      } else if (!isSmallNumber(this.lastType) && isSmallNumber(typeHint)) {
         const width = parseInt(typeStr.match(/\d+/)![0], 10);
         this.overflowCheck(node, width);
         this.fixBitWidth(node, width);
-        this.push(node, 'btoi', this.typeHint);
+        this.push(node, 'btoi', typeHint);
         return;
       }
 
@@ -4830,7 +4831,7 @@ export default class Compiler {
       return;
     }
 
-    this.lastType = this.typeHint;
+    this.lastType = typeHint;
     this.typeHint = prevTypeHint;
   }
 
@@ -5776,7 +5777,10 @@ export default class Compiler {
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
       new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
+        const prevTypeHint = this.typeHint;
+        this.typeHint = subroutine.args[i].type;
         this.processNode(a);
+        this.typeHint = prevTypeHint;
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
           this.checkEncoding(a, this.lastType);
           if (isSmallNumber(this.lastType)) this.push(a, 'btoi', this.lastType);

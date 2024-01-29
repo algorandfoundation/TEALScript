@@ -1406,3 +1406,14 @@ class ABITestArrayInMethodCall extends Contract {
     });
   }
 }
+
+type ObjectInArgsType = { foo: uint64; bar: uint64 };
+class ABITestObjectInArgs extends Contract {
+  private privateMethod(a: Address, obj: ObjectInArgsType): uint64 {
+    return obj.bar + obj.foo;
+  }
+
+  objectInArgs(): uint64 {
+    return this.privateMethod(this.txn.sender, { foo: 1, bar: 2 });
+  }
+}
