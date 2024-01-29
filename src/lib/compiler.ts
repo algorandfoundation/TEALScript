@@ -6701,8 +6701,11 @@ export default class Compiler {
           } else if (TXN_TYPES.includes(argTypesStr[i])) {
             return;
           } else {
+            const prevTypeHint = this.typeHint;
+            this.typeHint = argTypes[i];
             this.processNode(e);
             this.checkEncoding(e, argTypes[i]);
+            this.typeHint = prevTypeHint;
           }
           this.pushVoid(e, 'itxn_field ApplicationArgs');
         });

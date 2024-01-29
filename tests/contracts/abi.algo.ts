@@ -1396,3 +1396,13 @@ class ABITestStaticArrayLength extends Contract {
     return a.length;
   }
 }
+
+class ABITestArrayInMethodCall extends Contract {
+  arrayInMethodCall() {
+    sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
+      applicationID: Application.fromID(0),
+      name: 'foo',
+      methodArgs: [[1, 2], this.txn.sender, 3, false],
+    });
+  }
+}
