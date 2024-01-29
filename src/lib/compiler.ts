@@ -5779,7 +5779,6 @@ export default class Compiler {
       new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
         const prevTypeHint = this.typeHint;
         this.typeHint = subroutine.args[i].type;
-        console.log(a.getKindName());
         this.processNode(a);
         this.typeHint = prevTypeHint;
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
