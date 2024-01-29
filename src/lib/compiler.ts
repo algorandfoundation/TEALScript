@@ -5776,7 +5776,10 @@ export default class Compiler {
       if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
 
       new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
+        const prevTypeHint = this.typeHint;
+        this.typeHint = subroutine.args[i].type;
         this.processNode(a);
+        this.typeHint = prevTypeHint;
         if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
           this.checkEncoding(a, this.lastType);
           if (isSmallNumber(this.lastType)) this.push(a, 'btoi', this.lastType);

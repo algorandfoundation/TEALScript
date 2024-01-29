@@ -840,5 +840,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'staticArrayLength')).toEqual(5n);
     });
+
+    test('objectInArgs', async () => {
+      const { appClient } = await compileAndCreate('objectInArgs');
+
+      expect(await runMethod(appClient, 'objectInArgs')).toEqual(3n);
+    });
   });
 });
