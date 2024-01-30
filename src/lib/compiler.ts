@@ -2076,20 +2076,19 @@ export default class Compiler {
           'dup'
         );
 
-        if (arrayIndex) {
+        if (arrayIndex !== undefined) {
           this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
         } else {
           this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
         }
         this.pushLines(
           node,
-          // TODO: if box, load saved end offset
           '<',
           `bz ${label}_end`,
           `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
         );
 
-        if (arrayIndex) {
+        if (arrayIndex !== undefined) {
           this.pushLines(
             node,
             `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
