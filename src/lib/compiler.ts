@@ -6339,7 +6339,7 @@ export default class Compiler {
       this.pushVoid(p, `// ${p.getNameNode().getText()}: ${typeStr}`);
 
       if (!TXN_TYPES.includes(typeStr)) {
-        if (this.currentProgram === 'lsig') this.pushLines(p, `int ${(nonTxnArgCount -= 1)}`, 'args');
+        if (this.currentProgram === 'lsig') this.pushLines(p, `int ${(nonTxnArgCount -= 1) - 1}`, 'args');
         else this.pushVoid(p, `txna ApplicationArgs ${(nonTxnArgCount -= 1)}`);
       }
 
