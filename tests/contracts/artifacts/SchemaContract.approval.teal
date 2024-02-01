@@ -16,32 +16,10 @@ int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 
 NOT_IMPLEMENTED:
 	err
-
-// tmpl()void
-abi_route_tmpl:
-	// execute tmpl()void
-	callsub tmpl
-	int 1
-	return
-
-// tmpl(): void
-tmpl:
-	proto 0 0
-
-	// tests/contracts/general.algo.ts:32
-	// log(this.bytesTmplVar)
-	pushbytes TMPL_bytesTmplVar
-	log
-
-	// tests/contracts/general.algo.ts:33
-	// assert(this.uint64TmplVar)
-	pushint TMPL_uint64TmplVar
-	assert
-	retsub
 
 abi_route_createApplication:
 	int 1
@@ -51,10 +29,4 @@ create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match abi_route_createApplication
-	err
-
-call_NoOp:
-	method "tmpl()void"
-	txna ApplicationArgs 0
-	match abi_route_tmpl
 	err
