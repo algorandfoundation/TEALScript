@@ -329,7 +329,7 @@ methodWithTxnArgs:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
-	itxn_begin
+	itxn_next
 	int appl
 	itxn_field TypeEnum
 	method "bar(uint64)void"
@@ -348,7 +348,7 @@ methodWithTxnArgs:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
-	itxn_begin
+	itxn_next
 	int appl
 	itxn_field TypeEnum
 	method "foo(pay,appl)void"

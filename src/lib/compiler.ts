@@ -735,6 +735,8 @@ export default class Compiler {
 
   currentLoop?: string;
 
+  innerTxnHasBegun: boolean;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -6612,15 +6614,20 @@ export default class Compiler {
     const addingTxn = name.startsWith('add');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
+    if (name.startsWith('add')) {
+      this.innerTxnHasBegun = true;
+    } else if (name.startsWith('send')) {
+      this.innerTxnHasBegun = false;
+    }
+
     let txnType = '';
 
-    let beginOp = addingTxn ? 'itxn_next' : 'itxn_begin';
     fields.getProperties().forEach((p) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
       const key = p.getNameNode()?.getText();
 
       if (key === 'isFirstTxn') {
-        beginOp = 'itxn_begin';
+        this.innerTxnHasBegun = false;
         return;
       }
 
@@ -6669,7 +6676,8 @@ export default class Compiler {
         throw new Error(`Invalid transaction call ${name}`);
     }
 
-    this.pushVoid(node, beginOp);
+    this.pushVoid(node, this.innerTxnHasBegun ? 'itxn_next' : 'itxn_begin');
+    if (this.innerTxnHasBegun === false) this.innerTxnHasBegun = true;
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
