@@ -735,7 +735,7 @@ export default class Compiler {
 
   currentLoop?: string;
 
-  innerTxnHasBegun: boolean;
+  innerTxnHasBegun: boolean = false;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
