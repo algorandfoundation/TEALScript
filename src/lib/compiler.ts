@@ -5946,7 +5946,7 @@ export default class Compiler {
               // eslint-disable-next-line no-case-declarations
               const globalOrLocal = chain[1].getNameNode().getText() === 'global' ? 'GLOBAL' : 'LOCAL';
               // eslint-disable-next-line no-case-declarations
-              const uintOrBytes = chain[2].getNameNode().getText() === 'uint' ? 'INT' : 'BYTES';
+              const uintOrBytes = chain[2].getNameNode().getText() === 'numUint' ? 'INT' : 'BYTES';
               this.push(
                 chain[1],
                 `PENDING_SCHEMA_${globalOrLocal}_${uintOrBytes}: ${base.getText()}`,

@@ -12,6 +12,16 @@ const MUTLI_COMPUTED_CONST = NUM_CONST + NESTED_CONST * COMPUTED_CONST;
 
 type MyType = StaticArray<uint8, typeof COMPUTED_CONST>;
 
+class SchemaContract extends Contract {
+  globalUint = GlobalStateMap<uint8, uint64>({ maxKeys: 1 });
+
+  globalBytes = GlobalStateMap<uint16, bytes>({ maxKeys: 2 });
+
+  localUint = LocalStateMap<uint8, uint64>({ maxKeys: 3 });
+
+  localBytes = LocalStateMap<uint16, bytes>({ maxKeys: 4 });
+}
+
 // eslint-disable-next-line no-unused-vars
 class Templates extends Contract {
   bytesTmplVar = TemplateVar<bytes>();
@@ -392,5 +402,12 @@ class GeneralTest extends Contract {
   computedConstAsStaticArrayLength() {
     const a: MyType = [];
     assert(a.length === COMPUTED_CONST);
+  }
+
+  readSchema(): void {
+    assert(SchemaContract.schema.global.numUint === 1);
+    assert(SchemaContract.schema.global.numByteSlice === 2);
+    assert(SchemaContract.schema.local.numUint === 3);
+    assert(SchemaContract.schema.local.numByteSlice === 4);
   }
 }

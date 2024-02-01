@@ -76,5 +76,10 @@ describe('General', function () {
       const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       await runMethod({ appClient, method: 'submitPendingGroup', fee: 3000 });
     });
+
+    test('readSchema', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      await runMethod({ appClient, method: 'readSchema' });
+    });
   });
 });
