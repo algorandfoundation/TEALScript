@@ -240,14 +240,14 @@ submitPendingGroup:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:81
-	// this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address })
+	// this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, isFirstTxn: true })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
 	// tests/contracts/general.algo.ts:81
-	// amount: 100_000
-	int 100_000
+	// amount: 0
+	int 0
 	itxn_field Amount
 
 	// tests/contracts/general.algo.ts:81
@@ -260,15 +260,25 @@ submitPendingGroup:
 	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:82
-	// this.pendingGroup.addAssetCreation({ configAssetTotal: 1 })
-	itxn_begin
-	int acfg
+	// this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, note: 'foo' })
+	itxn_next
+	int pay
 	itxn_field TypeEnum
 
 	// tests/contracts/general.algo.ts:82
-	// configAssetTotal: 1
-	int 1
-	itxn_field ConfigAssetTotal
+	// amount: 0
+	int 0
+	itxn_field Amount
+
+	// tests/contracts/general.algo.ts:82
+	// receiver: this.app.address
+	global CurrentApplicationAddress
+	itxn_field Receiver
+
+	// tests/contracts/general.algo.ts:82
+	// note: 'foo'
+	byte 0x666f6f // "foo"
+	itxn_field Note
 
 	// Fee field not set, defaulting to 0
 	int 0

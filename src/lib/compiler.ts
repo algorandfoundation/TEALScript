@@ -6608,13 +6608,21 @@ export default class Compiler {
 
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
+
+    const addingTxn = name.startsWith('add');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
     let txnType = '';
 
+    let beginOp = addingTxn ? 'itxn_next' : 'itxn_begin';
     fields.getProperties().forEach((p) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
       const key = p.getNameNode()?.getText();
+
+      if (key === 'isFirstTxn') {
+        beginOp = 'itxn_begin';
+        return;
+      }
 
       if (key === 'methodArgs') {
         if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
@@ -6661,7 +6669,7 @@ export default class Compiler {
         throw new Error(`Invalid transaction call ${name}`);
     }
 
-    this.pushVoid(node, 'itxn_begin');
+    this.pushVoid(node, beginOp);
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
@@ -6700,6 +6708,8 @@ export default class Compiler {
       const init = p.getInitializer();
 
       if (key === undefined) throw new Error('Key must be defined');
+
+      if (key === 'isFirstTxn') return;
 
       if (key === 'name' && txnType === TransactionType.ApplicationCallTx) {
         return;

@@ -71,5 +71,10 @@ describe('General', function () {
       const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'returnArrayInStorageValueOnOperatorAssignment' })).toBe(5n);
     });
+
+    test('submitPendingGroup', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      await runMethod({ appClient, method: 'submitPendingGroup', fee: 3000 });
+    });
   });
 });
