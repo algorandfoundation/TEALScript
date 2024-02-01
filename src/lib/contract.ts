@@ -17,23 +17,23 @@ export class PendingGroup {
    * @param params - The parameters of the method call
    *
    */
-  addMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType>>): void {}
+  addMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType> & { isFirstTxn?: boolean }>): void {}
 
-  addPayment(params: Expand<PaymentParams>): void {}
+  addPayment(params: Expand<PaymentParams & { isFirstTxn?: boolean }>): void {}
 
-  addAppCall(params: Expand<AppParams>): void {}
+  addAppCall(params: Expand<AppParams & { isFirstTxn?: boolean }>): void {}
 
-  addAssetTransfer(params: Expand<AssetTransferParams>): void {}
+  addAssetTransfer(params: Expand<AssetTransferParams & { isFirstTxn?: boolean }>): void {}
 
-  addAssetCreation(params: Expand<AssetCreateParams>): void {}
+  addAssetCreation(params: Expand<AssetCreateParams & { isFirstTxn?: boolean }>): void {}
 
-  addOnlineKeyRegistration(params: Expand<OnlineKeyRegParams>): void {}
+  addOnlineKeyRegistration(params: Expand<OnlineKeyRegParams & { isFirstTxn?: boolean }>): void {}
 
-  addOfflineKeyRegistration(params: Expand<CommonTransactionParams>): void {}
+  addOfflineKeyRegistration(params: Expand<CommonTransactionParams & { isFirstTxn?: boolean }>): void {}
 
-  addAssetConfig(params: Expand<AssetConfigParams>): void {}
+  addAssetConfig(params: Expand<AssetConfigParams & { isFirstTxn?: boolean }>): void {}
 
-  addAssetFreeze(params: Expand<AssetFreezeParams>): void {}
+  addAssetFreeze(params: Expand<AssetFreezeParams & { isFirstTxn?: boolean }>): void {}
 
   submit(): void {}
 }

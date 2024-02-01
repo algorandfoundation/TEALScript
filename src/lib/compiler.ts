@@ -735,6 +735,8 @@ export default class Compiler {
 
   currentLoop?: string;
 
+  innerTxnHasBegun: boolean = false;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -6608,13 +6610,26 @@ export default class Compiler {
 
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
+
+    const addingTxn = name.startsWith('add');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
+    if (name.startsWith('add')) {
+      this.innerTxnHasBegun = true;
+    } else if (name.startsWith('send')) {
+      this.innerTxnHasBegun = false;
+    }
+
     let txnType = '';
 
     fields.getProperties().forEach((p) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
       const key = p.getNameNode()?.getText();
+
+      if (key === 'isFirstTxn') {
+        this.innerTxnHasBegun = false;
+        return;
+      }
 
       if (key === 'methodArgs') {
         if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
@@ -6661,7 +6676,8 @@ export default class Compiler {
         throw new Error(`Invalid transaction call ${name}`);
     }
 
-    this.pushVoid(node, 'itxn_begin');
+    this.pushVoid(node, this.innerTxnHasBegun ? 'itxn_next' : 'itxn_begin');
+    if (this.innerTxnHasBegun === false) this.innerTxnHasBegun = true;
     this.pushVoid(node, `int ${txnType}`);
     this.pushVoid(node, 'itxn_field TypeEnum');
 
@@ -6700,6 +6716,8 @@ export default class Compiler {
       const init = p.getInitializer();
 
       if (key === undefined) throw new Error('Key must be defined');
+
+      if (key === 'isFirstTxn') return;
 
       if (key === 'name' && txnType === TransactionType.ApplicationCallTx) {
         return;

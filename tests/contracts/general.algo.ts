@@ -78,8 +78,8 @@ class GeneralTest extends Contract {
   }
 
   submitPendingGroup(): void {
-    this.pendingGroup.addPayment({ amount: 100_000, receiver: this.app.address });
-    this.pendingGroup.addAssetCreation({ configAssetTotal: 1 });
+    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, isFirstTxn: true });
+    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, note: 'foo' });
     this.pendingGroup.submit();
   }
 
