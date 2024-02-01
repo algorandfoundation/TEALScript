@@ -686,10 +686,13 @@ declare const globals: {
   currentApplicationID: Application;
   creatorAddress: Address;
   currentApplicationAddress: Address;
-  groupID: bytes;
+  groupID: bytes32;
   opcodeBudget: uint64;
   callerApplicationID: Application;
   callerApplicationAddress: Address;
+  assetCreateMinBalance: uint64;
+  assetOptInMinBalance: uint64;
+  genesisHash: bytes32;
 };
 
 /** Get information from the given block.
