@@ -690,6 +690,9 @@ declare const globals: {
   opcodeBudget: uint64;
   callerApplicationID: Application;
   callerApplicationAddress: Address;
+  assetCreateMinBalance: uint64;
+  assetOptInMinBalance: uint64;
+  genesisHash: bytes;
 };
 
 /** Get information from the given block.
