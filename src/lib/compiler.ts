@@ -1133,33 +1133,22 @@ export default class Compiler {
       return { kind: 'base', type: 'any' };
     }
 
-    if (type.getText().match(/uint\d+$/)) {
-      return { kind: 'base', type: type.getText() };
+    if (typeString.match(/uint\d+$/) || typeString.match(/ufixed\d+x\d+$/)) {
+      return { kind: 'base', type: typeString };
     }
 
-    if (type.getText().match(/uint<\d+>$/)) {
-      return { kind: 'base', type: type.getText().replace('>', '').replace('<', '') };
-    }
-
-    if (type.getText() === 'bytes<N>') {
+    if (typeString === 'bytesn') {
       return { kind: 'base', type: 'bytes' };
     }
 
-    if (type.getText().match(/ufixed<\d+, \d+>$/)) {
-      return {
-        kind: 'base',
-        type: type.getText().replace('>', '').replace('<', '').replace(/ /g, '').replace(',', 'x'),
-      };
-    }
-
-    if (type.getText().match(/StaticBytes<\d+>$/)) {
+    if (typeString.match(/staticbytes\d+$/)) {
       return {
         kind: 'staticArray',
         base: { kind: 'base', type: 'byte' },
-        length: Number(type.getText().replace('StaticBytes<', '').replace('>', '')),
+        length: Number(typeString.replace('staticbytes', '')),
       };
     }
-    throw Error(`Cannot resolve type ${type.getText()}`);
+    throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
   }
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
