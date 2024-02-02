@@ -194,7 +194,7 @@ class GeneralTest extends Contract {
 
   ecdsa(): [uint256, uint256] {
     ecdsaVerify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
-    ecdsaPkDecompress('Secp256k1', '' as StaticArray<byte, 33>);
+    ecdsaPkDecompress('Secp256k1', '' as bytes<33>);
     return ecdsaPkRecover('Secp256k1', '' as bytes32, 1, 2, 3);
   }
 

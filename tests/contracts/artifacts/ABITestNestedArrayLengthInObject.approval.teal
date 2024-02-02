@@ -21,25 +21,38 @@ switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
 NOT_IMPLEMENTED:
 	err
 
-// staticByteCasting()byte[5]
-abi_route_staticByteCasting:
+// nestedArrayLengthInObject()uint64
+abi_route_nestedArrayLengthInObject:
 	// The ABI return prefix
 	byte 0x151f7c75
 
-	// execute staticByteCasting()byte[5]
-	callsub staticByteCasting
+	// execute nestedArrayLengthInObject()uint64
+	callsub nestedArrayLengthInObject
+	itob
 	concat
 	log
 	int 1
 	return
 
-// staticByteCasting(): bytes<5>
-staticByteCasting:
+// nestedArrayLengthInObject(): uint64
+nestedArrayLengthInObject:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1050
-	// return 'abc' as bytes<5>;
-	byte 0x6162630000 // "abc"
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/abi.algo.ts:1435
+	// a: { foo: StaticArray<uint8, 5> } = { foo: [11, 22, 33, 44, 55] }
+	byte 0x0b16212c37
+	frame_bury 0 // a: { foo: StaticArray<uint8, 5> }
+
+	// tests/contracts/abi.algo.ts:1437
+	// return a.foo.length;
+	frame_dig 0 // a: { foo: StaticArray<uint8, 5> }
+	int 5
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 abi_route_createApplication:
@@ -53,7 +66,7 @@ create_NoOp:
 	err
 
 call_NoOp:
-	method "staticByteCasting()byte[5]"
+	method "nestedArrayLengthInObject()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticByteCasting
+	match abi_route_nestedArrayLengthInObject
 	err

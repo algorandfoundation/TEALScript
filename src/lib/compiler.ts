@@ -949,7 +949,9 @@ export default class Compiler {
         if (args[0]) {
           this.processNode(args[0]);
         } else if (this.isDynamicType(valueType)) {
-          throw Error('Size must be given to create call when the box value is dynamic');
+          throw Error(
+            `Size must be given to create call when the box value is dynamic (${typeInfoToABIString(valueType)})`
+          );
         } else this.pushVoid(node, `int ${this.getTypeLength(valueType)}`);
 
         this.pushLines(node.getExpression(), 'box_create', 'pop');
@@ -1131,7 +1133,22 @@ export default class Compiler {
       return { kind: 'base', type: 'any' };
     }
 
-    throw Error(`Cannot resolve type ${type.getText()}`);
+    if (typeString.match(/uint\d+$/) || typeString.match(/ufixed\d+x\d+$/)) {
+      return { kind: 'base', type: typeString };
+    }
+
+    if (typeString === 'brandstringx"bytes"') {
+      return { kind: 'base', type: 'bytes' };
+    }
+
+    if (typeString.match(/staticbytes\d+$/)) {
+      return {
+        kind: 'staticArray',
+        base: { kind: 'base', type: 'byte' },
+        length: Number(typeString.replace('staticbytes', '')),
+      };
+    }
+    throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
   }
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
@@ -6116,12 +6133,36 @@ export default class Compiler {
         isArrayType(this.lastType) &&
         (n.isKind(ts.SyntaxKind.ElementAccessExpression) || n.isKind(ts.SyntaxKind.PropertyAccessExpression))
       ) {
-        lastAccessor = n;
-
         // If this is a index into an array ie. `arr[0]`
         if (n.isKind(ts.SyntaxKind.ElementAccessExpression)) accessors.push(n.getArgumentExpression()!);
         // If this is a property in an object ie. `myObj.foo`
-        if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) accessors.push(n.getNameNode().getText());
+        if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          const name = n.getName();
+          const childType = this.getTypeInfo(n.getChildAtIndex(0).getType());
+
+          if (Object.keys(this.customProperties).includes(name)) {
+            const prevLastType = this.lastType;
+            this.lastType = childType;
+            const passCheck = this.customProperties[name].check(n);
+            this.lastType = prevLastType;
+
+            const hasNameAsProp = childType.kind === 'object' && childType.properties[name] !== undefined;
+            const isLengthOfStaticArray = childType.kind === 'staticArray' && name === 'length';
+            if (!hasNameAsProp && passCheck) {
+              if (!isLengthOfStaticArray) {
+                this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base);
+              } else this.lastType = childType;
+
+              this.customProperties[name].fn(n);
+              accessors.length = 0;
+
+              return false;
+            }
+          }
+          accessors.push(n.getNameNode().getText());
+        }
+
+        lastAccessor = n;
 
         const newValueValue = i === chain.length - 1 ? newValue : undefined;
 

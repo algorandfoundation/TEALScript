@@ -1046,8 +1046,8 @@ class ABITestAngularCasting extends Contract {
 }
 
 class ABITestStaticByteCasting extends Contract {
-  staticByteCasting(): StaticArray<byte, 5> {
-    return 'abc' as StaticArray<byte, 5>;
+  staticByteCasting(): bytes<5> {
+    return 'abc' as bytes<5>;
   }
 }
 
@@ -1206,20 +1206,20 @@ class ABITestUint64Casting extends Contract {
 }
 
 class ABITestBytesCasting extends Contract {
-  bytesCasting(a: bytes): StaticArray<byte, 2> {
-    return <StaticArray<byte, 2>>a;
+  bytesCasting(a: bytes): bytes<2> {
+    return <bytes<2>>a;
   }
 }
 
 class ABITestBiggerByteCasting extends Contract {
-  biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4> {
-    return <StaticArray<byte, 4>>a;
+  biggerByteCasting(a: bytes<2>): bytes<4> {
+    return <bytes<4>>a;
   }
 }
 
 class ABITestSmallerByteCasting extends Contract {
-  smallerByteCasting(a: StaticArray<byte, 4>): StaticArray<byte, 2> {
-    return <StaticArray<byte, 2>>a;
+  smallerByteCasting(a: bytes<4>): bytes<2> {
+    return <bytes<2>>a;
   }
 }
 
@@ -1415,5 +1415,25 @@ class ABITestObjectInArgs extends Contract {
 
   objectInArgs(): uint64 {
     return this.privateMethod(this.txn.sender, { foo: 1, bar: 2 });
+  }
+}
+
+class ABITestNestedStaticArrayLength extends Contract {
+  nestedStaticArrayLength(): uint64 {
+    const a: StaticArray<StaticArray<uint8, 5>, 3> = [
+      [11, 22, 33, 44, 55],
+      [66, 77, 88, 99, 100],
+      [101, 102, 103, 104, 105],
+    ];
+
+    return a[0].length;
+  }
+}
+
+class ABITestNestedArrayLengthInObject extends Contract {
+  nestedArrayLengthInObject(): uint64 {
+    const a: { foo: StaticArray<uint8, 5> } = { foo: [11, 22, 33, 44, 55] };
+
+    return a.foo.length;
   }
 }

@@ -846,5 +846,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'objectInArgs')).toEqual(3n);
     });
+
+    test('nestedStaticArrayLength', async () => {
+      const { appClient } = await compileAndCreate('nestedStaticArrayLength');
+
+      expect(await runMethod(appClient, 'nestedStaticArrayLength')).toEqual(5n);
+    });
   });
 });

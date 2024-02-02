@@ -1,6 +1,6 @@
 import { Contract } from '../../src/lib/index';
 
-type Bytes256 = StaticArray<byte, 256>;
+type Bytes256 = bytes<256>;
 
 type Token = { owner: Address; uri: Bytes256; controller: Address };
 type Control = { owner: Address; controller: Address };

@@ -37,12 +37,12 @@ abi_route_bytesCasting:
 	int 1
 	return
 
-// bytesCasting(a: bytes): StaticArray<byte, 2>
+// bytesCasting(a: bytes): bytes<2>
 bytesCasting:
 	proto 1 1
 
 	// tests/contracts/abi.algo.ts:1210
-	// return <StaticArray<byte, 2>>a;
+	// return <bytes<2>>a;
 	frame_dig -1 // a: bytes
 	byte 0x0000
 	concat
