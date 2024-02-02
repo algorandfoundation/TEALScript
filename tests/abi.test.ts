@@ -852,5 +852,11 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'nestedStaticArrayLength')).toEqual(5n);
     });
+
+    test('nestedArrayLengthInObjectVariable', async () => {
+      const { appClient } = await compileAndCreate('nestedArrayLengthInObjectVariable');
+
+      expect(await runMethod(appClient, 'nestedArrayLengthInObjectVariable')).toEqual(5n);
+    });
   });
 });
