@@ -49,7 +49,6 @@ nestedArrayLengthInObject:
 	// tests/contracts/abi.algo.ts:1437
 	// return a.foo.length;
 	frame_dig 0 // a: { foo: StaticArray<uint8, 5> }
-	extract 0 5
 	int 5
 
 	// set the subroutine return value

@@ -6147,9 +6147,12 @@ export default class Compiler {
             this.lastType = prevLastType;
 
             const hasNameAsProp = childType.kind === 'object' && childType.properties[name] !== undefined;
-
+            const isLengthOfStaticArray = childType.kind === 'staticArray' && name === 'length';
             if (!hasNameAsProp && passCheck) {
-              this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base);
+              if (!isLengthOfStaticArray) {
+                this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base);
+              } else this.lastType = childType;
+
               this.customProperties[name].fn(n);
               accessors.length = 0;
 
