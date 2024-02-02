@@ -777,7 +777,7 @@ ecdsa:
 	ecdsa_verify Secp256k1
 
 	// tests/contracts/general.algo.ts:197
-	// ecdsaPkDecompress('Secp256k1', '' as StaticArray<byte, 33>)
+	// ecdsaPkDecompress('Secp256k1', '' as bytes<33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

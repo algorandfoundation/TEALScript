@@ -1046,8 +1046,8 @@ class ABITestAngularCasting extends Contract {
 }
 
 class ABITestStaticByteCasting extends Contract {
-  staticByteCasting(): StaticArray<byte, 5> {
-    return 'abc' as StaticArray<byte, 5>;
+  staticByteCasting(): bytes<5> {
+    return 'abc' as bytes<5>;
   }
 }
 
@@ -1206,20 +1206,20 @@ class ABITestUint64Casting extends Contract {
 }
 
 class ABITestBytesCasting extends Contract {
-  bytesCasting(a: bytes): StaticArray<byte, 2> {
-    return <StaticArray<byte, 2>>a;
+  bytesCasting(a: bytes): bytes<2> {
+    return <bytes<2>>a;
   }
 }
 
 class ABITestBiggerByteCasting extends Contract {
-  biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4> {
-    return <StaticArray<byte, 4>>a;
+  biggerByteCasting(a: bytes<2>): bytes<4> {
+    return <bytes<4>>a;
   }
 }
 
 class ABITestSmallerByteCasting extends Contract {
-  smallerByteCasting(a: StaticArray<byte, 4>): StaticArray<byte, 2> {
-    return <StaticArray<byte, 2>>a;
+  smallerByteCasting(a: bytes<4>): bytes<2> {
+    return <bytes<2>>a;
   }
 }
 

@@ -1137,7 +1137,7 @@ export default class Compiler {
       return { kind: 'base', type: typeString };
     }
 
-    if (typeString === 'bytesn') {
+    if (typeString === 'brandstringx"bytes"') {
       return { kind: 'base', type: 'bytes' };
     }
 

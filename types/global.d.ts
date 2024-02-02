@@ -251,7 +251,7 @@ declare type uint256 = uint<256>;
 declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>;
 
 declare type byte = { __byte: true };
-declare type bytes<N = void> = Brand<string, 'bytes'>;
+declare type bytes<N = void> = N extends void ? Brand<string, 'bytes'> : StaticBytes<N>;
 declare type bytes32 = StaticArray<byte, 32>;
 declare type bytes64 = StaticArray<byte, 64>;
 

@@ -41,13 +41,13 @@ abi_route_biggerByteCasting:
 	int 1
 	return
 
-// biggerByteCasting(a: StaticArray<byte, 2>): StaticArray<byte, 4>
+// biggerByteCasting(a: bytes<2>): bytes<4>
 biggerByteCasting:
 	proto 1 1
 
 	// tests/contracts/abi.algo.ts:1216
-	// return <StaticArray<byte, 4>>a;
-	frame_dig -1 // a: StaticArray<byte, 2>
+	// return <bytes<4>>a;
+	frame_dig -1 // a: bytes<2>
 	byte 0x0000
 	concat
 	retsub
