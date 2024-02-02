@@ -6086,13 +6086,20 @@ export default class Compiler {
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
             !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
-          if (!isStaticBox) {
+          const baseType = this.getTypeInfo(base.getType());
+
+          const isStaticLength =
+            baseType.kind === 'staticArray' &&
+            chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+            chain[0].getName() === 'length';
+
+          if (!isStaticBox && !isStaticLength) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
           } else {
-            this.lastType = this.storageProps[getStorageName(storageExpression)!].valueType;
+            this.lastType = baseType;
           }
 
-          frameFollow.accessors.forEach((e) => accessors.push(e));
+          if (!isStaticLength) frameFollow.accessors.forEach((e) => accessors.push(e));
 
           // otherwise just load the value
         } else {
