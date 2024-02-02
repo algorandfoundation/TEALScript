@@ -6149,11 +6149,17 @@ export default class Compiler {
         // If this is a property in an object ie. `myObj.foo`
         if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const name = n.getName();
+          const childType = this.getTypeInfo(n.getChildAtIndex(0).getType());
 
-          if (Object.keys(this.customProperties).includes(name) && this.customProperties[name].check(n)) {
-            const hasNameAsProp = this.lastType.kind === 'object' && this.lastType.properties[name] !== undefined;
+          if (Object.keys(this.customProperties).includes(name)) {
+            const prevLastType = this.lastType;
+            this.lastType = childType;
+            const passCheck = this.customProperties[name].check(n);
+            this.lastType = prevLastType;
 
-            if (!hasNameAsProp) {
+            const hasNameAsProp = childType.kind === 'object' && childType.properties[name] !== undefined;
+
+            if (!hasNameAsProp && passCheck) {
               this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base);
               this.customProperties[name].fn(n);
               accessors.length = 0;

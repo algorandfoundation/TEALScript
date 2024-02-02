@@ -1429,3 +1429,11 @@ class ABITestNestedStaticArrayLength extends Contract {
     return a[0].length;
   }
 }
+
+class ABITestNestedArrayLengthInObject extends Contract {
+  nestedArrayLengthInObject(): uint64 {
+    const a: { foo: StaticArray<uint8, 5> } = { foo: [11, 22, 33, 44, 55] };
+
+    return a.foo.length;
+  }
+}
