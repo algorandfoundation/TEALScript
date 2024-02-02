@@ -6116,12 +6116,27 @@ export default class Compiler {
         isArrayType(this.lastType) &&
         (n.isKind(ts.SyntaxKind.ElementAccessExpression) || n.isKind(ts.SyntaxKind.PropertyAccessExpression))
       ) {
-        lastAccessor = n;
-
         // If this is a index into an array ie. `arr[0]`
         if (n.isKind(ts.SyntaxKind.ElementAccessExpression)) accessors.push(n.getArgumentExpression()!);
         // If this is a property in an object ie. `myObj.foo`
-        if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) accessors.push(n.getNameNode().getText());
+        if (n.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          const name = n.getName();
+
+          if (Object.keys(this.customProperties).includes(name) && this.customProperties[name].check(n)) {
+            const hasNameAsProp = this.lastType.kind === 'object' && this.lastType.properties[name] !== undefined;
+
+            if (!hasNameAsProp) {
+              this.processParentArrayAccess(lastAccessor!, accessors, storageBase || base);
+              this.customProperties[name].fn(n);
+              accessors.length = 0;
+
+              return false;
+            }
+          }
+          accessors.push(n.getNameNode().getText());
+        }
+
+        lastAccessor = n;
 
         const newValueValue = i === chain.length - 1 ? newValue : undefined;
 

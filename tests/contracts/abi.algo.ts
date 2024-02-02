@@ -1417,3 +1417,15 @@ class ABITestObjectInArgs extends Contract {
     return this.privateMethod(this.txn.sender, { foo: 1, bar: 2 });
   }
 }
+
+class ABITestNestedStaticArrayLength extends Contract {
+  nestedStaticArrayLength(): uint64 {
+    const a: StaticArray<StaticArray<uint8, 5>, 3> = [
+      [11, 22, 33, 44, 55],
+      [66, 77, 88, 99, 100],
+      [101, 102, 103, 104, 105],
+    ];
+
+    return a[0].length;
+  }
+}
