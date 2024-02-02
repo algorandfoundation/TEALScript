@@ -238,20 +238,20 @@ declare type precisions =
   | 160;
 
 // See https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
-type Brand<K, T> = K | (K & { __brand?: T });
+type Brand<K, T> = K & { __brand?: T };
 
 declare type uint<N extends widths> = Brand<number, `uint${N}`>;
-declare type uint8 = uint<8> | number;
-declare type uint16 = uint<16> | number;
-declare type uint32 = uint<32> | number;
-declare type uint64 = uint<64> | number;
-declare type uint128 = uint<128> | number;
-declare type uint256 = uint<256> | number;
+declare type uint8 = uint<8>;
+declare type uint16 = uint<16>;
+declare type uint32 = uint<32>;
+declare type uint64 = uint<64>;
+declare type uint128 = uint<128>;
+declare type uint256 = uint<256>;
 
 declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>;
 
-declare type byte = Brand<string, 'byte'>;
-declare type bytes = Brand<string, 'bytes'>;
+declare type byte = { __byte: true };
+declare type bytes<N = void> = Brand<string, 'bytes'>;
 declare type bytes32 = StaticArray<byte, 32>;
 declare type bytes64 = StaticArray<byte, 64>;
 
@@ -1084,10 +1084,13 @@ declare class abi {
   static readonly: decorator;
 }
 
-type StaticArray<T extends BytesLike | IntLike | StaticArray, N extends number> = Brand<
-  T extends byte ? string : N extends 0 ? never[] : T extends boolean ? (true | false)[] : T[],
-  T
->;
+type StaticArrayOf<T, N> = Brand<T[], N>;
+type StaticBytes<N> = Brand<string, N>;
+type StaticArray<T, N> = T extends byte
+  ? StaticBytes<N>
+  : T extends boolean
+  ? StaticArrayOf<true | false, N>
+  : StaticArrayOf<T, N>;
 
 // eslint-disable-next-line no-shadow
 enum TransactionType {

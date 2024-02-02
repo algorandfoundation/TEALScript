@@ -949,7 +949,9 @@ export default class Compiler {
         if (args[0]) {
           this.processNode(args[0]);
         } else if (this.isDynamicType(valueType)) {
-          throw Error('Size must be given to create call when the box value is dynamic');
+          throw Error(
+            `Size must be given to create call when the box value is dynamic (${typeInfoToABIString(valueType)})`
+          );
         } else this.pushVoid(node, `int ${this.getTypeLength(valueType)}`);
 
         this.pushLines(node.getExpression(), 'box_create', 'pop');
@@ -1131,6 +1133,32 @@ export default class Compiler {
       return { kind: 'base', type: 'any' };
     }
 
+    if (type.getText().match(/uint\d+$/)) {
+      return { kind: 'base', type: type.getText() };
+    }
+
+    if (type.getText().match(/uint<\d+>$/)) {
+      return { kind: 'base', type: type.getText().replace('>', '').replace('<', '') };
+    }
+
+    if (type.getText() === 'bytes<N>') {
+      return { kind: 'base', type: 'bytes' };
+    }
+
+    if (type.getText().match(/ufixed<\d+, \d+>$/)) {
+      return {
+        kind: 'base',
+        type: type.getText().replace('>', '').replace('<', '').replace(/ /g, '').replace(',', 'x'),
+      };
+    }
+
+    if (type.getText().match(/StaticBytes<\d+>$/)) {
+      return {
+        kind: 'staticArray',
+        base: { kind: 'base', type: 'byte' },
+        length: Number(type.getText().replace('StaticBytes<', '').replace('>', '')),
+      };
+    }
     throw Error(`Cannot resolve type ${type.getText()}`);
   }
 
