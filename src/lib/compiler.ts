@@ -5922,10 +5922,21 @@ export default class Compiler {
 
         // If the base is a variable
       } else if (this.localVariables[base.getText()]) {
+        const baseType = this.getTypeInfo(base.getType());
+
+        const isStaticLength =
+          baseType.kind === 'staticArray' &&
+          chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+          chain[0].getName() === 'length';
+
         const frame = this.localVariables[base.getText()];
 
-        // If this is an array reference, get the accessors
-        if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
+        // If this is a static array length, don't push array to stack since its not used
+        if (isStaticLength) {
+          this.lastType = baseType;
+        }
+        // else if this is an array reference, process the frame and get the accessors
+        else if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
           const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
 
           const { storageExpression } = frameFollow;
@@ -5939,20 +5950,13 @@ export default class Compiler {
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
             !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
-          const baseType = this.getTypeInfo(base.getType());
-
-          const isStaticLength =
-            baseType.kind === 'staticArray' &&
-            chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-            chain[0].getName() === 'length';
-
-          if (!isStaticBox && !isStaticLength) {
+          if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
           } else {
             this.lastType = baseType;
           }
 
-          if (!isStaticLength) frameFollow.accessors.forEach((e) => accessors.push(e));
+          frameFollow.accessors.forEach((e) => accessors.push(e));
 
           // otherwise just load the value
         } else {
