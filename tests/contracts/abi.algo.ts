@@ -1437,3 +1437,12 @@ class ABITestNestedArrayLengthInObject extends Contract {
     return a.foo.length;
   }
 }
+
+class ABITestNestedArrayLengthInObjectVariable extends Contract {
+  nestedArrayLengthInObjectVariable(): uint64 {
+    const a: { foo: StaticArray<uint8, 5> } = { foo: [11, 22, 33, 44, 55] };
+
+    const b = a.foo;
+    return b.length;
+  }
+}
