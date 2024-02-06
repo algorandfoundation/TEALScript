@@ -1795,6 +1795,8 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
+        this.addSourceComment(node.getExpression(), true);
+
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
         const arrayType = this.getStackTypeFromNode(expr);
 
@@ -2910,7 +2912,12 @@ export default class Compiler {
   }
 
   private processForStatement(node: ts.ForStatement) {
-    this.processNode(node.getInitializer()!!);
+    const start = node.getStart();
+    const end = node.getChildren()[7].getEnd();
+    const forComment = node.getSourceFile().getFullText().slice(start, end);
+    this.addSourceComment(node, true, forComment);
+
+    this.processNode(node.getInitializerOrThrow());
 
     const preLoop = this.currentLoop;
     const thisLoop = `for_${this.forCount}`;
@@ -2919,11 +2926,13 @@ export default class Compiler {
     this.currentLoop = thisLoop;
 
     this.pushVoid(node, `${thisLoop}:`);
+    this.addSourceComment(node.getConditionOrThrow(), true);
     this.processConditional(node.getConditionOrThrow());
     this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
 
+    this.addSourceComment(node.getIncrementorOrThrow(), true);
     this.processNode(node.getIncrementorOrThrow());
     this.pushVoid(node, `b ${thisLoop}`);
     this.pushVoid(node, `${thisLoop}_end:`);
@@ -5922,10 +5931,21 @@ export default class Compiler {
 
         // If the base is a variable
       } else if (this.localVariables[base.getText()]) {
+        const baseType = this.getTypeInfo(base.getType());
+
+        const isStaticLength =
+          baseType.kind === 'staticArray' &&
+          chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+          chain[0].getName() === 'length';
+
         const frame = this.localVariables[base.getText()];
 
-        // If this is an array reference, get the accessors
-        if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
+        // If this is a static array length, don't push array to stack since its not used
+        if (isStaticLength) {
+          this.lastType = baseType;
+        }
+        // else if this is an array reference, process the frame and get the accessors
+        else if (frame && frame.index === undefined && !MULTI_OUTPUT_TYPES.includes(typeInfoToABIString(frame.type))) {
           const frameFollow = this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), false);
 
           const { storageExpression } = frameFollow;
@@ -5939,20 +5959,13 @@ export default class Compiler {
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
             !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
-          const baseType = this.getTypeInfo(base.getType());
-
-          const isStaticLength =
-            baseType.kind === 'staticArray' &&
-            chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-            chain[0].getName() === 'length';
-
-          if (!isStaticBox && !isStaticLength) {
+          if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
           } else {
             this.lastType = baseType;
           }
 
-          if (!isStaticLength) frameFollow.accessors.forEach((e) => accessors.push(e));
+          frameFollow.accessors.forEach((e) => accessors.push(e));
 
           // otherwise just load the value
         } else {
@@ -6894,7 +6907,7 @@ export default class Compiler {
     return json;
   }
 
-  private addSourceComment(node: ts.Node, force: boolean = false) {
+  private addSourceComment(node: ts.Node, force?: boolean, comment?: string) {
     if (
       !force &&
       node.getStart() >= this.lastSourceCommentRange[0] &&
@@ -6906,10 +6919,7 @@ export default class Compiler {
     const nodePath = path.relative(this.cwd, node.getSourceFile().getFilePath());
     this.pushVoid(node, `// ${nodePath}:${node.getStartLineNumber()}`);
 
-    const lines = node
-      .getText()
-      .split('\n')
-      .map((l) => `// ${l}`);
+    const lines = (comment ?? node.getText()).split('\n').map((l) => `// ${l}`);
     this.pushLines(node, ...lines);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
