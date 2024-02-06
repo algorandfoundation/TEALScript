@@ -192,10 +192,15 @@ class GeneralTest extends Contract {
     assert(this.scratch.value === 1337);
   }
 
-  ecdsa(): [uint256, uint256] {
-    ecdsaVerify('Secp256k1', '' as bytes32, 1, 2, 3, 4);
-    ecdsaPkDecompress('Secp256k1', '' as bytes<33>);
-    return ecdsaPkRecover('Secp256k1', '' as bytes32, 1, 2, 3);
+  ecdsa(): void {
+    ecdsaVerify('Secp256k1', '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32);
+    const d = ecdsaPkDecompress('Secp256k1', '' as bytes<33>);
+    log(d.y);
+    log(d.x);
+
+    const r = ecdsaPkRecover('Secp256k1', '' as bytes32, 1, '' as bytes32, '' as bytes32);
+    log(r.y);
+    log(r.x);
   }
 
   verifyTxnTypes(): void {
