@@ -48,7 +48,6 @@ staticArrayLength:
 
 	// tests/contracts/abi.algo.ts:1396
 	// return a.length;
-	frame_dig 0 // a: StaticArray<uint8, 5>
 	int 5
 
 	// set the subroutine return value
