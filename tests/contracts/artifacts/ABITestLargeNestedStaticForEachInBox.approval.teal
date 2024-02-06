@@ -70,7 +70,7 @@ largeNestedStaticForEachInBox:
 	frame_bury 0 // sum: uint64
 
 	// tests/contracts/abi.algo.ts:1371
-	// this.bKey.value[1]
+	// this.bKey.value[1].forEach
 	int 32 // headOffset
 	int 4160
 	byte 0x624b6579 // "bKey"

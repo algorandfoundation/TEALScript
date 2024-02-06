@@ -1795,6 +1795,8 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
+        this.addSourceComment(node.getExpression(), true);
+
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
         const arrayType = this.getStackTypeFromNode(expr);
 

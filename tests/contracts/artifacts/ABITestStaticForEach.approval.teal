@@ -51,6 +51,9 @@ staticForEach:
 	// sum = 0
 	int 0
 	frame_bury 1 // sum: uint64
+
+	// tests/contracts/abi.algo.ts:1320
+	// a.forEach
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	dup
 	frame_bury 2 // copy of the array we are iterating over

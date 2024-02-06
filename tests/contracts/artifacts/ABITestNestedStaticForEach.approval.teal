@@ -57,7 +57,7 @@ nestedStaticForEach:
 	frame_bury 1 // sum: uint64
 
 	// tests/contracts/abi.algo.ts:1336
-	// a[1]
+	// a[1].forEach
 	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 	extract 24 24
 	dup
