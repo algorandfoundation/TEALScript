@@ -929,10 +929,10 @@ declare function sha3_256(data: BytesLike): bytes32;
 declare function ecdsaVerify(
   curve: 'Secp256k1' | 'Secp256r1',
   data: bytes32,
-  sSignatureComponent: bytes,
-  rSignatureComponent: bytes,
-  xPubkeyComponent: bytes,
-  yPubkeyComponent: bytes
+  sSignatureComponent: bytes32,
+  rSignatureComponent: bytes32,
+  xPubkeyComponent: bytes32,
+  yPubkeyComponent: bytes32
 ): boolean;
 
 declare type ECDSAPubKey = { x: bytes; y: bytes };

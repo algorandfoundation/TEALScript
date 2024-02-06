@@ -767,10 +767,9 @@ ecdsa:
 	dupn 7
 
 	// tests/contracts/general.algo.ts:196
-	// ecdsaVerify('Secp256k1', '' as bytes32, '', '', '', '')
+	// ecdsaVerify('Secp256k1', '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32)
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
-	byte 0x // ""
-	dupn 3
+	dupn 4
 	ecdsa_verify Secp256k1
 
 	// tests/contracts/general.algo.ts:197

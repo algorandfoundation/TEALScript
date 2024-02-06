@@ -193,7 +193,7 @@ class GeneralTest extends Contract {
   }
 
   ecdsa(): void {
-    ecdsaVerify('Secp256k1', '' as bytes32, '', '', '', '');
+    ecdsaVerify('Secp256k1', '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32);
     const d = ecdsaPkDecompress('Secp256k1', '' as bytes<33>);
     log(d.y);
     log(d.x);
