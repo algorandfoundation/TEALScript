@@ -751,57 +751,64 @@ scratchSlot:
 	assert
 	retsub
 
-// ecdsa()(uint256,uint256)
+// ecdsa()void
 abi_route_ecdsa:
-	// The ABI return prefix
-	byte 0x151f7c75
-
-	// execute ecdsa()(uint256,uint256)
+	// execute ecdsa()void
 	callsub ecdsa
-	concat
-	log
 	int 1
 	return
 
-// ecdsa(): [uint256, uint256]
+// ecdsa(): void
 ecdsa:
-	proto 0 1
+	proto 0 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+	dupn 7
 
 	// tests/contracts/general.algo.ts:196
-	// ecdsaVerify('Secp256k1', '' as bytes32, 1, 2, 3, 4)
+	// ecdsaVerify('Secp256k1', '' as bytes32, '', '', '', '')
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
-	byte 0x01
-	byte 0x02
-	byte 0x03
-	byte 0x04
+	byte 0x // ""
+	dupn 3
 	ecdsa_verify Secp256k1
 
 	// tests/contracts/general.algo.ts:197
-	// ecdsaPkDecompress('Secp256k1', '' as bytes<33>)
+	// d = ecdsaPkDecompress('Secp256k1', '' as bytes<33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	swap
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	swap
-	concat
+	frame_bury 2 // d y component: byte[]
+	frame_bury 3 // d x component: byte[]
 
 	// tests/contracts/general.algo.ts:198
-	// return ecdsaPkRecover('Secp256k1', '' as bytes32, 1, 2, 3);
+	// log(d.y)
+	frame_dig 2 // d y component: byte[]
+	log
+
+	// tests/contracts/general.algo.ts:199
+	// log(d.x)
+	frame_dig 3 // d x component: byte[]
+	log
+
+	// tests/contracts/general.algo.ts:201
+	// r = ecdsaPkRecover('Secp256k1', '' as bytes32, 1, '' as bytes32, '' as bytes32)
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	int 1
-	byte 0x0000000000000000000000000000000000000000000000000000000000000002
-	byte 0x0000000000000000000000000000000000000000000000000000000000000003
+	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
+	dup
 	ecdsa_pk_recover Secp256k1
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	swap
-	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-	b&
-	swap
-	concat
+	frame_bury 6 // r y component: byte[]
+	frame_bury 7 // r x component: byte[]
+
+	// tests/contracts/general.algo.ts:202
+	// log(r.y)
+	frame_dig 6 // r y component: byte[]
+	log
+
+	// tests/contracts/general.algo.ts:203
+	// log(r.x)
+	frame_dig 7 // r x component: byte[]
+	log
 	retsub
 
 // verifyTxnTypes()void
@@ -815,7 +822,7 @@ abi_route_verifyTxnTypes:
 verifyTxnTypes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:202
+	// tests/contracts/general.algo.ts:207
 	// verifyPayTxn(this.txnGroup[0], {
 	//       amount: { greaterThan: 0 },
 	//     })
@@ -833,7 +840,7 @@ verifyTxnTypes:
 	>
 	assert
 
-	// tests/contracts/general.algo.ts:206
+	// tests/contracts/general.algo.ts:211
 	// verifyAppCallTxn(this.txnGroup[0], {
 	//       applicationID: Application.fromID(0),
 	//       applicationArgs: {
@@ -877,7 +884,7 @@ verifyTxnTypes:
 	||
 	assert
 
-	// tests/contracts/general.algo.ts:216
+	// tests/contracts/general.algo.ts:221
 	// verifyAssetTransferTxn(this.txnGroup[0], {
 	//       assetReceiver: this.app.address,
 	//     })
@@ -895,7 +902,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:220
+	// tests/contracts/general.algo.ts:225
 	// verifyAssetConfigTxn(this.txnGroup[0], {
 	//       configAsset: Asset.fromID(0),
 	//     })
@@ -913,7 +920,7 @@ verifyTxnTypes:
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:224
+	// tests/contracts/general.algo.ts:229
 	// verifyKeyRegTxn(this.txnGroup[0], {
 	//       voteFirst: 1337,
 	//     })
@@ -946,19 +953,19 @@ stringPlusEquals:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:230
+	// tests/contracts/general.algo.ts:235
 	// s = 'foo'
 	byte 0x666f6f // "foo"
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/general.algo.ts:231
+	// tests/contracts/general.algo.ts:236
 	// s += 'bar'
 	frame_dig 0 // s: byte[]
 	byte 0x626172 // "bar"
 	concat
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/general.algo.ts:232
+	// tests/contracts/general.algo.ts:237
 	// assert(s === 'foobar')
 	frame_dig 0 // s: byte[]
 	byte 0x666f6f626172 // "foobar"
@@ -988,7 +995,7 @@ abi_route_importedProgram:
 importedProgram:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:236
+	// tests/contracts/general.algo.ts:241
 	// return IfTest.approvalProgram();
 	byte b64 CiAEAQACICYJBBUffHUCaWYEZWxzZQNlbmQAA2ZvbwdlbHNlIGlmCWVsc2UgaWYgMQllbHNlIGlmIDIxGBSBBgsxGQiNDALIAAAAAAAAAAAAAAK6AAAAAAAAAAAAAAAoNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oBAYv/QQACKYkriSg2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigEBi/9BAAUpiUIAAiqJiSg2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oCAYv/QQAFKYlCAAiL/kEAAycGiSuJKDYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigIBi/9BAAUpiUIADYv+QQAGJwaJQgACKomJKDYaA0kVIhJEI1M2GgJJFSISRCNTNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oDAYv/QQAFKYlCABOL/kEABicHiUIACIv9QQADJwiJK4koNhoDSRUiEkQjUzYaAkkVIhJEI1M2GgFJFSISRCNTiAAMSRUWVwYCTFBQsCJDigMBi/9BAAUpiUIAGIv+QQAGJweJQgANi/1BAAYnCIlCAAIqiYkoNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAxJFRZXBgJMUFCwIkOKAgGL/0EAFov+QQAMgAluZXN0ZWQgaWaJKYlCAAIqiYkoNhoBSRUiEkQjU4gADEkVFlcGAkxQULAiQ4oBAYv/QQAFKYlCAAIqiYkoNhoCSRUiEkQjUzYaAUkVIhJEI1OIAAUWULAiQ4oCAYv/QQAEIkIAC4v+QQAEJEIAAoEDiSg2GgFXAgCIAAUWULAiQ4oBAYv/JwSpQQACIokkiSg2GgFXAgCIAAUWULAiQ4oBAYv/JwSpQQAEIkIAASSJNhoBSRUkEkQXiAACIkOKAQCL/ycEqUEAAycFsIk2GgJJFSQSRBc2GgFJFSQSRBeIAAIiQ4oCAIv/i/4OQQADJwWwiTYaAkkVJRJENhoBSRUlEkSIAAIiQ4oCAIv/i/6mQQADJwWwiSJDgAS4RHs2NhoAjgH/8QCABENuwcKABBx6DV6ABF4Pts+ABF4cbFCABFjQupKABF0vTwKABIRXKdmABI/nbKiABBo8eHiABHS8yGiABEIS+QWABJXdrr+ABDFHuGaABEKJf2E2GgCODvzE/Or9FP1P/Y793v4y/nf+of7W/vT/FP8x/1cA
 	retsub
@@ -1004,7 +1011,7 @@ abi_route_callPrivateDefinedLater:
 callPrivateDefinedLater:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:240
+	// tests/contracts/general.algo.ts:245
 	// log(this.privateMethod('hello'))
 	byte 0x68656c6c6f // "hello"
 	callsub privateMethod
@@ -1015,7 +1022,7 @@ callPrivateDefinedLater:
 privateMethod:
 	proto 1 1
 
-	// tests/contracts/general.algo.ts:244
+	// tests/contracts/general.algo.ts:249
 	// return msg;
 	frame_dig -1 // msg: string
 	retsub
@@ -1045,7 +1052,7 @@ abi_route_interalPublicMethod:
 interalPublicMethod:
 	proto 2 1
 
-	// tests/contracts/general.algo.ts:248
+	// tests/contracts/general.algo.ts:253
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
@@ -1063,7 +1070,7 @@ abi_route_callInternalPublicMethod:
 callInternalPublicMethod:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:252
+	// tests/contracts/general.algo.ts:257
 	// assert(this.interalPublicMethod(1, 2) === 3)
 	int 2
 	int 1
@@ -1084,7 +1091,7 @@ abi_route_appLoadScratch:
 appLoadScratch:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:256
+	// tests/contracts/general.algo.ts:261
 	// log(this.txnGroup[1].loadScratch(2) as bytes)
 	gload 1 2
 	log
@@ -1120,7 +1127,7 @@ abi_route_uintNWithUnderscore:
 uintNWithUnderscore:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:260
+	// tests/contracts/general.algo.ts:265
 	// return <uint256>123_456;
 	byte 0x000000000000000000000000000000000000000000000000000000000001e240
 	retsub
@@ -1139,7 +1146,7 @@ opUp:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:264
+	// tests/contracts/general.algo.ts:269
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -1154,25 +1161,25 @@ opUp:
 	itxn_field OnCompletion
 	itxn_submit
 
-	// tests/contracts/general.algo.ts:265
+	// tests/contracts/general.algo.ts:270
 	// i = 1
 	int 1
 	frame_bury 0 // i: uint64
 
 for_0:
-	// tests/contracts/general.algo.ts:265
+	// tests/contracts/general.algo.ts:270
 	// i < 75
 	frame_dig 0 // i: uint64
 	int 75
 	<
 	bz for_0_end
 
-	// tests/contracts/general.algo.ts:266
+	// tests/contracts/general.algo.ts:271
 	// assert(i)
 	frame_dig 0 // i: uint64
 	assert
 
-	// tests/contracts/general.algo.ts:265
+	// tests/contracts/general.algo.ts:270
 	// i += 1
 	frame_dig 0 // i: uint64
 	int 1
@@ -1208,13 +1215,13 @@ returnValueOnAssignment:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:271
+	// tests/contracts/general.algo.ts:276
 	// message = 'hi'
 	byte 0x6869 // "hi"
 	frame_bury 0 // message: byte[]
 
 	// if0_condition
-	// tests/contracts/general.algo.ts:273
+	// tests/contracts/general.algo.ts:278
 	// this.txn.sender === this.app.address
 	txn Sender
 	global CurrentApplicationAddress
@@ -1222,13 +1229,13 @@ returnValueOnAssignment:
 	bz if0_end
 
 	// if0_consequent
-	// tests/contracts/general.algo.ts:274
+	// tests/contracts/general.algo.ts:279
 	// message = 'in block'
 	byte 0x696e20626c6f636b // "in block"
 	frame_bury 0 // message: byte[]
 
 if0_end:
-	// tests/contracts/general.algo.ts:277
+	// tests/contracts/general.algo.ts:282
 	// return (message = 'bye');
 	byte 0x627965 // "bye"
 	dup
@@ -1258,12 +1265,12 @@ returnArrayValueOnAssignment:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:281
+	// tests/contracts/general.algo.ts:286
 	// a: StaticArray<uint64, 3> = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury 0 // a: StaticArray<uint64, 3>
 
-	// tests/contracts/general.algo.ts:283
+	// tests/contracts/general.algo.ts:288
 	// return (a[0] = 4);
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	int 0
@@ -1296,13 +1303,13 @@ abi_route_returnStorageValueOnAssignment:
 returnStorageValueOnAssignment:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:287
+	// tests/contracts/general.algo.ts:292
 	// this.gKey.value = 1
 	byte 0x674b6579 // "gKey"
 	int 1
 	app_global_put
 
-	// tests/contracts/general.algo.ts:289
+	// tests/contracts/general.algo.ts:294
 	// return (this.gKey.value = 2);
 	byte 0x674b6579 // "gKey"
 	int 2
@@ -1332,12 +1339,12 @@ returnOperatorAssignmentValue:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:293
+	// tests/contracts/general.algo.ts:298
 	// a = 1
 	int 1
 	frame_bury 0 // a: uint64
 
-	// tests/contracts/general.algo.ts:295
+	// tests/contracts/general.algo.ts:300
 	// return (a += 2);
 	frame_dig 0 // a: uint64
 	int 2
@@ -1371,12 +1378,12 @@ returnArrayValueOnOperatorAssignment:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:299
+	// tests/contracts/general.algo.ts:304
 	// a: StaticArray<uint64, 3> = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury 0 // a: StaticArray<uint64, 3>
 
-	// tests/contracts/general.algo.ts:301
+	// tests/contracts/general.algo.ts:306
 	// return (a[0] += 4);
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	int 0
@@ -1413,13 +1420,13 @@ abi_route_returnArrayInStorageValueOnOperatorAssignment:
 returnArrayInStorageValueOnOperatorAssignment:
 	proto 0 1
 
-	// tests/contracts/general.algo.ts:305
+	// tests/contracts/general.algo.ts:310
 	// this.storageArray.value = [1, 2, 3]
 	byte 0x73746f726167654172726179 // "storageArray"
 	byte 0x000000000000000100000000000000020000000000000003
 	app_global_put
 
-	// tests/contracts/general.algo.ts:307
+	// tests/contracts/general.algo.ts:312
 	// return (this.storageArray.value[0] += 4);
 	byte 0x73746f726167654172726179 // "storageArray"
 	app_global_get
@@ -1451,21 +1458,21 @@ abi_route_consts:
 consts:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:311
+	// tests/contracts/general.algo.ts:316
 	// assert(STRING_CONST === 'foo')
 	byte "foo"
 	byte 0x666f6f // "foo"
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:312
+	// tests/contracts/general.algo.ts:317
 	// assert(NUM_CONST === 123)
 	int 123
 	dup
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:313
+	// tests/contracts/general.algo.ts:318
 	// assert(NESTED_CONST === 123)
 	int 123
 	dup
@@ -1484,7 +1491,7 @@ abi_route_assertWithMessage:
 assertWithMessage:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:317
+	// tests/contracts/general.algo.ts:322
 	// assert(false, 'this is false')
 	int 0
 
@@ -1503,32 +1510,32 @@ abi_route_opcodeAliases:
 opcodeAliases:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:321
+	// tests/contracts/general.algo.ts:326
 	// extractUint16(bzero(64), 0)
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	int 0
 	extract_uint16
 
-	// tests/contracts/general.algo.ts:322
+	// tests/contracts/general.algo.ts:327
 	// extractUint32(bzero(64), 0)
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	int 0
 	extract_uint32
 
-	// tests/contracts/general.algo.ts:323
+	// tests/contracts/general.algo.ts:328
 	// extractUint64(bzero(64), 0)
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	int 0
 	extract_uint64
 
-	// tests/contracts/general.algo.ts:324
+	// tests/contracts/general.algo.ts:329
 	// ed25519VerifyBare(bzero(64), bzero(64), bzero(32))
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	dup
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000
 	ed25519verify_bare
 
-	// tests/contracts/general.algo.ts:325
+	// tests/contracts/general.algo.ts:330
 	// ed25519Verify(bzero(64), bzero(64), bzero(32))
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	dup
@@ -1550,81 +1557,6 @@ vrfVerifyOp:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 	dupn 3
-
-	// tests/contracts/general.algo.ts:329
-	// increaseOpcodeBudget()
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	int 0
-	itxn_field Fee
-	byte b64 CoEB // #pragma version 10; int 1
-	dup
-	itxn_field ApprovalProgram
-	itxn_field ClearStateProgram
-	int DeleteApplication
-	itxn_field OnCompletion
-	itxn_submit
-
-	// tests/contracts/general.algo.ts:330
-	// increaseOpcodeBudget()
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	int 0
-	itxn_field Fee
-	byte b64 CoEB // #pragma version 10; int 1
-	dup
-	itxn_field ApprovalProgram
-	itxn_field ClearStateProgram
-	int DeleteApplication
-	itxn_field OnCompletion
-	itxn_submit
-
-	// tests/contracts/general.algo.ts:331
-	// increaseOpcodeBudget()
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	int 0
-	itxn_field Fee
-	byte b64 CoEB // #pragma version 10; int 1
-	dup
-	itxn_field ApprovalProgram
-	itxn_field ClearStateProgram
-	int DeleteApplication
-	itxn_field OnCompletion
-	itxn_submit
-
-	// tests/contracts/general.algo.ts:332
-	// increaseOpcodeBudget()
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	int 0
-	itxn_field Fee
-	byte b64 CoEB // #pragma version 10; int 1
-	dup
-	itxn_field ApprovalProgram
-	itxn_field ClearStateProgram
-	int DeleteApplication
-	itxn_field OnCompletion
-	itxn_submit
-
-	// tests/contracts/general.algo.ts:333
-	// increaseOpcodeBudget()
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	int 0
-	itxn_field Fee
-	byte b64 CoEB // #pragma version 10; int 1
-	dup
-	itxn_field ApprovalProgram
-	itxn_field ClearStateProgram
-	int DeleteApplication
-	itxn_field OnCompletion
-	itxn_submit
 
 	// tests/contracts/general.algo.ts:334
 	// increaseOpcodeBudget()
@@ -1686,7 +1618,82 @@ vrfVerifyOp:
 	itxn_field OnCompletion
 	itxn_submit
 
+	// tests/contracts/general.algo.ts:338
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
 	// tests/contracts/general.algo.ts:339
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:340
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:341
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:342
+	// increaseOpcodeBudget()
+	itxn_begin
+	int appl
+	itxn_field TypeEnum
+	int 0
+	itxn_field Fee
+	byte b64 CoEB // #pragma version 10; int 1
+	dup
+	itxn_field ApprovalProgram
+	itxn_field ClearStateProgram
+	int DeleteApplication
+	itxn_field OnCompletion
+	itxn_submit
+
+	// tests/contracts/general.algo.ts:344
 	// r = vrfVefiry('VrfAlgorand', bzero(32) as bytes, bzero(80), bzero(32))
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -1695,13 +1702,13 @@ vrfVerifyOp:
 	frame_bury 2 // r verified: bool
 	frame_bury 3 // r output: byte[]
 
-	// tests/contracts/general.algo.ts:340
+	// tests/contracts/general.algo.ts:345
 	// assert(!r.verified)
 	frame_dig 2 // r verified: bool
 	!
 	assert
 
-	// tests/contracts/general.algo.ts:341
+	// tests/contracts/general.algo.ts:346
 	// log(r.output)
 	frame_dig 3 // r output: byte[]
 	log
@@ -1721,40 +1728,40 @@ ecMath:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:345
+	// tests/contracts/general.algo.ts:350
 	// ecScalarMul('BN254g1', '', '')
 	byte 0x // ""
 	dup
 	ec_scalar_mul BN254g1
 
-	// tests/contracts/general.algo.ts:346
+	// tests/contracts/general.algo.ts:351
 	// ecPairingCheck('BN254g1', '', '')
 	byte 0x // ""
 	dup
 	ec_pairing_check BN254g1
 
-	// tests/contracts/general.algo.ts:347
+	// tests/contracts/general.algo.ts:352
 	// scalars: bytes32[] = [bzero(32), bzero(32)]
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	frame_bury 0 // scalars: bytes32[]
 
-	// tests/contracts/general.algo.ts:348
+	// tests/contracts/general.algo.ts:353
 	// ecMultiScalarMul('BN254g1', '', scalars)
 	byte 0x // ""
 	byte 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 // scalars: bytes32[]
 	ec_multi_scalar_mul BN254g1
 
-	// tests/contracts/general.algo.ts:349
+	// tests/contracts/general.algo.ts:354
 	// ecSubgroupCheck('BN254g1', '')
 	byte 0x // ""
 	ec_subgroup_check BN254g1
 
-	// tests/contracts/general.algo.ts:350
+	// tests/contracts/general.algo.ts:355
 	// ecMapTo('BN254g1', '')
 	byte 0x // ""
 	ec_map_to BN254g1
 
-	// tests/contracts/general.algo.ts:351
+	// tests/contracts/general.algo.ts:356
 	// ecAdd('BN254g1', '', '')
 	byte 0x // ""
 	dup
@@ -1775,17 +1782,17 @@ gitxn:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:355
+	// tests/contracts/general.algo.ts:360
 	// log(this.lastInnerGroup[0].sender)
 	gitxn 0 Sender
 	log
 
-	// tests/contracts/general.algo.ts:357
+	// tests/contracts/general.algo.ts:362
 	// anotherTxn = this.lastInnerGroup[1]
 	int 1
 	frame_bury 0 // anotherTxn: gitxn
 
-	// tests/contracts/general.algo.ts:359
+	// tests/contracts/general.algo.ts:364
 	// log(anotherTxn.sender)
 	gitxn 1 Sender
 	log
@@ -1802,7 +1809,7 @@ abi_route_getSetBytes:
 getSetBytes:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:363
+	// tests/contracts/general.algo.ts:368
 	// log(setbit('foo', 0, true))
 	byte 0x666f6f // "foo"
 	int 0
@@ -1810,19 +1817,19 @@ getSetBytes:
 	setbit
 	log
 
-	// tests/contracts/general.algo.ts:364
+	// tests/contracts/general.algo.ts:369
 	// getbit('foo', 0)
 	byte 0x666f6f // "foo"
 	int 0
 	getbit
 
-	// tests/contracts/general.algo.ts:365
+	// tests/contracts/general.algo.ts:370
 	// getbyte('foo', 0)
 	byte 0x666f6f // "foo"
 	int 0
 	getbyte
 
-	// tests/contracts/general.algo.ts:366
+	// tests/contracts/general.algo.ts:371
 	// setbyte('foo', 0, 1)
 	byte 0x666f6f // "foo"
 	int 0
@@ -1841,7 +1848,7 @@ abi_route_getSetUint64:
 getSetUint64:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:370
+	// tests/contracts/general.algo.ts:375
 	// assert(setbit(123, 0, true))
 	int 123
 	int 0
@@ -1849,7 +1856,7 @@ getSetUint64:
 	setbit
 	assert
 
-	// tests/contracts/general.algo.ts:371
+	// tests/contracts/general.algo.ts:376
 	// getbit(123, 0)
 	int 123
 	int 0
@@ -1867,7 +1874,7 @@ abi_route_blockOp:
 blockOp:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:375
+	// tests/contracts/general.algo.ts:380
 	// log(blocks[globals.round - 1].seed)
 	global Round
 	int 1
@@ -1875,7 +1882,7 @@ blockOp:
 	block BlkSeed
 	log
 
-	// tests/contracts/general.algo.ts:376
+	// tests/contracts/general.algo.ts:381
 	// assert(blocks[globals.round - 1].timestamp)
 	global Round
 	int 1
@@ -1895,7 +1902,7 @@ abi_route_b64:
 b64:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:380
+	// tests/contracts/general.algo.ts:385
 	// log(base64Decode('StdEncoding', ''))
 	byte 0x // ""
 	base64_decode StdEncoding
@@ -1913,21 +1920,21 @@ abi_route_json:
 json:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:384
+	// tests/contracts/general.algo.ts:389
 	// log(jsonRef('JSONObject', '', ''))
 	byte 0x // ""
 	dup
 	json_ref JSONObject
 	log
 
-	// tests/contracts/general.algo.ts:385
+	// tests/contracts/general.algo.ts:390
 	// log(jsonRef('JSONString', '', ''))
 	byte 0x // ""
 	dup
 	json_ref JSONString
 	log
 
-	// tests/contracts/general.algo.ts:386
+	// tests/contracts/general.algo.ts:391
 	// assert(jsonRef('JSONUint64', '', ''))
 	byte 0x // ""
 	dup
@@ -1946,12 +1953,12 @@ abi_route_bitlenOp:
 bitlenOp:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:390
+	// tests/contracts/general.algo.ts:395
 	// bitlen(123)
 	int 123
 	bitlen
 
-	// tests/contracts/general.algo.ts:391
+	// tests/contracts/general.algo.ts:396
 	// bitlen('foo')
 	byte 0x666f6f // "foo"
 	bitlen
@@ -1968,7 +1975,7 @@ abi_route_computedConst:
 computedConst:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:395
+	// tests/contracts/general.algo.ts:400
 	// assert(COMPUTED_CONST)
 	int 246
 	assert
@@ -1985,7 +1992,7 @@ abi_route_multiComputedConst:
 multiComputedConst:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:399
+	// tests/contracts/general.algo.ts:404
 	// assert(MUTLI_COMPUTED_CONST)
 	int 30381
 	assert
@@ -2005,12 +2012,12 @@ computedConstAsStaticArrayLength:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:403
+	// tests/contracts/general.algo.ts:408
 	// a: MyType = []
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	frame_bury 0 // a: MyType
 
-	// tests/contracts/general.algo.ts:404
+	// tests/contracts/general.algo.ts:409
 	// assert(a.length === COMPUTED_CONST)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 // a: MyType
 	int 246
@@ -2030,28 +2037,28 @@ abi_route_readSchema:
 readSchema:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:408
+	// tests/contracts/general.algo.ts:413
 	// assert(SchemaContract.schema.global.numUint === 1)
 	int 1
 	dup
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:409
+	// tests/contracts/general.algo.ts:414
 	// assert(SchemaContract.schema.global.numByteSlice === 2)
 	int 2
 	dup
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:410
+	// tests/contracts/general.algo.ts:415
 	// assert(SchemaContract.schema.local.numUint === 3)
 	int 3
 	dup
 	==
 	assert
 
-	// tests/contracts/general.algo.ts:411
+	// tests/contracts/general.algo.ts:416
 	// assert(SchemaContract.schema.local.numByteSlice === 4)
 	int 4
 	dup
@@ -2092,7 +2099,7 @@ call_NoOp:
 	method "stringSubstring()void"
 	method "idProperty()void"
 	method "scratchSlot()void"
-	method "ecdsa()(uint256,uint256)"
+	method "ecdsa()void"
 	method "verifyTxnTypes()void"
 	method "stringPlusEquals()void"
 	method "importedProgram()byte[]"

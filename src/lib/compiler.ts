@@ -14,7 +14,7 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 
-const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values'];
+const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
 type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
@@ -1013,6 +1013,7 @@ export default class Compiler {
     if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
     if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
     if (type.getText() === 'VRFReturnValues') return { kind: 'base', type: 'vrf return values' };
+    if (type.getText() === 'ECDSAPubKey') return { kind: 'base', type: 'ecdsa pubkey' };
     if (type.isNumberLiteral()) return { kind: 'base', type: 'uint64' };
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
@@ -1489,154 +1490,6 @@ export default class Compiler {
         }
 
         throw Error('bzero cannot be called with both a type argument and an argument');
-      },
-    },
-    ecdsaVerify: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        // data
-        this.processNode(node.getArguments()[1]);
-        typeComparison(this.lastType, {
-          kind: 'staticArray',
-          base: { kind: 'base', type: 'byte' },
-          length: 32,
-        });
-
-        const bigintType = { kind: 'base', type: 'bigint' } as TypeInfo;
-
-        // signature component
-        const thirdArg = node.getArguments()[2];
-        if (thirdArg.getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(thirdArg, { kind: 'base', type: 'bigint' });
-        } else {
-          this.processNode(thirdArg);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        // signature component
-        const fourthArg = node.getArguments()[3];
-        if (fourthArg.getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(fourthArg, { kind: 'base', type: 'bigint' });
-        } else {
-          this.processNode(fourthArg);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        // public key component
-        const fifthArg = node.getArguments()[4];
-        if (fifthArg.getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(fifthArg, { kind: 'base', type: 'bigint' });
-        } else {
-          this.processNode(fifthArg);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        // public key component
-        const sixthArg = node.getArguments()[5];
-        if (sixthArg.getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(sixthArg, { kind: 'base', type: 'bigint' });
-        } else {
-          this.processNode(sixthArg);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        const firstArg = node.getArguments()[0];
-        if (!firstArg.isKind(ts.SyntaxKind.StringLiteral)) throw Error();
-
-        this.push(node, `ecdsa_verify ${firstArg.getLiteralText()}`, { kind: 'base', type: 'bool' });
-      },
-    },
-    ecdsaPkDecompress: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        // pubkey
-        this.processNode(node.getArguments()[1]);
-        typeComparison(this.lastType, {
-          kind: 'staticArray',
-          base: { kind: 'base', type: 'byte' },
-          length: 33,
-        });
-
-        const args = node.getArguments();
-
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw Error();
-        this.pushVoid(node, `ecdsa_pk_decompress ${args[0].getLiteralText()}`);
-
-        this.pushLines(
-          node,
-          `byte 0x${'FF'.repeat(32)}`,
-          'b&',
-          'swap',
-          `byte 0x${'FF'.repeat(32)}`,
-          'b&',
-          'swap',
-          'concat'
-        );
-
-        const uint256Type = { kind: 'base', type: 'uint256' } as TypeInfo;
-        this.lastType = {
-          kind: 'tuple',
-          elements: [uint256Type, uint256Type],
-        };
-      },
-    },
-    ecdsaPkRecover: {
-      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
-      fn: (node: ts.CallExpression) => {
-        const args = node.getArguments();
-        // data
-        this.processNode(args[1]);
-        typeComparison(this.lastType, {
-          kind: 'staticArray',
-          base: { kind: 'base', type: 'byte' },
-          length: 32,
-        });
-
-        const bigintType = { kind: 'base', type: 'bigint' } as TypeInfo;
-
-        // recovery ID
-        if (args[2].getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(args[2], StackType.uint64);
-        } else {
-          this.processNode(args[2]);
-          typeComparison(this.lastType, StackType.uint64);
-        }
-
-        // sig component
-        if (args[3].getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(args[3], { kind: 'base', type: 'uint256' });
-        } else {
-          this.processNode(args[3]);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        // sig component
-        if (args[4].getType().isNumberLiteral()) {
-          this.processNumericLiteralWithType(args[4], { kind: 'base', type: 'uint256' });
-        } else {
-          this.processNode(args[4]);
-          typeComparison(this.lastType, bigintType);
-        }
-
-        if (!args[0].isKind(ts.SyntaxKind.StringLiteral)) throw Error();
-        this.pushVoid(node, `ecdsa_pk_recover ${args[0].getLiteralText()}`);
-
-        this.pushLines(
-          node,
-          `byte 0x${'FF'.repeat(32)}`,
-          'b&',
-          'swap',
-          `byte 0x${'FF'.repeat(32)}`,
-          'b&',
-          'swap',
-          'concat'
-        );
-
-        const uint256Type = { kind: 'base', type: 'uint256' } as TypeInfo;
-        this.lastType = {
-          kind: 'tuple',
-          elements: [uint256Type, uint256Type],
-        };
       },
     },
     addr: {
@@ -6459,6 +6312,9 @@ export default class Compiler {
     ecAdd: 'ec_add',
     base64Decode: 'base64_decode',
     jsonRef: 'json_ref',
+    ecdsaVerify: 'ecdsa_verify',
+    ecdsaPkDecompress: 'ecdsa_pk_decompress',
+    ecdsaPkRecover: 'ecdsa_pk_recover',
   };
 
   private processOpcode(node: ts.CallExpression) {
@@ -6615,6 +6471,22 @@ export default class Compiler {
       this.initialFrameBury(node, remainderHigh, StackType.uint64, `${remainderHigh}: uint64`);
       this.initialFrameBury(node, quotientLow, StackType.uint64, `${quotientLow}: uint64`);
       this.initialFrameBury(node, quotientHigh, StackType.uint64, `${quotientHigh}: uint64`);
+
+      this.lastType = returnTypeInfo;
+    }
+
+    if (returnTypeInfo.kind === 'base' && returnTypeInfo.type === 'ecdsa pubkey') {
+      const parent = node.getParent();
+      if (!parent?.isKind(ts.SyntaxKind.VariableDeclaration)) {
+        throw Error(`${opcodeName} output must be assigned to a variable before usage`);
+      }
+      const name = parent.getName();
+
+      const x = `${name} x`;
+      const y = `${name} y`;
+
+      this.initialFrameBury(node, y, StackType.bytes, `${y} component: byte[]`);
+      this.initialFrameBury(node, x, StackType.bytes, `${x} component: byte[]`);
 
       this.lastType = returnTypeInfo;
     }
