@@ -58,7 +58,7 @@ nestedStaticForEachInBox:
 	frame_bury 0 // sum: uint64
 
 	// tests/contracts/abi.algo.ts:1355
-	// this.bKey.value[1]
+	// this.bKey.value[1].forEach
 	byte 0x624b6579 // "bKey"
 	int 24
 	dup

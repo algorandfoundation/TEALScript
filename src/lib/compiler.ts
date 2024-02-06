@@ -1795,6 +1795,8 @@ export default class Compiler {
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
         isArrayType(this.getStackTypeFromNode((node.getExpression() as ts.PropertyAccessExpression).getExpression())),
       fn: (node: ts.CallExpression) => {
+        this.addSourceComment(node.getExpression(), true);
+
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
         const arrayType = this.getStackTypeFromNode(expr);
 
@@ -2910,7 +2912,12 @@ export default class Compiler {
   }
 
   private processForStatement(node: ts.ForStatement) {
-    this.processNode(node.getInitializer()!!);
+    const start = node.getStart();
+    const end = node.getChildren()[7].getEnd();
+    const forComment = node.getSourceFile().getFullText().slice(start, end);
+    this.addSourceComment(node, true, forComment);
+
+    this.processNode(node.getInitializerOrThrow());
 
     const preLoop = this.currentLoop;
     const thisLoop = `for_${this.forCount}`;
@@ -2919,11 +2926,13 @@ export default class Compiler {
     this.currentLoop = thisLoop;
 
     this.pushVoid(node, `${thisLoop}:`);
+    this.addSourceComment(node.getConditionOrThrow(), true);
     this.processConditional(node.getConditionOrThrow());
     this.pushVoid(node, `bz ${thisLoop}_end`);
 
     this.processNode(node.getStatement());
 
+    this.addSourceComment(node.getIncrementorOrThrow(), true);
     this.processNode(node.getIncrementorOrThrow());
     this.pushVoid(node, `b ${thisLoop}`);
     this.pushVoid(node, `${thisLoop}_end:`);
@@ -6898,7 +6907,7 @@ export default class Compiler {
     return json;
   }
 
-  private addSourceComment(node: ts.Node, force: boolean = false) {
+  private addSourceComment(node: ts.Node, force?: boolean, comment?: string) {
     if (
       !force &&
       node.getStart() >= this.lastSourceCommentRange[0] &&
@@ -6910,10 +6919,7 @@ export default class Compiler {
     const nodePath = path.relative(this.cwd, node.getSourceFile().getFilePath());
     this.pushVoid(node, `// ${nodePath}:${node.getStartLineNumber()}`);
 
-    const lines = node
-      .getText()
-      .split('\n')
-      .map((l) => `// ${l}`);
+    const lines = (comment ?? node.getText()).split('\n').map((l) => `// ${l}`);
     this.pushLines(node, ...lines);
 
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
