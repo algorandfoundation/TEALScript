@@ -1161,7 +1161,7 @@ opUp:
 	itxn_submit
 
 	// tests/contracts/general.algo.ts:270
-	// i = 1
+	// for (let i = 1; i < 75; i += 1)
 	int 1
 	frame_bury 0 // i: uint64
 

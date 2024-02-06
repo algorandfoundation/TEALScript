@@ -40,7 +40,7 @@ calcInitRoot:
 	frame_bury 0 // result: byte[32]
 
 	// examples/merkle/merkle.algo.ts:19
-	// i = 0
+	// for (let i = 0; i < TREE_DEPTH; i = i + 1)
 	int 0
 	frame_bury 1 // i: uint64
 
@@ -114,7 +114,7 @@ calcRoot:
 	dup
 
 	// examples/merkle/merkle.algo.ts:37
-	// i = 0
+	// for (let i = 0; i < TREE_DEPTH; i = i + 1)
 	int 0
 	frame_bury 0 // i: uint64
 
