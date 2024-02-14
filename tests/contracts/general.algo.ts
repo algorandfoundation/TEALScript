@@ -415,4 +415,8 @@ class GeneralTest extends Contract {
     assert(SchemaContract.schema.local.numUint === 3);
     assert(SchemaContract.schema.local.numByteSlice === 4);
   }
+
+  comparisonOr(): boolean {
+    return this.txn.sender === globals.zeroAddress || this.txn.sender === globals.zeroAddress;
+  }
 }

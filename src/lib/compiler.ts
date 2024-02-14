@@ -2593,7 +2593,7 @@ export default class Compiler {
         if (
           superClass === CONTRACT_CLASS ||
           this.contractClasses.includes(superClass) ||
-          superClass.startsWith(`${CONTRACT_CLASS}.extends`)
+          superClass.startsWith(`${CONTRACT_CLASS}.extend`)
         ) {
           this.contractClasses.push(className);
         } else this.lsigClasses.push(className);
@@ -4598,6 +4598,7 @@ export default class Compiler {
 
   private processLogicalExpression(node: ts.BinaryExpression) {
     this.processNode(node.getLeft());
+    const type = this.lastType;
 
     let label: string;
 
@@ -4618,6 +4619,7 @@ export default class Compiler {
     this.processNode(node.getRight());
     this.push(node.getOperatorToken(), node.getOperatorToken().getText(), StackType.uint64);
     this.pushVoid(node.getOperatorToken(), `${label!}:`);
+    this.lastType = type;
   }
 
   private processIdentifier(node: ts.Identifier) {
