@@ -2593,7 +2593,7 @@ export default class Compiler {
         if (
           superClass === CONTRACT_CLASS ||
           this.contractClasses.includes(superClass) ||
-          superClass.startsWith(`${CONTRACT_CLASS}.extends`)
+          superClass.startsWith(`${CONTRACT_CLASS}.extend`)
         ) {
           this.contractClasses.push(className);
         } else this.lsigClasses.push(className);
