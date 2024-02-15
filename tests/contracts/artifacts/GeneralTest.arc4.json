@@ -434,6 +434,25 @@
       }
     },
     {
+      "name": "txnArgsMethod",
+      "args": [
+        {
+          "name": "_pay1",
+          "type": "pay"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "callTxnArgsMethod",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

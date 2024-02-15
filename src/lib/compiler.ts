@@ -100,6 +100,12 @@ type TypeInfo =
       kind: 'staticArray';
       base: TypeInfo;
       length: number;
+    }
+  | {
+      kind: 'method';
+      args: TypeInfo[];
+      returns: TypeInfo;
+      name?: string;
     };
 
 type Event = {
@@ -185,6 +191,10 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
     return `(${Object.values(typeInfo.properties)
       .map((p) => typeInfoToABIString(p, convertRefs))
       .join(',')})`;
+  }
+
+  if (typeInfo.kind === 'method') {
+    return 'appl';
   }
 
   throw Error();
@@ -1048,7 +1058,27 @@ export default class Compiler {
     } as { [key: string]: string };
 
     if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
-    if (typeString.startsWith('innermethodcall')) return { kind: 'base', type: 'appl' };
+    if (typeString.startsWith('methodcall')) {
+      const typeArgs = type.getAliasTypeArguments();
+      let args: TypeInfo[] = [];
+      const returns = StackType.void;
+      let name: string | undefined;
+
+      if (typeArgs[0].isTuple()) {
+        args = typeArgs[0].getTupleElements().map((e) => this.getTypeInfo(e));
+      } else {
+        const sig = typeArgs[0].getCallSignatures()[0];
+        name = (sig.getDeclaration() as ts.MethodDeclaration).getName();
+
+        args = sig.getParameters().map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+      }
+
+      return {
+        kind: 'method',
+        args,
+        returns,
+      };
+    }
     if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
     if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
     if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
@@ -5469,7 +5499,8 @@ export default class Compiler {
 
       const methodName = chain[1].getNameNode().getText();
       if (chain[2].getArguments()[0]) {
-        this.processTransaction(chain[2], methodName, chain[2].getArguments()[0], chain[2].getTypeArguments());
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[2].getTypeArguments());
+        this.processTransaction(chain[2], methodName, chain[2].getArguments()[0], argTypes, returnType, name);
       } else if (methodName === 'submit') {
         this.pushVoid(chain[2], 'itxn_submit');
       } else throw new Error(`Unknown method ${chain[2].getText()}`);
@@ -5734,6 +5765,31 @@ export default class Compiler {
     }
   }
 
+  private methodTypeArgsToTypes(typeArgs: ts.TypeNode[]) {
+    let argTypes: TypeInfo[] = [];
+    let name: string | undefined;
+
+    if (typeArgs[0]?.isKind(ts.SyntaxKind.TupleType)) {
+      argTypes = typeArgs[0].getElements().map((t) => {
+        return this.getTypeInfo(t.getType());
+      });
+    } else if (typeArgs[0]) {
+      const sig = typeArgs[0].getType().getCallSignatures()[0];
+      argTypes = sig.getParameters().map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+    }
+
+    let returnType: TypeInfo = StackType.void;
+    if (typeArgs[0]?.isKind(ts.SyntaxKind.TypeQuery)) {
+      const sig = typeArgs![0].getType().getCallSignatures()[0];
+      name = (sig.getDeclaration() as ts.MethodDeclaration).getName();
+      returnType = this.getTypeInfo(sig.getReturnType());
+    } else if (typeArgs[1]) {
+      returnType = this.getTypeInfo(typeArgs[1].getType());
+    }
+
+    return { returnType, argTypes, name };
+  }
+
   /**
    * Walks an expression chain and processes each node
    * @param node The node to process
@@ -5898,7 +5954,10 @@ export default class Compiler {
       if (TXN_METHODS.includes(base.getText())) {
         if (!chain[0].isKind(ts.SyntaxKind.CallExpression))
           throw Error(`Unsupported ${chain[0].getKindName()} ${chain[0].getText()}`);
-        this.processTransaction(node, base.getText(), chain[0].getArguments()[0], chain[0].getTypeArguments());
+
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[0].getTypeArguments());
+
+        this.processTransaction(node, base.getText(), chain[0].getArguments()[0], argTypes, returnType, name);
         chain.splice(0, 1);
         return;
       }
@@ -6539,14 +6598,22 @@ export default class Compiler {
     this.lastType = frame.type;
   }
 
-  private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.TypeNode[]) {
+  private processTransaction(
+    node: ts.Node,
+    name: string,
+    fields: ts.Node,
+    argTypes: TypeInfo[],
+    returnType: TypeInfo,
+    methodName?: string
+  ) {
+    const argTypeStrings = argTypes.map((t) => typeInfoToABIString(t));
+
     if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
     if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
 
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
 
-    const addingTxn = name.startsWith('add');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
     if (name.startsWith('add')) {
@@ -6567,42 +6634,53 @@ export default class Compiler {
       }
 
       if (key === 'methodArgs') {
-        if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
-          throw new Error('Transaction call type arguments[0] must be a tuple type');
-        }
-        const argTypes = typeArgs[0].getElements().map((t) => t.getText());
-
         const init = p.getInitializer();
         if (!init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw new Error('methodArgs must be an array');
 
         init.getElements().forEach((e, i: number) => {
-          if (argTypes[i].startsWith('Inner')) {
-            const txnTypeArg = (typeArgs[0] as ts.TupleTypeNode).getElements()[i];
-            if (!txnTypeArg.isKind(ts.SyntaxKind.TypeReference)) throw Error('Invalid transaction type argument');
-            this.processTransaction(e, txnTypeArg.getTypeName().getText(), e, txnTypeArg.getTypeArguments());
+          if (TXN_TYPES.includes(argTypeStrings[i])) {
+            let innerArgs: TypeInfo[] = [];
+            let innerMethodReturnType: TypeInfo = StackType.void;
+            const argType = argTypes[i];
+
+            if (argType.kind === 'method') {
+              innerArgs = argType.args;
+              innerMethodReturnType = argType.returns;
+            }
+            this.processTransaction(e, argTypeStrings[i], e, innerArgs, innerMethodReturnType);
           }
         });
       }
     });
 
+    /*
+declare type AssetFreezeTxn = Required<AssetFreezeParams>;
+    */
+
     switch (method) {
+      case 'pay':
       case 'Payment':
         txnType = TransactionType.PaymentTx;
         break;
+      case 'axfer':
       case 'AssetTransfer':
         txnType = TransactionType.AssetTransferTx;
         break;
+      case 'appl':
       case 'MethodCall':
       case 'AppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
+      case 'acfg':
       case 'AssetCreation':
       case 'AssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
+      case 'afrz':
       case 'AssetFreeze':
         txnType = TransactionType.AssetFreezeTx;
         break;
+      case 'keyreg':
       case 'OfflineKeyRegistration':
       case 'OnlineKeyRegistration':
         txnType = TransactionType.KeyRegistrationTx;
@@ -6627,22 +6705,19 @@ export default class Compiler {
       )
         throw new Error('Method call name key must be a string');
 
-      if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType))
-        throw new Error('Transaction call type arguments[0] must be a tuple type');
-
-      const argTypes = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
-
-      const returnType = typeInfoToABIString(this.getTypeInfo(typeArgs![1].getType()), true)
-        .toLowerCase()
-        .replace('account', 'address');
-
       this.pushVoid(
         nameProp,
-        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypes.join(
+        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypeStrings!.join(
           ','
-        )})${returnType}"`
+        )})${typeInfoToABIString(returnType, true)}"`
       );
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
+    } else if (methodName) {
+      this.pushVoid(
+        node,
+        `method "${methodName}(${argTypeStrings!.join(',')})${typeInfoToABIString(returnType, true)}"`
+      );
+      this.pushVoid(node, 'itxn_field ApplicationArgs');
     }
 
     fields.getProperties().forEach((p) => {
@@ -6670,12 +6745,6 @@ export default class Compiler {
         this.pushVoid(p.getInitializer()!, `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
-        if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
-          throw new Error('Transaction call type arguments[0] must be a tuple type');
-        }
-        const argTypesStr = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
-        const argTypes = typeArgs[0].getElements().map((t) => this.getTypeInfo(t.getType()));
-
         let accountIndex = 1;
         let appIndex = 1;
         let assetIndex = 0;
@@ -6684,29 +6753,29 @@ export default class Compiler {
           throw new Error('methodArgs must be an array');
         }
         init.getElements().forEach((e, i: number) => {
-          if (argTypesStr[i] === 'account') {
+          if (argTypeStrings[i] === 'account') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Accounts');
             this.pushVoid(e, `int ${accountIndex}`);
             this.pushVoid(e, 'itob');
             accountIndex += 1;
-          } else if (argTypesStr[i] === 'asset') {
+          } else if (argTypeStrings[i] === 'asset') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Assets');
             this.pushVoid(e, `int ${assetIndex}`);
             this.pushVoid(e, 'itob');
             assetIndex += 1;
-          } else if (argTypesStr[i] === 'application') {
+          } else if (argTypeStrings[i] === 'application') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Applications');
             this.pushVoid(e, `int ${appIndex}`);
             this.pushVoid(e, 'itob');
             appIndex += 1;
-          } else if (argTypesStr[i] === 'uint64') {
+          } else if (argTypeStrings[i] === 'uint64') {
             this.processNode(e);
             typeComparison(this.lastType, argTypes[i]);
             this.pushVoid(e, 'itob');
-          } else if (TXN_TYPES.includes(argTypesStr[i])) {
+          } else if (TXN_TYPES.includes(argTypeStrings[i])) {
             return;
           } else {
             const prevTypeHint = this.typeHint;
@@ -6740,11 +6809,9 @@ export default class Compiler {
     if (send) {
       this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
-      if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
+      if (name === 'sendMethodCall' && typeInfoToABIString(returnType) !== 'void') {
         this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
-
-        const returnType = this.getTypeInfo(typeArgs![1].getType());
-        this.checkDecoding(typeArgs![1], returnType);
+        this.checkDecoding(node, returnType);
         this.lastType = returnType;
       } else if (name === 'sendAssetCreation') {
         this.push(node, 'itxn CreatedAssetID', ForeignType.Asset);
