@@ -301,7 +301,7 @@ methodWithTxnArgs:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:97
-	// sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+	// sendMethodCall<[PayTxn, MethodCall<[uint64], void>], void>({
 	//       name: 'foo',
 	//       methodArgs: [
 	//         { amount: 100_000, receiver: this.txn.sender },
@@ -2099,6 +2099,76 @@ comparisonOr:
 skip_or0:
 	retsub
 
+// txnArgsMethod(pay)void
+abi_route_txnArgsMethod:
+	// _pay1: pay
+	txn GroupIndex
+	int 1
+	-
+	dup
+	gtxns TypeEnum
+	int pay
+	==
+	assert
+
+	// execute txnArgsMethod(pay)void
+	callsub txnArgsMethod
+	int 1
+	return
+
+// txnArgsMethod(_pay1: PayTxn): void
+txnArgsMethod:
+	proto 1 0
+	retsub
+
+// callTxnArgsMethod()void
+abi_route_callTxnArgsMethod:
+	// execute callTxnArgsMethod()void
+	callsub callTxnArgsMethod
+	int 1
+	return
+
+// callTxnArgsMethod(): void
+callTxnArgsMethod:
+	proto 0 0
+
+	// tests/contracts/general.algo.ts:427
+	// sendMethodCall<typeof GeneralTest.prototype.txnArgsMethod>({
+	//       methodArgs: [{ receiver: this.app.address, amount: 0 }],
+	//     })
+	itxn_begin
+	int pay
+	itxn_field TypeEnum
+
+	// tests/contracts/general.algo.ts:428
+	// receiver: this.app.address
+	global CurrentApplicationAddress
+	itxn_field Receiver
+
+	// tests/contracts/general.algo.ts:428
+	// amount: 0
+	int 0
+	itxn_field Amount
+
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+	itxn_next
+	int appl
+	itxn_field TypeEnum
+	method "txnArgsMethod(pay)void"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/general.algo.ts:428
+	// methodArgs: [{ receiver: this.app.address, amount: 0 }]
+	// Fee field not set, defaulting to 0
+	int 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
 abi_route_createApplication:
 	int 1
 	return
@@ -2165,8 +2235,10 @@ call_NoOp:
 	method "computedConstAsStaticArrayLength()void"
 	method "readSchema()void"
 	method "comparisonOr()bool"
+	method "txnArgsMethod(pay)void"
+	method "callTxnArgsMethod()void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases abi_route_vrfVerifyOp abi_route_ecMath abi_route_gitxn abi_route_getSetBytes abi_route_getSetUint64 abi_route_blockOp abi_route_b64 abi_route_json abi_route_bitlenOp abi_route_computedConst abi_route_multiComputedConst abi_route_computedConstAsStaticArrayLength abi_route_readSchema abi_route_comparisonOr
+	match abi_route_txnTypeEnum abi_route_txnGroupLength abi_route_asserts abi_route_verifyTxnFromArg abi_route_verifyTxnFromTxnGroup abi_route_verifyTxnCondition abi_route_verifyTxnIncludedIn abi_route_verifyTxnNotIncludedIn abi_route_submitPendingGroup abi_route_methodWithTxnArgs abi_route_shift abi_route_fromBytes abi_route_fromID abi_route_bzeroFunction abi_route_events abi_route_letOptimization abi_route_staticContractProperties abi_route_numberToString abi_route_methodOnParens abi_route_stringSubstring abi_route_idProperty abi_route_scratchSlot abi_route_ecdsa abi_route_verifyTxnTypes abi_route_stringPlusEquals abi_route_importedProgram abi_route_callPrivateDefinedLater abi_route_interalPublicMethod abi_route_callInternalPublicMethod abi_route_appLoadScratch abi_route_uintNWithUnderscore abi_route_opUp abi_route_returnValueOnAssignment abi_route_returnArrayValueOnAssignment abi_route_returnStorageValueOnAssignment abi_route_returnOperatorAssignmentValue abi_route_returnArrayValueOnOperatorAssignment abi_route_returnArrayInStorageValueOnOperatorAssignment abi_route_consts abi_route_assertWithMessage abi_route_opcodeAliases abi_route_vrfVerifyOp abi_route_ecMath abi_route_gitxn abi_route_getSetBytes abi_route_getSetUint64 abi_route_blockOp abi_route_b64 abi_route_json abi_route_bitlenOp abi_route_computedConst abi_route_multiComputedConst abi_route_computedConstAsStaticArrayLength abi_route_readSchema abi_route_comparisonOr abi_route_txnArgsMethod abi_route_callTxnArgsMethod
 	err
 
 intToAscii:

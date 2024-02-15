@@ -22,8 +22,7 @@ class NFTFactory extends Contract {
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
   mintAndGetAsset(): Asset {
-    sendMethodCall<[], void>({
-      name: 'createApplication',
+    sendMethodCall<typeof NFTFactory.prototype.createApplication>({
       clearStateProgram: NFTFactory.clearProgram(),
       approvalProgram: NFTFactory.approvalProgram(),
     });
@@ -35,9 +34,8 @@ class FactoryCaller extends Contract {
       receiver: factoryApp.address,
     });
 
-    const createdAsset = sendMethodCall<[string, string], Asset>({
+    const createdAsset = sendMethodCall<typeof NFTFactory.prototype.createNFT>({
       applicationID: factoryApp,
-      name: 'createNFT',
       methodArgs: ['My NFT', 'MNFT'],
     });
 
@@ -47,9 +45,8 @@ class FactoryCaller extends Contract {
       xferAsset: createdAsset,
     });
 
-    sendMethodCall<[Asset, Account], void>({
+    sendMethodCall<typeof NFTFactory.prototype.transferNFT>({
       applicationID: factoryApp,
-      name: 'transferNFT',
       methodArgs: [createdAsset, this.app.address],
     });
 

@@ -658,12 +658,34 @@ declare type KeyRegTxn = Required<KeyRegParams>;
 declare type AssetConfigTxn = Required<AssetConfigParams>;
 declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
-interface MethodCallParams<ArgsType> extends AppParams {
-  /** ABI method arguments */
-  methodArgs?: ArgsType;
-  /** Name of the ABI method */
-  name: string;
-}
+type SendMethodCallArgs<T> = {
+  [K in keyof T]: T[K] extends PayTxn
+    ? InnerPayment
+    : T[K] extends AssetTransferTxn
+    ? InnerAssetTransfer
+    : T[K] extends AppCallTxn
+    ? InnerAppCall
+    : T[K] extends KeyRegTxn
+    ? InnerOnlineKeyRegistration
+    : T[K] extends AssetConfigTxn
+    ? InnerAssetConfig
+    : T[K] extends AssetFreezeTxn
+    ? InnerAssetFreeze
+    : T[K];
+};
+
+type MethodCallParams<ArgsType> = AppParams &
+  (ArgsType extends Function
+    ? {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<Parameters<ArgsType>>;
+      }
+    : {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<ArgsType>;
+        /** Name of the ABI method */
+        name: string;
+      });
 
 type ThisTxnParams = AppOnChainTransactionParams & AppParams;
 
@@ -724,7 +746,7 @@ declare type InnerAssetCreation = AssetCreateParams;
 declare type InnerAssetFreeze = AssetFreezeParams;
 declare type InnerOnlineKeyRegistration = OnlineKeyRegParams;
 declare type InnerOfflineKeyRegistration = CommonTransactionParams;
-declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
+declare type MethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
 
 /**
  * Sends ABI method call. The two type arguments in combination with the
@@ -744,12 +766,14 @@ declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
  * @returns The return value of the method call
  *
  * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
- * @typeParam ReturnType - The return type of the method
+ * @typeParam MethodReturnType - The return type of the method
  *
  * @param params - The parameters of the method call
  *
  */
-declare function sendMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType>>): ReturnType;
+declare function sendMethodCall<ArgsType, MethodReturnType = void>(
+  params: Expand<MethodCallParams<ArgsType>>
+): ArgsType extends Function ? ReturnType<ArgsType> : MethodReturnType;
 
 /**
  * @returns the input data converted to  {@link uint64}
