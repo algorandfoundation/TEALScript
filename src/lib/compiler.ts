@@ -6715,7 +6715,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     } else if (methodName) {
       this.pushVoid(
         node,
-        `method "${methodName}(${argTypeStrings!.join(',')})${typeInfoToABIString(returnType, true)}"`
+        `method "${methodName}(${argTypeStrings!
+          .join(',')
+          // any[] is used for default lifecycle methods, which we want to remove
+          .replace('any[]', '')})${typeInfoToABIString(returnType, true)}"`
       );
       this.pushVoid(node, 'itxn_field ApplicationArgs');
     }

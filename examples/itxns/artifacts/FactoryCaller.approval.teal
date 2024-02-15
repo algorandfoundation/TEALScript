@@ -50,7 +50,7 @@ mintAndGetAsset:
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
-	method "createApplication(any[])void"
+	method "createApplication()void"
 	itxn_field ApplicationArgs
 
 	// examples/itxns/itxns.algo.ts:26
