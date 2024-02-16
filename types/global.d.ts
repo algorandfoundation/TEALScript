@@ -658,12 +658,34 @@ declare type KeyRegTxn = Required<KeyRegParams>;
 declare type AssetConfigTxn = Required<AssetConfigParams>;
 declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
-interface MethodCallParams<ArgsType> extends AppParams {
-  /** ABI method arguments */
-  methodArgs?: ArgsType;
-  /** Name of the ABI method */
-  name: string;
-}
+type SendMethodCallArgs<T> = {
+  [K in keyof T]: T[K] extends PayTxn
+    ? InnerPayment
+    : T[K] extends AssetTransferTxn
+    ? InnerAssetTransfer
+    : T[K] extends AppCallTxn
+    ? InnerAppCall
+    : T[K] extends KeyRegTxn
+    ? InnerOnlineKeyRegistration
+    : T[K] extends AssetConfigTxn
+    ? InnerAssetConfig
+    : T[K] extends AssetFreezeTxn
+    ? InnerAssetFreeze
+    : T[K];
+};
+
+type MethodCallParams<ArgsType> = AppParams &
+  (ArgsType extends Function
+    ? {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<Parameters<ArgsType>>;
+      }
+    : {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<ArgsType>;
+        /** Name of the ABI method */
+        name: string;
+      });
 
 type ThisTxnParams = AppOnChainTransactionParams & AppParams;
 
@@ -724,14 +746,33 @@ declare type InnerAssetCreation = AssetCreateParams;
 declare type InnerAssetFreeze = AssetFreezeParams;
 declare type InnerOnlineKeyRegistration = OnlineKeyRegParams;
 declare type InnerOfflineKeyRegistration = CommonTransactionParams;
-declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
+/**
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ */
+declare type MethodCall<ArgTypesOrMethod, ReturnType> = MethodCallParams<ArgTypesOrMethod>;
 
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.
  *
- * @example
- * Calling a method and getting the return value
+ * @returns The return value of the method call
+ *
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ *
+ * @param params - The parameters of the method call
+ *
+ * @example Calling a method defined in a contract
+ * ```ts
+ * // call createNFT(string,string)uint64
+ * const createdAsset = sendMethodCall<typeof MyContract.prototype.createNFT>({
+ *     applicationID: factoryApp,
+ *     methodArgs: ['My NFT', 'MNFT'],
+ * });
+ * ```
+ *
+ * @example Calling a method and getting the return value
  * ```ts
  * // call createNFT(string,string)uint64
  * const createdAsset = sendMethodCall<[string, string], Asset>({
@@ -740,16 +781,10 @@ declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
  *     methodArgs: ['My NFT', 'MNFT'],
  * });
  * ```
- *
- * @returns The return value of the method call
- *
- * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
- * @typeParam ReturnType - The return type of the method
- *
- * @param params - The parameters of the method call
- *
  */
-declare function sendMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType>>): ReturnType;
+declare function sendMethodCall<ArgTypesOrMethod, MethodReturnType = void>(
+  params: Expand<MethodCallParams<ArgTypesOrMethod>>
+): ArgTypesOrMethod extends Function ? ReturnType<ArgTypesOrMethod> : MethodReturnType;
 
 /**
  * @returns the input data converted to  {@link uint64}
@@ -785,8 +820,14 @@ declare function sha512_256(data: BytesLike): bytes32;
  */
 declare function ed25519Verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
 
-/** @returns the length of the data */
-declare function len(data: BytesLike): uint64;
+/**
+ * Get the byte length of a type or value.
+ *
+ * @param value - The value to get the length of. May be omitted if a static type is given as `T`
+ * @typeParam T - The type to get the length of. MUST be static if no value is given.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function len<T>(value?: any): uint64;
 
 /** @throws if the given condition is false */
 declare function assert(condition: IntLike, message?: string): void;

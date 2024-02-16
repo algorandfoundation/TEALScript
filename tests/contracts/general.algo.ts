@@ -94,7 +94,7 @@ class GeneralTest extends Contract {
   }
 
   methodWithTxnArgs(): void {
-    sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+    sendMethodCall<[PayTxn, MethodCall<[uint64], void>], void>({
       name: 'foo',
       methodArgs: [
         { amount: 100_000, receiver: this.txn.sender },
@@ -418,5 +418,22 @@ class GeneralTest extends Contract {
 
   comparisonOr(): boolean {
     return this.txn.sender === globals.zeroAddress || this.txn.sender === globals.zeroAddress;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  txnArgsMethod(_pay1: PayTxn): void {}
+
+  callTxnArgsMethod(): void {
+    sendMethodCall<typeof GeneralTest.prototype.txnArgsMethod>({
+      methodArgs: [{ receiver: this.app.address, amount: 0 }],
+    });
+  }
+
+  staticValueLen(x: uint256): void {
+    assert(len(x));
+  }
+
+  staticTypeLen(): void {
+    assert(len<uint256>());
   }
 }
