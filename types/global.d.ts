@@ -809,8 +809,14 @@ declare function sha512_256(data: BytesLike): bytes32;
  */
 declare function ed25519Verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
 
-/** @returns the length of the data */
-declare function len(data: BytesLike): uint64;
+/**
+ * Get the byte length of a type or value.
+ *
+ * @param value - The value to get the length of. May be omitted if a static type is given as `T`
+ * @typeParam T - The type to get the length of. MUST be static if no value is given.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function len<T>(value?: any): uint64;
 
 /** @throws if the given condition is false */
 declare function assert(condition: IntLike, message?: string): void;

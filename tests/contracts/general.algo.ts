@@ -428,4 +428,12 @@ class GeneralTest extends Contract {
       methodArgs: [{ receiver: this.app.address, amount: 0 }],
     });
   }
+
+  staticValueLen(x: uint256): void {
+    assert(len(x));
+  }
+
+  staticTypeLen(): void {
+    assert(len<uint256>());
+  }
 }
