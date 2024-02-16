@@ -59,7 +59,7 @@ describe('Account', function () {
   test('isOptedIntoAsset', async function () {
     expect(await getTeal('hasAsset')).toEqual([
       '// assert(a.isOptedInToAsset(AssetID.fromUint64(123)))',
-      'frame_dig -1 // a: Account',
+      'frame_dig -1 // a: Address',
       'int 123',
       'asset_holding_get AssetBalance',
       'swap',

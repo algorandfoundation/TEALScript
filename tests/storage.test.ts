@@ -15,7 +15,7 @@ async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
 }
 
-const SUPPRESS_LOG = { suppressLog: true };
+const SEND_PARAMS = { suppressLog: true, populateAppCallResources: true };
 
 const ops: { [type: string]: { [method: string]: string } } = {
   global: {
@@ -114,21 +114,21 @@ describe('Storage', function () {
       await appClient.create({
         method: 'createApplication',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
     });
 
     test('boxKeyCreate', async () => {
       await appClient.fundAppAccount({
         amount: algokit.microAlgos(513300),
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
       const box = new Uint8Array(Buffer.from('foo'));
 
       await appClient.call({
         method: 'boxKeyCreate',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
@@ -138,7 +138,7 @@ describe('Storage', function () {
       const result = await appClient.call({
         method: 'boxKeyLength',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue).toEqual(1024n);
@@ -150,7 +150,7 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxKeyReplace',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
@@ -160,7 +160,7 @@ describe('Storage', function () {
       const result = await appClient.call({
         method: 'boxKeyExtract',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue as string).toEqual('abc');
@@ -169,14 +169,14 @@ describe('Storage', function () {
     test('boxMapCreate', async () => {
       await appClient.fundAppAccount({
         amount: algokit.microAlgos(513300),
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
       const box = new Uint8Array(Buffer.from('bar'));
 
       await appClient.call({
         method: 'boxMapCreate',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect((await appClient.getBoxValue(box)).byteLength).toEqual(1024);
@@ -186,7 +186,7 @@ describe('Storage', function () {
       const result = await appClient.call({
         method: 'boxMapLength',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue).toEqual(1024n);
@@ -198,7 +198,7 @@ describe('Storage', function () {
       await appClient.call({
         method: 'boxMapReplace',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect((await appClient.getBoxValue(box)).slice(0, 3)).toEqual(new Uint8Array(Buffer.from('abc')));
@@ -208,7 +208,7 @@ describe('Storage', function () {
       const result = await appClient.call({
         method: 'boxMapExtract',
         methodArgs: [],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue as string).toEqual('abc');
@@ -218,7 +218,7 @@ describe('Storage', function () {
       const box = new Uint8Array(Buffer.from('largeStaticArrayInBox'));
       await appClient.fundAppAccount({
         amount: algokit.microAlgos(3310900),
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       const result = await appClient.call({
@@ -234,7 +234,7 @@ describe('Storage', function () {
           { appIndex: 0, name: box },
           { appIndex: 0, name: box },
         ],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue?.valueOf()).toEqual(456n);
@@ -244,7 +244,7 @@ describe('Storage', function () {
       const box = new Uint8Array(Buffer.from('largeStaticArrayInBox'));
       await appClient.fundAppAccount({
         amount: algokit.microAlgos(3310900),
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       const result = await appClient.call({
@@ -260,7 +260,7 @@ describe('Storage', function () {
           { appIndex: 0, name: box },
           { appIndex: 0, name: box },
         ],
-        sendParams: SUPPRESS_LOG,
+        sendParams: SEND_PARAMS,
       });
 
       expect(result.return?.returnValue?.valueOf()).toEqual(456n);
