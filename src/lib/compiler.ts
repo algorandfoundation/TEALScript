@@ -1477,6 +1477,30 @@ export default class Compiler {
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    len: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const typeArg = node.getTypeArguments()?.[0];
+        const arg = node.getArguments()?.[0];
+
+        if (typeArg) {
+          if (arg) throw Error('len cannot be called with both a type argument and an argument');
+          const type = this.getTypeInfo(typeArg.getType());
+          if (this.isDynamicType(type)) throw Error('len cannot be used with dynamic type as type argument');
+          this.push(node, `int ${this.getTypeLength(type)}`, StackType.uint64);
+          return;
+        }
+
+        const type = this.getStackTypeFromNode(arg);
+
+        if (this.isDynamicType(type)) {
+          this.processNode(arg);
+          this.push(node, 'len', StackType.uint64);
+        } else {
+          this.push(node, `int ${this.getTypeLength(type)}`, StackType.uint64);
+        }
+      },
+    },
     asserts: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
