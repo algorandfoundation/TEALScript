@@ -746,14 +746,33 @@ declare type InnerAssetCreation = AssetCreateParams;
 declare type InnerAssetFreeze = AssetFreezeParams;
 declare type InnerOnlineKeyRegistration = OnlineKeyRegParams;
 declare type InnerOfflineKeyRegistration = CommonTransactionParams;
-declare type MethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
+/**
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ */
+declare type MethodCall<ArgTypesOrMethod, ReturnType> = MethodCallParams<ArgTypesOrMethod>;
 
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.
  *
- * @example
- * Calling a method and getting the return value
+ * @returns The return value of the method call
+ *
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ *
+ * @param params - The parameters of the method call
+ *
+ * @example Calling a method defined in a contract
+ * ```ts
+ * // call createNFT(string,string)uint64
+ * const createdAsset = sendMethodCall<typeof MyContract.prototype.createNFT>({
+ *     applicationID: factoryApp,
+ *     methodArgs: ['My NFT', 'MNFT'],
+ * });
+ * ```
+ *
+ * @example Calling a method and getting the return value
  * ```ts
  * // call createNFT(string,string)uint64
  * const createdAsset = sendMethodCall<[string, string], Asset>({
@@ -762,18 +781,10 @@ declare type MethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
  *     methodArgs: ['My NFT', 'MNFT'],
  * });
  * ```
- *
- * @returns The return value of the method call
- *
- * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
- * @typeParam MethodReturnType - The return type of the method
- *
- * @param params - The parameters of the method call
- *
  */
-declare function sendMethodCall<ArgsType, MethodReturnType = void>(
-  params: Expand<MethodCallParams<ArgsType>>
-): ArgsType extends Function ? ReturnType<ArgsType> : MethodReturnType;
+declare function sendMethodCall<ArgTypesOrMethod, MethodReturnType = void>(
+  params: Expand<MethodCallParams<ArgTypesOrMethod>>
+): ArgTypesOrMethod extends Function ? ReturnType<ArgTypesOrMethod> : MethodReturnType;
 
 /**
  * @returns the input data converted to  {@link uint64}
