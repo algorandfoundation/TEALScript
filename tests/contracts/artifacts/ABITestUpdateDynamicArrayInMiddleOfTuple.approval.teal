@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)
-abi_route_updateDynamicArrayInMiddleOfTuple:
+*abi_route_updateDynamicArrayInMiddleOfTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -46,11 +46,11 @@ updateDynamicArrayInMiddleOfTuple:
 	byte 0x // initial tail
 	byte 0x0006 // initial head offset
 	byte 0x0001
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x000102
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	byte 0x0003
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
 	frame_bury 0 // a: [uint16, uint<8>[], uint16]
@@ -94,7 +94,7 @@ updateDynamicArrayInMiddleOfTuple:
 	concat
 	concat
 	store 255 // full array
-	callsub get_length_difference
+	callsub *get_length_difference
 	load 255 // full array
 	frame_bury 0 // a: [uint16, uint<8>[], uint16]
 
@@ -106,23 +106,23 @@ updateDynamicArrayInMiddleOfTuple:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "updateDynamicArrayInMiddleOfTuple()(uint16,uint8[],uint16)"
 	txna ApplicationArgs 0
-	match abi_route_updateDynamicArrayInMiddleOfTuple
+	match *abi_route_updateDynamicArrayInMiddleOfTuple
 	err
 
-process_static_tuple_element:
+*process_static_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -1 // element
@@ -131,7 +131,7 @@ process_static_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-process_dynamic_tuple_element:
+*process_dynamic_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -2 // head offset
@@ -155,27 +155,27 @@ process_dynamic_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-get_length_difference:
+*get_length_difference:
 	load 252 // new element
 	len // length of new element
 	load 253 // element length
 	<
-	bnz swapped_difference
+	bnz *swapped_difference
 	load 252 // new element
 	len // length of new element
 	load 253 // element length
 	int 1
 	store 249 // subtract head difference
-	b get_difference
+	b *get_difference
 
-swapped_difference:
+*swapped_difference:
 	load 253 // element length
 	load 252 // new element
 	len // length of new element
 	int 0
 	store 249 // subtract head difference
 
-get_difference:
+*get_difference:
 	- // get length difference
 	store 250 // length difference
 	retsub

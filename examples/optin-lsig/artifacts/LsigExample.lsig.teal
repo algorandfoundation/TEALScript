@@ -6,10 +6,10 @@
 
 // The address of this logic signature is R3AXSKEZHFTAMBE7AVWQDHXIPPOUJ3WJBOSR7CQIZCIN6FQLYLKGYNKLDA
 
-b route_logic
+b *route_logic
 
 // logic()void
-route_logic:
+*route_logic:
 	// execute logic()void
 	callsub logic
 	int 1

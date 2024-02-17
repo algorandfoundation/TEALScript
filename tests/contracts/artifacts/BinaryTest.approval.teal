@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // and(uint64,uint64)void
-abi_route_and:
+*abi_route_and:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -44,16 +44,16 @@ and:
 	// assert(a && b)
 	frame_dig -1 // a: uint64
 	dup
-	bz skip_and0
+	bz *skip_and0
 	frame_dig -2 // b: uint64
 	&&
 
-skip_and0:
+*skip_and0:
 	assert
 	retsub
 
 // or(uint64,uint64)void
-abi_route_or:
+*abi_route_or:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -75,16 +75,16 @@ or:
 	// assert(a || b)
 	frame_dig -1 // a: uint64
 	dup
-	bnz skip_or0
+	bnz *skip_or0
 	frame_dig -2 // b: uint64
 	||
 
-skip_or0:
+*skip_or0:
 	assert
 	retsub
 
 // equal(uint64,uint64)void
-abi_route_equal:
+*abi_route_equal:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -111,7 +111,7 @@ equal:
 	retsub
 
 // notEqual(uint64,uint64)void
-abi_route_notEqual:
+*abi_route_notEqual:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -138,7 +138,7 @@ notEqual:
 	retsub
 
 // bitAnd(uint64,uint64)void
-abi_route_bitAnd:
+*abi_route_bitAnd:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -165,7 +165,7 @@ bitAnd:
 	retsub
 
 // bitOr(uint64,uint64)void
-abi_route_bitOr:
+*abi_route_bitOr:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -192,7 +192,7 @@ bitOr:
 	retsub
 
 // bitXor(uint64,uint64)void
-abi_route_bitXor:
+*abi_route_bitXor:
 	// b: uint64
 	txna ApplicationArgs 2
 	btoi
@@ -219,7 +219,7 @@ bitXor:
 	retsub
 
 // combo(uint64,uint64,uint64)void
-abi_route_combo:
+*abi_route_combo:
 	// c: uint64
 	txna ApplicationArgs 3
 	btoi
@@ -245,31 +245,31 @@ combo:
 	// assert(a || (b && c))
 	frame_dig -1 // a: uint64
 	dup
-	bnz skip_or1
+	bnz *skip_or1
 	frame_dig -2 // b: uint64
 	dup
-	bz skip_and1
+	bz *skip_and1
 	frame_dig -3 // c: uint64
 	&&
 
-skip_and1:
+*skip_and1:
 	||
 
-skip_or1:
+*skip_or1:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "and(uint64,uint64)void"
 	method "or(uint64,uint64)void"
 	method "equal(uint64,uint64)void"
@@ -279,5 +279,5 @@ call_NoOp:
 	method "bitXor(uint64,uint64)void"
 	method "combo(uint64,uint64,uint64)void"
 	txna ApplicationArgs 0
-	match abi_route_and abi_route_or abi_route_equal abi_route_notEqual abi_route_bitAnd abi_route_bitOr abi_route_bitXor abi_route_combo
+	match *abi_route_and *abi_route_or *abi_route_equal *abi_route_notEqual *abi_route_bitAnd *abi_route_bitOr *abi_route_bitXor *abi_route_combo
 	err

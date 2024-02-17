@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // payment()void
-abi_route_payment:
+*abi_route_payment:
 	// execute payment()void
 	callsub payment
 	int 1
@@ -84,7 +84,7 @@ payment:
 	retsub
 
 // assetCreation()uint64
-abi_route_assetCreation:
+*abi_route_assetCreation:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -177,7 +177,7 @@ assetCreation:
 	retsub
 
 // appCall()void
-abi_route_appCall:
+*abi_route_appCall:
 	// execute appCall()void
 	callsub appCall
 	int 1
@@ -277,7 +277,7 @@ appCall:
 	retsub
 
 // assetConfig()void
-abi_route_assetConfig:
+*abi_route_assetConfig:
 	// execute assetConfig()void
 	callsub assetConfig
 	int 1
@@ -333,7 +333,7 @@ assetConfig:
 	retsub
 
 // assetFreeze()void
-abi_route_assetFreeze:
+*abi_route_assetFreeze:
 	// execute assetFreeze()void
 	callsub assetFreeze
 	int 1
@@ -377,7 +377,7 @@ assetFreeze:
 	retsub
 
 // assetTransfer()void
-abi_route_assetTransfer:
+*abi_route_assetTransfer:
 	// execute assetTransfer()void
 	callsub assetTransfer
 	int 1
@@ -433,7 +433,7 @@ assetTransfer:
 	retsub
 
 // methodCall()uint64
-abi_route_methodCall:
+*abi_route_methodCall:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -486,7 +486,7 @@ methodCall:
 	retsub
 
 // onlineKeyRegistration()void
-abi_route_onlineKeyRegistration:
+*abi_route_onlineKeyRegistration:
 	// execute onlineKeyRegistration()void
 	callsub onlineKeyRegistration
 	int 1
@@ -548,7 +548,7 @@ onlineKeyRegistration:
 	retsub
 
 // offlineKeyRegistration()void
-abi_route_offlineKeyRegistration:
+*abi_route_offlineKeyRegistration:
 	// execute offlineKeyRegistration()void
 	callsub offlineKeyRegistration
 	int 1
@@ -572,17 +572,17 @@ offlineKeyRegistration:
 	itxn_submit
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "payment()void"
 	method "assetCreation()uint64"
 	method "appCall()void"
@@ -593,5 +593,5 @@ call_NoOp:
 	method "onlineKeyRegistration()void"
 	method "offlineKeyRegistration()void"
 	txna ApplicationArgs 0
-	match abi_route_payment abi_route_assetCreation abi_route_appCall abi_route_assetConfig abi_route_assetFreeze abi_route_assetTransfer abi_route_methodCall abi_route_onlineKeyRegistration abi_route_offlineKeyRegistration
+	match *abi_route_payment *abi_route_assetCreation *abi_route_appCall *abi_route_assetConfig *abi_route_assetFreeze *abi_route_assetTransfer *abi_route_methodCall *abi_route_onlineKeyRegistration *abi_route_offlineKeyRegistration
 	err

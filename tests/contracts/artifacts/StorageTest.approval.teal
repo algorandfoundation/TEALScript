@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // prefix()void
-abi_route_prefix:
+*abi_route_prefix:
 	// execute prefix()void
 	callsub prefix
 	int 1
@@ -56,7 +56,7 @@ prefix:
 	retsub
 
 // globalKeyPut()void
-abi_route_globalKeyPut:
+*abi_route_globalKeyPut:
 	// execute globalKeyPut()void
 	callsub globalKeyPut
 	int 1
@@ -74,7 +74,7 @@ globalKeyPut:
 	retsub
 
 // globalKeyGet()void
-abi_route_globalKeyGet:
+*abi_route_globalKeyGet:
 	// execute globalKeyGet()void
 	callsub globalKeyGet
 	int 1
@@ -94,7 +94,7 @@ globalKeyGet:
 	retsub
 
 // globalKeyDelete()void
-abi_route_globalKeyDelete:
+*abi_route_globalKeyDelete:
 	// execute globalKeyDelete()void
 	callsub globalKeyDelete
 	int 1
@@ -111,7 +111,7 @@ globalKeyDelete:
 	retsub
 
 // globalKeyExists()void
-abi_route_globalKeyExists:
+*abi_route_globalKeyExists:
 	// execute globalKeyExists()void
 	callsub globalKeyExists
 	int 1
@@ -132,7 +132,7 @@ globalKeyExists:
 	retsub
 
 // localKeyPut(account)void
-abi_route_localKeyPut:
+*abi_route_localKeyPut:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -156,7 +156,7 @@ localKeyPut:
 	retsub
 
 // localKeyGet(account)void
-abi_route_localKeyGet:
+*abi_route_localKeyGet:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -182,7 +182,7 @@ localKeyGet:
 	retsub
 
 // localKeyDelete(account)void
-abi_route_localKeyDelete:
+*abi_route_localKeyDelete:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -205,7 +205,7 @@ localKeyDelete:
 	retsub
 
 // localKeyExists(account)void
-abi_route_localKeyExists:
+*abi_route_localKeyExists:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -232,7 +232,7 @@ localKeyExists:
 	retsub
 
 // boxKeyPut()void
-abi_route_boxKeyPut:
+*abi_route_boxKeyPut:
 	// execute boxKeyPut()void
 	callsub boxKeyPut
 	int 1
@@ -250,7 +250,7 @@ boxKeyPut:
 	retsub
 
 // boxKeyGet()void
-abi_route_boxKeyGet:
+*abi_route_boxKeyGet:
 	// execute boxKeyGet()void
 	callsub boxKeyGet
 	int 1
@@ -271,7 +271,7 @@ boxKeyGet:
 	retsub
 
 // boxKeyDelete()void
-abi_route_boxKeyDelete:
+*abi_route_boxKeyDelete:
 	// execute boxKeyDelete()void
 	callsub boxKeyDelete
 	int 1
@@ -288,7 +288,7 @@ boxKeyDelete:
 	retsub
 
 // boxKeyExists()void
-abi_route_boxKeyExists:
+*abi_route_boxKeyExists:
 	// execute boxKeyExists()void
 	callsub boxKeyExists
 	int 1
@@ -308,7 +308,7 @@ boxKeyExists:
 	retsub
 
 // globalMapPut()void
-abi_route_globalMapPut:
+*abi_route_globalMapPut:
 	// execute globalMapPut()void
 	callsub globalMapPut
 	int 1
@@ -326,7 +326,7 @@ globalMapPut:
 	retsub
 
 // globalMapGet()void
-abi_route_globalMapGet:
+*abi_route_globalMapGet:
 	// execute globalMapGet()void
 	callsub globalMapGet
 	int 1
@@ -346,7 +346,7 @@ globalMapGet:
 	retsub
 
 // globalMapDelete()void
-abi_route_globalMapDelete:
+*abi_route_globalMapDelete:
 	// execute globalMapDelete()void
 	callsub globalMapDelete
 	int 1
@@ -363,7 +363,7 @@ globalMapDelete:
 	retsub
 
 // globalMapExists()void
-abi_route_globalMapExists:
+*abi_route_globalMapExists:
 	// execute globalMapExists()void
 	callsub globalMapExists
 	int 1
@@ -384,7 +384,7 @@ globalMapExists:
 	retsub
 
 // localMapPut(account)void
-abi_route_localMapPut:
+*abi_route_localMapPut:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -408,7 +408,7 @@ localMapPut:
 	retsub
 
 // localMapGet(account)void
-abi_route_localMapGet:
+*abi_route_localMapGet:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -434,7 +434,7 @@ localMapGet:
 	retsub
 
 // localMapDelete(account)void
-abi_route_localMapDelete:
+*abi_route_localMapDelete:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -457,7 +457,7 @@ localMapDelete:
 	retsub
 
 // localMapExists(account)void
-abi_route_localMapExists:
+*abi_route_localMapExists:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -484,7 +484,7 @@ localMapExists:
 	retsub
 
 // boxMapPut()void
-abi_route_boxMapPut:
+*abi_route_boxMapPut:
 	// execute boxMapPut()void
 	callsub boxMapPut
 	int 1
@@ -502,7 +502,7 @@ boxMapPut:
 	retsub
 
 // boxMapGet()void
-abi_route_boxMapGet:
+*abi_route_boxMapGet:
 	// execute boxMapGet()void
 	callsub boxMapGet
 	int 1
@@ -523,7 +523,7 @@ boxMapGet:
 	retsub
 
 // boxMapDelete()void
-abi_route_boxMapDelete:
+*abi_route_boxMapDelete:
 	// execute boxMapDelete()void
 	callsub boxMapDelete
 	int 1
@@ -540,7 +540,7 @@ boxMapDelete:
 	retsub
 
 // boxMapExists()void
-abi_route_boxMapExists:
+*abi_route_boxMapExists:
 	// execute boxMapExists()void
 	callsub boxMapExists
 	int 1
@@ -560,7 +560,7 @@ boxMapExists:
 	retsub
 
 // boxKeyCreate()void
-abi_route_boxKeyCreate:
+*abi_route_boxKeyCreate:
 	// execute boxKeyCreate()void
 	callsub boxKeyCreate
 	int 1
@@ -579,7 +579,7 @@ boxKeyCreate:
 	retsub
 
 // boxMapCreate()void
-abi_route_boxMapCreate:
+*abi_route_boxMapCreate:
 	// execute boxMapCreate()void
 	callsub boxMapCreate
 	int 1
@@ -598,7 +598,7 @@ boxMapCreate:
 	retsub
 
 // boxKeyLength()uint64
-abi_route_boxKeyLength:
+*abi_route_boxKeyLength:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -622,7 +622,7 @@ boxKeyLength:
 	retsub
 
 // boxMapLength()uint64
-abi_route_boxMapLength:
+*abi_route_boxMapLength:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -646,7 +646,7 @@ boxMapLength:
 	retsub
 
 // boxKeyReplace()void
-abi_route_boxKeyReplace:
+*abi_route_boxKeyReplace:
 	// execute boxKeyReplace()void
 	callsub boxKeyReplace
 	int 1
@@ -665,7 +665,7 @@ boxKeyReplace:
 	retsub
 
 // boxMapReplace()void
-abi_route_boxMapReplace:
+*abi_route_boxMapReplace:
 	// execute boxMapReplace()void
 	callsub boxMapReplace
 	int 1
@@ -684,7 +684,7 @@ boxMapReplace:
 	retsub
 
 // boxKeyExtract()string
-abi_route_boxKeyExtract:
+*abi_route_boxKeyExtract:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -714,7 +714,7 @@ boxKeyExtract:
 	retsub
 
 // boxMapExtract()string
-abi_route_boxMapExtract:
+*abi_route_boxMapExtract:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -744,7 +744,7 @@ boxMapExtract:
 	retsub
 
 // isOptedIn()bool
-abi_route_isOptedIn:
+*abi_route_isOptedIn:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -771,7 +771,7 @@ isOptedIn:
 	retsub
 
 // exGlobal()void
-abi_route_exGlobal:
+*abi_route_exGlobal:
 	// execute exGlobal()void
 	callsub exGlobal
 	int 1
@@ -791,7 +791,7 @@ exGlobal:
 	retsub
 
 // exLocal()void
-abi_route_exLocal:
+*abi_route_exLocal:
 	// execute exLocal()void
 	callsub exLocal
 	int 1
@@ -812,7 +812,7 @@ exLocal:
 	retsub
 
 // accessStaticValueInLargeBox()uint16
-abi_route_accessStaticValueInLargeBox:
+*abi_route_accessStaticValueInLargeBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -858,7 +858,7 @@ accessStaticValueInLargeBox:
 	retsub
 
 // dynamicAccessStaticValueInLargeBox(uint64)uint16
-abi_route_dynamicAccessStaticValueInLargeBox:
+*abi_route_dynamicAccessStaticValueInLargeBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -914,7 +914,7 @@ dynamicAccessStaticValueInLargeBox:
 	retsub
 
 // boxResize()void
-abi_route_boxResize:
+*abi_route_boxResize:
 	// execute boxResize()void
 	callsub boxResize
 	int 1
@@ -938,7 +938,7 @@ boxResize:
 	retsub
 
 // boxSplice()void
-abi_route_boxSplice:
+*abi_route_boxSplice:
 	// execute boxSplice()void
 	callsub boxSplice
 	int 1
@@ -965,17 +965,17 @@ boxSplice:
 	box_splice
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "prefix()void"
 	method "globalKeyPut()void"
 	method "globalKeyGet()void"
@@ -1017,5 +1017,5 @@ call_NoOp:
 	method "boxResize()void"
 	method "boxSplice()void"
 	txna ApplicationArgs 0
-	match abi_route_prefix abi_route_globalKeyPut abi_route_globalKeyGet abi_route_globalKeyDelete abi_route_globalKeyExists abi_route_localKeyPut abi_route_localKeyGet abi_route_localKeyDelete abi_route_localKeyExists abi_route_boxKeyPut abi_route_boxKeyGet abi_route_boxKeyDelete abi_route_boxKeyExists abi_route_globalMapPut abi_route_globalMapGet abi_route_globalMapDelete abi_route_globalMapExists abi_route_localMapPut abi_route_localMapGet abi_route_localMapDelete abi_route_localMapExists abi_route_boxMapPut abi_route_boxMapGet abi_route_boxMapDelete abi_route_boxMapExists abi_route_boxKeyCreate abi_route_boxMapCreate abi_route_boxKeyLength abi_route_boxMapLength abi_route_boxKeyReplace abi_route_boxMapReplace abi_route_boxKeyExtract abi_route_boxMapExtract abi_route_isOptedIn abi_route_exGlobal abi_route_exLocal abi_route_accessStaticValueInLargeBox abi_route_dynamicAccessStaticValueInLargeBox abi_route_boxResize abi_route_boxSplice
+	match *abi_route_prefix *abi_route_globalKeyPut *abi_route_globalKeyGet *abi_route_globalKeyDelete *abi_route_globalKeyExists *abi_route_localKeyPut *abi_route_localKeyGet *abi_route_localKeyDelete *abi_route_localKeyExists *abi_route_boxKeyPut *abi_route_boxKeyGet *abi_route_boxKeyDelete *abi_route_boxKeyExists *abi_route_globalMapPut *abi_route_globalMapGet *abi_route_globalMapDelete *abi_route_globalMapExists *abi_route_localMapPut *abi_route_localMapGet *abi_route_localMapDelete *abi_route_localMapExists *abi_route_boxMapPut *abi_route_boxMapGet *abi_route_boxMapDelete *abi_route_boxMapExists *abi_route_boxKeyCreate *abi_route_boxMapCreate *abi_route_boxKeyLength *abi_route_boxMapLength *abi_route_boxKeyReplace *abi_route_boxMapReplace *abi_route_boxKeyExtract *abi_route_boxMapExtract *abi_route_isOptedIn *abi_route_exGlobal *abi_route_exLocal *abi_route_accessStaticValueInLargeBox *abi_route_dynamicAccessStaticValueInLargeBox *abi_route_boxResize *abi_route_boxSplice
 	err

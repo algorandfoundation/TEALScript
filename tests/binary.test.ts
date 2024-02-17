@@ -16,10 +16,10 @@ describe('Binary Expressions', function () {
       '// assert(a && b)',
       'frame_dig -1 // a: uint64',
       'dup',
-      'bz skip_and0',
+      'bz *skip_and0',
       'frame_dig -2 // b: uint64',
       '&&',
-      'skip_and0:',
+      '*skip_and0:',
       'assert',
     ]);
   });
@@ -30,10 +30,10 @@ describe('Binary Expressions', function () {
       '// assert(a || b)',
       'frame_dig -1 // a: uint64',
       'dup',
-      'bnz skip_or0',
+      'bnz *skip_or0',
       'frame_dig -2 // b: uint64',
       '||',
-      'skip_or0:',
+      '*skip_or0:',
       'assert',
     ]);
   });
@@ -44,15 +44,15 @@ describe('Binary Expressions', function () {
       '// assert(a || (b && c))',
       'frame_dig -1 // a: uint64',
       'dup',
-      'bnz skip_or1',
+      'bnz *skip_or1',
       'frame_dig -2 // b: uint64',
       'dup',
-      'bz skip_and1',
+      'bz *skip_and1',
       'frame_dig -3 // c: uint64',
       '&&',
-      'skip_and1:',
+      '*skip_and1:',
       '||',
-      'skip_or1:',
+      '*skip_or1:',
       'assert',
     ]);
   });

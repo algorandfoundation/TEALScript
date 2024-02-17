@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // hasAsset(account)void
-abi_route_hasAsset:
+*abi_route_hasAsset:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -48,7 +48,7 @@ hasAsset:
 	retsub
 
 // assetBalance(account)void
-abi_route_assetBalance:
+*abi_route_assetBalance:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -73,7 +73,7 @@ assetBalance:
 	retsub
 
 // assetFrozen(account)void
-abi_route_assetFrozen:
+*abi_route_assetFrozen:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -98,7 +98,7 @@ assetFrozen:
 	retsub
 
 // hasBalance(account)void
-abi_route_hasBalance:
+*abi_route_hasBalance:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -123,7 +123,7 @@ hasBalance:
 	retsub
 
 // balance(account)void
-abi_route_balance:
+*abi_route_balance:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -147,7 +147,7 @@ balance:
 	retsub
 
 // minBalance(account)void
-abi_route_minBalance:
+*abi_route_minBalance:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -171,7 +171,7 @@ minBalance:
 	retsub
 
 // authAddr(account)void
-abi_route_authAddr:
+*abi_route_authAddr:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -195,7 +195,7 @@ authAddr:
 	retsub
 
 // totalNumUint(account)void
-abi_route_totalNumUint:
+*abi_route_totalNumUint:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -219,7 +219,7 @@ totalNumUint:
 	retsub
 
 // totalNumByteSlice(account)void
-abi_route_totalNumByteSlice:
+*abi_route_totalNumByteSlice:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -243,7 +243,7 @@ totalNumByteSlice:
 	retsub
 
 // totalExtraAppPages(account)void
-abi_route_totalExtraAppPages:
+*abi_route_totalExtraAppPages:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -267,7 +267,7 @@ totalExtraAppPages:
 	retsub
 
 // totalAppsCreated(account)void
-abi_route_totalAppsCreated:
+*abi_route_totalAppsCreated:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -291,7 +291,7 @@ totalAppsCreated:
 	retsub
 
 // totalAppsOptedIn(account)void
-abi_route_totalAppsOptedIn:
+*abi_route_totalAppsOptedIn:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -315,7 +315,7 @@ totalAppsOptedIn:
 	retsub
 
 // totalAssetsCreated(account)void
-abi_route_totalAssetsCreated:
+*abi_route_totalAssetsCreated:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -339,7 +339,7 @@ totalAssetsCreated:
 	retsub
 
 // totalAssets(account)void
-abi_route_totalAssets:
+*abi_route_totalAssets:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -363,7 +363,7 @@ totalAssets:
 	retsub
 
 // totalBoxes(account)void
-abi_route_totalBoxes:
+*abi_route_totalBoxes:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -387,7 +387,7 @@ totalBoxes:
 	retsub
 
 // totalBoxBytes(account)void
-abi_route_totalBoxBytes:
+*abi_route_totalBoxBytes:
 	// a: account
 	txna ApplicationArgs 1
 	btoi
@@ -410,17 +410,17 @@ totalBoxBytes:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "hasAsset(account)void"
 	method "assetBalance(account)void"
 	method "assetFrozen(account)void"
@@ -438,5 +438,5 @@ call_NoOp:
 	method "totalBoxes(account)void"
 	method "totalBoxBytes(account)void"
 	txna ApplicationArgs 0
-	match abi_route_hasAsset abi_route_assetBalance abi_route_assetFrozen abi_route_hasBalance abi_route_balance abi_route_minBalance abi_route_authAddr abi_route_totalNumUint abi_route_totalNumByteSlice abi_route_totalExtraAppPages abi_route_totalAppsCreated abi_route_totalAppsOptedIn abi_route_totalAssetsCreated abi_route_totalAssets abi_route_totalBoxes abi_route_totalBoxBytes
+	match *abi_route_hasAsset *abi_route_assetBalance *abi_route_assetFrozen *abi_route_hasBalance *abi_route_balance *abi_route_minBalance *abi_route_authAddr *abi_route_totalNumUint *abi_route_totalNumByteSlice *abi_route_totalExtraAppPages *abi_route_totalAppsCreated *abi_route_totalAppsOptedIn *abi_route_totalAssetsCreated *abi_route_totalAssets *abi_route_totalBoxes *abi_route_totalBoxBytes
 	err

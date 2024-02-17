@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])
-abi_route_returnTupleWithDyamicArray:
+*abi_route_returnTupleWithDyamicArray:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -46,13 +46,13 @@ returnTupleWithDyamicArray:
 	byte 0x // initial tail
 	byte 0x000e // initial head offset
 	byte 0x0000000000000001
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x0002
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x000200000000000000030000000000000004
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	byte 0x000200050006
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
 	frame_bury 0 // a: [uint64, uint16, uint64[], uint16[]]
@@ -65,23 +65,23 @@ returnTupleWithDyamicArray:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "returnTupleWithDyamicArray()(uint64,uint16,uint64[],uint16[])"
 	txna ApplicationArgs 0
-	match abi_route_returnTupleWithDyamicArray
+	match *abi_route_returnTupleWithDyamicArray
 	err
 
-process_static_tuple_element:
+*process_static_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -1 // element
@@ -90,7 +90,7 @@ process_static_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-process_dynamic_tuple_element:
+*process_dynamic_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -2 // head offset

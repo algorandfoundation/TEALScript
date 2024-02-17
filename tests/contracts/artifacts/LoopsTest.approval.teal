@@ -9,20 +9,20 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // whileLoop()uint64
-abi_route_whileLoop:
+*abi_route_whileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -46,13 +46,13 @@ whileLoop:
 	int 0
 	frame_bury 0 // i: uint64
 
-while_0:
+*while_0:
 	// tests/contracts/loops.algo.ts:9
 	// i < 10
 	frame_dig 0 // i: uint64
 	int 10
 	<
-	bz while_0_end
+	bz *while_0_end
 
 	// tests/contracts/loops.algo.ts:10
 	// i = i + 1
@@ -60,9 +60,9 @@ while_0:
 	int 1
 	+
 	frame_bury 0 // i: uint64
-	b while_0
+	b *while_0
 
-while_0_end:
+*while_0_end:
 	// tests/contracts/loops.algo.ts:13
 	// return i;
 	frame_dig 0 // i: uint64
@@ -72,7 +72,7 @@ while_0_end:
 	retsub
 
 // forLoop()uint64
-abi_route_forLoop:
+*abi_route_forLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -102,13 +102,13 @@ forLoop:
 	int 0
 	frame_bury 1 // j: uint64
 
-for_0:
+*for_0:
 	// tests/contracts/loops.algo.ts:19
 	// j < 10
 	frame_dig 1 // j: uint64
 	int 10
 	<
-	bz for_0_end
+	bz *for_0_end
 
 	// tests/contracts/loops.algo.ts:20
 	// i = i + 1
@@ -123,9 +123,9 @@ for_0:
 	int 1
 	+
 	frame_bury 1 // j: uint64
-	b for_0
+	b *for_0
 
-for_0_end:
+*for_0_end:
 	// tests/contracts/loops.algo.ts:23
 	// return i;
 	frame_dig 0 // i: uint64
@@ -138,7 +138,7 @@ for_0_end:
 	retsub
 
 // doWhileLoop()uint64
-abi_route_doWhileLoop:
+*abi_route_doWhileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -188,7 +188,7 @@ do_while_0_end:
 	retsub
 
 // breakWhileLoop()uint64
-abi_route_breakWhileLoop:
+*abi_route_breakWhileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -212,13 +212,13 @@ breakWhileLoop:
 	int 0
 	frame_bury 0 // i: uint64
 
-while_1:
+*while_1:
 	// tests/contracts/loops.algo.ts:39
 	// i < 10
 	frame_dig 0 // i: uint64
 	int 10
 	<
-	bz while_1_end
+	bz *while_1_end
 
 	// tests/contracts/loops.algo.ts:40
 	// i = i + 1
@@ -227,21 +227,21 @@ while_1:
 	+
 	frame_bury 0 // i: uint64
 
-	// if0_condition
+	// *if0_condition
 	// tests/contracts/loops.algo.ts:41
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if0_end
+	bz *if0_end
 
-	// if0_consequent
-	b while_1_end
+	// *if0_consequent
+	b *while_1_end
 
-if0_end:
-	b while_1
+*if0_end:
+	b *while_1
 
-while_1_end:
+*while_1_end:
 	// tests/contracts/loops.algo.ts:44
 	// return i;
 	frame_dig 0 // i: uint64
@@ -251,7 +251,7 @@ while_1_end:
 	retsub
 
 // continueWhileLoop()uint64
-abi_route_continueWhileLoop:
+*abi_route_continueWhileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -275,39 +275,39 @@ continueWhileLoop:
 	int 0
 	frame_bury 0 // i: uint64
 
-while_2:
+*while_2:
 	// tests/contracts/loops.algo.ts:50
 	// i < 10
 	frame_dig 0 // i: uint64
 	int 10
 	<
-	bz while_2_end
+	bz *while_2_end
 
-	// if1_condition
+	// *if1_condition
 	// tests/contracts/loops.algo.ts:51
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if1_end
+	bz *if1_end
 
-	// if1_consequent
+	// *if1_consequent
 	// tests/contracts/loops.algo.ts:52
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
-	b while_2
+	b *while_2
 
-if1_end:
+*if1_end:
 	// tests/contracts/loops.algo.ts:55
 	// i = i + 1
 	frame_dig 0 // i: uint64
 	int 1
 	+
 	frame_bury 0 // i: uint64
-	b while_2
+	b *while_2
 
-while_2_end:
+*while_2_end:
 	// tests/contracts/loops.algo.ts:58
 	// return i;
 	frame_dig 0 // i: uint64
@@ -317,7 +317,7 @@ while_2_end:
 	retsub
 
 // breakForLoop()uint64
-abi_route_breakForLoop:
+*abi_route_breakForLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -347,13 +347,13 @@ breakForLoop:
 	int 0
 	frame_bury 1 // j: uint64
 
-for_1:
+*for_1:
 	// tests/contracts/loops.algo.ts:64
 	// j < 10
 	frame_dig 1 // j: uint64
 	int 10
 	<
-	bz for_1_end
+	bz *for_1_end
 
 	// tests/contracts/loops.algo.ts:65
 	// i = i + 1
@@ -362,27 +362,27 @@ for_1:
 	+
 	frame_bury 0 // i: uint64
 
-	// if2_condition
+	// *if2_condition
 	// tests/contracts/loops.algo.ts:66
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if2_end
+	bz *if2_end
 
-	// if2_consequent
-	b for_1_end
+	// *if2_consequent
+	b *for_1_end
 
-if2_end:
+*if2_end:
 	// tests/contracts/loops.algo.ts:64
 	// j = j + 1
 	frame_dig 1 // j: uint64
 	int 1
 	+
 	frame_bury 1 // j: uint64
-	b for_1
+	b *for_1
 
-for_1_end:
+*for_1_end:
 	// tests/contracts/loops.algo.ts:69
 	// return i;
 	frame_dig 0 // i: uint64
@@ -395,7 +395,7 @@ for_1_end:
 	retsub
 
 // continueForLoop()uint64
-abi_route_continueForLoop:
+*abi_route_continueForLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -425,30 +425,30 @@ continueForLoop:
 	int 0
 	frame_bury 1 // j: uint64
 
-for_2:
+*for_2:
 	// tests/contracts/loops.algo.ts:75
 	// j < 10
 	frame_dig 1 // j: uint64
 	int 10
 	<
-	bz for_2_end
+	bz *for_2_end
 
-	// if3_condition
+	// *if3_condition
 	// tests/contracts/loops.algo.ts:76
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if3_end
+	bz *if3_end
 
-	// if3_consequent
+	// *if3_consequent
 	// tests/contracts/loops.algo.ts:77
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
-	b for_2
+	b *for_2
 
-if3_end:
+*if3_end:
 	// tests/contracts/loops.algo.ts:80
 	// i = i + 1
 	frame_dig 0 // i: uint64
@@ -462,9 +462,9 @@ if3_end:
 	int 1
 	+
 	frame_bury 1 // j: uint64
-	b for_2
+	b *for_2
 
-for_2_end:
+*for_2_end:
 	// tests/contracts/loops.algo.ts:83
 	// return i;
 	frame_dig 0 // i: uint64
@@ -477,7 +477,7 @@ for_2_end:
 	retsub
 
 // breakDoWhileLoop()uint64
-abi_route_breakDoWhileLoop:
+*abi_route_breakDoWhileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -509,18 +509,18 @@ do_while_1_statement:
 	+
 	frame_bury 0 // i: uint64
 
-	// if4_condition
+	// *if4_condition
 	// tests/contracts/loops.algo.ts:91
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if4_end
+	bz *if4_end
 
-	// if4_consequent
+	// *if4_consequent
 	b do_while_1_end
 
-if4_end:
+*if4_end:
 
 do_while_1:
 	// tests/contracts/loops.algo.ts:92
@@ -540,7 +540,7 @@ do_while_1_end:
 	retsub
 
 // continueDoWhileLoop()uint64
-abi_route_continueDoWhileLoop:
+*abi_route_continueDoWhileLoop:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -565,22 +565,22 @@ continueDoWhileLoop:
 	frame_bury 0 // i: uint64
 
 do_while_2_statement:
-	// if5_condition
+	// *if5_condition
 	// tests/contracts/loops.algo.ts:101
 	// i === 5
 	frame_dig 0 // i: uint64
 	int 5
 	==
-	bz if5_end
+	bz *if5_end
 
-	// if5_consequent
+	// *if5_consequent
 	// tests/contracts/loops.algo.ts:102
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
 	b do_while_2
 
-if5_end:
+*if5_end:
 	// tests/contracts/loops.algo.ts:105
 	// i = i + 1
 	frame_dig 0 // i: uint64
@@ -605,17 +605,17 @@ do_while_2_end:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "whileLoop()uint64"
 	method "forLoop()uint64"
 	method "doWhileLoop()uint64"
@@ -626,5 +626,5 @@ call_NoOp:
 	method "breakDoWhileLoop()uint64"
 	method "continueDoWhileLoop()uint64"
 	txna ApplicationArgs 0
-	match abi_route_whileLoop abi_route_forLoop abi_route_doWhileLoop abi_route_breakWhileLoop abi_route_continueWhileLoop abi_route_breakForLoop abi_route_continueForLoop abi_route_breakDoWhileLoop abi_route_continueDoWhileLoop
+	match *abi_route_whileLoop *abi_route_forLoop *abi_route_doWhileLoop *abi_route_breakWhileLoop *abi_route_continueWhileLoop *abi_route_breakForLoop *abi_route_continueForLoop *abi_route_breakDoWhileLoop *abi_route_continueDoWhileLoop
 	err
