@@ -2530,10 +2530,10 @@ export default class Compiler {
 
     if (this.currentProgram === 'approval') {
       const createLabels =
-        'create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication ';
+        '*create_NoOp *create_OptIn *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_DeleteApplication ';
 
       const callLabels =
-        'call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication';
+        '*call_NoOp *call_OptIn *call_CloseOut *NOT_IMPLEMENTED *call_UpdateApplication *call_DeleteApplication';
 
       this.pushLines(
         node,
@@ -2543,7 +2543,7 @@ export default class Compiler {
         '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
         '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
         '// Every possible action for this contract is represented in the switch statement',
-        '// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"',
+        '// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"',
         'txn ApplicationID',
         '!',
         'int 6',
@@ -2551,7 +2551,7 @@ export default class Compiler {
         'txn OnCompletion',
         '+',
         `switch ${callLabels} ${createLabels}`,
-        'NOT_IMPLEMENTED:',
+        '*NOT_IMPLEMENTED:',
         'err'
       );
 
@@ -2837,13 +2837,13 @@ export default class Compiler {
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
           this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
-            `${a}_${onComplete}`,
-            'NOT_IMPLEMENTED'
+            `*${a}_${onComplete}`,
+            '*NOT_IMPLEMENTED'
           );
           return;
         }
 
-        this.pushVoid(this.classNode, `${a}_${onComplete}:`);
+        this.pushVoid(this.classNode, `*${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
           this.pushLines(this.classNode, 'txn NumAppArgs', `bz *abi_route_${this.bareCallConfig[onComplete]!.method}`);
@@ -2874,7 +2874,7 @@ export default class Compiler {
       });
     });
 
-    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('*NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];

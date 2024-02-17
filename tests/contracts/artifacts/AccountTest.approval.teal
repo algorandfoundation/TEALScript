@@ -9,16 +9,16 @@
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
 // Every possible action for this contract is represented in the switch statement
-// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
 int 6
 *
 txn OnCompletion
 +
-switch call_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_NoOp NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
-NOT_IMPLEMENTED:
+*NOT_IMPLEMENTED:
 	err
 
 // hasAsset(account)void
@@ -414,13 +414,13 @@ totalBoxBytes:
 	int 1
 	return
 
-create_NoOp:
+*create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 	err
 
-call_NoOp:
+*call_NoOp:
 	method "hasAsset(account)void"
 	method "assetBalance(account)void"
 	method "assetFrozen(account)void"
