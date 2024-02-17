@@ -1979,7 +1979,7 @@ export default class Compiler {
           );
           this.frameIndex += 1;
         }
-        const label = `forEach_${this.forEachCount}`;
+        const label = `*forEach_${this.forEachCount}`;
         this.pushLines(node, `${label}:`);
         this.forEachCount += 1;
 
@@ -2085,7 +2085,7 @@ export default class Compiler {
           this.pushVoid(node, 'btoi');
         }
 
-        this.pushVoid(node, 'callsub itoa');
+        this.pushVoid(node, 'callsub *itoa');
         this.lastType = StackType.bytes;
       },
     },
@@ -2530,10 +2530,10 @@ export default class Compiler {
 
     if (this.currentProgram === 'approval') {
       const createLabels =
-        'create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication ';
+        '*create_NoOp *create_OptIn *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_DeleteApplication ';
 
       const callLabels =
-        'call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication';
+        '*call_NoOp *call_OptIn *call_CloseOut *NOT_IMPLEMENTED *call_UpdateApplication *call_DeleteApplication';
 
       this.pushLines(
         node,
@@ -2543,7 +2543,7 @@ export default class Compiler {
         '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
         '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
         '// Every possible action for this contract is represented in the switch statement',
-        '// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"',
+        '// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"',
         'txn ApplicationID',
         '!',
         'int 6',
@@ -2551,13 +2551,13 @@ export default class Compiler {
         'txn OnCompletion',
         '+',
         `switch ${callLabels} ${createLabels}`,
-        'NOT_IMPLEMENTED:',
+        '*NOT_IMPLEMENTED:',
         'err'
       );
 
       this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
     } else if (this.currentProgram === 'lsig') {
-      this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
+      this.pushLines(node, '// The address of this logic signature is', '', 'b *route_logic');
     }
   }
 
@@ -2697,7 +2697,7 @@ export default class Compiler {
 
       this.abi.methods.push(m);
 
-      this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
+      this.pushLines(this.classNode, `*abi_route_${name}:`, 'int 1', 'return');
     }
 
     if (this.currentProgram !== 'lsig') this.routeAbiMethods();
@@ -2837,16 +2837,16 @@ export default class Compiler {
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
           this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
-            `${a}_${onComplete}`,
-            'NOT_IMPLEMENTED'
+            `*${a}_${onComplete}`,
+            '*NOT_IMPLEMENTED'
           );
           return;
         }
 
-        this.pushVoid(this.classNode, `${a}_${onComplete}:`);
+        this.pushVoid(this.classNode, `*${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.classNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.classNode, 'txn NumAppArgs', `bz *abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
@@ -2861,7 +2861,7 @@ export default class Compiler {
         this.pushLines(
           this.classNode,
           'txna ApplicationArgs 0',
-          `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`
+          `match ${methods.map((m) => `*abi_route_${m.name}`).join(' ')}`
         );
 
         const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
@@ -2874,7 +2874,7 @@ export default class Compiler {
       });
     });
 
-    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('*NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];
@@ -2948,7 +2948,7 @@ export default class Compiler {
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
-    const thisLoop = `while_${this.whileCount}`;
+    const thisLoop = `*while_${this.whileCount}`;
     this.whileCount += 1;
 
     const prevLoop = this.currentLoop;
@@ -2974,7 +2974,7 @@ export default class Compiler {
     this.processNode(node.getInitializerOrThrow());
 
     const preLoop = this.currentLoop;
-    const thisLoop = `for_${this.forCount}`;
+    const thisLoop = `*for_${this.forCount}`;
     this.forCount += 1;
 
     this.currentLoop = thisLoop;
@@ -3106,15 +3106,16 @@ export default class Compiler {
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
     const tc = this.ternaryCount;
+    const thisTernary = `*ternary${tc}`;
     this.ternaryCount += 1;
 
     this.processConditional(node.getCondition());
-    this.pushVoid(node, `bz ternary${tc}_false`);
+    this.pushVoid(node, `bz ${thisTernary}_false`);
     this.processNode(node.getWhenTrue());
-    this.pushVoid(node, `b ternary${tc}_end`);
-    this.pushVoid(node, `ternary${tc}_false:`);
+    this.pushVoid(node, `b ${thisTernary}_end`);
+    this.pushVoid(node, `${thisTernary}_false:`);
     this.processNode(node.getWhenFalse());
-    this.pushVoid(node, `ternary${tc}_end:`);
+    this.pushVoid(node, `${thisTernary}_end:`);
   }
 
   private pushLines(node: ts.Node, ...lines: string[]) {
@@ -3196,7 +3197,7 @@ export default class Compiler {
 
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
-        if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+        if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
         else if (i !== 0) this.pushVoid(e, 'concat');
 
         consecutiveBools = [];
@@ -3213,14 +3214,14 @@ export default class Compiler {
       this.checkEncoding(e, this.lastType);
       typeComparison(this.lastType, types[i]);
 
-      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
-      else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub *process_dynamic_tuple_element');
+      else if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
       else if (i !== 0) this.pushVoid(e, 'concat');
     });
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      if (!isStatic) this.pushVoid(parentNode, 'callsub process_static_tuple_element');
+      if (!isStatic) this.pushVoid(parentNode, 'callsub *process_static_tuple_element');
       if (consecutiveBools.length !== elements.length) this.pushVoid(parentNode, 'concat');
     }
 
@@ -3614,8 +3615,8 @@ export default class Compiler {
   }
 
   private compilerSubroutines: { [name: string]: () => string[] } = {
-    itoa: () => [
-      'intToAscii:',
+    '*itoa': () => [
+      '*intToAscii:',
       'proto 1 1',
       'byte 0x30313233343536373839 // "0123456789"',
       'frame_dig -1 // i: uint64',
@@ -3623,45 +3624,45 @@ export default class Compiler {
       'extract3',
       'retsub',
       '',
-      'itoa:',
+      '*itoa:',
       'proto 1 1',
       'frame_dig -1 // i: uint64',
       'int 0',
       '==',
-      'bz itoa_if_end',
+      'bz *itoa_if_end',
       'byte 0x151f7c75000130',
       'log',
       'retsub',
-      'itoa_if_end:',
+      '*itoa_if_end:',
       'frame_dig -1 // i: uint64',
       'int 10',
       '/',
       'int 0',
       '>',
-      'bz itoa_ternary_false',
+      'bz *itoa_ternary_false',
       'frame_dig -1 // i: uint64',
       'int 10',
       '/',
-      'callsub itoa',
-      'b itoa_ternary_end',
-      'itoa_ternary_false:',
+      'callsub *itoa',
+      'b *itoa_ternary_end',
+      '*itoa_ternary_false:',
       'byte 0x // ""',
-      'itoa_ternary_end:',
+      '*itoa_ternary_end:',
       'frame_dig -1 // i: uint64',
       'int 10',
       '%',
-      'callsub intToAscii',
+      'callsub *intToAscii',
       'concat',
       'retsub',
     ],
-    process_static_tuple_element: () => {
+    '*process_static_tuple_element': () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
       const headOffset = '-2 // head offset';
       const element = '-1 // element';
 
       return [
-        'process_static_tuple_element:',
+        '*process_static_tuple_element:',
         'proto 4 3',
         `frame_dig ${tupleHead}`,
         `frame_dig ${element}`,
@@ -3672,15 +3673,14 @@ export default class Compiler {
         'retsub',
       ];
     },
-
-    process_dynamic_tuple_element: () => {
+    '*process_dynamic_tuple_element': () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
       const headOffset = '-2 // head offset';
       const element = '-1 // element';
 
       return [
-        'process_dynamic_tuple_element:',
+        '*process_dynamic_tuple_element:',
         'proto 4 3',
         `frame_dig ${tupleHead}`,
         `frame_dig ${headOffset}`,
@@ -3706,11 +3706,10 @@ export default class Compiler {
         'retsub',
       ];
     },
-
     // -2: length difference
     // -1: offset
-    update_dynamic_head: () => [
-      'update_dynamic_head:',
+    '*update_dynamic_head': () => [
+      '*update_dynamic_head:',
       'proto 2 0',
       'frame_dig -2 // length difference',
       `load ${compilerScratch.fullArray}`,
@@ -3718,15 +3717,15 @@ export default class Compiler {
       'extract_uint16 // extract dynamic array offset',
 
       `load ${compilerScratch.subtractHeadDifference}`,
-      'bz subtract_head_difference',
+      'bz *subtract_head_difference',
       '+ // add difference to offset',
-      'b end_calc_new_head',
+      'b *end_calc_new_head',
 
-      'subtract_head_difference:',
+      '*subtract_head_difference:',
       'swap',
       '- // subtract difference from offet',
 
-      'end_calc_new_head:',
+      '*end_calc_new_head:',
 
       'itob // convert to bytes',
       'extract 6 2 // convert to uint16',
@@ -3738,31 +3737,30 @@ export default class Compiler {
       `store ${compilerScratch.fullArray}`,
       'retsub',
     ],
-
-    get_length_difference: () => [
-      'get_length_difference:',
+    '*get_length_difference': () => [
+      '*get_length_difference:',
       // Get new element length
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       `load ${compilerScratch.elementLength}`,
       '<',
 
-      'bnz swapped_difference',
+      'bnz *swapped_difference',
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       `load ${compilerScratch.elementLength}`,
       'int 1',
       `store ${compilerScratch.subtractHeadDifference}`,
-      'b get_difference',
+      'b *get_difference',
 
-      'swapped_difference:',
+      '*swapped_difference:',
       `load ${compilerScratch.elementLength}`,
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       'int 0',
       `store ${compilerScratch.subtractHeadDifference}`,
 
-      'get_difference:',
+      '*get_difference:',
       '- // get length difference',
       `store ${compilerScratch.lengthDifference}`,
       'retsub',
@@ -4063,7 +4061,7 @@ export default class Compiler {
         this.pushLines(node, 'concat', 'concat', `store ${compilerScratch.fullArray}`);
 
         // Get length difference
-        this.pushLines(node, 'callsub get_length_difference');
+        this.pushLines(node, 'callsub *get_length_difference');
 
         const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
 
@@ -4078,7 +4076,7 @@ export default class Compiler {
             `load ${compilerScratch.elementHeadOffset}`,
             `int ${diff}`,
             '+ // head ofset',
-            'callsub update_dynamic_head'
+            'callsub *update_dynamic_head'
           );
         });
 
@@ -4086,7 +4084,20 @@ export default class Compiler {
       } else if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '* // get bit offset');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
@@ -4117,7 +4128,20 @@ export default class Compiler {
       if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '*');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
@@ -4657,13 +4681,13 @@ export default class Compiler {
     let label: string;
 
     if (node.getOperatorToken().getText() === '&&') {
-      label = `skip_and${this.andCount}`;
+      label = `*skip_and${this.andCount}`;
       this.andCount += 1;
 
       this.pushVoid(node.getOperatorToken(), 'dup');
       this.pushVoid(node.getOperatorToken(), `bz ${label}`);
     } else if (node.getOperatorToken().getText() === '||') {
-      label = `skip_or${this.orCount}`;
+      label = `*skip_or${this.orCount}`;
       this.orCount += 1;
 
       this.pushVoid(node.getOperatorToken(), 'dup');
@@ -5112,13 +5136,13 @@ export default class Compiler {
     let labelPrefix: string;
 
     if (elseIfCount === 0) this.ifCount += 1;
-    const { ifCount } = this;
+    const thisIf = `*if${this.ifCount}`;
 
     if (elseIfCount === 0) {
-      labelPrefix = `if${ifCount}`;
+      labelPrefix = thisIf;
       this.pushVoid(node, `// ${labelPrefix}_condition`);
     } else {
-      labelPrefix = `if${ifCount}_elseif${elseIfCount}`;
+      labelPrefix = `${thisIf}_elseif${elseIfCount}`;
       this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
@@ -5127,26 +5151,26 @@ export default class Compiler {
     const elseStatement = node.getElseStatement();
 
     if (elseStatement === undefined) {
-      this.pushVoid(node, `bz if${ifCount}_end`);
+      this.pushVoid(node, `bz ${thisIf}_end`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
     } else if (elseStatement?.isKind(ts.SyntaxKind.IfStatement)) {
-      this.pushVoid(node, `bz if${ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(node, `bz ${thisIf}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
-      this.pushVoid(node, `b if${ifCount}_end`);
+      this.pushVoid(node, `b ${thisIf}_end`);
       this.processIfStatement(elseStatement, elseIfCount + 1);
     } else {
-      this.pushVoid(node, `bz if${ifCount}_else`);
+      this.pushVoid(node, `bz ${thisIf}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
-      this.pushVoid(node, `b if${ifCount}_end`);
-      this.pushVoid(node, `if${ifCount}_else:`);
+      this.pushVoid(node, `b ${thisIf}_end`);
+      this.pushVoid(node, `${thisIf}_else:`);
       this.processNode(elseStatement);
     }
 
     if (elseIfCount === 0) {
-      this.pushVoid(node, `if${ifCount}_end:`);
+      this.pushVoid(node, `${thisIf}_end:`);
     }
   }
 
@@ -6309,9 +6333,9 @@ export default class Compiler {
 
     this.pushVoid(fn, `// ${this.getSignature(fn)}`);
     if (this.currentProgram !== 'lsig') {
-      this.pushLines(fn, `abi_route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `*abi_route_${this.currentSubroutine.name}:`);
     } else {
-      this.pushLines(fn, `route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `*route_${this.currentSubroutine.name}:`);
     }
 
     const returnType = this.currentSubroutine.returns.type;
