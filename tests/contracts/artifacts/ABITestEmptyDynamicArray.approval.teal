@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // emptyDynamicArray()uint64[]
-abi_route_emptyDynamicArray:
+*abi_route_emptyDynamicArray:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -50,18 +50,18 @@ emptyDynamicArray:
 	byte 0x
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "emptyDynamicArray()uint64[]"
 	txna ApplicationArgs 0
-	match abi_route_emptyDynamicArray
+	match *abi_route_emptyDynamicArray
 	err

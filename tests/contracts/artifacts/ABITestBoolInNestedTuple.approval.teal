@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // boolInNestedTuple()bool
-abi_route_boolInNestedTuple:
+*abi_route_boolInNestedTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -89,18 +89,18 @@ boolInNestedTuple:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "boolInNestedTuple()bool"
 	txna ApplicationArgs 0
-	match abi_route_boolInNestedTuple
+	match *abi_route_boolInNestedTuple
 	err

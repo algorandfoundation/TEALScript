@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // d()void
-abi_route_d:
+*abi_route_d:
 	// execute d()void
 	callsub d
 	int 1
@@ -39,18 +39,18 @@ d:
 	app_global_put
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "d()void"
 	txna ApplicationArgs 0
-	match abi_route_d
+	match *abi_route_d
 	err

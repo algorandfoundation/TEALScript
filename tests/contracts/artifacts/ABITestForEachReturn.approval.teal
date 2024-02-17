@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // forEachReturn()uint64
-abi_route_forEachReturn:
+*abi_route_forEachReturn:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -63,21 +63,21 @@ forEachReturn:
 	int 0
 	frame_bury 4 // the offset we are extracting the next element from
 
-forEach_0:
-	// if0_condition
+*forEach_0:
+	// *if0_condition
 	// tests/contracts/abi.algo.ts:1385
 	// sum > 2
 	frame_dig 1 // sum: uint64
 	int 2
 	>
-	bz if0_end
+	bz *if0_end
 
-	// if0_consequent
+	// *if0_consequent
 	// tests/contracts/abi.algo.ts:1385
 	// return;
-	b forEach_0_end
+	b *forEach_0_end
 
-if0_end:
+*if0_end:
 	// tests/contracts/abi.algo.ts:1386
 	// sum += v
 	frame_dig 1 // sum: uint64
@@ -92,7 +92,7 @@ if0_end:
 	dup
 	int 24 // offset of last element
 	<
-	bz forEach_0_end
+	bz *forEach_0_end
 	frame_bury 4 // the offset we are extracting the next element from
 	frame_dig 2 // copy of the array we are iterating over
 	frame_dig 4 // the offset we are extracting the next element from
@@ -100,9 +100,9 @@ if0_end:
 	extract
 	btoi
 	frame_bury 3 // v: uint64
-	b forEach_0
+	b *forEach_0
 
-forEach_0_end:
+*forEach_0_end:
 	// tests/contracts/abi.algo.ts:1388
 	// return sum;
 	frame_dig 1 // sum: uint64
@@ -114,18 +114,18 @@ forEach_0_end:
 	popn 4
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "forEachReturn()uint64"
 	txna ApplicationArgs 0
-	match abi_route_forEachReturn
+	match *abi_route_forEachReturn
 	err

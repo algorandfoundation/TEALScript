@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // arrayRef()uint8[]
-abi_route_arrayRef:
+*abi_route_arrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -68,18 +68,18 @@ arrayRef:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "arrayRef()uint8[]"
 	txna ApplicationArgs 0
-	match abi_route_arrayRef
+	match *abi_route_arrayRef
 	err

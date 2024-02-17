@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // arrayLength()uint64
-abi_route_arrayLength:
+*abi_route_arrayLength:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -57,18 +57,18 @@ arrayLength:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "arrayLength()uint64"
 	txna ApplicationArgs 0
-	match abi_route_arrayLength
+	match *abi_route_arrayLength
 	err

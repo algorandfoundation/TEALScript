@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // staticArrayInStorageRef()uint64[3]
-abi_route_staticArrayInStorageRef:
+*abi_route_staticArrayInStorageRef:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -99,18 +99,18 @@ staticArrayInStorageRef:
 	popn 1
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_OptIn:
 	method "staticArrayInStorageRef()uint64[3]"
 	txna ApplicationArgs 0
-	match abi_route_staticArrayInStorageRef
+	match *abi_route_staticArrayInStorageRef
 	err

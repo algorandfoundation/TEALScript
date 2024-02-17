@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // tupleArg((uint64,uint16,uint64))uint16
-abi_route_tupleArg:
+*abi_route_tupleArg:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -59,18 +59,18 @@ tupleArg:
 	btoi
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "tupleArg((uint64,uint16,uint64))uint16"
 	txna ApplicationArgs 0
-	match abi_route_tupleArg
+	match *abi_route_tupleArg
 	err

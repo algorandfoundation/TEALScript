@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // maxPools()void
-abi_route_maxPools:
+*abi_route_maxPools:
 	// execute maxPools()void
 	callsub maxPools
 	int 1
@@ -48,18 +48,18 @@ maxPools:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "maxPools()void"
 	txna ApplicationArgs 0
-	match abi_route_maxPools
+	match *abi_route_maxPools
 	err

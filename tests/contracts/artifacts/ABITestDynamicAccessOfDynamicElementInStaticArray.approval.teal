@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // dynamicAccessOfDynamicElementInStaticArray(string[3])string
-abi_route_dynamicAccessOfDynamicElementInStaticArray:
+*abi_route_dynamicAccessOfDynamicElementInStaticArray:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -82,18 +82,18 @@ dynamicAccessOfDynamicElementInStaticArray:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "dynamicAccessOfDynamicElementInStaticArray(string[3])string"
 	txna ApplicationArgs 0
-	match abi_route_dynamicAccessOfDynamicElementInStaticArray
+	match *abi_route_dynamicAccessOfDynamicElementInStaticArray
 	err

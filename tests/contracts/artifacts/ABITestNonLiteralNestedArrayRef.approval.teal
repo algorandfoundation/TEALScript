@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // nonLiteralNestedArrayRef()uint8[2][2]
-abi_route_nonLiteralNestedArrayRef:
+*abi_route_nonLiteralNestedArrayRef:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -84,18 +84,18 @@ nonLiteralNestedArrayRef:
 	popn 2
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "nonLiteralNestedArrayRef()uint8[2][2]"
 	txna ApplicationArgs 0
-	match abi_route_nonLiteralNestedArrayRef
+	match *abi_route_nonLiteralNestedArrayRef
 	err

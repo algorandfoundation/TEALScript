@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void
-abi_route_txnTypes:
+*abi_route_txnTypes:
 	// p: pay
 	txn GroupIndex
 	int 1
@@ -134,18 +134,18 @@ txnTypes:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void"
 	txna ApplicationArgs 0
-	match abi_route_txnTypes
+	match *abi_route_txnTypes
 	err

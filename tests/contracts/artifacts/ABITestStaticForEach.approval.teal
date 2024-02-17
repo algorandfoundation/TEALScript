@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // staticForEach()uint64
-abi_route_staticForEach:
+*abi_route_staticForEach:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -63,7 +63,7 @@ staticForEach:
 	int 0
 	frame_bury 4 // the offset we are extracting the next element from
 
-forEach_0:
+*forEach_0:
 	// tests/contracts/abi.algo.ts:1321
 	// sum += v
 	frame_dig 1 // sum: uint64
@@ -78,7 +78,7 @@ forEach_0:
 	dup
 	int 24 // offset of last element
 	<
-	bz forEach_0_end
+	bz *forEach_0_end
 	frame_bury 4 // the offset we are extracting the next element from
 	frame_dig 2 // copy of the array we are iterating over
 	frame_dig 4 // the offset we are extracting the next element from
@@ -86,9 +86,9 @@ forEach_0:
 	extract
 	btoi
 	frame_bury 3 // v: uint64
-	b forEach_0
+	b *forEach_0
 
-forEach_0_end:
+*forEach_0_end:
 	// tests/contracts/abi.algo.ts:1323
 	// return sum;
 	frame_dig 1 // sum: uint64
@@ -100,18 +100,18 @@ forEach_0_end:
 	popn 4
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "staticForEach()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticForEach
+	match *abi_route_staticForEach
 	err

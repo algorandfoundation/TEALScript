@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // a()void
-abi_route_a:
+*abi_route_a:
 	// execute a()void
 	callsub a
 	int 1
@@ -40,7 +40,7 @@ a:
 	retsub
 
 // b()void
-abi_route_b:
+*abi_route_b:
 	// execute b()void
 	callsub b
 	int 1
@@ -66,7 +66,7 @@ b:
 	retsub
 
 // b2()void
-abi_route_b2:
+*abi_route_b2:
 	// execute b2()void
 	callsub b2
 	int 1
@@ -83,7 +83,7 @@ b2:
 	retsub
 
 // foo()void
-abi_route_foo:
+*abi_route_foo:
 	// execute foo()void
 	callsub foo
 	int 1
@@ -99,14 +99,14 @@ foo:
 	log
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
@@ -115,5 +115,5 @@ call_NoOp:
 	method "b2()void"
 	method "foo()void"
 	txna ApplicationArgs 0
-	match abi_route_a abi_route_b abi_route_b2 abi_route_foo
+	match *abi_route_a *abi_route_b *abi_route_b2 *abi_route_foo
 	err

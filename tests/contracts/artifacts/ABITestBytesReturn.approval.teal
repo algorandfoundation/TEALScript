@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // bytesReturn()byte[]
-abi_route_bytesReturn:
+*abi_route_bytesReturn:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -48,18 +48,18 @@ bytesReturn:
 	byte 0x666f6f // "foo"
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "bytesReturn()byte[]"
 	txna ApplicationArgs 0
-	match abi_route_bytesReturn
+	match *abi_route_bytesReturn
 	err

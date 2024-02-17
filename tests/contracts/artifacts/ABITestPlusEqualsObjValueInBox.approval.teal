@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // plusEqualsObjValueInBox()(uint64,uint64)
-abi_route_plusEqualsObjValueInBox:
+*abi_route_plusEqualsObjValueInBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -65,18 +65,18 @@ plusEqualsObjValueInBox:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "plusEqualsObjValueInBox()(uint64,uint64)"
 	txna ApplicationArgs 0
-	match abi_route_plusEqualsObjValueInBox
+	match *abi_route_plusEqualsObjValueInBox
 	err

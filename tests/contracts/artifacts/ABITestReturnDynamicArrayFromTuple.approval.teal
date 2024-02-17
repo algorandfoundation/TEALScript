@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // returnDynamicArrayFromTuple()uint8[]
-abi_route_returnDynamicArrayFromTuple:
+*abi_route_returnDynamicArrayFromTuple:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -52,15 +52,15 @@ returnDynamicArrayFromTuple:
 	byte 0x // initial tail
 	byte 0x0009 // initial head offset
 	byte 0x01
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x0002
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x00020304
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	byte 0x000200050006
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	byte 0x00020708
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
 	frame_bury 0 // a: [uint<8>, uint16, uint<8>[], uint16[], uint<8>[]]
@@ -89,23 +89,23 @@ returnDynamicArrayFromTuple:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "returnDynamicArrayFromTuple()uint8[]"
 	txna ApplicationArgs 0
-	match abi_route_returnDynamicArrayFromTuple
+	match *abi_route_returnDynamicArrayFromTuple
 	err
 
-process_static_tuple_element:
+*process_static_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -1 // element
@@ -114,7 +114,7 @@ process_static_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-process_dynamic_tuple_element:
+*process_dynamic_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -2 // head offset

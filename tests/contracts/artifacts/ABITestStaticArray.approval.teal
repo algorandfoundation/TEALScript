@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // staticArray()uint64
-abi_route_staticArray:
+*abi_route_staticArray:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -56,18 +56,18 @@ staticArray:
 	frame_bury 0
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "staticArray()uint64"
 	txna ApplicationArgs 0
-	match abi_route_staticArray
+	match *abi_route_staticArray
 	err

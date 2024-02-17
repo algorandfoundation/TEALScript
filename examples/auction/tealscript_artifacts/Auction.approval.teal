@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // createApplication()void
-abi_route_createApplication:
+*abi_route_createApplication:
 	// execute createApplication()void
 	callsub createApplication
 	int 1
@@ -64,7 +64,7 @@ createApplication:
 	retsub
 
 // optIntoAsset(asset)void
-abi_route_optIntoAsset:
+*abi_route_optIntoAsset:
 	// asset: asset
 	txna ApplicationArgs 1
 	btoi
@@ -139,7 +139,7 @@ optIntoAsset:
 	retsub
 
 // startAuction(uint64,uint64,axfer)void
-abi_route_startAuction:
+*abi_route_startAuction:
 	// axfer: axfer
 	txn GroupIndex
 	int 1
@@ -249,7 +249,7 @@ pay:
 	retsub
 
 // optInToApplication()void
-abi_route_optInToApplication:
+*abi_route_optInToApplication:
 	// execute optInToApplication()void
 	callsub optInToApplication
 	int 1
@@ -261,7 +261,7 @@ optInToApplication:
 	retsub
 
 // bid(pay)void
-abi_route_bid:
+*abi_route_bid:
 	// payment: pay
 	txn GroupIndex
 	int 1
@@ -337,7 +337,7 @@ bid:
 	retsub
 
 // claimBids()void
-abi_route_claimBids:
+*abi_route_claimBids:
 	// execute claimBids()void
 	callsub claimBids
 	int 1
@@ -364,16 +364,16 @@ claimBids:
 	frame_bury 1 // amount: uint64
 
 	// subtract previous bid if sender is previous bidder
-	// if0_condition
+	// *if0_condition
 	// examples/auction/auction.algo.ts:93
 	// this.txn.sender === this.previousBidder.value
 	txn Sender
 	byte 0x70726576696f7573426964646572 // "previousBidder"
 	app_global_get
 	==
-	bz if0_end
+	bz *if0_end
 
-	// if0_consequent
+	// *if0_consequent
 	// examples/auction/auction.algo.ts:93
 	// amount = amount - this.previousBid.value
 	frame_dig 1 // amount: uint64
@@ -382,7 +382,7 @@ claimBids:
 	-
 	frame_bury 1 // amount: uint64
 
-if0_end:
+*if0_end:
 	// examples/auction/auction.algo.ts:95
 	// this.pay(this.txn.sender, amount)
 	frame_dig 1 // amount: uint64
@@ -400,7 +400,7 @@ if0_end:
 	retsub
 
 // claim_asset(asset)void
-abi_route_claim_asset:
+*abi_route_claim_asset:
 	// asset: asset
 	txna ApplicationArgs 1
 	btoi
@@ -467,7 +467,7 @@ claim_asset:
 	retsub
 
 // deleteApplication()void
-abi_route_deleteApplication:
+*abi_route_deleteApplication:
 	// execute deleteApplication()void
 	callsub deleteApplication
 	int 1
@@ -513,7 +513,7 @@ deleteApplication:
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
@@ -523,17 +523,17 @@ call_NoOp:
 	method "claimBids()void"
 	method "claim_asset(asset)void"
 	txna ApplicationArgs 0
-	match abi_route_optIntoAsset abi_route_startAuction abi_route_bid abi_route_claimBids abi_route_claim_asset
+	match *abi_route_optIntoAsset *abi_route_startAuction *abi_route_bid *abi_route_claimBids *abi_route_claim_asset
 	err
 
 call_OptIn:
 	method "optInToApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_optInToApplication
+	match *abi_route_optInToApplication
 	err
 
 call_DeleteApplication:
 	method "deleteApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_deleteApplication
+	match *abi_route_deleteApplication
 	err

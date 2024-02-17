@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // typeWithComments()(string,uint64,uint64)
-abi_route_typeWithComments:
+*abi_route_typeWithComments:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -47,32 +47,32 @@ typeWithComments:
 	byte 0x // initial tail
 	byte 0x0012 // initial head offset
 	byte 0x000c48656c6c6f20576f726c6421
-	callsub process_dynamic_tuple_element
+	callsub *process_dynamic_tuple_element
 	byte 0x0000000000000001
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	byte 0x0000000000000002
-	callsub process_static_tuple_element
+	callsub *process_static_tuple_element
 	pop // pop head offset
 	concat // concat head and tail
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "typeWithComments()(string,uint64,uint64)"
 	txna ApplicationArgs 0
-	match abi_route_typeWithComments
+	match *abi_route_typeWithComments
 	err
 
-process_static_tuple_element:
+*process_static_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -1 // element
@@ -81,7 +81,7 @@ process_static_tuple_element:
 	frame_dig -2 // head offset
 	retsub
 
-process_dynamic_tuple_element:
+*process_dynamic_tuple_element:
 	proto 4 3
 	frame_dig -4 // tuple head
 	frame_dig -2 // head offset

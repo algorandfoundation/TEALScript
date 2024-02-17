@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // booleanLastInObj()(uint64,bool)
-abi_route_booleanLastInObj:
+*abi_route_booleanLastInObj:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -50,18 +50,18 @@ booleanLastInObj:
 	concat
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "booleanLastInObj()(uint64,bool)"
 	txna ApplicationArgs 0
-	match abi_route_booleanLastInObj
+	match *abi_route_booleanLastInObj
 	err

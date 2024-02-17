@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // staticByteCasting()byte[5]
-abi_route_staticByteCasting:
+*abi_route_staticByteCasting:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -42,18 +42,18 @@ staticByteCasting:
 	byte 0x6162630000 // "abc"
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "staticByteCasting()byte[5]"
 	txna ApplicationArgs 0
-	match abi_route_staticByteCasting
+	match *abi_route_staticByteCasting
 	err

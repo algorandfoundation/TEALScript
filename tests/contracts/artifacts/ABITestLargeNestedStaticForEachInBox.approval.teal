@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // largeNestedStaticForEachInBox()uint64
-abi_route_largeNestedStaticForEachInBox:
+*abi_route_largeNestedStaticForEachInBox:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -86,7 +86,7 @@ largeNestedStaticForEachInBox:
 	box_extract
 	frame_bury 4 // v: uint512
 
-forEach_0:
+*forEach_0:
 	// tests/contracts/abi.algo.ts:1372
 	// sum += 1
 	frame_dig 0 // sum: uint64
@@ -101,16 +101,16 @@ forEach_0:
 	dup
 	frame_dig 3 // offset of last element
 	<
-	bz forEach_0_end
+	bz *forEach_0_end
 	frame_bury 2 // the offset we are extracting the next element from
 	byte 0x624b6579 // "bKey" // key for the box that contains the array we are iterating over
 	frame_dig 2 // the offset we are extracting the next element from
 	int 64
 	box_extract
 	frame_bury 4 // v: uint512
-	b forEach_0
+	b *forEach_0
 
-forEach_0_end:
+*forEach_0_end:
 	// tests/contracts/abi.algo.ts:1375
 	// return sum;
 	frame_dig 0 // sum: uint64
@@ -122,18 +122,18 @@ forEach_0_end:
 	popn 4
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "largeNestedStaticForEachInBox()uint64"
 	txna ApplicationArgs 0
-	match abi_route_largeNestedStaticForEachInBox
+	match *abi_route_largeNestedStaticForEachInBox
 	err

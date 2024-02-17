@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // externalMethod()uint8
-abi_route_externalMethod:
+*abi_route_externalMethod:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -58,7 +58,7 @@ externalMethod:
 	retsub
 
 // e()void
-abi_route_e:
+*abi_route_e:
 	// execute e()void
 	callsub e
 	int 1
@@ -118,19 +118,19 @@ e:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "externalMethod()uint8"
 	method "e()void"
 	txna ApplicationArgs 0
-	match abi_route_externalMethod abi_route_e
+	match *abi_route_externalMethod *abi_route_e
 	err

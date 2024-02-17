@@ -36,7 +36,7 @@ incrementCounter:
 	retsub
 
 // incr(uint64)void
-abi_route_incr:
+*abi_route_incr:
 	// i: uint64
 	txna ApplicationArgs 1
 	btoi
@@ -57,7 +57,7 @@ incr:
 	retsub
 
 // decr(uint64)void
-abi_route_decr:
+*abi_route_decr:
 	// i: uint64
 	txna ApplicationArgs 1
 	btoi
@@ -82,7 +82,7 @@ decr:
 	retsub
 
 // add(uint256,uint256)uint256
-abi_route_add:
+*abi_route_add:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -135,7 +135,7 @@ add:
 	retsub
 
 // sub(uint256,uint256)uint256
-abi_route_sub:
+*abi_route_sub:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -187,14 +187,14 @@ sub:
 	b-
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
@@ -203,5 +203,5 @@ call_NoOp:
 	method "add(uint256,uint256)uint256"
 	method "sub(uint256,uint256)uint256"
 	txna ApplicationArgs 0
-	match abi_route_incr abi_route_decr abi_route_add abi_route_sub
+	match *abi_route_incr *abi_route_decr *abi_route_add *abi_route_sub
 	err

@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // uintNComparison(uint256,uint256)bool
-abi_route_uintNComparison:
+*abi_route_uintNComparison:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -64,18 +64,18 @@ uintNComparison:
 	b>=
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "uintNComparison(uint256,uint256)bool"
 	txna ApplicationArgs 0
-	match abi_route_uintNComparison
+	match *abi_route_uintNComparison
 	err

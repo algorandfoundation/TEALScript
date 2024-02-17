@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // mixedStaticArrayElements()uint64
-abi_route_mixedStaticArrayElements:
+*abi_route_mixedStaticArrayElements:
 	// The ABI return prefix
 	byte 0x151f7c75
 
@@ -96,18 +96,18 @@ mixedStaticArrayElements:
 	popn 3
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "mixedStaticArrayElements()uint64"
 	txna ApplicationArgs 0
-	match abi_route_mixedStaticArrayElements
+	match *abi_route_mixedStaticArrayElements
 	err

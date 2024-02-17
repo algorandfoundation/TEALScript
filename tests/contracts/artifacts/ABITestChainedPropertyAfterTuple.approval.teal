@@ -22,7 +22,7 @@ NOT_IMPLEMENTED:
 	err
 
 // chainedPropertyAfterTuple(asset)void
-abi_route_chainedPropertyAfterTuple:
+*abi_route_chainedPropertyAfterTuple:
 	// asa: asset
 	txna ApplicationArgs 1
 	btoi
@@ -57,18 +57,18 @@ chainedPropertyAfterTuple:
 	assert
 	retsub
 
-abi_route_createApplication:
+*abi_route_createApplication:
 	int 1
 	return
 
 create_NoOp:
 	method "createApplication()void"
 	txna ApplicationArgs 0
-	match abi_route_createApplication
+	match *abi_route_createApplication
 	err
 
 call_NoOp:
 	method "chainedPropertyAfterTuple(asset)void"
 	txna ApplicationArgs 0
-	match abi_route_chainedPropertyAfterTuple
+	match *abi_route_chainedPropertyAfterTuple
 	err
