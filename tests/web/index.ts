@@ -42,7 +42,9 @@ async function main() {
   const compilerPath = `${libDir}/compiler.ts`;
 
   const promises = [indexPath, typesPath, contractPath, lsigPath, compilerPath].map(async (p) => {
-    // In production you'd probably want to serve these files yourself
+    // In production you'd probably want to serve these files yourself. They are included in npm package.
+    // "src/lib/*.ts" is at "node_modules/@algorandfoundation/tealscript/dist/lib/*.ts"
+    // "types/global.d.ts" is at "node_modules/@algorandfoundation/tealscript/types/global.d.ts"
     // If you want to use githubusercontent, just make sure you are using the correct commit/version
     const response = await fetch(
       // @ts-expect-error - TEALSCRIPT_REF is defined in webpack config
