@@ -1446,3 +1446,14 @@ class ABITestNestedArrayLengthInObjectVariable extends Contract {
     return b.length;
   }
 }
+
+class ABITestBoolInNestedTuple extends Contract {
+  boolInNestedTuple(): boolean {
+    const a: [[uint64, uint64, uint64], boolean, boolean] = [[0, 0, 0], true, false];
+
+    a[1] = false;
+    a[2] = true;
+
+    return a[2];
+  }
+}

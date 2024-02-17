@@ -4086,7 +4086,20 @@ export default class Compiler {
       } else if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '* // get bit offset');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
@@ -4117,7 +4130,20 @@ export default class Compiler {
       if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '*');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
