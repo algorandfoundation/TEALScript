@@ -1471,6 +1471,126 @@ export default class Compiler {
     });
   }
 
+  private forIterator(node: ts.Node, arrayNode: ts.Node, logic: ts.Node, paramName: string) {
+    const arrayType = this.getStackTypeFromNode(arrayNode);
+
+    // TODO: Support dynamic array of static type as well
+    if (arrayType.kind !== 'staticArray') throw Error();
+    if (typeInfoToABIString(arrayType.base) === 'bool') {
+      throw Error('Iterating over boolean arrays is not currently supported');
+    }
+    if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
+    const baseType = arrayType.base;
+    const typeLength = this.getTypeLength(baseType);
+
+    const frameName = `forEach//${node.getStartLinePos()}`;
+
+    this.processNode(arrayNode);
+
+    const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
+
+    // If this is a value larger than 4096 bytes in a box, use box_extract
+    if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
+      this.teal[this.currentProgram].pop(); // pop box_extract
+      this.teal[this.currentProgram].pop(); // pop cover 2
+
+      // Save box key
+      this.initialFrameBury(
+        node,
+        `${frameName}//box_key`,
+        StackType.bytes,
+        'key for the box that contains the array we are iterating over'
+      );
+
+      // Save offset
+      this.pushLines(node, 'swap', 'dup');
+
+      this.initialFrameBury(
+        node,
+        `${frameName}//offset`,
+        StackType.uint64,
+        'the offset we are extracting the next element from'
+      );
+
+      // Save end offset
+      this.pushLines(node, '+');
+      this.initialFrameBury(node, `${frameName}//end_offset`, StackType.uint64, 'the offset of the last element');
+
+      // Save the current element
+      this.frameDig(node, `${frameName}//box_key`);
+      this.frameDig(node, `${frameName}//offset`);
+
+      this.pushLines(node, `int ${typeLength}`, 'box_extract');
+
+      this.lastType = baseType;
+      this.checkDecoding(node, baseType);
+
+      this.initialFrameBury(node, paramName, baseType);
+    } else {
+      // Save the full array
+      this.pushLines(node, 'dup');
+      this.initialFrameBury(node, `${frameName}//aray`, arrayType, 'copy of the array we are iterating over');
+      this.pushVoid(node, `extract 0 ${typeLength}`);
+
+      this.checkDecoding(node, baseType);
+
+      // Save the current element
+      this.initialFrameBury(node, paramName, baseType);
+
+      // Save the offset
+      this.pushLines(node, 'int 0');
+      this.initialFrameBury(
+        node,
+        `${frameName}//offset`,
+        StackType.uint64,
+        'the offset we are extracting the next element from'
+      );
+    }
+    const label = `*forEach_${this.forEachCount}`;
+    this.pushLines(node, `${label}:`);
+    this.forEachCount += 1;
+
+    const prevForEachLabel = this.currentForEachLabel;
+    this.currentForEachLabel = label;
+    // this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+    this.processNode(logic);
+    this.currentForEachLabel = prevForEachLabel;
+
+    const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
+
+    // End of for each logic
+    this.pushLines(node, '// increment offset and loop if not out of bounds');
+    this.frameDig(node, `${frameName}//offset`);
+    this.pushLines(node, `int ${typeLength}`, '+', 'dup');
+
+    if (arrayIndex !== undefined) {
+      this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
+    } else {
+      this.frameDig(node, `${frameName}//end_offset`);
+    }
+
+    this.pushLines(node, '<', `bz ${label}_end`);
+    this.frameBury(node, `${frameName}//offset`);
+
+    if (arrayIndex !== undefined) {
+      this.frameDig(node, `${frameName}//aray`);
+      this.frameDig(node, `${frameName}//offset`);
+      this.pushLines(node, `int ${typeLength}`, 'extract');
+    } else {
+      this.frameDig(node, `${frameName}//box_key`);
+      this.frameDig(node, `${frameName}//offset`);
+      this.pushLines(node, `int ${typeLength}`, 'box_extract');
+    }
+
+    this.lastType = baseType;
+
+    this.checkDecoding(node, baseType);
+
+    this.frameBury(node, paramName);
+
+    this.pushLines(node, `b ${label}`, `${label}_end:`);
+  }
+
   private opcodeImplementations: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void;
@@ -1851,18 +1971,6 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         this.addSourceComment(node.getExpression(), true);
 
-        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
-        const arrayType = this.getStackTypeFromNode(expr);
-
-        // TODO: Support dynamic array of static type as well
-        if (arrayType.kind !== 'staticArray') throw Error();
-        if (typeInfoToABIString(arrayType.base) === 'bool') {
-          throw Error('Iterating over boolean arrays is not currently supported');
-        }
-        if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
-        const baseType = arrayType.base;
-        const typeLength = this.getTypeLength(baseType);
-
         const fn = node.getArguments()[0];
 
         if (!fn.isKind(ts.SyntaxKind.ArrowFunction)) throw Error();
@@ -1872,113 +1980,8 @@ export default class Compiler {
 
         const paramName = params[0].getName();
 
-        const arrayTypeString = typeInfoToABIString(arrayType);
-
-        const frameName = `forEach//${node.getStartLinePos()}`;
-
-        this.processNode(expr);
-
-        const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
-
-        // If this is a value larger than 4096 bytes in a box, use box_extract
-        if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
-          this.teal[this.currentProgram].pop(); // pop box_extract
-          this.teal[this.currentProgram].pop(); // pop cover 2
-
-          // Save box key
-          this.initialFrameBury(
-            node,
-            `${frameName}//box_key`,
-            StackType.bytes,
-            'key for the box that contains the array we are iterating over'
-          );
-
-          // Save offset
-          this.pushLines(node, 'swap', 'dup');
-
-          this.initialFrameBury(
-            node,
-            `${frameName}//offset`,
-            StackType.uint64,
-            'the offset we are extracting the next element from'
-          );
-
-          // Save end offset
-          this.pushLines(node, '+');
-          this.initialFrameBury(node, `${frameName}//end_offset`, StackType.uint64, 'the offset of the last element');
-
-          // Save the current element
-          this.frameDig(node, `${frameName}//box_key`);
-          this.frameDig(node, `${frameName}//offset`);
-
-          this.pushLines(node, `int ${typeLength}`, 'box_extract');
-
-          this.lastType = baseType;
-          this.checkDecoding(node, baseType);
-
-          this.initialFrameBury(node, paramName, baseType);
-        } else {
-          // Save the full array
-          this.pushLines(node, 'dup');
-          this.initialFrameBury(node, `${frameName}//aray`, arrayType, 'copy of the array we are iterating over');
-          this.pushVoid(node, `extract 0 ${typeLength}`);
-
-          this.checkDecoding(node, baseType);
-
-          // Save the current element
-          this.initialFrameBury(node, paramName, baseType);
-
-          // Save the offset
-          this.pushLines(node, 'int 0');
-          this.initialFrameBury(
-            node,
-            `${frameName}//offset`,
-            StackType.uint64,
-            'the offset we are extracting the next element from'
-          );
-        }
-        const label = `*forEach_${this.forEachCount}`;
-        this.pushLines(node, `${label}:`);
-        this.forEachCount += 1;
-
-        const prevForEachLabel = this.currentForEachLabel;
-        this.currentForEachLabel = label;
-        this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
-        this.currentForEachLabel = prevForEachLabel;
-
-        const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
-
-        // End of for each logic
-        this.pushLines(node, '// increment offset and loop if not out of bounds');
-        this.frameDig(node, `${frameName}//offset`);
-        this.pushLines(node, `int ${typeLength}`, '+', 'dup');
-
-        if (arrayIndex !== undefined) {
-          this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
-        } else {
-          this.frameDig(node, `${frameName}//end_offset`);
-        }
-
-        this.pushLines(node, '<', `bz ${label}_end`);
-        this.frameBury(node, `${frameName}//offset`);
-
-        if (arrayIndex !== undefined) {
-          this.frameDig(node, `${frameName}//aray`);
-          this.frameDig(node, `${frameName}//offset`);
-          this.pushLines(node, `int ${typeLength}`, 'extract');
-        } else {
-          this.frameDig(node, `${frameName}//box_key`);
-          this.frameDig(node, `${frameName}//offset`);
-          this.pushLines(node, `int ${typeLength}`, 'box_extract');
-        }
-
-        this.lastType = baseType;
-
-        this.checkDecoding(node, baseType);
-
-        this.frameBury(node, paramName);
-
-        this.pushLines(node, `b ${label}`, `${label}_end:`);
+        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
+        this.forIterator(node, expr, fn.getChildrenOfKind(ts.SyntaxKind.Block)[0], paramName);
       },
     },
     // Address methods
