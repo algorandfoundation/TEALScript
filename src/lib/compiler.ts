@@ -2937,6 +2937,15 @@ export default class Compiler {
     this.currentLoop = preLoop;
   }
 
+  private processForOfStatement(node: ts.ForOfStatement) {
+    const arrayNode = node.getExpression();
+    const logic = node.getStatement();
+    const declarations = node.getInitializer() as ts.VariableDeclarationList;
+    const name = declarations.getDeclarations()[0].getNameNode().getText();
+
+    this.forIterator(node, arrayNode, logic, name);
+  }
+
   /**
    * Every node in the AST is passed through this function.
    */
@@ -2962,6 +2971,7 @@ export default class Compiler {
 
     try {
       if (node.isKind(ts.SyntaxKind.PropertyDeclaration)) this.processPropertyDefinition(node);
+      else if (node.isKind(ts.SyntaxKind.ForOfStatement)) this.processForOfStatement(node);
       else if (node.isKind(ts.SyntaxKind.MethodDeclaration)) this.processMethodDefinition(node);
       else if (node.isKind(ts.SyntaxKind.PropertyAccessExpression)) this.processExpressionChain(node);
       else if (node.isKind(ts.SyntaxKind.AsExpression)) this.processTypeCast(node);

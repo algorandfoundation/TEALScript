@@ -1457,3 +1457,16 @@ class ABITestBoolInNestedTuple extends Contract {
     return a[2];
   }
 }
+
+class ABITestStaticForOf extends Contract {
+  staticForOf(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      sum += v;
+    }
+    return sum;
+  }
+}
