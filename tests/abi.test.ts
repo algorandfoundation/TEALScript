@@ -871,4 +871,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'largeNestedStaticForOfInBox')).toEqual(65n);
   });
+
+  test('forOfContinue', async () => {
+    const { appClient } = await compileAndCreate('forOfContinue');
+
+    expect(await runMethod(appClient, 'forOfContinue')).toEqual(3n);
+  });
 });
