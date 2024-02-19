@@ -1178,6 +1178,7 @@ opUp:
 	frame_dig 0 // i: uint64
 	assert
 
+*for_0_continue:
 	// tests/contracts/general.algo.ts:270
 	// i += 1
 	frame_dig 0 // i: uint64
