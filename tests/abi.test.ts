@@ -883,4 +883,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'forOfBreak')).toEqual(3n);
   });
+
+  test('accessStaticArrayInBoxInVariable', async () => {
+    const { appClient } = await compileAndCreate('accessStaticArrayInBoxInVariable');
+
+    expect(await runMethod(appClient, 'accessStaticArrayInBoxInVariable')).toEqual(1n);
+  });
 });
