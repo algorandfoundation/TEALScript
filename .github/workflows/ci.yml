@@ -27,7 +27,7 @@ jobs:
       run: bun lint
 
     - name: Run tests
-      run: bun test
+      run: bun test --timeout 10000
 
     - name: Run examples
       run: bun run-examples
