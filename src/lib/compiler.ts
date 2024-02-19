@@ -2940,6 +2940,7 @@ export default class Compiler {
     this.pushVoid(node, `${thisLoop}_statement:`);
     this.processNode(node.getStatement());
     this.pushVoid(node, `${thisLoop}:`);
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.processConditional(node.getExpression());
     this.pushVoid(node, `bnz ${thisLoop}_statement`);
     this.pushVoid(node, `${thisLoop}_end:`);
@@ -2955,6 +2956,7 @@ export default class Compiler {
     this.currentLoop = thisLoop;
 
     this.pushVoid(node, `${thisLoop}:`);
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.processConditional(node.getExpression());
     this.pushVoid(node, `bz ${thisLoop}_end`);
 
@@ -2986,6 +2988,7 @@ export default class Compiler {
 
     this.processNode(node.getStatement());
 
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.addSourceComment(node.getIncrementorOrThrow(), true);
     this.processNode(node.getIncrementorOrThrow());
     this.pushVoid(node, `b ${thisLoop}`);
@@ -3057,7 +3060,7 @@ export default class Compiler {
       } else if (node.isKind(ts.SyntaxKind.BreakStatement)) {
         this.pushVoid(node, `b ${this.currentLoop}_end`);
       } else if (node.isKind(ts.SyntaxKind.ContinueStatement)) {
-        this.pushVoid(node, `b ${this.currentLoop}`);
+        this.pushVoid(node, `b ${this.currentLoop}_continue`);
       } else throw new Error(`Unknown node type: ${node.getKindName()}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;

@@ -60,6 +60,7 @@ calcInitRoot:
 	sha256
 	frame_bury 0 // result: byte[32]
 
+*for_0_continue:
 	// examples/merkle/merkle.algo.ts:19
 	// i = i + 1
 	frame_dig 1 // i: uint64
@@ -186,6 +187,8 @@ calcRoot:
 	frame_bury -1 // result: bytes32
 
 *if0_end:
+
+*for_1_continue:
 	// examples/merkle/merkle.algo.ts:37
 	// i = i + 1
 	frame_dig 0 // i: uint64

@@ -366,6 +366,35 @@ function deDupTeal(inputTeal: NodeAndTEAL[]) {
   return newTeal;
 }
 
+/**
+ * Remove unused labels from TEAL code
+ * I started implementing this then realized labels are kinda nice for readability so I kept them in
+ */
+export function rmUnusedLabels(inputTeal: NodeAndTEAL[]) {
+  const teal = inputTeal.map((t) => t.teal);
+  const labels = teal.filter((t) => t.match(/^\S+:/)).map((t) => t.split(':')[0]);
+
+  const unusedLabels = labels.filter((label) => {
+    return (
+      !label.startsWith('*abi_route') &&
+      !label.startsWith('*call_') &&
+      !label.startsWith('*create_') &&
+      label !== '*NOT_IMPLEMENTED' &&
+      !teal.some((t) => {
+        const branchOps = ['b', 'bz', 'bnz', 'callsub'];
+
+        const isBranchOp = branchOps.includes(t.split(' ')[0]);
+        return isBranchOp && t.split(' ')[1] === label;
+      })
+    );
+  });
+
+  return inputTeal.filter((t) => {
+    const currentLabel = t.teal.split(':')[0];
+    return !unusedLabels.includes(currentLabel);
+  });
+}
+
 export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
   let newTeal: NodeAndTEAL[] = inputTeal.slice();
   let oldTeal: NodeAndTEAL[] = inputTeal.slice();

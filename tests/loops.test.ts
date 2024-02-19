@@ -72,7 +72,7 @@ describe('Loops', function () {
       methodArgs: [],
       sendParams: { suppressLog: true },
     });
-    expect(ret.return?.returnValue).toEqual(1342n);
+    expect(ret.return?.returnValue).toEqual(1341n);
   });
 
   test('breakDoWhileLoop', async function () {

@@ -47,6 +47,8 @@ whileLoop:
 	frame_bury 0 // i: uint64
 
 *while_0:
+
+*while_0_continue:
 	// tests/contracts/loops.algo.ts:9
 	// i < 10
 	frame_dig 0 // i: uint64
@@ -117,6 +119,7 @@ forLoop:
 	+
 	frame_bury 0 // i: uint64
 
+*for_0_continue:
 	// tests/contracts/loops.algo.ts:19
 	// j = j + 1
 	frame_dig 1 // j: uint64
@@ -171,6 +174,8 @@ do_while_0_statement:
 	frame_bury 0 // i: uint64
 
 do_while_0:
+
+do_while_0_continue:
 	// tests/contracts/loops.algo.ts:31
 	// i < 10
 	frame_dig 0 // i: uint64
@@ -213,6 +218,8 @@ breakWhileLoop:
 	frame_bury 0 // i: uint64
 
 *while_1:
+
+*while_1_continue:
 	// tests/contracts/loops.algo.ts:39
 	// i < 10
 	frame_dig 0 // i: uint64
@@ -276,6 +283,8 @@ continueWhileLoop:
 	frame_bury 0 // i: uint64
 
 *while_2:
+
+*while_2_continue:
 	// tests/contracts/loops.algo.ts:50
 	// i < 10
 	frame_dig 0 // i: uint64
@@ -296,7 +305,7 @@ continueWhileLoop:
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
-	b *while_2
+	b *while_2_continue
 
 *if1_end:
 	// tests/contracts/loops.algo.ts:55
@@ -374,6 +383,8 @@ breakForLoop:
 	b *for_1_end
 
 *if2_end:
+
+*for_1_continue:
 	// tests/contracts/loops.algo.ts:64
 	// j = j + 1
 	frame_dig 1 // j: uint64
@@ -446,7 +457,7 @@ continueForLoop:
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
-	b *for_2
+	b *for_2_continue
 
 *if3_end:
 	// tests/contracts/loops.algo.ts:80
@@ -456,6 +467,7 @@ continueForLoop:
 	+
 	frame_bury 0 // i: uint64
 
+*for_2_continue:
 	// tests/contracts/loops.algo.ts:75
 	// j = j + 1
 	frame_dig 1 // j: uint64
@@ -523,6 +535,8 @@ do_while_1_statement:
 *if4_end:
 
 do_while_1:
+
+do_while_1_continue:
 	// tests/contracts/loops.algo.ts:92
 	// i < 10
 	frame_dig 0 // i: uint64
@@ -578,7 +592,7 @@ do_while_2_statement:
 	// i = 1337
 	int 1337
 	frame_bury 0 // i: uint64
-	b do_while_2
+	b do_while_2_continue
 
 *if5_end:
 	// tests/contracts/loops.algo.ts:105
@@ -589,6 +603,8 @@ do_while_2_statement:
 	frame_bury 0 // i: uint64
 
 do_while_2:
+
+do_while_2_continue:
 	// tests/contracts/loops.algo.ts:106
 	// i < 10
 	frame_dig 0 // i: uint64
