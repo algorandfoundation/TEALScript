@@ -1457,3 +1457,63 @@ class ABITestBoolInNestedTuple extends Contract {
     return a[2];
   }
 }
+
+class ABITestStaticForOf extends Contract {
+  staticForOf(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      sum += v;
+    }
+    return sum;
+  }
+}
+
+class ABITestLargeNestedStaticForOfInBox extends Contract {
+  bKey = BoxKey<[bytes32, StaticArray<uint<512>, 65>]>();
+
+  largeNestedStaticForOfInBox(): uint64 {
+    increaseOpcodeBudget();
+    this.bKey.create();
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of this.bKey.value[1]) {
+      sum += 1;
+    }
+
+    return sum;
+  }
+}
+
+class ABITestForOfContinue extends Contract {
+  forOfContinue(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      // eslint-disable-next-line no-continue
+      if (sum > 2) continue;
+      sum += v;
+    }
+    return sum;
+  }
+}
+
+class ABITestForOfBreak extends Contract {
+  forOfBreak(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      // eslint-disable-next-line no-continue
+      if (sum > 2) break;
+      sum += v;
+    }
+    return sum;
+  }
+}
