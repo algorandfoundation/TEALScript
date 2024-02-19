@@ -1946,11 +1946,7 @@ export default class Compiler {
         this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
         this.currentForEachLabel = prevForEachLabel;
 
-        const offsetIndex = this.localVariables[`${frameName}//offset`].index;
         const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
-        const elementIndex = this.localVariables[paramName].index;
-        const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
-        const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
 
         // End of for each logic
         this.pushLines(node, '// increment offset and loop if not out of bounds');
