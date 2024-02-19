@@ -60,7 +60,7 @@ staticForOf:
 	int 0
 	frame_bury 4 // the offset we are extracting the next element from
 
-*forEach_0:
+*forOf_0:
 	// tests/contracts/abi.algo.ts:1468
 	// sum += v
 	frame_dig 1 // sum: uint64
@@ -68,6 +68,7 @@ staticForOf:
 	+
 	frame_bury 1 // sum: uint64
 
+*forOf_0_continue:
 	// increment offset and loop if not out of bounds
 	frame_dig 4 // the offset we are extracting the next element from
 	int 8
@@ -75,7 +76,7 @@ staticForOf:
 	dup
 	int 24 // offset of last element
 	<
-	bz *forEach_0_end
+	bz *forOf_0_end
 	frame_bury 4 // the offset we are extracting the next element from
 	frame_dig 2 // copy of the array we are iterating over
 	frame_dig 4 // the offset we are extracting the next element from
@@ -83,9 +84,9 @@ staticForOf:
 	extract
 	btoi
 	frame_bury 3 // v: uint64
-	b *forEach_0
+	b *forOf_0
 
-*forEach_0_end:
+*forOf_0_end:
 	// tests/contracts/abi.algo.ts:1470
 	// return sum;
 	frame_dig 1 // sum: uint64

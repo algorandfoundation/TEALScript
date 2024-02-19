@@ -743,6 +743,8 @@ export default class Compiler {
 
   forEachCount: number = 0;
 
+  forOfCount: number = 0;
+
   currentLoop?: string;
 
   innerTxnHasBegun: boolean = false;
@@ -1471,7 +1473,13 @@ export default class Compiler {
     });
   }
 
-  private forIterator(node: ts.Node, arrayNode: ts.Node, logic: ts.Node, paramName: string) {
+  private forIterator(
+    node: ts.Node,
+    arrayNode: ts.Node,
+    logic: ts.Node,
+    paramName: string,
+    method: 'forEach' | 'forOf'
+  ) {
     const arrayType = this.getStackTypeFromNode(arrayNode);
 
     // TODO: Support dynamic array of static type as well
@@ -1483,7 +1491,7 @@ export default class Compiler {
     const baseType = arrayType.base;
     const typeLength = this.getTypeLength(baseType);
 
-    const frameName = `forEach//${node.getStartLinePos()}`;
+    const frameName = `${method}//${node.getStartLinePos()}`;
 
     this.processNode(arrayNode);
 
@@ -1546,19 +1554,22 @@ export default class Compiler {
         'the offset we are extracting the next element from'
       );
     }
-    const label = `*forEach_${this.forEachCount}`;
+    const label = `*${method}_${this[`${method}Count`]}`;
     this.pushLines(node, `${label}:`);
-    this.forEachCount += 1;
+    this[`${method}Count`] += 1;
 
     const prevForEachLabel = this.currentForEachLabel;
     this.currentForEachLabel = label;
-    // this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
+    const previousLoop = this.currentLoop;
+    if (method === 'forOf') this.currentLoop = label;
     this.processNode(logic);
+    this.currentLoop = previousLoop;
     this.currentForEachLabel = prevForEachLabel;
 
     const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
 
     // End of for each logic
+    if (method === 'forOf') this.pushVoid(node, `${label}_continue:`);
     this.pushLines(node, '// increment offset and loop if not out of bounds');
     this.frameDig(node, `${frameName}//offset`);
     this.pushLines(node, `int ${typeLength}`, '+', 'dup');
@@ -1981,7 +1992,7 @@ export default class Compiler {
         const paramName = params[0].getName();
 
         const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
-        this.forIterator(node, expr, fn.getChildrenOfKind(ts.SyntaxKind.Block)[0], paramName);
+        this.forIterator(node, expr, fn.getChildrenOfKind(ts.SyntaxKind.Block)[0], paramName, 'forEach');
       },
     },
     // Address methods
@@ -2943,7 +2954,7 @@ export default class Compiler {
     const declarations = node.getInitializer() as ts.VariableDeclarationList;
     const name = declarations.getDeclarations()[0].getNameNode().getText();
 
-    this.forIterator(node, arrayNode, logic, name);
+    this.forIterator(node, arrayNode, logic, name, 'forOf');
   }
 
   /**
