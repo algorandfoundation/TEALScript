@@ -877,4 +877,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'forOfContinue')).toEqual(3n);
   });
+
+  test('forOfBreak', async () => {
+    const { appClient } = await compileAndCreate('forOfBreak');
+
+    expect(await runMethod(appClient, 'forOfBreak')).toEqual(3n);
+  });
 });

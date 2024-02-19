@@ -1502,3 +1502,18 @@ class ABITestForOfContinue extends Contract {
     return sum;
   }
 }
+
+class ABITestForOfBreak extends Contract {
+  forOfBreak(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      // eslint-disable-next-line no-continue
+      if (sum > 2) break;
+      sum += v;
+    }
+    return sum;
+  }
+}
