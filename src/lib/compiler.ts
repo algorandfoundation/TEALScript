@@ -1886,98 +1886,56 @@ export default class Compiler {
           this.teal[this.currentProgram].pop(); // pop cover 2
 
           // Save box key
-          this.localVariables[`${frameName}//box_key`] = {
-            index: this.frameIndex,
-            type: StackType.bytes,
-            typeString: 'byte[]',
-          };
-          this.pushVoid(
+          this.initialFrameBury(
             node,
-            `frame_bury ${this.frameIndex} // key for the box that contains the array we are iterating over`
+            `${frameName}//box_key`,
+            StackType.bytes,
+            'key for the box that contains the array we are iterating over'
           );
-          const keyIndex = this.frameIndex;
-          this.frameIndex += 1;
 
           // Save offset
-          this.localVariables[`${frameName}//offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(
+          this.pushLines(node, 'swap', 'dup');
+
+          this.initialFrameBury(
             node,
-            'swap',
-            'dup',
-            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from `
+            `${frameName}//offset`,
+            StackType.uint64,
+            'the offset we are extracting the next element from'
           );
-          const offsetIndex = this.frameIndex;
-          this.frameIndex += 1;
 
           // Save end offset
-          this.localVariables[`${frameName}//end_offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(node, '+', `frame_bury ${this.frameIndex} // the offset of the last element`);
-          this.frameIndex += 1;
+          this.pushLines(node, '+');
+          this.initialFrameBury(node, `${frameName}//end_offset`, StackType.uint64, 'the offset of the last element');
 
           // Save the current element
-          this.localVariables[paramName] = {
-            index: this.frameIndex,
-            type: baseType,
-            typeString: typeInfoToABIString(baseType),
-          };
-          this.pushLines(
-            node,
-            `frame_dig ${keyIndex} // key for the box that contains the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'box_extract'
-          );
+          this.frameDig(node, `${frameName}//box_key`);
+          this.frameDig(node, `${frameName}//offset`);
 
+          this.pushLines(node, `int ${typeLength}`, 'box_extract');
+
+          this.lastType = baseType;
           this.checkDecoding(node, baseType);
 
-          this.pushLines(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
-          this.frameIndex += 1;
+          this.initialFrameBury(node, paramName, baseType);
         } else {
           // Save the full array
-          this.localVariables[`${frameName}//aray`] = {
-            index: this.frameIndex,
-            type: arrayType,
-            typeString: arrayTypeString,
-          };
-          this.pushLines(
-            node,
-            'dup',
-            `frame_bury ${this.frameIndex} // copy of the array we are iterating over`,
-            `extract 0 ${typeLength}`
-          );
-          this.frameIndex += 1;
+          this.pushLines(node, 'dup');
+          this.initialFrameBury(node, `${frameName}//aray`, arrayType, 'copy of the array we are iterating over');
+          this.pushVoid(node, `extract 0 ${typeLength}`);
 
           this.checkDecoding(node, baseType);
 
           // Save the current element
-          this.localVariables[paramName] = {
-            index: this.frameIndex,
-            type: baseType,
-            typeString: typeInfoToABIString(baseType),
-          };
-          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
-          this.frameIndex += 1;
+          this.initialFrameBury(node, paramName, baseType);
 
           // Save the offset
-          this.localVariables[`${frameName}//offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(
+          this.pushLines(node, 'int 0');
+          this.initialFrameBury(
             node,
-            'int 0',
-            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`
+            `${frameName}//offset`,
+            StackType.uint64,
+            'the offset we are extracting the next element from'
           );
-          this.frameIndex += 1;
         }
         const label = `*forEach_${this.forEachCount}`;
         this.pushLines(node, `${label}:`);
@@ -1995,53 +1953,36 @@ export default class Compiler {
         const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
 
         // End of for each logic
-        this.pushLines(
-          node,
-          '// increment offset and loop if not out of bounds',
-          `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-          `int ${typeLength}`,
-          '+',
-          'dup'
-        );
+        this.pushLines(node, '// increment offset and loop if not out of bounds');
+        this.frameDig(node, `${frameName}//offset`);
+        this.pushLines(node, `int ${typeLength}`, '+', 'dup');
 
         if (arrayIndex !== undefined) {
           this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
         } else {
-          this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
+          this.frameDig(node, `${frameName}//end_offset`);
         }
-        this.pushLines(
-          node,
-          '<',
-          `bz ${label}_end`,
-          `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
-        );
+
+        this.pushLines(node, '<', `bz ${label}_end`);
+        this.frameBury(node, `${frameName}//offset`);
 
         if (arrayIndex !== undefined) {
-          this.pushLines(
-            node,
-            `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'extract'
-          );
+          this.frameDig(node, `${frameName}//aray`);
+          this.frameDig(node, `${frameName}//offset`);
+          this.pushLines(node, `int ${typeLength}`, 'extract');
         } else {
-          this.pushLines(
-            node,
-            `frame_dig ${boxKeyIndex} // key for the box that contains the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'box_extract'
-          );
+          this.frameDig(node, `${frameName}//box_key`);
+          this.frameDig(node, `${frameName}//offset`);
+          this.pushLines(node, `int ${typeLength}`, 'box_extract');
         }
+
+        this.lastType = baseType;
 
         this.checkDecoding(node, baseType);
 
-        this.pushLines(
-          node,
-          `frame_bury ${elementIndex} // ${paramName}: ${typeInfoToABIString(arrayType.base)}`,
-          `b ${label}`,
-          `${label}_end:`
-        );
+        this.frameBury(node, paramName);
+
+        this.pushLines(node, `b ${label}`, `${label}_end:`);
       },
     },
     // Address methods

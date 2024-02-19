@@ -99,7 +99,7 @@ largeNestedStaticForEachInBox:
 	int 64
 	+
 	dup
-	frame_dig 3 // offset of last element
+	frame_dig 3 // the offset of the last element
 	<
 	bz *forEach_0_end
 	frame_bury 2 // the offset we are extracting the next element from
