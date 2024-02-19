@@ -2300,8 +2300,7 @@ staticTypeLen:
 	int 0
 	==
 	bz *itoa_if_end
-	byte 0x151f7c75000130
-	log
+	byte 0x30
 	retsub
 
 *itoa_if_end:
