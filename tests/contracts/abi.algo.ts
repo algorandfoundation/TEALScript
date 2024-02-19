@@ -1470,3 +1470,20 @@ class ABITestStaticForOf extends Contract {
     return sum;
   }
 }
+
+class ABITestLargeNestedStaticForOfInBox extends Contract {
+  bKey = BoxKey<[bytes32, StaticArray<uint<512>, 65>]>();
+
+  largeNestedStaticForOfInBox(): uint64 {
+    increaseOpcodeBudget();
+    this.bKey.create();
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of this.bKey.value[1]) {
+      sum += 1;
+    }
+
+    return sum;
+  }
+}

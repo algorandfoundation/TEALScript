@@ -4622,9 +4622,9 @@ export default class Compiler {
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
       if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
-    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral())
+    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral()) {
       typeComparison(leftType, rightType);
-
+    }
     if (updateValue) {
       if (this.usingValue(node)) this.pushLines(node, 'dup', `store ${compilerScratch.assignmentValue}`);
       this.updateValue(leftNode);
