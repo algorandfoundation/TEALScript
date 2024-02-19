@@ -6034,7 +6034,7 @@ export default class Compiler {
           if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
           } else {
-            this.lastType = baseType;
+            this.lastType = this.storageProps[getStorageName(storageExpression)!].valueType;
           }
 
           frameFollow.accessors.forEach((e) => accessors.push(e));

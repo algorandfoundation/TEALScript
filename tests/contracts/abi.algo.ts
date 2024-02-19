@@ -1517,3 +1517,17 @@ class ABITestForOfBreak extends Contract {
     return sum;
   }
 }
+
+class ABITestAccessStaticArrayInBoxInVariable extends Contract {
+  bKey = BoxKey<StaticArray<{ u64: uint64; addr: Address }, 3>>({ key: 'stakers' });
+
+  accessStaticArrayInBoxInVariable(): uint64 {
+    const i = 0;
+    this.bKey.create();
+    const val = this.bKey.value[i];
+
+    val.u64 = 1;
+
+    return val.u64;
+  }
+}
