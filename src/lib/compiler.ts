@@ -2931,7 +2931,7 @@ export default class Compiler {
   }
 
   private processDoStatement(node: ts.DoStatement) {
-    const thisLoop = `do_while_${this.doWhileCount}`;
+    const thisLoop = `*do_while_${this.doWhileCount}`;
     this.doWhileCount += 1;
 
     const prevLoop = this.currentLoop;
