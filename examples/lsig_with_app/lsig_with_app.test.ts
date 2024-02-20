@@ -7,6 +7,7 @@ import { readFileSync } from 'fs';
 import { CreatorVerifierClient } from './CreatorVerifierClient';
 
 const optInLsigTeal = readFileSync(`${__dirname}/artifacts/OptInLsig.lsig.teal`, 'utf8');
+algokit.Config.configure({ populateAppCallResources: true });
 
 async function getLsigAccount(algod: algosdk.Algodv2, appID: bigint, tealTemplate: string) {
   // Replace the template variable in the lsig TEAL

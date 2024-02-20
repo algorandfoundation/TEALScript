@@ -5,6 +5,8 @@ import algosdk from 'algosdk';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { Arc75Client } from './ARC75Client';
 
+algokit.Config.configure({ populateAppCallResources: true });
+
 let arc75: Arc75Client;
 const ARC = 'ARCX';
 let senderAddr: string;
