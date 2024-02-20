@@ -1036,6 +1036,24 @@ export default class Compiler {
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
 
+    if (type.getText() === 'Account') {
+      throw Error(
+        '`Account` no longer supported. Use `Address` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AccountReference` if you need to explicitly use the reference type.'
+      );
+    }
+
+    if (type.getText() === 'Application') {
+      throw Error(
+        '`Application` type no longer supported. Use `AppID` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AppReference` if you need to explicitly use the reference type.'
+      );
+    }
+
+    if (type.getText() === 'Asset') {
+      throw Error(
+        'Asset` type no longer supported. Use `AssetID` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AssetReference` if you need to explicitly use the reference type.'
+      );
+    }
+
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
     if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
     if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };

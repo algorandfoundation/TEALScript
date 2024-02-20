@@ -1293,3 +1293,18 @@ declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remain
  * @param d The denominator low bits
  */
 declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;
+
+/**
+ * @deprecated Use `Address` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AccountReference` if you need to explicitly use the reference type.
+ */
+class Account {}
+
+/**
+ * @deprecated Use `AppID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AppReference` if you need to explicitly use the reference type.
+ */
+class Application {}
+
+/**
+ * @deprecated Use `AssetID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AssetReference` if you need to explicitly use the reference type.
+ */
+class Asset {}
