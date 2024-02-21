@@ -6,9 +6,11 @@ import starlightTypeDoc, { typeDocSidebarGroup } from 'starlight-typedoc';
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'TEALScript',
       social: {
-        github: 'https://github.com/withastro/starlight',
+        discord: 'https://discord.gg/algorand',
+        twitter: 'https://twitter.com/algodevs',
+        github: 'https://github.com/algorandfoundation/tealscript',
       },
       plugins: [
         // Generate the documentation.
