@@ -1073,7 +1073,7 @@ class ABITestGlobalMethodInChain extends Contract {
 
 class ABITestOpcodeParamFromObject extends Contract {
   opcodeParamFromObject(): Address {
-    const a: { myApp: Application } = { myApp: this.app };
+    const a: { myApp: AppID } = { myApp: this.app };
 
     return this.app.address;
   }
@@ -1178,7 +1178,7 @@ type T7 = {
   foo: Address;
 };
 class ABITestChainedPropertyAfterTuple extends Contract {
-  chainedPropertyAfterTuple(asa: Asset): void {
+  chainedPropertyAfterTuple(asa: AssetID): void {
     const o: T7 = { foo: this.app.address };
 
     assert(!o.foo.isOptedInToAsset(asa));
@@ -1400,7 +1400,7 @@ class ABITestStaticArrayLength extends Contract {
 class ABITestArrayInMethodCall extends Contract {
   arrayInMethodCall() {
     sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-      applicationID: Application.fromID(0),
+      applicationID: AppID.fromUint64(0),
       name: 'foo',
       methodArgs: [[1, 2], this.txn.sender, 3, false],
     });
@@ -1444,5 +1444,95 @@ class ABITestNestedArrayLengthInObjectVariable extends Contract {
 
     const b = a.foo;
     return b.length;
+  }
+}
+class ABITestBoolInNestedTuple extends Contract {
+  boolInNestedTuple(): boolean {
+    const a: [[uint64, uint64, uint64], boolean, boolean] = [[0, 0, 0], true, false];
+
+    a[1] = false;
+    a[2] = true;
+
+    return a[2];
+  }
+}
+
+class ABITestStaticForOf extends Contract {
+  staticForOf(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      sum += v;
+    }
+    return sum;
+  }
+}
+
+class ABITestLargeNestedStaticForOfInBox extends Contract {
+  bKey = BoxKey<[bytes32, StaticArray<uint<512>, 65>]>();
+
+  largeNestedStaticForOfInBox(): uint64 {
+    increaseOpcodeBudget();
+    this.bKey.create();
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of this.bKey.value[1]) {
+      sum += 1;
+    }
+
+    return sum;
+  }
+}
+
+class ABITestForOfContinue extends Contract {
+  forOfContinue(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      // eslint-disable-next-line no-continue
+      if (sum > 2) continue;
+      sum += v;
+    }
+    return sum;
+  }
+}
+
+class ABITestForOfBreak extends Contract {
+  forOfBreak(): uint64 {
+    const a: StaticArray<uint64, 3> = [1, 2, 3];
+    let sum = 0;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const v of a) {
+      // eslint-disable-next-line no-continue
+      if (sum > 2) break;
+      sum += v;
+    }
+    return sum;
+  }
+}
+
+class ABITestAccessStaticArrayInBoxInVariable extends Contract {
+  bKey = BoxKey<StaticArray<{ u64: uint64; addr: Address }, 3>>({ key: 'stakers' });
+
+  accessStaticArrayInBoxInVariable(): uint64 {
+    const i = 0;
+    this.bKey.create();
+    const val = this.bKey.value[i];
+
+    val.u64 = 1;
+
+    return val.u64;
+  }
+}
+class ABITestRefTypes extends Contract {
+  refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void {
+    assert(!acct.isOptedInToAsset(asa));
+    assert(!app.address.isOptedInToAsset(asa));
   }
 }

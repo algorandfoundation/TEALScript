@@ -100,6 +100,12 @@ type TypeInfo =
       kind: 'staticArray';
       base: TypeInfo;
       length: number;
+    }
+  | {
+      kind: 'method';
+      args: TypeInfo[];
+      returns: TypeInfo;
+      name?: string;
     };
 
 type Event = {
@@ -158,15 +164,21 @@ function processBinaryConstant(b: ts.BinaryExpression): number {
 
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
-    if (convertRefs && ['application', 'asset'].includes(typeInfo.type)) {
+    if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
       return 'uint64';
     }
 
-    if (convertRefs && typeInfo.type === 'account') {
+    if (convertRefs && typeInfo.type === 'accountreference') {
       return 'address';
     }
 
-    return typeInfo.type.replace('bytes', 'byte[]');
+    return typeInfo.type
+      .replace('bytes', 'byte[]')
+      .replace('assetid', 'uint64')
+      .replace('appid', 'uint64')
+      .replace(/^accountreference$/, 'account')
+      .replace(/^appreference$/, 'application')
+      .replace(/^assetreference$/, 'asset');
   }
 
   if (typeInfo.kind === 'tuple') {
@@ -185,6 +197,10 @@ function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): 
     return `(${Object.values(typeInfo.properties)
       .map((p) => typeInfoToABIString(p, convertRefs))
       .join(',')})`;
+  }
+
+  if (typeInfo.kind === 'method') {
+    return 'appl';
   }
 
   throw Error();
@@ -333,9 +349,9 @@ enum TransactionType {
 }
 
 const ForeignType = {
-  Asset: { kind: 'base', type: 'asset' } as TypeInfo,
+  Asset: { kind: 'base', type: 'assetid' } as TypeInfo,
   Address: { kind: 'base', type: 'address' } as TypeInfo,
-  Application: { kind: 'base', type: 'application' } as TypeInfo,
+  Application: { kind: 'base', type: 'appid' } as TypeInfo,
 };
 
 const TXN_TYPES = ['txn', 'pay', 'keyreg', 'acfg', 'axfer', 'afrz', 'appl'];
@@ -357,17 +373,17 @@ const LSIG_CLASS = 'LogicSig';
 
 const PARAM_TYPES: { [param: string]: string } = {
   // Global
-  CurrentApplicationID: 'application',
+  CurrentApplicationID: 'appid',
   // Txn
-  XferAsset: 'asset',
-  ApplicationID: 'application',
-  ConfigAsset: 'asset',
-  FreezeAsset: 'asset',
-  CreatedAssetID: 'asset',
-  CreatedApplicationID: 'application',
+  XferAsset: 'assetid',
+  ApplicationID: 'appid',
+  ConfigAsset: 'assetid',
+  FreezeAsset: 'assetid',
+  CreatedAssetID: 'assetid',
+  CreatedApplicationID: 'appid',
   ApplicationArgs: `ImmediateArray: bytes`,
-  Applications: `ImmediateArray: application`,
-  Assets: `ImmediateArray: asset`,
+  Applications: `ImmediateArray: appid`,
+  Assets: `ImmediateArray: assetid`,
   Accounts: `ImmediateArray: address`,
 };
 
@@ -405,7 +421,7 @@ interface Subroutine extends ABIMethod {
 }
 // These should probably be types rather than strings?
 function isNumeric(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['uint64', 'asset', 'application'].includes(t.type);
+  return t.kind === 'base' && ['uint64', 'assetid', 'appid'].includes(t.type);
 }
 
 function isBytes(t: TypeInfo): boolean {
@@ -413,7 +429,7 @@ function isBytes(t: TypeInfo): boolean {
 }
 
 function isRefType(t: TypeInfo): boolean {
-  return t.kind === 'base' && ['account', 'asset', 'application'].includes(t.type);
+  return t.kind === 'base' && ['accountreference', 'assetreference', 'appreference'].includes(t.type);
 }
 
 function getObjectTypes(givenType: TypeInfo): Record<string, TypeInfo> {
@@ -733,6 +749,8 @@ export default class Compiler {
 
   forEachCount: number = 0;
 
+  forOfCount: number = 0;
+
   currentLoop?: string;
 
   innerTxnHasBegun: boolean = false;
@@ -1018,6 +1036,24 @@ export default class Compiler {
     if (type.isStringLiteral()) return { kind: 'base', type: 'string' };
     if (type.isVoid()) return { kind: 'base', type: 'void' };
 
+    if (type.getText() === 'Account') {
+      throw Error(
+        '`Account` no longer supported. Use `Address` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AccountReference` if you need to explicitly use the reference type.'
+      );
+    }
+
+    if (type.getText() === 'Application') {
+      throw Error(
+        '`Application` type no longer supported. Use `AppID` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AppReference` if you need to explicitly use the reference type.'
+      );
+    }
+
+    if (type.getText() === 'Asset') {
+      throw Error(
+        'Asset` type no longer supported. Use `AssetID` instead. May require client-side changes. See this PR for more details: https://github.com/algorandfoundation/TEALScript/pull/296. Use `AssetReference` if you need to explicitly use the reference type.'
+      );
+    }
+
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
     if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
     if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
@@ -1048,7 +1084,27 @@ export default class Compiler {
     } as { [key: string]: string };
 
     if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
-    if (typeString.startsWith('innermethodcall')) return { kind: 'base', type: 'appl' };
+    if (typeString.startsWith('methodcall')) {
+      const typeArgs = type.getAliasTypeArguments();
+      let args: TypeInfo[] = [];
+      const returns = StackType.void;
+      let name: string | undefined;
+
+      if (typeArgs[0].isTuple()) {
+        args = typeArgs[0].getTupleElements().map((e) => this.getTypeInfo(e));
+      } else {
+        const sig = typeArgs[0].getCallSignatures()[0];
+        name = (sig.getDeclaration() as ts.MethodDeclaration).getName();
+
+        args = sig.getParameters().map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+      }
+
+      return {
+        kind: 'method',
+        args,
+        returns,
+      };
+    }
     if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
     if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
     if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
@@ -1075,7 +1131,7 @@ export default class Compiler {
       };
     }
 
-    if (['address', 'application', 'asset', 'account'].includes(typeString)) {
+    if (['address', 'appid', 'assetid', 'assetreference', 'appreference', 'accountreference'].includes(typeString)) {
       return {
         kind: 'base',
         type: typeString,
@@ -1236,13 +1292,13 @@ export default class Compiler {
   } = {
     id: {
       check: (node: ts.PropertyAccessExpression) =>
-        this.lastType.kind === 'base' && ['asset', 'application'].includes(this.lastType.type),
+        this.lastType.kind === 'base' && ['assetid', 'appid'].includes(this.lastType.type),
       fn: (node: ts.PropertyAccessExpression) => {
         this.lastType = StackType.uint64;
       },
     },
     zeroIndex: {
-      check: (node: ts.PropertyAccessExpression) => ['Asset', 'Application'].includes(node.getExpression().getText()),
+      check: (node: ts.PropertyAccessExpression) => ['AssetID', 'AppID'].includes(node.getExpression().getText()),
       fn: (node: ts.PropertyAccessExpression) => {
         this.push(node.getNameNode(), 'int 0', this.getTypeInfo(node.getType()));
       },
@@ -1441,12 +1497,165 @@ export default class Compiler {
     });
   }
 
+  private forIterator(
+    node: ts.Node,
+    arrayNode: ts.Node,
+    logic: ts.Node,
+    paramName: string,
+    method: 'forEach' | 'forOf'
+  ) {
+    const arrayType = this.getStackTypeFromNode(arrayNode);
+
+    // TODO: Support dynamic array of static type as well
+    if (arrayType.kind !== 'staticArray') throw Error();
+    if (typeInfoToABIString(arrayType.base) === 'bool') {
+      throw Error('Iterating over boolean arrays is not currently supported');
+    }
+    if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
+    const baseType = arrayType.base;
+    const typeLength = this.getTypeLength(baseType);
+
+    const frameName = `${method}//${node.getStartLinePos()}`;
+
+    this.processNode(arrayNode);
+
+    const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
+
+    // If this is a value larger than 4096 bytes in a box, use box_extract
+    if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
+      this.teal[this.currentProgram].pop(); // pop box_extract
+      this.teal[this.currentProgram].pop(); // pop cover 2
+
+      // Save box key
+      this.initialFrameBury(
+        node,
+        `${frameName}//box_key`,
+        StackType.bytes,
+        'key for the box that contains the array we are iterating over'
+      );
+
+      // Save offset
+      this.pushLines(node, 'swap', 'dup');
+
+      this.initialFrameBury(
+        node,
+        `${frameName}//offset`,
+        StackType.uint64,
+        'the offset we are extracting the next element from'
+      );
+
+      // Save end offset
+      this.pushLines(node, '+');
+      this.initialFrameBury(node, `${frameName}//end_offset`, StackType.uint64, 'the offset of the last element');
+
+      // Save the current element
+      this.frameDig(node, `${frameName}//box_key`);
+      this.frameDig(node, `${frameName}//offset`);
+
+      this.pushLines(node, `int ${typeLength}`, 'box_extract');
+
+      this.lastType = baseType;
+      this.checkDecoding(node, baseType);
+
+      this.initialFrameBury(node, paramName, baseType);
+    } else {
+      // Save the full array
+      this.pushLines(node, 'dup');
+      this.initialFrameBury(node, `${frameName}//aray`, arrayType, 'copy of the array we are iterating over');
+      this.pushVoid(node, `extract 0 ${typeLength}`);
+
+      this.checkDecoding(node, baseType);
+
+      // Save the current element
+      this.initialFrameBury(node, paramName, baseType);
+
+      // Save the offset
+      this.pushLines(node, 'int 0');
+      this.initialFrameBury(
+        node,
+        `${frameName}//offset`,
+        StackType.uint64,
+        'the offset we are extracting the next element from'
+      );
+    }
+    const label = `*${method}_${this[`${method}Count`]}`;
+    this.pushLines(node, `${label}:`);
+    this[`${method}Count`] += 1;
+
+    const prevForEachLabel = this.currentForEachLabel;
+    this.currentForEachLabel = label;
+    const previousLoop = this.currentLoop;
+    if (method === 'forOf') this.currentLoop = label;
+    this.processNode(logic);
+    this.currentLoop = previousLoop;
+    this.currentForEachLabel = prevForEachLabel;
+
+    const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
+
+    // End of for each logic
+    if (method === 'forOf') this.pushVoid(node, `${label}_continue:`);
+    this.pushLines(node, '// increment offset and loop if not out of bounds');
+    this.frameDig(node, `${frameName}//offset`);
+    this.pushLines(node, `int ${typeLength}`, '+', 'dup');
+
+    if (arrayIndex !== undefined) {
+      this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
+    } else {
+      this.frameDig(node, `${frameName}//end_offset`);
+    }
+
+    this.pushLines(node, '<', `bz ${label}_end`);
+    this.frameBury(node, `${frameName}//offset`);
+
+    if (arrayIndex !== undefined) {
+      this.frameDig(node, `${frameName}//aray`);
+      this.frameDig(node, `${frameName}//offset`);
+      this.pushLines(node, `int ${typeLength}`, 'extract');
+    } else {
+      this.frameDig(node, `${frameName}//box_key`);
+      this.frameDig(node, `${frameName}//offset`);
+      this.pushLines(node, `int ${typeLength}`, 'box_extract');
+    }
+
+    this.lastType = baseType;
+
+    this.checkDecoding(node, baseType);
+
+    this.frameBury(node, paramName);
+
+    this.pushLines(node, `b ${label}`, `${label}_end:`);
+  }
+
   private opcodeImplementations: {
     [methodName: string]: {
       fn: (node: ts.CallExpression) => void;
       check: (node: ts.CallExpression) => boolean;
     };
   } = {
+    len: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const typeArg = node.getTypeArguments()?.[0];
+        const arg = node.getArguments()?.[0];
+
+        if (typeArg) {
+          if (arg) throw Error('len cannot be called with both a type argument and an argument');
+          const type = this.getTypeInfo(typeArg.getType());
+          if (this.isDynamicType(type)) throw Error('len cannot be used with dynamic type as type argument');
+          this.push(node, `int ${this.getTypeLength(type)}`, StackType.uint64);
+          return;
+        }
+
+        const type = this.getStackTypeFromNode(arg);
+
+        if (this.isDynamicType(type)) {
+          this.processNode(arg);
+          this.push(node, 'len', StackType.uint64);
+        } else {
+          this.push(node, `int ${this.getTypeLength(type)}`, StackType.uint64);
+        }
+      },
+    },
     asserts: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
@@ -1797,18 +2006,6 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         this.addSourceComment(node.getExpression(), true);
 
-        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
-        const arrayType = this.getStackTypeFromNode(expr);
-
-        // TODO: Support dynamic array of static type as well
-        if (arrayType.kind !== 'staticArray') throw Error();
-        if (typeInfoToABIString(arrayType.base) === 'bool') {
-          throw Error('Iterating over boolean arrays is not currently supported');
-        }
-        if (this.isDynamicType(arrayType)) throw Error('Cannot iterate over dynamic elements');
-        const baseType = arrayType.base;
-        const typeLength = this.getTypeLength(baseType);
-
         const fn = node.getArguments()[0];
 
         if (!fn.isKind(ts.SyntaxKind.ArrowFunction)) throw Error();
@@ -1818,176 +2015,8 @@ export default class Compiler {
 
         const paramName = params[0].getName();
 
-        const arrayTypeString = typeInfoToABIString(arrayType);
-
-        const frameName = `forEach//${node.getStartLinePos()}`;
-
-        this.processNode(expr);
-
-        const lastTealLine = this.teal[this.currentProgram].at(-1)!.teal;
-
-        // If this is a value larger than 4096 bytes in a box, use box_extract
-        if (lastTealLine.startsWith('box_extract') && this.getTypeLength(arrayType) > 4096) {
-          this.teal[this.currentProgram].pop(); // pop box_extract
-          this.teal[this.currentProgram].pop(); // pop cover 2
-
-          // Save box key
-          this.localVariables[`${frameName}//box_key`] = {
-            index: this.frameIndex,
-            type: StackType.bytes,
-            typeString: 'byte[]',
-          };
-          this.pushVoid(
-            node,
-            `frame_bury ${this.frameIndex} // key for the box that contains the array we are iterating over`
-          );
-          const keyIndex = this.frameIndex;
-          this.frameIndex += 1;
-
-          // Save offset
-          this.localVariables[`${frameName}//offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(
-            node,
-            'swap',
-            'dup',
-            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from `
-          );
-          const offsetIndex = this.frameIndex;
-          this.frameIndex += 1;
-
-          // Save end offset
-          this.localVariables[`${frameName}//end_offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(node, '+', `frame_bury ${this.frameIndex} // the offset of the last element`);
-          this.frameIndex += 1;
-
-          // Save the current element
-          this.localVariables[paramName] = {
-            index: this.frameIndex,
-            type: baseType,
-            typeString: typeInfoToABIString(baseType),
-          };
-          this.pushLines(
-            node,
-            `frame_dig ${keyIndex} // key for the box that contains the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'box_extract'
-          );
-
-          this.checkDecoding(node, baseType);
-
-          this.pushLines(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
-          this.frameIndex += 1;
-        } else {
-          // Save the full array
-          this.localVariables[`${frameName}//aray`] = {
-            index: this.frameIndex,
-            type: arrayType,
-            typeString: arrayTypeString,
-          };
-          this.pushLines(
-            node,
-            'dup',
-            `frame_bury ${this.frameIndex} // copy of the array we are iterating over`,
-            `extract 0 ${typeLength}`
-          );
-          this.frameIndex += 1;
-
-          this.checkDecoding(node, baseType);
-
-          // Save the current element
-          this.localVariables[paramName] = {
-            index: this.frameIndex,
-            type: baseType,
-            typeString: typeInfoToABIString(baseType),
-          };
-          this.pushVoid(node, `frame_bury ${this.frameIndex} // ${paramName}: ${typeInfoToABIString(baseType)}`);
-          this.frameIndex += 1;
-
-          // Save the offset
-          this.localVariables[`${frameName}//offset`] = {
-            index: this.frameIndex,
-            type: StackType.uint64,
-            typeString: 'uint64',
-          };
-          this.pushLines(
-            node,
-            'int 0',
-            `frame_bury ${this.frameIndex} // the offset we are extracting the next element from`
-          );
-          this.frameIndex += 1;
-        }
-        const label = `forEach_${this.forEachCount}`;
-        this.pushLines(node, `${label}:`);
-        this.forEachCount += 1;
-
-        const prevForEachLabel = this.currentForEachLabel;
-        this.currentForEachLabel = label;
-        this.processNode(fn.getChildrenOfKind(ts.SyntaxKind.Block)[0]);
-        this.currentForEachLabel = prevForEachLabel;
-
-        const offsetIndex = this.localVariables[`${frameName}//offset`].index;
-        const arrayIndex = this.localVariables[`${frameName}//aray`]?.index;
-        const elementIndex = this.localVariables[paramName].index;
-        const boxKeyIndex = this.localVariables[`${frameName}//box_key`]?.index;
-        const endOffsetIndex = this.localVariables[`${frameName}//end_offset`]?.index;
-
-        // End of for each logic
-        this.pushLines(
-          node,
-          '// increment offset and loop if not out of bounds',
-          `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-          `int ${typeLength}`,
-          '+',
-          'dup'
-        );
-
-        if (arrayIndex !== undefined) {
-          this.pushVoid(node, `int ${arrayType.length * typeLength} // offset of last element`);
-        } else {
-          this.pushVoid(node, `frame_dig ${endOffsetIndex} // offset of last element`);
-        }
-        this.pushLines(
-          node,
-          '<',
-          `bz ${label}_end`,
-          `frame_bury ${offsetIndex} // the offset we are extracting the next element from`
-        );
-
-        if (arrayIndex !== undefined) {
-          this.pushLines(
-            node,
-            `frame_dig ${arrayIndex} // copy of the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'extract'
-          );
-        } else {
-          this.pushLines(
-            node,
-            `frame_dig ${boxKeyIndex} // key for the box that contains the array we are iterating over`,
-            `frame_dig ${offsetIndex} // the offset we are extracting the next element from`,
-            `int ${typeLength}`,
-            'box_extract'
-          );
-        }
-
-        this.checkDecoding(node, baseType);
-
-        this.pushLines(
-          node,
-          `frame_bury ${elementIndex} // ${paramName}: ${typeInfoToABIString(arrayType.base)}`,
-          `b ${label}`,
-          `${label}_end:`
-        );
+        const expr = (node.getExpression() as ts.PropertyAccessExpression).getExpression();
+        this.forIterator(node, expr, fn.getChildrenOfKind(ts.SyntaxKind.Block)[0], paramName, 'forEach');
       },
     },
     // Address methods
@@ -2002,12 +2031,12 @@ export default class Compiler {
         this.lastType = ForeignType.Address;
       },
     },
-    // Asset / Application fromID
-    fromID: {
+    // Asset / Application fromUint64
+    fromUint64: {
       check: (node: ts.CallExpression) =>
         node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-        ((node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'Asset' ||
-          (node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'Application'),
+        ((node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'AssetID' ||
+          (node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'AppID'),
       fn: (node: ts.CallExpression) => {
         if (!node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
 
@@ -2031,7 +2060,7 @@ export default class Compiler {
           this.pushVoid(node, 'btoi');
         }
 
-        this.pushVoid(node, 'callsub itoa');
+        this.pushVoid(node, 'callsub *itoa');
         this.lastType = StackType.bytes;
       },
     },
@@ -2210,8 +2239,8 @@ export default class Compiler {
       }
 
       switch (type) {
-        case 'asset':
-        case 'application':
+        case 'assetid':
+        case 'appid':
           return 8;
         case 'byte':
         case 'string':
@@ -2476,10 +2505,10 @@ export default class Compiler {
 
     if (this.currentProgram === 'approval') {
       const createLabels =
-        'create_NoOp create_OptIn NOT_IMPLEMENTED NOT_IMPLEMENTED NOT_IMPLEMENTED create_DeleteApplication ';
+        '*create_NoOp *create_OptIn *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_DeleteApplication ';
 
       const callLabels =
-        'call_NoOp call_OptIn call_CloseOut NOT_IMPLEMENTED call_UpdateApplication call_DeleteApplication';
+        '*call_NoOp *call_OptIn *call_CloseOut *NOT_IMPLEMENTED *call_UpdateApplication *call_DeleteApplication';
 
       this.pushLines(
         node,
@@ -2489,7 +2518,7 @@ export default class Compiler {
         '// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed',
         '// Here, action refers to the OnComplete in combination with whether the app is being created or called',
         '// Every possible action for this contract is represented in the switch statement',
-        '// If the action is not implmented in the contract, its respective branch will be "NOT_IMPLEMENTED" which just contains "err"',
+        '// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"',
         'txn ApplicationID',
         '!',
         'int 6',
@@ -2497,13 +2526,13 @@ export default class Compiler {
         'txn OnCompletion',
         '+',
         `switch ${callLabels} ${createLabels}`,
-        'NOT_IMPLEMENTED:',
+        '*NOT_IMPLEMENTED:',
         'err'
       );
 
       this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
     } else if (this.currentProgram === 'lsig') {
-      this.pushLines(node, '// The address of this logic signature is', '', 'b route_logic');
+      this.pushLines(node, '// The address of this logic signature is', '', 'b *route_logic');
     }
   }
 
@@ -2593,7 +2622,7 @@ export default class Compiler {
         if (
           superClass === CONTRACT_CLASS ||
           this.contractClasses.includes(superClass) ||
-          superClass.startsWith(`${CONTRACT_CLASS}.extends`)
+          superClass.startsWith(`${CONTRACT_CLASS}.extend`)
         ) {
           this.contractClasses.push(className);
         } else this.lsigClasses.push(className);
@@ -2643,7 +2672,7 @@ export default class Compiler {
 
       this.abi.methods.push(m);
 
-      this.pushLines(this.classNode, `abi_route_${name}:`, 'int 1', 'return');
+      this.pushLines(this.classNode, `*abi_route_${name}:`, 'int 1', 'return');
     }
 
     if (this.currentProgram !== 'lsig') this.routeAbiMethods();
@@ -2783,16 +2812,16 @@ export default class Compiler {
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
           this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
-            `${a}_${onComplete}`,
-            'NOT_IMPLEMENTED'
+            `*${a}_${onComplete}`,
+            '*NOT_IMPLEMENTED'
           );
           return;
         }
 
-        this.pushVoid(this.classNode, `${a}_${onComplete}:`);
+        this.pushVoid(this.classNode, `*${a}_${onComplete}:`);
 
         if (a.toUpperCase() === this.bareCallConfig[onComplete]?.action) {
-          this.pushLines(this.classNode, 'txn NumAppArgs', `bz abi_route_${this.bareCallConfig[onComplete]!.method}`);
+          this.pushLines(this.classNode, 'txn NumAppArgs', `bz *abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
         if (methods.length === 0) {
@@ -2807,7 +2836,7 @@ export default class Compiler {
         this.pushLines(
           this.classNode,
           'txna ApplicationArgs 0',
-          `match ${methods.map((m) => `abi_route_${m.name}`).join(' ')}`
+          `match ${methods.map((m) => `*abi_route_${m.name}`).join(' ')}`
         );
 
         const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
@@ -2820,7 +2849,7 @@ export default class Compiler {
       });
     });
 
-    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('NOT_IMPLEMENTED')) {
+    if (this.teal[this.currentProgram][switchIndex].teal.endsWith('*NOT_IMPLEMENTED')) {
       const removeLastDuplicates = (array: string[]) => {
         let lastIndex = array.length - 1;
         const element = array[lastIndex];
@@ -2877,7 +2906,7 @@ export default class Compiler {
   }
 
   private processDoStatement(node: ts.DoStatement) {
-    const thisLoop = `do_while_${this.doWhileCount}`;
+    const thisLoop = `*do_while_${this.doWhileCount}`;
     this.doWhileCount += 1;
 
     const prevLoop = this.currentLoop;
@@ -2886,6 +2915,7 @@ export default class Compiler {
     this.pushVoid(node, `${thisLoop}_statement:`);
     this.processNode(node.getStatement());
     this.pushVoid(node, `${thisLoop}:`);
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.processConditional(node.getExpression());
     this.pushVoid(node, `bnz ${thisLoop}_statement`);
     this.pushVoid(node, `${thisLoop}_end:`);
@@ -2894,13 +2924,14 @@ export default class Compiler {
   }
 
   private processWhileStatement(node: ts.WhileStatement) {
-    const thisLoop = `while_${this.whileCount}`;
+    const thisLoop = `*while_${this.whileCount}`;
     this.whileCount += 1;
 
     const prevLoop = this.currentLoop;
     this.currentLoop = thisLoop;
 
     this.pushVoid(node, `${thisLoop}:`);
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.processConditional(node.getExpression());
     this.pushVoid(node, `bz ${thisLoop}_end`);
 
@@ -2920,7 +2951,7 @@ export default class Compiler {
     this.processNode(node.getInitializerOrThrow());
 
     const preLoop = this.currentLoop;
-    const thisLoop = `for_${this.forCount}`;
+    const thisLoop = `*for_${this.forCount}`;
     this.forCount += 1;
 
     this.currentLoop = thisLoop;
@@ -2932,12 +2963,22 @@ export default class Compiler {
 
     this.processNode(node.getStatement());
 
+    this.pushVoid(node, `${thisLoop}_continue:`);
     this.addSourceComment(node.getIncrementorOrThrow(), true);
     this.processNode(node.getIncrementorOrThrow());
     this.pushVoid(node, `b ${thisLoop}`);
     this.pushVoid(node, `${thisLoop}_end:`);
 
     this.currentLoop = preLoop;
+  }
+
+  private processForOfStatement(node: ts.ForOfStatement) {
+    const arrayNode = node.getExpression();
+    const logic = node.getStatement();
+    const declarations = node.getInitializer() as ts.VariableDeclarationList;
+    const name = declarations.getDeclarations()[0].getNameNode().getText();
+
+    this.forIterator(node, arrayNode, logic, name, 'forOf');
   }
 
   /**
@@ -2965,6 +3006,7 @@ export default class Compiler {
 
     try {
       if (node.isKind(ts.SyntaxKind.PropertyDeclaration)) this.processPropertyDefinition(node);
+      else if (node.isKind(ts.SyntaxKind.ForOfStatement)) this.processForOfStatement(node);
       else if (node.isKind(ts.SyntaxKind.MethodDeclaration)) this.processMethodDefinition(node);
       else if (node.isKind(ts.SyntaxKind.PropertyAccessExpression)) this.processExpressionChain(node);
       else if (node.isKind(ts.SyntaxKind.AsExpression)) this.processTypeCast(node);
@@ -3003,7 +3045,7 @@ export default class Compiler {
       } else if (node.isKind(ts.SyntaxKind.BreakStatement)) {
         this.pushVoid(node, `b ${this.currentLoop}_end`);
       } else if (node.isKind(ts.SyntaxKind.ContinueStatement)) {
-        this.pushVoid(node, `b ${this.currentLoop}`);
+        this.pushVoid(node, `b ${this.currentLoop}_continue`);
       } else throw new Error(`Unknown node type: ${node.getKindName()}`);
     } catch (e) {
       if (!(e instanceof Error)) throw e;
@@ -3052,15 +3094,16 @@ export default class Compiler {
 
   private processConditionalExpression(node: ts.ConditionalExpression) {
     const tc = this.ternaryCount;
+    const thisTernary = `*ternary${tc}`;
     this.ternaryCount += 1;
 
     this.processConditional(node.getCondition());
-    this.pushVoid(node, `bz ternary${tc}_false`);
+    this.pushVoid(node, `bz ${thisTernary}_false`);
     this.processNode(node.getWhenTrue());
-    this.pushVoid(node, `b ternary${tc}_end`);
-    this.pushVoid(node, `ternary${tc}_false:`);
+    this.pushVoid(node, `b ${thisTernary}_end`);
+    this.pushVoid(node, `${thisTernary}_false:`);
     this.processNode(node.getWhenFalse());
-    this.pushVoid(node, `ternary${tc}_end:`);
+    this.pushVoid(node, `${thisTernary}_end:`);
   }
 
   private pushLines(node: ts.Node, ...lines: string[]) {
@@ -3142,7 +3185,7 @@ export default class Compiler {
 
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
-        if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+        if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
         else if (i !== 0) this.pushVoid(e, 'concat');
 
         consecutiveBools = [];
@@ -3159,14 +3202,14 @@ export default class Compiler {
       this.checkEncoding(e, this.lastType);
       typeComparison(this.lastType, types[i]);
 
-      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub process_dynamic_tuple_element');
-      else if (!isStatic) this.pushVoid(e, 'callsub process_static_tuple_element');
+      if (this.isDynamicType(types[i])) this.pushVoid(e, 'callsub *process_dynamic_tuple_element');
+      else if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
       else if (i !== 0) this.pushVoid(e, 'concat');
     });
 
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
-      if (!isStatic) this.pushVoid(parentNode, 'callsub process_static_tuple_element');
+      if (!isStatic) this.pushVoid(parentNode, 'callsub *process_static_tuple_element');
       if (consecutiveBools.length !== elements.length) this.pushVoid(parentNode, 'concat');
     }
 
@@ -3560,8 +3603,8 @@ export default class Compiler {
   }
 
   private compilerSubroutines: { [name: string]: () => string[] } = {
-    itoa: () => [
-      'intToAscii:',
+    '*itoa': () => [
+      '*intToAscii:',
       'proto 1 1',
       'byte 0x30313233343536373839 // "0123456789"',
       'frame_dig -1 // i: uint64',
@@ -3569,45 +3612,44 @@ export default class Compiler {
       'extract3',
       'retsub',
       '',
-      'itoa:',
+      '*itoa:',
       'proto 1 1',
       'frame_dig -1 // i: uint64',
       'int 0',
       '==',
-      'bz itoa_if_end',
-      'byte 0x151f7c75000130',
-      'log',
+      'bz *itoa_if_end',
+      'byte 0x30',
       'retsub',
-      'itoa_if_end:',
+      '*itoa_if_end:',
       'frame_dig -1 // i: uint64',
       'int 10',
       '/',
       'int 0',
       '>',
-      'bz itoa_ternary_false',
+      'bz *itoa_ternary_false',
       'frame_dig -1 // i: uint64',
       'int 10',
       '/',
-      'callsub itoa',
-      'b itoa_ternary_end',
-      'itoa_ternary_false:',
+      'callsub *itoa',
+      'b *itoa_ternary_end',
+      '*itoa_ternary_false:',
       'byte 0x // ""',
-      'itoa_ternary_end:',
+      '*itoa_ternary_end:',
       'frame_dig -1 // i: uint64',
       'int 10',
       '%',
-      'callsub intToAscii',
+      'callsub *intToAscii',
       'concat',
       'retsub',
     ],
-    process_static_tuple_element: () => {
+    '*process_static_tuple_element': () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
       const headOffset = '-2 // head offset';
       const element = '-1 // element';
 
       return [
-        'process_static_tuple_element:',
+        '*process_static_tuple_element:',
         'proto 4 3',
         `frame_dig ${tupleHead}`,
         `frame_dig ${element}`,
@@ -3618,15 +3660,14 @@ export default class Compiler {
         'retsub',
       ];
     },
-
-    process_dynamic_tuple_element: () => {
+    '*process_dynamic_tuple_element': () => {
       const tupleHead = '-4 // tuple head';
       const tupleTail = '-3 // tuple tail';
       const headOffset = '-2 // head offset';
       const element = '-1 // element';
 
       return [
-        'process_dynamic_tuple_element:',
+        '*process_dynamic_tuple_element:',
         'proto 4 3',
         `frame_dig ${tupleHead}`,
         `frame_dig ${headOffset}`,
@@ -3652,11 +3693,10 @@ export default class Compiler {
         'retsub',
       ];
     },
-
     // -2: length difference
     // -1: offset
-    update_dynamic_head: () => [
-      'update_dynamic_head:',
+    '*update_dynamic_head': () => [
+      '*update_dynamic_head:',
       'proto 2 0',
       'frame_dig -2 // length difference',
       `load ${compilerScratch.fullArray}`,
@@ -3664,15 +3704,15 @@ export default class Compiler {
       'extract_uint16 // extract dynamic array offset',
 
       `load ${compilerScratch.subtractHeadDifference}`,
-      'bz subtract_head_difference',
+      'bz *subtract_head_difference',
       '+ // add difference to offset',
-      'b end_calc_new_head',
+      'b *end_calc_new_head',
 
-      'subtract_head_difference:',
+      '*subtract_head_difference:',
       'swap',
       '- // subtract difference from offet',
 
-      'end_calc_new_head:',
+      '*end_calc_new_head:',
 
       'itob // convert to bytes',
       'extract 6 2 // convert to uint16',
@@ -3684,31 +3724,30 @@ export default class Compiler {
       `store ${compilerScratch.fullArray}`,
       'retsub',
     ],
-
-    get_length_difference: () => [
-      'get_length_difference:',
+    '*get_length_difference': () => [
+      '*get_length_difference:',
       // Get new element length
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       `load ${compilerScratch.elementLength}`,
       '<',
 
-      'bnz swapped_difference',
+      'bnz *swapped_difference',
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       `load ${compilerScratch.elementLength}`,
       'int 1',
       `store ${compilerScratch.subtractHeadDifference}`,
-      'b get_difference',
+      'b *get_difference',
 
-      'swapped_difference:',
+      '*swapped_difference:',
       `load ${compilerScratch.elementLength}`,
       `load ${compilerScratch.newElement}`,
       'len // length of new element',
       'int 0',
       `store ${compilerScratch.subtractHeadDifference}`,
 
-      'get_difference:',
+      '*get_difference:',
       '- // get length difference',
       `store ${compilerScratch.lengthDifference}`,
       'retsub',
@@ -4009,7 +4048,7 @@ export default class Compiler {
         this.pushLines(node, 'concat', 'concat', `store ${compilerScratch.fullArray}`);
 
         // Get length difference
-        this.pushLines(node, 'callsub get_length_difference');
+        this.pushLines(node, 'callsub *get_length_difference');
 
         const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
 
@@ -4024,7 +4063,7 @@ export default class Compiler {
             `load ${compilerScratch.elementHeadOffset}`,
             `int ${diff}`,
             '+ // head ofset',
-            'callsub update_dynamic_head'
+            'callsub *update_dynamic_head'
           );
         });
 
@@ -4032,7 +4071,20 @@ export default class Compiler {
       } else if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '* // get bit offset');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
@@ -4063,7 +4115,20 @@ export default class Compiler {
       if (typeInfoToABIString(element.type) === 'bool') {
         this.pushLines(node, 'int 8', '*');
 
-        if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+        let consecutiveBools = 0;
+        const elementIndex = element.parent!.findIndex((e) => e.id === element.id);
+        const boolParentType = element.parent!.type;
+
+        if (boolParentType.kind === 'tuple' || boolParentType.kind === 'object') {
+          for (let i = elementIndex - 1; i >= 0; i--) {
+            const { type } = element.parent![i];
+            if (type.kind === 'base' && type.type === 'bool') {
+              consecutiveBools += 1;
+            } else break;
+          }
+
+          this.pushLines(node, `int ${consecutiveBools}`);
+        } else if (node.isKind(ts.SyntaxKind.ElementAccessExpression)) {
           const argExpr = node.getArgumentExpression();
           if (argExpr === undefined) throw Error();
 
@@ -4581,9 +4646,9 @@ export default class Compiler {
         { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
       );
       if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
-    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral())
+    } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral()) {
       typeComparison(leftType, rightType);
-
+    }
     if (updateValue) {
       if (this.usingValue(node)) this.pushLines(node, 'dup', `store ${compilerScratch.assignmentValue}`);
       this.updateValue(leftNode);
@@ -4598,17 +4663,18 @@ export default class Compiler {
 
   private processLogicalExpression(node: ts.BinaryExpression) {
     this.processNode(node.getLeft());
+    const type = this.lastType;
 
     let label: string;
 
     if (node.getOperatorToken().getText() === '&&') {
-      label = `skip_and${this.andCount}`;
+      label = `*skip_and${this.andCount}`;
       this.andCount += 1;
 
       this.pushVoid(node.getOperatorToken(), 'dup');
       this.pushVoid(node.getOperatorToken(), `bz ${label}`);
     } else if (node.getOperatorToken().getText() === '||') {
-      label = `skip_or${this.orCount}`;
+      label = `*skip_or${this.orCount}`;
       this.orCount += 1;
 
       this.pushVoid(node.getOperatorToken(), 'dup');
@@ -4618,6 +4684,7 @@ export default class Compiler {
     this.processNode(node.getRight());
     this.push(node.getOperatorToken(), node.getOperatorToken().getText(), StackType.uint64);
     this.pushVoid(node.getOperatorToken(), `${label!}:`);
+    this.lastType = type;
   }
 
   private processIdentifier(node: ts.Identifier) {
@@ -5056,13 +5123,13 @@ export default class Compiler {
     let labelPrefix: string;
 
     if (elseIfCount === 0) this.ifCount += 1;
-    const { ifCount } = this;
+    const thisIf = `*if${this.ifCount}`;
 
     if (elseIfCount === 0) {
-      labelPrefix = `if${ifCount}`;
+      labelPrefix = thisIf;
       this.pushVoid(node, `// ${labelPrefix}_condition`);
     } else {
-      labelPrefix = `if${ifCount}_elseif${elseIfCount}`;
+      labelPrefix = `${thisIf}_elseif${elseIfCount}`;
       this.pushVoid(node, `${labelPrefix}_condition:`);
     }
 
@@ -5071,26 +5138,26 @@ export default class Compiler {
     const elseStatement = node.getElseStatement();
 
     if (elseStatement === undefined) {
-      this.pushVoid(node, `bz if${ifCount}_end`);
+      this.pushVoid(node, `bz ${thisIf}_end`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
     } else if (elseStatement?.isKind(ts.SyntaxKind.IfStatement)) {
-      this.pushVoid(node, `bz if${ifCount}_elseif${elseIfCount + 1}_condition`);
+      this.pushVoid(node, `bz ${thisIf}_elseif${elseIfCount + 1}_condition`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
-      this.pushVoid(node, `b if${ifCount}_end`);
+      this.pushVoid(node, `b ${thisIf}_end`);
       this.processIfStatement(elseStatement, elseIfCount + 1);
     } else {
-      this.pushVoid(node, `bz if${ifCount}_else`);
+      this.pushVoid(node, `bz ${thisIf}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
-      this.pushVoid(node, `b if${ifCount}_end`);
-      this.pushVoid(node, `if${ifCount}_else:`);
+      this.pushVoid(node, `b ${thisIf}_end`);
+      this.pushVoid(node, `${thisIf}_else:`);
       this.processNode(elseStatement);
     }
 
     if (elseIfCount === 0) {
-      this.pushVoid(node, `if${ifCount}_end:`);
+      this.pushVoid(node, `${thisIf}_end:`);
     }
   }
 
@@ -5467,7 +5534,8 @@ export default class Compiler {
 
       const methodName = chain[1].getNameNode().getText();
       if (chain[2].getArguments()[0]) {
-        this.processTransaction(chain[2], methodName, chain[2].getArguments()[0], chain[2].getTypeArguments());
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[2].getTypeArguments());
+        this.processTransaction(chain[2], methodName, chain[2].getArguments()[0], argTypes, returnType, name);
       } else if (methodName === 'submit') {
         this.pushVoid(chain[2], 'itxn_submit');
       } else throw new Error(`Unknown method ${chain[2].getText()}`);
@@ -5732,6 +5800,31 @@ export default class Compiler {
     }
   }
 
+  private methodTypeArgsToTypes(typeArgs: ts.TypeNode[]) {
+    let argTypes: TypeInfo[] = [];
+    let name: string | undefined;
+
+    if (typeArgs[0]?.isKind(ts.SyntaxKind.TupleType)) {
+      argTypes = typeArgs[0].getElements().map((t) => {
+        return this.getTypeInfo(t.getType());
+      });
+    } else if (typeArgs[0]) {
+      const sig = typeArgs[0].getType().getCallSignatures()[0];
+      argTypes = sig.getParameters().map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+    }
+
+    let returnType: TypeInfo = StackType.void;
+    if (typeArgs[0]?.isKind(ts.SyntaxKind.TypeQuery)) {
+      const sig = typeArgs![0].getType().getCallSignatures()[0];
+      name = (sig.getDeclaration() as ts.MethodDeclaration).getName();
+      returnType = this.getTypeInfo(sig.getReturnType());
+    } else if (typeArgs[1]) {
+      returnType = this.getTypeInfo(typeArgs[1].getType());
+    }
+
+    return { returnType, argTypes, name };
+  }
+
   /**
    * Walks an expression chain and processes each node
    * @param node The node to process
@@ -5896,7 +5989,10 @@ export default class Compiler {
       if (TXN_METHODS.includes(base.getText())) {
         if (!chain[0].isKind(ts.SyntaxKind.CallExpression))
           throw Error(`Unsupported ${chain[0].getKindName()} ${chain[0].getText()}`);
-        this.processTransaction(node, base.getText(), chain[0].getArguments()[0], chain[0].getTypeArguments());
+
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[0].getTypeArguments());
+
+        this.processTransaction(node, base.getText(), chain[0].getArguments()[0], argTypes, returnType, name);
         chain.splice(0, 1);
         return;
       }
@@ -5962,7 +6058,7 @@ export default class Compiler {
           if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
           } else {
-            this.lastType = baseType;
+            this.lastType = this.storageProps[getStorageName(storageExpression)!].valueType;
           }
 
           frameFollow.accessors.forEach((e) => accessors.push(e));
@@ -6224,9 +6320,9 @@ export default class Compiler {
 
     this.pushVoid(fn, `// ${this.getSignature(fn)}`);
     if (this.currentProgram !== 'lsig') {
-      this.pushLines(fn, `abi_route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `*abi_route_${this.currentSubroutine.name}:`);
     } else {
-      this.pushLines(fn, `route_${this.currentSubroutine.name}:`);
+      this.pushLines(fn, `*route_${this.currentSubroutine.name}:`);
     }
 
     const returnType = this.currentSubroutine.returns.type;
@@ -6261,7 +6357,7 @@ export default class Compiler {
 
       if (isRefType(type)) {
         if (this.currentProgram === 'lsig') {
-          if (['application', 'asset'].includes(typeStr)) this.pushVoid(p, 'btoi');
+          if (['appreference', 'assetreference'].includes(typeStr)) this.pushVoid(p, 'btoi');
         } else {
           this.pushVoid(p, 'btoi');
           this.pushVoid(p, `txnas ${capitalizeFirstChar(typeStr)}s`);
@@ -6537,14 +6633,22 @@ export default class Compiler {
     this.lastType = frame.type;
   }
 
-  private processTransaction(node: ts.Node, name: string, fields: ts.Node, typeArgs?: ts.TypeNode[]) {
+  private processTransaction(
+    node: ts.Node,
+    name: string,
+    fields: ts.Node,
+    argTypes: TypeInfo[],
+    returnType: TypeInfo,
+    methodName?: string
+  ) {
+    const argTypeStrings = argTypes.map((t) => typeInfoToABIString(t));
+
     if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
     if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
 
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
 
-    const addingTxn = name.startsWith('add');
     const method = name.replace('this.pendingGroup.', '').replace(/^(add|send|Inner)/, '');
     const send = name.startsWith('send');
     if (name.startsWith('add')) {
@@ -6565,42 +6669,53 @@ export default class Compiler {
       }
 
       if (key === 'methodArgs') {
-        if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
-          throw new Error('Transaction call type arguments[0] must be a tuple type');
-        }
-        const argTypes = typeArgs[0].getElements().map((t) => t.getText());
-
         const init = p.getInitializer();
         if (!init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw new Error('methodArgs must be an array');
 
         init.getElements().forEach((e, i: number) => {
-          if (argTypes[i].startsWith('Inner')) {
-            const txnTypeArg = (typeArgs[0] as ts.TupleTypeNode).getElements()[i];
-            if (!txnTypeArg.isKind(ts.SyntaxKind.TypeReference)) throw Error('Invalid transaction type argument');
-            this.processTransaction(e, txnTypeArg.getTypeName().getText(), e, txnTypeArg.getTypeArguments());
+          if (TXN_TYPES.includes(argTypeStrings[i])) {
+            let innerArgs: TypeInfo[] = [];
+            let innerMethodReturnType: TypeInfo = StackType.void;
+            const argType = argTypes[i];
+
+            if (argType.kind === 'method') {
+              innerArgs = argType.args;
+              innerMethodReturnType = argType.returns;
+            }
+            this.processTransaction(e, argTypeStrings[i], e, innerArgs, innerMethodReturnType);
           }
         });
       }
     });
 
+    /*
+declare type AssetFreezeTxn = Required<AssetFreezeParams>;
+    */
+
     switch (method) {
+      case 'pay':
       case 'Payment':
         txnType = TransactionType.PaymentTx;
         break;
+      case 'axfer':
       case 'AssetTransfer':
         txnType = TransactionType.AssetTransferTx;
         break;
+      case 'appl':
       case 'MethodCall':
       case 'AppCall':
         txnType = TransactionType.ApplicationCallTx;
         break;
+      case 'acfg':
       case 'AssetCreation':
       case 'AssetConfig':
         txnType = TransactionType.AssetConfigTx;
         break;
+      case 'afrz':
       case 'AssetFreeze':
         txnType = TransactionType.AssetFreezeTx;
         break;
+      case 'keyreg':
       case 'OfflineKeyRegistration':
       case 'OnlineKeyRegistration':
         txnType = TransactionType.KeyRegistrationTx;
@@ -6625,22 +6740,22 @@ export default class Compiler {
       )
         throw new Error('Method call name key must be a string');
 
-      if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType))
-        throw new Error('Transaction call type arguments[0] must be a tuple type');
-
-      const argTypes = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
-
-      const returnType = typeInfoToABIString(this.getTypeInfo(typeArgs![1].getType()), true)
-        .toLowerCase()
-        .replace('account', 'address');
-
       this.pushVoid(
         nameProp,
-        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypes.join(
+        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypeStrings!.join(
           ','
-        )})${returnType}"`
+        )})${typeInfoToABIString(returnType, true)}"`
       );
       this.pushVoid(nameProp, 'itxn_field ApplicationArgs');
+    } else if (methodName) {
+      this.pushVoid(
+        node,
+        `method "${methodName}(${argTypeStrings!
+          .join(',')
+          // any[] is used for default lifecycle methods, which we want to remove
+          .replace('any[]', '')})${typeInfoToABIString(returnType, true)}"`
+      );
+      this.pushVoid(node, 'itxn_field ApplicationArgs');
     }
 
     fields.getProperties().forEach((p) => {
@@ -6668,12 +6783,6 @@ export default class Compiler {
         this.pushVoid(p.getInitializer()!, `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
         this.pushVoid(p, 'itxn_field OnCompletion');
       } else if (key === 'methodArgs') {
-        if (typeArgs === undefined || !typeArgs[0].isKind(ts.SyntaxKind.TupleType)) {
-          throw new Error('Transaction call type arguments[0] must be a tuple type');
-        }
-        const argTypesStr = typeArgs[0].getElements().map((t) => typeInfoToABIString(this.getTypeInfo(t.getType())));
-        const argTypes = typeArgs[0].getElements().map((t) => this.getTypeInfo(t.getType()));
-
         let accountIndex = 1;
         let appIndex = 1;
         let assetIndex = 0;
@@ -6682,29 +6791,29 @@ export default class Compiler {
           throw new Error('methodArgs must be an array');
         }
         init.getElements().forEach((e, i: number) => {
-          if (argTypesStr[i] === 'account') {
+          if (argTypeStrings[i] === 'accountreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Accounts');
             this.pushVoid(e, `int ${accountIndex}`);
             this.pushVoid(e, 'itob');
             accountIndex += 1;
-          } else if (argTypesStr[i] === 'asset') {
+          } else if (argTypeStrings[i] === 'assetreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Assets');
             this.pushVoid(e, `int ${assetIndex}`);
             this.pushVoid(e, 'itob');
             assetIndex += 1;
-          } else if (argTypesStr[i] === 'application') {
+          } else if (argTypeStrings[i] === 'appreference') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Applications');
             this.pushVoid(e, `int ${appIndex}`);
             this.pushVoid(e, 'itob');
             appIndex += 1;
-          } else if (argTypesStr[i] === 'uint64') {
+          } else if (argTypeStrings[i] === 'uint64') {
             this.processNode(e);
             typeComparison(this.lastType, argTypes[i]);
             this.pushVoid(e, 'itob');
-          } else if (TXN_TYPES.includes(argTypesStr[i])) {
+          } else if (TXN_TYPES.includes(argTypeStrings[i])) {
             return;
           } else {
             const prevTypeHint = this.typeHint;
@@ -6738,11 +6847,9 @@ export default class Compiler {
     if (send) {
       this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
 
-      if (name === 'sendMethodCall' && typeArgs![1].getText() !== 'void') {
+      if (name === 'sendMethodCall' && typeInfoToABIString(returnType) !== 'void') {
         this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
-
-        const returnType = this.getTypeInfo(typeArgs![1].getType());
-        this.checkDecoding(typeArgs![1], returnType);
+        this.checkDecoding(node, returnType);
         this.lastType = returnType;
       } else if (name === 'sendAssetCreation') {
         this.push(node, 'itxn CreatedAssetID', ForeignType.Asset);
@@ -6762,14 +6869,17 @@ export default class Compiler {
     thisTxn: boolean = false
   ): void {
     const type = calleeType;
+
     let typeStr = typeInfoToABIString(type);
+
+    if (type.kind === 'base') {
+      if (['assetid', 'assetreference'].includes(type.type)) typeStr = 'asset';
+      if (['appid', 'appreference'].includes(type.type)) typeStr = 'application';
+      if (['address', 'accountreference'].includes(type.type)) typeStr = 'account';
+    }
 
     if (TXN_TYPES.includes(typeStr) && !thisTxn) {
       typeStr = 'gtxns';
-    } else if (equalTypes(type, ForeignType.Address)) {
-      typeStr = 'account';
-    } else if (typeStr === 'app') {
-      typeStr = 'application';
     }
 
     if (typeStr === 'account') {
@@ -6797,7 +6907,7 @@ export default class Compiler {
         return paramName === capitalizeFirstChar(name);
       });
 
-      if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()}`);
+      if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()} for ${typeStr}`);
 
       if (!checkArgs || paramObj.args === 1) {
         paramObj.fn(node);

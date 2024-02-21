@@ -101,7 +101,7 @@
       }
     },
     {
-      "name": "fromID",
+      "name": "fromUint64",
       "args": [],
       "returns": {
         "type": "void"
@@ -421,6 +421,51 @@
     },
     {
       "name": "readSchema",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "comparisonOr",
+      "args": [],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "txnArgsMethod",
+      "args": [
+        {
+          "name": "_pay1",
+          "type": "pay"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "callTxnArgsMethod",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "staticValueLen",
+      "args": [
+        {
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "staticTypeLen",
       "args": [],
       "returns": {
         "type": "void"

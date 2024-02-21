@@ -7,6 +7,7 @@ import { readFileSync } from 'fs';
 import { CreatorVerifierClient } from './CreatorVerifierClient';
 
 const optInLsigTeal = readFileSync(`${__dirname}/artifacts/OptInLsig.lsig.teal`, 'utf8');
+algokit.Config.configure({ populateAppCallResources: true });
 
 async function getLsigAccount(algod: algosdk.Algodv2, appID: bigint, tealTemplate: string) {
   // Replace the template variable in the lsig TEAL
@@ -91,8 +92,6 @@ describe('Lsig With App', () => {
       { creator: alice.addr },
       {
         sender: bob,
-        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
-        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
       }
     );
   });
@@ -125,8 +124,6 @@ describe('Lsig With App', () => {
         // This transaction is being sent by alice, so bob is doing nothing to send this transaction since he alread signed the lsig
         sender: alice,
         sendParams: { fee: algokit.microAlgos(2_000) },
-        // Since we are accessing the box [Bob, Alice], we need to abi encode that array and include the reference here
-        boxes: [algosdk.ABIType.from('(address,address)').encode([bob.addr, alice.addr])],
       }
     );
   });

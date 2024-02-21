@@ -2,7 +2,7 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class NFTFactory extends Contract {
-  createNFT(name: string, unitName: string): Asset {
+  createNFT(name: string, unitName: string): AssetID {
     return sendAssetCreation({
       configAssetName: name,
       configAssetUnitName: unitName,
@@ -10,7 +10,7 @@ class NFTFactory extends Contract {
     });
   }
 
-  transferNFT(asset: Asset, receiver: Account): void {
+  transferNFT(asset: AssetID, receiver: Address): void {
     sendAssetTransfer({
       assetReceiver: receiver,
       assetAmount: 1,
@@ -21,9 +21,8 @@ class NFTFactory extends Contract {
 
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
-  mintAndGetAsset(): Asset {
-    sendMethodCall<[], void>({
-      name: 'createApplication',
+  mintAndGetAsset(): AssetID {
+    sendMethodCall<typeof NFTFactory.prototype.createApplication>({
       clearStateProgram: NFTFactory.clearProgram(),
       approvalProgram: NFTFactory.approvalProgram(),
     });
@@ -35,9 +34,8 @@ class FactoryCaller extends Contract {
       receiver: factoryApp.address,
     });
 
-    const createdAsset = sendMethodCall<[string, string], Asset>({
+    const createdAsset = sendMethodCall<typeof NFTFactory.prototype.createNFT>({
       applicationID: factoryApp,
-      name: 'createNFT',
       methodArgs: ['My NFT', 'MNFT'],
     });
 
@@ -47,9 +45,8 @@ class FactoryCaller extends Contract {
       xferAsset: createdAsset,
     });
 
-    sendMethodCall<[Asset, Account], void>({
+    sendMethodCall<typeof NFTFactory.prototype.transferNFT>({
       applicationID: factoryApp,
-      name: 'transferNFT',
       methodArgs: [createdAsset, this.app.address],
     });
 

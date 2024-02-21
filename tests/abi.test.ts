@@ -35,6 +35,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
     fundAmount = 1780900;
     if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
+
   return commonRunMethod({ appClient, method: name, methodArgs, fundAmount, callType, fee: 2_000 });
 }
 
@@ -858,5 +859,35 @@ describe('ABI', function () {
 
       expect(await runMethod(appClient, 'nestedArrayLengthInObjectVariable')).toEqual(5n);
     });
+  });
+
+  test('staticForOf', async () => {
+    const { appClient } = await compileAndCreate('staticForOf');
+
+    expect(await runMethod(appClient, 'staticForOf')).toEqual(6n);
+  });
+
+  test('largeNestedStaticForOfInBox', async () => {
+    const { appClient } = await compileAndCreate('largeNestedStaticForOfInBox');
+
+    expect(await runMethod(appClient, 'largeNestedStaticForOfInBox')).toEqual(65n);
+  });
+
+  test('forOfContinue', async () => {
+    const { appClient } = await compileAndCreate('forOfContinue');
+
+    expect(await runMethod(appClient, 'forOfContinue')).toEqual(3n);
+  });
+
+  test('forOfBreak', async () => {
+    const { appClient } = await compileAndCreate('forOfBreak');
+
+    expect(await runMethod(appClient, 'forOfBreak')).toEqual(3n);
+  });
+
+  test('accessStaticArrayInBoxInVariable', async () => {
+    const { appClient } = await compileAndCreate('accessStaticArrayInBoxInVariable');
+
+    expect(await runMethod(appClient, 'accessStaticArrayInBoxInVariable')).toEqual(1n);
   });
 });

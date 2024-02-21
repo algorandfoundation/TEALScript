@@ -294,7 +294,7 @@ declare type KeyRegTxnVerificationFields = CommonTxnVerificationFields & {
 };
 
 declare type AssetTransferTxnVerificationFields = CommonTxnVerificationFields & {
-  xferAsset?: Asset | TxnVerificationTests;
+  xferAsset?: AssetID | TxnVerificationTests;
   assetAmount?: IntLike | TxnVerificationTests;
   assetSender?: Address | TxnVerificationTests;
   assetReceiver?: Address | TxnVerificationTests;
@@ -333,7 +333,7 @@ declare type AppCallTxnVerificationFields = CommonTxnVerificationFields & {
   accounts?: TxnArrayVerificationField<0 | 1 | 2 | 3, Address | TxnVerificationTests>;
   assets?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
   applications?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
-  applicationID?: Application | TxnVerificationTests;
+  applicationID?: AppID | TxnVerificationTests;
   onCompletion?: IntLike | TxnVerificationTests;
   numAppArgs?: IntLike | TxnVerificationTests;
   numAccounts?: IntLike | TxnVerificationTests;
@@ -363,10 +363,10 @@ declare type TxnVerificationFields = PayTxnVerificationFields &
     typeEnum?: IntLike | TxnVerificationTests;
   };
 
-declare class Asset {
-  static fromID(index: uint64): Asset;
+declare class AssetID {
+  static fromUint64(index: uint64): AssetID;
 
-  static readonly zeroIndex: Asset;
+  static readonly zeroIndex: AssetID;
 
   readonly id: uint64;
 
@@ -394,6 +394,8 @@ declare class Asset {
 
   readonly creator: Address;
 }
+
+declare class AssetReference extends AssetID {}
 
 declare class Address {
   static fromBytes(addr: BytesLike): Address;
@@ -427,25 +429,25 @@ declare class Address {
 
   readonly totalBoxBytes: uint64;
 
-  assetBalance(asa: Asset): uint64;
+  assetBalance(asa: AssetID): uint64;
 
-  isOptedInToAsset(asa: Asset): uint64;
+  isOptedInToAsset(asa: AssetID): uint64;
 
-  assetFrozen(asa: Asset): uint64;
+  assetFrozen(asa: AssetID): uint64;
 
-  isOptedInToApp(app: Application): boolean;
+  isOptedInToApp(app: AppID): boolean;
 }
 
-class Account extends Address {}
+class AccountReference extends Address {}
 
 type BytesLike = bytes | Address | string;
 
-declare class Application {
-  static fromID(appID: uint64): Application;
+declare class AppID {
+  static fromUint64(appID: uint64): AppID;
 
   readonly id: uint64;
 
-  static readonly zeroIndex: Application;
+  static readonly zeroIndex: AppID;
 
   readonly approvalProgram: bytes;
 
@@ -471,10 +473,10 @@ declare class Application {
 }
 
 declare class EventLogger<ArgumentTypes extends Object> {
-  constructor();
-
   log(args: ArgumentTypes): void;
 }
+
+declare class AppReference extends AppID {}
 
 declare type BoxValue<ValueType> = {
   value: ValueType;
@@ -536,7 +538,7 @@ declare function LocalStateMap<KeyType, ValueType>(options: {
   allowPotentialCollisions?: boolean;
 }): (account: Address, key: KeyType) => LocalStateValue<ValueType>;
 
-type IntLike = uint64 | Asset | Application | boolean | number;
+type IntLike = uint64 | AssetID | AppID | boolean | number;
 
 interface CommonTransactionParams {
   fee?: uint64;
@@ -551,10 +553,10 @@ interface CommonOnChainTransactionParams extends Required<CommonTransactionParam
 }
 
 interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
-  createdAssetID: Asset;
-  createdApplicationID: Application;
+  createdAssetID: AssetID;
+  createdApplicationID: AppID;
   lastLog: bytes;
-  applicationID: Application;
+  applicationID: AppID;
   numAppArgs: uint64;
   numAccounts: uint64;
   numAssets: uint64;
@@ -566,7 +568,7 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
-  xferAsset: Asset;
+  xferAsset: AssetID;
   assetAmount: uint64;
   assetSender?: Address;
   assetReceiver: Address;
@@ -574,7 +576,7 @@ interface AssetTransferParams extends CommonTransactionParams {
 }
 
 interface AssetConfigParams extends CommonTransactionParams {
-  configAsset: Asset;
+  configAsset: AssetID;
   configAssetManager?: Address;
   configAssetReserve?: Address;
   configAssetFreeze?: Address;
@@ -596,7 +598,7 @@ interface AssetCreateParams extends CommonTransactionParams {
 }
 
 interface AssetFreezeParams extends CommonTransactionParams {
-  freezeAsset: Asset;
+  freezeAsset: AssetID;
   freezeAssetAccount: Address;
   freezeAssetFrozen: boolean;
 }
@@ -618,14 +620,14 @@ enum OnCompletion {
 }
 
 interface AppParams extends CommonTransactionParams {
-  applicationID?: Application;
+  applicationID?: AppID;
   onCompletion?: OnCompletion;
   accounts?: Address[];
   approvalProgram?: bytes;
   applicationArgs?: bytes[];
   clearStateProgram?: bytes;
-  applications?: Array<Application>;
-  assets?: Array<Asset>;
+  applications?: Array<AppID>;
+  assets?: Array<AssetID>;
   globalNumByteSlice?: uint64;
   globalNumUint?: uint64;
   localNumByteSlice?: uint64;
@@ -658,12 +660,34 @@ declare type KeyRegTxn = Required<KeyRegParams>;
 declare type AssetConfigTxn = Required<AssetConfigParams>;
 declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
-interface MethodCallParams<ArgsType> extends AppParams {
-  /** ABI method arguments */
-  methodArgs?: ArgsType;
-  /** Name of the ABI method */
-  name: string;
-}
+type SendMethodCallArgs<T> = {
+  [K in keyof T]: T[K] extends PayTxn
+    ? InnerPayment
+    : T[K] extends AssetTransferTxn
+    ? InnerAssetTransfer
+    : T[K] extends AppCallTxn
+    ? InnerAppCall
+    : T[K] extends KeyRegTxn
+    ? InnerOnlineKeyRegistration
+    : T[K] extends AssetConfigTxn
+    ? InnerAssetConfig
+    : T[K] extends AssetFreezeTxn
+    ? InnerAssetFreeze
+    : T[K];
+};
+
+type MethodCallParams<ArgsType> = AppParams &
+  (ArgsType extends Function
+    ? {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<Parameters<ArgsType>>;
+      }
+    : {
+        /** ABI method arguments */
+        methodArgs?: SendMethodCallArgs<ArgsType>;
+        /** Name of the ABI method */
+        name: string;
+      });
 
 type ThisTxnParams = AppOnChainTransactionParams & AppParams;
 
@@ -683,12 +707,12 @@ declare const globals: {
   logicSigVersion: uint64;
   round: uint64;
   latestTimestamp: uint64;
-  currentApplicationID: Application;
+  currentApplicationID: AppID;
   creatorAddress: Address;
   currentApplicationAddress: Address;
   groupID: bytes32;
   opcodeBudget: uint64;
-  callerApplicationID: Application;
+  callerApplicationID: AppID;
   callerApplicationAddress: Address;
   assetCreateMinBalance: uint64;
   assetOptInMinBalance: uint64;
@@ -710,7 +734,7 @@ declare function addr(address: string): Address;
 declare function sendPayment(params: Expand<PaymentParams>): void;
 declare function sendAppCall(params: Expand<AppParams>): void;
 declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void;
-declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset;
+declare function sendAssetCreation(params: Expand<AssetCreateParams>): AssetID;
 declare function sendOnlineKeyRegistration(params: Expand<OnlineKeyRegParams>): void;
 declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionParams>): void;
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void;
@@ -724,14 +748,33 @@ declare type InnerAssetCreation = AssetCreateParams;
 declare type InnerAssetFreeze = AssetFreezeParams;
 declare type InnerOnlineKeyRegistration = OnlineKeyRegParams;
 declare type InnerOfflineKeyRegistration = CommonTransactionParams;
-declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
+/**
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ */
+declare type MethodCall<ArgTypesOrMethod, ReturnType> = MethodCallParams<ArgTypesOrMethod>;
 
 /**
  * Sends ABI method call. The two type arguments in combination with the
  * name argument are used to form the the method signature to ensure typesafety.
  *
- * @example
- * Calling a method and getting the return value
+ * @returns The return value of the method call
+ *
+ * @typeParam ArgTypesOrMethod - Either the TEALScript method to call or the types of the method arguments
+ * @typeParam MethodReturnType - The return type of the method. *NOT* needed if ArgTypesOrMethod is TEALScript method type
+ *
+ * @param params - The parameters of the method call
+ *
+ * @example Calling a method defined in a contract
+ * ```ts
+ * // call createNFT(string,string)uint64
+ * const createdAsset = sendMethodCall<typeof MyContract.prototype.createNFT>({
+ *     applicationID: factoryApp,
+ *     methodArgs: ['My NFT', 'MNFT'],
+ * });
+ * ```
+ *
+ * @example Calling a method and getting the return value
  * ```ts
  * // call createNFT(string,string)uint64
  * const createdAsset = sendMethodCall<[string, string], Asset>({
@@ -740,16 +783,10 @@ declare type InnerMethodCall<ArgsType, ReturnType> = MethodCallParams<ArgsType>;
  *     methodArgs: ['My NFT', 'MNFT'],
  * });
  * ```
- *
- * @returns The return value of the method call
- *
- * @typeParam ArgsType - A tuple type corresponding to the types of the method arguments
- * @typeParam ReturnType - The return type of the method
- *
- * @param params - The parameters of the method call
- *
  */
-declare function sendMethodCall<ArgsType, ReturnType>(params: Expand<MethodCallParams<ArgsType>>): ReturnType;
+declare function sendMethodCall<ArgTypesOrMethod, MethodReturnType = void>(
+  params: Expand<MethodCallParams<ArgTypesOrMethod>>
+): ArgTypesOrMethod extends Function ? ReturnType<ArgTypesOrMethod> : MethodReturnType;
 
 /**
  * @returns the input data converted to  {@link uint64}
@@ -785,8 +822,14 @@ declare function sha512_256(data: BytesLike): bytes32;
  */
 declare function ed25519Verify(data: BytesLike, signature: BytesLike, pubkey: BytesLike): boolean;
 
-/** @returns the length of the data */
-declare function len(data: BytesLike): uint64;
+/**
+ * Get the byte length of a type or value.
+ *
+ * @param value - The value to get the length of. May be omitted if a static type is given as `T`
+ * @typeParam T - The type to get the length of. MUST be static if no value is given.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function len<T>(value?: any): uint64;
 
 /** @throws if the given condition is false */
 declare function assert(condition: IntLike, message?: string): void;
@@ -1250,3 +1293,18 @@ declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remain
  * @param d The denominator low bits
  */
 declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;
+
+/**
+ * @deprecated Use `Address` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AccountReference` if you need to explicitly use the reference type.
+ */
+class Account {}
+
+/**
+ * @deprecated Use `AppID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AppReference` if you need to explicitly use the reference type.
+ */
+class Application {}
+
+/**
+ * @deprecated Use `AssetID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AssetReference` if you need to explicitly use the reference type.
+ */
+class Asset {}

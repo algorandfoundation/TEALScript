@@ -89,4 +89,14 @@ export class B2 extends A {
   }
 }
 
-export class MultiInheritance extends Contract.extend(B, B2) {}
+export class MultiInheritance extends Contract.extend(B, B2) {
+  foo(): void {
+    log(B2.approvalProgram());
+  }
+}
+
+export class MultiInheritanceProgram extends Contract {
+  prog(): void {
+    log(MultiInheritance.approvalProgram());
+  }
+}

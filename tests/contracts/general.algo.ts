@@ -94,13 +94,13 @@ class GeneralTest extends Contract {
   }
 
   methodWithTxnArgs(): void {
-    sendMethodCall<[InnerPayment, InnerMethodCall<[uint64], void>], void>({
+    sendMethodCall<[PayTxn, MethodCall<[uint64], void>], void>({
       name: 'foo',
       methodArgs: [
         { amount: 100_000, receiver: this.txn.sender },
         {
           name: 'bar',
-          applicationID: Application.fromID(1337),
+          applicationID: AppID.fromUint64(1337),
           methodArgs: [1],
         },
       ],
@@ -116,9 +116,9 @@ class GeneralTest extends Contract {
     assert(Address.fromBytes('abc').minBalance);
   }
 
-  fromID(): void {
-    log(Application.fromID(123).creator);
-    log(Asset.fromID(123).creator);
+  fromUint64(): void {
+    log(AppID.fromUint64(123).creator);
+    log(AssetID.fromUint64(123).creator);
   }
 
   bzeroFunction(): void {
@@ -135,7 +135,7 @@ class GeneralTest extends Contract {
    */
   myEvent = new EventLogger<{
     /** Some app */
-    app: Application;
+    app: AppID;
     /** Some number */
     num: number;
   }>();
@@ -180,11 +180,11 @@ class GeneralTest extends Contract {
   }
 
   idProperty(): void {
-    const app = Application.zeroIndex;
-    assert(Application.fromID(app.id) === app);
+    const app = AppID.zeroIndex;
+    assert(AppID.fromUint64(app.id) === app);
 
-    const asa = Asset.zeroIndex;
-    assert(Asset.fromID(asa.id) === asa);
+    const asa = AssetID.zeroIndex;
+    assert(AssetID.fromUint64(asa.id) === asa);
   }
 
   scratchSlot(): void {
@@ -209,7 +209,7 @@ class GeneralTest extends Contract {
     });
 
     verifyAppCallTxn(this.txnGroup[0], {
-      applicationID: Application.fromID(0),
+      applicationID: AppID.fromUint64(0),
       applicationArgs: {
         0: 'foo',
         1: {
@@ -223,7 +223,7 @@ class GeneralTest extends Contract {
     });
 
     verifyAssetConfigTxn(this.txnGroup[0], {
-      configAsset: Asset.fromID(0),
+      configAsset: AssetID.fromUint64(0),
     });
 
     verifyKeyRegTxn(this.txnGroup[0], {
@@ -414,5 +414,26 @@ class GeneralTest extends Contract {
     assert(SchemaContract.schema.global.numByteSlice === 2);
     assert(SchemaContract.schema.local.numUint === 3);
     assert(SchemaContract.schema.local.numByteSlice === 4);
+  }
+
+  comparisonOr(): boolean {
+    return this.txn.sender === globals.zeroAddress || this.txn.sender === globals.zeroAddress;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  txnArgsMethod(_pay1: PayTxn): void {}
+
+  callTxnArgsMethod(): void {
+    sendMethodCall<typeof GeneralTest.prototype.txnArgsMethod>({
+      methodArgs: [{ receiver: this.app.address, amount: 0 }],
+    });
+  }
+
+  staticValueLen(x: uint256): void {
+    assert(len(x));
+  }
+
+  staticTypeLen(): void {
+    assert(len<uint256>());
   }
 }

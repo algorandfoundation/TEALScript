@@ -13,7 +13,7 @@ class ItxnsTest extends Contract {
     });
   }
 
-  assetCreation(): Asset {
+  assetCreation(): AssetID {
     return sendAssetCreation({
       configAssetName: 'name',
       configAssetUnitName: 'unit',
@@ -35,7 +35,7 @@ class ItxnsTest extends Contract {
       applicationID: this.app,
       applications: [this.app],
       approvalProgram: 'approval',
-      assets: [Asset.zeroIndex],
+      assets: [AssetID.zeroIndex],
       clearStateProgram: 'clear',
       globalNumByteSlice: 1,
       globalNumUint: 1,
@@ -47,7 +47,7 @@ class ItxnsTest extends Contract {
 
   assetConfig(): void {
     sendAssetConfig({
-      configAsset: Asset.zeroIndex,
+      configAsset: AssetID.zeroIndex,
       configAssetManager: this.app.address,
       configAssetReserve: this.app.address,
       configAssetFreeze: this.app.address,
@@ -59,7 +59,7 @@ class ItxnsTest extends Contract {
     sendAssetFreeze({
       freezeAssetFrozen: true,
       freezeAssetAccount: this.app.address,
-      freezeAsset: Asset.zeroIndex,
+      freezeAsset: AssetID.zeroIndex,
     });
   }
 
@@ -69,14 +69,14 @@ class ItxnsTest extends Contract {
       assetCloseTo: this.app.address,
       assetReceiver: this.app.address,
       assetSender: this.app.address,
-      xferAsset: Asset.zeroIndex,
+      xferAsset: AssetID.zeroIndex,
     });
   }
 
-  methodCall(): Asset {
-    return sendMethodCall<[Application, Asset], Asset>({
+  methodCall(): AssetID {
+    return sendMethodCall<[AppID, AssetID], AssetID>({
       name: 'method',
-      methodArgs: [this.app, Asset.zeroIndex],
+      methodArgs: [this.app, AssetID.zeroIndex],
     });
   }
 
