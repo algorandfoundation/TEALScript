@@ -3,6 +3,8 @@ import algosdk from 'algosdk';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { ContactsAppClient } from './ContactsAppClient';
 
+algokit.Config.configure({ populateAppCallResources: true });
+
 const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
 const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
 
