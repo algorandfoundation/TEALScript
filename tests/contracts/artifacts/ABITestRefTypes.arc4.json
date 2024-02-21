@@ -1,0 +1,33 @@
+{
+  "name": "ABITestRefTypes",
+  "desc": "",
+  "methods": [
+    {
+      "name": "refTypes",
+      "args": [
+        {
+          "name": "acct",
+          "type": "account"
+        },
+        {
+          "name": "app",
+          "type": "application"
+        },
+        {
+          "name": "asa",
+          "type": "asset"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

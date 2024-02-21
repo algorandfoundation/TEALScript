@@ -294,7 +294,7 @@ declare type KeyRegTxnVerificationFields = CommonTxnVerificationFields & {
 };
 
 declare type AssetTransferTxnVerificationFields = CommonTxnVerificationFields & {
-  xferAsset?: Asset | TxnVerificationTests;
+  xferAsset?: AssetID | TxnVerificationTests;
   assetAmount?: IntLike | TxnVerificationTests;
   assetSender?: Address | TxnVerificationTests;
   assetReceiver?: Address | TxnVerificationTests;
@@ -333,7 +333,7 @@ declare type AppCallTxnVerificationFields = CommonTxnVerificationFields & {
   accounts?: TxnArrayVerificationField<0 | 1 | 2 | 3, Address | TxnVerificationTests>;
   assets?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
   applications?: TxnArrayVerificationField<0 | 1 | 2 | 3 | 4 | 5 | 6 | 7, IntLike | TxnVerificationTests>;
-  applicationID?: Application | TxnVerificationTests;
+  applicationID?: AppID | TxnVerificationTests;
   onCompletion?: IntLike | TxnVerificationTests;
   numAppArgs?: IntLike | TxnVerificationTests;
   numAccounts?: IntLike | TxnVerificationTests;
@@ -363,10 +363,10 @@ declare type TxnVerificationFields = PayTxnVerificationFields &
     typeEnum?: IntLike | TxnVerificationTests;
   };
 
-declare class Asset {
-  static fromID(index: uint64): Asset;
+declare class AssetID {
+  static fromUint64(index: uint64): AssetID;
 
-  static readonly zeroIndex: Asset;
+  static readonly zeroIndex: AssetID;
 
   readonly id: uint64;
 
@@ -394,6 +394,8 @@ declare class Asset {
 
   readonly creator: Address;
 }
+
+declare class AssetReference extends AssetID {}
 
 declare class Address {
   static fromBytes(addr: BytesLike): Address;
@@ -427,25 +429,25 @@ declare class Address {
 
   readonly totalBoxBytes: uint64;
 
-  assetBalance(asa: Asset): uint64;
+  assetBalance(asa: AssetID): uint64;
 
-  isOptedInToAsset(asa: Asset): uint64;
+  isOptedInToAsset(asa: AssetID): uint64;
 
-  assetFrozen(asa: Asset): uint64;
+  assetFrozen(asa: AssetID): uint64;
 
-  isOptedInToApp(app: Application): boolean;
+  isOptedInToApp(app: AppID): boolean;
 }
 
-class Account extends Address {}
+class AccountReference extends Address {}
 
 type BytesLike = bytes | Address | string;
 
-declare class Application {
-  static fromID(appID: uint64): Application;
+declare class AppID {
+  static fromUint64(appID: uint64): AppID;
 
   readonly id: uint64;
 
-  static readonly zeroIndex: Application;
+  static readonly zeroIndex: AppID;
 
   readonly approvalProgram: bytes;
 
@@ -471,10 +473,10 @@ declare class Application {
 }
 
 declare class EventLogger<ArgumentTypes extends Object> {
-  constructor();
-
   log(args: ArgumentTypes): void;
 }
+
+declare class AppReference extends AppID {}
 
 declare type BoxValue<ValueType> = {
   value: ValueType;
@@ -536,7 +538,7 @@ declare function LocalStateMap<KeyType, ValueType>(options: {
   allowPotentialCollisions?: boolean;
 }): (account: Address, key: KeyType) => LocalStateValue<ValueType>;
 
-type IntLike = uint64 | Asset | Application | boolean | number;
+type IntLike = uint64 | AssetID | AppID | boolean | number;
 
 interface CommonTransactionParams {
   fee?: uint64;
@@ -551,10 +553,10 @@ interface CommonOnChainTransactionParams extends Required<CommonTransactionParam
 }
 
 interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
-  createdAssetID: Asset;
-  createdApplicationID: Application;
+  createdAssetID: AssetID;
+  createdApplicationID: AppID;
   lastLog: bytes;
-  applicationID: Application;
+  applicationID: AppID;
   numAppArgs: uint64;
   numAccounts: uint64;
   numAssets: uint64;
@@ -566,7 +568,7 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
-  xferAsset: Asset;
+  xferAsset: AssetID;
   assetAmount: uint64;
   assetSender?: Address;
   assetReceiver: Address;
@@ -574,7 +576,7 @@ interface AssetTransferParams extends CommonTransactionParams {
 }
 
 interface AssetConfigParams extends CommonTransactionParams {
-  configAsset: Asset;
+  configAsset: AssetID;
   configAssetManager?: Address;
   configAssetReserve?: Address;
   configAssetFreeze?: Address;
@@ -596,7 +598,7 @@ interface AssetCreateParams extends CommonTransactionParams {
 }
 
 interface AssetFreezeParams extends CommonTransactionParams {
-  freezeAsset: Asset;
+  freezeAsset: AssetID;
   freezeAssetAccount: Address;
   freezeAssetFrozen: boolean;
 }
@@ -618,14 +620,14 @@ enum OnCompletion {
 }
 
 interface AppParams extends CommonTransactionParams {
-  applicationID?: Application;
+  applicationID?: AppID;
   onCompletion?: OnCompletion;
   accounts?: Address[];
   approvalProgram?: bytes;
   applicationArgs?: bytes[];
   clearStateProgram?: bytes;
-  applications?: Array<Application>;
-  assets?: Array<Asset>;
+  applications?: Array<AppID>;
+  assets?: Array<AssetID>;
   globalNumByteSlice?: uint64;
   globalNumUint?: uint64;
   localNumByteSlice?: uint64;
@@ -705,12 +707,12 @@ declare const globals: {
   logicSigVersion: uint64;
   round: uint64;
   latestTimestamp: uint64;
-  currentApplicationID: Application;
+  currentApplicationID: AppID;
   creatorAddress: Address;
   currentApplicationAddress: Address;
   groupID: bytes32;
   opcodeBudget: uint64;
-  callerApplicationID: Application;
+  callerApplicationID: AppID;
   callerApplicationAddress: Address;
   assetCreateMinBalance: uint64;
   assetOptInMinBalance: uint64;
@@ -732,7 +734,7 @@ declare function addr(address: string): Address;
 declare function sendPayment(params: Expand<PaymentParams>): void;
 declare function sendAppCall(params: Expand<AppParams>): void;
 declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void;
-declare function sendAssetCreation(params: Expand<AssetCreateParams>): Asset;
+declare function sendAssetCreation(params: Expand<AssetCreateParams>): AssetID;
 declare function sendOnlineKeyRegistration(params: Expand<OnlineKeyRegParams>): void;
 declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionParams>): void;
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void;
@@ -1291,3 +1293,18 @@ declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remain
  * @param d The denominator low bits
  */
 declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;
+
+/**
+ * @deprecated Use `Address` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AccountReference` if you need to explicitly use the reference type.
+ */
+class Account {}
+
+/**
+ * @deprecated Use `AppID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AppReference` if you need to explicitly use the reference type.
+ */
+class Application {}
+
+/**
+ * @deprecated Use `AssetID` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AssetReference` if you need to explicitly use the reference type.
+ */
+class Asset {}

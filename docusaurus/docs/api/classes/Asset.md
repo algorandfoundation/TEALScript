@@ -144,9 +144,9 @@ ___
 
 ## Methods
 
-### fromID
+### fromUint64
 
-▸ `Static` **fromID**(`index`): [`Asset`](Asset.md)
+▸ `Static` **fromUint64**(`index`): [`Asset`](Asset.md)
 
 #### Parameters
 

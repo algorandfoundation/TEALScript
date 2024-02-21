@@ -35,6 +35,7 @@ async function runMethod(appClient: ApplicationClient, name: string, methodArgs:
     fundAmount = 1780900;
     if (name.includes('Storage') || name.includes('RefAccount')) callType = 'optIn';
   }
+
   return commonRunMethod({ appClient, method: name, methodArgs, fundAmount, callType, fee: 2_000 });
 }
 
