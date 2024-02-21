@@ -18,19 +18,19 @@ export default defineConfig({
           typeDoc: {
             plugin: ['typedoc-plugin-merge-modules'],
           },
+          sidebar: { collapsed: true },
         }),
       ],
       sidebar: [
         {
           label: 'Guides',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            { label: 'Example Guide', link: '/guides/example/' },
-          ],
+          collapsed: true,
+          autogenerate: { directory: 'guides' },
         },
         {
-          label: 'Reference',
-          autogenerate: { directory: 'reference' },
+          label: 'Tutorials',
+          collapsed: true,
+          autogenerate: { directory: 'tutorials' },
         },
         // Add the generated sidebar group to the sidebar.
         typeDocSidebarGroup,
