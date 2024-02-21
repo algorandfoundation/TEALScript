@@ -307,7 +307,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromID(1337),
+	//           applicationID: AppID.fromUint64(1337),
 	//           methodArgs: [1],
 	//         },
 	//       ],
@@ -336,7 +336,7 @@ methodWithTxnArgs:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/general.algo.ts:103
-	// applicationID: Application.fromID(1337)
+	// applicationID: AppID.fromUint64(1337)
 	int 1337
 	itxn_field ApplicationID
 
@@ -359,7 +359,7 @@ methodWithTxnArgs:
 	//         { amount: 100_000, receiver: this.txn.sender },
 	//         {
 	//           name: 'bar',
-	//           applicationID: Application.fromID(1337),
+	//           applicationID: AppID.fromUint64(1337),
 	//           methodArgs: [1],
 	//         },
 	//       ]
@@ -420,26 +420,26 @@ fromBytes:
 	assert
 	retsub
 
-// fromID()void
-*abi_route_fromID:
-	// execute fromID()void
-	callsub fromID
+// fromUint64()void
+*abi_route_fromUint64:
+	// execute fromUint64()void
+	callsub fromUint64
 	int 1
 	return
 
-// fromID(): void
-fromID:
+// fromUint64(): void
+fromUint64:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:120
-	// log(Application.fromID(123).creator)
+	// log(AppID.fromUint64(123).creator)
 	int 123
 	app_params_get AppCreator
 	pop
 	log
 
 	// tests/contracts/general.algo.ts:121
-	// log(Asset.fromID(123).creator)
+	// log(AssetID.fromUint64(123).creator)
 	int 123
 	asset_params_get AssetCreator
 	pop
@@ -703,25 +703,25 @@ idProperty:
 	dup
 
 	// tests/contracts/general.algo.ts:183
-	// app = Application.zeroIndex
+	// app = AppID.zeroIndex
 	int 0
-	frame_bury 0 // app: application
+	frame_bury 0 // app: uint64
 
 	// tests/contracts/general.algo.ts:184
-	// assert(Application.fromID(app.id) === app)
-	int 0 // app: application
+	// assert(AppID.fromUint64(app.id) === app)
+	int 0 // app: uint64
 	dup
 	==
 	assert
 
 	// tests/contracts/general.algo.ts:186
-	// asa = Asset.zeroIndex
+	// asa = AssetID.zeroIndex
 	int 0
-	frame_bury 1 // asa: asset
+	frame_bury 1 // asa: uint64
 
 	// tests/contracts/general.algo.ts:187
-	// assert(Asset.fromID(asa.id) === asa)
-	int 0 // asa: asset
+	// assert(AssetID.fromUint64(asa.id) === asa)
+	int 0 // asa: uint64
 	dup
 	==
 	assert
@@ -841,7 +841,7 @@ verifyTxnTypes:
 
 	// tests/contracts/general.algo.ts:211
 	// verifyAppCallTxn(this.txnGroup[0], {
-	//       applicationID: Application.fromID(0),
+	//       applicationID: AppID.fromUint64(0),
 	//       applicationArgs: {
 	//         0: 'foo',
 	//         1: {
@@ -903,7 +903,7 @@ verifyTxnTypes:
 
 	// tests/contracts/general.algo.ts:225
 	// verifyAssetConfigTxn(this.txnGroup[0], {
-	//       configAsset: Asset.fromID(0),
+	//       configAsset: AssetID.fromUint64(0),
 	//     })
 	// verify acfg
 	int 0
@@ -2235,7 +2235,7 @@ staticTypeLen:
 	method "methodWithTxnArgs()void"
 	method "shift()void"
 	method "fromBytes()void"
-	method "fromID()void"
+	method "fromUint64()void"
 	method "bzeroFunction()void"
 	method "events()void"
 	method "letOptimization(uint64[])uint64[]"
@@ -2283,7 +2283,7 @@ staticTypeLen:
 	method "staticValueLen(uint256)void"
 	method "staticTypeLen()void"
 	txna ApplicationArgs 0
-	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromID *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_computedConstAsStaticArrayLength *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen
+	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromUint64 *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_computedConstAsStaticArrayLength *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen
 	err
 
 *intToAscii:

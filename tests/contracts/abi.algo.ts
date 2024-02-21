@@ -1073,7 +1073,7 @@ class ABITestGlobalMethodInChain extends Contract {
 
 class ABITestOpcodeParamFromObject extends Contract {
   opcodeParamFromObject(): Address {
-    const a: { myApp: Application } = { myApp: this.app };
+    const a: { myApp: AppID } = { myApp: this.app };
 
     return this.app.address;
   }
@@ -1178,7 +1178,7 @@ type T7 = {
   foo: Address;
 };
 class ABITestChainedPropertyAfterTuple extends Contract {
-  chainedPropertyAfterTuple(asa: Asset): void {
+  chainedPropertyAfterTuple(asa: AssetID): void {
     const o: T7 = { foo: this.app.address };
 
     assert(!o.foo.isOptedInToAsset(asa));
@@ -1400,7 +1400,7 @@ class ABITestStaticArrayLength extends Contract {
 class ABITestArrayInMethodCall extends Contract {
   arrayInMethodCall() {
     sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-      applicationID: Application.fromID(0),
+      applicationID: AppID.fromUint64(0),
       name: 'foo',
       methodArgs: [[1, 2], this.txn.sender, 3, false],
     });
@@ -1446,7 +1446,6 @@ class ABITestNestedArrayLengthInObjectVariable extends Contract {
     return b.length;
   }
 }
-
 class ABITestBoolInNestedTuple extends Contract {
   boolInNestedTuple(): boolean {
     const a: [[uint64, uint64, uint64], boolean, boolean] = [[0, 0, 0], true, false];
@@ -1529,5 +1528,11 @@ class ABITestAccessStaticArrayInBoxInVariable extends Contract {
     val.u64 = 1;
 
     return val.u64;
+  }
+}
+class ABITestRefTypes extends Contract {
+  refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void {
+    assert(!acct.isOptedInToAsset(asa));
+    assert(!app.address.isOptedInToAsset(asa));
   }
 }

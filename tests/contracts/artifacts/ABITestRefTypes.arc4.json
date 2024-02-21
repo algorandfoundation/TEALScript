@@ -1,13 +1,21 @@
 {
-  "name": "ABITestChainedPropertyAfterTuple",
+  "name": "ABITestRefTypes",
   "desc": "",
   "methods": [
     {
-      "name": "chainedPropertyAfterTuple",
+      "name": "refTypes",
       "args": [
         {
+          "name": "acct",
+          "type": "account"
+        },
+        {
+          "name": "app",
+          "type": "application"
+        },
+        {
           "name": "asa",
-          "type": "uint64"
+          "type": "asset"
         }
       ],
       "returns": {

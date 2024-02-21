@@ -5,6 +5,8 @@ import algosdk from 'algosdk';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { Arc75Client } from './ARC75Client';
 
+algokit.Config.configure({ populateAppCallResources: true });
+
 let arc75: Arc75Client;
 const ARC = 'ARCX';
 let senderAddr: string;
@@ -29,7 +31,7 @@ async function getBoxValue(boxIndex: number, arc: string) {
   return valueType.decode(await arc75.appClient.getBoxValue(getBoxRef(boxIndex, arc).name));
 }
 
-async function addApp(mbr: number, boxIndex: number, appID: number, arc: string) {
+async function addApp(mbr: number, boxIndex: number, appID: number) {
   const payment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
     from: senderAddr,
     to: appAddress,
@@ -45,7 +47,6 @@ async function addApp(mbr: number, boxIndex: number, appID: number, arc: string)
       payment,
     },
     {
-      boxes: [getBoxRef(boxIndex, arc)],
       sendParams: { suppressLog: true },
     }
   );
@@ -74,10 +75,9 @@ async function setApps(mbr: number, boxIndex: number, appIDs: number[]) {
     sender: senderAddr,
     signer,
     suggestedParams: sp,
-    boxes: [getBoxRef(boxIndex, ARC)],
   });
 
-  await atc.execute(algodClient, 3);
+  await algokit.sendAtomicTransactionComposer({ atc }, algodClient);
 }
 
 let id = 0;
@@ -126,14 +126,14 @@ describe('ARC75', function () {
   });
 
   test('initializeWithAdd', async function () {
-    await addApp(23300, id, 11, ARC);
+    await addApp(23300, id, 11);
     const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).toEqual([BigInt(11)]);
   });
 
   test('mutliAdd', async function () {
-    await addApp(23300, id, 11, ARC);
-    await addApp(3200, id, 22, ARC);
+    await addApp(23300, id, 11);
+    await addApp(3200, id, 22);
     const boxValue = await getBoxValue(id, ARC);
     expect(boxValue).toEqual([BigInt(11), BigInt(22)]);
   });
@@ -176,7 +176,6 @@ describe('ARC75', function () {
     await arc75.deleteWhitelist(
       { arc: ARC, boxIndex: id },
       {
-        boxes: [getBoxRef(id, ARC)],
         sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
       }
     );
@@ -199,7 +198,6 @@ describe('ARC75', function () {
         index: BigInt(1),
       },
       {
-        boxes: [getBoxRef(id, ARC)],
         sendParams: { fee: algokit.microAlgos(2_000), suppressLog: true },
       }
     );

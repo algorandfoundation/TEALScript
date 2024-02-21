@@ -8,11 +8,11 @@ const FEE = 5;
 class ConstantProductAMM extends Contract {
   governor = GlobalStateKey<Address>({ key: 'g' });
 
-  assetA = GlobalStateKey<Asset>({ key: 'a' });
+  assetA = GlobalStateKey<AssetID>({ key: 'a' });
 
-  assetB = GlobalStateKey<Asset>({ key: 'b' });
+  assetB = GlobalStateKey<AssetID>({ key: 'b' });
 
-  poolToken = GlobalStateKey<Asset>({ key: 'p' });
+  poolToken = GlobalStateKey<AssetID>({ key: 'p' });
 
   ratio = GlobalStateKey<uint64>({ key: 'r' });
 
@@ -20,8 +20,8 @@ class ConstantProductAMM extends Contract {
     this.governor.value = this.txn.sender;
   }
 
-  private doCreatePoolToken(aAsset: Asset, bAsset: Asset): Asset {
-    // Unit name asserts not needed since it's done automatically by Asset.unitName
+  private doCreatePoolToken(aAsset: AssetID, bAsset: AssetID): AssetID {
+    // Unit name asserts not needed since it's done automatically by AssetID.unitName
 
     return sendAssetCreation({
       configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName,
@@ -33,7 +33,7 @@ class ConstantProductAMM extends Contract {
     });
   }
 
-  private doAxfer(receiver: Account, asset: Asset, amount: uint64): void {
+  private doAxfer(receiver: Address, asset: AssetID, amount: uint64): void {
     sendAssetTransfer({
       assetReceiver: receiver,
       xferAsset: asset,
@@ -41,7 +41,7 @@ class ConstantProductAMM extends Contract {
     });
   }
 
-  private doOptIn(asset: Asset): void {
+  private doOptIn(asset: AssetID): void {
     this.doAxfer(this.app.address, asset, 0);
   }
 
@@ -74,12 +74,12 @@ class ConstantProductAMM extends Contract {
     return wideRatio([inAmount, factor, outSupply], [inSupply * SCALE + inAmount * factor]);
   }
 
-  set_governor(governor: Account): void {
+  set_governor(governor: Address): void {
     verifyAppCallTxn(this.txn, { sender: this.governor.value });
     this.governor.value = governor;
   }
 
-  bootstrap(seed: PayTxn, aAsset: Asset, bAsset: Asset): Asset {
+  bootstrap(seed: PayTxn, aAsset: AssetID, bAsset: AssetID): AssetID {
     verifyAppCallTxn(this.txn, { sender: this.governor.value });
 
     assert(globals.groupSize === 2);
@@ -97,7 +97,7 @@ class ConstantProductAMM extends Contract {
     return this.poolToken.value;
   }
 
-  mint(aXfer: AssetTransferTxn, bXfer: AssetTransferTxn, poolAsset: Asset, aAsset: Asset, bAsset: Asset): void {
+  mint(aXfer: AssetTransferTxn, bXfer: AssetTransferTxn, poolAsset: AssetID, aAsset: AssetID, bAsset: AssetID): void {
     /// well formed mint
     assert(aAsset === this.assetA.value);
     assert(bAsset === this.assetB.value);
@@ -139,7 +139,7 @@ class ConstantProductAMM extends Contract {
     }
   }
 
-  burn(poolXfer: AssetTransferTxn, poolAsset: Asset, aAsset: Asset, bAsset: Asset): void {
+  burn(poolXfer: AssetTransferTxn, poolAsset: AssetID, aAsset: AssetID, bAsset: AssetID): void {
     /// well formed burn
     assert(poolAsset === this.poolToken.value);
     assert(aAsset === this.assetA.value);
@@ -165,7 +165,7 @@ class ConstantProductAMM extends Contract {
     this.ratio.value = this.computeRatio();
   }
 
-  swap(swapXfer: AssetTransferTxn, aAsset: Asset, bAsset: Asset): void {
+  swap(swapXfer: AssetTransferTxn, aAsset: AssetID, bAsset: AssetID): void {
     /// well formed swap
     assert(aAsset === this.assetA.value);
     assert(bAsset === this.assetB.value);

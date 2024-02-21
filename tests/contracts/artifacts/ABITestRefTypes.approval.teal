@@ -21,55 +21,53 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 *NOT_IMPLEMENTED:
 	err
 
-// arrayInMethodCall()void
-*abi_route_arrayInMethodCall:
-	// execute arrayInMethodCall()void
-	callsub arrayInMethodCall
+// refTypes(account,application,asset)void
+*abi_route_refTypes:
+	// asa: asset
+	txna ApplicationArgs 3
+	btoi
+	txnas Assets
+
+	// app: application
+	txna ApplicationArgs 2
+	btoi
+	txnas Applications
+
+	// acct: account
+	txna ApplicationArgs 1
+	btoi
+	txnas Accounts
+
+	// execute refTypes(account,application,asset)void
+	callsub refTypes
 	int 1
 	return
 
-// arrayInMethodCall(): void
-arrayInMethodCall:
-	proto 0 0
+// refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void
+refTypes:
+	proto 3 0
 
-	// tests/contracts/abi.algo.ts:1402
-	// sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-	//       applicationID: AppID.fromUint64(0),
-	//       name: 'foo',
-	//       methodArgs: [[1, 2], this.txn.sender, 3, false],
-	//     })
-	itxn_begin
-	int appl
-	itxn_field TypeEnum
-	method "foo((uint64,uint64),address,uint64,bool)void"
-	itxn_field ApplicationArgs
+	// tests/contracts/abi.algo.ts:1535
+	// assert(!acct.isOptedInToAsset(asa))
+	frame_dig -1 // acct: AccountReference
+	frame_dig -3 // asa: AssetReference
+	asset_holding_get AssetBalance
+	swap
+	pop
+	!
+	assert
 
-	// tests/contracts/abi.algo.ts:1403
-	// applicationID: AppID.fromUint64(0)
-	int 0
-	itxn_field ApplicationID
-
-	// tests/contracts/abi.algo.ts:1405
-	// methodArgs: [[1, 2], this.txn.sender, 3, false]
-	byte 0x00000000000000010000000000000002
-	itxn_field ApplicationArgs
-	txn Sender
-	itxn_field ApplicationArgs
-	byte 0x0000000000000003
-	itxn_field ApplicationArgs
-	int 0
-	byte 0x00
-	int 0
-	uncover 2
-	setbit
-	itxn_field ApplicationArgs
-
-	// Fee field not set, defaulting to 0
-	int 0
-	itxn_field Fee
-
-	// Submit inner transaction
-	itxn_submit
+	// tests/contracts/abi.algo.ts:1536
+	// assert(!app.address.isOptedInToAsset(asa))
+	frame_dig -2 // app: AppReference
+	app_params_get AppAddress
+	pop
+	frame_dig -3 // asa: AssetReference
+	asset_holding_get AssetBalance
+	swap
+	pop
+	!
+	assert
 	retsub
 
 *abi_route_createApplication:
@@ -83,7 +81,7 @@ arrayInMethodCall:
 	err
 
 *call_NoOp:
-	method "arrayInMethodCall()void"
+	method "refTypes(account,application,asset)void"
 	txna ApplicationArgs 0
-	match *abi_route_arrayInMethodCall
+	match *abi_route_refTypes
 	err

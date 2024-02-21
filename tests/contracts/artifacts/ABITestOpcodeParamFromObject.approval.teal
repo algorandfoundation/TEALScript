@@ -41,10 +41,10 @@ opcodeParamFromObject:
 	byte 0x
 
 	// tests/contracts/abi.algo.ts:1076
-	// a: { myApp: Application } = { myApp: this.app }
+	// a: { myApp: AppID } = { myApp: this.app }
 	txna Applications 0
 	itob
-	frame_bury 0 // a: { myApp: Application }
+	frame_bury 0 // a: { myApp: AppID }
 
 	// tests/contracts/abi.algo.ts:1078
 	// return this.app.address;

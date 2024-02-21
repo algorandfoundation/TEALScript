@@ -8,6 +8,8 @@ import algosdk from 'algosdk';
 import { algodClient, kmdClient } from '../../tests/common';
 import appSpec from './artifacts/BigBox.arc32.json';
 
+algokit.Config.configure({ populateAppCallResources: true });
+
 const COST_PER_BYTE = 400;
 const COST_PER_BOX = 2500;
 
@@ -68,7 +70,6 @@ describe('Big Box', () => {
     await appClient.call({
       method: 'startUpload',
       methodArgs: ['TEAL.pdf', numBoxes, endBoxSize, mbrPayment],
-      boxes: [dataName],
       sendParams: { suppressLog: true },
     });
 
@@ -133,7 +134,7 @@ describe('Big Box', () => {
         });
       });
 
-      await firstAtc.execute(algodClient, 3);
+      await algokit.sendAtomicTransactionComposer({ atc: firstAtc }, algodClient);
 
       if (secondGroup.length === 0) return;
 
@@ -150,7 +151,7 @@ describe('Big Box', () => {
         });
       });
 
-      await secondAtc.execute(algodClient, 3);
+      await algokit.sendAtomicTransactionComposer({ atc: secondAtc }, algodClient);
     });
 
     await Promise.all(boxPromises);

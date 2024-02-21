@@ -128,7 +128,6 @@ export async function runMethod({
   method,
   methodArgs = [],
   callType = 'call',
-  boxes = [],
   fundAmount = 0,
   fee = 1000,
 }: {
@@ -136,17 +135,12 @@ export async function runMethod({
   method: string;
   methodArgs?: algosdk.ABIArgument[];
   callType?: 'call' | 'optIn';
-  boxes?: {
-    appIndex: number;
-    name: Uint8Array;
-  }[];
   fundAmount?: number;
   fee?: number;
 }) {
   const params = {
     method,
     methodArgs,
-    boxes,
     sendParams: { suppressLog: true, fee: algokit.microAlgos(fee), populateAppCallResources: true },
   };
 
