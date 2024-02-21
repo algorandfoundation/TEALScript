@@ -1,7 +1,6 @@
 ---
 title: 1. Intro and Prerequisites
 ---
-# 1. Intro and Prerequisites
 
 This tutorial will go over the basics of how to use Algokit to initialize a TEALScript project and modify it to create and test a hello world contract.
 
