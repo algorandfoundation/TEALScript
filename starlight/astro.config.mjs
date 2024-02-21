@@ -15,6 +15,9 @@ export default defineConfig({
         starlightTypeDoc({
           entryPoints: ['../src/lib/index.ts', '../types/global.d.ts'],
           tsconfig: '../tsconfig.json',
+          typeDoc: {
+            plugin: ['typedoc-plugin-merge-modules'],
+          },
         }),
       ],
       sidebar: [
