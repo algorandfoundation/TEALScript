@@ -256,21 +256,33 @@ declare type bytes32 = StaticArray<byte, 32>;
 declare type bytes64 = StaticArray<byte, 64>;
 
 declare type TxnVerificationTests = {
+  /** assert that the value is less than the given value */
   lessThan?: IntLike;
+  /** assert that the value is less than or equal to the given value */
   lessThanEqualTo?: IntLike;
+  /** assert that the value is greater than the given value */
   greaterThan?: IntLike;
+  /** assert that the value is greater than or equal to the given value */
   greaterThanEqualTo?: IntLike;
+  /** assert that the value is equal to the given value */
   not?: IntLike | BytesLike;
+  /** assert that the value is included in the given array. **MUST** be an array literal */
   includedIn?: (IntLike | BytesLike)[];
+  /** assert that the value is not included in the given array. **MUST** be an array literal */
   notIncludedIn?: (IntLike | BytesLike)[];
 };
 
 declare type CommonTxnVerificationFields = {
+  /** The sender of the transaction. This is the account that pays the fee (if non-zero) */
   sender?: Address | TxnVerificationTests;
+  /** The fee to pay for the transaction */
   fee?: IntLike | TxnVerificationTests;
+  /** The first round that the transaction is valid */
   firstValid?: IntLike | TxnVerificationTests;
   firstValidTime?: IntLike | TxnVerificationTests;
+  /** The last round that the transaction is valid */
   lastValid?: IntLike | TxnVerificationTests;
+  /** The note field of the transaction */
   note?: BytesLike | TxnVerificationTests;
   lease?: bytes32 | TxnVerificationTests;
   rekeyTo?: Address | TxnVerificationTests;
@@ -363,121 +375,194 @@ declare type TxnVerificationFields = PayTxnVerificationFields &
     typeEnum?: IntLike | TxnVerificationTests;
   };
 
+/**
+ * An Algorand Standard Asset (ASA). `asset` ABI type when used as an argument or return type in a method, `uint64` when in an array or state.
+ */
 declare class AssetID {
+  /** Get an `Asset` instance for the ASA with the given asset index */
   static fromUint64(index: uint64): AssetID;
 
+  /** Asset index 0. Only useful for input validation. */
   static readonly zeroIndex: AssetID;
 
+  /** The asset index */
   readonly id: uint64;
 
+  /** The total number of units of the asset */
   readonly total: uint64;
 
+  /** The number of decimal places to use when displaying the asset */
   readonly decimals: uint64;
 
-  readonly defaultFrozen: uint64;
+  /** Whether the asset is frozen by default when created */
+  readonly defaultFrozen: boolean;
 
+  /** The name of the asset. Must be 32 bytes or less. */
   readonly name: string;
 
+  /** The short (ticker) name of the asset (ie. USDC) */
   readonly unitName: string;
 
+  /** The URL of the assets metadata */
   readonly url: string;
 
-  readonly metadataHash: string;
+  /** The hash of the assets metadata */
+  readonly metadataHash: bytes32;
 
+  /** The manager that can update the maanger, freeze, and reserve accounts */
   readonly manager: Address;
 
+  /** The reserve account that holds the assets that are not in circulation */
   readonly reserve: Address;
 
+  /** The freeze account that can freeze or unfreeze other accounts holdings the asset */
   readonly freeze: Address;
 
+  /** The clawback account that can take assets from any account */
   readonly clawback: Address;
 
+  /** The creator of the asset */
   readonly creator: Address;
 }
 
 declare class AssetReference extends AssetID {}
 
+/** An Algorand address */
 declare class Address {
+  /** Create an `Address` instance from the given public key */
   static fromBytes(addr: BytesLike): Address;
 
+  /** The zero address: `AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ` */
   static readonly zeroAddress: Address;
 
+  /** The accounts current balance (in µALGO) */
   readonly balance: uint64;
 
+  /** Whether the account is in the ledger or not */
   readonly isInLedger: uint64;
 
+  /** The account's current minimum balance require (MBR) (in µALGO) */
   readonly minBalance: uint64;
 
+  /** The number of assets this address is opted in to */
   readonly totalAssets: uint64;
 
   // eslint-disable-next-line no-use-before-define
+  /** Signifies the public key for the keypair that has authority over this address */
   readonly authAddr: Address;
 
+  /** The total number of uint64 values reserved in global and local state across all apps */
   readonly totalNumUint: uint64;
 
+  /** The total number of byte slices reserved in global and local state across all apps */
   readonly totalNumByteSlice: uint64;
 
+  /** The total number of extra application pages reserved across all apps */
   readonly totalExtraAppPages: uint64;
 
+  /** The total number of apps created by this address */
   readonly totalAppsCreated: uint64;
 
+  /** The total number of apps opted in to by this address */
   readonly totalAppsOptedIn: uint64;
 
+  /** The total number of assets created by this address */
   readonly totalAssetsCreated: uint64;
 
+  /** The total number of boxes funded by this address. Only applies to application addreses. */
   readonly totalBoxes: uint64;
 
+  /** The total number of box bytes funded by this address. Only applies to application addreses. */
   readonly totalBoxBytes: uint64;
 
-  assetBalance(asa: AssetID): uint64;
+  /** The balance of the given asset for this address */
+  assetBalance(asa: Asset): uint64;
 
-  isOptedInToAsset(asa: AssetID): uint64;
+  /** Whether this address is opted into the given address */
+  isOptedInToAsset(asa: Asset): boolean;
 
-  assetFrozen(asa: AssetID): uint64;
+  /** Whether the given asset is frozen in this address */
+  assetFrozen(asa: Asset): uint64;
 
-  isOptedInToApp(app: AppID): boolean;
+  /** Whether this address is opted into the given application */
+  isOptedInToApp(app: Application): boolean;
 }
 
 class AccountReference extends Address {}
 
 type BytesLike = bytes | Address | string;
 
+/** Alias for `Address` that uses `account` encoding for ABI arguments */
+class Account extends Address {}
+
+/** A stateful Algorand application */
 declare class AppID {
+  /** Get an `Application` instance for the application with the given application index */
   static fromUint64(appID: uint64): AppID;
 
+  /** The application index */
   readonly id: uint64;
 
+  /** Application index 0 */
   static readonly zeroIndex: AppID;
 
+  /** The approval program for the application */
   readonly approvalProgram: bytes;
 
+  /** The clear state program for the application */
   readonly clearStateProgram: bytes;
 
+  /** The number of reserved uint64s in global state */
   readonly globalNumUint: uint64;
 
+  /** The number of reserved byteslices in global state */
   readonly globalNumByteSlice: uint64;
 
+  /** The number of reserved uint64s in local state */
   readonly localNumUint: uint64;
 
+  /** The number of reserved byteslices in local state */
   readonly localNumByteSlice: uint64;
 
+  /** The number of extra program pages */
   readonly extraProgramPages: uint64;
 
+  /** The creator of this application */
   readonly creator: Address;
 
+  /** The contract address for this application */
   readonly address: Address;
 
+  /**
+   * Get the global state value for the given key. **MUST** use an as expression to specify the value type.
+   *
+   * @example Get an array from global state
+   * ```ts
+   * someApp.globalState('someKey') as uint64[];
+   * ```
+   */
   globalState(key: BytesLike): unknown;
 
+  /**
+   * Get the local state value for the given account and key. **MUST** use an as expression to specify the value type.
+   *
+   * @example Get an array from global state
+   * ```ts
+   * someApp.localState(this.txn.sender, 'someKey') as uint64[];
+   * ```
+   */
   localState(account: Address, key: BytesLike): unknown;
-}
-
-declare class EventLogger<ArgumentTypes extends Object> {
-  log(args: ArgumentTypes): void;
 }
 
 declare class AppReference extends AppID {}
 
+/** Used to log ARC28 events */
+declare class EventLogger<ArgumentTypes extends Object> {
+  /** Log the event with the given arguments */
+  log(args: ArgumentTypes): void;
+}
+
+/** A value saved in box storage */
 declare type BoxValue<ValueType> = {
   value: ValueType;
   delete: () => void;
@@ -503,35 +588,42 @@ declare type BoxValue<ValueType> = {
   splice(offset: uint64, length: uint64, data: bytes): void;
 };
 
+/** A single key in box storage */
 declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boolean }): BoxValue<ValueType>;
 
+/** A mapping of one type to another in box storage. Each key is a seperate box. */
 declare function BoxMap<KeyType, ValueType>(options?: {
   dynamicSize?: boolean;
   prefix?: string;
   allowPotentialCollisions?: boolean;
 }): (key: KeyType) => BoxValue<ValueType>;
 
+/** A value saved in global state */
 declare type GlobalStateValue<ValueType> = {
   value: ValueType;
   delete: () => void;
   exists: boolean;
 };
 
+/** A single key in global state */
 declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>;
+/** A mapping of one type to another in global state */
 declare function GlobalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
   allowPotentialCollisions?: boolean;
 }): (key: KeyType) => GlobalStateValue<ValueType>;
 
+/** A value saved in local state */
 declare type LocalStateValue<ValueType> = {
   value: ValueType;
   delete: () => void;
   exists: boolean;
 };
 
+/** A single key in local state */
 declare function LocalStateKey<ValueType>(options?: { key?: string }): (account: Address) => LocalStateValue<ValueType>;
-
+/** A mapping of one type to another in local state */
 declare function LocalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
   prefix?: string;
@@ -541,37 +633,67 @@ declare function LocalStateMap<KeyType, ValueType>(options: {
 type IntLike = uint64 | AssetID | AppID | boolean | number;
 
 interface CommonTransactionParams {
+  /** The fee paid for this transaction */
   fee?: uint64;
+  /** The sender of this transaction. This is the account that pays the fee (if non-zero) */
   sender?: Address;
+  /** If set, changes the authAddr of `sender` to the given address  */
   rekeyTo?: Address;
+  /** The note field for this transaction */
   note?: string;
 }
 
 interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
+  /** The index of this transaction in its group */
   groupIndex: uint64;
+  /** The transaction ID for this transaction */
   txID: string;
 }
 
 interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
+  /** The asset created by this application call */
   createdAssetID: AssetID;
+  /** The application created by this application call */
   createdApplicationID: AppID;
+  /** The last log emitted by this application call */
   lastLog: bytes;
+  /** The application that was called */
   applicationID: AppID;
+  /** The number of application arguments */
   numAppArgs: uint64;
+  /** The number of accounts in the foreign accounts array */
   numAccounts: uint64;
+  /** The number of assets in the foreign assets array */
   numAssets: uint64;
+  /** The number of applications in the foreign applications array */
   numApplicatons: uint64;
+  /** The number of logs emitted by this application call */
   numLogs: uint64;
+  /** The number of pages used by the approval program */
   numApprovalProgrammPages: uint64;
+  /** The number of pages used by the clear state program */
   numClearStateProgramPages: uint64;
+  /**
+   * Load the value in the given scratch slot. **MUST** use an `as` expression to specify the value type.
+   *
+   * @example Loading scratch slot 0
+   * ```ts
+   * someAppCall.loadScratch(0) as uint64;
+   * ```
+   */
   loadScratch: (slot: uint64) => unknown;
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
+  /** The asset being transfed */
   xferAsset: AssetID;
+  /** The amount of the asset being transferred */
   assetAmount: uint64;
+  /** The clawback target */
   assetSender?: Address;
+  /** The receiver of the asset */
   assetReceiver: Address;
+  /** The address to close the asset to */
   assetCloseTo?: Address;
 }
 
@@ -604,8 +726,11 @@ interface AssetFreezeParams extends CommonTransactionParams {
 }
 
 interface PaymentParams extends CommonTransactionParams {
+  /** The amount, in microALGO, to transfer */
   amount?: uint64;
+  /** The address of the receiver */
   receiver?: Address;
+  /** If set, bring the sender balance to 0 and send all remaining balance to this address */
   closeRemainderTo?: Address;
 }
 
@@ -728,10 +853,31 @@ declare const blocks: {
   timestamp: uint64;
 }[];
 
+/**
+ * Given an ABI method signature, return the method selector
+ *
+ * @param signature - The method signature
+ *
+ * @example checking the method selector
+ * ```ts
+ * verifyAppCallTxn(
+ * someAppCall,
+ * { applicationArgs: { 0: method('add(uint64,uint64)uint64') }
+ * })
+ * ```
+ */
 declare function method(signature: string): bytes;
+
+/**
+ * Given an address string, return the 32 byte public key
+ *
+ * @param address - The address string. MUST be a string literal.
+ */
 declare function addr(address: string): Address;
 
+/** Send a payment transaction */
 declare function sendPayment(params: Expand<PaymentParams>): void;
+/** Send an app call transaction */
 declare function sendAppCall(params: Expand<AppParams>): void;
 declare function sendAssetTransfer(params: Expand<AssetTransferParams>): void;
 declare function sendAssetCreation(params: Expand<AssetCreateParams>): AssetID;
@@ -1092,19 +1238,35 @@ declare function verifyKeyRegTxn(txn: Txn | KeyRegTxn, params: KeyRegTxnVerifica
 
 declare type decorator = (target: Object, key: string | symbol, descriptor: PropertyDescriptor) => PropertyDescriptor;
 
+/**
+ * The allow decorators are used to specify when specific [OnComplete](https://developer.algorand.org/docs/get-details/dapps/avm/teal/specification/#oncomplete) operations are allowed after logic evaluation.
+ * The OnComplete can be allowed on applicaiton creation via `@allow.create` or on non-create calls via `@allow.call`
+ * By defualt, all methods are allowed to be called with the `NoOp` OnComplete (`@allow.call('NoOp')`). Once a single `@allow` decorator is used, `@allow.call(NoOp)` must be explicitly set if it is desired.
+ *
+ * @example Allow opt in on create and call
+ * ```ts
+ * \@allow.create('OptIn') // Allow the creator to use this method to create the application and opt in at the same time
+ * \@allow.call('OptIn') // Also allow anyone to call this method to opt in
+ * foo() {
+ * ```
+ */
 declare class allow {
+  /** Specify an allowed OnComplete when the method is called */
   static call(
     onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'
   ): decorator;
 
+  /** Specify an allowed OnComplete when the method is used for contract creation */
   static create(
     onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'
   ): decorator;
 
+  /** When no the contract is called without an ABI method selector, allow this method logic to be evaluated for the given OnComplete */
   static bareCall(
     onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication'
   ): decorator;
 
+  /** When the contract is created without an ABI method selector, allow this method logic to be evaluated for the given OnComplete */
   static bareCreate(
     onComplete: 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication' = 'NoOp'
   ): decorator;

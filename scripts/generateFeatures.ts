@@ -33,7 +33,31 @@ arcs.forEach((arc) => {
   lines.push(`| ${arc.arc} | ${arc.name} | ${arc.desc} |`);
 });
 
-lines.push('');
+lines.push(...['', '## ABI Types', '| ABI Type | TEALScript |', '| --- | --- |']);
+
+const types = {
+  '`address`': '`Address`',
+  '`uintN`': '`uint64`, `uint32`, `uint16`, `uint8`, `uint128`, `uint256`, or `uint<N>`',
+  '`bool`': '`boolean`',
+  '`ufixedNxM`': '`ufixed<N, M>`',
+  '`T[]`': '`T[]`',
+  '`T[N]`': '`StaticArray<T, N>`, `bytes32`, or `bytes64`',
+  '`[T1, T2, ..., TN]`': '`[T1, T2, ..., TN]` or `{keyone: T1, keytwo: T2, ..., keyN: TN}`',
+  '`string`': '`string`',
+  '`application`': '`Application`',
+  '`asset`': '`Asset`',
+  '`account`': '`Account`',
+  '`txn`': '`Txn`',
+  '`pay`': '`PayTxn`',
+  '`keyreg`': '`KeyRegTxn`',
+  '`acfg`': '`AssetConfigTxn`',
+  '`axfer`': '`AssetTransferTxn`',
+  '`afrz`': '`AssetFreezeTxn`',
+};
+
+Object.keys(types).forEach((key) => {
+  lines.push(`| ${key} | ${types[key]} |`);
+});
 
 lines.push('## Opcodes');
 const ops = {};
@@ -98,10 +122,10 @@ const tealscriptMapping = {
   '`this.pendingGroup.add...`': ['itxn_next'],
   '`this.itxn`': ['itxn', 'itxna', 'itxnas'],
   'Method call on `GlobalStateKey` on `GlobalStateMap`': ['app_global_get', 'app_global_put', 'app_global_del'],
-  '`AppID.global()`': ['app_global_get_ex'],
+  '`Application.global()`': ['app_global_get_ex'],
   '`globals`': 'global',
   'Method call on LocalStateKey on `LocalStateMap`': ['app_local_get', 'app_local_put', 'app_local_del'],
-  '`AppID.local()`': ['app_local_get_ex'],
+  '`Application.local()`': ['app_local_get_ex'],
   '`**`': 'exp',
   '`.length` on bytes': ['len'],
   '`concat` or `+`': 'concat',
@@ -137,8 +161,8 @@ const tealscriptMapping = {
   '`Address.balance` and `Address.hasBalance`': ['balance'],
   '`Address.isOptedInToApp()`': ['app_opted_in'],
   '`Address.assetBalance` and `Address.hasAsset`': ['asset_holding_get'],
-  'Method calls on `AssetID`': ['asset_params_get'],
-  'Method calls on `AppID`': ['app_params_get'],
+  'Method calls on `Asset`': ['asset_params_get'],
+  'Method calls on `Application`': ['app_params_get'],
   'Method calls on `Address`': ['acct_params_get'],
   '`Address.minBalance`': ['min_balance'],
   '`this.lastInnerGroup`': ['gitxn', 'gitxna', 'gitxnas'],
@@ -176,7 +200,12 @@ Object.keys(ops).forEach((group) => {
   ops[group].forEach((op) => {
     const desc = Object.keys(tealscriptMapping).find((key) => tealscriptMapping[key].includes(op));
 
-    lines.push(`| ${op} | ${desc ?? 'Not yet supported or tested'} |`);
+    let opcodeString = op;
+    if (op === '||') opcodeString = '\\|\\|';
+    if (op === '|') opcodeString = '\\|';
+    if (op === 'b|') opcodeString = 'b\\|';
+
+    lines.push(`| \`${opcodeString}\` | ${desc ?? 'Not yet supported or tested'} |`);
   });
 });
 

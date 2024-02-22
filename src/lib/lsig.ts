@@ -12,7 +12,7 @@ export default abstract class LogicSig {
    */
   static extend: typeof classes;
 
-  static address: () => bytes;
+  static address: () => Address;
 
   static program: () => bytes;
 
