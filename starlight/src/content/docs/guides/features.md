@@ -1,3 +1,7 @@
+---
+title: Supported AVM Features
+---
+
 # Supported AVM Features
 
 ## ARCS
@@ -19,9 +23,9 @@
 | `T[N]` | `StaticArray<T, N>`, `bytes32`, or `bytes64` |
 | `[T1, T2, ..., TN]` | `[T1, T2, ..., TN]` or `{keyone: T1, keytwo: T2, ..., keyN: TN}` |
 | `string` | `string` |
-| `application` | `Application` |
-| `asset` | `Asset` |
-| `account` | `Account` |
+| `application` | `ApplicationReference` |
+| `asset` | `AssetReference` |
+| `account` | `AccountReference` |
 | `txn` | `Txn` |
 | `pay` | `PayTxn` |
 | `keyreg` | `KeyRegTxn` |
@@ -185,16 +189,16 @@
 | `balance` | `Address.balance` and `Address.hasBalance` |
 | `app_opted_in` | `Address.isOptedInToApp()` |
 | `app_local_get` | Method call on LocalStateKey on `LocalStateMap` |
-| `app_local_get_ex` | `Application.local()` |
+| `app_local_get_ex` | `AppID.local()` |
 | `app_global_get` | Method call on `GlobalStateKey` on `GlobalStateMap` |
-| `app_global_get_ex` | `Application.global()` |
+| `app_global_get_ex` | `AppID.global()` |
 | `app_local_put` | Method call on LocalStateKey on `LocalStateMap` |
 | `app_global_put` | Method call on `GlobalStateKey` on `GlobalStateMap` |
 | `app_local_del` | Method call on LocalStateKey on `LocalStateMap` |
 | `app_global_del` | Method call on `GlobalStateKey` on `GlobalStateMap` |
-| `asset_holding_get` | `Address.assetBalance` and `Address.hasAsset` |
-| `asset_params_get` | Method calls on `Asset` |
-| `app_params_get` | Method calls on `Application` |
+| `asset_holding_get` | `Address.assetBalance` and `Address.isOptedInToAsset` |
+| `asset_params_get` | Method calls on `AssetID` |
+| `app_params_get` | Method calls on `AppID` |
 | `acct_params_get` | Method calls on `Address` |
 | `min_balance` | `Address.minBalance` |
 | `log` | `log` or `EventEmitter` |
