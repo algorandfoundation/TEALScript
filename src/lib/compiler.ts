@@ -3580,6 +3580,17 @@ export default class Compiler {
         storageName = getStorageName(node.getExpression() as ts.PropertyAccessExpression);
       } else storageName = getStorageName(node);
 
+      if (this.scratch[storageName!]) {
+        const scratch = this.scratch[storageName!];
+        const { slot, type } = scratch;
+
+        typeComparison(this.lastType, type);
+        if (slot !== undefined) {
+          this.pushVoid(node, `store ${slot}`);
+        }
+
+        return;
+      }
       const storageProp = this.storageProps[storageName!];
 
       const { type, valueType } = storageProp;
@@ -4545,7 +4556,7 @@ export default class Compiler {
           .getFirstChild()
           ?.getType()
           .getText()
-          .match(/(Box|LocalState|GlobalState)Value/);
+          .match(/(Scratch|Box|LocalState|GlobalState)Value/);
 
         const isExprChain =
           leftNode.isKind(ts.SyntaxKind.ElementAccessExpression) ||
