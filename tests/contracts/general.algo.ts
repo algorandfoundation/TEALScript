@@ -443,4 +443,16 @@ class GeneralTest extends Contract {
     this.dynamicScratch(1).value = 1337;
     assert(this.dynamicScratch(1).value === 1337);
   }
+
+  incrementScratchSlot(): void {
+    this.scratch.value = 1337;
+    this.scratch.value += 1;
+    assert(this.scratch.value === 1338);
+  }
+
+  incrementDynamicScratchSlot(): void {
+    this.dynamicScratch(2).value = 1337;
+    this.dynamicScratch(2).value += 1;
+    assert(this.dynamicScratch(2).value === 1338);
+  }
 }
