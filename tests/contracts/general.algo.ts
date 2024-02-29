@@ -45,6 +45,8 @@ class GeneralTest extends Contract {
 
   scratch = ScratchSlot<uint64>(0);
 
+  dynamicScratch = DynamicScratchSlot<uint64>();
+
   gKey = GlobalStateKey<uint64>();
 
   storageArray = GlobalStateKey<StaticArray<uint64, 3>>();
@@ -435,5 +437,10 @@ class GeneralTest extends Contract {
 
   staticTypeLen(): void {
     assert(len<uint256>());
+  }
+
+  dynamicScratchSlot(): void {
+    this.dynamicScratch(1).value = 1337;
+    assert(this.dynamicScratch(1).value === 1337);
   }
 }

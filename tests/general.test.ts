@@ -35,6 +35,7 @@ describe('General', function () {
       'stringPlusEquals',
       'callInternalPublicMethod',
       'opUp',
+      'dynamicScratchSlot',
     ].forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);

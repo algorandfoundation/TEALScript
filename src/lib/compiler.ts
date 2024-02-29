@@ -499,7 +499,7 @@ type NodeAndTEAL = {
 export default class Compiler {
   static diagsRan: string[] = [''];
 
-  private scratch: { [name: string]: { slot: number; type: TypeInfo } } = {};
+  private scratch: { [name: string]: { slot?: number; type: TypeInfo } } = {};
 
   private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
@@ -5415,6 +5415,13 @@ export default class Compiler {
         throw Error('Scratch slot must be between 0 and 200 (inclusive). 201-256 is reserved for the compiler');
 
       this.scratch[name] = { type, slot };
+    } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'DynamicScratchSlot') {
+      if (init.getTypeArguments()?.length !== 1) throw Error('ScratchSlot must have one type argument ');
+
+      const type = this.getTypeInfo(init.getTypeArguments()[0].getType());
+      const name = node.getNameNode().getText();
+
+      this.scratch[name] = { type };
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'TemplateVar') {
       if (init.getTypeArguments()?.length !== 1) throw Error('TemplateVar must have one type argument ');
 
@@ -5610,21 +5617,46 @@ export default class Compiler {
 
     // If this is a scratch slot
     if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) && this.scratch[chain[0].getNameNode().getText()]) {
-      if (!chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression))
-        throw Error(`Invalid scratch expression ${chain[1].getText()}`);
-      if (chain[1].getNameNode().getText() !== 'value') throw Error(`Invalid scratch expression ${chain[1].getText()}`);
-
       const name = chain[0].getNameNode().getText();
 
-      if (newValue !== undefined) {
-        this.processNewValue(newValue);
-        typeComparison(this.lastType, this.scratch[name].type);
-        this.push(chain[1], `store ${this.scratch[name].slot}`, this.scratch[name].type);
+      let slot: number | undefined;
+
+      // If this is a dynamic scratch slot
+      if (
+        chain[1].isKind(ts.SyntaxKind.CallExpression) &&
+        chain[2].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+        chain[2].getName() === 'value'
+      ) {
+        this.processNode(chain[1].getArguments()[0]);
+        typeComparison(this.lastType, StackType.uint64);
+      }
+      // else if this is a static scratch slot
+      else if (chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression) && chain[1].getName() === 'value') {
+        slot = this.scratch[name].slot;
       } else {
-        this.push(chain[1], `load ${this.scratch[name].slot}`, this.scratch[name].type);
+        throw Error(`Invalid scratch expression ${chain[1].getText()}`);
       }
 
-      chain.splice(0, 2);
+      let opcode: string;
+
+      if (newValue !== undefined) {
+        this.processNode(newValue);
+        typeComparison(this.lastType, this.scratch[name].type);
+        opcode = 'store';
+      } else {
+        opcode = 'load';
+      }
+
+      if (slot !== undefined) {
+        opcode += ` ${slot}`;
+      } else {
+        opcode += 's';
+      }
+
+      this.push(chain[1], opcode, this.scratch[name].type);
+
+      chain.splice(0, slot === undefined ? 3 : 2);
+
       return;
     }
 
