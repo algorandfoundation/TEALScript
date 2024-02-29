@@ -5628,6 +5628,7 @@ export default class Compiler {
         chain[2].getName() === 'value'
       ) {
         this.processNode(chain[1].getArguments()[0]);
+        typeComparison(this.lastType, StackType.uint64);
       }
       // else if this is a static scratch slot
       else if (chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression) && chain[1].getName() === 'value') {
