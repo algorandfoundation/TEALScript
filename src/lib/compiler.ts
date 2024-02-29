@@ -3587,6 +3587,12 @@ export default class Compiler {
         typeComparison(this.lastType, type);
         if (slot !== undefined) {
           this.pushVoid(node, `store ${slot}`);
+        } else {
+          const call = node.getDescendantsOfKind(ts.SyntaxKind.CallExpression)[0];
+
+          this.processNode(call.getArguments()[0]);
+          this.pushVoid(node, 'swap');
+          this.pushVoid(node, `stores`);
         }
 
         return;
