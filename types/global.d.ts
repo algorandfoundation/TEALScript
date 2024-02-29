@@ -1321,6 +1321,8 @@ declare type ScratchValue<ValueType> = {
 
 declare function ScratchSlot<ValueType>(slot: number): ScratchValue<ValueType>;
 
+declare function DynamicScratchSlot<ValueType>(): (slot: number) => ScratchValue<ValueType>;
+
 /**
  * Send an inner transaction app call to increase the current opcode budget.
  * This will also send any pending transaction in the same group.
