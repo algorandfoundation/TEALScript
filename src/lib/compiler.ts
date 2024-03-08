@@ -2879,7 +2879,7 @@ export default class Compiler {
   private hasMaybeValue(node: ts.Node, opcode: string) {
     this.pushVoid(node, opcode);
     this.pushVoid(node, 'swap');
-    this.push(node, 'pop', StackType.uint64);
+    this.push(node, 'pop', { kind: 'base', type: 'bool' });
   }
 
   private pushComments(node: ts.Node) {
