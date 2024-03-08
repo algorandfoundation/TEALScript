@@ -37,13 +37,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 plusEqualsObjValueInBox:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1260
+	// tests/contracts/abi.algo.ts:1251
 	// this.bMap('bMap').value = { foo: 3, bar: 4 }
 	byte 0x624d6170 // "bMap"
 	byte 0x00000000000000030000000000000004
 	box_put
 
-	// tests/contracts/abi.algo.ts:1261
+	// tests/contracts/abi.algo.ts:1252
 	// this.bMap('bMap').value.bar += 1
 	int 8 // headOffset
 	byte 0x624d6170 // "bMap"
@@ -58,7 +58,7 @@ plusEqualsObjValueInBox:
 	cover 2
 	box_replace
 
-	// tests/contracts/abi.algo.ts:1262
+	// tests/contracts/abi.algo.ts:1253
 	// return this.bMap('bMap').value;
 	byte 0x624d6170 // "bMap"
 	box_get

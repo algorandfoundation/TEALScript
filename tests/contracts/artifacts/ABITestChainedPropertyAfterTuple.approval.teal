@@ -39,12 +39,12 @@ chainedPropertyAfterTuple:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1182
+	// tests/contracts/abi.algo.ts:1173
 	// o: T7 = { foo: this.app.address }
 	global CurrentApplicationAddress
 	frame_bury 0 // o: T7
 
-	// tests/contracts/abi.algo.ts:1184
+	// tests/contracts/abi.algo.ts:1175
 	// assert(!o.foo.isOptedInToAsset(asa))
 	frame_dig 0 // o: T7
 	extract 0 32

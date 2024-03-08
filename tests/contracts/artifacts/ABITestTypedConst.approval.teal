@@ -35,12 +35,12 @@ maxPools:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1300
+	// tests/contracts/abi.algo.ts:1291
 	// uint16Var: uint16 = 256
 	int 256
 	frame_bury 0 // uint16Var: uint16
 
-	// tests/contracts/abi.algo.ts:1301
+	// tests/contracts/abi.algo.ts:1292
 	// assert(uint16Var === UINT16_CONST)
 	int 256 // uint16Var: uint16
 	int 256

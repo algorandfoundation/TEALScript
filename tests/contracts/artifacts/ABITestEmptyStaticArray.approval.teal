@@ -40,12 +40,12 @@ emptyStaticArray:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:851
+	// tests/contracts/abi.algo.ts:842
 	// a: StaticArray<uint16, 3> = []
 	byte 0x000000000000
 	frame_bury 0 // a: StaticArray<uint16, 3>
 
-	// tests/contracts/abi.algo.ts:853
+	// tests/contracts/abi.algo.ts:844
 	// return a;
 	frame_dig 0 // a: StaticArray<uint16, 3>
 

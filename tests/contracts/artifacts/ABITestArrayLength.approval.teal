@@ -41,12 +41,12 @@ arrayLength:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:744
+	// tests/contracts/abi.algo.ts:735
 	// a: uint<8>[] = [11, 22, 33, 44, 55]
 	byte 0x0b16212c37
 	frame_bury 0 // a: uint<8>[]
 
-	// tests/contracts/abi.algo.ts:746
+	// tests/contracts/abi.algo.ts:737
 	// return a.length;
 	frame_dig 0 // a: uint<8>[]
 	len

@@ -4609,6 +4609,10 @@ export default class Compiler {
 
     const isMathOp = ['+', '-', '*', '/', '%', 'exp', '|', '&', '^'].includes(operator);
 
+    if ((isMathOp && leftTypeStr.startsWith('ufixed')) || rightTypeStr.startsWith('ufixed')) {
+      throw Error('ufixed math is not supported in TEALScript');
+    }
+
     if (leftNode.getType().isNumberLiteral()) {
       this.processNumericLiteralWithType(leftNode, rightType);
     } else this.processNode(leftNode);
@@ -4648,17 +4652,6 @@ export default class Compiler {
 
     if (isMathOp && !isNumeric(leftType) && !leftTypeStr.startsWith('ufixed64') && leftTypeStr !== 'bigint') {
       this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr}` };
-    }
-
-    if (leftTypeStr.match(/ufixed\d+x\d+$/) && isMathOp) {
-      const width = parseInt(leftTypeStr.match(/\d+/)?.[0] || '512', 10);
-      const precision = parseInt(leftTypeStr.match(/\d+$/)![0], 10);
-
-      if (width <= 64) {
-        this.pushLines(node, `int ${BigInt(10) ** BigInt(precision)}`, '/');
-      } else {
-        this.pushLines(node, `byte 0x${(BigInt(10) ** BigInt(precision)).toString(16)}`, `b/`);
-      }
     }
 
     if (leftTypeStr.startsWith('unsafe') || rightTypeStr.startsWith('unsafe')) {

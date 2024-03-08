@@ -41,7 +41,7 @@ nestedStaticArrayLength:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1423
+	// tests/contracts/abi.algo.ts:1414
 	// a: StaticArray<StaticArray<uint8, 5>, 3> = [
 	//       [11, 22, 33, 44, 55],
 	//       [66, 77, 88, 99, 100],
@@ -50,7 +50,7 @@ nestedStaticArrayLength:
 	byte 0x0b16212c37424d5863646566676869
 	frame_bury 0 // a: StaticArray<StaticArray<uint8, 5>, 3>
 
-	// tests/contracts/abi.algo.ts:1429
+	// tests/contracts/abi.algo.ts:1420
 	// return a[0].length;
 	frame_dig 0 // a: StaticArray<StaticArray<uint8, 5>, 3>
 	int 5

@@ -37,27 +37,27 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 nestedStructInBoxMap:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1289
+	// tests/contracts/abi.algo.ts:1280
 	// this.bMap('bMap').value = { foo: { bar: 1 } }
 	byte 0x624d6170 // "bMap"
 	byte 0x01
 	box_put
 
-	// tests/contracts/abi.algo.ts:1290
+	// tests/contracts/abi.algo.ts:1281
 	// this.bMap('bMap').value.foo.bar = 3
 	byte 0x624d6170 // "bMap"
 	int 0
 	byte 0x03
 	box_replace
 
-	// tests/contracts/abi.algo.ts:1291
+	// tests/contracts/abi.algo.ts:1282
 	// this.bMap('bMap').value.foo.bar = <uint8>2
 	byte 0x624d6170 // "bMap"
 	int 0
 	byte 0x02
 	box_replace
 
-	// tests/contracts/abi.algo.ts:1292
+	// tests/contracts/abi.algo.ts:1283
 	// return this.bMap('bMap').value;
 	byte 0x624d6170 // "bMap"
 	box_get

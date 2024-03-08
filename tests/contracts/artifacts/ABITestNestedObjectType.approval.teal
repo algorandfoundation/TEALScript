@@ -41,19 +41,19 @@ nestedObjectType:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1105
+	// tests/contracts/abi.algo.ts:1096
 	// a: T4 = { b: { c: { d: 1 } } }
 	byte 0x0000000000000001
 	frame_bury 0 // a: T4
 
-	// tests/contracts/abi.algo.ts:1106
+	// tests/contracts/abi.algo.ts:1097
 	// a.b.c.d = 2
 	frame_dig 0 // a: T4
 	byte 0x0000000000000002
 	replace2 0
 	frame_bury 0 // a: T4
 
-	// tests/contracts/abi.algo.ts:1107
+	// tests/contracts/abi.algo.ts:1098
 	// return a.b.c.d;
 	frame_dig 0 // a: T4
 	extract 0 8

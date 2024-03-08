@@ -44,7 +44,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 globalMethodInChain:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1070
+	// tests/contracts/abi.algo.ts:1061
 	// return castBytes<T1>(hex('0x00')).bar;
 	int 0
 	retsub

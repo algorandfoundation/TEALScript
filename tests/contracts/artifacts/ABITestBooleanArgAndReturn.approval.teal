@@ -51,7 +51,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 booleanArgAndReturn:
 	proto 1 1
 
-	// tests/contracts/abi.algo.ts:882
+	// tests/contracts/abi.algo.ts:873
 	// return a;
 	frame_dig -1 // a: boolean
 	retsub

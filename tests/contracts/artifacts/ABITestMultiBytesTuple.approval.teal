@@ -37,7 +37,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 multiBytesTuple:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1228
+	// tests/contracts/abi.algo.ts:1219
 	// return [hex('0x01'), hex('0x02')];
 	byte 0x // initial head
 	byte 0x // initial tail

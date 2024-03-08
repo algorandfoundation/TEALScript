@@ -60,7 +60,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 uintCasting:
 	proto 1 1
 
-	// tests/contracts/abi.algo.ts:1198
+	// tests/contracts/abi.algo.ts:1189
 	// return <uint256>a;
 	frame_dig -1 // a: uint<8>
 	itob

@@ -51,12 +51,12 @@ extractUint:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1128
+	// tests/contracts/abi.algo.ts:1119
 	// x = <uint<8>>arg
 	frame_dig -1 // arg: uint64
 	frame_bury 0 // x: unsafe uint8
 
-	// tests/contracts/abi.algo.ts:1129
+	// tests/contracts/abi.algo.ts:1120
 	// return x;
 	frame_dig 0 // x: unsafe uint8
 

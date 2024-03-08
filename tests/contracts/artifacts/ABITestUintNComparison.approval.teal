@@ -57,7 +57,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 uintNComparison:
 	proto 2 1
 
-	// tests/contracts/abi.algo.ts:1268
+	// tests/contracts/abi.algo.ts:1259
 	// return x >= y;
 	frame_dig -1 // x: uint256
 	frame_dig -2 // y: uint256

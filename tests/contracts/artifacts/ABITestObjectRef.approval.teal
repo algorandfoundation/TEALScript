@@ -40,19 +40,19 @@ objectRef:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:995
+	// tests/contracts/abi.algo.ts:986
 	// o: { foo: uint64 } = { foo: 1 }
 	byte 0x0000000000000001
 	frame_bury 0 // o: { foo: uint64 }
 
-	// tests/contracts/abi.algo.ts:999
+	// tests/contracts/abi.algo.ts:990
 	// r.foo = 2
 	frame_dig 0 // o: { foo: uint64 }
 	byte 0x0000000000000002
 	replace2 0
 	frame_bury 0 // r: { foo: uint64 }
 
-	// tests/contracts/abi.algo.ts:1001
+	// tests/contracts/abi.algo.ts:992
 	// return o;
 	frame_dig 0 // o: { foo: uint64 }
 

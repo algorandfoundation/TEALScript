@@ -46,7 +46,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 uint64Casting:
 	proto 1 1
 
-	// tests/contracts/abi.algo.ts:1204
+	// tests/contracts/abi.algo.ts:1195
 	// return a as uint64;
 	frame_dig -1 // a: uint256
 	dup

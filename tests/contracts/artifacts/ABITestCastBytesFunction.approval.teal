@@ -37,7 +37,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 castBytesFunction:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1056
+	// tests/contracts/abi.algo.ts:1047
 	// return castBytes<StaticArray<uint<8>, 3>>(hex('0x010203'));
 	byte 0x010203
 	retsub

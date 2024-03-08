@@ -730,15 +730,6 @@ class ABITestTxnTypes extends Contract {
   }
 }
 
-class ABITestUfixed extends Contract {
-  ufixed(): ufixed<64, 2> {
-    const a = 1.23 as ufixed<64, 2>;
-    const b = 4.56 as ufixed<64, 2>;
-
-    return a + b;
-  }
-}
-
 class ABITestArrayLength extends Contract {
   arrayLength(): uint64 {
     const a: uint<8>[] = [11, 22, 33, 44, 55];

@@ -43,7 +43,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 bytesReturn:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1135
+	// tests/contracts/abi.algo.ts:1126
 	// return 'foo';
 	byte 0x666f6f // "foo"
 	retsub

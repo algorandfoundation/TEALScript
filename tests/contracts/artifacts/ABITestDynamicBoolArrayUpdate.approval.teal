@@ -40,7 +40,7 @@ dynamicBoolArrayUpdate:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:966
+	// tests/contracts/abi.algo.ts:957
 	// a: boolean[] = [true, false, true, true, false, false, true, false, false]
 	byte 0x0009
 	byte 0x0000
@@ -74,7 +74,7 @@ dynamicBoolArrayUpdate:
 	concat
 	frame_bury 0 // a: boolean[]
 
-	// tests/contracts/abi.algo.ts:968
+	// tests/contracts/abi.algo.ts:959
 	// a[8] = true
 	frame_dig 0 // a: boolean[]
 	store 255 // full array
@@ -84,7 +84,7 @@ dynamicBoolArrayUpdate:
 	setbit
 	frame_bury 0 // a: boolean[]
 
-	// tests/contracts/abi.algo.ts:970
+	// tests/contracts/abi.algo.ts:961
 	// return a;
 	frame_dig 0 // a: boolean[]
 

@@ -37,7 +37,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 staticByteCasting:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1050
+	// tests/contracts/abi.algo.ts:1041
 	// return 'abc' as bytes<5>;
 	byte 0x6162630000 // "abc"
 	retsub
