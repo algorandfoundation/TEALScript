@@ -14,7 +14,7 @@ class Calculator extends Contract {
    *
    * @returns The sum
    */
-  doMath(a: number, b: number): number {
+  doMath(a: uint64, b: uint64): uint64 {
     return a + b;
   }
 }`;
