@@ -21,7 +21,7 @@ In TEALScript, there is no concept of `MaybeValue`. For every opcode that would 
 
 ```ts
 class BalanceApp extends Contract {
-    counters = BoxMap<Address, number>();
+    counters = BoxMap<Address, uint64>();
 
     getBalance(addr: Address): void {
         // Set balance to 0 if addr balance doesn't exist

@@ -14,9 +14,9 @@ To modify the logic executed upon applicaiton creation (for example, to set defa
 
 ```typescript
 class Counter extends Contract {
-  counter = GlobalStateKey<number>();
+  counter = GlobalStateKey<uint64>();
 
-  createApplication(startingNumber: number): void {
+  createApplication(startingNumber: uint64): void {
     this.counter.value = startingNumber
   }
 }
@@ -24,15 +24,15 @@ class Counter extends Contract {
 
 ### Implementing a updateApplication Method
 
-By defualt, TEALScript contracts cannot be updated. To allow a contract to be updated, a method that overrides `Contract.updateApplication` must be implemented.
+By default, TEALScript contracts cannot be updated. To allow a contract to be updated, a method that overrides `Contract.updateApplication` must be implemented.
 
 #### Example
 
 ```typescript
 class Counter extends Contract {
-  counter = GlobalStateKey<number>();
+  counter = GlobalStateKey<uint64>();
 
-  createApplication(startingNumber: number): void {
+  createApplication(startingNumber: uint64): void {
     this.counter.value = startingNumber
   }
 
@@ -50,9 +50,9 @@ By defualt, TEALScript contracts cannot be deleted. To allow a contract to be de
 
 ```typescript
 class Counter extends Contract {
-  counter = GlobalStateKey<number>();
+  counter = GlobalStateKey<uint64>();
 
-  createApplication(startingNumber: number): void {
+  createApplication(startingNumber: uint64): void {
     this.counter.value = startingNumber
   }
 
@@ -74,7 +74,7 @@ To have more granular control on what OnComplete a specific method allows, use t
 
 ```typescript
 class Counter extends Contract {
-  counter = LocalStateKey<number>();
+  counter = LocalStateKey<uint64>();
 
   // This method will increment a counter in local state
   @allow.create('OptIn') // Allow an OptIn create so the creators counter can be set when creating the app

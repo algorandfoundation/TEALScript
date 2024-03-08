@@ -8,9 +8,9 @@ You can inherit another Contract or LogicSig in order to inherit all of the clas
 
 ```ts
 export class BaseContract extends Contract {
-    favoriteNumber = GlobalStateKey<number>()
+    favoriteNumber = GlobalStateKey<uint64>()
     
-    private setNumber(n: number): void {
+    private setNumber(n: uint64): void {
         this.favoriteNumber.value = n
     }
 }
@@ -30,9 +30,9 @@ TEALScript supports importing any `Contract`, `LogicSig`, const, or type from an
 ```ts
 // base_contract.algo.ts
 export class BaseContract extends Contract {
-    favoriteNumber = GlobalStateKey<number>()
+    favoriteNumber = GlobalStateKey<uint64>()
     
-    private setNumber(n: number): void {
+    private setNumber(n: uint64): void {
         this.favoriteNumber.value = n
     }
 }
@@ -56,7 +56,7 @@ To access the program or schema of another TEALScript app you can use the `.appr
 
 ```ts
 class TheApp extends Contract {
-  favoriteNumber = GlobalStateKey<number>();
+  favoriteNumber = GlobalStateKey<uint64>();
 
   createApplication(): void {
     this.favoriteNumber.value = 42;
