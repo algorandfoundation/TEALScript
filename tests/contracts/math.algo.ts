@@ -63,7 +63,7 @@ class MathTest extends Contract {
     return a ** b;
   }
 
-  plusEquals(a: number, b: number): number {
+  plusEquals(a: uint64, b: uint64): uint64 {
     let x = a;
 
     x += b;
@@ -71,7 +71,7 @@ class MathTest extends Contract {
     return x;
   }
 
-  plusEqualsFromGlobal(a: number, b: number): number {
+  plusEqualsFromGlobal(a: uint64, b: uint64): uint64 {
     this.gKey.value = a;
 
     this.gKey.value += b;

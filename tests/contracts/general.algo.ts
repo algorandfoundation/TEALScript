@@ -139,7 +139,7 @@ class GeneralTest extends Contract {
     /** Some app */
     app: AppID;
     /** Some number */
-    num: number;
+    num: uint64;
   }>();
 
   events(): void {

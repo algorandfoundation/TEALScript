@@ -10,7 +10,7 @@ type CustomType = uint256;
 const MY_CONST = 456;
 
 export class A extends Contract {
-  aKey = GlobalStateKey<number>({ key: 'a' });
+  aKey = GlobalStateKey<uint64>({ key: 'a' });
 
   a(): void {
     this.aKey.value = 1337;
@@ -18,7 +18,7 @@ export class A extends Contract {
 }
 
 export class B extends A {
-  bKey = GlobalStateKey<number>({ key: 'b' });
+  bKey = GlobalStateKey<uint64>({ key: 'b' });
 
   b(): void {
     assert(this.aKey.value === 1337);
@@ -34,7 +34,7 @@ export class C extends B {
 }
 
 export class D extends Contract {
-  dKey = GlobalStateKey<number>({ key: 'd' });
+  dKey = GlobalStateKey<uint64>({ key: 'd' });
 
   d(): void {
     this.dKey.value = 42;

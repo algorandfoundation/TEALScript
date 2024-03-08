@@ -637,7 +637,7 @@ uint8exp:
 	int 1
 	return
 
-// plusEquals(a: number, b: number): number
+// plusEquals(a: uint64, b: uint64): uint64
 plusEquals:
 	proto 2 1
 
@@ -646,13 +646,13 @@ plusEquals:
 
 	// tests/contracts/math.algo.ts:67
 	// x = a
-	frame_dig -1 // a: number
+	frame_dig -1 // a: uint64
 	frame_bury 0 // x: uint64
 
 	// tests/contracts/math.algo.ts:69
 	// x += b
 	frame_dig 0 // x: uint64
-	frame_dig -2 // b: number
+	frame_dig -2 // b: uint64
 	+
 	frame_bury 0 // x: uint64
 
@@ -685,21 +685,21 @@ plusEquals:
 	int 1
 	return
 
-// plusEqualsFromGlobal(a: number, b: number): number
+// plusEqualsFromGlobal(a: uint64, b: uint64): uint64
 plusEqualsFromGlobal:
 	proto 2 1
 
 	// tests/contracts/math.algo.ts:75
 	// this.gKey.value = a
 	byte 0x674b6579 // "gKey"
-	frame_dig -1 // a: number
+	frame_dig -1 // a: uint64
 	app_global_put
 
 	// tests/contracts/math.algo.ts:77
 	// this.gKey.value += b
 	byte 0x674b6579 // "gKey"
 	app_global_get
-	frame_dig -2 // b: number
+	frame_dig -2 // b: uint64
 	+
 	byte 0x674b6579 // "gKey"
 	swap

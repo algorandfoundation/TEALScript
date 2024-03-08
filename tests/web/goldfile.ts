@@ -44,7 +44,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 1
 	return
 
-// doMath(a: number, b: number): number
+// doMath(a: uint64, b: uint64): uint64
 //
 // A method that gets the sum of two numbers
 //
@@ -57,8 +57,8 @@ doMath:
 
 	// examples/calculator/calculator.algo.ts:14
 	// return a + b;
-	frame_dig -1 // a: number
-	frame_dig -2 // b: number
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
 	+
 	retsub
 

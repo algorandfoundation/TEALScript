@@ -1175,7 +1175,11 @@ export default class Compiler {
       type.isString() ||
       type.isNumber()
     ) {
-      return { kind: 'base', type: typeString.replace('number', 'uint64') };
+      if (typeString === 'number') {
+        throw Error(`number is no longer a supported type. Use uint64 instead`);
+      }
+
+      return { kind: 'base', type: typeString };
     }
 
     if (type.isNumberLiteral()) {

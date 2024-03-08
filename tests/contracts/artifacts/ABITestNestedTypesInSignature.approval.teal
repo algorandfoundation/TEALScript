@@ -33,7 +33,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 1
 	return
 
-// nestedTypesInSignature(): [T5, number]
+// nestedTypesInSignature(): [T5, uint64]
 nestedTypesInSignature:
 	proto 0 1
 
