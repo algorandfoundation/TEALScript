@@ -1124,7 +1124,7 @@ class ABITestUpdateArrayRefInBoxStorage extends Contract {
 }
 
 class ABITestExtractUint extends Contract {
-  extractUint(arg: number): uint<8> {
+  extractUint(arg: uint64): uint<8> {
     const x = <uint<8>>arg;
     return x;
   }
@@ -1141,7 +1141,7 @@ type T5 = {
   bar: uint64;
 };
 class ABITestNestedTypesInSignature extends Contract {
-  nestedTypesInSignature(): [T5, number] {
+  nestedTypesInSignature(): [T5, uint64] {
     return [bzero<T5>(), 0];
   }
 }

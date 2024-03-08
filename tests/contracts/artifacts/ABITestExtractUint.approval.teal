@@ -44,7 +44,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 1
 	return
 
-// extractUint(arg: number): uint<8>
+// extractUint(arg: uint64): uint<8>
 extractUint:
 	proto 1 1
 
@@ -53,7 +53,7 @@ extractUint:
 
 	// tests/contracts/abi.algo.ts:1128
 	// x = <uint<8>>arg
-	frame_dig -1 // arg: number
+	frame_dig -1 // arg: uint64
 	frame_bury 0 // x: unsafe uint8
 
 	// tests/contracts/abi.algo.ts:1129
