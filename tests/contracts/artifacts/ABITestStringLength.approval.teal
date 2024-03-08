@@ -41,12 +41,12 @@ stringLength:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:752
+	// tests/contracts/abi.algo.ts:743
 	// s = concat('foo ', 'bar')
 	byte 0x666f6f20626172
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/abi.algo.ts:754
+	// tests/contracts/abi.algo.ts:745
 	// return s.length;
 	frame_dig 0 // s: byte[]
 	len

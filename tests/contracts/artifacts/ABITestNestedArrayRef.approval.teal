@@ -40,7 +40,7 @@ nestedArrayRef:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:770
+	// tests/contracts/abi.algo.ts:761
 	// a: StaticArray<StaticArray<uint<8>, 2>, 2> = [
 	//       [1, 2],
 	//       [3, 4],
@@ -48,16 +48,16 @@ nestedArrayRef:
 	byte 0x01020304
 	frame_bury 0 // a: StaticArray<StaticArray<uint<8>, 2>, 2>
 
-	// tests/contracts/abi.algo.ts:774
+	// tests/contracts/abi.algo.ts:765
 	// b = a[1]
-	// tests/contracts/abi.algo.ts:776
+	// tests/contracts/abi.algo.ts:767
 	// b[1] = 5 as uint<8>
 	frame_dig 0 // a: StaticArray<StaticArray<uint<8>, 2>, 2>
 	byte 0x05
 	replace2 3
 	frame_bury 0 // b: StaticArray<StaticArray<uint<8>, 2>, 2>
 
-	// tests/contracts/abi.algo.ts:778
+	// tests/contracts/abi.algo.ts:769
 	// return a;
 	frame_dig 0 // a: StaticArray<StaticArray<uint<8>, 2>, 2>
 

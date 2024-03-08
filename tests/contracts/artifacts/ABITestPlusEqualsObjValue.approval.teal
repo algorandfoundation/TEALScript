@@ -40,12 +40,12 @@ plusEqualsObjValue:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1250
+	// tests/contracts/abi.algo.ts:1241
 	// a: { foo: uint64; bar: uint64 } = { foo: 3, bar: 4 }
 	byte 0x00000000000000030000000000000004
 	frame_bury 0 // a: { foo: uint64; bar: uint64 }
 
-	// tests/contracts/abi.algo.ts:1251
+	// tests/contracts/abi.algo.ts:1242
 	// a.bar += 1
 	frame_dig 0 // a: { foo: uint64; bar: uint64 }
 	int 8 // headOffset
@@ -58,7 +58,7 @@ plusEqualsObjValue:
 	replace3
 	frame_bury 0 // a: { foo: uint64; bar: uint64 }
 
-	// tests/contracts/abi.algo.ts:1252
+	// tests/contracts/abi.algo.ts:1243
 	// return a;
 	frame_dig 0 // a: { foo: uint64; bar: uint64 }
 

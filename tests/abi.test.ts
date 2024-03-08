@@ -421,11 +421,6 @@ describe('ABI', function () {
       await compileAndCreate('txnTypes');
     });
 
-    test('ufixed', async () => {
-      const { appClient } = await compileAndCreate('ufixed');
-      expect(await runMethod(appClient, 'ufixed')).toEqual(BigInt(Math.floor((123 + 456) / 100)));
-    });
-
     test('arrayLength', async () => {
       const { appClient } = await compileAndCreate('arrayLength');
       expect(await runMethod(appClient, 'arrayLength')).toEqual(BigInt(5));

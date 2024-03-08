@@ -42,29 +42,29 @@ storageRefKey:
 	byte 0x
 	dup
 
-	// tests/contracts/abi.algo.ts:1009
+	// tests/contracts/abi.algo.ts:1000
 	// this.gMap(0).value = [1, 2, 3]
 	byte 0x0000000000000000
 	byte 0x0003000000000000000100000000000000020000000000000003
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:1011
+	// tests/contracts/abi.algo.ts:1002
 	// i = 0
 	int 0
 	frame_bury 0 // i: uint64
 
-	// tests/contracts/abi.algo.ts:1013
+	// tests/contracts/abi.algo.ts:1004
 	// r = this.gMap(i).value
 	frame_dig 0 // i: uint64
 	itob
 	frame_bury 1 // storage key//r
 
-	// tests/contracts/abi.algo.ts:1015
+	// tests/contracts/abi.algo.ts:1006
 	// i = 1
 	int 1
 	frame_bury 0 // i: uint64
 
-	// tests/contracts/abi.algo.ts:1017
+	// tests/contracts/abi.algo.ts:1008
 	// r[1] = 4
 	frame_dig 1 // storage key//r
 	app_global_get
@@ -85,7 +85,7 @@ storageRefKey:
 	concat
 	app_global_put
 
-	// tests/contracts/abi.algo.ts:1019
+	// tests/contracts/abi.algo.ts:1010
 	// return this.gMap(0).value[1];
 	byte 0x0000000000000000
 	app_global_get

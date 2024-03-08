@@ -46,12 +46,12 @@ stringAccessor:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:843
+	// tests/contracts/abi.algo.ts:834
 	// s = concat('Hello ', 'World')
 	byte 0x48656c6c6f20576f726c64
 	frame_bury 0 // s: byte[]
 
-	// tests/contracts/abi.algo.ts:845
+	// tests/contracts/abi.algo.ts:836
 	// return s[1];
 	frame_dig 0 // s: byte[]
 	extract 1 1

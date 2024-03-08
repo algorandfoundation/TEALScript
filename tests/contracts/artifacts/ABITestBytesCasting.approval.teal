@@ -41,7 +41,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 bytesCasting:
 	proto 1 1
 
-	// tests/contracts/abi.algo.ts:1210
+	// tests/contracts/abi.algo.ts:1201
 	// return <bytes<2>>a;
 	frame_dig -1 // a: bytes
 	byte 0x0000

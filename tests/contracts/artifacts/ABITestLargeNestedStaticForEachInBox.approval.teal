@@ -42,7 +42,7 @@ largeNestedStaticForEachInBox:
 	byte 0x
 	dupn 4
 
-	// tests/contracts/abi.algo.ts:1367
+	// tests/contracts/abi.algo.ts:1358
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -57,19 +57,19 @@ largeNestedStaticForEachInBox:
 	itxn_field OnCompletion
 	itxn_submit
 
-	// tests/contracts/abi.algo.ts:1368
+	// tests/contracts/abi.algo.ts:1359
 	// this.bKey.create()
 	byte 0x624b6579 // "bKey"
 	int 4192
 	box_create
 	pop
 
-	// tests/contracts/abi.algo.ts:1369
+	// tests/contracts/abi.algo.ts:1360
 	// sum = 0
 	int 0
 	frame_bury 0 // sum: uint64
 
-	// tests/contracts/abi.algo.ts:1371
+	// tests/contracts/abi.algo.ts:1362
 	// this.bKey.value[1].forEach
 	int 32 // headOffset
 	int 4160
@@ -87,7 +87,7 @@ largeNestedStaticForEachInBox:
 	frame_bury 4 // v: uint512
 
 *forEach_0:
-	// tests/contracts/abi.algo.ts:1372
+	// tests/contracts/abi.algo.ts:1363
 	// sum += 1
 	frame_dig 0 // sum: uint64
 	int 1
@@ -111,7 +111,7 @@ largeNestedStaticForEachInBox:
 	b *forEach_0
 
 *forEach_0_end:
-	// tests/contracts/abi.algo.ts:1375
+	// tests/contracts/abi.algo.ts:1366
 	// return sum;
 	frame_dig 0 // sum: uint64
 

@@ -40,12 +40,12 @@ partialStaticArray:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:859
+	// tests/contracts/abi.algo.ts:850
 	// a: StaticArray<uint16, 3> = [1]
 	byte 0x000100000000
 	frame_bury 0 // a: StaticArray<uint16, 3>
 
-	// tests/contracts/abi.algo.ts:861
+	// tests/contracts/abi.algo.ts:852
 	// return a;
 	frame_dig 0 // a: StaticArray<uint16, 3>
 

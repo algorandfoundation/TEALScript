@@ -46,12 +46,12 @@ arrayRef:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:759
+	// tests/contracts/abi.algo.ts:750
 	// a: uint<8>[] = [1, 2, 3]
 	byte 0x010203
 	frame_bury 0 // a: uint<8>[]
 
-	// tests/contracts/abi.algo.ts:762
+	// tests/contracts/abi.algo.ts:753
 	// b[1] = 4 as uint<8>
 	frame_dig 0 // a: uint<8>[]
 	store 255 // full array
@@ -60,7 +60,7 @@ arrayRef:
 	replace2 1
 	frame_bury 0 // b: uint<8>[]
 
-	// tests/contracts/abi.algo.ts:764
+	// tests/contracts/abi.algo.ts:755
 	// return a;
 	frame_dig 0 // a: uint<8>[]
 

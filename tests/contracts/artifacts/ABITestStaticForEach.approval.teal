@@ -42,17 +42,17 @@ staticForEach:
 	byte 0x
 	dupn 4
 
-	// tests/contracts/abi.algo.ts:1317
+	// tests/contracts/abi.algo.ts:1308
 	// a: StaticArray<uint64, 3> = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury 0 // a: StaticArray<uint64, 3>
 
-	// tests/contracts/abi.algo.ts:1318
+	// tests/contracts/abi.algo.ts:1309
 	// sum = 0
 	int 0
 	frame_bury 1 // sum: uint64
 
-	// tests/contracts/abi.algo.ts:1320
+	// tests/contracts/abi.algo.ts:1311
 	// a.forEach
 	frame_dig 0 // a: StaticArray<uint64, 3>
 	dup
@@ -64,7 +64,7 @@ staticForEach:
 	frame_bury 4 // the offset we are extracting the next element from
 
 *forEach_0:
-	// tests/contracts/abi.algo.ts:1321
+	// tests/contracts/abi.algo.ts:1312
 	// sum += v
 	frame_dig 1 // sum: uint64
 	frame_dig 3 // v: uint64
@@ -89,7 +89,7 @@ staticForEach:
 	b *forEach_0
 
 *forEach_0_end:
-	// tests/contracts/abi.algo.ts:1323
+	// tests/contracts/abi.algo.ts:1314
 	// return sum;
 	frame_dig 1 // sum: uint64
 

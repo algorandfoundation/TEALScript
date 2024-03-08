@@ -40,7 +40,7 @@ boolTupleUpdate:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:976
+	// tests/contracts/abi.algo.ts:967
 	// a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean] = [
 	//       true,
 	//       false,
@@ -82,7 +82,7 @@ boolTupleUpdate:
 	setbit
 	frame_bury 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
-	// tests/contracts/abi.algo.ts:988
+	// tests/contracts/abi.algo.ts:979
 	// a[8] = true
 	frame_dig 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 	store 255 // full array
@@ -92,7 +92,7 @@ boolTupleUpdate:
 	setbit
 	frame_bury 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 
-	// tests/contracts/abi.algo.ts:989
+	// tests/contracts/abi.algo.ts:980
 	// return a;
 	frame_dig 0 // a: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 

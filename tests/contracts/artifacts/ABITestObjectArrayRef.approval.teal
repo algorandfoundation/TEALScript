@@ -40,7 +40,7 @@ objectArrayRef:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:826
+	// tests/contracts/abi.algo.ts:817
 	// a: ObjectRefType = {
 	//       foo: [
 	//         [1, 2],
@@ -50,16 +50,16 @@ objectArrayRef:
 	byte 0x01020304
 	frame_bury 0 // a: ObjectRefType
 
-	// tests/contracts/abi.algo.ts:833
+	// tests/contracts/abi.algo.ts:824
 	// c = b[1]
-	// tests/contracts/abi.algo.ts:835
+	// tests/contracts/abi.algo.ts:826
 	// c[1] = 5 as uint<8>
 	frame_dig 0 // a: ObjectRefType
 	byte 0x05
 	replace2 3
 	frame_bury 0 // c: ObjectRefType
 
-	// tests/contracts/abi.algo.ts:837
+	// tests/contracts/abi.algo.ts:828
 	// return a;
 	frame_dig 0 // a: ObjectRefType
 

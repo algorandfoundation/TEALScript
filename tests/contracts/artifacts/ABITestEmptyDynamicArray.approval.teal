@@ -45,7 +45,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 emptyDynamicArray:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:877
+	// tests/contracts/abi.algo.ts:868
 	// return [];
 	byte 0x
 	retsub

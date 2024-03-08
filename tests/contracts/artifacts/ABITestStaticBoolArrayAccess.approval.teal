@@ -44,7 +44,7 @@ staticBoolArrayAccess:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:932
+	// tests/contracts/abi.algo.ts:923
 	// a: StaticArray<boolean, 9> = [true, false, true, true, false, false, true, false, false]
 	byte 0x0000
 	int 0
@@ -76,7 +76,7 @@ staticBoolArrayAccess:
 	setbit
 	frame_bury 0 // a: StaticArray<boolean, 9>
 
-	// tests/contracts/abi.algo.ts:934
+	// tests/contracts/abi.algo.ts:925
 	// return a[8];
 	frame_dig 0 // a: StaticArray<boolean, 9>
 	store 255 // full array
