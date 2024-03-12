@@ -730,15 +730,6 @@ class ABITestTxnTypes extends Contract {
   }
 }
 
-class ABITestUfixed extends Contract {
-  ufixed(): ufixed<64, 2> {
-    const a = 1.23 as ufixed<64, 2>;
-    const b = 4.56 as ufixed<64, 2>;
-
-    return a + b;
-  }
-}
-
 class ABITestArrayLength extends Contract {
   arrayLength(): uint64 {
     const a: uint<8>[] = [11, 22, 33, 44, 55];
@@ -1124,7 +1115,7 @@ class ABITestUpdateArrayRefInBoxStorage extends Contract {
 }
 
 class ABITestExtractUint extends Contract {
-  extractUint(arg: number): uint<8> {
+  extractUint(arg: uint64): uint<8> {
     const x = <uint<8>>arg;
     return x;
   }
@@ -1141,7 +1132,7 @@ type T5 = {
   bar: uint64;
 };
 class ABITestNestedTypesInSignature extends Contract {
-  nestedTypesInSignature(): [T5, number] {
+  nestedTypesInSignature(): [T5, uint64] {
     return [bzero<T5>(), 0];
   }
 }
@@ -1534,5 +1525,14 @@ class ABITestRefTypes extends Contract {
   refTypes(acct: AccountReference, app: AppReference, asa: AssetReference): void {
     assert(!acct.isOptedInToAsset(asa));
     assert(!app.address.isOptedInToAsset(asa));
+  }
+}
+
+class ABITestStaticTypeInBox extends Contract {
+  bMap = BoxMap<Address, Address>();
+
+  staticTypeInBox(): void {
+    this.bMap(this.txn.sender).value = this.txn.sender;
+    assert(this.bMap(this.txn.sender).value.isInLedger);
   }
 }
