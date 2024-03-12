@@ -5743,6 +5743,7 @@ export default class Compiler {
       if (
         action! !== 'value' ||
         getFullValue ||
+        storageProp.valueType.kind === 'base' ||
         !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
       ) {
         this.handleStorageAction({

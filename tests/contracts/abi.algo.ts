@@ -1527,3 +1527,12 @@ class ABITestRefTypes extends Contract {
     assert(!app.address.isOptedInToAsset(asa));
   }
 }
+
+class ABITestStaticTypeInBox extends Contract {
+  bMap = BoxMap<Address, Address>();
+
+  staticTypeInBox(): void {
+    this.bMap(this.txn.sender).value = this.txn.sender;
+    assert(this.bMap(this.txn.sender).value.isInLedger);
+  }
+}

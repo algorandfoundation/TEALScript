@@ -885,4 +885,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'accessStaticArrayInBoxInVariable')).toEqual(1n);
   });
+
+  test('staticTypeInBox', async () => {
+    const { appClient } = await compileAndCreate('staticTypeInBox');
+
+    await runMethod(appClient, 'staticTypeInBox');
+  });
 });
