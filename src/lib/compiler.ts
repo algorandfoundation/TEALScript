@@ -1175,11 +1175,7 @@ export default class Compiler {
       type.isString() ||
       type.isNumber()
     ) {
-      if (typeString === 'number') {
-        throw Error(`number is no longer a supported type. Use uint64 instead`);
-      }
-
-      return { kind: 'base', type: typeString };
+      return { kind: 'base', type: typeString.replace('number', 'uint64') };
     }
 
     if (type.isNumberLiteral()) {
@@ -2564,6 +2560,23 @@ export default class Compiler {
           if (baseClass?.getName() === CONTRACT_CLASS) this.contractClasses.push(i.getText());
           else this.lsigClasses.push(i.getText());
         });
+    });
+
+    // Go over all the files we are importing and check for number keywords
+    [sourceFile, ...Object.values(this.importRegistry)].forEach((f) => {
+      f?.getStatements().forEach((s) => {
+        const numberKeywords = s.getDescendantsOfKind(ts.SyntaxKind.NumberKeyword);
+
+        if (numberKeywords.length > 0) {
+          const node = numberKeywords[0];
+          const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, node.getStart());
+          const errPath = path.relative(this.cwd, node.getSourceFile().getFilePath());
+
+          const msg = `number keyword not allowed at ${errPath}:${loc.line + 1}:${loc.character}. Use uint64 instead.`;
+
+          throw Error(msg);
+        }
+      });
     });
 
     if (!Compiler.diagsRan.includes(this.srcPath) && !this.disableTypeScript) {
