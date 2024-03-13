@@ -115,53 +115,6 @@ type Event = {
   argTupleType: TypeInfo;
 };
 
-function getBinaryVal(n: ts.Node): number {
-  if (n.isKind(ts.SyntaxKind.BinaryExpression)) {
-    if (!n.getType().isNumber()) throw Error();
-    // eslint-disable-next-line no-use-before-define
-    return processBinaryConstant(n);
-  }
-
-  if (n.getType().isNumberLiteral()) {
-    return n.getType().getLiteralValue() as number;
-  }
-  throw Error('Binary expressions in constants must be a numeric constant or literal');
-}
-
-function processBinaryConstant(b: ts.BinaryExpression): number {
-  const op = b.getOperatorToken().getText();
-  const left = b.getLeft();
-  const right = b.getRight();
-
-  const leftVal = getBinaryVal(left);
-  const rightVal = getBinaryVal(right);
-
-  if (op === '+') {
-    return leftVal + rightVal;
-  }
-
-  if (op === '-') {
-    return leftVal - rightVal;
-  }
-
-  if (op === '*') {
-    return leftVal * rightVal;
-  }
-
-  if (op === '/') {
-    return leftVal / rightVal;
-  }
-
-  if (op === '%') {
-    return leftVal % rightVal;
-  }
-
-  if (op === '**') {
-    return leftVal ** rightVal;
-  }
-  throw Error();
-}
-
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
@@ -1152,19 +1105,25 @@ export default class Compiler {
 
     if (aliasedTypeNode?.isKind(ts.SyntaxKind.TypeReference) && aliasedTypeNode?.getText().startsWith('StaticArray')) {
       const typeArgs = aliasedTypeNode.getTypeArguments();
+
+      const length = Number(typeArgs[1].getType().getText());
+
+      if (Number.isNaN(length)) throw Error(`StaticArray length is not a literal number: ${typeArgs[1].getText()}`);
       return {
         kind: 'staticArray',
-        length: Number(typeArgs[1].getType().getText()),
+        length,
         base: this.getTypeInfo(typeArgs[0].getType()),
       };
     }
 
     if (type.getText().startsWith('StaticArray')) {
       const typeArgs = type.getAliasTypeArguments();
+      const length = Number(typeArgs[1].getText());
+      if (Number.isNaN(length)) throw Error(`StaticArray length must be a literal number`);
 
       return {
         kind: 'staticArray',
-        length: Number(typeArgs[1].getText()),
+        length,
         base: this.getTypeInfo(typeArgs[0]),
       };
     }
@@ -2597,23 +2556,11 @@ export default class Compiler {
 
       const msg = `${errNode.getKindName()} at ${errPath}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
 
-      if (body.isKind(ts.SyntaxKind.VariableStatement)) {
-        if (body.getDeclarationKind() !== ts.VariableDeclarationKind.Const) {
-          throw new Error(`Top-level variables must be constants\n${msg}`);
-        }
-
-        const declaration = body.getDeclarations()[0];
-        const delcarationType = declaration.getType();
-        const dInit = declaration.getInitializer();
-
-        if (dInit?.isKind(ts.SyntaxKind.BinaryExpression)) {
-          const val = processBinaryConstant(dInit);
-          body.getDeclarations()[0].setType(val.toString());
-        } else if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
-          throw Error(
-            `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
-          );
-        }
+      if (
+        body.isKind(ts.SyntaxKind.VariableStatement) &&
+        body.getDeclarationKind() !== ts.VariableDeclarationKind.Const
+      ) {
+        throw new Error(`Top-level variables must be constants\n${msg}`);
       }
     });
 
@@ -4730,6 +4677,20 @@ export default class Compiler {
 
     if (type.isNumberLiteral()) {
       this.push(node, `int ${type.getLiteralValueOrThrow()}`, StackType.uint64);
+      return;
+    }
+
+    // Lookup const definition
+    const defNode = node.getDefinitionNodes()[0];
+
+    const inClass = defNode
+      .getAncestors()
+      .map((a) => a.getKind())
+      .includes(ts.SyntaxKind.ClassDeclaration);
+
+    if (!inClass) {
+      if (!defNode.isKind(ts.SyntaxKind.VariableDeclaration)) throw Error();
+      this.processNode(defNode.getInitializerOrThrow());
       return;
     }
 
