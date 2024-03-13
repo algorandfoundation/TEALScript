@@ -5090,7 +5090,18 @@ export default class Compiler {
 
       const type = hint || this.lastType;
 
-      const typeString = node.getTypeNode()?.getText().replace(/\n/g, ' ') || typeInfoToABIString(type);
+      let typeString = node.getTypeNode()?.getText().replace(/\n/g, ' ') || typeInfoToABIString(type);
+
+      const parent = node.getParentOrThrow();
+      let isLet = false;
+      if (parent.isKind(ts.SyntaxKind.VariableDeclarationList)) {
+        isLet = parent.getFlags() === ts.NodeFlags.Let;
+      }
+
+      if (isLet && type.kind === 'base' && type.type.match(/^(ufixed|uint)(?!64)/)) {
+        type.type = `unsafe ${type.type}`;
+        typeString = `unsafe ${typeString}`;
+      }
 
       this.localVariables[name] = {
         index: this.frameIndex,

@@ -205,4 +205,15 @@ class MathTest extends Contract {
 
     return p2.quotientLow;
   }
+
+  unsafeVariables(): uint64 {
+    let A = <uint256>250000000;
+    const B = <uint256>1000;
+
+    A = A / B;
+
+    const c = A as uint64;
+
+    return c;
+  }
 }
