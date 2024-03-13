@@ -37,16 +37,17 @@ lines.push(...['', '## ABI Types', '| ABI Type | TEALScript |', '| --- | --- |']
 
 const types = {
   '`address`': '`Address`',
-  '`uintN`': '`uint64`, `uint32`, `uint16`, `uint8`, `uint128`, `uint256`, or `uint<N>`',
+  '`uintN`':
+    '`uint64`, `uint32`, `uint16`, `uint8`, `uint128`, `uint256`, or `uint<N>`. `AssetID` and `AppID` are encoded as `uint64`',
   '`bool`': '`boolean`',
   '`ufixedNxM`': '`ufixed<N, M>`',
   '`T[]`': '`T[]`',
-  '`T[N]`': '`StaticArray<T, N>`, `bytes32`, or `bytes64`',
+  '`T[N]`': '`StaticArray<T, N>`. `bytes32`, `bytes64`, or `bytes<N> for static byte arrays`',
   '`[T1, T2, ..., TN]`': '`[T1, T2, ..., TN]` or `{keyone: T1, keytwo: T2, ..., keyN: TN}`',
   '`string`': '`string`',
-  '`application`': '`Application`',
-  '`asset`': '`Asset`',
-  '`account`': '`Account`',
+  '`application`': '`AppReference`',
+  '`asset`': '`AssetReference`',
+  '`account`': '`AccountReference`',
   '`txn`': '`Txn`',
   '`pay`': '`PayTxn`',
   '`keyreg`': '`KeyRegTxn`',

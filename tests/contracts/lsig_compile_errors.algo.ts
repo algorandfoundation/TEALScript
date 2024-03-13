@@ -30,7 +30,7 @@ class LsigMultipleMethods extends LogicSig {
 
 // eslint-disable-next-line no-unused-vars
 class LsigNonVoid extends LogicSig {
-  logic(): number {
+  logic(): uint64 {
     return 1;
   }
 }

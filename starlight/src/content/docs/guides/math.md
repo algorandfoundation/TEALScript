@@ -2,11 +2,9 @@
 title: Math
 ---
 
-**Reminder:** In TEALScript, `uint64` and `number` are the same.
-
 ## Truncation
 
-It is important to note that `number` in TEALScript represents `uint64`. This means that there are no fractional values or negative numbers. The AVM, and thus TEALScript, will always truncate the result of division operations. For example, `99 / 100 === 0` will be true.
+It is important to note TEALScript only works with unsigned integers. This means that there are no fractional values or negative numbers. The AVM, and thus TEALScript, will always truncate the result of division operations. For example, `99 / 100 === 0` will be true.
 
 ## Opcode Cost
 

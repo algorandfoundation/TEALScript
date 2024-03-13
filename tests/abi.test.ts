@@ -421,11 +421,6 @@ describe('ABI', function () {
       await compileAndCreate('txnTypes');
     });
 
-    test('ufixed', async () => {
-      const { appClient } = await compileAndCreate('ufixed');
-      expect(await runMethod(appClient, 'ufixed')).toEqual(BigInt(Math.floor((123 + 456) / 100)));
-    });
-
     test('arrayLength', async () => {
       const { appClient } = await compileAndCreate('arrayLength');
       expect(await runMethod(appClient, 'arrayLength')).toEqual(BigInt(5));
@@ -889,5 +884,11 @@ describe('ABI', function () {
     const { appClient } = await compileAndCreate('accessStaticArrayInBoxInVariable');
 
     expect(await runMethod(appClient, 'accessStaticArrayInBoxInVariable')).toEqual(1n);
+  });
+
+  test('staticTypeInBox', async () => {
+    const { appClient } = await compileAndCreate('staticTypeInBox');
+
+    await runMethod(appClient, 'staticTypeInBox');
   });
 });

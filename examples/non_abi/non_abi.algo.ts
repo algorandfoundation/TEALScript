@@ -2,11 +2,11 @@ import { Contract } from '../../src/lib/index';
 
 // eslint-disable-next-line no-unused-vars
 class NonABIExample extends Contract {
-  private add(x: number, y: number): number {
+  private add(x: uint64, y: uint64): uint64 {
     return x + y;
   }
 
-  abiAdd(x: number, y: number): number {
+  abiAdd(x: uint64, y: uint64): uint64 {
     return this.add(x, y);
   }
 

@@ -250,65 +250,6 @@
       }
     },
     {
-      "name": "ufixedLiteralMul",
-      "args": [],
-      "returns": {
-        "type": "ufixed64x2"
-      }
-    },
-    {
-      "name": "ufixedMul",
-      "args": [
-        {
-          "name": "a",
-          "type": "ufixed64x2"
-        },
-        {
-          "name": "b",
-          "type": "ufixed64x2"
-        }
-      ],
-      "returns": {
-        "type": "ufixed64x2"
-      }
-    },
-    {
-      "name": "BigUfixedMul",
-      "args": [
-        {
-          "name": "a",
-          "type": "ufixed128x2"
-        },
-        {
-          "name": "b",
-          "type": "ufixed128x2"
-        }
-      ],
-      "returns": {
-        "type": "ufixed128x2"
-      }
-    },
-    {
-      "name": "TripleBigUfixedMul",
-      "args": [
-        {
-          "name": "a",
-          "type": "ufixed128x2"
-        },
-        {
-          "name": "b",
-          "type": "ufixed128x2"
-        },
-        {
-          "name": "c",
-          "type": "ufixed128x2"
-        }
-      ],
-      "returns": {
-        "type": "ufixed128x2"
-      }
-    },
-    {
       "name": "boxTest",
       "args": [],
       "returns": {

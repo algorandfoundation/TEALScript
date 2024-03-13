@@ -63,7 +63,7 @@ class MathTest extends Contract {
     return a ** b;
   }
 
-  plusEquals(a: number, b: number): number {
+  plusEquals(a: uint64, b: uint64): uint64 {
     let x = a;
 
     x += b;
@@ -71,34 +71,12 @@ class MathTest extends Contract {
     return x;
   }
 
-  plusEqualsFromGlobal(a: number, b: number): number {
+  plusEqualsFromGlobal(a: uint64, b: uint64): uint64 {
     this.gKey.value = a;
 
     this.gKey.value += b;
 
     return this.gKey.value;
-  }
-
-  ufixedLiteralMul(): ufixed<64, 2> {
-    const a: ufixed<64, 2> = 12.34;
-    const b: ufixed<64, 2> = 12.34;
-    const c = a * b;
-
-    return c;
-  }
-
-  ufixedMul(a: ufixed<64, 2>, b: ufixed<64, 2>): ufixed<64, 2> {
-    return a * b;
-  }
-
-  BigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>): ufixed<128, 2> {
-    return a * b;
-  }
-
-  TripleBigUfixedMul(a: ufixed<128, 2>, b: ufixed<128, 2>, c: ufixed<128, 2>): ufixed<128, 2> {
-    const ab = a * b;
-    const abc = ab * c;
-    return abc;
   }
 
   boxKey = BoxKey<uint256>();

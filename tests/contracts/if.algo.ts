@@ -79,12 +79,12 @@ export class IfTest extends Contract {
     else return 'else';
   }
 
-  nestedTernary(arg0: boolean, arg1: boolean): number {
+  nestedTernary(arg0: boolean, arg1: boolean): uint64 {
     // eslint-disable-next-line no-nested-ternary
     return arg0 ? 1 : arg1 ? 2 : 3;
   }
 
-  stringIf(arg0: string): number {
+  stringIf(arg0: string): uint64 {
     if (arg0) {
       return 1;
     }
@@ -92,7 +92,7 @@ export class IfTest extends Contract {
     return 2;
   }
 
-  stringTernary(arg0: string): number {
+  stringTernary(arg0: string): uint64 {
     return arg0 ? 1 : 2;
   }
 
