@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Contract } from '../../src/lib/index';
+import { Contract, Add } from '../../src/lib/index';
 
 type CustomType = {
   foo: uint16;
@@ -1534,5 +1534,15 @@ class ABITestStaticTypeInBox extends Contract {
   staticTypeInBox(): void {
     this.bMap(this.txn.sender).value = this.txn.sender;
     assert(this.bMap(this.txn.sender).value.isInLedger);
+  }
+}
+
+const ONE = 1;
+const TWO = 2;
+type THREE = Add<typeof ONE, typeof TWO>;
+
+class ABITestTsArithmetic extends Contract {
+  tsArithmetic(x: bytes<THREE>) {
+    assert(len(x) === 3);
   }
 }

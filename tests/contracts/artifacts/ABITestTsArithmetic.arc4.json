@@ -1,0 +1,25 @@
+{
+  "name": "ABITestTsArithmetic",
+  "desc": "",
+  "methods": [
+    {
+      "name": "tsArithmetic",
+      "args": [
+        {
+          "name": "x",
+          "type": "byte[3]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}
