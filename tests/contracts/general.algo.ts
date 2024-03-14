@@ -10,8 +10,6 @@ const NESTED_CONST = NUM_CONST;
 const COMPUTED_CONST = NUM_CONST + NESTED_CONST;
 const MUTLI_COMPUTED_CONST = NUM_CONST + NESTED_CONST * COMPUTED_CONST;
 
-type MyType = StaticArray<uint8, typeof COMPUTED_CONST>;
-
 class SchemaContract extends Contract {
   globalUint = GlobalStateMap<uint8, uint64>({ maxKeys: 1 });
 
@@ -404,11 +402,6 @@ class GeneralTest extends Contract {
 
   multiComputedConst() {
     assert(MUTLI_COMPUTED_CONST);
-  }
-
-  computedConstAsStaticArrayLength() {
-    const a: MyType = [];
-    assert(a.length === COMPUTED_CONST);
   }
 
   readSchema(): void {

@@ -115,53 +115,6 @@ type Event = {
   argTupleType: TypeInfo;
 };
 
-function getBinaryVal(n: ts.Node): number {
-  if (n.isKind(ts.SyntaxKind.BinaryExpression)) {
-    if (!n.getType().isNumber()) throw Error();
-    // eslint-disable-next-line no-use-before-define
-    return processBinaryConstant(n);
-  }
-
-  if (n.getType().isNumberLiteral()) {
-    return n.getType().getLiteralValue() as number;
-  }
-  throw Error('Binary expressions in constants must be a numeric constant or literal');
-}
-
-function processBinaryConstant(b: ts.BinaryExpression): number {
-  const op = b.getOperatorToken().getText();
-  const left = b.getLeft();
-  const right = b.getRight();
-
-  const leftVal = getBinaryVal(left);
-  const rightVal = getBinaryVal(right);
-
-  if (op === '+') {
-    return leftVal + rightVal;
-  }
-
-  if (op === '-') {
-    return leftVal - rightVal;
-  }
-
-  if (op === '*') {
-    return leftVal * rightVal;
-  }
-
-  if (op === '/') {
-    return leftVal / rightVal;
-  }
-
-  if (op === '%') {
-    return leftVal % rightVal;
-  }
-
-  if (op === '**') {
-    return leftVal ** rightVal;
-  }
-  throw Error();
-}
-
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
@@ -1152,19 +1105,25 @@ export default class Compiler {
 
     if (aliasedTypeNode?.isKind(ts.SyntaxKind.TypeReference) && aliasedTypeNode?.getText().startsWith('StaticArray')) {
       const typeArgs = aliasedTypeNode.getTypeArguments();
+
+      const length = Number(typeArgs[1].getType().getText());
+
+      if (Number.isNaN(length)) throw Error(`StaticArray length is not a literal number: ${typeArgs[1].getText()}`);
       return {
         kind: 'staticArray',
-        length: Number(typeArgs[1].getType().getText()),
+        length,
         base: this.getTypeInfo(typeArgs[0].getType()),
       };
     }
 
     if (type.getText().startsWith('StaticArray')) {
       const typeArgs = type.getAliasTypeArguments();
+      const length = Number(typeArgs[1].getText());
+      if (Number.isNaN(length)) throw Error(`StaticArray length must be a literal number`);
 
       return {
         kind: 'staticArray',
-        length: Number(typeArgs[1].getText()),
+        length,
         base: this.getTypeInfo(typeArgs[0]),
       };
     }
@@ -1175,11 +1134,7 @@ export default class Compiler {
       type.isString() ||
       type.isNumber()
     ) {
-      if (typeString === 'number') {
-        throw Error(`number is no longer a supported type. Use uint64 instead`);
-      }
-
-      return { kind: 'base', type: typeString };
+      return { kind: 'base', type: typeString.replace('number', 'uint64') };
     }
 
     if (type.isNumberLiteral()) {
@@ -2566,6 +2521,23 @@ export default class Compiler {
         });
     });
 
+    // Go over all the files we are importing and check for number keywords
+    [sourceFile, ...Object.values(this.importRegistry)].forEach((f) => {
+      f?.getStatements().forEach((s) => {
+        const numberKeywords = s.getDescendantsOfKind(ts.SyntaxKind.NumberKeyword);
+
+        if (numberKeywords.length > 0) {
+          const node = numberKeywords[0];
+          const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, node.getStart());
+          const errPath = path.relative(this.cwd, node.getSourceFile().getFilePath());
+
+          const msg = `number keyword not allowed at ${errPath}:${loc.line + 1}:${loc.character}. Use uint64 instead.`;
+
+          throw Error(msg);
+        }
+      });
+    });
+
     if (!Compiler.diagsRan.includes(this.srcPath) && !this.disableTypeScript) {
       this.getTypeScriptDiagnostics();
     }
@@ -2584,23 +2556,11 @@ export default class Compiler {
 
       const msg = `${errNode.getKindName()} at ${errPath}:${loc.line}:${loc.character}\n    ${lines.join('\n    ')}\n`;
 
-      if (body.isKind(ts.SyntaxKind.VariableStatement)) {
-        if (body.getDeclarationKind() !== ts.VariableDeclarationKind.Const) {
-          throw new Error(`Top-level variables must be constants\n${msg}`);
-        }
-
-        const declaration = body.getDeclarations()[0];
-        const delcarationType = declaration.getType();
-        const dInit = declaration.getInitializer();
-
-        if (dInit?.isKind(ts.SyntaxKind.BinaryExpression)) {
-          const val = processBinaryConstant(dInit);
-          body.getDeclarations()[0].setType(val.toString());
-        } else if (!delcarationType.isStringLiteral() && !delcarationType.isNumberLiteral()) {
-          throw Error(
-            `Top-level constants must be a number or string literal (not ${delcarationType.getText()})\n${msg}`
-          );
-        }
+      if (
+        body.isKind(ts.SyntaxKind.VariableStatement) &&
+        body.getDeclarationKind() !== ts.VariableDeclarationKind.Const
+      ) {
+        throw new Error(`Top-level variables must be constants\n${msg}`);
       }
     });
 
@@ -4720,6 +4680,20 @@ export default class Compiler {
       return;
     }
 
+    // Lookup const definition
+    const defNode = node.getDefinitionNodes()[0];
+
+    const inClass = defNode
+      .getAncestors()
+      .map((a) => a.getKind())
+      .includes(ts.SyntaxKind.ClassDeclaration);
+
+    if (!inClass) {
+      if (!defNode.isKind(ts.SyntaxKind.VariableDeclaration)) throw Error();
+      this.processNode(defNode.getInitializerOrThrow());
+      return;
+    }
+
     const processedFrame = this.processFrame(node, node.getText(), true);
 
     if (processedFrame.accessors.length > 0) {
@@ -5090,7 +5064,18 @@ export default class Compiler {
 
       const type = hint || this.lastType;
 
-      const typeString = node.getTypeNode()?.getText().replace(/\n/g, ' ') || typeInfoToABIString(type);
+      let typeString = node.getTypeNode()?.getText().replace(/\n/g, ' ') || typeInfoToABIString(type);
+
+      const parent = node.getParentOrThrow();
+      let isLet = false;
+      if (parent.isKind(ts.SyntaxKind.VariableDeclarationList)) {
+        isLet = parent.getFlags() === ts.NodeFlags.Let;
+      }
+
+      if (isLet && type.kind === 'base' && type.type.match(/^(ufixed|uint)(?!64)/)) {
+        type.type = `unsafe ${type.type}`;
+        typeString = `unsafe ${typeString}`;
+      }
 
       this.localVariables[name] = {
         index: this.frameIndex,

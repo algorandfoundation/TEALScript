@@ -99,6 +99,15 @@ describe('Math', function () {
         methodArgs: [3n],
       });
     });
+
+    test('unsafeVariables', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+
+      await runMethod({
+        appClient,
+        method: 'unsafeVariables',
+      });
+    });
   });
 
   describe('Compile Errors', function () {
