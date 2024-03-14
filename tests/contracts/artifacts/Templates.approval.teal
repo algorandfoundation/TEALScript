@@ -32,12 +32,12 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 tmpl:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:32
+	// tests/contracts/general.algo.ts:30
 	// log(this.bytesTmplVar)
 	pushbytes TMPL_bytesTmplVar
 	log
 
-	// tests/contracts/general.algo.ts:33
+	// tests/contracts/general.algo.ts:31
 	// assert(this.uint64TmplVar)
 	pushint TMPL_uint64TmplVar
 	assert
