@@ -1536,3 +1536,13 @@ class ABITestStaticTypeInBox extends Contract {
     assert(this.bMap(this.txn.sender).value.isInLedger);
   }
 }
+
+class ABITestStoragePropertyReferenceInBox extends Contract {
+  bMap = BoxMap<string, { foo: Address; bar: { baz: uint64 } }>();
+
+  storagePropertyReferenceInBox(): uint64 {
+    this.bMap('bMap').value = { foo: this.txn.sender, bar: { baz: 1337 } };
+    const v = this.bMap('bMap').value.bar.baz;
+    return v;
+  }
+}
