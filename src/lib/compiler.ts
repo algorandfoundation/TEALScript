@@ -233,19 +233,10 @@ class TupleElement extends Array<TupleElement> {
 }
 
 function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
-  const expr = node.getExpression();
-  if (
-    expr.isKind(ts.SyntaxKind.CallExpression) &&
-    expr.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression)
-  ) {
-    return (expr.getExpression() as ts.PropertyAccessExpression).getNameNode().getText();
-  }
+  const thisNode = node.getFirstDescendantByKind(ts.SyntaxKind.ThisKeyword);
+  const propNode = thisNode?.getParentIfKind(ts.SyntaxKind.PropertyAccessExpression);
 
-  if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
-    return expr.getNameNode().getText();
-  }
-
-  return undefined;
+  return propNode?.getName();
 }
 
 // https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
@@ -736,7 +727,6 @@ export default class Compiler {
   /** Handle any action related to boxes or local/global state */
   private handleStorageAction({
     node,
-    name,
     action,
     storageKeyFrame,
     storageAccountFrame,
@@ -747,8 +737,6 @@ export default class Compiler {
      * For example: `this.myBox.delete()` or `this.myBox.value`
      */
     node: ts.PropertyAccessExpression | ts.CallExpression;
-    /** The name of the storage property as defined in the contract */
-    name: string;
     /** The action to take on the storage property */
     action: 'get' | 'set' | 'exists' | 'delete' | 'create' | 'extract' | 'replace' | 'size' | 'resize' | 'splice';
     /** If the key for the target storage object is saved in the frame, then this is the name of the key in this.localVariables */
@@ -758,19 +746,27 @@ export default class Compiler {
     /** Only provided when setting a value */
     newValue?: ts.Node;
   }) {
+    const name = getStorageName(node)!;
+    const thisNode = node.getFirstDescendantByKindOrThrow(ts.SyntaxKind.ThisKeyword);
+    const storagePropNode = thisNode.getParentIfKindOrThrow(ts.SyntaxKind.PropertyAccessExpression);
+    const storagePropCallNode = storagePropNode.getParentIfKind(ts.SyntaxKind.CallExpression);
+
+    const fullPropNode = (storagePropCallNode || storagePropNode).getParentIfKindOrThrow(
+      ts.SyntaxKind.PropertyAccessExpression
+    );
+    const fullCallNode = fullPropNode.getParentIfKind(ts.SyntaxKind.CallExpression);
+
     const args: ts.Node[] = [];
     let keyNode: ts.Node;
 
     // If the node is a call expression, such as `this.myBox.replace(x, y)` get the arguments
     // then use the property access expression as the node throughout the rest of the method
-    if (node.isKind(ts.SyntaxKind.CallExpression)) {
-      node.getArguments().forEach((a) => args.push(a));
-      const expr = node.getExpression();
-      if (!expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
-
-      // eslint-disable-next-line no-param-reassign
-      node = expr;
+    if (fullCallNode !== undefined) {
+      fullCallNode.getArguments().forEach((a) => args.push(a));
     }
+
+    // eslint-disable-next-line no-param-reassign
+    node = fullPropNode;
 
     const expr = node.getExpression();
 
@@ -3483,7 +3479,6 @@ export default class Compiler {
     if (currentFrame.storageExpression !== undefined) {
       this.handleStorageAction({
         node: currentFrame.storageExpression,
-        name,
         storageKeyFrame: currentFrame.storageKeyFrame,
         storageAccountFrame: currentFrame.storageAccountFrame,
         action: 'get',
@@ -3531,7 +3526,6 @@ export default class Compiler {
             storageAccountFrame: processedFrame.storageAccountFrame,
             storageKeyFrame: processedFrame.storageKeyFrame,
             action,
-            name: processedFrame.name,
           });
         }
       }
@@ -3575,7 +3569,6 @@ export default class Compiler {
 
       this.handleStorageAction({
         node,
-        name: storageName!,
         action,
       });
     } else {
@@ -3894,7 +3887,6 @@ export default class Compiler {
       if (isBox) {
         this.handleStorageAction({
           node: storageExpression,
-          name: getStorageName(storageExpression)!,
           action: 'extract',
         });
       } else this.pushLines(node, 'extract3');
@@ -4487,12 +4479,15 @@ export default class Compiler {
           this.pushVoid(node, `load ${compilerScratch.assignmentValue}`);
         }
       } else if (leftNode.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
-        const storageName = getStorageName(leftNode);
+        const isStorageValue = leftNode
+          .getFirstChild()
+          ?.getType()
+          .getText()
+          .match(/(Box|LocalState|GlobalState)Value/);
 
-        if (storageName && this.storageProps[storageName]) {
+        if (isStorageValue) {
           this.handleStorageAction({
             node: leftNode,
-            name: storageName,
             action: 'set',
             newValue: rightNode,
           });
@@ -5007,12 +5002,13 @@ export default class Compiler {
         return;
       }
 
-      if (
-        init?.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
-        getStorageName(init) &&
-        this.storageProps[getStorageName(init)!] &&
-        isArray
-      ) {
+      const isStorageValue = init
+        ?.getFirstChild()
+        ?.getType()
+        .getText()
+        .match(/(Box|LocalState|GlobalState)Value/);
+
+      if (init?.isKind(ts.SyntaxKind.PropertyAccessExpression) && isStorageValue && isArray) {
         this.initializeStorageFrame(node, name, init, initializerType);
 
         if (node.getTypeNode())
@@ -5733,7 +5729,6 @@ export default class Compiler {
       ) {
         this.handleStorageAction({
           node: actionNode,
-          name,
           action: action!.replace('value', 'get') as
             | 'get'
             | 'set'
