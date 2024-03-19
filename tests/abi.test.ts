@@ -891,4 +891,10 @@ describe('ABI', function () {
 
     await runMethod(appClient, 'staticTypeInBox');
   });
+
+  test('storagePropertyReferenceInBox', async () => {
+    const { appClient } = await compileAndCreate('storagePropertyReferenceInBox');
+
+    expect(await runMethod(appClient, 'storagePropertyReferenceInBox')).toEqual(1337n);
+  });
 });
