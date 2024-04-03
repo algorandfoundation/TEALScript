@@ -1003,6 +1003,12 @@ export default class Compiler {
       );
     }
 
+    if (type.getText().startsWith('InnerTxn<')) {
+      const typeInfo = this.getTypeInfo(type.getAliasTypeArguments()[0]);
+      if (typeInfo.kind !== 'base') throw Error('InnerTxn type must be a txn type');
+      return { kind: 'base', type: `generic ${typeInfo.type}` };
+    }
+
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
     if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
     if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
@@ -6712,7 +6718,7 @@ export default class Compiler {
         if (!init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw new Error('methodArgs must be an array');
 
         init.getElements().forEach((e, i: number) => {
-          if (TXN_TYPES.includes(argTypeStrings[i])) {
+          if (TXN_TYPES.includes(argTypeStrings[i]) || TXN_TYPES.includes(argTypeStrings[i].replace('generic ', ''))) {
             let innerArgs: TypeInfo[] = [];
             let innerMethodReturnType: TypeInfo = StackType.void;
             const argType = argTypes[i];
@@ -6731,7 +6737,7 @@ export default class Compiler {
 declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     */
 
-    switch (method) {
+    switch (method.replace('generic ', '')) {
       case 'pay':
       case 'Payment':
         txnType = TransactionType.PaymentTx;
@@ -6772,6 +6778,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       .getProperties()
       .find((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'name');
 
+    const argTypeStringsWithTxn = argTypeStrings.map((t) => (t.startsWith('generic ') ? 'txn' : t));
+
     if (nameProp && txnType === TransactionType.ApplicationCallTx) {
       if (
         !nameProp.isKind(ts.SyntaxKind.PropertyAssignment) ||
@@ -6781,7 +6789,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
       this.pushVoid(
         nameProp,
-        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypeStrings!.join(
+        `method "${(nameProp.getInitializer()! as ts.StringLiteral).getLiteralText()}(${argTypeStringsWithTxn.join(
           ','
         )})${typeInfoToABIString(returnType, true)}"`
       );
@@ -6789,7 +6797,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     } else if (methodName) {
       this.pushVoid(
         node,
-        `method "${methodName}(${argTypeStrings!
+        `method "${methodName}(${argTypeStringsWithTxn
           .join(',')
           // any[] is used for default lifecycle methods, which we want to remove
           .replace('any[]', '')})${typeInfoToABIString(returnType, true)}"`
@@ -6852,7 +6860,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
             this.processNode(e);
             typeComparison(this.lastType, argTypes[i]);
             this.pushVoid(e, 'itob');
-          } else if (TXN_TYPES.includes(argTypeStrings[i])) {
+          } else if (
+            TXN_TYPES.includes(argTypeStrings[i]) ||
+            TXN_TYPES.includes(argTypeStrings[i].replace('generic ', ''))
+          ) {
             return;
           } else {
             const prevTypeHint = this.typeHint;

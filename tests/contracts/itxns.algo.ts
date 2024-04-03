@@ -94,4 +94,11 @@ class ItxnsTest extends Contract {
   offlineKeyRegistration(): void {
     sendOfflineKeyRegistration({});
   }
+
+  innerGeneric(): void {
+    sendMethodCall<[InnerTxn<InnerAssetCreation>], void>({
+      name: 'foo',
+      methodArgs: [{ configAssetTotal: 1 }],
+    });
+  }
 }
