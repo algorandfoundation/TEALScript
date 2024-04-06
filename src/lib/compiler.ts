@@ -5114,11 +5114,10 @@ export default class Compiler {
     }
   }
 
-  private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0) {
+  private processIfStatement(node: ts.IfStatement, elseIfCount: number = 0, parentIf = (this.ifCount += 1)) {
     let labelPrefix: string;
 
-    if (elseIfCount === 0) this.ifCount += 1;
-    const thisIf = `*if${this.ifCount}`;
+    const thisIf = `*if${parentIf}`;
 
     if (elseIfCount === 0) {
       labelPrefix = thisIf;
@@ -5141,7 +5140,7 @@ export default class Compiler {
       this.pushVoid(node, `// ${labelPrefix}_consequent`);
       this.processNode(node.getThenStatement());
       this.pushVoid(node, `b ${thisIf}_end`);
-      this.processIfStatement(elseStatement, elseIfCount + 1);
+      this.processIfStatement(elseStatement, elseIfCount + 1, parentIf);
     } else {
       this.pushVoid(node, `bz ${thisIf}_else`);
       this.pushVoid(node, `// ${labelPrefix}_consequent`);

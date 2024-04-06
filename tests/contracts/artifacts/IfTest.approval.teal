@@ -864,6 +864,99 @@ uint256ComparsionConditional:
 *if12_end:
 	retsub
 
+// nestedIfInElseIf(bool,bool)string
+*abi_route_nestedIfInElseIf:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: bool
+	txna ApplicationArgs 2
+	dup
+	len
+	int 1
+	==
+	assert
+	int 0
+	getbit
+
+	// a: bool
+	txna ApplicationArgs 1
+	dup
+	len
+	int 1
+	==
+	assert
+	int 0
+	getbit
+
+	// execute nestedIfInElseIf(bool,bool)string
+	callsub nestedIfInElseIf
+	dup
+	len
+	itob
+	extract 6 2
+	swap
+	concat
+	concat
+	log
+	int 1
+	return
+
+// nestedIfInElseIf(a: boolean, b: boolean): string
+nestedIfInElseIf:
+	proto 2 1
+
+	// *if13_condition
+	// tests/contracts/if.algo.ts:118
+	// a
+	frame_dig -1 // a: boolean
+	bz *if13_elseif1_condition
+
+	// *if13_consequent
+	// *if14_condition
+	// tests/contracts/if.algo.ts:119
+	// b
+	frame_dig -2 // b: boolean
+	bz *if14_else
+
+	// *if14_consequent
+	// tests/contracts/if.algo.ts:120
+	// return 'a and b';
+	byte 0x6120616e642062 // "a and b"
+	retsub
+	b *if14_end
+
+*if14_else:
+	// tests/contracts/if.algo.ts:122
+	// return 'a';
+	byte 0x61 // "a"
+	retsub
+
+*if14_end:
+	b *if13_end
+
+*if13_elseif1_condition:
+	// tests/contracts/if.algo.ts:124
+	// b
+	frame_dig -2 // b: boolean
+	bz *if13_else
+
+	// *if13_elseif1_consequent
+	// tests/contracts/if.algo.ts:125
+	// return 'b';
+	byte 0x62 // "b"
+	retsub
+	b *if13_end
+
+*if13_else:
+	// tests/contracts/if.algo.ts:127
+	// return 'neither';
+	byte 0x6e656974686572 // "neither"
+	retsub
+
+*if13_end:
+	retsub
+
 *abi_route_createApplication:
 	int 1
 	return
@@ -889,6 +982,7 @@ uint256ComparsionConditional:
 	method "smallUintConditional(uint16)void"
 	method "smallUintComparisonConditional(uint16,uint16)void"
 	method "uint256ComparsionConditional(uint256,uint256)void"
+	method "nestedIfInElseIf(bool,bool)string"
 	txna ApplicationArgs 0
-	match *abi_route_singleIf *abi_route_ifElse *abi_route_ifElseIf *abi_route_ifElseIfElse *abi_route_ifElseIfElseIf *abi_route_ifElseIfElseIfElse *abi_route_nestedIf *abi_route_bracketlessIfElse *abi_route_nestedTernary *abi_route_stringIf *abi_route_stringTernary *abi_route_smallUintConditional *abi_route_smallUintComparisonConditional *abi_route_uint256ComparsionConditional
+	match *abi_route_singleIf *abi_route_ifElse *abi_route_ifElseIf *abi_route_ifElseIfElse *abi_route_ifElseIfElseIf *abi_route_ifElseIfElseIfElse *abi_route_nestedIf *abi_route_bracketlessIfElse *abi_route_nestedTernary *abi_route_stringIf *abi_route_stringTernary *abi_route_smallUintConditional *abi_route_smallUintComparisonConditional *abi_route_uint256ComparsionConditional *abi_route_nestedIfInElseIf
 	err

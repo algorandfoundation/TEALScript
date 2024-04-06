@@ -113,4 +113,18 @@ export class IfTest extends Contract {
       log('foo');
     }
   }
+
+  nestedIfInElseIf(a: boolean, b: boolean): string {
+    if (a) {
+      if (b) {
+        return 'a and b';
+      } else {
+        return 'a';
+      }
+    } else if (b) {
+      return 'b';
+    } else {
+      return 'neither';
+    }
+  }
 }
