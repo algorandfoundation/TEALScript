@@ -211,6 +211,22 @@
       }
     },
     {
+      "name": "nestedIfInElseIf",
+      "args": [
+        {
+          "name": "a",
+          "type": "bool"
+        },
+        {
+          "name": "b",
+          "type": "bool"
+        }
+      ],
+      "returns": {
+        "type": "string"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

@@ -97,5 +97,13 @@ describe('If', function () {
       expect(await runMethod({ appClient, method: 'stringTernary', methodArgs: [' '] })).toBe(1n);
       expect(await runMethod({ appClient, method: 'stringTernary', methodArgs: [''] })).toBe(2n);
     });
+
+    test('nestedIfInElseIf', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'nestedIfInElseIf', methodArgs: [true, true] })).toBe('a and b');
+      expect(await runMethod({ appClient, method: 'nestedIfInElseIf', methodArgs: [true, false] })).toBe('a');
+      expect(await runMethod({ appClient, method: 'nestedIfInElseIf', methodArgs: [false, false] })).toBe('neither');
+      expect(await runMethod({ appClient, method: 'nestedIfInElseIf', methodArgs: [false, true] })).toBe('b');
+    });
   });
 });
