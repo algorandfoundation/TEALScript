@@ -889,6 +889,17 @@ declare function sendOfflineKeyRegistration(params: Expand<CommonTransactionPara
 declare function sendAssetConfig(params: Expand<AssetConfigParams>): void;
 declare function sendAssetFreeze(params: Expand<AssetFreezeParams>): void;
 
+declare type InnerTxn<
+  TxnType extends
+    | InnerPayment
+    | InnerAppCall
+    | InnerAssetTransfer
+    | InnerAssetConfig
+    | InnerAssetCreation
+    | InnerAssetFreeze
+    | InnerOnlineKeyRegistration
+    | InnerOfflineKeyRegistration,
+> = Brand<TxnType, 'generic inner'>;
 declare type InnerPayment = PaymentParams;
 declare type InnerAppCall = AppParams;
 declare type InnerAssetTransfer = AssetTransferParams;
