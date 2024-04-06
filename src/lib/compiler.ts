@@ -1986,6 +1986,19 @@ export default class Compiler {
         this.lastType = ForeignType.Address;
       },
     },
+    fromAddress: {
+      check: (node: ts.CallExpression) =>
+        node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+        (node.getExpression() as ts.PropertyAccessExpression).getExpression().getText() === 'Address',
+      fn: (node: ts.CallExpression) => {
+        if (!node.getExpression().isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
+
+        const type = node.getArguments()[0].getType();
+        if (!type.isStringLiteral()) throw Error('fromAddress must be called with a string literal');
+
+        this.push(node, `addr ${type.getLiteralValueOrThrow()}`, ForeignType.Address);
+      },
+    },
     // Asset / Application fromUint64
     fromUint64: {
       check: (node: ts.CallExpression) =>
