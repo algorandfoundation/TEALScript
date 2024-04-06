@@ -448,4 +448,9 @@ class GeneralTest extends Contract {
     this.dynamicScratch(2).value += 1;
     assert(this.dynamicScratch(2).value === 1338);
   }
+
+  fromAddress(): void {
+    const a = Address.fromAddress('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ');
+    assert(a === Address.zeroAddress);
+  }
 }

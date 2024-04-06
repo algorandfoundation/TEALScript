@@ -430,7 +430,10 @@ declare class AssetReference extends AssetID {}
 /** An Algorand address */
 declare class Address {
   /** Create an `Address` instance from the given public key */
-  static fromBytes(addr: BytesLike): Address;
+  static fromBytes(pubKey: BytesLike): Address;
+
+  /** Create an `Address` instance from a literal base32 Algorand address */
+  static fromAddress(address: string): Address;
 
   /** The zero address: `AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ` */
   static readonly zeroAddress: Address;

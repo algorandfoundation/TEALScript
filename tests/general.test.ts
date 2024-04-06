@@ -38,6 +38,7 @@ describe('General', function () {
       'dynamicScratchSlot',
       'incrementScratchSlot',
       'incrementDynamicScratchSlot',
+      'fromAddress',
     ].forEach((method) => {
       test(method, async function () {
         const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
