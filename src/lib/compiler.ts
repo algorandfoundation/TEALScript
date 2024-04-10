@@ -618,10 +618,6 @@ export default class Compiler {
 
   private lastType: TypeInfo = { kind: 'base', type: 'void' };
 
-  private contractClasses: string[] = [];
-
-  private lsigClasses: string[] = [];
-
   name: string;
 
   pcToLine: { [key: number]: number } = {};
@@ -2611,9 +2607,6 @@ export default class Compiler {
           while (baseClass.getBaseClass() !== undefined) {
             baseClass = baseClass.getBaseClass()!;
           }
-
-          if (baseClass?.getName() === CONTRACT_CLASS) this.contractClasses.push(i.getText());
-          else this.lsigClasses.push(i.getText());
         });
     });
 
@@ -2669,26 +2662,18 @@ export default class Compiler {
 
       this.lastNode = body;
 
-      const superClass = body.getHeritageClauses()![0].getTypeNodes()[0].getExpression().getText();
+      const superClass = body.getHeritageClauses()![0].getTypeNodes()[0].getExpression();
       if (
-        [CONTRACT_CLASS, LSIG_CLASS].includes(superClass) ||
-        this.contractClasses.includes(superClass) ||
-        this.lsigClasses.includes(superClass) ||
-        superClass.startsWith(`${CONTRACT_CLASS}.extend(`) ||
-        superClass.startsWith(`${LSIG_CLASS}.extend(`)
+        [CONTRACT_CLASS, LSIG_CLASS].includes(superClass.getText()) ||
+        (superClass.isKind(ts.SyntaxKind.Identifier) && this.getClassInfo(superClass)?.type === 'contract') ||
+        (superClass.isKind(ts.SyntaxKind.Identifier) && this.getClassInfo(superClass)?.type === 'lsig') ||
+        superClass.getText().startsWith(`${CONTRACT_CLASS}.extend(`) ||
+        superClass.getText().startsWith(`${LSIG_CLASS}.extend(`)
       ) {
         const className = body.getName()!;
 
-        if (
-          superClass === CONTRACT_CLASS ||
-          this.contractClasses.includes(superClass) ||
-          superClass.startsWith(`${CONTRACT_CLASS}.extend`)
-        ) {
-          this.contractClasses.push(className);
-        } else this.lsigClasses.push(className);
-
         if (className === this.name) {
-          if (superClass === LSIG_CLASS) this.currentProgram = 'lsig';
+          if (superClass.getText() === LSIG_CLASS) this.currentProgram = 'lsig';
 
           this.classNode = body;
           this.initializeTEAL(body);
