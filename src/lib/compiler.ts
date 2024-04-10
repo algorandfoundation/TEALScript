@@ -675,10 +675,6 @@ export default class Compiler {
 
   programVersion = 10;
 
-  importRegistry: {
-    [contractClass: string]: SourceFile;
-  } = {};
-
   templateVars: Record<string, { name: string; type: TypeInfo }> = {};
 
   project: Project;
@@ -2590,28 +2586,10 @@ export default class Compiler {
   async compile() {
     const sourceFile = this.project.getSourceFile(this.srcPath);
 
-    sourceFile?.getImportDeclarations().forEach((d) => {
-      const importSourceFile = d.getModuleSpecifierSourceFile();
-      d
-        .getImportClause()
-        ?.getNamedImports()
-        .forEach((i) => {
-          if (i.getText() === CONTRACT_CLASS || i.getText() === LSIG_CLASS) return;
-          this.importRegistry[i.getText()] = importSourceFile!;
-
-          let baseClass = importSourceFile?.getClass(i.getText())!;
-
-          // baseClass will be undefined if a type is being imported
-          if (baseClass === undefined) return;
-
-          while (baseClass.getBaseClass() !== undefined) {
-            baseClass = baseClass.getBaseClass()!;
-          }
-        });
-    });
+    const importedFiles = sourceFile?.getImportDeclarations().map((d) => d.getModuleSpecifierSourceFile()) || [];
 
     // Go over all the files we are importing and check for number keywords
-    [sourceFile, ...Object.values(this.importRegistry)].forEach((f) => {
+    [sourceFile, ...importedFiles].forEach((f) => {
       f?.getStatements().forEach((s) => {
         const numberKeywords = s.getDescendantsOfKind(ts.SyntaxKind.NumberKeyword);
 
