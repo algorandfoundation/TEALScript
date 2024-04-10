@@ -69,6 +69,7 @@ singleIf:
 	// tests/contracts/if.algo.ts:11
 	// return 'end';
 	byte 0x656e64 // "end"
+	retsub
 
 // ifElse(bool)string
 *abi_route_ifElse:
@@ -122,6 +123,7 @@ ifElse:
 	retsub
 
 *if1_end:
+	retsub
 
 // ifElseIf(bool,bool)string
 *abi_route_ifElseIf:
@@ -194,6 +196,7 @@ ifElseIf:
 	// tests/contracts/if.algo.ts:29
 	// return 'end';
 	byte 0x656e64 // "end"
+	retsub
 
 // ifElseIfElse(bool,bool)string
 *abi_route_ifElseIfElse:
@@ -270,6 +273,7 @@ ifElseIfElse:
 	retsub
 
 *if3_end:
+	retsub
 
 // ifElseIfElseIf(bool,bool,bool)string
 *abi_route_ifElseIfElseIf:
@@ -365,6 +369,7 @@ ifElseIfElseIf:
 	// tests/contracts/if.algo.ts:51
 	// return 'end';
 	byte 0x656e64 // "end"
+	retsub
 
 // ifElseIfElseIfElse(bool,bool,bool)string
 *abi_route_ifElseIfElseIfElse:
@@ -464,6 +469,7 @@ ifElseIfElseIfElse:
 	retsub
 
 *if5_end:
+	retsub
 
 // nestedIf(bool,bool)string
 *abi_route_nestedIf:
@@ -540,6 +546,7 @@ nestedIf:
 	retsub
 
 *if6_end:
+	retsub
 
 // bracketlessIfElse(bool)string
 *abi_route_bracketlessIfElse:
@@ -593,6 +600,7 @@ bracketlessIfElse:
 	retsub
 
 *if8_end:
+	retsub
 
 // nestedTernary(bool,bool)uint64
 *abi_route_nestedTernary:
@@ -691,6 +699,7 @@ stringIf:
 	// tests/contracts/if.algo.ts:92
 	// return 2;
 	int 2
+	retsub
 
 // stringTernary(string)uint64
 *abi_route_stringTernary:
@@ -946,6 +955,7 @@ nestedIfInElseIf:
 	retsub
 
 *if13_end:
+	retsub
 
 *abi_route_createApplication:
 	int 1

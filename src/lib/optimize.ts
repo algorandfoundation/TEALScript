@@ -338,7 +338,6 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
 
         const branchName = lastLine.slice(0, lastLine.length - 1);
         popTeal();
-        optimized = true;
 
         outputTeal.forEach((t) => {
           if (t.teal.startsWith(`b ${branchName}`)) {
