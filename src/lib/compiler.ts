@@ -4417,14 +4417,7 @@ export default class Compiler {
 
     typeComparison(this.lastType, returnType, true);
 
-    if (this.frameIndex > 0) {
-      this.pushLines(node, '// set the subroutine return value', 'frame_bury 0');
-
-      if (this.frameIndex > 1) {
-        this.pushLines(node, '// pop all local variables from the stack', `popn ${this.frameIndex - 1}`);
-      }
-    }
-    this.pushVoid(node, 'retsub');
+    this.pushVoid(node, `b *${this.currentSubroutine.name}*return`);
 
     this.typeHint = undefined;
   }
@@ -6320,9 +6313,8 @@ export default class Compiler {
       .getParameters()
       .map((p) => p.getDeclarations()[0].getText());
 
-    const headerComment = [
-      `// ${fn.getName()}(${sigParams.join(', ')}): ${fn.getReturnTypeNode()?.getText() || 'void'}`,
-    ];
+    const returnTypeString = fn.getReturnTypeNode()?.getText() || 'void';
+    const headerComment = [`// ${fn.getName()}(${sigParams.join(', ')}): ${returnTypeString}`];
 
     if (this.currentSubroutine.desc !== '') {
       headerComment.push('//');
@@ -6366,8 +6358,30 @@ export default class Compiler {
     this.frameIndex = 0;
     this.processNode(fn.getBodyOrThrow());
 
-    if (!['retsub', 'err'].includes(this.teal[this.currentProgram].at(-1)!.teal.split(' ')[0]))
-      this.pushVoid(fn, 'retsub');
+    const currentTeal = this.teal[this.currentProgram];
+    const returnBranch = `*${this.currentSubroutine.name}*return`;
+
+    if (currentTeal.at(-1)?.teal === `b ${returnBranch}`) {
+      currentTeal.pop();
+    }
+
+    if (currentTeal.map((t) => t.teal).includes(`b ${returnBranch}`)) {
+      this.pushLines(this.currentSubroutine.node, `${returnBranch}:`);
+    }
+
+    if (returnTypeString !== 'void' && this.frameIndex > 0) {
+      this.pushLines(this.currentSubroutine.node, '// set the subroutine return value', 'frame_bury 0');
+
+      if (this.frameIndex > 1) {
+        this.pushLines(
+          this.currentSubroutine.node,
+          '// pop all local variables from the stack',
+          `popn ${this.frameIndex - 1}`
+        );
+      }
+    }
+
+    this.pushVoid(this.currentSubroutine.node, 'retsub');
 
     this.frameInfo[this.currentSubroutine.name] = {
       start: frameStart,

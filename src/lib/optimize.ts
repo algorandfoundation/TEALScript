@@ -332,6 +332,20 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
           optimized = true;
         }
       }
+    } else if (teal.startsWith('retsub')) {
+      if (outputTeal.at(-1)?.teal.endsWith('*return:')) {
+        const lastLine = outputTeal.at(-1)!.teal;
+
+        const branchName = lastLine.slice(0, lastLine.length - 1);
+        popTeal();
+
+        outputTeal.forEach((t) => {
+          if (t.teal.startsWith(`b ${branchName}`)) {
+            // eslint-disable-next-line no-param-reassign
+            t.teal = 'retsub';
+          }
+        });
+      }
     }
 
     if (!optimized) pushTeal(teal, node);

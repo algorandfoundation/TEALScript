@@ -453,4 +453,12 @@ class GeneralTest extends Contract {
     const a = Address.fromAddress('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ');
     assert(a === Address.zeroAddress);
   }
+
+  earlyReturn(a: uint64): uint64 {
+    if (a === 1) {
+      return 2;
+    }
+    const b = a + 1;
+    return b;
+  }
 }

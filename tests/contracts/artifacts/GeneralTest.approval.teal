@@ -2305,6 +2305,61 @@ fromAddress:
 	assert
 	retsub
 
+// earlyReturn(uint64)uint64
+*abi_route_earlyReturn:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute earlyReturn(uint64)uint64
+	callsub earlyReturn
+	itob
+	concat
+	log
+	int 1
+	return
+
+// earlyReturn(a: uint64): uint64
+earlyReturn:
+	proto 1 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// *if1_condition
+	// tests/contracts/general.algo.ts:458
+	// a === 1
+	frame_dig -1 // a: uint64
+	int 1
+	==
+	bz *if1_end
+
+	// *if1_consequent
+	// tests/contracts/general.algo.ts:459
+	// return 2;
+	int 2
+	b *earlyReturn*return
+
+*if1_end:
+	// tests/contracts/general.algo.ts:461
+	// b = a + 1
+	frame_dig -1 // a: uint64
+	int 1
+	+
+	frame_bury 0 // b: uint64
+
+	// tests/contracts/general.algo.ts:462
+	// return b;
+	frame_dig 0 // b: uint64
+
+*earlyReturn*return:
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
 *abi_route_createApplication:
 	int 1
 	return
@@ -2378,8 +2433,9 @@ fromAddress:
 	method "incrementScratchSlot()void"
 	method "incrementDynamicScratchSlot()void"
 	method "fromAddress()void"
+	method "earlyReturn(uint64)uint64"
 	txna ApplicationArgs 0
-	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromUint64 *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen *abi_route_dynamicScratchSlot *abi_route_incrementScratchSlot *abi_route_incrementDynamicScratchSlot *abi_route_fromAddress
+	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromUint64 *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen *abi_route_dynamicScratchSlot *abi_route_incrementScratchSlot *abi_route_incrementDynamicScratchSlot *abi_route_fromAddress *abi_route_earlyReturn
 	err
 
 *intToAscii:

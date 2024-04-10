@@ -85,5 +85,14 @@ describe('General', function () {
       const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       await runMethod({ appClient, method: 'readSchema' });
     });
+
+    test('earlyReturn', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      const result1 = await runMethod({ appClient, method: 'earlyReturn', methodArgs: [1] });
+      expect(result1).toBe(2n);
+
+      const result2 = await runMethod({ appClient, method: 'earlyReturn', methodArgs: [2] });
+      expect(result2).toBe(3n);
+    });
   });
 });
