@@ -2231,6 +2231,80 @@ export default class Compiler {
     throw Error(`Cannot determine length for dynamic array. If you are seeing this, file an issue on GitHub`);
   }
 
+  private getClassInfo(node: ts.Identifier):
+    | {
+        declaration: ts.ClassDeclaration;
+        type: 'contract' | 'lsig' | 'core';
+      }
+    | undefined {
+    const classDeclarationNodes: ts.ClassDeclaration[] = [];
+
+    node.getDefinitionNodes().forEach((d) => {
+      if (d.isKind(ts.SyntaxKind.ClassDeclaration)) classDeclarationNodes.push(d);
+    });
+
+    if (classDeclarationNodes.length === 0) return undefined;
+    if (classDeclarationNodes.length > 1) {
+      throw Error(
+        `Multiple class declarations found for ${node.getText()}. Please report this error on GitHub https://github.com/algorandfoundation/tealscript`
+      );
+    }
+
+    const declaration = classDeclarationNodes[0];
+
+    const sourcePath = path.normalize(declaration?.getSourceFile().getFilePath() ?? '');
+
+    if (sourcePath.startsWith(this.typesDir) || sourcePath.startsWith(this.libDir)) {
+      if (declaration.getName() === CONTRACT_CLASS) {
+        return {
+          declaration,
+          type: 'contract',
+        };
+      }
+
+      if (declaration.getName() === LSIG_CLASS) {
+        return {
+          declaration,
+          type: 'lsig',
+        };
+      }
+
+      return {
+        declaration,
+        type: 'core',
+      };
+    }
+
+    const superClass = declaration.getHeritageClauses()[0].getTypeNodes()[0].getExpression();
+
+    if (
+      superClass.getText() === CONTRACT_CLASS ||
+      (superClass.isKind(ts.SyntaxKind.Identifier) && this.getClassInfo(superClass)?.type === 'contract') ||
+      superClass.getText().startsWith(`${CONTRACT_CLASS}.extend(`)
+    ) {
+      return {
+        declaration,
+        type: 'contract',
+      };
+    }
+
+    if (
+      superClass.getText() === LSIG_CLASS ||
+      (superClass.isKind(ts.SyntaxKind.Identifier) && this.getClassInfo(superClass)?.type === 'lsig') ||
+      superClass.getText().startsWith(`${LSIG_CLASS}.extend(`)
+    ) {
+      return {
+        declaration,
+        type: 'lsig',
+      };
+    }
+
+    return {
+      declaration,
+      type: 'core',
+    };
+  }
+
   private async postProcessTeal(input: NodeAndTEAL[]): Promise<NodeAndTEAL[]> {
     const compilerOptions = {
       algodPort: this.algodPort,
@@ -2255,8 +2329,11 @@ export default class Compiler {
 
           if (tealLine.startsWith('PENDING_SCHEMA')) {
             const className = tealLine.split(' ')[1];
-            const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
+            const classNode = t.node.getDescendantsOfKind(ts.SyntaxKind.Identifier)[0];
 
+            const { declaration } = this.getClassInfo(classNode)!;
+
+            const srcPath = declaration.getSourceFile()?.getFilePath() || this.srcPath;
             const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
@@ -2275,7 +2352,11 @@ export default class Compiler {
 
           if (tealLine.startsWith('PENDING_COMPILE') && !compilerOptions.skipAlgod) {
             const className = tealLine.split(' ')[1];
-            const srcPath = this.importRegistry[className]?.getFilePath() || this.srcPath;
+            const classNode = t.node.getDescendantsOfKind(ts.SyntaxKind.Identifier)[0];
+
+            const { declaration } = this.getClassInfo(classNode)!;
+
+            const srcPath = declaration.getSourceFile()?.getFilePath() || this.srcPath;
 
             const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
@@ -5940,7 +6021,9 @@ export default class Compiler {
         }
       }
 
-      if (this.contractClasses.includes(base.getText())) {
+      const classInfo = this.getClassInfo(base);
+
+      if (classInfo?.type === 'contract') {
         if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const propName = chain[0].getNameNode().getText();
 
@@ -5978,7 +6061,7 @@ export default class Compiler {
         }
       }
 
-      if (this.lsigClasses.includes(base.getText())) {
+      if (classInfo?.type === 'lsig') {
         if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           const propName = chain[0].getNameNode().getText();
 
