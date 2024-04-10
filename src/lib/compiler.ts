@@ -6898,19 +6898,20 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           throw new Error('methodArgs must be an array');
         }
         init.getElements().forEach((e, i: number) => {
-          if (argTypeStrings[i] === 'accountreference') {
+          if (argTypeStrings[i] === 'account') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Accounts');
             this.pushVoid(e, `int ${accountIndex}`);
             this.pushVoid(e, 'itob');
             accountIndex += 1;
-          } else if (argTypeStrings[i] === 'assetreference') {
+          } else if (argTypeStrings[i] === 'asset') {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Assets');
             this.pushVoid(e, `int ${assetIndex}`);
             this.pushVoid(e, 'itob');
             assetIndex += 1;
-          } else if (argTypeStrings[i] === 'appreference') {
+            // if it's an appl but NOT a method call
+          } else if (argTypeStrings[i] === 'appl' && !e.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
             this.processNode(e);
             this.pushVoid(e, 'itxn_field Applications');
             this.pushVoid(e, `int ${appIndex}`);

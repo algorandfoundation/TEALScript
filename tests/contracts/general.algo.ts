@@ -461,4 +461,11 @@ class GeneralTest extends Contract {
     const b = a + 1;
     return b;
   }
+
+  assetMethodArgs(): void {
+    sendMethodCall<[AssetReference], void>({
+      name: 'foo',
+      methodArgs: [AssetID.fromUint64(1)],
+    });
+  }
 }
