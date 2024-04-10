@@ -63,12 +63,14 @@ singleIf:
 	// tests/contracts/if.algo.ts:8
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *singleIf*return
 
 *if0_end:
 	// tests/contracts/if.algo.ts:11
 	// return 'end';
 	byte 0x656e64 // "end"
+
+*singleIf*return:
 	retsub
 
 // ifElse(bool)string
@@ -113,16 +115,18 @@ ifElse:
 	// tests/contracts/if.algo.ts:16
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *ifElse*return
 	b *if1_end
 
 *if1_else:
 	// tests/contracts/if.algo.ts:18
 	// return 'else';
 	byte 0x656c7365 // "else"
-	retsub
+	b *ifElse*return
 
 *if1_end:
+
+*ifElse*return:
 	retsub
 
 // ifElseIf(bool,bool)string
@@ -177,7 +181,7 @@ ifElseIf:
 	// tests/contracts/if.algo.ts:24
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *ifElseIf*return
 	b *if2_end
 
 *if2_elseif1_condition:
@@ -190,12 +194,14 @@ ifElseIf:
 	// tests/contracts/if.algo.ts:26
 	// return 'else if';
 	byte 0x656c7365206966 // "else if"
-	retsub
+	b *ifElseIf*return
 
 *if2_end:
 	// tests/contracts/if.algo.ts:29
 	// return 'end';
 	byte 0x656e64 // "end"
+
+*ifElseIf*return:
 	retsub
 
 // ifElseIfElse(bool,bool)string
@@ -250,7 +256,7 @@ ifElseIfElse:
 	// tests/contracts/if.algo.ts:34
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *ifElseIfElse*return
 	b *if3_end
 
 *if3_elseif1_condition:
@@ -263,16 +269,18 @@ ifElseIfElse:
 	// tests/contracts/if.algo.ts:36
 	// return 'else if';
 	byte 0x656c7365206966 // "else if"
-	retsub
+	b *ifElseIfElse*return
 	b *if3_end
 
 *if3_else:
 	// tests/contracts/if.algo.ts:38
 	// return 'else';
 	byte 0x656c7365 // "else"
-	retsub
+	b *ifElseIfElse*return
 
 *if3_end:
+
+*ifElseIfElse*return:
 	retsub
 
 // ifElseIfElseIf(bool,bool,bool)string
@@ -337,7 +345,7 @@ ifElseIfElseIf:
 	// tests/contracts/if.algo.ts:44
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *ifElseIfElseIf*return
 	b *if4_end
 
 *if4_elseif1_condition:
@@ -350,7 +358,7 @@ ifElseIfElseIf:
 	// tests/contracts/if.algo.ts:46
 	// return 'else if 1';
 	byte 0x656c73652069662031 // "else if 1"
-	retsub
+	b *ifElseIfElseIf*return
 	b *if4_end
 
 *if4_elseif2_condition:
@@ -363,12 +371,14 @@ ifElseIfElseIf:
 	// tests/contracts/if.algo.ts:48
 	// return 'else if 2';
 	byte 0x656c73652069662032 // "else if 2"
-	retsub
+	b *ifElseIfElseIf*return
 
 *if4_end:
 	// tests/contracts/if.algo.ts:51
 	// return 'end';
 	byte 0x656e64 // "end"
+
+*ifElseIfElseIf*return:
 	retsub
 
 // ifElseIfElseIfElse(bool,bool,bool)string
@@ -433,7 +443,7 @@ ifElseIfElseIfElse:
 	// tests/contracts/if.algo.ts:56
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *ifElseIfElseIfElse*return
 	b *if5_end
 
 *if5_elseif1_condition:
@@ -446,7 +456,7 @@ ifElseIfElseIfElse:
 	// tests/contracts/if.algo.ts:58
 	// return 'else if 1';
 	byte 0x656c73652069662031 // "else if 1"
-	retsub
+	b *ifElseIfElseIfElse*return
 	b *if5_end
 
 *if5_elseif2_condition:
@@ -459,16 +469,18 @@ ifElseIfElseIfElse:
 	// tests/contracts/if.algo.ts:60
 	// return 'else if 2';
 	byte 0x656c73652069662032 // "else if 2"
-	retsub
+	b *ifElseIfElseIfElse*return
 	b *if5_end
 
 *if5_else:
 	// tests/contracts/if.algo.ts:62
 	// return 'else';
 	byte 0x656c7365 // "else"
-	retsub
+	b *ifElseIfElseIfElse*return
 
 *if5_end:
+
+*ifElseIfElseIfElse*return:
 	retsub
 
 // nestedIf(bool,bool)string
@@ -530,22 +542,24 @@ nestedIf:
 	// tests/contracts/if.algo.ts:69
 	// return 'nested if';
 	byte 0x6e6573746564206966 // "nested if"
-	retsub
+	b *nestedIf*return
 
 *if7_end:
 	// tests/contracts/if.algo.ts:71
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *nestedIf*return
 	b *if6_end
 
 *if6_else:
 	// tests/contracts/if.algo.ts:73
 	// return 'else';
 	byte 0x656c7365 // "else"
-	retsub
+	b *nestedIf*return
 
 *if6_end:
+
+*nestedIf*return:
 	retsub
 
 // bracketlessIfElse(bool)string
@@ -590,16 +604,18 @@ bracketlessIfElse:
 	// tests/contracts/if.algo.ts:78
 	// return 'if';
 	byte 0x6966 // "if"
-	retsub
+	b *bracketlessIfElse*return
 	b *if8_end
 
 *if8_else:
 	// tests/contracts/if.algo.ts:79
 	// return 'else';
 	byte 0x656c7365 // "else"
-	retsub
+	b *bracketlessIfElse*return
 
 *if8_end:
+
+*bracketlessIfElse*return:
 	retsub
 
 // nestedTernary(bool,bool)uint64
@@ -693,12 +709,14 @@ stringIf:
 	// tests/contracts/if.algo.ts:89
 	// return 1;
 	int 1
-	retsub
+	b *stringIf*return
 
 *if9_end:
 	// tests/contracts/if.algo.ts:92
 	// return 2;
 	int 2
+
+*stringIf*return:
 	retsub
 
 // stringTernary(string)uint64
@@ -923,14 +941,14 @@ nestedIfInElseIf:
 	// tests/contracts/if.algo.ts:120
 	// return 'a and b';
 	byte 0x6120616e642062 // "a and b"
-	retsub
+	b *nestedIfInElseIf*return
 	b *if14_end
 
 *if14_else:
 	// tests/contracts/if.algo.ts:122
 	// return 'a';
 	byte 0x61 // "a"
-	retsub
+	b *nestedIfInElseIf*return
 
 *if14_end:
 	b *if13_end
@@ -945,16 +963,18 @@ nestedIfInElseIf:
 	// tests/contracts/if.algo.ts:125
 	// return 'b';
 	byte 0x62 // "b"
-	retsub
+	b *nestedIfInElseIf*return
 	b *if13_end
 
 *if13_else:
 	// tests/contracts/if.algo.ts:127
 	// return 'neither';
 	byte 0x6e656974686572 // "neither"
-	retsub
+	b *nestedIfInElseIf*return
 
 *if13_end:
+
+*nestedIfInElseIf*return:
 	retsub
 
 *abi_route_createApplication:
