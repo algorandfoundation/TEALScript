@@ -5656,7 +5656,7 @@ export default class Compiler {
     ) {
       const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
       if (isNumeric(type)) {
-        this.push(chain[0], `pushint TMPL_${name}`, type);
+        this.push(chain[0], `pushints TMPL_${name}`, type);
       } else {
         this.push(chain[0], `pushbytes TMPL_${name}`, type);
       }
@@ -7055,12 +7055,17 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/push(int|bytes) TMPL_/)) {
-          const s = t.trim().split(' ');
-          const hex = Buffer.from(s[1]).toString('hex');
+        if (t.match(/push(ints|bytes) TMPL_/)) {
+          const [opcode, arg] = t.trim().split(' ');
+          if (opcode === 'pushints') return 'pushints 0';
 
-          if (s[0] === 'pushint') return `pushint ${parseInt(hex, 16) % 2 ** 64}`;
-          return `byte 0x${hex}`;
+          const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
+
+          if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
+
+          if (this.isDynamicType(tVar.type)) return 'byte 0x';
+
+          return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
 
         return t;

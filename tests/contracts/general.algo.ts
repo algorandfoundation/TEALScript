@@ -26,9 +26,17 @@ class Templates extends Contract {
 
   uint64TmplVar = TemplateVar<uint64>();
 
+  bytes32TmplVar = TemplateVar<bytes32>();
+
+  bytes64TmplVar = TemplateVar<bytes64>();
+
   tmpl(): void {
     log(this.bytesTmplVar);
     assert(this.uint64TmplVar);
+  }
+
+  specificLengthTemplateVar(): void {
+    ed25519VerifyBare(this.bytesTmplVar, this.bytes64TmplVar, this.bytes32TmplVar);
   }
 }
 
