@@ -5111,7 +5111,12 @@ export default class Compiler {
       } else {
         this.typeHint = hint;
         this.processNode(init!);
-        if (hint) typeComparison(this.lastType, hint);
+        if (hint) {
+          if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe')) {
+            this.checkEncoding(init!, this.lastType);
+          }
+          typeComparison(this.lastType, hint);
+        }
       }
 
       const type = hint || this.lastType;

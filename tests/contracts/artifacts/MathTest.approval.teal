@@ -1821,6 +1821,76 @@ unsafeVariables:
 	popn 2
 	retsub
 
+// foobar(uint128)uint128
+*abi_route_foobar:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// x: uint128
+	txna ApplicationArgs 1
+	dup
+	len
+	int 16
+	==
+	assert
+
+	// execute foobar(uint128)uint128
+	callsub foobar
+	dup
+	bitlen
+	int 128
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 16
+	-
+	swap
+	substring3
+	concat
+	log
+	int 1
+	return
+
+// foobar(x: uint128): uint128
+foobar:
+	proto 1 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// tests/contracts/math.algo.ts:221
+	// avgStake: uint128 = x / (30000 as uint128)
+	frame_dig -1 // x: uint128
+	byte 0x00000000000000000000000000007530
+	b/
+	dup
+	bitlen
+	int 128
+	<=
+	assert
+	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	int 16
+	-
+	swap
+	substring3
+	frame_bury 0 // avgStake: uint128
+
+	// tests/contracts/math.algo.ts:223
+	// return avgStake
+	frame_dig 0 // avgStake: uint128
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
 *abi_route_createApplication:
 	int 1
 	return
@@ -1871,6 +1941,7 @@ unsafeVariables:
 	method "divw(uint64,uint64)uint64"
 	method "divmodw(uint64,uint64)uint64"
 	method "unsafeVariables()uint64"
+	method "foobar(uint128)uint128"
 	txna ApplicationArgs 0
-	match *abi_route_u64plus *abi_route_u64minus *abi_route_u64mul *abi_route_u64div *abi_route_u256plus *abi_route_u256minus *abi_route_u256mul *abi_route_u256div *abi_route_u64Return256 *abi_route_maxU64 *abi_route_exponent *abi_route_variableTypeHint *abi_route_uint8plus *abi_route_uint8exp *abi_route_plusEquals *abi_route_plusEqualsFromGlobal *abi_route_boxTest *abi_route_unsafeMethodArgs *abi_route_uint256ComparisonType *abi_route_squareRoot256 *abi_route_squareRoot64 *abi_route_addressToBigInt *abi_route_u8Tou64 *abi_route_funcName *abi_route_bigintPlus *abi_route_bitwiseOr *abi_route_bitwiseAnd *abi_route_bitwiseXor *abi_route_bitwiseOrU256 *abi_route_bitwiseAndU256 *abi_route_bitwiseXorU256 *abi_route_bitwiseNot *abi_route_bitwiseNotU256 *abi_route_mulw *abi_route_addw *abi_route_expw *abi_route_divw *abi_route_divmodw *abi_route_unsafeVariables
+	match *abi_route_u64plus *abi_route_u64minus *abi_route_u64mul *abi_route_u64div *abi_route_u256plus *abi_route_u256minus *abi_route_u256mul *abi_route_u256div *abi_route_u64Return256 *abi_route_maxU64 *abi_route_exponent *abi_route_variableTypeHint *abi_route_uint8plus *abi_route_uint8exp *abi_route_plusEquals *abi_route_plusEqualsFromGlobal *abi_route_boxTest *abi_route_unsafeMethodArgs *abi_route_uint256ComparisonType *abi_route_squareRoot256 *abi_route_squareRoot64 *abi_route_addressToBigInt *abi_route_u8Tou64 *abi_route_funcName *abi_route_bigintPlus *abi_route_bitwiseOr *abi_route_bitwiseAnd *abi_route_bitwiseXor *abi_route_bitwiseOrU256 *abi_route_bitwiseAndU256 *abi_route_bitwiseXorU256 *abi_route_bitwiseNot *abi_route_bitwiseNotU256 *abi_route_mulw *abi_route_addw *abi_route_expw *abi_route_divw *abi_route_divmodw *abi_route_unsafeVariables *abi_route_foobar
 	err
