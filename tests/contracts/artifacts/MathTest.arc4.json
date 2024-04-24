@@ -575,6 +575,18 @@
       }
     },
     {
+      "name": "foobar",
+      "args": [
+        {
+          "name": "x",
+          "type": "uint128"
+        }
+      ],
+      "returns": {
+        "type": "uint128"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

@@ -216,4 +216,10 @@ class MathTest extends Contract {
 
     return c;
   }
+
+  foobar(x: uint128): uint128 {
+    const avgStake: uint128 = x / (30000 as uint128);
+
+    return avgStake;
+  }
 }
