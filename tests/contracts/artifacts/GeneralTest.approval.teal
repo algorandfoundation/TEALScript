@@ -2422,22 +2422,22 @@ multipleProgramPages:
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
 	assert
-	itxn_field ApprovalProgram
+	itxn_field ApprovalProgramPages
 	byte 0x7061676554776f // "pageTwo"
 	box_get
 	assert
-	itxn_field ApprovalProgram
+	itxn_field ApprovalProgramPages
 
 	// tests/contracts/general.algo.ts:487
 	// clearStateProgram: [this.pageOne.value, this.pageTwo.value]
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
 	assert
-	itxn_field ClearStateProgram
+	itxn_field ClearStateProgramPages
 	byte 0x7061676554776f // "pageTwo"
 	box_get
 	assert
-	itxn_field ClearStateProgram
+	itxn_field ClearStateProgramPages
 
 	// Fee field not set, defaulting to 0
 	int 0
