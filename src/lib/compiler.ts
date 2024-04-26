@@ -6886,10 +6886,13 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       this.addSourceComment(p, true);
       this.pushComments(p);
 
-      if ((key === 'approvalProgram' || key === 'clearProgram') && init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+      if (
+        (key === 'approvalProgram' || key === 'clearStateProgram') &&
+        init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)
+      ) {
         init.getElements().forEach((e) => {
           this.processNode(e);
-          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}`);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}Pages`);
         });
       } else if (key === 'onCompletion') {
         if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
