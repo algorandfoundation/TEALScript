@@ -751,9 +751,9 @@ interface AppParams extends CommonTransactionParams {
   applicationID?: AppID;
   onCompletion?: OnCompletion;
   accounts?: Address[];
-  approvalProgram?: bytes;
-  applicationArgs?: bytes[];
-  clearStateProgram?: bytes;
+  approvalProgram?: BytesLike | BytesLike[];
+  applicationArgs?: BytesLike[];
+  clearStateProgram?: BytesLike | BytesLike[];
   applications?: Array<AppID>;
   assets?: Array<AssetID>;
   globalNumByteSlice?: uint64;

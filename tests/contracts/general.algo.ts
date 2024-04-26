@@ -476,4 +476,15 @@ class GeneralTest extends Contract {
       methodArgs: [AssetID.fromUint64(1)],
     });
   }
+
+  pageOne = BoxKey<bytes>();
+
+  pageTwo = BoxKey<bytes>();
+
+  multipleProgramPages(): void {
+    sendAppCall({
+      approvalProgram: [this.pageOne.value, this.pageTwo.value],
+      clearStateProgram: [this.pageOne.value, this.pageTwo.value],
+    });
+  }
 }

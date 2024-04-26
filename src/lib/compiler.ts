@@ -6886,7 +6886,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       this.addSourceComment(p, true);
       this.pushComments(p);
 
-      if (key === 'onCompletion') {
+      if ((key === 'approvalProgram' || key === 'clearProgram') && init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+        init.getElements().forEach((e) => {
+          this.processNode(e);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}`);
+        });
+      } else if (key === 'onCompletion') {
         if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           throw new Error('Must use OnCompletion enum');
         }
