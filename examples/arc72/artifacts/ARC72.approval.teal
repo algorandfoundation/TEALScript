@@ -439,7 +439,7 @@ mint:
 	int 256
 	<=
 
-	// arc72_totalSupply overflowed 256 bits
+	// arc72_totalSupply return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -489,7 +489,7 @@ arc72_totalSupply:
 	int 256
 	<=
 
-	// arc72_tokenByIndex overflowed 256 bits
+	// arc72_tokenByIndex return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 8
 	<=
 
-	// accessDynamicArrayElementInTuple overflowed 8 bits
+	// accessDynamicArrayElementInTuple return value overflowed 8 bits
 	assert
 	extract 7 1
 	concat

@@ -114,7 +114,7 @@ decr:
 	int 256
 	<=
 
-	// add overflowed 256 bits
+	// add return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -173,7 +173,7 @@ add:
 	int 256
 	<=
 
-	// sub overflowed 256 bits
+	// sub return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

@@ -877,7 +877,7 @@ exLocal:
 	int 16
 	<=
 
-	// accessStaticValueInLargeBox overflowed 16 bits
+	// accessStaticValueInLargeBox return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat
@@ -929,7 +929,7 @@ accessStaticValueInLargeBox:
 	int 16
 	<=
 
-	// dynamicAccessStaticValueInLargeBox overflowed 16 bits
+	// dynamicAccessStaticValueInLargeBox return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat

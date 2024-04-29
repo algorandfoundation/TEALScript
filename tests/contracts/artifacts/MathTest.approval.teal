@@ -182,7 +182,7 @@ u64div:
 	int 256
 	<=
 
-	// u256plus overflowed 256 bits
+	// u256plus return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -241,7 +241,7 @@ u256plus:
 	int 256
 	<=
 
-	// u256minus overflowed 256 bits
+	// u256minus return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -300,7 +300,7 @@ u256minus:
 	int 256
 	<=
 
-	// u256mul overflowed 256 bits
+	// u256mul return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -359,7 +359,7 @@ u256mul:
 	int 256
 	<=
 
-	// u256div overflowed 256 bits
+	// u256div return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -406,7 +406,7 @@ u256div:
 	int 256
 	<=
 
-	// u64Return256 overflowed 256 bits
+	// u64Return256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -523,7 +523,7 @@ exponent:
 	int 16
 	<=
 
-	// variableTypeHint overflowed 16 bits
+	// variableTypeHint return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat
@@ -588,7 +588,7 @@ variableTypeHint:
 	int 8
 	<=
 
-	// uint8plus overflowed 8 bits
+	// uint8plus return value overflowed 8 bits
 	assert
 	extract 7 1
 	concat
@@ -642,7 +642,7 @@ uint8plus:
 	int 8
 	<=
 
-	// uint8exp overflowed 8 bits
+	// uint8exp return value overflowed 8 bits
 	assert
 	extract 7 1
 	concat
@@ -768,7 +768,7 @@ plusEqualsFromGlobal:
 	int 256
 	<=
 
-	// boxTest overflowed 256 bits
+	// boxTest return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -873,7 +873,7 @@ foo:
 	int 256
 	<=
 
-	// unsafeMethodArgs overflowed 256 bits
+	// unsafeMethodArgs return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1025,7 +1025,7 @@ uint256ComparisonType:
 	int 256
 	<=
 
-	// squareRoot256 overflowed 256 bits
+	// squareRoot256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1404,7 +1404,7 @@ bitwiseXor:
 	int 256
 	<=
 
-	// bitwiseOrU256 overflowed 256 bits
+	// bitwiseOrU256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1463,7 +1463,7 @@ bitwiseOrU256:
 	int 256
 	<=
 
-	// bitwiseAndU256 overflowed 256 bits
+	// bitwiseAndU256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1522,7 +1522,7 @@ bitwiseAndU256:
 	int 256
 	<=
 
-	// bitwiseXorU256 overflowed 256 bits
+	// bitwiseXorU256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1598,7 +1598,7 @@ bitwiseNot:
 	int 256
 	<=
 
-	// bitwiseNotU256 overflowed 256 bits
+	// bitwiseNotU256 return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -1946,7 +1946,7 @@ unsafeVariables:
 	int 128
 	<=
 
-	// foobar overflowed 128 bits
+	// foobar return value overflowed 128 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 16
 	<=
 
-	// arrayPopValue overflowed 16 bits
+	// arrayPopValue return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat

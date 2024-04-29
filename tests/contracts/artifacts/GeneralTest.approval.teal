@@ -1157,7 +1157,7 @@ appLoadScratch:
 	int 256
 	<=
 
-	// uintNWithUnderscore overflowed 256 bits
+	// uintNWithUnderscore return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

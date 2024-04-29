@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 16
 	<=
 
-	// simpleTuple overflowed 16 bits
+	// simpleTuple return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat

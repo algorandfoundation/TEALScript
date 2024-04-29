@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 16
 	<=
 
-	// tupleInArray overflowed 16 bits
+	// tupleInArray return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat

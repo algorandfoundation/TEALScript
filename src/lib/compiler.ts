@@ -6507,11 +6507,9 @@ export default class Compiler {
 
     this.pushLines(node, 'dup', 'bitlen', `int ${width}`, '<=');
 
-    let text = node.getText().replace(/\n/g, '\\n');
     if (node.isKind(ts.SyntaxKind.MethodDeclaration)) {
-      text = node.getName();
-    }
-    this.pushVoid(node, 'assert', `${text} overflowed ${width} bits`);
+      this.pushVoid(node, 'assert', `${node.getName()} return value overflowed ${width} bits`);
+    } else this.pushVoid(node, 'assert', `${node.getText().replace(/\n/g, '\\n')} overflowed ${width} bits`);
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {

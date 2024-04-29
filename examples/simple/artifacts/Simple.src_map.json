@@ -511,7 +511,7 @@
   {
     "teal": 118,
     "source": 18,
-    "errorMessage": "add overflowed 256 bits",
+    "errorMessage": "add return value overflowed 256 bits",
     "pc": [
       164
     ]
@@ -783,7 +783,7 @@
   {
     "teal": 177,
     "source": 22,
-    "errorMessage": "sub overflowed 256 bits",
+    "errorMessage": "sub return value overflowed 256 bits",
     "pc": [
       211
     ]

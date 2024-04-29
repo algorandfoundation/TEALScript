@@ -2039,7 +2039,7 @@
   {
     "teal": 443,
     "source": 100,
-    "errorMessage": "arc72_totalSupply overflowed 256 bits",
+    "errorMessage": "arc72_totalSupply return value overflowed 256 bits",
     "pc": [
       698
     ]
@@ -2257,7 +2257,7 @@
   {
     "teal": 493,
     "source": 108,
-    "errorMessage": "arc72_tokenByIndex overflowed 256 bits",
+    "errorMessage": "arc72_tokenByIndex return value overflowed 256 bits",
     "pc": [
       734
     ]

@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 16
 	<=
 
-	// threeDimensionalUint16Array overflowed 16 bits
+	// threeDimensionalUint16Array return value overflowed 16 bits
 	assert
 	extract 6 2
 	concat

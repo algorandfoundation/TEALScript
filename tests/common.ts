@@ -158,3 +158,8 @@ export async function runMethod({
     throw e;
   }
 }
+
+export function getErrorMessage(algodError: string, sourceInfo: { pc: number[]; errorMessage?: string }[]) {
+  const pc = Number(algodError.match(/(?<=pc=)\d+/)?.[0]);
+  return sourceInfo.find((s) => s.pc.includes(pc))?.errorMessage || `unknown error: ${algodError}`;
+}
