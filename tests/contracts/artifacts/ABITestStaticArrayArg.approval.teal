@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 24
 	==
+
+	// argument 0 (a) for staticArrayArg must be a uint64[3]
 	assert
 
 	// execute staticArrayArg(uint64[3])uint64

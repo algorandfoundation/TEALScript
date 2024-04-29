@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 2
 	==
+
+	// argument 0 (a) for biggerByteCasting must be a byte[2]
 	assert
 
 	// execute biggerByteCasting(byte[2])byte[4]

@@ -35,6 +35,8 @@ verifyMBRPayment:
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"payment","field":"receiver","expected":"this.app.address"}
 	assert
 
 	// verify amount
@@ -46,6 +48,8 @@ verifyMBRPayment:
 	frame_dig -2 // preMBR: uint64
 	-
 	==
+
+	// transaction verification failed: {"txn":"payment","field":"amount","expected":"this.app.address.minBalance - preMBR"}
 	assert
 	retsub
 
@@ -94,6 +98,8 @@ sendMBRPayment:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (payment) for addAppToWhiteList must be a pay transaction
 	assert
 
 	// appID: uint64
@@ -106,6 +112,8 @@ sendMBRPayment:
 	len
 	int 2
 	==
+
+	// argument 2 (boxIndex) for addAppToWhiteList must be a uint16
 	assert
 	btoi
 
@@ -176,9 +184,11 @@ addAppToWhiteList:
 	// examples/arc75/arc75.algo.ts:37
 	// this.whitelist(whitelist).value.push(appID)
 	frame_dig 1 // whitelist: Whitelist
-	int 2
-	int 0
-	box_extract
+	box_get
+
+	// box value does not exist: this.whitelist(whitelist).value
+	assert
+	extract 2 0
 	frame_dig -3 // appID: uint64
 	itob
 	concat
@@ -242,6 +252,8 @@ addAppToWhiteList:
 	len
 	int 2
 	==
+
+	// argument 1 (boxIndex) for setAppWhitelist must be a uint16
 	assert
 	btoi
 
@@ -349,6 +361,9 @@ setAppWhitelist:
 	int pay
 	==
 	assert
+
+	// failed to cast this.txnGroup[this.txn.groupIndex - 1] to pay
+	assert
 	callsub verifyMBRPayment
 
 *if1_end:
@@ -362,6 +377,8 @@ setAppWhitelist:
 	len
 	int 2
 	==
+
+	// argument 0 (boxIndex) for deleteWhitelist must be a uint16
 	assert
 	btoi
 
@@ -444,6 +461,8 @@ deleteWhitelist:
 	len
 	int 2
 	==
+
+	// argument 2 (boxIndex) for deleteAppFromWhitelist must be a uint16
 	assert
 	btoi
 
@@ -503,9 +522,11 @@ deleteAppFromWhitelist:
 	// examples/arc75/arc75.algo.ts:97
 	// spliced = this.whitelist(whitelist).value.splice(index, 1)
 	frame_dig 1 // whitelist: Whitelist
-	int 2
-	int 0
-	box_extract
+	box_get
+
+	// box value does not exist: this.whitelist(whitelist).value
+	assert
+	extract 2 0
 	int 1
 	frame_dig -4 // index: uint64
 	int 8
@@ -514,16 +535,20 @@ deleteAppFromWhitelist:
 	int 16
 	store 246 // splice byte length
 	frame_dig 1 // whitelist: Whitelist
-	int 2
-	int 0
-	box_extract
+	box_get
+
+	// box value does not exist: this.whitelist(whitelist).value
+	assert
+	extract 2 0
 	int 0
 	load 247 // splice start
 	substring3
 	frame_dig 1 // whitelist: Whitelist
-	int 2
-	int 0
-	box_extract
+	box_get
+
+	// box value does not exist: this.whitelist(whitelist).value
+	assert
+	extract 2 0
 	dup
 	len
 	load 247 // splice start
@@ -535,9 +560,11 @@ deleteAppFromWhitelist:
 	substring3
 	concat
 	frame_dig 1 // whitelist: Whitelist
-	int 2
-	int 0
-	box_extract
+	box_get
+
+	// box value does not exist: this.whitelist(whitelist).value
+	assert
+	extract 2 0
 	load 247 // splice start
 	load 246 // splice byte length
 	int 8

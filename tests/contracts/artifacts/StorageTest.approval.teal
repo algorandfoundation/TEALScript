@@ -139,6 +139,8 @@ globalKeyExists:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localKeyPut must be a address
 	assert
 
 	// execute localKeyPut(address)void
@@ -166,6 +168,8 @@ localKeyPut:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localKeyGet must be a address
 	assert
 
 	// execute localKeyGet(address)void
@@ -195,6 +199,8 @@ localKeyGet:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localKeyDelete must be a address
 	assert
 
 	// execute localKeyDelete(address)void
@@ -221,6 +227,8 @@ localKeyDelete:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localKeyExists must be a address
 	assert
 
 	// execute localKeyExists(address)void
@@ -276,6 +284,8 @@ boxKeyGet:
 	// assert(this.boxKey.value === 'bar')
 	byte 0x666f6f // "foo"
 	box_get
+
+	// box value does not exist: this.boxKey.value
 	assert
 	byte 0x626172 // "bar"
 	==
@@ -403,6 +413,8 @@ globalMapExists:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localMapPut must be a address
 	assert
 
 	// execute localMapPut(address)void
@@ -430,6 +442,8 @@ localMapPut:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localMapGet must be a address
 	assert
 
 	// execute localMapGet(address)void
@@ -459,6 +473,8 @@ localMapGet:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localMapDelete must be a address
 	assert
 
 	// execute localMapDelete(address)void
@@ -485,6 +501,8 @@ localMapDelete:
 	len
 	int 32
 	==
+
+	// argument 0 (a) for localMapExists must be a address
 	assert
 
 	// execute localMapExists(address)void
@@ -540,6 +558,8 @@ boxMapGet:
 	// assert(this.boxMap('foo').value === 'bar')
 	byte 0x666f6f // "foo"
 	box_get
+
+	// box value does not exist: this.boxMap('foo').value
 	assert
 	byte 0x626172 // "bar"
 	==
@@ -642,6 +662,8 @@ boxKeyLength:
 	// return this.boxKey.size;
 	byte 0x666f6f // "foo"
 	box_len
+
+	// box value does not exist: this.boxKey.size
 	assert
 	retsub
 
@@ -666,6 +688,8 @@ boxMapLength:
 	// return this.boxMap('bar').size;
 	byte 0x626172 // "bar"
 	box_len
+
+	// box value does not exist: this.boxMap('bar').size
 	assert
 	retsub
 
@@ -810,6 +834,8 @@ exGlobal:
 	txna Applications 0
 	byte 0x666f6f // "foo"
 	app_global_get_ex
+
+	// global state value does not exist: this.app.globalState('foo')
 	assert
 	log
 	retsub
@@ -831,6 +857,8 @@ exLocal:
 	txna Applications 0
 	byte 0x666f6f // "foo"
 	app_local_get_ex
+
+	// local state value does not exist: this.app.localState(this.txn.sender, 'foo')
 	assert
 	log
 	retsub
@@ -847,6 +875,8 @@ exLocal:
 	bitlen
 	int 16
 	<=
+
+	// accessStaticValueInLargeBox overflowed 16 bits
 	assert
 	extract 6 2
 	concat
@@ -897,6 +927,8 @@ accessStaticValueInLargeBox:
 	bitlen
 	int 16
 	<=
+
+	// dynamicAccessStaticValueInLargeBox overflowed 16 bits
 	assert
 	extract 6 2
 	concat

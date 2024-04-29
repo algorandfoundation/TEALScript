@@ -1,5 +1,4 @@
 import * as ts from 'ts-morph';
-import { error } from 'console';
 import langspec from '../static/langspec.json';
 
 type TEALInfo = {

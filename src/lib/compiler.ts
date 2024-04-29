@@ -10,10 +10,10 @@ import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
+import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
-import { error } from 'console';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -438,7 +438,7 @@ const compilerScratch = {
 export type TEALInfo = {
   node: ts.Node;
   teal: string;
-  errorMessage?: string
+  errorMessage?: string;
 };
 
 /** @internal */
@@ -490,7 +490,7 @@ export default class Compiler {
     source: number;
     teal: number;
     pc?: number[];
-    errorMessage?: string
+    errorMessage?: string;
   }[] = [];
 
   private frameIndex: number = 0;
@@ -644,7 +644,12 @@ export default class Compiler {
         type: 'any',
         args: 1,
         fn: (node: ts.Node) => {
-          this.assertMaybeValue(node, 'app_global_get_ex', StackType.any);
+          this.assertMaybeValue(
+            node,
+            'app_global_get_ex',
+            StackType.any,
+            `global state value does not exist: ${node.getText()}`
+          );
         },
       },
       {
@@ -653,7 +658,12 @@ export default class Compiler {
         args: 2,
         fn: (node: ts.Node) => {
           this.pushLines(node, 'swap', 'cover 2');
-          this.assertMaybeValue(node, 'app_local_get_ex', StackType.any);
+          this.assertMaybeValue(
+            node,
+            'app_local_get_ex',
+            StackType.any,
+            `local state value does not exist: ${node.getText()}`
+          );
         },
       },
     ],
@@ -830,7 +840,12 @@ export default class Compiler {
         } else if (storageType === 'local') {
           this.push(node.getExpression(), 'app_local_get', valueType);
         } else if (storageType === 'box') {
-          this.assertMaybeValue(node.getExpression(), 'box_get', valueType);
+          this.assertMaybeValue(
+            node.getExpression(),
+            'box_get',
+            valueType,
+            `box value does not exist: ${node.getText()}`
+          );
         }
 
         if ((storageType === 'box' || !isNumeric(valueType)) && !equalTypes(valueType, StackType.bytes)) {
@@ -940,7 +955,12 @@ export default class Compiler {
         break;
 
       case 'size':
-        this.assertMaybeValue(node.getExpression(), 'box_len', StackType.uint64);
+        this.assertMaybeValue(
+          node.getExpression(),
+          'box_len',
+          StackType.uint64,
+          `box value does not exist: ${node.getText()}`
+        );
         break;
       default:
         throw new Error();
@@ -1367,6 +1387,8 @@ export default class Compiler {
       }
     }
 
+    const txnText = node.getArguments()[0].getText();
+
     if (
       type !== undefined &&
       !skipTypeCheck &&
@@ -1376,7 +1398,11 @@ export default class Compiler {
       loadField(node, 'typeEnum');
       this.pushVoid(node, `int ${type}`);
       this.pushVoid(node, '==');
-      this.pushVoid(node, 'assert');
+      this.pushVoid(
+        node,
+        'assert',
+        `transaction verification failed: ${JSON.stringify({ txn: txnText, field: 'typeEnum', expected: type })}`
+      );
     }
 
     const processConditionProp = (
@@ -1397,7 +1423,16 @@ export default class Compiler {
           if (eIndex) this.pushLines(condAssignment, '||');
         });
 
-        this.pushVoid(condAssignment, 'assert');
+        this.pushVoid(
+          condAssignment,
+          'assert',
+          `transaction verification failed: ${JSON.stringify({
+            txn: { txnText },
+            field,
+            condition,
+            expected: propInit.getText(),
+          })}`
+        );
         return;
       }
 
@@ -1414,7 +1449,17 @@ export default class Compiler {
       if (op === undefined) throw Error();
       loadField(topProp, field);
       this.processNode(condAssignment.getInitializer()!);
-      this.pushLines(condAssignment, op, 'assert');
+      this.pushLines(condAssignment, op);
+      this.pushVoid(
+        condAssignment,
+        'assert',
+        `transaction verification failed: ${JSON.stringify({
+          txn: txnText,
+          field,
+          condition,
+          expected: op + condAssignment.getInitializer()!.getText(),
+        })}`
+      );
     };
 
     firstArg.getProperties().forEach((topProp, i) => {
@@ -1440,7 +1485,17 @@ export default class Compiler {
             } else {
               loadField(childProp, `${field} ${childProp.getName()}`);
               this.processNode(childProp.getInitializer()!);
-              this.pushLines(childProp, '==', 'assert');
+              this.pushLines(childProp, '==');
+              this.pushVoid(
+                childProp,
+                'assert',
+                `transaction verification failed: ${JSON.stringify({
+                  txn: txnText,
+                  field,
+                  index: childProp.getName(),
+                  expected: childProp.getInitializer()!.getText(),
+                })}`
+              );
             }
           } else processConditionProp(childProp, topProp, field);
         });
@@ -1449,7 +1504,16 @@ export default class Compiler {
 
       loadField(topProp, field);
       this.processNode(topProp.getInitializer()!);
-      this.pushLines(topProp, '==', 'assert');
+      this.pushLines(topProp, '==');
+      this.pushVoid(
+        topProp,
+        'assert',
+        `transaction verification failed: ${JSON.stringify({
+          txn: txnText,
+          field,
+          expected: topProp.getInitializer()!.getText(),
+        })}`
+      );
     });
   }
 
@@ -1617,7 +1681,7 @@ export default class Compiler {
       fn: (node: ts.CallExpression) => {
         node.getArguments().forEach((a) => {
           this.processNode(a);
-          this.pushVoid(a, 'assert');
+          this.pushVoid(a, 'assert', `asserts failed: ${node.getText().replace(/\n/g, '\\n')}`);
         });
       },
     },
@@ -1775,7 +1839,8 @@ export default class Compiler {
         this.multiplyWideRatioFactors(node, new Array(...args[0].getElements()));
         this.multiplyWideRatioFactors(node, new Array(...args[1].getElements()));
 
-        this.pushLines(node, 'divmodw', 'pop', 'pop', 'swap', '!', 'assert');
+        this.pushLines(node, 'divmodw', 'pop', 'pop', 'swap', '!');
+        this.pushVoid(node, 'assert', 'wideRatio failed');
 
         this.lastType = StackType.uint64;
       },
@@ -2801,7 +2866,7 @@ export default class Compiler {
     this.lastNode = node;
 
     if (!equalTypes(type, StackType.void)) this.lastType = type;
-    
+
     if (errorMessage) this.teal[this.currentProgram].push({ teal: `// ${errorMessage}`, node });
     this.teal[this.currentProgram].push({ teal, node, errorMessage });
   }
@@ -2896,9 +2961,9 @@ export default class Compiler {
     }
   }
 
-  private assertMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
+  private assertMaybeValue(node: ts.Node, opcode: string, type: TypeInfo, errorMessage: string) {
     this.pushVoid(node, opcode);
-    this.push(node, 'assert', type);
+    this.push(node, 'assert', type, errorMessage);
   }
 
   private popMaybeValue(node: ts.Node, opcode: string, type: TypeInfo) {
@@ -2931,9 +2996,11 @@ export default class Compiler {
     if (!expr.isKind(ts.SyntaxKind.CallExpression)) throw Error('Must throw Error');
     if (expr.getExpression().getText() !== 'Error') throw Error('Must throw Error');
 
-    const args = expr.getArguments()
+    const args = expr.getArguments();
 
-    const errorMessage = args?.[0].getType().isStringLiteral() ? args[0].getType().getLiteralValueOrThrow().valueOf().toString() : undefined
+    const errorMessage = args?.[0].getType().isStringLiteral()
+      ? args[0].getType().getLiteralValueOrThrow().valueOf().toString()
+      : undefined;
     this.pushVoid(node, 'err', errorMessage);
   }
 
@@ -4818,6 +4885,7 @@ export default class Compiler {
 
       this.processNode(expr);
       this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
+      this.pushVoid(node, 'assert', `failed to cast ${expr.getText()} to ${typeStr}`);
       this.lastType = typeHint;
       return;
     }
@@ -6428,7 +6496,13 @@ export default class Compiler {
   private overflowCheck(node: ts.Node, width: number) {
     if (this.disableOverflowChecks) return;
 
-    this.pushLines(node, 'dup', 'bitlen', `int ${width}`, '<=', 'assert');
+    this.pushLines(node, 'dup', 'bitlen', `int ${width}`, '<=');
+
+    let text = node.getText().replace(/\n/g, '\\n');
+    if (node.isKind(ts.SyntaxKind.MethodDeclaration)) {
+      text = node.getName();
+    }
+    this.pushVoid(node, 'assert', `${text} overflowed ${width} bits`);
   }
 
   private processRoutableMethod(fn: ts.MethodDeclaration) {
@@ -6459,7 +6533,7 @@ export default class Compiler {
       argCount - fn.getParameters().filter((p) => p.getTypeNode()?.getText().includes('Txn')).length + 1;
     let gtxnIndex = 0;
 
-    new Array(...fn.getParameters()).reverse().forEach((p) => {
+    new Array(...fn.getParameters()).reverse().forEach((p, i) => {
       let type = this.getTypeInfo(p!.getTypeNode()!.getType());
 
       if (p.getTypeNode()?.getText() === 'Account') {
@@ -6485,9 +6559,23 @@ export default class Compiler {
         this.pushVoid(p, 'txn GroupIndex');
         this.pushVoid(p, `int ${(gtxnIndex += 1)}`);
         this.pushVoid(p, '-');
-        if (typeStr !== 'txn') this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
+        if (typeStr !== 'txn') {
+          this.pushLines(p, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==');
+          this.pushVoid(
+            p,
+            'assert',
+            `argument ${i} (${p.getNameNode().getText()}) for ${
+              this.currentSubroutine.name
+            } must be a ${typeStr} transaction`
+          );
+        }
       } else if (!this.isDynamicType(type) && typeStr !== 'uint64') {
-        this.pushLines(p, 'dup', 'len', `int ${typeStr === 'bool' ? 1 : this.getTypeLength(type)}`, '==', 'assert');
+        this.pushLines(p, 'dup', 'len', `int ${typeStr === 'bool' ? 1 : this.getTypeLength(type)}`, '==');
+        this.pushVoid(
+          p,
+          'assert',
+          `argument ${i} (${p.getNameNode().getText()}) for ${this.currentSubroutine.name} must be a ${typeStr}`
+        );
       }
 
       if (!isRefType(type)) this.checkDecoding(p, type);
@@ -6554,7 +6642,9 @@ export default class Compiler {
       const args = node.getArguments();
       this.processNode(args[0]);
 
-      const errorMessage = args[1]?.getType().isStringLiteral() ? args[1].getType().getLiteralValueOrThrow().valueOf().toString() : undefined;
+      const errorMessage = args[1]?.getType().isStringLiteral()
+        ? args[1].getType().getLiteralValueOrThrow().valueOf().toString()
+        : undefined;
 
       this.pushVoid(node, 'assert', errorMessage);
 

@@ -92,6 +92,8 @@ setMyContact:
 	len
 	int 32
 	==
+
+	// argument 0 (address) for addContact must be a address
 	assert
 
 	// company: string
@@ -157,6 +159,8 @@ addContact:
 	len
 	int 32
 	==
+
+	// argument 0 (address) for updateContactField must be a address
 	assert
 
 	// value: string
@@ -189,6 +193,8 @@ updateContactField:
 	// this.contacts(address).value.name = value
 	frame_dig -3 // address: Address
 	box_get
+
+	// box value does not exist: this.contacts(address).value
 	assert
 	store 255 // full array
 	int 0
@@ -260,6 +266,8 @@ updateContactField:
 	// this.contacts(address).value.company = value
 	frame_dig -3 // address: Address
 	box_get
+
+	// box value does not exist: this.contacts(address).value
 	assert
 	store 255 // full array
 	int 2
@@ -328,6 +336,8 @@ updateContactField:
 	len
 	int 32
 	==
+
+	// argument 0 (address) for verifyContactName must be a address
 	assert
 
 	// name: string
@@ -347,6 +357,8 @@ verifyContactName:
 	// assert(this.contacts(address).value.name === name)
 	frame_dig -2 // address: Address
 	box_get
+
+	// box value does not exist: this.contacts(address).value
 	assert
 	store 255 // full array
 	int 0

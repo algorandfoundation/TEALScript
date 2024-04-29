@@ -62,6 +62,8 @@ updateArrayRefInBoxStorage:
 	// return v;
 	frame_dig 0 // storage key//v
 	box_get
+
+	// box value does not exist: this.bMap(this.txn.sender).value
 	assert
 
 	// set the subroutine return value

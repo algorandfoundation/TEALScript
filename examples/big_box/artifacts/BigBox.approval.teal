@@ -31,6 +31,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (mbrPayment) for startUpload must be a pay transaction
 	assert
 
 	// endBoxSize: uint64
@@ -159,6 +161,8 @@ startUpload:
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"mbrPayment","field":"receiver","expected":"this.app.address"}
 	assert
 
 	// verify amount
@@ -166,6 +170,8 @@ startUpload:
 	gtxns Amount
 	frame_dig 3 // totalCost: uint64
 	==
+
+	// transaction verification failed: {"txn":"mbrPayment","field":"amount","expected":"totalCost"}
 	assert
 	retsub
 
@@ -299,6 +305,8 @@ upload:
 	len
 	int 1
 	==
+
+	// argument 0 (status) for setStatus must be a uint8
 	assert
 	btoi
 

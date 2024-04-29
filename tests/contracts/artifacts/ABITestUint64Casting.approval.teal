@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (a) for uint64Casting must be a uint256
 	assert
 
 	// execute uint64Casting(uint256)uint64
@@ -53,6 +55,8 @@ uint64Casting:
 	bitlen
 	int 64
 	<=
+
+	// a as uint64 overflowed 64 bits
 	assert
 	extract 24 8
 	btoi

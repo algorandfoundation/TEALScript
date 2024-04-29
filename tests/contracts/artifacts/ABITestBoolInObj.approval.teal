@@ -68,6 +68,8 @@ boolInObj:
 	getbit
 	int 1
 	==
+
+	// asserts failed: asserts(x.foo === true, x.bar === false, x.baz === true)
 	assert
 	frame_dig 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 	store 255 // full array
@@ -76,6 +78,8 @@ boolInObj:
 	getbit
 	int 0
 	==
+
+	// asserts failed: asserts(x.foo === true, x.bar === false, x.baz === true)
 	assert
 	frame_dig 0 // x: { foo: boolean; bar: boolean; baz: boolean }
 	store 255 // full array
@@ -84,6 +88,8 @@ boolInObj:
 	getbit
 	int 1
 	==
+
+	// asserts failed: asserts(x.foo === true, x.bar === false, x.baz === true)
 	assert
 	retsub
 

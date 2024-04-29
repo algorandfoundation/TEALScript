@@ -42,6 +42,8 @@ staticTypeInBox:
 	// assert(this.bMap(this.txn.sender).value.isInLedger)
 	txn Sender
 	box_get
+
+	// box value does not exist: this.bMap(this.txn.sender).value
 	assert
 	acct_params_get AcctBalance
 	swap

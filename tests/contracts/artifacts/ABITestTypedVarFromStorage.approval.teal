@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 4
 	==
+
+	// argument 0 (key) for typedVarFromStorage must be a uint32
 	assert
 	btoi
 
@@ -60,6 +62,8 @@ typedVarFromStorage:
 	// return value;
 	frame_dig 0 // storage key//value
 	box_get
+
+	// box value does not exist: this.boxMapTest(key).value
 	assert
 
 	// set the subroutine return value

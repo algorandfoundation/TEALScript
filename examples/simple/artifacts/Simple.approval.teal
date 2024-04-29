@@ -92,6 +92,8 @@ decr:
 	len
 	int 32
 	==
+
+	// argument 0 (b) for add must be a uint256
 	assert
 
 	// a: uint256
@@ -100,6 +102,8 @@ decr:
 	len
 	int 32
 	==
+
+	// argument 1 (a) for add must be a uint256
 	assert
 
 	// execute add(uint256,uint256)uint256
@@ -108,6 +112,8 @@ decr:
 	bitlen
 	int 256
 	<=
+
+	// add overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -145,6 +151,8 @@ add:
 	len
 	int 32
 	==
+
+	// argument 0 (b) for sub must be a uint256
 	assert
 
 	// a: uint256
@@ -153,6 +161,8 @@ add:
 	len
 	int 32
 	==
+
+	// argument 1 (a) for sub must be a uint256
 	assert
 
 	// execute sub(uint256,uint256)uint256
@@ -161,6 +171,8 @@ add:
 	bitlen
 	int 256
 	<=
+
+	// sub overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

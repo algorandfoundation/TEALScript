@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (tokenId) for arc72_ownerOf must be a uint256
 	assert
 
 	// execute arc72_ownerOf(uint256)address
@@ -70,6 +72,8 @@ arc72_ownerOf:
 	len
 	int 32
 	==
+
+	// argument 0 (tokenId) for arc72_tokenURI must be a uint256
 	assert
 
 	// execute arc72_tokenURI(uint256)byte[256]
@@ -117,6 +121,8 @@ transferTo:
 	len
 	int 32
 	==
+
+	// argument 0 (tokenId) for arc72_transferFrom must be a uint256
 	assert
 
 	// to: address
@@ -125,6 +131,8 @@ transferTo:
 	len
 	int 32
 	==
+
+	// argument 1 (to) for arc72_transferFrom must be a address
 	assert
 
 	// _from: address
@@ -133,6 +141,8 @@ transferTo:
 	len
 	int 32
 	==
+
+	// argument 2 (_from) for arc72_transferFrom must be a address
 	assert
 
 	// execute arc72_transferFrom(address,address,uint256)void
@@ -213,6 +223,8 @@ arc72_transferFrom:
 	len
 	int 32
 	==
+
+	// argument 0 (tokenId) for arc72_approve must be a uint256
 	assert
 
 	// approved: address
@@ -221,6 +233,8 @@ arc72_transferFrom:
 	len
 	int 32
 	==
+
+	// argument 1 (approved) for arc72_approve must be a address
 	assert
 
 	// execute arc72_approve(address,uint256)void
@@ -254,6 +268,8 @@ arc72_approve:
 	len
 	int 1
 	==
+
+	// argument 0 (approved) for arc72_setApprovalForAll must be a bool
 	assert
 	int 0
 	getbit
@@ -264,6 +280,8 @@ arc72_approve:
 	len
 	int 32
 	==
+
+	// argument 1 (operator) for arc72_setApprovalForAll must be a address
 	assert
 
 	// execute arc72_setApprovalForAll(address,bool)void
@@ -335,6 +353,8 @@ arc72_setApprovalForAll:
 	len
 	int 32
 	==
+
+	// argument 0 (to) for mint must be a address
 	assert
 
 	// execute mint(address)void
@@ -391,6 +411,8 @@ mint:
 	bitlen
 	int 256
 	<=
+
+	// index + 1 overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -415,6 +437,8 @@ mint:
 	bitlen
 	int 256
 	<=
+
+	// arc72_totalSupply overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -453,6 +477,8 @@ arc72_totalSupply:
 	len
 	int 32
 	==
+
+	// argument 0 (index) for arc72_tokenByIndex must be a uint256
 	assert
 
 	// execute arc72_tokenByIndex(uint256)uint256
@@ -461,6 +487,8 @@ arc72_totalSupply:
 	bitlen
 	int 256
 	<=
+
+	// arc72_tokenByIndex overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&

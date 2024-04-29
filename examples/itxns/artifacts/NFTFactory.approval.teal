@@ -88,6 +88,8 @@ createNFT:
 	len
 	int 32
 	==
+
+	// argument 0 (receiver) for transferNFT must be a address
 	assert
 
 	// asset: uint64

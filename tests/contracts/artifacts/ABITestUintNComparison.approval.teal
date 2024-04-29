@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (y) for uintNComparison must be a uint256
 	assert
 
 	// x: uint256
@@ -40,6 +42,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 1 (x) for uintNComparison must be a uint256
 	assert
 
 	// execute uintNComparison(uint256,uint256)bool

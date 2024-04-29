@@ -29,6 +29,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (creator) for allowOptInsFrom must be a address
 	assert
 
 	// execute allowOptInsFrom(address)void
@@ -63,6 +65,8 @@ allowOptInsFrom:
 	len
 	int 32
 	==
+
+	// argument 0 (creator) for disableOptInsFrom must be a address
 	assert
 
 	// execute disableOptInsFrom(address)void
@@ -99,6 +103,8 @@ disableOptInsFrom:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 0 (optIn) for verifyCreator must be a axfer transaction
 	assert
 
 	// execute verifyCreator(axfer)void
@@ -120,6 +126,8 @@ verifyCreator:
 	pop
 	concat
 	box_get
+
+	// box value does not exist: this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value
 	assert
 	int 0
 	getbit

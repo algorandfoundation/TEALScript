@@ -228,6 +228,8 @@ deleteApplication:
 	app_params_get AppCreator
 	pop
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.app.creator"}
 	assert
 	retsub
 
@@ -257,6 +259,8 @@ createApplication:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for verify must be a byte[33][3]
 	assert
 
 	// data: byte[]
@@ -292,6 +296,8 @@ verify:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for appendLeaf must be a byte[33][3]
 	assert
 
 	// data: byte[]
@@ -356,6 +362,8 @@ appendLeaf:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for updateLeaf must be a byte[33][3]
 	assert
 
 	// newData: byte[]

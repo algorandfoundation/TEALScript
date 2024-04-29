@@ -33,6 +33,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	bitlen
 	int 8
 	<=
+
+	// globalMethodInChain overflowed 8 bits
 	assert
 	extract 7 1
 	concat

@@ -75,14 +75,15 @@
     ]
   },
   {
-    "teal": 36,
+    "teal": 38,
     "source": 7,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
     "pc": [
       21
     ]
   },
   {
-    "teal": 39,
+    "teal": 41,
     "source": 8,
     "pc": [
       22,
@@ -90,28 +91,29 @@
     ]
   },
   {
-    "teal": 40,
+    "teal": 42,
     "source": 8,
     "pc": [
       24
     ]
   },
   {
-    "teal": 41,
+    "teal": 43,
     "source": 8,
     "pc": [
       25
     ]
   },
   {
-    "teal": 42,
+    "teal": 46,
     "source": 8,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
     "pc": [
       26
     ]
   },
   {
-    "teal": 45,
+    "teal": 49,
     "source": 9,
     "pc": [
       27,
@@ -119,7 +121,7 @@
     ]
   },
   {
-    "teal": 46,
+    "teal": 50,
     "source": 9,
     "pc": [
       29,
@@ -127,21 +129,22 @@
     ]
   },
   {
-    "teal": 47,
+    "teal": 51,
     "source": 9,
     "pc": [
       31
     ]
   },
   {
-    "teal": 48,
+    "teal": 54,
     "source": 9,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
     "pc": [
       32
     ]
   },
   {
-    "teal": 51,
+    "teal": 57,
     "source": 10,
     "pc": [
       33,
@@ -149,28 +152,29 @@
     ]
   },
   {
-    "teal": 52,
+    "teal": 58,
     "source": 10,
     "pc": [
       35
     ]
   },
   {
-    "teal": 53,
+    "teal": 59,
     "source": 10,
     "pc": [
       36
     ]
   },
   {
-    "teal": 54,
+    "teal": 62,
     "source": 10,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
     "pc": [
       37
     ]
   },
   {
-    "teal": 57,
+    "teal": 65,
     "source": 11,
     "pc": [
       38,
@@ -178,7 +182,7 @@
     ]
   },
   {
-    "teal": 58,
+    "teal": 66,
     "source": 11,
     "pc": [
       40,
@@ -186,21 +190,22 @@
     ]
   },
   {
-    "teal": 59,
+    "teal": 67,
     "source": 11,
     "pc": [
       42
     ]
   },
   {
-    "teal": 60,
+    "teal": 70,
     "source": 11,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
     "pc": [
       43
     ]
   },
   {
-    "teal": 63,
+    "teal": 73,
     "source": 12,
     "pc": [
       44,
@@ -208,7 +213,7 @@
     ]
   },
   {
-    "teal": 64,
+    "teal": 74,
     "source": 12,
     "pc": [
       46,
@@ -216,21 +221,22 @@
     ]
   },
   {
-    "teal": 65,
+    "teal": 75,
     "source": 12,
     "pc": [
       48
     ]
   },
   {
-    "teal": 66,
+    "teal": 78,
     "source": 12,
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
     "pc": [
       49
     ]
   },
   {
-    "teal": 67,
+    "teal": 79,
     "source": 6,
     "pc": [
       50

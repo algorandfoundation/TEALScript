@@ -61,6 +61,8 @@ nestedStructInBoxMap:
 	// return this.bMap('bMap').value;
 	byte 0x624d6170 // "bMap"
 	box_get
+
+	// box value does not exist: this.bMap('bMap').value
 	assert
 	retsub
 

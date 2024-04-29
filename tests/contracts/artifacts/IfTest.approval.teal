@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 1
 	==
+
+	// argument 0 (arg0) for singleIf must be a bool
 	assert
 	int 0
 	getbit
@@ -82,6 +84,8 @@ singleIf:
 	len
 	int 1
 	==
+
+	// argument 0 (arg0) for ifElse must be a bool
 	assert
 	int 0
 	getbit
@@ -136,6 +140,8 @@ ifElse:
 	len
 	int 1
 	==
+
+	// argument 0 (arg1) for ifElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -146,6 +152,8 @@ ifElse:
 	len
 	int 1
 	==
+
+	// argument 1 (arg0) for ifElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -209,6 +217,8 @@ ifElseIf:
 	len
 	int 1
 	==
+
+	// argument 0 (arg1) for ifElseIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -219,6 +229,8 @@ ifElseIf:
 	len
 	int 1
 	==
+
+	// argument 1 (arg0) for ifElseIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -286,6 +298,8 @@ ifElseIfElse:
 	len
 	int 1
 	==
+
+	// argument 0 (arg2) for ifElseIfElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -296,6 +310,8 @@ ifElseIfElse:
 	len
 	int 1
 	==
+
+	// argument 1 (arg1) for ifElseIfElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -306,6 +322,8 @@ ifElseIfElse:
 	len
 	int 1
 	==
+
+	// argument 2 (arg0) for ifElseIfElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -382,6 +400,8 @@ ifElseIfElseIf:
 	len
 	int 1
 	==
+
+	// argument 0 (arg2) for ifElseIfElseIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -392,6 +412,8 @@ ifElseIfElseIf:
 	len
 	int 1
 	==
+
+	// argument 1 (arg1) for ifElseIfElseIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -402,6 +424,8 @@ ifElseIfElseIf:
 	len
 	int 1
 	==
+
+	// argument 2 (arg0) for ifElseIfElseIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -482,6 +506,8 @@ ifElseIfElseIfElse:
 	len
 	int 1
 	==
+
+	// argument 0 (arg1) for nestedIf must be a bool
 	assert
 	int 0
 	getbit
@@ -492,6 +518,8 @@ ifElseIfElseIfElse:
 	len
 	int 1
 	==
+
+	// argument 1 (arg0) for nestedIf must be a bool
 	assert
 	int 0
 	getbit
@@ -559,6 +587,8 @@ nestedIf:
 	len
 	int 1
 	==
+
+	// argument 0 (arg0) for bracketlessIfElse must be a bool
 	assert
 	int 0
 	getbit
@@ -613,6 +643,8 @@ bracketlessIfElse:
 	len
 	int 1
 	==
+
+	// argument 0 (arg1) for nestedTernary must be a bool
 	assert
 	int 0
 	getbit
@@ -623,6 +655,8 @@ bracketlessIfElse:
 	len
 	int 1
 	==
+
+	// argument 1 (arg0) for nestedTernary must be a bool
 	assert
 	int 0
 	getbit
@@ -745,6 +779,8 @@ stringTernary:
 	len
 	int 2
 	==
+
+	// argument 0 (a) for smallUintConditional must be a uint16
 	assert
 	btoi
 
@@ -782,6 +818,8 @@ smallUintConditional:
 	len
 	int 2
 	==
+
+	// argument 0 (b) for smallUintComparisonConditional must be a uint16
 	assert
 	btoi
 
@@ -791,6 +829,8 @@ smallUintConditional:
 	len
 	int 2
 	==
+
+	// argument 1 (a) for smallUintComparisonConditional must be a uint16
 	assert
 	btoi
 
@@ -828,6 +868,8 @@ smallUintComparisonConditional:
 	len
 	int 32
 	==
+
+	// argument 0 (b) for uint256ComparsionConditional must be a uint256
 	assert
 
 	// a: uint256
@@ -836,6 +878,8 @@ smallUintComparisonConditional:
 	len
 	int 32
 	==
+
+	// argument 1 (a) for uint256ComparsionConditional must be a uint256
 	assert
 
 	// execute uint256ComparsionConditional(uint256,uint256)void
@@ -875,6 +919,8 @@ uint256ComparsionConditional:
 	len
 	int 1
 	==
+
+	// argument 0 (b) for nestedIfInElseIf must be a bool
 	assert
 	int 0
 	getbit
@@ -885,6 +931,8 @@ uint256ComparsionConditional:
 	len
 	int 1
 	==
+
+	// argument 1 (a) for nestedIfInElseIf must be a bool
 	assert
 	int 0
 	getbit

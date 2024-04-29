@@ -32,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 18
 	==
+
+	// argument 0 (a) for tupleArg must be a (uint64,uint16,uint64)
 	assert
 
 	// execute tupleArg((uint64,uint16,uint64))uint16
@@ -41,6 +43,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	bitlen
 	int 16
 	<=
+
+	// tupleArg overflowed 16 bits
 	assert
 	extract 6 2
 	concat

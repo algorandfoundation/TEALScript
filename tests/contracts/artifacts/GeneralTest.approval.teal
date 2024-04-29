@@ -68,6 +68,8 @@ txnGroupLength:
 	len
 	int 1
 	==
+
+	// argument 0 (arg2) for asserts must be a bool
 	assert
 	int 0
 	getbit
@@ -78,6 +80,8 @@ txnGroupLength:
 	len
 	int 1
 	==
+
+	// argument 1 (arg1) for asserts must be a bool
 	assert
 	int 0
 	getbit
@@ -94,12 +98,18 @@ asserts:
 	// tests/contracts/general.algo.ts:69
 	// asserts(arg1, arg2, arg1 === arg2)
 	frame_dig -1 // arg1: boolean
+
+	// asserts failed: asserts(arg1, arg2, arg1 === arg2)
 	assert
 	frame_dig -2 // arg2: boolean
+
+	// asserts failed: asserts(arg1, arg2, arg1 === arg2)
 	assert
 	frame_dig -1 // arg1: boolean
 	frame_dig -2 // arg2: boolean
 	==
+
+	// asserts failed: asserts(arg1, arg2, arg1 === arg2)
 	assert
 	retsub
 
@@ -113,6 +123,8 @@ asserts:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (somePay) for verifyTxnFromArg must be a pay transaction
 	assert
 
 	// execute verifyTxnFromArg(pay)void
@@ -131,6 +143,8 @@ verifyTxnFromArg:
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"somePay","field":"receiver","expected":"this.app.address"}
 	assert
 
 	// verify amount
@@ -138,6 +152,8 @@ verifyTxnFromArg:
 	gtxns Amount
 	int 100_000
 	==
+
+	// transaction verification failed: {"txn":"somePay","field":"amount","expected":"100_000"}
 	assert
 	retsub
 
@@ -159,6 +175,8 @@ verifyTxnFromTxnGroup:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"sender","expected":"this.txn.sender"}
 	assert
 	retsub
 
@@ -181,6 +199,8 @@ verifyTxnCondition:
 	txn ApplicationID
 	int 1
 	>
+
+	// transaction verification failed: {"txn":"this.txn","field":"applicationID","condition":"greaterThan","expected":">1"}
 	assert
 	retsub
 
@@ -203,6 +223,8 @@ verifyTxnIncludedIn:
 	txn Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":{"txnText":"this.txn"},"field":"sender","condition":"includedIn","expected":"[this.txn.sender]"}
 	assert
 	retsub
 
@@ -225,6 +247,8 @@ verifyTxnNotIncludedIn:
 	txn Sender
 	global ZeroAddress
 	!=
+
+	// transaction verification failed: {"txn":{"txnText":"this.txn"},"field":"sender","condition":"notIncludedIn","expected":"[globals.zeroAddress]"}
 	assert
 	retsub
 
@@ -830,6 +854,8 @@ verifyTxnTypes:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"typeEnum","expected":"pay"}
 	assert
 
 	// verify amount
@@ -837,6 +863,8 @@ verifyTxnTypes:
 	gtxns Amount
 	int 0
 	>
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"amount","condition":"greaterThan","expected":">0"}
 	assert
 
 	// tests/contracts/general.algo.ts:219
@@ -854,6 +882,8 @@ verifyTxnTypes:
 	gtxns TypeEnum
 	int appl
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"typeEnum","expected":"appl"}
 	assert
 
 	// verify applicationID
@@ -861,6 +891,8 @@ verifyTxnTypes:
 	gtxns ApplicationID
 	int 0
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"applicationID","expected":"AppID.fromUint64(0)"}
 	assert
 
 	// verify applicationArgs
@@ -869,6 +901,8 @@ verifyTxnTypes:
 	gtxns ApplicationArgs 0
 	byte 0x666f6f // "foo"
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"applicationArgs","index":"0","expected":"'foo'"}
 	assert
 
 	// verify applicationArgs 1
@@ -881,6 +915,8 @@ verifyTxnTypes:
 	byte 0x62617a // "baz"
 	==
 	||
+
+	// transaction verification failed: {"txn":{"txnText":"this.txnGroup[0]"},"field":"applicationArgs 1","condition":"includedIn","expected":"['bar', 'baz']"}
 	assert
 
 	// tests/contracts/general.algo.ts:229
@@ -892,6 +928,8 @@ verifyTxnTypes:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"typeEnum","expected":"axfer"}
 	assert
 
 	// verify assetReceiver
@@ -899,6 +937,8 @@ verifyTxnTypes:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// tests/contracts/general.algo.ts:233
@@ -910,6 +950,8 @@ verifyTxnTypes:
 	gtxns TypeEnum
 	int acfg
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"typeEnum","expected":"acfg"}
 	assert
 
 	// verify configAsset
@@ -917,6 +959,8 @@ verifyTxnTypes:
 	gtxns ConfigAsset
 	int 0
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"configAsset","expected":"AssetID.fromUint64(0)"}
 	assert
 
 	// tests/contracts/general.algo.ts:237
@@ -928,6 +972,8 @@ verifyTxnTypes:
 	gtxns TypeEnum
 	int keyreg
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"typeEnum","expected":"keyreg"}
 	assert
 
 	// verify voteFirst
@@ -935,6 +981,8 @@ verifyTxnTypes:
 	gtxns VoteFirst
 	int 1337
 	==
+
+	// transaction verification failed: {"txn":"this.txnGroup[0]","field":"voteFirst","expected":"1337"}
 	assert
 	retsub
 
@@ -1107,6 +1155,8 @@ appLoadScratch:
 	bitlen
 	int 256
 	<=
+
+	// uintNWithUnderscore overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -2083,6 +2133,8 @@ comparisonOr:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (_pay1) for txnArgsMethod must be a pay transaction
 	assert
 
 	// execute txnArgsMethod(pay)void
@@ -2151,6 +2203,8 @@ callTxnArgsMethod:
 	len
 	int 32
 	==
+
+	// argument 0 (x) for staticValueLen must be a uint256
 	assert
 
 	// execute staticValueLen(uint256)void
@@ -2421,10 +2475,14 @@ multipleProgramPages:
 	// approvalProgram: [this.pageOne.value, this.pageTwo.value]
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
+
+	// box value does not exist: this.pageOne.value
 	assert
 	itxn_field ApprovalProgramPages
 	byte 0x7061676554776f // "pageTwo"
 	box_get
+
+	// box value does not exist: this.pageTwo.value
 	assert
 	itxn_field ApprovalProgramPages
 
@@ -2432,10 +2490,14 @@ multipleProgramPages:
 	// clearStateProgram: [this.pageOne.value, this.pageTwo.value]
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
+
+	// box value does not exist: this.pageOne.value
 	assert
 	itxn_field ClearStateProgramPages
 	byte 0x7061676554776f // "pageTwo"
 	box_get
+
+	// box value does not exist: this.pageTwo.value
 	assert
 	itxn_field ClearStateProgramPages
 

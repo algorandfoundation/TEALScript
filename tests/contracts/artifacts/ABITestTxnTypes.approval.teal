@@ -31,6 +31,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (p) for txnTypes must be a pay transaction
 	assert
 
 	// kr: keyreg
@@ -41,6 +43,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int keyreg
 	==
+
+	// argument 1 (kr) for txnTypes must be a keyreg transaction
 	assert
 
 	// at: axfer
@@ -51,6 +55,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 2 (at) for txnTypes must be a axfer transaction
 	assert
 
 	// af: afrz
@@ -61,6 +67,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int afrz
 	==
+
+	// argument 3 (af) for txnTypes must be a afrz transaction
 	assert
 
 	// ac: acfg
@@ -71,6 +79,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int acfg
 	==
+
+	// argument 4 (ac) for txnTypes must be a acfg transaction
 	assert
 
 	// a: appl
@@ -81,6 +91,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int appl
 	==
+
+	// argument 5 (a) for txnTypes must be a appl transaction
 	assert
 
 	// t: txn

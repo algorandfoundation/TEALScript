@@ -186,6 +186,8 @@ tokensToMint:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 	frame_bury 0 // aRatio: uint64
 
@@ -201,6 +203,8 @@ tokensToMint:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 	frame_bury 1 // bRatio: uint64
 
@@ -231,6 +235,8 @@ tokensToMint:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 
 	// set the subroutine return value
@@ -267,6 +273,8 @@ computeRatio:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 	retsub
 
@@ -286,6 +294,8 @@ tokensToBurn:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 	retsub
 
@@ -328,6 +338,8 @@ tokensToSwap:
 	pop
 	swap
 	!
+
+	// wideRatio failed
 	assert
 
 	// set the subroutine return value
@@ -342,6 +354,8 @@ tokensToSwap:
 	len
 	int 32
 	==
+
+	// argument 0 (governor) for set_governor must be a address
 	assert
 
 	// execute set_governor(address)void
@@ -360,6 +374,8 @@ set_governor:
 	byte 0x67 // "g"
 	app_global_get
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.governor.value"}
 	assert
 
 	// examples/amm/amm.algo.ts:79
@@ -390,6 +406,8 @@ set_governor:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 2 (seed) for bootstrap must be a pay transaction
 	assert
 
 	// execute bootstrap(pay,uint64,uint64)uint64
@@ -411,6 +429,8 @@ bootstrap:
 	byte 0x67 // "g"
 	app_global_get
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.governor.value"}
 	assert
 
 	// examples/amm/amm.algo.ts:85
@@ -427,6 +447,8 @@ bootstrap:
 	gtxns Receiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"seed","field":"receiver","expected":"this.app.address"}
 	assert
 
 	// verify amount
@@ -434,6 +456,8 @@ bootstrap:
 	gtxns Amount
 	int 300_000
 	>=
+
+	// transaction verification failed: {"txn":"seed","field":"amount","condition":"greaterThanEqualTo","expected":">=300_000"}
 	assert
 
 	// examples/amm/amm.algo.ts:88
@@ -501,6 +525,8 @@ bootstrap:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 3 (bXfer) for mint must be a axfer transaction
 	assert
 
 	// aXfer: axfer
@@ -511,6 +537,8 @@ bootstrap:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 4 (aXfer) for mint must be a axfer transaction
 	assert
 
 	// execute mint(axfer,axfer,uint64,uint64,uint64)void
@@ -563,6 +591,8 @@ mint:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"aXfer","field":"sender","expected":"this.txn.sender"}
 	assert
 
 	// verify assetAmount
@@ -570,6 +600,8 @@ mint:
 	gtxns AssetAmount
 	int 0
 	>
+
+	// transaction verification failed: {"txn":"aXfer","field":"assetAmount","condition":"greaterThan","expected":">0"}
 	assert
 
 	// verify assetReceiver
@@ -577,6 +609,8 @@ mint:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"aXfer","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// verify xferAsset
@@ -584,6 +618,8 @@ mint:
 	gtxns XferAsset
 	frame_dig -4 // aAsset: AssetID
 	==
+
+	// transaction verification failed: {"txn":"aXfer","field":"xferAsset","expected":"aAsset"}
 	assert
 
 	// valid asset B axfer
@@ -599,6 +635,8 @@ mint:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"bXfer","field":"sender","expected":"this.txn.sender"}
 	assert
 
 	// verify assetAmount
@@ -606,6 +644,8 @@ mint:
 	gtxns AssetAmount
 	int 0
 	>
+
+	// transaction verification failed: {"txn":"bXfer","field":"assetAmount","condition":"greaterThan","expected":">0"}
 	assert
 
 	// verify assetReceiver
@@ -613,6 +653,8 @@ mint:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"bXfer","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// verify xferAsset
@@ -620,6 +662,8 @@ mint:
 	gtxns XferAsset
 	frame_dig -5 // bAsset: AssetID
 	==
+
+	// transaction verification failed: {"txn":"bXfer","field":"xferAsset","expected":"bAsset"}
 	assert
 
 	// *if0_condition
@@ -732,6 +776,8 @@ mint:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 3 (poolXfer) for burn must be a axfer transaction
 	assert
 
 	// execute burn(axfer,uint64,uint64,uint64)void
@@ -785,6 +831,8 @@ burn:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"poolXfer","field":"sender","expected":"this.txn.sender"}
 	assert
 
 	// verify assetAmount
@@ -792,6 +840,8 @@ burn:
 	gtxns AssetAmount
 	int 0
 	>
+
+	// transaction verification failed: {"txn":"poolXfer","field":"assetAmount","condition":"greaterThan","expected":">0"}
 	assert
 
 	// verify assetReceiver
@@ -799,6 +849,8 @@ burn:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"poolXfer","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// verify xferAsset
@@ -806,6 +858,8 @@ burn:
 	gtxns XferAsset
 	frame_dig -2 // poolAsset: AssetID
 	==
+
+	// transaction verification failed: {"txn":"poolXfer","field":"xferAsset","expected":"poolAsset"}
 	assert
 
 	// examples/amm/amm.algo.ts:156
@@ -884,6 +938,8 @@ burn:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 2 (swapXfer) for swap must be a axfer transaction
 	assert
 
 	// execute swap(axfer,uint64,uint64)void
@@ -928,6 +984,8 @@ swap:
 	gtxns AssetAmount
 	int 0
 	>
+
+	// transaction verification failed: {"txn":"swapXfer","field":"assetAmount","condition":"greaterThan","expected":">0"}
 	assert
 
 	// verify assetReceiver
@@ -935,6 +993,8 @@ swap:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"swapXfer","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// verify sender
@@ -942,6 +1002,8 @@ swap:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"swapXfer","field":"sender","expected":"this.txn.sender"}
 	assert
 
 	// verify xferAsset
@@ -954,6 +1016,8 @@ swap:
 	frame_dig -3 // bAsset: AssetID
 	==
 	||
+
+	// transaction verification failed: {"txn":{"txnText":"swapXfer"},"field":"xferAsset","condition":"includedIn","expected":"[aAsset, bAsset]"}
 	assert
 
 	// examples/amm/amm.algo.ts:180

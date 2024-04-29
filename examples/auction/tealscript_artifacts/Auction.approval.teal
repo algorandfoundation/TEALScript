@@ -85,6 +85,8 @@ optIntoAsset:
 	txn Sender
 	global CreatorAddress
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"globals.creatorAddress"}
 	assert
 
 	// Verify a ASA hasn't already been opted into
@@ -147,6 +149,8 @@ optIntoAsset:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 0 (axfer) for startAuction must be a axfer transaction
 	assert
 
 	// length: uint64
@@ -172,6 +176,8 @@ startAuction:
 	txn Sender
 	global CreatorAddress
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"globals.creatorAddress"}
 	assert
 
 	// Ensure the auction hasn't already been started
@@ -191,6 +197,8 @@ startAuction:
 	gtxns AssetReceiver
 	global CurrentApplicationAddress
 	==
+
+	// transaction verification failed: {"txn":"axfer","field":"assetReceiver","expected":"this.app.address"}
 	assert
 
 	// Set global state
@@ -269,6 +277,8 @@ optInToApplication:
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (payment) for bid must be a pay transaction
 	assert
 
 	// execute bid(pay)void
@@ -300,6 +310,8 @@ bid:
 	gtxns Sender
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"payment","field":"sender","expected":"this.txn.sender"}
 	assert
 
 	// verify amount
@@ -308,6 +320,8 @@ bid:
 	byte 0x70726576696f7573426964 // "previousBid"
 	app_global_get
 	>
+
+	// transaction verification failed: {"txn":"payment","field":"amount","condition":"greaterThan","expected":">this.previousBid.value"}
 	assert
 
 	// Set global state
