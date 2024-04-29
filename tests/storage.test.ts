@@ -69,7 +69,13 @@ describe('Storage', function () {
             }
 
             if (method === 'Get') {
-              if (storageType === 'box') expectedTeal.push('assert');
+              if (storageType === 'box' && storageClass === 'Key') {
+                expectedTeal.push('// box value does not exist: this.boxKey.value', 'assert');
+              }
+
+              if (storageType === 'box' && storageClass === 'Map') {
+                expectedTeal.push("// box value does not exist: this.boxMap('foo').value", 'assert');
+              }
               expectedTeal.push('byte 0x626172 // "bar"');
               expectedTeal.push('==');
               expectedTeal.push('assert');

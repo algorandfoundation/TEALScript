@@ -88,7 +88,7 @@ describe('Math', function () {
         msg = getErrorMessage(e.message, srcInfo);
       }
 
-      expect(msg).toMatch('uint8plus overflowed 8 bits');
+      expect(msg).toMatch('uint8plus return value overflowed 8 bits');
     });
 
     test('funcName', async function () {
