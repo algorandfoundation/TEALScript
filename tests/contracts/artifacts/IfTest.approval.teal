@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action for the given method is not implemented in this contract. Are you calling the correct method?
 	err
 
 // singleIf(bool)string
@@ -1013,6 +1014,8 @@ nestedIfInElseIf:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
@@ -1033,4 +1036,6 @@ nestedIfInElseIf:
 	method "nestedIfInElseIf(bool,bool)string"
 	txna ApplicationArgs 0
 	match *abi_route_singleIf *abi_route_ifElse *abi_route_ifElseIf *abi_route_ifElseIfElse *abi_route_ifElseIfElseIf *abi_route_ifElseIfElseIfElse *abi_route_nestedIf *abi_route_bracketlessIfElse *abi_route_nestedTernary *abi_route_stringIf *abi_route_stringTernary *abi_route_smallUintConditional *abi_route_smallUintComparisonConditional *abi_route_uint256ComparsionConditional *abi_route_nestedIfInElseIf
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

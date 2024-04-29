@@ -2643,8 +2643,13 @@ export default class Compiler {
         'txn OnCompletion',
         '+',
         `switch ${callLabels} ${createLabels}`,
-        '*NOT_IMPLEMENTED:',
-        'err'
+        '*NOT_IMPLEMENTED:'
+      );
+
+      this.pushVoid(
+        node,
+        'err',
+        'The requested action for the given method is not implemented in this contract. Are you calling the correct method?'
       );
 
       this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
@@ -2920,7 +2925,7 @@ export default class Compiler {
         }
 
         if (methods.length === 0) {
-          this.pushVoid(this.classNode, 'err');
+          this.pushVoid(this.classNode, 'err', 'this contract does not implement any ABI methods');
           return;
         }
 
@@ -2939,7 +2944,11 @@ export default class Compiler {
         if (nonAbi) {
           this.pushLines(this.classNode, '// !!!! WARNING: non-ABI routing', `callsub ${nonAbi.name}`);
         } else {
-          this.pushVoid(this.classNode, 'err');
+          this.pushVoid(
+            this.classNode,
+            'err',
+            `this contract does not implement the given ABI method for ${a} ${onComplete}`
+          );
         }
       });
     });

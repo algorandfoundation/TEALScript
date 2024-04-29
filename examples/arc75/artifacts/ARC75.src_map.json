@@ -96,14 +96,15 @@
     ]
   },
   {
-    "teal": 22,
+    "teal": 23,
     "source": 6,
+    "errorMessage": "The requested action for the given method is not implemented in this contract. Are you calling the correct method?",
     "pc": [
       48
     ]
   },
   {
-    "teal": 26,
+    "teal": 27,
     "source": 9,
     "pc": [
       49,
@@ -112,7 +113,7 @@
     ]
   },
   {
-    "teal": 34,
+    "teal": 35,
     "source": 10,
     "pc": [
       52,
@@ -120,7 +121,7 @@
     ]
   },
   {
-    "teal": 35,
+    "teal": 36,
     "source": 11,
     "pc": [
       54,
@@ -128,7 +129,7 @@
     ]
   },
   {
-    "teal": 36,
+    "teal": 37,
     "source": 11,
     "pc": [
       56,
@@ -136,14 +137,14 @@
     ]
   },
   {
-    "teal": 37,
+    "teal": 38,
     "source": 11,
     "pc": [
       58
     ]
   },
   {
-    "teal": 40,
+    "teal": 41,
     "source": 11,
     "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
     "pc": [
@@ -151,7 +152,7 @@
     ]
   },
   {
-    "teal": 43,
+    "teal": 44,
     "source": 10,
     "pc": [
       60,
@@ -159,7 +160,7 @@
     ]
   },
   {
-    "teal": 44,
+    "teal": 45,
     "source": 12,
     "pc": [
       62,
@@ -167,7 +168,7 @@
     ]
   },
   {
-    "teal": 45,
+    "teal": 46,
     "source": 12,
     "pc": [
       64,
@@ -175,7 +176,7 @@
     ]
   },
   {
-    "teal": 46,
+    "teal": 47,
     "source": 12,
     "pc": [
       66,
@@ -183,14 +184,14 @@
     ]
   },
   {
-    "teal": 47,
+    "teal": 48,
     "source": 12,
     "pc": [
       68
     ]
   },
   {
-    "teal": 48,
+    "teal": 49,
     "source": 12,
     "pc": [
       69,
@@ -198,21 +199,21 @@
     ]
   },
   {
-    "teal": 49,
+    "teal": 50,
     "source": 12,
     "pc": [
       71
     ]
   },
   {
-    "teal": 50,
+    "teal": 51,
     "source": 12,
     "pc": [
       72
     ]
   },
   {
-    "teal": 53,
+    "teal": 54,
     "source": 12,
     "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"amount\",\"expected\":\"this.app.address.minBalance - preMBR\"}",
     "pc": [
@@ -220,14 +221,14 @@
     ]
   },
   {
-    "teal": 54,
+    "teal": 55,
     "source": 9,
     "pc": [
       74
     ]
   },
   {
-    "teal": 58,
+    "teal": 59,
     "source": 16,
     "pc": [
       75,
@@ -236,21 +237,21 @@
     ]
   },
   {
-    "teal": 65,
+    "teal": 66,
     "source": 17,
     "pc": [
       78
     ]
   },
   {
-    "teal": 66,
+    "teal": 67,
     "source": 17,
     "pc": [
       79
     ]
   },
   {
-    "teal": 67,
+    "teal": 68,
     "source": 17,
     "pc": [
       80,
@@ -258,7 +259,7 @@
     ]
   },
   {
-    "teal": 71,
+    "teal": 72,
     "source": 18,
     "pc": [
       82,
@@ -266,7 +267,7 @@
     ]
   },
   {
-    "teal": 72,
+    "teal": 73,
     "source": 18,
     "pc": [
       84,
@@ -274,7 +275,7 @@
     ]
   },
   {
-    "teal": 76,
+    "teal": 77,
     "source": 19,
     "pc": [
       86,
@@ -282,7 +283,7 @@
     ]
   },
   {
-    "teal": 77,
+    "teal": 78,
     "source": 19,
     "pc": [
       88,
@@ -290,7 +291,7 @@
     ]
   },
   {
-    "teal": 78,
+    "teal": 79,
     "source": 19,
     "pc": [
       90,
@@ -298,21 +299,21 @@
     ]
   },
   {
-    "teal": 79,
+    "teal": 80,
     "source": 19,
     "pc": [
       92
     ]
   },
   {
-    "teal": 80,
+    "teal": 81,
     "source": 19,
     "pc": [
       93
     ]
   },
   {
-    "teal": 81,
+    "teal": 82,
     "source": 19,
     "pc": [
       94,
@@ -320,14 +321,14 @@
     ]
   },
   {
-    "teal": 84,
+    "teal": 85,
     "source": 17,
     "pc": [
       96
     ]
   },
   {
-    "teal": 85,
+    "teal": 86,
     "source": 17,
     "pc": [
       97,
@@ -335,21 +336,21 @@
     ]
   },
   {
-    "teal": 88,
+    "teal": 89,
     "source": 17,
     "pc": [
       99
     ]
   },
   {
-    "teal": 89,
+    "teal": 90,
     "source": 16,
     "pc": [
       100
     ]
   },
   {
-    "teal": 94,
+    "teal": 95,
     "source": 32,
     "pc": [
       101,
@@ -357,28 +358,28 @@
     ]
   },
   {
-    "teal": 95,
+    "teal": 96,
     "source": 32,
     "pc": [
       103
     ]
   },
   {
-    "teal": 96,
+    "teal": 97,
     "source": 32,
     "pc": [
       104
     ]
   },
   {
-    "teal": 97,
+    "teal": 98,
     "source": 32,
     "pc": [
       105
     ]
   },
   {
-    "teal": 98,
+    "teal": 99,
     "source": 32,
     "pc": [
       106,
@@ -386,21 +387,21 @@
     ]
   },
   {
-    "teal": 99,
+    "teal": 100,
     "source": 32,
     "pc": [
       108
     ]
   },
   {
-    "teal": 100,
+    "teal": 101,
     "source": 32,
     "pc": [
       109
     ]
   },
   {
-    "teal": 103,
+    "teal": 104,
     "source": 32,
     "errorMessage": "argument 0 (payment) for addAppToWhiteList must be a pay transaction",
     "pc": [
@@ -408,7 +409,7 @@
     ]
   },
   {
-    "teal": 106,
+    "teal": 107,
     "source": 32,
     "pc": [
       111,
@@ -417,14 +418,14 @@
     ]
   },
   {
-    "teal": 107,
+    "teal": 108,
     "source": 32,
     "pc": [
       114
     ]
   },
   {
-    "teal": 110,
+    "teal": 111,
     "source": 32,
     "pc": [
       115,
@@ -433,35 +434,35 @@
     ]
   },
   {
-    "teal": 111,
+    "teal": 112,
     "source": 32,
     "pc": [
       118
     ]
   },
   {
-    "teal": 112,
+    "teal": 113,
     "source": 32,
     "pc": [
       119
     ]
   },
   {
-    "teal": 113,
+    "teal": 114,
     "source": 32,
     "pc": [
       120
     ]
   },
   {
-    "teal": 114,
+    "teal": 115,
     "source": 32,
     "pc": [
       121
     ]
   },
   {
-    "teal": 117,
+    "teal": 118,
     "source": 32,
     "errorMessage": "argument 2 (boxIndex) for addAppToWhiteList must be a uint16",
     "pc": [
@@ -469,14 +470,14 @@
     ]
   },
   {
-    "teal": 118,
+    "teal": 119,
     "source": 32,
     "pc": [
       123
     ]
   },
   {
-    "teal": 121,
+    "teal": 122,
     "source": 32,
     "pc": [
       124,
@@ -485,7 +486,7 @@
     ]
   },
   {
-    "teal": 122,
+    "teal": 123,
     "source": 32,
     "pc": [
       127,
@@ -494,7 +495,7 @@
     ]
   },
   {
-    "teal": 125,
+    "teal": 126,
     "source": 32,
     "pc": [
       130,
@@ -503,21 +504,21 @@
     ]
   },
   {
-    "teal": 126,
+    "teal": 127,
     "source": 32,
     "pc": [
       133
     ]
   },
   {
-    "teal": 127,
+    "teal": 128,
     "source": 32,
     "pc": [
       134
     ]
   },
   {
-    "teal": 138,
+    "teal": 139,
     "source": 32,
     "pc": [
       135,
@@ -526,14 +527,14 @@
     ]
   },
   {
-    "teal": 141,
+    "teal": 142,
     "source": 32,
     "pc": [
       138
     ]
   },
   {
-    "teal": 142,
+    "teal": 143,
     "source": 32,
     "pc": [
       139,
@@ -541,7 +542,7 @@
     ]
   },
   {
-    "teal": 146,
+    "teal": 147,
     "source": 33,
     "pc": [
       141,
@@ -549,7 +550,7 @@
     ]
   },
   {
-    "teal": 147,
+    "teal": 148,
     "source": 33,
     "pc": [
       143,
@@ -557,14 +558,14 @@
     ]
   },
   {
-    "teal": 148,
+    "teal": 149,
     "source": 33,
     "pc": [
       145
     ]
   },
   {
-    "teal": 149,
+    "teal": 150,
     "source": 33,
     "pc": [
       146,
@@ -572,28 +573,28 @@
     ]
   },
   {
-    "teal": 153,
+    "teal": 154,
     "source": 34,
     "pc": [
       148
     ]
   },
   {
-    "teal": 154,
+    "teal": 155,
     "source": 34,
     "pc": [
       149
     ]
   },
   {
-    "teal": 155,
+    "teal": 156,
     "source": 34,
     "pc": [
       150
     ]
   },
   {
-    "teal": 156,
+    "teal": 157,
     "source": 34,
     "pc": [
       151,
@@ -601,7 +602,7 @@
     ]
   },
   {
-    "teal": 157,
+    "teal": 158,
     "source": 34,
     "pc": [
       153,
@@ -610,7 +611,7 @@
     ]
   },
   {
-    "teal": 158,
+    "teal": 159,
     "source": 34,
     "pc": [
       156,
@@ -618,14 +619,14 @@
     ]
   },
   {
-    "teal": 159,
+    "teal": 160,
     "source": 34,
     "pc": [
       158
     ]
   },
   {
-    "teal": 160,
+    "teal": 161,
     "source": 34,
     "pc": [
       159,
@@ -634,7 +635,7 @@
     ]
   },
   {
-    "teal": 161,
+    "teal": 162,
     "source": 34,
     "pc": [
       162,
@@ -643,7 +644,7 @@
     ]
   },
   {
-    "teal": 162,
+    "teal": 163,
     "source": 34,
     "pc": [
       165,
@@ -651,28 +652,28 @@
     ]
   },
   {
-    "teal": 163,
+    "teal": 164,
     "source": 34,
     "pc": [
       167
     ]
   },
   {
-    "teal": 164,
+    "teal": 165,
     "source": 34,
     "pc": [
       168
     ]
   },
   {
-    "teal": 165,
+    "teal": 166,
     "source": 34,
     "pc": [
       169
     ]
   },
   {
-    "teal": 166,
+    "teal": 167,
     "source": 34,
     "pc": [
       170,
@@ -681,21 +682,21 @@
     ]
   },
   {
-    "teal": 167,
+    "teal": 168,
     "source": 34,
     "pc": [
       173
     ]
   },
   {
-    "teal": 168,
+    "teal": 169,
     "source": 34,
     "pc": [
       174
     ]
   },
   {
-    "teal": 169,
+    "teal": 170,
     "source": 34,
     "pc": [
       175,
@@ -704,21 +705,21 @@
     ]
   },
   {
-    "teal": 170,
+    "teal": 171,
     "source": 34,
     "pc": [
       178
     ]
   },
   {
-    "teal": 171,
+    "teal": 172,
     "source": 34,
     "pc": [
       179
     ]
   },
   {
-    "teal": 172,
+    "teal": 173,
     "source": 34,
     "pc": [
       180,
@@ -726,7 +727,7 @@
     ]
   },
   {
-    "teal": 177,
+    "teal": 178,
     "source": 36,
     "pc": [
       182,
@@ -734,28 +735,28 @@
     ]
   },
   {
-    "teal": 178,
+    "teal": 179,
     "source": 36,
     "pc": [
       184
     ]
   },
   {
-    "teal": 179,
+    "teal": 180,
     "source": 36,
     "pc": [
       185
     ]
   },
   {
-    "teal": 180,
+    "teal": 181,
     "source": 36,
     "pc": [
       186
     ]
   },
   {
-    "teal": 181,
+    "teal": 182,
     "source": 36,
     "pc": [
       187,
@@ -764,7 +765,7 @@
     ]
   },
   {
-    "teal": 186,
+    "teal": 187,
     "source": 37,
     "pc": [
       190,
@@ -772,14 +773,14 @@
     ]
   },
   {
-    "teal": 187,
+    "teal": 188,
     "source": 37,
     "pc": [
       192
     ]
   },
   {
-    "teal": 190,
+    "teal": 191,
     "source": 37,
     "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
     "pc": [
@@ -787,7 +788,7 @@
     ]
   },
   {
-    "teal": 191,
+    "teal": 192,
     "source": 37,
     "pc": [
       194,
@@ -796,7 +797,7 @@
     ]
   },
   {
-    "teal": 192,
+    "teal": 193,
     "source": 37,
     "pc": [
       197,
@@ -804,21 +805,21 @@
     ]
   },
   {
-    "teal": 193,
+    "teal": 194,
     "source": 37,
     "pc": [
       199
     ]
   },
   {
-    "teal": 194,
+    "teal": 195,
     "source": 37,
     "pc": [
       200
     ]
   },
   {
-    "teal": 195,
+    "teal": 196,
     "source": 37,
     "pc": [
       201,
@@ -826,70 +827,70 @@
     ]
   },
   {
-    "teal": 196,
+    "teal": 197,
     "source": 37,
     "pc": [
       203
     ]
   },
   {
-    "teal": 197,
+    "teal": 198,
     "source": 37,
     "pc": [
       204
     ]
   },
   {
-    "teal": 198,
+    "teal": 199,
     "source": 37,
     "pc": [
       205
     ]
   },
   {
-    "teal": 199,
+    "teal": 200,
     "source": 37,
     "pc": [
       206
     ]
   },
   {
-    "teal": 200,
+    "teal": 201,
     "source": 37,
     "pc": [
       207
     ]
   },
   {
-    "teal": 201,
+    "teal": 202,
     "source": 37,
     "pc": [
       208
     ]
   },
   {
-    "teal": 202,
+    "teal": 203,
     "source": 37,
     "pc": [
       209
     ]
   },
   {
-    "teal": 203,
+    "teal": 204,
     "source": 37,
     "pc": [
       210
     ]
   },
   {
-    "teal": 204,
+    "teal": 205,
     "source": 37,
     "pc": [
       211
     ]
   },
   {
-    "teal": 205,
+    "teal": 206,
     "source": 37,
     "pc": [
       212,
@@ -898,28 +899,28 @@
     ]
   },
   {
-    "teal": 206,
+    "teal": 207,
     "source": 37,
     "pc": [
       215
     ]
   },
   {
-    "teal": 207,
+    "teal": 208,
     "source": 37,
     "pc": [
       216
     ]
   },
   {
-    "teal": 208,
+    "teal": 209,
     "source": 37,
     "pc": [
       217
     ]
   },
   {
-    "teal": 209,
+    "teal": 210,
     "source": 36,
     "pc": [
       218,
@@ -928,7 +929,7 @@
     ]
   },
   {
-    "teal": 214,
+    "teal": 215,
     "source": 39,
     "pc": [
       221,
@@ -936,14 +937,14 @@
     ]
   },
   {
-    "teal": 215,
+    "teal": 216,
     "source": 39,
     "pc": [
       223
     ]
   },
   {
-    "teal": 216,
+    "teal": 217,
     "source": 39,
     "pc": [
       224,
@@ -951,7 +952,7 @@
     ]
   },
   {
-    "teal": 220,
+    "teal": 221,
     "source": 40,
     "pc": [
       226,
@@ -959,28 +960,28 @@
     ]
   },
   {
-    "teal": 221,
+    "teal": 222,
     "source": 40,
     "pc": [
       228
     ]
   },
   {
-    "teal": 222,
+    "teal": 223,
     "source": 40,
     "pc": [
       229
     ]
   },
   {
-    "teal": 223,
+    "teal": 224,
     "source": 40,
     "pc": [
       230
     ]
   },
   {
-    "teal": 224,
+    "teal": 225,
     "source": 40,
     "pc": [
       231,
@@ -988,42 +989,42 @@
     ]
   },
   {
-    "teal": 225,
+    "teal": 226,
     "source": 40,
     "pc": [
       233
     ]
   },
   {
-    "teal": 226,
+    "teal": 227,
     "source": 40,
     "pc": [
       234
     ]
   },
   {
-    "teal": 227,
+    "teal": 228,
     "source": 40,
     "pc": [
       235
     ]
   },
   {
-    "teal": 228,
+    "teal": 229,
     "source": 40,
     "pc": [
       236
     ]
   },
   {
-    "teal": 229,
+    "teal": 230,
     "source": 40,
     "pc": [
       237
     ]
   },
   {
-    "teal": 230,
+    "teal": 231,
     "source": 40,
     "pc": [
       238,
@@ -1032,28 +1033,28 @@
     ]
   },
   {
-    "teal": 231,
+    "teal": 232,
     "source": 40,
     "pc": [
       241
     ]
   },
   {
-    "teal": 232,
+    "teal": 233,
     "source": 40,
     "pc": [
       242
     ]
   },
   {
-    "teal": 233,
+    "teal": 234,
     "source": 40,
     "pc": [
       243
     ]
   },
   {
-    "teal": 238,
+    "teal": 239,
     "source": 43,
     "pc": [
       244,
@@ -1061,7 +1062,7 @@
     ]
   },
   {
-    "teal": 239,
+    "teal": 240,
     "source": 43,
     "pc": [
       246,
@@ -1069,7 +1070,7 @@
     ]
   },
   {
-    "teal": 240,
+    "teal": 241,
     "source": 43,
     "pc": [
       248,
@@ -1078,14 +1079,14 @@
     ]
   },
   {
-    "teal": 241,
+    "teal": 242,
     "source": 32,
     "pc": [
       251
     ]
   },
   {
-    "teal": 246,
+    "teal": 247,
     "source": 54,
     "pc": [
       252,
@@ -1094,7 +1095,7 @@
     ]
   },
   {
-    "teal": 247,
+    "teal": 248,
     "source": 54,
     "pc": [
       255,
@@ -1103,7 +1104,7 @@
     ]
   },
   {
-    "teal": 250,
+    "teal": 251,
     "source": 54,
     "pc": [
       258,
@@ -1112,35 +1113,35 @@
     ]
   },
   {
-    "teal": 251,
+    "teal": 252,
     "source": 54,
     "pc": [
       261
     ]
   },
   {
-    "teal": 252,
+    "teal": 253,
     "source": 54,
     "pc": [
       262
     ]
   },
   {
-    "teal": 253,
+    "teal": 254,
     "source": 54,
     "pc": [
       263
     ]
   },
   {
-    "teal": 254,
+    "teal": 255,
     "source": 54,
     "pc": [
       264
     ]
   },
   {
-    "teal": 257,
+    "teal": 258,
     "source": 54,
     "errorMessage": "argument 1 (boxIndex) for setAppWhitelist must be a uint16",
     "pc": [
@@ -1148,14 +1149,14 @@
     ]
   },
   {
-    "teal": 258,
+    "teal": 259,
     "source": 54,
     "pc": [
       266
     ]
   },
   {
-    "teal": 261,
+    "teal": 262,
     "source": 54,
     "pc": [
       267,
@@ -1164,7 +1165,7 @@
     ]
   },
   {
-    "teal": 262,
+    "teal": 263,
     "source": 54,
     "pc": [
       270,
@@ -1173,7 +1174,7 @@
     ]
   },
   {
-    "teal": 265,
+    "teal": 266,
     "source": 54,
     "pc": [
       273,
@@ -1182,21 +1183,21 @@
     ]
   },
   {
-    "teal": 266,
+    "teal": 267,
     "source": 54,
     "pc": [
       276
     ]
   },
   {
-    "teal": 267,
+    "teal": 268,
     "source": 54,
     "pc": [
       277
     ]
   },
   {
-    "teal": 277,
+    "teal": 278,
     "source": 54,
     "pc": [
       278,
@@ -1205,21 +1206,21 @@
     ]
   },
   {
-    "teal": 280,
+    "teal": 281,
     "source": 54,
     "pc": [
       281
     ]
   },
   {
-    "teal": 281,
+    "teal": 282,
     "source": 54,
     "pc": [
       282
     ]
   },
   {
-    "teal": 285,
+    "teal": 286,
     "source": 55,
     "pc": [
       283,
@@ -1227,7 +1228,7 @@
     ]
   },
   {
-    "teal": 286,
+    "teal": 287,
     "source": 55,
     "pc": [
       285,
@@ -1235,14 +1236,14 @@
     ]
   },
   {
-    "teal": 287,
+    "teal": 288,
     "source": 55,
     "pc": [
       287
     ]
   },
   {
-    "teal": 288,
+    "teal": 289,
     "source": 55,
     "pc": [
       288,
@@ -1250,28 +1251,28 @@
     ]
   },
   {
-    "teal": 292,
+    "teal": 293,
     "source": 56,
     "pc": [
       290
     ]
   },
   {
-    "teal": 293,
+    "teal": 294,
     "source": 56,
     "pc": [
       291
     ]
   },
   {
-    "teal": 294,
+    "teal": 295,
     "source": 56,
     "pc": [
       292
     ]
   },
   {
-    "teal": 295,
+    "teal": 296,
     "source": 56,
     "pc": [
       293,
@@ -1279,7 +1280,7 @@
     ]
   },
   {
-    "teal": 296,
+    "teal": 297,
     "source": 56,
     "pc": [
       295,
@@ -1288,7 +1289,7 @@
     ]
   },
   {
-    "teal": 297,
+    "teal": 298,
     "source": 56,
     "pc": [
       298,
@@ -1296,14 +1297,14 @@
     ]
   },
   {
-    "teal": 298,
+    "teal": 299,
     "source": 56,
     "pc": [
       300
     ]
   },
   {
-    "teal": 299,
+    "teal": 300,
     "source": 56,
     "pc": [
       301,
@@ -1312,7 +1313,7 @@
     ]
   },
   {
-    "teal": 300,
+    "teal": 301,
     "source": 56,
     "pc": [
       304,
@@ -1321,7 +1322,7 @@
     ]
   },
   {
-    "teal": 301,
+    "teal": 302,
     "source": 56,
     "pc": [
       307,
@@ -1329,28 +1330,28 @@
     ]
   },
   {
-    "teal": 302,
+    "teal": 303,
     "source": 56,
     "pc": [
       309
     ]
   },
   {
-    "teal": 303,
+    "teal": 304,
     "source": 56,
     "pc": [
       310
     ]
   },
   {
-    "teal": 304,
+    "teal": 305,
     "source": 56,
     "pc": [
       311
     ]
   },
   {
-    "teal": 305,
+    "teal": 306,
     "source": 56,
     "pc": [
       312,
@@ -1359,21 +1360,21 @@
     ]
   },
   {
-    "teal": 306,
+    "teal": 307,
     "source": 56,
     "pc": [
       315
     ]
   },
   {
-    "teal": 307,
+    "teal": 308,
     "source": 56,
     "pc": [
       316
     ]
   },
   {
-    "teal": 308,
+    "teal": 309,
     "source": 56,
     "pc": [
       317,
@@ -1382,21 +1383,21 @@
     ]
   },
   {
-    "teal": 309,
+    "teal": 310,
     "source": 56,
     "pc": [
       320
     ]
   },
   {
-    "teal": 310,
+    "teal": 311,
     "source": 56,
     "pc": [
       321
     ]
   },
   {
-    "teal": 311,
+    "teal": 312,
     "source": 56,
     "pc": [
       322,
@@ -1404,7 +1405,7 @@
     ]
   },
   {
-    "teal": 315,
+    "teal": 316,
     "source": 58,
     "pc": [
       324,
@@ -1412,14 +1413,14 @@
     ]
   },
   {
-    "teal": 316,
+    "teal": 317,
     "source": 58,
     "pc": [
       326
     ]
   },
   {
-    "teal": 320,
+    "teal": 321,
     "source": 60,
     "pc": [
       327,
@@ -1427,28 +1428,28 @@
     ]
   },
   {
-    "teal": 321,
+    "teal": 322,
     "source": 60,
     "pc": [
       329
     ]
   },
   {
-    "teal": 322,
+    "teal": 323,
     "source": 60,
     "pc": [
       330
     ]
   },
   {
-    "teal": 323,
+    "teal": 324,
     "source": 60,
     "pc": [
       331
     ]
   },
   {
-    "teal": 324,
+    "teal": 325,
     "source": 60,
     "pc": [
       332,
@@ -1456,42 +1457,42 @@
     ]
   },
   {
-    "teal": 325,
+    "teal": 326,
     "source": 60,
     "pc": [
       334
     ]
   },
   {
-    "teal": 326,
+    "teal": 327,
     "source": 60,
     "pc": [
       335
     ]
   },
   {
-    "teal": 327,
+    "teal": 328,
     "source": 60,
     "pc": [
       336
     ]
   },
   {
-    "teal": 328,
+    "teal": 329,
     "source": 60,
     "pc": [
       337
     ]
   },
   {
-    "teal": 329,
+    "teal": 330,
     "source": 60,
     "pc": [
       338
     ]
   },
   {
-    "teal": 330,
+    "teal": 331,
     "source": 60,
     "pc": [
       339,
@@ -1500,28 +1501,28 @@
     ]
   },
   {
-    "teal": 331,
+    "teal": 332,
     "source": 60,
     "pc": [
       342
     ]
   },
   {
-    "teal": 332,
+    "teal": 333,
     "source": 60,
     "pc": [
       343
     ]
   },
   {
-    "teal": 333,
+    "teal": 334,
     "source": 60,
     "pc": [
       344
     ]
   },
   {
-    "teal": 338,
+    "teal": 339,
     "source": 62,
     "pc": [
       345,
@@ -1529,7 +1530,7 @@
     ]
   },
   {
-    "teal": 339,
+    "teal": 340,
     "source": 62,
     "pc": [
       347,
@@ -1537,7 +1538,7 @@
     ]
   },
   {
-    "teal": 340,
+    "teal": 341,
     "source": 62,
     "pc": [
       349,
@@ -1545,21 +1546,21 @@
     ]
   },
   {
-    "teal": 341,
+    "teal": 342,
     "source": 62,
     "pc": [
       351
     ]
   },
   {
-    "teal": 342,
+    "teal": 343,
     "source": 62,
     "pc": [
       352
     ]
   },
   {
-    "teal": 343,
+    "teal": 344,
     "source": 62,
     "pc": [
       353,
@@ -1568,7 +1569,7 @@
     ]
   },
   {
-    "teal": 348,
+    "teal": 349,
     "source": 63,
     "pc": [
       356,
@@ -1576,7 +1577,7 @@
     ]
   },
   {
-    "teal": 349,
+    "teal": 350,
     "source": 63,
     "pc": [
       358,
@@ -1585,7 +1586,7 @@
     ]
   },
   {
-    "teal": 350,
+    "teal": 351,
     "source": 62,
     "pc": [
       361,
@@ -1594,7 +1595,7 @@
     ]
   },
   {
-    "teal": 355,
+    "teal": 356,
     "source": 65,
     "pc": [
       364,
@@ -1602,7 +1603,7 @@
     ]
   },
   {
-    "teal": 356,
+    "teal": 357,
     "source": 65,
     "pc": [
       366,
@@ -1610,28 +1611,28 @@
     ]
   },
   {
-    "teal": 357,
+    "teal": 358,
     "source": 65,
     "pc": [
       368
     ]
   },
   {
-    "teal": 358,
+    "teal": 359,
     "source": 65,
     "pc": [
       369
     ]
   },
   {
-    "teal": 359,
+    "teal": 360,
     "source": 65,
     "pc": [
       370
     ]
   },
   {
-    "teal": 360,
+    "teal": 361,
     "source": 65,
     "pc": [
       371,
@@ -1639,28 +1640,28 @@
     ]
   },
   {
-    "teal": 361,
+    "teal": 362,
     "source": 65,
     "pc": [
       373
     ]
   },
   {
-    "teal": 362,
+    "teal": 363,
     "source": 65,
     "pc": [
       374
     ]
   },
   {
-    "teal": 363,
+    "teal": 364,
     "source": 65,
     "pc": [
       375
     ]
   },
   {
-    "teal": 366,
+    "teal": 367,
     "source": 65,
     "errorMessage": "failed to cast this.txnGroup[this.txn.groupIndex - 1] to pay",
     "pc": [
@@ -1668,7 +1669,7 @@
     ]
   },
   {
-    "teal": 367,
+    "teal": 368,
     "source": 65,
     "pc": [
       377,
@@ -1677,14 +1678,14 @@
     ]
   },
   {
-    "teal": 370,
+    "teal": 371,
     "source": 54,
     "pc": [
       380
     ]
   },
   {
-    "teal": 375,
+    "teal": 376,
     "source": 76,
     "pc": [
       381,
@@ -1693,35 +1694,35 @@
     ]
   },
   {
-    "teal": 376,
+    "teal": 377,
     "source": 76,
     "pc": [
       384
     ]
   },
   {
-    "teal": 377,
+    "teal": 378,
     "source": 76,
     "pc": [
       385
     ]
   },
   {
-    "teal": 378,
+    "teal": 379,
     "source": 76,
     "pc": [
       386
     ]
   },
   {
-    "teal": 379,
+    "teal": 380,
     "source": 76,
     "pc": [
       387
     ]
   },
   {
-    "teal": 382,
+    "teal": 383,
     "source": 76,
     "errorMessage": "argument 0 (boxIndex) for deleteWhitelist must be a uint16",
     "pc": [
@@ -1729,14 +1730,14 @@
     ]
   },
   {
-    "teal": 383,
+    "teal": 384,
     "source": 76,
     "pc": [
       389
     ]
   },
   {
-    "teal": 386,
+    "teal": 387,
     "source": 76,
     "pc": [
       390,
@@ -1745,7 +1746,7 @@
     ]
   },
   {
-    "teal": 387,
+    "teal": 388,
     "source": 76,
     "pc": [
       393,
@@ -1754,7 +1755,7 @@
     ]
   },
   {
-    "teal": 390,
+    "teal": 391,
     "source": 76,
     "pc": [
       396,
@@ -1763,21 +1764,21 @@
     ]
   },
   {
-    "teal": 391,
+    "teal": 392,
     "source": 76,
     "pc": [
       399
     ]
   },
   {
-    "teal": 392,
+    "teal": 393,
     "source": 76,
     "pc": [
       400
     ]
   },
   {
-    "teal": 401,
+    "teal": 402,
     "source": 76,
     "pc": [
       401,
@@ -1786,21 +1787,21 @@
     ]
   },
   {
-    "teal": 404,
+    "teal": 405,
     "source": 76,
     "pc": [
       404
     ]
   },
   {
-    "teal": 405,
+    "teal": 406,
     "source": 76,
     "pc": [
       405
     ]
   },
   {
-    "teal": 409,
+    "teal": 410,
     "source": 77,
     "pc": [
       406,
@@ -1808,7 +1809,7 @@
     ]
   },
   {
-    "teal": 410,
+    "teal": 411,
     "source": 77,
     "pc": [
       408,
@@ -1816,14 +1817,14 @@
     ]
   },
   {
-    "teal": 411,
+    "teal": 412,
     "source": 77,
     "pc": [
       410
     ]
   },
   {
-    "teal": 412,
+    "teal": 413,
     "source": 77,
     "pc": [
       411,
@@ -1831,28 +1832,28 @@
     ]
   },
   {
-    "teal": 416,
+    "teal": 417,
     "source": 78,
     "pc": [
       413
     ]
   },
   {
-    "teal": 417,
+    "teal": 418,
     "source": 78,
     "pc": [
       414
     ]
   },
   {
-    "teal": 418,
+    "teal": 419,
     "source": 78,
     "pc": [
       415
     ]
   },
   {
-    "teal": 419,
+    "teal": 420,
     "source": 78,
     "pc": [
       416,
@@ -1860,7 +1861,7 @@
     ]
   },
   {
-    "teal": 420,
+    "teal": 421,
     "source": 78,
     "pc": [
       418,
@@ -1869,7 +1870,7 @@
     ]
   },
   {
-    "teal": 421,
+    "teal": 422,
     "source": 78,
     "pc": [
       421,
@@ -1877,14 +1878,14 @@
     ]
   },
   {
-    "teal": 422,
+    "teal": 423,
     "source": 78,
     "pc": [
       423
     ]
   },
   {
-    "teal": 423,
+    "teal": 424,
     "source": 78,
     "pc": [
       424,
@@ -1893,7 +1894,7 @@
     ]
   },
   {
-    "teal": 424,
+    "teal": 425,
     "source": 78,
     "pc": [
       427,
@@ -1902,7 +1903,7 @@
     ]
   },
   {
-    "teal": 425,
+    "teal": 426,
     "source": 78,
     "pc": [
       430,
@@ -1910,28 +1911,28 @@
     ]
   },
   {
-    "teal": 426,
+    "teal": 427,
     "source": 78,
     "pc": [
       432
     ]
   },
   {
-    "teal": 427,
+    "teal": 428,
     "source": 78,
     "pc": [
       433
     ]
   },
   {
-    "teal": 428,
+    "teal": 429,
     "source": 78,
     "pc": [
       434
     ]
   },
   {
-    "teal": 429,
+    "teal": 430,
     "source": 78,
     "pc": [
       435,
@@ -1940,21 +1941,21 @@
     ]
   },
   {
-    "teal": 430,
+    "teal": 431,
     "source": 78,
     "pc": [
       438
     ]
   },
   {
-    "teal": 431,
+    "teal": 432,
     "source": 78,
     "pc": [
       439
     ]
   },
   {
-    "teal": 432,
+    "teal": 433,
     "source": 78,
     "pc": [
       440,
@@ -1963,21 +1964,21 @@
     ]
   },
   {
-    "teal": 433,
+    "teal": 434,
     "source": 78,
     "pc": [
       443
     ]
   },
   {
-    "teal": 434,
+    "teal": 435,
     "source": 78,
     "pc": [
       444
     ]
   },
   {
-    "teal": 435,
+    "teal": 436,
     "source": 78,
     "pc": [
       445,
@@ -1985,7 +1986,7 @@
     ]
   },
   {
-    "teal": 439,
+    "teal": 440,
     "source": 80,
     "pc": [
       447,
@@ -1993,14 +1994,14 @@
     ]
   },
   {
-    "teal": 440,
+    "teal": 441,
     "source": 80,
     "pc": [
       449
     ]
   },
   {
-    "teal": 444,
+    "teal": 445,
     "source": 82,
     "pc": [
       450,
@@ -2008,7 +2009,7 @@
     ]
   },
   {
-    "teal": 445,
+    "teal": 446,
     "source": 82,
     "pc": [
       452,
@@ -2017,14 +2018,14 @@
     ]
   },
   {
-    "teal": 446,
+    "teal": 447,
     "source": 76,
     "pc": [
       455
     ]
   },
   {
-    "teal": 451,
+    "teal": 452,
     "source": 93,
     "pc": [
       456,
@@ -2033,14 +2034,14 @@
     ]
   },
   {
-    "teal": 452,
+    "teal": 453,
     "source": 93,
     "pc": [
       459
     ]
   },
   {
-    "teal": 455,
+    "teal": 456,
     "source": 93,
     "pc": [
       460,
@@ -2049,14 +2050,14 @@
     ]
   },
   {
-    "teal": 456,
+    "teal": 457,
     "source": 93,
     "pc": [
       463
     ]
   },
   {
-    "teal": 459,
+    "teal": 460,
     "source": 93,
     "pc": [
       464,
@@ -2065,35 +2066,35 @@
     ]
   },
   {
-    "teal": 460,
+    "teal": 461,
     "source": 93,
     "pc": [
       467
     ]
   },
   {
-    "teal": 461,
+    "teal": 462,
     "source": 93,
     "pc": [
       468
     ]
   },
   {
-    "teal": 462,
+    "teal": 463,
     "source": 93,
     "pc": [
       469
     ]
   },
   {
-    "teal": 463,
+    "teal": 464,
     "source": 93,
     "pc": [
       470
     ]
   },
   {
-    "teal": 466,
+    "teal": 467,
     "source": 93,
     "errorMessage": "argument 2 (boxIndex) for deleteAppFromWhitelist must be a uint16",
     "pc": [
@@ -2101,14 +2102,14 @@
     ]
   },
   {
-    "teal": 467,
+    "teal": 468,
     "source": 93,
     "pc": [
       472
     ]
   },
   {
-    "teal": 470,
+    "teal": 471,
     "source": 93,
     "pc": [
       473,
@@ -2117,7 +2118,7 @@
     ]
   },
   {
-    "teal": 471,
+    "teal": 472,
     "source": 93,
     "pc": [
       476,
@@ -2126,7 +2127,7 @@
     ]
   },
   {
-    "teal": 474,
+    "teal": 475,
     "source": 93,
     "pc": [
       479,
@@ -2135,21 +2136,21 @@
     ]
   },
   {
-    "teal": 475,
+    "teal": 476,
     "source": 93,
     "pc": [
       482
     ]
   },
   {
-    "teal": 476,
+    "teal": 477,
     "source": 93,
     "pc": [
       483
     ]
   },
   {
-    "teal": 486,
+    "teal": 487,
     "source": 93,
     "pc": [
       484,
@@ -2158,14 +2159,14 @@
     ]
   },
   {
-    "teal": 489,
+    "teal": 490,
     "source": 93,
     "pc": [
       487
     ]
   },
   {
-    "teal": 490,
+    "teal": 491,
     "source": 93,
     "pc": [
       488,
@@ -2173,7 +2174,7 @@
     ]
   },
   {
-    "teal": 494,
+    "teal": 495,
     "source": 94,
     "pc": [
       490,
@@ -2181,7 +2182,7 @@
     ]
   },
   {
-    "teal": 495,
+    "teal": 496,
     "source": 94,
     "pc": [
       492,
@@ -2189,14 +2190,14 @@
     ]
   },
   {
-    "teal": 496,
+    "teal": 497,
     "source": 94,
     "pc": [
       494
     ]
   },
   {
-    "teal": 497,
+    "teal": 498,
     "source": 94,
     "pc": [
       495,
@@ -2204,28 +2205,28 @@
     ]
   },
   {
-    "teal": 501,
+    "teal": 502,
     "source": 95,
     "pc": [
       497
     ]
   },
   {
-    "teal": 502,
+    "teal": 503,
     "source": 95,
     "pc": [
       498
     ]
   },
   {
-    "teal": 503,
+    "teal": 504,
     "source": 95,
     "pc": [
       499
     ]
   },
   {
-    "teal": 504,
+    "teal": 505,
     "source": 95,
     "pc": [
       500,
@@ -2233,7 +2234,7 @@
     ]
   },
   {
-    "teal": 505,
+    "teal": 506,
     "source": 95,
     "pc": [
       502,
@@ -2242,7 +2243,7 @@
     ]
   },
   {
-    "teal": 506,
+    "teal": 507,
     "source": 95,
     "pc": [
       505,
@@ -2250,14 +2251,14 @@
     ]
   },
   {
-    "teal": 507,
+    "teal": 508,
     "source": 95,
     "pc": [
       507
     ]
   },
   {
-    "teal": 508,
+    "teal": 509,
     "source": 95,
     "pc": [
       508,
@@ -2266,7 +2267,7 @@
     ]
   },
   {
-    "teal": 509,
+    "teal": 510,
     "source": 95,
     "pc": [
       511,
@@ -2275,7 +2276,7 @@
     ]
   },
   {
-    "teal": 510,
+    "teal": 511,
     "source": 95,
     "pc": [
       514,
@@ -2283,28 +2284,28 @@
     ]
   },
   {
-    "teal": 511,
+    "teal": 512,
     "source": 95,
     "pc": [
       516
     ]
   },
   {
-    "teal": 512,
+    "teal": 513,
     "source": 95,
     "pc": [
       517
     ]
   },
   {
-    "teal": 513,
+    "teal": 514,
     "source": 95,
     "pc": [
       518
     ]
   },
   {
-    "teal": 514,
+    "teal": 515,
     "source": 95,
     "pc": [
       519,
@@ -2313,21 +2314,21 @@
     ]
   },
   {
-    "teal": 515,
+    "teal": 516,
     "source": 95,
     "pc": [
       522
     ]
   },
   {
-    "teal": 516,
+    "teal": 517,
     "source": 95,
     "pc": [
       523
     ]
   },
   {
-    "teal": 517,
+    "teal": 518,
     "source": 95,
     "pc": [
       524,
@@ -2336,21 +2337,21 @@
     ]
   },
   {
-    "teal": 518,
+    "teal": 519,
     "source": 95,
     "pc": [
       527
     ]
   },
   {
-    "teal": 519,
+    "teal": 520,
     "source": 95,
     "pc": [
       528
     ]
   },
   {
-    "teal": 520,
+    "teal": 521,
     "source": 95,
     "pc": [
       529,
@@ -2358,7 +2359,7 @@
     ]
   },
   {
-    "teal": 524,
+    "teal": 525,
     "source": 97,
     "pc": [
       531,
@@ -2366,14 +2367,14 @@
     ]
   },
   {
-    "teal": 525,
+    "teal": 526,
     "source": 97,
     "pc": [
       533
     ]
   },
   {
-    "teal": 528,
+    "teal": 529,
     "source": 97,
     "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
     "pc": [
@@ -2381,7 +2382,7 @@
     ]
   },
   {
-    "teal": 529,
+    "teal": 530,
     "source": 97,
     "pc": [
       535,
@@ -2390,14 +2391,14 @@
     ]
   },
   {
-    "teal": 530,
+    "teal": 531,
     "source": 97,
     "pc": [
       538
     ]
   },
   {
-    "teal": 531,
+    "teal": 532,
     "source": 97,
     "pc": [
       539,
@@ -2405,21 +2406,21 @@
     ]
   },
   {
-    "teal": 532,
+    "teal": 533,
     "source": 97,
     "pc": [
       541
     ]
   },
   {
-    "teal": 533,
+    "teal": 534,
     "source": 97,
     "pc": [
       542
     ]
   },
   {
-    "teal": 534,
+    "teal": 535,
     "source": 97,
     "pc": [
       543,
@@ -2427,7 +2428,7 @@
     ]
   },
   {
-    "teal": 535,
+    "teal": 536,
     "source": 97,
     "pc": [
       545,
@@ -2435,7 +2436,7 @@
     ]
   },
   {
-    "teal": 536,
+    "teal": 537,
     "source": 97,
     "pc": [
       547,
@@ -2443,7 +2444,7 @@
     ]
   },
   {
-    "teal": 537,
+    "teal": 538,
     "source": 97,
     "pc": [
       549,
@@ -2451,14 +2452,14 @@
     ]
   },
   {
-    "teal": 538,
+    "teal": 539,
     "source": 97,
     "pc": [
       551
     ]
   },
   {
-    "teal": 541,
+    "teal": 542,
     "source": 97,
     "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
     "pc": [
@@ -2466,7 +2467,7 @@
     ]
   },
   {
-    "teal": 542,
+    "teal": 543,
     "source": 97,
     "pc": [
       553,
@@ -2475,14 +2476,14 @@
     ]
   },
   {
-    "teal": 543,
+    "teal": 544,
     "source": 97,
     "pc": [
       556
     ]
   },
   {
-    "teal": 544,
+    "teal": 545,
     "source": 97,
     "pc": [
       557,
@@ -2490,14 +2491,14 @@
     ]
   },
   {
-    "teal": 545,
+    "teal": 546,
     "source": 97,
     "pc": [
       559
     ]
   },
   {
-    "teal": 546,
+    "teal": 547,
     "source": 97,
     "pc": [
       560,
@@ -2505,14 +2506,14 @@
     ]
   },
   {
-    "teal": 547,
+    "teal": 548,
     "source": 97,
     "pc": [
       562
     ]
   },
   {
-    "teal": 550,
+    "teal": 551,
     "source": 97,
     "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
     "pc": [
@@ -2520,7 +2521,7 @@
     ]
   },
   {
-    "teal": 551,
+    "teal": 552,
     "source": 97,
     "pc": [
       564,
@@ -2529,21 +2530,21 @@
     ]
   },
   {
-    "teal": 552,
+    "teal": 553,
     "source": 97,
     "pc": [
       567
     ]
   },
   {
-    "teal": 553,
+    "teal": 554,
     "source": 97,
     "pc": [
       568
     ]
   },
   {
-    "teal": 554,
+    "teal": 555,
     "source": 97,
     "pc": [
       569,
@@ -2551,7 +2552,7 @@
     ]
   },
   {
-    "teal": 555,
+    "teal": 556,
     "source": 97,
     "pc": [
       571,
@@ -2559,49 +2560,49 @@
     ]
   },
   {
-    "teal": 556,
+    "teal": 557,
     "source": 97,
     "pc": [
       573
     ]
   },
   {
-    "teal": 557,
+    "teal": 558,
     "source": 97,
     "pc": [
       574
     ]
   },
   {
-    "teal": 558,
+    "teal": 559,
     "source": 97,
     "pc": [
       575
     ]
   },
   {
-    "teal": 559,
+    "teal": 560,
     "source": 97,
     "pc": [
       576
     ]
   },
   {
-    "teal": 560,
+    "teal": 561,
     "source": 97,
     "pc": [
       577
     ]
   },
   {
-    "teal": 561,
+    "teal": 562,
     "source": 97,
     "pc": [
       578
     ]
   },
   {
-    "teal": 562,
+    "teal": 563,
     "source": 97,
     "pc": [
       579,
@@ -2609,14 +2610,14 @@
     ]
   },
   {
-    "teal": 563,
+    "teal": 564,
     "source": 97,
     "pc": [
       581
     ]
   },
   {
-    "teal": 566,
+    "teal": 567,
     "source": 97,
     "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
     "pc": [
@@ -2624,7 +2625,7 @@
     ]
   },
   {
-    "teal": 567,
+    "teal": 568,
     "source": 97,
     "pc": [
       583,
@@ -2633,7 +2634,7 @@
     ]
   },
   {
-    "teal": 568,
+    "teal": 569,
     "source": 97,
     "pc": [
       586,
@@ -2641,7 +2642,7 @@
     ]
   },
   {
-    "teal": 569,
+    "teal": 570,
     "source": 97,
     "pc": [
       588,
@@ -2649,35 +2650,35 @@
     ]
   },
   {
-    "teal": 570,
+    "teal": 571,
     "source": 97,
     "pc": [
       590
     ]
   },
   {
-    "teal": 571,
+    "teal": 572,
     "source": 97,
     "pc": [
       591
     ]
   },
   {
-    "teal": 572,
+    "teal": 573,
     "source": 97,
     "pc": [
       592
     ]
   },
   {
-    "teal": 573,
+    "teal": 574,
     "source": 97,
     "pc": [
       593
     ]
   },
   {
-    "teal": 574,
+    "teal": 575,
     "source": 97,
     "pc": [
       594,
@@ -2685,70 +2686,70 @@
     ]
   },
   {
-    "teal": 575,
+    "teal": 576,
     "source": 97,
     "pc": [
       596
     ]
   },
   {
-    "teal": 576,
+    "teal": 577,
     "source": 97,
     "pc": [
       597
     ]
   },
   {
-    "teal": 577,
+    "teal": 578,
     "source": 97,
     "pc": [
       598
     ]
   },
   {
-    "teal": 578,
+    "teal": 579,
     "source": 97,
     "pc": [
       599
     ]
   },
   {
-    "teal": 579,
+    "teal": 580,
     "source": 97,
     "pc": [
       600
     ]
   },
   {
-    "teal": 580,
+    "teal": 581,
     "source": 97,
     "pc": [
       601
     ]
   },
   {
-    "teal": 581,
+    "teal": 582,
     "source": 97,
     "pc": [
       602
     ]
   },
   {
-    "teal": 582,
+    "teal": 583,
     "source": 97,
     "pc": [
       603
     ]
   },
   {
-    "teal": 583,
+    "teal": 584,
     "source": 97,
     "pc": [
       604
     ]
   },
   {
-    "teal": 584,
+    "teal": 585,
     "source": 97,
     "pc": [
       605,
@@ -2757,28 +2758,28 @@
     ]
   },
   {
-    "teal": 585,
+    "teal": 586,
     "source": 97,
     "pc": [
       608
     ]
   },
   {
-    "teal": 586,
+    "teal": 587,
     "source": 97,
     "pc": [
       609
     ]
   },
   {
-    "teal": 587,
+    "teal": 588,
     "source": 97,
     "pc": [
       610
     ]
   },
   {
-    "teal": 588,
+    "teal": 589,
     "source": 97,
     "pc": [
       611,
@@ -2786,7 +2787,7 @@
     ]
   },
   {
-    "teal": 592,
+    "teal": 593,
     "source": 99,
     "pc": [
       613,
@@ -2794,7 +2795,7 @@
     ]
   },
   {
-    "teal": 593,
+    "teal": 594,
     "source": 99,
     "pc": [
       615,
@@ -2802,7 +2803,7 @@
     ]
   },
   {
-    "teal": 594,
+    "teal": 595,
     "source": 99,
     "pc": [
       617,
@@ -2810,7 +2811,7 @@
     ]
   },
   {
-    "teal": 595,
+    "teal": 596,
     "source": 99,
     "pc": [
       619,
@@ -2819,14 +2820,14 @@
     ]
   },
   {
-    "teal": 596,
+    "teal": 597,
     "source": 99,
     "pc": [
       622
     ]
   },
   {
-    "teal": 597,
+    "teal": 598,
     "source": 99,
     "pc": [
       623,
@@ -2834,21 +2835,21 @@
     ]
   },
   {
-    "teal": 598,
+    "teal": 599,
     "source": 99,
     "pc": [
       625
     ]
   },
   {
-    "teal": 599,
+    "teal": 600,
     "source": 99,
     "pc": [
       626
     ]
   },
   {
-    "teal": 603,
+    "teal": 604,
     "source": 101,
     "pc": [
       627,
@@ -2856,7 +2857,7 @@
     ]
   },
   {
-    "teal": 604,
+    "teal": 605,
     "source": 101,
     "pc": [
       629,
@@ -2865,28 +2866,28 @@
     ]
   },
   {
-    "teal": 605,
+    "teal": 606,
     "source": 93,
     "pc": [
       632
     ]
   },
   {
-    "teal": 608,
+    "teal": 609,
     "source": 6,
     "pc": [
       633
     ]
   },
   {
-    "teal": 609,
+    "teal": 610,
     "source": 6,
     "pc": [
       634
     ]
   },
   {
-    "teal": 612,
+    "teal": 613,
     "source": 6,
     "pc": [
       635,
@@ -2898,7 +2899,7 @@
     ]
   },
   {
-    "teal": 613,
+    "teal": 614,
     "source": 6,
     "pc": [
       641,
@@ -2907,7 +2908,7 @@
     ]
   },
   {
-    "teal": 614,
+    "teal": 615,
     "source": 6,
     "pc": [
       644,
@@ -2917,14 +2918,15 @@
     ]
   },
   {
-    "teal": 615,
+    "teal": 618,
     "source": 6,
+    "errorMessage": "this contract does not implement the given ABI method for create NoOp",
     "pc": [
       648
     ]
   },
   {
-    "teal": 618,
+    "teal": 621,
     "source": 6,
     "pc": [
       649,
@@ -2936,7 +2938,7 @@
     ]
   },
   {
-    "teal": 619,
+    "teal": 622,
     "source": 6,
     "pc": [
       655,
@@ -2948,7 +2950,7 @@
     ]
   },
   {
-    "teal": 620,
+    "teal": 623,
     "source": 6,
     "pc": [
       661,
@@ -2960,7 +2962,7 @@
     ]
   },
   {
-    "teal": 621,
+    "teal": 624,
     "source": 6,
     "pc": [
       667,
@@ -2972,7 +2974,7 @@
     ]
   },
   {
-    "teal": 622,
+    "teal": 625,
     "source": 6,
     "pc": [
       673,
@@ -2981,7 +2983,7 @@
     ]
   },
   {
-    "teal": 623,
+    "teal": 626,
     "source": 6,
     "pc": [
       676,
@@ -2997,14 +2999,15 @@
     ]
   },
   {
-    "teal": 624,
+    "teal": 629,
     "source": 6,
+    "errorMessage": "this contract does not implement the given ABI method for call NoOp",
     "pc": [
       686
     ]
   },
   {
-    "teal": 627,
+    "teal": 632,
     "source": 6,
     "pc": [
       687,
@@ -3013,7 +3016,7 @@
     ]
   },
   {
-    "teal": 628,
+    "teal": 633,
     "source": 6,
     "pc": [
       690,
@@ -3021,7 +3024,7 @@
     ]
   },
   {
-    "teal": 629,
+    "teal": 634,
     "source": 6,
     "pc": [
       692,
@@ -3029,14 +3032,14 @@
     ]
   },
   {
-    "teal": 630,
+    "teal": 635,
     "source": 6,
     "pc": [
       694
     ]
   },
   {
-    "teal": 631,
+    "teal": 636,
     "source": 6,
     "pc": [
       695,
@@ -3044,7 +3047,7 @@
     ]
   },
   {
-    "teal": 632,
+    "teal": 637,
     "source": 6,
     "pc": [
       697,
@@ -3052,14 +3055,14 @@
     ]
   },
   {
-    "teal": 633,
+    "teal": 638,
     "source": 6,
     "pc": [
       699
     ]
   },
   {
-    "teal": 636,
+    "teal": 641,
     "source": 6,
     "pc": [
       700,
@@ -3068,7 +3071,7 @@
     ]
   },
   {
-    "teal": 637,
+    "teal": 642,
     "source": 6,
     "pc": [
       703,
@@ -3076,7 +3079,7 @@
     ]
   },
   {
-    "teal": 638,
+    "teal": 643,
     "source": 6,
     "pc": [
       705,
@@ -3084,14 +3087,14 @@
     ]
   },
   {
-    "teal": 639,
+    "teal": 644,
     "source": 6,
     "pc": [
       707
     ]
   },
   {
-    "teal": 640,
+    "teal": 645,
     "source": 6,
     "pc": [
       708,
@@ -3099,7 +3102,7 @@
     ]
   },
   {
-    "teal": 641,
+    "teal": 646,
     "source": 6,
     "pc": [
       710,
@@ -3107,21 +3110,21 @@
     ]
   },
   {
-    "teal": 642,
+    "teal": 647,
     "source": 6,
     "pc": [
       712
     ]
   },
   {
-    "teal": 643,
+    "teal": 648,
     "source": 6,
     "pc": [
       713
     ]
   },
   {
-    "teal": 644,
+    "teal": 649,
     "source": 6,
     "pc": [
       714,
@@ -3129,28 +3132,28 @@
     ]
   },
   {
-    "teal": 645,
+    "teal": 650,
     "source": 6,
     "pc": [
       716
     ]
   },
   {
-    "teal": 646,
+    "teal": 651,
     "source": 6,
     "pc": [
       717
     ]
   },
   {
-    "teal": 647,
+    "teal": 652,
     "source": 6,
     "pc": [
       718
     ]
   },
   {
-    "teal": 648,
+    "teal": 653,
     "source": 6,
     "pc": [
       719,
@@ -3159,7 +3162,7 @@
     ]
   },
   {
-    "teal": 649,
+    "teal": 654,
     "source": 6,
     "pc": [
       722,
@@ -3167,7 +3170,7 @@
     ]
   },
   {
-    "teal": 650,
+    "teal": 655,
     "source": 6,
     "pc": [
       724,
@@ -3175,21 +3178,21 @@
     ]
   },
   {
-    "teal": 651,
+    "teal": 656,
     "source": 6,
     "pc": [
       726
     ]
   },
   {
-    "teal": 652,
+    "teal": 657,
     "source": 6,
     "pc": [
       727
     ]
   },
   {
-    "teal": 653,
+    "teal": 658,
     "source": 6,
     "pc": [
       728,
@@ -3197,7 +3200,7 @@
     ]
   },
   {
-    "teal": 654,
+    "teal": 659,
     "source": 6,
     "pc": [
       730,
@@ -3205,7 +3208,7 @@
     ]
   },
   {
-    "teal": 655,
+    "teal": 660,
     "source": 6,
     "pc": [
       732,
@@ -3213,7 +3216,7 @@
     ]
   },
   {
-    "teal": 656,
+    "teal": 661,
     "source": 6,
     "pc": [
       734,
@@ -3221,7 +3224,7 @@
     ]
   },
   {
-    "teal": 657,
+    "teal": 662,
     "source": 6,
     "pc": [
       736

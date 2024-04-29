@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action for the given method is not implemented in this contract. Are you calling the correct method?
 	err
 
 // booleanLastInObj()(uint64,bool)
@@ -58,10 +59,14 @@ booleanLastInObj:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "booleanLastInObj()(uint64,bool)"
 	txna ApplicationArgs 0
 	match *abi_route_booleanLastInObj
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

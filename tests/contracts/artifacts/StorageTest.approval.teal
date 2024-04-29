@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action for the given method is not implemented in this contract. Are you calling the correct method?
 	err
 
 // prefix()void
@@ -1029,6 +1030,8 @@ boxSplice:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
@@ -1074,4 +1077,6 @@ boxSplice:
 	method "boxSplice()void"
 	txna ApplicationArgs 0
 	match *abi_route_prefix *abi_route_globalKeyPut *abi_route_globalKeyGet *abi_route_globalKeyDelete *abi_route_globalKeyExists *abi_route_localKeyPut *abi_route_localKeyGet *abi_route_localKeyDelete *abi_route_localKeyExists *abi_route_boxKeyPut *abi_route_boxKeyGet *abi_route_boxKeyDelete *abi_route_boxKeyExists *abi_route_globalMapPut *abi_route_globalMapGet *abi_route_globalMapDelete *abi_route_globalMapExists *abi_route_localMapPut *abi_route_localMapGet *abi_route_localMapDelete *abi_route_localMapExists *abi_route_boxMapPut *abi_route_boxMapGet *abi_route_boxMapDelete *abi_route_boxMapExists *abi_route_boxKeyCreate *abi_route_boxMapCreate *abi_route_boxKeyLength *abi_route_boxMapLength *abi_route_boxKeyReplace *abi_route_boxMapReplace *abi_route_boxKeyExtract *abi_route_boxMapExtract *abi_route_isOptedIn *abi_route_exGlobal *abi_route_exLocal *abi_route_accessStaticValueInLargeBox *abi_route_dynamicAccessStaticValueInLargeBox *abi_route_boxResize *abi_route_boxSplice
+
+	// this contract does not implement the given ABI method for call NoOp
 	err
