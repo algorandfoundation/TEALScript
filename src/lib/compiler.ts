@@ -2649,7 +2649,7 @@ export default class Compiler {
       this.pushVoid(
         node,
         'err',
-        'The requested action for the given method is not implemented in this contract. Are you calling the correct method?'
+        'The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?'
       );
 
       this.teal.clear.push({ node, teal: '#pragma version PROGAM_VERSION' });
