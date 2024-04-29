@@ -486,7 +486,7 @@ export default class Compiler {
 
   private classNode!: ts.ClassDeclaration;
 
-  srcMap: {
+  sourceInfo: {
     source: number;
     teal: number;
     pc?: number[];
@@ -2787,7 +2787,7 @@ export default class Compiler {
 
     this.teal[this.currentProgram].forEach((t, i) => {
       if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
-      this.srcMap.push({
+      this.sourceInfo.push({
         teal: i + 1,
         source: ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1,
         errorMessage: t.errorMessage,
@@ -7238,7 +7238,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       this.pcToLine[pc] = lastLine;
     }
 
-    this.srcMap.forEach((sm) => {
+    this.sourceInfo.forEach((sm) => {
       // eslint-disable-next-line no-param-reassign
       sm.pc = this.lineToPc[sm.teal - 1];
     });

@@ -86,6 +86,7 @@ export async function compileAndCreate(
 ): Promise<{
   appClient: ApplicationClient;
   appId: number | bigint;
+  compiler: Compiler;
 }> {
   const compiler = new Compiler({
     cwd: process.cwd(),
@@ -120,7 +121,7 @@ export async function compileAndCreate(
     sendParams: { suppressLog: true },
   });
 
-  return { appClient, appId };
+  return { appClient, appId, compiler };
 }
 
 export async function runMethod({
