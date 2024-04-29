@@ -33,35 +33,47 @@ logic:
 	txn TypeEnum
 	int axfer
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"typeEnum","expected":"axfer"}
 	assert
 
 	// verify assetAmount
 	txn AssetAmount
 	int 0
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"assetAmount","expected":"0"}
 	assert
 
 	// verify assetReceiver
 	txn AssetReceiver
 	txn Sender
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"assetReceiver","expected":"this.txn.sender"}
 	assert
 
 	// verify fee
 	txn Fee
 	int 0
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"fee","expected":"0"}
 	assert
 
 	// verify rekeyTo
 	txn RekeyTo
 	global ZeroAddress
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"rekeyTo","expected":"globals.zeroAddress"}
 	assert
 
 	// verify assetCloseTo
 	txn AssetCloseTo
 	global ZeroAddress
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"assetCloseTo","expected":"globals.zeroAddress"}
 	assert
 	retsub

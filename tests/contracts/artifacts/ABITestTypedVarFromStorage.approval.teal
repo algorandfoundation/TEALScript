@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // typedVarFromStorage(uint32)byte[32]
@@ -32,6 +33,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 4
 	==
+
+	// argument 0 (key) for typedVarFromStorage must be a uint32
 	assert
 	btoi
 
@@ -60,6 +63,8 @@ typedVarFromStorage:
 	// return value;
 	frame_dig 0 // storage key//value
 	box_get
+
+	// box value does not exist: this.boxMapTest(key).value
 	assert
 
 	// set the subroutine return value
@@ -74,10 +79,14 @@ typedVarFromStorage:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "typedVarFromStorage(uint32)byte[32]"
 	txna ApplicationArgs 0
 	match *abi_route_typedVarFromStorage
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

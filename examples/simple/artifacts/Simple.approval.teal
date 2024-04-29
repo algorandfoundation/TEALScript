@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // incrementCounter(i: uint64): void
@@ -92,6 +93,8 @@ decr:
 	len
 	int 32
 	==
+
+	// argument 0 (b) for add must be a uint256
 	assert
 
 	// a: uint256
@@ -100,6 +103,8 @@ decr:
 	len
 	int 32
 	==
+
+	// argument 1 (a) for add must be a uint256
 	assert
 
 	// execute add(uint256,uint256)uint256
@@ -108,6 +113,8 @@ decr:
 	bitlen
 	int 256
 	<=
+
+	// add return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -145,6 +152,8 @@ add:
 	len
 	int 32
 	==
+
+	// argument 0 (b) for sub must be a uint256
 	assert
 
 	// a: uint256
@@ -153,6 +162,8 @@ add:
 	len
 	int 32
 	==
+
+	// argument 1 (a) for sub must be a uint256
 	assert
 
 	// execute sub(uint256,uint256)uint256
@@ -161,6 +172,8 @@ add:
 	bitlen
 	int 256
 	<=
+
+	// sub return value overflowed 256 bits
 	assert
 	byte 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	b&
@@ -195,6 +208,8 @@ sub:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
@@ -204,4 +219,6 @@ sub:
 	method "sub(uint256,uint256)uint256"
 	txna ApplicationArgs 0
 	match *abi_route_incr *abi_route_decr *abi_route_add *abi_route_sub
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

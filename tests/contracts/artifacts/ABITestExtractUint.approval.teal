@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // extractUint(uint64)uint8
@@ -37,6 +38,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	bitlen
 	int 8
 	<=
+
+	// extractUint return value overflowed 8 bits
 	assert
 	extract 7 1
 	concat
@@ -72,10 +75,14 @@ extractUint:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "extractUint(uint64)uint8"
 	txna ApplicationArgs 0
 	match *abi_route_extractUint
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

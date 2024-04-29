@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *call_DeleteApplication *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // calcInitRoot(): bytes32
@@ -228,6 +229,8 @@ deleteApplication:
 	app_params_get AppCreator
 	pop
 	==
+
+	// transaction verification failed: {"txn":"this.txn","field":"sender","expected":"this.app.creator"}
 	assert
 	retsub
 
@@ -257,6 +260,8 @@ createApplication:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for verify must be a byte[33][3]
 	assert
 
 	// data: byte[]
@@ -292,6 +297,8 @@ verify:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for appendLeaf must be a byte[33][3]
 	assert
 
 	// data: byte[]
@@ -356,6 +363,8 @@ appendLeaf:
 	len
 	int 99
 	==
+
+	// argument 0 (path) for updateLeaf must be a byte[33][3]
 	assert
 
 	// newData: byte[]
@@ -407,6 +416,8 @@ updateLeaf:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
@@ -415,10 +426,14 @@ updateLeaf:
 	method "updateLeaf(byte[],byte[],byte[33][3])void"
 	txna ApplicationArgs 0
 	match *abi_route_verify *abi_route_appendLeaf *abi_route_updateLeaf
+
+	// this contract does not implement the given ABI method for call NoOp
 	err
 
 *call_DeleteApplication:
 	method "deleteApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_deleteApplication
+
+	// this contract does not implement the given ABI method for call DeleteApplication
 	err

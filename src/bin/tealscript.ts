@@ -66,14 +66,14 @@ async function processFile(filename: string, parsed: any) {
 
     if (compiler.teal.lsig.length > 0) {
       fs.writeFileSync(lsigPath, compiler.teal.lsig.map((t) => t.teal).join('\n'));
-      fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
+      fs.writeFileSync(srcmapPath, JSON.stringify(compiler.sourceInfo, null, 2));
       return;
     }
 
     fs.writeFileSync(approvalPath, compiler.teal.approval.map((t) => t.teal).join('\n'));
     fs.writeFileSync(clearPath, compiler.teal.clear.map((t) => t.teal).join('\n'));
     fs.writeFileSync(abiPath, JSON.stringify(compiler.abiJSON(), null, 2));
-    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.srcMap, null, 2));
+    fs.writeFileSync(srcmapPath, JSON.stringify(compiler.sourceInfo, null, 2));
     fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
   });
 }

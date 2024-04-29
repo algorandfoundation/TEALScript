@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // uint64Casting(uint256)uint64
@@ -32,6 +33,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (a) for uint64Casting must be a uint256
 	assert
 
 	// execute uint64Casting(uint256)uint64
@@ -53,6 +56,8 @@ uint64Casting:
 	bitlen
 	int 64
 	<=
+
+	// a as uint64 overflowed 64 bits
 	assert
 	extract 24 8
 	btoi
@@ -66,10 +71,14 @@ uint64Casting:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "uint64Casting(uint256)uint64"
 	txna ApplicationArgs 0
 	match *abi_route_uint64Casting
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // allowOptInsFrom(address)void
@@ -29,6 +30,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	len
 	int 32
 	==
+
+	// argument 0 (creator) for allowOptInsFrom must be a address
 	assert
 
 	// execute allowOptInsFrom(address)void
@@ -63,6 +66,8 @@ allowOptInsFrom:
 	len
 	int 32
 	==
+
+	// argument 0 (creator) for disableOptInsFrom must be a address
 	assert
 
 	// execute disableOptInsFrom(address)void
@@ -99,6 +104,8 @@ disableOptInsFrom:
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 0 (optIn) for verifyCreator must be a axfer transaction
 	assert
 
 	// execute verifyCreator(axfer)void
@@ -120,6 +127,8 @@ verifyCreator:
 	pop
 	concat
 	box_get
+
+	// box value does not exist: this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value
 	assert
 	int 0
 	getbit
@@ -134,6 +143,8 @@ verifyCreator:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
@@ -142,4 +153,6 @@ verifyCreator:
 	method "verifyCreator(axfer)void"
 	txna ApplicationArgs 0
 	match *abi_route_allowOptInsFrom *abi_route_disableOptInsFrom *abi_route_verifyCreator
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

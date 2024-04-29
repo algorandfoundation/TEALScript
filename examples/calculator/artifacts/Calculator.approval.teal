@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // getSum(a: uint64, b: uint64): uint64
@@ -142,7 +143,8 @@ doMath:
 	b *if0_end
 
 *if0_else:
-	err // 'Invalid operation'
+	// Invalid operation
+	err
 
 *if0_end:
 	// examples/calculator/calculator.algo.ts:45
@@ -161,10 +163,14 @@ doMath:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "doMath(uint64,uint64,string)uint64"
 	txna ApplicationArgs 0
 	match *abi_route_doMath
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

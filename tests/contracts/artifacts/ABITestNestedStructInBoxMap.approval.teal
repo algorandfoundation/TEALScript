@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // nestedStructInBoxMap()((uint8))
@@ -61,6 +62,8 @@ nestedStructInBoxMap:
 	// return this.bMap('bMap').value;
 	byte 0x624d6170 // "bMap"
 	box_get
+
+	// box value does not exist: this.bMap('bMap').value
 	assert
 	retsub
 
@@ -72,10 +75,14 @@ nestedStructInBoxMap:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "nestedStructInBoxMap()((uint8))"
 	txna ApplicationArgs 0
 	match *abi_route_nestedStructInBoxMap
+
+	// this contract does not implement the given ABI method for call NoOp
 	err

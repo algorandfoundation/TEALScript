@@ -19,6 +19,7 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
 // txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void
@@ -31,6 +32,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int pay
 	==
+
+	// argument 0 (p) for txnTypes must be a pay transaction
 	assert
 
 	// kr: keyreg
@@ -41,6 +44,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int keyreg
 	==
+
+	// argument 1 (kr) for txnTypes must be a keyreg transaction
 	assert
 
 	// at: axfer
@@ -51,6 +56,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int axfer
 	==
+
+	// argument 2 (at) for txnTypes must be a axfer transaction
 	assert
 
 	// af: afrz
@@ -61,6 +68,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int afrz
 	==
+
+	// argument 3 (af) for txnTypes must be a afrz transaction
 	assert
 
 	// ac: acfg
@@ -71,6 +80,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int acfg
 	==
+
+	// argument 4 (ac) for txnTypes must be a acfg transaction
 	assert
 
 	// a: appl
@@ -81,6 +92,8 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	gtxns TypeEnum
 	int appl
 	==
+
+	// argument 5 (a) for txnTypes must be a appl transaction
 	assert
 
 	// t: txn
@@ -142,10 +155,14 @@ txnTypes:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
 	method "txnTypes(txn,appl,acfg,afrz,axfer,keyreg,pay)void"
 	txna ApplicationArgs 0
 	match *abi_route_txnTypes
+
+	// this contract does not implement the given ABI method for call NoOp
 	err
