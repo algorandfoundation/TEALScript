@@ -21,12 +21,63 @@ txn OnCompletion
 switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
 
 *NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
 	err
 
-// doMath(uint64,uint64)uint64
+// getSum(a: uint64, b: uint64): uint64
+//
+// Calculates the sum of two numbers
+//
+// @param a
+// @param b
+// @returns The sum of a and b
+getSum:
+	proto 2 1
+
+	// examples/calculator/calculator.algo.ts:13
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
+
+// getDifference(a: uint64, b: uint64): uint64
+//
+// Calculates the difference between two numbers
+//
+// @param a
+// @param b
+// @returns The difference between a and b.
+getDifference:
+	proto 2 1
+
+	// examples/calculator/calculator.algo.ts:24
+	// return a >= b ? a - b : b - a;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	>=
+	bz *ternary0_false
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	-
+	b *ternary0_end
+
+*ternary0_false:
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	-
+
+*ternary0_end:
+	retsub
+
+// doMath(uint64,uint64,string)uint64
 *abi_route_doMath:
 	// The ABI return prefix
 	byte 0x151f7c75
+
+	// operation: string
+	txna ApplicationArgs 3
+	extract 2 0
 
 	// b: uint64
 	txna ApplicationArgs 2
@@ -36,7 +87,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	txna ApplicationArgs 1
 	btoi
 
-	// execute doMath(uint64,uint64)uint64
+	// execute doMath(uint64,uint64,string)uint64
 	callsub doMath
 	itob
 	concat
@@ -44,22 +95,66 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	int 1
 	return
 
-// doMath(a: uint64, b: uint64): uint64
+// doMath(a: uint64, b: uint64, operation: string): uint64
 //
-// A method that gets the sum of two numbers
+// A method that takes two numbers and does either addition or subtraction
 //
 // @param a The first number
 // @param b The second number
+// @param operation The operation to perform. Can be either 'sum' or 'difference'
 //
-// @returns The sum
+// @returns The result of the operation
 doMath:
-	proto 2 1
+	proto 3 1
 
-	// examples/calculator/calculator.algo.ts:14
-	// return a + b;
-	frame_dig -1 // a: uint64
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
+	// *if0_condition
+	// examples/calculator/calculator.algo.ts:39
+	// operation === 'sum'
+	frame_dig -3 // operation: string
+	byte 0x73756d // "sum"
+	==
+	bz *if0_elseif1_condition
+
+	// *if0_consequent
+	// examples/calculator/calculator.algo.ts:40
+	// result = this.getSum(a, b)
 	frame_dig -2 // b: uint64
-	+
+	frame_dig -1 // a: uint64
+	callsub getSum
+	frame_bury 0 // result: uint64
+	b *if0_end
+
+*if0_elseif1_condition:
+	// examples/calculator/calculator.algo.ts:41
+	// operation === 'difference'
+	frame_dig -3 // operation: string
+	byte 0x646966666572656e6365 // "difference"
+	==
+	bz *if0_else
+
+	// *if0_elseif1_consequent
+	// examples/calculator/calculator.algo.ts:42
+	// result = this.getDifference(a, b)
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	callsub getDifference
+	frame_bury 0 // result: uint64
+	b *if0_end
+
+*if0_else:
+	// Invalid operation
+	err
+
+*if0_end:
+	// examples/calculator/calculator.algo.ts:45
+	// return result;
+	frame_dig 0 // result: uint64
+
+	// set the subroutine return value
+	frame_bury 0
 	retsub
 
 *abi_route_createApplication:
@@ -70,10 +165,14 @@ doMath:
 	method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
 	err
 
 *call_NoOp:
-	method "doMath(uint64,uint64)uint64"
+	method "doMath(uint64,uint64,string)uint64"
 	txna ApplicationArgs 0
 	match *abi_route_doMath
+
+	// this contract does not implement the given ABI method for call NoOp
 	err`;
