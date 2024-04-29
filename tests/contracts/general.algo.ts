@@ -491,4 +491,8 @@ class GeneralTest extends Contract {
   assertComment() {
     assert(false, 'this is false');
   }
+
+  throwErrorMessage() {
+    throw Error('this is an error');
+  }
 }

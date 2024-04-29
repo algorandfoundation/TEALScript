@@ -199,7 +199,8 @@ arc72_transferFrom:
 	b *if0_end
 
 *if0_else:
-	err // 'Transfer not authorized'
+	// Transfer not authorized
+	err
 
 *if0_end:
 	retsub

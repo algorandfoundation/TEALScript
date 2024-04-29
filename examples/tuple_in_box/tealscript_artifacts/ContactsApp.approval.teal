@@ -314,7 +314,8 @@ updateContactField:
 	b *if0_end
 
 *if0_else:
-	err // 'Invalid field'
+	// Invalid field
+	err
 
 *if0_end:
 	retsub

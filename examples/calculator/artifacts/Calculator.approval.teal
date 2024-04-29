@@ -142,7 +142,8 @@ doMath:
 	b *if0_end
 
 *if0_else:
-	err // 'Invalid operation'
+	// Invalid operation
+	err
 
 *if0_end:
 	// examples/calculator/calculator.algo.ts:45

@@ -13,6 +13,7 @@ import path from 'path';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
+import { error } from 'console';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -2930,8 +2931,10 @@ export default class Compiler {
     if (!expr.isKind(ts.SyntaxKind.CallExpression)) throw Error('Must throw Error');
     if (expr.getExpression().getText() !== 'Error') throw Error('Must throw Error');
 
-    if (expr.getArguments().length) this.pushVoid(node, `err // ${expr.getArguments()[0].getText()}`);
-    else this.pushVoid(node, 'err');
+    const args = expr.getArguments()
+
+    const errorMessage = args?.[0].getType().isStringLiteral() ? args[0].getType().getLiteralValueOrThrow().valueOf().toString() : undefined
+    this.pushVoid(node, 'err', errorMessage);
   }
 
   private processDoStatement(node: ts.DoStatement) {
