@@ -4,7 +4,6 @@
 import { test, expect, describe } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 import algosdk from 'algosdk';
-import srcInfo from './contracts/artifacts/MathTest.src_map.json';
 import { compileAndCreate, runMethod, artifactsTest, algodClient, kmdClient, getErrorMessage } from './common';
 
 const NAME = 'MathTest';
@@ -77,7 +76,7 @@ describe('Math', function () {
     });
 
     test('overflow', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
       let msg: string;
       try {
@@ -85,7 +84,7 @@ describe('Math', function () {
         msg = 'No error';
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
-        msg = getErrorMessage(e.message, srcInfo);
+        msg = getErrorMessage(e.message, compiler.sourceInfo);
       }
 
       expect(msg).toMatch('uint8plus return value overflowed 8 bits');
