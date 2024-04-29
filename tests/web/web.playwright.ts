@@ -14,6 +14,6 @@ test.describe('Web', () => {
 
     await teal.waitFor({ state: 'visible', timeout: 5000 });
 
-    expect(await teal.innerHTML()).toBe(TEAL);
+    expect((await teal.innerHTML()).replace(/&gt;/g, '>')).toBe(TEAL);
   });
 });

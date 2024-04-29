@@ -3,7 +3,7 @@
 
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { describe, test, expect } from '@jest/globals';
-import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
+import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient, getErrorMessage } from './common';
 
 const NAME = 'GeneralTest';
 const PATH = 'tests/contracts/general.algo.ts';
@@ -93,6 +93,30 @@ describe('General', function () {
 
       const result2 = await runMethod({ appClient, method: 'earlyReturn', methodArgs: [2] });
       expect(result2).toBe(3n);
+    });
+
+    test('assertComment', async function () {
+      const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      let msg = 'No error';
+      try {
+        await runMethod({ appClient, method: 'assertComment' });
+      } catch (e) {
+        msg = getErrorMessage(e.message, compiler.sourceInfo);
+      }
+
+      expect(msg).toMatch('this is false');
+    });
+
+    test('throwErrorMessage', async function () {
+      const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      let msg = 'No error';
+      try {
+        await runMethod({ appClient, method: 'throwErrorMessage' });
+      } catch (e) {
+        msg = getErrorMessage(e.message, compiler.sourceInfo);
+      }
+
+      expect(msg).toMatch('this is an error');
     });
   });
 });

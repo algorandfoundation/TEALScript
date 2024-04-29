@@ -86,6 +86,7 @@ export async function compileAndCreate(
 ): Promise<{
   appClient: ApplicationClient;
   appId: number | bigint;
+  compiler: Compiler;
 }> {
   const compiler = new Compiler({
     cwd: process.cwd(),
@@ -120,7 +121,7 @@ export async function compileAndCreate(
     sendParams: { suppressLog: true },
   });
 
-  return { appClient, appId };
+  return { appClient, appId, compiler };
 }
 
 export async function runMethod({
@@ -157,4 +158,9 @@ export async function runMethod({
     console.warn(e);
     throw e;
   }
+}
+
+export function getErrorMessage(algodError: string, sourceInfo: { pc?: number[]; errorMessage?: string }[]) {
+  const pc = Number(algodError.match(/(?<=pc=)\d+/)?.[0]);
+  return sourceInfo.find((s) => s.pc?.includes(pc))?.errorMessage || `unknown error: ${algodError}`;
 }
