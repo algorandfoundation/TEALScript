@@ -1,9 +1,11 @@
 import * as ts from 'ts-morph';
+import { error } from 'console';
 import langspec from '../static/langspec.json';
 
-type NodeAndTEAL = {
+type TEALInfo = {
   node: ts.Node;
   teal: string;
+  errorMessage?: string;
 };
 
 const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
@@ -11,7 +13,7 @@ const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
 const arglessOps = langspec.Ops.filter((op) => op.Args === undefined && op.Returns !== undefined);
 const arglessOpNames = ['byte', 'int', 'addr', ...arglessOps.map((op) => op.Name)];
 
-export function optimizeFrames(inputTeal: NodeAndTEAL[]) {
+export function optimizeFrames(inputTeal: TEALInfo[]) {
   const outputTeal = inputTeal.slice();
 
   const frames: {
@@ -91,22 +93,22 @@ TODO:
   optimize byte math
   optimize bitlen (Math.floor((Math.log(n) / Math.log(2)))
 */
-export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
-  const outputTeal: NodeAndTEAL[] = [];
+export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
+  const outputTeal: TEALInfo[] = [];
 
   const popTeal = () => {
     outputTeal.pop();
   };
 
-  const pushTeal = (teal: string, node: ts.Node) => {
-    outputTeal.push({ teal, node });
+  const pushTeal = (teal: string, node: ts.Node, errorMessage?: string) => {
+    outputTeal.push({ teal, node, errorMessage });
   };
 
-  inputTeal.forEach((nodeAndTeal) => {
+  inputTeal.forEach((tealInfo) => {
     let optimized = false;
 
-    const teal = nodeAndTeal.teal.trim();
-    const { node } = nodeAndTeal;
+    const teal = tealInfo.teal.trim();
+    const { node, errorMessage } = tealInfo;
 
     // gitxn with one immediate arg is not an actual op but TEALScript pretends it is to make life easier
     if (teal.startsWith('gitxn ') && teal.split(' ').length < 3) {
@@ -348,15 +350,15 @@ export function optimizeOpcodes(inputTeal: NodeAndTEAL[]): NodeAndTEAL[] {
       }
     }
 
-    if (!optimized) pushTeal(teal, node);
+    if (!optimized) pushTeal(teal, node, errorMessage);
   });
 
   return outputTeal;
 }
 /** optimizeOpcodes will undo dup opcodes and do multiple pushes of the literal value. This function takes multiple literals and replaces it with the dup/dupn opcode */
-function deDupTeal(inputTeal: NodeAndTEAL[]) {
-  const newTeal: NodeAndTEAL[] = [];
-  const oldTeal: NodeAndTEAL[] = inputTeal.slice();
+function deDupTeal(inputTeal: TEALInfo[]) {
+  const newTeal: TEALInfo[] = [];
+  const oldTeal: TEALInfo[] = inputTeal.slice();
 
   let count = 1;
 
@@ -384,7 +386,7 @@ function deDupTeal(inputTeal: NodeAndTEAL[]) {
  * Remove unused labels from TEAL code
  * I started implementing this then realized labels are kinda nice for readability so I kept them in
  */
-export function rmUnusedLabels(inputTeal: NodeAndTEAL[]) {
+export function rmUnusedLabels(inputTeal: TEALInfo[]) {
   const teal = inputTeal.map((t) => t.teal);
   const labels = teal.filter((t) => t.match(/^\S+:/)).map((t) => t.split(':')[0]);
 
@@ -409,9 +411,9 @@ export function rmUnusedLabels(inputTeal: NodeAndTEAL[]) {
   });
 }
 
-export function optimizeTeal(inputTeal: NodeAndTEAL[]) {
-  let newTeal: NodeAndTEAL[] = inputTeal.slice();
-  let oldTeal: NodeAndTEAL[] = inputTeal.slice();
+export function optimizeTeal(inputTeal: TEALInfo[]) {
+  let newTeal: TEALInfo[] = inputTeal.slice();
+  let oldTeal: TEALInfo[] = inputTeal.slice();
 
   do {
     oldTeal = newTeal.slice();

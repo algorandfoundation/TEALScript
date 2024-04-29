@@ -487,4 +487,8 @@ class GeneralTest extends Contract {
       clearStateProgram: [this.pageOne.value, this.pageTwo.value],
     });
   }
+
+  assertComment() {
+    assert(false, 'this is false');
+  }
 }

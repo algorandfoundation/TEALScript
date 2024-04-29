@@ -434,9 +434,10 @@ const compilerScratch = {
   assignmentValue: '245 // assignment value',
 };
 
-type NodeAndTEAL = {
+export type TEALInfo = {
   node: ts.Node;
   teal: string;
+  errorMessage?: string
 };
 
 /** @internal */
@@ -448,9 +449,9 @@ export default class Compiler {
   private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
   teal: {
-    approval: NodeAndTEAL[];
-    clear: NodeAndTEAL[];
-    lsig: NodeAndTEAL[];
+    approval: TEALInfo[];
+    clear: TEALInfo[];
+    lsig: TEALInfo[];
   } = {
     approval: [],
     clear: [],
@@ -488,6 +489,7 @@ export default class Compiler {
     source: number;
     teal: number;
     pc?: number[];
+    errorMessage?: string
   }[] = [];
 
   private frameIndex: number = 0;
@@ -2297,7 +2299,7 @@ export default class Compiler {
     };
   }
 
-  private async postProcessTeal(input: NodeAndTEAL[]): Promise<NodeAndTEAL[]> {
+  private async postProcessTeal(input: TEALInfo[]): Promise<TEALInfo[]> {
     const compilerOptions = {
       algodPort: this.algodPort,
       algodServer: this.algodServer,
@@ -2387,7 +2389,9 @@ export default class Compiler {
             });
           }
 
-          return { node: t.node, teal: tealLine };
+          const { errorMessage } = t;
+
+          return { node: t.node, teal: tealLine, errorMessage };
         })
       )
     ).flat();
@@ -2715,6 +2719,7 @@ export default class Compiler {
       this.srcMap.push({
         teal: i + 1,
         source: ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1,
+        errorMessage: t.errorMessage,
       });
     });
 
@@ -2791,16 +2796,17 @@ export default class Compiler {
     this.teal.clear = this.prettyTeal(this.teal.clear);
   }
 
-  private push(node: ts.Node, teal: string, type: TypeInfo) {
+  private push(node: ts.Node, teal: string, type: TypeInfo, errorMessage?: string) {
     this.lastNode = node;
 
     if (!equalTypes(type, StackType.void)) this.lastType = type;
-
-    this.teal[this.currentProgram].push({ teal, node });
+    
+    if (errorMessage) this.teal[this.currentProgram].push({ teal: `// ${errorMessage}`, node });
+    this.teal[this.currentProgram].push({ teal, node, errorMessage });
   }
 
-  private pushVoid(node: ts.Node, teal: string) {
-    this.push(node, teal, StackType.void);
+  private pushVoid(node: ts.Node, teal: string, errorMessage?: string) {
+    this.push(node, teal, StackType.void, errorMessage);
   }
 
   private getSignature(node: ts.MethodDeclaration | ts.ClassDeclaration): string {
@@ -6545,11 +6551,10 @@ export default class Compiler {
       const args = node.getArguments();
       this.processNode(args[0]);
 
-      if (args[1] && args[1].getType().isStringLiteral()) {
-        this.pushVoid(node, `// ${args[1].getType().getLiteralValueOrThrow().valueOf()}`);
-      }
+      const errorMessage = args[1]?.getType().isStringLiteral() ? args[1].getType().getLiteralValueOrThrow().valueOf().toString() : undefined;
 
-      this.pushVoid(node, 'assert');
+      this.pushVoid(node, 'assert', errorMessage);
+
       return;
     }
 
@@ -7275,8 +7280,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     return appSpec;
   }
 
-  prettyTeal(teal: NodeAndTEAL[]): NodeAndTEAL[] {
-    const output: NodeAndTEAL[] = [];
+  prettyTeal(teal: TEALInfo[]): TEALInfo[] {
+    const output: TEALInfo[] = [];
     let comments: string[] = [];
 
     let hitFirstLabel = false;
@@ -7311,7 +7316,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       } else {
         comments.forEach((c) => output.push({ node: t.node, teal: `\t${c.replace(/\n/g, '\n\t')}` }));
         comments = [];
-        output.push({ node: t.node, teal: `\t${tealLine}` });
+        output.push({ node: t.node, teal: `\t${tealLine}`, errorMessage: t.errorMessage });
         lastIsLabel = false;
       }
     });
