@@ -5680,7 +5680,7 @@ export default class Compiler {
 
       const method = chain[1].getNameNode().getText();
 
-      if (method === 'send') {
+      if (['send', 'beginGroup', 'addToGroup'].includes(method)) {
         const arg = chain[2].getArguments()[0];
 
         if (!arg.isKind(ts.SyntaxKind.NewExpression)) throw Error('Argument to send must be a new transaction');
@@ -5692,7 +5692,18 @@ export default class Compiler {
 
         if (className.startsWith('MethodCall')) className = 'MethodCall';
 
-        this.processTransaction(chain[2], `send${className}`, txnParams, argTypes, returnType, name);
+        if (method === 'addToGroup') {
+          this.innerTxnHasBegun = true;
+        }
+
+        this.processTransaction(
+          chain[2],
+          `${method === 'send' ? 'send' : 'add'}${className}`,
+          txnParams,
+          argTypes,
+          returnType,
+          name
+        );
 
         if (className === 'AssetCreateTxn') {
           this.push(chain[2], 'itxn CreatedAssetID', ForeignType.Asset);
@@ -5703,7 +5714,9 @@ export default class Compiler {
         } else {
           this.lastType = { kind: 'base', type: 'void' };
         }
-      }
+      } else if (method === 'sendGroup') {
+        this.pushVoid(chain[2], 'itxn_submit');
+      } else throw Error(`Unsupported method: ${method}`);
 
       chain.splice(0, 3);
       return;

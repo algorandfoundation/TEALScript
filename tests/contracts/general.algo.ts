@@ -96,9 +96,9 @@ class GeneralTest extends Contract {
   }
 
   submitPendingGroup(): void {
-    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, isFirstTxn: true });
-    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, note: 'foo' });
-    this.pendingGroup.submit();
+    this.txnComposer.beginGroup(new PayTxn({ amount: 0, receiver: this.app.address }));
+    this.txnComposer.addToGroup(new PayTxn({ amount: 0, receiver: this.app.address, note: 'foo' }));
+    this.txnComposer.sendGroup();
   }
 
   methodWithTxnArgs(): void {

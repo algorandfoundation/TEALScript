@@ -265,8 +265,8 @@ submitPendingGroup:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:99
-	// this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, isFirstTxn: true })
-	itxn_begin
+	// this.txnComposer.beginGroup(new PayTxn({ amount: 0, receiver: this.app.address }))
+	itxn_next
 	int pay
 	itxn_field TypeEnum
 
@@ -285,7 +285,7 @@ submitPendingGroup:
 	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:100
-	// this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, note: 'foo' })
+	// this.txnComposer.addToGroup(new PayTxn({ amount: 0, receiver: this.app.address, note: 'foo' }))
 	itxn_next
 	int pay
 	itxn_field TypeEnum
@@ -310,7 +310,7 @@ submitPendingGroup:
 	itxn_field Fee
 
 	// tests/contracts/general.algo.ts:101
-	// this.pendingGroup.submit()
+	// this.txnComposer.sendGroup()
 	itxn_submit
 	retsub
 

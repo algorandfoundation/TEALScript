@@ -61,6 +61,38 @@ export class TxnComposer {
     : void {
     return txn as any;
   }
+
+  beginGroup<
+    ArgTypes,
+    ReturnType,
+    InnerTxn extends
+      | Txn
+      | PayTxn
+      | AssetConfigTxn
+      | AppCallTxn
+      | AssetTransferParams
+      | AssetFreezeParams
+      | KeyRegTxn
+      | MethodCallTxn<ArgTypes, ReturnType>
+      | AssetCreateTxn,
+  >(txn: InnerTxn): void {}
+
+  addToGroup<
+    ArgTypes,
+    ReturnType,
+    InnerTxn extends
+      | Txn
+      | PayTxn
+      | AssetConfigTxn
+      | AppCallTxn
+      | AssetTransferParams
+      | AssetFreezeParams
+      | KeyRegTxn
+      | MethodCallTxn<ArgTypes, ReturnType>
+      | AssetCreateTxn,
+  >(txn: InnerTxn): void {}
+
+  sendGroup(): void {}
 }
 
 type ItxnParams = AppOnChainTransactionParams &
