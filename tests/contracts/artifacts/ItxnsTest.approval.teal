@@ -605,9 +605,9 @@ innerGeneric:
 
 	// tests/contracts/itxns.algo.ts:115
 	// this.txnComposer.send(
-	//       new MethodCallTxn<[InnerTxn<InnerAssetCreation>], void>({
+	//       new MethodCallTxn<[Txn], void>({
 	//         name: 'foo',
-	//         methodArgs: [{ configAssetTotal: 1 }],
+	//         methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })],
 	//       })
 	//     )
 	itxn_begin
@@ -629,7 +629,7 @@ innerGeneric:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/itxns.algo.ts:118
-	// methodArgs: [{ configAssetTotal: 1 }]
+	// methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })]
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee

@@ -6901,6 +6901,13 @@ export default class Compiler {
     if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
     if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
 
+    if (fields.isKind(ts.SyntaxKind.NewExpression)) {
+      // eslint-disable-next-line no-param-reassign
+      name = fields.getExpression().getText();
+      // eslint-disable-next-line no-param-reassign
+      [fields] = fields.getArguments();
+    }
+
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
 

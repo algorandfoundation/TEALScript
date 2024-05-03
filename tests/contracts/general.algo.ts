@@ -433,7 +433,7 @@ class GeneralTest extends Contract {
   callTxnArgsMethod(): void {
     this.txnComposer.send(
       new MethodCallTxn<typeof GeneralTest.prototype.txnArgsMethod>({
-        methodArgs: [{ receiver: this.app.address, amount: 0 }],
+        methodArgs: [new PayTxn({ receiver: this.app.address, amount: 0 })],
       })
     );
   }

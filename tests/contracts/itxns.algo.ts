@@ -113,9 +113,9 @@ class ItxnsTest extends Contract {
 
   innerGeneric(): void {
     this.txnComposer.send(
-      new MethodCallTxn<[InnerTxn<InnerAssetCreation>], void>({
+      new MethodCallTxn<[Txn], void>({
         name: 'foo',
-        methodArgs: [{ configAssetTotal: 1 }],
+        methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })],
       })
     );
   }

@@ -2166,7 +2166,7 @@ callTxnArgsMethod:
 	// tests/contracts/general.algo.ts:434
 	// this.txnComposer.send(
 	//       new MethodCallTxn<typeof GeneralTest.prototype.txnArgsMethod>({
-	//         methodArgs: [{ receiver: this.app.address, amount: 0 }],
+	//         methodArgs: [new PayTxn({ receiver: this.app.address, amount: 0 })],
 	//       })
 	//     )
 	itxn_begin
@@ -2193,7 +2193,7 @@ callTxnArgsMethod:
 	itxn_field ApplicationArgs
 
 	// tests/contracts/general.algo.ts:436
-	// methodArgs: [{ receiver: this.app.address, amount: 0 }]
+	// methodArgs: [new PayTxn({ receiver: this.app.address, amount: 0 })]
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
