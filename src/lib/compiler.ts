@@ -1025,12 +1025,12 @@ export default class Compiler {
     }
 
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
-    if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
-    if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
+    if (type.getText() === 'PayTxn') return { kind: 'base', type: 'pay' };
+    if (type.getText() === 'AssetTransferTxn') return { kind: 'base', type: 'axfer' };
     if (type.getText() === 'AppCallTxn') return { kind: 'base', type: 'appl' };
-    if (type.getText() === 'Required<KeyRegParams>') return { kind: 'base', type: 'keyreg' };
-    if (type.getText() === 'Required<AssetConfigParams>') return { kind: 'base', type: 'acfg' };
-    if (type.getText() === 'Required<AssetFreezeParams>') return { kind: 'base', type: 'afrz' };
+    if (type.getText() === 'KeyRegTxn') return { kind: 'base', type: 'keyreg' };
+    if (type.getText() === 'AssetConfigTxn') return { kind: 'base', type: 'acfg' };
+    if (type.getText() === 'AssetFreezeTxn') return { kind: 'base', type: 'afrz' };
 
     const aliasedTypeNode = this.getAliasedTypeNode(type);
 
