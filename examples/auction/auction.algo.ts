@@ -35,11 +35,13 @@ class Auction extends Contract {
     this.asa.value = asset;
 
     /// Submit opt-in transaction: 0 asset transfer to self
-    sendAssetTransfer({
-      assetReceiver: this.app.address,
-      xferAsset: asset,
-      assetAmount: 0,
-    });
+    this.txnComposer.send(
+      new AssetTransferTxn({
+        assetReceiver: this.app.address,
+        xferAsset: asset,
+        assetAmount: 0,
+      })
+    );
   }
 
   startAuction(startingPrice: uint64, length: uint64, axfer: AssetTransferTxn): void {
@@ -58,10 +60,12 @@ class Auction extends Contract {
   }
 
   private pay(receiver: Address, amount: uint64): void {
-    sendPayment({
-      receiver: receiver,
-      amount: amount,
-    });
+    this.txnComposer.send(
+      new PayTxn({
+        receiver: receiver,
+        amount: amount,
+      })
+    );
   }
 
   optInToApplication(): void {}
@@ -100,19 +104,23 @@ class Auction extends Contract {
     assert(globals.latestTimestamp > this.auctionEnd.value);
 
     /// Send ASA to previous bidder
-    sendAssetTransfer({
-      assetReceiver: this.previousBidder.value,
-      xferAsset: asset,
-      assetAmount: this.asaAmt.value,
-      assetCloseTo: this.previousBidder.value,
-    });
+    this.txnComposer.send(
+      new AssetTransferTxn({
+        assetReceiver: this.previousBidder.value,
+        xferAsset: asset,
+        assetAmount: this.asaAmt.value,
+        assetCloseTo: this.previousBidder.value,
+      })
+    );
   }
 
   deleteApplication(): void {
-    sendPayment({
-      receiver: globals.creatorAddress,
-      closeRemainderTo: globals.creatorAddress,
-      amount: 0,
-    });
+    this.txnComposer.send(
+      new PayTxn({
+        receiver: globals.creatorAddress,
+        closeRemainderTo: globals.creatorAddress,
+        amount: 0,
+      })
+    );
   }
 }

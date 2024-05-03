@@ -161,15 +161,17 @@ class GeneralTest extends Contract {
   }
 
   staticContractProperties(): void {
-    sendAppCall({
-      onCompletion: OnCompletion.NoOp,
-      approvalProgram: DummyContract.approvalProgram(),
-      clearStateProgram: DummyContract.clearProgram(),
-      localNumByteSlice: DummyContract.schema.local.numByteSlice,
-      localNumUint: DummyContract.schema.local.numUint,
-      globalNumByteSlice: DummyContract.schema.global.numByteSlice,
-      globalNumUint: DummyContract.schema.global.numUint,
-    });
+    this.txnComposer.send(
+      new AppCallTxn({
+        onCompletion: OnCompletion.NoOp,
+        approvalProgram: DummyContract.approvalProgram(),
+        clearStateProgram: DummyContract.clearProgram(),
+        localNumByteSlice: DummyContract.schema.local.numByteSlice,
+        localNumUint: DummyContract.schema.local.numUint,
+        globalNumByteSlice: DummyContract.schema.global.numByteSlice,
+        globalNumUint: DummyContract.schema.global.numUint,
+      })
+    );
   }
 
   numberToString(): void {
@@ -482,10 +484,12 @@ class GeneralTest extends Contract {
   pageTwo = BoxKey<bytes>();
 
   multipleProgramPages(): void {
-    sendAppCall({
-      approvalProgram: [this.pageOne.value, this.pageTwo.value],
-      clearStateProgram: [this.pageOne.value, this.pageTwo.value],
-    });
+    this.txnComposer.send(
+      new AppCallTxn({
+        approvalProgram: [this.pageOne.value, this.pageTwo.value],
+        clearStateProgram: [this.pageOne.value, this.pageTwo.value],
+      })
+    );
   }
 
   assertComment() {

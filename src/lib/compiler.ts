@@ -5669,6 +5669,40 @@ export default class Compiler {
    * @param newValue New value to assign to the chain expression
    */
   private processThisBase(chain: ExpressionChainNode[], newValue?: ts.Node) {
+    // if this is a txnComposer call
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'txnComposer'
+    ) {
+      if (!chain[2].isKind(ts.SyntaxKind.CallExpression)) throw new Error('Unsupported method');
+      if (!chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw new Error('Unsupported method');
+
+      const method = chain[1].getNameNode().getText();
+
+      if (method === 'send') {
+        const arg = chain[2].getArguments()[0];
+
+        if (!arg.isKind(ts.SyntaxKind.NewExpression)) throw Error('Argument to send must be a new transaction');
+        const txnParams = arg.getArguments()[0];
+
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[2].getTypeArguments());
+
+        const className = arg.getType().getText();
+
+        this.processTransaction(chain[2], `send${className}`, txnParams, argTypes, returnType);
+
+        if (className === 'AssetCreateTxn') {
+          this.push(chain[2], 'itxn CreatedAssetID', ForeignType.Asset);
+        } else {
+          this.lastType = { kind: 'base', type: 'void' };
+        }
+      }
+
+      chain.splice(0, 3);
+      return;
+    }
+
     // If this is a pendingGroup call (ie. `this.pendingGroup.submit()`)
     if (
       chain[0] &&
@@ -6910,29 +6944,36 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     switch (method.replace('generic ', '')) {
       case 'pay':
       case 'Payment':
+      case 'PayTxn':
         txnType = TransactionType.PaymentTx;
         break;
       case 'axfer':
       case 'AssetTransfer':
+      case 'AssetTransferTxn':
         txnType = TransactionType.AssetTransferTx;
         break;
       case 'appl':
       case 'MethodCall':
       case 'AppCall':
+      case 'AppCallTxn':
         txnType = TransactionType.ApplicationCallTx;
         break;
       case 'acfg':
       case 'AssetCreation':
       case 'AssetConfig':
+      case 'AssetConfigTxn':
+      case 'AssetCreateTxn':
         txnType = TransactionType.AssetConfigTx;
         break;
       case 'afrz':
       case 'AssetFreeze':
+      case 'AssetFreezeTxn':
         txnType = TransactionType.AssetFreezeTx;
         break;
       case 'keyreg':
       case 'OfflineKeyRegistration':
       case 'OnlineKeyRegistration':
+      case 'KeyRegTxn':
         txnType = TransactionType.KeyRegistrationTx;
         break;
       default:

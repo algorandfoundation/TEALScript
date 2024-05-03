@@ -38,6 +38,22 @@ export class PendingGroup {
   submit(): void {}
 }
 
+export class TxnComposer {
+  send<
+    InnerTxn extends
+      | Txn
+      | PayTxn
+      | AssetConfigTxn
+      | AppCallTxn
+      | AssetTransferParams
+      | AssetFreezeParams
+      | KeyRegTxn
+      | AssetCreateTxn,
+  >(txn: InnerTxn): InnerTxn extends AssetCreateTxn ? AssetID : void {
+    return txn as any;
+  }
+}
+
 type ItxnParams = AppOnChainTransactionParams &
   Partial<AppParams> &
   Partial<PaymentParams> &
@@ -80,6 +96,8 @@ export default abstract class Contract {
   app!: AppID;
 
   pendingGroup!: PendingGroup;
+
+  txnComposer!: TxnComposer;
 
   /**
    * The method called when creating the application. The default create method will

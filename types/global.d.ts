@@ -764,9 +764,9 @@ interface AppParams extends CommonTransactionParams {
 }
 
 interface KeyRegParams extends CommonTransactionParams {
-  votePk?: bytes;
+  votePK?: bytes;
   selectionPK?: bytes;
-  stateProofPk?: bytes;
+  stateProofPK?: bytes;
   voteFirst?: uint64;
   voteLast?: uint64;
   voteKeyDilution?: uint64;
@@ -815,6 +815,10 @@ interface AssetFreezeTxn extends Required<AssetFreezeParams> {}
 // eslint-disable-next-line no-redeclare
 class AssetFreezeTxn {
   constructor(params: AssetFreezeParams);
+}
+
+class AssetCreateTxn {
+  constructor(params: AssetCreateParams);
 }
 
 type SendMethodCallArgs<T> = {

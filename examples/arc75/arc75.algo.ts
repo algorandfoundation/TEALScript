@@ -14,10 +14,12 @@ class ARC75 extends Contract {
   }
 
   private sendMBRPayment(preMBR: uint64): void {
-    sendPayment({
-      receiver: this.txn.sender,
-      amount: preMBR - this.app.address.minBalance,
-    });
+    this.txnComposer.send(
+      new PayTxn({
+        receiver: this.txn.sender,
+        amount: preMBR - this.app.address.minBalance,
+      })
+    );
   }
 
   /**

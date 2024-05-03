@@ -3,19 +3,23 @@ import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line no-unused-vars
 class NFTFactory extends Contract {
   createNFT(name: string, unitName: string): AssetID {
-    return sendAssetCreation({
-      configAssetName: name,
-      configAssetUnitName: unitName,
-      configAssetTotal: 1,
-    });
+    return this.txnComposer.send(
+      new AssetCreateTxn({
+        configAssetName: name,
+        configAssetUnitName: unitName,
+        configAssetTotal: 1,
+      })
+    );
   }
 
   transferNFT(asset: AssetID, receiver: Address): void {
-    sendAssetTransfer({
-      assetReceiver: receiver,
-      assetAmount: 1,
-      xferAsset: asset,
-    });
+    this.txnComposer.send(
+      new AssetTransferTxn({
+        assetReceiver: receiver,
+        assetAmount: 1,
+        xferAsset: asset,
+      })
+    );
   }
 }
 
@@ -29,21 +33,25 @@ class FactoryCaller extends Contract {
 
     const factoryApp = this.itxn.createdApplicationID;
 
-    sendPayment({
-      amount: 200_000,
-      receiver: factoryApp.address,
-    });
+    this.txnComposer.send(
+      new PayTxn({
+        amount: 200_000,
+        receiver: factoryApp.address,
+      })
+    );
 
     const createdAsset = sendMethodCall<typeof NFTFactory.prototype.createNFT>({
       applicationID: factoryApp,
       methodArgs: ['My NFT', 'MNFT'],
     });
 
-    sendAssetTransfer({
-      assetReceiver: this.app.address,
-      assetAmount: 0,
-      xferAsset: createdAsset,
-    });
+    this.txnComposer.send(
+      new AssetTransferTxn({
+        assetReceiver: this.app.address,
+        assetAmount: 0,
+        xferAsset: createdAsset,
+      })
+    );
 
     sendMethodCall<typeof NFTFactory.prototype.transferNFT>({
       applicationID: factoryApp,

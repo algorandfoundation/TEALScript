@@ -43,7 +43,7 @@ mintAndGetAsset:
 	byte 0x
 	dup
 
-	// examples/itxns/itxns.algo.ts:25
+	// examples/itxns/itxns.algo.ts:29
 	// sendMethodCall<typeof NFTFactory.prototype.createApplication>({
 	//       clearStateProgram: NFTFactory.clearProgram(),
 	//       approvalProgram: NFTFactory.approvalProgram(),
@@ -54,12 +54,12 @@ mintAndGetAsset:
 	method "createApplication()void"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.algo.ts:26
+	// examples/itxns/itxns.algo.ts:30
 	// clearStateProgram: NFTFactory.clearProgram()
 	byte b64 Cg==
 	itxn_field ClearStateProgram
 
-	// examples/itxns/itxns.algo.ts:27
+	// examples/itxns/itxns.algo.ts:31
 	// approvalProgram: NFTFactory.approvalProgram()
 	byte b64 CiACAQAxGBSBBgsxGQiNDABvAAAAAAAAAAAAAABhAAAAAAAAAAAAAACABBUffHU2GgJXAgA2GgFXAgCIAAUWULAiQ4oCAbGBA7IQi/+yJov+siUisiIjsgGztDyJNhoCSRWBIBJENhoBF4gAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkOABLhEezY2GgCOAf/xAIAE0gJMc4AEx+JgrzYaAI4C/33/sQA=
 	itxn_field ApprovalProgram
@@ -71,26 +71,28 @@ mintAndGetAsset:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/itxns/itxns.algo.ts:30
+	// examples/itxns/itxns.algo.ts:34
 	// factoryApp = this.itxn.createdApplicationID
 	itxn CreatedApplicationID
 	frame_bury 0 // factoryApp: uint64
 
-	// examples/itxns/itxns.algo.ts:32
-	// sendPayment({
-	//       amount: 200_000,
-	//       receiver: factoryApp.address,
-	//     })
+	// examples/itxns/itxns.algo.ts:36
+	// this.txnComposer.send(
+	//       new PayTxn({
+	//         amount: 200_000,
+	//         receiver: factoryApp.address,
+	//       })
+	//     )
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:33
+	// examples/itxns/itxns.algo.ts:38
 	// amount: 200_000
 	int 200_000
 	itxn_field Amount
 
-	// examples/itxns/itxns.algo.ts:34
+	// examples/itxns/itxns.algo.ts:39
 	// receiver: factoryApp.address
 	frame_dig 0 // factoryApp: uint64
 	app_params_get AppAddress
@@ -104,7 +106,7 @@ mintAndGetAsset:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/itxns/itxns.algo.ts:37
+	// examples/itxns/itxns.algo.ts:43
 	// createdAsset = sendMethodCall<typeof NFTFactory.prototype.createNFT>({
 	//       applicationID: factoryApp,
 	//       methodArgs: ['My NFT', 'MNFT'],
@@ -115,12 +117,12 @@ mintAndGetAsset:
 	method "createNFT(string,string)uint64"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.algo.ts:38
+	// examples/itxns/itxns.algo.ts:44
 	// applicationID: factoryApp
 	frame_dig 0 // factoryApp: uint64
 	itxn_field ApplicationID
 
-	// examples/itxns/itxns.algo.ts:39
+	// examples/itxns/itxns.algo.ts:45
 	// methodArgs: ['My NFT', 'MNFT']
 	byte 0x00064d79204e4654
 	itxn_field ApplicationArgs
@@ -141,27 +143,29 @@ mintAndGetAsset:
 	btoi
 	frame_bury 1 // createdAsset: uint64
 
-	// examples/itxns/itxns.algo.ts:42
-	// sendAssetTransfer({
-	//       assetReceiver: this.app.address,
-	//       assetAmount: 0,
-	//       xferAsset: createdAsset,
-	//     })
+	// examples/itxns/itxns.algo.ts:48
+	// this.txnComposer.send(
+	//       new AssetTransferTxn({
+	//         assetReceiver: this.app.address,
+	//         assetAmount: 0,
+	//         xferAsset: createdAsset,
+	//       })
+	//     )
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:43
+	// examples/itxns/itxns.algo.ts:50
 	// assetReceiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.algo.ts:44
+	// examples/itxns/itxns.algo.ts:51
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.algo.ts:45
+	// examples/itxns/itxns.algo.ts:52
 	// xferAsset: createdAsset
 	frame_dig 1 // createdAsset: uint64
 	itxn_field XferAsset
@@ -173,7 +177,7 @@ mintAndGetAsset:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/itxns/itxns.algo.ts:48
+	// examples/itxns/itxns.algo.ts:56
 	// sendMethodCall<typeof NFTFactory.prototype.transferNFT>({
 	//       applicationID: factoryApp,
 	//       methodArgs: [createdAsset, this.app.address],
@@ -184,12 +188,12 @@ mintAndGetAsset:
 	method "transferNFT(uint64,address)void"
 	itxn_field ApplicationArgs
 
-	// examples/itxns/itxns.algo.ts:49
+	// examples/itxns/itxns.algo.ts:57
 	// applicationID: factoryApp
 	frame_dig 0 // factoryApp: uint64
 	itxn_field ApplicationID
 
-	// examples/itxns/itxns.algo.ts:50
+	// examples/itxns/itxns.algo.ts:58
 	// methodArgs: [createdAsset, this.app.address]
 	frame_dig 1 // createdAsset: uint64
 	itob
@@ -204,7 +208,7 @@ mintAndGetAsset:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/itxns/itxns.algo.ts:53
+	// examples/itxns/itxns.algo.ts:61
 	// return createdAsset;
 	frame_dig 1 // createdAsset: uint64
 

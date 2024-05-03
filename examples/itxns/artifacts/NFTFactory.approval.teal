@@ -48,26 +48,28 @@ createNFT:
 	proto 2 1
 
 	// examples/itxns/itxns.algo.ts:6
-	// return sendAssetCreation({
-	//       configAssetName: name,
-	//       configAssetUnitName: unitName,
-	//       configAssetTotal: 1,
-	//     });
+	// return this.txnComposer.send(
+	//       new AssetCreateTxn({
+	//         configAssetName: name,
+	//         configAssetUnitName: unitName,
+	//         configAssetTotal: 1,
+	//       })
+	//     );
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:7
+	// examples/itxns/itxns.algo.ts:8
 	// configAssetName: name
 	frame_dig -1 // name: string
 	itxn_field ConfigAssetName
 
-	// examples/itxns/itxns.algo.ts:8
+	// examples/itxns/itxns.algo.ts:9
 	// configAssetUnitName: unitName
 	frame_dig -2 // unitName: string
 	itxn_field ConfigAssetUnitName
 
-	// examples/itxns/itxns.algo.ts:9
+	// examples/itxns/itxns.algo.ts:10
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -106,27 +108,29 @@ createNFT:
 transferNFT:
 	proto 2 0
 
-	// examples/itxns/itxns.algo.ts:14
-	// sendAssetTransfer({
-	//       assetReceiver: receiver,
-	//       assetAmount: 1,
-	//       xferAsset: asset,
-	//     })
+	// examples/itxns/itxns.algo.ts:16
+	// this.txnComposer.send(
+	//       new AssetTransferTxn({
+	//         assetReceiver: receiver,
+	//         assetAmount: 1,
+	//         xferAsset: asset,
+	//       })
+	//     )
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/itxns/itxns.algo.ts:15
+	// examples/itxns/itxns.algo.ts:18
 	// assetReceiver: receiver
 	frame_dig -2 // receiver: Address
 	itxn_field AssetReceiver
 
-	// examples/itxns/itxns.algo.ts:16
+	// examples/itxns/itxns.algo.ts:19
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// examples/itxns/itxns.algo.ts:17
+	// examples/itxns/itxns.algo.ts:20
 	// xferAsset: asset
 	frame_dig -1 // asset: AssetID
 	itxn_field XferAsset
