@@ -40,6 +40,8 @@ export class PendingGroup {
 
 export class TxnComposer {
   send<
+    ArgTypes,
+    ReturnType,
     InnerTxn extends
       | Txn
       | PayTxn
@@ -48,8 +50,15 @@ export class TxnComposer {
       | AssetTransferParams
       | AssetFreezeParams
       | KeyRegTxn
+      | MethodCallTxn<ArgTypes, ReturnType>
       | AssetCreateTxn,
-  >(txn: InnerTxn): InnerTxn extends AssetCreateTxn ? AssetID : void {
+  >(
+    txn: InnerTxn
+  ): InnerTxn extends AssetCreateTxn
+    ? AssetID
+    : InnerTxn extends MethodCallTxn<ArgTypes, ReturnType>
+    ? ReturnType
+    : void {
     return txn as any;
   }
 }

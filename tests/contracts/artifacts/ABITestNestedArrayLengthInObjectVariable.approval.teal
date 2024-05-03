@@ -42,12 +42,12 @@ nestedArrayLengthInObjectVariable:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1434
+	// tests/contracts/abi.algo.ts:1436
 	// a: { foo: StaticArray<uint8, 5> } = { foo: [11, 22, 33, 44, 55] }
 	byte 0x0b16212c37
 	frame_bury 0 // a: { foo: StaticArray<uint8, 5> }
 
-	// tests/contracts/abi.algo.ts:1437
+	// tests/contracts/abi.algo.ts:1439
 	// return b.length;
 	int 5
 

@@ -102,17 +102,19 @@ class GeneralTest extends Contract {
   }
 
   methodWithTxnArgs(): void {
-    sendMethodCall<[PayTxn, MethodCall<[uint64], void>], void>({
-      name: 'foo',
-      methodArgs: [
-        { amount: 100_000, receiver: this.txn.sender },
-        {
-          name: 'bar',
-          applicationID: AppID.fromUint64(1337),
-          methodArgs: [1],
-        },
-      ],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<[PayTxn, MethodCall<[uint64], void>], void>({
+        name: 'foo',
+        methodArgs: [
+          { amount: 100_000, receiver: this.txn.sender },
+          {
+            name: 'bar',
+            applicationID: AppID.fromUint64(1337),
+            methodArgs: [1],
+          },
+        ],
+      })
+    );
   }
 
   shift(): void {
@@ -429,9 +431,11 @@ class GeneralTest extends Contract {
   txnArgsMethod(_pay1: PayTxn): void {}
 
   callTxnArgsMethod(): void {
-    sendMethodCall<typeof GeneralTest.prototype.txnArgsMethod>({
-      methodArgs: [{ receiver: this.app.address, amount: 0 }],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<typeof GeneralTest.prototype.txnArgsMethod>({
+        methodArgs: [{ receiver: this.app.address, amount: 0 }],
+      })
+    );
   }
 
   staticValueLen(x: uint256): void {
@@ -473,10 +477,12 @@ class GeneralTest extends Contract {
   }
 
   assetMethodArgs(): void {
-    sendMethodCall<[AssetReference], void>({
-      name: 'foo',
-      methodArgs: [AssetID.fromUint64(1)],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<[AssetReference], void>({
+        name: 'foo',
+        methodArgs: [AssetID.fromUint64(1)],
+      })
+    );
   }
 
   pageOne = BoxKey<bytes>();

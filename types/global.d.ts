@@ -821,6 +821,10 @@ class AssetCreateTxn {
   constructor(params: AssetCreateParams);
 }
 
+class MethodCallTxn<ArgTypes, ReturnType = void> {
+  constructor(params: MethodCallParams<ArgTypes>);
+}
+
 type SendMethodCallArgs<T> = {
   [K in keyof T]: T[K] extends PayTxn
     ? InnerPayment

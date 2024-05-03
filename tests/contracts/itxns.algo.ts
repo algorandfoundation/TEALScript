@@ -86,10 +86,12 @@ class ItxnsTest extends Contract {
   }
 
   methodCall(): AssetID {
-    return sendMethodCall<[AppID, AssetID], AssetID>({
-      name: 'method',
-      methodArgs: [this.app, AssetID.zeroIndex],
-    });
+    return this.txnComposer.send(
+      new MethodCallTxn<[AppID, AssetID], AssetID>({
+        name: 'method',
+        methodArgs: [this.app, AssetID.zeroIndex],
+      })
+    );
   }
 
   onlineKeyRegistration(): void {
@@ -110,9 +112,11 @@ class ItxnsTest extends Contract {
   }
 
   innerGeneric(): void {
-    sendMethodCall<[InnerTxn<InnerAssetCreation>], void>({
-      name: 'foo',
-      methodArgs: [{ configAssetTotal: 1 }],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<[InnerTxn<InnerAssetCreation>], void>({
+        name: 'foo',
+        methodArgs: [{ configAssetTotal: 1 }],
+      })
+    );
   }
 }

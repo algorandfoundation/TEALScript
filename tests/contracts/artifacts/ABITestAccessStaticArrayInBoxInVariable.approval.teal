@@ -39,23 +39,23 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 accessStaticArrayInBoxInVariable:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1516
+	// tests/contracts/abi.algo.ts:1518
 	// this.bKey.create()
 	byte 0x7374616b657273 // "stakers"
 	int 120
 	box_create
 	pop
 
-	// tests/contracts/abi.algo.ts:1517
-	// val = this.bKey.value[i]
 	// tests/contracts/abi.algo.ts:1519
+	// val = this.bKey.value[i]
+	// tests/contracts/abi.algo.ts:1521
 	// val.u64 = 1
 	byte 0x7374616b657273 // "stakers"
 	int 0
 	byte 0x0000000000000001
 	box_replace
 
-	// tests/contracts/abi.algo.ts:1521
+	// tests/contracts/abi.algo.ts:1523
 	// return val.u64;
 	byte 0x7374616b657273 // "stakers"
 	int 0

@@ -26,7 +26,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 privateMethod:
 	proto 2 1
 
-	// tests/contracts/abi.algo.ts:1404
+	// tests/contracts/abi.algo.ts:1406
 	// return obj.bar + obj.foo;
 	frame_dig -2 // obj: ObjectInArgsType
 	extract 8 8
@@ -54,7 +54,7 @@ privateMethod:
 objectInArgs:
 	proto 0 1
 
-	// tests/contracts/abi.algo.ts:1408
+	// tests/contracts/abi.algo.ts:1410
 	// return this.privateMethod(this.txn.sender, { foo: 1, bar: 2 });
 	byte 0x00000000000000010000000000000002
 	txn Sender

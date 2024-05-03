@@ -463,17 +463,19 @@ methodCall:
 	proto 0 1
 
 	// tests/contracts/itxns.algo.ts:89
-	// return sendMethodCall<[AppID, AssetID], AssetID>({
-	//       name: 'method',
-	//       methodArgs: [this.app, AssetID.zeroIndex],
-	//     });
+	// return this.txnComposer.send(
+	//       new MethodCallTxn<[AppID, AssetID], AssetID>({
+	//         name: 'method',
+	//         methodArgs: [this.app, AssetID.zeroIndex],
+	//       })
+	//     );
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
 	method "method(uint64,uint64)uint64"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:91
+	// tests/contracts/itxns.algo.ts:92
 	// methodArgs: [this.app, AssetID.zeroIndex]
 	txna Applications 0
 	itob
@@ -493,6 +495,12 @@ methodCall:
 	itxnas Logs
 	extract 4 0
 	btoi
+	itxn NumLogs
+	int 1
+	-
+	itxnas Logs
+	extract 4 0
+	btoi
 	retsub
 
 // onlineKeyRegistration()void
@@ -506,7 +514,7 @@ methodCall:
 onlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:96
+	// tests/contracts/itxns.algo.ts:98
 	// this.txnComposer.send(
 	//       new KeyRegTxn({
 	//         selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -521,32 +529,32 @@ onlineKeyRegistration:
 	int keyreg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:98
+	// tests/contracts/itxns.algo.ts:100
 	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field SelectionPK
 
-	// tests/contracts/itxns.algo.ts:99
+	// tests/contracts/itxns.algo.ts:101
 	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field StateProofPK
 
-	// tests/contracts/itxns.algo.ts:100
+	// tests/contracts/itxns.algo.ts:102
 	// voteFirst: 1
 	int 1
 	itxn_field VoteFirst
 
-	// tests/contracts/itxns.algo.ts:101
+	// tests/contracts/itxns.algo.ts:103
 	// voteKeyDilution: 1
 	int 1
 	itxn_field VoteKeyDilution
 
-	// tests/contracts/itxns.algo.ts:102
+	// tests/contracts/itxns.algo.ts:104
 	// voteLast: 1
 	int 1
 	itxn_field VoteLast
 
-	// tests/contracts/itxns.algo.ts:103
+	// tests/contracts/itxns.algo.ts:105
 	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field VotePK
@@ -570,7 +578,7 @@ onlineKeyRegistration:
 offlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:109
+	// tests/contracts/itxns.algo.ts:111
 	// this.txnComposer.send(new KeyRegTxn({}))
 	itxn_begin
 	int keyreg
@@ -595,16 +603,18 @@ offlineKeyRegistration:
 innerGeneric:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:113
-	// sendMethodCall<[InnerTxn<InnerAssetCreation>], void>({
-	//       name: 'foo',
-	//       methodArgs: [{ configAssetTotal: 1 }],
-	//     })
+	// tests/contracts/itxns.algo.ts:115
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[InnerTxn<InnerAssetCreation>], void>({
+	//         name: 'foo',
+	//         methodArgs: [{ configAssetTotal: 1 }],
+	//       })
+	//     )
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:115
+	// tests/contracts/itxns.algo.ts:118
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -618,7 +628,7 @@ innerGeneric:
 	method "foo(txn)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:115
+	// tests/contracts/itxns.algo.ts:118
 	// methodArgs: [{ configAssetTotal: 1 }]
 	// Fee field not set, defaulting to 0
 	int 0

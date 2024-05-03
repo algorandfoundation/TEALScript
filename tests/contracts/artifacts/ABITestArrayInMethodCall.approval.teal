@@ -34,23 +34,25 @@ arrayInMethodCall:
 	proto 0 0
 
 	// tests/contracts/abi.algo.ts:1393
-	// sendMethodCall<[[uint64, uint64], Address, uint64, boolean], void>({
-	//       applicationID: AppID.fromUint64(0),
-	//       name: 'foo',
-	//       methodArgs: [[1, 2], this.txn.sender, 3, false],
-	//     })
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[[uint64, uint64], Address, uint64, boolean], void>({
+	//         applicationID: AppID.fromUint64(0),
+	//         name: 'foo',
+	//         methodArgs: [[1, 2], this.txn.sender, 3, false],
+	//       })
+	//     )
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
 	method "foo((uint64,uint64),address,uint64,bool)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/abi.algo.ts:1394
+	// tests/contracts/abi.algo.ts:1395
 	// applicationID: AppID.fromUint64(0)
 	int 0
 	itxn_field ApplicationID
 
-	// tests/contracts/abi.algo.ts:1396
+	// tests/contracts/abi.algo.ts:1397
 	// methodArgs: [[1, 2], this.txn.sender, 3, false]
 	byte 0x00000000000000010000000000000002
 	itxn_field ApplicationArgs

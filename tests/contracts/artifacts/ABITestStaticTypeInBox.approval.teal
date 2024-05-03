@@ -33,13 +33,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 staticTypeInBox:
 	proto 0 0
 
-	// tests/contracts/abi.algo.ts:1535
+	// tests/contracts/abi.algo.ts:1537
 	// this.bMap(this.txn.sender).value = this.txn.sender
 	txn Sender
 	txn Sender
 	box_put
 
-	// tests/contracts/abi.algo.ts:1536
+	// tests/contracts/abi.algo.ts:1538
 	// assert(this.bMap(this.txn.sender).value.isInLedger)
 	txn Sender
 	box_get

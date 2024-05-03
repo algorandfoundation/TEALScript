@@ -5686,14 +5686,20 @@ export default class Compiler {
         if (!arg.isKind(ts.SyntaxKind.NewExpression)) throw Error('Argument to send must be a new transaction');
         const txnParams = arg.getArguments()[0];
 
-        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[2].getTypeArguments());
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(arg.getTypeArguments());
 
-        const className = arg.getType().getText();
+        let className = arg.getType().getText();
 
-        this.processTransaction(chain[2], `send${className}`, txnParams, argTypes, returnType);
+        if (className.startsWith('MethodCall')) className = 'MethodCall';
+
+        this.processTransaction(chain[2], `send${className}`, txnParams, argTypes, returnType, name);
 
         if (className === 'AssetCreateTxn') {
           this.push(chain[2], 'itxn CreatedAssetID', ForeignType.Asset);
+        } else if (className === 'MethodCall' && typeInfoToABIString(returnType) !== 'void') {
+          this.pushLines(chain[2], 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
+          this.checkDecoding(chain[2], returnType);
+          this.lastType = returnType;
         } else {
           this.lastType = { kind: 'base', type: 'void' };
         }
