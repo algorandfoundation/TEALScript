@@ -5694,11 +5694,13 @@ export default class Compiler {
 
         if (method === 'addToGroup') {
           this.innerTxnHasBegun = true;
+        } else if (method === 'beginGroup') {
+          this.innerTxnHasBegun = false;
         }
 
         this.processTransaction(
           chain[2],
-          `${method === 'send' ? 'send' : 'add'}${className}`,
+          `${method === 'addToGroup' ? 'add' : 'send'}${className}`,
           txnParams,
           argTypes,
           returnType,

@@ -266,7 +266,7 @@ submitPendingGroup:
 
 	// tests/contracts/general.algo.ts:99
 	// this.txnComposer.beginGroup(new PayTxn({ amount: 0, receiver: this.app.address }))
-	itxn_next
+	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
@@ -283,6 +283,9 @@ submitPendingGroup:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
 
 	// tests/contracts/general.algo.ts:100
 	// this.txnComposer.addToGroup(new PayTxn({ amount: 0, receiver: this.app.address, note: 'foo' }))
