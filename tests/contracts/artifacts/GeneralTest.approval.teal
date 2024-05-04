@@ -2164,21 +2164,21 @@ callTxnArgsMethod:
 	proto 0 0
 
 	// tests/contracts/general.algo.ts:434
-	// this.txnComposer.send(
-	//       new MethodCallTxn<typeof GeneralTest.prototype.txnArgsMethod>({
-	//         methodArgs: [new PayTxn({ receiver: this.app.address, amount: 0 })],
-	//       })
+	// GeneralTest.call({ applicationID: AppID.fromUint64(1337) }).txnArgsMethod(
+	//       new PayTxn({ receiver: this.app.address, amount: 0 })
 	//     )
+	// tests/contracts/general.algo.ts:435
+	// new PayTxn({ receiver: this.app.address, amount: 0 })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:436
+	// tests/contracts/general.algo.ts:435
 	// receiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Receiver
 
-	// tests/contracts/general.algo.ts:436
+	// tests/contracts/general.algo.ts:435
 	// amount: 0
 	int 0
 	itxn_field Amount
@@ -2186,14 +2186,22 @@ callTxnArgsMethod:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// tests/contracts/general.algo.ts:434
+	// GeneralTest.call({ applicationID: AppID.fromUint64(1337) }).txnArgsMethod(
+	//       new PayTxn({ receiver: this.app.address, amount: 0 })
+	//     )
 	itxn_next
 	int appl
 	itxn_field TypeEnum
 	method "txnArgsMethod(pay)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:436
-	// methodArgs: [new PayTxn({ receiver: this.app.address, amount: 0 })]
+	// tests/contracts/general.algo.ts:434
+	// applicationID: AppID.fromUint64(1337)
+	int 1337
+	itxn_field ApplicationID
+
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -2223,7 +2231,7 @@ callTxnArgsMethod:
 staticValueLen:
 	proto 1 0
 
-	// tests/contracts/general.algo.ts:442
+	// tests/contracts/general.algo.ts:440
 	// assert(len(x))
 	int 32
 	assert
@@ -2240,7 +2248,7 @@ staticValueLen:
 staticTypeLen:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:446
+	// tests/contracts/general.algo.ts:444
 	// assert(len<uint256>())
 	int 32
 	assert
@@ -2257,13 +2265,13 @@ staticTypeLen:
 dynamicScratchSlot:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:450
+	// tests/contracts/general.algo.ts:448
 	// this.dynamicScratch(1).value = 1337
 	int 1
 	int 1337
 	stores
 
-	// tests/contracts/general.algo.ts:451
+	// tests/contracts/general.algo.ts:449
 	// assert(this.dynamicScratch(1).value === 1337)
 	int 1
 	loads
@@ -2283,19 +2291,19 @@ dynamicScratchSlot:
 incrementScratchSlot:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:455
+	// tests/contracts/general.algo.ts:453
 	// this.scratch.value = 1337
 	int 1337
 	store 0
 
-	// tests/contracts/general.algo.ts:456
+	// tests/contracts/general.algo.ts:454
 	// this.scratch.value += 1
 	load 0
 	int 1
 	+
 	store 0
 
-	// tests/contracts/general.algo.ts:457
+	// tests/contracts/general.algo.ts:455
 	// assert(this.scratch.value === 1338)
 	load 0
 	int 1338
@@ -2314,13 +2322,13 @@ incrementScratchSlot:
 incrementDynamicScratchSlot:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:461
+	// tests/contracts/general.algo.ts:459
 	// this.dynamicScratch(2).value = 1337
 	int 2
 	int 1337
 	stores
 
-	// tests/contracts/general.algo.ts:462
+	// tests/contracts/general.algo.ts:460
 	// this.dynamicScratch(2).value += 1
 	int 2
 	loads
@@ -2330,7 +2338,7 @@ incrementDynamicScratchSlot:
 	swap
 	stores
 
-	// tests/contracts/general.algo.ts:463
+	// tests/contracts/general.algo.ts:461
 	// assert(this.dynamicScratch(2).value === 1338)
 	int 2
 	loads
@@ -2353,12 +2361,12 @@ fromAddress:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/general.algo.ts:467
+	// tests/contracts/general.algo.ts:465
 	// a = Address.fromAddress('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ')
 	addr AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ
 	frame_bury 0 // a: address
 
-	// tests/contracts/general.algo.ts:468
+	// tests/contracts/general.algo.ts:466
 	// assert(a === Address.zeroAddress)
 	frame_dig 0 // a: address
 	global ZeroAddress
@@ -2391,7 +2399,7 @@ earlyReturn:
 	byte 0x
 
 	// *if1_condition
-	// tests/contracts/general.algo.ts:472
+	// tests/contracts/general.algo.ts:470
 	// a === 1
 	frame_dig -1 // a: uint64
 	int 1
@@ -2399,20 +2407,20 @@ earlyReturn:
 	bz *if1_end
 
 	// *if1_consequent
-	// tests/contracts/general.algo.ts:473
+	// tests/contracts/general.algo.ts:471
 	// return 2;
 	int 2
 	b *earlyReturn*return
 
 *if1_end:
-	// tests/contracts/general.algo.ts:475
+	// tests/contracts/general.algo.ts:473
 	// b = a + 1
 	frame_dig -1 // a: uint64
 	int 1
 	+
 	frame_bury 0 // b: uint64
 
-	// tests/contracts/general.algo.ts:476
+	// tests/contracts/general.algo.ts:474
 	// return b;
 	frame_dig 0 // b: uint64
 
@@ -2432,7 +2440,7 @@ earlyReturn:
 assetMethodArgs:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:480
+	// tests/contracts/general.algo.ts:478
 	// this.txnComposer.send(
 	//       new MethodCallTxn<[AssetReference], void>({
 	//         name: 'foo',
@@ -2445,7 +2453,7 @@ assetMethodArgs:
 	method "foo(asset)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/general.algo.ts:483
+	// tests/contracts/general.algo.ts:481
 	// methodArgs: [AssetID.fromUint64(1)]
 	int 1
 	itxn_field Assets
@@ -2471,7 +2479,7 @@ assetMethodArgs:
 multipleProgramPages:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:493
+	// tests/contracts/general.algo.ts:491
 	// this.txnComposer.send(
 	//       new AppCallTxn({
 	//         approvalProgram: [this.pageOne.value, this.pageTwo.value],
@@ -2482,7 +2490,7 @@ multipleProgramPages:
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/general.algo.ts:495
+	// tests/contracts/general.algo.ts:493
 	// approvalProgram: [this.pageOne.value, this.pageTwo.value]
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
@@ -2497,7 +2505,7 @@ multipleProgramPages:
 	assert
 	itxn_field ApprovalProgramPages
 
-	// tests/contracts/general.algo.ts:496
+	// tests/contracts/general.algo.ts:494
 	// clearStateProgram: [this.pageOne.value, this.pageTwo.value]
 	byte 0x706167654f6e65 // "pageOne"
 	box_get
@@ -2531,7 +2539,7 @@ multipleProgramPages:
 assertComment:
 	proto 0 0
 
-	// tests/contracts/general.algo.ts:502
+	// tests/contracts/general.algo.ts:500
 	// assert(false, 'this is false')
 	int 0
 

@@ -6026,6 +6026,235 @@ export default class Compiler {
     }
   }
 
+  private newProcessTransaction(
+    node: ts.Node,
+    fields: ts.ObjectLiteralExpression,
+    optionalParams?: {
+      methodName?: string;
+      methodArgs?: ts.Node[];
+      methodArgTypes?: TypeInfo[];
+      methodReturnType?: TypeInfo;
+      useNext?: boolean;
+      send?: boolean;
+    }
+  ) {
+    let txnArgCount = 0;
+    const argTypeStrings = optionalParams?.methodArgTypes?.map((t) => typeInfoToABIString(t)) || [];
+
+    const preProcessMethodArgs = (args: ts.Node[]) => {
+      args.forEach((e, i: number) => {
+        if (TXN_TYPES.includes(argTypeStrings[i])) {
+          if (e.isKind(ts.SyntaxKind.NewExpression)) {
+            const typeArgs = e.getTypeArguments();
+            const firstTypeArg = typeArgs[0];
+
+            let methodArgTypes: TypeInfo[] | undefined;
+            let methodReturnType: TypeInfo | undefined;
+            if (firstTypeArg?.isKind(ts.SyntaxKind.TupleType)) {
+              methodArgTypes = firstTypeArg.getElements().map((t) => this.getTypeInfo(t.getType()));
+            }
+
+            this.newProcessTransaction(e, e.getArguments()[0] as ts.ObjectLiteralExpression, {
+              methodArgTypes,
+              methodReturnType,
+              useNext: optionalParams?.useNext || txnArgCount > 0,
+            });
+          }
+
+          txnArgCount += 1;
+        }
+      });
+    };
+
+    fields.getProperties().forEach((p) => {
+      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+      const key = p.getNameNode()?.getText();
+
+      if (key === 'methodArgs') {
+        const init = p.getInitializer();
+        if (!init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw new Error('methodArgs must be an array');
+
+        preProcessMethodArgs(init.getElements());
+      }
+    });
+
+    if (optionalParams?.methodArgs) preProcessMethodArgs(optionalParams.methodArgs);
+
+    const fieldsParent = fields.getParent();
+
+    let txnType: TransactionType | undefined;
+    let isAssetCreate = false;
+
+    if (optionalParams?.methodName) txnType = TransactionType.ApplicationCallTx;
+    else if (fieldsParent.isKind(ts.SyntaxKind.NewExpression)) {
+      const className = fieldsParent.getExpression().getText();
+
+      if (className === 'AssetCreateTxn') isAssetCreate = true;
+
+      const txnClassMapping = {
+        PayTxn: 'pay',
+        AssetTransferTxn: 'axfer',
+        KeyRegTxn: 'keyreg',
+        MethodCallTxn: 'appl',
+        AssetConfigTxn: 'acfg',
+        AssetCreateTxn: 'acfg',
+        AppCallTxn: 'appl',
+        AssetFreezeTxn: 'afrz',
+      };
+
+      txnType = txnClassMapping[className as keyof typeof txnClassMapping] as TransactionType;
+    }
+
+    if (txnType === undefined) throw Error('Unknown transaction type');
+
+    this.addSourceComment(node, true);
+    this.pushVoid(node, `itxn_${optionalParams?.useNext || txnArgCount > 0 ? 'next' : 'begin'}`);
+
+    this.pushLines(node, `int ${txnType}`, 'itxn_field TypeEnum');
+
+    let methodName = optionalParams?.methodName;
+
+    if (methodName === undefined && txnType === TransactionType.ApplicationCallTx) {
+      const nameProp = fields
+        .getProperties()
+        .find((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'name');
+
+      if (nameProp) {
+        if (!nameProp.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+        const init = nameProp.getInitializer();
+        if (!init?.isKind(ts.SyntaxKind.StringLiteral)) throw Error();
+
+        methodName = init.getLiteralText();
+      }
+    }
+
+    if (methodName) {
+      const argsString = (optionalParams?.methodArgTypes || [])
+        ?.map((t) => typeInfoToABIString(t))
+        .join(',')
+        // any[] is used for default lifecycle methods, which we want to remove
+        .replace('any[]', '');
+
+      this.pushVoid(
+        node,
+        `method "${methodName}(${argsString})${typeInfoToABIString(
+          optionalParams?.methodReturnType || StackType.void,
+          true
+        )}"`
+      );
+      this.pushVoid(node, 'itxn_field ApplicationArgs');
+    }
+
+    const processMethodArgs = (args: ts.Node[]) => {
+      let accountIndex = 1;
+      let appIndex = 1;
+      let assetIndex = 0;
+
+      args.forEach((e, i: number) => {
+        if (argTypeStrings[i] === 'account') {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Accounts');
+          this.pushVoid(e, `int ${accountIndex}`);
+          this.pushVoid(e, 'itob');
+          accountIndex += 1;
+        } else if (argTypeStrings[i] === 'asset') {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Assets');
+          this.pushVoid(e, `int ${assetIndex}`);
+          this.pushVoid(e, 'itob');
+          assetIndex += 1;
+          // if it's an appl but NOT a method call
+        } else if (argTypeStrings[i] === 'appl' && !e.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Applications');
+          this.pushVoid(e, `int ${appIndex}`);
+          this.pushVoid(e, 'itob');
+          appIndex += 1;
+        } else if (argTypeStrings[i] === 'uint64') {
+          this.processNode(e);
+          typeComparison(this.lastType, optionalParams!.methodArgTypes![i]);
+          this.pushVoid(e, 'itob');
+        } else if (TXN_TYPES.includes(argTypeStrings[i])) {
+          return;
+        } else {
+          const prevTypeHint = this.typeHint;
+          this.typeHint = optionalParams!.methodArgTypes![i];
+          this.processNode(e);
+          this.checkEncoding(e, optionalParams!.methodArgTypes![i]);
+          this.typeHint = prevTypeHint;
+        }
+        this.pushVoid(e, 'itxn_field ApplicationArgs');
+      });
+    };
+
+    fields.getProperties().forEach((p) => {
+      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+      const key = p.getNameNode()?.getText();
+      const init = p.getInitializer();
+
+      if (key === undefined) throw new Error('Key must be defined');
+
+      if (key === 'name' && txnType === TransactionType.ApplicationCallTx) {
+        return;
+      }
+
+      this.addSourceComment(p, true);
+      this.pushComments(p);
+
+      if (
+        (key === 'approvalProgram' || key === 'clearStateProgram') &&
+        init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)
+      ) {
+        init.getElements().forEach((e) => {
+          this.processNode(e);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}Pages`);
+        });
+      } else if (key === 'onCompletion') {
+        if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          throw new Error('Must use OnCompletion enum');
+        }
+
+        const oc = init.getNameNode().getText() as OnComplete;
+        this.pushVoid(p.getInitializer()!, `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
+        this.pushVoid(p, 'itxn_field OnCompletion');
+      } else if (key === 'methodArgs') {
+        if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+          throw new Error('methodArgs must be an array');
+        }
+        processMethodArgs(init.getElements());
+      } else if (p.isKind(ts.SyntaxKind.PropertyAssignment) && init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+        init.getElements().forEach((e) => {
+          this.processNode(e);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}`);
+        });
+      } else if (p.isKind(ts.SyntaxKind.PropertyAssignment)) {
+        this.processNode(p.getInitializer()!);
+        this.pushVoid(p, `itxn_field ${capitalizeFirstChar(key)}`);
+      }
+    });
+
+    if (
+      !fields
+        .getProperties()
+        .map((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText())
+        .includes('fee')
+    ) {
+      this.pushLines(node, '// Fee field not set, defaulting to 0', 'int 0', 'itxn_field Fee');
+    }
+
+    if (optionalParams?.send) {
+      this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
+
+      if (optionalParams?.methodReturnType && !equalTypes(optionalParams.methodReturnType, StackType.void)) {
+        this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
+        this.checkDecoding(node, optionalParams.methodReturnType);
+        this.lastType = optionalParams.methodReturnType;
+      } else if (isAssetCreate) {
+        this.push(node, 'itxn CreatedAssetID', ForeignType.Asset);
+      }
+    }
+  }
+
   private methodTypeArgsToTypes(typeArgs: ts.TypeNode[]) {
     let argTypes: TypeInfo[] = [];
     let name: string | undefined;
@@ -6153,6 +6382,36 @@ export default class Compiler {
                 StackType.uint64
               );
               chain.splice(0, 3);
+
+              break;
+            case 'call':
+              if (!chain[1].isKind(ts.SyntaxKind.CallExpression)) throw Error(`call must be a function call`);
+              if (!chain[2].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error(`call must be a function call`);
+              if (!chain[3].isKind(ts.SyntaxKind.CallExpression)) throw Error(`call must be a function call`);
+
+              // eslint-disable-next-line no-case-declarations
+              const methodName = chain[2].getName();
+
+              // eslint-disable-next-line no-case-declarations
+              const methodSig = chain[2].getType().getCallSignatures()[0];
+
+              // eslint-disable-next-line no-case-declarations
+              const methodArgTypes = methodSig
+                .getParameters()
+                .map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+
+              // eslint-disable-next-line no-case-declarations
+              const methodReturnType = this.getTypeInfo(methodSig.getReturnType());
+
+              this.newProcessTransaction(chain[3], chain[1].getArguments()[0] as ts.ObjectLiteralExpression, {
+                methodArgTypes,
+                methodReturnType,
+                methodName,
+                methodArgs: chain[3].getArguments(),
+                send: true,
+              });
+
+              chain.splice(0, 4);
 
               break;
             default:

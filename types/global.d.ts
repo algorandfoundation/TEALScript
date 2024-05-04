@@ -821,7 +821,7 @@ class AssetCreateTxn {
   constructor(params: AssetCreateParams);
 }
 
-class MethodCallTxn<ArgTypes, ReturnType = void> {
+class MethodCallTxn<ArgTypes, ReturnType> {
   constructor(params: MethodCallParams<ArgTypes>);
 }
 

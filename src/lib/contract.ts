@@ -59,7 +59,7 @@ export class TxnComposer {
     : InnerTxn extends MethodCallTxn<ArgTypes, ReturnType>
     ? ReturnType
     : void {
-    return txn as any;
+    return {} as any;
   }
 
   beginGroup<
@@ -110,6 +110,13 @@ export default abstract class Contract {
   static approvalProgram: () => bytes;
 
   static clearProgram: () => bytes;
+
+  static call<ContractClass extends typeof Contract>(
+    this: ContractClass,
+    txnParams?: Omit<AppParams, 'applicationArgs'>
+  ): InstanceType<ContractClass> {
+    return {} as any;
+  }
 
   static schema: {
     global: {
