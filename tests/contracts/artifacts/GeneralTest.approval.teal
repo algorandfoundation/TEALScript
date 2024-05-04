@@ -630,24 +630,12 @@ staticContractProperties:
 
 	// tests/contracts/general.algo.ts:171
 	// localNumByteSlice: DummyContract.schema.local.numByteSlice
-	int 0
-	itxn_field LocalNumByteSlice
-
 	// tests/contracts/general.algo.ts:172
 	// localNumUint: DummyContract.schema.local.numUint
-	int 0
-	itxn_field LocalNumUint
-
 	// tests/contracts/general.algo.ts:173
 	// globalNumByteSlice: DummyContract.schema.global.numByteSlice
-	int 0
-	itxn_field GlobalNumByteSlice
-
 	// tests/contracts/general.algo.ts:174
 	// globalNumUint: DummyContract.schema.global.numUint
-	int 0
-	itxn_field GlobalNumUint
-
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -2202,6 +2190,8 @@ callTxnArgsMethod:
 	int 1337
 	itxn_field ApplicationID
 
+	// tests/contracts/general.algo.ts:435
+	// new PayTxn({ receiver: this.app.address, amount: 0 })
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee

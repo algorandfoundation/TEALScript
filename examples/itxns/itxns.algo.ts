@@ -26,12 +26,7 @@ class NFTFactory extends Contract {
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
   mintAndGetAsset(): AssetID {
-    this.txnComposer.send(
-      new MethodCallTxn<typeof NFTFactory.prototype.createApplication>({
-        clearStateProgram: NFTFactory.clearProgram(),
-        approvalProgram: NFTFactory.approvalProgram(),
-      })
-    );
+    NFTFactory.call().createApplication();
 
     const factoryApp = this.itxn.createdApplicationID;
 
@@ -42,12 +37,7 @@ class FactoryCaller extends Contract {
       })
     );
 
-    const createdAsset = this.txnComposer.send(
-      new MethodCallTxn<typeof NFTFactory.prototype.createNFT>({
-        applicationID: factoryApp,
-        methodArgs: ['My NFT', 'MNFT'],
-      })
-    );
+    const createdAsset = NFTFactory.call({ applicationID: factoryApp }).createNFT('My NFT', 'MNFT');
 
     this.txnComposer.send(
       new AssetTransferTxn({
@@ -57,12 +47,7 @@ class FactoryCaller extends Contract {
       })
     );
 
-    this.txnComposer.send(
-      new MethodCallTxn<typeof NFTFactory.prototype.transferNFT>({
-        applicationID: factoryApp,
-        methodArgs: [createdAsset, this.app.address],
-      })
-    );
+    NFTFactory.call({ applicationID: factoryApp }).transferNFT(createdAsset, this.app.address);
 
     return createdAsset;
   }

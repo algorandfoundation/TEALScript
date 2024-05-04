@@ -116,6 +116,16 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       const gitxnField = teal.split(' ')[1];
       pushTeal(`gitxn ${index} ${gitxnField}`, node);
       optimized = true;
+    } else if (
+      teal.startsWith('itxn_field GlobalNumUint') ||
+      teal.startsWith('itxn_field LocalNumUint') ||
+      teal.startsWith('itxn_field GlobalNumByteSlice') ||
+      teal.startsWith('itxn_field LocalNumByteSlice')
+    ) {
+      if (outputTeal.at(-1)?.teal.startsWith('int 0')) {
+        popTeal();
+        optimized = true;
+      }
     } else if (teal.startsWith('replace3')) {
       if (outputTeal.at(-1)?.teal.startsWith('byte 0x') && outputTeal.at(-2)?.teal.startsWith('int ')) {
         const bytes = outputTeal.at(-1)!;
@@ -299,7 +309,12 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
 
         optimized = true;
       }
-    } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
+    } else if (
+      teal.startsWith('+') ||
+      teal.startsWith('-') ||
+      teal.startsWith('*') ||
+      (teal.startsWith('/') && !teal.startsWith('//'))
+    ) {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
 

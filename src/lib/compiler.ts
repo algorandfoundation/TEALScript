@@ -6028,7 +6028,7 @@ export default class Compiler {
 
   private newProcessTransaction(
     node: ts.Node,
-    fields: ts.ObjectLiteralExpression,
+    fields: ts.ObjectLiteralExpression | undefined,
     optionalParams?: {
       methodName?: string;
       methodArgs?: ts.Node[];
@@ -6036,6 +6036,7 @@ export default class Compiler {
       methodReturnType?: TypeInfo;
       useNext?: boolean;
       send?: boolean;
+      createdContract?: string;
     }
   ) {
     let txnArgCount = 0;
@@ -6066,7 +6067,7 @@ export default class Compiler {
       });
     };
 
-    fields.getProperties().forEach((p) => {
+    fields?.getProperties().forEach((p) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
       const key = p.getNameNode()?.getText();
 
@@ -6080,13 +6081,13 @@ export default class Compiler {
 
     if (optionalParams?.methodArgs) preProcessMethodArgs(optionalParams.methodArgs);
 
-    const fieldsParent = fields.getParent();
+    const fieldsParent = fields?.getParent();
 
     let txnType: TransactionType | undefined;
     let isAssetCreate = false;
 
     if (optionalParams?.methodName) txnType = TransactionType.ApplicationCallTx;
-    else if (fieldsParent.isKind(ts.SyntaxKind.NewExpression)) {
+    else if (fieldsParent?.isKind(ts.SyntaxKind.NewExpression)) {
       const className = fieldsParent.getExpression().getText();
 
       if (className === 'AssetCreateTxn') isAssetCreate = true;
@@ -6116,7 +6117,7 @@ export default class Compiler {
 
     if (methodName === undefined && txnType === TransactionType.ApplicationCallTx) {
       const nameProp = fields
-        .getProperties()
+        ?.getProperties()
         .find((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'name');
 
       if (nameProp) {
@@ -6145,12 +6146,31 @@ export default class Compiler {
       this.pushVoid(node, 'itxn_field ApplicationArgs');
     }
 
+    if (optionalParams?.createdContract) {
+      this.pushVoid(node, `// ${optionalParams.createdContract} creation fields`);
+      this.pushLines(node, `PENDING_COMPILE_APPROVAL: ${optionalParams.createdContract}`, 'itxn_field ApprovalProgram');
+      this.pushLines(node, `PENDING_COMPILE_CLEAR: ${optionalParams.createdContract}`, 'itxn_field ClearStateProgram');
+      this.pushLines(node, `PENDING_SCHEMA_GLOBAL_INT: ${optionalParams.createdContract}`, 'itxn_field GlobalNumUint');
+      this.pushLines(
+        node,
+        `PENDING_SCHEMA_GLOBAL_BYTES: ${optionalParams.createdContract}`,
+        'itxn_field GlobalNumByteSlice'
+      );
+      this.pushLines(node, `PENDING_SCHEMA_LOCAL_INT: ${optionalParams.createdContract}`, 'itxn_field LocalNumUint');
+      this.pushLines(
+        node,
+        `PENDING_SCHEMA_LOCAL_BYTES: ${optionalParams.createdContract}`,
+        'itxn_field LocalNumByteSlice'
+      );
+    }
+
     const processMethodArgs = (args: ts.Node[]) => {
       let accountIndex = 1;
       let appIndex = 1;
       let assetIndex = 0;
 
       args.forEach((e, i: number) => {
+        this.addSourceComment(e, true);
         if (argTypeStrings[i] === 'account') {
           this.processNode(e);
           this.pushVoid(e, 'itxn_field Accounts');
@@ -6187,7 +6207,7 @@ export default class Compiler {
       });
     };
 
-    fields.getProperties().forEach((p) => {
+    fields?.getProperties().forEach((p) => {
       if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
       const key = p.getNameNode()?.getText();
       const init = p.getInitializer();
@@ -6233,9 +6253,11 @@ export default class Compiler {
       }
     });
 
+    if (optionalParams?.methodArgs) processMethodArgs(optionalParams.methodArgs);
+
     if (
       !fields
-        .getProperties()
+        ?.getProperties()
         .map((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText())
         .includes('fee')
     ) {
@@ -6403,12 +6425,26 @@ export default class Compiler {
               // eslint-disable-next-line no-case-declarations
               const methodReturnType = this.getTypeInfo(methodSig.getReturnType());
 
+              // eslint-disable-next-line no-case-declarations
+              const fields = chain[1].getArguments()[0] as ts.ObjectLiteralExpression;
+
+              // eslint-disable-next-line no-case-declarations
+              const appIdProp = fields
+                ?.getProperties()
+                .find(
+                  (p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'applicationID'
+                ) as ts.PropertyAssignment | undefined;
+
+              // eslint-disable-next-line no-case-declarations
+              const isCreate = appIdProp === undefined || appIdProp.getInitializer()?.getText() === '0';
+
               this.newProcessTransaction(chain[3], chain[1].getArguments()[0] as ts.ObjectLiteralExpression, {
                 methodArgTypes,
                 methodReturnType,
                 methodName,
                 methodArgs: chain[3].getArguments(),
                 send: true,
+                createdContract: isCreate ? base.getText() : undefined,
               });
 
               chain.splice(0, 4);
