@@ -1,0 +1,29 @@
+{
+  "name": "BasicVerifier",
+  "desc": "",
+  "methods": [
+    {
+      "name": "verify",
+      "args": [
+        {
+          "name": "proof",
+          "type": "byte[32][35]"
+        },
+        {
+          "name": "publicInputs",
+          "type": "byte[32][2]"
+        }
+      ],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

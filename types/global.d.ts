@@ -240,6 +240,7 @@ declare type precisions =
 // See https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
 type Brand<K, T> = K & { __brand?: T };
 
+declare type biguint = Brand<number, 'biguint'>;
 declare type uint<N extends widths> = Brand<number, `uint${N}`>;
 declare type uint8 = uint<8>;
 declare type uint16 = uint<16>;
@@ -1188,7 +1189,7 @@ declare function wideRatio(numeratorFactors: uint64[], denominatorFactors: uint6
 declare function hex(input: string): bytes;
 
 /** @returns bytes interpreted as a number */
-declare function btobigint(input: BytesLike): number;
+declare function btobigint(input: BytesLike): biguint;
 
 /**
  * Verifies the fields of a transaction against the given parameters.

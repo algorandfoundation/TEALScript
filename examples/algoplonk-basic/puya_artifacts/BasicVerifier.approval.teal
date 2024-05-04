@@ -1,0 +1,2337 @@
+#pragma version 10
+
+BasicVerifier.Contract.approval_program:
+    // generated/BasicVerifier.py:39
+    // class Contract(py.ARC4Contract):
+    method "create(string)void"
+    method "update()void"
+    method "make_immutable()void"
+    method "verify(byte[32][35],byte[32][2])bool"
+    txna ApplicationArgs 0
+    match main_create_route@1 main_update_route@2 main_make_immutable_route@3 main_verify_route@4
+    err // reject transaction
+
+main_create_route@1:
+    // generated/BasicVerifier.py:40
+    // @abimethod(create='require')
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    !
+    assert // is creating
+    // generated/BasicVerifier.py:39
+    // class Contract(py.ARC4Contract):
+    txna ApplicationArgs 1
+    // generated/BasicVerifier.py:40
+    // @abimethod(create='require')
+    callsub create
+    int 1
+    return
+
+main_update_route@2:
+    // generated/BasicVerifier.py:46
+    // @abimethod(allow_actions=["UpdateApplication", "DeleteApplication"])
+    int 1
+    txn OnCompletion
+    shl
+    int 48
+    &
+    assert // OnCompletion is one of UpdateApplication, DeleteApplication
+    txn ApplicationID
+    assert // is not creating
+    callsub update
+    int 1
+    return
+
+main_make_immutable_route@3:
+    // generated/BasicVerifier.py:53
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub make_immutable
+    int 1
+    return
+
+main_verify_route@4:
+    // generated/BasicVerifier.py:59
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // generated/BasicVerifier.py:39
+    // class Contract(py.ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    // generated/BasicVerifier.py:59
+    // @abimethod
+    callsub verify
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+
+// BasicVerifier.Contract.create(name: bytes) -> void:
+create:
+    // generated/BasicVerifier.py:40-41
+    // @abimethod(create='require')
+    // def create(self, name: String) -> None:
+    proto 1 0
+    // generated/BasicVerifier.py:43
+    // self.app_name = name
+    byte "app_name"
+    frame_dig -1
+    app_global_put
+    // generated/BasicVerifier.py:44
+    // self.immutable = False
+    byte "immutable"
+    int 0
+    app_global_put
+    retsub
+
+
+// BasicVerifier.Contract.update() -> void:
+update:
+    // generated/BasicVerifier.py:46-47
+    // @abimethod(allow_actions=["UpdateApplication", "DeleteApplication"])
+    // def update(self) -> None:
+    proto 0 0
+    // generated/BasicVerifier.py:50
+    // assert not self.immutable
+    int 0
+    byte "immutable"
+    app_global_get_ex
+    assert // check immutable exists
+    !
+    assert
+    // generated/BasicVerifier.py:51
+    // assert py.Global.creator_address == py.Txn.sender
+    global CreatorAddress
+    txn Sender
+    ==
+    assert
+    retsub
+
+
+// BasicVerifier.Contract.make_immutable() -> void:
+make_immutable:
+    // generated/BasicVerifier.py:53-54
+    // @abimethod
+    // def make_immutable(self) -> None:
+    proto 0 0
+    // generated/BasicVerifier.py:56
+    // assert py.Global.creator_address == py.Txn.sender
+    global CreatorAddress
+    txn Sender
+    ==
+    assert
+    // generated/BasicVerifier.py:57
+    // self.immutable = True
+    byte "immutable"
+    int 1
+    app_global_put
+    retsub
+
+
+// BasicVerifier.Contract.verify(proof: bytes, public_inputs: bytes) -> bytes:
+verify:
+    // generated/BasicVerifier.py:59-63
+    // @abimethod
+    // def verify(self,
+    //            proof: StaticArray[Bytes32, typing.Literal[35]],
+    // 		   public_inputs: StaticArray[Bytes32, typing.Literal[2]]
+    // 		   ) -> arc4.Bool:
+    proto 2 1
+    int 0
+    dupn 16
+    byte ""
+    dupn 5
+    // generated/BasicVerifier.py:101-103
+    // ### Read proof ###
+    // # wires commitments
+    // L_COM = proof[0].bytes + proof[1].bytes + proof[2].bytes
+    frame_dig -2
+    extract 0 32
+    frame_dig -2
+    extract 32 32
+    concat
+    frame_dig -2
+    extract 64 32
+    concat
+    // generated/BasicVerifier.py:104
+    // R_COM = proof[3].bytes + proof[4].bytes + proof[5].bytes
+    frame_dig -2
+    extract 96 32
+    frame_dig -2
+    extract 128 32
+    concat
+    frame_dig -2
+    extract 160 32
+    concat
+    // generated/BasicVerifier.py:105
+    // O_COM = proof[6].bytes + proof[7].bytes + proof[8].bytes
+    frame_dig -2
+    extract 192 32
+    frame_dig -2
+    extract 224 32
+    concat
+    frame_dig -2
+    int 256
+    int 32
+    extract3
+    concat
+    // generated/BasicVerifier.py:107-108
+    // # h = h_0 + x^{n+2}h_1 + x^{2(n+2)}h_
+    // H0 = proof[9].bytes + proof[10].bytes + proof[11].bytes
+    frame_dig -2
+    int 288
+    int 32
+    extract3
+    frame_dig -2
+    int 320
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 352
+    int 32
+    extract3
+    concat
+    // generated/BasicVerifier.py:109
+    // H1 = proof[12].bytes + proof[13].bytes + proof[14].bytes
+    frame_dig -2
+    int 384
+    int 32
+    extract3
+    frame_dig -2
+    int 416
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 448
+    int 32
+    extract3
+    concat
+    // generated/BasicVerifier.py:110
+    // H2 = proof[15].bytes + proof[16].bytes + proof[17].bytes
+    frame_dig -2
+    int 480
+    int 32
+    extract3
+    frame_dig -2
+    int 512
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 544
+    int 32
+    extract3
+    concat
+    // generated/BasicVerifier.py:112-113
+    // # wire values at zeta
+    // L_AT_Z = proof[18].copy()
+    frame_dig -2
+    int 576
+    int 32
+    extract3
+    dup
+    // generated/BasicVerifier.py:114
+    // R_AT_Z = proof[19].copy()
+    frame_dig -2
+    int 608
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:115
+    // O_AT_Z = proof[20].copy()
+    frame_dig -2
+    int 640
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:117
+    // S1_AT_Z = proof[21].copy() 						  # s1(zeta)
+    frame_dig -2
+    int 672
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:118
+    // S2_AT_Z = proof[22].copy() 						  # s2(zeta)
+    frame_dig -2
+    int 704
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:120-121
+    // # z(x)
+    // GRAND_PRODUCT = proof[23].bytes + proof[24].bytes + proof[25].bytes
+    frame_dig -2
+    int 736
+    int 32
+    extract3
+    frame_dig -2
+    int 768
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 800
+    int 32
+    extract3
+    concat
+    swap
+    // generated/BasicVerifier.py:122
+    // GRAND_PRODUCT_AT_Z_OMEGA = proof[26].copy()       # z(w*zeta)
+    frame_dig -2
+    int 832
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:123
+    // QUOTIENT_POLY_AT_Z = proof[27].copy()             # t(zeta)
+    frame_dig -2
+    int 864
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:124
+    // LINEAR_POLY_AT_Z = proof[28].copy()               # r(zeta)
+    frame_dig -2
+    int 896
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:126-127
+    // # Folded proof for opening of H, linear poly, l, r, o, s1, s2, qc
+    // BATCH_OPENING_AT_Z = proof[29].bytes + proof[30].bytes + proof[31].bytes
+    frame_dig -2
+    int 928
+    int 32
+    extract3
+    frame_dig -2
+    int 960
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 992
+    int 32
+    extract3
+    concat
+    swap
+    // generated/BasicVerifier.py:128
+    // OPENING_AT_Z_OMEGA = proof[32].bytes + proof[33].bytes + proof[34].bytes
+    frame_dig -2
+    int 1024
+    int 32
+    extract3
+    frame_dig -2
+    int 1056
+    int 32
+    extract3
+    concat
+    frame_dig -2
+    int 1088
+    int 32
+    extract3
+    concat
+    swap
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:130-131
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:132
+    // or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    frame_dig 30
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:132
+    // or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:133
+    // or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    frame_dig 31
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:133
+    // or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:134
+    // or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    frame_dig 32
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:134
+    // or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:135
+    // or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    frame_dig 33
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:135
+    // or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:136
+    // or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    frame_dig 35
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:136
+    // or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:137
+    // or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    frame_dig 36
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:137
+    // or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bnz verify_if_body@8
+    // generated/BasicVerifier.py:138
+    // or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    frame_dig 37
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:138
+    // or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    b>=
+    // generated/BasicVerifier.py:130-138
+    // ### check proof public inputs are well-formed ###
+    // if (BigUInt.from_bytes(L_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(R_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(O_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S1_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(S2_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) >= q
+    // 		or BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) >= q
+    // 		or BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) >= q):
+    bz verify_after_if_else@9
+
+verify_if_body@8:
+    // generated/BasicVerifier.py:139
+    // return arc4.Bool(False)
+    byte 0x00
+    frame_bury 0
+    retsub
+
+verify_after_if_else@9:
+    // generated/BasicVerifier.py:141
+    // for i in urange(public_inputs.length):
+    int 0
+    frame_bury 21
+
+verify_for_header@10:
+    // generated/BasicVerifier.py:141
+    // for i in urange(public_inputs.length):
+    frame_dig 21
+    int 2
+    <
+    dup
+    frame_bury 18
+    bz verify_after_for@16
+    // generated/BasicVerifier.py:142
+    // if BigUInt.from_bytes(public_inputs[i].bytes) >= q:
+    frame_dig 18
+    assert // Index access is out of bounds
+    frame_dig 21
+    int 32
+    *
+    frame_dig -1
+    swap
+    int 32
+    extract3
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:142
+    // if BigUInt.from_bytes(public_inputs[i].bytes) >= q:
+    b>=
+    bz verify_after_if_else@13
+    // generated/BasicVerifier.py:143
+    // return arc4.Bool(False)
+    byte 0x00
+    frame_bury 0
+    retsub
+
+verify_after_if_else@13:
+    // generated/BasicVerifier.py:141
+    // for i in urange(public_inputs.length):
+    frame_dig 21
+    int 1
+    +
+    frame_bury 21
+    b verify_for_header@10
+
+verify_after_for@16:
+    // generated/BasicVerifier.py:150
+    // public_inputs_bytes = Bytes(b'')
+    byte ""
+    frame_bury 9
+    // generated/BasicVerifier.py:151
+    // for i in urange(public_inputs.length):
+    int 0
+    frame_bury 21
+
+verify_for_header@17:
+    // generated/BasicVerifier.py:151
+    // for i in urange(public_inputs.length):
+    frame_dig 21
+    int 2
+    <
+    dup
+    frame_bury 19
+    bz verify_after_for@21
+    // generated/BasicVerifier.py:152
+    // public_inputs_bytes += public_inputs[i].bytes
+    frame_dig 19
+    assert // Index access is out of bounds
+    frame_dig 21
+    dup
+    int 32
+    *
+    frame_dig -1
+    swap
+    int 32
+    extract3
+    frame_dig 9
+    swap
+    concat
+    frame_bury 9
+    // generated/BasicVerifier.py:151
+    // for i in urange(public_inputs.length):
+    int 1
+    +
+    frame_bury 21
+    b verify_for_header@17
+
+verify_after_for@21:
+    // generated/BasicVerifier.py:154-155
+    // gamma_pre = sha256(b'gamma' + VK_S1_fs + VK_S2_fs + VK_S3_fs + VK_QL_fs
+    // 			+ VK_QR_fs + VK_QM_fs + VK_QO_fs + VK_QK_fs + public_inputs_bytes
+    byte 0x67616d6d6117843c5e6efe68cfd49fc36e71a463d925ba95539e60a5fc08fa45df81806f368d51e703e7e564fa65253af6b8f8eafb1059292de9b05227c77e2f2ab05a461db144ef40d4f42781d403921242e8ea26d67eb8d9df4c2920d48845f027cc28e901bcd4b305191c5f7c870f3b82b4f0b0cdc261b9c083bb77bf4a2ab81e7a8af1f558688d57aeedfb1b77f18f2ccd2d5b0e4fb14b661ff53851213e8c00620d2745247052252bebb12c34bf0d13fca3046be9f23803642fa21c0c2e96f4687e441452d0f60241ecb67515ceff72123fe4738ed7b3dfafa71b07a5f68ad7a91424eb413e0b1d698304883e531dcaa0c69506ca24eb4a2662b3165f05224d563a8b707146774a0388b3efdde964da93f6959a3bce9cf4d187d923329822a9c236e810713fd94433520edf68824a133e0bea4d12a26167604bb153fb8f2167d9fcb81fab5f3b80f9bdd2e4788f9daf8d30ac08a797f6f70b8b9008032b7616555f3390aff3ee8df33a02b95262c73081de226e1460971be65302095d5651d1e9b2de0c533a2bbb069ee54afde6ae8850761203d2fba9b65969e7fb81b945160125e2d1f2ab20ebbdf0a114b313b66ced354f0bdec437edf48274889d74a18af6c42555870c62a075d122af341e1f84c77747254fd05e9242813bb9499a9f3d862934125f526b6b83faf0c0fe36ea278f6d62bfa767b059f4ac2f0ef3cba86999343ccac6b5e491e865000e7ded7dab271fce0fad77b55928de160418392b02029485a7ec5d53c8f3f5e93cb42aceac7ed7fe3e2459272208d45792a865b29f41a4331154a1f3ede233572946ecb83254d7916eaf2339bbc7110a63e649d8a9c3439b889f94502bf591626ad0ba0f3eb7b19a135dc41b0a33449a0bc0ab4d468c00903f4e214fe48162aab811faaa4246f011bc55423ad13ad0b25ae103e10530395b400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    frame_dig 9
+    concat
+    // generated/BasicVerifier.py:156
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM))
+    frame_dig 23
+    callsub fs
+    // generated/BasicVerifier.py:154-156
+    // gamma_pre = sha256(b'gamma' + VK_S1_fs + VK_S2_fs + VK_S3_fs + VK_QL_fs
+    // 			+ VK_QR_fs + VK_QM_fs + VK_QO_fs + VK_QK_fs + public_inputs_bytes
+    // 			+ fs(L_COM) + fs(R_COM) + fs(O_COM))
+    concat
+    // generated/BasicVerifier.py:156
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM))
+    frame_dig 24
+    callsub fs
+    // generated/BasicVerifier.py:154-156
+    // gamma_pre = sha256(b'gamma' + VK_S1_fs + VK_S2_fs + VK_S3_fs + VK_QL_fs
+    // 			+ VK_QR_fs + VK_QM_fs + VK_QO_fs + VK_QK_fs + public_inputs_bytes
+    // 			+ fs(L_COM) + fs(R_COM) + fs(O_COM))
+    concat
+    // generated/BasicVerifier.py:156
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM))
+    frame_dig 25
+    callsub fs
+    // generated/BasicVerifier.py:154-156
+    // gamma_pre = sha256(b'gamma' + VK_S1_fs + VK_S2_fs + VK_S3_fs + VK_QL_fs
+    // 			+ VK_QR_fs + VK_QM_fs + VK_QO_fs + VK_QK_fs + public_inputs_bytes
+    // 			+ fs(L_COM) + fs(R_COM) + fs(O_COM))
+    concat
+    sha256
+    // generated/BasicVerifier.py:157
+    // beta_pre = sha256(b'beta' + gamma_pre)
+    byte "beta"
+    dig 1
+    concat
+    sha256
+    // generated/BasicVerifier.py:158
+    // alpha_pre = sha256(b'alpha' + beta_pre + fs(GRAND_PRODUCT))
+    byte "alpha"
+    dig 1
+    concat
+    frame_dig 34
+    callsub fs
+    concat
+    sha256
+    // generated/BasicVerifier.py:159
+    // zeta_pre = sha256(b'zeta' + alpha_pre + fs(H0) + fs(H1) + fs(H2))
+    byte "zeta"
+    dig 1
+    concat
+    frame_dig 26
+    callsub fs
+    concat
+    frame_dig 27
+    callsub fs
+    concat
+    frame_dig 28
+    callsub fs
+    concat
+    sha256
+    // generated/BasicVerifier.py:161
+    // gamma = curvemod(gamma_pre)
+    uncover 3
+    callsub curvemod
+    frame_bury 6
+    // generated/BasicVerifier.py:162
+    // beta = curvemod(beta_pre)
+    uncover 2
+    callsub curvemod
+    frame_bury 5
+    // generated/BasicVerifier.py:163
+    // alpha = curvemod(alpha_pre)
+    swap
+    callsub curvemod
+    frame_bury 2
+    // generated/BasicVerifier.py:164
+    // zeta = curvemod(zeta_pre)
+    callsub curvemod
+    dup
+    frame_bury 15
+    // generated/BasicVerifier.py:71
+    // VK_DOMAIN_SIZE = BigUInt(8)
+    byte 0x08
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:166-167
+    // # Zz is eval of Xⁿ-1 at zeta
+    // Zz = (expmod(zeta, VK_DOMAIN_SIZE, q) + q - BigUInt(1)) % q
+    callsub expmod
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:166-167
+    // # Zz is eval of Xⁿ-1 at zeta
+    // Zz = (expmod(zeta, VK_DOMAIN_SIZE, q) + q - BigUInt(1)) % q
+    b+
+    byte 0x01
+    b-
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:166-167
+    // # Zz is eval of Xⁿ-1 at zeta
+    // Zz = (expmod(zeta, VK_DOMAIN_SIZE, q) + q - BigUInt(1)) % q
+    b%
+    dup
+    frame_bury 1
+    // generated/BasicVerifier.py:72
+    // VK_INV_DOMAIN_SIZE = BigUInt(45881390778235416669516772944662720107979233437961683094778201362446258536449)
+    byte 0x656ff268c469cd9f2cd29d07086d9d04a945ef829ffe907f1fffffff20000001
+    // generated/BasicVerifier.py:169-170
+    // # zn is Zz * 1/n
+    // zn = (Zz * VK_INV_DOMAIN_SIZE) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:169-170
+    // # zn is Zz * 1/n
+    // zn = (Zz * VK_INV_DOMAIN_SIZE) % q
+    b%
+    frame_bury 16
+    // generated/BasicVerifier.py:172-173
+    // # Let's prepare to interpolate the public inputs
+    // w_ = BigUInt(1)
+    byte 0x01
+    frame_bury 14
+    // generated/BasicVerifier.py:174
+    // batch = DynamicArray[UInt256]()
+    byte 0x0000
+    frame_bury 4
+    // generated/BasicVerifier.py:175
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    int 0
+    frame_bury 21
+
+verify_for_header@22:
+    // generated/BasicVerifier.py:175
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    frame_dig 21
+    // generated/BasicVerifier.py:69-70
+    // ### Read verifying key ###
+    // VK_NB_PUBLIC_INPUTS = UInt64(2)
+    int 2
+    // generated/BasicVerifier.py:175
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    <
+    bz verify_after_for@26
+    // generated/BasicVerifier.py:176
+    // x = (zeta + q - w_) % q
+    frame_dig 15
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:176
+    // x = (zeta + q - w_) % q
+    b+
+    frame_dig 14
+    dup
+    cover 2
+    b-
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:176
+    // x = (zeta + q - w_) % q
+    b%
+    // generated/BasicVerifier.py:177
+    // batch.append(UInt256(x))
+    frame_dig 4
+    extract 2 0
+    swap
+    dup
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    b|
+    concat
+    dup
+    len
+    int 32
+    /
+    itob
+    extract 6 0
+    swap
+    concat
+    frame_bury 4
+    // generated/BasicVerifier.py:73
+    // VK_OMEGA = BigUInt(23674694431658770659612952115660802947967373701506253797663184111817857449850)
+    byte 0x345766f603fa66e78c0625cd70d77ce2b38b21c28713b7007228fd3397743f7a
+    // generated/BasicVerifier.py:178
+    // w_ = (w_ * VK_OMEGA) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:178
+    // w_ = (w_ * VK_OMEGA) % q
+    b%
+    frame_bury 14
+    // generated/BasicVerifier.py:175
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    frame_dig 21
+    int 1
+    +
+    frame_bury 21
+    b verify_for_header@22
+
+verify_after_for@26:
+    // generated/BasicVerifier.py:182
+    // prev = BigUInt(1)
+    byte 0x01
+    frame_bury 8
+    // generated/BasicVerifier.py:183
+    // temp.append(UInt256(prev))
+    byte 0x00010000000000000000000000000000000000000000000000000000000000000001
+    frame_bury 13
+    // generated/BasicVerifier.py:184
+    // for x256 in batch:
+    frame_dig 4
+    dup
+    int 0
+    extract_uint16
+    frame_bury 17
+    extract 2 0
+    frame_bury 3
+    int 0
+    frame_bury 22
+
+verify_for_header@27:
+    // generated/BasicVerifier.py:184
+    // for x256 in batch:
+    frame_dig 22
+    frame_dig 17
+    <
+    bz verify_after_for@30
+    frame_dig 22
+    dup
+    int 32
+    *
+    frame_dig 3
+    swap
+    int 32
+    extract3
+    // generated/BasicVerifier.py:186
+    // y = (x * prev) % q
+    frame_dig 8
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:186
+    // y = (x * prev) % q
+    b%
+    // generated/BasicVerifier.py:187
+    // temp.append(UInt256(y))
+    frame_dig 13
+    extract 2 0
+    swap
+    dup
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    dig 1
+    b|
+    uncover 2
+    swap
+    concat
+    dup
+    len
+    int 32
+    /
+    itob
+    extract 6 0
+    swap
+    concat
+    frame_bury 13
+    swap
+    int 1
+    +
+    frame_bury 22
+    frame_bury 8
+    b verify_for_header@27
+
+verify_after_for@30:
+    // generated/BasicVerifier.py:189
+    // inv = expmod(prev, q - BigUInt(2), q)
+    frame_dig 8
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfefffffffeffffffff
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:189
+    // inv = expmod(prev, q - BigUInt(2), q)
+    callsub expmod
+    frame_bury 7
+    // generated/BasicVerifier.py:69-70
+    // ### Read verifying key ###
+    // VK_NB_PUBLIC_INPUTS = UInt64(2)
+    int 2
+    // generated/BasicVerifier.py:190
+    // i = VK_NB_PUBLIC_INPUTS
+    frame_bury 21
+
+verify_while_top@31:
+    // generated/BasicVerifier.py:191
+    // while i > 0:
+    frame_dig 21
+    bz verify_after_while@33
+    // generated/BasicVerifier.py:192
+    // tmp = BigUInt.from_bytes(batch[i-1].bytes)
+    frame_dig 21
+    int 1
+    -
+    dup
+    frame_bury 21
+    frame_dig 4
+    dup
+    cover 2
+    int 0
+    extract_uint16
+    dig 1
+    >
+    assert // Index access is out of bounds
+    dig 1
+    extract 2 0
+    dig 1
+    int 32
+    *
+    dup
+    cover 3
+    int 32
+    extract3
+    cover 2
+    // generated/BasicVerifier.py:193
+    // cur = (inv * BigUInt.from_bytes(temp[i-1].bytes)) % q
+    frame_dig 13
+    dup
+    int 0
+    extract_uint16
+    uncover 2
+    >
+    assert // Index access is out of bounds
+    extract 2 0
+    dig 1
+    int 32
+    extract3
+    frame_dig 7
+    dup
+    cover 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:193
+    // cur = (inv * BigUInt.from_bytes(temp[i-1].bytes)) % q
+    b%
+    // generated/BasicVerifier.py:194
+    // batch[i-1] = UInt256(cur)
+    dup
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    b|
+    swap
+    int 2
+    +
+    uncover 4
+    swap
+    uncover 2
+    replace3
+    frame_bury 4
+    // generated/BasicVerifier.py:195
+    // inv = (inv * tmp) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:195
+    // inv = (inv * tmp) % q
+    b%
+    frame_bury 7
+    b verify_while_top@31
+
+verify_after_while@33:
+    // generated/BasicVerifier.py:198-199
+    // # We can now interpolate the public inputs (PI)
+    // w_ = BigUInt(1)
+    byte 0x01
+    frame_bury 14
+    // generated/BasicVerifier.py:200
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    int 0
+    frame_bury 21
+
+verify_for_header@34:
+    // generated/BasicVerifier.py:200
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    frame_dig 21
+    // generated/BasicVerifier.py:69-70
+    // ### Read verifying key ###
+    // VK_NB_PUBLIC_INPUTS = UInt64(2)
+    int 2
+    // generated/BasicVerifier.py:200
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    <
+    bz verify_after_for@38
+    // generated/BasicVerifier.py:201
+    // batch[i] = UInt256((w_ * ((BigUInt.from_bytes(batch[i].bytes) * zn)
+    frame_dig 4
+    dup
+    int 0
+    extract_uint16
+    frame_dig 21
+    dup
+    uncover 2
+    <
+    assert // Index access is out of bounds
+    dig 1
+    extract 2 0
+    dig 1
+    int 32
+    *
+    dup
+    cover 2
+    int 32
+    extract3
+    frame_dig 16
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:201-202
+    // batch[i] = UInt256((w_ * ((BigUInt.from_bytes(batch[i].bytes) * zn)
+    // 					% q)) % q)
+    b%
+    frame_dig 14
+    dup
+    uncover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:201-202
+    // batch[i] = UInt256((w_ * ((BigUInt.from_bytes(batch[i].bytes) * zn)
+    // 					% q)) % q)
+    b%
+    dup
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    b|
+    uncover 2
+    int 2
+    +
+    uncover 4
+    swap
+    uncover 2
+    replace3
+    frame_bury 4
+    // generated/BasicVerifier.py:73
+    // VK_OMEGA = BigUInt(23674694431658770659612952115660802947967373701506253797663184111817857449850)
+    byte 0x345766f603fa66e78c0625cd70d77ce2b38b21c28713b7007228fd3397743f7a
+    // generated/BasicVerifier.py:203
+    // w_ = (w_ * VK_OMEGA) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:203
+    // w_ = (w_ * VK_OMEGA) % q
+    b%
+    frame_bury 14
+    // generated/BasicVerifier.py:200
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    int 1
+    +
+    frame_bury 21
+    b verify_for_header@34
+
+verify_after_for@38:
+    // generated/BasicVerifier.py:206
+    // PI = BigUInt(0)
+    byte 0x
+    frame_bury 0
+    // generated/BasicVerifier.py:207
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    int 0
+    frame_bury 21
+
+verify_for_header@39:
+    // generated/BasicVerifier.py:207
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    frame_dig 21
+    // generated/BasicVerifier.py:69-70
+    // ### Read verifying key ###
+    // VK_NB_PUBLIC_INPUTS = UInt64(2)
+    int 2
+    // generated/BasicVerifier.py:207
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    <
+    dup
+    frame_bury 20
+    bz verify_after_for@43
+    // generated/BasicVerifier.py:208
+    // tmp = (BigUInt.from_bytes(batch[i].bytes)
+    frame_dig 4
+    dup
+    int 0
+    extract_uint16
+    frame_dig 21
+    dup
+    uncover 2
+    <
+    assert // Index access is out of bounds
+    swap
+    extract 2 0
+    dig 1
+    int 32
+    *
+    dup
+    cover 2
+    int 32
+    extract3
+    swap
+    // generated/BasicVerifier.py:209
+    // * BigUInt.from_bytes(public_inputs[i].bytes)) % q
+    frame_dig 20
+    assert // Index access is out of bounds
+    frame_dig -1
+    swap
+    int 32
+    extract3
+    // generated/BasicVerifier.py:208-209
+    // tmp = (BigUInt.from_bytes(batch[i].bytes)
+    // 	   * BigUInt.from_bytes(public_inputs[i].bytes)) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:208-209
+    // tmp = (BigUInt.from_bytes(batch[i].bytes)
+    // 	   * BigUInt.from_bytes(public_inputs[i].bytes)) % q
+    b%
+    // generated/BasicVerifier.py:210
+    // PI = (PI + tmp) % q
+    frame_dig 0
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:210
+    // PI = (PI + tmp) % q
+    b%
+    frame_bury 0
+    // generated/BasicVerifier.py:207
+    // for i in urange(VK_NB_PUBLIC_INPUTS):
+    int 1
+    +
+    frame_bury 21
+    b verify_for_header@39
+
+verify_after_for@43:
+    // generated/BasicVerifier.py:212-213
+    // # compute alpha2Lagrange: alpha**2 * (z**n - 1) / (z - 1)
+    // res = (zeta + q - BigUInt(1)) % q
+    frame_dig 15
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:212-213
+    // # compute alpha2Lagrange: alpha**2 * (z**n - 1) / (z - 1)
+    // res = (zeta + q - BigUInt(1)) % q
+    b+
+    byte 0x01
+    b-
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:212-213
+    // # compute alpha2Lagrange: alpha**2 * (z**n - 1) / (z - 1)
+    // res = (zeta + q - BigUInt(1)) % q
+    b%
+    // generated/BasicVerifier.py:214
+    // res = expmod(res, q - BigUInt(2), q)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfefffffffeffffffff
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:214
+    // res = expmod(res, q - BigUInt(2), q)
+    callsub expmod
+    // generated/BasicVerifier.py:215
+    // res = (res * zn) % q
+    frame_dig 16
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:215
+    // res = (res * zn) % q
+    b%
+    // generated/BasicVerifier.py:216
+    // res = (res * alpha) % q
+    frame_dig 2
+    dup
+    cover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:216
+    // res = (res * alpha) % q
+    b%
+    // generated/BasicVerifier.py:217
+    // res = (res * alpha) % q
+    dig 1
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:217
+    // res = (res * alpha) % q
+    b%
+    dup
+    cover 2
+    frame_bury 10
+    // generated/BasicVerifier.py:220-221
+    // # verify quotient polynomial evaluation at zeta
+    // s1 = (BigUInt.from_bytes(S1_AT_Z.bytes) * beta) % q
+    frame_dig 32
+    frame_dig 5
+    dup
+    cover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:220-221
+    // # verify quotient polynomial evaluation at zeta
+    // s1 = (BigUInt.from_bytes(S1_AT_Z.bytes) * beta) % q
+    b%
+    dup
+    frame_bury 11
+    // generated/BasicVerifier.py:222
+    // s1 = (s1 + gamma + BigUInt.from_bytes(L_AT_Z.bytes)) % q
+    frame_dig 6
+    dup
+    cover 3
+    b+
+    frame_dig 29
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:222
+    // s1 = (s1 + gamma + BigUInt.from_bytes(L_AT_Z.bytes)) % q
+    b%
+    cover 2
+    // generated/BasicVerifier.py:224
+    // s2 = (BigUInt.from_bytes(S2_AT_Z.bytes) * beta) % q
+    frame_dig 33
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:224
+    // s2 = (BigUInt.from_bytes(S2_AT_Z.bytes) * beta) % q
+    b%
+    dup
+    frame_bury 12
+    // generated/BasicVerifier.py:225
+    // s2 = (s2 + gamma + BigUInt.from_bytes(R_AT_Z.bytes)) % q
+    dig 1
+    b+
+    frame_dig 30
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:225
+    // s2 = (s2 + gamma + BigUInt.from_bytes(R_AT_Z.bytes)) % q
+    b%
+    // generated/BasicVerifier.py:227
+    // o = (BigUInt.from_bytes(O_AT_Z.bytes) + gamma) % q
+    frame_dig 31
+    uncover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:227
+    // o = (BigUInt.from_bytes(O_AT_Z.bytes) + gamma) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:229
+    // s1 = (s1 * s2) % q
+    uncover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:229
+    // s1 = (s1 * s2) % q
+    b%
+    // generated/BasicVerifier.py:230
+    // s1 = (s1 * o) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:230
+    // s1 = (s1 * o) % q
+    b%
+    // generated/BasicVerifier.py:231
+    // s1 = (s1 * alpha) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:231
+    // s1 = (s1 * alpha) % q
+    b%
+    // generated/BasicVerifier.py:232
+    // s1 = (s1 * BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes)) % q
+    frame_dig 35
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:232
+    // s1 = (s1 * BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes)) % q
+    b%
+    // generated/BasicVerifier.py:234
+    // quot = (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) + PI + s1 + q
+    frame_dig 37
+    frame_dig 0
+    b+
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:234
+    // quot = (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) + PI + s1 + q
+    b+
+    // generated/BasicVerifier.py:234-235
+    // quot = (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) + PI + s1 + q
+    // 						   - alpha2Lagrange) % q
+    swap
+    b-
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:234-235
+    // quot = (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) + PI + s1 + q
+    // 						   - alpha2Lagrange) % q
+    b%
+    // generated/BasicVerifier.py:237
+    // s2 = (BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) * Zz) % q
+    frame_dig 36
+    frame_dig 1
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:237
+    // s2 = (BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes) * Zz) % q
+    b%
+    // generated/BasicVerifier.py:239
+    // if quot != s2:
+    b!=
+    bz verify_after_if_else@45
+    // generated/BasicVerifier.py:240
+    // return arc4.Bool(False)
+    byte 0x00
+    frame_bury 0
+    retsub
+
+verify_after_if_else@45:
+    // generated/BasicVerifier.py:244
+    // zn2 = expmod(zeta, n2, q)
+    frame_dig 15
+    dup
+    // generated/BasicVerifier.py:242-243
+    // # compute the folded commitment to H
+    // n2 = VK_DOMAIN_SIZE + BigUInt(2)
+    byte 0x0a
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:244
+    // zn2 = expmod(zeta, n2, q)
+    callsub expmod
+    // generated/BasicVerifier.py:245
+    // folded_h = ec.scalar_mul(EC.BLS12_381g1, H2, zn2.bytes)
+    frame_dig 28
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:246
+    // folded_h = ec.add(EC.BLS12_381g1, folded_h, H1)
+    frame_dig 27
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:247
+    // folded_h = ec.scalar_mul(EC.BLS12_381g1, folded_h, zn2.bytes)
+    swap
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:248
+    // folded_h = ec.add(EC.BLS12_381g1, folded_h, H0)
+    frame_dig 26
+    ec_add BLS12_381g1
+    swap
+    // generated/BasicVerifier.py:250-251
+    // # compute commitment to linearization polynomial
+    // u = (BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) * beta) % q
+    frame_dig 35
+    dup
+    cover 3
+    frame_dig 5
+    dup
+    cover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:250-251
+    // # compute commitment to linearization polynomial
+    // u = (BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes) * beta) % q
+    b%
+    // generated/BasicVerifier.py:253
+    // v = (v + BigUInt.from_bytes(L_AT_Z.bytes) + gamma) % q
+    frame_dig 11
+    frame_dig 29
+    dup
+    cover 4
+    b+
+    frame_dig 6
+    dup
+    cover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:253
+    // v = (v + BigUInt.from_bytes(L_AT_Z.bytes) + gamma) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:255
+    // w = (w + BigUInt.from_bytes(R_AT_Z.bytes) + gamma) % q
+    frame_dig 12
+    frame_dig 30
+    dup
+    cover 7
+    b+
+    dig 1
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:255
+    // w = (w + BigUInt.from_bytes(R_AT_Z.bytes) + gamma) % q
+    b%
+    // generated/BasicVerifier.py:257
+    // s1 = (u * v) % q
+    uncover 3
+    uncover 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:257
+    // s1 = (u * v) % q
+    b%
+    // generated/BasicVerifier.py:258
+    // s1 = (s1 * w) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:258
+    // s1 = (s1 * w) % q
+    b%
+    // generated/BasicVerifier.py:259
+    // s1 = (s1 * alpha) % q
+    frame_dig 2
+    dup
+    cover 7
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:259
+    // s1 = (s1 * alpha) % q
+    b%
+    cover 6
+    // generated/BasicVerifier.py:262
+    // betazeta = (beta * zeta) % q
+    swap
+    dig 4
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:262
+    // betazeta = (beta * zeta) % q
+    b%
+    // generated/BasicVerifier.py:263
+    // u = (betazeta + BigUInt.from_bytes(L_AT_Z.bytes) + gamma) % q
+    dup
+    dig 3
+    b+
+    dig 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:263
+    // u = (betazeta + BigUInt.from_bytes(L_AT_Z.bytes) + gamma) % q
+    b%
+    cover 2
+    // generated/BasicVerifier.py:265
+    // v = (betazeta * VK_COSET_SHIFT) % q
+    dup
+    // generated/BasicVerifier.py:85
+    // VK_COSET_SHIFT = BigUInt(7)
+    byte 0x07
+    // generated/BasicVerifier.py:265
+    // v = (betazeta * VK_COSET_SHIFT) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:265
+    // v = (betazeta * VK_COSET_SHIFT) % q
+    b%
+    // generated/BasicVerifier.py:266
+    // v = (v + BigUInt.from_bytes(R_AT_Z.bytes) + gamma) % q
+    dig 5
+    b+
+    dig 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:266
+    // v = (v + BigUInt.from_bytes(R_AT_Z.bytes) + gamma) % q
+    b%
+    cover 2
+    // generated/BasicVerifier.py:261
+    // coset_square = (VK_COSET_SHIFT * VK_COSET_SHIFT) % q
+    byte 0x31
+    // generated/BasicVerifier.py:268
+    // w = (betazeta * coset_square) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:268
+    // w = (betazeta * coset_square) % q
+    b%
+    // generated/BasicVerifier.py:269
+    // w = (w + BigUInt.from_bytes(O_AT_Z.bytes) + gamma) % q
+    frame_dig 31
+    dup
+    cover 5
+    b+
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:269
+    // w = (w + BigUInt.from_bytes(O_AT_Z.bytes) + gamma) % q
+    b%
+    // generated/BasicVerifier.py:271
+    // s2 = (u * v) % q
+    cover 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:271
+    // s2 = (u * v) % q
+    b%
+    // generated/BasicVerifier.py:272
+    // s2 = q - ((s2 * w) % q)
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:272
+    // s2 = q - ((s2 * w) % q)
+    b%
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:272
+    // s2 = q - ((s2 * w) % q)
+    swap
+    b-
+    // generated/BasicVerifier.py:273
+    // s2 = (s2 * alpha + alpha2Lagrange) % q
+    uncover 5
+    b*
+    frame_dig 10
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:273
+    // s2 = (s2 * alpha + alpha2Lagrange) % q
+    b%
+    // generated/BasicVerifier.py:75
+    // VK_QL = Bytes.from_hex("10713fd94433520edf68824a133e0bea4d12a26167604bb153fb8f2167d9fcb81fab5f3b80f9bdd2e4788f9daf8d30ac08a797f6f70b8b9008032b7616555f3390aff3ee8df33a02b95262c73081de226e1460971be65302095d5651d1e9b2de")
+    byte 0x10713fd94433520edf68824a133e0bea4d12a26167604bb153fb8f2167d9fcb81fab5f3b80f9bdd2e4788f9daf8d30ac08a797f6f70b8b9008032b7616555f3390aff3ee8df33a02b95262c73081de226e1460971be65302095d5651d1e9b2de
+    // generated/BasicVerifier.py:275
+    // lin_poly_com = ec.scalar_mul(EC.BLS12_381g1, VK_QL, L_AT_Z.bytes)
+    dig 3
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:76
+    // VK_QR = Bytes.from_hex("0c533a2bbb069ee54afde6ae8850761203d2fba9b65969e7fb81b945160125e2d1f2ab20ebbdf0a114b313b66ced354f0bdec437edf48274889d74a18af6c42555870c62a075d122af341e1f84c77747254fd05e9242813bb9499a9f3d862934")
+    byte 0x0c533a2bbb069ee54afde6ae8850761203d2fba9b65969e7fb81b945160125e2d1f2ab20ebbdf0a114b313b66ced354f0bdec437edf48274889d74a18af6c42555870c62a075d122af341e1f84c77747254fd05e9242813bb9499a9f3d862934
+    // generated/BasicVerifier.py:277
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_QR, R_AT_Z.bytes)
+    dig 5
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:278
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, add_term)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:77
+    // VK_QO = Bytes.from_hex("1154a1f3ede233572946ecb83254d7916eaf2339bbc7110a63e649d8a9c3439b889f94502bf591626ad0ba0f3eb7b19a135dc41b0a33449a0bc0ab4d468c00903f4e214fe48162aab811faaa4246f011bc55423ad13ad0b25ae103e10530395b")
+    byte 0x1154a1f3ede233572946ecb83254d7916eaf2339bbc7110a63e649d8a9c3439b889f94502bf591626ad0ba0f3eb7b19a135dc41b0a33449a0bc0ab4d468c00903f4e214fe48162aab811faaa4246f011bc55423ad13ad0b25ae103e10530395b
+    // generated/BasicVerifier.py:280
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_QO, O_AT_Z.bytes)
+    dig 3
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:281
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, add_term)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:283
+    // ab = (BigUInt.from_bytes(L_AT_Z.bytes) * BigUInt.from_bytes(R_AT_Z.bytes)) % q
+    dig 3
+    dig 5
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:283
+    // ab = (BigUInt.from_bytes(L_AT_Z.bytes) * BigUInt.from_bytes(R_AT_Z.bytes)) % q
+    b%
+    // generated/BasicVerifier.py:78
+    // VK_QM = Bytes.from_hex("125f526b6b83faf0c0fe36ea278f6d62bfa767b059f4ac2f0ef3cba86999343ccac6b5e491e865000e7ded7dab271fce0fad77b55928de160418392b02029485a7ec5d53c8f3f5e93cb42aceac7ed7fe3e2459272208d45792a865b29f41a433")
+    byte 0x125f526b6b83faf0c0fe36ea278f6d62bfa767b059f4ac2f0ef3cba86999343ccac6b5e491e865000e7ded7dab271fce0fad77b55928de160418392b02029485a7ec5d53c8f3f5e93cb42aceac7ed7fe3e2459272208d45792a865b29f41a433
+    // generated/BasicVerifier.py:284
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_QM, ab.bytes)
+    swap
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:285
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, add_term)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:79
+    // VK_QK = Bytes.from_hex("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+    byte 0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    // generated/BasicVerifier.py:286
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, VK_QK)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:83
+    // VK_S3 = Bytes.from_hex("1452d0f60241ecb67515ceff72123fe4738ed7b3dfafa71b07a5f68ad7a91424eb413e0b1d698304883e531dcaa0c69506ca24eb4a2662b3165f05224d563a8b707146774a0388b3efdde964da93f6959a3bce9cf4d187d923329822a9c236e8")
+    byte 0x1452d0f60241ecb67515ceff72123fe4738ed7b3dfafa71b07a5f68ad7a91424eb413e0b1d698304883e531dcaa0c69506ca24eb4a2662b3165f05224d563a8b707146774a0388b3efdde964da93f6959a3bce9cf4d187d923329822a9c236e8
+    // generated/BasicVerifier.py:288
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_S3, s1.bytes)
+    uncover 7
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:289
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, add_term)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:291
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, GRAND_PRODUCT, s2.bytes)
+    frame_dig 34
+    dup
+    cover 8
+    uncover 2
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:292
+    // lin_poly_com = ec.add(EC.BLS12_381g1, lin_poly_com, add_term)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:294-295
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    dig 4
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    dig 5
+    dig 1
+    b|
+    byte "gamma"
+    dig 1
+    concat
+    dig 8
+    concat
+    dig 3
+    concat
+    // generated/BasicVerifier.py:296
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    frame_dig 23
+    dup
+    cover 4
+    callsub fs
+    // generated/BasicVerifier.py:294-296
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    concat
+    // generated/BasicVerifier.py:296
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    frame_dig 24
+    dup
+    cover 7
+    callsub fs
+    // generated/BasicVerifier.py:294-296
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    concat
+    // generated/BasicVerifier.py:296
+    // + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    frame_dig 25
+    dup
+    cover 9
+    callsub fs
+    // generated/BasicVerifier.py:294-296
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    concat
+    // generated/BasicVerifier.py:94
+    // VK_S1_fs = Bytes.from_hex("17843c5e6efe68cfd49fc36e71a463d925ba95539e60a5fc08fa45df81806f368d51e703e7e564fa65253af6b8f8eafb1059292de9b05227c77e2f2ab05a461db144ef40d4f42781d403921242e8ea26d67eb8d9df4c2920d48845f027cc28e9")
+    byte 0x17843c5e6efe68cfd49fc36e71a463d925ba95539e60a5fc08fa45df81806f368d51e703e7e564fa65253af6b8f8eafb1059292de9b05227c77e2f2ab05a461db144ef40d4f42781d403921242e8ea26d67eb8d9df4c2920d48845f027cc28e9
+    // generated/BasicVerifier.py:294-296
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    concat
+    // generated/BasicVerifier.py:96
+    // VK_S2_fs = Bytes.from_hex("01bcd4b305191c5f7c870f3b82b4f0b0cdc261b9c083bb77bf4a2ab81e7a8af1f558688d57aeedfb1b77f18f2ccd2d5b0e4fb14b661ff53851213e8c00620d2745247052252bebb12c34bf0d13fca3046be9f23803642fa21c0c2e96f4687e44")
+    byte 0x01bcd4b305191c5f7c870f3b82b4f0b0cdc261b9c083bb77bf4a2ab81e7a8af1f558688d57aeedfb1b77f18f2ccd2d5b0e4fb14b661ff53851213e8c00620d2745247052252bebb12c34bf0d13fca3046be9f23803642fa21c0c2e96f4687e44
+    // generated/BasicVerifier.py:294-296
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    concat
+    frame_dig 36
+    dup
+    cover 2
+    concat
+    // generated/BasicVerifier.py:294-297
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    // 	 + LINEAR_POLY_AT_Z.bytes + L_AT_Z.bytes + R_AT_Z.bytes
+    frame_dig 37
+    dup
+    cover 2
+    concat
+    dig 9
+    concat
+    dig 11
+    concat
+    // generated/BasicVerifier.py:294-298
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    // 	 + LINEAR_POLY_AT_Z.bytes + L_AT_Z.bytes + R_AT_Z.bytes
+    // 	 + O_AT_Z.bytes + S1_AT_Z.bytes + S2_AT_Z.bytes
+    dig 7
+    concat
+    frame_dig 32
+    dup
+    cover 12
+    concat
+    frame_dig 33
+    dup
+    cover 13
+    concat
+    // generated/BasicVerifier.py:294-299
+    // # generate challenge to fold the opening proofs
+    // r_pre = sha256(b'gamma' + UInt256(zeta).bytes + folded_h + lin_poly_com
+    // 	 + fs(L_COM) + fs(R_COM) + fs(O_COM) + VK_S1_fs + VK_S2_fs + QUOTIENT_POLY_AT_Z.bytes
+    // 	 + LINEAR_POLY_AT_Z.bytes + L_AT_Z.bytes + R_AT_Z.bytes
+    // 	 + O_AT_Z.bytes + S1_AT_Z.bytes + S2_AT_Z.bytes
+    // 	 + GRAND_PRODUCT_AT_Z_OMEGA.bytes)
+    dig 17
+    concat
+    sha256
+    // generated/BasicVerifier.py:300
+    // r = curvemod(r_pre)
+    callsub curvemod
+    // generated/BasicVerifier.py:305
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, lin_poly_com, r_acc.bytes)
+    uncover 6
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:306
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 15
+    swap
+    ec_add BLS12_381g1
+    swap
+    // generated/BasicVerifier.py:308
+    // + (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) * r_acc)
+    uncover 2
+    dig 1
+    b*
+    // generated/BasicVerifier.py:307-308
+    // claims = (BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes)
+    // 		  + (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) * r_acc)
+    uncover 3
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:307-309
+    // claims = (BigUInt.from_bytes(QUOTIENT_POLY_AT_Z.bytes)
+    // 		  + (BigUInt.from_bytes(LINEAR_POLY_AT_Z.bytes) * r_acc)
+    // 		 ) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:311
+    // r_acc = (r_acc * r) % q
+    dup
+    dig 1
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:311
+    // r_acc = (r_acc * r) % q
+    b%
+    // generated/BasicVerifier.py:312
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, L_COM, r_acc.bytes)
+    uncover 6
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:313
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 4
+    swap
+    ec_add BLS12_381g1
+    cover 2
+    // generated/BasicVerifier.py:314
+    // claims = (claims + (BigUInt.from_bytes(L_AT_Z.bytes) * r_acc)) % q
+    uncover 8
+    dig 1
+    b*
+    uncover 4
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:314
+    // claims = (claims + (BigUInt.from_bytes(L_AT_Z.bytes) * r_acc)) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:316
+    // r_acc = (r_acc * r) % q
+    dig 2
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:316
+    // r_acc = (r_acc * r) % q
+    b%
+    // generated/BasicVerifier.py:317
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, R_COM, r_acc.bytes)
+    uncover 7
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:318
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 4
+    swap
+    ec_add BLS12_381g1
+    cover 2
+    // generated/BasicVerifier.py:319
+    // claims = (claims + (BigUInt.from_bytes(R_AT_Z.bytes) * r_acc)) % q
+    uncover 10
+    dig 1
+    b*
+    uncover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:319
+    // claims = (claims + (BigUInt.from_bytes(R_AT_Z.bytes) * r_acc)) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:321
+    // r_acc = (r_acc * r) % q
+    dig 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:321
+    // r_acc = (r_acc * r) % q
+    b%
+    // generated/BasicVerifier.py:322
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, O_COM, r_acc.bytes)
+    uncover 7
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:323
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 3
+    swap
+    ec_add BLS12_381g1
+    cover 2
+    // generated/BasicVerifier.py:324
+    // claims = (claims + (BigUInt.from_bytes(O_AT_Z.bytes) * r_acc)) % q
+    uncover 6
+    dig 1
+    b*
+    uncover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:324
+    // claims = (claims + (BigUInt.from_bytes(O_AT_Z.bytes) * r_acc)) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:326
+    // r_acc = (r_acc * r) % q
+    dig 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:326
+    // r_acc = (r_acc * r) % q
+    b%
+    // generated/BasicVerifier.py:81
+    // VK_S1 = Bytes.from_hex("17843c5e6efe68cfd49fc36e71a463d925ba95539e60a5fc08fa45df81806f368d51e703e7e564fa65253af6b8f8eafb1059292de9b05227c77e2f2ab05a461db144ef40d4f42781d403921242e8ea26d67eb8d9df4c2920d48845f027cc28e9")
+    byte 0x17843c5e6efe68cfd49fc36e71a463d925ba95539e60a5fc08fa45df81806f368d51e703e7e564fa65253af6b8f8eafb1059292de9b05227c77e2f2ab05a461db144ef40d4f42781d403921242e8ea26d67eb8d9df4c2920d48845f027cc28e9
+    // generated/BasicVerifier.py:327
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_S1, r_acc.bytes)
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:328
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 3
+    swap
+    ec_add BLS12_381g1
+    cover 2
+    // generated/BasicVerifier.py:329
+    // claims = (claims + (BigUInt.from_bytes(S1_AT_Z.bytes) * r_acc)) % q
+    uncover 6
+    dig 1
+    b*
+    uncover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:329
+    // claims = (claims + (BigUInt.from_bytes(S1_AT_Z.bytes) * r_acc)) % q
+    b%
+    swap
+    // generated/BasicVerifier.py:331
+    // r_acc = (r_acc * r) % q
+    dig 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:331
+    // r_acc = (r_acc * r) % q
+    b%
+    // generated/BasicVerifier.py:82
+    // VK_S2 = Bytes.from_hex("01bcd4b305191c5f7c870f3b82b4f0b0cdc261b9c083bb77bf4a2ab81e7a8af1f558688d57aeedfb1b77f18f2ccd2d5b0e4fb14b661ff53851213e8c00620d2745247052252bebb12c34bf0d13fca3046be9f23803642fa21c0c2e96f4687e44")
+    byte 0x01bcd4b305191c5f7c870f3b82b4f0b0cdc261b9c083bb77bf4a2ab81e7a8af1f558688d57aeedfb1b77f18f2ccd2d5b0e4fb14b661ff53851213e8c00620d2745247052252bebb12c34bf0d13fca3046be9f23803642fa21c0c2e96f4687e44
+    // generated/BasicVerifier.py:332
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, VK_S2, r_acc.bytes)
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:333
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 3
+    swap
+    ec_add BLS12_381g1
+    swap
+    // generated/BasicVerifier.py:334
+    // claims = (claims + (BigUInt.from_bytes(S2_AT_Z.bytes) * r_acc)) % q
+    uncover 6
+    b*
+    uncover 2
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:334
+    // claims = (claims + (BigUInt.from_bytes(S2_AT_Z.bytes) * r_acc)) % q
+    b%
+    cover 2
+    // generated/BasicVerifier.py:336-337
+    // # verify the folded proof
+    // r_pre = sha256(digest + BATCH_OPENING_AT_Z + fs(GRAND_PRODUCT)
+    dup
+    frame_dig 38
+    dup
+    cover 2
+    concat
+    dig 8
+    callsub fs
+    concat
+    // generated/BasicVerifier.py:336-338
+    // # verify the folded proof
+    // r_pre = sha256(digest + BATCH_OPENING_AT_Z + fs(GRAND_PRODUCT)
+    // 		+ OPENING_AT_Z_OMEGA + UInt256(zeta).bytes + UInt256(r).bytes)
+    frame_dig 39
+    dup
+    cover 2
+    concat
+    uncover 6
+    concat
+    // generated/BasicVerifier.py:338
+    // + OPENING_AT_Z_OMEGA + UInt256(zeta).bytes + UInt256(r).bytes)
+    dig 4
+    len
+    int 32
+    <=
+    assert // overflow
+    uncover 4
+    uncover 6
+    b|
+    // generated/BasicVerifier.py:336-338
+    // # verify the folded proof
+    // r_pre = sha256(digest + BATCH_OPENING_AT_Z + fs(GRAND_PRODUCT)
+    // 		+ OPENING_AT_Z_OMEGA + UInt256(zeta).bytes + UInt256(r).bytes)
+    concat
+    sha256
+    // generated/BasicVerifier.py:339
+    // r = curvemod(r_pre)
+    callsub curvemod
+    // generated/BasicVerifier.py:342
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, OPENING_AT_Z_OMEGA, r.bytes)
+    dup2
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:343
+    // quotient = ec.add(EC.BLS12_381g1, quotient, add_term)
+    dig 3
+    swap
+    ec_add BLS12_381g1
+    cover 6
+    // generated/BasicVerifier.py:345
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, GRAND_PRODUCT, r.bytes)
+    uncover 7
+    dig 1
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:346
+    // digest = ec.add(EC.BLS12_381g1, digest, add_term)
+    uncover 4
+    swap
+    ec_add BLS12_381g1
+    swap
+    // generated/BasicVerifier.py:348-349
+    // 	claims = (claims + (BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes)
+    //        		  * r)) % q
+    uncover 7
+    dig 1
+    b*
+    uncover 5
+    b+
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:348-349
+    // 	claims = (claims + (BigUInt.from_bytes(GRAND_PRODUCT_AT_Z_OMEGA.bytes)
+    //        		  * r)) % q
+    b%
+    // generated/BasicVerifier.py:350
+    // G1_SRS = (bzero(48) | BigUInt(G1_SRS_X).bytes) + (bzero(48) | BigUInt(G1_SRS_Y).bytes)
+    byte 0x17f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb08b3f481e3aaa0f1a09e30ed741d8ae4fcf5e095d5d00af600db18cb2c04b3edd03cc744a2888ae40caa232946c5e7e1
+    // generated/BasicVerifier.py:351
+    // claims_com = ec.scalar_mul(EC.BLS12_381g1, G1_SRS, claims.bytes)
+    swap
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:353
+    // digest = ec.add(EC.BLS12_381g1, digest, invert(claims_com))
+    callsub invert
+    uncover 2
+    swap
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:355
+    // points_quotient = ec.scalar_mul(EC.BLS12_381g1, BATCH_OPENING_AT_Z, zeta.bytes)
+    uncover 3
+    dig 4
+    ec_scalar_mul BLS12_381g1
+    swap
+    // generated/BasicVerifier.py:357
+    // zeta_omega = (zeta * VK_OMEGA) % q
+    uncover 4
+    // generated/BasicVerifier.py:73
+    // VK_OMEGA = BigUInt(23674694431658770659612952115660802947967373701506253797663184111817857449850)
+    byte 0x345766f603fa66e78c0625cd70d77ce2b38b21c28713b7007228fd3397743f7a
+    // generated/BasicVerifier.py:357
+    // zeta_omega = (zeta * VK_OMEGA) % q
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:357
+    // zeta_omega = (zeta * VK_OMEGA) % q
+    b%
+    // generated/BasicVerifier.py:358
+    // r = (r * zeta_omega) % q
+    uncover 3
+    b*
+    // generated/BasicVerifier.py:67
+    // q = BigUInt(R_MOD)
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    // generated/BasicVerifier.py:358
+    // r = (r * zeta_omega) % q
+    b%
+    // generated/BasicVerifier.py:359
+    // add_term = ec.scalar_mul(EC.BLS12_381g1, OPENING_AT_Z_OMEGA, r.bytes)
+    uncover 3
+    swap
+    ec_scalar_mul BLS12_381g1
+    // generated/BasicVerifier.py:360
+    // points_quotient = ec.add(EC.BLS12_381g1, points_quotient, add_term)
+    uncover 2
+    swap
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:362
+    // digest = ec.add(EC.BLS12_381g1, digest, points_quotient)
+    ec_add BLS12_381g1
+    // generated/BasicVerifier.py:363
+    // quotient = invert(quotient)
+    swap
+    callsub invert
+    // generated/BasicVerifier.py:370
+    // check = ec.pairing_check(EC.BLS12_381g1, digest + quotient, g2)
+    concat
+    // generated/BasicVerifier.py:365-368
+    // g2 = ((bzero(48) | BigUInt(G2_SRS_0_X_1).bytes) + (bzero(48) | BigUInt(G2_SRS_0_X_0).bytes)
+    // + (bzero(48) | BigUInt(G2_SRS_0_Y_1).bytes) + (bzero(48) | BigUInt(G2_SRS_0_Y_0).bytes)
+    // + (bzero(48) | BigUInt(G2_SRS_1_X_1).bytes) + (bzero(48) | BigUInt(G2_SRS_1_X_0).bytes)
+    // + (bzero(48) | BigUInt(G2_SRS_1_Y_1).bytes) + (bzero(48) | BigUInt(G2_SRS_1_Y_0).bytes))
+    byte 0x024aa2b2f08f0a91260805272dc51051c6e47ad4fa403b02b4510b647ae3d1770bac0326a805bbefd48056c8c121bdb813e02b6052719f607dacd3a088274f65596bd0d09920b61ab5da61bbdc7f5049334cf11213945d57e5ac7d055d042b7e0ce5d527727d6e118cc9cdc6da2e351aadfd9baa8cbdd3a76d429a695160d12c923ac9cc3baca289e193548608b828010606c4a02ea734cc32acd2b02bc28b99cb3e287e85a763af267492ab572e99ab3f370d275cec1da1aaa9075ff05f79be1224556839c0c3b5bf3f3bad9727dfc5c3326539883a6b798bef5302776ede7b939374a236e96658b269c3f4a2ea859e078b94342f7d47a92f8618d0cf60cd3f8c77279ffafb2f0d71e4be074979f1b2f536007e9dcd236abaabcac37699307915a2f6fdb3ea48618119f9597b66cce5ef1e6a828a742d2c112d33e579c2041bccd570feb9bfde732d53f05b0b3aaea315e9fa1ec9bd5bf2a31df2927762eb7829d205b3d35ab504aa428885dbb3c9965294ffda424a758a4401b7792929a5dd
+    // generated/BasicVerifier.py:370
+    // check = ec.pairing_check(EC.BLS12_381g1, digest + quotient, g2)
+    ec_pairing_check BLS12_381g1
+    // generated/BasicVerifier.py:371
+    // return arc4.Bool(check)
+    byte 0x00
+    int 0
+    uncover 2
+    setbit
+    frame_bury 0
+    retsub
+
+
+// BasicVerifier.fs(p: bytes) -> bytes:
+fs:
+    // generated/BasicVerifier.py:399-400
+    // @subroutine
+    // def fs(p: Bytes) -> Bytes:
+    proto 1 1
+    // generated/BasicVerifier.py:403
+    // if p == bzero(96):
+    int 96
+    bzero
+    frame_dig -1
+    ==
+    bz fs_after_if_else@2
+    // generated/BasicVerifier.py:404
+    // return setbit_bytes(p, 0, 1)
+    frame_dig -1
+    int 0
+    int 1
+    setbit
+    retsub
+
+fs_after_if_else@2:
+    // generated/BasicVerifier.py:405
+    // return p
+    frame_dig -1
+    retsub
+
+
+// BasicVerifier.curvemod(x: bytes) -> bytes:
+curvemod:
+    // generated/BasicVerifier.py:386-387
+    // @subroutine
+    // def curvemod(x: Bytes) -> BigUInt:
+    proto 1 1
+    // generated/BasicVerifier.py:389
+    // return BigUInt.from_bytes(x) % BigUInt(R_MOD)
+    frame_dig -1
+    byte 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    b%
+    retsub
+
+
+// BasicVerifier.expmod(base: bytes, exponent: bytes, modulus: bytes) -> bytes:
+expmod:
+    // generated/BasicVerifier.py:375-376
+    // @subroutine
+    // def expmod(base: BigUInt, exponent: BigUInt, modulus: BigUInt) -> BigUInt:
+    proto 3 1
+    int 0
+    // generated/BasicVerifier.py:378
+    // result = BigUInt(1)
+    byte 0x01
+
+expmod_while_top@1:
+    // generated/BasicVerifier.py:379
+    // while exponent > 0:
+    frame_dig -2
+    byte 0x
+    b>
+    bz expmod_after_while@5
+    // generated/BasicVerifier.py:380
+    // if exponent % 2 == 1:
+    frame_dig -2
+    byte 0x02
+    b%
+    byte 0x01
+    b==
+    frame_dig 1
+    frame_bury 0
+    bz expmod_after_if_else@4
+    // generated/BasicVerifier.py:381
+    // result = (result * base) % modulus
+    frame_dig 1
+    frame_dig -3
+    b*
+    frame_dig -1
+    b%
+    frame_bury 0
+
+expmod_after_if_else@4:
+    frame_dig 0
+    frame_bury 1
+    // generated/BasicVerifier.py:382
+    // exponent = exponent // 2
+    frame_dig -2
+    byte 0x02
+    b/
+    frame_bury -2
+    // generated/BasicVerifier.py:383
+    // base = (base * base) % modulus
+    frame_dig -3
+    dup
+    b*
+    frame_dig -1
+    b%
+    frame_bury -3
+    b expmod_while_top@1
+
+expmod_after_while@5:
+    // generated/BasicVerifier.py:384
+    // return result
+    frame_dig 1
+    frame_bury 0
+    retsub
+
+
+// BasicVerifier.invert(p: bytes) -> bytes:
+invert:
+    // generated/BasicVerifier.py:391-392
+    // @subroutine
+    // def invert(p : Bytes) -> Bytes:
+    proto 1 1
+    // generated/BasicVerifier.py:394
+    // x = BigUInt.from_bytes(p[:48])
+    frame_dig -1
+    len
+    int 48
+    dig 1
+    <
+    swap
+    dup
+    int 48
+    uncover 3
+    select
+    frame_dig -1
+    int 0
+    dig 2
+    substring3
+    cover 2
+    // generated/BasicVerifier.py:395
+    // y = BigUInt.from_bytes(p[48:])
+    frame_dig -1
+    swap
+    uncover 2
+    substring3
+    // generated/BasicVerifier.py:396
+    // neg_y = BigUInt(P_MOD) - y
+    byte 0x1a0111ea397fe69a4b1ba7b6434bacd764774b84f38512bf6730d2a0f6b0f6241eabfffeb153ffffb9feffffffffaaab
+    swap
+    b-
+    // generated/BasicVerifier.py:397
+    // return x.bytes + (bzero(48) | (neg_y).bytes)
+    int 48
+    bzero
+    b|
+    concat
+    retsub

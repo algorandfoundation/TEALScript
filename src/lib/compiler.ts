@@ -405,6 +405,8 @@ function typeComparison(inputType: TypeInfo, expectedType: TypeInfo, ignoreUnsaf
       }
     });
 
+    if (inputType.type.startsWith('uint') && expectedType.type === 'bigint') return;
+
     if (typeEquality) return;
   }
 
@@ -1181,6 +1183,11 @@ export default class Compiler {
         length: Number(typeString.replace('staticbytes', '')),
       };
     }
+
+    if (typeString === 'biguint') {
+      return { kind: 'base', type: 'bigint' };
+    }
+
     throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
   }
 
@@ -4585,6 +4592,34 @@ export default class Compiler {
     return true;
   }
 
+  private getBinaryExpressionType(node: ts.Node): TypeInfo {
+    if (node.isKind(ts.SyntaxKind.BinaryExpression)) {
+      return this.getBinaryExpressionType(node.getLeft());
+    }
+
+    if (node.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
+      let current: ts.Node = node;
+
+      while (current.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
+        current = current.getExpression();
+      }
+
+      return this.getBinaryExpressionType(current);
+    }
+
+    let type = this.getTypeInfo(node.getType());
+
+    // TODO: Override type when variable is evaluated?
+    if (this.localVariables[node.getText()]) {
+      type = this.localVariables[node.getText()].type;
+    }
+
+    if (equalTypes(type, StackType.uint64)) return StackType.uint64;
+    if (type.kind === 'base' && type.type.startsWith('uint')) return { type: `unsafe ${type.type}`, kind: 'base' };
+
+    return type;
+  }
+
   private processBinaryExpression(node: ts.BinaryExpression, processAssignmentOp = false) {
     const leftNode = node.getLeft();
     const rightNode = node.getRight();
@@ -4687,8 +4722,8 @@ export default class Compiler {
       return;
     }
 
-    const rightType = this.getStackTypeFromNode(rightNode);
-    const leftType = this.getStackTypeFromNode(leftNode);
+    const rightType = this.getBinaryExpressionType(rightNode);
+    const leftType = this.getBinaryExpressionType(leftNode);
     const leftTypeStr = typeInfoToABIString(leftType);
     const rightTypeStr = typeInfoToABIString(rightType);
 
@@ -4751,11 +4786,18 @@ export default class Compiler {
     }
 
     if (leftTypeStr.startsWith('unsafe') || rightTypeStr.startsWith('unsafe')) {
-      typeComparison(
-        { kind: 'base', type: leftTypeStr.replace('unsafe ', '') },
-        { kind: 'base', type: rightTypeStr.replace('unsafe ', '') }
-      );
-      if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
+      const leftBaseType = leftTypeStr.replace('unsafe ', '');
+      const rightBaseType = rightTypeStr.replace('unsafe ', '');
+
+      if (isMathOp && (leftBaseType === 'bigint' || rightBaseType === 'bigint')) {
+        const baseType = leftBaseType === 'bigint' ? rightBaseType : leftBaseType;
+
+        this.lastType = { kind: 'base', type: `unsafe ${baseType}` };
+      } else {
+        typeComparison({ kind: 'base', type: leftBaseType }, { kind: 'base', type: rightBaseType });
+
+        if (isMathOp) this.lastType = { kind: 'base', type: `unsafe ${leftTypeStr.replace(/unsafe /g, '')}` };
+      }
     } else if (!leftNode.getType().isNumberLiteral() && !rightNode.getType().isNumberLiteral()) {
       typeComparison(leftType, rightType);
     }
@@ -4847,6 +4889,7 @@ export default class Compiler {
 
   private fixByteWidth(node: ts.Node, desiredWidth: number) {
     const { lastType } = this;
+    console.debug(this.teal.approval.map((a) => a.teal).join('\n'));
 
     if (isBytes(lastType)) {
       this.pushLines(
@@ -5583,6 +5626,12 @@ export default class Compiler {
 
   private getNumericLiteralValueString(node: ts.Node): string {
     let value = '';
+
+    while (node.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
+      // eslint-disable-next-line no-param-reassign
+      node = node.getExpression();
+    }
+
     if (node.isKind(ts.SyntaxKind.Identifier)) {
       const symbol = node.getSymbol()?.getAliasedSymbol() || node.getSymbolOrThrow();
 
@@ -5609,7 +5658,7 @@ export default class Compiler {
     }
 
     if (type === 'bigint') {
-      const value = Number(textWithoutUnderscores);
+      const value = BigInt(textWithoutUnderscores);
       let hex = value.toString(16);
       if (hex.length % 2) hex = `0${hex}`;
       this.push(node, `byte 0x${hex}`, typeInfo);
@@ -5639,7 +5688,7 @@ export default class Compiler {
 
     if (type.match(/uint\d+$/)) {
       const width = Number(type.match(/\d+/)![0]);
-      const value = Number(textWithoutUnderscores);
+      const value = BigInt(textWithoutUnderscores);
       const maxValue = 2 ** width - 1;
 
       if (value > maxValue) {
