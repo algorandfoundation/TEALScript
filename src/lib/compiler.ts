@@ -6406,6 +6406,7 @@ export default class Compiler {
               chain.splice(0, 3);
 
               break;
+            case 'create':
             case 'call':
               if (!chain[1].isKind(ts.SyntaxKind.CallExpression)) throw Error(`call must be a function call`);
               if (!chain[2].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error(`call must be a function call`);
@@ -6425,26 +6426,13 @@ export default class Compiler {
               // eslint-disable-next-line no-case-declarations
               const methodReturnType = this.getTypeInfo(methodSig.getReturnType());
 
-              // eslint-disable-next-line no-case-declarations
-              const fields = chain[1].getArguments()[0] as ts.ObjectLiteralExpression;
-
-              // eslint-disable-next-line no-case-declarations
-              const appIdProp = fields
-                ?.getProperties()
-                .find(
-                  (p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'applicationID'
-                ) as ts.PropertyAssignment | undefined;
-
-              // eslint-disable-next-line no-case-declarations
-              const isCreate = appIdProp === undefined || appIdProp.getInitializer()?.getText() === '0';
-
               this.newProcessTransaction(chain[3], chain[1].getArguments()[0] as ts.ObjectLiteralExpression, {
                 methodArgTypes,
                 methodReturnType,
                 methodName,
                 methodArgs: chain[3].getArguments(),
                 send: true,
-                createdContract: isCreate ? base.getText() : undefined,
+                createdContract: propName === 'create' ? base.getText() : undefined,
               });
 
               chain.splice(0, 4);

@@ -26,7 +26,7 @@ class NFTFactory extends Contract {
 // eslint-disable-next-line no-unused-vars
 class FactoryCaller extends Contract {
   mintAndGetAsset(): AssetID {
-    NFTFactory.call().createApplication();
+    NFTFactory.create().createApplication();
 
     const factoryApp = this.itxn.createdApplicationID;
 

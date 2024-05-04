@@ -44,9 +44,9 @@ mintAndGetAsset:
 	dup
 
 	// examples/itxns/itxns.algo.ts:29
-	// NFTFactory.call().createApplication()
+	// NFTFactory.create().createApplication()
 	// examples/itxns/itxns.algo.ts:29
-	// NFTFactory.call().createApplication()
+	// NFTFactory.create().createApplication()
 	itxn_begin
 	int appl
 	itxn_field TypeEnum

@@ -118,6 +118,13 @@ export default abstract class Contract {
     return {} as any;
   }
 
+  static create<ContractClass extends typeof Contract>(
+    this: ContractClass,
+    txnParams?: Omit<Omit<AppParams, 'applicationArgs'>, 'applicationID'>
+  ): InstanceType<ContractClass> {
+    return {} as any;
+  }
+
   static schema: {
     global: {
       numUint: number;
