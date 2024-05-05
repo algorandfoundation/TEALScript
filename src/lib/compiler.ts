@@ -6153,8 +6153,6 @@ export default class Compiler {
 
       args.forEach((e, i: number) => {
         this.addSourceComment(e, true);
-        console.debug('Processing method arg', e.getText());
-        console.debug('Method arg type', argTypeStrings[i]);
         if (argTypeStrings[i] === 'account') {
           this.processNode(e);
           this.pushVoid(e, 'itxn_field Accounts');
