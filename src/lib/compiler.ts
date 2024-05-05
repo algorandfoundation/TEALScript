@@ -7273,9 +7273,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   }
 
   arc56Description(): ARC56Contract {
-    const globalDeclared: Record<string, object> = {};
-    const localDeclared: Record<string, object> = {};
-
     const state: ARC56Contract['state'] = {
       schema: {
         global: {
@@ -7339,6 +7336,28 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
       // eslint-disable-next-line no-param-reassign
       m.actions = actions;
+
+      if (subroutine.node.isKind(ts.SyntaxKind.MethodDeclaration)) {
+        subroutine.node.getParameters().forEach((p) => {
+          const arg = m.args.find((a) => a.name === p.getName())!;
+
+          const typeInfo = this.getTypeInfo(p.getType());
+
+          if (typeInfo.kind === 'object') {
+            const structName = p.getType().getText();
+            arg.struct = structName;
+            if (!arc56.structs[structName]) {
+              arc56.structs[structName] = {};
+
+              // eslint-disable-next-line no-restricted-syntax
+              for (const [name, type] of Object.entries(typeInfo.properties)) {
+                // TODO: Handle nested structs
+                arc56.structs[p.getType().getText()][name] = typeInfoToABIString(type);
+              }
+            }
+          }
+        });
+      }
     });
 
     return arc56;
