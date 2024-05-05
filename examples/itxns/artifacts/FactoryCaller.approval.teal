@@ -45,8 +45,6 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:29
 	// NFTFactory.create().createApplication()
-	// examples/itxns/itxns.algo.ts:29
-	// NFTFactory.create().createApplication()
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -103,8 +101,6 @@ mintAndGetAsset:
 
 	// examples/itxns/itxns.algo.ts:40
 	// createdAsset = NFTFactory.call({ applicationID: factoryApp }).createNFT('My NFT', 'MNFT')
-	// examples/itxns/itxns.algo.ts:40
-	// NFTFactory.call({ applicationID: factoryApp }).createNFT('My NFT', 'MNFT')
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
@@ -174,8 +170,6 @@ mintAndGetAsset:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/itxns/itxns.algo.ts:50
-	// NFTFactory.call({ applicationID: factoryApp }).transferNFT(createdAsset, this.app.address)
 	// examples/itxns/itxns.algo.ts:50
 	// NFTFactory.call({ applicationID: factoryApp }).transferNFT(createdAsset, this.app.address)
 	itxn_begin

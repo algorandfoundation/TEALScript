@@ -477,9 +477,14 @@ methodCall:
 
 	// tests/contracts/itxns.algo.ts:92
 	// methodArgs: [this.app, AssetID.zeroIndex]
+	// tests/contracts/itxns.algo.ts:92
+	// this.app
 	txna Applications 0
 	itob
 	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.algo.ts:92
+	// AssetID.zeroIndex
 	byte 0x0000000000000000
 	itxn_field ApplicationArgs
 
@@ -489,12 +494,6 @@ methodCall:
 
 	// Submit inner transaction
 	itxn_submit
-	itxn NumLogs
-	int 1
-	-
-	itxnas Logs
-	extract 4 0
-	btoi
 	itxn NumLogs
 	int 1
 	-
@@ -622,6 +621,14 @@ innerGeneric:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// tests/contracts/itxns.algo.ts:115
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[Txn], void>({
+	//         name: 'foo',
+	//         methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })],
+	//       })
+	//     )
 	itxn_next
 	int appl
 	itxn_field TypeEnum
@@ -630,6 +637,8 @@ innerGeneric:
 
 	// tests/contracts/itxns.algo.ts:118
 	// methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })]
+	// tests/contracts/itxns.algo.ts:118
+	// new AssetCreateTxn({ configAssetTotal: 1 })
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee

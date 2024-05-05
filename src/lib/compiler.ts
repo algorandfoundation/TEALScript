@@ -1054,7 +1054,7 @@ export default class Compiler {
     } as { [key: string]: string };
 
     if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
-    if (typeString.startsWith('methodcall')) {
+    if (typeString.startsWith('methodcall') && !typeString.startsWith('methodcalltxn')) {
       const typeArgs = type.getAliasTypeArguments();
       let args: TypeInfo[] = [];
       const returns = StackType.void;
@@ -5685,40 +5685,20 @@ export default class Compiler {
 
         if (!arg.isKind(ts.SyntaxKind.NewExpression)) throw Error('Argument to send must be a new transaction');
         const txnParams = arg.getArguments()[0];
-
+        if (!txnParams.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+          throw Error('Transaction params must be an object literal');
+        }
         const { returnType, argTypes, name } = this.methodTypeArgsToTypes(arg.getTypeArguments());
 
-        let className = arg.getType().getText();
-
-        if (className.startsWith('MethodCall')) className = 'MethodCall';
-
-        if (method === 'addToGroup') {
-          this.innerTxnHasBegun = true;
-        } else if (method === 'beginGroup') {
-          this.innerTxnHasBegun = false;
-        }
-
-        this.processTransaction(
-          chain[2],
-          `${method === 'addToGroup' ? 'add' : 'send'}${className}`,
-          txnParams,
-          argTypes,
-          returnType,
-          name
-        );
-
-        if (className === 'AssetCreateTxn') {
-          this.push(chain[2], 'itxn CreatedAssetID', ForeignType.Asset);
-        } else if (className === 'MethodCall' && typeInfoToABIString(returnType) !== 'void') {
-          this.pushLines(chain[2], 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
-          this.checkDecoding(chain[2], returnType);
-          this.lastType = returnType;
-        } else {
-          this.lastType = { kind: 'base', type: 'void' };
-        }
+        this.newProcessTransaction(chain[2], txnParams, {
+          methodArgTypes: argTypes,
+          methodReturnType: returnType,
+          useNext: method === 'addToGroup',
+          send: method === 'send',
+        });
       } else if (method === 'sendGroup') {
         this.pushVoid(chain[2], 'itxn_submit');
-      } else throw Error(`Unsupported method: ${method}`);
+      }
 
       chain.splice(0, 3);
       return;
@@ -6110,7 +6090,7 @@ export default class Compiler {
 
     if (txnType === undefined) throw Error('Unknown transaction type');
 
-    this.addSourceComment(node, true);
+    if (txnArgCount > 0) this.addSourceComment(node, true);
     this.pushVoid(node, `itxn_${optionalParams?.useNext || txnArgCount > 0 ? 'next' : 'begin'}`);
 
     this.pushLines(node, `int ${txnType}`, 'itxn_field TypeEnum');
@@ -6173,6 +6153,8 @@ export default class Compiler {
 
       args.forEach((e, i: number) => {
         this.addSourceComment(e, true);
+        console.debug('Processing method arg', e.getText());
+        console.debug('Method arg type', argTypeStrings[i]);
         if (argTypeStrings[i] === 'account') {
           this.processNode(e);
           this.pushVoid(e, 'itxn_field Accounts');
@@ -6186,7 +6168,7 @@ export default class Compiler {
           this.pushVoid(e, 'itob');
           assetIndex += 1;
           // if it's an appl but NOT a method call
-        } else if (argTypeStrings[i] === 'appl' && !e.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+        } else if (argTypeStrings[i] === 'appl' && !e.isKind(ts.SyntaxKind.NewExpression)) {
           this.processNode(e);
           this.pushVoid(e, 'itxn_field Applications');
           this.pushVoid(e, `int ${appIndex}`);

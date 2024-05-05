@@ -284,9 +284,6 @@ submitPendingGroup:
 	int 0
 	itxn_field Fee
 
-	// Submit inner transaction
-	itxn_submit
-
 	// tests/contracts/general.algo.ts:100
 	// this.txnComposer.addToGroup(new PayTxn({ amount: 0, receiver: this.app.address, note: 'foo' }))
 	itxn_next
@@ -330,15 +327,15 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:105
 	// this.txnComposer.send(
-	//       new MethodCallTxn<[PayTxn, MethodCall<[uint64], void>], void>({
+	//       new MethodCallTxn<[PayTxn, AppCallTxn], void>({
 	//         name: 'foo',
 	//         methodArgs: [
-	//           { amount: 100_000, receiver: this.txn.sender },
-	//           {
+	//           new PayTxn({ amount: 100_000, receiver: this.txn.sender }),
+	//           new MethodCallTxn<[uint64], void>({
 	//             name: 'bar',
 	//             applicationID: AppID.fromUint64(1337),
 	//             methodArgs: [1],
-	//           },
+	//           }),
 	//         ],
 	//       })
 	//     )
@@ -372,12 +369,29 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:113
 	// methodArgs: [1]
+	// tests/contracts/general.algo.ts:113
+	// 1
 	byte 0x0000000000000001
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// tests/contracts/general.algo.ts:105
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[PayTxn, AppCallTxn], void>({
+	//         name: 'foo',
+	//         methodArgs: [
+	//           new PayTxn({ amount: 100_000, receiver: this.txn.sender }),
+	//           new MethodCallTxn<[uint64], void>({
+	//             name: 'bar',
+	//             applicationID: AppID.fromUint64(1337),
+	//             methodArgs: [1],
+	//           }),
+	//         ],
+	//       })
+	//     )
 	itxn_next
 	int appl
 	itxn_field TypeEnum
@@ -386,13 +400,21 @@ methodWithTxnArgs:
 
 	// tests/contracts/general.algo.ts:108
 	// methodArgs: [
-	//           { amount: 100_000, receiver: this.txn.sender },
-	//           {
+	//           new PayTxn({ amount: 100_000, receiver: this.txn.sender }),
+	//           new MethodCallTxn<[uint64], void>({
 	//             name: 'bar',
 	//             applicationID: AppID.fromUint64(1337),
 	//             methodArgs: [1],
-	//           },
+	//           }),
 	//         ]
+	// tests/contracts/general.algo.ts:109
+	// new PayTxn({ amount: 100_000, receiver: this.txn.sender })
+	// tests/contracts/general.algo.ts:110
+	// new MethodCallTxn<[uint64], void>({
+	//             name: 'bar',
+	//             applicationID: AppID.fromUint64(1337),
+	//             methodArgs: [1],
+	//           })
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
@@ -2158,8 +2180,6 @@ callTxnArgsMethod:
 	// GeneralTest.call({ applicationID: AppID.fromUint64(1337) }).txnArgsMethod(
 	//       new PayTxn({ receiver: this.app.address, amount: 0 })
 	//     )
-	// tests/contracts/general.algo.ts:435
-	// new PayTxn({ receiver: this.app.address, amount: 0 })
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
@@ -2448,6 +2468,8 @@ assetMethodArgs:
 
 	// tests/contracts/general.algo.ts:481
 	// methodArgs: [AssetID.fromUint64(1)]
+	// tests/contracts/general.algo.ts:481
+	// AssetID.fromUint64(1)
 	int 1
 	itxn_field Assets
 	byte 0x0000000000000000

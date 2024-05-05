@@ -54,12 +54,23 @@ arrayInMethodCall:
 
 	// tests/contracts/abi.algo.ts:1397
 	// methodArgs: [[1, 2], this.txn.sender, 3, false]
+	// tests/contracts/abi.algo.ts:1397
+	// [1, 2]
 	byte 0x00000000000000010000000000000002
 	itxn_field ApplicationArgs
+
+	// tests/contracts/abi.algo.ts:1397
+	// this.txn.sender
 	txn Sender
 	itxn_field ApplicationArgs
+
+	// tests/contracts/abi.algo.ts:1397
+	// 3
 	byte 0x0000000000000003
 	itxn_field ApplicationArgs
+
+	// tests/contracts/abi.algo.ts:1397
+	// false
 	int 0
 	byte 0x00
 	int 0

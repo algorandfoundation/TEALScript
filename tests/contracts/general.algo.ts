@@ -103,15 +103,15 @@ class GeneralTest extends Contract {
 
   methodWithTxnArgs(): void {
     this.txnComposer.send(
-      new MethodCallTxn<[PayTxn, MethodCall<[uint64], void>], void>({
+      new MethodCallTxn<[PayTxn, AppCallTxn], void>({
         name: 'foo',
         methodArgs: [
-          { amount: 100_000, receiver: this.txn.sender },
-          {
+          new PayTxn({ amount: 100_000, receiver: this.txn.sender }),
+          new MethodCallTxn<[uint64], void>({
             name: 'bar',
             applicationID: AppID.fromUint64(1337),
             methodArgs: [1],
-          },
+          }),
         ],
       })
     );
