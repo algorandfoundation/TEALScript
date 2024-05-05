@@ -32,7 +32,7 @@ interface StorageMap {
   /** The type of the values in the map */
   valueType: ABIType | AVMBytes | StructName;
   /** The prefix of the map, encoded as a utf-8 string */
-  prefix: string;
+  prefix?: string;
 }
 
 interface SourceInfo {

@@ -59,23 +59,59 @@
   "state": {
     "schema": {
       "global": {
-        "bytes": 0,
-        "ints": 0
+        "bytes": 37,
+        "ints": 1
       },
       "local": {
-        "bytes": 0,
-        "ints": 0
+        "bytes": 13,
+        "ints": 1
       }
     },
     "keys": {
-      "global": [],
-      "local": [],
-      "box": []
+      "global": [
+        {
+          "key": "globalKey",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        }
+      ],
+      "local": [
+        {
+          "key": "localKey",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        }
+      ],
+      "box": [
+        {
+          "key": "boxKey",
+          "keyType": "bytes",
+          "valueType": "string"
+        }
+      ]
     },
     "maps": {
-      "global": [],
-      "local": [],
-      "box": []
+      "global": [
+        {
+          "keyType": "string",
+          "valueType": "string",
+          "prefix": "p"
+        }
+      ],
+      "local": [
+        {
+          "keyType": "string",
+          "valueType": "string",
+          "prefix": "p"
+        }
+      ],
+      "box": [
+        {
+          "keyType": "bytes",
+          "valueType": "((uint64,uint64),(uint64,uint64))",
+          "prefix": "p"
+        }
+      ]
     }
   },
   "bareActions": {
@@ -180,7 +216,7 @@
     },
     {
       "teal": 28,
-      "source": 7,
+      "source": 19,
       "pc": [
         40,
         41,
@@ -192,7 +228,7 @@
     },
     {
       "teal": 31,
-      "source": 7,
+      "source": 19,
       "pc": [
         46,
         47,
@@ -201,21 +237,21 @@
     },
     {
       "teal": 32,
-      "source": 7,
+      "source": 19,
       "pc": [
         49
       ]
     },
     {
       "teal": 33,
-      "source": 7,
+      "source": 19,
       "pc": [
         50
       ]
     },
     {
       "teal": 34,
-      "source": 7,
+      "source": 19,
       "pc": [
         51,
         52
@@ -223,14 +259,14 @@
     },
     {
       "teal": 35,
-      "source": 7,
+      "source": 19,
       "pc": [
         53
       ]
     },
     {
       "teal": 38,
-      "source": 7,
+      "source": 19,
       "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
       "pc": [
         54
@@ -238,7 +274,7 @@
     },
     {
       "teal": 41,
-      "source": 7,
+      "source": 19,
       "pc": [
         55,
         56,
@@ -247,35 +283,35 @@
     },
     {
       "teal": 42,
-      "source": 7,
+      "source": 19,
       "pc": [
         58
       ]
     },
     {
       "teal": 43,
-      "source": 7,
+      "source": 19,
       "pc": [
         59
       ]
     },
     {
       "teal": 44,
-      "source": 7,
+      "source": 19,
       "pc": [
         60
       ]
     },
     {
       "teal": 45,
-      "source": 7,
+      "source": 19,
       "pc": [
         61
       ]
     },
     {
       "teal": 49,
-      "source": 7,
+      "source": 19,
       "pc": [
         62,
         63,
@@ -284,7 +320,7 @@
     },
     {
       "teal": 54,
-      "source": 8,
+      "source": 20,
       "pc": [
         65,
         66
@@ -292,7 +328,7 @@
     },
     {
       "teal": 55,
-      "source": 8,
+      "source": 20,
       "pc": [
         67,
         68,
@@ -301,14 +337,14 @@
     },
     {
       "teal": 56,
-      "source": 8,
+      "source": 20,
       "pc": [
         70
       ]
     },
     {
       "teal": 57,
-      "source": 8,
+      "source": 20,
       "pc": [
         71,
         72
@@ -316,7 +352,7 @@
     },
     {
       "teal": 58,
-      "source": 8,
+      "source": 20,
       "pc": [
         73,
         74,
@@ -325,21 +361,21 @@
     },
     {
       "teal": 59,
-      "source": 8,
+      "source": 20,
       "pc": [
         76
       ]
     },
     {
       "teal": 60,
-      "source": 8,
+      "source": 20,
       "pc": [
         77
       ]
     },
     {
       "teal": 61,
-      "source": 8,
+      "source": 20,
       "pc": [
         78,
         79,
@@ -348,7 +384,7 @@
     },
     {
       "teal": 65,
-      "source": 8,
+      "source": 20,
       "errorMessage": "subtract.a must be greater than subtract.b",
       "pc": [
         81
@@ -356,7 +392,7 @@
     },
     {
       "teal": 73,
-      "source": 10,
+      "source": 22,
       "pc": [
         82,
         83
@@ -364,7 +400,7 @@
     },
     {
       "teal": 74,
-      "source": 10,
+      "source": 22,
       "pc": [
         84,
         85,
@@ -373,14 +409,14 @@
     },
     {
       "teal": 75,
-      "source": 10,
+      "source": 22,
       "pc": [
         87
       ]
     },
     {
       "teal": 76,
-      "source": 10,
+      "source": 22,
       "pc": [
         88,
         89
@@ -388,7 +424,7 @@
     },
     {
       "teal": 77,
-      "source": 10,
+      "source": 22,
       "pc": [
         90,
         91,
@@ -397,28 +433,28 @@
     },
     {
       "teal": 78,
-      "source": 10,
+      "source": 22,
       "pc": [
         93
       ]
     },
     {
       "teal": 79,
-      "source": 10,
+      "source": 22,
       "pc": [
         94
       ]
     },
     {
       "teal": 80,
-      "source": 10,
+      "source": 22,
       "pc": [
         95
       ]
     },
     {
       "teal": 81,
-      "source": 11,
+      "source": 23,
       "pc": [
         96,
         97
@@ -426,7 +462,7 @@
     },
     {
       "teal": 82,
-      "source": 11,
+      "source": 23,
       "pc": [
         98,
         99,
@@ -435,14 +471,14 @@
     },
     {
       "teal": 83,
-      "source": 11,
+      "source": 23,
       "pc": [
         101
       ]
     },
     {
       "teal": 84,
-      "source": 11,
+      "source": 23,
       "pc": [
         102,
         103
@@ -450,7 +486,7 @@
     },
     {
       "teal": 85,
-      "source": 11,
+      "source": 23,
       "pc": [
         104,
         105,
@@ -459,35 +495,35 @@
     },
     {
       "teal": 86,
-      "source": 11,
+      "source": 23,
       "pc": [
         107
       ]
     },
     {
       "teal": 87,
-      "source": 11,
+      "source": 23,
       "pc": [
         108
       ]
     },
     {
       "teal": 88,
-      "source": 11,
+      "source": 23,
       "pc": [
         109
       ]
     },
     {
       "teal": 89,
-      "source": 11,
+      "source": 23,
       "pc": [
         110
       ]
     },
     {
       "teal": 90,
-      "source": 7,
+      "source": 19,
       "pc": [
         111
       ]

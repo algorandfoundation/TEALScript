@@ -7298,28 +7298,29 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [k, v] of Object.entries(this.storageProps)) {
-      switch (v.type) {
-        case 'global':
-          if (isNumeric(v.valueType)) {
-            state.schema.global.ints += v.maxKeys || 1;
-          } else {
-            state.schema.global.bytes += v.maxKeys || 1;
-          }
+    Object.values(this.storageProps).forEach((sp) => {
+      if (sp.key) {
+        state.keys[sp.type].push({ key: sp.key, keyType: 'bytes', valueType: typeInfoToABIString(sp.valueType) });
+      } else {
+        // TODO: structs for state types
+        const keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
+        const valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
 
-          break;
-        case 'local':
-          if (isNumeric(v.valueType)) {
-            state.schema.local.ints += v.maxKeys || 1;
-          } else {
-            state.schema.local.bytes += v.maxKeys || 1;
-          }
-          break;
-        default:
-          break;
+        state.maps[sp.type].push({
+          keyType,
+          valueType,
+          prefix: sp.prefix,
+        });
       }
-    }
+
+      if (sp.type === 'global' || sp.type === 'local') {
+        if (isNumeric(sp.valueType)) {
+          state.schema[sp.type].ints += sp.maxKeys || 1;
+        } else {
+          state.schema[sp.type].bytes += sp.maxKeys || 1;
+        }
+      }
+    });
 
     const arc56: ARC56Contract = {
       ...this.arc4Description(),
