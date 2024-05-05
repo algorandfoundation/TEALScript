@@ -14,7 +14,7 @@ import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
-import { ARC56Contract } from '../types/arc56';
+import { ARC56Contract, StructFields } from '../types/arc56';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -7330,6 +7330,21 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       sourceInfo: this.sourceInfo,
     };
 
+    const objectToStructFields = (typeInfo: TypeInfo & { kind: 'object' }) => {
+      const fields: StructFields = {};
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [field, type] of Object.entries(typeInfo.properties)) {
+        if (type.kind === 'object') {
+          fields[field] = objectToStructFields(type);
+        } else {
+          fields[field] = typeInfoToABIString(type);
+        }
+      }
+
+      return fields;
+    };
+
     arc56.methods.forEach((m) => {
       const subroutine = this.subroutines.find((s) => s.name === m.name)!;
       const actions = subroutine.allows;
@@ -7347,13 +7362,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
             const structName = p.getType().getText();
             arg.struct = structName;
             if (!arc56.structs[structName]) {
-              arc56.structs[structName] = {};
-
-              // eslint-disable-next-line no-restricted-syntax
-              for (const [name, type] of Object.entries(typeInfo.properties)) {
-                // TODO: Handle nested structs
-                arc56.structs[p.getType().getText()][name] = typeInfoToABIString(type);
-              }
+              arc56.structs[structName] = objectToStructFields(typeInfo);
             }
           }
         });

@@ -7,7 +7,7 @@
       "args": [
         {
           "name": "inputs",
-          "type": "(uint64,uint64)",
+          "type": "((uint64,uint64),(uint64,uint64))",
           "struct": "Inputs"
         }
       ],
@@ -41,8 +41,14 @@
   ],
   "structs": {
     "Inputs": {
-      "a": "uint64",
-      "b": "uint64"
+      "add": {
+        "a": "uint64",
+        "b": "uint64"
+      },
+      "subtract": {
+        "a": "uint64",
+        "b": "uint64"
+      }
     }
   },
   "state": {
@@ -79,59 +85,59 @@
         0,
         1,
         2,
-        3,
-        4
+        3
       ]
     },
     {
       "teal": 13,
       "source": 6,
       "pc": [
-        5,
-        6
+        4,
+        5
       ]
     },
     {
       "teal": 14,
       "source": 6,
       "pc": [
-        7
+        6
       ]
     },
     {
       "teal": 15,
       "source": 6,
       "pc": [
-        8,
-        9
+        7,
+        8
       ]
     },
     {
       "teal": 16,
       "source": 6,
       "pc": [
-        10
+        9
       ]
     },
     {
       "teal": 17,
       "source": 6,
       "pc": [
-        11,
-        12
+        10,
+        11
       ]
     },
     {
       "teal": 18,
       "source": 6,
       "pc": [
-        13
+        12
       ]
     },
     {
       "teal": 19,
       "source": 6,
       "pc": [
+        13,
         14,
         15,
         16,
@@ -156,8 +162,7 @@
         35,
         36,
         37,
-        38,
-        39
+        38
       ]
     },
     {
@@ -165,141 +170,142 @@
       "source": 6,
       "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
       "pc": [
-        40
+        39
       ]
     },
     {
       "teal": 28,
       "source": 7,
       "pc": [
+        40,
         41,
         42,
         43,
         44,
-        45,
-        46
+        45
       ]
     },
     {
       "teal": 31,
       "source": 7,
       "pc": [
+        46,
         47,
-        48,
-        49
+        48
       ]
     },
     {
       "teal": 32,
       "source": 7,
       "pc": [
-        50
+        49
       ]
     },
     {
       "teal": 33,
       "source": 7,
       "pc": [
-        51
+        50
       ]
     },
     {
       "teal": 34,
       "source": 7,
       "pc": [
-        52,
-        53
+        51,
+        52
       ]
     },
     {
       "teal": 35,
       "source": 7,
       "pc": [
-        54
+        53
       ]
     },
     {
       "teal": 38,
       "source": 7,
-      "errorMessage": "argument 0 (inputs) for foo must be a (uint64,uint64)",
+      "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
       "pc": [
-        55
+        54
       ]
     },
     {
       "teal": 41,
       "source": 7,
       "pc": [
+        55,
         56,
-        57,
-        58
+        57
       ]
     },
     {
       "teal": 42,
       "source": 7,
       "pc": [
-        59
+        58
       ]
     },
     {
       "teal": 43,
       "source": 7,
       "pc": [
-        60
+        59
       ]
     },
     {
       "teal": 44,
       "source": 7,
       "pc": [
-        61
+        60
       ]
     },
     {
       "teal": 45,
       "source": 7,
       "pc": [
-        62
+        61
       ]
     },
     {
       "teal": 49,
       "source": 7,
       "pc": [
+        62,
         63,
-        64,
-        65
+        64
       ]
     },
     {
       "teal": 54,
       "source": 8,
       "pc": [
-        66,
-        67
+        65,
+        66
       ]
     },
     {
       "teal": 55,
       "source": 8,
       "pc": [
+        67,
         68,
-        69,
-        70
+        69
       ]
     },
     {
       "teal": 56,
       "source": 8,
       "pc": [
-        71
+        70
       ]
     },
     {
       "teal": 57,
       "source": 8,
       "pc": [
+        71,
         72
       ]
     },
@@ -307,22 +313,22 @@
       "teal": 58,
       "source": 8,
       "pc": [
-        73
+        73,
+        74,
+        75
       ]
     },
     {
       "teal": 59,
       "source": 8,
       "pc": [
-        74
+        76
       ]
     },
     {
       "teal": 60,
       "source": 8,
       "pc": [
-        75,
-        76,
         77
       ]
     },
@@ -331,291 +337,246 @@
       "source": 8,
       "pc": [
         78,
-        79
-      ]
-    },
-    {
-      "teal": 62,
-      "source": 8,
-      "pc": [
-        80,
-        81,
-        82
-      ]
-    },
-    {
-      "teal": 63,
-      "source": 8,
-      "pc": [
-        83
-      ]
-    },
-    {
-      "teal": 64,
-      "source": 8,
-      "pc": [
-        84
+        79,
+        80
       ]
     },
     {
       "teal": 65,
       "source": 8,
+      "errorMessage": "subtract.a must be greater than subtract.b",
       "pc": [
-        85
+        81
       ]
     },
     {
-      "teal": 66,
-      "source": 8,
+      "teal": 73,
+      "source": 10,
       "pc": [
+        82,
+        83
+      ]
+    },
+    {
+      "teal": 74,
+      "source": 10,
+      "pc": [
+        84,
+        85,
         86
       ]
     },
     {
-      "teal": 69,
-      "source": 8,
+      "teal": 75,
+      "source": 10,
       "pc": [
-        87,
+        87
+      ]
+    },
+    {
+      "teal": 76,
+      "source": 10,
+      "pc": [
         88,
         89
       ]
     },
     {
-      "teal": 73,
-      "source": 8,
-      "errorMessage": "inputs must be non-zero",
-      "pc": [
-        90
-      ]
-    },
-    {
-      "teal": 81,
+      "teal": 77,
       "source": 10,
       "pc": [
+        90,
         91,
         92
       ]
     },
     {
-      "teal": 82,
+      "teal": 78,
       "source": 10,
       "pc": [
-        93,
-        94,
+        93
+      ]
+    },
+    {
+      "teal": 79,
+      "source": 10,
+      "pc": [
+        94
+      ]
+    },
+    {
+      "teal": 80,
+      "source": 10,
+      "pc": [
         95
       ]
     },
     {
-      "teal": 83,
-      "source": 10,
+      "teal": 81,
+      "source": 11,
       "pc": [
-        96
+        96,
+        97
       ]
     },
     {
-      "teal": 84,
-      "source": 10,
+      "teal": 82,
+      "source": 11,
       "pc": [
-        97,
-        98
-      ]
-    },
-    {
-      "teal": 85,
-      "source": 10,
-      "pc": [
+        98,
         99,
-        100,
+        100
+      ]
+    },
+    {
+      "teal": 83,
+      "source": 11,
+      "pc": [
         101
       ]
     },
     {
-      "teal": 86,
-      "source": 10,
+      "teal": 84,
+      "source": 11,
       "pc": [
-        102
-      ]
-    },
-    {
-      "teal": 87,
-      "source": 10,
-      "pc": [
+        102,
         103
       ]
     },
     {
-      "teal": 88,
-      "source": 10,
+      "teal": 85,
+      "source": 11,
       "pc": [
-        104
+        104,
+        105,
+        106
+      ]
+    },
+    {
+      "teal": 86,
+      "source": 11,
+      "pc": [
+        107
+      ]
+    },
+    {
+      "teal": 87,
+      "source": 11,
+      "pc": [
+        108
+      ]
+    },
+    {
+      "teal": 88,
+      "source": 11,
+      "pc": [
+        109
       ]
     },
     {
       "teal": 89,
       "source": 11,
       "pc": [
-        105,
-        106
-      ]
-    },
-    {
-      "teal": 90,
-      "source": 11,
-      "pc": [
-        107,
-        108,
-        109
-      ]
-    },
-    {
-      "teal": 91,
-      "source": 11,
-      "pc": [
         110
       ]
     },
     {
-      "teal": 92,
-      "source": 11,
+      "teal": 90,
+      "source": 7,
       "pc": [
-        111,
-        112
+        111
       ]
     },
     {
       "teal": 93,
-      "source": 11,
+      "source": 6,
       "pc": [
-        113,
-        114,
-        115
+        112
       ]
     },
     {
       "teal": 94,
-      "source": 11,
+      "source": 6,
       "pc": [
-        116
-      ]
-    },
-    {
-      "teal": 95,
-      "source": 11,
-      "pc": [
-        117
-      ]
-    },
-    {
-      "teal": 96,
-      "source": 11,
-      "pc": [
-        118
+        113
       ]
     },
     {
       "teal": 97,
-      "source": 11,
+      "source": 6,
       "pc": [
+        114,
+        115,
+        116,
+        117,
+        118,
         119
       ]
     },
     {
       "teal": 98,
-      "source": 7,
+      "source": 6,
       "pc": [
-        120
+        120,
+        121,
+        122
       ]
     },
     {
-      "teal": 101,
+      "teal": 99,
       "source": 6,
       "pc": [
-        121
+        123,
+        124,
+        125,
+        126
       ]
     },
     {
       "teal": 102,
       "source": 6,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
       "pc": [
-        122
+        127
       ]
     },
     {
       "teal": 105,
       "source": 6,
       "pc": [
-        123,
-        124,
-        125,
-        126,
-        127,
-        128
+        128,
+        129,
+        130,
+        131,
+        132,
+        133
       ]
     },
     {
       "teal": 106,
       "source": 6,
       "pc": [
-        129,
-        130,
-        131
+        134,
+        135,
+        136
       ]
     },
     {
       "teal": 107,
       "source": 6,
       "pc": [
-        132,
-        133,
-        134,
-        135
+        137,
+        138,
+        139,
+        140
       ]
     },
     {
       "teal": 110,
       "source": 6,
-      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-      "pc": [
-        136
-      ]
-    },
-    {
-      "teal": 113,
-      "source": 6,
-      "pc": [
-        137,
-        138,
-        139,
-        140,
-        141,
-        142
-      ]
-    },
-    {
-      "teal": 114,
-      "source": 6,
-      "pc": [
-        143,
-        144,
-        145
-      ]
-    },
-    {
-      "teal": 115,
-      "source": 6,
-      "pc": [
-        146,
-        147,
-        148,
-        149
-      ]
-    },
-    {
-      "teal": 118,
-      "source": 6,
       "errorMessage": "this contract does not implement the given ABI method for call NoOp",
       "pc": [
-        150
+        141
       ]
     }
   ]

@@ -1,14 +1,14 @@
 import { Contract } from '../../src/lib';
 
-type Inputs = { a: uint64; b: uint64 };
-type Outputs = { sum: uint64; product: uint64 };
+type Inputs = { add: { a: uint64; b: uint64 }; subtract: { a: uint64; b: uint64 } };
+type Outputs = { sum: uint64; difference: uint64 };
 
 export class ARC56Test extends Contract {
   foo(inputs: Inputs): Outputs {
-    if (inputs.a === 0 || inputs.b === 0) throw Error('inputs must be non-zero');
+    if (inputs.subtract.a < inputs.subtract.b) throw Error('subtract.a must be greater than subtract.b');
     return {
-      sum: inputs.a + inputs.b,
-      product: inputs.a * inputs.b,
+      sum: inputs.add.a + inputs.add.b,
+      difference: inputs.subtract.a - inputs.subtract.b,
     };
   }
 }
