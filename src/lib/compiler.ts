@@ -14,6 +14,7 @@ import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
+import { ARC56Contract } from '../types/arc56';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -355,8 +356,8 @@ interface ABIMethod {
 
 interface Subroutine extends ABIMethod {
   allows: {
-    create: string[];
-    call: string[];
+    create: ('NoOp' | 'OptIn' | 'DeleteApplication')[];
+    call: OnComplete[];
   };
   nonAbi: {
     create: string[];
@@ -1311,7 +1312,7 @@ export default class Compiler {
     },
   };
 
-  abiJSON() {
+  arc4Description() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const methods = [] as any[];
 
@@ -2397,16 +2398,16 @@ export default class Compiler {
             const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
-              return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.global.num_uints}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_BYTES')) {
-              return { teal: `int ${c.appSpec().state.global.num_byte_slices}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.global.num_byte_slices}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_INT')) {
-              return { teal: `int ${c.appSpec().state.local.num_uints}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.local.num_uints}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_BYTES')) {
-              return { teal: `int ${c.appSpec().state.local.num_byte_slices}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.local.num_byte_slices}`, node: t.node };
             }
           }
 
@@ -5968,6 +5969,8 @@ export default class Compiler {
       if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
         returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
       }
+      // HERE
+      this.currentSubroutine;
       this.push(chain[1], `callsub ${methodName}`, returnType);
       chain.splice(0, 2);
     }
@@ -7269,8 +7272,80 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
+  arc56Description(): ARC56Contract {
+    const globalDeclared: Record<string, object> = {};
+    const localDeclared: Record<string, object> = {};
+
+    const state: ARC56Contract['state'] = {
+      schema: {
+        global: {
+          bytes: 0,
+          ints: 0,
+        },
+        local: {
+          bytes: 0,
+          ints: 0,
+        },
+      },
+      // TOOD: Populate keys
+      keys: {
+        global: [],
+        local: [],
+        box: [],
+      },
+      // TODO: Populate maps
+      maps: {
+        global: [],
+        local: [],
+        box: [],
+      },
+    };
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [k, v] of Object.entries(this.storageProps)) {
+      switch (v.type) {
+        case 'global':
+          if (isNumeric(v.valueType)) {
+            state.schema.global.ints += v.maxKeys || 1;
+          } else {
+            state.schema.global.bytes += v.maxKeys || 1;
+          }
+
+          break;
+        case 'local':
+          if (isNumeric(v.valueType)) {
+            state.schema.local.ints += v.maxKeys || 1;
+          } else {
+            state.schema.local.bytes += v.maxKeys || 1;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    const arc56: ARC56Contract = {
+      ...this.arc4Description(),
+      arcs: [4, 54],
+      structs: {},
+      state,
+      bareActions: { create: [], call: [] },
+      sourceInfo: this.sourceInfo,
+    };
+
+    arc56.methods.forEach((m) => {
+      const subroutine = this.subroutines.find((s) => s.name === m.name)!;
+      const actions = subroutine.allows;
+
+      // eslint-disable-next-line no-param-reassign
+      m.actions = actions;
+    });
+
+    return arc56;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appSpec(): any {
+  arc32Description(): any {
     const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
     const clear = Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64');
 
@@ -7289,7 +7364,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     };
     // eslint-disable-next-line no-restricted-syntax
     for (const [k, v] of Object.entries(this.storageProps)) {
-      // TODO; Proper global/local types?
       switch (v.type) {
         case 'global':
           if (isNumeric(v.valueType)) {
@@ -7326,7 +7400,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     const hints: { [signature: string]: { call_config: { [action: string]: string } } } = {};
 
-    const appSpec = {
+    const arc32 = {
       hints,
       bare_call_config: {
         no_op: this.bareCallConfig.NoOp?.action || 'NEVER',
@@ -7341,7 +7415,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
       state,
       source: { approval, clear },
-      contract: this.abiJSON(),
+      contract: this.arc4Description(),
     };
 
     this.abi.methods.forEach((m) => {
@@ -7377,7 +7451,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       });
     });
 
-    return appSpec;
+    return arc32;
   }
 
   prettyTeal(teal: TEALInfo[]): TEALInfo[] {

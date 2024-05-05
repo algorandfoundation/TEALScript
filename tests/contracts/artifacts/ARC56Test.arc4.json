@@ -1,0 +1,25 @@
+{
+  "name": "ARC56Test",
+  "desc": "",
+  "methods": [
+    {
+      "name": "foo",
+      "args": [
+        {
+          "name": "inputs",
+          "type": "(uint64,uint64)"
+        }
+      ],
+      "returns": {
+        "type": "(uint64,uint64)"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}
