@@ -2909,7 +2909,7 @@ export default class Compiler {
       ['create', 'call'].forEach((a) => {
         const methods = this.abi.methods.filter((m) => {
           const subroutine = this.subroutines.find((s) => s.name === m.name)!;
-          return subroutine.allows[a as 'call' | 'create'].includes(onComplete);
+          return subroutine.allows[a as 'call'].includes(onComplete);
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
@@ -4358,7 +4358,7 @@ export default class Compiler {
 
       const action = isCreate ? 'create' : 'call';
 
-      this.currentSubroutine.allows[action].push(oc);
+      this.currentSubroutine.allows[action as 'call'].push(oc);
     }
 
     node.getDecorators().forEach((d) => {
@@ -4416,7 +4416,7 @@ export default class Compiler {
               const action = decoratorFunction.replace('bare', '').toUpperCase() as 'CALL' | 'CREATE';
 
               this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
-            } else this.currentSubroutine.allows[decoratorFunction as 'call' | 'create'].push(oc);
+            } else this.currentSubroutine.allows[decoratorFunction as 'call'].push(oc);
           }
           break;
 
@@ -7484,7 +7484,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       const subroutine = this.subroutines.find((s) => s.name === m.name)!;
 
       subroutine.allows.create.forEach((oc) => {
-        if (oc === 'ClearState') return;
         const snakeOC = oc
           .split(/\.?(?=[A-Z])/)
           .join('_')
