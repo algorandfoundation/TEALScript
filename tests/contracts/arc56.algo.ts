@@ -6,7 +6,7 @@ type Outputs = { sum: uint64; difference: uint64 };
 export class ARC56Test extends Contract {
   globalKey = GlobalStateKey<uint64>();
 
-  globalMap = GlobalStateMap<string, string>({ maxKeys: 37, prefix: 'p' });
+  globalMap = GlobalStateMap<string, { foo: uint16; bar: uint16 }>({ maxKeys: 37, prefix: 'p' });
 
   localKey = LocalStateKey<uint64>();
 

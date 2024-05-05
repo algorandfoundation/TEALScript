@@ -41,6 +41,10 @@
     56
   ],
   "structs": {
+    "{ foo: uint16; bar: uint16 }": {
+      "foo": "uint16",
+      "bar": "uint16"
+    },
     "Outputs": {
       "sum": "uint64",
       "difference": "uint64"
@@ -94,7 +98,7 @@
       "global": [
         {
           "keyType": "string",
-          "valueType": "string",
+          "valueType": "{ foo: uint16; bar: uint16 }",
           "prefix": "p"
         }
       ],
