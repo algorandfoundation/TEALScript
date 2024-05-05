@@ -338,6 +338,7 @@ interface StorageProp {
   key?: string;
   keyType: TypeInfo;
   valueType: TypeInfo;
+  initNode: ts.CallExpression;
   /** If true, always do a box_del before a box_put incase the size of the value changed */
   dynamicSize?: boolean;
   prefix?: string;
@@ -5356,6 +5357,7 @@ export default class Compiler {
           type,
           keyType: this.getTypeInfo(typeArgs[0].getType()),
           valueType: this.getTypeInfo(typeArgs[1].getType()),
+          initNode: init,
         };
       } else {
         if (typeArgs.length !== 1) throw new Error(`Expected a type argument for ${klass}`);
@@ -5364,6 +5366,7 @@ export default class Compiler {
           type,
           keyType: StackType.bytes,
           valueType: this.getTypeInfo(typeArgs[0].getType()),
+          initNode: init,
         };
       }
 
@@ -7273,6 +7276,21 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   }
 
   arc56Description(): ARC56Contract {
+    const objectToStructFields = (typeInfo: TypeInfo & { kind: 'object' }) => {
+      const fields: StructFields = {};
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [field, type] of Object.entries(typeInfo.properties)) {
+        if (type.kind === 'object') {
+          fields[field] = objectToStructFields(type);
+        } else {
+          fields[field] = typeInfoToABIString(type);
+        }
+      }
+
+      return fields;
+    };
+
     const state: ARC56Contract['state'] = {
       schema: {
         global: {
@@ -7284,13 +7302,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           ints: 0,
         },
       },
-      // TOOD: Populate keys
       keys: {
         global: [],
         local: [],
         box: [],
       },
-      // TODO: Populate maps
       maps: {
         global: [],
         local: [],
@@ -7298,13 +7314,33 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
+    const arc56: ARC56Contract = {
+      ...this.arc4Description(),
+      arcs: [4, 56],
+      structs: {},
+      state,
+      bareActions: { create: [], call: [] },
+      sourceInfo: this.sourceInfo,
+    };
+
     Object.values(this.storageProps).forEach((sp) => {
       if (sp.key) {
         state.keys[sp.type].push({ key: sp.key, keyType: 'bytes', valueType: typeInfoToABIString(sp.valueType) });
       } else {
-        // TODO: structs for state types
-        const keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
-        const valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
+        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
+        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
+
+        const typeArgs = sp.initNode.getTypeArguments();
+
+        if (sp.valueType.kind === 'object') {
+          valueType = typeArgs[sp.key ? 0 : 1].getText();
+          arc56.structs[valueType] = objectToStructFields(sp.valueType);
+        }
+
+        if (sp.keyType.kind === 'object') {
+          keyType = typeArgs[0].getText();
+          arc56.structs[keyType] = objectToStructFields(sp.keyType);
+        }
 
         state.maps[sp.type].push({
           keyType,
@@ -7321,30 +7357,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         }
       }
     });
-
-    const arc56: ARC56Contract = {
-      ...this.arc4Description(),
-      arcs: [4, 54],
-      structs: {},
-      state,
-      bareActions: { create: [], call: [] },
-      sourceInfo: this.sourceInfo,
-    };
-
-    const objectToStructFields = (typeInfo: TypeInfo & { kind: 'object' }) => {
-      const fields: StructFields = {};
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [field, type] of Object.entries(typeInfo.properties)) {
-        if (type.kind === 'object') {
-          fields[field] = objectToStructFields(type);
-        } else {
-          fields[field] = typeInfoToABIString(type);
-        }
-      }
-
-      return fields;
-    };
 
     arc56.methods.forEach((m) => {
       const subroutine = this.subroutines.find((s) => s.name === m.name)!;
@@ -7388,7 +7400,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   arc32Description(): any {
     const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
     const clear = Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64');
-
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
 

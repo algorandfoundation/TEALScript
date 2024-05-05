@@ -38,7 +38,7 @@
   ],
   "arcs": [
     4,
-    54
+    56
   ],
   "structs": {
     "Outputs": {
@@ -100,15 +100,15 @@
       ],
       "local": [
         {
-          "keyType": "string",
+          "keyType": "bytes",
           "valueType": "string",
           "prefix": "p"
         }
       ],
       "box": [
         {
-          "keyType": "bytes",
-          "valueType": "((uint64,uint64),(uint64,uint64))",
+          "keyType": "Inputs",
+          "valueType": "Outputs",
           "prefix": "p"
         }
       ]

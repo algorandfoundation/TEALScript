@@ -10,11 +10,11 @@ export class ARC56Test extends Contract {
 
   localKey = LocalStateKey<uint64>();
 
-  localMap = LocalStateMap<string, string>({ maxKeys: 13, prefix: 'p' });
+  localMap = LocalStateMap<bytes, string>({ maxKeys: 13, prefix: 'p' });
 
   boxKey = BoxKey<string>();
 
-  boxMap = BoxMap<bytes, Inputs>({ prefix: 'p' });
+  boxMap = BoxMap<Inputs, Outputs>({ prefix: 'p' });
 
   foo(inputs: Inputs): Outputs {
     if (inputs.subtract.a < inputs.subtract.b) throw Error('subtract.a must be greater than subtract.b');
