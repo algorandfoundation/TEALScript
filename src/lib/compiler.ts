@@ -7353,6 +7353,17 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       m.actions = actions;
 
       if (subroutine.node.isKind(ts.SyntaxKind.MethodDeclaration)) {
+        const returnTypeInfo = this.getTypeInfo(subroutine.node.getReturnType());
+
+        if (returnTypeInfo.kind === 'object') {
+          const structName = subroutine.node.getReturnType().getText();
+          // eslint-disable-next-line no-param-reassign
+          m.returns.struct = structName;
+          if (!arc56.structs[structName]) {
+            arc56.structs[structName] = objectToStructFields(returnTypeInfo);
+          }
+        }
+
         subroutine.node.getParameters().forEach((p) => {
           const arg = m.args.find((a) => a.name === p.getName())!;
 

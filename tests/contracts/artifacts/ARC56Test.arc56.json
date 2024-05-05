@@ -12,7 +12,8 @@
         }
       ],
       "returns": {
-        "type": "(uint64,uint64)"
+        "type": "(uint64,uint64)",
+        "struct": "Outputs"
       },
       "actions": {
         "create": [],
@@ -40,6 +41,10 @@
     54
   ],
   "structs": {
+    "Outputs": {
+      "sum": "uint64",
+      "difference": "uint64"
+    },
     "Inputs": {
       "add": {
         "a": "uint64",
