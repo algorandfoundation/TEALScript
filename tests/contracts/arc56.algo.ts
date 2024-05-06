@@ -18,6 +18,10 @@ export class ARC56Test extends Contract {
 
   foo(inputs: Inputs): Outputs {
     if (inputs.subtract.a < inputs.subtract.b) throw Error('subtract.a must be greater than subtract.b');
+
+    this.globalKey.value = 1337;
+    this.globalMap('foo').value = { foo: 13, bar: 37 };
+
     return {
       sum: inputs.add.a + inputs.add.b,
       difference: inputs.subtract.a - inputs.subtract.b,
