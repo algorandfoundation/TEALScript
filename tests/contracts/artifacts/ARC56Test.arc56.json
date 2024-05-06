@@ -74,6 +74,7 @@
     "keys": {
       "global": [
         {
+          "name": "globalKey",
           "key": "globalKey",
           "keyType": "bytes",
           "valueType": "uint64"
@@ -81,6 +82,7 @@
       ],
       "local": [
         {
+          "name": "localKey",
           "key": "localKey",
           "keyType": "bytes",
           "valueType": "uint64"
@@ -88,6 +90,7 @@
       ],
       "box": [
         {
+          "name": "boxKey",
           "key": "boxKey",
           "keyType": "bytes",
           "valueType": "string"
@@ -97,6 +100,7 @@
     "maps": {
       "global": [
         {
+          "name": "globalMap",
           "keyType": "string",
           "valueType": "{ foo: uint16; bar: uint16 }",
           "prefix": "p"
@@ -104,6 +108,7 @@
       ],
       "local": [
         {
+          "name": "localMap",
           "keyType": "bytes",
           "valueType": "string",
           "prefix": "p"
@@ -111,6 +116,7 @@
       ],
       "box": [
         {
+          "name": "boxMap",
           "keyType": "Inputs",
           "valueType": "Outputs",
           "prefix": "p"

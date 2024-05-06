@@ -14,6 +14,8 @@ interface StructFields {
 
 /** Describes a single key in app storage */
 interface StorageKey {
+  /** Human readable name */
+  name: string;
   /** Description of what this storage key holds */
   desc?: string;
   /** The type of the key */
@@ -25,6 +27,8 @@ interface StorageKey {
 }
 
 interface StorageMap {
+  /** Human readable name */
+  name: string;
   /** Description of what the key-value pairs in this mapping hold */
   desc?: string;
   /** The type of the keys in the map */

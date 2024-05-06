@@ -334,6 +334,7 @@ const PARAM_TYPES: { [param: string]: string } = {
 };
 
 interface StorageProp {
+  name: string;
   type: StorageType;
   key?: string;
   keyType: TypeInfo;
@@ -5354,6 +5355,7 @@ export default class Compiler {
       if (klass.includes('Map')) {
         if (typeArgs.length !== 2) throw new Error(`Expected 2 type arguments for ${klass}`);
         props = {
+          name: node.getName(),
           type,
           keyType: this.getTypeInfo(typeArgs[0].getType()),
           valueType: this.getTypeInfo(typeArgs[1].getType()),
@@ -5363,6 +5365,7 @@ export default class Compiler {
         if (typeArgs.length !== 1) throw new Error(`Expected a type argument for ${klass}`);
 
         props = {
+          name: node.getName(),
           type,
           keyType: StackType.bytes,
           valueType: this.getTypeInfo(typeArgs[0].getType()),
@@ -5972,8 +5975,6 @@ export default class Compiler {
       if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
         returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
       }
-      // HERE
-      this.currentSubroutine;
       this.push(chain[1], `callsub ${methodName}`, returnType);
       chain.splice(0, 2);
     }
@@ -7329,7 +7330,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     Object.values(this.storageProps).forEach((sp) => {
       if (sp.key) {
-        state.keys[sp.type].push({ key: sp.key, keyType: 'bytes', valueType: typeInfoToABIString(sp.valueType) });
+        state.keys[sp.type].push({
+          name: sp.name,
+          key: sp.key,
+          keyType: 'bytes',
+          valueType: typeInfoToABIString(sp.valueType),
+        });
       } else {
         let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
         let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
@@ -7347,6 +7353,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         }
 
         state.maps[sp.type].push({
+          name: sp.name,
           keyType,
           valueType,
           prefix: sp.prefix,
