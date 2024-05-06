@@ -7321,6 +7321,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       state,
       bareActions: { create: [], call: [] },
       sourceInfo: this.sourceInfo,
+      source: {
+        approval: Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64'),
+        clear: Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64'),
+      },
     };
 
     Object.values(this.storageProps).forEach((sp) => {
