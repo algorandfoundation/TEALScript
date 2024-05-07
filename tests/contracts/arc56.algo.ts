@@ -29,4 +29,11 @@ export class ARC56Test extends Contract {
       difference: inputs.subtract.a - inputs.subtract.b,
     };
   }
+
+  optInToApplication(): void {
+    this.localKey(this.txn.sender).value = this.someNumber;
+    this.localMap(this.txn.sender, 'foo').value = 'bar';
+    this.boxKey.value = 'baz';
+    this.boxMap({ add: { a: 1, b: 2 }, subtract: { a: 4, b: 3 } }).value = { sum: 3, difference: 1 };
+  }
 }
