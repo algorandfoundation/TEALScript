@@ -16,10 +16,12 @@ export class ARC56Test extends Contract {
 
   boxMap = BoxMap<Inputs, Outputs>({ prefix: 'p' });
 
+  someNumber = TemplateVar<uint64>();
+
   foo(inputs: Inputs): Outputs {
     if (inputs.subtract.a < inputs.subtract.b) throw Error('subtract.a must be greater than subtract.b');
 
-    this.globalKey.value = 1337;
+    this.globalKey.value = this.someNumber;
     this.globalMap('foo').value = { foo: 13, bar: 37 };
 
     return {

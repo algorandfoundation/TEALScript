@@ -49,7 +49,7 @@ foo:
 	proto 1 1
 
 	// *if0_condition
-	// tests/contracts/arc56.algo.ts:20
+	// tests/contracts/arc56.algo.ts:22
 	// inputs.subtract.a < inputs.subtract.b
 	frame_dig -1 // inputs: Inputs
 	extract 16 8
@@ -65,19 +65,19 @@ foo:
 	err
 
 *if0_end:
-	// tests/contracts/arc56.algo.ts:22
-	// this.globalKey.value = 1337
+	// tests/contracts/arc56.algo.ts:24
+	// this.globalKey.value = this.someNumber
 	byte 0x676c6f62616c4b6579 // "globalKey"
-	int 1337
+	pushint TMPL_someNumber
 	app_global_put
 
-	// tests/contracts/arc56.algo.ts:23
+	// tests/contracts/arc56.algo.ts:25
 	// this.globalMap('foo').value = { foo: 13, bar: 37 }
 	byte 0x700003666f6f
 	byte 0x000d0025
 	app_global_put
 
-	// tests/contracts/arc56.algo.ts:25
+	// tests/contracts/arc56.algo.ts:27
 	// return {
 	//       sum: inputs.add.a + inputs.add.b,
 	//       difference: inputs.subtract.a - inputs.subtract.b,

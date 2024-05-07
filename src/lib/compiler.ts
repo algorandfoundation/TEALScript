@@ -691,7 +691,7 @@ export default class Compiler {
 
   programVersion = 10;
 
-  templateVars: Record<string, { name: string; type: TypeInfo }> = {};
+  templateVars: Record<string, { name: string; type: TypeInfo; initNode: ts.CallExpression }> = {};
 
   project: Project;
 
@@ -5582,6 +5582,7 @@ export default class Compiler {
       this.templateVars[node.getNameNode().getText()] = {
         type: this.getTypeInfo(init.getTypeArguments()[0].getType()),
         name,
+        initNode: init,
       };
     } else {
       throw new Error();
@@ -5754,9 +5755,9 @@ export default class Compiler {
     ) {
       const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
       if (isNumeric(type)) {
-        this.push(chain[0], `pushints TMPL_${name}`, type);
+        this.push(chain[0], `pushint TMPL_${name}`, type);
       } else {
-        this.push(chain[0], `pushbytes TMPL_${name}`, type);
+        this.push(chain[0], `pushbyte TMPL_${name}`, type);
       }
 
       chain.splice(0, 1);
@@ -7180,9 +7181,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/push(ints|bytes) TMPL_/)) {
+        if (t.match(/push(int|byte) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
-          if (opcode === 'pushints') return 'pushints 0';
+          if (opcode === 'pushint') return 'pushint 0';
 
           const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
@@ -7402,6 +7403,22 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           }
         });
       }
+    });
+
+    arc56.templateVariables = Object.keys(this.templateVars).map((k) => {
+      const typeInfo = this.templateVars[k].type;
+
+      const tmpl = { name: k, type: typeInfoToABIString(typeInfo) };
+
+      if (typeInfo.kind === 'object') {
+        const structName = this.templateVars[k].initNode.getTypeArguments()[0].getText();
+        if (!arc56.structs[structName]) {
+          arc56.structs[structName] = objectToStructFields(typeInfo);
+        }
+        tmpl.type = structName;
+      }
+
+      return tmpl;
     });
 
     return arc56;
