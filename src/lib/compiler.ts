@@ -7333,7 +7333,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       if (sp.key) {
         state.keys[sp.type].push({
           name: sp.name,
-          key: sp.key,
+          key: Buffer.from(sp.key).toString('base64'),
           keyType: 'bytes',
           valueType: typeInfoToABIString(sp.valueType),
         });
