@@ -14,8 +14,6 @@ interface StructFields {
 
 /** Describes a single key in app storage */
 interface StorageKey {
-  /** Human readable name */
-  name: string;
   /** Description of what this storage key holds */
   desc?: string;
   /** The type of the key */
@@ -27,8 +25,6 @@ interface StorageKey {
 }
 
 interface StorageMap {
-  /** Human readable name */
-  name: string;
   /** Description of what the key-value pairs in this mapping hold */
   desc?: string;
   /** The type of the keys in the map */
@@ -168,17 +164,17 @@ export interface ARC56Contract {
         bytes: number;
       };
     };
-    /** Describes single key-value pairs in the application's state */
+    /** Mapping of human-readable names to StorageKey objects */
     keys: {
-      global: StorageKey[];
-      local: StorageKey[];
-      box: StorageKey[];
+      global: { [name: string]: StorageKey };
+      local: { [name: string]: StorageKey };
+      box: { [name: string]: StorageKey };
     };
-    /** Describes key-value maps in the application's state */
+    /** Mapping of human-readable names to StorageMap objects */
     maps: {
-      global: StorageMap[];
-      local: StorageMap[];
-      box: StorageMap[];
+      global: { [name: string]: StorageMap };
+      local: { [name: string]: StorageMap };
+      box: { [name: string]: StorageMap };
     };
   };
   /** Supported bare actions for the contract. An action is a combination of call/create and an OnComplete */
@@ -199,11 +195,8 @@ export interface ARC56Contract {
   };
   /** ARC-28 events that MAY be emitted by this contract */
   events?: Array<Event>;
-  /** Template Variables */
+  /** A mapping of template variable names as they appear in the teal (not including TMPL_ prefix) and their respecive types */
   templateVariables?: {
-    /** The name of the template variable as it appears in the TEAL */
-    name: string;
-    /** The type of the value expected in the template variable */
-    type: ABIType | AVMBytes | StructName;
-  }[];
+    [name: string]: ABIType | AVMBytes | StructName;
+  };
 }

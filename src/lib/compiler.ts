@@ -7305,14 +7305,14 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         },
       },
       keys: {
-        global: [],
-        local: [],
-        box: [],
+        global: {},
+        local: {},
+        box: {},
       },
       maps: {
-        global: [],
-        local: [],
-        box: [],
+        global: {},
+        local: {},
+        box: {},
       },
     };
 
@@ -7331,12 +7331,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     Object.values(this.storageProps).forEach((sp) => {
       if (sp.key) {
-        state.keys[sp.type].push({
-          name: sp.name,
+        state.keys[sp.type][sp.name] = {
           key: Buffer.from(sp.key).toString('base64'),
           keyType: 'bytes',
           valueType: typeInfoToABIString(sp.valueType),
-        });
+        };
       } else {
         let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
         let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
@@ -7353,12 +7352,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           arc56.structs[keyType] = objectToStructFields(sp.keyType);
         }
 
-        state.maps[sp.type].push({
-          name: sp.name,
+        state.maps[sp.type][sp.name] = {
           keyType,
           valueType,
           prefix: sp.prefix,
-        });
+        };
       }
 
       if (sp.type === 'global' || sp.type === 'local') {
@@ -7405,20 +7403,20 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       }
     });
 
-    arc56.templateVariables = Object.keys(this.templateVars).map((k) => {
+    Object.keys(this.templateVars).forEach((k) => {
       const typeInfo = this.templateVars[k].type;
 
-      const tmpl = { name: k, type: typeInfoToABIString(typeInfo) };
-
+      let type = typeInfoToABIString(typeInfo);
       if (typeInfo.kind === 'object') {
         const structName = this.templateVars[k].initNode.getTypeArguments()[0].getText();
         if (!arc56.structs[structName]) {
           arc56.structs[structName] = objectToStructFields(typeInfo);
         }
-        tmpl.type = structName;
+        type = structName;
       }
 
-      return tmpl;
+      arc56.templateVariables ||= {};
+      arc56.templateVariables![k] = type;
     });
 
     return arc56;
