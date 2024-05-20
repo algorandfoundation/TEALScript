@@ -199,4 +199,11 @@ export interface ARC56Contract {
   templateVariables?: {
     [name: string]: ABIType | AVMBytes | StructName;
   };
+  /** The scratch variables used during runtime */
+  scratchVariables: {
+    [name: string]: {
+      slot: number;
+      type: ABIType | AVMBytes | StructName;
+    };
+  };
 }
