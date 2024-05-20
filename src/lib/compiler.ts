@@ -448,7 +448,7 @@ export type TEALInfo = {
 export default class Compiler {
   static diagsRan: string[] = [''];
 
-  private scratch: { [name: string]: { slot?: number; type: TypeInfo } } = {};
+  private scratch: { [name: string]: { slot?: number; type: TypeInfo; initNode: ts.CallExpression } } = {};
 
   private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
@@ -5562,14 +5562,14 @@ export default class Compiler {
       if (slot < 0 || slot > 200)
         throw Error('Scratch slot must be between 0 and 200 (inclusive). 201-256 is reserved for the compiler');
 
-      this.scratch[name] = { type, slot };
+      this.scratch[name] = { type, slot, initNode: init };
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'DynamicScratchSlot') {
       if (init.getTypeArguments()?.length !== 1) throw Error('ScratchSlot must have one type argument ');
 
       const type = this.getTypeInfo(init.getTypeArguments()[0].getType());
       const name = node.getNameNode().getText();
 
-      this.scratch[name] = { type };
+      this.scratch[name] = { type, initNode: init };
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'TemplateVar') {
       if (init.getTypeArguments()?.length !== 1) throw Error('TemplateVar must have one type argument ');
 
@@ -7416,7 +7416,26 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       }
 
       arc56.templateVariables ||= {};
-      arc56.templateVariables![k] = type;
+      arc56.templateVariables![k] = { type };
+    });
+
+    Object.keys(this.scratch).forEach((k) => {
+      const { slot } = this.scratch[k];
+      if (slot === undefined) return;
+
+      const typeInfo = this.scratch[k].type;
+
+      let type = typeInfoToABIString(typeInfo);
+      if (typeInfo.kind === 'object') {
+        const structName = this.scratch[k].initNode.getTypeArguments()[0].getText();
+        if (!arc56.structs[structName]) {
+          arc56.structs[structName] = objectToStructFields(typeInfo);
+        }
+        type = structName;
+      }
+
+      arc56.scratchVariables ||= {};
+      arc56.scratchVariables![k] = { type, slot };
     });
 
     return arc56;

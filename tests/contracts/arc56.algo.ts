@@ -18,6 +18,8 @@ export class ARC56Test extends Contract {
 
   someNumber = TemplateVar<uint64>();
 
+  someScratch = ScratchSlot<string>(77);
+
   foo(inputs: Inputs): Outputs {
     if (inputs.subtract.a < inputs.subtract.b) throw Error('subtract.a must be greater than subtract.b');
 
