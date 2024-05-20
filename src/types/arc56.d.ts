@@ -214,7 +214,7 @@ export interface ARC56Contract {
     };
   };
   /** The scratch variables used during runtime */
-  scratchVariables: {
+  scratchVariables?: {
     [name: string]: {
       slot: number;
       type: ABIType | AVMBytes | StructName;
