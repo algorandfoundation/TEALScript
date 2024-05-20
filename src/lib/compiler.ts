@@ -705,7 +705,7 @@ export default class Compiler {
 
   currentLoop?: string;
 
-  innerTxnHasBegun: boolean = false;
+  compiledPrograms: { [program in 'clear' | 'approval' | 'lsig']?: string } = {};
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
@@ -7221,6 +7221,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
+    if (Object.keys(this.templateVars).length === 0) {
+      this.compiledPrograms[program] = json.result;
+    }
+
     if (program === 'clear') return json;
 
     const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
@@ -7438,6 +7442,14 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       arc56.scratchVariables![k] = { type, slot };
     });
 
+    if (this.compiledPrograms.approval && this.compiledPrograms.clear) {
+      arc56.byteCode = {
+        compiler: 'algod',
+        approval: this.compiledPrograms.approval,
+        clear: this.compiledPrograms.clear,
+      };
+    }
+
     return arc56;
   }
 
@@ -7481,7 +7493,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           }
           break;
         default:
-          // TODO: boxes?
           break;
       }
     }

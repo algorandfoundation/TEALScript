@@ -39,3 +39,5 @@ export class ARC56Test extends Contract {
     this.boxMap({ add: { a: 1, b: 2 }, subtract: { a: 4, b: 3 } }).value = { sum: 3, difference: 1 };
   }
 }
+
+export class ARC56TestNoTemplateVars extends Contract {}
