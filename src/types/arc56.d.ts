@@ -37,7 +37,7 @@ interface StorageMap {
 
 interface SourceInfo {
   /** The line of pre-compiled TEAL */
-  teal: number;
+  teal?: number;
   /** The program counter offset(s) that correspond to this line of TEAL */
   pc?: Array<number>;
   /** A human-readable string that describes the error when the program fails at this given line of TEAL */
@@ -186,8 +186,17 @@ export interface ARC56Contract {
   };
   /** Information about the TEAL */
   sourceInfo?: SourceInfo[];
-  /** The pre-compiled TEAL that may contain template variables. MUST be omitted if included as part of ARC23, but otherwise MUST be defined. */
+  /** The pre-compiled TEAL that may contain template variables. MUST be omitted if included as part of ARC23 */
   source?: {
+    /** The approval program */
+    approval: string;
+    /** The clear program */
+    clear: string;
+  };
+  /** The compiled bytecode for the application. MUST be omitted if included as part of ARC23 */
+  byteCode?: {
+    /** The compiler used to generate the bytecode */
+    compiler: 'algod' | 'puya';
     /** The approval program */
     approval: string;
     /** The clear program */
