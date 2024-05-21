@@ -195,7 +195,14 @@ export interface ARC56Contract {
   };
   /** The compiled bytecode for the application. MUST be omitted if included as part of ARC23 */
   byteCode?: {
-    /** The compiler used to generate the bytecode */
+    /** The approval program */
+    approval: string;
+    /** The clear program */
+    clear: string;
+  };
+  /** Information used to get the given byteCode and/or PC values in sourceInfo. MUST be given if byteCode or PC values are present */
+  compilerInfo?: {
+    /** The name of the compiler */
     compiler: 'algod' | 'puya';
     /** Compiler version information */
     compilerVersion: {
@@ -204,10 +211,6 @@ export interface ARC56Contract {
       patch: number;
       commit?: string;
     };
-    /** The approval program */
-    approval: string;
-    /** The clear program */
-    clear: string;
   };
   /** ARC-28 events that MAY be emitted by this contract */
   events?: Array<Event>;

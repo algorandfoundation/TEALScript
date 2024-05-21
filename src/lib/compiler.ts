@@ -7467,11 +7467,16 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       arc56.scratchVariables![k] = { type, slot };
     });
 
-    if (this.algodVersion && this.compiledPrograms.approval && this.compiledPrograms.clear) {
+    if (this.compiledPrograms.approval && this.compiledPrograms.clear) {
       arc56.byteCode = {
-        compiler: 'algod',
         approval: this.compiledPrograms.approval,
         clear: this.compiledPrograms.clear,
+      };
+    }
+
+    if (this.algodVersion) {
+      arc56.compilerInfo = {
+        compiler: 'algod',
         compilerVersion: this.algodVersion,
       };
     }
