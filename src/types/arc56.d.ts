@@ -197,6 +197,13 @@ export interface ARC56Contract {
   byteCode?: {
     /** The compiler used to generate the bytecode */
     compiler: 'algod' | 'puya';
+    /** Compiler version information */
+    compilerVersion: {
+      major: number;
+      minor: number;
+      patch: number;
+      commit?: string;
+    };
     /** The approval program */
     approval: string;
     /** The clear program */

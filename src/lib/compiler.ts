@@ -707,6 +707,13 @@ export default class Compiler {
 
   compiledPrograms: { [program in 'clear' | 'approval' | 'lsig']?: string } = {};
 
+  algodVersion?: {
+    major: number;
+    minor: number;
+    patch: number;
+    commitHash: string;
+  };
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -7221,6 +7228,24 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       throw new Error(`${response.statusText}: ${json.message}`);
     }
 
+    if (!this.algodVersion) {
+      const versionResponse = await fetch(`${this.algodServer}:${this.algodPort}/versions`, {
+        method: 'GET',
+        headers: {
+          'X-Algo-API-Token': this.algodToken,
+        },
+      });
+
+      const versionJson = await versionResponse.json();
+
+      this.algodVersion = {
+        major: versionJson.build.major,
+        minor: versionJson.build.minor,
+        patch: versionJson.build.build_number,
+        commitHash: versionJson.build.commit_hash,
+      };
+    }
+
     if (Object.keys(this.templateVars).length === 0) {
       this.compiledPrograms[program] = json.result;
     }
@@ -7442,11 +7467,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       arc56.scratchVariables![k] = { type, slot };
     });
 
-    if (this.compiledPrograms.approval && this.compiledPrograms.clear) {
+    if (this.algodVersion && this.compiledPrograms.approval && this.compiledPrograms.clear) {
       arc56.byteCode = {
         compiler: 'algod',
         approval: this.compiledPrograms.approval,
         clear: this.compiledPrograms.clear,
+        compilerVersion: this.algodVersion,
       };
     }
 
