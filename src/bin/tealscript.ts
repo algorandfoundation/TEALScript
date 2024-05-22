@@ -56,7 +56,7 @@ async function processFile(filename: string, parsed: any) {
     const appPath = path.join(dir, `${name}.arc32.json`);
     const srcmapPath = path.join(dir, `${name}.src_map.json`);
     const lsigPath = path.join(dir, `${name}.lsig.teal`);
-    const arc56Path = path.join(dir, `${name}.arc56.json`);
+    const arc56Path = path.join(dir, `${name}.arc56_draft.json`);
 
     if (fs.existsSync(approvalPath)) fs.rmSync(approvalPath);
     if (fs.existsSync(clearPath)) fs.rmSync(clearPath);
