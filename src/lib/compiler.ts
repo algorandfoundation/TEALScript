@@ -5,15 +5,15 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project, SourceFile } from 'ts-morph';
+import { Project } from 'ts-morph';
 import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
+import { type ARC56Contract, type StructFields } from '../types/arc56.d';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -333,10 +333,12 @@ const PARAM_TYPES: { [param: string]: string } = {
 };
 
 interface StorageProp {
+  name: string;
   type: StorageType;
   key?: string;
   keyType: TypeInfo;
   valueType: TypeInfo;
+  initNode: ts.CallExpression;
   /** If true, always do a box_del before a box_put incase the size of the value changed */
   dynamicSize?: boolean;
   prefix?: string;
@@ -355,8 +357,8 @@ interface ABIMethod {
 
 interface Subroutine extends ABIMethod {
   allows: {
-    create: string[];
-    call: string[];
+    create: ('NoOp' | 'OptIn' | 'DeleteApplication')[];
+    call: OnComplete[];
   };
   nonAbi: {
     create: string[];
@@ -445,7 +447,7 @@ export type TEALInfo = {
 export default class Compiler {
   static diagsRan: string[] = [''];
 
-  private scratch: { [name: string]: { slot?: number; type: TypeInfo } } = {};
+  private scratch: { [name: string]: { slot?: number; type: TypeInfo; initNode: ts.CallExpression } } = {};
 
   private currentProgram: 'approval' | 'clear' | 'lsig' = 'approval';
 
@@ -688,7 +690,7 @@ export default class Compiler {
 
   programVersion = 10;
 
-  templateVars: Record<string, { name: string; type: TypeInfo }> = {};
+  templateVars: Record<string, { name: string; type: TypeInfo; initNode: ts.CallExpression }> = {};
 
   project: Project;
 
@@ -703,6 +705,15 @@ export default class Compiler {
   currentLoop?: string;
 
   innerTxnHasBegun: boolean = false;
+
+  compiledPrograms: { [program in 'clear' | 'approval' | 'lsig']?: string } = {};
+
+  algodVersion?: {
+    major: number;
+    minor: number;
+    patch: number;
+    commitHash: string;
+  };
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
@@ -1311,7 +1322,7 @@ export default class Compiler {
     },
   };
 
-  abiJSON() {
+  arc4Description() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const methods = [] as any[];
 
@@ -2397,16 +2408,16 @@ export default class Compiler {
             const c = new Compiler({ ...compilerOptions, srcPath, className });
             await c.compile();
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_INT')) {
-              return { teal: `int ${c.appSpec().state.global.num_uints}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.global.num_uints}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_GLOBAL_BYTES')) {
-              return { teal: `int ${c.appSpec().state.global.num_byte_slices}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.global.num_byte_slices}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_INT')) {
-              return { teal: `int ${c.appSpec().state.local.num_uints}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.local.num_uints}`, node: t.node };
             }
             if (tealLine.startsWith('PENDING_SCHEMA_LOCAL_BYTES')) {
-              return { teal: `int ${c.appSpec().state.local.num_byte_slices}`, node: t.node };
+              return { teal: `int ${c.arc32Description().state.local.num_byte_slices}`, node: t.node };
             }
           }
 
@@ -2907,7 +2918,7 @@ export default class Compiler {
       ['create', 'call'].forEach((a) => {
         const methods = this.abi.methods.filter((m) => {
           const subroutine = this.subroutines.find((s) => s.name === m.name)!;
-          return subroutine.allows[a as 'call' | 'create'].includes(onComplete);
+          return subroutine.allows[a as 'call'].includes(onComplete);
         });
 
         if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
@@ -4356,7 +4367,7 @@ export default class Compiler {
 
       const action = isCreate ? 'create' : 'call';
 
-      this.currentSubroutine.allows[action].push(oc);
+      this.currentSubroutine.allows[action as 'call'].push(oc);
     }
 
     node.getDecorators().forEach((d) => {
@@ -4414,7 +4425,7 @@ export default class Compiler {
               const action = decoratorFunction.replace('bare', '').toUpperCase() as 'CALL' | 'CREATE';
 
               this.bareCallConfig[oc] = { action, method: this.currentSubroutine.name };
-            } else this.currentSubroutine.allows[decoratorFunction as 'call' | 'create'].push(oc);
+            } else this.currentSubroutine.allows[decoratorFunction as 'call'].push(oc);
           }
           break;
 
@@ -5352,17 +5363,21 @@ export default class Compiler {
       if (klass.includes('Map')) {
         if (typeArgs.length !== 2) throw new Error(`Expected 2 type arguments for ${klass}`);
         props = {
+          name: node.getName(),
           type,
           keyType: this.getTypeInfo(typeArgs[0].getType()),
           valueType: this.getTypeInfo(typeArgs[1].getType()),
+          initNode: init,
         };
       } else {
         if (typeArgs.length !== 1) throw new Error(`Expected a type argument for ${klass}`);
 
         props = {
+          name: node.getName(),
           type,
           keyType: StackType.bytes,
           valueType: this.getTypeInfo(typeArgs[0].getType()),
+          initNode: init,
         };
       }
 
@@ -5555,14 +5570,14 @@ export default class Compiler {
       if (slot < 0 || slot > 200)
         throw Error('Scratch slot must be between 0 and 200 (inclusive). 201-256 is reserved for the compiler');
 
-      this.scratch[name] = { type, slot };
+      this.scratch[name] = { type, slot, initNode: init };
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'DynamicScratchSlot') {
       if (init.getTypeArguments()?.length !== 1) throw Error('ScratchSlot must have one type argument ');
 
       const type = this.getTypeInfo(init.getTypeArguments()[0].getType());
       const name = node.getNameNode().getText();
 
-      this.scratch[name] = { type };
+      this.scratch[name] = { type, initNode: init };
     } else if (init.isKind(ts.SyntaxKind.CallExpression) && init.getExpression().getText() === 'TemplateVar') {
       if (init.getTypeArguments()?.length !== 1) throw Error('TemplateVar must have one type argument ');
 
@@ -5575,6 +5590,7 @@ export default class Compiler {
       this.templateVars[node.getNameNode().getText()] = {
         type: this.getTypeInfo(init.getTypeArguments()[0].getType()),
         name,
+        initNode: init,
       };
     } else {
       throw new Error();
@@ -5747,9 +5763,9 @@ export default class Compiler {
     ) {
       const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
       if (isNumeric(type)) {
-        this.push(chain[0], `pushints TMPL_${name}`, type);
+        this.push(chain[0], `pushint TMPL_${name}`, type);
       } else {
-        this.push(chain[0], `pushbytes TMPL_${name}`, type);
+        this.push(chain[0], `pushbyte TMPL_${name}`, type);
       }
 
       chain.splice(0, 1);
@@ -7173,9 +7189,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/push(ints|bytes) TMPL_/)) {
+        if (t.match(/push(int|byte) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
-          if (opcode === 'pushints') return 'pushints 0';
+          if (opcode === 'pushint') return 'pushint 0';
 
           const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
@@ -7211,6 +7227,28 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       );
 
       throw new Error(`${response.statusText}: ${json.message}`);
+    }
+
+    if (!this.algodVersion) {
+      const versionResponse = await fetch(`${this.algodServer}:${this.algodPort}/versions`, {
+        method: 'GET',
+        headers: {
+          'X-Algo-API-Token': this.algodToken,
+        },
+      });
+
+      const versionJson = await versionResponse.json();
+
+      this.algodVersion = {
+        major: versionJson.build.major,
+        minor: versionJson.build.minor,
+        patch: versionJson.build.build_number,
+        commitHash: versionJson.build.commit_hash,
+      };
+    }
+
+    if (Object.keys(this.templateVars).length === 0) {
+      this.compiledPrograms[program] = json.result;
     }
 
     if (program === 'clear') return json;
@@ -7269,11 +7307,188 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     this.lastSourceCommentRange = [node.getStart(), node.getEnd()];
   }
 
+  arc56Description(): ARC56Contract {
+    const objectToStructFields = (typeInfo: TypeInfo & { kind: 'object' }) => {
+      const fields: StructFields = {};
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [field, type] of Object.entries(typeInfo.properties)) {
+        if (type.kind === 'object') {
+          fields[field] = objectToStructFields(type);
+        } else {
+          fields[field] = typeInfoToABIString(type);
+        }
+      }
+
+      return fields;
+    };
+
+    const state: ARC56Contract['state'] = {
+      schema: {
+        global: {
+          bytes: 0,
+          ints: 0,
+        },
+        local: {
+          bytes: 0,
+          ints: 0,
+        },
+      },
+      keys: {
+        global: {},
+        local: {},
+        box: {},
+      },
+      maps: {
+        global: {},
+        local: {},
+        box: {},
+      },
+    };
+
+    const arc56: ARC56Contract = {
+      ...this.arc4Description(),
+      arcs: [4, 56],
+      structs: {},
+      state,
+      bareActions: { create: [], call: [] },
+      sourceInfo: this.sourceInfo,
+      source: {
+        approval: Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64'),
+        clear: Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64'),
+      },
+    };
+
+    Object.values(this.storageProps).forEach((sp) => {
+      if (sp.key) {
+        state.keys[sp.type][sp.name] = {
+          key: Buffer.from(sp.key).toString('base64'),
+          keyType: 'bytes',
+          valueType: typeInfoToABIString(sp.valueType),
+        };
+      } else {
+        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
+        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
+
+        const typeArgs = sp.initNode.getTypeArguments();
+
+        if (sp.valueType.kind === 'object') {
+          valueType = typeArgs[sp.key ? 0 : 1].getText();
+          arc56.structs[valueType] = objectToStructFields(sp.valueType);
+        }
+
+        if (sp.keyType.kind === 'object') {
+          keyType = typeArgs[0].getText();
+          arc56.structs[keyType] = objectToStructFields(sp.keyType);
+        }
+
+        state.maps[sp.type][sp.name] = {
+          keyType,
+          valueType,
+          prefix: sp.prefix,
+        };
+      }
+
+      if (sp.type === 'global' || sp.type === 'local') {
+        if (isNumeric(sp.valueType)) {
+          state.schema[sp.type].ints += sp.maxKeys || 1;
+        } else {
+          state.schema[sp.type].bytes += sp.maxKeys || 1;
+        }
+      }
+    });
+
+    arc56.methods.forEach((m) => {
+      const subroutine = this.subroutines.find((s) => s.name === m.name)!;
+      const actions = subroutine.allows;
+
+      // eslint-disable-next-line no-param-reassign
+      m.actions = actions;
+
+      if (subroutine.node.isKind(ts.SyntaxKind.MethodDeclaration)) {
+        const returnTypeInfo = this.getTypeInfo(subroutine.node.getReturnType());
+
+        if (returnTypeInfo.kind === 'object') {
+          const structName = subroutine.node.getReturnType().getText();
+          // eslint-disable-next-line no-param-reassign
+          m.returns.struct = structName;
+          if (!arc56.structs[structName]) {
+            arc56.structs[structName] = objectToStructFields(returnTypeInfo);
+          }
+        }
+
+        subroutine.node.getParameters().forEach((p) => {
+          const arg = m.args.find((a) => a.name === p.getName())!;
+
+          const typeInfo = this.getTypeInfo(p.getType());
+
+          if (typeInfo.kind === 'object') {
+            const structName = p.getType().getText();
+            arg.struct = structName;
+            if (!arc56.structs[structName]) {
+              arc56.structs[structName] = objectToStructFields(typeInfo);
+            }
+          }
+        });
+      }
+    });
+
+    Object.keys(this.templateVars).forEach((k) => {
+      const typeInfo = this.templateVars[k].type;
+
+      let type = typeInfoToABIString(typeInfo);
+      if (typeInfo.kind === 'object') {
+        const structName = this.templateVars[k].initNode.getTypeArguments()[0].getText();
+        if (!arc56.structs[structName]) {
+          arc56.structs[structName] = objectToStructFields(typeInfo);
+        }
+        type = structName;
+      }
+
+      arc56.templateVariables ||= {};
+      arc56.templateVariables![k] = { type };
+    });
+
+    Object.keys(this.scratch).forEach((k) => {
+      const { slot } = this.scratch[k];
+      if (slot === undefined) return;
+
+      const typeInfo = this.scratch[k].type;
+
+      let type = typeInfoToABIString(typeInfo);
+      if (typeInfo.kind === 'object') {
+        const structName = this.scratch[k].initNode.getTypeArguments()[0].getText();
+        if (!arc56.structs[structName]) {
+          arc56.structs[structName] = objectToStructFields(typeInfo);
+        }
+        type = structName;
+      }
+
+      arc56.scratchVariables ||= {};
+      arc56.scratchVariables![k] = { type, slot };
+    });
+
+    if (this.compiledPrograms.approval && this.compiledPrograms.clear) {
+      arc56.byteCode = {
+        approval: this.compiledPrograms.approval,
+        clear: this.compiledPrograms.clear,
+      };
+    }
+
+    if (this.algodVersion) {
+      arc56.compilerInfo = {
+        compiler: 'algod',
+        compilerVersion: this.algodVersion,
+      };
+    }
+
+    return arc56;
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appSpec(): any {
+  arc32Description(): any {
     const approval = Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64');
     const clear = Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64');
-
     const globalDeclared: Record<string, object> = {};
     const localDeclared: Record<string, object> = {};
 
@@ -7289,7 +7504,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     };
     // eslint-disable-next-line no-restricted-syntax
     for (const [k, v] of Object.entries(this.storageProps)) {
-      // TODO; Proper global/local types?
       switch (v.type) {
         case 'global':
           if (isNumeric(v.valueType)) {
@@ -7311,7 +7525,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           }
           break;
         default:
-          // TODO: boxes?
           break;
       }
     }
@@ -7326,7 +7539,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     const hints: { [signature: string]: { call_config: { [action: string]: string } } } = {};
 
-    const appSpec = {
+    const arc32 = {
       hints,
       bare_call_config: {
         no_op: this.bareCallConfig.NoOp?.action || 'NEVER',
@@ -7341,7 +7554,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
       state,
       source: { approval, clear },
-      contract: this.abiJSON(),
+      contract: this.arc4Description(),
     };
 
     this.abi.methods.forEach((m) => {
@@ -7359,7 +7572,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       const subroutine = this.subroutines.find((s) => s.name === m.name)!;
 
       subroutine.allows.create.forEach((oc) => {
-        if (oc === 'ClearState') return;
         const snakeOC = oc
           .split(/\.?(?=[A-Z])/)
           .join('_')
@@ -7377,7 +7589,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       });
     });
 
-    return appSpec;
+    return arc32;
   }
 
   prettyTeal(teal: TEALInfo[]): TEALInfo[] {

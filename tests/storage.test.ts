@@ -109,7 +109,7 @@ describe('Storage', function () {
 
       appClient = algokit.getAppClient(
         {
-          app: JSON.stringify(compiler.appSpec()),
+          app: JSON.stringify(compiler.arc32Description()),
           sender: await sender,
           resolveBy: 'id',
           id: 0,

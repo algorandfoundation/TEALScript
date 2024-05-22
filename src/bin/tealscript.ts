@@ -56,6 +56,7 @@ async function processFile(filename: string, parsed: any) {
     const appPath = path.join(dir, `${name}.arc32.json`);
     const srcmapPath = path.join(dir, `${name}.src_map.json`);
     const lsigPath = path.join(dir, `${name}.lsig.teal`);
+    const arc56Path = path.join(dir, `${name}.arc56_draft.json`);
 
     if (fs.existsSync(approvalPath)) fs.rmSync(approvalPath);
     if (fs.existsSync(clearPath)) fs.rmSync(clearPath);
@@ -63,6 +64,7 @@ async function processFile(filename: string, parsed: any) {
     if (fs.existsSync(appPath)) fs.rmSync(appPath);
     if (fs.existsSync(srcmapPath)) fs.rmSync(srcmapPath);
     if (fs.existsSync(lsigPath)) fs.rmSync(lsigPath);
+    if (fs.existsSync(arc56Path)) fs.rmSync(arc56Path);
 
     if (compiler.teal.lsig.length > 0) {
       fs.writeFileSync(lsigPath, compiler.teal.lsig.map((t) => t.teal).join('\n'));
@@ -72,9 +74,10 @@ async function processFile(filename: string, parsed: any) {
 
     fs.writeFileSync(approvalPath, compiler.teal.approval.map((t) => t.teal).join('\n'));
     fs.writeFileSync(clearPath, compiler.teal.clear.map((t) => t.teal).join('\n'));
-    fs.writeFileSync(abiPath, JSON.stringify(compiler.abiJSON(), null, 2));
+    fs.writeFileSync(abiPath, JSON.stringify(compiler.arc4Description(), null, 2));
     fs.writeFileSync(srcmapPath, JSON.stringify(compiler.sourceInfo, null, 2));
-    fs.writeFileSync(appPath, JSON.stringify(compiler.appSpec(), null, 2));
+    fs.writeFileSync(appPath, JSON.stringify(compiler.arc32Description(), null, 2));
+    fs.writeFileSync(arc56Path, JSON.stringify(compiler.arc56Description(), null, 2));
   });
 }
 
