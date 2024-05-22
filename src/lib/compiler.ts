@@ -705,6 +705,8 @@ export default class Compiler {
 
   currentLoop?: string;
 
+  innerTxnHasBegun: boolean = false;
+
   compiledPrograms: { [program in 'clear' | 'approval' | 'lsig']?: string } = {};
 
   algodVersion?: {
