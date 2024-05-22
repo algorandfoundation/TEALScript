@@ -96,23 +96,25 @@ class GeneralTest extends Contract {
   }
 
   submitPendingGroup(): void {
-    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, isFirstTxn: true });
-    this.pendingGroup.addPayment({ amount: 0, receiver: this.app.address, note: 'foo' });
-    this.pendingGroup.submit();
+    this.txnComposer.beginGroup(new PayTxn({ amount: 0, receiver: this.app.address }));
+    this.txnComposer.addToGroup(new PayTxn({ amount: 0, receiver: this.app.address, note: 'foo' }));
+    this.txnComposer.sendGroup();
   }
 
   methodWithTxnArgs(): void {
-    sendMethodCall<[PayTxn, MethodCall<[uint64], void>], void>({
-      name: 'foo',
-      methodArgs: [
-        { amount: 100_000, receiver: this.txn.sender },
-        {
-          name: 'bar',
-          applicationID: AppID.fromUint64(1337),
-          methodArgs: [1],
-        },
-      ],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<[PayTxn, AppCallTxn], void>({
+        name: 'foo',
+        methodArgs: [
+          new PayTxn({ amount: 100_000, receiver: this.txn.sender }),
+          new MethodCallTxn<[uint64], void>({
+            name: 'bar',
+            applicationID: AppID.fromUint64(1337),
+            methodArgs: [1],
+          }),
+        ],
+      })
+    );
   }
 
   shift(): void {
@@ -161,15 +163,17 @@ class GeneralTest extends Contract {
   }
 
   staticContractProperties(): void {
-    sendAppCall({
-      onCompletion: OnCompletion.NoOp,
-      approvalProgram: DummyContract.approvalProgram(),
-      clearStateProgram: DummyContract.clearProgram(),
-      localNumByteSlice: DummyContract.schema.local.numByteSlice,
-      localNumUint: DummyContract.schema.local.numUint,
-      globalNumByteSlice: DummyContract.schema.global.numByteSlice,
-      globalNumUint: DummyContract.schema.global.numUint,
-    });
+    this.txnComposer.send(
+      new AppCallTxn({
+        onCompletion: OnCompletion.NoOp,
+        approvalProgram: DummyContract.approvalProgram(),
+        clearStateProgram: DummyContract.clearProgram(),
+        localNumByteSlice: DummyContract.schema.local.numByteSlice,
+        localNumUint: DummyContract.schema.local.numUint,
+        globalNumByteSlice: DummyContract.schema.global.numByteSlice,
+        globalNumUint: DummyContract.schema.global.numUint,
+      })
+    );
   }
 
   numberToString(): void {
@@ -427,9 +431,9 @@ class GeneralTest extends Contract {
   txnArgsMethod(_pay1: PayTxn): void {}
 
   callTxnArgsMethod(): void {
-    sendMethodCall<typeof GeneralTest.prototype.txnArgsMethod>({
-      methodArgs: [{ receiver: this.app.address, amount: 0 }],
-    });
+    GeneralTest.call({ applicationID: AppID.fromUint64(1337) }).txnArgsMethod(
+      new PayTxn({ receiver: this.app.address, amount: 0 })
+    );
   }
 
   staticValueLen(x: uint256): void {
@@ -471,10 +475,12 @@ class GeneralTest extends Contract {
   }
 
   assetMethodArgs(): void {
-    sendMethodCall<[AssetReference], void>({
-      name: 'foo',
-      methodArgs: [AssetID.fromUint64(1)],
-    });
+    this.txnComposer.send(
+      new MethodCallTxn<[AssetReference], void>({
+        name: 'foo',
+        methodArgs: [AssetID.fromUint64(1)],
+      })
+    );
   }
 
   pageOne = BoxKey<bytes>();
@@ -482,10 +488,12 @@ class GeneralTest extends Contract {
   pageTwo = BoxKey<bytes>();
 
   multipleProgramPages(): void {
-    sendAppCall({
-      approvalProgram: [this.pageOne.value, this.pageTwo.value],
-      clearStateProgram: [this.pageOne.value, this.pageTwo.value],
-    });
+    this.txnComposer.send(
+      new AppCallTxn({
+        approvalProgram: [this.pageOne.value, this.pageTwo.value],
+        clearStateProgram: [this.pageOne.value, this.pageTwo.value],
+      })
+    );
   }
 
   assertComment() {

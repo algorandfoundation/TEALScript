@@ -764,9 +764,9 @@ interface AppParams extends CommonTransactionParams {
 }
 
 interface KeyRegParams extends CommonTransactionParams {
-  votePk?: bytes;
+  votePK?: bytes;
   selectionPK?: bytes;
-  stateProofPk?: bytes;
+  stateProofPK?: bytes;
   voteFirst?: uint64;
   voteLast?: uint64;
   voteKeyDilution?: uint64;
@@ -781,12 +781,49 @@ interface OnlineKeyRegParams extends CommonTransactionParams {
   voteKeyDilution: uint64;
 }
 
-declare type PayTxn = Required<PaymentParams>;
-declare type AssetTransferTxn = Required<AssetTransferParams>;
-declare type AppCallTxn = AppOnChainTransactionParams & Required<AppParams>;
-declare type KeyRegTxn = Required<KeyRegParams>;
-declare type AssetConfigTxn = Required<AssetConfigParams>;
-declare type AssetFreezeTxn = Required<AssetFreezeParams>;
+interface PayTxn extends Required<PaymentParams> {}
+// eslint-disable-next-line no-redeclare
+class PayTxn {
+  constructor(params: PaymentParams);
+}
+
+interface AssetTransferTxn extends Required<AssetTransferParams> {}
+// eslint-disable-next-line no-redeclare
+class AssetTransferTxn {
+  constructor(params: AssetTransferParams);
+}
+
+interface AppCallTxn extends AppOnChainTransactionParams, Required<AppParams> {}
+// eslint-disable-next-line no-redeclare
+class AppCallTxn {
+  constructor(params: AppParams);
+}
+
+interface KeyRegTxn extends Required<KeyRegParams> {}
+// eslint-disable-next-line no-redeclare
+class KeyRegTxn {
+  constructor(params: KeyRegParams);
+}
+
+interface AssetConfigTxn extends Required<AssetConfigParams> {}
+// eslint-disable-next-line no-redeclare
+class AssetConfigTxn {
+  constructor(params: AssetConfigParams);
+}
+
+interface AssetFreezeTxn extends Required<AssetFreezeParams> {}
+// eslint-disable-next-line no-redeclare
+class AssetFreezeTxn {
+  constructor(params: AssetFreezeParams);
+}
+
+class AssetCreateTxn {
+  constructor(params: AssetCreateParams);
+}
+
+class MethodCallTxn<ArgTypes, ReturnType> {
+  constructor(params: MethodCallParams<ArgTypes>);
+}
 
 type SendMethodCallArgs<T> = {
   [K in keyof T]: T[K] extends PayTxn

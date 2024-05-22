@@ -45,7 +45,7 @@ boolInNestedTuple:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1442
+	// tests/contracts/abi.algo.ts:1444
 	// a: [[uint64, uint64, uint64], boolean, boolean] = [[0, 0, 0], true, false]
 	byte 0x000000000000000000000000000000000000000000000000
 	byte 0x00
@@ -58,7 +58,7 @@ boolInNestedTuple:
 	concat
 	frame_bury 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 
-	// tests/contracts/abi.algo.ts:1444
+	// tests/contracts/abi.algo.ts:1446
 	// a[1] = false
 	frame_dig 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 	store 255 // full array
@@ -68,7 +68,7 @@ boolInNestedTuple:
 	setbit
 	frame_bury 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 
-	// tests/contracts/abi.algo.ts:1445
+	// tests/contracts/abi.algo.ts:1447
 	// a[2] = true
 	frame_dig 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 	store 255 // full array
@@ -78,7 +78,7 @@ boolInNestedTuple:
 	setbit
 	frame_bury 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 
-	// tests/contracts/abi.algo.ts:1447
+	// tests/contracts/abi.algo.ts:1449
 	// return a[2];
 	frame_dig 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 	store 255 // full array

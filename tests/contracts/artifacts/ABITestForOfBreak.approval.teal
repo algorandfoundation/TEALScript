@@ -43,12 +43,12 @@ forOfBreak:
 	byte 0x
 	dupn 4
 
-	// tests/contracts/abi.algo.ts:1498
+	// tests/contracts/abi.algo.ts:1500
 	// a: StaticArray<uint64, 3> = [1, 2, 3]
 	byte 0x000000000000000100000000000000020000000000000003
 	frame_bury 0 // a: StaticArray<uint64, 3>
 
-	// tests/contracts/abi.algo.ts:1499
+	// tests/contracts/abi.algo.ts:1501
 	// sum = 0
 	int 0
 	frame_bury 1 // sum: uint64
@@ -63,7 +63,7 @@ forOfBreak:
 
 *forOf_0:
 	// *if0_condition
-	// tests/contracts/abi.algo.ts:1504
+	// tests/contracts/abi.algo.ts:1506
 	// sum > 2
 	frame_dig 1 // sum: uint64
 	int 2
@@ -74,7 +74,7 @@ forOfBreak:
 	b *forOf_0_end
 
 *if0_end:
-	// tests/contracts/abi.algo.ts:1505
+	// tests/contracts/abi.algo.ts:1507
 	// sum += v
 	frame_dig 1 // sum: uint64
 	frame_dig 3 // v: uint64
@@ -100,7 +100,7 @@ forOfBreak:
 	b *forOf_0
 
 *forOf_0_end:
-	// tests/contracts/abi.algo.ts:1507
+	// tests/contracts/abi.algo.ts:1509
 	// return sum;
 	frame_dig 1 // sum: uint64
 

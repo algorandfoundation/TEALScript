@@ -42,7 +42,7 @@ storagePropertyReferenceInBox:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// tests/contracts/abi.algo.ts:1544
+	// tests/contracts/abi.algo.ts:1546
 	// this.bMap('bMap').value = { foo: this.txn.sender, bar: { baz: 1337 } }
 	byte 0x0004624d6170
 	txn Sender
@@ -50,7 +50,7 @@ storagePropertyReferenceInBox:
 	concat
 	box_put
 
-	// tests/contracts/abi.algo.ts:1545
+	// tests/contracts/abi.algo.ts:1547
 	// v = this.bMap('bMap').value.bar.baz
 	byte 0x0004624d6170
 	int 32
@@ -59,7 +59,7 @@ storagePropertyReferenceInBox:
 	btoi
 	frame_bury 0 // v: uint64
 
-	// tests/contracts/abi.algo.ts:1546
+	// tests/contracts/abi.algo.ts:1548
 	// return v;
 	frame_dig 0 // v: uint64
 

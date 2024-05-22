@@ -48,7 +48,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 refTypes:
 	proto 3 0
 
-	// tests/contracts/abi.algo.ts:1526
+	// tests/contracts/abi.algo.ts:1528
 	// assert(!acct.isOptedInToAsset(asa))
 	frame_dig -1 // acct: AccountReference
 	frame_dig -3 // asa: AssetReference
@@ -58,7 +58,7 @@ refTypes:
 	!
 	assert
 
-	// tests/contracts/abi.algo.ts:1527
+	// tests/contracts/abi.algo.ts:1529
 	// assert(!app.address.isOptedInToAsset(asa))
 	frame_dig -2 // app: AppReference
 	app_params_get AppAddress

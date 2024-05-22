@@ -1036,12 +1036,12 @@ export default class Compiler {
     }
 
     if (type.getText() === 'Txn') return { kind: 'base', type: 'txn' };
-    if (type.getText() === 'Required<PaymentParams>') return { kind: 'base', type: 'pay' };
-    if (type.getText() === 'Required<AssetTransferParams>') return { kind: 'base', type: 'axfer' };
+    if (type.getText() === 'PayTxn') return { kind: 'base', type: 'pay' };
+    if (type.getText() === 'AssetTransferTxn') return { kind: 'base', type: 'axfer' };
     if (type.getText() === 'AppCallTxn') return { kind: 'base', type: 'appl' };
-    if (type.getText() === 'Required<KeyRegParams>') return { kind: 'base', type: 'keyreg' };
-    if (type.getText() === 'Required<AssetConfigParams>') return { kind: 'base', type: 'acfg' };
-    if (type.getText() === 'Required<AssetFreezeParams>') return { kind: 'base', type: 'afrz' };
+    if (type.getText() === 'KeyRegTxn') return { kind: 'base', type: 'keyreg' };
+    if (type.getText() === 'AssetConfigTxn') return { kind: 'base', type: 'acfg' };
+    if (type.getText() === 'AssetFreezeTxn') return { kind: 'base', type: 'afrz' };
 
     const aliasedTypeNode = this.getAliasedTypeNode(type);
 
@@ -1065,7 +1065,7 @@ export default class Compiler {
     } as { [key: string]: string };
 
     if (txnTypes[typeString]) return { kind: 'base', type: txnTypes[typeString] };
-    if (typeString.startsWith('methodcall')) {
+    if (typeString.startsWith('methodcall') && !typeString.startsWith('methodcalltxn')) {
       const typeArgs = type.getAliasTypeArguments();
       let args: TypeInfo[] = [];
       const returns = StackType.void;
@@ -5685,6 +5685,41 @@ export default class Compiler {
    * @param newValue New value to assign to the chain expression
    */
   private processThisBase(chain: ExpressionChainNode[], newValue?: ts.Node) {
+    // if this is a txnComposer call
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'txnComposer'
+    ) {
+      if (!chain[2].isKind(ts.SyntaxKind.CallExpression)) throw new Error('Unsupported method');
+      if (!chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw new Error('Unsupported method');
+
+      const method = chain[1].getNameNode().getText();
+
+      if (['send', 'beginGroup', 'addToGroup'].includes(method)) {
+        const arg = chain[2].getArguments()[0];
+
+        if (!arg.isKind(ts.SyntaxKind.NewExpression)) throw Error('Argument to send must be a new transaction');
+        const txnParams = arg.getArguments()[0];
+        if (!txnParams.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+          throw Error('Transaction params must be an object literal');
+        }
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(arg.getTypeArguments());
+
+        this.newProcessTransaction(chain[2], txnParams, {
+          methodArgTypes: argTypes,
+          methodReturnType: returnType,
+          useNext: method === 'addToGroup',
+          send: method === 'send',
+        });
+      } else if (method === 'sendGroup') {
+        this.pushVoid(chain[2], 'itxn_submit');
+      }
+
+      chain.splice(0, 3);
+      return;
+    }
+
     // If this is a pendingGroup call (ie. `this.pendingGroup.submit()`)
     if (
       chain[0] &&
@@ -5989,6 +6024,257 @@ export default class Compiler {
     }
   }
 
+  private newProcessTransaction(
+    node: ts.Node,
+    fields: ts.ObjectLiteralExpression | undefined,
+    optionalParams?: {
+      methodName?: string;
+      methodArgs?: ts.Node[];
+      methodArgTypes?: TypeInfo[];
+      methodReturnType?: TypeInfo;
+      useNext?: boolean;
+      send?: boolean;
+      createdContract?: string;
+    }
+  ) {
+    let txnArgCount = 0;
+    const argTypeStrings = optionalParams?.methodArgTypes?.map((t) => typeInfoToABIString(t)) || [];
+
+    const preProcessMethodArgs = (args: ts.Node[]) => {
+      args.forEach((e, i: number) => {
+        if (TXN_TYPES.includes(argTypeStrings[i])) {
+          if (e.isKind(ts.SyntaxKind.NewExpression)) {
+            const typeArgs = e.getTypeArguments();
+            const firstTypeArg = typeArgs[0];
+
+            let methodArgTypes: TypeInfo[] | undefined;
+            let methodReturnType: TypeInfo | undefined;
+            if (firstTypeArg?.isKind(ts.SyntaxKind.TupleType)) {
+              methodArgTypes = firstTypeArg.getElements().map((t) => this.getTypeInfo(t.getType()));
+            }
+
+            this.newProcessTransaction(e, e.getArguments()[0] as ts.ObjectLiteralExpression, {
+              methodArgTypes,
+              methodReturnType,
+              useNext: optionalParams?.useNext || txnArgCount > 0,
+            });
+          }
+
+          txnArgCount += 1;
+        }
+      });
+    };
+
+    fields?.getProperties().forEach((p) => {
+      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+      const key = p.getNameNode()?.getText();
+
+      if (key === 'methodArgs') {
+        const init = p.getInitializer();
+        if (!init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) throw new Error('methodArgs must be an array');
+
+        preProcessMethodArgs(init.getElements());
+      }
+    });
+
+    if (optionalParams?.methodArgs) preProcessMethodArgs(optionalParams.methodArgs);
+
+    const fieldsParent = fields?.getParent();
+
+    let txnType: TransactionType | undefined;
+    let isAssetCreate = false;
+
+    if (optionalParams?.methodName) txnType = TransactionType.ApplicationCallTx;
+    else if (fieldsParent?.isKind(ts.SyntaxKind.NewExpression)) {
+      const className = fieldsParent.getExpression().getText();
+
+      if (className === 'AssetCreateTxn') isAssetCreate = true;
+
+      const txnClassMapping = {
+        PayTxn: 'pay',
+        AssetTransferTxn: 'axfer',
+        KeyRegTxn: 'keyreg',
+        MethodCallTxn: 'appl',
+        AssetConfigTxn: 'acfg',
+        AssetCreateTxn: 'acfg',
+        AppCallTxn: 'appl',
+        AssetFreezeTxn: 'afrz',
+      };
+
+      txnType = txnClassMapping[className as keyof typeof txnClassMapping] as TransactionType;
+    }
+
+    if (txnType === undefined) throw Error('Unknown transaction type');
+
+    if (txnArgCount > 0) this.addSourceComment(node, true);
+    this.pushVoid(node, `itxn_${optionalParams?.useNext || txnArgCount > 0 ? 'next' : 'begin'}`);
+
+    this.pushLines(node, `int ${txnType}`, 'itxn_field TypeEnum');
+
+    let methodName = optionalParams?.methodName;
+
+    if (methodName === undefined && txnType === TransactionType.ApplicationCallTx) {
+      const nameProp = fields
+        ?.getProperties()
+        .find((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText() === 'name');
+
+      if (nameProp) {
+        if (!nameProp.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+        const init = nameProp.getInitializer();
+        if (!init?.isKind(ts.SyntaxKind.StringLiteral)) throw Error();
+
+        methodName = init.getLiteralText();
+      }
+    }
+
+    if (methodName) {
+      const argsString = (optionalParams?.methodArgTypes || [])
+        ?.map((t) => typeInfoToABIString(t))
+        .join(',')
+        // any[] is used for default lifecycle methods, which we want to remove
+        .replace('any[]', '');
+
+      this.pushVoid(
+        node,
+        `method "${methodName}(${argsString})${typeInfoToABIString(
+          optionalParams?.methodReturnType || StackType.void,
+          true
+        )}"`
+      );
+      this.pushVoid(node, 'itxn_field ApplicationArgs');
+    }
+
+    if (optionalParams?.createdContract) {
+      this.pushVoid(node, `// ${optionalParams.createdContract} creation fields`);
+      this.pushLines(node, `PENDING_COMPILE_APPROVAL: ${optionalParams.createdContract}`, 'itxn_field ApprovalProgram');
+      this.pushLines(node, `PENDING_COMPILE_CLEAR: ${optionalParams.createdContract}`, 'itxn_field ClearStateProgram');
+      this.pushLines(node, `PENDING_SCHEMA_GLOBAL_INT: ${optionalParams.createdContract}`, 'itxn_field GlobalNumUint');
+      this.pushLines(
+        node,
+        `PENDING_SCHEMA_GLOBAL_BYTES: ${optionalParams.createdContract}`,
+        'itxn_field GlobalNumByteSlice'
+      );
+      this.pushLines(node, `PENDING_SCHEMA_LOCAL_INT: ${optionalParams.createdContract}`, 'itxn_field LocalNumUint');
+      this.pushLines(
+        node,
+        `PENDING_SCHEMA_LOCAL_BYTES: ${optionalParams.createdContract}`,
+        'itxn_field LocalNumByteSlice'
+      );
+    }
+
+    const processMethodArgs = (args: ts.Node[]) => {
+      let accountIndex = 1;
+      let appIndex = 1;
+      let assetIndex = 0;
+
+      args.forEach((e, i: number) => {
+        this.addSourceComment(e, true);
+        if (argTypeStrings[i] === 'account') {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Accounts');
+          this.pushVoid(e, `int ${accountIndex}`);
+          this.pushVoid(e, 'itob');
+          accountIndex += 1;
+        } else if (argTypeStrings[i] === 'asset') {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Assets');
+          this.pushVoid(e, `int ${assetIndex}`);
+          this.pushVoid(e, 'itob');
+          assetIndex += 1;
+          // if it's an appl but NOT a method call
+        } else if (argTypeStrings[i] === 'appl' && !e.isKind(ts.SyntaxKind.NewExpression)) {
+          this.processNode(e);
+          this.pushVoid(e, 'itxn_field Applications');
+          this.pushVoid(e, `int ${appIndex}`);
+          this.pushVoid(e, 'itob');
+          appIndex += 1;
+        } else if (argTypeStrings[i] === 'uint64') {
+          this.processNode(e);
+          typeComparison(this.lastType, optionalParams!.methodArgTypes![i]);
+          this.pushVoid(e, 'itob');
+        } else if (TXN_TYPES.includes(argTypeStrings[i])) {
+          return;
+        } else {
+          const prevTypeHint = this.typeHint;
+          this.typeHint = optionalParams!.methodArgTypes![i];
+          this.processNode(e);
+          this.checkEncoding(e, optionalParams!.methodArgTypes![i]);
+          this.typeHint = prevTypeHint;
+        }
+        this.pushVoid(e, 'itxn_field ApplicationArgs');
+      });
+    };
+
+    fields?.getProperties().forEach((p) => {
+      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw Error();
+      const key = p.getNameNode()?.getText();
+      const init = p.getInitializer();
+
+      if (key === undefined) throw new Error('Key must be defined');
+
+      if (key === 'name' && txnType === TransactionType.ApplicationCallTx) {
+        return;
+      }
+
+      this.addSourceComment(p, true);
+      this.pushComments(p);
+
+      if (
+        (key === 'approvalProgram' || key === 'clearStateProgram') &&
+        init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)
+      ) {
+        init.getElements().forEach((e) => {
+          this.processNode(e);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}Pages`);
+        });
+      } else if (key === 'onCompletion') {
+        if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          throw new Error('Must use OnCompletion enum');
+        }
+
+        const oc = init.getNameNode().getText() as OnComplete;
+        this.pushVoid(p.getInitializer()!, `int ${ON_COMPLETES.indexOf(oc)} // ${oc}`);
+        this.pushVoid(p, 'itxn_field OnCompletion');
+      } else if (key === 'methodArgs') {
+        if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+          throw new Error('methodArgs must be an array');
+        }
+        processMethodArgs(init.getElements());
+      } else if (p.isKind(ts.SyntaxKind.PropertyAssignment) && init?.isKind(ts.SyntaxKind.ArrayLiteralExpression)) {
+        init.getElements().forEach((e) => {
+          this.processNode(e);
+          this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}`);
+        });
+      } else if (p.isKind(ts.SyntaxKind.PropertyAssignment)) {
+        this.processNode(p.getInitializer()!);
+        this.pushVoid(p, `itxn_field ${capitalizeFirstChar(key)}`);
+      }
+    });
+
+    if (optionalParams?.methodArgs) processMethodArgs(optionalParams.methodArgs);
+
+    if (
+      !fields
+        ?.getProperties()
+        .map((p) => p.isKind(ts.SyntaxKind.PropertyAssignment) && p.getNameNode()?.getText())
+        .includes('fee')
+    ) {
+      this.pushLines(node, '// Fee field not set, defaulting to 0', 'int 0', 'itxn_field Fee');
+    }
+
+    if (optionalParams?.send) {
+      this.pushLines(node, '// Submit inner transaction', 'itxn_submit');
+
+      if (optionalParams?.methodReturnType && !equalTypes(optionalParams.methodReturnType, StackType.void)) {
+        this.pushLines(node, 'itxn NumLogs', 'int 1', '-', 'itxnas Logs', 'extract 4 0');
+        this.checkDecoding(node, optionalParams.methodReturnType);
+        this.lastType = optionalParams.methodReturnType;
+      } else if (isAssetCreate) {
+        this.push(node, 'itxn CreatedAssetID', ForeignType.Asset);
+      }
+    }
+  }
+
   private methodTypeArgsToTypes(typeArgs: ts.TypeNode[]) {
     let argTypes: TypeInfo[] = [];
     let name: string | undefined;
@@ -6116,6 +6402,38 @@ export default class Compiler {
                 StackType.uint64
               );
               chain.splice(0, 3);
+
+              break;
+            case 'create':
+            case 'call':
+              if (!chain[1].isKind(ts.SyntaxKind.CallExpression)) throw Error(`call must be a function call`);
+              if (!chain[2].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error(`call must be a function call`);
+              if (!chain[3].isKind(ts.SyntaxKind.CallExpression)) throw Error(`call must be a function call`);
+
+              // eslint-disable-next-line no-case-declarations
+              const methodName = chain[2].getName();
+
+              // eslint-disable-next-line no-case-declarations
+              const methodSig = chain[2].getType().getCallSignatures()[0];
+
+              // eslint-disable-next-line no-case-declarations
+              const methodArgTypes = methodSig
+                .getParameters()
+                .map((param) => this.getTypeInfo(param.getDeclarations()[0].getType()));
+
+              // eslint-disable-next-line no-case-declarations
+              const methodReturnType = this.getTypeInfo(methodSig.getReturnType());
+
+              this.newProcessTransaction(chain[3], chain[1].getArguments()[0] as ts.ObjectLiteralExpression, {
+                methodArgTypes,
+                methodReturnType,
+                methodName,
+                methodArgs: chain[3].getArguments(),
+                send: true,
+                createdContract: propName === 'create' ? base.getText() : undefined,
+              });
+
+              chain.splice(0, 4);
 
               break;
             default:
@@ -6877,6 +7195,13 @@ export default class Compiler {
     if (this.currentProgram === 'clear') throw Error('Inner transactions not allowed in clear state program');
     if (this.currentProgram === 'lsig') throw Error('Inner transaction not allowed in logic signatures');
 
+    if (fields.isKind(ts.SyntaxKind.NewExpression)) {
+      // eslint-disable-next-line no-param-reassign
+      name = fields.getExpression().getText();
+      // eslint-disable-next-line no-param-reassign
+      [fields] = fields.getArguments();
+    }
+
     if (!fields.isKind(ts.SyntaxKind.ObjectLiteralExpression))
       throw new Error('Transaction fields must be an object literal');
 
@@ -6926,29 +7251,36 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     switch (method.replace('generic ', '')) {
       case 'pay':
       case 'Payment':
+      case 'PayTxn':
         txnType = TransactionType.PaymentTx;
         break;
       case 'axfer':
       case 'AssetTransfer':
+      case 'AssetTransferTxn':
         txnType = TransactionType.AssetTransferTx;
         break;
       case 'appl':
       case 'MethodCall':
       case 'AppCall':
+      case 'AppCallTxn':
         txnType = TransactionType.ApplicationCallTx;
         break;
       case 'acfg':
       case 'AssetCreation':
       case 'AssetConfig':
+      case 'AssetConfigTxn':
+      case 'AssetCreateTxn':
         txnType = TransactionType.AssetConfigTx;
         break;
       case 'afrz':
       case 'AssetFreeze':
+      case 'AssetFreezeTxn':
         txnType = TransactionType.AssetFreezeTx;
         break;
       case 'keyreg':
       case 'OfflineKeyRegistration':
       case 'OnlineKeyRegistration':
+      case 'KeyRegTxn':
         txnType = TransactionType.KeyRegistrationTx;
         break;
       default:

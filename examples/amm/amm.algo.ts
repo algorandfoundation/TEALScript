@@ -23,22 +23,26 @@ class ConstantProductAMM extends Contract {
   private doCreatePoolToken(aAsset: AssetID, bAsset: AssetID): AssetID {
     // Unit name asserts not needed since it's done automatically by AssetID.unitName
 
-    return sendAssetCreation({
-      configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName,
-      configAssetUnitName: 'dpt',
-      configAssetTotal: TOTAL_SUPPLY,
-      configAssetDecimals: 3,
-      configAssetManager: this.app.address,
-      configAssetReserve: this.app.address,
-    });
+    return this.txnComposer.send(
+      new AssetCreateTxn({
+        configAssetName: 'DPT-' + aAsset.unitName + '-' + bAsset.unitName,
+        configAssetUnitName: 'dpt',
+        configAssetTotal: TOTAL_SUPPLY,
+        configAssetDecimals: 3,
+        configAssetManager: this.app.address,
+        configAssetReserve: this.app.address,
+      })
+    );
   }
 
   private doAxfer(receiver: Address, asset: AssetID, amount: uint64): void {
-    sendAssetTransfer({
-      assetReceiver: receiver,
-      xferAsset: asset,
-      assetAmount: amount,
-    });
+    this.txnComposer.send(
+      new AssetTransferTxn({
+        assetReceiver: receiver,
+        xferAsset: asset,
+        assetAmount: amount,
+      })
+    );
   }
 
   private doOptIn(asset: AssetID): void {

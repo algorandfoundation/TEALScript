@@ -34,44 +34,46 @@ payment:
 	proto 0 0
 
 	// tests/contracts/itxns.algo.ts:6
-	// sendPayment({
-	//       amount: 100,
-	//       receiver: this.app.address,
-	//       closeRemainderTo: globals.zeroAddress,
-	//       sender: this.app.address,
-	//       rekeyTo: globals.zeroAddress,
-	//       note: 'Hello World!',
-	//     })
+	// this.txnComposer.send(
+	//       new PayTxn({
+	//         amount: 100,
+	//         receiver: this.app.address,
+	//         closeRemainderTo: globals.zeroAddress,
+	//         sender: this.app.address,
+	//         rekeyTo: globals.zeroAddress,
+	//         note: 'Hello World!',
+	//       })
+	//     )
 	itxn_begin
 	int pay
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:7
+	// tests/contracts/itxns.algo.ts:8
 	// amount: 100
 	int 100
 	itxn_field Amount
 
-	// tests/contracts/itxns.algo.ts:8
+	// tests/contracts/itxns.algo.ts:9
 	// receiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Receiver
 
-	// tests/contracts/itxns.algo.ts:9
+	// tests/contracts/itxns.algo.ts:10
 	// closeRemainderTo: globals.zeroAddress
 	global ZeroAddress
 	itxn_field CloseRemainderTo
 
-	// tests/contracts/itxns.algo.ts:10
+	// tests/contracts/itxns.algo.ts:11
 	// sender: this.app.address
 	global CurrentApplicationAddress
 	itxn_field Sender
 
-	// tests/contracts/itxns.algo.ts:11
+	// tests/contracts/itxns.algo.ts:12
 	// rekeyTo: globals.zeroAddress
 	global ZeroAddress
 	itxn_field RekeyTo
 
-	// tests/contracts/itxns.algo.ts:12
+	// tests/contracts/itxns.algo.ts:13
 	// note: 'Hello World!'
 	byte 0x48656c6c6f20576f726c6421 // "Hello World!"
 	itxn_field Note
@@ -101,69 +103,71 @@ payment:
 assetCreation:
 	proto 0 1
 
-	// tests/contracts/itxns.algo.ts:17
-	// return sendAssetCreation({
-	//       configAssetName: 'name',
-	//       configAssetUnitName: 'unit',
-	//       configAssetTotal: 1,
-	//       configAssetManager: this.app.address,
-	//       configAssetReserve: this.app.address,
-	//       configAssetFreeze: this.app.address,
-	//       configAssetClawback: this.app.address,
-	//       configAssetDefaultFrozen: 0,
-	//       configAssetURL: 'url',
-	//       configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-	//     });
+	// tests/contracts/itxns.algo.ts:19
+	// return this.txnComposer.send(
+	//       new AssetCreateTxn({
+	//         configAssetName: 'name',
+	//         configAssetUnitName: 'unit',
+	//         configAssetTotal: 1,
+	//         configAssetManager: this.app.address,
+	//         configAssetReserve: this.app.address,
+	//         configAssetFreeze: this.app.address,
+	//         configAssetClawback: this.app.address,
+	//         configAssetDefaultFrozen: 0,
+	//         configAssetURL: 'url',
+	//         configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       })
+	//     );
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:18
+	// tests/contracts/itxns.algo.ts:21
 	// configAssetName: 'name'
 	byte 0x6e616d65 // "name"
 	itxn_field ConfigAssetName
 
-	// tests/contracts/itxns.algo.ts:19
+	// tests/contracts/itxns.algo.ts:22
 	// configAssetUnitName: 'unit'
 	byte 0x756e6974 // "unit"
 	itxn_field ConfigAssetUnitName
 
-	// tests/contracts/itxns.algo.ts:20
+	// tests/contracts/itxns.algo.ts:23
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
 
-	// tests/contracts/itxns.algo.ts:21
+	// tests/contracts/itxns.algo.ts:24
 	// configAssetManager: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetManager
 
-	// tests/contracts/itxns.algo.ts:22
+	// tests/contracts/itxns.algo.ts:25
 	// configAssetReserve: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetReserve
 
-	// tests/contracts/itxns.algo.ts:23
+	// tests/contracts/itxns.algo.ts:26
 	// configAssetFreeze: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetFreeze
 
-	// tests/contracts/itxns.algo.ts:24
+	// tests/contracts/itxns.algo.ts:27
 	// configAssetClawback: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetClawback
 
-	// tests/contracts/itxns.algo.ts:25
+	// tests/contracts/itxns.algo.ts:28
 	// configAssetDefaultFrozen: 0
 	int 0
 	itxn_field ConfigAssetDefaultFrozen
 
-	// tests/contracts/itxns.algo.ts:26
+	// tests/contracts/itxns.algo.ts:29
 	// configAssetURL: 'url'
 	byte 0x75726c // "url"
 	itxn_field ConfigAssetURL
 
-	// tests/contracts/itxns.algo.ts:27
+	// tests/contracts/itxns.algo.ts:30
 	// configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field ConfigAssetMetadataHash
@@ -188,83 +192,85 @@ assetCreation:
 appCall:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:32
-	// sendAppCall({
-	//       accounts: [this.app.address],
-	//       applicationArgs: ['arg1', 'arg2'],
-	//       applicationID: this.app,
-	//       applications: [this.app],
-	//       approvalProgram: 'approval',
-	//       assets: [AssetID.zeroIndex],
-	//       clearStateProgram: 'clear',
-	//       globalNumByteSlice: 1,
-	//       globalNumUint: 1,
-	//       localNumByteSlice: 1,
-	//       localNumUint: 1,
-	//       note: 'note',
-	//     })
+	// tests/contracts/itxns.algo.ts:36
+	// this.txnComposer.send(
+	//       new AppCallTxn({
+	//         accounts: [this.app.address],
+	//         applicationArgs: ['arg1', 'arg2'],
+	//         applicationID: this.app,
+	//         applications: [this.app],
+	//         approvalProgram: 'approval',
+	//         assets: [AssetID.zeroIndex],
+	//         clearStateProgram: 'clear',
+	//         globalNumByteSlice: 1,
+	//         globalNumUint: 1,
+	//         localNumByteSlice: 1,
+	//         localNumUint: 1,
+	//         note: 'note',
+	//       })
+	//     )
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:33
+	// tests/contracts/itxns.algo.ts:38
 	// accounts: [this.app.address]
 	global CurrentApplicationAddress
 	itxn_field Accounts
 
-	// tests/contracts/itxns.algo.ts:34
+	// tests/contracts/itxns.algo.ts:39
 	// applicationArgs: ['arg1', 'arg2']
 	byte 0x61726731 // "arg1"
 	itxn_field ApplicationArgs
 	byte 0x61726732 // "arg2"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:35
+	// tests/contracts/itxns.algo.ts:40
 	// applicationID: this.app
 	txna Applications 0
 	itxn_field ApplicationID
 
-	// tests/contracts/itxns.algo.ts:36
+	// tests/contracts/itxns.algo.ts:41
 	// applications: [this.app]
 	txna Applications 0
 	itxn_field Applications
 
-	// tests/contracts/itxns.algo.ts:37
+	// tests/contracts/itxns.algo.ts:42
 	// approvalProgram: 'approval'
 	byte 0x617070726f76616c // "approval"
 	itxn_field ApprovalProgram
 
-	// tests/contracts/itxns.algo.ts:38
+	// tests/contracts/itxns.algo.ts:43
 	// assets: [AssetID.zeroIndex]
 	int 0
 	itxn_field Assets
 
-	// tests/contracts/itxns.algo.ts:39
+	// tests/contracts/itxns.algo.ts:44
 	// clearStateProgram: 'clear'
 	byte 0x636c656172 // "clear"
 	itxn_field ClearStateProgram
 
-	// tests/contracts/itxns.algo.ts:40
+	// tests/contracts/itxns.algo.ts:45
 	// globalNumByteSlice: 1
 	int 1
 	itxn_field GlobalNumByteSlice
 
-	// tests/contracts/itxns.algo.ts:41
+	// tests/contracts/itxns.algo.ts:46
 	// globalNumUint: 1
 	int 1
 	itxn_field GlobalNumUint
 
-	// tests/contracts/itxns.algo.ts:42
+	// tests/contracts/itxns.algo.ts:47
 	// localNumByteSlice: 1
 	int 1
 	itxn_field LocalNumByteSlice
 
-	// tests/contracts/itxns.algo.ts:43
+	// tests/contracts/itxns.algo.ts:48
 	// localNumUint: 1
 	int 1
 	itxn_field LocalNumUint
 
-	// tests/contracts/itxns.algo.ts:44
+	// tests/contracts/itxns.algo.ts:49
 	// note: 'note'
 	byte 0x6e6f7465 // "note"
 	itxn_field Note
@@ -288,39 +294,41 @@ appCall:
 assetConfig:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:49
-	// sendAssetConfig({
-	//       configAsset: AssetID.zeroIndex,
-	//       configAssetManager: this.app.address,
-	//       configAssetReserve: this.app.address,
-	//       configAssetFreeze: this.app.address,
-	//       configAssetClawback: this.app.address,
-	//     })
+	// tests/contracts/itxns.algo.ts:55
+	// this.txnComposer.send(
+	//       new AssetConfigTxn({
+	//         configAsset: AssetID.zeroIndex,
+	//         configAssetManager: this.app.address,
+	//         configAssetReserve: this.app.address,
+	//         configAssetFreeze: this.app.address,
+	//         configAssetClawback: this.app.address,
+	//       })
+	//     )
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:50
+	// tests/contracts/itxns.algo.ts:57
 	// configAsset: AssetID.zeroIndex
 	int 0
 	itxn_field ConfigAsset
 
-	// tests/contracts/itxns.algo.ts:51
+	// tests/contracts/itxns.algo.ts:58
 	// configAssetManager: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetManager
 
-	// tests/contracts/itxns.algo.ts:52
+	// tests/contracts/itxns.algo.ts:59
 	// configAssetReserve: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetReserve
 
-	// tests/contracts/itxns.algo.ts:53
+	// tests/contracts/itxns.algo.ts:60
 	// configAssetFreeze: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetFreeze
 
-	// tests/contracts/itxns.algo.ts:54
+	// tests/contracts/itxns.algo.ts:61
 	// configAssetClawback: this.app.address
 	global CurrentApplicationAddress
 	itxn_field ConfigAssetClawback
@@ -344,27 +352,29 @@ assetConfig:
 assetFreeze:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:59
-	// sendAssetFreeze({
-	//       freezeAssetFrozen: true,
-	//       freezeAssetAccount: this.app.address,
-	//       freezeAsset: AssetID.zeroIndex,
-	//     })
+	// tests/contracts/itxns.algo.ts:67
+	// this.txnComposer.send(
+	//       new AssetFreezeTxn({
+	//         freezeAssetFrozen: true,
+	//         freezeAssetAccount: this.app.address,
+	//         freezeAsset: AssetID.zeroIndex,
+	//       })
+	//     )
 	itxn_begin
 	int afrz
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:60
+	// tests/contracts/itxns.algo.ts:69
 	// freezeAssetFrozen: true
 	int 1
 	itxn_field FreezeAssetFrozen
 
-	// tests/contracts/itxns.algo.ts:61
+	// tests/contracts/itxns.algo.ts:70
 	// freezeAssetAccount: this.app.address
 	global CurrentApplicationAddress
 	itxn_field FreezeAssetAccount
 
-	// tests/contracts/itxns.algo.ts:62
+	// tests/contracts/itxns.algo.ts:71
 	// freezeAsset: AssetID.zeroIndex
 	int 0
 	itxn_field FreezeAsset
@@ -388,39 +398,41 @@ assetFreeze:
 assetTransfer:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:67
-	// sendAssetTransfer({
-	//       assetAmount: 1,
-	//       assetCloseTo: this.app.address,
-	//       assetReceiver: this.app.address,
-	//       assetSender: this.app.address,
-	//       xferAsset: AssetID.zeroIndex,
-	//     })
+	// tests/contracts/itxns.algo.ts:77
+	// this.txnComposer.send(
+	//       new AssetTransferTxn({
+	//         assetAmount: 1,
+	//         assetCloseTo: this.app.address,
+	//         assetReceiver: this.app.address,
+	//         assetSender: this.app.address,
+	//         xferAsset: AssetID.zeroIndex,
+	//       })
+	//     )
 	itxn_begin
 	int axfer
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:68
+	// tests/contracts/itxns.algo.ts:79
 	// assetAmount: 1
 	int 1
 	itxn_field AssetAmount
 
-	// tests/contracts/itxns.algo.ts:69
+	// tests/contracts/itxns.algo.ts:80
 	// assetCloseTo: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetCloseTo
 
-	// tests/contracts/itxns.algo.ts:70
+	// tests/contracts/itxns.algo.ts:81
 	// assetReceiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// tests/contracts/itxns.algo.ts:71
+	// tests/contracts/itxns.algo.ts:82
 	// assetSender: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetSender
 
-	// tests/contracts/itxns.algo.ts:72
+	// tests/contracts/itxns.algo.ts:83
 	// xferAsset: AssetID.zeroIndex
 	int 0
 	itxn_field XferAsset
@@ -450,22 +462,29 @@ assetTransfer:
 methodCall:
 	proto 0 1
 
-	// tests/contracts/itxns.algo.ts:77
-	// return sendMethodCall<[AppID, AssetID], AssetID>({
-	//       name: 'method',
-	//       methodArgs: [this.app, AssetID.zeroIndex],
-	//     });
+	// tests/contracts/itxns.algo.ts:89
+	// return this.txnComposer.send(
+	//       new MethodCallTxn<[AppID, AssetID], AssetID>({
+	//         name: 'method',
+	//         methodArgs: [this.app, AssetID.zeroIndex],
+	//       })
+	//     );
 	itxn_begin
 	int appl
 	itxn_field TypeEnum
 	method "method(uint64,uint64)uint64"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:79
+	// tests/contracts/itxns.algo.ts:92
 	// methodArgs: [this.app, AssetID.zeroIndex]
+	// tests/contracts/itxns.algo.ts:92
+	// this.app
 	txna Applications 0
 	itob
 	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.algo.ts:92
+	// AssetID.zeroIndex
 	byte 0x0000000000000000
 	itxn_field ApplicationArgs
 
@@ -494,45 +513,47 @@ methodCall:
 onlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:84
-	// sendOnlineKeyRegistration({
-	//       selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-	//       stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-	//       voteFirst: 1,
-	//       voteKeyDilution: 1,
-	//       voteLast: 1,
-	//       votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-	//     })
+	// tests/contracts/itxns.algo.ts:98
+	// this.txnComposer.send(
+	//       new KeyRegTxn({
+	//         selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//         stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//         voteFirst: 1,
+	//         voteKeyDilution: 1,
+	//         voteLast: 1,
+	//         votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       })
+	//     )
 	itxn_begin
 	int keyreg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:85
+	// tests/contracts/itxns.algo.ts:100
 	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field SelectionPK
 
-	// tests/contracts/itxns.algo.ts:86
+	// tests/contracts/itxns.algo.ts:101
 	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field StateProofPK
 
-	// tests/contracts/itxns.algo.ts:87
+	// tests/contracts/itxns.algo.ts:102
 	// voteFirst: 1
 	int 1
 	itxn_field VoteFirst
 
-	// tests/contracts/itxns.algo.ts:88
+	// tests/contracts/itxns.algo.ts:103
 	// voteKeyDilution: 1
 	int 1
 	itxn_field VoteKeyDilution
 
-	// tests/contracts/itxns.algo.ts:89
+	// tests/contracts/itxns.algo.ts:104
 	// voteLast: 1
 	int 1
 	itxn_field VoteLast
 
-	// tests/contracts/itxns.algo.ts:90
+	// tests/contracts/itxns.algo.ts:105
 	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 	byte 0x6161616161616161616161616161616161616161616161616161616161616161 // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 	itxn_field VotePK
@@ -556,8 +577,8 @@ onlineKeyRegistration:
 offlineKeyRegistration:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:95
-	// sendOfflineKeyRegistration({})
+	// tests/contracts/itxns.algo.ts:111
+	// this.txnComposer.send(new KeyRegTxn({}))
 	itxn_begin
 	int keyreg
 	itxn_field TypeEnum
@@ -581,16 +602,18 @@ offlineKeyRegistration:
 innerGeneric:
 	proto 0 0
 
-	// tests/contracts/itxns.algo.ts:99
-	// sendMethodCall<[InnerTxn<InnerAssetCreation>], void>({
-	//       name: 'foo',
-	//       methodArgs: [{ configAssetTotal: 1 }],
-	//     })
+	// tests/contracts/itxns.algo.ts:115
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[Txn], void>({
+	//         name: 'foo',
+	//         methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })],
+	//       })
+	//     )
 	itxn_begin
 	int acfg
 	itxn_field TypeEnum
 
-	// tests/contracts/itxns.algo.ts:101
+	// tests/contracts/itxns.algo.ts:118
 	// configAssetTotal: 1
 	int 1
 	itxn_field ConfigAssetTotal
@@ -598,14 +621,24 @@ innerGeneric:
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
+
+	// tests/contracts/itxns.algo.ts:115
+	// this.txnComposer.send(
+	//       new MethodCallTxn<[Txn], void>({
+	//         name: 'foo',
+	//         methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })],
+	//       })
+	//     )
 	itxn_next
 	int appl
 	itxn_field TypeEnum
 	method "foo(txn)void"
 	itxn_field ApplicationArgs
 
-	// tests/contracts/itxns.algo.ts:101
-	// methodArgs: [{ configAssetTotal: 1 }]
+	// tests/contracts/itxns.algo.ts:118
+	// methodArgs: [new AssetCreateTxn({ configAssetTotal: 1 })]
+	// tests/contracts/itxns.algo.ts:118
+	// new AssetCreateTxn({ configAssetTotal: 1 })
 	// Fee field not set, defaulting to 0
 	int 0
 	itxn_field Fee
