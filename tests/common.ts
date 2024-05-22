@@ -70,7 +70,7 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
       });
 
       test('Generates App Spec', () => {
-        expect(compiler.arc4Description()).toEqual(
+        expect(compiler.arc32Description()).toEqual(
           JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8'))
         );
       });
