@@ -64,13 +64,13 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
 
     if (!lsig) {
       test('Generates ABI JSON', () => {
-        expect(compiler.abiJSON()).toEqual(
+        expect(compiler.arc4Description()).toEqual(
           JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8'))
         );
       });
 
       test('Generates App Spec', () => {
-        expect(compiler.appSpec()).toEqual(
+        expect(compiler.arc4Description()).toEqual(
           JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8'))
         );
       });
@@ -102,12 +102,16 @@ export async function compileAndCreate(
   expect(compiler.teal.approval.map((t) => t.teal).join('\n')).toEqual(
     fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
   );
-  expect(compiler.abiJSON()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8')));
-  expect(compiler.appSpec()).toEqual(JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8')));
+  expect(compiler.arc4Description()).toEqual(
+    JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8'))
+  );
+  expect(compiler.arc32Description()).toEqual(
+    JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8'))
+  );
 
   const appClient = algokit.getAppClient(
     {
-      app: JSON.stringify(compiler.appSpec()),
+      app: JSON.stringify(compiler.arc32Description()),
       sender,
       resolveBy: 'id',
       id: 0,

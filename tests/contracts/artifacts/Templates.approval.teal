@@ -35,12 +35,12 @@ tmpl:
 
 	// tests/contracts/general.algo.ts:34
 	// log(this.bytesTmplVar)
-	pushbytes TMPL_bytesTmplVar
+	pushbyte TMPL_bytesTmplVar
 	log
 
 	// tests/contracts/general.algo.ts:35
 	// assert(this.uint64TmplVar)
-	pushints TMPL_uint64TmplVar
+	pushint TMPL_uint64TmplVar
 	assert
 	retsub
 
@@ -57,9 +57,9 @@ specificLengthTemplateVar:
 
 	// tests/contracts/general.algo.ts:39
 	// ed25519VerifyBare(this.bytesTmplVar, this.bytes64TmplVar, this.bytes32TmplVar)
-	pushbytes TMPL_bytesTmplVar
-	pushbytes TMPL_bytes64TmplVar
-	pushbytes TMPL_bytes32TmplVar
+	pushbyte TMPL_bytesTmplVar
+	pushbyte TMPL_bytes64TmplVar
+	pushbyte TMPL_bytes32TmplVar
 	ed25519verify_bare
 	retsub
 
