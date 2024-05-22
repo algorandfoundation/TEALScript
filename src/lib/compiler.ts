@@ -5,16 +5,15 @@
 import fetch from 'node-fetch';
 import * as vlq from 'vlq';
 import * as tsdoc from '@microsoft/tsdoc';
-import { Project, SourceFile } from 'ts-morph';
+import { Project } from 'ts-morph';
 import * as ts from 'ts-morph';
 // eslint-disable-next-line camelcase
 import { sha512_256 } from 'js-sha512';
 import path from 'path';
-import { error } from 'console';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
-import { ARC56Contract, StructFields } from '../types/arc56';
+import { type ARC56Contract, type StructFields } from '../types/arc56.d';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
