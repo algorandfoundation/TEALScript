@@ -1,6 +1,6 @@
 {
   "name": "@algorandfoundation/tealscript",
-  "version": "0.92.0",
+  "version": "0.93.0",
   "description": "Enables Algorand smart contract development with native TypeScript syntax, tooling, and IDE support",
   "homepage": "https://github.com/algorandfoundation/TEALScript",
   "bugs": {
@@ -18,6 +18,7 @@
     "fix": "eslint --fix examples/ src/ tests/ --ext .ts",
     "docs": "typedoc",
     "prepack": "tsc && cp src/static/* dist/static/ && cp src/lib/* dist/lib/",
+    "compile-arc56": "bun ./src/bin/tealscript.ts tests/contracts/arc56.algo.ts tests/contracts/artifacts",
     "compile-abi": "bun ./src/bin/tealscript.ts tests/contracts/abi.algo.ts tests/contracts/artifacts",
     "compile-account": "bun ./src/bin/tealscript.ts tests/contracts/account.algo.ts tests/contracts/artifacts",
     "compile-binary": "bun ./src/bin/tealscript.ts tests/contracts/binary.algo.ts tests/contracts/artifacts",

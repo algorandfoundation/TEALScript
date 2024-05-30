@@ -897,4 +897,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'storagePropertyReferenceInBox')).toEqual(1337n);
   });
+
+  test('pushToArrayInBox', async () => {
+    const { appClient } = await compileAndCreate('pushToArrayInBox');
+
+    expect(await runMethod(appClient, 'pushToArrayInBox')).toEqual([1n, 2n, 3n, 4n]);
+  });
 });

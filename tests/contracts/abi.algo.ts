@@ -1546,3 +1546,16 @@ class ABITestStoragePropertyReferenceInBox extends Contract {
     return v;
   }
 }
+
+class ABITestPushToArrayInBox extends Contract {
+  bMap = BoxMap<bytes, AppID[]>();
+
+  pushToArrayInBox(): AppID[] {
+    this.bMap('bMap').value = [AppID.fromUint64(1), AppID.fromUint64(2)];
+
+    this.bMap('bMap').value.push(AppID.fromUint64(3));
+    this.bMap('bMap').value.push(AppID.fromUint64(4));
+
+    return this.bMap('bMap').value;
+  }
+}
