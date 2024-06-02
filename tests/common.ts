@@ -69,9 +69,15 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
         );
       });
 
-      test('Generates App Spec', () => {
+      test('Generates ARC32', () => {
         expect(compiler.arc32Description()).toEqual(
           JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8'))
+        );
+      });
+
+      test('Generates ARC56', () => {
+        expect(compiler.arc56Description()).toEqual(
+          JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc56_draft.json`, 'utf-8'))
         );
       });
     }

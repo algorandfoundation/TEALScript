@@ -1,0 +1,716 @@
+{
+  "name": "NFTFactory",
+  "desc": "",
+  "methods": [
+    {
+      "name": "createNFT",
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "unitName",
+          "type": "string"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "transferNFT",
+      "args": [
+        {
+          "name": "asset",
+          "type": "uint64"
+        },
+        {
+          "name": "receiver",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 4,
+      "pc": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 4,
+      "pc": [
+        5,
+        6
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 4,
+      "pc": [
+        7
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 4,
+      "pc": [
+        8,
+        9
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 4,
+      "pc": [
+        10
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 4,
+      "pc": [
+        11,
+        12
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 4,
+      "pc": [
+        13
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 4,
+      "pc": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 4,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        40
+      ]
+    },
+    {
+      "teal": 28,
+      "source": 5,
+      "pc": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "teal": 31,
+      "source": 5,
+      "pc": [
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "teal": 32,
+      "source": 5,
+      "pc": [
+        50,
+        51,
+        52
+      ]
+    },
+    {
+      "teal": 35,
+      "source": 5,
+      "pc": [
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "teal": 36,
+      "source": 5,
+      "pc": [
+        56,
+        57,
+        58
+      ]
+    },
+    {
+      "teal": 39,
+      "source": 5,
+      "pc": [
+        59,
+        60,
+        61
+      ]
+    },
+    {
+      "teal": 40,
+      "source": 5,
+      "pc": [
+        62
+      ]
+    },
+    {
+      "teal": 41,
+      "source": 5,
+      "pc": [
+        63
+      ]
+    },
+    {
+      "teal": 42,
+      "source": 5,
+      "pc": [
+        64
+      ]
+    },
+    {
+      "teal": 43,
+      "source": 5,
+      "pc": [
+        65
+      ]
+    },
+    {
+      "teal": 44,
+      "source": 5,
+      "pc": [
+        66
+      ]
+    },
+    {
+      "teal": 48,
+      "source": 5,
+      "pc": [
+        67,
+        68,
+        69
+      ]
+    },
+    {
+      "teal": 56,
+      "source": 6,
+      "pc": [
+        70
+      ]
+    },
+    {
+      "teal": 57,
+      "source": 6,
+      "pc": [
+        71,
+        72
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 6,
+      "pc": [
+        73,
+        74
+      ]
+    },
+    {
+      "teal": 62,
+      "source": 7,
+      "pc": [
+        75,
+        76
+      ]
+    },
+    {
+      "teal": 63,
+      "source": 7,
+      "pc": [
+        77,
+        78
+      ]
+    },
+    {
+      "teal": 67,
+      "source": 8,
+      "pc": [
+        79,
+        80
+      ]
+    },
+    {
+      "teal": 68,
+      "source": 8,
+      "pc": [
+        81,
+        82
+      ]
+    },
+    {
+      "teal": 72,
+      "source": 9,
+      "pc": [
+        83
+      ]
+    },
+    {
+      "teal": 73,
+      "source": 9,
+      "pc": [
+        84,
+        85
+      ]
+    },
+    {
+      "teal": 76,
+      "source": 6,
+      "pc": [
+        86
+      ]
+    },
+    {
+      "teal": 77,
+      "source": 6,
+      "pc": [
+        87,
+        88
+      ]
+    },
+    {
+      "teal": 80,
+      "source": 6,
+      "pc": [
+        89
+      ]
+    },
+    {
+      "teal": 81,
+      "source": 6,
+      "pc": [
+        90,
+        91
+      ]
+    },
+    {
+      "teal": 82,
+      "source": 5,
+      "pc": [
+        92
+      ]
+    },
+    {
+      "teal": 87,
+      "source": 13,
+      "pc": [
+        93,
+        94,
+        95
+      ]
+    },
+    {
+      "teal": 88,
+      "source": 13,
+      "pc": [
+        96
+      ]
+    },
+    {
+      "teal": 89,
+      "source": 13,
+      "pc": [
+        97
+      ]
+    },
+    {
+      "teal": 90,
+      "source": 13,
+      "pc": [
+        98,
+        99
+      ]
+    },
+    {
+      "teal": 91,
+      "source": 13,
+      "pc": [
+        100
+      ]
+    },
+    {
+      "teal": 94,
+      "source": 13,
+      "errorMessage": "argument 0 (receiver) for transferNFT must be a address",
+      "pc": [
+        101
+      ]
+    },
+    {
+      "teal": 97,
+      "source": 13,
+      "pc": [
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "teal": 98,
+      "source": 13,
+      "pc": [
+        105
+      ]
+    },
+    {
+      "teal": 101,
+      "source": 13,
+      "pc": [
+        106,
+        107,
+        108
+      ]
+    },
+    {
+      "teal": 102,
+      "source": 13,
+      "pc": [
+        109
+      ]
+    },
+    {
+      "teal": 103,
+      "source": 13,
+      "pc": [
+        110
+      ]
+    },
+    {
+      "teal": 107,
+      "source": 13,
+      "pc": [
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "teal": 115,
+      "source": 14,
+      "pc": [
+        114
+      ]
+    },
+    {
+      "teal": 116,
+      "source": 14,
+      "pc": [
+        115,
+        116
+      ]
+    },
+    {
+      "teal": 117,
+      "source": 14,
+      "pc": [
+        117,
+        118
+      ]
+    },
+    {
+      "teal": 121,
+      "source": 15,
+      "pc": [
+        119,
+        120
+      ]
+    },
+    {
+      "teal": 122,
+      "source": 15,
+      "pc": [
+        121,
+        122
+      ]
+    },
+    {
+      "teal": 126,
+      "source": 16,
+      "pc": [
+        123
+      ]
+    },
+    {
+      "teal": 127,
+      "source": 16,
+      "pc": [
+        124,
+        125
+      ]
+    },
+    {
+      "teal": 131,
+      "source": 17,
+      "pc": [
+        126,
+        127
+      ]
+    },
+    {
+      "teal": 132,
+      "source": 17,
+      "pc": [
+        128,
+        129
+      ]
+    },
+    {
+      "teal": 135,
+      "source": 14,
+      "pc": [
+        130
+      ]
+    },
+    {
+      "teal": 136,
+      "source": 14,
+      "pc": [
+        131,
+        132
+      ]
+    },
+    {
+      "teal": 139,
+      "source": 14,
+      "pc": [
+        133
+      ]
+    },
+    {
+      "teal": 140,
+      "source": 13,
+      "pc": [
+        134
+      ]
+    },
+    {
+      "teal": 143,
+      "source": 4,
+      "pc": [
+        135
+      ]
+    },
+    {
+      "teal": 144,
+      "source": 4,
+      "pc": [
+        136
+      ]
+    },
+    {
+      "teal": 147,
+      "source": 4,
+      "pc": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ]
+    },
+    {
+      "teal": 148,
+      "source": 4,
+      "pc": [
+        143,
+        144,
+        145
+      ]
+    },
+    {
+      "teal": 149,
+      "source": 4,
+      "pc": [
+        146,
+        147,
+        148,
+        149
+      ]
+    },
+    {
+      "teal": 152,
+      "source": 4,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        150
+      ]
+    },
+    {
+      "teal": 155,
+      "source": 4,
+      "pc": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156
+      ]
+    },
+    {
+      "teal": 156,
+      "source": 4,
+      "pc": [
+        157,
+        158,
+        159,
+        160,
+        161,
+        162
+      ]
+    },
+    {
+      "teal": 157,
+      "source": 4,
+      "pc": [
+        163,
+        164,
+        165
+      ]
+    },
+    {
+      "teal": 158,
+      "source": 4,
+      "pc": [
+        166,
+        167,
+        168,
+        169,
+        170,
+        171
+      ]
+    },
+    {
+      "teal": 161,
+      "source": 4,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        172
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkzLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZU5GVChzdHJpbmcsc3RyaW5nKXVpbnQ2NAoqYWJpX3JvdXRlX2NyZWF0ZU5GVDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gdW5pdE5hbWU6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZXh0cmFjdCAyIDAKCgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBjcmVhdGVORlQoc3RyaW5nLHN0cmluZyl1aW50NjQKCWNhbGxzdWIgY3JlYXRlTkZUCglpdG9iCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gY3JlYXRlTkZUKG5hbWU6IHN0cmluZywgdW5pdE5hbWU6IHN0cmluZyk6IEFzc2V0SUQKY3JlYXRlTkZUOgoJcHJvdG8gMiAxCgoJLy8gZXhhbXBsZXMvaXR4bnMvaXR4bnMuYWxnby50czo2CgkvLyByZXR1cm4gc2VuZEFzc2V0Q3JlYXRpb24oewoJLy8gICAgICAgY29uZmlnQXNzZXROYW1lOiBuYW1lLAoJLy8gICAgICAgY29uZmlnQXNzZXRVbml0TmFtZTogdW5pdE5hbWUsCgkvLyAgICAgICBjb25maWdBc3NldFRvdGFsOiAxLAoJLy8gICAgIH0pOwoJaXR4bl9iZWdpbgoJaW50IGFjZmcKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBleGFtcGxlcy9pdHhucy9pdHhucy5hbGdvLnRzOjcKCS8vIGNvbmZpZ0Fzc2V0TmFtZTogbmFtZQoJZnJhbWVfZGlnIC0xIC8vIG5hbWU6IHN0cmluZwoJaXR4bl9maWVsZCBDb25maWdBc3NldE5hbWUKCgkvLyBleGFtcGxlcy9pdHhucy9pdHhucy5hbGdvLnRzOjgKCS8vIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6IHVuaXROYW1lCglmcmFtZV9kaWcgLTIgLy8gdW5pdE5hbWU6IHN0cmluZwoJaXR4bl9maWVsZCBDb25maWdBc3NldFVuaXROYW1lCgoJLy8gZXhhbXBsZXMvaXR4bnMvaXR4bnMuYWxnby50czo5CgkvLyBjb25maWdBc3NldFRvdGFsOiAxCglpbnQgMQoJaXR4bl9maWVsZCBDb25maWdBc3NldFRvdGFsCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJaXR4biBDcmVhdGVkQXNzZXRJRAoJcmV0c3ViCgovLyB0cmFuc2Zlck5GVCh1aW50NjQsYWRkcmVzcyl2b2lkCiphYmlfcm91dGVfdHJhbnNmZXJORlQ6CgkvLyByZWNlaXZlcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludCAzMgoJPT0KCgkvLyBhcmd1bWVudCAwIChyZWNlaXZlcikgZm9yIHRyYW5zZmVyTkZUIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBhc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSB0cmFuc2Zlck5GVCh1aW50NjQsYWRkcmVzcyl2b2lkCgljYWxsc3ViIHRyYW5zZmVyTkZUCglpbnQgMQoJcmV0dXJuCgovLyB0cmFuc2Zlck5GVChhc3NldDogQXNzZXRJRCwgcmVjZWl2ZXI6IEFkZHJlc3MpOiB2b2lkCnRyYW5zZmVyTkZUOgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvaXR4bnMvaXR4bnMuYWxnby50czoxNAoJLy8gc2VuZEFzc2V0VHJhbnNmZXIoewoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogcmVjZWl2ZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogMSwKCS8vICAgICAgIHhmZXJBc3NldDogYXNzZXQsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBheGZlcgoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIGV4YW1wbGVzL2l0eG5zL2l0eG5zLmFsZ28udHM6MTUKCS8vIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyCglmcmFtZV9kaWcgLTIgLy8gcmVjZWl2ZXI6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2l0eG5zL2l0eG5zLmFsZ28udHM6MTYKCS8vIGFzc2V0QW1vdW50OiAxCglpbnQgMQoJaXR4bl9maWVsZCBBc3NldEFtb3VudAoKCS8vIGV4YW1wbGVzL2l0eG5zL2l0eG5zLmFsZ28udHM6MTcKCS8vIHhmZXJBc3NldDogYXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBhc3NldDogQXNzZXRJRAoJaXR4bl9maWVsZCBYZmVyQXNzZXQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJjcmVhdGVORlQoc3RyaW5nLHN0cmluZyl1aW50NjQiCgltZXRob2QgInRyYW5zZmVyTkZUKHVpbnQ2NCxhZGRyZXNzKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZU5GVCAqYWJpX3JvdXRlX3RyYW5zZmVyTkZUCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiACAQAxGBSBBgsxGQiNDABvAAAAAAAAAAAAAABhAAAAAAAAAAAAAACABBUffHU2GgJXAgA2GgFXAgCIAAUWULAiQ4oCAbGBA7IQi/+yJov+siUisiIjsgGztDyJNhoCSRWBIBJENhoBF4gAAiJDigIAsYEEshCL/rIUIrISi/+yESOyAbOJIkOABLhEezY2GgCOAf/xAIAE0gJMc4AEx+JgrzYaAI4C/33/sQA=",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}

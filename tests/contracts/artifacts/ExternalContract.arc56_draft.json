@@ -1,0 +1,451 @@
+{
+  "name": "ExternalContract",
+  "desc": "",
+  "methods": [
+    {
+      "name": "externalMethod",
+      "args": [],
+      "returns": {
+        "type": "uint8"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 1,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {
+        "externalKey": {
+          "key": "ZXh0ZXJuYWxLZXk=",
+          "keyType": "bytes",
+          "valueType": "uint8"
+        }
+      },
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 7,
+      "pc": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 7,
+      "pc": [
+        18,
+        19
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 7,
+      "pc": [
+        20
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 7,
+      "pc": [
+        21,
+        22
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 7,
+      "pc": [
+        23
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 7,
+      "pc": [
+        24,
+        25
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 7,
+      "pc": [
+        26
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 7,
+      "pc": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 7,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        53
+      ]
+    },
+    {
+      "teal": 28,
+      "source": 10,
+      "pc": [
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ]
+    },
+    {
+      "teal": 31,
+      "source": 10,
+      "pc": [
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "teal": 32,
+      "source": 10,
+      "pc": [
+        63
+      ]
+    },
+    {
+      "teal": 33,
+      "source": 10,
+      "pc": [
+        64
+      ]
+    },
+    {
+      "teal": 34,
+      "source": 10,
+      "pc": [
+        65
+      ]
+    },
+    {
+      "teal": 35,
+      "source": 10,
+      "pc": [
+        66,
+        67
+      ]
+    },
+    {
+      "teal": 36,
+      "source": 10,
+      "pc": [
+        68
+      ]
+    },
+    {
+      "teal": 39,
+      "source": 10,
+      "errorMessage": "externalMethod return value overflowed 8 bits",
+      "pc": [
+        69
+      ]
+    },
+    {
+      "teal": 40,
+      "source": 10,
+      "pc": [
+        70,
+        71,
+        72
+      ]
+    },
+    {
+      "teal": 41,
+      "source": 10,
+      "pc": [
+        73
+      ]
+    },
+    {
+      "teal": 42,
+      "source": 10,
+      "pc": [
+        74
+      ]
+    },
+    {
+      "teal": 43,
+      "source": 10,
+      "pc": [
+        75
+      ]
+    },
+    {
+      "teal": 44,
+      "source": 10,
+      "pc": [
+        76
+      ]
+    },
+    {
+      "teal": 48,
+      "source": 10,
+      "pc": [
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "teal": 52,
+      "source": 11,
+      "pc": [
+        80
+      ]
+    },
+    {
+      "teal": 53,
+      "source": 11,
+      "pc": [
+        81,
+        82,
+        83
+      ]
+    },
+    {
+      "teal": 54,
+      "source": 11,
+      "pc": [
+        84
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 12,
+      "pc": [
+        85
+      ]
+    },
+    {
+      "teal": 59,
+      "source": 12,
+      "pc": [
+        86
+      ]
+    },
+    {
+      "teal": 60,
+      "source": 12,
+      "pc": [
+        87
+      ]
+    },
+    {
+      "teal": 61,
+      "source": 10,
+      "pc": [
+        88
+      ]
+    },
+    {
+      "teal": 64,
+      "source": 7,
+      "pc": [
+        89
+      ]
+    },
+    {
+      "teal": 65,
+      "source": 7,
+      "pc": [
+        90
+      ]
+    },
+    {
+      "teal": 68,
+      "source": 7,
+      "pc": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "teal": 69,
+      "source": 7,
+      "pc": [
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "teal": 70,
+      "source": 7,
+      "pc": [
+        100,
+        101,
+        102,
+        103
+      ]
+    },
+    {
+      "teal": 73,
+      "source": 7,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        104
+      ]
+    },
+    {
+      "teal": 76,
+      "source": 7,
+      "pc": [
+        105,
+        106,
+        107,
+        108,
+        109,
+        110
+      ]
+    },
+    {
+      "teal": 77,
+      "source": 7,
+      "pc": [
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "teal": 78,
+      "source": 7,
+      "pc": [
+        114,
+        115,
+        116,
+        117
+      ]
+    },
+    {
+      "teal": 81,
+      "source": 7,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        118
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkzLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGV4dGVybmFsTWV0aG9kKCl1aW50OAoqYWJpX3JvdXRlX2V4dGVybmFsTWV0aG9kOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIGV4dGVybmFsTWV0aG9kKCl1aW50OAoJY2FsbHN1YiBleHRlcm5hbE1ldGhvZAoJaXRvYgoJZHVwCgliaXRsZW4KCWludCA4Cgk8PQoKCS8vIGV4dGVybmFsTWV0aG9kIHJldHVybiB2YWx1ZSBvdmVyZmxvd2VkIDggYml0cwoJYXNzZXJ0CglleHRyYWN0IDcgMQoJY29uY2F0Cglsb2cKCWludCAxCglyZXR1cm4KCi8vIGV4dGVybmFsTWV0aG9kKCk6IEN1c3RvbVR5cGUKZXh0ZXJuYWxNZXRob2Q6Cglwcm90byAwIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UtZXh0ZXJuYWwuYWxnby50czoxMQoJLy8gdGhpcy5leHRlcm5hbEtleS52YWx1ZSA9IDxDdXN0b21UeXBlPjEyMwoJYnl0ZSAweDY1Nzg3NDY1NzI2ZTYxNmM0YjY1NzkgLy8gImV4dGVybmFsS2V5IgoJYnl0ZSAweDdiCglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS1leHRlcm5hbC5hbGdvLnRzOjEyCgkvLyByZXR1cm4gdGhpcy5leHRlcm5hbEtleS52YWx1ZTsKCWJ5dGUgMHg2NTc4NzQ2NTcyNmU2MTZjNGI2NTc5IC8vICJleHRlcm5hbEtleSIKCWFwcF9nbG9iYWxfZ2V0CglidG9pCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJleHRlcm5hbE1ldGhvZCgpdWludDgiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2V4dGVybmFsTWV0aG9kCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiABASYBC2V4dGVybmFsS2V5MRgUgQYLMRkIjQwANAAAAAAAAAAAAAAAJgAAAAAAAAAAAAAAgAQVH3x1iAAOFkmTgQgORFcHAVCwIkOKAAEogAF7ZyhkF4kiQ4AEuER7NjYaAI4B//EAgAQXvqS7NhoAjgH/wAA=",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}
