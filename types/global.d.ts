@@ -248,6 +248,8 @@ declare type uint64 = uint<64>;
 declare type uint128 = uint<128>;
 declare type uint256 = uint<256>;
 
+declare function Uint<N extends widths>(value: number | string): uint<N>;
+
 declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>;
 
 declare type byte = { __byte: true };

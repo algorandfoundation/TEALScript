@@ -41,8 +41,7 @@ class MathTest extends Contract {
   }
 
   maxU64(): uint64 {
-    // eslint-disable-next-line no-loss-of-precision
-    return 18_446_744_073_709_551_615;
+    return Uint<64>('18446744073709551615');
   }
 
   exponent(a: uint64, b: uint64): uint64 {
@@ -221,5 +220,9 @@ class MathTest extends Contract {
     const avgStake: uint128 = x / (30000 as uint128);
 
     return avgStake;
+  }
+
+  uintFromHex(): uint256 {
+    return Uint<256>('0xFF');
   }
 }
