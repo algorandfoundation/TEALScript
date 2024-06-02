@@ -1,0 +1,414 @@
+{
+  "name": "ABITestChainedPropertyAfterTuple",
+  "desc": "",
+  "methods": [
+    {
+      "name": "chainedPropertyAfterTuple",
+      "args": [
+        {
+          "name": "asa",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 1171,
+      "pc": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 1171,
+      "pc": [
+        4,
+        5
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 1171,
+      "pc": [
+        6
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 1171,
+      "pc": [
+        7,
+        8
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 1171,
+      "pc": [
+        9
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 1171,
+      "pc": [
+        10,
+        11
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 1171,
+      "pc": [
+        12
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 1171,
+      "pc": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 1171,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        39
+      ]
+    },
+    {
+      "teal": 28,
+      "source": 1172,
+      "pc": [
+        40,
+        41,
+        42
+      ]
+    },
+    {
+      "teal": 29,
+      "source": 1172,
+      "pc": [
+        43
+      ]
+    },
+    {
+      "teal": 32,
+      "source": 1172,
+      "pc": [
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "teal": 33,
+      "source": 1172,
+      "pc": [
+        47
+      ]
+    },
+    {
+      "teal": 34,
+      "source": 1172,
+      "pc": [
+        48
+      ]
+    },
+    {
+      "teal": 38,
+      "source": 1172,
+      "pc": [
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "teal": 41,
+      "source": 1172,
+      "pc": [
+        52,
+        53
+      ]
+    },
+    {
+      "teal": 45,
+      "source": 1173,
+      "pc": [
+        54,
+        55
+      ]
+    },
+    {
+      "teal": 46,
+      "source": 1173,
+      "pc": [
+        56,
+        57
+      ]
+    },
+    {
+      "teal": 50,
+      "source": 1175,
+      "pc": [
+        58,
+        59
+      ]
+    },
+    {
+      "teal": 51,
+      "source": 1175,
+      "pc": [
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "teal": 52,
+      "source": 1175,
+      "pc": [
+        63,
+        64
+      ]
+    },
+    {
+      "teal": 53,
+      "source": 1175,
+      "pc": [
+        65,
+        66
+      ]
+    },
+    {
+      "teal": 54,
+      "source": 1175,
+      "pc": [
+        67
+      ]
+    },
+    {
+      "teal": 55,
+      "source": 1175,
+      "pc": [
+        68
+      ]
+    },
+    {
+      "teal": 56,
+      "source": 1175,
+      "pc": [
+        69
+      ]
+    },
+    {
+      "teal": 57,
+      "source": 1175,
+      "pc": [
+        70
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 1172,
+      "pc": [
+        71
+      ]
+    },
+    {
+      "teal": 61,
+      "source": 1171,
+      "pc": [
+        72
+      ]
+    },
+    {
+      "teal": 62,
+      "source": 1171,
+      "pc": [
+        73
+      ]
+    },
+    {
+      "teal": 65,
+      "source": 1171,
+      "pc": [
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "teal": 66,
+      "source": 1171,
+      "pc": [
+        80,
+        81,
+        82
+      ]
+    },
+    {
+      "teal": 67,
+      "source": 1171,
+      "pc": [
+        83,
+        84,
+        85,
+        86
+      ]
+    },
+    {
+      "teal": 70,
+      "source": 1171,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        87
+      ]
+    },
+    {
+      "teal": 73,
+      "source": 1171,
+      "pc": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ]
+    },
+    {
+      "teal": 74,
+      "source": 1171,
+      "pc": [
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "teal": 75,
+      "source": 1171,
+      "pc": [
+        97,
+        98,
+        99,
+        100
+      ]
+    },
+    {
+      "teal": 78,
+      "source": 1171,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        101
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkzLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNoYWluZWRQcm9wZXJ0eUFmdGVyVHVwbGUodWludDY0KXZvaWQKKmFiaV9yb3V0ZV9jaGFpbmVkUHJvcGVydHlBZnRlclR1cGxlOgoJLy8gYXNhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGNoYWluZWRQcm9wZXJ0eUFmdGVyVHVwbGUodWludDY0KXZvaWQKCWNhbGxzdWIgY2hhaW5lZFByb3BlcnR5QWZ0ZXJUdXBsZQoJaW50IDEKCXJldHVybgoKLy8gY2hhaW5lZFByb3BlcnR5QWZ0ZXJUdXBsZShhc2E6IEFzc2V0SUQpOiB2b2lkCmNoYWluZWRQcm9wZXJ0eUFmdGVyVHVwbGU6Cglwcm90byAxIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czoxMTczCgkvLyBvOiBUNyA9IHsgZm9vOiB0aGlzLmFwcC5hZGRyZXNzIH0KCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9idXJ5IDAgLy8gbzogVDcKCgkvLyB0ZXN0cy9jb250cmFjdHMvYWJpLmFsZ28udHM6MTE3NQoJLy8gYXNzZXJ0KCFvLmZvby5pc09wdGVkSW5Ub0Fzc2V0KGFzYSkpCglmcmFtZV9kaWcgMCAvLyBvOiBUNwoJZXh0cmFjdCAwIDMyCglmcmFtZV9kaWcgLTEgLy8gYXNhOiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXN3YXAKCXBvcAoJIQoJYXNzZXJ0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJjaGFpbmVkUHJvcGVydHlBZnRlclR1cGxlKHVpbnQ2NCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jaGFpbmVkUHJvcGVydHlBZnRlclR1cGxlCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiABATEYFIEGCzEZCI0MADEAAAAAAAAAAAAAACMAAAAAAAAAAAAAADYaAReIAAIiQ4oBAIAAMgqMAIsAVwAgi/9wAExIFESJIkOABLhEezY2GgCOAf/xAIAEL/6/RzYaAI4B/8MA",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}

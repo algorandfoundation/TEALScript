@@ -1,5 +1,5 @@
 {
-  "name": "ARC56TestNoTemplateVars",
+  "name": "SchemaContract",
   "desc": "",
   "methods": [
     {
@@ -24,12 +24,12 @@
   "state": {
     "schema": {
       "global": {
-        "bytes": 0,
-        "ints": 0
+        "bytes": 2,
+        "ints": 1
       },
       "local": {
-        "bytes": 0,
-        "ints": 0
+        "bytes": 4,
+        "ints": 3
       }
     },
     "keys": {
@@ -38,8 +38,26 @@
       "box": {}
     },
     "maps": {
-      "global": {},
-      "local": {},
+      "global": {
+        "globalUint": {
+          "keyType": "uint8",
+          "valueType": "uint64"
+        },
+        "globalBytes": {
+          "keyType": "uint16",
+          "valueType": "bytes"
+        }
+      },
+      "local": {
+        "localUint": {
+          "keyType": "uint8",
+          "valueType": "uint64"
+        },
+        "localBytes": {
+          "keyType": "uint16",
+          "valueType": "bytes"
+        }
+      },
       "box": {}
     }
   },
@@ -50,14 +68,14 @@
   "sourceInfo": [
     {
       "teal": 1,
-      "source": 43,
+      "source": 13,
       "pc": [
         0
       ]
     },
     {
       "teal": 13,
-      "source": 43,
+      "source": 13,
       "pc": [
         1,
         2
@@ -65,14 +83,14 @@
     },
     {
       "teal": 14,
-      "source": 43,
+      "source": 13,
       "pc": [
         3
       ]
     },
     {
       "teal": 15,
-      "source": 43,
+      "source": 13,
       "pc": [
         4,
         5
@@ -80,14 +98,14 @@
     },
     {
       "teal": 16,
-      "source": 43,
+      "source": 13,
       "pc": [
         6
       ]
     },
     {
       "teal": 17,
-      "source": 43,
+      "source": 13,
       "pc": [
         7,
         8
@@ -95,14 +113,14 @@
     },
     {
       "teal": 18,
-      "source": 43,
+      "source": 13,
       "pc": [
         9
       ]
     },
     {
       "teal": 19,
-      "source": 43,
+      "source": 13,
       "pc": [
         10,
         11,
@@ -134,7 +152,7 @@
     },
     {
       "teal": 23,
-      "source": 43,
+      "source": 13,
       "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
       "pc": [
         36
@@ -142,7 +160,7 @@
     },
     {
       "teal": 26,
-      "source": 43,
+      "source": 13,
       "pc": [
         37,
         38
@@ -150,14 +168,14 @@
     },
     {
       "teal": 27,
-      "source": 43,
+      "source": 13,
       "pc": [
         39
       ]
     },
     {
       "teal": 30,
-      "source": 43,
+      "source": 13,
       "pc": [
         40,
         41,
@@ -169,7 +187,7 @@
     },
     {
       "teal": 31,
-      "source": 43,
+      "source": 13,
       "pc": [
         46,
         47,
@@ -178,7 +196,7 @@
     },
     {
       "teal": 32,
-      "source": 43,
+      "source": 13,
       "pc": [
         49,
         50,
@@ -188,7 +206,7 @@
     },
     {
       "teal": 35,
-      "source": 43,
+      "source": 13,
       "errorMessage": "this contract does not implement the given ABI method for create NoOp",
       "pc": [
         53

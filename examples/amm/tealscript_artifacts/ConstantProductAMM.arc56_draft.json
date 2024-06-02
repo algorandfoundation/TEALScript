@@ -1,0 +1,5004 @@
+{
+  "name": "ConstantProductAMM",
+  "desc": "",
+  "methods": [
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    },
+    {
+      "name": "set_governor",
+      "args": [
+        {
+          "name": "governor",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "bootstrap",
+      "args": [
+        {
+          "name": "seed",
+          "type": "pay"
+        },
+        {
+          "name": "aAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "bAsset",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "mint",
+      "args": [
+        {
+          "name": "aXfer",
+          "type": "axfer"
+        },
+        {
+          "name": "bXfer",
+          "type": "axfer"
+        },
+        {
+          "name": "poolAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "aAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "bAsset",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "burn",
+      "args": [
+        {
+          "name": "poolXfer",
+          "type": "axfer"
+        },
+        {
+          "name": "poolAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "aAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "bAsset",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "swap",
+      "args": [
+        {
+          "name": "swapXfer",
+          "type": "axfer"
+        },
+        {
+          "name": "aAsset",
+          "type": "uint64"
+        },
+        {
+          "name": "bAsset",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 1,
+        "ints": 4
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {
+        "governor": {
+          "key": "Zw==",
+          "keyType": "bytes",
+          "valueType": "address"
+        },
+        "assetA": {
+          "key": "YQ==",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        },
+        "assetB": {
+          "key": "Yg==",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        },
+        "poolToken": {
+          "key": "cA==",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        },
+        "ratio": {
+          "key": "cg==",
+          "keyType": "bytes",
+          "valueType": "uint64"
+        }
+      },
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 8,
+      "pc": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 8,
+      "pc": [
+        28,
+        29
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 8,
+      "pc": [
+        30
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 8,
+      "pc": [
+        31,
+        32
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 8,
+      "pc": [
+        33
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 8,
+      "pc": [
+        34,
+        35
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 8,
+      "pc": [
+        36
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 8,
+      "pc": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 8,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        63
+      ]
+    },
+    {
+      "teal": 28,
+      "source": 19,
+      "pc": [
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "teal": 29,
+      "source": 19,
+      "pc": [
+        67
+      ]
+    },
+    {
+      "teal": 30,
+      "source": 19,
+      "pc": [
+        68
+      ]
+    },
+    {
+      "teal": 34,
+      "source": 19,
+      "pc": [
+        69,
+        70,
+        71
+      ]
+    },
+    {
+      "teal": 38,
+      "source": 20,
+      "pc": [
+        72
+      ]
+    },
+    {
+      "teal": 39,
+      "source": 20,
+      "pc": [
+        73,
+        74
+      ]
+    },
+    {
+      "teal": 40,
+      "source": 20,
+      "pc": [
+        75
+      ]
+    },
+    {
+      "teal": 41,
+      "source": 19,
+      "pc": [
+        76
+      ]
+    },
+    {
+      "teal": 45,
+      "source": 23,
+      "pc": [
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "teal": 56,
+      "source": 26,
+      "pc": [
+        80
+      ]
+    },
+    {
+      "teal": 57,
+      "source": 26,
+      "pc": [
+        81,
+        82
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 26,
+      "pc": [
+        83,
+        84
+      ]
+    },
+    {
+      "teal": 62,
+      "source": 27,
+      "pc": [
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ]
+    },
+    {
+      "teal": 63,
+      "source": 27,
+      "pc": [
+        91,
+        92
+      ]
+    },
+    {
+      "teal": 64,
+      "source": 27,
+      "pc": [
+        93,
+        94
+      ]
+    },
+    {
+      "teal": 65,
+      "source": 27,
+      "pc": [
+        95
+      ]
+    },
+    {
+      "teal": 66,
+      "source": 27,
+      "pc": [
+        96
+      ]
+    },
+    {
+      "teal": 67,
+      "source": 27,
+      "pc": [
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "teal": 68,
+      "source": 27,
+      "pc": [
+        100
+      ]
+    },
+    {
+      "teal": 69,
+      "source": 27,
+      "pc": [
+        101,
+        102
+      ]
+    },
+    {
+      "teal": 70,
+      "source": 27,
+      "pc": [
+        103,
+        104
+      ]
+    },
+    {
+      "teal": 71,
+      "source": 27,
+      "pc": [
+        105
+      ]
+    },
+    {
+      "teal": 72,
+      "source": 27,
+      "pc": [
+        106
+      ]
+    },
+    {
+      "teal": 73,
+      "source": 27,
+      "pc": [
+        107,
+        108
+      ]
+    },
+    {
+      "teal": 77,
+      "source": 28,
+      "pc": [
+        109,
+        110,
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "teal": 78,
+      "source": 28,
+      "pc": [
+        114,
+        115
+      ]
+    },
+    {
+      "teal": 82,
+      "source": 29,
+      "pc": [
+        116,
+        117
+      ]
+    },
+    {
+      "teal": 83,
+      "source": 29,
+      "pc": [
+        118,
+        119
+      ]
+    },
+    {
+      "teal": 87,
+      "source": 30,
+      "pc": [
+        120,
+        121
+      ]
+    },
+    {
+      "teal": 88,
+      "source": 30,
+      "pc": [
+        122,
+        123
+      ]
+    },
+    {
+      "teal": 92,
+      "source": 31,
+      "pc": [
+        124,
+        125
+      ]
+    },
+    {
+      "teal": 93,
+      "source": 31,
+      "pc": [
+        126,
+        127
+      ]
+    },
+    {
+      "teal": 97,
+      "source": 32,
+      "pc": [
+        128,
+        129
+      ]
+    },
+    {
+      "teal": 98,
+      "source": 32,
+      "pc": [
+        130,
+        131
+      ]
+    },
+    {
+      "teal": 101,
+      "source": 26,
+      "pc": [
+        132
+      ]
+    },
+    {
+      "teal": 102,
+      "source": 26,
+      "pc": [
+        133,
+        134
+      ]
+    },
+    {
+      "teal": 105,
+      "source": 26,
+      "pc": [
+        135
+      ]
+    },
+    {
+      "teal": 106,
+      "source": 26,
+      "pc": [
+        136,
+        137
+      ]
+    },
+    {
+      "teal": 107,
+      "source": 23,
+      "pc": [
+        138
+      ]
+    },
+    {
+      "teal": 111,
+      "source": 36,
+      "pc": [
+        139,
+        140,
+        141
+      ]
+    },
+    {
+      "teal": 119,
+      "source": 37,
+      "pc": [
+        142
+      ]
+    },
+    {
+      "teal": 120,
+      "source": 37,
+      "pc": [
+        143
+      ]
+    },
+    {
+      "teal": 121,
+      "source": 37,
+      "pc": [
+        144,
+        145
+      ]
+    },
+    {
+      "teal": 125,
+      "source": 38,
+      "pc": [
+        146,
+        147
+      ]
+    },
+    {
+      "teal": 126,
+      "source": 38,
+      "pc": [
+        148,
+        149
+      ]
+    },
+    {
+      "teal": 130,
+      "source": 39,
+      "pc": [
+        150,
+        151
+      ]
+    },
+    {
+      "teal": 131,
+      "source": 39,
+      "pc": [
+        152,
+        153
+      ]
+    },
+    {
+      "teal": 135,
+      "source": 40,
+      "pc": [
+        154,
+        155
+      ]
+    },
+    {
+      "teal": 136,
+      "source": 40,
+      "pc": [
+        156,
+        157
+      ]
+    },
+    {
+      "teal": 139,
+      "source": 37,
+      "pc": [
+        158
+      ]
+    },
+    {
+      "teal": 140,
+      "source": 37,
+      "pc": [
+        159,
+        160
+      ]
+    },
+    {
+      "teal": 143,
+      "source": 37,
+      "pc": [
+        161
+      ]
+    },
+    {
+      "teal": 144,
+      "source": 36,
+      "pc": [
+        162
+      ]
+    },
+    {
+      "teal": 148,
+      "source": 44,
+      "pc": [
+        163,
+        164,
+        165
+      ]
+    },
+    {
+      "teal": 152,
+      "source": 45,
+      "pc": [
+        166
+      ]
+    },
+    {
+      "teal": 153,
+      "source": 45,
+      "pc": [
+        167,
+        168
+      ]
+    },
+    {
+      "teal": 154,
+      "source": 45,
+      "pc": [
+        169,
+        170
+      ]
+    },
+    {
+      "teal": 155,
+      "source": 45,
+      "pc": [
+        171,
+        172,
+        173
+      ]
+    },
+    {
+      "teal": 156,
+      "source": 44,
+      "pc": [
+        174
+      ]
+    },
+    {
+      "teal": 160,
+      "source": 48,
+      "pc": [
+        175,
+        176,
+        177
+      ]
+    },
+    {
+      "teal": 164,
+      "source": 49,
+      "pc": [
+        178,
+        179
+      ]
+    },
+    {
+      "teal": 165,
+      "source": 49,
+      "pc": [
+        180,
+        181
+      ]
+    },
+    {
+      "teal": 166,
+      "source": 49,
+      "pc": [
+        182
+      ]
+    },
+    {
+      "teal": 167,
+      "source": 49,
+      "pc": [
+        183
+      ]
+    },
+    {
+      "teal": 168,
+      "source": 48,
+      "pc": [
+        184
+      ]
+    },
+    {
+      "teal": 172,
+      "source": 52,
+      "pc": [
+        185,
+        186,
+        187
+      ]
+    },
+    {
+      "teal": 175,
+      "source": 52,
+      "pc": [
+        188
+      ]
+    },
+    {
+      "teal": 176,
+      "source": 52,
+      "pc": [
+        189,
+        190
+      ]
+    },
+    {
+      "teal": 180,
+      "source": 53,
+      "pc": [
+        191,
+        192
+      ]
+    },
+    {
+      "teal": 181,
+      "source": 53,
+      "pc": [
+        193
+      ]
+    },
+    {
+      "teal": 182,
+      "source": 53,
+      "pc": [
+        194
+      ]
+    },
+    {
+      "teal": 183,
+      "source": 53,
+      "pc": [
+        195
+      ]
+    },
+    {
+      "teal": 184,
+      "source": 53,
+      "pc": [
+        196,
+        197
+      ]
+    },
+    {
+      "teal": 185,
+      "source": 53,
+      "pc": [
+        198
+      ]
+    },
+    {
+      "teal": 186,
+      "source": 53,
+      "pc": [
+        199
+      ]
+    },
+    {
+      "teal": 187,
+      "source": 53,
+      "pc": [
+        200
+      ]
+    },
+    {
+      "teal": 188,
+      "source": 53,
+      "pc": [
+        201
+      ]
+    },
+    {
+      "teal": 189,
+      "source": 53,
+      "pc": [
+        202
+      ]
+    },
+    {
+      "teal": 192,
+      "source": 53,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        203
+      ]
+    },
+    {
+      "teal": 193,
+      "source": 53,
+      "pc": [
+        204,
+        205
+      ]
+    },
+    {
+      "teal": 197,
+      "source": 54,
+      "pc": [
+        206,
+        207
+      ]
+    },
+    {
+      "teal": 198,
+      "source": 54,
+      "pc": [
+        208
+      ]
+    },
+    {
+      "teal": 199,
+      "source": 54,
+      "pc": [
+        209
+      ]
+    },
+    {
+      "teal": 200,
+      "source": 54,
+      "pc": [
+        210
+      ]
+    },
+    {
+      "teal": 201,
+      "source": 54,
+      "pc": [
+        211,
+        212
+      ]
+    },
+    {
+      "teal": 202,
+      "source": 54,
+      "pc": [
+        213
+      ]
+    },
+    {
+      "teal": 203,
+      "source": 54,
+      "pc": [
+        214
+      ]
+    },
+    {
+      "teal": 204,
+      "source": 54,
+      "pc": [
+        215
+      ]
+    },
+    {
+      "teal": 205,
+      "source": 54,
+      "pc": [
+        216
+      ]
+    },
+    {
+      "teal": 206,
+      "source": 54,
+      "pc": [
+        217
+      ]
+    },
+    {
+      "teal": 209,
+      "source": 54,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        218
+      ]
+    },
+    {
+      "teal": 210,
+      "source": 54,
+      "pc": [
+        219,
+        220
+      ]
+    },
+    {
+      "teal": 214,
+      "source": 56,
+      "pc": [
+        221,
+        222
+      ]
+    },
+    {
+      "teal": 215,
+      "source": 56,
+      "pc": [
+        223,
+        224
+      ]
+    },
+    {
+      "teal": 216,
+      "source": 56,
+      "pc": [
+        225
+      ]
+    },
+    {
+      "teal": 217,
+      "source": 56,
+      "pc": [
+        226,
+        227,
+        228
+      ]
+    },
+    {
+      "teal": 218,
+      "source": 56,
+      "pc": [
+        229,
+        230
+      ]
+    },
+    {
+      "teal": 219,
+      "source": 56,
+      "pc": [
+        231,
+        232,
+        233
+      ]
+    },
+    {
+      "teal": 222,
+      "source": 56,
+      "pc": [
+        234,
+        235
+      ]
+    },
+    {
+      "teal": 225,
+      "source": 56,
+      "pc": [
+        236,
+        237
+      ]
+    },
+    {
+      "teal": 229,
+      "source": 58,
+      "pc": [
+        238,
+        239
+      ]
+    },
+    {
+      "teal": 230,
+      "source": 58,
+      "pc": [
+        240,
+        241
+      ]
+    },
+    {
+      "teal": 231,
+      "source": 58,
+      "pc": [
+        242
+      ]
+    },
+    {
+      "teal": 232,
+      "source": 58,
+      "pc": [
+        243
+      ]
+    },
+    {
+      "teal": 233,
+      "source": 58,
+      "pc": [
+        244
+      ]
+    },
+    {
+      "teal": 234,
+      "source": 58,
+      "pc": [
+        245
+      ]
+    },
+    {
+      "teal": 235,
+      "source": 58,
+      "pc": [
+        246
+      ]
+    },
+    {
+      "teal": 236,
+      "source": 58,
+      "pc": [
+        247
+      ]
+    },
+    {
+      "teal": 237,
+      "source": 58,
+      "pc": [
+        248
+      ]
+    },
+    {
+      "teal": 238,
+      "source": 58,
+      "pc": [
+        249
+      ]
+    },
+    {
+      "teal": 241,
+      "source": 58,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        250
+      ]
+    },
+    {
+      "teal": 244,
+      "source": 52,
+      "pc": [
+        251,
+        252
+      ]
+    },
+    {
+      "teal": 247,
+      "source": 52,
+      "pc": [
+        253,
+        254
+      ]
+    },
+    {
+      "teal": 248,
+      "source": 52,
+      "pc": [
+        255
+      ]
+    },
+    {
+      "teal": 252,
+      "source": 61,
+      "pc": [
+        256,
+        257,
+        258
+      ]
+    },
+    {
+      "teal": 259,
+      "source": 63,
+      "pc": [
+        259,
+        260
+      ]
+    },
+    {
+      "teal": 260,
+      "source": 63,
+      "pc": [
+        261
+      ]
+    },
+    {
+      "teal": 261,
+      "source": 63,
+      "pc": [
+        262
+      ]
+    },
+    {
+      "teal": 262,
+      "source": 63,
+      "pc": [
+        263,
+        264
+      ]
+    },
+    {
+      "teal": 263,
+      "source": 63,
+      "pc": [
+        265
+      ]
+    },
+    {
+      "teal": 264,
+      "source": 63,
+      "pc": [
+        266
+      ]
+    },
+    {
+      "teal": 265,
+      "source": 62,
+      "pc": [
+        267
+      ]
+    },
+    {
+      "teal": 266,
+      "source": 62,
+      "pc": [
+        268
+      ]
+    },
+    {
+      "teal": 267,
+      "source": 64,
+      "pc": [
+        269,
+        270
+      ]
+    },
+    {
+      "teal": 268,
+      "source": 64,
+      "pc": [
+        271
+      ]
+    },
+    {
+      "teal": 269,
+      "source": 64,
+      "pc": [
+        272
+      ]
+    },
+    {
+      "teal": 270,
+      "source": 64,
+      "pc": [
+        273,
+        274
+      ]
+    },
+    {
+      "teal": 271,
+      "source": 64,
+      "pc": [
+        275
+      ]
+    },
+    {
+      "teal": 272,
+      "source": 62,
+      "pc": [
+        276
+      ]
+    },
+    {
+      "teal": 273,
+      "source": 62,
+      "pc": [
+        277
+      ]
+    },
+    {
+      "teal": 274,
+      "source": 62,
+      "pc": [
+        278
+      ]
+    },
+    {
+      "teal": 275,
+      "source": 62,
+      "pc": [
+        279
+      ]
+    },
+    {
+      "teal": 276,
+      "source": 62,
+      "pc": [
+        280
+      ]
+    },
+    {
+      "teal": 279,
+      "source": 62,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        281
+      ]
+    },
+    {
+      "teal": 280,
+      "source": 61,
+      "pc": [
+        282
+      ]
+    },
+    {
+      "teal": 284,
+      "source": 68,
+      "pc": [
+        283,
+        284,
+        285
+      ]
+    },
+    {
+      "teal": 288,
+      "source": 69,
+      "pc": [
+        286,
+        287
+      ]
+    },
+    {
+      "teal": 289,
+      "source": 69,
+      "pc": [
+        288,
+        289
+      ]
+    },
+    {
+      "teal": 290,
+      "source": 69,
+      "pc": [
+        290
+      ]
+    },
+    {
+      "teal": 291,
+      "source": 69,
+      "pc": [
+        291
+      ]
+    },
+    {
+      "teal": 292,
+      "source": 69,
+      "pc": [
+        292,
+        293
+      ]
+    },
+    {
+      "teal": 293,
+      "source": 69,
+      "pc": [
+        294
+      ]
+    },
+    {
+      "teal": 294,
+      "source": 69,
+      "pc": [
+        295
+      ]
+    },
+    {
+      "teal": 295,
+      "source": 69,
+      "pc": [
+        296
+      ]
+    },
+    {
+      "teal": 296,
+      "source": 69,
+      "pc": [
+        297
+      ]
+    },
+    {
+      "teal": 297,
+      "source": 69,
+      "pc": [
+        298
+      ]
+    },
+    {
+      "teal": 300,
+      "source": 69,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        299
+      ]
+    },
+    {
+      "teal": 301,
+      "source": 68,
+      "pc": [
+        300
+      ]
+    },
+    {
+      "teal": 305,
+      "source": 72,
+      "pc": [
+        301,
+        302,
+        303
+      ]
+    },
+    {
+      "teal": 308,
+      "source": 72,
+      "pc": [
+        304
+      ]
+    },
+    {
+      "teal": 312,
+      "source": 73,
+      "pc": [
+        305,
+        306,
+        307
+      ]
+    },
+    {
+      "teal": 313,
+      "source": 73,
+      "pc": [
+        308,
+        309
+      ]
+    },
+    {
+      "teal": 317,
+      "source": 74,
+      "pc": [
+        310,
+        311
+      ]
+    },
+    {
+      "teal": 318,
+      "source": 74,
+      "pc": [
+        312,
+        313
+      ]
+    },
+    {
+      "teal": 319,
+      "source": 74,
+      "pc": [
+        314
+      ]
+    },
+    {
+      "teal": 320,
+      "source": 74,
+      "pc": [
+        315,
+        316
+      ]
+    },
+    {
+      "teal": 321,
+      "source": 74,
+      "pc": [
+        317,
+        318
+      ]
+    },
+    {
+      "teal": 322,
+      "source": 74,
+      "pc": [
+        319,
+        320
+      ]
+    },
+    {
+      "teal": 323,
+      "source": 74,
+      "pc": [
+        321
+      ]
+    },
+    {
+      "teal": 324,
+      "source": 74,
+      "pc": [
+        322,
+        323
+      ]
+    },
+    {
+      "teal": 325,
+      "source": 74,
+      "pc": [
+        324
+      ]
+    },
+    {
+      "teal": 326,
+      "source": 74,
+      "pc": [
+        325,
+        326
+      ]
+    },
+    {
+      "teal": 327,
+      "source": 74,
+      "pc": [
+        327
+      ]
+    },
+    {
+      "teal": 328,
+      "source": 74,
+      "pc": [
+        328
+      ]
+    },
+    {
+      "teal": 329,
+      "source": 74,
+      "pc": [
+        329
+      ]
+    },
+    {
+      "teal": 330,
+      "source": 74,
+      "pc": [
+        330,
+        331
+      ]
+    },
+    {
+      "teal": 331,
+      "source": 74,
+      "pc": [
+        332
+      ]
+    },
+    {
+      "teal": 332,
+      "source": 74,
+      "pc": [
+        333
+      ]
+    },
+    {
+      "teal": 333,
+      "source": 74,
+      "pc": [
+        334,
+        335
+      ]
+    },
+    {
+      "teal": 334,
+      "source": 74,
+      "pc": [
+        336,
+        337
+      ]
+    },
+    {
+      "teal": 335,
+      "source": 74,
+      "pc": [
+        338
+      ]
+    },
+    {
+      "teal": 336,
+      "source": 74,
+      "pc": [
+        339
+      ]
+    },
+    {
+      "teal": 337,
+      "source": 74,
+      "pc": [
+        340
+      ]
+    },
+    {
+      "teal": 338,
+      "source": 74,
+      "pc": [
+        341
+      ]
+    },
+    {
+      "teal": 339,
+      "source": 74,
+      "pc": [
+        342
+      ]
+    },
+    {
+      "teal": 340,
+      "source": 74,
+      "pc": [
+        343
+      ]
+    },
+    {
+      "teal": 341,
+      "source": 74,
+      "pc": [
+        344
+      ]
+    },
+    {
+      "teal": 344,
+      "source": 74,
+      "errorMessage": "wideRatio failed",
+      "pc": [
+        345
+      ]
+    },
+    {
+      "teal": 347,
+      "source": 72,
+      "pc": [
+        346,
+        347
+      ]
+    },
+    {
+      "teal": 348,
+      "source": 72,
+      "pc": [
+        348
+      ]
+    },
+    {
+      "teal": 353,
+      "source": 77,
+      "pc": [
+        349,
+        350,
+        351
+      ]
+    },
+    {
+      "teal": 354,
+      "source": 77,
+      "pc": [
+        352
+      ]
+    },
+    {
+      "teal": 355,
+      "source": 77,
+      "pc": [
+        353
+      ]
+    },
+    {
+      "teal": 356,
+      "source": 77,
+      "pc": [
+        354,
+        355
+      ]
+    },
+    {
+      "teal": 357,
+      "source": 77,
+      "pc": [
+        356
+      ]
+    },
+    {
+      "teal": 360,
+      "source": 77,
+      "errorMessage": "argument 0 (governor) for set_governor must be a address",
+      "pc": [
+        357
+      ]
+    },
+    {
+      "teal": 363,
+      "source": 77,
+      "pc": [
+        358,
+        359,
+        360
+      ]
+    },
+    {
+      "teal": 364,
+      "source": 77,
+      "pc": [
+        361
+      ]
+    },
+    {
+      "teal": 365,
+      "source": 77,
+      "pc": [
+        362
+      ]
+    },
+    {
+      "teal": 369,
+      "source": 77,
+      "pc": [
+        363,
+        364,
+        365
+      ]
+    },
+    {
+      "teal": 374,
+      "source": 78,
+      "pc": [
+        366,
+        367
+      ]
+    },
+    {
+      "teal": 375,
+      "source": 78,
+      "pc": [
+        368
+      ]
+    },
+    {
+      "teal": 376,
+      "source": 78,
+      "pc": [
+        369
+      ]
+    },
+    {
+      "teal": 377,
+      "source": 78,
+      "pc": [
+        370
+      ]
+    },
+    {
+      "teal": 380,
+      "source": 78,
+      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
+      "pc": [
+        371
+      ]
+    },
+    {
+      "teal": 384,
+      "source": 79,
+      "pc": [
+        372
+      ]
+    },
+    {
+      "teal": 385,
+      "source": 79,
+      "pc": [
+        373,
+        374
+      ]
+    },
+    {
+      "teal": 386,
+      "source": 79,
+      "pc": [
+        375
+      ]
+    },
+    {
+      "teal": 387,
+      "source": 77,
+      "pc": [
+        376
+      ]
+    },
+    {
+      "teal": 392,
+      "source": 82,
+      "pc": [
+        377,
+        378,
+        379,
+        380,
+        381,
+        382
+      ]
+    },
+    {
+      "teal": 395,
+      "source": 82,
+      "pc": [
+        383,
+        384,
+        385
+      ]
+    },
+    {
+      "teal": 396,
+      "source": 82,
+      "pc": [
+        386
+      ]
+    },
+    {
+      "teal": 399,
+      "source": 82,
+      "pc": [
+        387,
+        388,
+        389
+      ]
+    },
+    {
+      "teal": 400,
+      "source": 82,
+      "pc": [
+        390
+      ]
+    },
+    {
+      "teal": 403,
+      "source": 82,
+      "pc": [
+        391,
+        392
+      ]
+    },
+    {
+      "teal": 404,
+      "source": 82,
+      "pc": [
+        393
+      ]
+    },
+    {
+      "teal": 405,
+      "source": 82,
+      "pc": [
+        394
+      ]
+    },
+    {
+      "teal": 406,
+      "source": 82,
+      "pc": [
+        395
+      ]
+    },
+    {
+      "teal": 407,
+      "source": 82,
+      "pc": [
+        396,
+        397
+      ]
+    },
+    {
+      "teal": 408,
+      "source": 82,
+      "pc": [
+        398
+      ]
+    },
+    {
+      "teal": 409,
+      "source": 82,
+      "pc": [
+        399
+      ]
+    },
+    {
+      "teal": 412,
+      "source": 82,
+      "errorMessage": "argument 2 (seed) for bootstrap must be a pay transaction",
+      "pc": [
+        400
+      ]
+    },
+    {
+      "teal": 415,
+      "source": 82,
+      "pc": [
+        401,
+        402,
+        403
+      ]
+    },
+    {
+      "teal": 416,
+      "source": 82,
+      "pc": [
+        404
+      ]
+    },
+    {
+      "teal": 417,
+      "source": 82,
+      "pc": [
+        405
+      ]
+    },
+    {
+      "teal": 418,
+      "source": 82,
+      "pc": [
+        406
+      ]
+    },
+    {
+      "teal": 419,
+      "source": 82,
+      "pc": [
+        407
+      ]
+    },
+    {
+      "teal": 420,
+      "source": 82,
+      "pc": [
+        408
+      ]
+    },
+    {
+      "teal": 424,
+      "source": 82,
+      "pc": [
+        409,
+        410,
+        411
+      ]
+    },
+    {
+      "teal": 429,
+      "source": 83,
+      "pc": [
+        412,
+        413
+      ]
+    },
+    {
+      "teal": 430,
+      "source": 83,
+      "pc": [
+        414
+      ]
+    },
+    {
+      "teal": 431,
+      "source": 83,
+      "pc": [
+        415
+      ]
+    },
+    {
+      "teal": 432,
+      "source": 83,
+      "pc": [
+        416
+      ]
+    },
+    {
+      "teal": 435,
+      "source": 83,
+      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
+      "pc": [
+        417
+      ]
+    },
+    {
+      "teal": 439,
+      "source": 85,
+      "pc": [
+        418,
+        419
+      ]
+    },
+    {
+      "teal": 440,
+      "source": 85,
+      "pc": [
+        420,
+        421
+      ]
+    },
+    {
+      "teal": 441,
+      "source": 85,
+      "pc": [
+        422
+      ]
+    },
+    {
+      "teal": 442,
+      "source": 85,
+      "pc": [
+        423
+      ]
+    },
+    {
+      "teal": 447,
+      "source": 87,
+      "pc": [
+        424,
+        425
+      ]
+    },
+    {
+      "teal": 448,
+      "source": 87,
+      "pc": [
+        426,
+        427
+      ]
+    },
+    {
+      "teal": 449,
+      "source": 87,
+      "pc": [
+        428,
+        429
+      ]
+    },
+    {
+      "teal": 450,
+      "source": 87,
+      "pc": [
+        430
+      ]
+    },
+    {
+      "teal": 453,
+      "source": 87,
+      "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
+      "pc": [
+        431
+      ]
+    },
+    {
+      "teal": 456,
+      "source": 87,
+      "pc": [
+        432,
+        433
+      ]
+    },
+    {
+      "teal": 457,
+      "source": 87,
+      "pc": [
+        434,
+        435
+      ]
+    },
+    {
+      "teal": 458,
+      "source": 87,
+      "pc": [
+        436,
+        437,
+        438,
+        439
+      ]
+    },
+    {
+      "teal": 459,
+      "source": 87,
+      "pc": [
+        440
+      ]
+    },
+    {
+      "teal": 462,
+      "source": 87,
+      "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"amount\",\"condition\":\"greaterThanEqualTo\",\"expected\":\">=300_000\"}",
+      "pc": [
+        441
+      ]
+    },
+    {
+      "teal": 466,
+      "source": 88,
+      "pc": [
+        442,
+        443
+      ]
+    },
+    {
+      "teal": 467,
+      "source": 88,
+      "pc": [
+        444,
+        445
+      ]
+    },
+    {
+      "teal": 468,
+      "source": 88,
+      "pc": [
+        446
+      ]
+    },
+    {
+      "teal": 469,
+      "source": 88,
+      "pc": [
+        447
+      ]
+    },
+    {
+      "teal": 473,
+      "source": 90,
+      "pc": [
+        448
+      ]
+    },
+    {
+      "teal": 474,
+      "source": 90,
+      "pc": [
+        449,
+        450
+      ]
+    },
+    {
+      "teal": 475,
+      "source": 90,
+      "pc": [
+        451
+      ]
+    },
+    {
+      "teal": 479,
+      "source": 91,
+      "pc": [
+        452
+      ]
+    },
+    {
+      "teal": 480,
+      "source": 91,
+      "pc": [
+        453,
+        454
+      ]
+    },
+    {
+      "teal": 481,
+      "source": 91,
+      "pc": [
+        455
+      ]
+    },
+    {
+      "teal": 485,
+      "source": 92,
+      "pc": [
+        456,
+        457
+      ]
+    },
+    {
+      "teal": 486,
+      "source": 92,
+      "pc": [
+        458,
+        459
+      ]
+    },
+    {
+      "teal": 487,
+      "source": 92,
+      "pc": [
+        460,
+        461
+      ]
+    },
+    {
+      "teal": 488,
+      "source": 92,
+      "pc": [
+        462,
+        463,
+        464
+      ]
+    },
+    {
+      "teal": 489,
+      "source": 92,
+      "pc": [
+        465
+      ]
+    },
+    {
+      "teal": 493,
+      "source": 94,
+      "pc": [
+        466,
+        467
+      ]
+    },
+    {
+      "teal": 494,
+      "source": 94,
+      "pc": [
+        468,
+        469,
+        470
+      ]
+    },
+    {
+      "teal": 498,
+      "source": 95,
+      "pc": [
+        471,
+        472
+      ]
+    },
+    {
+      "teal": 499,
+      "source": 95,
+      "pc": [
+        473,
+        474,
+        475
+      ]
+    },
+    {
+      "teal": 503,
+      "source": 97,
+      "pc": [
+        476,
+        477
+      ]
+    },
+    {
+      "teal": 504,
+      "source": 97,
+      "pc": [
+        478
+      ]
+    },
+    {
+      "teal": 505,
+      "source": 82,
+      "pc": [
+        479
+      ]
+    },
+    {
+      "teal": 510,
+      "source": 100,
+      "pc": [
+        480,
+        481,
+        482
+      ]
+    },
+    {
+      "teal": 511,
+      "source": 100,
+      "pc": [
+        483
+      ]
+    },
+    {
+      "teal": 514,
+      "source": 100,
+      "pc": [
+        484,
+        485,
+        486
+      ]
+    },
+    {
+      "teal": 515,
+      "source": 100,
+      "pc": [
+        487
+      ]
+    },
+    {
+      "teal": 518,
+      "source": 100,
+      "pc": [
+        488,
+        489,
+        490
+      ]
+    },
+    {
+      "teal": 519,
+      "source": 100,
+      "pc": [
+        491
+      ]
+    },
+    {
+      "teal": 522,
+      "source": 100,
+      "pc": [
+        492,
+        493
+      ]
+    },
+    {
+      "teal": 523,
+      "source": 100,
+      "pc": [
+        494
+      ]
+    },
+    {
+      "teal": 524,
+      "source": 100,
+      "pc": [
+        495
+      ]
+    },
+    {
+      "teal": 525,
+      "source": 100,
+      "pc": [
+        496
+      ]
+    },
+    {
+      "teal": 526,
+      "source": 100,
+      "pc": [
+        497,
+        498
+      ]
+    },
+    {
+      "teal": 527,
+      "source": 100,
+      "pc": [
+        499
+      ]
+    },
+    {
+      "teal": 528,
+      "source": 100,
+      "pc": [
+        500
+      ]
+    },
+    {
+      "teal": 531,
+      "source": 100,
+      "errorMessage": "argument 3 (bXfer) for mint must be a axfer transaction",
+      "pc": [
+        501
+      ]
+    },
+    {
+      "teal": 534,
+      "source": 100,
+      "pc": [
+        502,
+        503
+      ]
+    },
+    {
+      "teal": 535,
+      "source": 100,
+      "pc": [
+        504,
+        505
+      ]
+    },
+    {
+      "teal": 536,
+      "source": 100,
+      "pc": [
+        506
+      ]
+    },
+    {
+      "teal": 537,
+      "source": 100,
+      "pc": [
+        507
+      ]
+    },
+    {
+      "teal": 538,
+      "source": 100,
+      "pc": [
+        508,
+        509
+      ]
+    },
+    {
+      "teal": 539,
+      "source": 100,
+      "pc": [
+        510
+      ]
+    },
+    {
+      "teal": 540,
+      "source": 100,
+      "pc": [
+        511
+      ]
+    },
+    {
+      "teal": 543,
+      "source": 100,
+      "errorMessage": "argument 4 (aXfer) for mint must be a axfer transaction",
+      "pc": [
+        512
+      ]
+    },
+    {
+      "teal": 546,
+      "source": 100,
+      "pc": [
+        513,
+        514,
+        515
+      ]
+    },
+    {
+      "teal": 547,
+      "source": 100,
+      "pc": [
+        516
+      ]
+    },
+    {
+      "teal": 548,
+      "source": 100,
+      "pc": [
+        517
+      ]
+    },
+    {
+      "teal": 552,
+      "source": 100,
+      "pc": [
+        518,
+        519,
+        520
+      ]
+    },
+    {
+      "teal": 555,
+      "source": 100,
+      "pc": [
+        521
+      ]
+    },
+    {
+      "teal": 560,
+      "source": 102,
+      "pc": [
+        522,
+        523
+      ]
+    },
+    {
+      "teal": 561,
+      "source": 102,
+      "pc": [
+        524
+      ]
+    },
+    {
+      "teal": 562,
+      "source": 102,
+      "pc": [
+        525
+      ]
+    },
+    {
+      "teal": 563,
+      "source": 102,
+      "pc": [
+        526
+      ]
+    },
+    {
+      "teal": 564,
+      "source": 102,
+      "pc": [
+        527
+      ]
+    },
+    {
+      "teal": 568,
+      "source": 103,
+      "pc": [
+        528,
+        529
+      ]
+    },
+    {
+      "teal": 569,
+      "source": 103,
+      "pc": [
+        530
+      ]
+    },
+    {
+      "teal": 570,
+      "source": 103,
+      "pc": [
+        531
+      ]
+    },
+    {
+      "teal": 571,
+      "source": 103,
+      "pc": [
+        532
+      ]
+    },
+    {
+      "teal": 572,
+      "source": 103,
+      "pc": [
+        533
+      ]
+    },
+    {
+      "teal": 576,
+      "source": 104,
+      "pc": [
+        534,
+        535
+      ]
+    },
+    {
+      "teal": 577,
+      "source": 104,
+      "pc": [
+        536,
+        537
+      ]
+    },
+    {
+      "teal": 578,
+      "source": 104,
+      "pc": [
+        538
+      ]
+    },
+    {
+      "teal": 579,
+      "source": 104,
+      "pc": [
+        539
+      ]
+    },
+    {
+      "teal": 580,
+      "source": 104,
+      "pc": [
+        540
+      ]
+    },
+    {
+      "teal": 591,
+      "source": 107,
+      "pc": [
+        541,
+        542
+      ]
+    },
+    {
+      "teal": 592,
+      "source": 108,
+      "pc": [
+        543,
+        544
+      ]
+    },
+    {
+      "teal": 593,
+      "source": 108,
+      "pc": [
+        545,
+        546
+      ]
+    },
+    {
+      "teal": 594,
+      "source": 108,
+      "pc": [
+        547
+      ]
+    },
+    {
+      "teal": 597,
+      "source": 108,
+      "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
+      "pc": [
+        548
+      ]
+    },
+    {
+      "teal": 600,
+      "source": 107,
+      "pc": [
+        549,
+        550
+      ]
+    },
+    {
+      "teal": 601,
+      "source": 109,
+      "pc": [
+        551,
+        552
+      ]
+    },
+    {
+      "teal": 602,
+      "source": 109,
+      "pc": [
+        553
+      ]
+    },
+    {
+      "teal": 603,
+      "source": 109,
+      "pc": [
+        554
+      ]
+    },
+    {
+      "teal": 606,
+      "source": 109,
+      "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
+      "pc": [
+        555
+      ]
+    },
+    {
+      "teal": 609,
+      "source": 107,
+      "pc": [
+        556,
+        557
+      ]
+    },
+    {
+      "teal": 610,
+      "source": 110,
+      "pc": [
+        558,
+        559
+      ]
+    },
+    {
+      "teal": 611,
+      "source": 110,
+      "pc": [
+        560,
+        561
+      ]
+    },
+    {
+      "teal": 612,
+      "source": 110,
+      "pc": [
+        562
+      ]
+    },
+    {
+      "teal": 615,
+      "source": 110,
+      "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
+      "pc": [
+        563
+      ]
+    },
+    {
+      "teal": 618,
+      "source": 107,
+      "pc": [
+        564,
+        565
+      ]
+    },
+    {
+      "teal": 619,
+      "source": 111,
+      "pc": [
+        566,
+        567
+      ]
+    },
+    {
+      "teal": 620,
+      "source": 111,
+      "pc": [
+        568,
+        569
+      ]
+    },
+    {
+      "teal": 621,
+      "source": 111,
+      "pc": [
+        570
+      ]
+    },
+    {
+      "teal": 624,
+      "source": 111,
+      "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"xferAsset\",\"expected\":\"aAsset\"}",
+      "pc": [
+        571
+      ]
+    },
+    {
+      "teal": 635,
+      "source": 115,
+      "pc": [
+        572,
+        573
+      ]
+    },
+    {
+      "teal": 636,
+      "source": 116,
+      "pc": [
+        574,
+        575
+      ]
+    },
+    {
+      "teal": 637,
+      "source": 116,
+      "pc": [
+        576,
+        577
+      ]
+    },
+    {
+      "teal": 638,
+      "source": 116,
+      "pc": [
+        578
+      ]
+    },
+    {
+      "teal": 641,
+      "source": 116,
+      "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
+      "pc": [
+        579
+      ]
+    },
+    {
+      "teal": 644,
+      "source": 115,
+      "pc": [
+        580,
+        581
+      ]
+    },
+    {
+      "teal": 645,
+      "source": 117,
+      "pc": [
+        582,
+        583
+      ]
+    },
+    {
+      "teal": 646,
+      "source": 117,
+      "pc": [
+        584
+      ]
+    },
+    {
+      "teal": 647,
+      "source": 117,
+      "pc": [
+        585
+      ]
+    },
+    {
+      "teal": 650,
+      "source": 117,
+      "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
+      "pc": [
+        586
+      ]
+    },
+    {
+      "teal": 653,
+      "source": 115,
+      "pc": [
+        587,
+        588
+      ]
+    },
+    {
+      "teal": 654,
+      "source": 118,
+      "pc": [
+        589,
+        590
+      ]
+    },
+    {
+      "teal": 655,
+      "source": 118,
+      "pc": [
+        591,
+        592
+      ]
+    },
+    {
+      "teal": 656,
+      "source": 118,
+      "pc": [
+        593
+      ]
+    },
+    {
+      "teal": 659,
+      "source": 118,
+      "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
+      "pc": [
+        594
+      ]
+    },
+    {
+      "teal": 662,
+      "source": 115,
+      "pc": [
+        595,
+        596
+      ]
+    },
+    {
+      "teal": 663,
+      "source": 119,
+      "pc": [
+        597,
+        598
+      ]
+    },
+    {
+      "teal": 664,
+      "source": 119,
+      "pc": [
+        599,
+        600
+      ]
+    },
+    {
+      "teal": 665,
+      "source": 119,
+      "pc": [
+        601
+      ]
+    },
+    {
+      "teal": 668,
+      "source": 119,
+      "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"xferAsset\",\"expected\":\"bAsset\"}",
+      "pc": [
+        602
+      ]
+    },
+    {
+      "teal": 674,
+      "source": 123,
+      "pc": [
+        603,
+        604
+      ]
+    },
+    {
+      "teal": 675,
+      "source": 123,
+      "pc": [
+        605,
+        606
+      ]
+    },
+    {
+      "teal": 676,
+      "source": 123,
+      "pc": [
+        607,
+        608
+      ]
+    },
+    {
+      "teal": 677,
+      "source": 123,
+      "pc": [
+        609
+      ]
+    },
+    {
+      "teal": 678,
+      "source": 123,
+      "pc": [
+        610,
+        611
+      ]
+    },
+    {
+      "teal": 679,
+      "source": 123,
+      "pc": [
+        612,
+        613
+      ]
+    },
+    {
+      "teal": 680,
+      "source": 123,
+      "pc": [
+        614
+      ]
+    },
+    {
+      "teal": 681,
+      "source": 123,
+      "pc": [
+        615
+      ]
+    },
+    {
+      "teal": 682,
+      "source": 123,
+      "pc": [
+        616,
+        617,
+        618
+      ]
+    },
+    {
+      "teal": 683,
+      "source": 124,
+      "pc": [
+        619,
+        620
+      ]
+    },
+    {
+      "teal": 684,
+      "source": 124,
+      "pc": [
+        621,
+        622
+      ]
+    },
+    {
+      "teal": 685,
+      "source": 124,
+      "pc": [
+        623,
+        624
+      ]
+    },
+    {
+      "teal": 686,
+      "source": 124,
+      "pc": [
+        625
+      ]
+    },
+    {
+      "teal": 687,
+      "source": 124,
+      "pc": [
+        626,
+        627
+      ]
+    },
+    {
+      "teal": 688,
+      "source": 124,
+      "pc": [
+        628,
+        629
+      ]
+    },
+    {
+      "teal": 689,
+      "source": 124,
+      "pc": [
+        630
+      ]
+    },
+    {
+      "teal": 690,
+      "source": 123,
+      "pc": [
+        631
+      ]
+    },
+    {
+      "teal": 693,
+      "source": 122,
+      "pc": [
+        632,
+        633,
+        634
+      ]
+    },
+    {
+      "teal": 698,
+      "source": 126,
+      "pc": [
+        635,
+        636
+      ]
+    },
+    {
+      "teal": 699,
+      "source": 126,
+      "pc": [
+        637,
+        638
+      ]
+    },
+    {
+      "teal": 700,
+      "source": 126,
+      "pc": [
+        639,
+        640
+      ]
+    },
+    {
+      "teal": 701,
+      "source": 126,
+      "pc": [
+        641,
+        642
+      ]
+    },
+    {
+      "teal": 702,
+      "source": 126,
+      "pc": [
+        643,
+        644,
+        645
+      ]
+    },
+    {
+      "teal": 703,
+      "source": 122,
+      "pc": [
+        646,
+        647,
+        648
+      ]
+    },
+    {
+      "teal": 714,
+      "source": 133,
+      "pc": [
+        649,
+        650
+      ]
+    },
+    {
+      "teal": 715,
+      "source": 133,
+      "pc": [
+        651,
+        652
+      ]
+    },
+    {
+      "teal": 716,
+      "source": 132,
+      "pc": [
+        653,
+        654
+      ]
+    },
+    {
+      "teal": 717,
+      "source": 132,
+      "pc": [
+        655,
+        656
+      ]
+    },
+    {
+      "teal": 718,
+      "source": 131,
+      "pc": [
+        657,
+        658
+      ]
+    },
+    {
+      "teal": 719,
+      "source": 131,
+      "pc": [
+        659,
+        660
+      ]
+    },
+    {
+      "teal": 720,
+      "source": 131,
+      "pc": [
+        661,
+        662
+      ]
+    },
+    {
+      "teal": 721,
+      "source": 131,
+      "pc": [
+        663
+      ]
+    },
+    {
+      "teal": 722,
+      "source": 131,
+      "pc": [
+        664,
+        665
+      ]
+    },
+    {
+      "teal": 723,
+      "source": 131,
+      "pc": [
+        666,
+        667
+      ]
+    },
+    {
+      "teal": 724,
+      "source": 131,
+      "pc": [
+        668
+      ]
+    },
+    {
+      "teal": 725,
+      "source": 130,
+      "pc": [
+        669,
+        670
+      ]
+    },
+    {
+      "teal": 726,
+      "source": 130,
+      "pc": [
+        671,
+        672
+      ]
+    },
+    {
+      "teal": 727,
+      "source": 130,
+      "pc": [
+        673,
+        674
+      ]
+    },
+    {
+      "teal": 728,
+      "source": 130,
+      "pc": [
+        675
+      ]
+    },
+    {
+      "teal": 729,
+      "source": 130,
+      "pc": [
+        676,
+        677
+      ]
+    },
+    {
+      "teal": 730,
+      "source": 130,
+      "pc": [
+        678,
+        679
+      ]
+    },
+    {
+      "teal": 731,
+      "source": 130,
+      "pc": [
+        680
+      ]
+    },
+    {
+      "teal": 732,
+      "source": 129,
+      "pc": [
+        681,
+        682
+      ]
+    },
+    {
+      "teal": 733,
+      "source": 129,
+      "pc": [
+        683,
+        684
+      ]
+    },
+    {
+      "teal": 734,
+      "source": 129,
+      "pc": [
+        685,
+        686
+      ]
+    },
+    {
+      "teal": 735,
+      "source": 129,
+      "pc": [
+        687,
+        688
+      ]
+    },
+    {
+      "teal": 736,
+      "source": 129,
+      "pc": [
+        689
+      ]
+    },
+    {
+      "teal": 737,
+      "source": 129,
+      "pc": [
+        690
+      ]
+    },
+    {
+      "teal": 738,
+      "source": 128,
+      "pc": [
+        691,
+        692,
+        693
+      ]
+    },
+    {
+      "teal": 739,
+      "source": 128,
+      "pc": [
+        694,
+        695
+      ]
+    },
+    {
+      "teal": 743,
+      "source": 136,
+      "pc": [
+        696,
+        697
+      ]
+    },
+    {
+      "teal": 744,
+      "source": 136,
+      "pc": [
+        698
+      ]
+    },
+    {
+      "teal": 745,
+      "source": 136,
+      "pc": [
+        699
+      ]
+    },
+    {
+      "teal": 746,
+      "source": 136,
+      "pc": [
+        700
+      ]
+    },
+    {
+      "teal": 750,
+      "source": 138,
+      "pc": [
+        701,
+        702
+      ]
+    },
+    {
+      "teal": 751,
+      "source": 138,
+      "pc": [
+        703,
+        704
+      ]
+    },
+    {
+      "teal": 752,
+      "source": 138,
+      "pc": [
+        705,
+        706
+      ]
+    },
+    {
+      "teal": 753,
+      "source": 138,
+      "pc": [
+        707,
+        708,
+        709
+      ]
+    },
+    {
+      "teal": 756,
+      "source": 100,
+      "pc": [
+        710
+      ]
+    },
+    {
+      "teal": 761,
+      "source": 142,
+      "pc": [
+        711,
+        712,
+        713
+      ]
+    },
+    {
+      "teal": 762,
+      "source": 142,
+      "pc": [
+        714
+      ]
+    },
+    {
+      "teal": 765,
+      "source": 142,
+      "pc": [
+        715,
+        716,
+        717
+      ]
+    },
+    {
+      "teal": 766,
+      "source": 142,
+      "pc": [
+        718
+      ]
+    },
+    {
+      "teal": 769,
+      "source": 142,
+      "pc": [
+        719,
+        720,
+        721
+      ]
+    },
+    {
+      "teal": 770,
+      "source": 142,
+      "pc": [
+        722
+      ]
+    },
+    {
+      "teal": 773,
+      "source": 142,
+      "pc": [
+        723,
+        724
+      ]
+    },
+    {
+      "teal": 774,
+      "source": 142,
+      "pc": [
+        725
+      ]
+    },
+    {
+      "teal": 775,
+      "source": 142,
+      "pc": [
+        726
+      ]
+    },
+    {
+      "teal": 776,
+      "source": 142,
+      "pc": [
+        727
+      ]
+    },
+    {
+      "teal": 777,
+      "source": 142,
+      "pc": [
+        728,
+        729
+      ]
+    },
+    {
+      "teal": 778,
+      "source": 142,
+      "pc": [
+        730
+      ]
+    },
+    {
+      "teal": 779,
+      "source": 142,
+      "pc": [
+        731
+      ]
+    },
+    {
+      "teal": 782,
+      "source": 142,
+      "errorMessage": "argument 3 (poolXfer) for burn must be a axfer transaction",
+      "pc": [
+        732
+      ]
+    },
+    {
+      "teal": 785,
+      "source": 142,
+      "pc": [
+        733,
+        734,
+        735
+      ]
+    },
+    {
+      "teal": 786,
+      "source": 142,
+      "pc": [
+        736
+      ]
+    },
+    {
+      "teal": 787,
+      "source": 142,
+      "pc": [
+        737
+      ]
+    },
+    {
+      "teal": 791,
+      "source": 142,
+      "pc": [
+        738,
+        739,
+        740
+      ]
+    },
+    {
+      "teal": 794,
+      "source": 142,
+      "pc": [
+        741
+      ]
+    },
+    {
+      "teal": 795,
+      "source": 142,
+      "pc": [
+        742,
+        743
+      ]
+    },
+    {
+      "teal": 800,
+      "source": 144,
+      "pc": [
+        744,
+        745
+      ]
+    },
+    {
+      "teal": 801,
+      "source": 144,
+      "pc": [
+        746,
+        747
+      ]
+    },
+    {
+      "teal": 802,
+      "source": 144,
+      "pc": [
+        748
+      ]
+    },
+    {
+      "teal": 803,
+      "source": 144,
+      "pc": [
+        749
+      ]
+    },
+    {
+      "teal": 804,
+      "source": 144,
+      "pc": [
+        750
+      ]
+    },
+    {
+      "teal": 808,
+      "source": 145,
+      "pc": [
+        751,
+        752
+      ]
+    },
+    {
+      "teal": 809,
+      "source": 145,
+      "pc": [
+        753
+      ]
+    },
+    {
+      "teal": 810,
+      "source": 145,
+      "pc": [
+        754
+      ]
+    },
+    {
+      "teal": 811,
+      "source": 145,
+      "pc": [
+        755
+      ]
+    },
+    {
+      "teal": 812,
+      "source": 145,
+      "pc": [
+        756
+      ]
+    },
+    {
+      "teal": 816,
+      "source": 146,
+      "pc": [
+        757,
+        758
+      ]
+    },
+    {
+      "teal": 817,
+      "source": 146,
+      "pc": [
+        759
+      ]
+    },
+    {
+      "teal": 818,
+      "source": 146,
+      "pc": [
+        760
+      ]
+    },
+    {
+      "teal": 819,
+      "source": 146,
+      "pc": [
+        761
+      ]
+    },
+    {
+      "teal": 820,
+      "source": 146,
+      "pc": [
+        762
+      ]
+    },
+    {
+      "teal": 831,
+      "source": 149,
+      "pc": [
+        763,
+        764
+      ]
+    },
+    {
+      "teal": 832,
+      "source": 150,
+      "pc": [
+        765,
+        766
+      ]
+    },
+    {
+      "teal": 833,
+      "source": 150,
+      "pc": [
+        767,
+        768
+      ]
+    },
+    {
+      "teal": 834,
+      "source": 150,
+      "pc": [
+        769
+      ]
+    },
+    {
+      "teal": 837,
+      "source": 150,
+      "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
+      "pc": [
+        770
+      ]
+    },
+    {
+      "teal": 840,
+      "source": 149,
+      "pc": [
+        771,
+        772
+      ]
+    },
+    {
+      "teal": 841,
+      "source": 151,
+      "pc": [
+        773,
+        774
+      ]
+    },
+    {
+      "teal": 842,
+      "source": 151,
+      "pc": [
+        775
+      ]
+    },
+    {
+      "teal": 843,
+      "source": 151,
+      "pc": [
+        776
+      ]
+    },
+    {
+      "teal": 846,
+      "source": 151,
+      "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
+      "pc": [
+        777
+      ]
+    },
+    {
+      "teal": 849,
+      "source": 149,
+      "pc": [
+        778,
+        779
+      ]
+    },
+    {
+      "teal": 850,
+      "source": 152,
+      "pc": [
+        780,
+        781
+      ]
+    },
+    {
+      "teal": 851,
+      "source": 152,
+      "pc": [
+        782,
+        783
+      ]
+    },
+    {
+      "teal": 852,
+      "source": 152,
+      "pc": [
+        784
+      ]
+    },
+    {
+      "teal": 855,
+      "source": 152,
+      "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
+      "pc": [
+        785
+      ]
+    },
+    {
+      "teal": 858,
+      "source": 149,
+      "pc": [
+        786,
+        787
+      ]
+    },
+    {
+      "teal": 859,
+      "source": 153,
+      "pc": [
+        788,
+        789
+      ]
+    },
+    {
+      "teal": 860,
+      "source": 153,
+      "pc": [
+        790,
+        791
+      ]
+    },
+    {
+      "teal": 861,
+      "source": 153,
+      "pc": [
+        792
+      ]
+    },
+    {
+      "teal": 864,
+      "source": 153,
+      "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"xferAsset\",\"expected\":\"poolAsset\"}",
+      "pc": [
+        793
+      ]
+    },
+    {
+      "teal": 868,
+      "source": 156,
+      "pc": [
+        794,
+        795
+      ]
+    },
+    {
+      "teal": 869,
+      "source": 156,
+      "pc": [
+        796,
+        797
+      ]
+    },
+    {
+      "teal": 870,
+      "source": 156,
+      "pc": [
+        798,
+        799
+      ]
+    },
+    {
+      "teal": 871,
+      "source": 156,
+      "pc": [
+        800,
+        801
+      ]
+    },
+    {
+      "teal": 872,
+      "source": 156,
+      "pc": [
+        802
+      ]
+    },
+    {
+      "teal": 873,
+      "source": 156,
+      "pc": [
+        803,
+        804
+      ]
+    },
+    {
+      "teal": 874,
+      "source": 156,
+      "pc": [
+        805,
+        806
+      ]
+    },
+    {
+      "teal": 875,
+      "source": 156,
+      "pc": [
+        807
+      ]
+    },
+    {
+      "teal": 876,
+      "source": 156,
+      "pc": [
+        808
+      ]
+    },
+    {
+      "teal": 877,
+      "source": 156,
+      "pc": [
+        809,
+        810
+      ]
+    },
+    {
+      "teal": 881,
+      "source": 158,
+      "pc": [
+        811,
+        812
+      ]
+    },
+    {
+      "teal": 882,
+      "source": 158,
+      "pc": [
+        813,
+        814
+      ]
+    },
+    {
+      "teal": 883,
+      "source": 158,
+      "pc": [
+        815,
+        816
+      ]
+    },
+    {
+      "teal": 884,
+      "source": 158,
+      "pc": [
+        817,
+        818
+      ]
+    },
+    {
+      "teal": 885,
+      "source": 158,
+      "pc": [
+        819,
+        820
+      ]
+    },
+    {
+      "teal": 886,
+      "source": 158,
+      "pc": [
+        821
+      ]
+    },
+    {
+      "teal": 887,
+      "source": 158,
+      "pc": [
+        822,
+        823
+      ]
+    },
+    {
+      "teal": 888,
+      "source": 158,
+      "pc": [
+        824,
+        825,
+        826
+      ]
+    },
+    {
+      "teal": 889,
+      "source": 158,
+      "pc": [
+        827,
+        828
+      ]
+    },
+    {
+      "teal": 893,
+      "source": 160,
+      "pc": [
+        829,
+        830
+      ]
+    },
+    {
+      "teal": 894,
+      "source": 160,
+      "pc": [
+        831,
+        832
+      ]
+    },
+    {
+      "teal": 895,
+      "source": 160,
+      "pc": [
+        833,
+        834
+      ]
+    },
+    {
+      "teal": 896,
+      "source": 160,
+      "pc": [
+        835,
+        836
+      ]
+    },
+    {
+      "teal": 897,
+      "source": 160,
+      "pc": [
+        837,
+        838
+      ]
+    },
+    {
+      "teal": 898,
+      "source": 160,
+      "pc": [
+        839
+      ]
+    },
+    {
+      "teal": 899,
+      "source": 160,
+      "pc": [
+        840,
+        841
+      ]
+    },
+    {
+      "teal": 900,
+      "source": 160,
+      "pc": [
+        842,
+        843,
+        844
+      ]
+    },
+    {
+      "teal": 901,
+      "source": 160,
+      "pc": [
+        845,
+        846
+      ]
+    },
+    {
+      "teal": 905,
+      "source": 162,
+      "pc": [
+        847,
+        848
+      ]
+    },
+    {
+      "teal": 906,
+      "source": 162,
+      "pc": [
+        849,
+        850
+      ]
+    },
+    {
+      "teal": 907,
+      "source": 162,
+      "pc": [
+        851,
+        852
+      ]
+    },
+    {
+      "teal": 908,
+      "source": 162,
+      "pc": [
+        853,
+        854,
+        855
+      ]
+    },
+    {
+      "teal": 912,
+      "source": 163,
+      "pc": [
+        856,
+        857
+      ]
+    },
+    {
+      "teal": 913,
+      "source": 163,
+      "pc": [
+        858,
+        859
+      ]
+    },
+    {
+      "teal": 914,
+      "source": 163,
+      "pc": [
+        860,
+        861
+      ]
+    },
+    {
+      "teal": 915,
+      "source": 163,
+      "pc": [
+        862,
+        863,
+        864
+      ]
+    },
+    {
+      "teal": 919,
+      "source": 165,
+      "pc": [
+        865,
+        866
+      ]
+    },
+    {
+      "teal": 920,
+      "source": 165,
+      "pc": [
+        867,
+        868,
+        869
+      ]
+    },
+    {
+      "teal": 921,
+      "source": 165,
+      "pc": [
+        870
+      ]
+    },
+    {
+      "teal": 922,
+      "source": 142,
+      "pc": [
+        871
+      ]
+    },
+    {
+      "teal": 927,
+      "source": 168,
+      "pc": [
+        872,
+        873,
+        874
+      ]
+    },
+    {
+      "teal": 928,
+      "source": 168,
+      "pc": [
+        875
+      ]
+    },
+    {
+      "teal": 931,
+      "source": 168,
+      "pc": [
+        876,
+        877,
+        878
+      ]
+    },
+    {
+      "teal": 932,
+      "source": 168,
+      "pc": [
+        879
+      ]
+    },
+    {
+      "teal": 935,
+      "source": 168,
+      "pc": [
+        880,
+        881
+      ]
+    },
+    {
+      "teal": 936,
+      "source": 168,
+      "pc": [
+        882
+      ]
+    },
+    {
+      "teal": 937,
+      "source": 168,
+      "pc": [
+        883
+      ]
+    },
+    {
+      "teal": 938,
+      "source": 168,
+      "pc": [
+        884
+      ]
+    },
+    {
+      "teal": 939,
+      "source": 168,
+      "pc": [
+        885,
+        886
+      ]
+    },
+    {
+      "teal": 940,
+      "source": 168,
+      "pc": [
+        887
+      ]
+    },
+    {
+      "teal": 941,
+      "source": 168,
+      "pc": [
+        888
+      ]
+    },
+    {
+      "teal": 944,
+      "source": 168,
+      "errorMessage": "argument 2 (swapXfer) for swap must be a axfer transaction",
+      "pc": [
+        889
+      ]
+    },
+    {
+      "teal": 947,
+      "source": 168,
+      "pc": [
+        890,
+        891,
+        892
+      ]
+    },
+    {
+      "teal": 948,
+      "source": 168,
+      "pc": [
+        893
+      ]
+    },
+    {
+      "teal": 949,
+      "source": 168,
+      "pc": [
+        894
+      ]
+    },
+    {
+      "teal": 953,
+      "source": 168,
+      "pc": [
+        895,
+        896,
+        897
+      ]
+    },
+    {
+      "teal": 956,
+      "source": 168,
+      "pc": [
+        898
+      ]
+    },
+    {
+      "teal": 957,
+      "source": 168,
+      "pc": [
+        899,
+        900
+      ]
+    },
+    {
+      "teal": 962,
+      "source": 170,
+      "pc": [
+        901,
+        902
+      ]
+    },
+    {
+      "teal": 963,
+      "source": 170,
+      "pc": [
+        903
+      ]
+    },
+    {
+      "teal": 964,
+      "source": 170,
+      "pc": [
+        904
+      ]
+    },
+    {
+      "teal": 965,
+      "source": 170,
+      "pc": [
+        905
+      ]
+    },
+    {
+      "teal": 966,
+      "source": 170,
+      "pc": [
+        906
+      ]
+    },
+    {
+      "teal": 970,
+      "source": 171,
+      "pc": [
+        907,
+        908
+      ]
+    },
+    {
+      "teal": 971,
+      "source": 171,
+      "pc": [
+        909
+      ]
+    },
+    {
+      "teal": 972,
+      "source": 171,
+      "pc": [
+        910
+      ]
+    },
+    {
+      "teal": 973,
+      "source": 171,
+      "pc": [
+        911
+      ]
+    },
+    {
+      "teal": 974,
+      "source": 171,
+      "pc": [
+        912
+      ]
+    },
+    {
+      "teal": 984,
+      "source": 173,
+      "pc": [
+        913,
+        914
+      ]
+    },
+    {
+      "teal": 985,
+      "source": 174,
+      "pc": [
+        915,
+        916
+      ]
+    },
+    {
+      "teal": 986,
+      "source": 174,
+      "pc": [
+        917
+      ]
+    },
+    {
+      "teal": 987,
+      "source": 174,
+      "pc": [
+        918
+      ]
+    },
+    {
+      "teal": 990,
+      "source": 174,
+      "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
+      "pc": [
+        919
+      ]
+    },
+    {
+      "teal": 993,
+      "source": 173,
+      "pc": [
+        920,
+        921
+      ]
+    },
+    {
+      "teal": 994,
+      "source": 175,
+      "pc": [
+        922,
+        923
+      ]
+    },
+    {
+      "teal": 995,
+      "source": 175,
+      "pc": [
+        924,
+        925
+      ]
+    },
+    {
+      "teal": 996,
+      "source": 175,
+      "pc": [
+        926
+      ]
+    },
+    {
+      "teal": 999,
+      "source": 175,
+      "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
+      "pc": [
+        927
+      ]
+    },
+    {
+      "teal": 1002,
+      "source": 173,
+      "pc": [
+        928,
+        929
+      ]
+    },
+    {
+      "teal": 1003,
+      "source": 176,
+      "pc": [
+        930,
+        931
+      ]
+    },
+    {
+      "teal": 1004,
+      "source": 176,
+      "pc": [
+        932,
+        933
+      ]
+    },
+    {
+      "teal": 1005,
+      "source": 176,
+      "pc": [
+        934
+      ]
+    },
+    {
+      "teal": 1008,
+      "source": 176,
+      "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
+      "pc": [
+        935
+      ]
+    },
+    {
+      "teal": 1011,
+      "source": 173,
+      "pc": [
+        936,
+        937
+      ]
+    },
+    {
+      "teal": 1012,
+      "source": 177,
+      "pc": [
+        938,
+        939
+      ]
+    },
+    {
+      "teal": 1013,
+      "source": 177,
+      "pc": [
+        940,
+        941
+      ]
+    },
+    {
+      "teal": 1014,
+      "source": 177,
+      "pc": [
+        942
+      ]
+    },
+    {
+      "teal": 1015,
+      "source": 173,
+      "pc": [
+        943,
+        944
+      ]
+    },
+    {
+      "teal": 1016,
+      "source": 177,
+      "pc": [
+        945,
+        946
+      ]
+    },
+    {
+      "teal": 1017,
+      "source": 177,
+      "pc": [
+        947,
+        948
+      ]
+    },
+    {
+      "teal": 1018,
+      "source": 177,
+      "pc": [
+        949
+      ]
+    },
+    {
+      "teal": 1019,
+      "source": 177,
+      "pc": [
+        950
+      ]
+    },
+    {
+      "teal": 1022,
+      "source": 177,
+      "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"swapXfer\"},\"field\":\"xferAsset\",\"condition\":\"includedIn\",\"expected\":\"[aAsset, bAsset]\"}",
+      "pc": [
+        951
+      ]
+    },
+    {
+      "teal": 1026,
+      "source": 180,
+      "pc": [
+        952,
+        953
+      ]
+    },
+    {
+      "teal": 1027,
+      "source": 180,
+      "pc": [
+        954,
+        955
+      ]
+    },
+    {
+      "teal": 1028,
+      "source": 180,
+      "pc": [
+        956,
+        957
+      ]
+    },
+    {
+      "teal": 1029,
+      "source": 180,
+      "pc": [
+        958
+      ]
+    },
+    {
+      "teal": 1030,
+      "source": 180,
+      "pc": [
+        959,
+        960,
+        961
+      ]
+    },
+    {
+      "teal": 1031,
+      "source": 180,
+      "pc": [
+        962,
+        963
+      ]
+    },
+    {
+      "teal": 1032,
+      "source": 180,
+      "pc": [
+        964,
+        965,
+        966
+      ]
+    },
+    {
+      "teal": 1035,
+      "source": 180,
+      "pc": [
+        967,
+        968
+      ]
+    },
+    {
+      "teal": 1038,
+      "source": 180,
+      "pc": [
+        969,
+        970
+      ]
+    },
+    {
+      "teal": 1042,
+      "source": 182,
+      "pc": [
+        971,
+        972
+      ]
+    },
+    {
+      "teal": 1043,
+      "source": 182,
+      "pc": [
+        973,
+        974
+      ]
+    },
+    {
+      "teal": 1044,
+      "source": 182,
+      "pc": [
+        975,
+        976
+      ]
+    },
+    {
+      "teal": 1052,
+      "source": 187,
+      "pc": [
+        977,
+        978
+      ]
+    },
+    {
+      "teal": 1053,
+      "source": 187,
+      "pc": [
+        979,
+        980
+      ]
+    },
+    {
+      "teal": 1054,
+      "source": 187,
+      "pc": [
+        981,
+        982
+      ]
+    },
+    {
+      "teal": 1055,
+      "source": 187,
+      "pc": [
+        983
+      ]
+    },
+    {
+      "teal": 1056,
+      "source": 186,
+      "pc": [
+        984,
+        985
+      ]
+    },
+    {
+      "teal": 1057,
+      "source": 186,
+      "pc": [
+        986,
+        987
+      ]
+    },
+    {
+      "teal": 1058,
+      "source": 186,
+      "pc": [
+        988,
+        989
+      ]
+    },
+    {
+      "teal": 1059,
+      "source": 186,
+      "pc": [
+        990
+      ]
+    },
+    {
+      "teal": 1060,
+      "source": 186,
+      "pc": [
+        991,
+        992
+      ]
+    },
+    {
+      "teal": 1061,
+      "source": 186,
+      "pc": [
+        993,
+        994
+      ]
+    },
+    {
+      "teal": 1062,
+      "source": 186,
+      "pc": [
+        995
+      ]
+    },
+    {
+      "teal": 1063,
+      "source": 185,
+      "pc": [
+        996,
+        997
+      ]
+    },
+    {
+      "teal": 1064,
+      "source": 185,
+      "pc": [
+        998,
+        999
+      ]
+    },
+    {
+      "teal": 1065,
+      "source": 184,
+      "pc": [
+        1000,
+        1001,
+        1002
+      ]
+    },
+    {
+      "teal": 1066,
+      "source": 184,
+      "pc": [
+        1003,
+        1004
+      ]
+    },
+    {
+      "teal": 1070,
+      "source": 190,
+      "pc": [
+        1005,
+        1006
+      ]
+    },
+    {
+      "teal": 1071,
+      "source": 190,
+      "pc": [
+        1007
+      ]
+    },
+    {
+      "teal": 1072,
+      "source": 190,
+      "pc": [
+        1008
+      ]
+    },
+    {
+      "teal": 1073,
+      "source": 190,
+      "pc": [
+        1009
+      ]
+    },
+    {
+      "teal": 1077,
+      "source": 192,
+      "pc": [
+        1010,
+        1011
+      ]
+    },
+    {
+      "teal": 1078,
+      "source": 192,
+      "pc": [
+        1012,
+        1013
+      ]
+    },
+    {
+      "teal": 1079,
+      "source": 192,
+      "pc": [
+        1014,
+        1015
+      ]
+    },
+    {
+      "teal": 1080,
+      "source": 192,
+      "pc": [
+        1016,
+        1017,
+        1018
+      ]
+    },
+    {
+      "teal": 1084,
+      "source": 194,
+      "pc": [
+        1019,
+        1020
+      ]
+    },
+    {
+      "teal": 1085,
+      "source": 194,
+      "pc": [
+        1021,
+        1022,
+        1023
+      ]
+    },
+    {
+      "teal": 1086,
+      "source": 194,
+      "pc": [
+        1024
+      ]
+    },
+    {
+      "teal": 1087,
+      "source": 168,
+      "pc": [
+        1025
+      ]
+    },
+    {
+      "teal": 1090,
+      "source": 8,
+      "pc": [
+        1026,
+        1027,
+        1028,
+        1029,
+        1030,
+        1031
+      ]
+    },
+    {
+      "teal": 1091,
+      "source": 8,
+      "pc": [
+        1032,
+        1033,
+        1034
+      ]
+    },
+    {
+      "teal": 1092,
+      "source": 8,
+      "pc": [
+        1035,
+        1036,
+        1037,
+        1038
+      ]
+    },
+    {
+      "teal": 1095,
+      "source": 8,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        1039
+      ]
+    },
+    {
+      "teal": 1098,
+      "source": 8,
+      "pc": [
+        1040,
+        1041,
+        1042,
+        1043,
+        1044,
+        1045
+      ]
+    },
+    {
+      "teal": 1099,
+      "source": 8,
+      "pc": [
+        1046,
+        1047,
+        1048,
+        1049,
+        1050,
+        1051
+      ]
+    },
+    {
+      "teal": 1100,
+      "source": 8,
+      "pc": [
+        1052,
+        1053,
+        1054,
+        1055,
+        1056,
+        1057
+      ]
+    },
+    {
+      "teal": 1101,
+      "source": 8,
+      "pc": [
+        1058,
+        1059,
+        1060,
+        1061,
+        1062,
+        1063
+      ]
+    },
+    {
+      "teal": 1102,
+      "source": 8,
+      "pc": [
+        1064,
+        1065,
+        1066,
+        1067,
+        1068,
+        1069
+      ]
+    },
+    {
+      "teal": 1103,
+      "source": 8,
+      "pc": [
+        1070,
+        1071,
+        1072
+      ]
+    },
+    {
+      "teal": 1104,
+      "source": 8,
+      "pc": [
+        1073,
+        1074,
+        1075,
+        1076,
+        1077,
+        1078,
+        1079,
+        1080,
+        1081,
+        1082,
+        1083,
+        1084
+      ]
+    },
+    {
+      "teal": 1107,
+      "source": 8,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        1085
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjkzLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CgkvLyBleGVjdXRlIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIGNyZWF0ZUFwcGxpY2F0aW9uCglpbnQgMQoJcmV0dXJuCgovLyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkCmNyZWF0ZUFwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjIwCgkvLyB0aGlzLmdvdmVybm9yLnZhbHVlID0gdGhpcy50eG4uc2VuZGVyCglieXRlIDB4NjcgLy8gImciCgl0eG4gU2VuZGVyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBkb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IEFzc2V0SUQKZG9DcmVhdGVQb29sVG9rZW46Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjYKCS8vIHJldHVybiBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZSwKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnLAoJLy8gICAgICAgY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZLAoJLy8gICAgICAgY29uZmlnQXNzZXREZWNpbWFsczogMywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KTsKCWl0eG5fYmVnaW4KCWludCBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjI3CgkvLyBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZQoJYnl0ZSAweDQ0NTA1NDJkIC8vICJEUFQtIgoJZnJhbWVfZGlnIC0xIC8vIGFBc3NldDogQXNzZXRJRAoJYXNzZXRfcGFyYW1zX2dldCBBc3NldFVuaXROYW1lCglwb3AKCWNvbmNhdAoJYnl0ZSAweDJkIC8vICItIgoJY29uY2F0CglmcmFtZV9kaWcgLTIgLy8gYkFzc2V0OiBBc3NldElECglhc3NldF9wYXJhbXNfZ2V0IEFzc2V0VW5pdE5hbWUKCXBvcAoJY29uY2F0CglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOAoJLy8gY29uZmlnQXNzZXRVbml0TmFtZTogJ2RwdCcKCWJ5dGUgMHg2NDcwNzQgLy8gImRwdCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVbml0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZCglpbnQgMTAwMDAwMDAwMDAKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMAoJLy8gY29uZmlnQXNzZXREZWNpbWFsczogMwoJaW50IDMKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXREZWNpbWFscwoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMQoJLy8gY29uZmlnQXNzZXRNYW5hZ2VyOiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBDb25maWdBc3NldE1hbmFnZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzIKCS8vIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRSZXNlcnZlCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJaXR4biBDcmVhdGVkQXNzZXRJRAoJcmV0c3ViCgovLyBkb0F4ZmVyKHJlY2VpdmVyOiBBZGRyZXNzLCBhc3NldDogQXNzZXRJRCwgYW1vdW50OiB1aW50NjQpOiB2b2lkCmRvQXhmZXI6Cglwcm90byAzIDAKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzcKCS8vIHNlbmRBc3NldFRyYW5zZmVyKHsKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyLAoJLy8gICAgICAgeGZlckFzc2V0OiBhc3NldCwKCS8vICAgICAgIGFzc2V0QW1vdW50OiBhbW91bnQsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludCBheGZlcgoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozOAoJLy8gYXNzZXRSZWNlaXZlcjogcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyByZWNlaXZlcjogQWRkcmVzcwoJaXR4bl9maWVsZCBBc3NldFJlY2VpdmVyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjM5CgkvLyB4ZmVyQXNzZXQ6IGFzc2V0CglmcmFtZV9kaWcgLTIgLy8gYXNzZXQ6IEFzc2V0SUQKCWl0eG5fZmllbGQgWGZlckFzc2V0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjQwCgkvLyBhc3NldEFtb3VudDogYW1vdW50CglmcmFtZV9kaWcgLTMgLy8gYW1vdW50OiB1aW50NjQKCWl0eG5fZmllbGQgQXNzZXRBbW91bnQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIGRvT3B0SW4oYXNzZXQ6IEFzc2V0SUQpOiB2b2lkCmRvT3B0SW46Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NDUKCS8vIHRoaXMuZG9BeGZlcih0aGlzLmFwcC5hZGRyZXNzLCBhc3NldCwgMCkKCWludCAwCglmcmFtZV9kaWcgLTEgLy8gYXNzZXQ6IEFzc2V0SUQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgljYWxsc3ViIGRvQXhmZXIKCXJldHN1YgoKLy8gdG9rZW5zVG9NaW50SW50aWFsKGFBbW91bnQ6IHVpbnQ2NCwgYkFtb3VudDogdWludDY0KTogdWludDY0CnRva2Vuc1RvTWludEludGlhbDoKCXByb3RvIDIgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo0OQoJLy8gcmV0dXJuIHNxcnQoYUFtb3VudCAqIGJBbW91bnQpOwoJZnJhbWVfZGlnIC0xIC8vIGFBbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGJBbW91bnQ6IHVpbnQ2NAoJKgoJc3FydAoJcmV0c3ViCgovLyB0b2tlbnNUb01pbnQoaXNzdWVkOiB1aW50NjQsIGFTdXBwbHk6IHVpbnQ2NCwgYlN1cHBseTogdWludDY0LCBhQW1vdW50OiB1aW50NjQsIGJBbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb01pbnQ6Cglwcm90byA1IDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjUzCgkvLyBhUmF0aW8gPSB3aWRlUmF0aW8oW2FBbW91bnQsIFNDQUxFXSwgW2FTdXBwbHldKQoJZnJhbWVfZGlnIC00IC8vIGFBbW91bnQ6IHVpbnQ2NAoJaW50IDEwMDAKCW11bHcKCWludCAwCglmcmFtZV9kaWcgLTIgLy8gYVN1cHBseTogdWludDY0CglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJZnJhbWVfYnVyeSAwIC8vIGFSYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU0CgkvLyBiUmF0aW8gPSB3aWRlUmF0aW8oW2JBbW91bnQsIFNDQUxFXSwgW2JTdXBwbHldKQoJZnJhbWVfZGlnIC01IC8vIGJBbW91bnQ6IHVpbnQ2NAoJaW50IDEwMDAKCW11bHcKCWludCAwCglmcmFtZV9kaWcgLTMgLy8gYlN1cHBseTogdWludDY0CglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJZnJhbWVfYnVyeSAxIC8vIGJSYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU2CgkvLyByYXRpbyA9IGFSYXRpbyA8IGJSYXRpbyA/IGFSYXRpbyA6IGJSYXRpbwoJZnJhbWVfZGlnIDAgLy8gYVJhdGlvOiB1aW50NjQKCWZyYW1lX2RpZyAxIC8vIGJSYXRpbzogdWludDY0Cgk8CglieiAqdGVybmFyeTFfZmFsc2UKCWZyYW1lX2RpZyAwIC8vIGFSYXRpbzogdWludDY0CgliICp0ZXJuYXJ5MV9lbmQKCip0ZXJuYXJ5MV9mYWxzZToKCWZyYW1lX2RpZyAxIC8vIGJSYXRpbzogdWludDY0CgoqdGVybmFyeTFfZW5kOgoJZnJhbWVfYnVyeSAyIC8vIHJhdGlvOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NTgKCS8vIHJldHVybiB3aWRlUmF0aW8oW3JhdGlvLCBpc3N1ZWRdLCBbU0NBTEVdKTsKCWZyYW1lX2RpZyAyIC8vIHJhdGlvOiB1aW50NjQKCWZyYW1lX2RpZyAtMSAvLyBpc3N1ZWQ6IHVpbnQ2NAoJbXVsdwoJaW50IDAKCWludCAxMDAwCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDIKCXJldHN1YgoKLy8gY29tcHV0ZVJhdGlvKCk6IHVpbnQ2NApjb21wdXRlUmF0aW86Cglwcm90byAwIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NjIKCS8vIHJldHVybiB3aWRlUmF0aW8oCgkvLyAgICAgICBbdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UodGhpcy5hc3NldEEudmFsdWUpLCBTQ0FMRV0sCgkvLyAgICAgICBbdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UodGhpcy5hc3NldEIudmFsdWUpXQoJLy8gICAgICk7CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglpbnQgMTAwMAoJbXVsdwoJaW50IDAKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglieXRlIDB4NjIgLy8gImIiCglhcHBfZ2xvYmFsX2dldAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CglyZXRzdWIKCi8vIHRva2Vuc1RvQnVybihpc3N1ZWQ6IHVpbnQ2NCwgc3VwcGx5OiB1aW50NjQsIGFtb3VudDogdWludDY0KTogdWludDY0CnRva2Vuc1RvQnVybjoKCXByb3RvIDMgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo2OQoJLy8gcmV0dXJuIHdpZGVSYXRpbyhbc3VwcGx5LCBhbW91bnRdLCBbaXNzdWVkXSk7CglmcmFtZV9kaWcgLTIgLy8gc3VwcGx5OiB1aW50NjQKCWZyYW1lX2RpZyAtMyAvLyBhbW91bnQ6IHVpbnQ2NAoJbXVsdwoJaW50IDAKCWZyYW1lX2RpZyAtMSAvLyBpc3N1ZWQ6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9Td2FwKGluQW1vdW50OiB1aW50NjQsIGluU3VwcGx5OiB1aW50NjQsIG91dFN1cHBseTogdWludDY0KTogdWludDY0CnRva2Vuc1RvU3dhcDoKCXByb3RvIDMgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjczCgkvLyBmYWN0b3IgPSBTQ0FMRSAtIEZFRQoJaW50IDk5NQoJZnJhbWVfYnVyeSAwIC8vIGZhY3RvcjogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc0CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtpbkFtb3VudCwgZmFjdG9yLCBvdXRTdXBwbHldLCBbaW5TdXBwbHkgKiBTQ0FMRSArIGluQW1vdW50ICogZmFjdG9yXSk7CglmcmFtZV9kaWcgLTEgLy8gaW5BbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gZmFjdG9yOiB1aW50NjQKCW11bHcKCWZyYW1lX2RpZyAtMyAvLyBvdXRTdXBwbHk6IHVpbnQ2NAoJdW5jb3ZlciAyCglkaWcgMQoJKgoJY292ZXIgMgoJbXVsdwoJY292ZXIgMgoJKwoJc3dhcAoJaW50IDAKCWZyYW1lX2RpZyAtMiAvLyBpblN1cHBseTogdWludDY0CglpbnQgMTAwMAoJKgoJZnJhbWVfZGlnIC0xIC8vIGluQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAwIC8vIGZhY3RvcjogdWludDY0CgkqCgkrCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkCiphYmlfcm91dGVfc2V0X2dvdmVybm9yOgoJLy8gZ292ZXJub3I6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoZ292ZXJub3IpIGZvciBzZXRfZ292ZXJub3IgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc2V0X2dvdmVybm9yKGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiBzZXRfZ292ZXJub3IKCWludCAxCglyZXR1cm4KCi8vIHNldF9nb3Zlcm5vcihnb3Zlcm5vcjogQWRkcmVzcyk6IHZvaWQKc2V0X2dvdmVybm9yOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc4CgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5nb3Zlcm5vci52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDY3IC8vICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OQoJLy8gdGhpcy5nb3Zlcm5vci52YWx1ZSA9IGdvdmVybm9yCglieXRlIDB4NjcgLy8gImciCglmcmFtZV9kaWcgLTEgLy8gZ292ZXJub3I6IEFkZHJlc3MKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9ib290c3RyYXA6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGUgMHgxNTFmN2M3NQoKCS8vIGJBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYUFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBzZWVkOiBwYXkKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IHBheQoJPT0KCgkvLyBhcmd1bWVudCAyIChzZWVkKSBmb3IgYm9vdHN0cmFwIG11c3QgYmUgYSBwYXkgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYm9vdHN0cmFwKHBheSx1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBib290c3RyYXAKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnQgMQoJcmV0dXJuCgovLyBib290c3RyYXAoc2VlZDogUGF5VHhuLCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IEFzc2V0SUQKYm9vdHN0cmFwOgoJcHJvdG8gMyAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjgzCgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5nb3Zlcm5vci52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDY3IC8vICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4NQoJLy8gYXNzZXJ0KGdsb2JhbHMuZ3JvdXBTaXplID09PSAyKQoJZ2xvYmFsIEdyb3VwU2l6ZQoJaW50IDIKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODcKCS8vIHZlcmlmeVBheVR4bihzZWVkLCB7IHJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLCBhbW91bnQ6IHsgZ3JlYXRlclRoYW5FcXVhbFRvOiAzMDBfMDAwIH0gfSkKCS8vIHZlcmlmeSByZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIHNlZWQ6IFBheVR4bgoJZ3R4bnMgUmVjZWl2ZXIKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoic2VlZCIsImZpZWxkIjoicmVjZWl2ZXIiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIHNlZWQ6IFBheVR4bgoJZ3R4bnMgQW1vdW50CglpbnQgMzAwXzAwMAoJPj0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InNlZWQiLCJmaWVsZCI6ImFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuRXF1YWxUbyIsImV4cGVjdGVkIjoiPj0zMDBfMDAwIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4OAoJLy8gYXNzZXJ0KGFBc3NldCA8IGJBc3NldCkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCTwKCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo5MAoJLy8gdGhpcy5hc3NldEEudmFsdWUgPSBhQXNzZXQKCWJ5dGUgMHg2MSAvLyAiYSIKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjkxCgkvLyB0aGlzLmFzc2V0Qi52YWx1ZSA9IGJBc3NldAoJYnl0ZSAweDYyIC8vICJiIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTIKCS8vIHRoaXMucG9vbFRva2VuLnZhbHVlID0gdGhpcy5kb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQsIGJBc3NldCkKCWJ5dGUgMHg3MCAvLyAicCIKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWNhbGxzdWIgZG9DcmVhdGVQb29sVG9rZW4KCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk0CgkvLyB0aGlzLmRvT3B0SW4oYUFzc2V0KQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk1CgkvLyB0aGlzLmRvT3B0SW4oYkFzc2V0KQoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk3CgkvLyByZXR1cm4gdGhpcy5wb29sVG9rZW4udmFsdWU7CglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJcmV0c3ViCgovLyBtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9taW50OgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHBvb2xBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gYlhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50IDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCWludCBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCAzIChiWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBhWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglpbnQgMgoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDQgKGFYZmVyKSBmb3IgbWludCBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgbWludChheGZlcixheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIG1pbnQKCWludCAxCglyZXR1cm4KCi8vIG1pbnQoYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBwb29sQXNzZXQ6IEFzc2V0SUQsIGFBc3NldDogQXNzZXRJRCwgYkFzc2V0OiBBc3NldElEKTogdm9pZAptaW50OgoJcHJvdG8gNSAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyB3ZWxsIGZvcm1lZCBtaW50CgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTAyCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtNCAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwMwoJLy8gYXNzZXJ0KGJBc3NldCA9PT0gdGhpcy5hc3NldEIudmFsdWUpCglmcmFtZV9kaWcgLTUgLy8gYkFzc2V0OiBBc3NldElECglieXRlIDB4NjIgLy8gImIiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMDQKCS8vIGFzc2VydChwb29sQXNzZXQgPT09IHRoaXMucG9vbFRva2VuLnZhbHVlKQoJZnJhbWVfZGlnIC0zIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYnl0ZSAweDcwIC8vICJwIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyB2YWxpZCBhc3NldCBBIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA3CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKGFYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBhQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYVhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYVhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoiYUFzc2V0In0KCWFzc2VydAoKCS8vIHZhbGlkIGFzc2V0IEIgYXhmZXIKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMTUKCS8vIHZlcmlmeUFzc2V0VHJhbnNmZXJUeG4oYlhmZXIsIHsKCS8vICAgICAgIHNlbmRlcjogdGhpcy50eG4uc2VuZGVyLAoJLy8gICAgICAgYXNzZXRBbW91bnQ6IHsgZ3JlYXRlclRoYW46IDAgfSwKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IGJBc3NldCwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBTZW5kZXIKCXR4biBTZW5kZXIKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJiWGZlciIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLnR4bi5zZW5kZXIifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0QW1vdW50CglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglpbnQgMAoJPgoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6ImFzc2V0QW1vdW50IiwiY29uZGl0aW9uIjoiZ3JlYXRlclRoYW4iLCJleHBlY3RlZCI6Ij4wIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldFJlY2VpdmVyCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0UmVjZWl2ZXIKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6ImFzc2V0UmVjZWl2ZXIiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IHhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJiWGZlciIsImZpZWxkIjoieGZlckFzc2V0IiwiZXhwZWN0ZWQiOiJiQXNzZXQifQoJYXNzZXJ0CgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjMKCS8vIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCkgPT09IGFYZmVyLmFzc2V0QW1vdW50ICYmCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpID09PSBiWGZlci5hc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNCAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50Cgk9PQoJZHVwCglieiAqc2tpcF9hbmQwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCT09CgkmJgoKKnNraXBfYW5kMDoKCWJ6ICppZjBfZWxzZQoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEyNgoJLy8gdGhpcy50b2tlbnNUb01pbnRJbnRpYWwoYVhmZXIuYXNzZXRBbW91bnQsIGJYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJY2FsbHN1YiB0b2tlbnNUb01pbnRJbnRpYWwKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjgKCS8vIHRvTWludCA9IHRoaXMudG9rZW5zVG9NaW50KAoJLy8gICAgICAgICBUT1RBTF9TVVBQTFkgLSB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShwb29sQXNzZXQpLAoJLy8gICAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShhQXNzZXQpIC0gYVhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGJBc3NldCkgLSBiWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgICAgYVhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIGJYZmVyLmFzc2V0QW1vdW50CgkvLyAgICAgICApCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJLQoJaW50IDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0zIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCS0KCWNhbGxzdWIgdG9rZW5zVG9NaW50CglmcmFtZV9idXJ5IDAgLy8gdG9NaW50OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTM2CgkvLyBhc3NlcnQodG9NaW50ID4gMCkKCWZyYW1lX2RpZyAwIC8vIHRvTWludDogdWludDY0CglpbnQgMAoJPgoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEzOAoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgcG9vbEFzc2V0LCB0b01pbnQpCglmcmFtZV9kaWcgMCAvLyB0b01pbnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIC0zIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoqaWYwX2VuZDoKCXJldHN1YgoKLy8gYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYnVybjoKCS8vIGJBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglidG9pCgoJLy8gYUFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBwb29sQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHBvb2xYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgYXhmZXIKCT09CgoJLy8gYXJndW1lbnQgMyAocG9vbFhmZXIpIGZvciBidXJuIG11c3QgYmUgYSBheGZlciB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBidXJuKGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKCWNhbGxzdWIgYnVybgoJaW50IDEKCXJldHVybgoKLy8gYnVybihwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4biwgcG9vbEFzc2V0OiBBc3NldElELCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKYnVybjoKCXByb3RvIDQgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyB3ZWxsIGZvcm1lZCBidXJuCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTQ0CgkvLyBhc3NlcnQocG9vbEFzc2V0ID09PSB0aGlzLnBvb2xUb2tlbi52YWx1ZSkKCWZyYW1lX2RpZyAtMiAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg3MCAvLyAicCIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NQoJLy8gYXNzZXJ0KGFBc3NldCA9PT0gdGhpcy5hc3NldEEudmFsdWUpCglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNDYKCS8vIGFzc2VydChiQXNzZXQgPT09IHRoaXMuYXNzZXRCLnZhbHVlKQoJZnJhbWVfZGlnIC00IC8vIGJBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyB2YWxpZCBwb29sIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTQ5CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKHBvb2xYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBwb29sQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoicG9vbFhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoicG9vbFhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoicG9vbEFzc2V0In0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNTYKCS8vIGlzc3VlZCA9IFRPVEFMX1NVUFBMWSAtICh0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShwb29sQXNzZXQpIC0gcG9vbFhmZXIuYXNzZXRBbW91bnQpCglpbnQgMTAwMDAwMDAwMDAKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJLQoJLQoJZnJhbWVfYnVyeSAwIC8vIGlzc3VlZDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE1OAoJLy8gYUFtdCA9IHRoaXMudG9rZW5zVG9CdXJuKGlzc3VlZCwgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYUFzc2V0KSwgcG9vbFhmZXIuYXNzZXRBbW91bnQpCglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0zIC8vIGFBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAwIC8vIGlzc3VlZDogdWludDY0CgljYWxsc3ViIHRva2Vuc1RvQnVybgoJZnJhbWVfYnVyeSAxIC8vIGFBbXQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjAKCS8vIGJBbXQgPSB0aGlzLnRva2Vuc1RvQnVybihpc3N1ZWQsIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGJBc3NldCksIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoJY2FsbHN1YiB0b2tlbnNUb0J1cm4KCWZyYW1lX2J1cnkgMiAvLyBiQW10OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYyCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBhQXNzZXQsIGFBbXQpCglmcmFtZV9kaWcgMSAvLyBhQW10OiB1aW50NjQKCWZyYW1lX2RpZyAtMyAvLyBhQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjMKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIGJBc3NldCwgYkFtdCkKCWZyYW1lX2RpZyAyIC8vIGJBbXQ6IHVpbnQ2NAoJZnJhbWVfZGlnIC00IC8vIGJBc3NldDogQXNzZXRJRAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE2NQoJLy8gdGhpcy5yYXRpby52YWx1ZSA9IHRoaXMuY29tcHV0ZVJhdGlvKCkKCWJ5dGUgMHg3MiAvLyAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX3N3YXA6CgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gc3dhcFhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50IDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCWludCBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCAyIChzd2FwWGZlcikgZm9yIHN3YXAgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIHN3YXAoYXhmZXIsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIHN3YXAKCWludCAxCglyZXR1cm4KCi8vIHN3YXAoc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIGFBc3NldDogQXNzZXRJRCwgYkFzc2V0OiBBc3NldElEKTogdm9pZApzd2FwOgoJcHJvdG8gMyAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cG4gMgoKCS8vIHdlbGwgZm9ybWVkIHN3YXAKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNzAKCS8vIGFzc2VydChhQXNzZXQgPT09IHRoaXMuYXNzZXRBLnZhbHVlKQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcxCgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MiAvLyAiYiIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE3MwoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihzd2FwWGZlciwgewoJLy8gICAgICAgYXNzZXRBbW91bnQ6IHsgZ3JlYXRlclRoYW46IDAgfSwKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIHhmZXJBc3NldDogeyBpbmNsdWRlZEluOiBbYUFzc2V0LCBiQXNzZXRdIH0sCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InN3YXBYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InN3YXBYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoic3dhcFhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgk9PQoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCT09Cgl8fAoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjp7InR4blRleHQiOiJzd2FwWGZlciJ9LCJmaWVsZCI6InhmZXJBc3NldCIsImNvbmRpdGlvbiI6ImluY2x1ZGVkSW4iLCJleHBlY3RlZCI6IlthQXNzZXQsIGJBc3NldF0ifQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE4MAoJLy8gb3V0SWQgPSBzd2FwWGZlci54ZmVyQXNzZXQgPT09IGFBc3NldCA/IGFBc3NldCA6IGJBc3NldAoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCT09CglieiAqdGVybmFyeTNfZmFsc2UKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWIgKnRlcm5hcnkzX2VuZAoKKnRlcm5hcnkzX2ZhbHNlOgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoKKnRlcm5hcnkzX2VuZDoKCWZyYW1lX2J1cnkgMCAvLyBvdXRJZDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE4MgoJLy8gaW5JZCA9IHN3YXBYZmVyLnhmZXJBc3NldAoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2J1cnkgMSAvLyBpbklkOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTg0CgkvLyB0b1N3YXAgPSB0aGlzLnRva2Vuc1RvU3dhcCgKCS8vICAgICAgIHN3YXBYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoaW5JZCkgLSBzd2FwWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKG91dElkKQoJLy8gICAgICkKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgMCAvLyBvdXRJZDogdWludDY0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAxIC8vIGluSWQ6IHVpbnQ2NAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWNhbGxzdWIgdG9rZW5zVG9Td2FwCglmcmFtZV9idXJ5IDIgLy8gdG9Td2FwOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTkwCgkvLyBhc3NlcnQodG9Td2FwID4gMCkKCWZyYW1lX2RpZyAyIC8vIHRvU3dhcDogdWludDY0CglpbnQgMAoJPgoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5MgoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgb3V0SWQsIHRvU3dhcCkKCWZyYW1lX2RpZyAyIC8vIHRvU3dhcDogdWludDY0CglmcmFtZV9kaWcgMCAvLyBvdXRJZDogdWludDY0Cgl0eG4gU2VuZGVyCgljYWxsc3ViIGRvQXhmZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTk0CgkvLyB0aGlzLnJhdGlvLnZhbHVlID0gdGhpcy5jb21wdXRlUmF0aW8oKQoJYnl0ZSAweDcyIC8vICJyIgoJY2FsbHN1YiBjb21wdXRlUmF0aW8KCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCipjcmVhdGVfTm9PcDoKCW1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CgltZXRob2QgInNldF9nb3Zlcm5vcihhZGRyZXNzKXZvaWQiCgltZXRob2QgImJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQiCgltZXRob2QgIm1pbnQoYXhmZXIsYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCW1ldGhvZCAiYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkIgoJbWV0aG9kICJzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfc2V0X2dvdmVybm9yICphYmlfcm91dGVfYm9vdHN0cmFwICphYmlfcm91dGVfbWludCAqYWJpX3JvdXRlX2J1cm4gKmFiaV9yb3V0ZV9zd2FwCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiAHAAEE6AeAyK+gJQMCJgYAAWEBYgFnAXABcjEYFIEGCzEZCI0MA9EAAAAAAAAAAAAAA8MAAAAAAAAAAAAAAIgAAiNDigAAKzEAZ4mKAgGxIQWyEIAERFBULYv/cQNIUIABLVCL/nEDSFCyJoADZHB0siUhBLIiIQWyIzIKsikyCrIqIrIBs7Q8iYoDALEkshCL/7IUi/6yEYv9shIisgGziYoBACKL/zIKiP/diYoCAYv/i/4LkomKBQEoRwKL/CUdIov+H0hITBREjACL+yUdIov9H0hITBREjAGLAIsBDEEABYsAQgACiwGMAosCi/8dIiUfSEhMFESMAEYCiYoAATIKKWRwAEglHSIyCipkcABIH0hITBREiYoDAYv+i/0dIov/H0hITBREiYoDASiB4weMAIv/iwAdi/1PAksBC04CHU4CCEwii/4lC4v/iwALCB9ISEwURIwAiTYaAUkVgSASRIgAAiNDigEAMQArZBJEK4v/Z4mABBUffHU2GgIXNhoBFzEWIwlJOBAjEkSIAAUWULAjQ4oDATEAK2QSRDIEIQYSRIv/OAcyChJEi/84CIHgpxIPRIv+i/0MRCmL/mcqi/1nJwSL/Yv+iP58Z4v+iP7Mi/2I/scnBGSJNhoDFzYaAhc2GgEXMRYjCUk4ECQSRDEWIQYJSTgQJBJEiAACI0OKBQAoi/wpZBJEi/sqZBJEi/0nBGQSRIv/OAAxABJEi/84EiINRIv/OBQyChJEi/84EYv8EkSL/jgAMQASRIv+OBIiDUSL/jgUMgoSRIv+OBGL+xJEMgqL/HAASIv/OBISSUEADTIKi/twAEiL/jgSEhBBAA6L/jgSi/84Eoj+KUIAPYv+OBKL/zgSMgqL+3AASIv+OBIJMgqL/HAASIv/OBIJIQQyCov9cABICYj+A4wAiwAiDUSLAIv9MQCI/cWJNhoDFzYaAhc2GgEXMRYjCUk4ECQSRIgAAiNDigQAKEcCi/4nBGQSRIv9KWQSRIv8KmQSRIv/OAAxABJEi/84EiINRIv/OBQyChJEi/84EYv+EkQhBDIKi/5wAEiL/zgSCQmMAIv/OBIyCov9cABIiwCI/eCMAYv/OBIyCov8cABIiwCI/c6MAosBi/0xAIj9M4sCi/wxAIj9KicFiP2aZ4k2GgIXNhoBFzEWIwlJOBAkEkSIAAIjQ4oDAChHAov+KWQSRIv9KmQSRIv/OBIiDUSL/zgUMgoSRIv/OAAxABJEi/84EYv+Eov/OBGL/RIRRIv/OBGL/hJBAAWL/kIAAov9jACL/zgRjAEyCosAcABIMgqLAXAASIv/OBIJi/84Eoj9QowCiwIiDUSLAosAMQCI/JAnBYj9AGeJgAS4RHs2NhoAjgH8MQCABN3Ey0qABCXmw3aABBAEXHmABAKON8GABGMqrtg2GgCOBf0g/Tz9o/6K/ysA",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}
