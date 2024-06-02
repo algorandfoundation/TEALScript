@@ -1052,6 +1052,8 @@ export default class Compiler {
       .replace('typeof ', '')
       .replace(/, */g, 'x');
 
+    if (typeString === 'byte') return { kind: 'base', type: 'byte' };
+
     const txnTypes = {
       thistxnparams: 'txn',
       paymentparams: 'pay',
@@ -1824,6 +1826,16 @@ export default class Compiler {
         this.lastType = StackType.bytes;
       },
     },
+    rawByte: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        if (node.getArguments().length !== 1) throw new Error('rawByte must be given a single argument');
+        this.processNode(node.getArguments()[0]);
+        this.checkEncoding(node.getArguments()[0], this.lastType);
+        if (this.getTypeLength(this.lastType) !== 1) throw new Error('rawByte argument must be a single byte');
+        this.lastType = { type: 'byte', kind: 'base' };
+      },
+    },
     castBytes: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
@@ -2284,6 +2296,8 @@ export default class Compiler {
       }
 
       switch (type) {
+        case 'bool':
+          return 1;
         case 'assetid':
         case 'appid':
           return 8;
