@@ -1559,3 +1559,9 @@ class ABITestPushToArrayInBox extends Contract {
     return this.bMap('bMap').value;
   }
 }
+
+class ABITestReturnByte extends Contract {
+  returnByte(): byte {
+    return rawByte(true);
+  }
+}

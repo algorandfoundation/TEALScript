@@ -1327,6 +1327,9 @@ declare function castBytes<T>(input: BytesLike): T;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function rawBytes(input: any): bytes;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare function rawByte(input: any): byte;
+
 declare function clone<T>(input: T): T;
 
 declare type ScratchValue<ValueType> = {
