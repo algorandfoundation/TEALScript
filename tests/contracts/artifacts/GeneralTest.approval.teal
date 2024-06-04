@@ -789,7 +789,7 @@ ecdsa:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 7
+	dupn 3
 
 	// tests/contracts/general.algo.ts:204
 	// ecdsaVerify('Secp256k1', '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32, '' as bytes32)
@@ -801,17 +801,17 @@ ecdsa:
 	// d = ecdsaPkDecompress('Secp256k1', '' as bytes<33>)
 	byte 0x000000000000000000000000000000000000000000000000000000000000000000 // ""
 	ecdsa_pk_decompress Secp256k1
-	frame_bury 2 // d y component: byte[]
-	frame_bury 3 // d x component: byte[]
+	frame_bury 0 // d y component: byte[]
+	frame_bury 1 // d x component: byte[]
 
 	// tests/contracts/general.algo.ts:206
 	// log(d.y)
-	frame_dig 2 // d y component: byte[]
+	frame_dig 0 // d y component: byte[]
 	log
 
 	// tests/contracts/general.algo.ts:207
 	// log(d.x)
-	frame_dig 3 // d x component: byte[]
+	frame_dig 1 // d x component: byte[]
 	log
 
 	// tests/contracts/general.algo.ts:209
@@ -821,17 +821,17 @@ ecdsa:
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000 // ""
 	dup
 	ecdsa_pk_recover Secp256k1
-	frame_bury 6 // r y component: byte[]
-	frame_bury 7 // r x component: byte[]
+	frame_bury 2 // r y component: byte[]
+	frame_bury 3 // r x component: byte[]
 
 	// tests/contracts/general.algo.ts:210
 	// log(r.y)
-	frame_dig 6 // r y component: byte[]
+	frame_dig 2 // r y component: byte[]
 	log
 
 	// tests/contracts/general.algo.ts:211
 	// log(r.x)
-	frame_dig 7 // r x component: byte[]
+	frame_dig 3 // r x component: byte[]
 	log
 	retsub
 
@@ -1607,7 +1607,7 @@ vrfVerifyOp:
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
-	dupn 3
+	dup
 
 	// tests/contracts/general.algo.ts:342
 	// increaseOpcodeBudget()
@@ -1750,18 +1750,18 @@ vrfVerifyOp:
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 	byte 0x0000000000000000000000000000000000000000000000000000000000000000
 	vrf_verify VrfAlgorand
-	frame_bury 2 // r verified: bool
-	frame_bury 3 // r output: byte[]
+	frame_bury 0 // r verified: bool
+	frame_bury 1 // r output: byte[]
 
 	// tests/contracts/general.algo.ts:353
 	// assert(!r.verified)
-	frame_dig 2 // r verified: bool
+	frame_dig 0 // r verified: bool
 	!
 	assert
 
 	// tests/contracts/general.algo.ts:354
 	// log(r.output)
-	frame_dig 3 // r output: byte[]
+	frame_dig 1 // r output: byte[]
 	log
 	retsub
 

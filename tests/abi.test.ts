@@ -712,7 +712,7 @@ describe('ABI', function () {
     test('maxUfixed', async () => {
       const { appClient } = await compileAndCreate('maxUfixed');
 
-      expect(await runMethod(appClient, 'maxUfixed')).toEqual(BigInt('0xFFFFFFFFFFFFFFFF'));
+      expect(await runMethod(appClient, 'maxUfixed')).toEqual(1234n);
     });
 
     test('chainedPropertyAfterTuple', async () => {

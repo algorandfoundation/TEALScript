@@ -214,14 +214,14 @@ tokensToMint:
 	frame_dig 0 // aRatio: uint64
 	frame_dig 1 // bRatio: uint64
 	<
-	bz *ternary1_false
+	bz *ternary0_false
 	frame_dig 0 // aRatio: uint64
-	b *ternary1_end
+	b *ternary0_end
 
-*ternary1_false:
+*ternary0_false:
 	frame_dig 1 // bRatio: uint64
 
-*ternary1_end:
+*ternary0_end:
 	frame_bury 2 // ratio: uint64
 
 	// examples/amm/amm.algo.ts:58
@@ -1027,14 +1027,14 @@ swap:
 	gtxns XferAsset
 	frame_dig -2 // aAsset: AssetID
 	==
-	bz *ternary3_false
+	bz *ternary1_false
 	frame_dig -2 // aAsset: AssetID
-	b *ternary3_end
+	b *ternary1_end
 
-*ternary3_false:
+*ternary1_false:
 	frame_dig -3 // bAsset: AssetID
 
-*ternary3_end:
+*ternary1_end:
 	frame_bury 0 // outId: uint64
 
 	// examples/amm/amm.algo.ts:182

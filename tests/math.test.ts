@@ -75,6 +75,11 @@ describe('Math', function () {
       expect(await runMethod({ appClient, method: 'maxU64' })).toBe(BigInt('18446744073709551615'));
     });
 
+    test('uintFromHex', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'uintFromHex' })).toBe(BigInt('0xFF'));
+    });
+
     test('overflow', async function () {
       const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
