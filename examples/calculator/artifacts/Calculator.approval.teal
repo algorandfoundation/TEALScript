@@ -93,7 +93,7 @@ getDifference:
 	int 1
 	return
 
-// doMath(a: uint64, b: uint64, operation: string): uint64
+// doMath(a: uint64, b: uint64, operation: utf8): uint64
 //
 // A method that takes two numbers and does either addition or subtraction
 //
@@ -110,8 +110,8 @@ doMath:
 
 	// *if0_condition
 	// examples/calculator/calculator.algo.ts:39
-	// operation === 'sum'
-	frame_dig -3 // operation: string
+	// operation === Bytes`sum`
+	frame_dig -3 // operation: utf8
 	byte 0x73756d // "sum"
 	==
 	bz *if0_elseif1_condition
@@ -127,8 +127,8 @@ doMath:
 
 *if0_elseif1_condition:
 	// examples/calculator/calculator.algo.ts:41
-	// operation === 'difference'
-	frame_dig -3 // operation: string
+	// operation === Bytes`difference`
+	frame_dig -3 // operation: utf8
 	byte 0x646966666572656e6365 // "difference"
 	==
 	bz *if0_else
