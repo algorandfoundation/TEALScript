@@ -33,12 +33,12 @@ class Calculator extends Contract {
    *
    * @returns The result of the operation
    */
-  doMath(a: uint64, b: uint64, operation: string): uint64 {
+  doMath(a: uint64, b: uint64, operation: utf8): uint64 {
     let result: uint64;
 
-    if (operation === 'sum') {
+    if (operation === Bytes`sum`) {
       result = this.getSum(a, b);
-    } else if (operation === 'difference') {
+    } else if (operation === Bytes`difference`) {
       result = this.getDifference(a, b);
     } else throw Error('Invalid operation');
 

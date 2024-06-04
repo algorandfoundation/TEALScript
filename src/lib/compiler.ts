@@ -1091,6 +1091,7 @@ export default class Compiler {
     if (typeString === 'itxnparams') return { kind: 'base', type: 'itxn' };
     if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
     if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
+    if (typeString === 'utf8void') return { kind: 'base', type: 'string' };
 
     if (type.isBoolean()) return { kind: 'base', type: 'bool' };
 
@@ -2720,6 +2721,17 @@ export default class Compiler {
     [sourceFile, ...importedFiles].forEach((f) => {
       f?.getStatements().forEach((s) => {
         const numberKeywords = s.getDescendantsOfKind(ts.SyntaxKind.NumberKeyword);
+        const stringKeywords = s.getDescendantsOfKind(ts.SyntaxKind.StringKeyword);
+
+        if (stringKeywords.length > 0) {
+          const node = stringKeywords[0];
+          const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, node.getStart());
+          const errPath = path.relative(this.cwd, node.getSourceFile().getFilePath());
+
+          const msg = `string keyword not allowed at ${errPath}:${loc.line + 1}:${loc.character}. Use utf8 instead.`;
+
+          throw Error(msg);
+        }
 
         if (numberKeywords.length > 0) {
           const node = numberKeywords[0];
@@ -3185,8 +3197,11 @@ export default class Compiler {
       else if (node.isKind(ts.SyntaxKind.Identifier)) this.processIdentifier(node);
       else if (node.isKind(ts.SyntaxKind.VariableDeclarationList)) this.processVariableDeclaration(node);
       else if (node.isKind(ts.SyntaxKind.VariableDeclaration)) this.processVariableDeclarator(node);
-      else if (node.isKind(ts.SyntaxKind.NumericLiteral) || node.isKind(ts.SyntaxKind.StringLiteral))
+      else if (node.isKind(ts.SyntaxKind.NumericLiteral) || node.isKind(ts.SyntaxKind.StringLiteral)) {
         this.processLiteral(node);
+      } else if (node.isKind(ts.SyntaxKind.TaggedTemplateExpression)) {
+        this.processTaggedTemplateExpression(node);
+      }
       // Logical
       else if (node.isKind(ts.SyntaxKind.Block)) this.processBlockStatement(node);
       else if (node.isKind(ts.SyntaxKind.IfStatement)) this.processIfStatement(node);
@@ -3236,6 +3251,18 @@ export default class Compiler {
     }
 
     if (isTopLevelNode) this.nodeDepth = 0;
+  }
+
+  private processTaggedTemplateExpression(node: ts.TaggedTemplateExpression) {
+    if (node.getTag().getText() !== 'Bytes') {
+      throw new Error('Only Bytes tagged template literals are supported');
+    }
+    const template = node.getTemplate();
+
+    if (template.isKind(ts.SyntaxKind.NoSubstitutionTemplateLiteral)) {
+      const hex = Buffer.from(template.getLiteralText(), 'utf8').toString('hex');
+      this.push(node, `byte 0x${hex} // "${template.getLiteralText()}"`, StackType.bytes);
+    } else throw Error('Substitution template literals are not yet supported');
   }
 
   private processObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
@@ -5715,8 +5742,7 @@ export default class Compiler {
 
   private processLiteral(node: ts.StringLiteral | ts.NumericLiteral) {
     if (node.compilerNode.kind === ts.SyntaxKind.StringLiteral) {
-      const hex = Buffer.from(node.getLiteralText(), 'utf8').toString('hex');
-      this.push(node, `byte 0x${hex} // "${node.getLiteralText()}"`, StackType.bytes);
+      throw Error(`String literals are not supported. Use Bytes tag instead: Bytes\`${node.getLiteralText()}\``);
     } else {
       const textWithoutUnderscores = this.getNumericLiteralValueString(node);
       if (BigInt(textWithoutUnderscores) > BigInt(Number.MAX_SAFE_INTEGER)) {

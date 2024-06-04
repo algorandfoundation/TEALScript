@@ -252,10 +252,17 @@ declare function Uint<N extends widths>(value: number | string): uint<N>;
 
 declare type ufixed<N extends widths, M extends precisions> = Brand<number, `ufixed${N}x${M}`>;
 
+declare class Byte {}
+
+declare class Byteslice<Length = void> {}
+
+declare function Bytes(strings: TemplateStringsArray, ...values: Byteslice[]): Byteslice;
+
 declare type byte = { __byte: true };
-declare type bytes<N = void> = N extends void ? Brand<string, 'bytes'> : StaticBytes<N>;
-declare type bytes32 = StaticArray<byte, 32>;
-declare type bytes64 = StaticArray<byte, 64>;
+declare type bytes<Length = void> = Byteslice<Length>;
+declare type bytes32 = Byteslice<32>;
+declare type bytes64 = Byteslice<64>;
+declare type utf8<Length = void> = bytes<Length>;
 
 declare type TxnVerificationTests = {
   /** assert that the value is less than the given value */
@@ -400,13 +407,13 @@ declare class AssetID {
   readonly defaultFrozen: boolean;
 
   /** The name of the asset. Must be 32 bytes or less. */
-  readonly name: string;
+  readonly name: bytes;
 
   /** The short (ticker) name of the asset (ie. USDC) */
-  readonly unitName: string;
+  readonly unitName: bytes;
 
   /** The URL of the assets metadata */
-  readonly url: string;
+  readonly url: bytes;
 
   /** The hash of the assets metadata */
   readonly metadataHash: bytes32;
@@ -495,7 +502,7 @@ declare class Address {
 
 class AccountReference extends Address {}
 
-type BytesLike = bytes | Address | string;
+type BytesLike = bytes | Address;
 
 /** Alias for `Address` that uses `account` encoding for ABI arguments */
 class Account extends Address {}
@@ -594,12 +601,12 @@ declare type BoxValue<ValueType> = {
 };
 
 /** A single key in box storage */
-declare function BoxKey<ValueType>(options?: { key?: string; dynamicSize?: boolean }): BoxValue<ValueType>;
+declare function BoxKey<ValueType>(options?: { key?: bytes; dynamicSize?: boolean }): BoxValue<ValueType>;
 
 /** A mapping of one type to another in box storage. Each key is a seperate box. */
 declare function BoxMap<KeyType, ValueType>(options?: {
   dynamicSize?: boolean;
-  prefix?: string;
+  prefix?: bytes;
   allowPotentialCollisions?: boolean;
 }): (key: KeyType) => BoxValue<ValueType>;
 
@@ -611,11 +618,11 @@ declare type GlobalStateValue<ValueType> = {
 };
 
 /** A single key in global state */
-declare function GlobalStateKey<ValueType>(options?: { key?: string }): GlobalStateValue<ValueType>;
+declare function GlobalStateKey<ValueType>(options?: { key?: Byteslice }): GlobalStateValue<ValueType>;
 /** A mapping of one type to another in global state */
 declare function GlobalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
-  prefix?: string;
+  prefix?: Byteslice;
   allowPotentialCollisions?: boolean;
 }): (key: KeyType) => GlobalStateValue<ValueType>;
 
@@ -627,11 +634,11 @@ declare type LocalStateValue<ValueType> = {
 };
 
 /** A single key in local state */
-declare function LocalStateKey<ValueType>(options?: { key?: string }): (account: Address) => LocalStateValue<ValueType>;
+declare function LocalStateKey<ValueType>(options?: { key?: bytes }): (account: Address) => LocalStateValue<ValueType>;
 /** A mapping of one type to another in local state */
 declare function LocalStateMap<KeyType, ValueType>(options: {
   maxKeys: number;
-  prefix?: string;
+  prefix?: bytes;
   allowPotentialCollisions?: boolean;
 }): (account: Address, key: KeyType) => LocalStateValue<ValueType>;
 
@@ -645,14 +652,14 @@ interface CommonTransactionParams {
   /** If set, changes the authAddr of `sender` to the given address  */
   rekeyTo?: Address;
   /** The note field for this transaction */
-  note?: string;
+  note?: bytes;
 }
 
 interface CommonOnChainTransactionParams extends Required<CommonTransactionParams> {
   /** The index of this transaction in its group */
   groupIndex: uint64;
   /** The transaction ID for this transaction */
-  txID: string;
+  txID: bytes;
 }
 
 interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
