@@ -262,7 +262,7 @@ declare type byte = { __byte: true };
 declare type bytes<Length = void> = Byteslice<Length>;
 declare type bytes32 = Byteslice<32>;
 declare type bytes64 = Byteslice<64>;
-declare type utf8<Length = void> = bytes<Length>;
+declare type utf8 = bytes<void>;
 
 declare type TxnVerificationTests = {
   /** assert that the value is less than the given value */
