@@ -1,0 +1,744 @@
+{
+  "name": "Calculator",
+  "desc": "",
+  "methods": [
+    {
+      "name": "doMath",
+      "desc": "A method that takes two numbers and does either addition or subtraction",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64",
+          "desc": "The first number"
+        },
+        {
+          "name": "b",
+          "type": "uint64",
+          "desc": "The second number"
+        },
+        {
+          "name": "operation",
+          "type": "string",
+          "desc": "The operation to perform. Can be either 'sum' or 'difference'"
+        }
+      ],
+      "returns": {
+        "type": "uint64",
+        "desc": "The result of the operation"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 4,
+      "pc": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 4,
+      "pc": [
+        4,
+        5
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 4,
+      "pc": [
+        6
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 4,
+      "pc": [
+        7,
+        8
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 4,
+      "pc": [
+        9
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 4,
+      "pc": [
+        10,
+        11
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 4,
+      "pc": [
+        12
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 4,
+      "pc": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 4,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        39
+      ]
+    },
+    {
+      "teal": 33,
+      "source": 12,
+      "pc": [
+        40,
+        41,
+        42
+      ]
+    },
+    {
+      "teal": 37,
+      "source": 13,
+      "pc": [
+        43,
+        44
+      ]
+    },
+    {
+      "teal": 38,
+      "source": 13,
+      "pc": [
+        45,
+        46
+      ]
+    },
+    {
+      "teal": 39,
+      "source": 13,
+      "pc": [
+        47
+      ]
+    },
+    {
+      "teal": 40,
+      "source": 12,
+      "pc": [
+        48
+      ]
+    },
+    {
+      "teal": 50,
+      "source": 23,
+      "pc": [
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "teal": 54,
+      "source": 24,
+      "pc": [
+        52,
+        53
+      ]
+    },
+    {
+      "teal": 55,
+      "source": 24,
+      "pc": [
+        54,
+        55
+      ]
+    },
+    {
+      "teal": 56,
+      "source": 24,
+      "pc": [
+        56
+      ]
+    },
+    {
+      "teal": 57,
+      "source": 24,
+      "pc": [
+        57,
+        58,
+        59
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 24,
+      "pc": [
+        60,
+        61
+      ]
+    },
+    {
+      "teal": 59,
+      "source": 24,
+      "pc": [
+        62,
+        63
+      ]
+    },
+    {
+      "teal": 60,
+      "source": 24,
+      "pc": [
+        64
+      ]
+    },
+    {
+      "teal": 61,
+      "source": 24,
+      "pc": [
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "teal": 64,
+      "source": 24,
+      "pc": [
+        68,
+        69
+      ]
+    },
+    {
+      "teal": 65,
+      "source": 24,
+      "pc": [
+        70,
+        71
+      ]
+    },
+    {
+      "teal": 66,
+      "source": 24,
+      "pc": [
+        72
+      ]
+    },
+    {
+      "teal": 69,
+      "source": 23,
+      "pc": [
+        73
+      ]
+    },
+    {
+      "teal": 74,
+      "source": 36,
+      "pc": [
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "teal": 77,
+      "source": 36,
+      "pc": [
+        80,
+        81,
+        82
+      ]
+    },
+    {
+      "teal": 78,
+      "source": 36,
+      "pc": [
+        83,
+        84,
+        85
+      ]
+    },
+    {
+      "teal": 81,
+      "source": 36,
+      "pc": [
+        86,
+        87,
+        88
+      ]
+    },
+    {
+      "teal": 82,
+      "source": 36,
+      "pc": [
+        89
+      ]
+    },
+    {
+      "teal": 85,
+      "source": 36,
+      "pc": [
+        90,
+        91,
+        92
+      ]
+    },
+    {
+      "teal": 86,
+      "source": 36,
+      "pc": [
+        93
+      ]
+    },
+    {
+      "teal": 89,
+      "source": 36,
+      "pc": [
+        94,
+        95,
+        96
+      ]
+    },
+    {
+      "teal": 90,
+      "source": 36,
+      "pc": [
+        97
+      ]
+    },
+    {
+      "teal": 91,
+      "source": 36,
+      "pc": [
+        98
+      ]
+    },
+    {
+      "teal": 92,
+      "source": 36,
+      "pc": [
+        99
+      ]
+    },
+    {
+      "teal": 93,
+      "source": 36,
+      "pc": [
+        100
+      ]
+    },
+    {
+      "teal": 94,
+      "source": 36,
+      "pc": [
+        101
+      ]
+    },
+    {
+      "teal": 106,
+      "source": 36,
+      "pc": [
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "teal": 109,
+      "source": 36,
+      "pc": [
+        105,
+        106
+      ]
+    },
+    {
+      "teal": 114,
+      "source": 39,
+      "pc": [
+        107,
+        108
+      ]
+    },
+    {
+      "teal": 115,
+      "source": 39,
+      "pc": [
+        109,
+        110,
+        111,
+        112,
+        113
+      ]
+    },
+    {
+      "teal": 116,
+      "source": 39,
+      "pc": [
+        114
+      ]
+    },
+    {
+      "teal": 117,
+      "source": 39,
+      "pc": [
+        115,
+        116,
+        117
+      ]
+    },
+    {
+      "teal": 122,
+      "source": 40,
+      "pc": [
+        118,
+        119
+      ]
+    },
+    {
+      "teal": 123,
+      "source": 40,
+      "pc": [
+        120,
+        121
+      ]
+    },
+    {
+      "teal": 124,
+      "source": 40,
+      "pc": [
+        122,
+        123,
+        124
+      ]
+    },
+    {
+      "teal": 125,
+      "source": 40,
+      "pc": [
+        125,
+        126
+      ]
+    },
+    {
+      "teal": 126,
+      "source": 39,
+      "pc": [
+        127,
+        128,
+        129
+      ]
+    },
+    {
+      "teal": 131,
+      "source": 41,
+      "pc": [
+        130,
+        131
+      ]
+    },
+    {
+      "teal": 132,
+      "source": 41,
+      "pc": [
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ]
+    },
+    {
+      "teal": 133,
+      "source": 41,
+      "pc": [
+        144
+      ]
+    },
+    {
+      "teal": 134,
+      "source": 41,
+      "pc": [
+        145,
+        146,
+        147
+      ]
+    },
+    {
+      "teal": 139,
+      "source": 42,
+      "pc": [
+        148,
+        149
+      ]
+    },
+    {
+      "teal": 140,
+      "source": 42,
+      "pc": [
+        150,
+        151
+      ]
+    },
+    {
+      "teal": 141,
+      "source": 42,
+      "pc": [
+        152,
+        153,
+        154
+      ]
+    },
+    {
+      "teal": 142,
+      "source": 42,
+      "pc": [
+        155,
+        156
+      ]
+    },
+    {
+      "teal": 143,
+      "source": 41,
+      "pc": [
+        157,
+        158,
+        159
+      ]
+    },
+    {
+      "teal": 147,
+      "source": 43,
+      "errorMessage": "Invalid operation",
+      "pc": [
+        160
+      ]
+    },
+    {
+      "teal": 152,
+      "source": 45,
+      "pc": [
+        161,
+        162
+      ]
+    },
+    {
+      "teal": 155,
+      "source": 36,
+      "pc": [
+        163,
+        164
+      ]
+    },
+    {
+      "teal": 156,
+      "source": 36,
+      "pc": [
+        165
+      ]
+    },
+    {
+      "teal": 159,
+      "source": 4,
+      "pc": [
+        166
+      ]
+    },
+    {
+      "teal": 160,
+      "source": 4,
+      "pc": [
+        167
+      ]
+    },
+    {
+      "teal": 163,
+      "source": 4,
+      "pc": [
+        168,
+        169,
+        170,
+        171,
+        172,
+        173
+      ]
+    },
+    {
+      "teal": 164,
+      "source": 4,
+      "pc": [
+        174,
+        175,
+        176
+      ]
+    },
+    {
+      "teal": 165,
+      "source": 4,
+      "pc": [
+        177,
+        178,
+        179,
+        180
+      ]
+    },
+    {
+      "teal": 168,
+      "source": 4,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        181
+      ]
+    },
+    {
+      "teal": 171,
+      "source": 4,
+      "pc": [
+        182,
+        183,
+        184,
+        185,
+        186,
+        187
+      ]
+    },
+    {
+      "teal": 172,
+      "source": 4,
+      "pc": [
+        188,
+        189,
+        190
+      ]
+    },
+    {
+      "teal": 173,
+      "source": 4,
+      "pc": [
+        191,
+        192,
+        193,
+        194
+      ]
+    },
+    {
+      "teal": 176,
+      "source": 4,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        195
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk0LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGdldFN1bShhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAovLwovLyBDYWxjdWxhdGVzIHRoZSBzdW0gb2YgdHdvIG51bWJlcnMKLy8KLy8gQHBhcmFtIGEKLy8gQHBhcmFtIGIKLy8gQHJldHVybnMgVGhlIHN1bSBvZiBhIGFuZCBiCmdldFN1bToKCXByb3RvIDIgMQoKCS8vIGV4YW1wbGVzL2NhbGN1bGF0b3IvY2FsY3VsYXRvci5hbGdvLnRzOjEzCgkvLyByZXR1cm4gYSArIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkrCglyZXRzdWIKCi8vIGdldERpZmZlcmVuY2UoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKLy8KLy8gQ2FsY3VsYXRlcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHR3byBudW1iZXJzCi8vCi8vIEBwYXJhbSBhCi8vIEBwYXJhbSBiCi8vIEByZXR1cm5zIFRoZSBkaWZmZXJlbmNlIGJldHdlZW4gYSBhbmQgYi4KZ2V0RGlmZmVyZW5jZToKCXByb3RvIDIgMQoKCS8vIGV4YW1wbGVzL2NhbGN1bGF0b3IvY2FsY3VsYXRvci5hbGdvLnRzOjI0CgkvLyByZXR1cm4gYSA+PSBiID8gYSAtIGIgOiBiIC0gYTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCT49CglieiAqdGVybmFyeTBfZmFsc2UKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCS0KCWIgKnRlcm5hcnkwX2VuZAoKKnRlcm5hcnkwX2ZhbHNlOgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJLQoKKnRlcm5hcnkwX2VuZDoKCXJldHN1YgoKLy8gZG9NYXRoKHVpbnQ2NCx1aW50NjQsc3RyaW5nKXVpbnQ2NAoqYWJpX3JvdXRlX2RvTWF0aDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gb3BlcmF0aW9uOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWV4dHJhY3QgMiAwCgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBkb01hdGgodWludDY0LHVpbnQ2NCxzdHJpbmcpdWludDY0CgljYWxsc3ViIGRvTWF0aAoJaXRvYgoJY29uY2F0Cglsb2cKCWludCAxCglyZXR1cm4KCi8vIGRvTWF0aChhOiB1aW50NjQsIGI6IHVpbnQ2NCwgb3BlcmF0aW9uOiBzdHJpbmcpOiB1aW50NjQKLy8KLy8gQSBtZXRob2QgdGhhdCB0YWtlcyB0d28gbnVtYmVycyBhbmQgZG9lcyBlaXRoZXIgYWRkaXRpb24gb3Igc3VidHJhY3Rpb24KLy8KLy8gQHBhcmFtIGEgVGhlIGZpcnN0IG51bWJlcgovLyBAcGFyYW0gYiBUaGUgc2Vjb25kIG51bWJlcgovLyBAcGFyYW0gb3BlcmF0aW9uIFRoZSBvcGVyYXRpb24gdG8gcGVyZm9ybS4gQ2FuIGJlIGVpdGhlciAnc3VtJyBvciAnZGlmZmVyZW5jZScKLy8KLy8gQHJldHVybnMgVGhlIHJlc3VsdCBvZiB0aGUgb3BlcmF0aW9uCmRvTWF0aDoKCXByb3RvIDMgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2NhbGN1bGF0b3IvY2FsY3VsYXRvci5hbGdvLnRzOjM5CgkvLyBvcGVyYXRpb24gPT09ICdzdW0nCglmcmFtZV9kaWcgLTMgLy8gb3BlcmF0aW9uOiBzdHJpbmcKCWJ5dGUgMHg3Mzc1NmQgLy8gInN1bSIKCT09CglieiAqaWYwX2Vsc2VpZjFfY29uZGl0aW9uCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9jYWxjdWxhdG9yL2NhbGN1bGF0b3IuYWxnby50czo0MAoJLy8gcmVzdWx0ID0gdGhpcy5nZXRTdW0oYSwgYikKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWNhbGxzdWIgZ2V0U3VtCglmcmFtZV9idXJ5IDAgLy8gcmVzdWx0OiB1aW50NjQKCWIgKmlmMF9lbmQKCippZjBfZWxzZWlmMV9jb25kaXRpb246CgkvLyBleGFtcGxlcy9jYWxjdWxhdG9yL2NhbGN1bGF0b3IuYWxnby50czo0MQoJLy8gb3BlcmF0aW9uID09PSAnZGlmZmVyZW5jZScKCWZyYW1lX2RpZyAtMyAvLyBvcGVyYXRpb246IHN0cmluZwoJYnl0ZSAweDY0Njk2NjY2NjU3MjY1NmU2MzY1IC8vICJkaWZmZXJlbmNlIgoJPT0KCWJ6ICppZjBfZWxzZQoKCS8vICppZjBfZWxzZWlmMV9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9jYWxjdWxhdG9yL2NhbGN1bGF0b3IuYWxnby50czo0MgoJLy8gcmVzdWx0ID0gdGhpcy5nZXREaWZmZXJlbmNlKGEsIGIpCglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CgljYWxsc3ViIGdldERpZmZlcmVuY2UKCWZyYW1lX2J1cnkgMCAvLyByZXN1bHQ6IHVpbnQ2NAoJYiAqaWYwX2VuZAoKKmlmMF9lbHNlOgoJLy8gSW52YWxpZCBvcGVyYXRpb24KCWVycgoKKmlmMF9lbmQ6CgkvLyBleGFtcGxlcy9jYWxjdWxhdG9yL2NhbGN1bGF0b3IuYWxnby50czo0NQoJLy8gcmV0dXJuIHJlc3VsdDsKCWZyYW1lX2RpZyAwIC8vIHJlc3VsdDogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJkb01hdGgodWludDY0LHVpbnQ2NCxzdHJpbmcpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9kb01hdGgKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiABATEYFIEGCzEZCI0MAI8AAAAAAAAAAAAAAIEAAAAAAAAAAAAAAIoCAYv/i/4IiYoCAYv/i/4PQQAIi/+L/glCAAWL/ov/CYmABBUffHU2GgNXAgA2GgIXNhoBF4gABRZQsCJDigMBgACL/YADc3VtEkEADIv+i/+I/6uMAEIAH4v9gApkaWZmZXJlbmNlEkEADIv+i/+I/5aMAEIAAQCLAIwAiSJDgAS4RHs2NhoAjgH/8QCABHan7zM2GgCOAf+HAA==",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}

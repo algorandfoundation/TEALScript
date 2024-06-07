@@ -1052,6 +1052,8 @@ export default class Compiler {
       .replace('typeof ', '')
       .replace(/, */g, 'x');
 
+    if (typeString === 'byte') return { kind: 'base', type: 'byte' };
+
     const txnTypes = {
       thistxnparams: 'txn',
       paymentparams: 'pay',
@@ -1824,6 +1826,16 @@ export default class Compiler {
         this.lastType = StackType.bytes;
       },
     },
+    rawByte: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        if (node.getArguments().length !== 1) throw new Error('rawByte must be given a single argument');
+        this.processNode(node.getArguments()[0]);
+        this.checkEncoding(node.getArguments()[0], this.lastType);
+        if (this.getTypeLength(this.lastType) !== 1) throw new Error('rawByte argument must be a single byte');
+        this.lastType = { type: 'byte', kind: 'base' };
+      },
+    },
     castBytes: {
       check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
       fn: (node: ts.CallExpression) => {
@@ -2092,6 +2104,34 @@ export default class Compiler {
       },
     },
     // number methods
+    Uint: {
+      check: (node: ts.CallExpression) => node.getExpression().isKind(ts.SyntaxKind.Identifier),
+      fn: (node: ts.CallExpression) => {
+        const args = node.getArguments();
+        if (args.length !== 1) throw new Error();
+        const arg0Type = args[0].getType();
+        if (!arg0Type.isStringLiteral()) throw new Error('Uint argument must be string literal');
+
+        const widthArg = node.getTypeArguments()?.[0];
+
+        if (widthArg === undefined) {
+          throw Error('Uint must have a type argument specifying the width');
+        }
+
+        const width = parseInt(widthArg.getText(), 10);
+        const typeInfo = { kind: 'base', type: `uint${width}` } as TypeInfo;
+        const value = BigInt(arg0Type.getLiteralValueOrThrow() as string);
+
+        const maxValue = 2n ** BigInt(width) - 1n;
+
+        if (value > maxValue) {
+          throw Error(`Value ${value} is too large for uint${width}. Max value is ${maxValue}`);
+        }
+
+        if (width === 64 || isSmallNumber(typeInfo)) this.push(node, `int ${value}`, typeInfo);
+        else this.push(node, `byte 0x${value.toString(16).padStart(width / 4, '0')}`, typeInfo);
+      },
+    },
     toString: {
       check: (node: ts.CallExpression) => {
         return this.lastType.kind === 'base' && !!this.lastType.type.match(/uint\d+$/);
@@ -2284,6 +2324,8 @@ export default class Compiler {
       }
 
       switch (type) {
+        case 'bool':
+          return 1;
         case 'assetid':
         case 'appid':
           return 8;
@@ -5078,7 +5120,7 @@ export default class Compiler {
     const name = node.getNameNode().getText();
 
     if (node.getInitializer()) {
-      const initializerType = this.getStackTypeFromNode(node.getInitializer()!);
+      const initializerType = this.getTypeInfo(node.getType()!);
       const initializerTypeString = typeInfoToABIString(initializerType);
 
       let lastFrameAccess: string | undefined;
@@ -5619,6 +5661,10 @@ export default class Compiler {
 
     const textWithoutUnderscores = this.getNumericLiteralValueString(node);
 
+    if (BigInt(textWithoutUnderscores.split('.')[0]) > BigInt(Number.MAX_SAFE_INTEGER)) {
+      throw Error(`Number ${node.getText()} is too large for a number literal. Use Uint constructor with string")`);
+    }
+
     if (type === 'uint64') {
       this.processNode(node);
       return;
@@ -5672,6 +5718,12 @@ export default class Compiler {
       const hex = Buffer.from(node.getLiteralText(), 'utf8').toString('hex');
       this.push(node, `byte 0x${hex} // "${node.getLiteralText()}"`, StackType.bytes);
     } else {
+      const textWithoutUnderscores = this.getNumericLiteralValueString(node);
+      if (BigInt(textWithoutUnderscores) > BigInt(Number.MAX_SAFE_INTEGER)) {
+        throw Error(
+          `Number ${node.getText()} is too large for a number literal. Use Uint64 constructor with string: Uint64("${textWithoutUnderscores}")`
+        );
+      }
       this.push(node, `int ${node.getText()}`, StackType.uint64);
     }
   }
@@ -5765,7 +5817,7 @@ export default class Compiler {
       if (isNumeric(type)) {
         this.push(chain[0], `pushint TMPL_${name}`, type);
       } else {
-        this.push(chain[0], `pushbyte TMPL_${name}`, type);
+        this.push(chain[0], `pushbytes TMPL_${name}`, type);
       }
 
       chain.splice(0, 1);
@@ -7189,7 +7241,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/push(int|byte) TMPL_/)) {
+        if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
           if (opcode === 'pushint') return 'pushint 0';
 

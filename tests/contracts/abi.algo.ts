@@ -1139,7 +1139,7 @@ class ABITestNestedTypesInSignature extends Contract {
 
 class ABITestMaxUfixed extends Contract {
   maxUfixed(): ufixed<64, 2> {
-    const u64max: ufixed<64, 2> = 184467440737095516.15;
+    const u64max: ufixed<64, 2> = 12.34;
 
     return u64max;
   }
@@ -1557,5 +1557,11 @@ class ABITestPushToArrayInBox extends Contract {
     this.bMap('bMap').value.push(AppID.fromUint64(4));
 
     return this.bMap('bMap').value;
+  }
+}
+
+class ABITestReturnByte extends Contract {
+  returnByte(): byte {
+    return rawByte(true);
   }
 }

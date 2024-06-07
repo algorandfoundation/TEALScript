@@ -1,0 +1,502 @@
+{
+  "name": "ABITestPlusEqualsObjValueInBox",
+  "desc": "",
+  "methods": [
+    {
+      "name": "plusEqualsObjValueInBox",
+      "args": [],
+      "returns": {
+        "type": "(uint64,uint64)",
+        "struct": "{ foo: uint64; bar: uint64; }"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {
+    "{ foo: uint64; bar: uint64 }": {
+      "foo": "uint64",
+      "bar": "uint64"
+    },
+    "{ foo: uint64; bar: uint64; }": {
+      "foo": "uint64",
+      "bar": "uint64"
+    }
+  },
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {
+        "bMap": {
+          "keyType": "bytes",
+          "valueType": "{ foo: uint64; bar: uint64 }"
+        }
+      }
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": [
+    {
+      "teal": 1,
+      "source": 1247,
+      "pc": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "teal": 13,
+      "source": 1247,
+      "pc": [
+        12,
+        13
+      ]
+    },
+    {
+      "teal": 14,
+      "source": 1247,
+      "pc": [
+        14
+      ]
+    },
+    {
+      "teal": 15,
+      "source": 1247,
+      "pc": [
+        15,
+        16
+      ]
+    },
+    {
+      "teal": 16,
+      "source": 1247,
+      "pc": [
+        17
+      ]
+    },
+    {
+      "teal": 17,
+      "source": 1247,
+      "pc": [
+        18,
+        19
+      ]
+    },
+    {
+      "teal": 18,
+      "source": 1247,
+      "pc": [
+        20
+      ]
+    },
+    {
+      "teal": 19,
+      "source": 1247,
+      "pc": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "teal": 23,
+      "source": 1247,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        47
+      ]
+    },
+    {
+      "teal": 28,
+      "source": 1250,
+      "pc": [
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ]
+    },
+    {
+      "teal": 31,
+      "source": 1250,
+      "pc": [
+        54,
+        55,
+        56
+      ]
+    },
+    {
+      "teal": 32,
+      "source": 1250,
+      "pc": [
+        57
+      ]
+    },
+    {
+      "teal": 33,
+      "source": 1250,
+      "pc": [
+        58
+      ]
+    },
+    {
+      "teal": 34,
+      "source": 1250,
+      "pc": [
+        59
+      ]
+    },
+    {
+      "teal": 35,
+      "source": 1250,
+      "pc": [
+        60
+      ]
+    },
+    {
+      "teal": 39,
+      "source": 1250,
+      "pc": [
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "teal": 43,
+      "source": 1251,
+      "pc": [
+        64
+      ]
+    },
+    {
+      "teal": 44,
+      "source": 1251,
+      "pc": [
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82
+      ]
+    },
+    {
+      "teal": 45,
+      "source": 1251,
+      "pc": [
+        83
+      ]
+    },
+    {
+      "teal": 49,
+      "source": 1252,
+      "pc": [
+        84
+      ]
+    },
+    {
+      "teal": 50,
+      "source": 1252,
+      "pc": [
+        85
+      ]
+    },
+    {
+      "teal": 51,
+      "source": 1252,
+      "pc": [
+        86
+      ]
+    },
+    {
+      "teal": 52,
+      "source": 1252,
+      "pc": [
+        87
+      ]
+    },
+    {
+      "teal": 53,
+      "source": 1252,
+      "pc": [
+        88
+      ]
+    },
+    {
+      "teal": 54,
+      "source": 1252,
+      "pc": [
+        89
+      ]
+    },
+    {
+      "teal": 55,
+      "source": 1252,
+      "pc": [
+        90
+      ]
+    },
+    {
+      "teal": 56,
+      "source": 1252,
+      "pc": [
+        91
+      ]
+    },
+    {
+      "teal": 57,
+      "source": 1252,
+      "pc": [
+        92
+      ]
+    },
+    {
+      "teal": 58,
+      "source": 1252,
+      "pc": [
+        93
+      ]
+    },
+    {
+      "teal": 59,
+      "source": 1252,
+      "pc": [
+        94,
+        95
+      ]
+    },
+    {
+      "teal": 60,
+      "source": 1252,
+      "pc": [
+        96
+      ]
+    },
+    {
+      "teal": 64,
+      "source": 1253,
+      "pc": [
+        97
+      ]
+    },
+    {
+      "teal": 65,
+      "source": 1253,
+      "pc": [
+        98
+      ]
+    },
+    {
+      "teal": 68,
+      "source": 1253,
+      "errorMessage": "box value does not exist: this.bMap('bMap').value",
+      "pc": [
+        99
+      ]
+    },
+    {
+      "teal": 69,
+      "source": 1250,
+      "pc": [
+        100
+      ]
+    },
+    {
+      "teal": 72,
+      "source": 1247,
+      "pc": [
+        101
+      ]
+    },
+    {
+      "teal": 73,
+      "source": 1247,
+      "pc": [
+        102
+      ]
+    },
+    {
+      "teal": 76,
+      "source": 1247,
+      "pc": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ]
+    },
+    {
+      "teal": 77,
+      "source": 1247,
+      "pc": [
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "teal": 78,
+      "source": 1247,
+      "pc": [
+        112,
+        113,
+        114,
+        115
+      ]
+    },
+    {
+      "teal": 81,
+      "source": 1247,
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        116
+      ]
+    },
+    {
+      "teal": 84,
+      "source": 1247,
+      "pc": [
+        117,
+        118,
+        119,
+        120,
+        121,
+        122
+      ]
+    },
+    {
+      "teal": 85,
+      "source": 1247,
+      "pc": [
+        123,
+        124,
+        125
+      ]
+    },
+    {
+      "teal": 86,
+      "source": 1247,
+      "pc": [
+        126,
+        127,
+        128,
+        129
+      ]
+    },
+    {
+      "teal": 89,
+      "source": 1247,
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        130
+      ]
+    }
+  ],
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk0LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHBsdXNFcXVhbHNPYmpWYWx1ZUluQm94KCkodWludDY0LHVpbnQ2NCkKKmFiaV9yb3V0ZV9wbHVzRXF1YWxzT2JqVmFsdWVJbkJveDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBwbHVzRXF1YWxzT2JqVmFsdWVJbkJveCgpKHVpbnQ2NCx1aW50NjQpCgljYWxsc3ViIHBsdXNFcXVhbHNPYmpWYWx1ZUluQm94Cgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gcGx1c0VxdWFsc09ialZhbHVlSW5Cb3goKTogeyBmb286IHVpbnQ2NDsgYmFyOiB1aW50NjQgfQpwbHVzRXF1YWxzT2JqVmFsdWVJbkJveDoKCXByb3RvIDAgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czoxMjUxCgkvLyB0aGlzLmJNYXAoJ2JNYXAnKS52YWx1ZSA9IHsgZm9vOiAzLCBiYXI6IDQgfQoJYnl0ZSAweDYyNGQ2MTcwIC8vICJiTWFwIgoJYnl0ZSAweDAwMDAwMDAwMDAwMDAwMDMwMDAwMDAwMDAwMDAwMDA0Cglib3hfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjEyNTIKCS8vIHRoaXMuYk1hcCgnYk1hcCcpLnZhbHVlLmJhciArPSAxCglpbnQgOCAvLyBoZWFkT2Zmc2V0CglieXRlIDB4NjI0ZDYxNzAgLy8gImJNYXAiCglpbnQgOCAvLyBoZWFkT2Zmc2V0CglpbnQgOAoJYm94X2V4dHJhY3QKCWJ0b2kKCWludCAxCgkrCglpdG9iCglieXRlIDB4NjI0ZDYxNzAgLy8gImJNYXAiCgljb3ZlciAyCglib3hfcmVwbGFjZQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czoxMjUzCgkvLyByZXR1cm4gdGhpcy5iTWFwKCdiTWFwJykudmFsdWU7CglieXRlIDB4NjI0ZDYxNzAgLy8gImJNYXAiCglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLmJNYXAoJ2JNYXAnKS52YWx1ZQoJYXNzZXJ0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJwbHVzRXF1YWxzT2JqVmFsdWVJbkJveCgpKHVpbnQ2NCx1aW50NjQpIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9wbHVzRXF1YWxzT2JqVmFsdWVJbkJveAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiACAQgmAQRiTWFwMRgUgQYLMRkIjQwARgAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAgAQVH3x1iAAEULAiQ4oAASiAEAAAAAAAAAADAAAAAAAAAAS/IygjI7oXIggWKE4Cuyi+RIkiQ4AEuER7NjYaAI4B//EAgARmGbURNhoAjgH/rgA=",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 24,
+      "patch": 0,
+      "commitHash": "5c2cf06d"
+    }
+  }
+}
