@@ -174,7 +174,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       }
     } else if (teal.startsWith('dup')) {
       const a = outputTeal.at(-1);
-      if (['byte', 'pushbyte'].includes(a?.teal.split(' ')[0] ?? '')) {
+      if (['byte', 'pushbytes'].includes(a?.teal.split(' ')[0] ?? '')) {
         const times = teal.startsWith('dupn ') ? Number(teal.split(' ')[1]) : 1;
 
         for (let i = 0; i < times; i += 1) {

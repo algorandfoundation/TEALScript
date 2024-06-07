@@ -5817,7 +5817,7 @@ export default class Compiler {
       if (isNumeric(type)) {
         this.push(chain[0], `pushint TMPL_${name}`, type);
       } else {
-        this.push(chain[0], `pushbyte TMPL_${name}`, type);
+        this.push(chain[0], `pushbytes TMPL_${name}`, type);
       }
 
       chain.splice(0, 1);
@@ -7241,7 +7241,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
-        if (t.match(/push(int|byte) TMPL_/)) {
+        if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
           if (opcode === 'pushint') return 'pushint 0';
 
