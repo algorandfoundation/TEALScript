@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-continue */
+/* eslint-disable no-unused-vars */
 import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line import/no-cycle
 import { StakedInfo, StakingPool } from './stakingPool.algo';

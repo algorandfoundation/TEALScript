@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable no-param-reassign */
 import { Contract } from '../../src/lib/index';
 // eslint-disable-next-line import/no-cycle
 import { PoolTokenPayoutRatio, ValidatorPoolKey, ValidatorRegistry } from './validatorRegistry.algo';

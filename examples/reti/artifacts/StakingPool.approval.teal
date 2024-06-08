@@ -33,7 +33,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *call_Updat
 updateApplication:
 	proto 0 0
 
-	// examples/reti/stakingPool.algo.ts:92
+	// examples/reti/stakingPool.algo.ts:94
 	// assert(
 	//       this.txn.sender === Address.fromAddress('LZ4V2IRVLCXFJK4REJV4TAGEKEYTA2GMR6TC2344OB3L3AF3MWXZ6ZAFIQ'),
 	//       'Temporary: contract is upgradeable but only during testing and only from a development account'
@@ -80,7 +80,7 @@ createApplication:
 	proto 4 0
 
 	// *if0_condition
-	// examples/reti/stakingPool.algo.ts:106
+	// examples/reti/stakingPool.algo.ts:108
 	// creatingContractId === 0
 	frame_dig -1 // creatingContractId: uint64
 	int 0
@@ -88,14 +88,14 @@ createApplication:
 	bz *if0_else
 
 	// *if0_consequent
-	// examples/reti/stakingPool.algo.ts:108
+	// examples/reti/stakingPool.algo.ts:110
 	// assert(validatorId === 0)
 	frame_dig -2 // validatorId: uint64
 	int 0
 	==
 	assert
 
-	// examples/reti/stakingPool.algo.ts:109
+	// examples/reti/stakingPool.algo.ts:111
 	// assert(poolId === 0)
 	frame_dig -3 // poolId: uint64
 	int 0
@@ -104,14 +104,14 @@ createApplication:
 	b *if0_end
 
 *if0_else:
-	// examples/reti/stakingPool.algo.ts:111
+	// examples/reti/stakingPool.algo.ts:113
 	// assert(validatorId !== 0)
 	frame_dig -2 // validatorId: uint64
 	int 0
 	!=
 	assert
 
-	// examples/reti/stakingPool.algo.ts:112
+	// examples/reti/stakingPool.algo.ts:114
 	// assert(poolId !== 0)
 	frame_dig -3 // poolId: uint64
 	int 0
@@ -119,7 +119,7 @@ createApplication:
 	assert
 
 *if0_end:
-	// examples/reti/stakingPool.algo.ts:114
+	// examples/reti/stakingPool.algo.ts:116
 	// assert(minEntryStake >= MIN_ALGO_STAKE_PER_POOL, 'staking pool must have minimum entry of 1 algo')
 	frame_dig -4 // minEntryStake: uint64
 	int 1000000
@@ -128,59 +128,59 @@ createApplication:
 	// staking pool must have minimum entry of 1 algo
 	assert
 
-	// examples/reti/stakingPool.algo.ts:115
+	// examples/reti/stakingPool.algo.ts:117
 	// this.creatingValidatorContractAppId.value = creatingContractId
 	byte 0x63726561746f72417070 // "creatorApp"
 	frame_dig -1 // creatingContractId: uint64
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:116
+	// examples/reti/stakingPool.algo.ts:118
 	// this.validatorId.value = validatorId
 	byte 0x76616c696461746f724964 // "validatorId"
 	frame_dig -2 // validatorId: uint64
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:117
+	// examples/reti/stakingPool.algo.ts:119
 	// this.poolId.value = poolId
 	byte 0x706f6f6c4964 // "poolId"
 	frame_dig -3 // poolId: uint64
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:118
+	// examples/reti/stakingPool.algo.ts:120
 	// this.numStakers.value = 0
 	byte 0x6e756d5374616b657273 // "numStakers"
 	int 0
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:119
+	// examples/reti/stakingPool.algo.ts:121
 	// this.totalAlgoStaked.value = 0
 	byte 0x7374616b6564 // "staked"
 	int 0
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:120
+	// examples/reti/stakingPool.algo.ts:122
 	// this.minEntryStake.value = minEntryStake
 	byte 0x6d696e456e7472795374616b65 // "minEntryStake"
 	frame_dig -4 // minEntryStake: uint64
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:121
+	// examples/reti/stakingPool.algo.ts:123
 	// this.lastPayout.value = globals.round
 	byte 0x6c6173745061796f7574 // "lastPayout"
 	global Round
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:122
+	// examples/reti/stakingPool.algo.ts:124
 	// this.epochNumber.value = 0
 	byte 0x65706f63684e756d626572 // "epochNumber"
 	int 0
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:124
+	// examples/reti/stakingPool.algo.ts:126
 	// this.setRoundsPerDay()
 	callsub setRoundsPerDay
 
-	// examples/reti/stakingPool.algo.ts:125
+	// examples/reti/stakingPool.algo.ts:127
 	// this.binRoundStart.value = globals.round - (globals.round % this.roundsPerDay.value)
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
 	global Round
@@ -191,19 +191,19 @@ createApplication:
 	-
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:126
+	// examples/reti/stakingPool.algo.ts:128
 	// this.stakeAccumulator.value = 0 as uint128
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
 	byte 0x00000000000000000000000000000000
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:127
+	// examples/reti/stakingPool.algo.ts:129
 	// this.rewardAccumulator.value = 0
 	byte 0x726577617264416363756d756c61746f72 // "rewardAccumulator"
 	int 0
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:128
+	// examples/reti/stakingPool.algo.ts:130
 	// this.weightedMovingAverage.value = 0 as uint128
 	byte 0x65776d61 // "ewma"
 	byte 0x00000000000000000000000000000000
@@ -228,7 +228,7 @@ gas:
 costForBoxStorage:
 	proto 1 1
 
-	// examples/reti/stakingPool.algo.ts:140
+	// examples/reti/stakingPool.algo.ts:142
 	// return SCBOX_PERBOX + totalNumBytes * SCBOX_PERBYTE;
 	int 2500
 	frame_dig -1 // totalNumBytes: uint64
@@ -270,7 +270,7 @@ initStorage:
 	byte 0x
 	dupn 3
 
-	// examples/reti/stakingPool.algo.ts:151
+	// examples/reti/stakingPool.algo.ts:153
 	// assert(!this.stakers.exists, 'staking pool already initialized')
 	byte 0x7374616b657273 // "stakers"
 	box_len
@@ -281,7 +281,7 @@ initStorage:
 	// staking pool already initialized
 	assert
 
-	// examples/reti/stakingPool.algo.ts:154
+	// examples/reti/stakingPool.algo.ts:156
 	// validatorConfig = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorConfig>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [this.validatorId.value],
@@ -292,13 +292,13 @@ initStorage:
 	method "getValidatorConfig(uint64)(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:155
+	// examples/reti/stakingPool.algo.ts:157
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:156
+	// examples/reti/stakingPool.algo.ts:158
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -318,7 +318,7 @@ initStorage:
 	extract 4 0
 	frame_bury 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:158
+	// examples/reti/stakingPool.algo.ts:160
 	// isTokenEligible = validatorConfig.rewardTokenId !== 0
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 153 8
@@ -327,7 +327,7 @@ initStorage:
 	!=
 	frame_bury 1 // isTokenEligible: bool
 
-	// examples/reti/stakingPool.algo.ts:159
+	// examples/reti/stakingPool.algo.ts:161
 	// extraMBR = isTokenEligible && this.poolId.value === 1 ? ASSET_HOLDING_FEE : 0
 	frame_dig 1 // isTokenEligible: bool
 	dup
@@ -349,7 +349,7 @@ initStorage:
 *ternary0_end:
 	frame_bury 2 // extraMBR: uint64
 
-	// examples/reti/stakingPool.algo.ts:160
+	// examples/reti/stakingPool.algo.ts:162
 	// PoolInitMbr =
 	//       ALGORAND_ACCOUNT_MIN_BALANCE +
 	//       extraMBR +
@@ -362,7 +362,7 @@ initStorage:
 	+
 	frame_bury 3 // PoolInitMbr: uint64
 
-	// examples/reti/stakingPool.algo.ts:166
+	// examples/reti/stakingPool.algo.ts:168
 	// verifyPayTxn(mbrPayment, { receiver: this.app.address, amount: PoolInitMbr })
 	// verify receiver
 	frame_dig -1 // mbrPayment: PayTxn
@@ -382,7 +382,7 @@ initStorage:
 	// transaction verification failed: {"txn":"mbrPayment","field":"amount","expected":"PoolInitMbr"}
 	assert
 
-	// examples/reti/stakingPool.algo.ts:167
+	// examples/reti/stakingPool.algo.ts:169
 	// this.stakers.create()
 	byte 0x7374616b657273 // "stakers"
 	int 12800
@@ -390,7 +390,7 @@ initStorage:
 	pop
 
 	// *if1_condition
-	// examples/reti/stakingPool.algo.ts:169
+	// examples/reti/stakingPool.algo.ts:171
 	// isTokenEligible && this.poolId.value === 1
 	frame_dig 1 // isTokenEligible: bool
 	dup
@@ -405,7 +405,7 @@ initStorage:
 	bz *if1_end
 
 	// *if1_consequent
-	// examples/reti/stakingPool.algo.ts:171
+	// examples/reti/stakingPool.algo.ts:173
 	// sendAssetTransfer({
 	//         xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId),
 	//         assetReceiver: this.app.address,
@@ -415,19 +415,19 @@ initStorage:
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:172
+	// examples/reti/stakingPool.algo.ts:174
 	// xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId)
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 153 8
 	btoi
 	itxn_field XferAsset
 
-	// examples/reti/stakingPool.algo.ts:173
+	// examples/reti/stakingPool.algo.ts:175
 	// assetReceiver: this.app.address
 	global CurrentApplicationAddress
 	itxn_field AssetReceiver
 
-	// examples/reti/stakingPool.algo.ts:174
+	// examples/reti/stakingPool.algo.ts:176
 	// assetAmount: 0
 	int 0
 	itxn_field AssetAmount
@@ -494,7 +494,7 @@ addStake:
 	byte 0x
 	dupn 4
 
-	// examples/reti/stakingPool.algo.ts:190
+	// examples/reti/stakingPool.algo.ts:192
 	// assert(this.stakers.exists, 'staking pool must be initialized first')
 	byte 0x7374616b657273 // "stakers"
 	box_len
@@ -504,7 +504,7 @@ addStake:
 	// staking pool must be initialized first
 	assert
 
-	// examples/reti/stakingPool.algo.ts:193
+	// examples/reti/stakingPool.algo.ts:195
 	// assert(
 	//       this.txn.sender === AppID.fromUint64(this.creatingValidatorContractAppId.value).address,
 	//       'stake can only be added via the validator contract'
@@ -519,18 +519,18 @@ addStake:
 	// stake can only be added via the validator contract
 	assert
 
-	// examples/reti/stakingPool.algo.ts:197
+	// examples/reti/stakingPool.algo.ts:199
 	// assert(staker !== globals.zeroAddress)
 	frame_dig -2 // staker: Address
 	global ZeroAddress
 	!=
 	assert
 
-	// examples/reti/stakingPool.algo.ts:200
+	// examples/reti/stakingPool.algo.ts:202
 	// this.checkIfBinClosed()
 	callsub checkIfBinClosed
 
-	// examples/reti/stakingPool.algo.ts:204
+	// examples/reti/stakingPool.algo.ts:206
 	// verifyPayTxn(stakedAmountPayment, {
 	//       sender: AppID.fromUint64(this.creatingValidatorContractAppId.value).address,
 	//       receiver: this.app.address,
@@ -567,19 +567,19 @@ addStake:
 	// transaction verification failed: {"txn":"stakedAmountPayment","field":"amount","expected":"stakedAmountPayment.amount"}
 	assert
 
-	// examples/reti/stakingPool.algo.ts:213
+	// examples/reti/stakingPool.algo.ts:215
 	// entryRound = globals.round + ALGORAND_STAKING_BLOCK_DELAY
 	global Round
 	int 320
 	+
 	frame_bury 0 // entryRound: uint64
 
-	// examples/reti/stakingPool.algo.ts:214
+	// examples/reti/stakingPool.algo.ts:216
 	// firstEmpty = 0
 	int 0
 	frame_bury 1 // firstEmpty: uint64
 
-	// examples/reti/stakingPool.algo.ts:216
+	// examples/reti/stakingPool.algo.ts:218
 	// this.totalAlgoStaked.value += stakedAmountPayment.amount
 	byte 0x7374616b6564 // "staked"
 	app_global_get
@@ -590,7 +590,7 @@ addStake:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:218
+	// examples/reti/stakingPool.algo.ts:220
 	// roundsLeftInBin = this.binRoundStart.value + this.roundsPerDay.value - globals.round
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
 	app_global_get
@@ -601,7 +601,7 @@ addStake:
 	-
 	frame_bury 2 // roundsLeftInBin: uint64
 
-	// examples/reti/stakingPool.algo.ts:219
+	// examples/reti/stakingPool.algo.ts:221
 	// this.stakeAccumulator.value =
 	//       this.stakeAccumulator.value + (stakedAmountPayment.amount as uint128) * (roundsLeftInBin as uint128)
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
@@ -632,13 +632,13 @@ addStake:
 	substring3
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:223
+	// examples/reti/stakingPool.algo.ts:225
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 3 // i: uint64
 
 *for_0:
-	// examples/reti/stakingPool.algo.ts:223
+	// examples/reti/stakingPool.algo.ts:225
 	// i < this.stakers.value.length
 	frame_dig 3 // i: uint64
 	int 200
@@ -646,7 +646,7 @@ addStake:
 	bz *for_0_end
 
 	// *if2_condition
-	// examples/reti/stakingPool.algo.ts:224
+	// examples/reti/stakingPool.algo.ts:226
 	// globals.opcodeBudget < 300
 	global OpcodeBudget
 	int 300
@@ -654,7 +654,7 @@ addStake:
 	bz *if2_end
 
 	// *if2_consequent
-	// examples/reti/stakingPool.algo.ts:225
+	// examples/reti/stakingPool.algo.ts:227
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -670,7 +670,7 @@ addStake:
 	itxn_submit
 
 *if2_end:
-	// examples/reti/stakingPool.algo.ts:227
+	// examples/reti/stakingPool.algo.ts:229
 	// cmpStaker = clone(this.stakers.value[i])
 	frame_dig 3 // i: uint64
 	int 64
@@ -682,7 +682,7 @@ addStake:
 	frame_bury 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 	// *if3_condition
-	// examples/reti/stakingPool.algo.ts:228
+	// examples/reti/stakingPool.algo.ts:230
 	// cmpStaker.account === staker
 	frame_dig 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 0 32
@@ -691,7 +691,7 @@ addStake:
 	bz *if3_end
 
 	// *if3_consequent
-	// examples/reti/stakingPool.algo.ts:230
+	// examples/reti/stakingPool.algo.ts:232
 	// cmpStaker.balance += stakedAmountPayment.amount
 	frame_dig 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 32 // headOffset
@@ -705,7 +705,7 @@ addStake:
 	replace3
 	frame_bury 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:231
+	// examples/reti/stakingPool.algo.ts:233
 	// cmpStaker.entryRound = entryRound
 	frame_dig 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 56 // headOffset
@@ -714,7 +714,7 @@ addStake:
 	replace3
 	frame_bury 4 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:234
+	// examples/reti/stakingPool.algo.ts:236
 	// this.stakers.value[i] = cmpStaker
 	frame_dig 3 // i: uint64
 	int 64
@@ -724,14 +724,14 @@ addStake:
 	cover 2
 	box_replace
 
-	// examples/reti/stakingPool.algo.ts:236
+	// examples/reti/stakingPool.algo.ts:238
 	// return entryRound;
 	frame_dig 0 // entryRound: uint64
 	b *addStake*return
 
 *if3_end:
 	// *if4_condition
-	// examples/reti/stakingPool.algo.ts:238
+	// examples/reti/stakingPool.algo.ts:240
 	// firstEmpty === 0 && cmpStaker.account === globals.zeroAddress
 	frame_dig 1 // firstEmpty: uint64
 	int 0
@@ -748,7 +748,7 @@ addStake:
 	bz *if4_end
 
 	// *if4_consequent
-	// examples/reti/stakingPool.algo.ts:239
+	// examples/reti/stakingPool.algo.ts:241
 	// firstEmpty = i + 1
 	frame_dig 3 // i: uint64
 	int 1
@@ -758,7 +758,7 @@ addStake:
 *if4_end:
 
 *for_0_continue:
-	// examples/reti/stakingPool.algo.ts:223
+	// examples/reti/stakingPool.algo.ts:225
 	// i += 1
 	frame_dig 3 // i: uint64
 	int 1
@@ -768,7 +768,7 @@ addStake:
 
 *for_0_end:
 	// *if5_condition
-	// examples/reti/stakingPool.algo.ts:243
+	// examples/reti/stakingPool.algo.ts:245
 	// firstEmpty === 0
 	frame_dig 1 // firstEmpty: uint64
 	int 0
@@ -780,7 +780,7 @@ addStake:
 	err
 
 *if5_end:
-	// examples/reti/stakingPool.algo.ts:250
+	// examples/reti/stakingPool.algo.ts:252
 	// assert(stakedAmountPayment.amount >= this.minEntryStake.value, 'must stake at least the minimum for this pool')
 	frame_dig -1 // stakedAmountPayment: PayTxn
 	gtxns Amount
@@ -791,7 +791,7 @@ addStake:
 	// must stake at least the minimum for this pool
 	assert
 
-	// examples/reti/stakingPool.algo.ts:252
+	// examples/reti/stakingPool.algo.ts:254
 	// assert(this.stakers.value[firstEmpty - 1].account === globals.zeroAddress)
 	frame_dig 1 // firstEmpty: uint64
 	int 1
@@ -808,7 +808,7 @@ addStake:
 	==
 	assert
 
-	// examples/reti/stakingPool.algo.ts:253
+	// examples/reti/stakingPool.algo.ts:255
 	// this.stakers.value[firstEmpty - 1] = {
 	//       account: staker,
 	//       balance: stakedAmountPayment.amount,
@@ -837,7 +837,7 @@ addStake:
 	cover 2
 	box_replace
 
-	// examples/reti/stakingPool.algo.ts:260
+	// examples/reti/stakingPool.algo.ts:262
 	// this.numStakers.value += 1
 	byte 0x6e756d5374616b657273 // "numStakers"
 	app_global_get
@@ -847,7 +847,7 @@ addStake:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:261
+	// examples/reti/stakingPool.algo.ts:263
 	// return entryRound;
 	frame_dig 0 // entryRound: uint64
 
@@ -899,7 +899,7 @@ removeStake:
 	dupn 6
 
 	// *if6_condition
-	// examples/reti/stakingPool.algo.ts:278
+	// examples/reti/stakingPool.algo.ts:280
 	// staker !== this.txn.sender
 	frame_dig -1 // staker: Address
 	txn Sender
@@ -907,7 +907,7 @@ removeStake:
 	bz *if6_end
 
 	// *if6_consequent
-	// examples/reti/stakingPool.algo.ts:279
+	// examples/reti/stakingPool.algo.ts:281
 	// assert(
 	//         this.isOwnerOrManagerCaller(),
 	//         'If staker is not sender in removeStake call, then sender MUST be owner or manager of validator'
@@ -918,17 +918,17 @@ removeStake:
 	assert
 
 *if6_end:
-	// examples/reti/stakingPool.algo.ts:285
+	// examples/reti/stakingPool.algo.ts:287
 	// this.checkIfBinClosed()
 	callsub checkIfBinClosed
 
-	// examples/reti/stakingPool.algo.ts:287
+	// examples/reti/stakingPool.algo.ts:289
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 0 // i: uint64
 
 *for_1:
-	// examples/reti/stakingPool.algo.ts:287
+	// examples/reti/stakingPool.algo.ts:289
 	// i < this.stakers.value.length
 	frame_dig 0 // i: uint64
 	int 200
@@ -936,7 +936,7 @@ removeStake:
 	bz *for_1_end
 
 	// *if7_condition
-	// examples/reti/stakingPool.algo.ts:288
+	// examples/reti/stakingPool.algo.ts:290
 	// globals.opcodeBudget < 300
 	global OpcodeBudget
 	int 300
@@ -944,7 +944,7 @@ removeStake:
 	bz *if7_end
 
 	// *if7_consequent
-	// examples/reti/stakingPool.algo.ts:289
+	// examples/reti/stakingPool.algo.ts:291
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -960,7 +960,7 @@ removeStake:
 	itxn_submit
 
 *if7_end:
-	// examples/reti/stakingPool.algo.ts:291
+	// examples/reti/stakingPool.algo.ts:293
 	// cmpStaker = clone(this.stakers.value[i])
 	frame_dig 0 // i: uint64
 	int 64
@@ -972,7 +972,7 @@ removeStake:
 	frame_bury 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 	// *if8_condition
-	// examples/reti/stakingPool.algo.ts:292
+	// examples/reti/stakingPool.algo.ts:294
 	// cmpStaker.account === staker
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 0 32
@@ -982,7 +982,7 @@ removeStake:
 
 	// *if8_consequent
 	// *if9_condition
-	// examples/reti/stakingPool.algo.ts:293
+	// examples/reti/stakingPool.algo.ts:295
 	// amountToUnstake === 0
 	frame_dig -2 // amountToUnstake: uint64
 	int 0
@@ -990,7 +990,7 @@ removeStake:
 	bz *if9_end
 
 	// *if9_consequent
-	// examples/reti/stakingPool.algo.ts:295
+	// examples/reti/stakingPool.algo.ts:297
 	// amountToUnstake = cmpStaker.balance
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 32 8
@@ -999,7 +999,7 @@ removeStake:
 
 *if9_end:
 	// *if10_condition
-	// examples/reti/stakingPool.algo.ts:297
+	// examples/reti/stakingPool.algo.ts:299
 	// cmpStaker.balance < amountToUnstake
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 32 8
@@ -1013,7 +1013,7 @@ removeStake:
 	err
 
 *if10_end:
-	// examples/reti/stakingPool.algo.ts:300
+	// examples/reti/stakingPool.algo.ts:302
 	// cmpStaker.balance -= amountToUnstake
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 32 // headOffset
@@ -1026,7 +1026,7 @@ removeStake:
 	replace3
 	frame_bury 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:301
+	// examples/reti/stakingPool.algo.ts:303
 	// this.totalAlgoStaked.value -= amountToUnstake
 	byte 0x7374616b6564 // "staked"
 	app_global_get
@@ -1036,13 +1036,13 @@ removeStake:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:303
+	// examples/reti/stakingPool.algo.ts:305
 	// amountRewardTokenRemoved = 0
 	int 0
 	frame_bury 2 // amountRewardTokenRemoved: uint64
 
 	// *if11_condition
-	// examples/reti/stakingPool.algo.ts:304
+	// examples/reti/stakingPool.algo.ts:306
 	// cmpStaker.rewardTokenBalance > 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
@@ -1053,7 +1053,7 @@ removeStake:
 
 	// *if11_consequent
 	// *if12_condition
-	// examples/reti/stakingPool.algo.ts:306
+	// examples/reti/stakingPool.algo.ts:308
 	// this.poolId.value === 1
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -1062,7 +1062,7 @@ removeStake:
 	bz *if12_else
 
 	// *if12_consequent
-	// examples/reti/stakingPool.algo.ts:307
+	// examples/reti/stakingPool.algo.ts:309
 	// validatorConfig = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorConfig>({
 	//               applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//               methodArgs: [this.validatorId.value],
@@ -1073,13 +1073,13 @@ removeStake:
 	method "getValidatorConfig(uint64)(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:308
+	// examples/reti/stakingPool.algo.ts:310
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:309
+	// examples/reti/stakingPool.algo.ts:311
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -1099,7 +1099,7 @@ removeStake:
 	extract 4 0
 	frame_bury 3 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:315
+	// examples/reti/stakingPool.algo.ts:317
 	// sendAssetTransfer({
 	//               xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId),
 	//               assetReceiver: staker,
@@ -1109,19 +1109,19 @@ removeStake:
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:316
+	// examples/reti/stakingPool.algo.ts:318
 	// xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId)
 	frame_dig 3 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 153 8
 	btoi
 	itxn_field XferAsset
 
-	// examples/reti/stakingPool.algo.ts:317
+	// examples/reti/stakingPool.algo.ts:319
 	// assetReceiver: staker
 	frame_dig -1 // staker: Address
 	itxn_field AssetReceiver
 
-	// examples/reti/stakingPool.algo.ts:318
+	// examples/reti/stakingPool.algo.ts:320
 	// assetAmount: cmpStaker.rewardTokenBalance
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
@@ -1135,14 +1135,14 @@ removeStake:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:320
+	// examples/reti/stakingPool.algo.ts:322
 	// amountRewardTokenRemoved = cmpStaker.rewardTokenBalance
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
 	btoi
 	frame_bury 2 // amountRewardTokenRemoved: uint64
 
-	// examples/reti/stakingPool.algo.ts:321
+	// examples/reti/stakingPool.algo.ts:323
 	// cmpStaker.rewardTokenBalance = 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
@@ -1151,14 +1151,14 @@ removeStake:
 	b *if12_end
 
 *if12_else:
-	// examples/reti/stakingPool.algo.ts:326
+	// examples/reti/stakingPool.algo.ts:328
 	// amountRewardTokenRemoved = cmpStaker.rewardTokenBalance
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
 	btoi
 	frame_bury 2 // amountRewardTokenRemoved: uint64
 
-	// examples/reti/stakingPool.algo.ts:327
+	// examples/reti/stakingPool.algo.ts:329
 	// cmpStaker.rewardTokenBalance = 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
@@ -1168,7 +1168,7 @@ removeStake:
 *if12_end:
 
 *if11_end:
-	// examples/reti/stakingPool.algo.ts:332
+	// examples/reti/stakingPool.algo.ts:334
 	// assert(
 	//           cmpStaker.balance === 0 || cmpStaker.balance >= this.minEntryStake.value,
 	//           'cannot reduce balance below minimum allowed stake unless all is removed'
@@ -1192,7 +1192,7 @@ removeStake:
 	// cannot reduce balance below minimum allowed stake unless all is removed
 	assert
 
-	// examples/reti/stakingPool.algo.ts:340
+	// examples/reti/stakingPool.algo.ts:342
 	// sendPayment({
 	//           amount: amountToUnstake,
 	//           receiver: staker,
@@ -1202,17 +1202,17 @@ removeStake:
 	int pay
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:341
+	// examples/reti/stakingPool.algo.ts:343
 	// amount: amountToUnstake
 	frame_dig -2 // amountToUnstake: uint64
 	itxn_field Amount
 
-	// examples/reti/stakingPool.algo.ts:342
+	// examples/reti/stakingPool.algo.ts:344
 	// receiver: staker
 	frame_dig -1 // staker: Address
 	itxn_field Receiver
 
-	// examples/reti/stakingPool.algo.ts:343
+	// examples/reti/stakingPool.algo.ts:345
 	// note: 'unstaked'
 	byte 0x756e7374616b6564 // "unstaked"
 	itxn_field Note
@@ -1224,13 +1224,13 @@ removeStake:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:345
+	// examples/reti/stakingPool.algo.ts:347
 	// stakerRemoved = false
 	int 0
 	frame_bury 4 // stakerRemoved: bool
 
 	// *if13_condition
-	// examples/reti/stakingPool.algo.ts:346
+	// examples/reti/stakingPool.algo.ts:348
 	// cmpStaker.balance === 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 32 8
@@ -1240,7 +1240,7 @@ removeStake:
 	bz *if13_end
 
 	// *if13_consequent
-	// examples/reti/stakingPool.algo.ts:348
+	// examples/reti/stakingPool.algo.ts:350
 	// this.numStakers.value -= 1
 	byte 0x6e756d5374616b657273 // "numStakers"
 	app_global_get
@@ -1250,7 +1250,7 @@ removeStake:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:349
+	// examples/reti/stakingPool.algo.ts:351
 	// cmpStaker.account = globals.zeroAddress
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 0
@@ -1258,27 +1258,27 @@ removeStake:
 	replace3
 	frame_bury 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:350
+	// examples/reti/stakingPool.algo.ts:352
 	// cmpStaker.totalRewarded = 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
 	replace2 40
 	frame_bury 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:351
+	// examples/reti/stakingPool.algo.ts:353
 	// cmpStaker.rewardTokenBalance = 0
 	frame_dig 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
 	replace2 48
 	frame_bury 1 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:352
+	// examples/reti/stakingPool.algo.ts:354
 	// stakerRemoved = true
 	int 1
 	frame_bury 4 // stakerRemoved: bool
 
 *if13_end:
-	// examples/reti/stakingPool.algo.ts:355
+	// examples/reti/stakingPool.algo.ts:357
 	// this.stakers.value[i] = cmpStaker
 	frame_dig 0 // i: uint64
 	int 64
@@ -1288,7 +1288,7 @@ removeStake:
 	cover 2
 	box_replace
 
-	// examples/reti/stakingPool.algo.ts:357
+	// examples/reti/stakingPool.algo.ts:359
 	// roundsLeftInBin = this.binRoundStart.value + this.roundsPerDay.value - globals.round
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
 	app_global_get
@@ -1299,7 +1299,7 @@ removeStake:
 	-
 	frame_bury 5 // roundsLeftInBin: uint64
 
-	// examples/reti/stakingPool.algo.ts:358
+	// examples/reti/stakingPool.algo.ts:360
 	// subtractAmount: uint128 = (amountToUnstake as uint128) * (roundsLeftInBin as uint128)
 	frame_dig -2 // amountToUnstake: uint64
 	itob
@@ -1324,7 +1324,7 @@ removeStake:
 	substring3
 	frame_bury 6 // subtractAmount: uint128
 
-	// examples/reti/stakingPool.algo.ts:359
+	// examples/reti/stakingPool.algo.ts:361
 	// this.stakeAccumulator.value = this.stakeAccumulator.value - subtractAmount
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
 	dup
@@ -1349,7 +1349,7 @@ removeStake:
 	substring3
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:364
+	// examples/reti/stakingPool.algo.ts:366
 	// sendMethodCall<typeof ValidatorRegistry.prototype.stakeRemoved>({
 	//           applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//           methodArgs: [
@@ -1366,13 +1366,13 @@ removeStake:
 	method "stakeRemoved((uint64,uint64,uint64),address,uint64,uint64,bool)void"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:365
+	// examples/reti/stakingPool.algo.ts:367
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:366
+	// examples/reti/stakingPool.algo.ts:368
 	// methodArgs: [
 	//             { id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id },
 	//             staker,
@@ -1413,14 +1413,14 @@ removeStake:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:374
+	// examples/reti/stakingPool.algo.ts:376
 	// return;
 	retsub
 
 *if8_end:
 
 *for_1_continue:
-	// examples/reti/stakingPool.algo.ts:287
+	// examples/reti/stakingPool.algo.ts:289
 	// i += 1
 	frame_dig 0 // i: uint64
 	int 1
@@ -1452,18 +1452,18 @@ claimTokens:
 	byte 0x
 	dupn 4
 
-	// examples/reti/stakingPool.algo.ts:389
+	// examples/reti/stakingPool.algo.ts:391
 	// staker = this.txn.sender
 	txn Sender
 	frame_bury 0 // staker: address
 
-	// examples/reti/stakingPool.algo.ts:391
+	// examples/reti/stakingPool.algo.ts:393
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 1 // i: uint64
 
 *for_2:
-	// examples/reti/stakingPool.algo.ts:391
+	// examples/reti/stakingPool.algo.ts:393
 	// i < this.stakers.value.length
 	frame_dig 1 // i: uint64
 	int 200
@@ -1471,7 +1471,7 @@ claimTokens:
 	bz *for_2_end
 
 	// *if14_condition
-	// examples/reti/stakingPool.algo.ts:392
+	// examples/reti/stakingPool.algo.ts:394
 	// globals.opcodeBudget < 300
 	global OpcodeBudget
 	int 300
@@ -1479,7 +1479,7 @@ claimTokens:
 	bz *if14_end
 
 	// *if14_consequent
-	// examples/reti/stakingPool.algo.ts:393
+	// examples/reti/stakingPool.algo.ts:395
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -1495,7 +1495,7 @@ claimTokens:
 	itxn_submit
 
 *if14_end:
-	// examples/reti/stakingPool.algo.ts:395
+	// examples/reti/stakingPool.algo.ts:397
 	// cmpStaker = clone(this.stakers.value[i])
 	frame_dig 1 // i: uint64
 	int 64
@@ -1507,7 +1507,7 @@ claimTokens:
 	frame_bury 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 	// *if15_condition
-	// examples/reti/stakingPool.algo.ts:396
+	// examples/reti/stakingPool.algo.ts:398
 	// cmpStaker.account === staker
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 0 32
@@ -1517,7 +1517,7 @@ claimTokens:
 
 	// *if15_consequent
 	// *if16_condition
-	// examples/reti/stakingPool.algo.ts:397
+	// examples/reti/stakingPool.algo.ts:399
 	// cmpStaker.rewardTokenBalance === 0
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
@@ -1527,18 +1527,18 @@ claimTokens:
 	bz *if16_end
 
 	// *if16_consequent
-	// examples/reti/stakingPool.algo.ts:398
+	// examples/reti/stakingPool.algo.ts:400
 	// return;
 	retsub
 
 *if16_end:
-	// examples/reti/stakingPool.algo.ts:400
+	// examples/reti/stakingPool.algo.ts:402
 	// amountRewardTokenRemoved = 0
 	int 0
 	frame_bury 3 // amountRewardTokenRemoved: uint64
 
 	// *if17_condition
-	// examples/reti/stakingPool.algo.ts:402
+	// examples/reti/stakingPool.algo.ts:404
 	// this.poolId.value === 1
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -1547,7 +1547,7 @@ claimTokens:
 	bz *if17_else
 
 	// *if17_consequent
-	// examples/reti/stakingPool.algo.ts:403
+	// examples/reti/stakingPool.algo.ts:405
 	// validatorConfig = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorConfig>({
 	//             applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//             methodArgs: [this.validatorId.value],
@@ -1558,13 +1558,13 @@ claimTokens:
 	method "getValidatorConfig(uint64)(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:404
+	// examples/reti/stakingPool.algo.ts:406
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:405
+	// examples/reti/stakingPool.algo.ts:407
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -1584,7 +1584,7 @@ claimTokens:
 	extract 4 0
 	frame_bury 4 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:410
+	// examples/reti/stakingPool.algo.ts:412
 	// sendAssetTransfer({
 	//             xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId),
 	//             assetReceiver: staker,
@@ -1594,19 +1594,19 @@ claimTokens:
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:411
+	// examples/reti/stakingPool.algo.ts:413
 	// xferAsset: AssetID.fromUint64(validatorConfig.rewardTokenId)
 	frame_dig 4 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 153 8
 	btoi
 	itxn_field XferAsset
 
-	// examples/reti/stakingPool.algo.ts:412
+	// examples/reti/stakingPool.algo.ts:414
 	// assetReceiver: staker
 	frame_dig 0 // staker: address
 	itxn_field AssetReceiver
 
-	// examples/reti/stakingPool.algo.ts:413
+	// examples/reti/stakingPool.algo.ts:415
 	// assetAmount: cmpStaker.rewardTokenBalance
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
@@ -1620,14 +1620,14 @@ claimTokens:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:415
+	// examples/reti/stakingPool.algo.ts:417
 	// amountRewardTokenRemoved = cmpStaker.rewardTokenBalance
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
 	btoi
 	frame_bury 3 // amountRewardTokenRemoved: uint64
 
-	// examples/reti/stakingPool.algo.ts:416
+	// examples/reti/stakingPool.algo.ts:418
 	// cmpStaker.rewardTokenBalance = 0
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
@@ -1636,14 +1636,14 @@ claimTokens:
 	b *if17_end
 
 *if17_else:
-	// examples/reti/stakingPool.algo.ts:421
+	// examples/reti/stakingPool.algo.ts:423
 	// amountRewardTokenRemoved = cmpStaker.rewardTokenBalance
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 48 8
 	btoi
 	frame_bury 3 // amountRewardTokenRemoved: uint64
 
-	// examples/reti/stakingPool.algo.ts:422
+	// examples/reti/stakingPool.algo.ts:424
 	// cmpStaker.rewardTokenBalance = 0
 	frame_dig 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	byte 0x0000000000000000
@@ -1651,7 +1651,7 @@ claimTokens:
 	frame_bury 2 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 *if17_end:
-	// examples/reti/stakingPool.algo.ts:426
+	// examples/reti/stakingPool.algo.ts:428
 	// this.stakers.value[i] = cmpStaker
 	frame_dig 1 // i: uint64
 	int 64
@@ -1661,7 +1661,7 @@ claimTokens:
 	cover 2
 	box_replace
 
-	// examples/reti/stakingPool.algo.ts:431
+	// examples/reti/stakingPool.algo.ts:433
 	// sendMethodCall<typeof ValidatorRegistry.prototype.stakeRemoved>({
 	//           applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//           methodArgs: [
@@ -1678,13 +1678,13 @@ claimTokens:
 	method "stakeRemoved((uint64,uint64,uint64),address,uint64,uint64,bool)void"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:432
+	// examples/reti/stakingPool.algo.ts:434
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:433
+	// examples/reti/stakingPool.algo.ts:435
 	// methodArgs: [
 	//             { id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id },
 	//             staker,
@@ -1724,14 +1724,14 @@ claimTokens:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:441
+	// examples/reti/stakingPool.algo.ts:443
 	// return;
 	retsub
 
 *if15_end:
 
 *for_2_continue:
-	// examples/reti/stakingPool.algo.ts:391
+	// examples/reti/stakingPool.algo.ts:393
 	// i += 1
 	frame_dig 1 // i: uint64
 	int 1
@@ -1779,13 +1779,13 @@ getStakerInfo:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:456
+	// examples/reti/stakingPool.algo.ts:458
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 0 // i: uint64
 
 *for_3:
-	// examples/reti/stakingPool.algo.ts:456
+	// examples/reti/stakingPool.algo.ts:458
 	// i < this.stakers.value.length
 	frame_dig 0 // i: uint64
 	int 200
@@ -1793,7 +1793,7 @@ getStakerInfo:
 	bz *for_3_end
 
 	// *if18_condition
-	// examples/reti/stakingPool.algo.ts:457
+	// examples/reti/stakingPool.algo.ts:459
 	// globals.opcodeBudget < 200
 	global OpcodeBudget
 	int 200
@@ -1801,7 +1801,7 @@ getStakerInfo:
 	bz *if18_end
 
 	// *if18_consequent
-	// examples/reti/stakingPool.algo.ts:458
+	// examples/reti/stakingPool.algo.ts:460
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -1818,7 +1818,7 @@ getStakerInfo:
 
 *if18_end:
 	// *if19_condition
-	// examples/reti/stakingPool.algo.ts:460
+	// examples/reti/stakingPool.algo.ts:462
 	// this.stakers.value[i].account === staker
 	frame_dig 0 // i: uint64
 	int 64
@@ -1834,7 +1834,7 @@ getStakerInfo:
 	bz *if19_end
 
 	// *if19_consequent
-	// examples/reti/stakingPool.algo.ts:461
+	// examples/reti/stakingPool.algo.ts:463
 	// return this.stakers.value[i];
 	frame_dig 0 // i: uint64
 	int 64
@@ -1848,7 +1848,7 @@ getStakerInfo:
 *if19_end:
 
 *for_3_continue:
-	// examples/reti/stakingPool.algo.ts:456
+	// examples/reti/stakingPool.algo.ts:458
 	// i += 1
 	frame_dig 0 // i: uint64
 	int 1
@@ -1903,7 +1903,7 @@ getStakerInfo:
 payTokenReward:
 	proto 3 0
 
-	// examples/reti/stakingPool.algo.ts:479
+	// examples/reti/stakingPool.algo.ts:481
 	// assert(
 	//       this.txn.sender === AppID.fromUint64(this.creatingValidatorContractAppId.value).address,
 	//       'this can only be called via the validator contract'
@@ -1918,7 +1918,7 @@ payTokenReward:
 	// this can only be called via the validator contract
 	assert
 
-	// examples/reti/stakingPool.algo.ts:483
+	// examples/reti/stakingPool.algo.ts:485
 	// assert(this.poolId.value === 1, 'must be pool 1 in order to be called to pay out token rewards')
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -1928,7 +1928,7 @@ payTokenReward:
 	// must be pool 1 in order to be called to pay out token rewards
 	assert
 
-	// examples/reti/stakingPool.algo.ts:484
+	// examples/reti/stakingPool.algo.ts:486
 	// assert(rewardToken !== 0, 'can only claim token rewards from validator that has them')
 	frame_dig -2 // rewardToken: uint64
 	int 0
@@ -1937,7 +1937,7 @@ payTokenReward:
 	// can only claim token rewards from validator that has them
 	assert
 
-	// examples/reti/stakingPool.algo.ts:487
+	// examples/reti/stakingPool.algo.ts:489
 	// sendAssetTransfer({
 	//       xferAsset: AssetID.fromUint64(rewardToken),
 	//       assetReceiver: staker,
@@ -1947,17 +1947,17 @@ payTokenReward:
 	int axfer
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:488
+	// examples/reti/stakingPool.algo.ts:490
 	// xferAsset: AssetID.fromUint64(rewardToken)
 	frame_dig -2 // rewardToken: uint64
 	itxn_field XferAsset
 
-	// examples/reti/stakingPool.algo.ts:489
+	// examples/reti/stakingPool.algo.ts:491
 	// assetReceiver: staker
 	frame_dig -1 // staker: Address
 	itxn_field AssetReceiver
 
-	// examples/reti/stakingPool.algo.ts:490
+	// examples/reti/stakingPool.algo.ts:492
 	// assetAmount: amountToSend
 	frame_dig -3 // amountToSend: uint64
 	itxn_field AssetAmount
@@ -1993,14 +1993,14 @@ payTokenReward:
 updateAlgodVer:
 	proto 1 0
 
-	// examples/reti/stakingPool.algo.ts:504
+	// examples/reti/stakingPool.algo.ts:506
 	// assert(this.isOwnerOrManagerCaller(), 'can only be called by owner or manager of validator')
 	callsub isOwnerOrManagerCaller
 
 	// can only be called by owner or manager of validator
 	assert
 
-	// examples/reti/stakingPool.algo.ts:505
+	// examples/reti/stakingPool.algo.ts:507
 	// this.algodVer.value = algodVer
 	byte 0x616c676f64566572 // "algodVer"
 	frame_dig -1 // algodVer: string
@@ -2029,7 +2029,7 @@ epochBalanceUpdate:
 	byte 0x
 	dupn 36
 
-	// examples/reti/stakingPool.algo.ts:518
+	// examples/reti/stakingPool.algo.ts:520
 	// validatorConfig = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorConfig>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [this.validatorId.value],
@@ -2040,13 +2040,13 @@ epochBalanceUpdate:
 	method "getValidatorConfig(uint64)(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:519
+	// examples/reti/stakingPool.algo.ts:521
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:520
+	// examples/reti/stakingPool.algo.ts:522
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -2066,19 +2066,19 @@ epochBalanceUpdate:
 	extract 4 0
 	frame_bury 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:527
+	// examples/reti/stakingPool.algo.ts:529
 	// epochRoundLength = validatorConfig.epochRoundLength as uint64
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 169 4
 	btoi
 	frame_bury 1 // epochRoundLength: uint64
 
-	// examples/reti/stakingPool.algo.ts:528
+	// examples/reti/stakingPool.algo.ts:530
 	// curRound = globals.round
 	global Round
 	frame_bury 2 // curRound: uint64
 
-	// examples/reti/stakingPool.algo.ts:529
+	// examples/reti/stakingPool.algo.ts:531
 	// thisEpochBegin = curRound - (curRound % epochRoundLength)
 	frame_dig 2 // curRound: uint64
 	frame_dig 2 // curRound: uint64
@@ -2088,7 +2088,7 @@ epochBalanceUpdate:
 	frame_bury 3 // thisEpochBegin: uint64
 
 	// *if20_condition
-	// examples/reti/stakingPool.algo.ts:532
+	// examples/reti/stakingPool.algo.ts:534
 	// this.lastPayout.exists
 	txna Applications 0
 	byte 0x6c6173745061796f7574 // "lastPayout"
@@ -2098,7 +2098,7 @@ epochBalanceUpdate:
 	bz *if20_end
 
 	// *if20_consequent
-	// examples/reti/stakingPool.algo.ts:533
+	// examples/reti/stakingPool.algo.ts:535
 	// lastPayoutEpoch = this.lastPayout.value - (this.lastPayout.value % epochRoundLength)
 	byte 0x6c6173745061796f7574 // "lastPayout"
 	app_global_get
@@ -2109,7 +2109,7 @@ epochBalanceUpdate:
 	-
 	frame_bury 4 // lastPayoutEpoch: uint64
 
-	// examples/reti/stakingPool.algo.ts:537
+	// examples/reti/stakingPool.algo.ts:539
 	// assert(lastPayoutEpoch !== thisEpochBegin, "can't call epochBalanceUpdate in same epoch as prior call")
 	frame_dig 4 // lastPayoutEpoch: uint64
 	frame_dig 3 // thisEpochBegin: uint64
@@ -2119,17 +2119,17 @@ epochBalanceUpdate:
 	assert
 
 *if20_end:
-	// examples/reti/stakingPool.algo.ts:540
+	// examples/reti/stakingPool.algo.ts:542
 	// this.checkIfBinClosed()
 	callsub checkIfBinClosed
 
-	// examples/reti/stakingPool.algo.ts:543
+	// examples/reti/stakingPool.algo.ts:545
 	// this.lastPayout.value = curRound
 	byte 0x6c6173745061796f7574 // "lastPayout"
 	frame_dig 2 // curRound: uint64
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:544
+	// examples/reti/stakingPool.algo.ts:546
 	// this.epochNumber.value += 1
 	byte 0x65706f63684e756d626572 // "epochNumber"
 	app_global_get
@@ -2139,7 +2139,7 @@ epochBalanceUpdate:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:549
+	// examples/reti/stakingPool.algo.ts:551
 	// isTokenEligible = validatorConfig.rewardTokenId !== 0
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 153 8
@@ -2148,25 +2148,25 @@ epochBalanceUpdate:
 	!=
 	frame_bury 5 // isTokenEligible: bool
 
-	// examples/reti/stakingPool.algo.ts:550
+	// examples/reti/stakingPool.algo.ts:552
 	// poolOneAppID = this.app.id
 	txna Applications 0
 	frame_bury 6 // poolOneAppID: uint64
 
-	// examples/reti/stakingPool.algo.ts:551
+	// examples/reti/stakingPool.algo.ts:553
 	// poolOneAddress = this.app.address
 	global CurrentApplicationAddress
 	frame_bury 7 // poolOneAddress: address
 
 	// *if21_condition
-	// examples/reti/stakingPool.algo.ts:556
+	// examples/reti/stakingPool.algo.ts:558
 	// isTokenEligible
 	frame_dig 5 // isTokenEligible: bool
 	bz *if21_end
 
 	// *if21_consequent
 	// *if22_condition
-	// examples/reti/stakingPool.algo.ts:557
+	// examples/reti/stakingPool.algo.ts:559
 	// this.poolId.value !== 1
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -2175,7 +2175,7 @@ epochBalanceUpdate:
 	bz *if22_end
 
 	// *if22_consequent
-	// examples/reti/stakingPool.algo.ts:559
+	// examples/reti/stakingPool.algo.ts:561
 	// poolOneAppID = sendMethodCall<typeof ValidatorRegistry.prototype.getPoolAppId>({
 	//           applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//           methodArgs: [this.validatorId.value, 1],
@@ -2186,13 +2186,13 @@ epochBalanceUpdate:
 	method "getPoolAppId(uint64,uint64)uint64"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:560
+	// examples/reti/stakingPool.algo.ts:562
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:561
+	// examples/reti/stakingPool.algo.ts:563
 	// methodArgs: [this.validatorId.value, 1]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -2215,7 +2215,7 @@ epochBalanceUpdate:
 	btoi
 	frame_bury 6 // poolOneAppID: uint64
 
-	// examples/reti/stakingPool.algo.ts:563
+	// examples/reti/stakingPool.algo.ts:565
 	// poolOneAddress = AppID.fromUint64(poolOneAppID).address
 	frame_dig 6 // poolOneAppID: uint64
 	app_params_get AppAddress
@@ -2224,7 +2224,7 @@ epochBalanceUpdate:
 
 *if22_end:
 	// *if23_condition
-	// examples/reti/stakingPool.algo.ts:568
+	// examples/reti/stakingPool.algo.ts:570
 	// this.poolId.value === 1
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -2233,7 +2233,7 @@ epochBalanceUpdate:
 	bz *if23_else
 
 	// *if23_consequent
-	// examples/reti/stakingPool.algo.ts:569
+	// examples/reti/stakingPool.algo.ts:571
 	// tokenPayoutRatio = sendMethodCall<typeof ValidatorRegistry.prototype.setTokenPayoutRatio>({
 	//           applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//           methodArgs: [this.validatorId.value],
@@ -2244,13 +2244,13 @@ epochBalanceUpdate:
 	method "setTokenPayoutRatio(uint64)(uint64[24],uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:570
+	// examples/reti/stakingPool.algo.ts:572
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:571
+	// examples/reti/stakingPool.algo.ts:573
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -2272,7 +2272,7 @@ epochBalanceUpdate:
 	b *if23_end
 
 *if23_else:
-	// examples/reti/stakingPool.algo.ts:575
+	// examples/reti/stakingPool.algo.ts:577
 	// tokenPayoutRatio = sendMethodCall<typeof StakingPool.prototype.proxiedSetTokenPayoutRatio>({
 	//           applicationID: AppID.fromUint64(poolOneAppID),
 	//           methodArgs: [{ id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id }],
@@ -2283,12 +2283,12 @@ epochBalanceUpdate:
 	method "proxiedSetTokenPayoutRatio((uint64,uint64,uint64))(uint64[24],uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:576
+	// examples/reti/stakingPool.algo.ts:578
 	// applicationID: AppID.fromUint64(poolOneAppID)
 	frame_dig 6 // poolOneAppID: uint64
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:577
+	// examples/reti/stakingPool.algo.ts:579
 	// methodArgs: [{ id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id }]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -2318,7 +2318,7 @@ epochBalanceUpdate:
 *if23_end:
 
 *if21_end:
-	// examples/reti/stakingPool.algo.ts:584
+	// examples/reti/stakingPool.algo.ts:586
 	// validatorState = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorState>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [this.validatorId.value],
@@ -2329,13 +2329,13 @@ epochBalanceUpdate:
 	method "getValidatorState(uint64)(uint16,uint64,uint64,uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:585
+	// examples/reti/stakingPool.algo.ts:587
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:586
+	// examples/reti/stakingPool.algo.ts:588
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -2355,14 +2355,14 @@ epochBalanceUpdate:
 	extract 4 0
 	frame_bury 9 // validatorState: (uint16,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:588
+	// examples/reti/stakingPool.algo.ts:590
 	// rewardTokenHeldBack = validatorState.rewardTokenHeldBack
 	frame_dig 9 // validatorState: (uint16,uint64,uint64,uint64)
 	extract 18 8
 	btoi
 	frame_bury 10 // rewardTokenHeldBack: uint64
 
-	// examples/reti/stakingPool.algo.ts:594
+	// examples/reti/stakingPool.algo.ts:596
 	// algoRewardAvail = this.app.address.balance - this.totalAlgoStaked.value - this.app.address.minBalance
 	global CurrentApplicationAddress
 	acct_params_get AcctBalance
@@ -2376,18 +2376,18 @@ epochBalanceUpdate:
 	-
 	frame_bury 11 // algoRewardAvail: uint64
 
-	// examples/reti/stakingPool.algo.ts:595
+	// examples/reti/stakingPool.algo.ts:597
 	// isPoolSaturated = false
 	int 0
 	frame_bury 12 // isPoolSaturated: bool
 
-	// examples/reti/stakingPool.algo.ts:596
+	// examples/reti/stakingPool.algo.ts:598
 	// algoSaturationAmt = this.algoSaturationLevel()
 	callsub algoSaturationLevel
 	frame_bury 13 // algoSaturationAmt: uint64
 
 	// *if24_condition
-	// examples/reti/stakingPool.algo.ts:604
+	// examples/reti/stakingPool.algo.ts:606
 	// validatorState.totalAlgoStaked > algoSaturationAmt
 	frame_dig 9 // validatorState: (uint16,uint64,uint64,uint64)
 	extract 10 8
@@ -2397,40 +2397,40 @@ epochBalanceUpdate:
 	bz *if24_end
 
 	// *if24_consequent
-	// examples/reti/stakingPool.algo.ts:605
+	// examples/reti/stakingPool.algo.ts:607
 	// isPoolSaturated = true
 	int 1
 	frame_bury 12 // isPoolSaturated: bool
 
 *if24_end:
-	// examples/reti/stakingPool.algo.ts:611
+	// examples/reti/stakingPool.algo.ts:613
 	// tokenRewardAvail = 0
 	int 0
 	frame_bury 14 // tokenRewardAvail: uint64
 
-	// examples/reti/stakingPool.algo.ts:612
+	// examples/reti/stakingPool.algo.ts:614
 	// tokenRewardPaidOut = 0
 	int 0
 	frame_bury 15 // tokenRewardPaidOut: uint64
 
-	// examples/reti/stakingPool.algo.ts:613
+	// examples/reti/stakingPool.algo.ts:615
 	// validatorCommissionPaidOut = 0
 	int 0
 	frame_bury 16 // validatorCommissionPaidOut: uint64
 
-	// examples/reti/stakingPool.algo.ts:614
+	// examples/reti/stakingPool.algo.ts:616
 	// excessToFeeSink = 0
 	int 0
 	frame_bury 17 // excessToFeeSink: uint64
 
 	// *if25_condition
-	// examples/reti/stakingPool.algo.ts:615
+	// examples/reti/stakingPool.algo.ts:617
 	// isTokenEligible
 	frame_dig 5 // isTokenEligible: bool
 	bz *if25_end
 
 	// *if25_consequent
-	// examples/reti/stakingPool.algo.ts:616
+	// examples/reti/stakingPool.algo.ts:618
 	// tokenRewardBal =
 	//         poolOneAddress.assetBalance(AssetID.fromUint64(validatorConfig.rewardTokenId)) - rewardTokenHeldBack
 	frame_dig 7 // poolOneAddress: address
@@ -2444,7 +2444,7 @@ epochBalanceUpdate:
 	frame_bury 18 // tokenRewardBal: uint64
 
 	// *if26_condition
-	// examples/reti/stakingPool.algo.ts:621
+	// examples/reti/stakingPool.algo.ts:623
 	// tokenRewardBal >= validatorConfig.rewardPerPayout
 	frame_dig 18 // tokenRewardBal: uint64
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
@@ -2454,7 +2454,7 @@ epochBalanceUpdate:
 	bz *if26_end
 
 	// *if26_consequent
-	// examples/reti/stakingPool.algo.ts:627
+	// examples/reti/stakingPool.algo.ts:629
 	// ourPoolPctOfWhole = tokenPayoutRatio.poolPctOfWhole[this.poolId.value - 1]
 	frame_dig 8 // tokenPayoutRatio: PoolTokenPayoutRatio
 	int 0
@@ -2470,7 +2470,7 @@ epochBalanceUpdate:
 	btoi
 	frame_bury 19 // ourPoolPctOfWhole: uint64
 
-	// examples/reti/stakingPool.algo.ts:630
+	// examples/reti/stakingPool.algo.ts:632
 	// tokenRewardAvail = wideRatio([validatorConfig.rewardPerPayout, ourPoolPctOfWhole], [1_000_000])
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 161 8
@@ -2493,7 +2493,7 @@ epochBalanceUpdate:
 
 *if25_end:
 	// *if27_condition
-	// examples/reti/stakingPool.algo.ts:633
+	// examples/reti/stakingPool.algo.ts:635
 	// tokenRewardAvail === 0
 	frame_dig 14 // tokenRewardAvail: uint64
 	int 0
@@ -2502,7 +2502,7 @@ epochBalanceUpdate:
 
 	// *if27_consequent
 	// *if28_condition
-	// examples/reti/stakingPool.algo.ts:638
+	// examples/reti/stakingPool.algo.ts:640
 	// algoRewardAvail < 1_000_000
 	frame_dig 11 // algoRewardAvail: uint64
 	int 1_000_000
@@ -2510,12 +2510,12 @@ epochBalanceUpdate:
 	bz *if28_end
 
 	// *if28_consequent
-	// examples/reti/stakingPool.algo.ts:639
+	// examples/reti/stakingPool.algo.ts:641
 	// log('!token&&!noalgo to pay')
 	byte 0x21746f6b656e2626216e6f616c676f20746f20706179 // "!token&&!noalgo to pay"
 	log
 
-	// examples/reti/stakingPool.algo.ts:640
+	// examples/reti/stakingPool.algo.ts:642
 	// return;
 	retsub
 
@@ -2523,13 +2523,13 @@ epochBalanceUpdate:
 
 *if27_end:
 	// *if29_condition
-	// examples/reti/stakingPool.algo.ts:644
+	// examples/reti/stakingPool.algo.ts:646
 	// isPoolSaturated
 	frame_dig 12 // isPoolSaturated: bool
 	bz *if29_elseif1_condition
 
 	// *if29_consequent
-	// examples/reti/stakingPool.algo.ts:647
+	// examples/reti/stakingPool.algo.ts:649
 	// diminishedReward = wideRatio([algoRewardAvail, algoSaturationAmt], [validatorState.totalAlgoStaked])
 	frame_dig 11 // algoRewardAvail: uint64
 	frame_dig 13 // algoSaturationAmt: uint64
@@ -2548,14 +2548,14 @@ epochBalanceUpdate:
 	assert
 	frame_bury 20 // diminishedReward: uint64
 
-	// examples/reti/stakingPool.algo.ts:649
+	// examples/reti/stakingPool.algo.ts:651
 	// excessToFeeSink = algoRewardAvail - diminishedReward
 	frame_dig 11 // algoRewardAvail: uint64
 	frame_dig 20 // diminishedReward: uint64
 	-
 	frame_bury 17 // excessToFeeSink: uint64
 
-	// examples/reti/stakingPool.algo.ts:650
+	// examples/reti/stakingPool.algo.ts:652
 	// sendPayment({
 	//         amount: excessToFeeSink,
 	//         receiver: this.getFeeSink(),
@@ -2565,17 +2565,17 @@ epochBalanceUpdate:
 	int pay
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:651
+	// examples/reti/stakingPool.algo.ts:653
 	// amount: excessToFeeSink
 	frame_dig 17 // excessToFeeSink: uint64
 	itxn_field Amount
 
-	// examples/reti/stakingPool.algo.ts:652
+	// examples/reti/stakingPool.algo.ts:654
 	// receiver: this.getFeeSink()
 	callsub getFeeSink
 	itxn_field Receiver
 
-	// examples/reti/stakingPool.algo.ts:653
+	// examples/reti/stakingPool.algo.ts:655
 	// note: 'pool saturated, excess to fee sink'
 	byte 0x706f6f6c207361747572617465642c2065786365737320746f206665652073696e6b // "pool saturated, excess to fee sink"
 	itxn_field Note
@@ -2587,14 +2587,14 @@ epochBalanceUpdate:
 	// Submit inner transaction
 	itxn_submit
 
-	// examples/reti/stakingPool.algo.ts:656
+	// examples/reti/stakingPool.algo.ts:658
 	// algoRewardAvail = diminishedReward
 	frame_dig 20 // diminishedReward: uint64
 	frame_bury 11 // algoRewardAvail: uint64
 	b *if29_end
 
 *if29_elseif1_condition:
-	// examples/reti/stakingPool.algo.ts:657
+	// examples/reti/stakingPool.algo.ts:659
 	// validatorConfig.percentToValidator !== 0
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 173 4
@@ -2604,7 +2604,7 @@ epochBalanceUpdate:
 	bz *if29_end
 
 	// *if29_elseif1_consequent
-	// examples/reti/stakingPool.algo.ts:660
+	// examples/reti/stakingPool.algo.ts:662
 	// validatorCommissionPaidOut = wideRatio(
 	//         [algoRewardAvail, validatorConfig.percentToValidator as uint64],
 	//         [1_000_000]
@@ -2626,7 +2626,7 @@ epochBalanceUpdate:
 	assert
 	frame_bury 16 // validatorCommissionPaidOut: uint64
 
-	// examples/reti/stakingPool.algo.ts:666
+	// examples/reti/stakingPool.algo.ts:668
 	// algoRewardAvail -= validatorCommissionPaidOut
 	frame_dig 11 // algoRewardAvail: uint64
 	frame_dig 16 // validatorCommissionPaidOut: uint64
@@ -2634,7 +2634,7 @@ epochBalanceUpdate:
 	frame_bury 11 // algoRewardAvail: uint64
 
 	// *if30_condition
-	// examples/reti/stakingPool.algo.ts:673
+	// examples/reti/stakingPool.algo.ts:675
 	// validatorCommissionPaidOut > 0
 	frame_dig 16 // validatorCommissionPaidOut: uint64
 	int 0
@@ -2642,13 +2642,13 @@ epochBalanceUpdate:
 	bz *if30_end
 
 	// *if30_consequent
-	// examples/reti/stakingPool.algo.ts:676
+	// examples/reti/stakingPool.algo.ts:678
 	// managerTopOff = 0
 	int 0
 	frame_bury 21 // managerTopOff: uint64
 
 	// *if31_condition
-	// examples/reti/stakingPool.algo.ts:678
+	// examples/reti/stakingPool.algo.ts:680
 	// validatorConfig.manager !== validatorConfig.validatorCommissionAddress &&
 	//           validatorConfig.manager.balance - validatorConfig.manager.minBalance < 2_100_000
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
@@ -2675,7 +2675,7 @@ epochBalanceUpdate:
 	bz *if31_end
 
 	// *if31_consequent
-	// examples/reti/stakingPool.algo.ts:681
+	// examples/reti/stakingPool.algo.ts:683
 	// managerTopOff = validatorCommissionPaidOut < 2_100_000 ? validatorCommissionPaidOut : 2_100_000
 	frame_dig 16 // validatorCommissionPaidOut: uint64
 	int 2_100_000
@@ -2690,7 +2690,7 @@ epochBalanceUpdate:
 *ternary1_end:
 	frame_bury 21 // managerTopOff: uint64
 
-	// examples/reti/stakingPool.algo.ts:682
+	// examples/reti/stakingPool.algo.ts:684
 	// sendPayment({
 	//             amount: managerTopOff,
 	//             receiver: validatorConfig.manager,
@@ -2700,18 +2700,18 @@ epochBalanceUpdate:
 	int pay
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:683
+	// examples/reti/stakingPool.algo.ts:685
 	// amount: managerTopOff
 	frame_dig 21 // managerTopOff: uint64
 	itxn_field Amount
 
-	// examples/reti/stakingPool.algo.ts:684
+	// examples/reti/stakingPool.algo.ts:686
 	// receiver: validatorConfig.manager
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 40 32
 	itxn_field Receiver
 
-	// examples/reti/stakingPool.algo.ts:685
+	// examples/reti/stakingPool.algo.ts:687
 	// note: 'validator reward to manager for funding epoch updates'
 	byte 0x76616c696461746f722072657761726420746f206d616e6167657220666f722066756e64696e672065706f63682075706461746573 // "validator reward to manager for funding epoch updates"
 	itxn_field Note
@@ -2725,7 +2725,7 @@ epochBalanceUpdate:
 
 *if31_end:
 	// *if32_condition
-	// examples/reti/stakingPool.algo.ts:688
+	// examples/reti/stakingPool.algo.ts:690
 	// validatorCommissionPaidOut - managerTopOff > 0
 	frame_dig 16 // validatorCommissionPaidOut: uint64
 	frame_dig 21 // managerTopOff: uint64
@@ -2735,7 +2735,7 @@ epochBalanceUpdate:
 	bz *if32_end
 
 	// *if32_consequent
-	// examples/reti/stakingPool.algo.ts:689
+	// examples/reti/stakingPool.algo.ts:691
 	// sendPayment({
 	//             amount: validatorCommissionPaidOut - managerTopOff,
 	//             receiver: validatorConfig.validatorCommissionAddress,
@@ -2745,20 +2745,20 @@ epochBalanceUpdate:
 	int pay
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:690
+	// examples/reti/stakingPool.algo.ts:692
 	// amount: validatorCommissionPaidOut - managerTopOff
 	frame_dig 16 // validatorCommissionPaidOut: uint64
 	frame_dig 21 // managerTopOff: uint64
 	-
 	itxn_field Amount
 
-	// examples/reti/stakingPool.algo.ts:691
+	// examples/reti/stakingPool.algo.ts:693
 	// receiver: validatorConfig.validatorCommissionAddress
 	frame_dig 0 // validatorConfig: (uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)
 	extract 177 32
 	itxn_field Receiver
 
-	// examples/reti/stakingPool.algo.ts:692
+	// examples/reti/stakingPool.algo.ts:694
 	// note: 'validator reward'
 	byte 0x76616c696461746f7220726577617264 // "validator reward"
 	itxn_field Note
@@ -2775,13 +2775,13 @@ epochBalanceUpdate:
 *if30_end:
 
 *if29_end:
-	// examples/reti/stakingPool.algo.ts:704
+	// examples/reti/stakingPool.algo.ts:706
 	// increasedStake = 0
 	int 0
 	frame_bury 22 // increasedStake: uint64
 
 	// *if33_condition
-	// examples/reti/stakingPool.algo.ts:728
+	// examples/reti/stakingPool.algo.ts:730
 	// algoRewardAvail !== 0 || tokenRewardAvail !== 0
 	frame_dig 11 // algoRewardAvail: uint64
 	int 0
@@ -2797,18 +2797,18 @@ epochBalanceUpdate:
 	bz *if33_end
 
 	// *if33_consequent
-	// examples/reti/stakingPool.algo.ts:729
+	// examples/reti/stakingPool.algo.ts:731
 	// partialStakersTotalStake: uint64 = 0
 	int 0
 	frame_bury 23 // partialStakersTotalStake: uint64
 
-	// examples/reti/stakingPool.algo.ts:730
+	// examples/reti/stakingPool.algo.ts:732
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 24 // i: uint64
 
 *for_4:
-	// examples/reti/stakingPool.algo.ts:730
+	// examples/reti/stakingPool.algo.ts:732
 	// i < this.stakers.value.length
 	frame_dig 24 // i: uint64
 	int 200
@@ -2816,7 +2816,7 @@ epochBalanceUpdate:
 	bz *for_4_end
 
 	// *if34_condition
-	// examples/reti/stakingPool.algo.ts:731
+	// examples/reti/stakingPool.algo.ts:733
 	// globals.opcodeBudget < 400
 	global OpcodeBudget
 	int 400
@@ -2824,7 +2824,7 @@ epochBalanceUpdate:
 	bz *if34_end
 
 	// *if34_consequent
-	// examples/reti/stakingPool.algo.ts:732
+	// examples/reti/stakingPool.algo.ts:734
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -2840,7 +2840,7 @@ epochBalanceUpdate:
 	itxn_submit
 
 *if34_end:
-	// examples/reti/stakingPool.algo.ts:734
+	// examples/reti/stakingPool.algo.ts:736
 	// cmpStaker = clone(this.stakers.value[i])
 	frame_dig 24 // i: uint64
 	int 64
@@ -2852,7 +2852,7 @@ epochBalanceUpdate:
 	frame_bury 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 	// *if35_condition
-	// examples/reti/stakingPool.algo.ts:735
+	// examples/reti/stakingPool.algo.ts:737
 	// cmpStaker.account !== globals.zeroAddress
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 0 32
@@ -2862,7 +2862,7 @@ epochBalanceUpdate:
 
 	// *if35_consequent
 	// *if36_condition
-	// examples/reti/stakingPool.algo.ts:736
+	// examples/reti/stakingPool.algo.ts:738
 	// cmpStaker.entryRound >= thisEpochBegin
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 56 8
@@ -2872,7 +2872,7 @@ epochBalanceUpdate:
 	bz *if36_else
 
 	// *if36_consequent
-	// examples/reti/stakingPool.algo.ts:739
+	// examples/reti/stakingPool.algo.ts:741
 	// partialStakersTotalStake += cmpStaker.balance
 	frame_dig 23 // partialStakersTotalStake: uint64
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
@@ -2883,7 +2883,7 @@ epochBalanceUpdate:
 	b *if36_end
 
 *if36_else:
-	// examples/reti/stakingPool.algo.ts:743
+	// examples/reti/stakingPool.algo.ts:745
 	// timeInPool = thisEpochBegin - cmpStaker.entryRound
 	frame_dig 3 // thisEpochBegin: uint64
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
@@ -2893,7 +2893,7 @@ epochBalanceUpdate:
 	frame_bury 26 // timeInPool: uint64
 
 	// *if37_condition
-	// examples/reti/stakingPool.algo.ts:747
+	// examples/reti/stakingPool.algo.ts:749
 	// timeInPool < epochRoundLength
 	frame_dig 26 // timeInPool: uint64
 	frame_dig 1 // epochRoundLength: uint64
@@ -2901,7 +2901,7 @@ epochBalanceUpdate:
 	bz *if37_end
 
 	// *if37_consequent
-	// examples/reti/stakingPool.algo.ts:748
+	// examples/reti/stakingPool.algo.ts:750
 	// partialStakersTotalStake += cmpStaker.balance
 	frame_dig 23 // partialStakersTotalStake: uint64
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
@@ -2910,7 +2910,7 @@ epochBalanceUpdate:
 	+
 	frame_bury 23 // partialStakersTotalStake: uint64
 
-	// examples/reti/stakingPool.algo.ts:749
+	// examples/reti/stakingPool.algo.ts:751
 	// timePercentage = (timeInPool * 1000) / epochRoundLength
 	frame_dig 26 // timeInPool: uint64
 	int 1000
@@ -2920,7 +2920,7 @@ epochBalanceUpdate:
 	frame_bury 27 // timePercentage: uint64
 
 	// *if38_condition
-	// examples/reti/stakingPool.algo.ts:751
+	// examples/reti/stakingPool.algo.ts:753
 	// tokenRewardAvail > 0
 	frame_dig 14 // tokenRewardAvail: uint64
 	int 0
@@ -2928,7 +2928,7 @@ epochBalanceUpdate:
 	bz *if38_end
 
 	// *if38_consequent
-	// examples/reti/stakingPool.algo.ts:753
+	// examples/reti/stakingPool.algo.ts:755
 	// stakerTokenReward = wideRatio(
 	//                   [cmpStaker.balance, tokenRewardAvail, timePercentage],
 	//                   [this.totalAlgoStaked.value, 1000]
@@ -2961,14 +2961,14 @@ epochBalanceUpdate:
 	assert
 	frame_bury 28 // stakerTokenReward: uint64
 
-	// examples/reti/stakingPool.algo.ts:760
+	// examples/reti/stakingPool.algo.ts:762
 	// tokenRewardAvail -= stakerTokenReward
 	frame_dig 14 // tokenRewardAvail: uint64
 	frame_dig 28 // stakerTokenReward: uint64
 	-
 	frame_bury 14 // tokenRewardAvail: uint64
 
-	// examples/reti/stakingPool.algo.ts:761
+	// examples/reti/stakingPool.algo.ts:763
 	// cmpStaker.rewardTokenBalance += stakerTokenReward
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 48 // headOffset
@@ -2981,7 +2981,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:762
+	// examples/reti/stakingPool.algo.ts:764
 	// tokenRewardPaidOut += stakerTokenReward
 	frame_dig 15 // tokenRewardPaidOut: uint64
 	frame_dig 28 // stakerTokenReward: uint64
@@ -2990,7 +2990,7 @@ epochBalanceUpdate:
 
 *if38_end:
 	// *if39_condition
-	// examples/reti/stakingPool.algo.ts:764
+	// examples/reti/stakingPool.algo.ts:766
 	// algoRewardAvail > 0
 	frame_dig 11 // algoRewardAvail: uint64
 	int 0
@@ -2998,7 +2998,7 @@ epochBalanceUpdate:
 	bz *if39_end
 
 	// *if39_consequent
-	// examples/reti/stakingPool.algo.ts:766
+	// examples/reti/stakingPool.algo.ts:768
 	// stakerReward = wideRatio(
 	//                   [cmpStaker.balance, algoRewardAvail, timePercentage],
 	//                   [this.totalAlgoStaked.value, 1000]
@@ -3031,14 +3031,14 @@ epochBalanceUpdate:
 	assert
 	frame_bury 29 // stakerReward: uint64
 
-	// examples/reti/stakingPool.algo.ts:773
+	// examples/reti/stakingPool.algo.ts:775
 	// algoRewardAvail -= stakerReward
 	frame_dig 11 // algoRewardAvail: uint64
 	frame_dig 29 // stakerReward: uint64
 	-
 	frame_bury 11 // algoRewardAvail: uint64
 
-	// examples/reti/stakingPool.algo.ts:776
+	// examples/reti/stakingPool.algo.ts:778
 	// cmpStaker.balance += stakerReward
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 32 // headOffset
@@ -3051,7 +3051,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:777
+	// examples/reti/stakingPool.algo.ts:779
 	// cmpStaker.totalRewarded += stakerReward
 	frame_dig 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 40 // headOffset
@@ -3064,7 +3064,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 25 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:778
+	// examples/reti/stakingPool.algo.ts:780
 	// increasedStake += stakerReward
 	frame_dig 22 // increasedStake: uint64
 	frame_dig 29 // stakerReward: uint64
@@ -3072,7 +3072,7 @@ epochBalanceUpdate:
 	frame_bury 22 // increasedStake: uint64
 
 *if39_end:
-	// examples/reti/stakingPool.algo.ts:781
+	// examples/reti/stakingPool.algo.ts:783
 	// this.stakers.value[i] = cmpStaker
 	frame_dig 24 // i: uint64
 	int 64
@@ -3089,7 +3089,7 @@ epochBalanceUpdate:
 *if35_end:
 
 *for_4_continue:
-	// examples/reti/stakingPool.algo.ts:730
+	// examples/reti/stakingPool.algo.ts:732
 	// i += 1
 	frame_dig 24 // i: uint64
 	int 1
@@ -3098,7 +3098,7 @@ epochBalanceUpdate:
 	b *for_4
 
 *for_4_end:
-	// examples/reti/stakingPool.algo.ts:789
+	// examples/reti/stakingPool.algo.ts:791
 	// newPoolTotalStake = this.totalAlgoStaked.value - partialStakersTotalStake
 	byte 0x7374616b6564 // "staked"
 	app_global_get
@@ -3107,7 +3107,7 @@ epochBalanceUpdate:
 	frame_bury 30 // newPoolTotalStake: uint64
 
 	// *if40_condition
-	// examples/reti/stakingPool.algo.ts:793
+	// examples/reti/stakingPool.algo.ts:795
 	// newPoolTotalStake > 0
 	frame_dig 30 // newPoolTotalStake: uint64
 	int 0
@@ -3115,13 +3115,13 @@ epochBalanceUpdate:
 	bz *if40_end
 
 	// *if40_consequent
-	// examples/reti/stakingPool.algo.ts:795
+	// examples/reti/stakingPool.algo.ts:797
 	// for (let i = 0; i < this.stakers.value.length; i += 1)
 	int 0
 	frame_bury 31 // i: uint64
 
 *for_5:
-	// examples/reti/stakingPool.algo.ts:795
+	// examples/reti/stakingPool.algo.ts:797
 	// i < this.stakers.value.length
 	frame_dig 31 // i: uint64
 	int 200
@@ -3129,7 +3129,7 @@ epochBalanceUpdate:
 	bz *for_5_end
 
 	// *if41_condition
-	// examples/reti/stakingPool.algo.ts:796
+	// examples/reti/stakingPool.algo.ts:798
 	// globals.opcodeBudget < 200
 	global OpcodeBudget
 	int 200
@@ -3137,7 +3137,7 @@ epochBalanceUpdate:
 	bz *if41_end
 
 	// *if41_consequent
-	// examples/reti/stakingPool.algo.ts:797
+	// examples/reti/stakingPool.algo.ts:799
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -3153,7 +3153,7 @@ epochBalanceUpdate:
 	itxn_submit
 
 *if41_end:
-	// examples/reti/stakingPool.algo.ts:799
+	// examples/reti/stakingPool.algo.ts:801
 	// cmpStaker = clone(this.stakers.value[i])
 	frame_dig 31 // i: uint64
 	int 64
@@ -3165,7 +3165,7 @@ epochBalanceUpdate:
 	frame_bury 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
 	// *if42_condition
-	// examples/reti/stakingPool.algo.ts:800
+	// examples/reti/stakingPool.algo.ts:802
 	// cmpStaker.account !== globals.zeroAddress && cmpStaker.entryRound < thisEpochBegin
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 0 32
@@ -3184,7 +3184,7 @@ epochBalanceUpdate:
 	bz *if42_end
 
 	// *if42_consequent
-	// examples/reti/stakingPool.algo.ts:801
+	// examples/reti/stakingPool.algo.ts:803
 	// timeInPool = thisEpochBegin - cmpStaker.entryRound
 	frame_dig 3 // thisEpochBegin: uint64
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
@@ -3194,7 +3194,7 @@ epochBalanceUpdate:
 	frame_bury 33 // timeInPool: uint64
 
 	// *if43_condition
-	// examples/reti/stakingPool.algo.ts:803
+	// examples/reti/stakingPool.algo.ts:805
 	// timeInPool >= epochRoundLength
 	frame_dig 33 // timeInPool: uint64
 	frame_dig 1 // epochRoundLength: uint64
@@ -3203,7 +3203,7 @@ epochBalanceUpdate:
 
 	// *if43_consequent
 	// *if44_condition
-	// examples/reti/stakingPool.algo.ts:808
+	// examples/reti/stakingPool.algo.ts:810
 	// tokenRewardAvail > 0
 	frame_dig 14 // tokenRewardAvail: uint64
 	int 0
@@ -3211,7 +3211,7 @@ epochBalanceUpdate:
 	bz *if44_end
 
 	// *if44_consequent
-	// examples/reti/stakingPool.algo.ts:809
+	// examples/reti/stakingPool.algo.ts:811
 	// stakerTokenReward = wideRatio([cmpStaker.balance, tokenRewardAvail], [newPoolTotalStake])
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 32 8
@@ -3230,7 +3230,7 @@ epochBalanceUpdate:
 	assert
 	frame_bury 34 // stakerTokenReward: uint64
 
-	// examples/reti/stakingPool.algo.ts:812
+	// examples/reti/stakingPool.algo.ts:814
 	// cmpStaker.rewardTokenBalance += stakerTokenReward
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 48 // headOffset
@@ -3243,7 +3243,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:813
+	// examples/reti/stakingPool.algo.ts:815
 	// tokenRewardPaidOut += stakerTokenReward
 	frame_dig 15 // tokenRewardPaidOut: uint64
 	frame_dig 34 // stakerTokenReward: uint64
@@ -3252,7 +3252,7 @@ epochBalanceUpdate:
 
 *if44_end:
 	// *if45_condition
-	// examples/reti/stakingPool.algo.ts:815
+	// examples/reti/stakingPool.algo.ts:817
 	// algoRewardAvail > 0
 	frame_dig 11 // algoRewardAvail: uint64
 	int 0
@@ -3260,7 +3260,7 @@ epochBalanceUpdate:
 	bz *if45_end
 
 	// *if45_consequent
-	// examples/reti/stakingPool.algo.ts:816
+	// examples/reti/stakingPool.algo.ts:818
 	// stakerReward = wideRatio([cmpStaker.balance, algoRewardAvail], [newPoolTotalStake])
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	extract 32 8
@@ -3279,7 +3279,7 @@ epochBalanceUpdate:
 	assert
 	frame_bury 35 // stakerReward: uint64
 
-	// examples/reti/stakingPool.algo.ts:819
+	// examples/reti/stakingPool.algo.ts:821
 	// cmpStaker.balance += stakerReward
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 32 // headOffset
@@ -3292,7 +3292,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:820
+	// examples/reti/stakingPool.algo.ts:822
 	// cmpStaker.totalRewarded += stakerReward
 	frame_dig 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 	int 40 // headOffset
@@ -3305,7 +3305,7 @@ epochBalanceUpdate:
 	replace3
 	frame_bury 32 // cmpStaker: (address,uint64,uint64,uint64,uint64)
 
-	// examples/reti/stakingPool.algo.ts:821
+	// examples/reti/stakingPool.algo.ts:823
 	// increasedStake += stakerReward
 	frame_dig 22 // increasedStake: uint64
 	frame_dig 35 // stakerReward: uint64
@@ -3313,7 +3313,7 @@ epochBalanceUpdate:
 	frame_bury 22 // increasedStake: uint64
 
 *if45_end:
-	// examples/reti/stakingPool.algo.ts:825
+	// examples/reti/stakingPool.algo.ts:827
 	// this.stakers.value[i] = cmpStaker
 	frame_dig 31 // i: uint64
 	int 64
@@ -3328,7 +3328,7 @@ epochBalanceUpdate:
 *if42_end:
 
 *for_5_continue:
-	// examples/reti/stakingPool.algo.ts:795
+	// examples/reti/stakingPool.algo.ts:797
 	// i += 1
 	frame_dig 31 // i: uint64
 	int 1
@@ -3341,7 +3341,7 @@ epochBalanceUpdate:
 *if40_end:
 
 *if33_end:
-	// examples/reti/stakingPool.algo.ts:835
+	// examples/reti/stakingPool.algo.ts:837
 	// roundsLeftInBin = this.binRoundStart.value + this.roundsPerDay.value - globals.round
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
 	app_global_get
@@ -3352,7 +3352,7 @@ epochBalanceUpdate:
 	-
 	frame_bury 36 // roundsLeftInBin: uint64
 
-	// examples/reti/stakingPool.algo.ts:836
+	// examples/reti/stakingPool.algo.ts:838
 	// this.totalAlgoStaked.value += increasedStake
 	byte 0x7374616b6564 // "staked"
 	app_global_get
@@ -3362,7 +3362,7 @@ epochBalanceUpdate:
 	swap
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:837
+	// examples/reti/stakingPool.algo.ts:839
 	// this.stakeAccumulator.value =
 	//       this.stakeAccumulator.value + (increasedStake as uint128) * (roundsLeftInBin as uint128)
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
@@ -3392,7 +3392,7 @@ epochBalanceUpdate:
 	substring3
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:839
+	// examples/reti/stakingPool.algo.ts:841
 	// this.rewardAccumulator.value = this.rewardAccumulator.value + increasedStake
 	byte 0x726577617264416363756d756c61746f72 // "rewardAccumulator"
 	dup
@@ -3401,7 +3401,7 @@ epochBalanceUpdate:
 	+
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:845
+	// examples/reti/stakingPool.algo.ts:847
 	// sendMethodCall<typeof ValidatorRegistry.prototype.stakeUpdatedViaRewards>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [
@@ -3418,13 +3418,13 @@ epochBalanceUpdate:
 	method "stakeUpdatedViaRewards((uint64,uint64,uint64),uint64,uint64,uint64,uint64)void"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:846
+	// examples/reti/stakingPool.algo.ts:848
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:847
+	// examples/reti/stakingPool.algo.ts:849
 	// methodArgs: [
 	//         { id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id },
 	//         increasedStake,
@@ -3526,19 +3526,19 @@ goOnline:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:879
+	// examples/reti/stakingPool.algo.ts:881
 	// assert(this.isOwnerOrManagerCaller(), 'can only be called by owner or manager of validator')
 	callsub isOwnerOrManagerCaller
 
 	// can only be called by owner or manager of validator
 	assert
 
-	// examples/reti/stakingPool.algo.ts:880
+	// examples/reti/stakingPool.algo.ts:882
 	// extraFee = this.getGoOnlineFee()
 	callsub getGoOnlineFee
 	frame_bury 0 // extraFee: uint64
 
-	// examples/reti/stakingPool.algo.ts:881
+	// examples/reti/stakingPool.algo.ts:883
 	// verifyPayTxn(feePayment, { receiver: this.app.address, amount: extraFee })
 	// verify receiver
 	frame_dig -1 // feePayment: PayTxn
@@ -3558,7 +3558,7 @@ goOnline:
 	// transaction verification failed: {"txn":"feePayment","field":"amount","expected":"extraFee"}
 	assert
 
-	// examples/reti/stakingPool.algo.ts:882
+	// examples/reti/stakingPool.algo.ts:884
 	// sendOnlineKeyRegistration({
 	//       votePK: votePK,
 	//       selectionPK: selectionPK,
@@ -3572,37 +3572,37 @@ goOnline:
 	int keyreg
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:883
+	// examples/reti/stakingPool.algo.ts:885
 	// votePK: votePK
 	frame_dig -2 // votePK: bytes
 	itxn_field VotePK
 
-	// examples/reti/stakingPool.algo.ts:884
+	// examples/reti/stakingPool.algo.ts:886
 	// selectionPK: selectionPK
 	frame_dig -3 // selectionPK: bytes
 	itxn_field SelectionPK
 
-	// examples/reti/stakingPool.algo.ts:885
+	// examples/reti/stakingPool.algo.ts:887
 	// stateProofPK: stateProofPK
 	frame_dig -4 // stateProofPK: bytes
 	itxn_field StateProofPK
 
-	// examples/reti/stakingPool.algo.ts:886
+	// examples/reti/stakingPool.algo.ts:888
 	// voteFirst: voteFirst
 	frame_dig -5 // voteFirst: uint64
 	itxn_field VoteFirst
 
-	// examples/reti/stakingPool.algo.ts:887
+	// examples/reti/stakingPool.algo.ts:889
 	// voteLast: voteLast
 	frame_dig -6 // voteLast: uint64
 	itxn_field VoteLast
 
-	// examples/reti/stakingPool.algo.ts:888
+	// examples/reti/stakingPool.algo.ts:890
 	// voteKeyDilution: voteKeyDilution
 	frame_dig -7 // voteKeyDilution: uint64
 	itxn_field VoteKeyDilution
 
-	// examples/reti/stakingPool.algo.ts:889
+	// examples/reti/stakingPool.algo.ts:891
 	// fee: this.getGoOnlineFee()
 	callsub getGoOnlineFee
 	itxn_field Fee
@@ -3626,7 +3626,7 @@ goOffline:
 	proto 0 0
 
 	// *if46_condition
-	// examples/reti/stakingPool.algo.ts:901
+	// examples/reti/stakingPool.algo.ts:903
 	// this.txn.sender !== AppID.fromUint64(this.creatingValidatorContractAppId.value).address
 	txn Sender
 	byte 0x63726561746f72417070 // "creatorApp"
@@ -3637,7 +3637,7 @@ goOffline:
 	bz *if46_end
 
 	// *if46_consequent
-	// examples/reti/stakingPool.algo.ts:902
+	// examples/reti/stakingPool.algo.ts:904
 	// assert(this.isOwnerOrManagerCaller(), 'can only be called by owner or manager of validator')
 	callsub isOwnerOrManagerCaller
 
@@ -3645,7 +3645,7 @@ goOffline:
 	assert
 
 *if46_end:
-	// examples/reti/stakingPool.algo.ts:905
+	// examples/reti/stakingPool.algo.ts:907
 	// sendOfflineKeyRegistration({})
 	itxn_begin
 	int keyreg
@@ -3678,14 +3678,14 @@ goOffline:
 linkToNFD:
 	proto 2 0
 
-	// examples/reti/stakingPool.algo.ts:912
+	// examples/reti/stakingPool.algo.ts:914
 	// assert(this.isOwnerOrManagerCaller(), 'can only be called by owner or manager of validator')
 	callsub isOwnerOrManagerCaller
 
 	// can only be called by owner or manager of validator
 	assert
 
-	// examples/reti/stakingPool.algo.ts:914
+	// examples/reti/stakingPool.algo.ts:916
 	// sendAppCall({
 	//       applicationID: AppID.fromUint64(this.nfdRegistryAppId),
 	//       applicationArgs: ['verify_nfd_addr', nfdName, itob(nfdAppId), rawBytes(this.app.address)],
@@ -3695,12 +3695,12 @@ linkToNFD:
 	int appl
 	itxn_field TypeEnum
 
-	// examples/reti/stakingPool.algo.ts:915
+	// examples/reti/stakingPool.algo.ts:917
 	// applicationID: AppID.fromUint64(this.nfdRegistryAppId)
 	pushint TMPL_nfdRegistryAppId
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:916
+	// examples/reti/stakingPool.algo.ts:918
 	// applicationArgs: ['verify_nfd_addr', nfdName, itob(nfdAppId), rawBytes(this.app.address)]
 	byte 0x7665726966795f6e66645f61646472 // "verify_nfd_addr"
 	itxn_field ApplicationArgs
@@ -3712,7 +3712,7 @@ linkToNFD:
 	global CurrentApplicationAddress
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:917
+	// examples/reti/stakingPool.algo.ts:919
 	// applications: [AppID.fromUint64(nfdAppId)]
 	frame_dig -1 // nfdAppId: uint64
 	itxn_field Applications
@@ -3759,7 +3759,7 @@ proxiedSetTokenPayoutRatio:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:928
+	// examples/reti/stakingPool.algo.ts:930
 	// assert(this.validatorId.value === poolKey.id, 'caller must be part of same validator set!')
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -3771,7 +3771,7 @@ proxiedSetTokenPayoutRatio:
 	// caller must be part of same validator set!
 	assert
 
-	// examples/reti/stakingPool.algo.ts:929
+	// examples/reti/stakingPool.algo.ts:931
 	// assert(this.poolId.value === 1, 'callee must be pool 1')
 	byte 0x706f6f6c4964 // "poolId"
 	app_global_get
@@ -3781,7 +3781,7 @@ proxiedSetTokenPayoutRatio:
 	// callee must be pool 1
 	assert
 
-	// examples/reti/stakingPool.algo.ts:930
+	// examples/reti/stakingPool.algo.ts:932
 	// assert(poolKey.poolId !== 1, 'caller must NOT be pool 1')
 	frame_dig -1 // poolKey: ValidatorPoolKey
 	extract 8 8
@@ -3792,7 +3792,7 @@ proxiedSetTokenPayoutRatio:
 	// caller must NOT be pool 1
 	assert
 
-	// examples/reti/stakingPool.algo.ts:932
+	// examples/reti/stakingPool.algo.ts:934
 	// callerPoolAppID = sendMethodCall<typeof ValidatorRegistry.prototype.getPoolAppId>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [poolKey.id, poolKey.poolId],
@@ -3803,13 +3803,13 @@ proxiedSetTokenPayoutRatio:
 	method "getPoolAppId(uint64,uint64)uint64"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:933
+	// examples/reti/stakingPool.algo.ts:935
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:934
+	// examples/reti/stakingPool.algo.ts:936
 	// methodArgs: [poolKey.id, poolKey.poolId]
 	frame_dig -1 // poolKey: ValidatorPoolKey
 	extract 0 8
@@ -3836,7 +3836,7 @@ proxiedSetTokenPayoutRatio:
 	btoi
 	frame_bury 0 // callerPoolAppID: uint64
 
-	// examples/reti/stakingPool.algo.ts:936
+	// examples/reti/stakingPool.algo.ts:938
 	// assert(callerPoolAppID === poolKey.poolAppId)
 	frame_dig 0 // callerPoolAppID: uint64
 	frame_dig -1 // poolKey: ValidatorPoolKey
@@ -3845,7 +3845,7 @@ proxiedSetTokenPayoutRatio:
 	==
 	assert
 
-	// examples/reti/stakingPool.algo.ts:937
+	// examples/reti/stakingPool.algo.ts:939
 	// assert(this.txn.sender === AppID.fromUint64(poolKey.poolAppId).address)
 	txn Sender
 	frame_dig -1 // poolKey: ValidatorPoolKey
@@ -3856,7 +3856,7 @@ proxiedSetTokenPayoutRatio:
 	==
 	assert
 
-	// examples/reti/stakingPool.algo.ts:939
+	// examples/reti/stakingPool.algo.ts:941
 	// return sendMethodCall<typeof ValidatorRegistry.prototype.setTokenPayoutRatio>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [this.validatorId.value],
@@ -3867,13 +3867,13 @@ proxiedSetTokenPayoutRatio:
 	method "setTokenPayoutRatio(uint64)(uint64[24],uint64)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:940
+	// examples/reti/stakingPool.algo.ts:942
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:941
+	// examples/reti/stakingPool.algo.ts:943
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -3903,7 +3903,7 @@ isOwnerOrManagerCaller:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:946
+	// examples/reti/stakingPool.algo.ts:948
 	// OwnerAndManager = sendMethodCall<typeof ValidatorRegistry.prototype.getValidatorOwnerAndManager>({
 	//       applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
 	//       methodArgs: [this.validatorId.value],
@@ -3914,13 +3914,13 @@ isOwnerOrManagerCaller:
 	method "getValidatorOwnerAndManager(uint64)(address,address)"
 	itxn_field ApplicationArgs
 
-	// examples/reti/stakingPool.algo.ts:947
+	// examples/reti/stakingPool.algo.ts:949
 	// applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value)
 	byte 0x63726561746f72417070 // "creatorApp"
 	app_global_get
 	itxn_field ApplicationID
 
-	// examples/reti/stakingPool.algo.ts:948
+	// examples/reti/stakingPool.algo.ts:950
 	// methodArgs: [this.validatorId.value]
 	byte 0x76616c696461746f724964 // "validatorId"
 	app_global_get
@@ -3940,7 +3940,7 @@ isOwnerOrManagerCaller:
 	extract 4 0
 	frame_bury 0 // OwnerAndManager: (address,address)
 
-	// examples/reti/stakingPool.algo.ts:950
+	// examples/reti/stakingPool.algo.ts:952
 	// return this.txn.sender === OwnerAndManager[0] || this.txn.sender === OwnerAndManager[1];
 	txn Sender
 	frame_dig 0 // OwnerAndManager: (address,address)
@@ -3963,7 +3963,7 @@ isOwnerOrManagerCaller:
 getFeeSink:
 	proto 0 1
 
-	// examples/reti/stakingPool.algo.ts:954
+	// examples/reti/stakingPool.algo.ts:956
 	// return this.feeSinkAddr;
 	pushbytes TMPL_feeSinkAddr
 	retsub
@@ -3978,12 +3978,12 @@ algoSaturationLevel:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:964
+	// examples/reti/stakingPool.algo.ts:966
 	// online = this.getCurrentOnlineStake()
 	callsub getCurrentOnlineStake
 	frame_bury 0 // online: uint64
 
-	// examples/reti/stakingPool.algo.ts:966
+	// examples/reti/stakingPool.algo.ts:968
 	// return wideRatio([online, MAX_VALIDATOR_SOFT_PCT_OF_ONLINE_1DECIMAL], [1000]);
 	frame_dig 0 // online: uint64
 	int 100
@@ -4010,26 +4010,26 @@ getGoOnlineFee:
 	// Push empty bytes after the frame pointer to reserve space for local variables
 	byte 0x
 
-	// examples/reti/stakingPool.algo.ts:973
+	// examples/reti/stakingPool.algo.ts:975
 	// isOnline = false
 	int 0
 	frame_bury 0 // isOnline: bool
 
 	// *if47_condition
-	// examples/reti/stakingPool.algo.ts:974
+	// examples/reti/stakingPool.algo.ts:976
 	// !isOnline
 	frame_dig 0 // isOnline: bool
 	!
 	bz *if47_end
 
 	// *if47_consequent
-	// examples/reti/stakingPool.algo.ts:976
+	// examples/reti/stakingPool.algo.ts:978
 	// return 2_000_000;
 	int 2_000_000
 	b *getGoOnlineFee*return
 
 *if47_end:
-	// examples/reti/stakingPool.algo.ts:978
+	// examples/reti/stakingPool.algo.ts:980
 	// return 0;
 	int 0
 
@@ -4042,7 +4042,7 @@ getGoOnlineFee:
 getCurrentOnlineStake:
 	proto 0 1
 
-	// examples/reti/stakingPool.algo.ts:983
+	// examples/reti/stakingPool.algo.ts:985
 	// return 2_000_000_000_000_000;
 	int 2_000_000_000_000_000
 	retsub
@@ -4057,7 +4057,7 @@ checkIfBinClosed:
 	byte 0x
 	dupn 4
 
-	// examples/reti/stakingPool.algo.ts:990
+	// examples/reti/stakingPool.algo.ts:992
 	// currentBinSize = this.roundsPerDay.value as uint128
 	byte 0x726f756e6473506572446179 // "roundsPerDay"
 	app_global_get
@@ -4065,7 +4065,7 @@ checkIfBinClosed:
 	frame_bury 0 // currentBinSize: unsafe uint128
 
 	// *if48_condition
-	// examples/reti/stakingPool.algo.ts:991
+	// examples/reti/stakingPool.algo.ts:993
 	// globals.round >= this.binRoundStart.value + (currentBinSize as uint64)
 	global Round
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
@@ -4094,7 +4094,7 @@ checkIfBinClosed:
 
 	// *if48_consequent
 	// *if49_condition
-	// examples/reti/stakingPool.algo.ts:992
+	// examples/reti/stakingPool.algo.ts:994
 	// globals.opcodeBudget < 300
 	global OpcodeBudget
 	int 300
@@ -4102,7 +4102,7 @@ checkIfBinClosed:
 	bz *if49_end
 
 	// *if49_consequent
-	// examples/reti/stakingPool.algo.ts:993
+	// examples/reti/stakingPool.algo.ts:995
 	// increaseOpcodeBudget()
 	itxn_begin
 	int appl
@@ -4118,7 +4118,7 @@ checkIfBinClosed:
 	itxn_submit
 
 *if49_end:
-	// examples/reti/stakingPool.algo.ts:995
+	// examples/reti/stakingPool.algo.ts:997
 	// approxRoundsPerYear: uint128 = currentBinSize * (365 as uint128)
 	frame_dig 0 // currentBinSize: unsafe uint128
 	byte 0x0000000000000000000000000000016d
@@ -4141,7 +4141,7 @@ checkIfBinClosed:
 	substring3
 	frame_bury 1 // approxRoundsPerYear: uint128
 
-	// examples/reti/stakingPool.algo.ts:996
+	// examples/reti/stakingPool.algo.ts:998
 	// avgStake: uint128 = this.stakeAccumulator.value / currentBinSize
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
 	app_global_get
@@ -4166,7 +4166,7 @@ checkIfBinClosed:
 	frame_bury 2 // avgStake: uint128
 
 	// *if50_condition
-	// examples/reti/stakingPool.algo.ts:997
+	// examples/reti/stakingPool.algo.ts:999
 	// avgStake !== 0
 	frame_dig 2 // avgStake: uint128
 	byte 0x00000000000000000000000000000000
@@ -4174,7 +4174,7 @@ checkIfBinClosed:
 	bz *if50_end
 
 	// *if50_consequent
-	// examples/reti/stakingPool.algo.ts:1001
+	// examples/reti/stakingPool.algo.ts:1003
 	// apr: uint128 =
 	//           (((this.rewardAccumulator.value as uint128) * (10000 as uint128)) / avgStake) *
 	//           (approxRoundsPerYear / currentBinSize)
@@ -4207,13 +4207,13 @@ checkIfBinClosed:
 	substring3
 	frame_bury 3 // apr: uint128
 
-	// examples/reti/stakingPool.algo.ts:1005
+	// examples/reti/stakingPool.algo.ts:1007
 	// alpha: uint128 = 10 as uint128
 	byte 0x0000000000000000000000000000000a
 	frame_bury 4 // alpha: unsafe uint128
 
 	// *if51_condition
-	// examples/reti/stakingPool.algo.ts:1007
+	// examples/reti/stakingPool.algo.ts:1009
 	// avgStake > 300000000000
 	frame_dig 2 // avgStake: uint128
 	byte 0x000000000000000000000045d964b800
@@ -4221,13 +4221,13 @@ checkIfBinClosed:
 	bz *if51_end
 
 	// *if51_consequent
-	// examples/reti/stakingPool.algo.ts:1008
+	// examples/reti/stakingPool.algo.ts:1010
 	// alpha = 90 as uint128
 	byte 0x0000000000000000000000000000005a
 	frame_bury 4 // alpha: unsafe uint128
 
 *if51_end:
-	// examples/reti/stakingPool.algo.ts:1010
+	// examples/reti/stakingPool.algo.ts:1012
 	// this.weightedMovingAverage.value =
 	//           (this.weightedMovingAverage.value * ((100 as uint128) - alpha)) / (100 as uint128) +
 	//           (apr * alpha) / (100 as uint128)
@@ -4265,11 +4265,11 @@ checkIfBinClosed:
 	app_global_put
 
 *if50_end:
-	// examples/reti/stakingPool.algo.ts:1016
+	// examples/reti/stakingPool.algo.ts:1018
 	// this.setRoundsPerDay()
 	callsub setRoundsPerDay
 
-	// examples/reti/stakingPool.algo.ts:1017
+	// examples/reti/stakingPool.algo.ts:1019
 	// this.stakeAccumulator.value = (this.totalAlgoStaked.value as uint128) * (this.roundsPerDay.value as uint128)
 	byte 0x7374616b65416363756d756c61746f72 // "stakeAccumulator"
 	byte 0x7374616b6564 // "staked"
@@ -4297,13 +4297,13 @@ checkIfBinClosed:
 	substring3
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:1018
+	// examples/reti/stakingPool.algo.ts:1020
 	// this.rewardAccumulator.value = 0
 	byte 0x726577617264416363756d756c61746f72 // "rewardAccumulator"
 	int 0
 	app_global_put
 
-	// examples/reti/stakingPool.algo.ts:1019
+	// examples/reti/stakingPool.algo.ts:1021
 	// this.binRoundStart.value = globals.round - (globals.round % this.roundsPerDay.value)
 	byte 0x62696e526f756e645374617274 // "binRoundStart"
 	global Round
@@ -4321,7 +4321,7 @@ checkIfBinClosed:
 setRoundsPerDay:
 	proto 0 0
 
-	// examples/reti/stakingPool.algo.ts:1024
+	// examples/reti/stakingPool.algo.ts:1026
 	// this.roundsPerDay.value = AVG_ROUNDS_PER_DAY
 	byte 0x726f756e6473506572446179 // "roundsPerDay"
 	int 30857
