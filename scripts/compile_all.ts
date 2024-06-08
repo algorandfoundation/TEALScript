@@ -3,7 +3,7 @@ import { globSync } from 'glob';
 import fs from 'fs';
 import path from 'path';
 import { Project } from 'ts-morph';
-import { Compiler } from '../src/lib';
+import { Compiler } from '../src/lib/index';
 
 const TESTS_PROJECT = new Project({
   tsConfigFilePath: path.join(__dirname, '..', 'tests', 'contracts', 'tsconfig.json'),
