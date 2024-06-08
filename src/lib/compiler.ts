@@ -1092,7 +1092,7 @@ export default class Compiler {
     if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
     if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
 
-    if (type.isBoolean()) return { kind: 'base', type: 'bool' };
+    if (type.isBoolean() || type.isBooleanLiteral()) return { kind: 'base', type: 'bool' };
 
     if (type.isTuple()) {
       const typeInfo: TypeInfo = {
@@ -1194,6 +1194,18 @@ export default class Compiler {
         length: Number(typeString.replace('staticbytes', '')),
       };
     }
+
+    if (type.isUnion()) {
+      const firstType = this.getTypeInfo(type.getUnionTypes()[0]);
+      type.getUnionTypes().forEach((t) => {
+        if (!equalTypes(this.getTypeInfo(t), firstType)) {
+          throw Error(`Union types must all be the same type`);
+        }
+      });
+
+      return firstType;
+    }
+
     throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
   }
 
