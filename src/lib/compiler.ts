@@ -1092,7 +1092,7 @@ export default class Compiler {
     if (typeString === 'bytes32') return { kind: 'staticArray', length: 32, base: { kind: 'base', type: 'byte' } };
     if (typeString === 'bytes64') return { kind: 'staticArray', length: 64, base: { kind: 'base', type: 'byte' } };
 
-    if (type.isBoolean()) return { kind: 'base', type: 'bool' };
+    if (type.isBoolean() || type.isBooleanLiteral()) return { kind: 'base', type: 'bool' };
 
     if (type.isTuple()) {
       const typeInfo: TypeInfo = {
@@ -1205,7 +1205,8 @@ export default class Compiler {
 
       return firstType;
     }
-    throw Error(`Cannot resolve ${type}type ${type.getText()} (${typeString})`);
+
+    throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
   }
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
