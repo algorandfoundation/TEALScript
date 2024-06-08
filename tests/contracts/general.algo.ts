@@ -495,4 +495,12 @@ class GeneralTest extends Contract {
   throwErrorMessage() {
     throw Error('this is an error');
   }
+
+  orLiteralType(a: uint64, b: uint64): void {
+    const foo = a && b === 1 ? 2 : 0;
+    assert(foo);
+
+    const bar = a && b === 0 ? '2' : '0';
+    log(bar);
+  }
 }

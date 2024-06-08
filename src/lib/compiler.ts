@@ -1194,7 +1194,18 @@ export default class Compiler {
         length: Number(typeString.replace('staticbytes', '')),
       };
     }
-    throw Error(`Cannot resolve type ${type.getText()} (${typeString})`);
+
+    if (type.isUnion()) {
+      const firstType = this.getTypeInfo(type.getUnionTypes()[0]);
+      type.getUnionTypes().forEach((t) => {
+        if (!equalTypes(this.getTypeInfo(t), firstType)) {
+          throw Error(`Union types must all be the same type`);
+        }
+      });
+
+      return firstType;
+    }
+    throw Error(`Cannot resolve ${type}type ${type.getText()} (${typeString})`);
   }
 
   private getAliasedTypeNode(type: ts.Type<ts.ts.Type>): ts.TypeNode<ts.ts.TypeNode> | undefined {
