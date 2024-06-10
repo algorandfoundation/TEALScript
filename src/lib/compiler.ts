@@ -3776,7 +3776,11 @@ export default class Compiler {
       if (valueType.kind === 'base') action = 'set';
       // Honestly not sure why I needed to add this after b89ddc6c24d6102f9e890a0e76222de7e0ca79b5 (0.67.2)
       // But it works...
-      if (type === 'box' && this.teal[this.currentProgram].at(-1)?.teal.startsWith('replace3')) {
+      if (
+        type === 'box' &&
+        action === 'replace' &&
+        this.teal[this.currentProgram].at(-1)?.teal.startsWith('replace3')
+      ) {
         this.teal[this.currentProgram].pop();
       }
 
