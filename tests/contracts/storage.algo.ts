@@ -193,4 +193,9 @@ class StorageTest extends Contract {
     this.boxKey.splice(0, 1, 'abc');
     this.boxMap('bar').splice(0, 1, 'abc');
   }
+
+  exStateExists(): void {
+    assert(this.app.globalStateExists('foo'));
+    assert(this.app.localStateExists(this.txn.sender, 'foo'));
+  }
 }
