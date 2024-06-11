@@ -903,4 +903,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'pushToArrayInBox')).toEqual([1n, 2n, 3n, 4n]);
   });
+
+  test('updateStaticFieldInDynamicObjectInBox', async () => {
+    const { appClient } = await compileAndCreate('updateStaticFieldInDynamicObjectInBox');
+
+    expect(await runMethod(appClient, 'updateStaticFieldInDynamicObjectInBox')).toEqual('Hello World!');
+  });
 });
