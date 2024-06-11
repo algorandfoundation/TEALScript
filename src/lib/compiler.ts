@@ -642,6 +642,23 @@ export default class Compiler {
     application: [
       ...this.getOpParamObjects('app_params_get'),
       {
+        name: 'GlobalStateExists',
+        type: 'any',
+        args: 1,
+        fn: (node: ts.Node) => {
+          this.hasMaybeValue(node, 'app_global_get_ex');
+        },
+      },
+      {
+        name: 'LocalStateExists',
+        type: 'any',
+        args: 2,
+        fn: (node: ts.Node) => {
+          this.pushLines(node, 'swap', 'cover 2');
+          this.hasMaybeValue(node, 'app_local_get_ex');
+        },
+      },
+      {
         name: 'GlobalState',
         type: 'any',
         args: 1,

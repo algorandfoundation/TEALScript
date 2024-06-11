@@ -557,6 +557,16 @@ declare class AppID {
    * ```
    */
   localState(account: Address, key: BytesLike): unknown;
+
+  /**
+   * Check if the given key exists in the global state
+   */
+  globalStateExists(key: BytesLike): boolean;
+
+  /**
+   * Check if the given key exists in the local state
+   */
+  localStateExists(account: Address, key: BytesLike): boolean;
 }
 
 declare class AppReference extends AppID {}
