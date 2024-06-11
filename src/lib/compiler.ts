@@ -642,6 +642,23 @@ export default class Compiler {
     application: [
       ...this.getOpParamObjects('app_params_get'),
       {
+        name: 'GlobalStateExists',
+        type: 'any',
+        args: 1,
+        fn: (node: ts.Node) => {
+          this.hasMaybeValue(node, 'app_global_get_ex');
+        },
+      },
+      {
+        name: 'LocalStateExists',
+        type: 'any',
+        args: 2,
+        fn: (node: ts.Node) => {
+          this.pushLines(node, 'swap', 'cover 2');
+          this.hasMaybeValue(node, 'app_local_get_ex');
+        },
+      },
+      {
         name: 'GlobalState',
         type: 'any',
         args: 1,
@@ -3776,7 +3793,11 @@ export default class Compiler {
       if (valueType.kind === 'base') action = 'set';
       // Honestly not sure why I needed to add this after b89ddc6c24d6102f9e890a0e76222de7e0ca79b5 (0.67.2)
       // But it works...
-      if (type === 'box' && this.teal[this.currentProgram].at(-1)?.teal.startsWith('replace3')) {
+      if (
+        type === 'box' &&
+        action === 'replace' &&
+        this.teal[this.currentProgram].at(-1)?.teal.startsWith('replace3')
+      ) {
         this.teal[this.currentProgram].pop();
       }
 

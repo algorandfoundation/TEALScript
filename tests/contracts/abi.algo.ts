@@ -1565,3 +1565,14 @@ class ABITestReturnByte extends Contract {
     return rawByte(true);
   }
 }
+
+class ABITestUpdateStaticFieldInDynamicObjectInBox extends Contract {
+  bMap = BoxMap<string, { addr: Address; str: string }>();
+
+  updateStaticFieldInDynamicObjectInBox(): string {
+    this.bMap('bMap').value = { addr: this.txn.sender, str: 'Hello World!' };
+
+    this.bMap('bMap').value.addr = this.txn.sender;
+    return this.bMap('bMap').value.str;
+  }
+}
