@@ -299,7 +299,12 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
 
         optimized = true;
       }
-    } else if (teal.startsWith('+') || teal.startsWith('-') || teal.startsWith('*') || teal.startsWith('/')) {
+    } else if (
+      teal.startsWith('+') ||
+      teal.startsWith('-') ||
+      teal.startsWith('*') ||
+      (teal.startsWith('/') && !teal.startsWith('//'))
+    ) {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
 
