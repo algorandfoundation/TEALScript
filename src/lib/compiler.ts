@@ -7270,10 +7270,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   }
 
   async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
-    // Replace template variables
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
+        // Replace template variables
         if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
           if (opcode === 'pushint') return 'pushint 0';
@@ -7287,7 +7287,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
 
-        return t;
+        // Remove comments to avoid taking up space in the request body
+        if (t.startsWith('//')) {
+          return '';
+        }
+
+        return t.trim();
       })
       .join('\n');
 
