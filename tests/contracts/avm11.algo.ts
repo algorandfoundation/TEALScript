@@ -13,4 +13,8 @@ class AVM11 extends Contract {
     assert(globals.payoutsMinBalance);
     assert(globals.payoutsMaxBalance);
   }
+
+  onlineStakeOp() {
+    assert(onlineStake());
+  }
 }

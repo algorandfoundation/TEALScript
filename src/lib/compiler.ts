@@ -6739,6 +6739,7 @@ export default class Compiler {
     ecdsaVerify: 'ecdsa_verify',
     ecdsaPkDecompress: 'ecdsa_pk_decompress',
     ecdsaPkRecover: 'ecdsa_pk_recover',
+    onlineStake: 'online_stake',
   };
 
   private processOpcode(node: ts.CallExpression) {
