@@ -3,7 +3,7 @@ import { Contract } from '../../src/lib';
 export class AVM11 extends Contract {
   voterOpcodes() {
     assert(this.txn.sender.voterBalance);
-    assert(this.txn.sender.voterIncentiveEligible);
+    // voter_params_get IncentiveEligible covered by incentiveEligible acct_param
   }
 
   incentiveGlobals() {
@@ -16,5 +16,11 @@ export class AVM11 extends Contract {
 
   onlineStakeOp() {
     assert(onlineStake());
+  }
+
+  accountParams() {
+    assert(this.txn.sender.incentiveEligible);
+    assert(this.txn.sender.lastHeartbeat);
+    assert(this.txn.sender.lastProposed);
   }
 }

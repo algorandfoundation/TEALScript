@@ -496,7 +496,13 @@ declare class Address {
   voterBalance: uint64;
 
   /** Had this account opted into block payouts */
-  voterIncentiveEligible: boolean;
+  incentiveEligible: boolean;
+
+  /** The last block this account proposed */
+  lastProposed: uint64;
+
+  /** The last block this account sent a heartbeat */
+  lastHeartbeat: uint64;
 }
 
 class AccountReference extends Address {}
