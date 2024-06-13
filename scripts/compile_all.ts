@@ -23,6 +23,7 @@ async function main() {
   const files = globSync(path.join(__dirname, '../**/*.algo.ts'));
   files.forEach((file) => {
     if (file.includes('compile_errors')) return;
+    if (file.includes('avm11')) return;
     const isExample = file.includes('examples/');
     const project = isExample ? EXAMPLES_PROJECT : TESTS_PROJECT;
 

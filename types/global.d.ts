@@ -864,15 +864,15 @@ declare const globals: {
   assetOptInMinBalance: uint64;
   genesisHash: bytes32;
   /** Whether block proposal payouts are enabled [AVM 11] */
-  payoutsEnabled;
+  payoutsEnabled: boolean;
   /** The fee required in a keyreg transaction to make an account incentive eligible [AVM 11] */
-  payoutsGoOnlineFee;
+  payoutsGoOnlineFee: uint64;
   /** The percentage of transaction fees in a block that can be paid to the block proposer [AVM 11] */
-  payoutsPercent;
+  payoutsPercent: uint64;
   /** The minimum algo balance an account must have to receive block payouts (in the agreement round) [AVM 11] */
-  payoutsMinBalance;
+  payoutsMinBalance: uint64;
   /** The maximum algo balance an account can have to receive block payouts (in the agreement round) [AVM 11] */
-  payoutsMaxBalance;
+  payoutsMaxBalance: uint64;
 };
 
 /** Get information from the given block.

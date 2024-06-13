@@ -6824,7 +6824,7 @@ export default class Compiler {
       );
     }
 
-    let returnTypeStr = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
+    let returnTypeStr = opSpec.Returns?.at(-1)?.replace(/\[\d*\]byte/, 'bytes') || 'void';
 
     if (opSpec.Name.endsWith('256')) returnTypeStr = 'byte[32]';
 
