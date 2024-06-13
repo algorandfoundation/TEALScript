@@ -48,7 +48,7 @@ async function main() {
     compilers.forEach(async (compilerPromise) => {
       const compiler = await compilerPromise;
 
-      if (skipAlgod) return;
+      if (process.env.SKIP_ALGOD === 'true') return;
 
       const { name } = compiler;
 
