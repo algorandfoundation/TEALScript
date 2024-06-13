@@ -491,6 +491,12 @@ declare class Address {
 
   /** Whether this address is opted into the given application */
   isOptedInToApp(app: Application): boolean;
+
+  /** Online stake in microalgos */
+  voterBalance: uint64;
+
+  /** Had this account opted into block payouts */
+  voterIncentiveEligible: boolean;
 }
 
 class AccountReference extends Address {}
@@ -857,6 +863,16 @@ declare const globals: {
   assetCreateMinBalance: uint64;
   assetOptInMinBalance: uint64;
   genesisHash: bytes32;
+  /** Whether block proposal payouts are enabled [AVM 11] */
+  payoutsEnabled;
+  /** The fee required in a keyreg transaction to make an account incentive eligible [AVM 11] */
+  payoutsGoOnlineFee;
+  /** The percentage of transaction fees in a block that can be paid to the block proposer [AVM 11] */
+  payoutsPercent;
+  /** The minimum algo balance an account must have to receive block payouts (in the agreement round) [AVM 11] */
+  payoutsMinBalance;
+  /** The maximum algo balance an account can have to receive block payouts (in the agreement round) [AVM 11] */
+  payoutsMaxBalance;
 };
 
 /** Get information from the given block.
@@ -1486,6 +1502,9 @@ declare type DivmodwOutput = { quotientHigh: uint64; quotientLow: uint64; remain
  * @param d The denominator low bits
  */
 declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOutput;
+
+/** The total online stake in the agreement round [AVM 11] */
+declare function onlineStake(): uint64;
 
 /**
  * @deprecated Use `Address` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AccountReference` if you need to explicitly use the reference type.

@@ -30,6 +30,7 @@
     "compile-storage": "bun ./src/bin/tealscript.ts tests/contracts/storage.algo.ts tests/contracts/artifacts",
     "compile-lsig": "bun ./src/bin/tealscript.ts tests/contracts/lsig.algo.ts tests/contracts/artifacts",
     "compile-inheritance": "bun ./src/bin/tealscript.ts tests/contracts/inheritance.algo.ts tests/contracts/artifacts",
+    "compile-avm11": "bun ./src/bin/tealscript.ts --skip-algod tests/contracts/avm11.algo.ts tests/contracts/artifacts",
     "compile-amm": "bun ./src/bin/tealscript.ts examples/amm/amm.algo.ts examples/amm/tealscript_artifacts",
     "compile-arc75": "bun src/bin/tealscript.ts examples/arc75/arc75.algo.ts examples/arc75/artifacts && algokitgen generate -a examples/arc75/artifacts/ARC75.arc32.json -o examples/arc75/ARC75Client.ts",
     "compile-auction": "bun ./src/bin/tealscript.ts examples/auction/auction.algo.ts examples/auction/tealscript_artifacts",

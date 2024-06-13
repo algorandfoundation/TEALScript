@@ -7237,6 +7237,16 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         return paramName === capitalizeFirstChar(name);
       });
 
+      if (typeStr === 'account' && name === 'voterBalance') {
+        this.push(node, 'voter_params_get VoterBalance', StackType.uint64);
+        return;
+      }
+
+      if (typeStr === 'account' && name === 'voterIncentiveEligible') {
+        this.push(node, 'voter_params_get VoterIncentiveEligible', StackType.uint64);
+        return;
+      }
+
       if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()} for ${typeStr}`);
 
       if (!checkArgs || paramObj.args === 1) {
