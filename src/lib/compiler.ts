@@ -3376,7 +3376,8 @@ export default class Compiler {
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
         if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
-        else if (i !== 0) this.pushVoid(e, 'concat');
+        // Don't concat if bools are the first elements
+        else if (consecutiveBools.length !== i) this.pushVoid(e, `concat // ${i}`);
 
         consecutiveBools = [];
       }

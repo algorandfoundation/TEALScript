@@ -1576,3 +1576,11 @@ class ABITestUpdateStaticFieldInDynamicObjectInBox extends Contract {
     return this.bMap('bMap').value.str;
   }
 }
+
+class ABITestBoolFirstInTuple extends Contract {
+  boolFirstInTuple(): [boolean, uint64, uint64] {
+    const a: [boolean, uint64, uint64] = [true, 1, 2];
+
+    return a;
+  }
+}
