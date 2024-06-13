@@ -14,11 +14,6 @@ describe('Account', function () {
   langspec.Ops.find((op) => op.Name === 'acct_params_get')!.ArgEnum!.forEach((a) => {
     const fn = lowerFirstChar(a.replace('Acct', ''));
 
-    // AVM 11 params
-    //     (fail) Account > incentiveEligible [17.77ms]
-    // (fail) Account > lastProposed [26.86ms]
-    // (fail) Account > lastHeartbeat [25.90ms]
-
     if (['incentiveEligible', 'lastProposed', 'lastHeartbeat'].includes(fn)) return;
 
     test(fn, async function () {
