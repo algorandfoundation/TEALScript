@@ -1,6 +1,6 @@
 import { Contract } from '../../src/lib';
 
-class AVM11 extends Contract {
+export class AVM11 extends Contract {
   voterOpcodes() {
     assert(this.txn.sender.voterBalance);
     assert(this.txn.sender.voterIncentiveEligible);
