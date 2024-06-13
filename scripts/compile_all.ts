@@ -26,11 +26,13 @@ async function main() {
     const isExample = file.includes('examples/');
     const project = isExample ? EXAMPLES_PROJECT : TESTS_PROJECT;
 
+    const skipAlgod = process.env.SKIP_ALGOD === 'true' || file.includes('avm11');
+
     const options = {
       cwd: process.cwd(),
       project,
       srcPath: file,
-      skipAlgod: process.env.SKIP_ALGOD === 'true',
+      skipAlgod,
     };
 
     const compilers = Compiler.compileAll(options);

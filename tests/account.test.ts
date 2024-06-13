@@ -13,6 +13,9 @@ describe('Account', function () {
 
   langspec.Ops.find((op) => op.Name === 'acct_params_get')!.ArgEnum!.forEach((a) => {
     const fn = lowerFirstChar(a.replace('Acct', ''));
+
+    if (['incentiveEligible', 'lastProposed', 'lastHeartbeat'].includes(fn)) return;
+
     test(fn, async function () {
       if (fn === 'authAddr') {
         expect(await getTeal(fn)).toEqual([

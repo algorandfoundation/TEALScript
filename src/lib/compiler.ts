@@ -3376,7 +3376,8 @@ export default class Compiler {
       if (consecutiveBools.length > 0) {
         this.processBools(consecutiveBools);
         if (!isStatic) this.pushVoid(e, 'callsub *process_static_tuple_element');
-        else if (i !== 0) this.pushVoid(e, 'concat');
+        // Don't concat if bools are the first elements
+        else if (consecutiveBools.length !== i) this.pushVoid(e, `concat // ${i}`);
 
         consecutiveBools = [];
       }
@@ -6739,6 +6740,7 @@ export default class Compiler {
     ecdsaVerify: 'ecdsa_verify',
     ecdsaPkDecompress: 'ecdsa_pk_decompress',
     ecdsaPkRecover: 'ecdsa_pk_recover',
+    onlineStake: 'online_stake',
   };
 
   private processOpcode(node: ts.CallExpression) {
@@ -6824,7 +6826,7 @@ export default class Compiler {
       );
     }
 
-    let returnTypeStr = opSpec.Returns?.at(-1)?.replace('[]byte', 'bytes') || 'void';
+    let returnTypeStr = opSpec.Returns?.at(-1)?.replace(/\[\d*\]byte/, 'bytes') || 'void';
 
     if (opSpec.Name.endsWith('256')) returnTypeStr = 'byte[32]';
 
@@ -7236,6 +7238,16 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         if (typeStr === 'asset') paramName = paramName.replace(/^Asset/, '');
         return paramName === capitalizeFirstChar(name);
       });
+
+      if (typeStr === 'account' && name === 'voterBalance') {
+        this.push(node, 'voter_params_get VoterBalance', StackType.uint64);
+        return;
+      }
+
+      if (typeStr === 'account' && name === 'voterIncentiveEligible') {
+        this.push(node, 'voter_params_get VoterIncentiveEligible', StackType.uint64);
+        return;
+      }
 
       if (!paramObj) throw new Error(`Unknown or unsupported method: ${node.getText()} for ${typeStr}`);
 
