@@ -1,6 +1,8 @@
 import { Contract } from '../../src/lib';
 
 export class AVM11 extends Contract {
+  programVersion = 11;
+
   voterOpcodes() {
     assert(this.txn.sender.voterBalance);
     // voter_params_get IncentiveEligible covered by incentiveEligible acct_param
