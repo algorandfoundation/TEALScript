@@ -5794,6 +5794,20 @@ export default class Compiler {
       return;
     }
 
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'txn' &&
+      chain[1]?.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[2]?.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[1].getName() === 'applicationArgs' &&
+      chain[2].getName() === 'length'
+    ) {
+      this.push(chain[2], 'txn NumAppArgs', StackType.uint64);
+      chain.splice(0, 3);
+      return;
+    }
+
     // If accessing the txnGroup
     if (
       chain[0] &&
