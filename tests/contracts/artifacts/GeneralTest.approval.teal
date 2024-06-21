@@ -2624,10 +2624,43 @@ orLiteralType:
 nonAbi:
 	proto 0 0
 
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	byte 0x
+
 	// tests/contracts/general.algo.ts:509
 	// assert(this.txn.applicationArgs!.length)
 	txn NumAppArgs
 	assert
+
+	// tests/contracts/general.algo.ts:511
+	// for (let i = 0; i < this.txn.applicationArgs!.length; i += 1)
+	int 0
+	frame_bury 0 // i: uint64
+
+*for_1:
+	// tests/contracts/general.algo.ts:511
+	// i < this.txn.applicationArgs!.length
+	frame_dig 0 // i: uint64
+	txn NumAppArgs
+	<
+	bz *for_1_end
+
+	// tests/contracts/general.algo.ts:512
+	// log(this.txn.applicationArgs![i])
+	frame_dig 0 // i: uint64
+	txnas ApplicationArgs
+	log
+
+*for_1_continue:
+	// tests/contracts/general.algo.ts:511
+	// i += 1
+	frame_dig 0 // i: uint64
+	int 1
+	+
+	frame_bury 0 // i: uint64
+	b *for_1
+
+*for_1_end:
 	retsub
 
 *abi_route_createApplication:

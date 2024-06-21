@@ -6489,10 +6489,23 @@ export default class Compiler {
 
       // Handle the case when an imediate array index is needed ie. txna ApplicationArgs i
       if (lastTypeStr.startsWith('ImmediateArray:')) {
-        this.push(n, `${this.teal[this.currentProgram].pop()!.teal} ${n.getArgumentExpression()?.getText()}`, {
-          kind: 'base',
-          type: lastTypeStr.replace('ImmediateArray: ', ''),
-        });
+        if (n.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) {
+          this.push(n, `${this.teal[this.currentProgram].pop()!.teal} ${n.getArgumentExpression()?.getText()}`, {
+            kind: 'base',
+            type: lastTypeStr.replace('ImmediateArray: ', ''),
+          });
+        } else if (n.getArgumentExpression()) {
+          const opcode = `${this.teal[this.currentProgram].at(-1)!.teal}`.split(' ')[0];
+          const field = `${this.teal[this.currentProgram].at(-1)!.teal}`.split(' ')[1];
+          this.teal[this.currentProgram].pop();
+
+          this.processNode(n.getArgumentExpression()!);
+          this.push(n, `${opcode}as ${field}`, {
+            kind: 'base',
+            type: lastTypeStr.replace('ImmediateArray: ', ''),
+          });
+        }
+
         return false;
       }
 

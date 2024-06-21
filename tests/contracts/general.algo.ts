@@ -507,5 +507,9 @@ class GeneralTest extends Contract {
   @nonABIRouterFallback.call('NoOp')
   nonAbi(): void {
     assert(this.txn.applicationArgs!.length);
+
+    for (let i = 0; i < this.txn.applicationArgs!.length; i += 1) {
+      log(this.txn.applicationArgs![i]);
+    }
   }
 }
