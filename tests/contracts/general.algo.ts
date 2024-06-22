@@ -503,4 +503,13 @@ class GeneralTest extends Contract {
     const bar = a && b === 0 ? '2' : '0';
     log(bar);
   }
+
+  @nonABIRouterFallback.call('NoOp')
+  nonAbi(): void {
+    assert(this.txn.applicationArgs!.length);
+
+    for (let i = 0; i < this.txn.applicationArgs!.length; i += 1) {
+      log(this.txn.applicationArgs![i]);
+    }
+  }
 }

@@ -5794,6 +5794,20 @@ export default class Compiler {
       return;
     }
 
+    if (
+      chain[0] &&
+      chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[0].getNameNode().getText() === 'txn' &&
+      chain[1]?.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[2]?.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
+      chain[1].getName() === 'applicationArgs' &&
+      chain[2].getName() === 'length'
+    ) {
+      this.push(chain[2], 'txn NumAppArgs', StackType.uint64);
+      chain.splice(0, 3);
+      return;
+    }
+
     // If accessing the txnGroup
     if (
       chain[0] &&
@@ -6475,10 +6489,23 @@ export default class Compiler {
 
       // Handle the case when an imediate array index is needed ie. txna ApplicationArgs i
       if (lastTypeStr.startsWith('ImmediateArray:')) {
-        this.push(n, `${this.teal[this.currentProgram].pop()!.teal} ${n.getArgumentExpression()?.getText()}`, {
-          kind: 'base',
-          type: lastTypeStr.replace('ImmediateArray: ', ''),
-        });
+        if (n.getArgumentExpression()?.isKind(ts.SyntaxKind.NumericLiteral)) {
+          this.push(n, `${this.teal[this.currentProgram].pop()!.teal} ${n.getArgumentExpression()?.getText()}`, {
+            kind: 'base',
+            type: lastTypeStr.replace('ImmediateArray: ', ''),
+          });
+        } else if (n.getArgumentExpression()) {
+          const opcode = `${this.teal[this.currentProgram].at(-1)!.teal}`.split(' ')[0];
+          const field = `${this.teal[this.currentProgram].at(-1)!.teal}`.split(' ')[1];
+          this.teal[this.currentProgram].pop();
+
+          this.processNode(n.getArgumentExpression()!);
+          this.push(n, `${opcode}as ${field}`, {
+            kind: 'base',
+            type: lastTypeStr.replace('ImmediateArray: ', ''),
+          });
+        }
+
         return false;
       }
 
