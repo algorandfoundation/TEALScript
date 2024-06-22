@@ -1348,6 +1348,13 @@ export default class Compiler {
           return;
         }
 
+        // Dynamic array of non-static types are still ABI encoded
+        if (this.lastType.kind === 'dynamicArray') {
+          this.pushLines(n.getNameNode(), 'int 0', 'extract_uint16');
+          this.lastType = StackType.uint64;
+          return;
+        }
+
         throw Error(`Unsupported length property for type ${typeInfoToABIString(this.lastType)}`);
       },
     },
