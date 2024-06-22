@@ -1584,3 +1584,26 @@ class ABITestBoolFirstInTuple extends Contract {
     return a;
   }
 }
+
+class ABITestDynamicArrayLength extends Contract {
+  dynamicArrayLength(): uint64 {
+    const o: { a: uint64; b: uint64[] } = { a: 1, b: [1, 2, 3] };
+
+    const a: string[] = ['Hello', 'World', '!'];
+
+    return a.length + o.b.length;
+  }
+}
+
+class ABITestDynamicArrayIteration extends Contract {
+  dynamicArrayIteration(): string {
+    const a: string[] = ['Hello ', 'World', '!'];
+    let message = '';
+
+    for (let i = 0; i < a.length; i += 1) {
+      message += a[i];
+    }
+
+    return message;
+  }
+}

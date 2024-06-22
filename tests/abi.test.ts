@@ -909,4 +909,16 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'updateStaticFieldInDynamicObjectInBox')).toEqual('Hello World!');
   });
+
+  test('dynamicArrayLength', async () => {
+    const { appClient } = await compileAndCreate('dynamicArrayLength');
+
+    expect(await runMethod(appClient, 'dynamicArrayLength')).toEqual(6n);
+  });
+
+  test('dynamicArrayIteration', async () => {
+    const { appClient } = await compileAndCreate('dynamicArrayIteration');
+
+    expect(await runMethod(appClient, 'dynamicArrayIteration')).toEqual('Hello World!');
+  });
 });
