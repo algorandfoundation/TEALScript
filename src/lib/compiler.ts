@@ -7358,7 +7358,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         this.teal[program] = this.teal[program].filter((t) => !t.teal.trim().startsWith('//'));
         // eslint-disable-next-line no-console
         console.warn(
-          'The emitted TEAL was too large, likely because of comments. Removing comments from TEAL and trying again...'
+          `The emitted TEAL for ${this.name}'s ${program} program was too large. Removing comments from TEAL and trying again...`
         );
         // eslint-disable-next-line no-promise-executor-return
         await new Promise((r) => setTimeout(r, 500));
