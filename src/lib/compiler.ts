@@ -7354,6 +7354,17 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const json = await response.json();
 
     if (response.status !== 200) {
+      if ((json.message as string).includes('request body too large')) {
+        this.teal[program] = this.teal[program].filter((t) => !t.teal.trim().startsWith('//'));
+        // eslint-disable-next-line no-console
+        console.warn(
+          'The emitted TEAL was too large, likely because of comments. Removing comments from TEAL and trying again...'
+        );
+        // eslint-disable-next-line no-promise-executor-return
+        await new Promise((r) => setTimeout(r, 500));
+
+        return this.algodCompileProgram(program);
+      }
       // eslint-disable-next-line no-console
       console.error(
         this.teal[program]
