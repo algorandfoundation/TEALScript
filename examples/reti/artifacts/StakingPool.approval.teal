@@ -3965,7 +3965,7 @@ getFeeSink:
 
 	// examples/reti/stakingPool.algo.ts:956
 	// return this.feeSinkAddr;
-	pushbytes TMPL_feeSinkAddr
+	addr TMPL_feeSinkAddr
 	retsub
 
 // algoSaturationLevel(): uint64
