@@ -667,7 +667,11 @@ export default class Compiler {
             node,
             'app_global_get_ex',
             StackType.any,
-            `global state value does not exist: ${node.getText()}`
+            `global state value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         },
       },
@@ -681,7 +685,11 @@ export default class Compiler {
             node,
             'app_local_get_ex',
             StackType.any,
-            `local state value does not exist: ${node.getText()}`
+            `local state value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         },
       },
