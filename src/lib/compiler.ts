@@ -240,17 +240,26 @@ function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
   return propNode?.getName();
 }
 
-// https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
+function getDocNodeAsString(node: tsdoc.DocNode): string {
+  if (node instanceof tsdoc.DocPlainText) {
+    return node.text;
+  }
+  if (node instanceof tsdoc.DocSoftBreak) {
+    return '\n';
+  }
+  if (node instanceof tsdoc.DocParagraph) {
+    return `${node.getChildNodes().map(getDocNodeAsString).join('')}\n`;
+  }
+  // Handle other types of nodes if needed
+  return '';
+}
+
 function renderDocNode(docNode: tsdoc.DocNode): string {
   let result: string = '';
   if (docNode) {
-    if (docNode instanceof tsdoc.DocExcerpt) {
-      result += docNode.content.toString();
-    }
-
     // eslint-disable-next-line no-restricted-syntax
     for (const childNode of docNode.getChildNodes()) {
-      result += renderDocNode(childNode);
+      result += getDocNodeAsString(childNode);
     }
   }
   return result.trim();
