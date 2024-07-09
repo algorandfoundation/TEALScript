@@ -240,17 +240,26 @@ function getStorageName(node: ts.PropertyAccessExpression | ts.CallExpression) {
   return propNode?.getName();
 }
 
-// https://github.com/microsoft/tsdoc/blob/main/api-demo/src/Formatter.ts#L7-L18
+function getDocNodeAsString(node: tsdoc.DocNode): string {
+  if (node instanceof tsdoc.DocPlainText) {
+    return node.text;
+  }
+  if (node instanceof tsdoc.DocSoftBreak) {
+    return '\n';
+  }
+  if (node instanceof tsdoc.DocParagraph) {
+    return `${node.getChildNodes().map(getDocNodeAsString).join('')}\n`;
+  }
+  // Handle other types of nodes if needed
+  return '';
+}
+
 function renderDocNode(docNode: tsdoc.DocNode): string {
   let result: string = '';
   if (docNode) {
-    if (docNode instanceof tsdoc.DocExcerpt) {
-      result += docNode.content.toString();
-    }
-
     // eslint-disable-next-line no-restricted-syntax
     for (const childNode of docNode.getChildNodes()) {
-      result += renderDocNode(childNode);
+      result += getDocNodeAsString(childNode);
     }
   }
   return result.trim();
@@ -667,7 +676,11 @@ export default class Compiler {
             node,
             'app_global_get_ex',
             StackType.any,
-            `global state value does not exist: ${node.getText()}`
+            `global state value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         },
       },
@@ -681,7 +694,11 @@ export default class Compiler {
             node,
             'app_local_get_ex',
             StackType.any,
-            `local state value does not exist: ${node.getText()}`
+            `local state value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         },
       },
@@ -5871,6 +5888,8 @@ export default class Compiler {
       const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
       if (isNumeric(type)) {
         this.push(chain[0], `pushint TMPL_${name}`, type);
+      } else if (type.kind === 'base' && type.type === 'address') {
+        this.push(chain[0], `addr TMPL_${name}`, type);
       } else {
         this.push(chain[0], `pushbytes TMPL_${name}`, type);
       }
@@ -7320,7 +7339,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       .map((t) => t.teal)
       .map((t) => {
         // Replace template variables
-        if (t.match(/push(int|bytes) TMPL_/)) {
+        if (t.trim().match(/^push(int|bytes) TMPL_/) || t.trim().startsWith('addr TMPL_')) {
           const [opcode, arg] = t.trim().split(' ');
           if (opcode === 'pushint') return 'pushint 0';
 
@@ -7328,9 +7347,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type)) return 'byte 0x';
+          if (this.isDynamicType(tVar.type)) return 'pushbytes 0x';
 
-          return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
+          return `pushbytes 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
 
         // Remove comments to avoid taking up space in the request body
@@ -7354,6 +7373,17 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     const json = await response.json();
 
     if (response.status !== 200) {
+      if ((json.message as string).includes('request body too large')) {
+        this.teal[program] = this.teal[program].filter((t) => !t.teal.trim().startsWith('//'));
+        // eslint-disable-next-line no-console
+        console.warn(
+          `The emitted TEAL for ${this.name}'s ${program} program was too large. Removing comments from TEAL and trying again...`
+        );
+        // eslint-disable-next-line no-promise-executor-return
+        await new Promise((r) => setTimeout(r, 500));
+
+        return this.algodCompileProgram(program);
+      }
       // eslint-disable-next-line no-console
       console.error(
         this.teal[program]

@@ -512,4 +512,14 @@ class GeneralTest extends Contract {
       log(this.txn.applicationArgs![i]);
     }
   }
+
+  multilineFunctionCall(): void {
+    const app = AppID.zeroIndex;
+    const addr = Address.zeroAddress;
+    // eslint-disable-next-line prettier/prettier
+    app.localState(
+      addr, 
+      'key'
+    ) as uint64;
+  }
 }
