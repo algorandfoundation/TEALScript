@@ -3048,7 +3048,13 @@ export default class Compiler {
         const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
 
         if (nonAbi) {
-          this.pushLines(this.classNode, '// !!!! WARNING: non-ABI routing', `callsub ${nonAbi.name}`);
+          this.pushLines(
+            this.classNode,
+            '// !!!! WARNING: non-ABI routing',
+            `callsub ${nonAbi.name}`,
+            'int 1',
+            'return'
+          );
         } else {
           this.pushVoid(
             this.classNode,

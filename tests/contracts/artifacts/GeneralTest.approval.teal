@@ -2789,6 +2789,8 @@ multilineFunctionCall:
 
 	// !!!! WARNING: non-ABI routing
 	callsub nonAbi
+	int 1
+	return
 
 *intToAscii:
 	proto 1 1

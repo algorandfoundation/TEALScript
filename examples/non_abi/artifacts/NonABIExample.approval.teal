@@ -113,3 +113,5 @@ nonAbiAdd:
 
 	// !!!! WARNING: non-ABI routing
 	callsub nonAbiAdd
+	int 1
+	return
