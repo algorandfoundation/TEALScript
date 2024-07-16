@@ -3505,6 +3505,7 @@ export default class Compiler {
 
       if (consecutiveBools) {
         offset += Math.ceil(consecutiveBools / 8);
+        consecutiveBools = 0;
       }
 
       if (ti.kind === 'tuple' || ti.kind === 'object') {

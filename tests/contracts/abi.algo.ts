@@ -1607,3 +1607,21 @@ class ABITestDynamicArrayIteration extends Contract {
     return message;
   }
 }
+
+type T9 = {
+  a: boolean;
+  b: uint64;
+  c: uint64;
+};
+
+class ABITestPostBoolTupleOffset extends Contract {
+  postBoolTupleOffset(): T9 {
+    const retVal: T9 = { a: false, b: 0, c: 0 };
+
+    retVal.a = true;
+    retVal.b = 1;
+    retVal.c = 2;
+
+    return retVal;
+  }
+}
