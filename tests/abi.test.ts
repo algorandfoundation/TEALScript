@@ -921,4 +921,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'dynamicArrayIteration')).toEqual('Hello World!');
   });
+
+  test('postBoolTupleOffset', async () => {
+    const { appClient } = await compileAndCreate('postBoolTupleOffset');
+
+    expect(await runMethod(appClient, 'postBoolTupleOffset')).toEqual([true, 1n, 2n]);
+  });
 });
