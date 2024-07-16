@@ -3016,7 +3016,9 @@ export default class Compiler {
           return subroutine.allows[a as 'call'].includes(onComplete);
         });
 
-        if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined) {
+        const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
+
+        if (methods.length === 0 && this.bareCallConfig[onComplete] === undefined && nonAbi === undefined) {
           this.teal[this.currentProgram][switchIndex].teal = this.teal[this.currentProgram][switchIndex].teal.replace(
             `*${a}_${onComplete}`,
             '*NOT_IMPLEMENTED'
@@ -3030,8 +3032,12 @@ export default class Compiler {
           this.pushLines(this.classNode, 'txn NumAppArgs', `bz *abi_route_${this.bareCallConfig[onComplete]!.method}`);
         }
 
-        if (methods.length === 0) {
-          this.pushVoid(this.classNode, 'err', 'this contract does not implement any ABI methods');
+        if (methods.length === 0 && nonAbi === undefined) {
+          this.pushVoid(
+            this.classNode,
+            'err',
+            `this contract does not implement any ABI methods for ${onComplete} ${a}`
+          );
           return;
         }
 
@@ -3039,16 +3045,22 @@ export default class Compiler {
           this.pushMethod(this.subroutines.find((s) => s.name === m.name)!.node);
         });
 
-        this.pushLines(
-          this.classNode,
-          'txna ApplicationArgs 0',
-          `match ${methods.map((m) => `*abi_route_${m.name}`).join(' ')}`
-        );
-
-        const nonAbi = this.subroutines.find((s) => s.nonAbi[a as 'call' | 'create'].includes(onComplete));
+        if (methods.length > 0) {
+          this.pushLines(
+            this.classNode,
+            'txna ApplicationArgs 0',
+            `match ${methods.map((m) => `*abi_route_${m.name}`).join(' ')}`
+          );
+        }
 
         if (nonAbi) {
-          this.pushLines(this.classNode, '// !!!! WARNING: non-ABI routing', `callsub ${nonAbi.name}`);
+          this.pushLines(
+            this.classNode,
+            '// !!!! WARNING: non-ABI routing',
+            `callsub ${nonAbi.name}`,
+            'int 1',
+            'return'
+          );
         } else {
           this.pushVoid(
             this.classNode,
@@ -3493,6 +3505,7 @@ export default class Compiler {
 
       if (consecutiveBools) {
         offset += Math.ceil(consecutiveBools / 8);
+        consecutiveBools = 0;
       }
 
       if (ti.kind === 'tuple' || ti.kind === 'object') {
