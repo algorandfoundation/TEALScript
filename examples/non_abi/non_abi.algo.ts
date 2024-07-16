@@ -16,4 +16,9 @@ class NonABIExample extends Contract {
     const y = btoi(this.txn.applicationArgs![1]);
     log(itob(this.add(x, y)));
   }
+
+  @nonABIRouterFallback.call('UpdateApplication')
+  nonAbiUpdate(): void {
+    log('Updated!');
+  }
 }
