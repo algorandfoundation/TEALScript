@@ -5901,8 +5901,6 @@ export default class Compiler {
       const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
       if (isNumeric(type)) {
         this.push(chain[0], `pushint TMPL_${name}`, type);
-      } else if (type.kind === 'base' && type.type === 'address') {
-        this.push(chain[0], `addr TMPL_${name}`, type);
       } else {
         this.push(chain[0], `pushbytes TMPL_${name}`, type);
       }
@@ -7352,7 +7350,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       .map((t) => t.teal)
       .map((t) => {
         // Replace template variables
-        if (t.trim().match(/^push(int|bytes) TMPL_/) || t.trim().startsWith('addr TMPL_')) {
+        if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
           if (opcode === 'pushint') return 'pushint 0';
 
@@ -7360,9 +7358,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type)) return 'pushbytes 0x';
+          if (this.isDynamicType(tVar.type)) return 'byte 0x';
 
-          return `pushbytes 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
+          return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
 
         // Remove comments to avoid taking up space in the request body
