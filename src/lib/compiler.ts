@@ -7389,22 +7389,23 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         // Replace template variables
         if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
-          if (opcode === 'pushint') return 'pushint 0';
 
           const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type)) {
+          if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
             if (program === 'lsig' || program === 'approval') {
               console.warn(
                 `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                   tVar.type
-                )}) source mapping will not be supported`
+                )}) PC values will not be included in the emitted source mapping`
               );
 
               this.hasDynamicTemplateVar = true;
             }
+
+            if (opcode === 'pushint') return 'pushint 0';
             return 'byte 0x';
           }
 
