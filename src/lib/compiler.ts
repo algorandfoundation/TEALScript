@@ -7494,6 +7494,48 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       addrLine.teal += ` ${json.hash}`;
     }
 
+    // Now dissasemble the program to get a mapping of source -> dissasembled TEAL
+
+    const disassembleResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/disassemble`, {
+      method: 'POST',
+      headers: {
+        'X-Algo-API-Token': this.algodToken,
+      },
+      body: Buffer.from(json.result, 'base64'),
+    });
+
+    const dissasembleJson = await disassembleResponse.json();
+
+    const recompileResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-Algo-API-Token': this.algodToken,
+      },
+      body: dissasembleJson.result,
+    });
+
+    const recompiledJson = await recompileResponse.json();
+
+    if (recompileResponse.status !== 200) {
+      throw new Error(`Error when compiling disassembled program: ${response.statusText}: ${recompiledJson.message}`);
+    }
+
+    const recompiledMapping = await getSourceMap(recompiledJson.sourcemap.mappings);
+
+    // Look at both recompiledMapping and mapping and find the mapping of source teal -> recompiled teal line
+    Object.keys(recompiledMapping.pcToLine).forEach((pcKey) => {
+      const pc = Number(pcKey);
+      const recompiledLine = recompiledMapping.pcToLine[pc];
+      const originalLine = mapping.pcToLine[pc];
+
+      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine);
+
+      if (sourceInfo) {
+        sourceInfo.disassembledTeal = recompiledLine;
+      }
+    });
+
     return json;
   }
 
