@@ -749,6 +749,8 @@ export default class Compiler {
     commitHash: string;
   };
 
+  hasDynamicTemplateVar: boolean = false;
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -7358,7 +7360,18 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type)) return 'byte 0x';
+          if (this.isDynamicType(tVar.type)) {
+            if (program === 'lsig' || program === 'approval') {
+              console.warn(
+                `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
+                  tVar.type
+                )}) source mapping will not be supported`
+              );
+
+              this.hasDynamicTemplateVar = true;
+            }
+            return 'byte 0x';
+          }
 
           return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
@@ -7390,10 +7403,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         console.warn(
           `The emitted TEAL for ${this.name}'s ${program} program was too large. Removing comments from TEAL and trying again...`
         );
-        // eslint-disable-next-line no-promise-executor-return
-        await new Promise((r) => setTimeout(r, 500));
 
-        return this.algodCompileProgram(program);
+        // For some reason without awaiting explicitly here ConnectionClosed will be thrown
+        // eslint-disable-next-line no-return-await
+        return await this.algodCompileProgram(program);
       }
       // eslint-disable-next-line no-console
       console.error(
@@ -7430,33 +7443,35 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     if (program === 'clear') return json;
 
-    const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
-      const decoded = vlq.decode(m);
-      if (decoded.length > 2) return decoded[2];
-      return undefined;
-    });
+    if (!this.hasDynamicTemplateVar) {
+      const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
+        const decoded = vlq.decode(m);
+        if (decoded.length > 2) return decoded[2];
+        return undefined;
+      });
 
-    let lastLine = 0;
+      let lastLine = 0;
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [pc, lineDelta] of pcList.entries()) {
-      // If the delta is not undefined, the lastLine should be updated with
-      // lastLine + the delta
-      if (lineDelta !== undefined) {
-        lastLine += lineDelta;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [pc, lineDelta] of pcList.entries()) {
+        // If the delta is not undefined, the lastLine should be updated with
+        // lastLine + the delta
+        if (lineDelta !== undefined) {
+          lastLine += lineDelta;
+        }
+
+        if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
+
+        this.lineToPc[lastLine].push(pc);
+
+        this.pcToLine[pc] = lastLine;
       }
 
-      if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
-
-      this.lineToPc[lastLine].push(pc);
-
-      this.pcToLine[pc] = lastLine;
+      this.sourceInfo.forEach((sm) => {
+        // eslint-disable-next-line no-param-reassign
+        sm.pc = this.lineToPc[sm.teal - 1];
+      });
     }
-
-    this.sourceInfo.forEach((sm) => {
-      // eslint-disable-next-line no-param-reassign
-      sm.pc = this.lineToPc[sm.teal - 1];
-    });
 
     if (program === 'lsig') {
       const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
