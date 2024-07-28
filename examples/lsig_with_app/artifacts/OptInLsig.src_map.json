@@ -1,218 +1,238 @@
 [
   {
     "teal": 1,
-    "source": 8
+    "source": 8,
+    "disassembledTeal": 1
   },
   {
     "teal": 9,
-    "source": 8
+    "source": 8,
+    "disassembledTeal": 2
   },
   {
     "teal": 14,
     "source": 12,
-    "disassembledTeal": 5
+    "disassembledTeal": 4
   },
   {
     "teal": 15,
     "source": 12,
-    "disassembledTeal": 6
+    "disassembledTeal": 5
   },
   {
     "teal": 16,
-    "source": 12
+    "source": 12,
+    "disassembledTeal": 6
   },
   {
     "teal": 22,
-    "source": 12
+    "source": 12,
+    "disassembledTeal": 8
   },
   {
     "teal": 25,
-    "source": 12
+    "source": 12,
+    "disassembledTeal": 9
   },
   {
     "teal": 40,
     "source": 14,
-    "disassembledTeal": 11
+    "disassembledTeal": 10
   },
   {
     "teal": 41,
     "source": 14,
-    "disassembledTeal": 12
+    "disassembledTeal": 11
   },
   {
     "teal": 42,
-    "source": 14
+    "source": 14,
+    "disassembledTeal": 12
   },
   {
     "teal": 45,
     "source": 14,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
+    "disassembledTeal": 13
   },
   {
     "teal": 48,
     "source": 15,
-    "disassembledTeal": 15
+    "disassembledTeal": 14
   },
   {
     "teal": 49,
     "source": 15,
-    "disassembledTeal": 16
+    "disassembledTeal": 15
   },
   {
     "teal": 50,
-    "source": 15
+    "source": 15,
+    "disassembledTeal": 16
   },
   {
     "teal": 53,
     "source": 15,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
+    "disassembledTeal": 17
   },
   {
     "teal": 56,
     "source": 16,
-    "disassembledTeal": 19
+    "disassembledTeal": 18
   },
   {
     "teal": 57,
     "source": 16,
-    "disassembledTeal": 20
+    "disassembledTeal": 19
   },
   {
     "teal": 58,
-    "source": 16
+    "source": 16,
+    "disassembledTeal": 20
   },
   {
     "teal": 61,
     "source": 16,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
+    "disassembledTeal": 21
   },
   {
     "teal": 64,
     "source": 19,
-    "disassembledTeal": 23
+    "disassembledTeal": 22
   },
   {
     "teal": 65,
     "source": 19,
-    "disassembledTeal": 24
+    "disassembledTeal": 23
   },
   {
     "teal": 66,
-    "source": 19
+    "source": 19,
+    "disassembledTeal": 24
   },
   {
     "teal": 69,
     "source": 19,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
+    "disassembledTeal": 25
   },
   {
     "teal": 72,
     "source": 21,
-    "disassembledTeal": 27
+    "disassembledTeal": 26
   },
   {
     "teal": 73,
     "source": 21,
-    "disassembledTeal": 28
+    "disassembledTeal": 27
   },
   {
     "teal": 74,
-    "source": 21
+    "source": 21,
+    "disassembledTeal": 28
   },
   {
     "teal": 77,
     "source": 21,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
+    "disassembledTeal": 29
   },
   {
     "teal": 80,
     "source": 23,
-    "disassembledTeal": 31
+    "disassembledTeal": 30
   },
   {
     "teal": 81,
     "source": 23,
-    "disassembledTeal": 32
+    "disassembledTeal": 31
   },
   {
     "teal": 82,
-    "source": 23
+    "source": 23,
+    "disassembledTeal": 32
   },
   {
     "teal": 85,
     "source": 23,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}"
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
+    "disassembledTeal": 33
   },
   {
     "teal": 89,
     "source": 26,
-    "disassembledTeal": 35
+    "disassembledTeal": 34
   },
   {
     "teal": 90,
     "source": 26,
-    "disassembledTeal": 36
+    "disassembledTeal": 35
   },
   {
     "teal": 91,
     "source": 26,
-    "disassembledTeal": 37
+    "disassembledTeal": 36
   },
   {
     "teal": 92,
-    "source": 26
+    "source": 26,
+    "disassembledTeal": 37
   },
   {
     "teal": 96,
     "source": 29,
-    "disassembledTeal": 39
+    "disassembledTeal": 38
   },
   {
     "teal": 97,
     "source": 29,
-    "disassembledTeal": 40
+    "disassembledTeal": 39
   },
   {
     "teal": 98,
     "source": 29,
-    "disassembledTeal": 41
+    "disassembledTeal": 40
   },
   {
     "teal": 99,
     "source": 29,
-    "disassembledTeal": 42
+    "disassembledTeal": 41
   },
   {
     "teal": 100,
-    "source": 29
+    "source": 29,
+    "disassembledTeal": 42
   },
   {
     "teal": 104,
     "source": 30,
-    "disassembledTeal": 44
+    "disassembledTeal": 43
   },
   {
     "teal": 105,
     "source": 30,
-    "disassembledTeal": 45
+    "disassembledTeal": 44
   },
   {
     "teal": 106,
     "source": 30,
-    "disassembledTeal": 46
+    "disassembledTeal": 45
   },
   {
     "teal": 107,
     "source": 30,
-    "disassembledTeal": 47
+    "disassembledTeal": 46
   },
   {
     "teal": 108,
     "source": 30,
-    "disassembledTeal": 48
+    "disassembledTeal": 47
   },
   {
     "teal": 109,
-    "source": 12
+    "source": 12,
+    "disassembledTeal": 48
   }
 ]

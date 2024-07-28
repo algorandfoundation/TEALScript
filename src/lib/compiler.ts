@@ -534,7 +534,7 @@ export default class Compiler {
   sourceInfo: {
     source: number;
     teal: number;
-    disassembledTeal: number;
+    disassembledTeal?: number;
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -7530,11 +7530,9 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       const recompiledLine = recompiledMapping.pcToLine[pc];
       const originalLine = mapping.pcToLine[pc];
 
-      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine);
+      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine + 1);
 
-      if (sourceInfo) {
-        sourceInfo.disassembledTeal = recompiledLine;
-      }
+      if (sourceInfo) sourceInfo.disassembledTeal = recompiledLine;
     });
 
     return json;
