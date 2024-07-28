@@ -116,6 +116,40 @@ type Event = {
   argTupleType: TypeInfo;
 };
 
+async function getSourceMap(vlqMappings: string) {
+  const pcList = vlqMappings.split(';').map((m: string) => {
+    const decoded = vlq.decode(m);
+    if (decoded.length > 2) return decoded[2];
+    return undefined;
+  });
+
+  let lastLine = 0;
+
+  const mappings: {
+    pcToLine: Record<number, number>;
+    lineToPc: Record<number, number[]>;
+  } = {
+    pcToLine: {},
+    lineToPc: {},
+  };
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [pc, lineDelta] of pcList.entries()) {
+    // If the delta is not undefined, the lastLine should be updated with
+    // lastLine + the delta
+    if (lineDelta !== undefined) {
+      lastLine += lineDelta;
+    }
+
+    if (!(lastLine in mappings.lineToPc)) mappings.lineToPc[lastLine] = [];
+
+    mappings.lineToPc[lastLine].push(pc);
+
+    mappings.pcToLine[pc] = lastLine;
+  }
+  return mappings;
+}
+
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
@@ -500,6 +534,7 @@ export default class Compiler {
   sourceInfo: {
     source: number;
     teal: number;
+    disassembledTeal?: number;
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -748,6 +783,8 @@ export default class Compiler {
     patch: number;
     commitHash: string;
   };
+
+  hasDynamicTemplateVar: boolean = false;
 
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
@@ -7352,13 +7389,25 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         // Replace template variables
         if (t.match(/push(int|bytes) TMPL_/)) {
           const [opcode, arg] = t.trim().split(' ');
-          if (opcode === 'pushint') return 'pushint 0';
 
           const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type)) return 'byte 0x';
+          if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
+            if (program === 'lsig' || program === 'approval') {
+              console.warn(
+                `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
+                  tVar.type
+                )}) PC values will not be included in the emitted source mapping`
+              );
+
+              this.hasDynamicTemplateVar = true;
+            }
+
+            if (opcode === 'pushint') return 'pushint 0';
+            return 'byte 0x';
+          }
 
           return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
         }
@@ -7390,10 +7439,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         console.warn(
           `The emitted TEAL for ${this.name}'s ${program} program was too large. Removing comments from TEAL and trying again...`
         );
-        // eslint-disable-next-line no-promise-executor-return
-        await new Promise((r) => setTimeout(r, 500));
 
-        return this.algodCompileProgram(program);
+        // For some reason without awaiting explicitly here ConnectionClosed will be thrown
+        // eslint-disable-next-line no-return-await
+        return await this.algodCompileProgram(program);
       }
       // eslint-disable-next-line no-console
       console.error(
@@ -7430,38 +7479,61 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     if (program === 'clear') return json;
 
-    const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
-      const decoded = vlq.decode(m);
-      if (decoded.length > 2) return decoded[2];
-      return undefined;
-    });
+    const mapping = await getSourceMap(json.sourcemap.mappings);
 
-    let lastLine = 0;
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [pc, lineDelta] of pcList.entries()) {
-      // If the delta is not undefined, the lastLine should be updated with
-      // lastLine + the delta
-      if (lineDelta !== undefined) {
-        lastLine += lineDelta;
-      }
-
-      if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
-
-      this.lineToPc[lastLine].push(pc);
-
-      this.pcToLine[pc] = lastLine;
+    this.lineToPc = mapping.lineToPc;
+    this.pcToLine = mapping.pcToLine;
+    if (!this.hasDynamicTemplateVar) {
+      this.sourceInfo.forEach((sm) => {
+        // eslint-disable-next-line no-param-reassign
+        sm.pc = this.lineToPc[sm.teal - 1];
+      });
     }
-
-    this.sourceInfo.forEach((sm) => {
-      // eslint-disable-next-line no-param-reassign
-      sm.pc = this.lineToPc[sm.teal - 1];
-    });
 
     if (program === 'lsig') {
       const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
       addrLine.teal += ` ${json.hash}`;
     }
+
+    // Now dissasemble the program to get a mapping of source -> dissasembled TEAL
+
+    const disassembleResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/disassemble`, {
+      method: 'POST',
+      headers: {
+        'X-Algo-API-Token': this.algodToken,
+      },
+      body: Buffer.from(json.result, 'base64'),
+    });
+
+    const dissasembleJson = await disassembleResponse.json();
+
+    const recompileResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-Algo-API-Token': this.algodToken,
+      },
+      body: dissasembleJson.result,
+    });
+
+    const recompiledJson = await recompileResponse.json();
+
+    if (recompileResponse.status !== 200) {
+      throw new Error(`Error when compiling disassembled program: ${response.statusText}: ${recompiledJson.message}`);
+    }
+
+    const recompiledMapping = await getSourceMap(recompiledJson.sourcemap.mappings);
+
+    // Look at both recompiledMapping and mapping and find the mapping of source teal -> recompiled teal line
+    Object.keys(recompiledMapping.pcToLine).forEach((pcKey) => {
+      const pc = Number(pcKey);
+      const recompiledLine = recompiledMapping.pcToLine[pc];
+      const originalLine = mapping.pcToLine[pc];
+
+      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine + 1);
+
+      if (sourceInfo) sourceInfo.disassembledTeal = recompiledLine;
+    });
 
     return json;
   }
