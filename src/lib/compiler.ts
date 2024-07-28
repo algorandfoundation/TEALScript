@@ -116,6 +116,40 @@ type Event = {
   argTupleType: TypeInfo;
 };
 
+async function getSourceMap(vlqMappings: string) {
+  const pcList = vlqMappings.split(';').map((m: string) => {
+    const decoded = vlq.decode(m);
+    if (decoded.length > 2) return decoded[2];
+    return undefined;
+  });
+
+  let lastLine = 0;
+
+  const mappings: {
+    pcToLine: Record<number, number>;
+    lineToPc: Record<number, number[]>;
+  } = {
+    pcToLine: {},
+    lineToPc: {},
+  };
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [pc, lineDelta] of pcList.entries()) {
+    // If the delta is not undefined, the lastLine should be updated with
+    // lastLine + the delta
+    if (lineDelta !== undefined) {
+      lastLine += lineDelta;
+    }
+
+    if (!(lastLine in mappings.lineToPc)) mappings.lineToPc[lastLine] = [];
+
+    mappings.lineToPc[lastLine].push(pc);
+
+    mappings.pcToLine[pc] = lastLine;
+  }
+  return mappings;
+}
+
 function typeInfoToABIString(typeInfo: TypeInfo, convertRefs: boolean = false): string {
   if (typeInfo.kind === 'base') {
     if (convertRefs && ['appreference', 'assetreference'].includes(typeInfo.type)) {
@@ -500,6 +534,7 @@ export default class Compiler {
   sourceInfo: {
     source: number;
     teal: number;
+    disassembledTeal: number;
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -7443,30 +7478,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     if (program === 'clear') return json;
 
+    const mapping = await getSourceMap(json.sourcemap.mappings);
+
+    this.lineToPc = mapping.lineToPc;
+    this.pcToLine = mapping.pcToLine;
     if (!this.hasDynamicTemplateVar) {
-      const pcList = json.sourcemap.mappings.split(';').map((m: string) => {
-        const decoded = vlq.decode(m);
-        if (decoded.length > 2) return decoded[2];
-        return undefined;
-      });
-
-      let lastLine = 0;
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [pc, lineDelta] of pcList.entries()) {
-        // If the delta is not undefined, the lastLine should be updated with
-        // lastLine + the delta
-        if (lineDelta !== undefined) {
-          lastLine += lineDelta;
-        }
-
-        if (!(lastLine in this.lineToPc)) this.lineToPc[lastLine] = [];
-
-        this.lineToPc[lastLine].push(pc);
-
-        this.pcToLine[pc] = lastLine;
-      }
-
       this.sourceInfo.forEach((sm) => {
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1];
