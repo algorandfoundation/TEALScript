@@ -5,6 +5,17 @@
 
 // This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
 
+// The following lines of TEAL are used to initialize template variables in scratch slots
+pushbytes TMPL_bytes64TmplVar
+store 203
+pushbytes TMPL_bytes32TmplVar
+store 202
+pushbytes TMPL_uint64TmplVar
+btoi
+store 201
+pushbytes TMPL_bytesTmplVar
+store 200
+
 // The following ten lines of TEAL handle initial program flow
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
@@ -35,12 +46,12 @@ tmpl:
 
 	// tests/contracts/general.algo.ts:34
 	// log(this.bytesTmplVar)
-	pushbytes TMPL_bytesTmplVar
+	load 200 // TMPL_bytesTmplVar
 	log
 
 	// tests/contracts/general.algo.ts:35
 	// assert(this.uint64TmplVar)
-	pushint TMPL_uint64TmplVar
+	load 201 // TMPL_uint64TmplVar
 	assert
 	retsub
 
@@ -57,9 +68,9 @@ specificLengthTemplateVar:
 
 	// tests/contracts/general.algo.ts:39
 	// ed25519VerifyBare(this.bytesTmplVar, this.bytes64TmplVar, this.bytes32TmplVar)
-	pushbytes TMPL_bytesTmplVar
-	pushbytes TMPL_bytes64TmplVar
-	pushbytes TMPL_bytes32TmplVar
+	load 200 // TMPL_bytesTmplVar
+	load 203 // TMPL_bytes64TmplVar
+	load 202 // TMPL_bytes32TmplVar
 	ed25519verify_bare
 	retsub
 

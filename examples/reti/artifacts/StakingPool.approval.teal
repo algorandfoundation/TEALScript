@@ -5,6 +5,13 @@
 
 // This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
 
+// The following lines of TEAL are used to initialize template variables in scratch slots
+pushbytes TMPL_feeSinkAddr
+store 201
+pushbytes TMPL_nfdRegistryAppId
+btoi
+store 200
+
 // The following ten lines of TEAL handle initial program flow
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
@@ -3697,7 +3704,7 @@ linkToNFD:
 
 	// examples/reti/stakingPool.algo.ts:917
 	// applicationID: AppID.fromUint64(this.nfdRegistryAppId)
-	pushint TMPL_nfdRegistryAppId
+	load 200 // TMPL_nfdRegistryAppId
 	itxn_field ApplicationID
 
 	// examples/reti/stakingPool.algo.ts:918
@@ -3965,7 +3972,7 @@ getFeeSink:
 
 	// examples/reti/stakingPool.algo.ts:956
 	// return this.feeSinkAddr;
-	pushbytes TMPL_feeSinkAddr
+	load 201 // TMPL_feeSinkAddr
 	retsub
 
 // algoSaturationLevel(): uint64

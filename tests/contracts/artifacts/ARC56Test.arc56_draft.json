@@ -139,467 +139,981 @@
     {
       "teal": 1,
       "source": 6,
+      "pc": [
+        0,
+        1,
+        2,
+        3
+      ],
       "disassembledTeal": 1
     },
     {
-      "teal": 13,
+      "teal": 9,
       "source": 6,
+      "pc": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
       "disassembledTeal": 2
     },
     {
-      "teal": 14,
+      "teal": 10,
       "source": 6,
+      "pc": [
+        14
+      ],
       "disassembledTeal": 3
     },
     {
-      "teal": 15,
+      "teal": 11,
       "source": 6,
+      "pc": [
+        15,
+        16
+      ],
       "disassembledTeal": 4
-    },
-    {
-      "teal": 16,
-      "source": 6,
-      "disassembledTeal": 5
-    },
-    {
-      "teal": 17,
-      "source": 6,
-      "disassembledTeal": 6
     },
     {
       "teal": 18,
       "source": 6,
-      "disassembledTeal": 7
+      "pc": [
+        17,
+        18
+      ],
+      "disassembledTeal": 5
     },
     {
       "teal": 19,
       "source": 6,
+      "pc": [
+        19
+      ],
+      "disassembledTeal": 6
+    },
+    {
+      "teal": 20,
+      "source": 6,
+      "pc": [
+        20,
+        21
+      ],
+      "disassembledTeal": 7
+    },
+    {
+      "teal": 21,
+      "source": 6,
+      "pc": [
+        22
+      ],
       "disassembledTeal": 8
+    },
+    {
+      "teal": 22,
+      "source": 6,
+      "pc": [
+        23,
+        24
+      ],
+      "disassembledTeal": 9
     },
     {
       "teal": 23,
       "source": 6,
-      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        25
+      ],
       "disassembledTeal": 10
     },
     {
+      "teal": 24,
+      "source": 6,
+      "pc": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "disassembledTeal": 11
+    },
+    {
       "teal": 28,
-      "source": 23,
-      "disassembledTeal": 12
-    },
-    {
-      "teal": 31,
-      "source": 23,
+      "source": 6,
+      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+      "pc": [
+        52
+      ],
       "disassembledTeal": 13
-    },
-    {
-      "teal": 32,
-      "source": 23,
-      "disassembledTeal": 14
     },
     {
       "teal": 33,
       "source": 23,
+      "pc": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
       "disassembledTeal": 15
     },
     {
-      "teal": 34,
+      "teal": 36,
       "source": 23,
+      "pc": [
+        59,
+        60,
+        61
+      ],
       "disassembledTeal": 16
     },
     {
-      "teal": 35,
+      "teal": 37,
       "source": 23,
+      "pc": [
+        62
+      ],
       "disassembledTeal": 17
     },
     {
       "teal": 38,
       "source": 23,
-      "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
+      "pc": [
+        63
+      ],
       "disassembledTeal": 18
     },
     {
-      "teal": 41,
+      "teal": 39,
       "source": 23,
+      "pc": [
+        64,
+        65
+      ],
       "disassembledTeal": 19
     },
     {
-      "teal": 42,
+      "teal": 40,
       "source": 23,
+      "pc": [
+        66
+      ],
       "disassembledTeal": 20
     },
     {
       "teal": 43,
       "source": 23,
+      "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
+      "pc": [
+        67
+      ],
       "disassembledTeal": 21
     },
     {
-      "teal": 44,
+      "teal": 46,
       "source": 23,
+      "pc": [
+        68,
+        69,
+        70
+      ],
       "disassembledTeal": 22
     },
     {
-      "teal": 45,
+      "teal": 47,
       "source": 23,
+      "pc": [
+        71
+      ],
       "disassembledTeal": 23
+    },
+    {
+      "teal": 48,
+      "source": 23,
+      "pc": [
+        72
+      ],
+      "disassembledTeal": 24
     },
     {
       "teal": 49,
       "source": 23,
+      "pc": [
+        73
+      ],
       "disassembledTeal": 25
     },
     {
-      "teal": 54,
-      "source": 24,
+      "teal": 50,
+      "source": 23,
+      "pc": [
+        74
+      ],
       "disassembledTeal": 26
     },
     {
-      "teal": 55,
-      "source": 24,
-      "disassembledTeal": 27
-    },
-    {
-      "teal": 56,
-      "source": 24,
+      "teal": 54,
+      "source": 23,
+      "pc": [
+        75,
+        76,
+        77
+      ],
       "disassembledTeal": 28
-    },
-    {
-      "teal": 57,
-      "source": 24,
-      "disassembledTeal": 29
-    },
-    {
-      "teal": 58,
-      "source": 24,
-      "disassembledTeal": 30
     },
     {
       "teal": 59,
       "source": 24,
-      "disassembledTeal": 31
+      "pc": [
+        78,
+        79
+      ],
+      "disassembledTeal": 29
     },
     {
       "teal": 60,
       "source": 24,
-      "disassembledTeal": 32
+      "pc": [
+        80,
+        81,
+        82
+      ],
+      "disassembledTeal": 30
     },
     {
       "teal": 61,
       "source": 24,
+      "pc": [
+        83
+      ],
+      "disassembledTeal": 31
+    },
+    {
+      "teal": 62,
+      "source": 24,
+      "pc": [
+        84,
+        85
+      ],
+      "disassembledTeal": 32
+    },
+    {
+      "teal": 63,
+      "source": 24,
+      "pc": [
+        86,
+        87,
+        88
+      ],
       "disassembledTeal": 33
+    },
+    {
+      "teal": 64,
+      "source": 24,
+      "pc": [
+        89
+      ],
+      "disassembledTeal": 34
     },
     {
       "teal": 65,
       "source": 24,
-      "errorMessage": "subtract.a must be greater than subtract.b",
-      "disassembledTeal": 34
+      "pc": [
+        90
+      ],
+      "disassembledTeal": 35
     },
     {
-      "teal": 70,
-      "source": 26,
+      "teal": 66,
+      "source": 24,
+      "pc": [
+        91,
+        92,
+        93
+      ],
       "disassembledTeal": 36
     },
     {
-      "teal": 71,
-      "source": 26,
+      "teal": 70,
+      "source": 24,
+      "errorMessage": "subtract.a must be greater than subtract.b",
+      "pc": [
+        94
+      ],
       "disassembledTeal": 37
     },
     {
-      "teal": 72,
+      "teal": 75,
       "source": 26,
-      "disassembledTeal": 38
-    },
-    {
-      "teal": 76,
-      "source": 27,
+      "pc": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105
+      ],
       "disassembledTeal": 39
     },
     {
-      "teal": 77,
-      "source": 27,
+      "teal": 76,
+      "source": 26,
+      "pc": [
+        106,
+        107
+      ],
       "disassembledTeal": 40
     },
     {
-      "teal": 78,
-      "source": 27,
+      "teal": 77,
+      "source": 26,
+      "pc": [
+        108
+      ],
       "disassembledTeal": 41
     },
     {
-      "teal": 85,
-      "source": 30,
+      "teal": 81,
+      "source": 27,
+      "pc": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116
+      ],
       "disassembledTeal": 42
     },
     {
-      "teal": 86,
-      "source": 30,
+      "teal": 82,
+      "source": 27,
+      "pc": [
+        117,
+        118,
+        119,
+        120,
+        121,
+        122
+      ],
       "disassembledTeal": 43
     },
     {
-      "teal": 87,
-      "source": 30,
+      "teal": 83,
+      "source": 27,
+      "pc": [
+        123
+      ],
       "disassembledTeal": 44
-    },
-    {
-      "teal": 88,
-      "source": 30,
-      "disassembledTeal": 45
-    },
-    {
-      "teal": 89,
-      "source": 30,
-      "disassembledTeal": 46
     },
     {
       "teal": 90,
       "source": 30,
-      "disassembledTeal": 47
+      "pc": [
+        124,
+        125
+      ],
+      "disassembledTeal": 45
     },
     {
       "teal": 91,
       "source": 30,
-      "disassembledTeal": 48
+      "pc": [
+        126,
+        127,
+        128
+      ],
+      "disassembledTeal": 46
     },
     {
       "teal": 92,
       "source": 30,
-      "disassembledTeal": 49
+      "pc": [
+        129
+      ],
+      "disassembledTeal": 47
     },
     {
       "teal": 93,
-      "source": 31,
-      "disassembledTeal": 50
+      "source": 30,
+      "pc": [
+        130,
+        131
+      ],
+      "disassembledTeal": 48
     },
     {
       "teal": 94,
-      "source": 31,
-      "disassembledTeal": 51
+      "source": 30,
+      "pc": [
+        132,
+        133,
+        134
+      ],
+      "disassembledTeal": 49
     },
     {
       "teal": 95,
-      "source": 31,
-      "disassembledTeal": 52
+      "source": 30,
+      "pc": [
+        135
+      ],
+      "disassembledTeal": 50
     },
     {
       "teal": 96,
-      "source": 31,
-      "disassembledTeal": 53
+      "source": 30,
+      "pc": [
+        136
+      ],
+      "disassembledTeal": 51
     },
     {
       "teal": 97,
-      "source": 31,
-      "disassembledTeal": 54
+      "source": 30,
+      "pc": [
+        137
+      ],
+      "disassembledTeal": 52
     },
     {
       "teal": 98,
       "source": 31,
-      "disassembledTeal": 55
+      "pc": [
+        138,
+        139
+      ],
+      "disassembledTeal": 53
     },
     {
       "teal": 99,
       "source": 31,
-      "disassembledTeal": 56
+      "pc": [
+        140,
+        141,
+        142
+      ],
+      "disassembledTeal": 54
     },
     {
       "teal": 100,
       "source": 31,
-      "disassembledTeal": 57
+      "pc": [
+        143
+      ],
+      "disassembledTeal": 55
     },
     {
       "teal": 101,
       "source": 31,
-      "disassembledTeal": 58
+      "pc": [
+        144,
+        145
+      ],
+      "disassembledTeal": 56
     },
     {
       "teal": 102,
-      "source": 23,
+      "source": 31,
+      "pc": [
+        146,
+        147,
+        148
+      ],
+      "disassembledTeal": 57
+    },
+    {
+      "teal": 103,
+      "source": 31,
+      "pc": [
+        149
+      ],
+      "disassembledTeal": 58
+    },
+    {
+      "teal": 104,
+      "source": 31,
+      "pc": [
+        150
+      ],
       "disassembledTeal": 59
     },
     {
-      "teal": 107,
-      "source": 35,
+      "teal": 105,
+      "source": 31,
+      "pc": [
+        151
+      ],
+      "disassembledTeal": 60
+    },
+    {
+      "teal": 106,
+      "source": 31,
+      "pc": [
+        152
+      ],
       "disassembledTeal": 61
     },
     {
-      "teal": 108,
-      "source": 35,
+      "teal": 107,
+      "source": 23,
+      "pc": [
+        153
+      ],
       "disassembledTeal": 62
     },
     {
-      "teal": 109,
+      "teal": 112,
       "source": 35,
-      "disassembledTeal": 63
+      "pc": [
+        154,
+        155,
+        156
+      ],
+      "disassembledTeal": 64
     },
     {
       "teal": 113,
       "source": 35,
+      "pc": [
+        157
+      ],
       "disassembledTeal": 65
     },
     {
-      "teal": 117,
-      "source": 36,
+      "teal": 114,
+      "source": 35,
+      "pc": [
+        158
+      ],
       "disassembledTeal": 66
     },
     {
       "teal": 118,
-      "source": 36,
-      "disassembledTeal": 67
-    },
-    {
-      "teal": 119,
-      "source": 36,
+      "source": 35,
+      "pc": [
+        159,
+        160,
+        161
+      ],
       "disassembledTeal": 68
     },
     {
-      "teal": 120,
+      "teal": 122,
       "source": 36,
+      "pc": [
+        162,
+        163
+      ],
       "disassembledTeal": 69
     },
     {
-      "teal": 124,
-      "source": 37,
+      "teal": 123,
+      "source": 36,
+      "pc": [
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173
+      ],
       "disassembledTeal": 70
     },
     {
-      "teal": 125,
-      "source": 37,
+      "teal": 124,
+      "source": 36,
+      "pc": [
+        174,
+        175
+      ],
       "disassembledTeal": 71
     },
     {
-      "teal": 126,
-      "source": 37,
+      "teal": 125,
+      "source": 36,
+      "pc": [
+        176
+      ],
       "disassembledTeal": 72
     },
     {
-      "teal": 127,
+      "teal": 129,
       "source": 37,
+      "pc": [
+        177,
+        178
+      ],
       "disassembledTeal": 73
     },
     {
-      "teal": 131,
-      "source": 38,
+      "teal": 130,
+      "source": 37,
+      "pc": [
+        179,
+        180,
+        181,
+        182,
+        183,
+        184
+      ],
       "disassembledTeal": 74
     },
     {
-      "teal": 132,
-      "source": 38,
+      "teal": 131,
+      "source": 37,
+      "pc": [
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191
+      ],
       "disassembledTeal": 75
     },
     {
-      "teal": 133,
-      "source": 38,
+      "teal": 132,
+      "source": 37,
+      "pc": [
+        192
+      ],
       "disassembledTeal": 76
-    },
-    {
-      "teal": 134,
-      "source": 38,
-      "disassembledTeal": 77
-    },
-    {
-      "teal": 135,
-      "source": 38,
-      "disassembledTeal": 78
     },
     {
       "teal": 136,
       "source": 38,
+      "pc": [
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200
+      ],
+      "disassembledTeal": 77
+    },
+    {
+      "teal": 137,
+      "source": 38,
+      "pc": [
+        201
+      ],
+      "disassembledTeal": 78
+    },
+    {
+      "teal": 138,
+      "source": 38,
+      "pc": [
+        202
+      ],
       "disassembledTeal": 79
     },
     {
-      "teal": 140,
-      "source": 39,
+      "teal": 139,
+      "source": 38,
+      "pc": [
+        203
+      ],
       "disassembledTeal": 80
     },
     {
-      "teal": 141,
-      "source": 39,
+      "teal": 140,
+      "source": 38,
+      "pc": [
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210
+      ],
       "disassembledTeal": 81
     },
     {
-      "teal": 142,
-      "source": 39,
+      "teal": 141,
+      "source": 38,
+      "pc": [
+        211
+      ],
       "disassembledTeal": 82
     },
     {
-      "teal": 143,
-      "source": 35,
+      "teal": 145,
+      "source": 39,
+      "pc": [
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246
+      ],
       "disassembledTeal": 83
     },
     {
       "teal": 146,
-      "source": 6,
-      "disassembledTeal": 85
+      "source": 39,
+      "pc": [
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264
+      ],
+      "disassembledTeal": 84
     },
     {
       "teal": 147,
-      "source": 6,
-      "disassembledTeal": 86
+      "source": 39,
+      "pc": [
+        265
+      ],
+      "disassembledTeal": 85
     },
     {
-      "teal": 150,
-      "source": 6,
-      "disassembledTeal": 88
+      "teal": 148,
+      "source": 35,
+      "pc": [
+        266
+      ],
+      "disassembledTeal": 86
     },
     {
       "teal": 151,
       "source": 6,
-      "disassembledTeal": 89
+      "pc": [
+        267
+      ],
+      "disassembledTeal": 88
     },
     {
       "teal": 152,
       "source": 6,
-      "disassembledTeal": 90
+      "pc": [
+        268
+      ],
+      "disassembledTeal": 89
     },
     {
       "teal": 155,
       "source": 6,
-      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        269,
+        270,
+        271,
+        272,
+        273,
+        274
+      ],
       "disassembledTeal": 91
     },
     {
-      "teal": 158,
+      "teal": 156,
       "source": 6,
-      "disassembledTeal": 93
+      "pc": [
+        275,
+        276,
+        277
+      ],
+      "disassembledTeal": 92
     },
     {
-      "teal": 159,
+      "teal": 157,
       "source": 6,
-      "disassembledTeal": 94
+      "pc": [
+        278,
+        279,
+        280,
+        281
+      ],
+      "disassembledTeal": 93
     },
     {
       "teal": 160,
       "source": 6,
-      "disassembledTeal": 95
+      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+      "pc": [
+        282
+      ],
+      "disassembledTeal": 94
     },
     {
       "teal": 163,
       "source": 6,
-      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        283,
+        284,
+        285,
+        286,
+        287,
+        288
+      ],
       "disassembledTeal": 96
     },
     {
-      "teal": 166,
+      "teal": 164,
       "source": 6,
-      "disassembledTeal": 98
+      "pc": [
+        289,
+        290,
+        291
+      ],
+      "disassembledTeal": 97
     },
     {
-      "teal": 167,
+      "teal": 165,
       "source": 6,
-      "disassembledTeal": 99
+      "pc": [
+        292,
+        293,
+        294,
+        295
+      ],
+      "disassembledTeal": 98
     },
     {
       "teal": 168,
       "source": 6,
-      "disassembledTeal": 100
+      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+      "pc": [
+        296
+      ],
+      "disassembledTeal": 99
     },
     {
       "teal": 171,
       "source": 6,
-      "errorMessage": "this contract does not implement the given ABI method for call OptIn",
+      "pc": [
+        297,
+        298,
+        299,
+        300,
+        301,
+        302
+      ],
       "disassembledTeal": 101
+    },
+    {
+      "teal": 172,
+      "source": 6,
+      "pc": [
+        303,
+        304,
+        305
+      ],
+      "disassembledTeal": 102
+    },
+    {
+      "teal": 173,
+      "source": 6,
+      "pc": [
+        306,
+        307,
+        308,
+        309
+      ],
+      "disassembledTeal": 103
+    },
+    {
+      "teal": 176,
+      "source": 6,
+      "errorMessage": "this contract does not implement the given ABI method for call OptIn",
+      "pc": [
+        310
+      ],
+      "disassembledTeal": 104
     }
   ],
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk5LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpjYWxsX09wdEluICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KQoqYWJpX3JvdXRlX2ZvbzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXRzOiAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoaW5wdXRzKSBmb3IgZm9vIG11c3QgYmUgYSAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkKCWNhbGxzdWIgZm9vCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gZm9vKGlucHV0czogSW5wdXRzKTogT3V0cHV0cwpmb286Cglwcm90byAxIDEKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjQKCS8vIGlucHV0cy5zdWJ0cmFjdC5hIDwgaW5wdXRzLnN1YnRyYWN0LmIKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAxNiA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMjQgOAoJYnRvaQoJPAoJYnogKmlmMF9lbmQKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIHN1YnRyYWN0LmEgbXVzdCBiZSBncmVhdGVyIHRoYW4gc3VidHJhY3QuYgoJZXJyCgoqaWYwX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI2CgkvLyB0aGlzLmdsb2JhbEtleS52YWx1ZSA9IHRoaXMuc29tZU51bWJlcgoJYnl0ZSAweDY3NmM2ZjYyNjE2YzRiNjU3OSAvLyAiZ2xvYmFsS2V5IgoJcHVzaGludCBUTVBMX3NvbWVOdW1iZXIKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjcKCS8vIHRoaXMuZ2xvYmFsTWFwKCdmb28nKS52YWx1ZSA9IHsgZm9vOiAxMywgYmFyOiAzNyB9CglieXRlIDB4NzAwMDAzNjY2ZjZmCglieXRlIDB4MDAwZDAwMjUKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjkKCS8vIHJldHVybiB7CgkvLyAgICAgICBzdW06IGlucHV0cy5hZGQuYSArIGlucHV0cy5hZGQuYiwKCS8vICAgICAgIGRpZmZlcmVuY2U6IGlucHV0cy5zdWJ0cmFjdC5hIC0gaW5wdXRzLnN1YnRyYWN0LmIsCgkvLyAgICAgfTsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAwIDgKCWJ0b2kKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCA4IDgKCWJ0b2kKCSsKCWl0b2IKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAxNiA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMjQgOAoJYnRvaQoJLQoJaXRvYgoJY29uY2F0CglyZXRzdWIKCi8vIG9wdEluVG9BcHBsaWNhdGlvbigpdm9pZAoqYWJpX3JvdXRlX29wdEluVG9BcHBsaWNhdGlvbjoKCS8vIGV4ZWN1dGUgb3B0SW5Ub0FwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIG9wdEluVG9BcHBsaWNhdGlvbgoJaW50IDEKCXJldHVybgoKLy8gb3B0SW5Ub0FwcGxpY2F0aW9uKCk6IHZvaWQKb3B0SW5Ub0FwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MzYKCS8vIHRoaXMubG9jYWxLZXkodGhpcy50eG4uc2VuZGVyKS52YWx1ZSA9IHRoaXMuc29tZU51bWJlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDZjNmY2MzYxNmM0YjY1NzkgLy8gImxvY2FsS2V5IgoJcHVzaGludCBUTVBMX3NvbWVOdW1iZXIKCWFwcF9sb2NhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozNwoJLy8gdGhpcy5sb2NhbE1hcCh0aGlzLnR4bi5zZW5kZXIsICdmb28nKS52YWx1ZSA9ICdiYXInCgl0eG4gU2VuZGVyCglieXRlIDB4NzA2NjZmNmYKCWJ5dGUgMHgwMDAzNjI2MTcyCglhcHBfbG9jYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MzgKCS8vIHRoaXMuYm94S2V5LnZhbHVlID0gJ2JheicKCWJ5dGUgMHg2MjZmNzg0YjY1NzkgLy8gImJveEtleSIKCWR1cAoJYm94X2RlbAoJcG9wCglieXRlIDB4MDAwMzYyNjE3YQoJYm94X3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM5CgkvLyB0aGlzLmJveE1hcCh7IGFkZDogeyBhOiAxLCBiOiAyIH0sIHN1YnRyYWN0OiB7IGE6IDQsIGI6IDMgfSB9KS52YWx1ZSA9IHsgc3VtOiAzLCBkaWZmZXJlbmNlOiAxIH0KCWJ5dGUgMHg3MDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwNDAwMDAwMDAwMDAwMDAwMDMKCWJ5dGUgMHgwMDAwMDAwMDAwMDAwMDAzMDAwMDAwMDAwMDAwMDAwMQoJYm94X3B1dAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2ZvbwoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycgoKKmNhbGxfT3B0SW46CgltZXRob2QgIm9wdEluVG9BcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfb3B0SW5Ub0FwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgT3B0SW4KCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk5LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgbGluZXMgb2YgVEVBTCBhcmUgdXNlZCB0byBpbml0aWFsaXplIHRlbXBsYXRlIHZhcmlhYmxlcyBpbiBzY3JhdGNoIHNsb3RzCnB1c2hieXRlcyBUTVBMX3NvbWVOdW1iZXIKYnRvaQpzdG9yZSAyMDAKCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpjYWxsX09wdEluICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KQoqYWJpX3JvdXRlX2ZvbzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXRzOiAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoaW5wdXRzKSBmb3IgZm9vIG11c3QgYmUgYSAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkKCWNhbGxzdWIgZm9vCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gZm9vKGlucHV0czogSW5wdXRzKTogT3V0cHV0cwpmb286Cglwcm90byAxIDEKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjQKCS8vIGlucHV0cy5zdWJ0cmFjdC5hIDwgaW5wdXRzLnN1YnRyYWN0LmIKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAxNiA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMjQgOAoJYnRvaQoJPAoJYnogKmlmMF9lbmQKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIHN1YnRyYWN0LmEgbXVzdCBiZSBncmVhdGVyIHRoYW4gc3VidHJhY3QuYgoJZXJyCgoqaWYwX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI2CgkvLyB0aGlzLmdsb2JhbEtleS52YWx1ZSA9IHRoaXMuc29tZU51bWJlcgoJYnl0ZSAweDY3NmM2ZjYyNjE2YzRiNjU3OSAvLyAiZ2xvYmFsS2V5IgoJbG9hZCAyMDAgLy8gVE1QTF9zb21lTnVtYmVyCglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI3CgkvLyB0aGlzLmdsb2JhbE1hcCgnZm9vJykudmFsdWUgPSB7IGZvbzogMTMsIGJhcjogMzcgfQoJYnl0ZSAweDcwMDAwMzY2NmY2ZgoJYnl0ZSAweDAwMGQwMDI1CglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI5CgkvLyByZXR1cm4gewoJLy8gICAgICAgc3VtOiBpbnB1dHMuYWRkLmEgKyBpbnB1dHMuYWRkLmIsCgkvLyAgICAgICBkaWZmZXJlbmNlOiBpbnB1dHMuc3VidHJhY3QuYSAtIGlucHV0cy5zdWJ0cmFjdC5iLAoJLy8gICAgIH07CglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMCA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgOCA4CglidG9pCgkrCglpdG9iCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMTYgOAoJYnRvaQoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDI0IDgKCWJ0b2kKCS0KCWl0b2IKCWNvbmNhdAoJcmV0c3ViCgovLyBvcHRJblRvQXBwbGljYXRpb24oKXZvaWQKKmFiaV9yb3V0ZV9vcHRJblRvQXBwbGljYXRpb246CgkvLyBleGVjdXRlIG9wdEluVG9BcHBsaWNhdGlvbigpdm9pZAoJY2FsbHN1YiBvcHRJblRvQXBwbGljYXRpb24KCWludCAxCglyZXR1cm4KCi8vIG9wdEluVG9BcHBsaWNhdGlvbigpOiB2b2lkCm9wdEluVG9BcHBsaWNhdGlvbjoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM2CgkvLyB0aGlzLmxvY2FsS2V5KHRoaXMudHhuLnNlbmRlcikudmFsdWUgPSB0aGlzLnNvbWVOdW1iZXIKCXR4biBTZW5kZXIKCWJ5dGUgMHg2YzZmNjM2MTZjNGI2NTc5IC8vICJsb2NhbEtleSIKCWxvYWQgMjAwIC8vIFRNUExfc29tZU51bWJlcgoJYXBwX2xvY2FsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM3CgkvLyB0aGlzLmxvY2FsTWFwKHRoaXMudHhuLnNlbmRlciwgJ2ZvbycpLnZhbHVlID0gJ2JhcicKCXR4biBTZW5kZXIKCWJ5dGUgMHg3MDY2NmY2ZgoJYnl0ZSAweDAwMDM2MjYxNzIKCWFwcF9sb2NhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozOAoJLy8gdGhpcy5ib3hLZXkudmFsdWUgPSAnYmF6JwoJYnl0ZSAweDYyNmY3ODRiNjU3OSAvLyAiYm94S2V5IgoJZHVwCglib3hfZGVsCglwb3AKCWJ5dGUgMHgwMDAzNjI2MTdhCglib3hfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MzkKCS8vIHRoaXMuYm94TWFwKHsgYWRkOiB7IGE6IDEsIGI6IDIgfSwgc3VidHJhY3Q6IHsgYTogNCwgYjogMyB9IH0pLnZhbHVlID0geyBzdW06IDMsIGRpZmZlcmVuY2U6IDEgfQoJYnl0ZSAweDcwMDAwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDAwMwoJYnl0ZSAweDAwMDAwMDAwMDAwMDAwMDMwMDAwMDAwMDAwMDAwMDAxCglib3hfcHV0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KSIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfZm9vCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJyCgoqY2FsbF9PcHRJbjoKCW1ldGhvZCAib3B0SW5Ub0FwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9vcHRJblRvQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBPcHRJbgoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "templateVariables": {
@@ -608,6 +1122,10 @@
     }
   },
   "scratchVariables": {
+    "someNumber": {
+      "type": "uint64",
+      "slot": 200
+    },
     "someScratch": {
       "type": "string",
       "slot": 77
