@@ -2702,6 +2702,77 @@ multilineFunctionCall:
 	assert
 	retsub
 
+// a()uint64
+*abi_route_a:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute a()uint64
+	callsub a
+	itob
+	concat
+	log
+	int 1
+	return
+
+// a(): uint64
+a:
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:527
+	// return 3;
+	int 3
+	retsub
+
+// b()uint64
+*abi_route_b:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute b()uint64
+	callsub b
+	itob
+	concat
+	log
+	int 1
+	return
+
+// b(): uint64
+b:
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:531
+	// return 5;
+	int 5
+	retsub
+
+// unusedMethodValue()uint64
+*abi_route_unusedMethodValue:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// execute unusedMethodValue()uint64
+	callsub unusedMethodValue
+	itob
+	concat
+	log
+	int 1
+	return
+
+// unusedMethodValue(): uint64
+unusedMethodValue:
+	proto 0 1
+
+	// tests/contracts/general.algo.ts:535
+	// this.a()
+	callsub a
+	pop
+
+	// tests/contracts/general.algo.ts:536
+	// return this.b();
+	callsub b
+	retsub
+
 *abi_route_createApplication:
 	int 1
 	return
@@ -2784,8 +2855,11 @@ multilineFunctionCall:
 	method "throwErrorMessage()void"
 	method "orLiteralType(uint64,uint64)void"
 	method "multilineFunctionCall()void"
+	method "a()uint64"
+	method "b()uint64"
+	method "unusedMethodValue()uint64"
 	txna ApplicationArgs 0
-	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromUint64 *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen *abi_route_dynamicScratchSlot *abi_route_incrementScratchSlot *abi_route_incrementDynamicScratchSlot *abi_route_fromAddress *abi_route_earlyReturn *abi_route_assetMethodArgs *abi_route_multipleProgramPages *abi_route_assertComment *abi_route_throwErrorMessage *abi_route_orLiteralType *abi_route_multilineFunctionCall
+	match *abi_route_txnTypeEnum *abi_route_txnGroupLength *abi_route_asserts *abi_route_verifyTxnFromArg *abi_route_verifyTxnFromTxnGroup *abi_route_verifyTxnCondition *abi_route_verifyTxnIncludedIn *abi_route_verifyTxnNotIncludedIn *abi_route_submitPendingGroup *abi_route_methodWithTxnArgs *abi_route_shift *abi_route_fromBytes *abi_route_fromUint64 *abi_route_bzeroFunction *abi_route_events *abi_route_letOptimization *abi_route_staticContractProperties *abi_route_numberToString *abi_route_methodOnParens *abi_route_stringSubstring *abi_route_idProperty *abi_route_scratchSlot *abi_route_ecdsa *abi_route_verifyTxnTypes *abi_route_stringPlusEquals *abi_route_importedProgram *abi_route_callPrivateDefinedLater *abi_route_interalPublicMethod *abi_route_callInternalPublicMethod *abi_route_appLoadScratch *abi_route_uintNWithUnderscore *abi_route_opUp *abi_route_returnValueOnAssignment *abi_route_returnArrayValueOnAssignment *abi_route_returnStorageValueOnAssignment *abi_route_returnOperatorAssignmentValue *abi_route_returnArrayValueOnOperatorAssignment *abi_route_returnArrayInStorageValueOnOperatorAssignment *abi_route_consts *abi_route_assertWithMessage *abi_route_opcodeAliases *abi_route_vrfVerifyOp *abi_route_ecMath *abi_route_gitxn *abi_route_getSetBytes *abi_route_getSetUint64 *abi_route_blockOp *abi_route_b64 *abi_route_json *abi_route_bitlenOp *abi_route_computedConst *abi_route_multiComputedConst *abi_route_readSchema *abi_route_comparisonOr *abi_route_txnArgsMethod *abi_route_callTxnArgsMethod *abi_route_staticValueLen *abi_route_staticTypeLen *abi_route_dynamicScratchSlot *abi_route_incrementScratchSlot *abi_route_incrementDynamicScratchSlot *abi_route_fromAddress *abi_route_earlyReturn *abi_route_assetMethodArgs *abi_route_multipleProgramPages *abi_route_assertComment *abi_route_throwErrorMessage *abi_route_orLiteralType *abi_route_multilineFunctionCall *abi_route_a *abi_route_b *abi_route_unusedMethodValue
 
 	// !!!! WARNING: non-ABI routing
 	callsub nonAbi

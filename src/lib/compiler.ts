@@ -6159,6 +6159,7 @@ export default class Compiler {
         returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
       }
       this.push(chain[1], `callsub ${methodName}`, returnType);
+      if (this.nodeDepth === 1 && !equalTypes(subroutine.returns.type, StackType.void)) this.pushVoid(chain[1], 'pop');
       chain.splice(0, 2);
     }
   }
