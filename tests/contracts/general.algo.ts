@@ -522,4 +522,17 @@ class GeneralTest extends Contract {
       'key'
     ) as uint64;
   }
+
+  a(): uint64 {
+    return 3;
+  }
+
+  b(): uint64 {
+    return 5;
+  }
+
+  unusedMethodValue(): uint64 {
+    this.a();
+    return this.b();
+  }
 }
