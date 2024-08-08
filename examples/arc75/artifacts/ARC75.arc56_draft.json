@@ -199,7 +199,8 @@
         10,
         11,
         12
-      ]
+      ],
+      "disassembledTeal": 2
     },
     {
       "teal": 13,
@@ -207,14 +208,16 @@
       "pc": [
         13,
         14
-      ]
+      ],
+      "disassembledTeal": 3
     },
     {
       "teal": 14,
       "source": 6,
       "pc": [
         15
-      ]
+      ],
+      "disassembledTeal": 4
     },
     {
       "teal": 15,
@@ -222,14 +225,16 @@
       "pc": [
         16,
         17
-      ]
+      ],
+      "disassembledTeal": 5
     },
     {
       "teal": 16,
       "source": 6,
       "pc": [
         18
-      ]
+      ],
+      "disassembledTeal": 6
     },
     {
       "teal": 17,
@@ -237,14 +242,16 @@
       "pc": [
         19,
         20
-      ]
+      ],
+      "disassembledTeal": 7
     },
     {
       "teal": 18,
       "source": 6,
       "pc": [
         21
-      ]
+      ],
+      "disassembledTeal": 8
     },
     {
       "teal": 19,
@@ -276,7 +283,8 @@
         45,
         46,
         47
-      ]
+      ],
+      "disassembledTeal": 9
     },
     {
       "teal": 23,
@@ -284,7 +292,8 @@
       "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
       "pc": [
         48
-      ]
+      ],
+      "disassembledTeal": 11
     },
     {
       "teal": 27,
@@ -293,7 +302,8 @@
         49,
         50,
         51
-      ]
+      ],
+      "disassembledTeal": 13
     },
     {
       "teal": 35,
@@ -301,7 +311,8 @@
       "pc": [
         52,
         53
-      ]
+      ],
+      "disassembledTeal": 14
     },
     {
       "teal": 36,
@@ -309,7 +320,8 @@
       "pc": [
         54,
         55
-      ]
+      ],
+      "disassembledTeal": 15
     },
     {
       "teal": 37,
@@ -317,14 +329,16 @@
       "pc": [
         56,
         57
-      ]
+      ],
+      "disassembledTeal": 16
     },
     {
       "teal": 38,
       "source": 11,
       "pc": [
         58
-      ]
+      ],
+      "disassembledTeal": 17
     },
     {
       "teal": 41,
@@ -332,7 +346,8 @@
       "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
       "pc": [
         59
-      ]
+      ],
+      "disassembledTeal": 18
     },
     {
       "teal": 44,
@@ -340,7 +355,8 @@
       "pc": [
         60,
         61
-      ]
+      ],
+      "disassembledTeal": 19
     },
     {
       "teal": 45,
@@ -348,7 +364,8 @@
       "pc": [
         62,
         63
-      ]
+      ],
+      "disassembledTeal": 20
     },
     {
       "teal": 46,
@@ -356,7 +373,8 @@
       "pc": [
         64,
         65
-      ]
+      ],
+      "disassembledTeal": 21
     },
     {
       "teal": 47,
@@ -364,14 +382,16 @@
       "pc": [
         66,
         67
-      ]
+      ],
+      "disassembledTeal": 22
     },
     {
       "teal": 48,
       "source": 12,
       "pc": [
         68
-      ]
+      ],
+      "disassembledTeal": 23
     },
     {
       "teal": 49,
@@ -379,21 +399,24 @@
       "pc": [
         69,
         70
-      ]
+      ],
+      "disassembledTeal": 24
     },
     {
       "teal": 50,
       "source": 12,
       "pc": [
         71
-      ]
+      ],
+      "disassembledTeal": 25
     },
     {
       "teal": 51,
       "source": 12,
       "pc": [
         72
-      ]
+      ],
+      "disassembledTeal": 26
     },
     {
       "teal": 54,
@@ -401,14 +424,16 @@
       "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"amount\",\"expected\":\"this.app.address.minBalance - preMBR\"}",
       "pc": [
         73
-      ]
+      ],
+      "disassembledTeal": 27
     },
     {
       "teal": 55,
       "source": 9,
       "pc": [
         74
-      ]
+      ],
+      "disassembledTeal": 28
     },
     {
       "teal": 59,
@@ -417,21 +442,24 @@
         75,
         76,
         77
-      ]
+      ],
+      "disassembledTeal": 30
     },
     {
       "teal": 66,
       "source": 17,
       "pc": [
         78
-      ]
+      ],
+      "disassembledTeal": 31
     },
     {
       "teal": 67,
       "source": 17,
       "pc": [
         79
-      ]
+      ],
+      "disassembledTeal": 32
     },
     {
       "teal": 68,
@@ -439,7 +467,8 @@
       "pc": [
         80,
         81
-      ]
+      ],
+      "disassembledTeal": 33
     },
     {
       "teal": 72,
@@ -447,7 +476,8 @@
       "pc": [
         82,
         83
-      ]
+      ],
+      "disassembledTeal": 34
     },
     {
       "teal": 73,
@@ -455,7 +485,8 @@
       "pc": [
         84,
         85
-      ]
+      ],
+      "disassembledTeal": 35
     },
     {
       "teal": 77,
@@ -463,7 +494,8 @@
       "pc": [
         86,
         87
-      ]
+      ],
+      "disassembledTeal": 36
     },
     {
       "teal": 78,
@@ -471,7 +503,8 @@
       "pc": [
         88,
         89
-      ]
+      ],
+      "disassembledTeal": 37
     },
     {
       "teal": 79,
@@ -479,21 +512,24 @@
       "pc": [
         90,
         91
-      ]
+      ],
+      "disassembledTeal": 38
     },
     {
       "teal": 80,
       "source": 19,
       "pc": [
         92
-      ]
+      ],
+      "disassembledTeal": 39
     },
     {
       "teal": 81,
       "source": 19,
       "pc": [
         93
-      ]
+      ],
+      "disassembledTeal": 40
     },
     {
       "teal": 82,
@@ -501,14 +537,16 @@
       "pc": [
         94,
         95
-      ]
+      ],
+      "disassembledTeal": 41
     },
     {
       "teal": 85,
       "source": 17,
       "pc": [
         96
-      ]
+      ],
+      "disassembledTeal": 42
     },
     {
       "teal": 86,
@@ -516,21 +554,24 @@
       "pc": [
         97,
         98
-      ]
+      ],
+      "disassembledTeal": 43
     },
     {
       "teal": 89,
       "source": 17,
       "pc": [
         99
-      ]
+      ],
+      "disassembledTeal": 44
     },
     {
       "teal": 90,
       "source": 16,
       "pc": [
         100
-      ]
+      ],
+      "disassembledTeal": 45
     },
     {
       "teal": 95,
@@ -538,28 +579,32 @@
       "pc": [
         101,
         102
-      ]
+      ],
+      "disassembledTeal": 47
     },
     {
       "teal": 96,
       "source": 32,
       "pc": [
         103
-      ]
+      ],
+      "disassembledTeal": 48
     },
     {
       "teal": 97,
       "source": 32,
       "pc": [
         104
-      ]
+      ],
+      "disassembledTeal": 49
     },
     {
       "teal": 98,
       "source": 32,
       "pc": [
         105
-      ]
+      ],
+      "disassembledTeal": 50
     },
     {
       "teal": 99,
@@ -567,21 +612,24 @@
       "pc": [
         106,
         107
-      ]
+      ],
+      "disassembledTeal": 51
     },
     {
       "teal": 100,
       "source": 32,
       "pc": [
         108
-      ]
+      ],
+      "disassembledTeal": 52
     },
     {
       "teal": 101,
       "source": 32,
       "pc": [
         109
-      ]
+      ],
+      "disassembledTeal": 53
     },
     {
       "teal": 104,
@@ -589,7 +637,8 @@
       "errorMessage": "argument 0 (payment) for addAppToWhiteList must be a pay transaction",
       "pc": [
         110
-      ]
+      ],
+      "disassembledTeal": 54
     },
     {
       "teal": 107,
@@ -598,14 +647,16 @@
         111,
         112,
         113
-      ]
+      ],
+      "disassembledTeal": 55
     },
     {
       "teal": 108,
       "source": 32,
       "pc": [
         114
-      ]
+      ],
+      "disassembledTeal": 56
     },
     {
       "teal": 111,
@@ -614,35 +665,40 @@
         115,
         116,
         117
-      ]
+      ],
+      "disassembledTeal": 57
     },
     {
       "teal": 112,
       "source": 32,
       "pc": [
         118
-      ]
+      ],
+      "disassembledTeal": 58
     },
     {
       "teal": 113,
       "source": 32,
       "pc": [
         119
-      ]
+      ],
+      "disassembledTeal": 59
     },
     {
       "teal": 114,
       "source": 32,
       "pc": [
         120
-      ]
+      ],
+      "disassembledTeal": 60
     },
     {
       "teal": 115,
       "source": 32,
       "pc": [
         121
-      ]
+      ],
+      "disassembledTeal": 61
     },
     {
       "teal": 118,
@@ -650,14 +706,16 @@
       "errorMessage": "argument 2 (boxIndex) for addAppToWhiteList must be a uint16",
       "pc": [
         122
-      ]
+      ],
+      "disassembledTeal": 62
     },
     {
       "teal": 119,
       "source": 32,
       "pc": [
         123
-      ]
+      ],
+      "disassembledTeal": 63
     },
     {
       "teal": 122,
@@ -666,7 +724,8 @@
         124,
         125,
         126
-      ]
+      ],
+      "disassembledTeal": 64
     },
     {
       "teal": 123,
@@ -675,7 +734,8 @@
         127,
         128,
         129
-      ]
+      ],
+      "disassembledTeal": 65
     },
     {
       "teal": 126,
@@ -684,21 +744,24 @@
         130,
         131,
         132
-      ]
+      ],
+      "disassembledTeal": 66
     },
     {
       "teal": 127,
       "source": 32,
       "pc": [
         133
-      ]
+      ],
+      "disassembledTeal": 67
     },
     {
       "teal": 128,
       "source": 32,
       "pc": [
         134
-      ]
+      ],
+      "disassembledTeal": 68
     },
     {
       "teal": 139,
@@ -707,14 +770,16 @@
         135,
         136,
         137
-      ]
+      ],
+      "disassembledTeal": 70
     },
     {
       "teal": 142,
       "source": 32,
       "pc": [
         138
-      ]
+      ],
+      "disassembledTeal": 71
     },
     {
       "teal": 143,
@@ -722,7 +787,8 @@
       "pc": [
         139,
         140
-      ]
+      ],
+      "disassembledTeal": 72
     },
     {
       "teal": 147,
@@ -730,7 +796,8 @@
       "pc": [
         141,
         142
-      ]
+      ],
+      "disassembledTeal": 73
     },
     {
       "teal": 148,
@@ -738,14 +805,16 @@
       "pc": [
         143,
         144
-      ]
+      ],
+      "disassembledTeal": 74
     },
     {
       "teal": 149,
       "source": 33,
       "pc": [
         145
-      ]
+      ],
+      "disassembledTeal": 75
     },
     {
       "teal": 150,
@@ -753,28 +822,32 @@
       "pc": [
         146,
         147
-      ]
+      ],
+      "disassembledTeal": 76
     },
     {
       "teal": 154,
       "source": 34,
       "pc": [
         148
-      ]
+      ],
+      "disassembledTeal": 77
     },
     {
       "teal": 155,
       "source": 34,
       "pc": [
         149
-      ]
+      ],
+      "disassembledTeal": 78
     },
     {
       "teal": 156,
       "source": 34,
       "pc": [
         150
-      ]
+      ],
+      "disassembledTeal": 79
     },
     {
       "teal": 157,
@@ -782,7 +855,8 @@
       "pc": [
         151,
         152
-      ]
+      ],
+      "disassembledTeal": 80
     },
     {
       "teal": 158,
@@ -791,7 +865,8 @@
         153,
         154,
         155
-      ]
+      ],
+      "disassembledTeal": 81
     },
     {
       "teal": 159,
@@ -799,14 +874,16 @@
       "pc": [
         156,
         157
-      ]
+      ],
+      "disassembledTeal": 82
     },
     {
       "teal": 160,
       "source": 34,
       "pc": [
         158
-      ]
+      ],
+      "disassembledTeal": 83
     },
     {
       "teal": 161,
@@ -815,7 +892,8 @@
         159,
         160,
         161
-      ]
+      ],
+      "disassembledTeal": 84
     },
     {
       "teal": 162,
@@ -824,7 +902,8 @@
         162,
         163,
         164
-      ]
+      ],
+      "disassembledTeal": 85
     },
     {
       "teal": 163,
@@ -832,28 +911,32 @@
       "pc": [
         165,
         166
-      ]
+      ],
+      "disassembledTeal": 86
     },
     {
       "teal": 164,
       "source": 34,
       "pc": [
         167
-      ]
+      ],
+      "disassembledTeal": 87
     },
     {
       "teal": 165,
       "source": 34,
       "pc": [
         168
-      ]
+      ],
+      "disassembledTeal": 88
     },
     {
       "teal": 166,
       "source": 34,
       "pc": [
         169
-      ]
+      ],
+      "disassembledTeal": 89
     },
     {
       "teal": 167,
@@ -862,21 +945,24 @@
         170,
         171,
         172
-      ]
+      ],
+      "disassembledTeal": 90
     },
     {
       "teal": 168,
       "source": 34,
       "pc": [
         173
-      ]
+      ],
+      "disassembledTeal": 91
     },
     {
       "teal": 169,
       "source": 34,
       "pc": [
         174
-      ]
+      ],
+      "disassembledTeal": 92
     },
     {
       "teal": 170,
@@ -885,21 +971,24 @@
         175,
         176,
         177
-      ]
+      ],
+      "disassembledTeal": 93
     },
     {
       "teal": 171,
       "source": 34,
       "pc": [
         178
-      ]
+      ],
+      "disassembledTeal": 94
     },
     {
       "teal": 172,
       "source": 34,
       "pc": [
         179
-      ]
+      ],
+      "disassembledTeal": 95
     },
     {
       "teal": 173,
@@ -907,7 +996,8 @@
       "pc": [
         180,
         181
-      ]
+      ],
+      "disassembledTeal": 96
     },
     {
       "teal": 178,
@@ -915,28 +1005,32 @@
       "pc": [
         182,
         183
-      ]
+      ],
+      "disassembledTeal": 97
     },
     {
       "teal": 179,
       "source": 36,
       "pc": [
         184
-      ]
+      ],
+      "disassembledTeal": 98
     },
     {
       "teal": 180,
       "source": 36,
       "pc": [
         185
-      ]
+      ],
+      "disassembledTeal": 99
     },
     {
       "teal": 181,
       "source": 36,
       "pc": [
         186
-      ]
+      ],
+      "disassembledTeal": 100
     },
     {
       "teal": 182,
@@ -945,7 +1039,8 @@
         187,
         188,
         189
-      ]
+      ],
+      "disassembledTeal": 101
     },
     {
       "teal": 187,
@@ -953,14 +1048,16 @@
       "pc": [
         190,
         191
-      ]
+      ],
+      "disassembledTeal": 102
     },
     {
       "teal": 188,
       "source": 37,
       "pc": [
         192
-      ]
+      ],
+      "disassembledTeal": 103
     },
     {
       "teal": 191,
@@ -968,7 +1065,8 @@
       "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
       "pc": [
         193
-      ]
+      ],
+      "disassembledTeal": 104
     },
     {
       "teal": 192,
@@ -977,7 +1075,8 @@
         194,
         195,
         196
-      ]
+      ],
+      "disassembledTeal": 105
     },
     {
       "teal": 193,
@@ -985,21 +1084,24 @@
       "pc": [
         197,
         198
-      ]
+      ],
+      "disassembledTeal": 106
     },
     {
       "teal": 194,
       "source": 37,
       "pc": [
         199
-      ]
+      ],
+      "disassembledTeal": 107
     },
     {
       "teal": 195,
       "source": 37,
       "pc": [
         200
-      ]
+      ],
+      "disassembledTeal": 108
     },
     {
       "teal": 196,
@@ -1007,70 +1109,80 @@
       "pc": [
         201,
         202
-      ]
+      ],
+      "disassembledTeal": 109
     },
     {
       "teal": 197,
       "source": 37,
       "pc": [
         203
-      ]
+      ],
+      "disassembledTeal": 110
     },
     {
       "teal": 198,
       "source": 37,
       "pc": [
         204
-      ]
+      ],
+      "disassembledTeal": 111
     },
     {
       "teal": 199,
       "source": 37,
       "pc": [
         205
-      ]
+      ],
+      "disassembledTeal": 112
     },
     {
       "teal": 200,
       "source": 37,
       "pc": [
         206
-      ]
+      ],
+      "disassembledTeal": 113
     },
     {
       "teal": 201,
       "source": 37,
       "pc": [
         207
-      ]
+      ],
+      "disassembledTeal": 114
     },
     {
       "teal": 202,
       "source": 37,
       "pc": [
         208
-      ]
+      ],
+      "disassembledTeal": 115
     },
     {
       "teal": 203,
       "source": 37,
       "pc": [
         209
-      ]
+      ],
+      "disassembledTeal": 116
     },
     {
       "teal": 204,
       "source": 37,
       "pc": [
         210
-      ]
+      ],
+      "disassembledTeal": 117
     },
     {
       "teal": 205,
       "source": 37,
       "pc": [
         211
-      ]
+      ],
+      "disassembledTeal": 118
     },
     {
       "teal": 206,
@@ -1079,28 +1191,32 @@
         212,
         213,
         214
-      ]
+      ],
+      "disassembledTeal": 119
     },
     {
       "teal": 207,
       "source": 37,
       "pc": [
         215
-      ]
+      ],
+      "disassembledTeal": 120
     },
     {
       "teal": 208,
       "source": 37,
       "pc": [
         216
-      ]
+      ],
+      "disassembledTeal": 121
     },
     {
       "teal": 209,
       "source": 37,
       "pc": [
         217
-      ]
+      ],
+      "disassembledTeal": 122
     },
     {
       "teal": 210,
@@ -1109,7 +1225,8 @@
         218,
         219,
         220
-      ]
+      ],
+      "disassembledTeal": 123
     },
     {
       "teal": 215,
@@ -1117,14 +1234,16 @@
       "pc": [
         221,
         222
-      ]
+      ],
+      "disassembledTeal": 125
     },
     {
       "teal": 216,
       "source": 39,
       "pc": [
         223
-      ]
+      ],
+      "disassembledTeal": 126
     },
     {
       "teal": 217,
@@ -1132,7 +1251,8 @@
       "pc": [
         224,
         225
-      ]
+      ],
+      "disassembledTeal": 127
     },
     {
       "teal": 221,
@@ -1140,28 +1260,32 @@
       "pc": [
         226,
         227
-      ]
+      ],
+      "disassembledTeal": 128
     },
     {
       "teal": 222,
       "source": 40,
       "pc": [
         228
-      ]
+      ],
+      "disassembledTeal": 129
     },
     {
       "teal": 223,
       "source": 40,
       "pc": [
         229
-      ]
+      ],
+      "disassembledTeal": 130
     },
     {
       "teal": 224,
       "source": 40,
       "pc": [
         230
-      ]
+      ],
+      "disassembledTeal": 131
     },
     {
       "teal": 225,
@@ -1169,42 +1293,48 @@
       "pc": [
         231,
         232
-      ]
+      ],
+      "disassembledTeal": 132
     },
     {
       "teal": 226,
       "source": 40,
       "pc": [
         233
-      ]
+      ],
+      "disassembledTeal": 133
     },
     {
       "teal": 227,
       "source": 40,
       "pc": [
         234
-      ]
+      ],
+      "disassembledTeal": 134
     },
     {
       "teal": 228,
       "source": 40,
       "pc": [
         235
-      ]
+      ],
+      "disassembledTeal": 135
     },
     {
       "teal": 229,
       "source": 40,
       "pc": [
         236
-      ]
+      ],
+      "disassembledTeal": 136
     },
     {
       "teal": 230,
       "source": 40,
       "pc": [
         237
-      ]
+      ],
+      "disassembledTeal": 137
     },
     {
       "teal": 231,
@@ -1213,28 +1343,32 @@
         238,
         239,
         240
-      ]
+      ],
+      "disassembledTeal": 138
     },
     {
       "teal": 232,
       "source": 40,
       "pc": [
         241
-      ]
+      ],
+      "disassembledTeal": 139
     },
     {
       "teal": 233,
       "source": 40,
       "pc": [
         242
-      ]
+      ],
+      "disassembledTeal": 140
     },
     {
       "teal": 234,
       "source": 40,
       "pc": [
         243
-      ]
+      ],
+      "disassembledTeal": 141
     },
     {
       "teal": 239,
@@ -1242,7 +1376,8 @@
       "pc": [
         244,
         245
-      ]
+      ],
+      "disassembledTeal": 143
     },
     {
       "teal": 240,
@@ -1250,7 +1385,8 @@
       "pc": [
         246,
         247
-      ]
+      ],
+      "disassembledTeal": 144
     },
     {
       "teal": 241,
@@ -1259,14 +1395,16 @@
         248,
         249,
         250
-      ]
+      ],
+      "disassembledTeal": 145
     },
     {
       "teal": 242,
       "source": 32,
       "pc": [
         251
-      ]
+      ],
+      "disassembledTeal": 146
     },
     {
       "teal": 247,
@@ -1275,7 +1413,8 @@
         252,
         253,
         254
-      ]
+      ],
+      "disassembledTeal": 148
     },
     {
       "teal": 248,
@@ -1284,7 +1423,8 @@
         255,
         256,
         257
-      ]
+      ],
+      "disassembledTeal": 149
     },
     {
       "teal": 251,
@@ -1293,35 +1433,40 @@
         258,
         259,
         260
-      ]
+      ],
+      "disassembledTeal": 150
     },
     {
       "teal": 252,
       "source": 54,
       "pc": [
         261
-      ]
+      ],
+      "disassembledTeal": 151
     },
     {
       "teal": 253,
       "source": 54,
       "pc": [
         262
-      ]
+      ],
+      "disassembledTeal": 152
     },
     {
       "teal": 254,
       "source": 54,
       "pc": [
         263
-      ]
+      ],
+      "disassembledTeal": 153
     },
     {
       "teal": 255,
       "source": 54,
       "pc": [
         264
-      ]
+      ],
+      "disassembledTeal": 154
     },
     {
       "teal": 258,
@@ -1329,14 +1474,16 @@
       "errorMessage": "argument 1 (boxIndex) for setAppWhitelist must be a uint16",
       "pc": [
         265
-      ]
+      ],
+      "disassembledTeal": 155
     },
     {
       "teal": 259,
       "source": 54,
       "pc": [
         266
-      ]
+      ],
+      "disassembledTeal": 156
     },
     {
       "teal": 262,
@@ -1345,7 +1492,8 @@
         267,
         268,
         269
-      ]
+      ],
+      "disassembledTeal": 157
     },
     {
       "teal": 263,
@@ -1354,7 +1502,8 @@
         270,
         271,
         272
-      ]
+      ],
+      "disassembledTeal": 158
     },
     {
       "teal": 266,
@@ -1363,21 +1512,24 @@
         273,
         274,
         275
-      ]
+      ],
+      "disassembledTeal": 159
     },
     {
       "teal": 267,
       "source": 54,
       "pc": [
         276
-      ]
+      ],
+      "disassembledTeal": 160
     },
     {
       "teal": 268,
       "source": 54,
       "pc": [
         277
-      ]
+      ],
+      "disassembledTeal": 161
     },
     {
       "teal": 278,
@@ -1386,21 +1538,24 @@
         278,
         279,
         280
-      ]
+      ],
+      "disassembledTeal": 163
     },
     {
       "teal": 281,
       "source": 54,
       "pc": [
         281
-      ]
+      ],
+      "disassembledTeal": 164
     },
     {
       "teal": 282,
       "source": 54,
       "pc": [
         282
-      ]
+      ],
+      "disassembledTeal": 165
     },
     {
       "teal": 286,
@@ -1408,7 +1563,8 @@
       "pc": [
         283,
         284
-      ]
+      ],
+      "disassembledTeal": 166
     },
     {
       "teal": 287,
@@ -1416,14 +1572,16 @@
       "pc": [
         285,
         286
-      ]
+      ],
+      "disassembledTeal": 167
     },
     {
       "teal": 288,
       "source": 55,
       "pc": [
         287
-      ]
+      ],
+      "disassembledTeal": 168
     },
     {
       "teal": 289,
@@ -1431,28 +1589,32 @@
       "pc": [
         288,
         289
-      ]
+      ],
+      "disassembledTeal": 169
     },
     {
       "teal": 293,
       "source": 56,
       "pc": [
         290
-      ]
+      ],
+      "disassembledTeal": 170
     },
     {
       "teal": 294,
       "source": 56,
       "pc": [
         291
-      ]
+      ],
+      "disassembledTeal": 171
     },
     {
       "teal": 295,
       "source": 56,
       "pc": [
         292
-      ]
+      ],
+      "disassembledTeal": 172
     },
     {
       "teal": 296,
@@ -1460,7 +1622,8 @@
       "pc": [
         293,
         294
-      ]
+      ],
+      "disassembledTeal": 173
     },
     {
       "teal": 297,
@@ -1469,7 +1632,8 @@
         295,
         296,
         297
-      ]
+      ],
+      "disassembledTeal": 174
     },
     {
       "teal": 298,
@@ -1477,14 +1641,16 @@
       "pc": [
         298,
         299
-      ]
+      ],
+      "disassembledTeal": 175
     },
     {
       "teal": 299,
       "source": 56,
       "pc": [
         300
-      ]
+      ],
+      "disassembledTeal": 176
     },
     {
       "teal": 300,
@@ -1493,7 +1659,8 @@
         301,
         302,
         303
-      ]
+      ],
+      "disassembledTeal": 177
     },
     {
       "teal": 301,
@@ -1502,7 +1669,8 @@
         304,
         305,
         306
-      ]
+      ],
+      "disassembledTeal": 178
     },
     {
       "teal": 302,
@@ -1510,28 +1678,32 @@
       "pc": [
         307,
         308
-      ]
+      ],
+      "disassembledTeal": 179
     },
     {
       "teal": 303,
       "source": 56,
       "pc": [
         309
-      ]
+      ],
+      "disassembledTeal": 180
     },
     {
       "teal": 304,
       "source": 56,
       "pc": [
         310
-      ]
+      ],
+      "disassembledTeal": 181
     },
     {
       "teal": 305,
       "source": 56,
       "pc": [
         311
-      ]
+      ],
+      "disassembledTeal": 182
     },
     {
       "teal": 306,
@@ -1540,21 +1712,24 @@
         312,
         313,
         314
-      ]
+      ],
+      "disassembledTeal": 183
     },
     {
       "teal": 307,
       "source": 56,
       "pc": [
         315
-      ]
+      ],
+      "disassembledTeal": 184
     },
     {
       "teal": 308,
       "source": 56,
       "pc": [
         316
-      ]
+      ],
+      "disassembledTeal": 185
     },
     {
       "teal": 309,
@@ -1563,21 +1738,24 @@
         317,
         318,
         319
-      ]
+      ],
+      "disassembledTeal": 186
     },
     {
       "teal": 310,
       "source": 56,
       "pc": [
         320
-      ]
+      ],
+      "disassembledTeal": 187
     },
     {
       "teal": 311,
       "source": 56,
       "pc": [
         321
-      ]
+      ],
+      "disassembledTeal": 188
     },
     {
       "teal": 312,
@@ -1585,7 +1763,8 @@
       "pc": [
         322,
         323
-      ]
+      ],
+      "disassembledTeal": 189
     },
     {
       "teal": 316,
@@ -1593,14 +1772,16 @@
       "pc": [
         324,
         325
-      ]
+      ],
+      "disassembledTeal": 190
     },
     {
       "teal": 317,
       "source": 58,
       "pc": [
         326
-      ]
+      ],
+      "disassembledTeal": 191
     },
     {
       "teal": 321,
@@ -1608,28 +1789,32 @@
       "pc": [
         327,
         328
-      ]
+      ],
+      "disassembledTeal": 192
     },
     {
       "teal": 322,
       "source": 60,
       "pc": [
         329
-      ]
+      ],
+      "disassembledTeal": 193
     },
     {
       "teal": 323,
       "source": 60,
       "pc": [
         330
-      ]
+      ],
+      "disassembledTeal": 194
     },
     {
       "teal": 324,
       "source": 60,
       "pc": [
         331
-      ]
+      ],
+      "disassembledTeal": 195
     },
     {
       "teal": 325,
@@ -1637,42 +1822,48 @@
       "pc": [
         332,
         333
-      ]
+      ],
+      "disassembledTeal": 196
     },
     {
       "teal": 326,
       "source": 60,
       "pc": [
         334
-      ]
+      ],
+      "disassembledTeal": 197
     },
     {
       "teal": 327,
       "source": 60,
       "pc": [
         335
-      ]
+      ],
+      "disassembledTeal": 198
     },
     {
       "teal": 328,
       "source": 60,
       "pc": [
         336
-      ]
+      ],
+      "disassembledTeal": 199
     },
     {
       "teal": 329,
       "source": 60,
       "pc": [
         337
-      ]
+      ],
+      "disassembledTeal": 200
     },
     {
       "teal": 330,
       "source": 60,
       "pc": [
         338
-      ]
+      ],
+      "disassembledTeal": 201
     },
     {
       "teal": 331,
@@ -1681,28 +1872,32 @@
         339,
         340,
         341
-      ]
+      ],
+      "disassembledTeal": 202
     },
     {
       "teal": 332,
       "source": 60,
       "pc": [
         342
-      ]
+      ],
+      "disassembledTeal": 203
     },
     {
       "teal": 333,
       "source": 60,
       "pc": [
         343
-      ]
+      ],
+      "disassembledTeal": 204
     },
     {
       "teal": 334,
       "source": 60,
       "pc": [
         344
-      ]
+      ],
+      "disassembledTeal": 205
     },
     {
       "teal": 339,
@@ -1710,7 +1905,8 @@
       "pc": [
         345,
         346
-      ]
+      ],
+      "disassembledTeal": 206
     },
     {
       "teal": 340,
@@ -1718,7 +1914,8 @@
       "pc": [
         347,
         348
-      ]
+      ],
+      "disassembledTeal": 207
     },
     {
       "teal": 341,
@@ -1726,21 +1923,24 @@
       "pc": [
         349,
         350
-      ]
+      ],
+      "disassembledTeal": 208
     },
     {
       "teal": 342,
       "source": 62,
       "pc": [
         351
-      ]
+      ],
+      "disassembledTeal": 209
     },
     {
       "teal": 343,
       "source": 62,
       "pc": [
         352
-      ]
+      ],
+      "disassembledTeal": 210
     },
     {
       "teal": 344,
@@ -1749,7 +1949,8 @@
         353,
         354,
         355
-      ]
+      ],
+      "disassembledTeal": 211
     },
     {
       "teal": 349,
@@ -1757,7 +1958,8 @@
       "pc": [
         356,
         357
-      ]
+      ],
+      "disassembledTeal": 212
     },
     {
       "teal": 350,
@@ -1766,7 +1968,8 @@
         358,
         359,
         360
-      ]
+      ],
+      "disassembledTeal": 213
     },
     {
       "teal": 351,
@@ -1775,7 +1978,8 @@
         361,
         362,
         363
-      ]
+      ],
+      "disassembledTeal": 214
     },
     {
       "teal": 356,
@@ -1783,7 +1987,8 @@
       "pc": [
         364,
         365
-      ]
+      ],
+      "disassembledTeal": 216
     },
     {
       "teal": 357,
@@ -1791,28 +1996,32 @@
       "pc": [
         366,
         367
-      ]
+      ],
+      "disassembledTeal": 217
     },
     {
       "teal": 358,
       "source": 65,
       "pc": [
         368
-      ]
+      ],
+      "disassembledTeal": 218
     },
     {
       "teal": 359,
       "source": 65,
       "pc": [
         369
-      ]
+      ],
+      "disassembledTeal": 219
     },
     {
       "teal": 360,
       "source": 65,
       "pc": [
         370
-      ]
+      ],
+      "disassembledTeal": 220
     },
     {
       "teal": 361,
@@ -1820,28 +2029,32 @@
       "pc": [
         371,
         372
-      ]
+      ],
+      "disassembledTeal": 221
     },
     {
       "teal": 362,
       "source": 65,
       "pc": [
         373
-      ]
+      ],
+      "disassembledTeal": 222
     },
     {
       "teal": 363,
       "source": 65,
       "pc": [
         374
-      ]
+      ],
+      "disassembledTeal": 223
     },
     {
       "teal": 364,
       "source": 65,
       "pc": [
         375
-      ]
+      ],
+      "disassembledTeal": 224
     },
     {
       "teal": 367,
@@ -1849,7 +2062,8 @@
       "errorMessage": "failed to cast this.txnGroup[this.txn.groupIndex - 1] to pay",
       "pc": [
         376
-      ]
+      ],
+      "disassembledTeal": 225
     },
     {
       "teal": 368,
@@ -1858,14 +2072,16 @@
         377,
         378,
         379
-      ]
+      ],
+      "disassembledTeal": 226
     },
     {
       "teal": 371,
       "source": 54,
       "pc": [
         380
-      ]
+      ],
+      "disassembledTeal": 228
     },
     {
       "teal": 376,
@@ -1874,35 +2090,40 @@
         381,
         382,
         383
-      ]
+      ],
+      "disassembledTeal": 230
     },
     {
       "teal": 377,
       "source": 76,
       "pc": [
         384
-      ]
+      ],
+      "disassembledTeal": 231
     },
     {
       "teal": 378,
       "source": 76,
       "pc": [
         385
-      ]
+      ],
+      "disassembledTeal": 232
     },
     {
       "teal": 379,
       "source": 76,
       "pc": [
         386
-      ]
+      ],
+      "disassembledTeal": 233
     },
     {
       "teal": 380,
       "source": 76,
       "pc": [
         387
-      ]
+      ],
+      "disassembledTeal": 234
     },
     {
       "teal": 383,
@@ -1910,14 +2131,16 @@
       "errorMessage": "argument 0 (boxIndex) for deleteWhitelist must be a uint16",
       "pc": [
         388
-      ]
+      ],
+      "disassembledTeal": 235
     },
     {
       "teal": 384,
       "source": 76,
       "pc": [
         389
-      ]
+      ],
+      "disassembledTeal": 236
     },
     {
       "teal": 387,
@@ -1926,7 +2149,8 @@
         390,
         391,
         392
-      ]
+      ],
+      "disassembledTeal": 237
     },
     {
       "teal": 388,
@@ -1935,7 +2159,8 @@
         393,
         394,
         395
-      ]
+      ],
+      "disassembledTeal": 238
     },
     {
       "teal": 391,
@@ -1944,21 +2169,24 @@
         396,
         397,
         398
-      ]
+      ],
+      "disassembledTeal": 239
     },
     {
       "teal": 392,
       "source": 76,
       "pc": [
         399
-      ]
+      ],
+      "disassembledTeal": 240
     },
     {
       "teal": 393,
       "source": 76,
       "pc": [
         400
-      ]
+      ],
+      "disassembledTeal": 241
     },
     {
       "teal": 402,
@@ -1967,21 +2195,24 @@
         401,
         402,
         403
-      ]
+      ],
+      "disassembledTeal": 243
     },
     {
       "teal": 405,
       "source": 76,
       "pc": [
         404
-      ]
+      ],
+      "disassembledTeal": 244
     },
     {
       "teal": 406,
       "source": 76,
       "pc": [
         405
-      ]
+      ],
+      "disassembledTeal": 245
     },
     {
       "teal": 410,
@@ -1989,7 +2220,8 @@
       "pc": [
         406,
         407
-      ]
+      ],
+      "disassembledTeal": 246
     },
     {
       "teal": 411,
@@ -1997,14 +2229,16 @@
       "pc": [
         408,
         409
-      ]
+      ],
+      "disassembledTeal": 247
     },
     {
       "teal": 412,
       "source": 77,
       "pc": [
         410
-      ]
+      ],
+      "disassembledTeal": 248
     },
     {
       "teal": 413,
@@ -2012,28 +2246,32 @@
       "pc": [
         411,
         412
-      ]
+      ],
+      "disassembledTeal": 249
     },
     {
       "teal": 417,
       "source": 78,
       "pc": [
         413
-      ]
+      ],
+      "disassembledTeal": 250
     },
     {
       "teal": 418,
       "source": 78,
       "pc": [
         414
-      ]
+      ],
+      "disassembledTeal": 251
     },
     {
       "teal": 419,
       "source": 78,
       "pc": [
         415
-      ]
+      ],
+      "disassembledTeal": 252
     },
     {
       "teal": 420,
@@ -2041,7 +2279,8 @@
       "pc": [
         416,
         417
-      ]
+      ],
+      "disassembledTeal": 253
     },
     {
       "teal": 421,
@@ -2050,7 +2289,8 @@
         418,
         419,
         420
-      ]
+      ],
+      "disassembledTeal": 254
     },
     {
       "teal": 422,
@@ -2058,14 +2298,16 @@
       "pc": [
         421,
         422
-      ]
+      ],
+      "disassembledTeal": 255
     },
     {
       "teal": 423,
       "source": 78,
       "pc": [
         423
-      ]
+      ],
+      "disassembledTeal": 256
     },
     {
       "teal": 424,
@@ -2074,7 +2316,8 @@
         424,
         425,
         426
-      ]
+      ],
+      "disassembledTeal": 257
     },
     {
       "teal": 425,
@@ -2083,7 +2326,8 @@
         427,
         428,
         429
-      ]
+      ],
+      "disassembledTeal": 258
     },
     {
       "teal": 426,
@@ -2091,28 +2335,32 @@
       "pc": [
         430,
         431
-      ]
+      ],
+      "disassembledTeal": 259
     },
     {
       "teal": 427,
       "source": 78,
       "pc": [
         432
-      ]
+      ],
+      "disassembledTeal": 260
     },
     {
       "teal": 428,
       "source": 78,
       "pc": [
         433
-      ]
+      ],
+      "disassembledTeal": 261
     },
     {
       "teal": 429,
       "source": 78,
       "pc": [
         434
-      ]
+      ],
+      "disassembledTeal": 262
     },
     {
       "teal": 430,
@@ -2121,21 +2369,24 @@
         435,
         436,
         437
-      ]
+      ],
+      "disassembledTeal": 263
     },
     {
       "teal": 431,
       "source": 78,
       "pc": [
         438
-      ]
+      ],
+      "disassembledTeal": 264
     },
     {
       "teal": 432,
       "source": 78,
       "pc": [
         439
-      ]
+      ],
+      "disassembledTeal": 265
     },
     {
       "teal": 433,
@@ -2144,21 +2395,24 @@
         440,
         441,
         442
-      ]
+      ],
+      "disassembledTeal": 266
     },
     {
       "teal": 434,
       "source": 78,
       "pc": [
         443
-      ]
+      ],
+      "disassembledTeal": 267
     },
     {
       "teal": 435,
       "source": 78,
       "pc": [
         444
-      ]
+      ],
+      "disassembledTeal": 268
     },
     {
       "teal": 436,
@@ -2166,7 +2420,8 @@
       "pc": [
         445,
         446
-      ]
+      ],
+      "disassembledTeal": 269
     },
     {
       "teal": 440,
@@ -2174,14 +2429,16 @@
       "pc": [
         447,
         448
-      ]
+      ],
+      "disassembledTeal": 270
     },
     {
       "teal": 441,
       "source": 80,
       "pc": [
         449
-      ]
+      ],
+      "disassembledTeal": 271
     },
     {
       "teal": 445,
@@ -2189,7 +2446,8 @@
       "pc": [
         450,
         451
-      ]
+      ],
+      "disassembledTeal": 272
     },
     {
       "teal": 446,
@@ -2198,14 +2456,16 @@
         452,
         453,
         454
-      ]
+      ],
+      "disassembledTeal": 273
     },
     {
       "teal": 447,
       "source": 76,
       "pc": [
         455
-      ]
+      ],
+      "disassembledTeal": 274
     },
     {
       "teal": 452,
@@ -2214,14 +2474,16 @@
         456,
         457,
         458
-      ]
+      ],
+      "disassembledTeal": 276
     },
     {
       "teal": 453,
       "source": 93,
       "pc": [
         459
-      ]
+      ],
+      "disassembledTeal": 277
     },
     {
       "teal": 456,
@@ -2230,14 +2492,16 @@
         460,
         461,
         462
-      ]
+      ],
+      "disassembledTeal": 278
     },
     {
       "teal": 457,
       "source": 93,
       "pc": [
         463
-      ]
+      ],
+      "disassembledTeal": 279
     },
     {
       "teal": 460,
@@ -2246,35 +2510,40 @@
         464,
         465,
         466
-      ]
+      ],
+      "disassembledTeal": 280
     },
     {
       "teal": 461,
       "source": 93,
       "pc": [
         467
-      ]
+      ],
+      "disassembledTeal": 281
     },
     {
       "teal": 462,
       "source": 93,
       "pc": [
         468
-      ]
+      ],
+      "disassembledTeal": 282
     },
     {
       "teal": 463,
       "source": 93,
       "pc": [
         469
-      ]
+      ],
+      "disassembledTeal": 283
     },
     {
       "teal": 464,
       "source": 93,
       "pc": [
         470
-      ]
+      ],
+      "disassembledTeal": 284
     },
     {
       "teal": 467,
@@ -2282,14 +2551,16 @@
       "errorMessage": "argument 2 (boxIndex) for deleteAppFromWhitelist must be a uint16",
       "pc": [
         471
-      ]
+      ],
+      "disassembledTeal": 285
     },
     {
       "teal": 468,
       "source": 93,
       "pc": [
         472
-      ]
+      ],
+      "disassembledTeal": 286
     },
     {
       "teal": 471,
@@ -2298,7 +2569,8 @@
         473,
         474,
         475
-      ]
+      ],
+      "disassembledTeal": 287
     },
     {
       "teal": 472,
@@ -2307,7 +2579,8 @@
         476,
         477,
         478
-      ]
+      ],
+      "disassembledTeal": 288
     },
     {
       "teal": 475,
@@ -2316,21 +2589,24 @@
         479,
         480,
         481
-      ]
+      ],
+      "disassembledTeal": 289
     },
     {
       "teal": 476,
       "source": 93,
       "pc": [
         482
-      ]
+      ],
+      "disassembledTeal": 290
     },
     {
       "teal": 477,
       "source": 93,
       "pc": [
         483
-      ]
+      ],
+      "disassembledTeal": 291
     },
     {
       "teal": 487,
@@ -2339,14 +2615,16 @@
         484,
         485,
         486
-      ]
+      ],
+      "disassembledTeal": 293
     },
     {
       "teal": 490,
       "source": 93,
       "pc": [
         487
-      ]
+      ],
+      "disassembledTeal": 294
     },
     {
       "teal": 491,
@@ -2354,7 +2632,8 @@
       "pc": [
         488,
         489
-      ]
+      ],
+      "disassembledTeal": 295
     },
     {
       "teal": 495,
@@ -2362,7 +2641,8 @@
       "pc": [
         490,
         491
-      ]
+      ],
+      "disassembledTeal": 296
     },
     {
       "teal": 496,
@@ -2370,14 +2650,16 @@
       "pc": [
         492,
         493
-      ]
+      ],
+      "disassembledTeal": 297
     },
     {
       "teal": 497,
       "source": 94,
       "pc": [
         494
-      ]
+      ],
+      "disassembledTeal": 298
     },
     {
       "teal": 498,
@@ -2385,28 +2667,32 @@
       "pc": [
         495,
         496
-      ]
+      ],
+      "disassembledTeal": 299
     },
     {
       "teal": 502,
       "source": 95,
       "pc": [
         497
-      ]
+      ],
+      "disassembledTeal": 300
     },
     {
       "teal": 503,
       "source": 95,
       "pc": [
         498
-      ]
+      ],
+      "disassembledTeal": 301
     },
     {
       "teal": 504,
       "source": 95,
       "pc": [
         499
-      ]
+      ],
+      "disassembledTeal": 302
     },
     {
       "teal": 505,
@@ -2414,7 +2700,8 @@
       "pc": [
         500,
         501
-      ]
+      ],
+      "disassembledTeal": 303
     },
     {
       "teal": 506,
@@ -2423,7 +2710,8 @@
         502,
         503,
         504
-      ]
+      ],
+      "disassembledTeal": 304
     },
     {
       "teal": 507,
@@ -2431,14 +2719,16 @@
       "pc": [
         505,
         506
-      ]
+      ],
+      "disassembledTeal": 305
     },
     {
       "teal": 508,
       "source": 95,
       "pc": [
         507
-      ]
+      ],
+      "disassembledTeal": 306
     },
     {
       "teal": 509,
@@ -2447,7 +2737,8 @@
         508,
         509,
         510
-      ]
+      ],
+      "disassembledTeal": 307
     },
     {
       "teal": 510,
@@ -2456,7 +2747,8 @@
         511,
         512,
         513
-      ]
+      ],
+      "disassembledTeal": 308
     },
     {
       "teal": 511,
@@ -2464,28 +2756,32 @@
       "pc": [
         514,
         515
-      ]
+      ],
+      "disassembledTeal": 309
     },
     {
       "teal": 512,
       "source": 95,
       "pc": [
         516
-      ]
+      ],
+      "disassembledTeal": 310
     },
     {
       "teal": 513,
       "source": 95,
       "pc": [
         517
-      ]
+      ],
+      "disassembledTeal": 311
     },
     {
       "teal": 514,
       "source": 95,
       "pc": [
         518
-      ]
+      ],
+      "disassembledTeal": 312
     },
     {
       "teal": 515,
@@ -2494,21 +2790,24 @@
         519,
         520,
         521
-      ]
+      ],
+      "disassembledTeal": 313
     },
     {
       "teal": 516,
       "source": 95,
       "pc": [
         522
-      ]
+      ],
+      "disassembledTeal": 314
     },
     {
       "teal": 517,
       "source": 95,
       "pc": [
         523
-      ]
+      ],
+      "disassembledTeal": 315
     },
     {
       "teal": 518,
@@ -2517,21 +2816,24 @@
         524,
         525,
         526
-      ]
+      ],
+      "disassembledTeal": 316
     },
     {
       "teal": 519,
       "source": 95,
       "pc": [
         527
-      ]
+      ],
+      "disassembledTeal": 317
     },
     {
       "teal": 520,
       "source": 95,
       "pc": [
         528
-      ]
+      ],
+      "disassembledTeal": 318
     },
     {
       "teal": 521,
@@ -2539,7 +2841,8 @@
       "pc": [
         529,
         530
-      ]
+      ],
+      "disassembledTeal": 319
     },
     {
       "teal": 525,
@@ -2547,14 +2850,16 @@
       "pc": [
         531,
         532
-      ]
+      ],
+      "disassembledTeal": 320
     },
     {
       "teal": 526,
       "source": 97,
       "pc": [
         533
-      ]
+      ],
+      "disassembledTeal": 321
     },
     {
       "teal": 529,
@@ -2562,7 +2867,8 @@
       "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
       "pc": [
         534
-      ]
+      ],
+      "disassembledTeal": 322
     },
     {
       "teal": 530,
@@ -2571,14 +2877,16 @@
         535,
         536,
         537
-      ]
+      ],
+      "disassembledTeal": 323
     },
     {
       "teal": 531,
       "source": 97,
       "pc": [
         538
-      ]
+      ],
+      "disassembledTeal": 324
     },
     {
       "teal": 532,
@@ -2586,21 +2894,24 @@
       "pc": [
         539,
         540
-      ]
+      ],
+      "disassembledTeal": 325
     },
     {
       "teal": 533,
       "source": 97,
       "pc": [
         541
-      ]
+      ],
+      "disassembledTeal": 326
     },
     {
       "teal": 534,
       "source": 97,
       "pc": [
         542
-      ]
+      ],
+      "disassembledTeal": 327
     },
     {
       "teal": 535,
@@ -2608,7 +2919,8 @@
       "pc": [
         543,
         544
-      ]
+      ],
+      "disassembledTeal": 328
     },
     {
       "teal": 536,
@@ -2616,7 +2928,8 @@
       "pc": [
         545,
         546
-      ]
+      ],
+      "disassembledTeal": 329
     },
     {
       "teal": 537,
@@ -2624,7 +2937,8 @@
       "pc": [
         547,
         548
-      ]
+      ],
+      "disassembledTeal": 330
     },
     {
       "teal": 538,
@@ -2632,14 +2946,16 @@
       "pc": [
         549,
         550
-      ]
+      ],
+      "disassembledTeal": 331
     },
     {
       "teal": 539,
       "source": 97,
       "pc": [
         551
-      ]
+      ],
+      "disassembledTeal": 332
     },
     {
       "teal": 542,
@@ -2647,7 +2963,8 @@
       "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
       "pc": [
         552
-      ]
+      ],
+      "disassembledTeal": 333
     },
     {
       "teal": 543,
@@ -2656,14 +2973,16 @@
         553,
         554,
         555
-      ]
+      ],
+      "disassembledTeal": 334
     },
     {
       "teal": 544,
       "source": 97,
       "pc": [
         556
-      ]
+      ],
+      "disassembledTeal": 335
     },
     {
       "teal": 545,
@@ -2671,14 +2990,16 @@
       "pc": [
         557,
         558
-      ]
+      ],
+      "disassembledTeal": 336
     },
     {
       "teal": 546,
       "source": 97,
       "pc": [
         559
-      ]
+      ],
+      "disassembledTeal": 337
     },
     {
       "teal": 547,
@@ -2686,14 +3007,16 @@
       "pc": [
         560,
         561
-      ]
+      ],
+      "disassembledTeal": 338
     },
     {
       "teal": 548,
       "source": 97,
       "pc": [
         562
-      ]
+      ],
+      "disassembledTeal": 339
     },
     {
       "teal": 551,
@@ -2701,7 +3024,8 @@
       "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
       "pc": [
         563
-      ]
+      ],
+      "disassembledTeal": 340
     },
     {
       "teal": 552,
@@ -2710,21 +3034,24 @@
         564,
         565,
         566
-      ]
+      ],
+      "disassembledTeal": 341
     },
     {
       "teal": 553,
       "source": 97,
       "pc": [
         567
-      ]
+      ],
+      "disassembledTeal": 342
     },
     {
       "teal": 554,
       "source": 97,
       "pc": [
         568
-      ]
+      ],
+      "disassembledTeal": 343
     },
     {
       "teal": 555,
@@ -2732,7 +3059,8 @@
       "pc": [
         569,
         570
-      ]
+      ],
+      "disassembledTeal": 344
     },
     {
       "teal": 556,
@@ -2740,49 +3068,56 @@
       "pc": [
         571,
         572
-      ]
+      ],
+      "disassembledTeal": 345
     },
     {
       "teal": 557,
       "source": 97,
       "pc": [
         573
-      ]
+      ],
+      "disassembledTeal": 346
     },
     {
       "teal": 558,
       "source": 97,
       "pc": [
         574
-      ]
+      ],
+      "disassembledTeal": 347
     },
     {
       "teal": 559,
       "source": 97,
       "pc": [
         575
-      ]
+      ],
+      "disassembledTeal": 348
     },
     {
       "teal": 560,
       "source": 97,
       "pc": [
         576
-      ]
+      ],
+      "disassembledTeal": 349
     },
     {
       "teal": 561,
       "source": 97,
       "pc": [
         577
-      ]
+      ],
+      "disassembledTeal": 350
     },
     {
       "teal": 562,
       "source": 97,
       "pc": [
         578
-      ]
+      ],
+      "disassembledTeal": 351
     },
     {
       "teal": 563,
@@ -2790,14 +3125,16 @@
       "pc": [
         579,
         580
-      ]
+      ],
+      "disassembledTeal": 352
     },
     {
       "teal": 564,
       "source": 97,
       "pc": [
         581
-      ]
+      ],
+      "disassembledTeal": 353
     },
     {
       "teal": 567,
@@ -2805,7 +3142,8 @@
       "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
       "pc": [
         582
-      ]
+      ],
+      "disassembledTeal": 354
     },
     {
       "teal": 568,
@@ -2814,7 +3152,8 @@
         583,
         584,
         585
-      ]
+      ],
+      "disassembledTeal": 355
     },
     {
       "teal": 569,
@@ -2822,7 +3161,8 @@
       "pc": [
         586,
         587
-      ]
+      ],
+      "disassembledTeal": 356
     },
     {
       "teal": 570,
@@ -2830,35 +3170,40 @@
       "pc": [
         588,
         589
-      ]
+      ],
+      "disassembledTeal": 357
     },
     {
       "teal": 571,
       "source": 97,
       "pc": [
         590
-      ]
+      ],
+      "disassembledTeal": 358
     },
     {
       "teal": 572,
       "source": 97,
       "pc": [
         591
-      ]
+      ],
+      "disassembledTeal": 359
     },
     {
       "teal": 573,
       "source": 97,
       "pc": [
         592
-      ]
+      ],
+      "disassembledTeal": 360
     },
     {
       "teal": 574,
       "source": 97,
       "pc": [
         593
-      ]
+      ],
+      "disassembledTeal": 361
     },
     {
       "teal": 575,
@@ -2866,70 +3211,80 @@
       "pc": [
         594,
         595
-      ]
+      ],
+      "disassembledTeal": 362
     },
     {
       "teal": 576,
       "source": 97,
       "pc": [
         596
-      ]
+      ],
+      "disassembledTeal": 363
     },
     {
       "teal": 577,
       "source": 97,
       "pc": [
         597
-      ]
+      ],
+      "disassembledTeal": 364
     },
     {
       "teal": 578,
       "source": 97,
       "pc": [
         598
-      ]
+      ],
+      "disassembledTeal": 365
     },
     {
       "teal": 579,
       "source": 97,
       "pc": [
         599
-      ]
+      ],
+      "disassembledTeal": 366
     },
     {
       "teal": 580,
       "source": 97,
       "pc": [
         600
-      ]
+      ],
+      "disassembledTeal": 367
     },
     {
       "teal": 581,
       "source": 97,
       "pc": [
         601
-      ]
+      ],
+      "disassembledTeal": 368
     },
     {
       "teal": 582,
       "source": 97,
       "pc": [
         602
-      ]
+      ],
+      "disassembledTeal": 369
     },
     {
       "teal": 583,
       "source": 97,
       "pc": [
         603
-      ]
+      ],
+      "disassembledTeal": 370
     },
     {
       "teal": 584,
       "source": 97,
       "pc": [
         604
-      ]
+      ],
+      "disassembledTeal": 371
     },
     {
       "teal": 585,
@@ -2938,28 +3293,32 @@
         605,
         606,
         607
-      ]
+      ],
+      "disassembledTeal": 372
     },
     {
       "teal": 586,
       "source": 97,
       "pc": [
         608
-      ]
+      ],
+      "disassembledTeal": 373
     },
     {
       "teal": 587,
       "source": 97,
       "pc": [
         609
-      ]
+      ],
+      "disassembledTeal": 374
     },
     {
       "teal": 588,
       "source": 97,
       "pc": [
         610
-      ]
+      ],
+      "disassembledTeal": 375
     },
     {
       "teal": 589,
@@ -2967,7 +3326,8 @@
       "pc": [
         611,
         612
-      ]
+      ],
+      "disassembledTeal": 376
     },
     {
       "teal": 593,
@@ -2975,7 +3335,8 @@
       "pc": [
         613,
         614
-      ]
+      ],
+      "disassembledTeal": 377
     },
     {
       "teal": 594,
@@ -2983,7 +3344,8 @@
       "pc": [
         615,
         616
-      ]
+      ],
+      "disassembledTeal": 378
     },
     {
       "teal": 595,
@@ -2991,7 +3353,8 @@
       "pc": [
         617,
         618
-      ]
+      ],
+      "disassembledTeal": 379
     },
     {
       "teal": 596,
@@ -3000,14 +3363,16 @@
         619,
         620,
         621
-      ]
+      ],
+      "disassembledTeal": 380
     },
     {
       "teal": 597,
       "source": 99,
       "pc": [
         622
-      ]
+      ],
+      "disassembledTeal": 381
     },
     {
       "teal": 598,
@@ -3015,21 +3380,24 @@
       "pc": [
         623,
         624
-      ]
+      ],
+      "disassembledTeal": 382
     },
     {
       "teal": 599,
       "source": 99,
       "pc": [
         625
-      ]
+      ],
+      "disassembledTeal": 383
     },
     {
       "teal": 600,
       "source": 99,
       "pc": [
         626
-      ]
+      ],
+      "disassembledTeal": 384
     },
     {
       "teal": 604,
@@ -3037,7 +3405,8 @@
       "pc": [
         627,
         628
-      ]
+      ],
+      "disassembledTeal": 385
     },
     {
       "teal": 605,
@@ -3046,28 +3415,32 @@
         629,
         630,
         631
-      ]
+      ],
+      "disassembledTeal": 386
     },
     {
       "teal": 606,
       "source": 93,
       "pc": [
         632
-      ]
+      ],
+      "disassembledTeal": 387
     },
     {
       "teal": 609,
       "source": 6,
       "pc": [
         633
-      ]
+      ],
+      "disassembledTeal": 389
     },
     {
       "teal": 610,
       "source": 6,
       "pc": [
         634
-      ]
+      ],
+      "disassembledTeal": 390
     },
     {
       "teal": 613,
@@ -3079,7 +3452,8 @@
         638,
         639,
         640
-      ]
+      ],
+      "disassembledTeal": 392
     },
     {
       "teal": 614,
@@ -3088,7 +3462,8 @@
         641,
         642,
         643
-      ]
+      ],
+      "disassembledTeal": 393
     },
     {
       "teal": 615,
@@ -3098,7 +3473,8 @@
         645,
         646,
         647
-      ]
+      ],
+      "disassembledTeal": 394
     },
     {
       "teal": 618,
@@ -3106,7 +3482,8 @@
       "errorMessage": "this contract does not implement the given ABI method for create NoOp",
       "pc": [
         648
-      ]
+      ],
+      "disassembledTeal": 395
     },
     {
       "teal": 621,
@@ -3118,7 +3495,8 @@
         652,
         653,
         654
-      ]
+      ],
+      "disassembledTeal": 397
     },
     {
       "teal": 622,
@@ -3130,7 +3508,8 @@
         658,
         659,
         660
-      ]
+      ],
+      "disassembledTeal": 398
     },
     {
       "teal": 623,
@@ -3142,7 +3521,8 @@
         664,
         665,
         666
-      ]
+      ],
+      "disassembledTeal": 399
     },
     {
       "teal": 624,
@@ -3154,7 +3534,8 @@
         670,
         671,
         672
-      ]
+      ],
+      "disassembledTeal": 400
     },
     {
       "teal": 625,
@@ -3163,7 +3544,8 @@
         673,
         674,
         675
-      ]
+      ],
+      "disassembledTeal": 401
     },
     {
       "teal": 626,
@@ -3179,7 +3561,8 @@
         683,
         684,
         685
-      ]
+      ],
+      "disassembledTeal": 402
     },
     {
       "teal": 629,
@@ -3187,7 +3570,8 @@
       "errorMessage": "this contract does not implement the given ABI method for call NoOp",
       "pc": [
         686
-      ]
+      ],
+      "disassembledTeal": 403
     },
     {
       "teal": 632,
@@ -3196,7 +3580,8 @@
         687,
         688,
         689
-      ]
+      ],
+      "disassembledTeal": 405
     },
     {
       "teal": 633,
@@ -3204,7 +3589,8 @@
       "pc": [
         690,
         691
-      ]
+      ],
+      "disassembledTeal": 406
     },
     {
       "teal": 634,
@@ -3212,14 +3598,16 @@
       "pc": [
         692,
         693
-      ]
+      ],
+      "disassembledTeal": 407
     },
     {
       "teal": 635,
       "source": 6,
       "pc": [
         694
-      ]
+      ],
+      "disassembledTeal": 408
     },
     {
       "teal": 636,
@@ -3227,7 +3615,8 @@
       "pc": [
         695,
         696
-      ]
+      ],
+      "disassembledTeal": 409
     },
     {
       "teal": 637,
@@ -3235,14 +3624,16 @@
       "pc": [
         697,
         698
-      ]
+      ],
+      "disassembledTeal": 410
     },
     {
       "teal": 638,
       "source": 6,
       "pc": [
         699
-      ]
+      ],
+      "disassembledTeal": 411
     },
     {
       "teal": 641,
@@ -3251,7 +3642,8 @@
         700,
         701,
         702
-      ]
+      ],
+      "disassembledTeal": 413
     },
     {
       "teal": 642,
@@ -3259,7 +3651,8 @@
       "pc": [
         703,
         704
-      ]
+      ],
+      "disassembledTeal": 414
     },
     {
       "teal": 643,
@@ -3267,14 +3660,16 @@
       "pc": [
         705,
         706
-      ]
+      ],
+      "disassembledTeal": 415
     },
     {
       "teal": 644,
       "source": 6,
       "pc": [
         707
-      ]
+      ],
+      "disassembledTeal": 416
     },
     {
       "teal": 645,
@@ -3282,7 +3677,8 @@
       "pc": [
         708,
         709
-      ]
+      ],
+      "disassembledTeal": 417
     },
     {
       "teal": 646,
@@ -3290,21 +3686,24 @@
       "pc": [
         710,
         711
-      ]
+      ],
+      "disassembledTeal": 418
     },
     {
       "teal": 647,
       "source": 6,
       "pc": [
         712
-      ]
+      ],
+      "disassembledTeal": 419
     },
     {
       "teal": 648,
       "source": 6,
       "pc": [
         713
-      ]
+      ],
+      "disassembledTeal": 420
     },
     {
       "teal": 649,
@@ -3312,28 +3711,32 @@
       "pc": [
         714,
         715
-      ]
+      ],
+      "disassembledTeal": 421
     },
     {
       "teal": 650,
       "source": 6,
       "pc": [
         716
-      ]
+      ],
+      "disassembledTeal": 422
     },
     {
       "teal": 651,
       "source": 6,
       "pc": [
         717
-      ]
+      ],
+      "disassembledTeal": 423
     },
     {
       "teal": 652,
       "source": 6,
       "pc": [
         718
-      ]
+      ],
+      "disassembledTeal": 424
     },
     {
       "teal": 653,
@@ -3342,7 +3745,8 @@
         719,
         720,
         721
-      ]
+      ],
+      "disassembledTeal": 425
     },
     {
       "teal": 654,
@@ -3350,7 +3754,8 @@
       "pc": [
         722,
         723
-      ]
+      ],
+      "disassembledTeal": 426
     },
     {
       "teal": 655,
@@ -3358,21 +3763,24 @@
       "pc": [
         724,
         725
-      ]
+      ],
+      "disassembledTeal": 427
     },
     {
       "teal": 656,
       "source": 6,
       "pc": [
         726
-      ]
+      ],
+      "disassembledTeal": 428
     },
     {
       "teal": 657,
       "source": 6,
       "pc": [
         727
-      ]
+      ],
+      "disassembledTeal": 429
     },
     {
       "teal": 658,
@@ -3380,7 +3788,8 @@
       "pc": [
         728,
         729
-      ]
+      ],
+      "disassembledTeal": 430
     },
     {
       "teal": 659,
@@ -3388,7 +3797,8 @@
       "pc": [
         730,
         731
-      ]
+      ],
+      "disassembledTeal": 431
     },
     {
       "teal": 660,
@@ -3396,7 +3806,8 @@
       "pc": [
         732,
         733
-      ]
+      ],
+      "disassembledTeal": 432
     },
     {
       "teal": 661,
@@ -3404,18 +3815,20 @@
       "pc": [
         734,
         735
-      ]
+      ],
+      "disassembledTeal": 433
     },
     {
       "teal": 662,
       "source": 6,
       "pc": [
         736
-      ]
+      ],
+      "disassembledTeal": 434
     }
   ],
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk4LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHZlcmlmeU1CUlBheW1lbnQocGF5bWVudDogUGF5VHhuLCBwcmVNQlI6IHVpbnQ2NCk6IHZvaWQKdmVyaWZ5TUJSUGF5bWVudDoKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MTAKCS8vIHZlcmlmeVBheVR4bihwYXltZW50LCB7CgkvLyAgICAgICByZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGFtb3VudDogdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlIC0gcHJlTUJSLAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwYXltZW50OiBQYXlUeG4KCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBheW1lbnQiLCJmaWVsZCI6InJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwYXltZW50OiBQYXlUeG4KCWd0eG5zIEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gcHJlTUJSOiB1aW50NjQKCS0KCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwYXltZW50IiwiZmllbGQiOiJhbW91bnQiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZU1CUiJ9Cglhc3NlcnQKCXJldHN1YgoKLy8gc2VuZE1CUlBheW1lbnQocHJlTUJSOiB1aW50NjQpOiB2b2lkCnNlbmRNQlJQYXltZW50OgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxNwoJLy8gc2VuZFBheW1lbnQoewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFtb3VudDogcHJlTUJSIC0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnQgcGF5CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxOAoJLy8gcmVjZWl2ZXI6IHRoaXMudHhuLnNlbmRlcgoJdHhuIFNlbmRlcgoJaXR4bl9maWVsZCBSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MTkKCS8vIGFtb3VudDogcHJlTUJSIC0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglmcmFtZV9kaWcgLTEgLy8gcHJlTUJSOiB1aW50NjQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJLQoJaXR4bl9maWVsZCBBbW91bnQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIGFkZEFwcFRvV2hpdGVMaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHBheSl2b2lkCiphYmlfcm91dGVfYWRkQXBwVG9XaGl0ZUxpc3Q6CgkvLyBwYXltZW50OiBwYXkKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IHBheQoJPT0KCgkvLyBhcmd1bWVudCAwIChwYXltZW50KSBmb3IgYWRkQXBwVG9XaGl0ZUxpc3QgbXVzdCBiZSBhIHBheSB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gYXBwSUQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGJveEluZGV4OiB1aW50MTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnQgMgoJPT0KCgkvLyBhcmd1bWVudCAyIChib3hJbmRleCkgZm9yIGFkZEFwcFRvV2hpdGVMaXN0IG11c3QgYmUgYSB1aW50MTYKCWFzc2VydAoJYnRvaQoKCS8vIGFyYzogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgYWRkQXBwVG9XaGl0ZUxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQscGF5KXZvaWQKCWNhbGxzdWIgYWRkQXBwVG9XaGl0ZUxpc3QKCWludCAxCglyZXR1cm4KCi8vIGFkZEFwcFRvV2hpdGVMaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2LCBhcHBJRDogdWludDY0LCBwYXltZW50OiBQYXlUeG4pOiB2b2lkCi8vCi8vIEFkZCBhcHAgdG8gd2hpdGVsaXN0IGJveAovLwovLyBAcGFyYW0gYXJjIC0gVGhlIEFSQyB0aGUgd2hpdGVsaXN0IGNvcnJlc3BvbmRzIHRvCi8vIEBwYXJhbSBib3hJbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgd2hpdGVsaXN0IGJveCB0byBhZGQgdGhlIGFwcCB0bwovLyBAcGFyYW0gYXBwSUQgLSBUaGUgYXBwIElEIHRvIGFkZCB0byB0aGUgd2hpdGVsaXN0Ci8vIEBwYXJhbSBwYXltZW50IC0gVGhlIHBheW1lbnQgdHJhbnNhY3Rpb24gdG8gY292ZXIgdGhlIE1CUiBjaGFuZ2UKYWRkQXBwVG9XaGl0ZUxpc3Q6Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czozMwoJLy8gcHJlTUJSID0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2J1cnkgMCAvLyBwcmVNQlI6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzQKCS8vIHdoaXRlbGlzdDogV2hpdGVsaXN0ID0geyBhY2NvdW50OiB0aGlzLnR4bi5zZW5kZXIsIGJveEluZGV4OiBib3hJbmRleCwgYXJjOiBhcmMgfQoJYnl0ZSAweCAvLyBpbml0aWFsIGhlYWQKCWJ5dGUgMHggLy8gaW5pdGlhbCB0YWlsCglieXRlIDB4MDAyNCAvLyBpbml0aWFsIGhlYWQgb2Zmc2V0Cgl0eG4gU2VuZGVyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQxNgoJaXRvYgoJZXh0cmFjdCA2IDIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMSAvLyBhcmM6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM2CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmV4aXN0cwoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9sZW4KCXN3YXAKCXBvcAoJYnogKmlmMF9lbHNlCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM3CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlLnB1c2goYXBwSUQpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZQoJYXNzZXJ0CglleHRyYWN0IDIgMAoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCWl0b2IKCWNvbmNhdAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWR1cAoJYm94X2RlbAoJcG9wCglzd2FwCglkdXAKCWxlbgoJaW50IDgKCS8KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzkKCS8vIG5ld1doaXRlbGlzdDogdWludDY0W10gPSBbYXBwSURdCglmcmFtZV9kaWcgLTMgLy8gYXBwSUQ6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfYnVyeSAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlID0gbmV3V2hpdGVsaXN0CglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCWR1cAoJbGVuCglpbnQgOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoKKmlmMF9lbmQ6CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQzCgkvLyB0aGlzLnZlcmlmeU1CUlBheW1lbnQocGF5bWVudCwgcHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBwYXltZW50OiBQYXlUeG4KCWNhbGxzdWIgdmVyaWZ5TUJSUGF5bWVudAoJcmV0c3ViCgovLyBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCiphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0OgoJLy8gYXBwSURzOiB1aW50NjRbXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJZXh0cmFjdCAyIDAKCgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDIKCT09CgoJLy8gYXJndW1lbnQgMSAoYm94SW5kZXgpIGZvciBzZXRBcHBXaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCgljYWxsc3ViIHNldEFwcFdoaXRlbGlzdAoJaW50IDEKCXJldHVybgoKLy8gc2V0QXBwV2hpdGVsaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2LCBhcHBJRHM6IHVpbnQ2NFtdKTogdm9pZAovLwovLyBTZXRzIGEgYXBwIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlci4gU2hvdWxkIG9ubHkgYmUgdXNlZCB3aGVuIGFkZGluZy9yZW1vdmluZwovLyBtb3JlIHRoYW4gb25lIGFwcAovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gcHV0IHRoZSBhcHAgSURzIGluCi8vIEBwYXJhbSBhcHBJRHMgLSBBcnJheSBvZiBhcHAgSURzIHRoYXQgc2lnbmlmeSB0aGUgd2hpdGVsaXN0ZWQgYXBwcwpzZXRBcHBXaGl0ZWxpc3Q6Cglwcm90byAzIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo1NQoJLy8gcHJlTUJSID0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2J1cnkgMCAvLyBwcmVNQlI6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NTYKCS8vIHdoaXRlbGlzdDogV2hpdGVsaXN0ID0geyBhY2NvdW50OiB0aGlzLnR4bi5zZW5kZXIsIGJveEluZGV4OiBib3hJbmRleCwgYXJjOiBhcmMgfQoJYnl0ZSAweCAvLyBpbml0aWFsIGhlYWQKCWJ5dGUgMHggLy8gaW5pdGlhbCB0YWlsCglieXRlIDB4MDAyNCAvLyBpbml0aWFsIGhlYWQgb2Zmc2V0Cgl0eG4gU2VuZGVyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQxNgoJaXRvYgoJZXh0cmFjdCA2IDIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMSAvLyBhcmM6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NTgKCS8vIHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkuZGVsZXRlKCkKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZGVsCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo2MAoJLy8gdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZSA9IGFwcElEcwoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgLTMgLy8gYXBwSURzOiB1aW50NjRbXQoJZHVwCglsZW4KCWludCA4CgkvCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0Cglib3hfcHV0CgoJLy8gKmlmMV9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NjIKCS8vIHByZU1CUiA+IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJPgoJYnogKmlmMV9lbHNlCgoJLy8gKmlmMV9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjYzCgkvLyB0aGlzLnNlbmRNQlJQYXltZW50KHByZU1CUikKCWZyYW1lX2RpZyAwIC8vIHByZU1CUjogdWludDY0CgljYWxsc3ViIHNlbmRNQlJQYXltZW50CgliICppZjFfZW5kCgoqaWYxX2Vsc2U6CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjY1CgkvLyB0aGlzLnZlcmlmeU1CUlBheW1lbnQodGhpcy50eG5Hcm91cFt0aGlzLnR4bi5ncm91cEluZGV4IC0gMV0gYXMgUGF5VHhuLCBwcmVNQlIpCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgcGF5Cgk9PQoJYXNzZXJ0CgoJLy8gZmFpbGVkIHRvIGNhc3QgdGhpcy50eG5Hcm91cFt0aGlzLnR4bi5ncm91cEluZGV4IC0gMV0gdG8gcGF5Cglhc3NlcnQKCWNhbGxzdWIgdmVyaWZ5TUJSUGF5bWVudAoKKmlmMV9lbmQ6CglyZXRzdWIKCi8vIGRlbGV0ZVdoaXRlbGlzdChzdHJpbmcsdWludDE2KXZvaWQKKmFiaV9yb3V0ZV9kZWxldGVXaGl0ZWxpc3Q6CgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDIKCT09CgoJLy8gYXJndW1lbnQgMCAoYm94SW5kZXgpIGZvciBkZWxldGVXaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBkZWxldGVXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNil2b2lkCgljYWxsc3ViIGRlbGV0ZVdoaXRlbGlzdAoJaW50IDEKCXJldHVybgoKLy8gZGVsZXRlV2hpdGVsaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2KTogdm9pZAovLwovLyBEZWxldGVzIGEgYXBwIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlcgovLwovLyBAcGFyYW0gYXJjIC0gVGhlIEFSQyB0aGUgd2hpdGVsaXN0IGNvcnJlc3BvbmRzIHRvCi8vIEBwYXJhbSBib3hJbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgd2hpdGVsaXN0IGJveCB0byBkZWxldGUKZGVsZXRlV2hpdGVsaXN0OgoJcHJvdG8gMiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NzcKCS8vIHByZU1CUiA9IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCglmcmFtZV9idXJ5IDAgLy8gcHJlTUJSOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjc4CgkvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdCA9IHsgYWNjb3VudDogdGhpcy50eG4uc2VuZGVyLCBib3hJbmRleDogYm94SW5kZXgsIGFyYzogYXJjIH0KCWJ5dGUgMHggLy8gaW5pdGlhbCBoZWFkCglieXRlIDB4IC8vIGluaXRpYWwgdGFpbAoJYnl0ZSAweDAwMjQgLy8gaW5pdGlhbCBoZWFkIG9mZnNldAoJdHhuIFNlbmRlcgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGJveEluZGV4OiB1aW50MTYKCWl0b2IKCWV4dHJhY3QgNiAyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTEgLy8gYXJjOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJcG9wIC8vIHBvcCBoZWFkIG9mZnNldAoJY29uY2F0IC8vIGNvbmNhdCBoZWFkIGFuZCB0YWlsCglmcmFtZV9idXJ5IDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjgwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmRlbGV0ZSgpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2RlbAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6ODIKCS8vIHRoaXMuc2VuZE1CUlBheW1lbnQocHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWNhbGxzdWIgc2VuZE1CUlBheW1lbnQKCXJldHN1YgoKLy8gZGVsZXRlQXBwRnJvbVdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2RlbGV0ZUFwcEZyb21XaGl0ZWxpc3Q6CgkvLyBpbmRleDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyA0CglidG9pCgoJLy8gYXBwSUQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGJveEluZGV4OiB1aW50MTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnQgMgoJPT0KCgkvLyBhcmd1bWVudCAyIChib3hJbmRleCkgZm9yIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBkZWxldGVBcHBGcm9tV2hpdGVsaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QKCWludCAxCglyZXR1cm4KCi8vIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QoYXJjOiBzdHJpbmcsIGJveEluZGV4OiB1aW50MTYsIGFwcElEOiB1aW50NjQsIGluZGV4OiB1aW50NjQpOiB2b2lkCi8vCi8vIERlbGV0ZXMgYSBhcHAgZnJvbSBhIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlcgovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gZGVsZXRlIGZyb20KLy8gQHBhcmFtIGFwcElEIC0gVGhlIGFwcCBJRCB0byBkZWxldGUgZnJvbSB0aGUgd2hpdGVsaXN0Ci8vIEBwYXJhbSBpbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgYXBwIGluIHRoZSB3aGl0ZWxpc3QKZGVsZXRlQXBwRnJvbVdoaXRlbGlzdDoKCXByb3RvIDQgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjk0CgkvLyBwcmVNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJZnJhbWVfYnVyeSAwIC8vIHByZU1CUjogdWludDY0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5NQoJLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QgPSB7IGFjY291bnQ6IHRoaXMudHhuLnNlbmRlciwgYm94SW5kZXg6IGJveEluZGV4LCBhcmM6IGFyYyB9CglieXRlIDB4IC8vIGluaXRpYWwgaGVhZAoJYnl0ZSAweCAvLyBpbml0aWFsIHRhaWwKCWJ5dGUgMHgwMDI0IC8vIGluaXRpYWwgaGVhZCBvZmZzZXQKCXR4biBTZW5kZXIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMiAvLyBib3hJbmRleDogdWludDE2CglpdG9iCglleHRyYWN0IDYgMgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0xIC8vIGFyYzogc3RyaW5nCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJY2FsbHN1YiAqcHJvY2Vzc19keW5hbWljX3R1cGxlX2VsZW1lbnQKCXBvcCAvLyBwb3AgaGVhZCBvZmZzZXQKCWNvbmNhdCAvLyBjb25jYXQgaGVhZCBhbmQgdGFpbAoJZnJhbWVfYnVyeSAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5NwoJLy8gc3BsaWNlZCA9IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUuc3BsaWNlKGluZGV4LCAxKQoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUKCWFzc2VydAoJZXh0cmFjdCAyIDAKCWludCAxCglmcmFtZV9kaWcgLTQgLy8gaW5kZXg6IHVpbnQ2NAoJaW50IDgKCSoKCXN0b3JlIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCWludCAxNgoJc3RvcmUgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUKCWFzc2VydAoJZXh0cmFjdCAyIDAKCWludCAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCXN1YnN0cmluZzMKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglkdXAKCWxlbgoJbG9hZCAyNDcgLy8gc3BsaWNlIHN0YXJ0Cglsb2FkIDI0NiAvLyBzcGxpY2UgYnl0ZSBsZW5ndGgKCSsKCWludCA4CgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCWxvYWQgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJaW50IDgKCS0KCWV4dHJhY3QzCglzd2FwCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCXN3YXAKCWR1cAoJbGVuCglpbnQgOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoJZnJhbWVfYnVyeSAyIC8vIHNwbGljZWQ6IHVpbnQ2NFtdCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5OQoJLy8gYXNzZXJ0KHNwbGljZWRbMF0gPT09IGFwcElEKQoJZnJhbWVfZGlnIDIgLy8gc3BsaWNlZDogdWludDY0W10KCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglleHRyYWN0IDAgOAoJYnRvaQoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjEwMQoJLy8gdGhpcy5zZW5kTUJSUGF5bWVudChwcmVNQlIpCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJY2FsbHN1YiBzZW5kTUJSUGF5bWVudAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiYWRkQXBwVG9XaGl0ZUxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQscGF5KXZvaWQiCgltZXRob2QgInNldEFwcFdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NFtdKXZvaWQiCgltZXRob2QgImRlbGV0ZVdoaXRlbGlzdChzdHJpbmcsdWludDE2KXZvaWQiCgltZXRob2QgImRlbGV0ZUFwcEZyb21XaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2FkZEFwcFRvV2hpdGVMaXN0ICphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlQXBwRnJvbVdoaXRlbGlzdAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycgoKKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQ6Cglwcm90byA0IDMKCWZyYW1lX2RpZyAtNCAvLyB0dXBsZSBoZWFkCglmcmFtZV9kaWcgLTEgLy8gZWxlbWVudAoJY29uY2F0CglmcmFtZV9kaWcgLTMgLy8gdHVwbGUgdGFpbAoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglyZXRzdWIKCipwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudDoKCXByb3RvIDQgMwoJZnJhbWVfZGlnIC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJY29uY2F0CglmcmFtZV9idXJ5IC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMSAvLyBlbGVtZW50CglkdXAKCWxlbgoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglidG9pCgkrCglpdG9iCglleHRyYWN0IDYgMgoJZnJhbWVfYnVyeSAtMiAvLyBoZWFkIG9mZnNldAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCXN3YXAKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMyAvLyB0dXBsZSB0YWlsCglmcmFtZV9kaWcgLTQgLy8gdHVwbGUgaGVhZAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJcmV0c3Vi",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjk5LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHZlcmlmeU1CUlBheW1lbnQocGF5bWVudDogUGF5VHhuLCBwcmVNQlI6IHVpbnQ2NCk6IHZvaWQKdmVyaWZ5TUJSUGF5bWVudDoKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MTAKCS8vIHZlcmlmeVBheVR4bihwYXltZW50LCB7CgkvLyAgICAgICByZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGFtb3VudDogdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlIC0gcHJlTUJSLAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwYXltZW50OiBQYXlUeG4KCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBheW1lbnQiLCJmaWVsZCI6InJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwYXltZW50OiBQYXlUeG4KCWd0eG5zIEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gcHJlTUJSOiB1aW50NjQKCS0KCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwYXltZW50IiwiZmllbGQiOiJhbW91bnQiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZSAtIHByZU1CUiJ9Cglhc3NlcnQKCXJldHN1YgoKLy8gc2VuZE1CUlBheW1lbnQocHJlTUJSOiB1aW50NjQpOiB2b2lkCnNlbmRNQlJQYXltZW50OgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxNwoJLy8gc2VuZFBheW1lbnQoewoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFtb3VudDogcHJlTUJSIC0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnQgcGF5CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxOAoJLy8gcmVjZWl2ZXI6IHRoaXMudHhuLnNlbmRlcgoJdHhuIFNlbmRlcgoJaXR4bl9maWVsZCBSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MTkKCS8vIGFtb3VudDogcHJlTUJSIC0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglmcmFtZV9kaWcgLTEgLy8gcHJlTUJSOiB1aW50NjQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJLQoJaXR4bl9maWVsZCBBbW91bnQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIGFkZEFwcFRvV2hpdGVMaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHBheSl2b2lkCiphYmlfcm91dGVfYWRkQXBwVG9XaGl0ZUxpc3Q6CgkvLyBwYXltZW50OiBwYXkKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50IHBheQoJPT0KCgkvLyBhcmd1bWVudCAwIChwYXltZW50KSBmb3IgYWRkQXBwVG9XaGl0ZUxpc3QgbXVzdCBiZSBhIHBheSB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gYXBwSUQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGJveEluZGV4OiB1aW50MTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnQgMgoJPT0KCgkvLyBhcmd1bWVudCAyIChib3hJbmRleCkgZm9yIGFkZEFwcFRvV2hpdGVMaXN0IG11c3QgYmUgYSB1aW50MTYKCWFzc2VydAoJYnRvaQoKCS8vIGFyYzogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgYWRkQXBwVG9XaGl0ZUxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQscGF5KXZvaWQKCWNhbGxzdWIgYWRkQXBwVG9XaGl0ZUxpc3QKCWludCAxCglyZXR1cm4KCi8vIGFkZEFwcFRvV2hpdGVMaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2LCBhcHBJRDogdWludDY0LCBwYXltZW50OiBQYXlUeG4pOiB2b2lkCi8vCi8vIEFkZCBhcHAgdG8gd2hpdGVsaXN0IGJveAovLwovLyBAcGFyYW0gYXJjIC0gVGhlIEFSQyB0aGUgd2hpdGVsaXN0IGNvcnJlc3BvbmRzIHRvCi8vIEBwYXJhbSBib3hJbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgd2hpdGVsaXN0IGJveCB0byBhZGQgdGhlIGFwcCB0bwovLyBAcGFyYW0gYXBwSUQgLSBUaGUgYXBwIElEIHRvIGFkZCB0byB0aGUgd2hpdGVsaXN0Ci8vIEBwYXJhbSBwYXltZW50IC0gVGhlIHBheW1lbnQgdHJhbnNhY3Rpb24gdG8gY292ZXIgdGhlIE1CUiBjaGFuZ2UKYWRkQXBwVG9XaGl0ZUxpc3Q6Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czozMwoJLy8gcHJlTUJSID0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2J1cnkgMCAvLyBwcmVNQlI6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzQKCS8vIHdoaXRlbGlzdDogV2hpdGVsaXN0ID0geyBhY2NvdW50OiB0aGlzLnR4bi5zZW5kZXIsIGJveEluZGV4OiBib3hJbmRleCwgYXJjOiBhcmMgfQoJYnl0ZSAweCAvLyBpbml0aWFsIGhlYWQKCWJ5dGUgMHggLy8gaW5pdGlhbCB0YWlsCglieXRlIDB4MDAyNCAvLyBpbml0aWFsIGhlYWQgb2Zmc2V0Cgl0eG4gU2VuZGVyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQxNgoJaXRvYgoJZXh0cmFjdCA2IDIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMSAvLyBhcmM6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM2CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmV4aXN0cwoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9sZW4KCXN3YXAKCXBvcAoJYnogKmlmMF9lbHNlCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM3CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlLnB1c2goYXBwSUQpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZQoJYXNzZXJ0CglleHRyYWN0IDIgMAoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCWl0b2IKCWNvbmNhdAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWR1cAoJYm94X2RlbAoJcG9wCglzd2FwCglkdXAKCWxlbgoJaW50IDgKCS8KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzkKCS8vIG5ld1doaXRlbGlzdDogdWludDY0W10gPSBbYXBwSURdCglmcmFtZV9kaWcgLTMgLy8gYXBwSUQ6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfYnVyeSAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlID0gbmV3V2hpdGVsaXN0CglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCWR1cAoJbGVuCglpbnQgOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoKKmlmMF9lbmQ6CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQzCgkvLyB0aGlzLnZlcmlmeU1CUlBheW1lbnQocGF5bWVudCwgcHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBwYXltZW50OiBQYXlUeG4KCWNhbGxzdWIgdmVyaWZ5TUJSUGF5bWVudAoJcmV0c3ViCgovLyBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCiphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0OgoJLy8gYXBwSURzOiB1aW50NjRbXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJZXh0cmFjdCAyIDAKCgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDIKCT09CgoJLy8gYXJndW1lbnQgMSAoYm94SW5kZXgpIGZvciBzZXRBcHBXaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCgljYWxsc3ViIHNldEFwcFdoaXRlbGlzdAoJaW50IDEKCXJldHVybgoKLy8gc2V0QXBwV2hpdGVsaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2LCBhcHBJRHM6IHVpbnQ2NFtdKTogdm9pZAovLwovLyBTZXRzIGEgYXBwIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlci4gU2hvdWxkIG9ubHkgYmUgdXNlZCB3aGVuIGFkZGluZy9yZW1vdmluZwovLyBtb3JlIHRoYW4gb25lIGFwcAovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gcHV0IHRoZSBhcHAgSURzIGluCi8vIEBwYXJhbSBhcHBJRHMgLSBBcnJheSBvZiBhcHAgSURzIHRoYXQgc2lnbmlmeSB0aGUgd2hpdGVsaXN0ZWQgYXBwcwpzZXRBcHBXaGl0ZWxpc3Q6Cglwcm90byAzIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo1NQoJLy8gcHJlTUJSID0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2J1cnkgMCAvLyBwcmVNQlI6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NTYKCS8vIHdoaXRlbGlzdDogV2hpdGVsaXN0ID0geyBhY2NvdW50OiB0aGlzLnR4bi5zZW5kZXIsIGJveEluZGV4OiBib3hJbmRleCwgYXJjOiBhcmMgfQoJYnl0ZSAweCAvLyBpbml0aWFsIGhlYWQKCWJ5dGUgMHggLy8gaW5pdGlhbCB0YWlsCglieXRlIDB4MDAyNCAvLyBpbml0aWFsIGhlYWQgb2Zmc2V0Cgl0eG4gU2VuZGVyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQxNgoJaXRvYgoJZXh0cmFjdCA2IDIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMSAvLyBhcmM6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NTgKCS8vIHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkuZGVsZXRlKCkKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZGVsCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo2MAoJLy8gdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZSA9IGFwcElEcwoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgLTMgLy8gYXBwSURzOiB1aW50NjRbXQoJZHVwCglsZW4KCWludCA4CgkvCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0Cglib3hfcHV0CgoJLy8gKmlmMV9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NjIKCS8vIHByZU1CUiA+IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJPgoJYnogKmlmMV9lbHNlCgoJLy8gKmlmMV9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjYzCgkvLyB0aGlzLnNlbmRNQlJQYXltZW50KHByZU1CUikKCWZyYW1lX2RpZyAwIC8vIHByZU1CUjogdWludDY0CgljYWxsc3ViIHNlbmRNQlJQYXltZW50CgliICppZjFfZW5kCgoqaWYxX2Vsc2U6CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjY1CgkvLyB0aGlzLnZlcmlmeU1CUlBheW1lbnQodGhpcy50eG5Hcm91cFt0aGlzLnR4bi5ncm91cEluZGV4IC0gMV0gYXMgUGF5VHhuLCBwcmVNQlIpCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgcGF5Cgk9PQoJYXNzZXJ0CgoJLy8gZmFpbGVkIHRvIGNhc3QgdGhpcy50eG5Hcm91cFt0aGlzLnR4bi5ncm91cEluZGV4IC0gMV0gdG8gcGF5Cglhc3NlcnQKCWNhbGxzdWIgdmVyaWZ5TUJSUGF5bWVudAoKKmlmMV9lbmQ6CglyZXRzdWIKCi8vIGRlbGV0ZVdoaXRlbGlzdChzdHJpbmcsdWludDE2KXZvaWQKKmFiaV9yb3V0ZV9kZWxldGVXaGl0ZWxpc3Q6CgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDIKCT09CgoJLy8gYXJndW1lbnQgMCAoYm94SW5kZXgpIGZvciBkZWxldGVXaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBkZWxldGVXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNil2b2lkCgljYWxsc3ViIGRlbGV0ZVdoaXRlbGlzdAoJaW50IDEKCXJldHVybgoKLy8gZGVsZXRlV2hpdGVsaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2KTogdm9pZAovLwovLyBEZWxldGVzIGEgYXBwIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlcgovLwovLyBAcGFyYW0gYXJjIC0gVGhlIEFSQyB0aGUgd2hpdGVsaXN0IGNvcnJlc3BvbmRzIHRvCi8vIEBwYXJhbSBib3hJbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgd2hpdGVsaXN0IGJveCB0byBkZWxldGUKZGVsZXRlV2hpdGVsaXN0OgoJcHJvdG8gMiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NzcKCS8vIHByZU1CUiA9IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCglmcmFtZV9idXJ5IDAgLy8gcHJlTUJSOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjc4CgkvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdCA9IHsgYWNjb3VudDogdGhpcy50eG4uc2VuZGVyLCBib3hJbmRleDogYm94SW5kZXgsIGFyYzogYXJjIH0KCWJ5dGUgMHggLy8gaW5pdGlhbCBoZWFkCglieXRlIDB4IC8vIGluaXRpYWwgdGFpbAoJYnl0ZSAweDAwMjQgLy8gaW5pdGlhbCBoZWFkIG9mZnNldAoJdHhuIFNlbmRlcgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGJveEluZGV4OiB1aW50MTYKCWl0b2IKCWV4dHJhY3QgNiAyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTEgLy8gYXJjOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJcG9wIC8vIHBvcCBoZWFkIG9mZnNldAoJY29uY2F0IC8vIGNvbmNhdCBoZWFkIGFuZCB0YWlsCglmcmFtZV9idXJ5IDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjgwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmRlbGV0ZSgpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2RlbAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6ODIKCS8vIHRoaXMuc2VuZE1CUlBheW1lbnQocHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWNhbGxzdWIgc2VuZE1CUlBheW1lbnQKCXJldHN1YgoKLy8gZGVsZXRlQXBwRnJvbVdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2RlbGV0ZUFwcEZyb21XaGl0ZWxpc3Q6CgkvLyBpbmRleDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyA0CglidG9pCgoJLy8gYXBwSUQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGJveEluZGV4OiB1aW50MTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnQgMgoJPT0KCgkvLyBhcmd1bWVudCAyIChib3hJbmRleCkgZm9yIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBkZWxldGVBcHBGcm9tV2hpdGVsaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QKCWludCAxCglyZXR1cm4KCi8vIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QoYXJjOiBzdHJpbmcsIGJveEluZGV4OiB1aW50MTYsIGFwcElEOiB1aW50NjQsIGluZGV4OiB1aW50NjQpOiB2b2lkCi8vCi8vIERlbGV0ZXMgYSBhcHAgZnJvbSBhIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlcgovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gZGVsZXRlIGZyb20KLy8gQHBhcmFtIGFwcElEIC0gVGhlIGFwcCBJRCB0byBkZWxldGUgZnJvbSB0aGUgd2hpdGVsaXN0Ci8vIEBwYXJhbSBpbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgYXBwIGluIHRoZSB3aGl0ZWxpc3QKZGVsZXRlQXBwRnJvbVdoaXRlbGlzdDoKCXByb3RvIDQgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjk0CgkvLyBwcmVNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJZnJhbWVfYnVyeSAwIC8vIHByZU1CUjogdWludDY0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5NQoJLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QgPSB7IGFjY291bnQ6IHRoaXMudHhuLnNlbmRlciwgYm94SW5kZXg6IGJveEluZGV4LCBhcmM6IGFyYyB9CglieXRlIDB4IC8vIGluaXRpYWwgaGVhZAoJYnl0ZSAweCAvLyBpbml0aWFsIHRhaWwKCWJ5dGUgMHgwMDI0IC8vIGluaXRpYWwgaGVhZCBvZmZzZXQKCXR4biBTZW5kZXIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMiAvLyBib3hJbmRleDogdWludDE2CglpdG9iCglleHRyYWN0IDYgMgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0xIC8vIGFyYzogc3RyaW5nCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJY2FsbHN1YiAqcHJvY2Vzc19keW5hbWljX3R1cGxlX2VsZW1lbnQKCXBvcCAvLyBwb3AgaGVhZCBvZmZzZXQKCWNvbmNhdCAvLyBjb25jYXQgaGVhZCBhbmQgdGFpbAoJZnJhbWVfYnVyeSAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5NwoJLy8gc3BsaWNlZCA9IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUuc3BsaWNlKGluZGV4LCAxKQoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUKCWFzc2VydAoJZXh0cmFjdCAyIDAKCWludCAxCglmcmFtZV9kaWcgLTQgLy8gaW5kZXg6IHVpbnQ2NAoJaW50IDgKCSoKCXN0b3JlIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCWludCAxNgoJc3RvcmUgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUKCWFzc2VydAoJZXh0cmFjdCAyIDAKCWludCAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCXN1YnN0cmluZzMKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglkdXAKCWxlbgoJbG9hZCAyNDcgLy8gc3BsaWNlIHN0YXJ0Cglsb2FkIDI0NiAvLyBzcGxpY2UgYnl0ZSBsZW5ndGgKCSsKCWludCA4CgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCWxvYWQgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJaW50IDgKCS0KCWV4dHJhY3QzCglzd2FwCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCXN3YXAKCWR1cAoJbGVuCglpbnQgOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoJZnJhbWVfYnVyeSAyIC8vIHNwbGljZWQ6IHVpbnQ2NFtdCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5OQoJLy8gYXNzZXJ0KHNwbGljZWRbMF0gPT09IGFwcElEKQoJZnJhbWVfZGlnIDIgLy8gc3BsaWNlZDogdWludDY0W10KCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglleHRyYWN0IDAgOAoJYnRvaQoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjEwMQoJLy8gdGhpcy5zZW5kTUJSUGF5bWVudChwcmVNQlIpCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJY2FsbHN1YiBzZW5kTUJSUGF5bWVudAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiYWRkQXBwVG9XaGl0ZUxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQscGF5KXZvaWQiCgltZXRob2QgInNldEFwcFdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NFtdKXZvaWQiCgltZXRob2QgImRlbGV0ZVdoaXRlbGlzdChzdHJpbmcsdWludDE2KXZvaWQiCgltZXRob2QgImRlbGV0ZUFwcEZyb21XaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2FkZEFwcFRvV2hpdGVMaXN0ICphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlQXBwRnJvbVdoaXRlbGlzdAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycgoKKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQ6Cglwcm90byA0IDMKCWZyYW1lX2RpZyAtNCAvLyB0dXBsZSBoZWFkCglmcmFtZV9kaWcgLTEgLy8gZWxlbWVudAoJY29uY2F0CglmcmFtZV9kaWcgLTMgLy8gdHVwbGUgdGFpbAoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglyZXRzdWIKCipwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudDoKCXByb3RvIDQgMwoJZnJhbWVfZGlnIC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJY29uY2F0CglmcmFtZV9idXJ5IC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMSAvLyBlbGVtZW50CglkdXAKCWxlbgoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglidG9pCgkrCglpdG9iCglleHRyYWN0IDYgMgoJZnJhbWVfYnVyeSAtMiAvLyBoZWFkIG9mZnNldAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCXN3YXAKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMyAvLyB0dXBsZSB0YWlsCglmcmFtZV9kaWcgLTQgLy8gdHVwbGUgaGVhZAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJcmV0c3Vi",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
