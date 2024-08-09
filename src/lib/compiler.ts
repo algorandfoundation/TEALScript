@@ -7516,16 +7516,19 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
     this.lineToPc = mapping.lineToPc;
     this.pcToLine = mapping.pcToLine;
+
+    if (program === 'lsig') {
+      const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
+      addrLine.teal += ` ${json.hash}`;
+    }
+
     if (!this.hasDynamicTemplateVar) {
       this.sourceInfo.forEach((sm) => {
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1];
       });
-    }
 
-    if (program === 'lsig') {
-      const addrLine = this.teal.lsig.find((t) => t.teal.trim() === '// The address of this logic signature is')!;
-      addrLine.teal += ` ${json.hash}`;
+      return json;
     }
 
     // Now dissasemble the program to get a mapping of source -> dissasembled TEAL
