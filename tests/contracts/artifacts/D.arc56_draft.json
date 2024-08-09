@@ -75,8 +75,7 @@
         1,
         2,
         3
-      ],
-      "disassembledTeal": 1
+      ]
     },
     {
       "teal": 13,
@@ -84,16 +83,14 @@
       "pc": [
         4,
         5
-      ],
-      "disassembledTeal": 2
+      ]
     },
     {
       "teal": 14,
       "source": 36,
       "pc": [
         6
-      ],
-      "disassembledTeal": 3
+      ]
     },
     {
       "teal": 15,
@@ -101,16 +98,14 @@
       "pc": [
         7,
         8
-      ],
-      "disassembledTeal": 4
+      ]
     },
     {
       "teal": 16,
       "source": 36,
       "pc": [
         9
-      ],
-      "disassembledTeal": 5
+      ]
     },
     {
       "teal": 17,
@@ -118,16 +113,14 @@
       "pc": [
         10,
         11
-      ],
-      "disassembledTeal": 6
+      ]
     },
     {
       "teal": 18,
       "source": 36,
       "pc": [
         12
-      ],
-      "disassembledTeal": 7
+      ]
     },
     {
       "teal": 19,
@@ -159,8 +152,7 @@
         36,
         37,
         38
-      ],
-      "disassembledTeal": 8
+      ]
     },
     {
       "teal": 23,
@@ -168,8 +160,7 @@
       "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
       "pc": [
         39
-      ],
-      "disassembledTeal": 10
+      ]
     },
     {
       "teal": 28,
@@ -178,24 +169,21 @@
         40,
         41,
         42
-      ],
-      "disassembledTeal": 12
+      ]
     },
     {
       "teal": 29,
       "source": 39,
       "pc": [
         43
-      ],
-      "disassembledTeal": 13
+      ]
     },
     {
       "teal": 30,
       "source": 39,
       "pc": [
         44
-      ],
-      "disassembledTeal": 14
+      ]
     },
     {
       "teal": 34,
@@ -204,8 +192,7 @@
         45,
         46,
         47
-      ],
-      "disassembledTeal": 16
+      ]
     },
     {
       "teal": 38,
@@ -214,8 +201,7 @@
         48,
         49,
         50
-      ],
-      "disassembledTeal": 17
+      ]
     },
     {
       "teal": 39,
@@ -223,40 +209,35 @@
       "pc": [
         51,
         52
-      ],
-      "disassembledTeal": 18
+      ]
     },
     {
       "teal": 40,
       "source": 40,
       "pc": [
         53
-      ],
-      "disassembledTeal": 19
+      ]
     },
     {
       "teal": 41,
       "source": 39,
       "pc": [
         54
-      ],
-      "disassembledTeal": 20
+      ]
     },
     {
       "teal": 44,
       "source": 36,
       "pc": [
         55
-      ],
-      "disassembledTeal": 22
+      ]
     },
     {
       "teal": 45,
       "source": 36,
       "pc": [
         56
-      ],
-      "disassembledTeal": 23
+      ]
     },
     {
       "teal": 48,
@@ -268,8 +249,7 @@
         60,
         61,
         62
-      ],
-      "disassembledTeal": 25
+      ]
     },
     {
       "teal": 49,
@@ -278,8 +258,7 @@
         63,
         64,
         65
-      ],
-      "disassembledTeal": 26
+      ]
     },
     {
       "teal": 50,
@@ -289,8 +268,7 @@
         67,
         68,
         69
-      ],
-      "disassembledTeal": 27
+      ]
     },
     {
       "teal": 53,
@@ -298,8 +276,7 @@
       "errorMessage": "this contract does not implement the given ABI method for create NoOp",
       "pc": [
         70
-      ],
-      "disassembledTeal": 28
+      ]
     },
     {
       "teal": 56,
@@ -311,8 +288,7 @@
         74,
         75,
         76
-      ],
-      "disassembledTeal": 30
+      ]
     },
     {
       "teal": 57,
@@ -321,8 +297,7 @@
         77,
         78,
         79
-      ],
-      "disassembledTeal": 31
+      ]
     },
     {
       "teal": 58,
@@ -332,8 +307,7 @@
         81,
         82,
         83
-      ],
-      "disassembledTeal": 32
+      ]
     },
     {
       "teal": 61,
@@ -341,12 +315,11 @@
       "errorMessage": "this contract does not implement the given ABI method for call NoOp",
       "pc": [
         84
-      ],
-      "disassembledTeal": 33
+      ]
     }
   ],
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMC4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBkKCl2b2lkCiphYmlfcm91dGVfZDoKCS8vIGV4ZWN1dGUgZCgpdm9pZAoJY2FsbHN1YiBkCglpbnQgMQoJcmV0dXJuCgovLyBkKCk6IHZvaWQKZDoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS5hbGdvLnRzOjQwCgkvLyB0aGlzLmRLZXkudmFsdWUgPSA0MgoJYnl0ZSAweDY0IC8vICJkIgoJaW50IDQyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiZCgpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfZAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMC4xCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBkKCl2b2lkCiphYmlfcm91dGVfZDoKCS8vIGV4ZWN1dGUgZCgpdm9pZAoJY2FsbHN1YiBkCglpbnQgMQoJcmV0dXJuCgovLyBkKCk6IHZvaWQKZDoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS5hbGdvLnRzOjQwCgkvLyB0aGlzLmRLZXkudmFsdWUgPSA0MgoJYnl0ZSAweDY0IC8vICJkIgoJaW50IDQyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiZCgpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfZAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
