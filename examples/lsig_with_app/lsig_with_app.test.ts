@@ -11,7 +11,7 @@ algokit.Config.configure({ populateAppCallResources: true });
 
 async function getLsigAccount(algod: algosdk.Algodv2, appID: bigint, tealTemplate: string) {
   // Replace the template variable in the lsig TEAL
-  const teal = tealTemplate.replace('TMPL_APP_ID', appID.toString());
+  const teal = tealTemplate.replace('TMPL_APP_ID', `0x${appID.toString(16).padStart(16, '0')}`);
 
   // Compile the TEAL
   const result = await algod.compile(Buffer.from(teal)).do();
