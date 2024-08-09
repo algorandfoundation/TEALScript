@@ -2924,6 +2924,35 @@ export default class Compiler {
       }
     });
 
+    const templateVarIndex = 6;
+
+    Object.keys(this.templateVars).forEach((propName, i) => {
+      const { name } = this.templateVars[propName];
+      const { slot, type } = this.scratch[propName];
+
+      this.teal[this.currentProgram].splice(templateVarIndex, 0, { teal: `store ${slot}`, node: this.lastNode });
+
+      if (isNumeric(type)) {
+        this.teal[this.currentProgram].splice(templateVarIndex, 0, { teal: `btoi`, node: this.lastNode });
+      }
+
+      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
+        teal: `pushbytes TMPL_${name}`,
+        node: this.lastNode,
+      });
+    });
+
+    if (Object.keys(this.templateVars).length > 0) {
+      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
+        teal: `// The following lines of TEAL are used to initialize template variables in scratch slots`,
+        node: this.lastNode,
+      });
+      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
+        teal: ``,
+        node: this.lastNode,
+      });
+    }
+
     this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
@@ -5736,9 +5765,14 @@ export default class Compiler {
       }
 
       const name = init.getArguments()[0]?.getText() || node.getNameNode().getText();
+      const type = this.getTypeInfo(init.getTypeArguments()[0].getType());
 
+      // TODO: Add slot argument, otherwise assign one automatically
+      const slot = 200 + Object.keys(this.templateVars).length;
+
+      this.scratch[node.getNameNode().getText()] = { slot, type, initNode: init };
       this.templateVars[node.getNameNode().getText()] = {
-        type: this.getTypeInfo(init.getTypeArguments()[0].getType()),
+        type,
         name,
         initNode: init,
       };
@@ -5935,12 +5969,11 @@ export default class Compiler {
       chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) &&
       this.templateVars[chain[0].getNameNode().getText()]
     ) {
-      const { type, name } = this.templateVars[chain[0].getNameNode().getText()];
-      if (isNumeric(type)) {
-        this.push(chain[0], `pushint TMPL_${name}`, type);
-      } else {
-        this.push(chain[0], `pushbytes TMPL_${name}`, type);
-      }
+      const propName = chain[0].getNameNode().getText();
+      const { name } = this.templateVars[propName];
+      const { slot, type } = this.scratch[propName];
+
+      this.push(chain[0], `load ${slot} // TMPL_${name}`, type);
 
       chain.splice(0, 1);
       return;
@@ -7388,14 +7421,14 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       .map((t) => t.teal)
       .map((t) => {
         // Replace template variables
-        if (t.match(/push(int|bytes) TMPL_/)) {
-          const [opcode, arg] = t.trim().split(' ');
+        if (t.startsWith('pushbytes TMPL_')) {
+          const [_, arg] = t.trim().split(' ');
 
           const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
           if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
 
-          if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
+          if (this.isDynamicType(tVar.type)) {
             if (program === 'lsig' || program === 'approval') {
               console.warn(
                 `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
@@ -7406,7 +7439,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
               this.hasDynamicTemplateVar = true;
             }
 
-            if (opcode === 'pushint') return 'pushint 0';
             return 'byte 0x';
           }
 
