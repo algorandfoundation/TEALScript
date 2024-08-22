@@ -36,8 +36,6 @@ export function optimizeFrames(inputTeal: TEALInfo[]) {
     if (teal.startsWith('frame_bury')) {
       const frameIndex = teal.split(' ')[1];
 
-      console.debug(teal, protoIndex, frameIndex, frames[protoIndex][frameIndex]);
-
       if (frames[protoIndex][frameIndex]) {
         frames[protoIndex][frameIndex].hasWrite = true;
       } else {
@@ -57,7 +55,6 @@ export function optimizeFrames(inputTeal: TEALInfo[]) {
       if (frames[protoIndex][frameIndex]) {
         frames[protoIndex][frameIndex].reads += 1;
       } else {
-        console.debug('teal', teal);
         frames[protoIndex][frameIndex] = {
           lineBefore: '',
           hasWrite: true,
