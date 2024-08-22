@@ -535,4 +535,21 @@ class GeneralTest extends Contract {
     this.a();
     return this.b();
   }
+
+  /*
+  In 0.100.1 there was a bug that caused the optimize step to erroneously interpret non-constant
+  variables as constants if the following conditions were met:
+  
+  * The variable was NOT the first assigned variable
+  * The initial variable valuable was not a constant/literal
+  */
+  reassignedNonFirstVar(): uint64 {
+    const a = 1 as uint64;
+    let b = this.app.id;
+    if (a) {
+      b = 2;
+    }
+
+    return b;
+  }
 }
