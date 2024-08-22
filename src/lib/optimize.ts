@@ -38,7 +38,7 @@ export function optimizeFrames(inputTeal: TEALInfo[]) {
 
       if (frames[protoIndex][frameIndex]) {
         frames[protoIndex][frameIndex].hasWrite = true;
-      } else if (outputTeal[i - 1].teal.match(/^(byte|int)/)) {
+      } else {
         frames[protoIndex][frameIndex] = {
           lineBefore: outputTeal[i - 1].teal,
           hasWrite: false,
@@ -75,11 +75,11 @@ export function optimizeFrames(inputTeal: TEALInfo[]) {
 
     if (teal.startsWith('frame_dig')) {
       const frameIndex = teal.split(' ')[1];
+      const frame = frames[protoIndex][frameIndex];
 
-      if (frames[protoIndex][frameIndex] && !frames[protoIndex][frameIndex].hasWrite) {
+      if (frame && !frame.hasWrite && frame.lineBefore.match(/^(byte|int)/)) {
         const comment = teal.split(' ').slice(2).join(' ');
-        const f = frames[protoIndex][frameIndex];
-        outputTeal[i].teal = outputTeal[i].teal.replace(teal, `${f.lineBefore} ${comment}`);
+        outputTeal[i].teal = outputTeal[i].teal.replace(teal, `${frame.lineBefore} ${comment}`);
       }
     }
   });
