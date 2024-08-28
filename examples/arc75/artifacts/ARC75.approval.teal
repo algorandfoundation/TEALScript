@@ -361,7 +361,6 @@ setAppWhitelist:
 	gtxns TypeEnum
 	int pay
 	==
-	assert
 
 	// failed to cast this.txnGroup[this.txn.groupIndex - 1] to pay
 	assert
