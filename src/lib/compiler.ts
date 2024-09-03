@@ -7259,7 +7259,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           this.processNode(e);
           this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}Pages`);
         });
-      } else if (key === 'approvalProgram' && init?.isKind(ts.SyntaxKind.CallExpression)) {
+      } else if (
+        key === 'approvalProgram' &&
+        init?.getText().endsWith('.approvalProgramPages()') &&
+        init?.isKind(ts.SyntaxKind.CallExpression)
+      ) {
         this.processNode(init);
       } else if (key === 'onCompletion') {
         if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
