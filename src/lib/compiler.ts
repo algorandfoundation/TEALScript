@@ -2570,8 +2570,24 @@ export default class Compiler {
             }
 
             const target = tealLine.split(':')[0].split('_').at(-1)!.toLowerCase() as 'approval' | 'clear' | 'lsig';
+            const pages = (tealLine.split(':')[0].split('_').at(-2)!.toLowerCase() as 'pages') === 'pages';
             const compiledProgram = await c.algodCompileProgram(target);
-            return { teal: `byte b64 ${compiledProgram.result}`, node: t.node };
+            if (!pages) {
+              return { teal: `byte b64 ${compiledProgram.result}`, node: t.node };
+            }
+            const bin = Uint8Array.from(Buffer.from(compiledProgram.result, 'base64'));
+            const chunks: Uint8Array[] = [];
+            for (let i = 0; i < bin.length; i += 2048) {
+              chunks.push(bin.slice(i, i + 2048));
+            }
+            const nodes: { teal: string; node: typeof t.node }[] = [];
+            // eslint-disable-next-line no-restricted-syntax
+            for (const chunk of chunks) {
+              const b64 = Buffer.from(chunk).toString('base64');
+              nodes.push({ teal: `byte b64 ${b64}`, node: t.node });
+              nodes.push({ teal: `itxn_field ${capitalizeFirstChar(`${target}Program`)}Pages`, node: t.node });
+            }
+            return nodes;
           }
 
           const method = tealLine.split(' ')[1];
@@ -6310,6 +6326,12 @@ export default class Compiler {
               this.push(chain[1], `PENDING_COMPILE_CLEAR: ${base.getText()}`, StackType.bytes);
               chain.splice(0, 2);
               break;
+            case 'approvalProgramPages':
+              if (!chain[1].isKind(ts.SyntaxKind.CallExpression))
+                throw Error(`approvralProgram must be a function call`);
+              this.push(chain[1], `PENDING_COMPILE_PAGES_APPROVAL: ${base.getText()}`, StackType.bytes);
+              chain.splice(0, 2);
+              break;
             case 'schema':
               if (!chain[1].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
               if (!chain[2].isKind(ts.SyntaxKind.PropertyAccessExpression)) throw Error();
@@ -7237,6 +7259,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           this.processNode(e);
           this.pushVoid(e, `itxn_field ${capitalizeFirstChar(key)}Pages`);
         });
+      } else if (key === 'approvalProgram' && init?.isKind(ts.SyntaxKind.CallExpression)) {
+        this.processNode(init);
       } else if (key === 'onCompletion') {
         if (!p.isKind(ts.SyntaxKind.PropertyAssignment) || !init?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
           throw new Error('Must use OnCompletion enum');
@@ -7430,6 +7454,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
           if (this.isDynamicType(tVar.type)) {
             if (program === 'lsig' || program === 'approval') {
+              // eslint-disable-next-line no-console
               console.warn(
                 `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                   tVar.type
