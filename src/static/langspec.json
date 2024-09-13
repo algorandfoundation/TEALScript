@@ -3528,8 +3528,30 @@
       "Args": ["uint64"],
       "Returns": ["any"],
       "Size": 2,
-      "ArgEnum": ["BlkSeed", "BlkTimestamp", "BlkProposer", "BlkFeesCollected", "BlkBonus"],
-      "ArgEnumTypes": ["[]byte", "uint64", "address", "uint64", "uint64"],
+      "ArgEnum": [
+        "BlkSeed",
+        "BlkTimestamp",
+        "BlkProposer",
+        "BlkFeesCollected",
+        "BlkBonus",
+        "BlkBranch",
+        "BlkFeeSink",
+        "BlkProtocol",
+        "BlkTxnCounter",
+        "BlkProposerPayout"
+      ],
+      "ArgEnumTypes": [
+        "[32]byte",
+        "uint64",
+        "address",
+        "uint64",
+        "uint64",
+        "[32]byte",
+        "address",
+        "[]byte",
+        "uint64",
+        "uint64"
+      ],
       "DocCost": "1",
       "Doc": "field F of block A. Fail unless A falls between txn.LastValid-1002 and txn.FirstValid (exclusive)",
       "ImmediateNote": [
