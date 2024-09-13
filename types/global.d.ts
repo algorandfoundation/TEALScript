@@ -888,6 +888,24 @@ declare const blocks: {
   seed: bytes;
   /** The timestamp of the block */
   timestamp: uint64;
+  /** The proposer of the block */
+  proposer: Address;
+  /** The sum of all fees paid by transactions in this block. Only populated if payouts are enabled */
+  feesCollected: uint64;
+  /** Bonus is the bonus incentive to be paid for proposing this block.  It begins as a consensus parameter value, and decays periodically. */
+  bonus: uint64;
+  /** The hash of the previous block */
+  branch: bytes;
+  /** The fee sink address */
+  feeSink: Address;
+  /** string that identifies a version of the consensus protocol. */
+  protocol: bytes;
+  /** The transaction counter of the block */
+  txnCounter: uint64;
+  /** ProposerPayout is the amount that should be moved from the FeeSink to the Proposer at the start of the next block.
+   * It is basically the bonus + the payouts percent of FeesCollected, but may be zero'd by proposer ineligibility.
+   */
+  proposerPayout: uint64;
 }[];
 
 /**

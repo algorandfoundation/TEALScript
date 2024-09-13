@@ -5083,7 +5083,7 @@ export default class Compiler {
       }
 
       this.processNode(expr);
-      this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==', 'assert');
+      this.pushLines(node, 'dup', 'gtxns TypeEnum', `int ${typeStr}`, '==');
       this.pushVoid(node, 'assert', `failed to cast ${expr.getText()} to ${typeStr}`);
       this.lastType = typeHint;
       return;
