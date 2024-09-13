@@ -25,4 +25,15 @@ export class AVM11 extends Contract {
     assert(this.txn.sender.lastHeartbeat);
     assert(this.txn.sender.lastProposed);
   }
+
+  blockParams() {
+    log(blocks[globals.round - 1].proposer);
+    assert(blocks[globals.round - 1].feesCollected);
+    assert(blocks[globals.round - 1].bonus);
+    log(blocks[globals.round - 1].branch);
+    log(blocks[globals.round - 1].feeSink);
+    log(blocks[globals.round - 1].protocol);
+    assert(blocks[globals.round - 1].txnCounter);
+    assert(blocks[globals.round - 1].proposerPayout);
+  }
 }

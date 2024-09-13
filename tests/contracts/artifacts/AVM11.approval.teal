@@ -127,6 +127,82 @@ accountParams:
 	assert
 	retsub
 
+// blockParams()void
+*abi_route_blockParams:
+	// execute blockParams()void
+	callsub blockParams
+	int 1
+	return
+
+// blockParams(): void
+blockParams:
+	proto 0 0
+
+	// tests/contracts/avm11.algo.ts:30
+	// log(blocks[globals.round - 1].proposer)
+	global Round
+	int 1
+	-
+	block BlkProposer
+	log
+
+	// tests/contracts/avm11.algo.ts:31
+	// assert(blocks[globals.round - 1].feesCollected)
+	global Round
+	int 1
+	-
+	block BlkFeesCollected
+	assert
+
+	// tests/contracts/avm11.algo.ts:32
+	// assert(blocks[globals.round - 1].bonus)
+	global Round
+	int 1
+	-
+	block BlkBonus
+	assert
+
+	// tests/contracts/avm11.algo.ts:33
+	// log(blocks[globals.round - 1].branch)
+	global Round
+	int 1
+	-
+	block BlkBranch
+	log
+
+	// tests/contracts/avm11.algo.ts:34
+	// log(blocks[globals.round - 1].feeSink)
+	global Round
+	int 1
+	-
+	block BlkFeeSink
+	log
+
+	// tests/contracts/avm11.algo.ts:35
+	// log(blocks[globals.round - 1].protocol)
+	global Round
+	int 1
+	-
+	block BlkProtocol
+	log
+
+	// tests/contracts/avm11.algo.ts:36
+	// assert(blocks[globals.round - 1].txnCounter)
+	global Round
+	int 1
+	-
+	block BlkTxnCounter
+	assert
+
+	// tests/contracts/avm11.algo.ts:37
+	// assert(blocks[globals.round - 1].proposerPayout)
+	global Round
+	int 1
+	-
+	block BlkProposerPayout
+	assert
+	retsub
+
 *abi_route_createApplication:
 	int 1
 	return
@@ -144,8 +220,9 @@ accountParams:
 	method "incentiveGlobals()void"
 	method "onlineStakeOp()void"
 	method "accountParams()void"
+	method "blockParams()void"
 	txna ApplicationArgs 0
-	match *abi_route_voterOpcodes *abi_route_incentiveGlobals *abi_route_onlineStakeOp *abi_route_accountParams
+	match *abi_route_voterOpcodes *abi_route_incentiveGlobals *abi_route_onlineStakeOp *abi_route_accountParams *abi_route_blockParams
 
 	// this contract does not implement the given ABI method for call NoOp
 	err
