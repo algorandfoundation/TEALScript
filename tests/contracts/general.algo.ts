@@ -552,4 +552,9 @@ class GeneralTest extends Contract {
 
     return b;
   }
+
+  fvLv(): void {
+    assert(this.txn.firstValid);
+    assert(this.txn.lastValid);
+  }
 }
