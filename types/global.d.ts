@@ -709,6 +709,12 @@ interface AppOnChainTransactionParams extends CommonOnChainTransactionParams {
    * ```
    */
   loadScratch: (slot: uint64) => unknown;
+
+  /** The last valid round for this transaction */
+  lastValid: uint64;
+
+  /** The first valid round for this transaction */
+  firstValid: uint64;
 }
 
 interface AssetTransferParams extends CommonTransactionParams {
