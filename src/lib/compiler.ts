@@ -488,6 +488,8 @@ export type TEALInfo = {
 
 /** @internal */
 export default class Compiler {
+  private pendingSubroutines: ts.FunctionDeclaration[] = [];
+
   static diagsRan: string[] = [''];
 
   private scratch: { [name: string]: { slot?: number; type: TypeInfo; initNode: ts.CallExpression } } = {};
@@ -1464,7 +1466,14 @@ export default class Compiler {
 
     this.processNode(node.getArguments()[0]);
 
-    const indexInScratch: boolean = this.teal[this.currentProgram].length - preTealLength > 1;
+    // Get the opcodes that were needed to process the txn index
+    const opcodes = this.teal[this.currentProgram]
+      .slice(preTealLength)
+      .map((t) => t.teal)
+      .filter((t) => !t.startsWith('//'));
+
+    // If more than one opcode was needed, it will be more efficient to store the index in scratch
+    const indexInScratch: boolean = opcodes.length > 1;
 
     if (indexInScratch) {
       this.pushVoid(node, `store ${compilerScratch.verifyTxnIndex}`);
@@ -2622,19 +2631,19 @@ export default class Compiler {
    *
    * @param methods The methods to process
    */
-  preProcessMethods(methods: ts.MethodDeclaration[]) {
+  preProcessMethods(methods: (ts.MethodDeclaration | ts.FunctionDeclaration)[]) {
     methods.forEach((node) => {
-      if (!node.getNameNode().isKind(ts.SyntaxKind.Identifier)) throw Error('Method name must be identifier');
+      if (!node.getNameNode()?.isKind(ts.SyntaxKind.Identifier)) throw Error('Method name must be identifier');
+      const name = node.getNameNode()!.getText();
       const typeNode = node.getReturnType();
-      if (typeNode === undefined)
-        throw Error(`A return type annotation must be defined for ${node.getNameNode().getText()}`);
+      if (typeNode === undefined) throw Error(`A return type annotation must be defined for ${name}`);
 
       const returnType = node.getReturnTypeNode()?.getType()
         ? this.getTypeInfo(node.getReturnTypeNode()!.getType())
         : StackType.void;
 
       const sub = {
-        name: node.getNameNode().getText(),
+        name,
         allows: { call: [], create: [] },
         nonAbi: { call: [], create: [] },
         args: [],
@@ -2953,6 +2962,10 @@ export default class Compiler {
       });
     }
 
+    while (this.pendingSubroutines.length > 0) {
+      this.processSubroutine(this.pendingSubroutines.pop()!);
+    }
+
     this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
@@ -3033,6 +3046,10 @@ export default class Compiler {
           this.processNode(subNode.node);
         }
       });
+
+    while (this.pendingSubroutines.length > 0) {
+      this.processSubroutine(this.pendingSubroutines.pop()!);
+    }
 
     this.teal.clear = await this.postProcessTeal(this.teal.clear);
     this.teal.clear = optimizeTeal(this.teal.clear);
@@ -3323,8 +3340,14 @@ export default class Compiler {
       else if (node.isKind(ts.SyntaxKind.IfStatement)) this.processIfStatement(node);
       else if (node.isKind(ts.SyntaxKind.PrefixUnaryExpression)) this.processUnaryExpression(node);
       else if (node.isKind(ts.SyntaxKind.BinaryExpression)) this.processBinaryExpression(node);
-      else if (node.isKind(ts.SyntaxKind.CallExpression)) this.processExpressionChain(node);
-      else if (node.isKind(ts.SyntaxKind.ExpressionStatement)) this.processExpressionStatement(node);
+      else if (node.isKind(ts.SyntaxKind.CallExpression)) {
+        const expr = node.getExpression();
+        if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+          this.processExpressionChain(node);
+        } else {
+          this.processCallExpression(node);
+        }
+      } else if (node.isKind(ts.SyntaxKind.ExpressionStatement)) this.processExpressionStatement(node);
       else if (node.isKind(ts.SyntaxKind.ReturnStatement)) this.processReturnStatement(node);
       else if (node.isKind(ts.SyntaxKind.ParenthesizedExpression)) this.processNode(node.getExpression());
       else if (node.isKind(ts.SyntaxKind.VariableStatement)) this.processNode(node.getDeclarationList());
@@ -5014,7 +5037,10 @@ export default class Compiler {
       .map((a) => a.getKind())
       .includes(ts.SyntaxKind.ClassDeclaration);
 
-    if (!inClass) {
+    // This is true when we are in a non-class function and the identifier is a function parameter
+    const isFunctionParam = defNode.getParent()?.isKind(ts.SyntaxKind.FunctionDeclaration);
+
+    if (!inClass && !isFunctionParam) {
       if (!defNode.isKind(ts.SyntaxKind.VariableDeclaration)) throw Error();
       this.processNode(defNode.getInitializerOrThrow());
       return;
@@ -6168,33 +6194,74 @@ export default class Compiler {
 
     if (chain[0].isKind(ts.SyntaxKind.PropertyAccessExpression) && chain[1].isKind(ts.SyntaxKind.CallExpression)) {
       const methodName = chain[0].getNameNode().getText();
-      const preArgsType = this.lastType;
-      const subroutine = this.subroutines.find((s) => s.name === methodName);
-      if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
-
-      new Array(...chain[1].getArguments()).reverse().forEach((a, i) => {
-        const prevTypeHint = this.typeHint;
-        this.typeHint = subroutine.args[i].type;
-        this.processNode(a);
-        this.typeHint = prevTypeHint;
-        if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
-          this.checkEncoding(a, this.lastType);
-          if (isSmallNumber(this.lastType)) this.push(a, 'btoi', this.lastType);
-        }
-        typeComparison(this.lastType, subroutine.args[i].type);
-      });
-
-      this.lastType = preArgsType;
-      const returnTypeStr = typeInfoToABIString(subroutine.returns.type);
-
-      let returnType = subroutine.returns.type;
-      if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
-        returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
-      }
-      this.push(chain[1], `callsub ${methodName}`, returnType);
-      if (this.nodeDepth === 1 && !equalTypes(subroutine.returns.type, StackType.void)) this.pushVoid(chain[1], 'pop');
+      this.processCallExpression(chain[1]);
       chain.splice(0, 2);
     }
+  }
+
+  private processCallExpression(node: ts.CallExpression) {
+    this.addSourceComment(node);
+
+    const expr = node.getExpression();
+    let methodName: string;
+    if (expr?.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+      methodName = expr.getNameNode().getText();
+    } else if (expr?.isKind(ts.SyntaxKind.Identifier)) {
+      methodName = expr.getText();
+
+      // If this is a custom method
+      if (this.customMethods[methodName] && this.customMethods[methodName].check(node)) {
+        this.customMethods[methodName].fn(node);
+        return;
+      }
+
+      // If this is an opcode
+      if (langspec.Ops.map((o) => o.Name).includes(this.opcodeAliases[methodName] ?? methodName)) {
+        this.processOpcode(node);
+        return;
+      }
+
+      // If a txn method like sendMethodCall, sendPayment, etc.
+      if (TXN_METHODS.includes(methodName)) {
+        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(node.getTypeArguments());
+
+        this.processTransaction(node, methodName, node.getArguments()[0], argTypes, returnType, name);
+        return;
+      }
+
+      if (this.subroutines.find((s) => s.name === methodName) === undefined) {
+        const definition = expr.getDefinitionNodes()[0];
+        if (!definition.isKind(ts.SyntaxKind.FunctionDeclaration)) throw Error();
+        this.preProcessMethods([definition]);
+        this.pendingSubroutines.push(definition);
+      }
+    } else throw new Error(`Invalid parent for call expression: ${expr?.getKindName()} ${expr?.getText()}`);
+
+    const preArgsType = this.lastType;
+    const subroutine = this.subroutines.find((s) => s.name === methodName);
+    if (!subroutine) throw new Error(`Unknown subroutine ${methodName}`);
+
+    new Array(...node.getArguments()).reverse().forEach((a, i) => {
+      const prevTypeHint = this.typeHint;
+      this.typeHint = subroutine.args[i].type;
+      this.processNode(a);
+      this.typeHint = prevTypeHint;
+      if (this.lastType.kind === 'base' && this.lastType.type.startsWith('unsafe ')) {
+        this.checkEncoding(a, this.lastType);
+        if (isSmallNumber(this.lastType)) this.push(a, 'btoi', this.lastType);
+      }
+      typeComparison(this.lastType, subroutine.args[i].type);
+    });
+
+    this.lastType = preArgsType;
+    const returnTypeStr = typeInfoToABIString(subroutine.returns.type);
+
+    let returnType = subroutine.returns.type;
+    if (returnTypeStr.match(/\d+$/) && !returnTypeStr.match(/^(uint|ufixed)64/)) {
+      returnType = { kind: 'base', type: `unsafe ${returnTypeStr}` };
+    }
+    this.push(node, `callsub ${methodName}`, returnType);
+    if (this.nodeDepth === 1 && !equalTypes(subroutine.returns.type, StackType.void)) this.pushVoid(node, 'pop');
   }
 
   private methodTypeArgsToTypes(typeArgs: ts.TypeNode[]) {
@@ -6381,18 +6448,6 @@ export default class Compiler {
 
         if (!enums[txType]) throw new Error(`Unknown transaction type ${txType}`);
         this.push(node, `int ${enums[txType]}`, StackType.uint64);
-        return;
-      }
-
-      // If a txn method like sendMethodCall, sendPayment, etc.
-      if (TXN_METHODS.includes(base.getText())) {
-        if (!chain[0].isKind(ts.SyntaxKind.CallExpression))
-          throw Error(`Unsupported ${chain[0].getKindName()} ${chain[0].getText()}`);
-
-        const { returnType, argTypes, name } = this.methodTypeArgsToTypes(chain[0].getTypeArguments());
-
-        this.processTransaction(node, base.getText(), chain[0].getArguments()[0], argTypes, returnType, name);
-        chain.splice(0, 1);
         return;
       }
 
@@ -6633,8 +6688,9 @@ export default class Compiler {
       );
   }
 
-  private processSubroutine(fn: ts.MethodDeclaration) {
+  private processSubroutine(fn: ts.MethodDeclaration | ts.FunctionDeclaration) {
     const frameStart = this.teal[this.currentProgram].length;
+    this.currentSubroutine = this.subroutines.find((s) => s.name === fn.getNameNode()?.getText())!;
 
     const sigParams = fn
       .getSignature()
