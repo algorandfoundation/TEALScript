@@ -3,7 +3,7 @@
 
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { describe, test, expect } from '@jest/globals';
-import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient, getErrorMessage } from './common';
+import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
 
 const NAME = 'FunctionsTest';
 const PATH = 'tests/contracts/functions.algo.ts';

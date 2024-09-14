@@ -47,11 +47,43 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 callNonClassFunction:
 	proto 2 1
 
-	// tests/contracts/functions.algo.ts:9
+	// tests/contracts/functions.algo.ts:10
 	// return nonClassFunction(a, b);
 	frame_dig -2 // b: uint64
 	frame_dig -1 // a: uint64
 	callsub nonClassFunction
+	retsub
+
+// callExternalFunction(uint64,uint64)uint64
+*abi_route_callExternalFunction:
+	// The ABI return prefix
+	byte 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute callExternalFunction(uint64,uint64)uint64
+	callsub callExternalFunction
+	itob
+	concat
+	log
+	int 1
+	return
+
+// callExternalFunction(a: uint64, b: uint64): uint64
+callExternalFunction:
+	proto 2 1
+
+	// tests/contracts/functions.algo.ts:14
+	// return externalFunction(a, b);
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	callsub externalFunction
 	retsub
 
 *abi_route_createApplication:
@@ -68,17 +100,29 @@ callNonClassFunction:
 
 *call_NoOp:
 	method "callNonClassFunction(uint64,uint64)uint64"
+	method "callExternalFunction(uint64,uint64)uint64"
 	txna ApplicationArgs 0
-	match *abi_route_callNonClassFunction
+	match *abi_route_callNonClassFunction *abi_route_callExternalFunction
 
 	// this contract does not implement the given ABI method for call NoOp
 	err
+
+// externalFunction(a: uint64, b: uint64): uint64
+externalFunction:
+	proto 2 1
+
+	// tests/contracts/functions-external.algo.ts:2
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
 
 // nonClassFunction(a: uint64, b: uint64): uint64
 nonClassFunction:
 	proto 2 1
 
-	// tests/contracts/functions.algo.ts:4
+	// tests/contracts/functions.algo.ts:5
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
