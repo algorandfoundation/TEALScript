@@ -144,7 +144,7 @@ callPackageFunction:
 packageFunction:
 	proto 2 1
 
-	// node_modules/tealscript_test_package/index.ts:2
+	// node_modules/tealscript_test_package/index.ts:4
 	// return a + b;
 	frame_dig -1 // a: uint64
 	frame_dig -2 // b: uint64
