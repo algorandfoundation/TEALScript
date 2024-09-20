@@ -305,16 +305,34 @@
     56
   ],
   "structs": {
-    "PluginInfo": {
-      "lastValidRound": "uint64",
-      "cooldown": "uint64",
-      "lastCalled": "uint64",
-      "adminPrivileges": "bool"
-    },
-    "PluginsKey": {
-      "application": "uint64",
-      "allowedCaller": "address"
-    }
+    "PluginInfo": [
+      {
+        "name": "lastValidRound",
+        "type": "uint64"
+      },
+      {
+        "name": "cooldown",
+        "type": "uint64"
+      },
+      {
+        "name": "lastCalled",
+        "type": "uint64"
+      },
+      {
+        "name": "adminPrivileges",
+        "type": "bool"
+      }
+    ],
+    "PluginsKey": [
+      {
+        "name": "application",
+        "type": "uint64"
+      },
+      {
+        "name": "allowedCaller",
+        "type": "address"
+      }
+    ]
   },
   "state": {
     "schema": {
@@ -364,4770 +382,4773 @@
     "create": [],
     "call": []
   },
-  "sourceInfo": [
-    {
-      "teal": 1,
-      "source": 21,
-      "pc": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33
-      ]
-    },
-    {
-      "teal": 13,
-      "source": 21,
-      "pc": [
-        34,
-        35
-      ]
-    },
-    {
-      "teal": 14,
-      "source": 21,
-      "pc": [
-        36
-      ]
-    },
-    {
-      "teal": 15,
-      "source": 21,
-      "pc": [
-        37
-      ]
-    },
-    {
-      "teal": 16,
-      "source": 21,
-      "pc": [
-        38
-      ]
-    },
-    {
-      "teal": 17,
-      "source": 21,
-      "pc": [
-        39,
-        40
-      ]
-    },
-    {
-      "teal": 18,
-      "source": 21,
-      "pc": [
-        41
-      ]
-    },
-    {
-      "teal": 19,
-      "source": 21,
-      "pc": [
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        49,
-        50,
-        51,
-        52,
-        53,
-        54,
-        55,
-        56,
-        57,
-        58,
-        59,
-        60,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66,
-        67
-      ]
-    },
-    {
-      "teal": 23,
-      "source": 21,
-      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
-      "pc": [
-        68
-      ]
-    },
-    {
-      "teal": 29,
-      "source": 44,
-      "pc": [
-        69,
-        70,
-        71
-      ]
-    },
-    {
-      "teal": 32,
-      "source": 44,
-      "pc": [
-        72
-      ]
-    },
-    {
-      "teal": 33,
-      "source": 44,
-      "pc": [
-        73,
-        74
-      ]
-    },
-    {
-      "teal": 37,
-      "source": 45,
-      "pc": [
-        75
-      ]
-    },
-    {
-      "teal": 38,
-      "source": 45,
-      "pc": [
-        76,
-        77
-      ]
-    },
-    {
-      "teal": 42,
-      "source": 47,
-      "pc": [
-        78,
-        79
-      ]
-    },
-    {
-      "teal": 43,
-      "source": 47,
-      "pc": [
-        80,
-        81
-      ]
-    },
-    {
-      "teal": 48,
-      "source": 47,
-      "pc": [
-        82,
-        83
-      ]
-    },
-    {
-      "teal": 49,
-      "source": 47,
-      "pc": [
-        84,
-        85
-      ]
-    },
-    {
-      "teal": 50,
-      "source": 47,
-      "pc": [
-        86
-      ]
-    },
-    {
-      "teal": 51,
-      "source": 47,
-      "pc": [
-        87,
-        88,
-        89
-      ]
-    },
-    {
-      "teal": 55,
-      "source": 48,
-      "pc": [
-        90,
-        91
-      ]
-    },
-    {
-      "teal": 56,
-      "source": 48,
-      "pc": [
-        92,
-        93
-      ]
-    },
-    {
-      "teal": 61,
-      "source": 51,
-      "pc": [
-        94,
-        95
-      ]
-    },
-    {
-      "teal": 62,
-      "source": 51,
-      "pc": [
-        96,
-        97
-      ]
-    },
-    {
-      "teal": 63,
-      "source": 51,
-      "pc": [
-        98
-      ]
-    },
-    {
-      "teal": 64,
-      "source": 51,
-      "pc": [
-        99
-      ]
-    },
-    {
-      "teal": 65,
-      "source": 51,
-      "pc": [
-        100
-      ]
-    },
-    {
-      "teal": 66,
-      "source": 51,
-      "pc": [
-        101
-      ]
-    },
-    {
-      "teal": 67,
-      "source": 51,
-      "pc": [
-        102,
-        103,
-        104
-      ]
-    },
-    {
-      "teal": 68,
-      "source": 51,
-      "pc": [
-        105,
-        106
-      ]
-    },
-    {
-      "teal": 69,
-      "source": 51,
-      "pc": [
-        107,
-        108
-      ]
-    },
-    {
-      "teal": 70,
-      "source": 51,
-      "pc": [
-        109
-      ]
-    },
-    {
-      "teal": 71,
-      "source": 51,
-      "pc": [
-        110
-      ]
-    },
-    {
-      "teal": 72,
-      "source": 51,
-      "pc": [
-        111
-      ]
-    },
-    {
-      "teal": 73,
-      "source": 51,
-      "pc": [
-        112
-      ]
-    },
-    {
-      "teal": 76,
-      "source": 51,
-      "pc": [
-        113,
-        114,
-        115
-      ]
-    },
-    {
-      "teal": 81,
-      "source": 52,
-      "pc": [
-        116
-      ]
-    },
-    {
-      "teal": 82,
-      "source": 52,
-      "pc": [
-        117,
-        118
-      ]
-    },
-    {
-      "teal": 83,
-      "source": 53,
-      "pc": [
-        119,
-        120,
-        121
-      ]
-    },
-    {
-      "teal": 92,
-      "source": 58,
-      "pc": [
-        122,
-        123
-      ]
-    },
-    {
-      "teal": 93,
-      "source": 58,
-      "pc": [
-        124,
-        125
-      ]
-    },
-    {
-      "teal": 94,
-      "source": 58,
-      "pc": [
-        126
-      ]
-    },
-    {
-      "teal": 95,
-      "source": 58,
-      "pc": [
-        127
-      ]
-    },
-    {
-      "teal": 96,
-      "source": 58,
-      "pc": [
-        128
-      ]
-    },
-    {
-      "teal": 97,
-      "source": 58,
-      "pc": [
-        129,
-        130,
-        131
-      ]
-    },
-    {
-      "teal": 98,
-      "source": 59,
-      "pc": [
-        132,
-        133
-      ]
-    },
-    {
-      "teal": 99,
-      "source": 59,
-      "pc": [
-        134,
-        135
-      ]
-    },
-    {
-      "teal": 100,
-      "source": 59,
-      "pc": [
-        136,
-        137,
-        138
-      ]
-    },
-    {
-      "teal": 101,
-      "source": 59,
-      "pc": [
-        139
-      ]
-    },
-    {
-      "teal": 102,
-      "source": 58,
-      "pc": [
-        140
-      ]
-    },
-    {
-      "teal": 105,
-      "source": 59,
-      "pc": [
-        141
-      ]
-    },
-    {
-      "teal": 106,
-      "source": 59,
-      "pc": [
-        142,
-        143,
-        144
-      ]
-    },
-    {
-      "teal": 107,
-      "source": 60,
-      "pc": [
-        145,
-        146
-      ]
-    },
-    {
-      "teal": 108,
-      "source": 60,
-      "pc": [
-        147,
-        148
-      ]
-    },
-    {
-      "teal": 109,
-      "source": 60,
-      "pc": [
-        149
-      ]
-    },
-    {
-      "teal": 110,
-      "source": 60,
-      "pc": [
-        150
-      ]
-    },
-    {
-      "teal": 111,
-      "source": 59,
-      "pc": [
-        151
-      ]
-    },
-    {
-      "teal": 114,
-      "source": 60,
-      "pc": [
-        152
-      ]
-    },
-    {
-      "teal": 115,
-      "source": 60,
-      "pc": [
-        153,
-        154,
-        155
-      ]
-    },
-    {
-      "teal": 116,
-      "source": 61,
-      "pc": [
-        156,
-        157
-      ]
-    },
-    {
-      "teal": 117,
-      "source": 61,
-      "pc": [
-        158,
-        159,
-        160
-      ]
-    },
-    {
-      "teal": 118,
-      "source": 61,
-      "pc": [
-        161,
-        162
-      ]
-    },
-    {
-      "teal": 119,
-      "source": 61,
-      "pc": [
-        163
-      ]
-    },
-    {
-      "teal": 120,
-      "source": 60,
-      "pc": [
-        164
-      ]
-    },
-    {
-      "teal": 123,
-      "source": 57,
-      "pc": [
-        165,
-        166,
-        167
-      ]
-    },
-    {
-      "teal": 128,
-      "source": 63,
-      "pc": [
-        168
-      ]
-    },
-    {
-      "teal": 129,
-      "source": 63,
-      "pc": [
-        169,
-        170
-      ]
-    },
-    {
-      "teal": 130,
-      "source": 64,
-      "pc": [
-        171,
-        172,
-        173
-      ]
-    },
-    {
-      "teal": 137,
-      "source": 47,
-      "pc": [
-        174,
-        175
-      ]
-    },
-    {
-      "teal": 138,
-      "source": 47,
-      "pc": [
-        176
-      ]
-    },
-    {
-      "teal": 139,
-      "source": 47,
-      "pc": [
-        177
-      ]
-    },
-    {
-      "teal": 140,
-      "source": 47,
-      "pc": [
-        178,
-        179
-      ]
-    },
-    {
-      "teal": 141,
-      "source": 47,
-      "pc": [
-        180,
-        181,
-        182
-      ]
-    },
-    {
-      "teal": 146,
-      "source": 68,
-      "pc": [
-        183,
-        184
-      ]
-    },
-    {
-      "teal": 147,
-      "source": 68,
-      "pc": [
-        185
-      ]
-    },
-    {
-      "teal": 148,
-      "source": 44,
-      "pc": [
-        186
-      ]
-    },
-    {
-      "teal": 155,
-      "source": 75,
-      "pc": [
-        187,
-        188,
-        189
-      ]
-    },
-    {
-      "teal": 159,
-      "source": 76,
-      "pc": [
-        190
-      ]
-    },
-    {
-      "teal": 160,
-      "source": 76,
-      "pc": [
-        191
-      ]
-    },
-    {
-      "teal": 161,
-      "source": 76,
-      "pc": [
-        192,
-        193
-      ]
-    },
-    {
-      "teal": 162,
-      "source": 76,
-      "pc": [
-        194
-      ]
-    },
-    {
-      "teal": 163,
-      "source": 76,
-      "pc": [
-        195,
-        196,
-        197
-      ]
-    },
-    {
-      "teal": 164,
-      "source": 76,
-      "pc": [
-        198,
-        199
-      ]
-    },
-    {
-      "teal": 165,
-      "source": 76,
-      "pc": [
-        200,
-        201,
-        202
-      ]
-    },
-    {
-      "teal": 168,
-      "source": 76,
-      "pc": [
-        203,
-        204
-      ]
-    },
-    {
-      "teal": 171,
-      "source": 75,
-      "pc": [
-        205
-      ]
-    },
-    {
-      "teal": 176,
-      "source": 86,
-      "pc": [
-        206,
-        207,
-        208
-      ]
-    },
-    {
-      "teal": 177,
-      "source": 86,
-      "pc": [
-        209
-      ]
-    },
-    {
-      "teal": 178,
-      "source": 86,
-      "pc": [
-        210
-      ]
-    },
-    {
-      "teal": 179,
-      "source": 86,
-      "pc": [
-        211
-      ]
-    },
-    {
-      "teal": 180,
-      "source": 86,
-      "pc": [
-        212
-      ]
-    },
-    {
-      "teal": 183,
-      "source": 86,
-      "errorMessage": "argument 0 (admin) for createApplication must be a address",
-      "pc": [
-        213
-      ]
-    },
-    {
-      "teal": 186,
-      "source": 86,
-      "pc": [
-        214,
-        215,
-        216
-      ]
-    },
-    {
-      "teal": 187,
-      "source": 86,
-      "pc": [
-        217
-      ]
-    },
-    {
-      "teal": 188,
-      "source": 86,
-      "pc": [
-        218
-      ]
-    },
-    {
-      "teal": 189,
-      "source": 86,
-      "pc": [
-        219
-      ]
-    },
-    {
-      "teal": 190,
-      "source": 86,
-      "pc": [
-        220
-      ]
-    },
-    {
-      "teal": 193,
-      "source": 86,
-      "errorMessage": "argument 1 (controlledAddress) for createApplication must be a address",
-      "pc": [
-        221
-      ]
-    },
-    {
-      "teal": 196,
-      "source": 86,
-      "pc": [
-        222,
-        223,
-        224
-      ]
-    },
-    {
-      "teal": 197,
-      "source": 86,
-      "pc": [
-        225
-      ]
-    },
-    {
-      "teal": 198,
-      "source": 86,
-      "pc": [
-        226
-      ]
-    },
-    {
-      "teal": 208,
-      "source": 86,
-      "pc": [
-        227,
-        228,
-        229
-      ]
-    },
-    {
-      "teal": 215,
-      "source": 88,
-      "pc": [
-        230,
-        231
-      ]
-    },
-    {
-      "teal": 216,
-      "source": 88,
-      "pc": [
-        232,
-        233
-      ]
-    },
-    {
-      "teal": 217,
-      "source": 88,
-      "pc": [
-        234
-      ]
-    },
-    {
-      "teal": 218,
-      "source": 88,
-      "pc": [
-        235,
-        236
-      ]
-    },
-    {
-      "teal": 219,
-      "source": 88,
-      "pc": [
-        237,
-        238
-      ]
-    },
-    {
-      "teal": 220,
-      "source": 88,
-      "pc": [
-        239
-      ]
-    },
-    {
-      "teal": 221,
-      "source": 88,
-      "pc": [
-        240
-      ]
-    },
-    {
-      "teal": 224,
-      "source": 88,
-      "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"this.txn\"},\"field\":\"sender\",\"condition\":\"includedIn\",\"expected\":\"[controlledAddress, admin]\"}",
-      "pc": [
-        241
-      ]
-    },
-    {
-      "teal": 228,
-      "source": 91,
-      "pc": [
-        242,
-        243
-      ]
-    },
-    {
-      "teal": 229,
-      "source": 91,
-      "pc": [
-        244,
-        245
-      ]
-    },
-    {
-      "teal": 230,
-      "source": 91,
-      "pc": [
-        246
-      ]
-    },
-    {
-      "teal": 231,
-      "source": 91,
-      "pc": [
-        247
-      ]
-    },
-    {
-      "teal": 235,
-      "source": 93,
-      "pc": [
-        248
-      ]
-    },
-    {
-      "teal": 236,
-      "source": 93,
-      "pc": [
-        249,
-        250
-      ]
-    },
-    {
-      "teal": 237,
-      "source": 93,
-      "pc": [
-        251
-      ]
-    },
-    {
-      "teal": 241,
-      "source": 94,
-      "pc": [
-        252
-      ]
-    },
-    {
-      "teal": 242,
-      "source": 94,
-      "pc": [
-        253,
-        254
-      ]
-    },
-    {
-      "teal": 243,
-      "source": 94,
-      "pc": [
-        255,
-        256
-      ]
-    },
-    {
-      "teal": 244,
-      "source": 94,
-      "pc": [
-        257
-      ]
-    },
-    {
-      "teal": 245,
-      "source": 94,
-      "pc": [
-        258,
-        259,
-        260
-      ]
-    },
-    {
-      "teal": 246,
-      "source": 94,
-      "pc": [
-        261,
-        262
-      ]
-    },
-    {
-      "teal": 247,
-      "source": 94,
-      "pc": [
-        263,
-        264,
-        265
-      ]
-    },
-    {
-      "teal": 250,
-      "source": 94,
-      "pc": [
-        266,
-        267
-      ]
-    },
-    {
-      "teal": 253,
-      "source": 94,
-      "pc": [
-        268
-      ]
-    },
-    {
-      "teal": 254,
-      "source": 86,
-      "pc": [
-        269
-      ]
-    },
-    {
-      "teal": 259,
-      "source": 102,
-      "pc": [
-        270,
-        271,
-        272
-      ]
-    },
-    {
-      "teal": 260,
-      "source": 102,
-      "pc": [
-        273
-      ]
-    },
-    {
-      "teal": 261,
-      "source": 102,
-      "pc": [
-        274
-      ]
-    },
-    {
-      "teal": 262,
-      "source": 102,
-      "pc": [
-        275
-      ]
-    },
-    {
-      "teal": 263,
-      "source": 102,
-      "pc": [
-        276
-      ]
-    },
-    {
-      "teal": 266,
-      "source": 102,
-      "errorMessage": "argument 0 (newAdmin) for arc58_changeAdmin must be a address",
-      "pc": [
-        277
-      ]
-    },
-    {
-      "teal": 269,
-      "source": 102,
-      "pc": [
-        278,
-        279,
-        280
-      ]
-    },
-    {
-      "teal": 270,
-      "source": 102,
-      "pc": [
-        281
-      ]
-    },
-    {
-      "teal": 271,
-      "source": 102,
-      "pc": [
-        282
-      ]
-    },
-    {
-      "teal": 279,
-      "source": 102,
-      "pc": [
-        283,
-        284,
-        285
-      ]
-    },
-    {
-      "teal": 284,
-      "source": 103,
-      "pc": [
-        286,
-        287
-      ]
-    },
-    {
-      "teal": 285,
-      "source": 103,
-      "pc": [
-        288
-      ]
-    },
-    {
-      "teal": 286,
-      "source": 103,
-      "pc": [
-        289
-      ]
-    },
-    {
-      "teal": 287,
-      "source": 103,
-      "pc": [
-        290
-      ]
-    },
-    {
-      "teal": 290,
-      "source": 103,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        291
-      ]
-    },
-    {
-      "teal": 294,
-      "source": 104,
-      "pc": [
-        292
-      ]
-    },
-    {
-      "teal": 295,
-      "source": 104,
-      "pc": [
-        293,
-        294
-      ]
-    },
-    {
-      "teal": 296,
-      "source": 104,
-      "pc": [
-        295
-      ]
-    },
-    {
-      "teal": 297,
-      "source": 102,
-      "pc": [
-        296
-      ]
-    },
-    {
-      "teal": 302,
-      "source": 115,
-      "pc": [
-        297,
-        298,
-        299
-      ]
-    },
-    {
-      "teal": 303,
-      "source": 115,
-      "pc": [
-        300
-      ]
-    },
-    {
-      "teal": 304,
-      "source": 115,
-      "pc": [
-        301
-      ]
-    },
-    {
-      "teal": 305,
-      "source": 115,
-      "pc": [
-        302
-      ]
-    },
-    {
-      "teal": 306,
-      "source": 115,
-      "pc": [
-        303
-      ]
-    },
-    {
-      "teal": 309,
-      "source": 115,
-      "errorMessage": "argument 0 (newAdmin) for arc58_pluginChangeAdmin must be a address",
-      "pc": [
-        304
-      ]
-    },
-    {
-      "teal": 312,
-      "source": 115,
-      "pc": [
-        305,
-        306,
-        307
-      ]
-    },
-    {
-      "teal": 313,
-      "source": 115,
-      "pc": [
-        308
-      ]
-    },
-    {
-      "teal": 314,
-      "source": 115,
-      "pc": [
-        309
-      ]
-    },
-    {
-      "teal": 315,
-      "source": 115,
-      "pc": [
-        310
-      ]
-    },
-    {
-      "teal": 316,
-      "source": 115,
-      "pc": [
-        311
-      ]
-    },
-    {
-      "teal": 319,
-      "source": 115,
-      "errorMessage": "argument 1 (allowedCaller) for arc58_pluginChangeAdmin must be a address",
-      "pc": [
-        312
-      ]
-    },
-    {
-      "teal": 322,
-      "source": 115,
-      "pc": [
-        313,
-        314,
-        315
-      ]
-    },
-    {
-      "teal": 323,
-      "source": 115,
-      "pc": [
-        316
-      ]
-    },
-    {
-      "teal": 326,
-      "source": 115,
-      "pc": [
-        317,
-        318,
-        319
-      ]
-    },
-    {
-      "teal": 327,
-      "source": 115,
-      "pc": [
-        320
-      ]
-    },
-    {
-      "teal": 328,
-      "source": 115,
-      "pc": [
-        321
-      ]
-    },
-    {
-      "teal": 338,
-      "source": 115,
-      "pc": [
-        322,
-        323,
-        324
-      ]
-    },
-    {
-      "teal": 341,
-      "source": 115,
-      "pc": [
-        325
-      ]
-    },
-    {
-      "teal": 346,
-      "source": 116,
-      "pc": [
-        326,
-        327
-      ]
-    },
-    {
-      "teal": 347,
-      "source": 116,
-      "pc": [
-        328,
-        329
-      ]
-    },
-    {
-      "teal": 348,
-      "source": 116,
-      "pc": [
-        330,
-        331
-      ]
-    },
-    {
-      "teal": 349,
-      "source": 116,
-      "pc": [
-        332
-      ]
-    },
-    {
-      "teal": 350,
-      "source": 116,
-      "pc": [
-        333
-      ]
-    },
-    {
-      "teal": 353,
-      "source": 116,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"plugin.address\"}",
-      "pc": [
-        334
-      ]
-    },
-    {
-      "teal": 357,
-      "source": 117,
-      "pc": [
-        335
-      ]
-    },
-    {
-      "teal": 358,
-      "source": 117,
-      "pc": [
-        336
-      ]
-    },
-    {
-      "teal": 359,
-      "source": 117,
-      "pc": [
-        337,
-        338
-      ]
-    },
-    {
-      "teal": 360,
-      "source": 117,
-      "pc": [
-        339
-      ]
-    },
-    {
-      "teal": 361,
-      "source": 117,
-      "pc": [
-        340,
-        341
-      ]
-    },
-    {
-      "teal": 362,
-      "source": 117,
-      "pc": [
-        342,
-        343
-      ]
-    },
-    {
-      "teal": 363,
-      "source": 117,
-      "pc": [
-        344
-      ]
-    },
-    {
-      "teal": 364,
-      "source": 117,
-      "pc": [
-        345
-      ]
-    },
-    {
-      "teal": 367,
-      "source": 117,
-      "errorMessage": "This plugin is not in control of the account",
-      "pc": [
-        346
-      ]
-    },
-    {
-      "teal": 371,
-      "source": 119,
-      "pc": [
-        347,
-        348
-      ]
-    },
-    {
-      "teal": 372,
-      "source": 119,
-      "pc": [
-        349
-      ]
-    },
-    {
-      "teal": 373,
-      "source": 119,
-      "pc": [
-        350,
-        351
-      ]
-    },
-    {
-      "teal": 374,
-      "source": 119,
-      "pc": [
-        352
-      ]
-    },
-    {
-      "teal": 375,
-      "source": 119,
-      "pc": [
-        353,
-        354
-      ]
-    },
-    {
-      "teal": 382,
-      "source": 121,
-      "pc": [
-        355
-      ]
-    },
-    {
-      "teal": 383,
-      "source": 121,
-      "pc": [
-        356,
-        357
-      ]
-    },
-    {
-      "teal": 384,
-      "source": 121,
-      "pc": [
-        358
-      ]
-    },
-    {
-      "teal": 385,
-      "source": 121,
-      "pc": [
-        359
-      ]
-    },
-    {
-      "teal": 386,
-      "source": 121,
-      "pc": [
-        360
-      ]
-    },
-    {
-      "teal": 387,
-      "source": 121,
-      "pc": [
-        361
-      ]
-    },
-    {
-      "teal": 388,
-      "source": 121,
-      "pc": [
-        362
-      ]
-    },
-    {
-      "teal": 389,
-      "source": 121,
-      "pc": [
-        363,
-        364,
-        365
-      ]
-    },
-    {
-      "teal": 390,
-      "source": 121,
-      "pc": [
-        366
-      ]
-    },
-    {
-      "teal": 391,
-      "source": 121,
-      "pc": [
-        367,
-        368
-      ]
-    },
-    {
-      "teal": 392,
-      "source": 121,
-      "pc": [
-        369
-      ]
-    },
-    {
-      "teal": 393,
-      "source": 121,
-      "pc": [
-        370
-      ]
-    },
-    {
-      "teal": 396,
-      "source": 121,
-      "errorMessage": "box value does not exist: this.plugins(key).value",
-      "pc": [
-        371
-      ]
-    },
-    {
-      "teal": 397,
-      "source": 121,
-      "pc": [
-        372,
-        373
-      ]
-    },
-    {
-      "teal": 398,
-      "source": 121,
-      "pc": [
-        374,
-        375
-      ]
-    },
-    {
-      "teal": 399,
-      "source": 121,
-      "pc": [
-        376,
-        377,
-        378
-      ]
-    },
-    {
-      "teal": 400,
-      "source": 121,
-      "pc": [
-        379
-      ]
-    },
-    {
-      "teal": 401,
-      "source": 121,
-      "pc": [
-        380
-      ]
-    },
-    {
-      "teal": 405,
-      "source": 120,
-      "errorMessage": "This plugin does not have admin privileges",
-      "pc": [
-        381
-      ]
-    },
-    {
-      "teal": 409,
-      "source": 125,
-      "pc": [
-        382
-      ]
-    },
-    {
-      "teal": 410,
-      "source": 125,
-      "pc": [
-        383,
-        384
-      ]
-    },
-    {
-      "teal": 411,
-      "source": 125,
-      "pc": [
-        385
-      ]
-    },
-    {
-      "teal": 412,
-      "source": 115,
-      "pc": [
-        386
-      ]
-    },
-    {
-      "teal": 417,
-      "source": 132,
-      "pc": [
-        387,
-        388,
-        389,
-        390,
-        391,
-        392
-      ]
-    },
-    {
-      "teal": 420,
-      "source": 132,
-      "pc": [
-        393,
-        394,
-        395
-      ]
-    },
-    {
-      "teal": 421,
-      "source": 132,
-      "pc": [
-        396
-      ]
-    },
-    {
-      "teal": 422,
-      "source": 132,
-      "pc": [
-        397
-      ]
-    },
-    {
-      "teal": 423,
-      "source": 132,
-      "pc": [
-        398
-      ]
-    },
-    {
-      "teal": 424,
-      "source": 132,
-      "pc": [
-        399
-      ]
-    },
-    {
-      "teal": 431,
-      "source": 132,
-      "pc": [
-        400,
-        401,
-        402
-      ]
-    },
-    {
-      "teal": 435,
-      "source": 133,
-      "pc": [
-        403
-      ]
-    },
-    {
-      "teal": 436,
-      "source": 133,
-      "pc": [
-        404
-      ]
-    },
-    {
-      "teal": 437,
-      "source": 132,
-      "pc": [
-        405
-      ]
-    },
-    {
-      "teal": 442,
-      "source": 139,
-      "pc": [
-        406,
-        407,
-        408
-      ]
-    },
-    {
-      "teal": 443,
-      "source": 139,
-      "pc": [
-        409
-      ]
-    },
-    {
-      "teal": 444,
-      "source": 139,
-      "pc": [
-        410
-      ]
-    },
-    {
-      "teal": 450,
-      "source": 139,
-      "pc": [
-        411,
-        412,
-        413
-      ]
-    },
-    {
-      "teal": 454,
-      "source": 140,
-      "pc": [
-        414
-      ]
-    },
-    {
-      "teal": 455,
-      "source": 140,
-      "pc": [
-        415
-      ]
-    },
-    {
-      "teal": 456,
-      "source": 140,
-      "pc": [
-        416,
-        417
-      ]
-    },
-    {
-      "teal": 457,
-      "source": 140,
-      "pc": [
-        418
-      ]
-    },
-    {
-      "teal": 458,
-      "source": 140,
-      "pc": [
-        419,
-        420,
-        421
-      ]
-    },
-    {
-      "teal": 459,
-      "source": 140,
-      "pc": [
-        422
-      ]
-    },
-    {
-      "teal": 460,
-      "source": 140,
-      "pc": [
-        423
-      ]
-    },
-    {
-      "teal": 461,
-      "source": 139,
-      "pc": [
-        424
-      ]
-    },
-    {
-      "teal": 466,
-      "source": 149,
-      "pc": [
-        425,
-        426,
-        427
-      ]
-    },
-    {
-      "teal": 467,
-      "source": 149,
-      "pc": [
-        428
-      ]
-    },
-    {
-      "teal": 468,
-      "source": 149,
-      "pc": [
-        429
-      ]
-    },
-    {
-      "teal": 469,
-      "source": 149,
-      "pc": [
-        430
-      ]
-    },
-    {
-      "teal": 470,
-      "source": 149,
-      "pc": [
-        431
-      ]
-    },
-    {
-      "teal": 473,
-      "source": 149,
-      "errorMessage": "argument 0 (flash) for arc58_rekeyTo must be a bool",
-      "pc": [
-        432
-      ]
-    },
-    {
-      "teal": 474,
-      "source": 149,
-      "pc": [
-        433
-      ]
-    },
-    {
-      "teal": 475,
-      "source": 149,
-      "pc": [
-        434
-      ]
-    },
-    {
-      "teal": 478,
-      "source": 149,
-      "pc": [
-        435,
-        436,
-        437
-      ]
-    },
-    {
-      "teal": 479,
-      "source": 149,
-      "pc": [
-        438
-      ]
-    },
-    {
-      "teal": 480,
-      "source": 149,
-      "pc": [
-        439
-      ]
-    },
-    {
-      "teal": 481,
-      "source": 149,
-      "pc": [
-        440
-      ]
-    },
-    {
-      "teal": 482,
-      "source": 149,
-      "pc": [
-        441
-      ]
-    },
-    {
-      "teal": 485,
-      "source": 149,
-      "errorMessage": "argument 1 (addr) for arc58_rekeyTo must be a address",
-      "pc": [
-        442
-      ]
-    },
-    {
-      "teal": 488,
-      "source": 149,
-      "pc": [
-        443,
-        444,
-        445
-      ]
-    },
-    {
-      "teal": 489,
-      "source": 149,
-      "pc": [
-        446
-      ]
-    },
-    {
-      "teal": 490,
-      "source": 149,
-      "pc": [
-        447
-      ]
-    },
-    {
-      "teal": 499,
-      "source": 149,
-      "pc": [
-        448,
-        449,
-        450
-      ]
-    },
-    {
-      "teal": 504,
-      "source": 150,
-      "pc": [
-        451,
-        452
-      ]
-    },
-    {
-      "teal": 505,
-      "source": 150,
-      "pc": [
-        453
-      ]
-    },
-    {
-      "teal": 506,
-      "source": 150,
-      "pc": [
-        454
-      ]
-    },
-    {
-      "teal": 507,
-      "source": 150,
-      "pc": [
-        455
-      ]
-    },
-    {
-      "teal": 510,
-      "source": 150,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        456
-      ]
-    },
-    {
-      "teal": 519,
-      "source": 152,
-      "pc": [
-        457
-      ]
-    },
-    {
-      "teal": 520,
-      "source": 152,
-      "pc": [
-        458
-      ]
-    },
-    {
-      "teal": 521,
-      "source": 152,
-      "pc": [
-        459,
-        460
-      ]
-    },
-    {
-      "teal": 525,
-      "source": 153,
-      "pc": [
-        461
-      ]
-    },
-    {
-      "teal": 526,
-      "source": 153,
-      "pc": [
-        462
-      ]
-    },
-    {
-      "teal": 527,
-      "source": 153,
-      "pc": [
-        463,
-        464
-      ]
-    },
-    {
-      "teal": 531,
-      "source": 154,
-      "pc": [
-        465,
-        466
-      ]
-    },
-    {
-      "teal": 532,
-      "source": 154,
-      "pc": [
-        467,
-        468
-      ]
-    },
-    {
-      "teal": 536,
-      "source": 155,
-      "pc": [
-        469,
-        470
-      ]
-    },
-    {
-      "teal": 537,
-      "source": 155,
-      "pc": [
-        471,
-        472
-      ]
-    },
-    {
-      "teal": 541,
-      "source": 156,
-      "pc": [
-        473,
-        474,
-        475,
-        476,
-        477,
-        478,
-        479,
-        480,
-        481,
-        482,
-        483,
-        484,
-        485,
-        486,
-        487,
-        488,
-        489,
-        490,
-        491,
-        492,
-        493,
-        494,
-        495,
-        496,
-        497,
-        498,
-        499,
-        500,
-        501
-      ]
-    },
-    {
-      "teal": 542,
-      "source": 156,
-      "pc": [
-        502,
-        503
-      ]
-    },
-    {
-      "teal": 545,
-      "source": 152,
-      "pc": [
-        504
-      ]
-    },
-    {
-      "teal": 546,
-      "source": 152,
-      "pc": [
-        505,
-        506
-      ]
-    },
-    {
-      "teal": 549,
-      "source": 152,
-      "pc": [
-        507
-      ]
-    },
-    {
-      "teal": 554,
-      "source": 159,
-      "pc": [
-        508,
-        509
-      ]
-    },
-    {
-      "teal": 555,
-      "source": 159,
-      "pc": [
-        510,
-        511,
-        512
-      ]
-    },
-    {
-      "teal": 560,
-      "source": 159,
-      "pc": [
-        513,
-        514,
-        515
-      ]
-    },
-    {
-      "teal": 563,
-      "source": 149,
-      "pc": [
-        516
-      ]
-    },
-    {
-      "teal": 567,
-      "source": 162,
-      "pc": [
-        517,
-        518,
-        519
-      ]
-    },
-    {
-      "teal": 570,
-      "source": 162,
-      "pc": [
-        520
-      ]
-    },
-    {
-      "teal": 574,
-      "source": 163,
-      "pc": [
-        521,
-        522
-      ]
-    },
-    {
-      "teal": 575,
-      "source": 163,
-      "pc": [
-        523
-      ]
-    },
-    {
-      "teal": 576,
-      "source": 163,
-      "pc": [
-        524,
-        525
-      ]
-    },
-    {
-      "teal": 577,
-      "source": 163,
-      "pc": [
-        526
-      ]
-    },
-    {
-      "teal": 578,
-      "source": 163,
-      "pc": [
-        527,
-        528
-      ]
-    },
-    {
-      "teal": 586,
-      "source": 166,
-      "pc": [
-        529
-      ]
-    },
-    {
-      "teal": 587,
-      "source": 166,
-      "pc": [
-        530,
-        531
-      ]
-    },
-    {
-      "teal": 588,
-      "source": 166,
-      "pc": [
-        532
-      ]
-    },
-    {
-      "teal": 589,
-      "source": 166,
-      "pc": [
-        533
-      ]
-    },
-    {
-      "teal": 590,
-      "source": 166,
-      "pc": [
-        534
-      ]
-    },
-    {
-      "teal": 591,
-      "source": 166,
-      "pc": [
-        535
-      ]
-    },
-    {
-      "teal": 592,
-      "source": 166,
-      "pc": [
-        536
-      ]
-    },
-    {
-      "teal": 593,
-      "source": 166,
-      "pc": [
-        537,
-        538,
-        539
-      ]
-    },
-    {
-      "teal": 594,
-      "source": 167,
-      "pc": [
-        540
-      ]
-    },
-    {
-      "teal": 595,
-      "source": 167,
-      "pc": [
-        541,
-        542
-      ]
-    },
-    {
-      "teal": 596,
-      "source": 167,
-      "pc": [
-        543
-      ]
-    },
-    {
-      "teal": 597,
-      "source": 167,
-      "pc": [
-        544
-      ]
-    },
-    {
-      "teal": 600,
-      "source": 167,
-      "errorMessage": "box value does not exist: this.plugins(key).value",
-      "pc": [
-        545
-      ]
-    },
-    {
-      "teal": 601,
-      "source": 167,
-      "pc": [
-        546,
-        547
-      ]
-    },
-    {
-      "teal": 602,
-      "source": 167,
-      "pc": [
-        548,
-        549
-      ]
-    },
-    {
-      "teal": 603,
-      "source": 167,
-      "pc": [
-        550,
-        551,
-        552
-      ]
-    },
-    {
-      "teal": 604,
-      "source": 167,
-      "pc": [
-        553
-      ]
-    },
-    {
-      "teal": 605,
-      "source": 167,
-      "pc": [
-        554,
-        555
-      ]
-    },
-    {
-      "teal": 606,
-      "source": 167,
-      "pc": [
-        556
-      ]
-    },
-    {
-      "teal": 607,
-      "source": 166,
-      "pc": [
-        557
-      ]
-    },
-    {
-      "teal": 610,
-      "source": 167,
-      "pc": [
-        558
-      ]
-    },
-    {
-      "teal": 611,
-      "source": 167,
-      "pc": [
-        559,
-        560,
-        561
-      ]
-    },
-    {
-      "teal": 612,
-      "source": 168,
-      "pc": [
-        562,
-        563
-      ]
-    },
-    {
-      "teal": 613,
-      "source": 168,
-      "pc": [
-        564
-      ]
-    },
-    {
-      "teal": 614,
-      "source": 168,
-      "pc": [
-        565,
-        566
-      ]
-    },
-    {
-      "teal": 615,
-      "source": 168,
-      "pc": [
-        567
-      ]
-    },
-    {
-      "teal": 616,
-      "source": 168,
-      "pc": [
-        568
-      ]
-    },
-    {
-      "teal": 619,
-      "source": 168,
-      "errorMessage": "box value does not exist: this.plugins(key).value",
-      "pc": [
-        569
-      ]
-    },
-    {
-      "teal": 620,
-      "source": 168,
-      "pc": [
-        570,
-        571
-      ]
-    },
-    {
-      "teal": 621,
-      "source": 168,
-      "pc": [
-        572,
-        573
-      ]
-    },
-    {
-      "teal": 622,
-      "source": 168,
-      "pc": [
-        574,
-        575,
-        576
-      ]
-    },
-    {
-      "teal": 623,
-      "source": 168,
-      "pc": [
-        577
-      ]
-    },
-    {
-      "teal": 624,
-      "source": 168,
-      "pc": [
-        578
-      ]
-    },
-    {
-      "teal": 625,
-      "source": 168,
-      "pc": [
-        579
-      ]
-    },
-    {
-      "teal": 626,
-      "source": 168,
-      "pc": [
-        580,
-        581
-      ]
-    },
-    {
-      "teal": 627,
-      "source": 168,
-      "pc": [
-        582
-      ]
-    },
-    {
-      "teal": 628,
-      "source": 168,
-      "pc": [
-        583
-      ]
-    },
-    {
-      "teal": 631,
-      "source": 168,
-      "errorMessage": "box value does not exist: this.plugins(key).value",
-      "pc": [
-        584
-      ]
-    },
-    {
-      "teal": 632,
-      "source": 168,
-      "pc": [
-        585,
-        586
-      ]
-    },
-    {
-      "teal": 633,
-      "source": 168,
-      "pc": [
-        587,
-        588
-      ]
-    },
-    {
-      "teal": 634,
-      "source": 168,
-      "pc": [
-        589,
-        590,
-        591
-      ]
-    },
-    {
-      "teal": 635,
-      "source": 168,
-      "pc": [
-        592
-      ]
-    },
-    {
-      "teal": 636,
-      "source": 168,
-      "pc": [
-        593
-      ]
-    },
-    {
-      "teal": 637,
-      "source": 167,
-      "pc": [
-        594
-      ]
-    },
-    {
-      "teal": 641,
-      "source": 162,
-      "pc": [
-        595,
-        596
-      ]
-    },
-    {
-      "teal": 642,
-      "source": 162,
-      "pc": [
-        597
-      ]
-    },
-    {
-      "teal": 647,
-      "source": 177,
-      "pc": [
-        598,
-        599,
-        600
-      ]
-    },
-    {
-      "teal": 648,
-      "source": 177,
-      "pc": [
-        601
-      ]
-    },
-    {
-      "teal": 651,
-      "source": 177,
-      "pc": [
-        602,
-        603,
-        604
-      ]
-    },
-    {
-      "teal": 652,
-      "source": 177,
-      "pc": [
-        605
-      ]
-    },
-    {
-      "teal": 653,
-      "source": 177,
-      "pc": [
-        606
-      ]
-    },
-    {
-      "teal": 661,
-      "source": 177,
-      "pc": [
-        607,
-        608,
-        609
-      ]
-    },
-    {
-      "teal": 664,
-      "source": 177,
-      "pc": [
-        610
-      ]
-    },
-    {
-      "teal": 668,
-      "source": 178,
-      "pc": [
-        611,
-        612
-      ]
-    },
-    {
-      "teal": 669,
-      "source": 178,
-      "pc": [
-        613,
-        614
-      ]
-    },
-    {
-      "teal": 670,
-      "source": 178,
-      "pc": [
-        615,
-        616,
-        617
-      ]
-    },
-    {
-      "teal": 671,
-      "source": 178,
-      "pc": [
-        618,
-        619
-      ]
-    },
-    {
-      "teal": 676,
-      "source": 180,
-      "pc": [
-        620,
-        621
-      ]
-    },
-    {
-      "teal": 677,
-      "source": 180,
-      "pc": [
-        622
-      ]
-    },
-    {
-      "teal": 678,
-      "source": 180,
-      "pc": [
-        623,
-        624,
-        625
-      ]
-    },
-    {
-      "teal": 683,
-      "source": 181,
-      "pc": [
-        626,
-        627
-      ]
-    },
-    {
-      "teal": 684,
-      "source": 181,
-      "pc": [
-        628,
-        629
-      ]
-    },
-    {
-      "teal": 685,
-      "source": 181,
-      "pc": [
-        630,
-        631,
-        632
-      ]
-    },
-    {
-      "teal": 688,
-      "source": 181,
-      "errorMessage": "This sender is not allowed to trigger this plugin",
-      "pc": [
-        633
-      ]
-    },
-    {
-      "teal": 698,
-      "source": 183,
-      "pc": [
-        634
-      ]
-    },
-    {
-      "teal": 699,
-      "source": 183,
-      "pc": [
-        635
-      ]
-    },
-    {
-      "teal": 700,
-      "source": 183,
-      "pc": [
-        636,
-        637
-      ]
-    },
-    {
-      "teal": 704,
-      "source": 184,
-      "pc": [
-        638
-      ]
-    },
-    {
-      "teal": 705,
-      "source": 184,
-      "pc": [
-        639
-      ]
-    },
-    {
-      "teal": 706,
-      "source": 184,
-      "pc": [
-        640,
-        641
-      ]
-    },
-    {
-      "teal": 710,
-      "source": 185,
-      "pc": [
-        642
-      ]
-    },
-    {
-      "teal": 711,
-      "source": 185,
-      "pc": [
-        643
-      ]
-    },
-    {
-      "teal": 712,
-      "source": 185,
-      "pc": [
-        644,
-        645
-      ]
-    },
-    {
-      "teal": 716,
-      "source": 186,
-      "pc": [
-        646,
-        647
-      ]
-    },
-    {
-      "teal": 717,
-      "source": 186,
-      "pc": [
-        648,
-        649
-      ]
-    },
-    {
-      "teal": 718,
-      "source": 186,
-      "pc": [
-        650
-      ]
-    },
-    {
-      "teal": 719,
-      "source": 186,
-      "pc": [
-        651,
-        652
-      ]
-    },
-    {
-      "teal": 723,
-      "source": 187,
-      "pc": [
-        653,
-        654,
-        655,
-        656,
-        657,
-        658,
-        659,
-        660,
-        661,
-        662,
-        663,
-        664,
-        665,
-        666,
-        667,
-        668,
-        669,
-        670,
-        671,
-        672,
-        673,
-        674,
-        675,
-        676
-      ]
-    },
-    {
-      "teal": 724,
-      "source": 187,
-      "pc": [
-        677,
-        678
-      ]
-    },
-    {
-      "teal": 727,
-      "source": 183,
-      "pc": [
-        679
-      ]
-    },
-    {
-      "teal": 728,
-      "source": 183,
-      "pc": [
-        680,
-        681
-      ]
-    },
-    {
-      "teal": 731,
-      "source": 183,
-      "pc": [
-        682
-      ]
-    },
-    {
-      "teal": 738,
-      "source": 190,
-      "pc": [
-        683
-      ]
-    },
-    {
-      "teal": 739,
-      "source": 191,
-      "pc": [
-        684,
-        685
-      ]
-    },
-    {
-      "teal": 740,
-      "source": 191,
-      "pc": [
-        686
-      ]
-    },
-    {
-      "teal": 741,
-      "source": 192,
-      "pc": [
-        687,
-        688
-      ]
-    },
-    {
-      "teal": 742,
-      "source": 192,
-      "pc": [
-        689,
-        690,
-        691
-      ]
-    },
-    {
-      "teal": 743,
-      "source": 192,
-      "pc": [
-        692,
-        693
-      ]
-    },
-    {
-      "teal": 744,
-      "source": 192,
-      "pc": [
-        694,
-        695,
-        696
-      ]
-    },
-    {
-      "teal": 747,
-      "source": 192,
-      "pc": [
-        697,
-        698
-      ]
-    },
-    {
-      "teal": 750,
-      "source": 192,
-      "pc": [
-        699
-      ]
-    },
-    {
-      "teal": 751,
-      "source": 190,
-      "pc": [
-        700
-      ]
-    },
-    {
-      "teal": 752,
-      "source": 190,
-      "pc": [
-        701
-      ]
-    },
-    {
-      "teal": 755,
-      "source": 190,
-      "errorMessage": "box value does not exist: this.plugins({ application: plugin, allowedCaller: globalAllowed ? Address.zeroAddress : this.txn.sender, }).value",
-      "pc": [
-        702
-      ]
-    },
-    {
-      "teal": 756,
-      "source": 190,
-      "pc": [
-        703,
-        704
-      ]
-    },
-    {
-      "teal": 757,
-      "source": 190,
-      "pc": [
-        705,
-        706
-      ]
-    },
-    {
-      "teal": 758,
-      "source": 190,
-      "pc": [
-        707,
-        708
-      ]
-    },
-    {
-      "teal": 759,
-      "source": 193,
-      "pc": [
-        709,
-        710
-      ]
-    },
-    {
-      "teal": 760,
-      "source": 193,
-      "pc": [
-        711
-      ]
-    },
-    {
-      "teal": 761,
-      "source": 190,
-      "pc": [
-        712
-      ]
-    },
-    {
-      "teal": 762,
-      "source": 191,
-      "pc": [
-        713,
-        714
-      ]
-    },
-    {
-      "teal": 763,
-      "source": 191,
-      "pc": [
-        715
-      ]
-    },
-    {
-      "teal": 764,
-      "source": 192,
-      "pc": [
-        716,
-        717
-      ]
-    },
-    {
-      "teal": 765,
-      "source": 192,
-      "pc": [
-        718,
-        719,
-        720
-      ]
-    },
-    {
-      "teal": 766,
-      "source": 192,
-      "pc": [
-        721,
-        722
-      ]
-    },
-    {
-      "teal": 767,
-      "source": 192,
-      "pc": [
-        723,
-        724,
-        725
-      ]
-    },
-    {
-      "teal": 770,
-      "source": 192,
-      "pc": [
-        726,
-        727
-      ]
-    },
-    {
-      "teal": 773,
-      "source": 192,
-      "pc": [
-        728
-      ]
-    },
-    {
-      "teal": 774,
-      "source": 190,
-      "pc": [
-        729
-      ]
-    },
-    {
-      "teal": 775,
-      "source": 190,
-      "pc": [
-        730,
-        731
-      ]
-    },
-    {
-      "teal": 776,
-      "source": 190,
-      "pc": [
-        732
-      ]
-    },
-    {
-      "teal": 780,
-      "source": 195,
-      "pc": [
-        733,
-        734,
-        735
-      ]
-    },
-    {
-      "teal": 781,
-      "source": 177,
-      "pc": [
-        736
-      ]
-    },
-    {
-      "teal": 786,
-      "source": 203,
-      "pc": [
-        737,
-        738,
-        739
-      ]
-    },
-    {
-      "teal": 787,
-      "source": 203,
-      "pc": [
-        740,
-        741,
-        742
-      ]
-    },
-    {
-      "teal": 790,
-      "source": 203,
-      "pc": [
-        743,
-        744,
-        745
-      ]
-    },
-    {
-      "teal": 791,
-      "source": 203,
-      "pc": [
-        746
-      ]
-    },
-    {
-      "teal": 792,
-      "source": 203,
-      "pc": [
-        747
-      ]
-    },
-    {
-      "teal": 800,
-      "source": 203,
-      "pc": [
-        748,
-        749,
-        750
-      ]
-    },
-    {
-      "teal": 804,
-      "source": 204,
-      "pc": [
-        751
-      ]
-    },
-    {
-      "teal": 805,
-      "source": 204,
-      "pc": [
-        752,
-        753
-      ]
-    },
-    {
-      "teal": 806,
-      "source": 204,
-      "pc": [
-        754,
-        755
-      ]
-    },
-    {
-      "teal": 807,
-      "source": 204,
-      "pc": [
-        756,
-        757
-      ]
-    },
-    {
-      "teal": 808,
-      "source": 204,
-      "pc": [
-        758
-      ]
-    },
-    {
-      "teal": 809,
-      "source": 204,
-      "pc": [
-        759,
-        760
-      ]
-    },
-    {
-      "teal": 810,
-      "source": 204,
-      "pc": [
-        761
-      ]
-    },
-    {
-      "teal": 811,
-      "source": 204,
-      "pc": [
-        762
-      ]
-    },
-    {
-      "teal": 812,
-      "source": 204,
-      "pc": [
-        763,
-        764,
-        765
-      ]
-    },
-    {
-      "teal": 813,
-      "source": 203,
-      "pc": [
-        766
-      ]
-    },
-    {
-      "teal": 818,
-      "source": 222,
-      "pc": [
-        767,
-        768,
-        769
-      ]
-    },
-    {
-      "teal": 819,
-      "source": 222,
-      "pc": [
-        770
-      ]
-    },
-    {
-      "teal": 820,
-      "source": 222,
-      "pc": [
-        771
-      ]
-    },
-    {
-      "teal": 821,
-      "source": 222,
-      "pc": [
-        772
-      ]
-    },
-    {
-      "teal": 822,
-      "source": 222,
-      "pc": [
-        773
-      ]
-    },
-    {
-      "teal": 825,
-      "source": 222,
-      "errorMessage": "argument 0 (adminPrivileges) for arc58_addPlugin must be a bool",
-      "pc": [
-        774
-      ]
-    },
-    {
-      "teal": 826,
-      "source": 222,
-      "pc": [
-        775
-      ]
-    },
-    {
-      "teal": 827,
-      "source": 222,
-      "pc": [
-        776
-      ]
-    },
-    {
-      "teal": 830,
-      "source": 221,
-      "pc": [
-        777,
-        778,
-        779
-      ]
-    },
-    {
-      "teal": 831,
-      "source": 221,
-      "pc": [
-        780
-      ]
-    },
-    {
-      "teal": 834,
-      "source": 220,
-      "pc": [
-        781,
-        782,
-        783
-      ]
-    },
-    {
-      "teal": 835,
-      "source": 220,
-      "pc": [
-        784
-      ]
-    },
-    {
-      "teal": 838,
-      "source": 219,
-      "pc": [
-        785,
-        786,
-        787
-      ]
-    },
-    {
-      "teal": 839,
-      "source": 219,
-      "pc": [
-        788
-      ]
-    },
-    {
-      "teal": 840,
-      "source": 219,
-      "pc": [
-        789
-      ]
-    },
-    {
-      "teal": 841,
-      "source": 219,
-      "pc": [
-        790
-      ]
-    },
-    {
-      "teal": 842,
-      "source": 219,
-      "pc": [
-        791
-      ]
-    },
-    {
-      "teal": 845,
-      "source": 219,
-      "errorMessage": "argument 3 (allowedCaller) for arc58_addPlugin must be a address",
-      "pc": [
-        792
-      ]
-    },
-    {
-      "teal": 848,
-      "source": 218,
-      "pc": [
-        793,
-        794,
-        795
-      ]
-    },
-    {
-      "teal": 849,
-      "source": 218,
-      "pc": [
-        796
-      ]
-    },
-    {
-      "teal": 852,
-      "source": 217,
-      "pc": [
-        797,
-        798,
-        799
-      ]
-    },
-    {
-      "teal": 853,
-      "source": 217,
-      "pc": [
-        800
-      ]
-    },
-    {
-      "teal": 854,
-      "source": 217,
-      "pc": [
-        801
-      ]
-    },
-    {
-      "teal": 867,
-      "source": 217,
-      "pc": [
-        802,
-        803,
-        804
-      ]
-    },
-    {
-      "teal": 870,
-      "source": 217,
-      "pc": [
-        805
-      ]
-    },
-    {
-      "teal": 875,
-      "source": 224,
-      "pc": [
-        806,
-        807
-      ]
-    },
-    {
-      "teal": 876,
-      "source": 224,
-      "pc": [
-        808
-      ]
-    },
-    {
-      "teal": 877,
-      "source": 224,
-      "pc": [
-        809
-      ]
-    },
-    {
-      "teal": 878,
-      "source": 224,
-      "pc": [
-        810
-      ]
-    },
-    {
-      "teal": 881,
-      "source": 224,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        811
-      ]
-    },
-    {
-      "teal": 885,
-      "source": 225,
-      "pc": [
-        812,
-        813
-      ]
-    },
-    {
-      "teal": 886,
-      "source": 225,
-      "pc": [
-        814
-      ]
-    },
-    {
-      "teal": 887,
-      "source": 225,
-      "pc": [
-        815,
-        816
-      ]
-    },
-    {
-      "teal": 888,
-      "source": 225,
-      "pc": [
-        817
-      ]
-    },
-    {
-      "teal": 889,
-      "source": 225,
-      "pc": [
-        818,
-        819
-      ]
-    },
-    {
-      "teal": 898,
-      "source": 226,
-      "pc": [
-        820
-      ]
-    },
-    {
-      "teal": 899,
-      "source": 226,
-      "pc": [
-        821,
-        822
-      ]
-    },
-    {
-      "teal": 900,
-      "source": 226,
-      "pc": [
-        823
-      ]
-    },
-    {
-      "teal": 901,
-      "source": 227,
-      "pc": [
-        824,
-        825
-      ]
-    },
-    {
-      "teal": 902,
-      "source": 227,
-      "pc": [
-        826
-      ]
-    },
-    {
-      "teal": 903,
-      "source": 228,
-      "pc": [
-        827,
-        828
-      ]
-    },
-    {
-      "teal": 904,
-      "source": 228,
-      "pc": [
-        829
-      ]
-    },
-    {
-      "teal": 905,
-      "source": 228,
-      "pc": [
-        830
-      ]
-    },
-    {
-      "teal": 906,
-      "source": 229,
-      "pc": [
-        831,
-        832
-      ]
-    },
-    {
-      "teal": 907,
-      "source": 229,
-      "pc": [
-        833
-      ]
-    },
-    {
-      "teal": 908,
-      "source": 230,
-      "pc": [
-        834,
-        835
-      ]
-    },
-    {
-      "teal": 909,
-      "source": 230,
-      "pc": [
-        836
-      ]
-    },
-    {
-      "teal": 910,
-      "source": 230,
-      "pc": [
-        837,
-        838
-      ]
-    },
-    {
-      "teal": 911,
-      "source": 230,
-      "pc": [
-        839
-      ]
-    },
-    {
-      "teal": 912,
-      "source": 226,
-      "pc": [
-        840
-      ]
-    },
-    {
-      "teal": 913,
-      "source": 226,
-      "pc": [
-        841
-      ]
-    },
-    {
-      "teal": 914,
-      "source": 217,
-      "pc": [
-        842
-      ]
-    },
-    {
-      "teal": 919,
-      "source": 239,
-      "pc": [
-        843,
-        844,
-        845
-      ]
-    },
-    {
-      "teal": 920,
-      "source": 239,
-      "pc": [
-        846
-      ]
-    },
-    {
-      "teal": 921,
-      "source": 239,
-      "pc": [
-        847
-      ]
-    },
-    {
-      "teal": 922,
-      "source": 239,
-      "pc": [
-        848
-      ]
-    },
-    {
-      "teal": 923,
-      "source": 239,
-      "pc": [
-        849
-      ]
-    },
-    {
-      "teal": 926,
-      "source": 239,
-      "errorMessage": "argument 0 (allowedCaller) for arc58_removePlugin must be a address",
-      "pc": [
-        850
-      ]
-    },
-    {
-      "teal": 929,
-      "source": 239,
-      "pc": [
-        851,
-        852,
-        853
-      ]
-    },
-    {
-      "teal": 930,
-      "source": 239,
-      "pc": [
-        854
-      ]
-    },
-    {
-      "teal": 933,
-      "source": 239,
-      "pc": [
-        855,
-        856,
-        857
-      ]
-    },
-    {
-      "teal": 934,
-      "source": 239,
-      "pc": [
-        858
-      ]
-    },
-    {
-      "teal": 935,
-      "source": 239,
-      "pc": [
-        859
-      ]
-    },
-    {
-      "teal": 943,
-      "source": 239,
-      "pc": [
-        860,
-        861,
-        862
-      ]
-    },
-    {
-      "teal": 946,
-      "source": 239,
-      "pc": [
-        863
-      ]
-    },
-    {
-      "teal": 951,
-      "source": 240,
-      "pc": [
-        864,
-        865
-      ]
-    },
-    {
-      "teal": 952,
-      "source": 240,
-      "pc": [
-        866
-      ]
-    },
-    {
-      "teal": 953,
-      "source": 240,
-      "pc": [
-        867
-      ]
-    },
-    {
-      "teal": 954,
-      "source": 240,
-      "pc": [
-        868
-      ]
-    },
-    {
-      "teal": 957,
-      "source": 240,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        869
-      ]
-    },
-    {
-      "teal": 961,
-      "source": 242,
-      "pc": [
-        870,
-        871
-      ]
-    },
-    {
-      "teal": 962,
-      "source": 242,
-      "pc": [
-        872
-      ]
-    },
-    {
-      "teal": 963,
-      "source": 242,
-      "pc": [
-        873,
-        874
-      ]
-    },
-    {
-      "teal": 964,
-      "source": 242,
-      "pc": [
-        875
-      ]
-    },
-    {
-      "teal": 965,
-      "source": 242,
-      "pc": [
-        876,
-        877
-      ]
-    },
-    {
-      "teal": 969,
-      "source": 243,
-      "pc": [
-        878
-      ]
-    },
-    {
-      "teal": 970,
-      "source": 243,
-      "pc": [
-        879,
-        880
-      ]
-    },
-    {
-      "teal": 971,
-      "source": 243,
-      "pc": [
-        881
-      ]
-    },
-    {
-      "teal": 972,
-      "source": 243,
-      "pc": [
-        882
-      ]
-    },
-    {
-      "teal": 973,
-      "source": 239,
-      "pc": [
-        883
-      ]
-    },
-    {
-      "teal": 978,
-      "source": 263,
-      "pc": [
-        884,
-        885,
-        886
-      ]
-    },
-    {
-      "teal": 979,
-      "source": 263,
-      "pc": [
-        887
-      ]
-    },
-    {
-      "teal": 980,
-      "source": 263,
-      "pc": [
-        888
-      ]
-    },
-    {
-      "teal": 981,
-      "source": 263,
-      "pc": [
-        889
-      ]
-    },
-    {
-      "teal": 982,
-      "source": 263,
-      "pc": [
-        890
-      ]
-    },
-    {
-      "teal": 985,
-      "source": 263,
-      "errorMessage": "argument 0 (adminPrivileges) for arc58_addNamedPlugin must be a bool",
-      "pc": [
-        891
-      ]
-    },
-    {
-      "teal": 986,
-      "source": 263,
-      "pc": [
-        892
-      ]
-    },
-    {
-      "teal": 987,
-      "source": 263,
-      "pc": [
-        893
-      ]
-    },
-    {
-      "teal": 990,
-      "source": 262,
-      "pc": [
-        894,
-        895,
-        896
-      ]
-    },
-    {
-      "teal": 991,
-      "source": 262,
-      "pc": [
-        897
-      ]
-    },
-    {
-      "teal": 994,
-      "source": 261,
-      "pc": [
-        898,
-        899,
-        900
-      ]
-    },
-    {
-      "teal": 995,
-      "source": 261,
-      "pc": [
-        901
-      ]
-    },
-    {
-      "teal": 998,
-      "source": 260,
-      "pc": [
-        902,
-        903,
-        904
-      ]
-    },
-    {
-      "teal": 999,
-      "source": 260,
-      "pc": [
-        905
-      ]
-    },
-    {
-      "teal": 1000,
-      "source": 260,
-      "pc": [
-        906
-      ]
-    },
-    {
-      "teal": 1001,
-      "source": 260,
-      "pc": [
-        907
-      ]
-    },
-    {
-      "teal": 1002,
-      "source": 260,
-      "pc": [
-        908
-      ]
-    },
-    {
-      "teal": 1005,
-      "source": 260,
-      "errorMessage": "argument 3 (allowedCaller) for arc58_addNamedPlugin must be a address",
-      "pc": [
-        909
-      ]
-    },
-    {
-      "teal": 1008,
-      "source": 259,
-      "pc": [
-        910,
-        911,
-        912
-      ]
-    },
-    {
-      "teal": 1009,
-      "source": 259,
-      "pc": [
-        913
-      ]
-    },
-    {
-      "teal": 1012,
-      "source": 258,
-      "pc": [
-        914,
-        915,
-        916
-      ]
-    },
-    {
-      "teal": 1013,
-      "source": 258,
-      "pc": [
-        917,
-        918,
-        919
-      ]
-    },
-    {
-      "teal": 1016,
-      "source": 257,
-      "pc": [
-        920,
-        921,
-        922
-      ]
-    },
-    {
-      "teal": 1017,
-      "source": 257,
-      "pc": [
-        923
-      ]
-    },
-    {
-      "teal": 1018,
-      "source": 257,
-      "pc": [
-        924
-      ]
-    },
-    {
-      "teal": 1032,
-      "source": 257,
-      "pc": [
-        925,
-        926,
-        927
-      ]
-    },
-    {
-      "teal": 1035,
-      "source": 257,
-      "pc": [
-        928
-      ]
-    },
-    {
-      "teal": 1040,
-      "source": 265,
-      "pc": [
-        929,
-        930
-      ]
-    },
-    {
-      "teal": 1041,
-      "source": 265,
-      "pc": [
-        931
-      ]
-    },
-    {
-      "teal": 1042,
-      "source": 265,
-      "pc": [
-        932
-      ]
-    },
-    {
-      "teal": 1043,
-      "source": 265,
-      "pc": [
-        933
-      ]
-    },
-    {
-      "teal": 1046,
-      "source": 265,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        934
-      ]
-    },
-    {
-      "teal": 1050,
-      "source": 266,
-      "pc": [
-        935,
-        936
-      ]
-    },
-    {
-      "teal": 1051,
-      "source": 266,
-      "pc": [
-        937,
-        938
-      ]
-    },
-    {
-      "teal": 1052,
-      "source": 266,
-      "pc": [
-        939
-      ]
-    },
-    {
-      "teal": 1053,
-      "source": 266,
-      "pc": [
-        940
-      ]
-    },
-    {
-      "teal": 1054,
-      "source": 266,
-      "pc": [
-        941
-      ]
-    },
-    {
-      "teal": 1055,
-      "source": 266,
-      "pc": [
-        942
-      ]
-    },
-    {
-      "teal": 1056,
-      "source": 266,
-      "pc": [
-        943
-      ]
-    },
-    {
-      "teal": 1057,
-      "source": 266,
-      "pc": [
-        944
-      ]
-    },
-    {
-      "teal": 1061,
-      "source": 268,
-      "pc": [
-        945,
-        946
-      ]
-    },
-    {
-      "teal": 1062,
-      "source": 268,
-      "pc": [
-        947
-      ]
-    },
-    {
-      "teal": 1063,
-      "source": 268,
-      "pc": [
-        948,
-        949
-      ]
-    },
-    {
-      "teal": 1064,
-      "source": 268,
-      "pc": [
-        950
-      ]
-    },
-    {
-      "teal": 1065,
-      "source": 268,
-      "pc": [
-        951,
-        952
-      ]
-    },
-    {
-      "teal": 1069,
-      "source": 269,
-      "pc": [
-        953,
-        954
-      ]
-    },
-    {
-      "teal": 1070,
-      "source": 269,
-      "pc": [
-        955,
-        956
-      ]
-    },
-    {
-      "teal": 1071,
-      "source": 269,
-      "pc": [
-        957
-      ]
-    },
-    {
-      "teal": 1072,
-      "source": 269,
-      "pc": [
-        958,
-        959
-      ]
-    },
-    {
-      "teal": 1073,
-      "source": 269,
-      "pc": [
-        960
-      ]
-    },
-    {
-      "teal": 1082,
-      "source": 270,
-      "pc": [
-        961
-      ]
-    },
-    {
-      "teal": 1083,
-      "source": 270,
-      "pc": [
-        962,
-        963
-      ]
-    },
-    {
-      "teal": 1084,
-      "source": 270,
-      "pc": [
-        964
-      ]
-    },
-    {
-      "teal": 1085,
-      "source": 271,
-      "pc": [
-        965,
-        966
-      ]
-    },
-    {
-      "teal": 1086,
-      "source": 271,
-      "pc": [
-        967
-      ]
-    },
-    {
-      "teal": 1087,
-      "source": 272,
-      "pc": [
-        968,
-        969
-      ]
-    },
-    {
-      "teal": 1088,
-      "source": 272,
-      "pc": [
-        970
-      ]
-    },
-    {
-      "teal": 1089,
-      "source": 272,
-      "pc": [
-        971
-      ]
-    },
-    {
-      "teal": 1090,
-      "source": 273,
-      "pc": [
-        972,
-        973
-      ]
-    },
-    {
-      "teal": 1091,
-      "source": 273,
-      "pc": [
-        974
-      ]
-    },
-    {
-      "teal": 1092,
-      "source": 274,
-      "pc": [
-        975,
-        976
-      ]
-    },
-    {
-      "teal": 1093,
-      "source": 274,
-      "pc": [
-        977
-      ]
-    },
-    {
-      "teal": 1094,
-      "source": 274,
-      "pc": [
-        978,
-        979
-      ]
-    },
-    {
-      "teal": 1095,
-      "source": 274,
-      "pc": [
-        980
-      ]
-    },
-    {
-      "teal": 1096,
-      "source": 270,
-      "pc": [
-        981
-      ]
-    },
-    {
-      "teal": 1097,
-      "source": 270,
-      "pc": [
-        982
-      ]
-    },
-    {
-      "teal": 1098,
-      "source": 257,
-      "pc": [
-        983
-      ]
-    },
-    {
-      "teal": 1103,
-      "source": 283,
-      "pc": [
-        984,
-        985,
-        986
-      ]
-    },
-    {
-      "teal": 1104,
-      "source": 283,
-      "pc": [
-        987,
-        988,
-        989
-      ]
-    },
-    {
-      "teal": 1107,
-      "source": 283,
-      "pc": [
-        990,
-        991,
-        992
-      ]
-    },
-    {
-      "teal": 1108,
-      "source": 283,
-      "pc": [
-        993
-      ]
-    },
-    {
-      "teal": 1109,
-      "source": 283,
-      "pc": [
-        994
-      ]
-    },
-    {
-      "teal": 1117,
-      "source": 283,
-      "pc": [
-        995,
-        996,
-        997
-      ]
-    },
-    {
-      "teal": 1120,
-      "source": 283,
-      "pc": [
-        998
-      ]
-    },
-    {
-      "teal": 1125,
-      "source": 284,
-      "pc": [
-        999,
-        1000
-      ]
-    },
-    {
-      "teal": 1126,
-      "source": 284,
-      "pc": [
-        1001
-      ]
-    },
-    {
-      "teal": 1127,
-      "source": 284,
-      "pc": [
-        1002
-      ]
-    },
-    {
-      "teal": 1128,
-      "source": 284,
-      "pc": [
-        1003
-      ]
-    },
-    {
-      "teal": 1131,
-      "source": 284,
-      "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
-      "pc": [
-        1004
-      ]
-    },
-    {
-      "teal": 1135,
-      "source": 286,
-      "pc": [
-        1005,
-        1006
-      ]
-    },
-    {
-      "teal": 1136,
-      "source": 286,
-      "pc": [
-        1007,
-        1008
-      ]
-    },
-    {
-      "teal": 1137,
-      "source": 286,
-      "pc": [
-        1009
-      ]
-    },
-    {
-      "teal": 1138,
-      "source": 286,
-      "pc": [
-        1010,
-        1011
-      ]
-    },
-    {
-      "teal": 1142,
-      "source": 287,
-      "pc": [
-        1012,
-        1013
-      ]
-    },
-    {
-      "teal": 1143,
-      "source": 287,
-      "pc": [
-        1014,
-        1015
-      ]
-    },
-    {
-      "teal": 1144,
-      "source": 287,
-      "pc": [
-        1016
-      ]
-    },
-    {
-      "teal": 1145,
-      "source": 287,
-      "pc": [
-        1017
-      ]
-    },
-    {
-      "teal": 1149,
-      "source": 288,
-      "pc": [
-        1018
-      ]
-    },
-    {
-      "teal": 1150,
-      "source": 286,
-      "pc": [
-        1019,
-        1020
-      ]
-    },
-    {
-      "teal": 1151,
-      "source": 286,
-      "pc": [
-        1021
-      ]
-    },
-    {
-      "teal": 1154,
-      "source": 286,
-      "errorMessage": "box value does not exist: this.namedPlugins(name).value",
-      "pc": [
-        1022
-      ]
-    },
-    {
-      "teal": 1155,
-      "source": 288,
-      "pc": [
-        1023
-      ]
-    },
-    {
-      "teal": 1156,
-      "source": 288,
-      "pc": [
-        1024
-      ]
-    },
-    {
-      "teal": 1157,
-      "source": 283,
-      "pc": [
-        1025
-      ]
-    },
-    {
-      "teal": 1160,
-      "source": 21,
-      "pc": [
-        1026,
-        1027,
-        1028,
-        1029,
-        1030,
-        1031
-      ]
-    },
-    {
-      "teal": 1161,
-      "source": 21,
-      "pc": [
-        1032,
-        1033,
-        1034
-      ]
-    },
-    {
-      "teal": 1162,
-      "source": 21,
-      "pc": [
-        1035,
-        1036,
-        1037,
-        1038
-      ]
-    },
-    {
-      "teal": 1165,
-      "source": 21,
-      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-      "pc": [
-        1039
-      ]
-    },
-    {
-      "teal": 1168,
-      "source": 21,
-      "pc": [
-        1040,
-        1041,
-        1042,
-        1043,
-        1044,
-        1045
-      ]
-    },
-    {
-      "teal": 1169,
-      "source": 21,
-      "pc": [
-        1046,
-        1047,
-        1048,
-        1049,
-        1050,
-        1051
-      ]
-    },
-    {
-      "teal": 1170,
-      "source": 21,
-      "pc": [
-        1052,
-        1053,
-        1054,
-        1055,
-        1056,
-        1057
-      ]
-    },
-    {
-      "teal": 1171,
-      "source": 21,
-      "pc": [
-        1058,
-        1059
-      ]
-    },
-    {
-      "teal": 1172,
-      "source": 21,
-      "pc": [
-        1060,
-        1061,
-        1062,
-        1063,
-        1064,
-        1065
-      ]
-    },
-    {
-      "teal": 1173,
-      "source": 21,
-      "pc": [
-        1066,
-        1067,
-        1068,
-        1069,
-        1070,
-        1071
-      ]
-    },
-    {
-      "teal": 1174,
-      "source": 21,
-      "pc": [
-        1072,
-        1073,
-        1074,
-        1075,
-        1076,
-        1077
-      ]
-    },
-    {
-      "teal": 1175,
-      "source": 21,
-      "pc": [
-        1078,
-        1079,
-        1080,
-        1081,
-        1082,
-        1083
-      ]
-    },
-    {
-      "teal": 1176,
-      "source": 21,
-      "pc": [
-        1084,
-        1085,
-        1086,
-        1087,
-        1088,
-        1089
-      ]
-    },
-    {
-      "teal": 1177,
-      "source": 21,
-      "pc": [
-        1090,
-        1091,
-        1092,
-        1093,
-        1094,
-        1095
-      ]
-    },
-    {
-      "teal": 1178,
-      "source": 21,
-      "pc": [
-        1096,
-        1097,
-        1098,
-        1099,
-        1100,
-        1101
-      ]
-    },
-    {
-      "teal": 1179,
-      "source": 21,
-      "pc": [
-        1102,
-        1103,
-        1104
-      ]
-    },
-    {
-      "teal": 1180,
-      "source": 21,
-      "pc": [
-        1105,
-        1106,
-        1107,
-        1108,
-        1109,
-        1110,
-        1111,
-        1112,
-        1113,
-        1114,
-        1115,
-        1116,
-        1117,
-        1118,
-        1119,
-        1120,
-        1121,
-        1122,
-        1123,
-        1124,
-        1125,
-        1126,
-        1127,
-        1128
-      ]
-    },
-    {
-      "teal": 1183,
-      "source": 21,
-      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
-      "pc": [
-        1129
-      ]
-    }
-  ],
+  "sourceInfo": {
+    "approval": [
+      {
+        "teal": 1,
+        "source": 21,
+        "pc": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33
+        ]
+      },
+      {
+        "teal": 13,
+        "source": 21,
+        "pc": [
+          34,
+          35
+        ]
+      },
+      {
+        "teal": 14,
+        "source": 21,
+        "pc": [
+          36
+        ]
+      },
+      {
+        "teal": 15,
+        "source": 21,
+        "pc": [
+          37
+        ]
+      },
+      {
+        "teal": 16,
+        "source": 21,
+        "pc": [
+          38
+        ]
+      },
+      {
+        "teal": 17,
+        "source": 21,
+        "pc": [
+          39,
+          40
+        ]
+      },
+      {
+        "teal": 18,
+        "source": 21,
+        "pc": [
+          41
+        ]
+      },
+      {
+        "teal": 19,
+        "source": 21,
+        "pc": [
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67
+        ]
+      },
+      {
+        "teal": 23,
+        "source": 21,
+        "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+        "pc": [
+          68
+        ]
+      },
+      {
+        "teal": 29,
+        "source": 44,
+        "pc": [
+          69,
+          70,
+          71
+        ]
+      },
+      {
+        "teal": 32,
+        "source": 44,
+        "pc": [
+          72
+        ]
+      },
+      {
+        "teal": 33,
+        "source": 44,
+        "pc": [
+          73,
+          74
+        ]
+      },
+      {
+        "teal": 37,
+        "source": 45,
+        "pc": [
+          75
+        ]
+      },
+      {
+        "teal": 38,
+        "source": 45,
+        "pc": [
+          76,
+          77
+        ]
+      },
+      {
+        "teal": 42,
+        "source": 47,
+        "pc": [
+          78,
+          79
+        ]
+      },
+      {
+        "teal": 43,
+        "source": 47,
+        "pc": [
+          80,
+          81
+        ]
+      },
+      {
+        "teal": 48,
+        "source": 47,
+        "pc": [
+          82,
+          83
+        ]
+      },
+      {
+        "teal": 49,
+        "source": 47,
+        "pc": [
+          84,
+          85
+        ]
+      },
+      {
+        "teal": 50,
+        "source": 47,
+        "pc": [
+          86
+        ]
+      },
+      {
+        "teal": 51,
+        "source": 47,
+        "pc": [
+          87,
+          88,
+          89
+        ]
+      },
+      {
+        "teal": 55,
+        "source": 48,
+        "pc": [
+          90,
+          91
+        ]
+      },
+      {
+        "teal": 56,
+        "source": 48,
+        "pc": [
+          92,
+          93
+        ]
+      },
+      {
+        "teal": 61,
+        "source": 51,
+        "pc": [
+          94,
+          95
+        ]
+      },
+      {
+        "teal": 62,
+        "source": 51,
+        "pc": [
+          96,
+          97
+        ]
+      },
+      {
+        "teal": 63,
+        "source": 51,
+        "pc": [
+          98
+        ]
+      },
+      {
+        "teal": 64,
+        "source": 51,
+        "pc": [
+          99
+        ]
+      },
+      {
+        "teal": 65,
+        "source": 51,
+        "pc": [
+          100
+        ]
+      },
+      {
+        "teal": 66,
+        "source": 51,
+        "pc": [
+          101
+        ]
+      },
+      {
+        "teal": 67,
+        "source": 51,
+        "pc": [
+          102,
+          103,
+          104
+        ]
+      },
+      {
+        "teal": 68,
+        "source": 51,
+        "pc": [
+          105,
+          106
+        ]
+      },
+      {
+        "teal": 69,
+        "source": 51,
+        "pc": [
+          107,
+          108
+        ]
+      },
+      {
+        "teal": 70,
+        "source": 51,
+        "pc": [
+          109
+        ]
+      },
+      {
+        "teal": 71,
+        "source": 51,
+        "pc": [
+          110
+        ]
+      },
+      {
+        "teal": 72,
+        "source": 51,
+        "pc": [
+          111
+        ]
+      },
+      {
+        "teal": 73,
+        "source": 51,
+        "pc": [
+          112
+        ]
+      },
+      {
+        "teal": 76,
+        "source": 51,
+        "pc": [
+          113,
+          114,
+          115
+        ]
+      },
+      {
+        "teal": 81,
+        "source": 52,
+        "pc": [
+          116
+        ]
+      },
+      {
+        "teal": 82,
+        "source": 52,
+        "pc": [
+          117,
+          118
+        ]
+      },
+      {
+        "teal": 83,
+        "source": 53,
+        "pc": [
+          119,
+          120,
+          121
+        ]
+      },
+      {
+        "teal": 92,
+        "source": 58,
+        "pc": [
+          122,
+          123
+        ]
+      },
+      {
+        "teal": 93,
+        "source": 58,
+        "pc": [
+          124,
+          125
+        ]
+      },
+      {
+        "teal": 94,
+        "source": 58,
+        "pc": [
+          126
+        ]
+      },
+      {
+        "teal": 95,
+        "source": 58,
+        "pc": [
+          127
+        ]
+      },
+      {
+        "teal": 96,
+        "source": 58,
+        "pc": [
+          128
+        ]
+      },
+      {
+        "teal": 97,
+        "source": 58,
+        "pc": [
+          129,
+          130,
+          131
+        ]
+      },
+      {
+        "teal": 98,
+        "source": 59,
+        "pc": [
+          132,
+          133
+        ]
+      },
+      {
+        "teal": 99,
+        "source": 59,
+        "pc": [
+          134,
+          135
+        ]
+      },
+      {
+        "teal": 100,
+        "source": 59,
+        "pc": [
+          136,
+          137,
+          138
+        ]
+      },
+      {
+        "teal": 101,
+        "source": 59,
+        "pc": [
+          139
+        ]
+      },
+      {
+        "teal": 102,
+        "source": 58,
+        "pc": [
+          140
+        ]
+      },
+      {
+        "teal": 105,
+        "source": 59,
+        "pc": [
+          141
+        ]
+      },
+      {
+        "teal": 106,
+        "source": 59,
+        "pc": [
+          142,
+          143,
+          144
+        ]
+      },
+      {
+        "teal": 107,
+        "source": 60,
+        "pc": [
+          145,
+          146
+        ]
+      },
+      {
+        "teal": 108,
+        "source": 60,
+        "pc": [
+          147,
+          148
+        ]
+      },
+      {
+        "teal": 109,
+        "source": 60,
+        "pc": [
+          149
+        ]
+      },
+      {
+        "teal": 110,
+        "source": 60,
+        "pc": [
+          150
+        ]
+      },
+      {
+        "teal": 111,
+        "source": 59,
+        "pc": [
+          151
+        ]
+      },
+      {
+        "teal": 114,
+        "source": 60,
+        "pc": [
+          152
+        ]
+      },
+      {
+        "teal": 115,
+        "source": 60,
+        "pc": [
+          153,
+          154,
+          155
+        ]
+      },
+      {
+        "teal": 116,
+        "source": 61,
+        "pc": [
+          156,
+          157
+        ]
+      },
+      {
+        "teal": 117,
+        "source": 61,
+        "pc": [
+          158,
+          159,
+          160
+        ]
+      },
+      {
+        "teal": 118,
+        "source": 61,
+        "pc": [
+          161,
+          162
+        ]
+      },
+      {
+        "teal": 119,
+        "source": 61,
+        "pc": [
+          163
+        ]
+      },
+      {
+        "teal": 120,
+        "source": 60,
+        "pc": [
+          164
+        ]
+      },
+      {
+        "teal": 123,
+        "source": 57,
+        "pc": [
+          165,
+          166,
+          167
+        ]
+      },
+      {
+        "teal": 128,
+        "source": 63,
+        "pc": [
+          168
+        ]
+      },
+      {
+        "teal": 129,
+        "source": 63,
+        "pc": [
+          169,
+          170
+        ]
+      },
+      {
+        "teal": 130,
+        "source": 64,
+        "pc": [
+          171,
+          172,
+          173
+        ]
+      },
+      {
+        "teal": 137,
+        "source": 47,
+        "pc": [
+          174,
+          175
+        ]
+      },
+      {
+        "teal": 138,
+        "source": 47,
+        "pc": [
+          176
+        ]
+      },
+      {
+        "teal": 139,
+        "source": 47,
+        "pc": [
+          177
+        ]
+      },
+      {
+        "teal": 140,
+        "source": 47,
+        "pc": [
+          178,
+          179
+        ]
+      },
+      {
+        "teal": 141,
+        "source": 47,
+        "pc": [
+          180,
+          181,
+          182
+        ]
+      },
+      {
+        "teal": 146,
+        "source": 68,
+        "pc": [
+          183,
+          184
+        ]
+      },
+      {
+        "teal": 147,
+        "source": 68,
+        "pc": [
+          185
+        ]
+      },
+      {
+        "teal": 148,
+        "source": 44,
+        "pc": [
+          186
+        ]
+      },
+      {
+        "teal": 155,
+        "source": 75,
+        "pc": [
+          187,
+          188,
+          189
+        ]
+      },
+      {
+        "teal": 159,
+        "source": 76,
+        "pc": [
+          190
+        ]
+      },
+      {
+        "teal": 160,
+        "source": 76,
+        "pc": [
+          191
+        ]
+      },
+      {
+        "teal": 161,
+        "source": 76,
+        "pc": [
+          192,
+          193
+        ]
+      },
+      {
+        "teal": 162,
+        "source": 76,
+        "pc": [
+          194
+        ]
+      },
+      {
+        "teal": 163,
+        "source": 76,
+        "pc": [
+          195,
+          196,
+          197
+        ]
+      },
+      {
+        "teal": 164,
+        "source": 76,
+        "pc": [
+          198,
+          199
+        ]
+      },
+      {
+        "teal": 165,
+        "source": 76,
+        "pc": [
+          200,
+          201,
+          202
+        ]
+      },
+      {
+        "teal": 168,
+        "source": 76,
+        "pc": [
+          203,
+          204
+        ]
+      },
+      {
+        "teal": 171,
+        "source": 75,
+        "pc": [
+          205
+        ]
+      },
+      {
+        "teal": 176,
+        "source": 86,
+        "pc": [
+          206,
+          207,
+          208
+        ]
+      },
+      {
+        "teal": 177,
+        "source": 86,
+        "pc": [
+          209
+        ]
+      },
+      {
+        "teal": 178,
+        "source": 86,
+        "pc": [
+          210
+        ]
+      },
+      {
+        "teal": 179,
+        "source": 86,
+        "pc": [
+          211
+        ]
+      },
+      {
+        "teal": 180,
+        "source": 86,
+        "pc": [
+          212
+        ]
+      },
+      {
+        "teal": 183,
+        "source": 86,
+        "errorMessage": "argument 0 (admin) for createApplication must be a address",
+        "pc": [
+          213
+        ]
+      },
+      {
+        "teal": 186,
+        "source": 86,
+        "pc": [
+          214,
+          215,
+          216
+        ]
+      },
+      {
+        "teal": 187,
+        "source": 86,
+        "pc": [
+          217
+        ]
+      },
+      {
+        "teal": 188,
+        "source": 86,
+        "pc": [
+          218
+        ]
+      },
+      {
+        "teal": 189,
+        "source": 86,
+        "pc": [
+          219
+        ]
+      },
+      {
+        "teal": 190,
+        "source": 86,
+        "pc": [
+          220
+        ]
+      },
+      {
+        "teal": 193,
+        "source": 86,
+        "errorMessage": "argument 1 (controlledAddress) for createApplication must be a address",
+        "pc": [
+          221
+        ]
+      },
+      {
+        "teal": 196,
+        "source": 86,
+        "pc": [
+          222,
+          223,
+          224
+        ]
+      },
+      {
+        "teal": 197,
+        "source": 86,
+        "pc": [
+          225
+        ]
+      },
+      {
+        "teal": 198,
+        "source": 86,
+        "pc": [
+          226
+        ]
+      },
+      {
+        "teal": 208,
+        "source": 86,
+        "pc": [
+          227,
+          228,
+          229
+        ]
+      },
+      {
+        "teal": 215,
+        "source": 88,
+        "pc": [
+          230,
+          231
+        ]
+      },
+      {
+        "teal": 216,
+        "source": 88,
+        "pc": [
+          232,
+          233
+        ]
+      },
+      {
+        "teal": 217,
+        "source": 88,
+        "pc": [
+          234
+        ]
+      },
+      {
+        "teal": 218,
+        "source": 88,
+        "pc": [
+          235,
+          236
+        ]
+      },
+      {
+        "teal": 219,
+        "source": 88,
+        "pc": [
+          237,
+          238
+        ]
+      },
+      {
+        "teal": 220,
+        "source": 88,
+        "pc": [
+          239
+        ]
+      },
+      {
+        "teal": 221,
+        "source": 88,
+        "pc": [
+          240
+        ]
+      },
+      {
+        "teal": 224,
+        "source": 88,
+        "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"this.txn\"},\"field\":\"sender\",\"condition\":\"includedIn\",\"expected\":\"[controlledAddress, admin]\"}",
+        "pc": [
+          241
+        ]
+      },
+      {
+        "teal": 228,
+        "source": 91,
+        "pc": [
+          242,
+          243
+        ]
+      },
+      {
+        "teal": 229,
+        "source": 91,
+        "pc": [
+          244,
+          245
+        ]
+      },
+      {
+        "teal": 230,
+        "source": 91,
+        "pc": [
+          246
+        ]
+      },
+      {
+        "teal": 231,
+        "source": 91,
+        "pc": [
+          247
+        ]
+      },
+      {
+        "teal": 235,
+        "source": 93,
+        "pc": [
+          248
+        ]
+      },
+      {
+        "teal": 236,
+        "source": 93,
+        "pc": [
+          249,
+          250
+        ]
+      },
+      {
+        "teal": 237,
+        "source": 93,
+        "pc": [
+          251
+        ]
+      },
+      {
+        "teal": 241,
+        "source": 94,
+        "pc": [
+          252
+        ]
+      },
+      {
+        "teal": 242,
+        "source": 94,
+        "pc": [
+          253,
+          254
+        ]
+      },
+      {
+        "teal": 243,
+        "source": 94,
+        "pc": [
+          255,
+          256
+        ]
+      },
+      {
+        "teal": 244,
+        "source": 94,
+        "pc": [
+          257
+        ]
+      },
+      {
+        "teal": 245,
+        "source": 94,
+        "pc": [
+          258,
+          259,
+          260
+        ]
+      },
+      {
+        "teal": 246,
+        "source": 94,
+        "pc": [
+          261,
+          262
+        ]
+      },
+      {
+        "teal": 247,
+        "source": 94,
+        "pc": [
+          263,
+          264,
+          265
+        ]
+      },
+      {
+        "teal": 250,
+        "source": 94,
+        "pc": [
+          266,
+          267
+        ]
+      },
+      {
+        "teal": 253,
+        "source": 94,
+        "pc": [
+          268
+        ]
+      },
+      {
+        "teal": 254,
+        "source": 86,
+        "pc": [
+          269
+        ]
+      },
+      {
+        "teal": 259,
+        "source": 102,
+        "pc": [
+          270,
+          271,
+          272
+        ]
+      },
+      {
+        "teal": 260,
+        "source": 102,
+        "pc": [
+          273
+        ]
+      },
+      {
+        "teal": 261,
+        "source": 102,
+        "pc": [
+          274
+        ]
+      },
+      {
+        "teal": 262,
+        "source": 102,
+        "pc": [
+          275
+        ]
+      },
+      {
+        "teal": 263,
+        "source": 102,
+        "pc": [
+          276
+        ]
+      },
+      {
+        "teal": 266,
+        "source": 102,
+        "errorMessage": "argument 0 (newAdmin) for arc58_changeAdmin must be a address",
+        "pc": [
+          277
+        ]
+      },
+      {
+        "teal": 269,
+        "source": 102,
+        "pc": [
+          278,
+          279,
+          280
+        ]
+      },
+      {
+        "teal": 270,
+        "source": 102,
+        "pc": [
+          281
+        ]
+      },
+      {
+        "teal": 271,
+        "source": 102,
+        "pc": [
+          282
+        ]
+      },
+      {
+        "teal": 279,
+        "source": 102,
+        "pc": [
+          283,
+          284,
+          285
+        ]
+      },
+      {
+        "teal": 284,
+        "source": 103,
+        "pc": [
+          286,
+          287
+        ]
+      },
+      {
+        "teal": 285,
+        "source": 103,
+        "pc": [
+          288
+        ]
+      },
+      {
+        "teal": 286,
+        "source": 103,
+        "pc": [
+          289
+        ]
+      },
+      {
+        "teal": 287,
+        "source": 103,
+        "pc": [
+          290
+        ]
+      },
+      {
+        "teal": 290,
+        "source": 103,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          291
+        ]
+      },
+      {
+        "teal": 294,
+        "source": 104,
+        "pc": [
+          292
+        ]
+      },
+      {
+        "teal": 295,
+        "source": 104,
+        "pc": [
+          293,
+          294
+        ]
+      },
+      {
+        "teal": 296,
+        "source": 104,
+        "pc": [
+          295
+        ]
+      },
+      {
+        "teal": 297,
+        "source": 102,
+        "pc": [
+          296
+        ]
+      },
+      {
+        "teal": 302,
+        "source": 115,
+        "pc": [
+          297,
+          298,
+          299
+        ]
+      },
+      {
+        "teal": 303,
+        "source": 115,
+        "pc": [
+          300
+        ]
+      },
+      {
+        "teal": 304,
+        "source": 115,
+        "pc": [
+          301
+        ]
+      },
+      {
+        "teal": 305,
+        "source": 115,
+        "pc": [
+          302
+        ]
+      },
+      {
+        "teal": 306,
+        "source": 115,
+        "pc": [
+          303
+        ]
+      },
+      {
+        "teal": 309,
+        "source": 115,
+        "errorMessage": "argument 0 (newAdmin) for arc58_pluginChangeAdmin must be a address",
+        "pc": [
+          304
+        ]
+      },
+      {
+        "teal": 312,
+        "source": 115,
+        "pc": [
+          305,
+          306,
+          307
+        ]
+      },
+      {
+        "teal": 313,
+        "source": 115,
+        "pc": [
+          308
+        ]
+      },
+      {
+        "teal": 314,
+        "source": 115,
+        "pc": [
+          309
+        ]
+      },
+      {
+        "teal": 315,
+        "source": 115,
+        "pc": [
+          310
+        ]
+      },
+      {
+        "teal": 316,
+        "source": 115,
+        "pc": [
+          311
+        ]
+      },
+      {
+        "teal": 319,
+        "source": 115,
+        "errorMessage": "argument 1 (allowedCaller) for arc58_pluginChangeAdmin must be a address",
+        "pc": [
+          312
+        ]
+      },
+      {
+        "teal": 322,
+        "source": 115,
+        "pc": [
+          313,
+          314,
+          315
+        ]
+      },
+      {
+        "teal": 323,
+        "source": 115,
+        "pc": [
+          316
+        ]
+      },
+      {
+        "teal": 326,
+        "source": 115,
+        "pc": [
+          317,
+          318,
+          319
+        ]
+      },
+      {
+        "teal": 327,
+        "source": 115,
+        "pc": [
+          320
+        ]
+      },
+      {
+        "teal": 328,
+        "source": 115,
+        "pc": [
+          321
+        ]
+      },
+      {
+        "teal": 338,
+        "source": 115,
+        "pc": [
+          322,
+          323,
+          324
+        ]
+      },
+      {
+        "teal": 341,
+        "source": 115,
+        "pc": [
+          325
+        ]
+      },
+      {
+        "teal": 346,
+        "source": 116,
+        "pc": [
+          326,
+          327
+        ]
+      },
+      {
+        "teal": 347,
+        "source": 116,
+        "pc": [
+          328,
+          329
+        ]
+      },
+      {
+        "teal": 348,
+        "source": 116,
+        "pc": [
+          330,
+          331
+        ]
+      },
+      {
+        "teal": 349,
+        "source": 116,
+        "pc": [
+          332
+        ]
+      },
+      {
+        "teal": 350,
+        "source": 116,
+        "pc": [
+          333
+        ]
+      },
+      {
+        "teal": 353,
+        "source": 116,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"plugin.address\"}",
+        "pc": [
+          334
+        ]
+      },
+      {
+        "teal": 357,
+        "source": 117,
+        "pc": [
+          335
+        ]
+      },
+      {
+        "teal": 358,
+        "source": 117,
+        "pc": [
+          336
+        ]
+      },
+      {
+        "teal": 359,
+        "source": 117,
+        "pc": [
+          337,
+          338
+        ]
+      },
+      {
+        "teal": 360,
+        "source": 117,
+        "pc": [
+          339
+        ]
+      },
+      {
+        "teal": 361,
+        "source": 117,
+        "pc": [
+          340,
+          341
+        ]
+      },
+      {
+        "teal": 362,
+        "source": 117,
+        "pc": [
+          342,
+          343
+        ]
+      },
+      {
+        "teal": 363,
+        "source": 117,
+        "pc": [
+          344
+        ]
+      },
+      {
+        "teal": 364,
+        "source": 117,
+        "pc": [
+          345
+        ]
+      },
+      {
+        "teal": 367,
+        "source": 117,
+        "errorMessage": "This plugin is not in control of the account",
+        "pc": [
+          346
+        ]
+      },
+      {
+        "teal": 371,
+        "source": 119,
+        "pc": [
+          347,
+          348
+        ]
+      },
+      {
+        "teal": 372,
+        "source": 119,
+        "pc": [
+          349
+        ]
+      },
+      {
+        "teal": 373,
+        "source": 119,
+        "pc": [
+          350,
+          351
+        ]
+      },
+      {
+        "teal": 374,
+        "source": 119,
+        "pc": [
+          352
+        ]
+      },
+      {
+        "teal": 375,
+        "source": 119,
+        "pc": [
+          353,
+          354
+        ]
+      },
+      {
+        "teal": 382,
+        "source": 121,
+        "pc": [
+          355
+        ]
+      },
+      {
+        "teal": 383,
+        "source": 121,
+        "pc": [
+          356,
+          357
+        ]
+      },
+      {
+        "teal": 384,
+        "source": 121,
+        "pc": [
+          358
+        ]
+      },
+      {
+        "teal": 385,
+        "source": 121,
+        "pc": [
+          359
+        ]
+      },
+      {
+        "teal": 386,
+        "source": 121,
+        "pc": [
+          360
+        ]
+      },
+      {
+        "teal": 387,
+        "source": 121,
+        "pc": [
+          361
+        ]
+      },
+      {
+        "teal": 388,
+        "source": 121,
+        "pc": [
+          362
+        ]
+      },
+      {
+        "teal": 389,
+        "source": 121,
+        "pc": [
+          363,
+          364,
+          365
+        ]
+      },
+      {
+        "teal": 390,
+        "source": 121,
+        "pc": [
+          366
+        ]
+      },
+      {
+        "teal": 391,
+        "source": 121,
+        "pc": [
+          367,
+          368
+        ]
+      },
+      {
+        "teal": 392,
+        "source": 121,
+        "pc": [
+          369
+        ]
+      },
+      {
+        "teal": 393,
+        "source": 121,
+        "pc": [
+          370
+        ]
+      },
+      {
+        "teal": 396,
+        "source": 121,
+        "errorMessage": "box value does not exist: this.plugins(key).value",
+        "pc": [
+          371
+        ]
+      },
+      {
+        "teal": 397,
+        "source": 121,
+        "pc": [
+          372,
+          373
+        ]
+      },
+      {
+        "teal": 398,
+        "source": 121,
+        "pc": [
+          374,
+          375
+        ]
+      },
+      {
+        "teal": 399,
+        "source": 121,
+        "pc": [
+          376,
+          377,
+          378
+        ]
+      },
+      {
+        "teal": 400,
+        "source": 121,
+        "pc": [
+          379
+        ]
+      },
+      {
+        "teal": 401,
+        "source": 121,
+        "pc": [
+          380
+        ]
+      },
+      {
+        "teal": 405,
+        "source": 120,
+        "errorMessage": "This plugin does not have admin privileges",
+        "pc": [
+          381
+        ]
+      },
+      {
+        "teal": 409,
+        "source": 125,
+        "pc": [
+          382
+        ]
+      },
+      {
+        "teal": 410,
+        "source": 125,
+        "pc": [
+          383,
+          384
+        ]
+      },
+      {
+        "teal": 411,
+        "source": 125,
+        "pc": [
+          385
+        ]
+      },
+      {
+        "teal": 412,
+        "source": 115,
+        "pc": [
+          386
+        ]
+      },
+      {
+        "teal": 417,
+        "source": 132,
+        "pc": [
+          387,
+          388,
+          389,
+          390,
+          391,
+          392
+        ]
+      },
+      {
+        "teal": 420,
+        "source": 132,
+        "pc": [
+          393,
+          394,
+          395
+        ]
+      },
+      {
+        "teal": 421,
+        "source": 132,
+        "pc": [
+          396
+        ]
+      },
+      {
+        "teal": 422,
+        "source": 132,
+        "pc": [
+          397
+        ]
+      },
+      {
+        "teal": 423,
+        "source": 132,
+        "pc": [
+          398
+        ]
+      },
+      {
+        "teal": 424,
+        "source": 132,
+        "pc": [
+          399
+        ]
+      },
+      {
+        "teal": 431,
+        "source": 132,
+        "pc": [
+          400,
+          401,
+          402
+        ]
+      },
+      {
+        "teal": 435,
+        "source": 133,
+        "pc": [
+          403
+        ]
+      },
+      {
+        "teal": 436,
+        "source": 133,
+        "pc": [
+          404
+        ]
+      },
+      {
+        "teal": 437,
+        "source": 132,
+        "pc": [
+          405
+        ]
+      },
+      {
+        "teal": 442,
+        "source": 139,
+        "pc": [
+          406,
+          407,
+          408
+        ]
+      },
+      {
+        "teal": 443,
+        "source": 139,
+        "pc": [
+          409
+        ]
+      },
+      {
+        "teal": 444,
+        "source": 139,
+        "pc": [
+          410
+        ]
+      },
+      {
+        "teal": 450,
+        "source": 139,
+        "pc": [
+          411,
+          412,
+          413
+        ]
+      },
+      {
+        "teal": 454,
+        "source": 140,
+        "pc": [
+          414
+        ]
+      },
+      {
+        "teal": 455,
+        "source": 140,
+        "pc": [
+          415
+        ]
+      },
+      {
+        "teal": 456,
+        "source": 140,
+        "pc": [
+          416,
+          417
+        ]
+      },
+      {
+        "teal": 457,
+        "source": 140,
+        "pc": [
+          418
+        ]
+      },
+      {
+        "teal": 458,
+        "source": 140,
+        "pc": [
+          419,
+          420,
+          421
+        ]
+      },
+      {
+        "teal": 459,
+        "source": 140,
+        "pc": [
+          422
+        ]
+      },
+      {
+        "teal": 460,
+        "source": 140,
+        "pc": [
+          423
+        ]
+      },
+      {
+        "teal": 461,
+        "source": 139,
+        "pc": [
+          424
+        ]
+      },
+      {
+        "teal": 466,
+        "source": 149,
+        "pc": [
+          425,
+          426,
+          427
+        ]
+      },
+      {
+        "teal": 467,
+        "source": 149,
+        "pc": [
+          428
+        ]
+      },
+      {
+        "teal": 468,
+        "source": 149,
+        "pc": [
+          429
+        ]
+      },
+      {
+        "teal": 469,
+        "source": 149,
+        "pc": [
+          430
+        ]
+      },
+      {
+        "teal": 470,
+        "source": 149,
+        "pc": [
+          431
+        ]
+      },
+      {
+        "teal": 473,
+        "source": 149,
+        "errorMessage": "argument 0 (flash) for arc58_rekeyTo must be a bool",
+        "pc": [
+          432
+        ]
+      },
+      {
+        "teal": 474,
+        "source": 149,
+        "pc": [
+          433
+        ]
+      },
+      {
+        "teal": 475,
+        "source": 149,
+        "pc": [
+          434
+        ]
+      },
+      {
+        "teal": 478,
+        "source": 149,
+        "pc": [
+          435,
+          436,
+          437
+        ]
+      },
+      {
+        "teal": 479,
+        "source": 149,
+        "pc": [
+          438
+        ]
+      },
+      {
+        "teal": 480,
+        "source": 149,
+        "pc": [
+          439
+        ]
+      },
+      {
+        "teal": 481,
+        "source": 149,
+        "pc": [
+          440
+        ]
+      },
+      {
+        "teal": 482,
+        "source": 149,
+        "pc": [
+          441
+        ]
+      },
+      {
+        "teal": 485,
+        "source": 149,
+        "errorMessage": "argument 1 (addr) for arc58_rekeyTo must be a address",
+        "pc": [
+          442
+        ]
+      },
+      {
+        "teal": 488,
+        "source": 149,
+        "pc": [
+          443,
+          444,
+          445
+        ]
+      },
+      {
+        "teal": 489,
+        "source": 149,
+        "pc": [
+          446
+        ]
+      },
+      {
+        "teal": 490,
+        "source": 149,
+        "pc": [
+          447
+        ]
+      },
+      {
+        "teal": 499,
+        "source": 149,
+        "pc": [
+          448,
+          449,
+          450
+        ]
+      },
+      {
+        "teal": 504,
+        "source": 150,
+        "pc": [
+          451,
+          452
+        ]
+      },
+      {
+        "teal": 505,
+        "source": 150,
+        "pc": [
+          453
+        ]
+      },
+      {
+        "teal": 506,
+        "source": 150,
+        "pc": [
+          454
+        ]
+      },
+      {
+        "teal": 507,
+        "source": 150,
+        "pc": [
+          455
+        ]
+      },
+      {
+        "teal": 510,
+        "source": 150,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          456
+        ]
+      },
+      {
+        "teal": 519,
+        "source": 152,
+        "pc": [
+          457
+        ]
+      },
+      {
+        "teal": 520,
+        "source": 152,
+        "pc": [
+          458
+        ]
+      },
+      {
+        "teal": 521,
+        "source": 152,
+        "pc": [
+          459,
+          460
+        ]
+      },
+      {
+        "teal": 525,
+        "source": 153,
+        "pc": [
+          461
+        ]
+      },
+      {
+        "teal": 526,
+        "source": 153,
+        "pc": [
+          462
+        ]
+      },
+      {
+        "teal": 527,
+        "source": 153,
+        "pc": [
+          463,
+          464
+        ]
+      },
+      {
+        "teal": 531,
+        "source": 154,
+        "pc": [
+          465,
+          466
+        ]
+      },
+      {
+        "teal": 532,
+        "source": 154,
+        "pc": [
+          467,
+          468
+        ]
+      },
+      {
+        "teal": 536,
+        "source": 155,
+        "pc": [
+          469,
+          470
+        ]
+      },
+      {
+        "teal": 537,
+        "source": 155,
+        "pc": [
+          471,
+          472
+        ]
+      },
+      {
+        "teal": 541,
+        "source": 156,
+        "pc": [
+          473,
+          474,
+          475,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481,
+          482,
+          483,
+          484,
+          485,
+          486,
+          487,
+          488,
+          489,
+          490,
+          491,
+          492,
+          493,
+          494,
+          495,
+          496,
+          497,
+          498,
+          499,
+          500,
+          501
+        ]
+      },
+      {
+        "teal": 542,
+        "source": 156,
+        "pc": [
+          502,
+          503
+        ]
+      },
+      {
+        "teal": 545,
+        "source": 152,
+        "pc": [
+          504
+        ]
+      },
+      {
+        "teal": 546,
+        "source": 152,
+        "pc": [
+          505,
+          506
+        ]
+      },
+      {
+        "teal": 549,
+        "source": 152,
+        "pc": [
+          507
+        ]
+      },
+      {
+        "teal": 554,
+        "source": 159,
+        "pc": [
+          508,
+          509
+        ]
+      },
+      {
+        "teal": 555,
+        "source": 159,
+        "pc": [
+          510,
+          511,
+          512
+        ]
+      },
+      {
+        "teal": 560,
+        "source": 159,
+        "pc": [
+          513,
+          514,
+          515
+        ]
+      },
+      {
+        "teal": 563,
+        "source": 149,
+        "pc": [
+          516
+        ]
+      },
+      {
+        "teal": 567,
+        "source": 162,
+        "pc": [
+          517,
+          518,
+          519
+        ]
+      },
+      {
+        "teal": 570,
+        "source": 162,
+        "pc": [
+          520
+        ]
+      },
+      {
+        "teal": 574,
+        "source": 163,
+        "pc": [
+          521,
+          522
+        ]
+      },
+      {
+        "teal": 575,
+        "source": 163,
+        "pc": [
+          523
+        ]
+      },
+      {
+        "teal": 576,
+        "source": 163,
+        "pc": [
+          524,
+          525
+        ]
+      },
+      {
+        "teal": 577,
+        "source": 163,
+        "pc": [
+          526
+        ]
+      },
+      {
+        "teal": 578,
+        "source": 163,
+        "pc": [
+          527,
+          528
+        ]
+      },
+      {
+        "teal": 586,
+        "source": 166,
+        "pc": [
+          529
+        ]
+      },
+      {
+        "teal": 587,
+        "source": 166,
+        "pc": [
+          530,
+          531
+        ]
+      },
+      {
+        "teal": 588,
+        "source": 166,
+        "pc": [
+          532
+        ]
+      },
+      {
+        "teal": 589,
+        "source": 166,
+        "pc": [
+          533
+        ]
+      },
+      {
+        "teal": 590,
+        "source": 166,
+        "pc": [
+          534
+        ]
+      },
+      {
+        "teal": 591,
+        "source": 166,
+        "pc": [
+          535
+        ]
+      },
+      {
+        "teal": 592,
+        "source": 166,
+        "pc": [
+          536
+        ]
+      },
+      {
+        "teal": 593,
+        "source": 166,
+        "pc": [
+          537,
+          538,
+          539
+        ]
+      },
+      {
+        "teal": 594,
+        "source": 167,
+        "pc": [
+          540
+        ]
+      },
+      {
+        "teal": 595,
+        "source": 167,
+        "pc": [
+          541,
+          542
+        ]
+      },
+      {
+        "teal": 596,
+        "source": 167,
+        "pc": [
+          543
+        ]
+      },
+      {
+        "teal": 597,
+        "source": 167,
+        "pc": [
+          544
+        ]
+      },
+      {
+        "teal": 600,
+        "source": 167,
+        "errorMessage": "box value does not exist: this.plugins(key).value",
+        "pc": [
+          545
+        ]
+      },
+      {
+        "teal": 601,
+        "source": 167,
+        "pc": [
+          546,
+          547
+        ]
+      },
+      {
+        "teal": 602,
+        "source": 167,
+        "pc": [
+          548,
+          549
+        ]
+      },
+      {
+        "teal": 603,
+        "source": 167,
+        "pc": [
+          550,
+          551,
+          552
+        ]
+      },
+      {
+        "teal": 604,
+        "source": 167,
+        "pc": [
+          553
+        ]
+      },
+      {
+        "teal": 605,
+        "source": 167,
+        "pc": [
+          554,
+          555
+        ]
+      },
+      {
+        "teal": 606,
+        "source": 167,
+        "pc": [
+          556
+        ]
+      },
+      {
+        "teal": 607,
+        "source": 166,
+        "pc": [
+          557
+        ]
+      },
+      {
+        "teal": 610,
+        "source": 167,
+        "pc": [
+          558
+        ]
+      },
+      {
+        "teal": 611,
+        "source": 167,
+        "pc": [
+          559,
+          560,
+          561
+        ]
+      },
+      {
+        "teal": 612,
+        "source": 168,
+        "pc": [
+          562,
+          563
+        ]
+      },
+      {
+        "teal": 613,
+        "source": 168,
+        "pc": [
+          564
+        ]
+      },
+      {
+        "teal": 614,
+        "source": 168,
+        "pc": [
+          565,
+          566
+        ]
+      },
+      {
+        "teal": 615,
+        "source": 168,
+        "pc": [
+          567
+        ]
+      },
+      {
+        "teal": 616,
+        "source": 168,
+        "pc": [
+          568
+        ]
+      },
+      {
+        "teal": 619,
+        "source": 168,
+        "errorMessage": "box value does not exist: this.plugins(key).value",
+        "pc": [
+          569
+        ]
+      },
+      {
+        "teal": 620,
+        "source": 168,
+        "pc": [
+          570,
+          571
+        ]
+      },
+      {
+        "teal": 621,
+        "source": 168,
+        "pc": [
+          572,
+          573
+        ]
+      },
+      {
+        "teal": 622,
+        "source": 168,
+        "pc": [
+          574,
+          575,
+          576
+        ]
+      },
+      {
+        "teal": 623,
+        "source": 168,
+        "pc": [
+          577
+        ]
+      },
+      {
+        "teal": 624,
+        "source": 168,
+        "pc": [
+          578
+        ]
+      },
+      {
+        "teal": 625,
+        "source": 168,
+        "pc": [
+          579
+        ]
+      },
+      {
+        "teal": 626,
+        "source": 168,
+        "pc": [
+          580,
+          581
+        ]
+      },
+      {
+        "teal": 627,
+        "source": 168,
+        "pc": [
+          582
+        ]
+      },
+      {
+        "teal": 628,
+        "source": 168,
+        "pc": [
+          583
+        ]
+      },
+      {
+        "teal": 631,
+        "source": 168,
+        "errorMessage": "box value does not exist: this.plugins(key).value",
+        "pc": [
+          584
+        ]
+      },
+      {
+        "teal": 632,
+        "source": 168,
+        "pc": [
+          585,
+          586
+        ]
+      },
+      {
+        "teal": 633,
+        "source": 168,
+        "pc": [
+          587,
+          588
+        ]
+      },
+      {
+        "teal": 634,
+        "source": 168,
+        "pc": [
+          589,
+          590,
+          591
+        ]
+      },
+      {
+        "teal": 635,
+        "source": 168,
+        "pc": [
+          592
+        ]
+      },
+      {
+        "teal": 636,
+        "source": 168,
+        "pc": [
+          593
+        ]
+      },
+      {
+        "teal": 637,
+        "source": 167,
+        "pc": [
+          594
+        ]
+      },
+      {
+        "teal": 641,
+        "source": 162,
+        "pc": [
+          595,
+          596
+        ]
+      },
+      {
+        "teal": 642,
+        "source": 162,
+        "pc": [
+          597
+        ]
+      },
+      {
+        "teal": 647,
+        "source": 177,
+        "pc": [
+          598,
+          599,
+          600
+        ]
+      },
+      {
+        "teal": 648,
+        "source": 177,
+        "pc": [
+          601
+        ]
+      },
+      {
+        "teal": 651,
+        "source": 177,
+        "pc": [
+          602,
+          603,
+          604
+        ]
+      },
+      {
+        "teal": 652,
+        "source": 177,
+        "pc": [
+          605
+        ]
+      },
+      {
+        "teal": 653,
+        "source": 177,
+        "pc": [
+          606
+        ]
+      },
+      {
+        "teal": 661,
+        "source": 177,
+        "pc": [
+          607,
+          608,
+          609
+        ]
+      },
+      {
+        "teal": 664,
+        "source": 177,
+        "pc": [
+          610
+        ]
+      },
+      {
+        "teal": 668,
+        "source": 178,
+        "pc": [
+          611,
+          612
+        ]
+      },
+      {
+        "teal": 669,
+        "source": 178,
+        "pc": [
+          613,
+          614
+        ]
+      },
+      {
+        "teal": 670,
+        "source": 178,
+        "pc": [
+          615,
+          616,
+          617
+        ]
+      },
+      {
+        "teal": 671,
+        "source": 178,
+        "pc": [
+          618,
+          619
+        ]
+      },
+      {
+        "teal": 676,
+        "source": 180,
+        "pc": [
+          620,
+          621
+        ]
+      },
+      {
+        "teal": 677,
+        "source": 180,
+        "pc": [
+          622
+        ]
+      },
+      {
+        "teal": 678,
+        "source": 180,
+        "pc": [
+          623,
+          624,
+          625
+        ]
+      },
+      {
+        "teal": 683,
+        "source": 181,
+        "pc": [
+          626,
+          627
+        ]
+      },
+      {
+        "teal": 684,
+        "source": 181,
+        "pc": [
+          628,
+          629
+        ]
+      },
+      {
+        "teal": 685,
+        "source": 181,
+        "pc": [
+          630,
+          631,
+          632
+        ]
+      },
+      {
+        "teal": 688,
+        "source": 181,
+        "errorMessage": "This sender is not allowed to trigger this plugin",
+        "pc": [
+          633
+        ]
+      },
+      {
+        "teal": 698,
+        "source": 183,
+        "pc": [
+          634
+        ]
+      },
+      {
+        "teal": 699,
+        "source": 183,
+        "pc": [
+          635
+        ]
+      },
+      {
+        "teal": 700,
+        "source": 183,
+        "pc": [
+          636,
+          637
+        ]
+      },
+      {
+        "teal": 704,
+        "source": 184,
+        "pc": [
+          638
+        ]
+      },
+      {
+        "teal": 705,
+        "source": 184,
+        "pc": [
+          639
+        ]
+      },
+      {
+        "teal": 706,
+        "source": 184,
+        "pc": [
+          640,
+          641
+        ]
+      },
+      {
+        "teal": 710,
+        "source": 185,
+        "pc": [
+          642
+        ]
+      },
+      {
+        "teal": 711,
+        "source": 185,
+        "pc": [
+          643
+        ]
+      },
+      {
+        "teal": 712,
+        "source": 185,
+        "pc": [
+          644,
+          645
+        ]
+      },
+      {
+        "teal": 716,
+        "source": 186,
+        "pc": [
+          646,
+          647
+        ]
+      },
+      {
+        "teal": 717,
+        "source": 186,
+        "pc": [
+          648,
+          649
+        ]
+      },
+      {
+        "teal": 718,
+        "source": 186,
+        "pc": [
+          650
+        ]
+      },
+      {
+        "teal": 719,
+        "source": 186,
+        "pc": [
+          651,
+          652
+        ]
+      },
+      {
+        "teal": 723,
+        "source": 187,
+        "pc": [
+          653,
+          654,
+          655,
+          656,
+          657,
+          658,
+          659,
+          660,
+          661,
+          662,
+          663,
+          664,
+          665,
+          666,
+          667,
+          668,
+          669,
+          670,
+          671,
+          672,
+          673,
+          674,
+          675,
+          676
+        ]
+      },
+      {
+        "teal": 724,
+        "source": 187,
+        "pc": [
+          677,
+          678
+        ]
+      },
+      {
+        "teal": 727,
+        "source": 183,
+        "pc": [
+          679
+        ]
+      },
+      {
+        "teal": 728,
+        "source": 183,
+        "pc": [
+          680,
+          681
+        ]
+      },
+      {
+        "teal": 731,
+        "source": 183,
+        "pc": [
+          682
+        ]
+      },
+      {
+        "teal": 738,
+        "source": 190,
+        "pc": [
+          683
+        ]
+      },
+      {
+        "teal": 739,
+        "source": 191,
+        "pc": [
+          684,
+          685
+        ]
+      },
+      {
+        "teal": 740,
+        "source": 191,
+        "pc": [
+          686
+        ]
+      },
+      {
+        "teal": 741,
+        "source": 192,
+        "pc": [
+          687,
+          688
+        ]
+      },
+      {
+        "teal": 742,
+        "source": 192,
+        "pc": [
+          689,
+          690,
+          691
+        ]
+      },
+      {
+        "teal": 743,
+        "source": 192,
+        "pc": [
+          692,
+          693
+        ]
+      },
+      {
+        "teal": 744,
+        "source": 192,
+        "pc": [
+          694,
+          695,
+          696
+        ]
+      },
+      {
+        "teal": 747,
+        "source": 192,
+        "pc": [
+          697,
+          698
+        ]
+      },
+      {
+        "teal": 750,
+        "source": 192,
+        "pc": [
+          699
+        ]
+      },
+      {
+        "teal": 751,
+        "source": 190,
+        "pc": [
+          700
+        ]
+      },
+      {
+        "teal": 752,
+        "source": 190,
+        "pc": [
+          701
+        ]
+      },
+      {
+        "teal": 755,
+        "source": 190,
+        "errorMessage": "box value does not exist: this.plugins({ application: plugin, allowedCaller: globalAllowed ? Address.zeroAddress : this.txn.sender, }).value",
+        "pc": [
+          702
+        ]
+      },
+      {
+        "teal": 756,
+        "source": 190,
+        "pc": [
+          703,
+          704
+        ]
+      },
+      {
+        "teal": 757,
+        "source": 190,
+        "pc": [
+          705,
+          706
+        ]
+      },
+      {
+        "teal": 758,
+        "source": 190,
+        "pc": [
+          707,
+          708
+        ]
+      },
+      {
+        "teal": 759,
+        "source": 193,
+        "pc": [
+          709,
+          710
+        ]
+      },
+      {
+        "teal": 760,
+        "source": 193,
+        "pc": [
+          711
+        ]
+      },
+      {
+        "teal": 761,
+        "source": 190,
+        "pc": [
+          712
+        ]
+      },
+      {
+        "teal": 762,
+        "source": 191,
+        "pc": [
+          713,
+          714
+        ]
+      },
+      {
+        "teal": 763,
+        "source": 191,
+        "pc": [
+          715
+        ]
+      },
+      {
+        "teal": 764,
+        "source": 192,
+        "pc": [
+          716,
+          717
+        ]
+      },
+      {
+        "teal": 765,
+        "source": 192,
+        "pc": [
+          718,
+          719,
+          720
+        ]
+      },
+      {
+        "teal": 766,
+        "source": 192,
+        "pc": [
+          721,
+          722
+        ]
+      },
+      {
+        "teal": 767,
+        "source": 192,
+        "pc": [
+          723,
+          724,
+          725
+        ]
+      },
+      {
+        "teal": 770,
+        "source": 192,
+        "pc": [
+          726,
+          727
+        ]
+      },
+      {
+        "teal": 773,
+        "source": 192,
+        "pc": [
+          728
+        ]
+      },
+      {
+        "teal": 774,
+        "source": 190,
+        "pc": [
+          729
+        ]
+      },
+      {
+        "teal": 775,
+        "source": 190,
+        "pc": [
+          730,
+          731
+        ]
+      },
+      {
+        "teal": 776,
+        "source": 190,
+        "pc": [
+          732
+        ]
+      },
+      {
+        "teal": 780,
+        "source": 195,
+        "pc": [
+          733,
+          734,
+          735
+        ]
+      },
+      {
+        "teal": 781,
+        "source": 177,
+        "pc": [
+          736
+        ]
+      },
+      {
+        "teal": 786,
+        "source": 203,
+        "pc": [
+          737,
+          738,
+          739
+        ]
+      },
+      {
+        "teal": 787,
+        "source": 203,
+        "pc": [
+          740,
+          741,
+          742
+        ]
+      },
+      {
+        "teal": 790,
+        "source": 203,
+        "pc": [
+          743,
+          744,
+          745
+        ]
+      },
+      {
+        "teal": 791,
+        "source": 203,
+        "pc": [
+          746
+        ]
+      },
+      {
+        "teal": 792,
+        "source": 203,
+        "pc": [
+          747
+        ]
+      },
+      {
+        "teal": 800,
+        "source": 203,
+        "pc": [
+          748,
+          749,
+          750
+        ]
+      },
+      {
+        "teal": 804,
+        "source": 204,
+        "pc": [
+          751
+        ]
+      },
+      {
+        "teal": 805,
+        "source": 204,
+        "pc": [
+          752,
+          753
+        ]
+      },
+      {
+        "teal": 806,
+        "source": 204,
+        "pc": [
+          754,
+          755
+        ]
+      },
+      {
+        "teal": 807,
+        "source": 204,
+        "pc": [
+          756,
+          757
+        ]
+      },
+      {
+        "teal": 808,
+        "source": 204,
+        "pc": [
+          758
+        ]
+      },
+      {
+        "teal": 809,
+        "source": 204,
+        "pc": [
+          759,
+          760
+        ]
+      },
+      {
+        "teal": 810,
+        "source": 204,
+        "pc": [
+          761
+        ]
+      },
+      {
+        "teal": 811,
+        "source": 204,
+        "pc": [
+          762
+        ]
+      },
+      {
+        "teal": 812,
+        "source": 204,
+        "pc": [
+          763,
+          764,
+          765
+        ]
+      },
+      {
+        "teal": 813,
+        "source": 203,
+        "pc": [
+          766
+        ]
+      },
+      {
+        "teal": 818,
+        "source": 222,
+        "pc": [
+          767,
+          768,
+          769
+        ]
+      },
+      {
+        "teal": 819,
+        "source": 222,
+        "pc": [
+          770
+        ]
+      },
+      {
+        "teal": 820,
+        "source": 222,
+        "pc": [
+          771
+        ]
+      },
+      {
+        "teal": 821,
+        "source": 222,
+        "pc": [
+          772
+        ]
+      },
+      {
+        "teal": 822,
+        "source": 222,
+        "pc": [
+          773
+        ]
+      },
+      {
+        "teal": 825,
+        "source": 222,
+        "errorMessage": "argument 0 (adminPrivileges) for arc58_addPlugin must be a bool",
+        "pc": [
+          774
+        ]
+      },
+      {
+        "teal": 826,
+        "source": 222,
+        "pc": [
+          775
+        ]
+      },
+      {
+        "teal": 827,
+        "source": 222,
+        "pc": [
+          776
+        ]
+      },
+      {
+        "teal": 830,
+        "source": 221,
+        "pc": [
+          777,
+          778,
+          779
+        ]
+      },
+      {
+        "teal": 831,
+        "source": 221,
+        "pc": [
+          780
+        ]
+      },
+      {
+        "teal": 834,
+        "source": 220,
+        "pc": [
+          781,
+          782,
+          783
+        ]
+      },
+      {
+        "teal": 835,
+        "source": 220,
+        "pc": [
+          784
+        ]
+      },
+      {
+        "teal": 838,
+        "source": 219,
+        "pc": [
+          785,
+          786,
+          787
+        ]
+      },
+      {
+        "teal": 839,
+        "source": 219,
+        "pc": [
+          788
+        ]
+      },
+      {
+        "teal": 840,
+        "source": 219,
+        "pc": [
+          789
+        ]
+      },
+      {
+        "teal": 841,
+        "source": 219,
+        "pc": [
+          790
+        ]
+      },
+      {
+        "teal": 842,
+        "source": 219,
+        "pc": [
+          791
+        ]
+      },
+      {
+        "teal": 845,
+        "source": 219,
+        "errorMessage": "argument 3 (allowedCaller) for arc58_addPlugin must be a address",
+        "pc": [
+          792
+        ]
+      },
+      {
+        "teal": 848,
+        "source": 218,
+        "pc": [
+          793,
+          794,
+          795
+        ]
+      },
+      {
+        "teal": 849,
+        "source": 218,
+        "pc": [
+          796
+        ]
+      },
+      {
+        "teal": 852,
+        "source": 217,
+        "pc": [
+          797,
+          798,
+          799
+        ]
+      },
+      {
+        "teal": 853,
+        "source": 217,
+        "pc": [
+          800
+        ]
+      },
+      {
+        "teal": 854,
+        "source": 217,
+        "pc": [
+          801
+        ]
+      },
+      {
+        "teal": 867,
+        "source": 217,
+        "pc": [
+          802,
+          803,
+          804
+        ]
+      },
+      {
+        "teal": 870,
+        "source": 217,
+        "pc": [
+          805
+        ]
+      },
+      {
+        "teal": 875,
+        "source": 224,
+        "pc": [
+          806,
+          807
+        ]
+      },
+      {
+        "teal": 876,
+        "source": 224,
+        "pc": [
+          808
+        ]
+      },
+      {
+        "teal": 877,
+        "source": 224,
+        "pc": [
+          809
+        ]
+      },
+      {
+        "teal": 878,
+        "source": 224,
+        "pc": [
+          810
+        ]
+      },
+      {
+        "teal": 881,
+        "source": 224,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          811
+        ]
+      },
+      {
+        "teal": 885,
+        "source": 225,
+        "pc": [
+          812,
+          813
+        ]
+      },
+      {
+        "teal": 886,
+        "source": 225,
+        "pc": [
+          814
+        ]
+      },
+      {
+        "teal": 887,
+        "source": 225,
+        "pc": [
+          815,
+          816
+        ]
+      },
+      {
+        "teal": 888,
+        "source": 225,
+        "pc": [
+          817
+        ]
+      },
+      {
+        "teal": 889,
+        "source": 225,
+        "pc": [
+          818,
+          819
+        ]
+      },
+      {
+        "teal": 898,
+        "source": 226,
+        "pc": [
+          820
+        ]
+      },
+      {
+        "teal": 899,
+        "source": 226,
+        "pc": [
+          821,
+          822
+        ]
+      },
+      {
+        "teal": 900,
+        "source": 226,
+        "pc": [
+          823
+        ]
+      },
+      {
+        "teal": 901,
+        "source": 227,
+        "pc": [
+          824,
+          825
+        ]
+      },
+      {
+        "teal": 902,
+        "source": 227,
+        "pc": [
+          826
+        ]
+      },
+      {
+        "teal": 903,
+        "source": 228,
+        "pc": [
+          827,
+          828
+        ]
+      },
+      {
+        "teal": 904,
+        "source": 228,
+        "pc": [
+          829
+        ]
+      },
+      {
+        "teal": 905,
+        "source": 228,
+        "pc": [
+          830
+        ]
+      },
+      {
+        "teal": 906,
+        "source": 229,
+        "pc": [
+          831,
+          832
+        ]
+      },
+      {
+        "teal": 907,
+        "source": 229,
+        "pc": [
+          833
+        ]
+      },
+      {
+        "teal": 908,
+        "source": 230,
+        "pc": [
+          834,
+          835
+        ]
+      },
+      {
+        "teal": 909,
+        "source": 230,
+        "pc": [
+          836
+        ]
+      },
+      {
+        "teal": 910,
+        "source": 230,
+        "pc": [
+          837,
+          838
+        ]
+      },
+      {
+        "teal": 911,
+        "source": 230,
+        "pc": [
+          839
+        ]
+      },
+      {
+        "teal": 912,
+        "source": 226,
+        "pc": [
+          840
+        ]
+      },
+      {
+        "teal": 913,
+        "source": 226,
+        "pc": [
+          841
+        ]
+      },
+      {
+        "teal": 914,
+        "source": 217,
+        "pc": [
+          842
+        ]
+      },
+      {
+        "teal": 919,
+        "source": 239,
+        "pc": [
+          843,
+          844,
+          845
+        ]
+      },
+      {
+        "teal": 920,
+        "source": 239,
+        "pc": [
+          846
+        ]
+      },
+      {
+        "teal": 921,
+        "source": 239,
+        "pc": [
+          847
+        ]
+      },
+      {
+        "teal": 922,
+        "source": 239,
+        "pc": [
+          848
+        ]
+      },
+      {
+        "teal": 923,
+        "source": 239,
+        "pc": [
+          849
+        ]
+      },
+      {
+        "teal": 926,
+        "source": 239,
+        "errorMessage": "argument 0 (allowedCaller) for arc58_removePlugin must be a address",
+        "pc": [
+          850
+        ]
+      },
+      {
+        "teal": 929,
+        "source": 239,
+        "pc": [
+          851,
+          852,
+          853
+        ]
+      },
+      {
+        "teal": 930,
+        "source": 239,
+        "pc": [
+          854
+        ]
+      },
+      {
+        "teal": 933,
+        "source": 239,
+        "pc": [
+          855,
+          856,
+          857
+        ]
+      },
+      {
+        "teal": 934,
+        "source": 239,
+        "pc": [
+          858
+        ]
+      },
+      {
+        "teal": 935,
+        "source": 239,
+        "pc": [
+          859
+        ]
+      },
+      {
+        "teal": 943,
+        "source": 239,
+        "pc": [
+          860,
+          861,
+          862
+        ]
+      },
+      {
+        "teal": 946,
+        "source": 239,
+        "pc": [
+          863
+        ]
+      },
+      {
+        "teal": 951,
+        "source": 240,
+        "pc": [
+          864,
+          865
+        ]
+      },
+      {
+        "teal": 952,
+        "source": 240,
+        "pc": [
+          866
+        ]
+      },
+      {
+        "teal": 953,
+        "source": 240,
+        "pc": [
+          867
+        ]
+      },
+      {
+        "teal": 954,
+        "source": 240,
+        "pc": [
+          868
+        ]
+      },
+      {
+        "teal": 957,
+        "source": 240,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          869
+        ]
+      },
+      {
+        "teal": 961,
+        "source": 242,
+        "pc": [
+          870,
+          871
+        ]
+      },
+      {
+        "teal": 962,
+        "source": 242,
+        "pc": [
+          872
+        ]
+      },
+      {
+        "teal": 963,
+        "source": 242,
+        "pc": [
+          873,
+          874
+        ]
+      },
+      {
+        "teal": 964,
+        "source": 242,
+        "pc": [
+          875
+        ]
+      },
+      {
+        "teal": 965,
+        "source": 242,
+        "pc": [
+          876,
+          877
+        ]
+      },
+      {
+        "teal": 969,
+        "source": 243,
+        "pc": [
+          878
+        ]
+      },
+      {
+        "teal": 970,
+        "source": 243,
+        "pc": [
+          879,
+          880
+        ]
+      },
+      {
+        "teal": 971,
+        "source": 243,
+        "pc": [
+          881
+        ]
+      },
+      {
+        "teal": 972,
+        "source": 243,
+        "pc": [
+          882
+        ]
+      },
+      {
+        "teal": 973,
+        "source": 239,
+        "pc": [
+          883
+        ]
+      },
+      {
+        "teal": 978,
+        "source": 263,
+        "pc": [
+          884,
+          885,
+          886
+        ]
+      },
+      {
+        "teal": 979,
+        "source": 263,
+        "pc": [
+          887
+        ]
+      },
+      {
+        "teal": 980,
+        "source": 263,
+        "pc": [
+          888
+        ]
+      },
+      {
+        "teal": 981,
+        "source": 263,
+        "pc": [
+          889
+        ]
+      },
+      {
+        "teal": 982,
+        "source": 263,
+        "pc": [
+          890
+        ]
+      },
+      {
+        "teal": 985,
+        "source": 263,
+        "errorMessage": "argument 0 (adminPrivileges) for arc58_addNamedPlugin must be a bool",
+        "pc": [
+          891
+        ]
+      },
+      {
+        "teal": 986,
+        "source": 263,
+        "pc": [
+          892
+        ]
+      },
+      {
+        "teal": 987,
+        "source": 263,
+        "pc": [
+          893
+        ]
+      },
+      {
+        "teal": 990,
+        "source": 262,
+        "pc": [
+          894,
+          895,
+          896
+        ]
+      },
+      {
+        "teal": 991,
+        "source": 262,
+        "pc": [
+          897
+        ]
+      },
+      {
+        "teal": 994,
+        "source": 261,
+        "pc": [
+          898,
+          899,
+          900
+        ]
+      },
+      {
+        "teal": 995,
+        "source": 261,
+        "pc": [
+          901
+        ]
+      },
+      {
+        "teal": 998,
+        "source": 260,
+        "pc": [
+          902,
+          903,
+          904
+        ]
+      },
+      {
+        "teal": 999,
+        "source": 260,
+        "pc": [
+          905
+        ]
+      },
+      {
+        "teal": 1000,
+        "source": 260,
+        "pc": [
+          906
+        ]
+      },
+      {
+        "teal": 1001,
+        "source": 260,
+        "pc": [
+          907
+        ]
+      },
+      {
+        "teal": 1002,
+        "source": 260,
+        "pc": [
+          908
+        ]
+      },
+      {
+        "teal": 1005,
+        "source": 260,
+        "errorMessage": "argument 3 (allowedCaller) for arc58_addNamedPlugin must be a address",
+        "pc": [
+          909
+        ]
+      },
+      {
+        "teal": 1008,
+        "source": 259,
+        "pc": [
+          910,
+          911,
+          912
+        ]
+      },
+      {
+        "teal": 1009,
+        "source": 259,
+        "pc": [
+          913
+        ]
+      },
+      {
+        "teal": 1012,
+        "source": 258,
+        "pc": [
+          914,
+          915,
+          916
+        ]
+      },
+      {
+        "teal": 1013,
+        "source": 258,
+        "pc": [
+          917,
+          918,
+          919
+        ]
+      },
+      {
+        "teal": 1016,
+        "source": 257,
+        "pc": [
+          920,
+          921,
+          922
+        ]
+      },
+      {
+        "teal": 1017,
+        "source": 257,
+        "pc": [
+          923
+        ]
+      },
+      {
+        "teal": 1018,
+        "source": 257,
+        "pc": [
+          924
+        ]
+      },
+      {
+        "teal": 1032,
+        "source": 257,
+        "pc": [
+          925,
+          926,
+          927
+        ]
+      },
+      {
+        "teal": 1035,
+        "source": 257,
+        "pc": [
+          928
+        ]
+      },
+      {
+        "teal": 1040,
+        "source": 265,
+        "pc": [
+          929,
+          930
+        ]
+      },
+      {
+        "teal": 1041,
+        "source": 265,
+        "pc": [
+          931
+        ]
+      },
+      {
+        "teal": 1042,
+        "source": 265,
+        "pc": [
+          932
+        ]
+      },
+      {
+        "teal": 1043,
+        "source": 265,
+        "pc": [
+          933
+        ]
+      },
+      {
+        "teal": 1046,
+        "source": 265,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          934
+        ]
+      },
+      {
+        "teal": 1050,
+        "source": 266,
+        "pc": [
+          935,
+          936
+        ]
+      },
+      {
+        "teal": 1051,
+        "source": 266,
+        "pc": [
+          937,
+          938
+        ]
+      },
+      {
+        "teal": 1052,
+        "source": 266,
+        "pc": [
+          939
+        ]
+      },
+      {
+        "teal": 1053,
+        "source": 266,
+        "pc": [
+          940
+        ]
+      },
+      {
+        "teal": 1054,
+        "source": 266,
+        "pc": [
+          941
+        ]
+      },
+      {
+        "teal": 1055,
+        "source": 266,
+        "pc": [
+          942
+        ]
+      },
+      {
+        "teal": 1056,
+        "source": 266,
+        "pc": [
+          943
+        ]
+      },
+      {
+        "teal": 1057,
+        "source": 266,
+        "pc": [
+          944
+        ]
+      },
+      {
+        "teal": 1061,
+        "source": 268,
+        "pc": [
+          945,
+          946
+        ]
+      },
+      {
+        "teal": 1062,
+        "source": 268,
+        "pc": [
+          947
+        ]
+      },
+      {
+        "teal": 1063,
+        "source": 268,
+        "pc": [
+          948,
+          949
+        ]
+      },
+      {
+        "teal": 1064,
+        "source": 268,
+        "pc": [
+          950
+        ]
+      },
+      {
+        "teal": 1065,
+        "source": 268,
+        "pc": [
+          951,
+          952
+        ]
+      },
+      {
+        "teal": 1069,
+        "source": 269,
+        "pc": [
+          953,
+          954
+        ]
+      },
+      {
+        "teal": 1070,
+        "source": 269,
+        "pc": [
+          955,
+          956
+        ]
+      },
+      {
+        "teal": 1071,
+        "source": 269,
+        "pc": [
+          957
+        ]
+      },
+      {
+        "teal": 1072,
+        "source": 269,
+        "pc": [
+          958,
+          959
+        ]
+      },
+      {
+        "teal": 1073,
+        "source": 269,
+        "pc": [
+          960
+        ]
+      },
+      {
+        "teal": 1082,
+        "source": 270,
+        "pc": [
+          961
+        ]
+      },
+      {
+        "teal": 1083,
+        "source": 270,
+        "pc": [
+          962,
+          963
+        ]
+      },
+      {
+        "teal": 1084,
+        "source": 270,
+        "pc": [
+          964
+        ]
+      },
+      {
+        "teal": 1085,
+        "source": 271,
+        "pc": [
+          965,
+          966
+        ]
+      },
+      {
+        "teal": 1086,
+        "source": 271,
+        "pc": [
+          967
+        ]
+      },
+      {
+        "teal": 1087,
+        "source": 272,
+        "pc": [
+          968,
+          969
+        ]
+      },
+      {
+        "teal": 1088,
+        "source": 272,
+        "pc": [
+          970
+        ]
+      },
+      {
+        "teal": 1089,
+        "source": 272,
+        "pc": [
+          971
+        ]
+      },
+      {
+        "teal": 1090,
+        "source": 273,
+        "pc": [
+          972,
+          973
+        ]
+      },
+      {
+        "teal": 1091,
+        "source": 273,
+        "pc": [
+          974
+        ]
+      },
+      {
+        "teal": 1092,
+        "source": 274,
+        "pc": [
+          975,
+          976
+        ]
+      },
+      {
+        "teal": 1093,
+        "source": 274,
+        "pc": [
+          977
+        ]
+      },
+      {
+        "teal": 1094,
+        "source": 274,
+        "pc": [
+          978,
+          979
+        ]
+      },
+      {
+        "teal": 1095,
+        "source": 274,
+        "pc": [
+          980
+        ]
+      },
+      {
+        "teal": 1096,
+        "source": 270,
+        "pc": [
+          981
+        ]
+      },
+      {
+        "teal": 1097,
+        "source": 270,
+        "pc": [
+          982
+        ]
+      },
+      {
+        "teal": 1098,
+        "source": 257,
+        "pc": [
+          983
+        ]
+      },
+      {
+        "teal": 1103,
+        "source": 283,
+        "pc": [
+          984,
+          985,
+          986
+        ]
+      },
+      {
+        "teal": 1104,
+        "source": 283,
+        "pc": [
+          987,
+          988,
+          989
+        ]
+      },
+      {
+        "teal": 1107,
+        "source": 283,
+        "pc": [
+          990,
+          991,
+          992
+        ]
+      },
+      {
+        "teal": 1108,
+        "source": 283,
+        "pc": [
+          993
+        ]
+      },
+      {
+        "teal": 1109,
+        "source": 283,
+        "pc": [
+          994
+        ]
+      },
+      {
+        "teal": 1117,
+        "source": 283,
+        "pc": [
+          995,
+          996,
+          997
+        ]
+      },
+      {
+        "teal": 1120,
+        "source": 283,
+        "pc": [
+          998
+        ]
+      },
+      {
+        "teal": 1125,
+        "source": 284,
+        "pc": [
+          999,
+          1000
+        ]
+      },
+      {
+        "teal": 1126,
+        "source": 284,
+        "pc": [
+          1001
+        ]
+      },
+      {
+        "teal": 1127,
+        "source": 284,
+        "pc": [
+          1002
+        ]
+      },
+      {
+        "teal": 1128,
+        "source": 284,
+        "pc": [
+          1003
+        ]
+      },
+      {
+        "teal": 1131,
+        "source": 284,
+        "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.admin.value\"}",
+        "pc": [
+          1004
+        ]
+      },
+      {
+        "teal": 1135,
+        "source": 286,
+        "pc": [
+          1005,
+          1006
+        ]
+      },
+      {
+        "teal": 1136,
+        "source": 286,
+        "pc": [
+          1007,
+          1008
+        ]
+      },
+      {
+        "teal": 1137,
+        "source": 286,
+        "pc": [
+          1009
+        ]
+      },
+      {
+        "teal": 1138,
+        "source": 286,
+        "pc": [
+          1010,
+          1011
+        ]
+      },
+      {
+        "teal": 1142,
+        "source": 287,
+        "pc": [
+          1012,
+          1013
+        ]
+      },
+      {
+        "teal": 1143,
+        "source": 287,
+        "pc": [
+          1014,
+          1015
+        ]
+      },
+      {
+        "teal": 1144,
+        "source": 287,
+        "pc": [
+          1016
+        ]
+      },
+      {
+        "teal": 1145,
+        "source": 287,
+        "pc": [
+          1017
+        ]
+      },
+      {
+        "teal": 1149,
+        "source": 288,
+        "pc": [
+          1018
+        ]
+      },
+      {
+        "teal": 1150,
+        "source": 286,
+        "pc": [
+          1019,
+          1020
+        ]
+      },
+      {
+        "teal": 1151,
+        "source": 286,
+        "pc": [
+          1021
+        ]
+      },
+      {
+        "teal": 1154,
+        "source": 286,
+        "errorMessage": "box value does not exist: this.namedPlugins(name).value",
+        "pc": [
+          1022
+        ]
+      },
+      {
+        "teal": 1155,
+        "source": 288,
+        "pc": [
+          1023
+        ]
+      },
+      {
+        "teal": 1156,
+        "source": 288,
+        "pc": [
+          1024
+        ]
+      },
+      {
+        "teal": 1157,
+        "source": 283,
+        "pc": [
+          1025
+        ]
+      },
+      {
+        "teal": 1160,
+        "source": 21,
+        "pc": [
+          1026,
+          1027,
+          1028,
+          1029,
+          1030,
+          1031
+        ]
+      },
+      {
+        "teal": 1161,
+        "source": 21,
+        "pc": [
+          1032,
+          1033,
+          1034
+        ]
+      },
+      {
+        "teal": 1162,
+        "source": 21,
+        "pc": [
+          1035,
+          1036,
+          1037,
+          1038
+        ]
+      },
+      {
+        "teal": 1165,
+        "source": 21,
+        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+        "pc": [
+          1039
+        ]
+      },
+      {
+        "teal": 1168,
+        "source": 21,
+        "pc": [
+          1040,
+          1041,
+          1042,
+          1043,
+          1044,
+          1045
+        ]
+      },
+      {
+        "teal": 1169,
+        "source": 21,
+        "pc": [
+          1046,
+          1047,
+          1048,
+          1049,
+          1050,
+          1051
+        ]
+      },
+      {
+        "teal": 1170,
+        "source": 21,
+        "pc": [
+          1052,
+          1053,
+          1054,
+          1055,
+          1056,
+          1057
+        ]
+      },
+      {
+        "teal": 1171,
+        "source": 21,
+        "pc": [
+          1058,
+          1059
+        ]
+      },
+      {
+        "teal": 1172,
+        "source": 21,
+        "pc": [
+          1060,
+          1061,
+          1062,
+          1063,
+          1064,
+          1065
+        ]
+      },
+      {
+        "teal": 1173,
+        "source": 21,
+        "pc": [
+          1066,
+          1067,
+          1068,
+          1069,
+          1070,
+          1071
+        ]
+      },
+      {
+        "teal": 1174,
+        "source": 21,
+        "pc": [
+          1072,
+          1073,
+          1074,
+          1075,
+          1076,
+          1077
+        ]
+      },
+      {
+        "teal": 1175,
+        "source": 21,
+        "pc": [
+          1078,
+          1079,
+          1080,
+          1081,
+          1082,
+          1083
+        ]
+      },
+      {
+        "teal": 1176,
+        "source": 21,
+        "pc": [
+          1084,
+          1085,
+          1086,
+          1087,
+          1088,
+          1089
+        ]
+      },
+      {
+        "teal": 1177,
+        "source": 21,
+        "pc": [
+          1090,
+          1091,
+          1092,
+          1093,
+          1094,
+          1095
+        ]
+      },
+      {
+        "teal": 1178,
+        "source": 21,
+        "pc": [
+          1096,
+          1097,
+          1098,
+          1099,
+          1100,
+          1101
+        ]
+      },
+      {
+        "teal": 1179,
+        "source": 21,
+        "pc": [
+          1102,
+          1103,
+          1104
+        ]
+      },
+      {
+        "teal": 1180,
+        "source": 21,
+        "pc": [
+          1105,
+          1106,
+          1107,
+          1108,
+          1109,
+          1110,
+          1111,
+          1112,
+          1113,
+          1114,
+          1115,
+          1116,
+          1117,
+          1118,
+          1119,
+          1120,
+          1121,
+          1122,
+          1123,
+          1124,
+          1125,
+          1126,
+          1127,
+          1128
+        ]
+      },
+      {
+        "teal": 1183,
+        "source": 21,
+        "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+        "pc": [
+          1129
+        ]
+      }
+    ],
+    "clear": []
+  },
   "source": {
     "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMi4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyB2ZXJpZnlSZWtleVRvQWJzdHJhY3RlZEFjY291bnQoKTogdm9pZAovLwovLyBFbnN1cmUgdGhhdCBieSB0aGUgZW5kIG9mIHRoZSBncm91cCB0aGUgYWJzdHJhY3RlZCBhY2NvdW50IGhhcyBjb250cm9sIG9mIGl0cyBhZGRyZXNzCnZlcmlmeVJla2V5VG9BYnN0cmFjdGVkQWNjb3VudDoKCXByb3RvIDAgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjQ1CgkvLyByZWtleWVkQmFjayA9IGZhbHNlCglpbnQgMAoJZnJhbWVfYnVyeSAwIC8vIHJla2V5ZWRCYWNrOiBib29sCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czo0NwoJLy8gZm9yIChsZXQgaSA9IHRoaXMudHhuLmdyb3VwSW5kZXg7IGkgPCB0aGlzLnR4bkdyb3VwLmxlbmd0aDsgaSArPSAxKQoJdHhuIEdyb3VwSW5kZXgKCWZyYW1lX2J1cnkgMSAvLyBpOiB1aW50NjQKCipmb3JfMDoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6NDcKCS8vIGkgPCB0aGlzLnR4bkdyb3VwLmxlbmd0aAoJZnJhbWVfZGlnIDEgLy8gaTogdWludDY0CglnbG9iYWwgR3JvdXBTaXplCgk8CglieiAqZm9yXzBfZW5kCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czo0OAoJLy8gdHhuID0gdGhpcy50eG5Hcm91cFtpXQoJZnJhbWVfZGlnIDEgLy8gaTogdWludDY0CglmcmFtZV9idXJ5IDIgLy8gdHhuOiB0eG4KCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czo1MQoJLy8gdHhuLnNlbmRlciA9PT0gdGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZSAmJiB0eG4ucmVrZXlUbyA9PT0gdGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZQoJZnJhbWVfZGlnIDIgLy8gdHhuOiB0eG4KCWd0eG5zIFNlbmRlcgoJYnl0ZSAweDYzIC8vICJjIgoJYXBwX2dsb2JhbF9nZXQKCT09CglkdXAKCWJ6ICpza2lwX2FuZDAKCWZyYW1lX2RpZyAyIC8vIHR4bjogdHhuCglndHhucyBSZWtleVRvCglieXRlIDB4NjMgLy8gImMiCglhcHBfZ2xvYmFsX2dldAoJPT0KCSYmCgoqc2tpcF9hbmQwOgoJYnogKmlmMF9lbmQKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6NTIKCS8vIHJla2V5ZWRCYWNrID0gdHJ1ZQoJaW50IDEKCWZyYW1lX2J1cnkgMCAvLyByZWtleWVkQmFjazogYm9vbAoJYiAqZm9yXzBfZW5kCgoqaWYwX2VuZDoKCS8vICppZjFfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjU4CgkvLyB0eG4udHlwZUVudW0gPT09IFRyYW5zYWN0aW9uVHlwZS5BcHBsaWNhdGlvbkNhbGwgJiYKCS8vICAgICAgICAgdHhuLmFwcGxpY2F0aW9uSUQgPT09IHRoaXMuYXBwICYmCgkvLyAgICAgICAgIHR4bi5udW1BcHBBcmdzID09PSAxICYmCgkvLyAgICAgICAgIHR4bi5hcHBsaWNhdGlvbkFyZ3NbMF0gPT09IG1ldGhvZCgnYXJjNThfdmVyaWZ5QXV0aEFkZHIoKXZvaWQnKQoJZnJhbWVfZGlnIDIgLy8gdHhuOiB0eG4KCWd0eG5zIFR5cGVFbnVtCglpbnQgYXBwbAoJPT0KCWR1cAoJYnogKnNraXBfYW5kMQoJZnJhbWVfZGlnIDIgLy8gdHhuOiB0eG4KCWd0eG5zIEFwcGxpY2F0aW9uSUQKCXR4bmEgQXBwbGljYXRpb25zIDAKCT09CgkmJgoKKnNraXBfYW5kMToKCWR1cAoJYnogKnNraXBfYW5kMgoJZnJhbWVfZGlnIDIgLy8gdHhuOiB0eG4KCWd0eG5zIE51bUFwcEFyZ3MKCWludCAxCgk9PQoJJiYKCipza2lwX2FuZDI6CglkdXAKCWJ6ICpza2lwX2FuZDMKCWZyYW1lX2RpZyAyIC8vIHR4bjogdHhuCglndHhucyBBcHBsaWNhdGlvbkFyZ3MgMAoJbWV0aG9kICJhcmM1OF92ZXJpZnlBdXRoQWRkcigpdm9pZCIKCT09CgkmJgoKKnNraXBfYW5kMzoKCWJ6ICppZjFfZW5kCgoJLy8gKmlmMV9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjYzCgkvLyByZWtleWVkQmFjayA9IHRydWUKCWludCAxCglmcmFtZV9idXJ5IDAgLy8gcmVrZXllZEJhY2s6IGJvb2wKCWIgKmZvcl8wX2VuZAoKKmlmMV9lbmQ6CgoqZm9yXzBfY29udGludWU6CgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjQ3CgkvLyBpICs9IDEKCWZyYW1lX2RpZyAxIC8vIGk6IHVpbnQ2NAoJaW50IDEKCSsKCWZyYW1lX2J1cnkgMSAvLyBpOiB1aW50NjQKCWIgKmZvcl8wCgoqZm9yXzBfZW5kOgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czo2OAoJLy8gYXNzZXJ0KHJla2V5ZWRCYWNrKQoJZnJhbWVfZGlnIDAgLy8gcmVrZXllZEJhY2s6IGJvb2wKCWFzc2VydAoJcmV0c3ViCgovLyBnZXRBdXRoQWRkcigpOiBBZGRyZXNzCi8vCi8vIFdoYXQgdGhlIHZhbHVlIG9mIHRoaXMuYWRkcmVzcy52YWx1ZS5hdXRoQWRkciBzaG91bGQgYmUgd2hlbiB0aGlzLmNvbnRyb2xsZWRBZGRyZXNzCi8vIGlzIGFibGUgdG8gYmUgY29udHJvbGxlZCBieSB0aGlzIGFwcC4gSXQgd2lsbCBlaXRoZXIgYmUgdGhpcy5hcHAuYWRkcmVzcyBvciB6ZXJvQWRkcmVzcwpnZXRBdXRoQWRkcjoKCXByb3RvIDAgMQoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6NzYKCS8vIHJldHVybiB0aGlzLmNvbnRyb2xsZWRBZGRyZXNzLnZhbHVlID09PSB0aGlzLmFwcC5hZGRyZXNzID8gQWRkcmVzcy56ZXJvQWRkcmVzcyA6IHRoaXMuYXBwLmFkZHJlc3M7CglieXRlIDB4NjMgLy8gImMiCglhcHBfZ2xvYmFsX2dldAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CglieiAqdGVybmFyeTBfZmFsc2UKCWdsb2JhbCBaZXJvQWRkcmVzcwoJYiAqdGVybmFyeTBfZW5kCgoqdGVybmFyeTBfZmFsc2U6CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoKKnRlcm5hcnkwX2VuZDoKCXJldHN1YgoKLy8gY3JlYXRlQXBwbGljYXRpb24oYWRkcmVzcyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCS8vIGFkbWluOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGFkbWluKSBmb3IgY3JlYXRlQXBwbGljYXRpb24gbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGNvbnRyb2xsZWRBZGRyZXNzOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGNvbnRyb2xsZWRBZGRyZXNzKSBmb3IgY3JlYXRlQXBwbGljYXRpb24gbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgY3JlYXRlQXBwbGljYXRpb24oYWRkcmVzcyxhZGRyZXNzKXZvaWQKCWNhbGxzdWIgY3JlYXRlQXBwbGljYXRpb24KCWludCAxCglyZXR1cm4KCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKGNvbnRyb2xsZWRBZGRyZXNzOiBBZGRyZXNzLCBhZG1pbjogQWRkcmVzcyk6IHZvaWQKLy8KLy8gQ3JlYXRlIGFuIGFic3RyYWN0ZWQgYWNjb3VudCBhcHBsaWNhdGlvbi4KLy8gVGhpcyBpcyBub3QgcGFydCBvZiBBUkM1OCBhbmQgaW1wbGVtZW50YXRpb24gc3BlY2lmaWMuCi8vCi8vIEBwYXJhbSBjb250cm9sbGVkQWRkcmVzcyBUaGUgYWRkcmVzcyBvZiB0aGUgYWJzdHJhY3RlZCBhY2NvdW50LiBJZiB6ZXJvQWRkcmVzcywgdGhlbiB0aGUgYWRkcmVzcyBvZiB0aGUgY29udHJhY3QgYWNjb3VudCB3aWxsIGJlIHVzZWQKLy8gQHBhcmFtIGFkbWluIFRoZSBhZG1pbiBmb3IgdGhpcyBhcHAKY3JlYXRlQXBwbGljYXRpb246Cglwcm90byAyIDAKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjg3CgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7CgkvLyAgICAgICBzZW5kZXI6IHsgaW5jbHVkZWRJbjogW2NvbnRyb2xsZWRBZGRyZXNzLCBhZG1pbl0gfSwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJZnJhbWVfZGlnIC0xIC8vIGNvbnRyb2xsZWRBZGRyZXNzOiBBZGRyZXNzCgk9PQoJdHhuIFNlbmRlcgoJZnJhbWVfZGlnIC0yIC8vIGFkbWluOiBBZGRyZXNzCgk9PQoJfHwKCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6eyJ0eG5UZXh0IjoidGhpcy50eG4ifSwiZmllbGQiOiJzZW5kZXIiLCJjb25kaXRpb24iOiJpbmNsdWRlZEluIiwiZXhwZWN0ZWQiOiJbY29udHJvbGxlZEFkZHJlc3MsIGFkbWluXSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjkxCgkvLyBhc3NlcnQoYWRtaW4gIT09IGNvbnRyb2xsZWRBZGRyZXNzKQoJZnJhbWVfZGlnIC0yIC8vIGFkbWluOiBBZGRyZXNzCglmcmFtZV9kaWcgLTEgLy8gY29udHJvbGxlZEFkZHJlc3M6IEFkZHJlc3MKCSE9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjkzCgkvLyB0aGlzLmFkbWluLnZhbHVlID0gYWRtaW4KCWJ5dGUgMHg2MSAvLyAiYSIKCWZyYW1lX2RpZyAtMiAvLyBhZG1pbjogQWRkcmVzcwoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjk0CgkvLyB0aGlzLmNvbnRyb2xsZWRBZGRyZXNzLnZhbHVlID0gY29udHJvbGxlZEFkZHJlc3MgPT09IEFkZHJlc3MuemVyb0FkZHJlc3MgPyB0aGlzLmFwcC5hZGRyZXNzIDogY29udHJvbGxlZEFkZHJlc3MKCWJ5dGUgMHg2MyAvLyAiYyIKCWZyYW1lX2RpZyAtMSAvLyBjb250cm9sbGVkQWRkcmVzczogQWRkcmVzcwoJZ2xvYmFsIFplcm9BZGRyZXNzCgk9PQoJYnogKnRlcm5hcnkxX2ZhbHNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYiAqdGVybmFyeTFfZW5kCgoqdGVybmFyeTFfZmFsc2U6CglmcmFtZV9kaWcgLTEgLy8gY29udHJvbGxlZEFkZHJlc3M6IEFkZHJlc3MKCip0ZXJuYXJ5MV9lbmQ6CglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBhcmM1OF9jaGFuZ2VBZG1pbihhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9hcmM1OF9jaGFuZ2VBZG1pbjoKCS8vIG5ld0FkbWluOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKG5ld0FkbWluKSBmb3IgYXJjNThfY2hhbmdlQWRtaW4gbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgYXJjNThfY2hhbmdlQWRtaW4oYWRkcmVzcyl2b2lkCgljYWxsc3ViIGFyYzU4X2NoYW5nZUFkbWluCglpbnQgMQoJcmV0dXJuCgovLyBhcmM1OF9jaGFuZ2VBZG1pbihuZXdBZG1pbjogQWRkcmVzcyk6IHZvaWQKLy8KLy8gQXR0ZW1wdCB0byBjaGFuZ2UgdGhlIGFkbWluIGZvciB0aGlzIGFwcC4gU29tZSBpbXBsZW1lbnRhdGlvbnMgTUFZIG5vdCBzdXBwb3J0IHRoaXMuCi8vCi8vIEBwYXJhbSBuZXdBZG1pbiBUaGUgbmV3IGFkbWluCmFyYzU4X2NoYW5nZUFkbWluOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxMDMKCS8vIHZlcmlmeVR4bih0aGlzLnR4biwgeyBzZW5kZXI6IHRoaXMuYWRtaW4udmFsdWUgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5hZG1pbi52YWx1ZSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjEwNAoJLy8gdGhpcy5hZG1pbi52YWx1ZSA9IG5ld0FkbWluCglieXRlIDB4NjEgLy8gImEiCglmcmFtZV9kaWcgLTEgLy8gbmV3QWRtaW46IEFkZHJlc3MKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGFyYzU4X3BsdWdpbkNoYW5nZUFkbWluKHVpbnQ2NCxhZGRyZXNzLGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX2FyYzU4X3BsdWdpbkNoYW5nZUFkbWluOgoJLy8gbmV3QWRtaW46IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAobmV3QWRtaW4pIGZvciBhcmM1OF9wbHVnaW5DaGFuZ2VBZG1pbiBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gYWxsb3dlZENhbGxlcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludCAzMgoJPT0KCgkvLyBhcmd1bWVudCAxIChhbGxvd2VkQ2FsbGVyKSBmb3IgYXJjNThfcGx1Z2luQ2hhbmdlQWRtaW4gbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIHBsdWdpbjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBhcmM1OF9wbHVnaW5DaGFuZ2VBZG1pbih1aW50NjQsYWRkcmVzcyxhZGRyZXNzKXZvaWQKCWNhbGxzdWIgYXJjNThfcGx1Z2luQ2hhbmdlQWRtaW4KCWludCAxCglyZXR1cm4KCi8vIGFyYzU4X3BsdWdpbkNoYW5nZUFkbWluKHBsdWdpbjogQXBwSUQsIGFsbG93ZWRDYWxsZXI6IEFkZHJlc3MsIG5ld0FkbWluOiBBZGRyZXNzKTogdm9pZAovLwovLyBBdHRlbXB0IHRvIGNoYW5nZSB0aGUgYWRtaW4gdmlhIHBsdWdpbi4KLy8KLy8gQHBhcmFtIHBsdWdpbiBUaGUgYXBwIGNhbGxpbmcgdGhlIHBsdWdpbgovLyBAcGFyYW0gYWxsb3dlZENhbGxlciBUaGUgYWRkcmVzcyB0aGF0IHRyaWdnZXJlZCB0aGUgcGx1Z2luCi8vIEBwYXJhbSBuZXdBZG1pbiBUaGUgbmV3IGFkbWluCmFyYzU4X3BsdWdpbkNoYW5nZUFkbWluOgoJcHJvdG8gMyAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjExNgoJLy8gdmVyaWZ5VHhuKHRoaXMudHhuLCB7IHNlbmRlcjogcGx1Z2luLmFkZHJlc3MgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWZyYW1lX2RpZyAtMSAvLyBwbHVnaW46IEFwcElECglhcHBfcGFyYW1zX2dldCBBcHBBZGRyZXNzCglwb3AKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJwbHVnaW4uYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjExNwoJLy8gYXNzZXJ0KHRoaXMuY29udHJvbGxlZEFkZHJlc3MudmFsdWUuYXV0aEFkZHIgPT09IHBsdWdpbi5hZGRyZXNzLCAnVGhpcyBwbHVnaW4gaXMgbm90IGluIGNvbnRyb2wgb2YgdGhlIGFjY291bnQnKQoJYnl0ZSAweDYzIC8vICJjIgoJYXBwX2dsb2JhbF9nZXQKCWFjY3RfcGFyYW1zX2dldCBBY2N0QXV0aEFkZHIKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIHBsdWdpbjogQXBwSUQKCWFwcF9wYXJhbXNfZ2V0IEFwcEFkZHJlc3MKCXBvcAoJPT0KCgkvLyBUaGlzIHBsdWdpbiBpcyBub3QgaW4gY29udHJvbCBvZiB0aGUgYWNjb3VudAoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxMTkKCS8vIGtleTogUGx1Z2luc0tleSA9IHsgYXBwbGljYXRpb246IHBsdWdpbiwgYWxsb3dlZENhbGxlcjogYWxsb3dlZENhbGxlciB9CglmcmFtZV9kaWcgLTEgLy8gcGx1Z2luOiBBcHBJRAoJaXRvYgoJZnJhbWVfZGlnIC0yIC8vIGFsbG93ZWRDYWxsZXI6IEFkZHJlc3MKCWNvbmNhdAoJZnJhbWVfYnVyeSAwIC8vIGtleTogUGx1Z2luc0tleQoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTIwCgkvLyBhc3NlcnQoCgkvLyAgICAgICB0aGlzLnBsdWdpbnMoa2V5KS5leGlzdHMgJiYgdGhpcy5wbHVnaW5zKGtleSkudmFsdWUuYWRtaW5Qcml2aWxlZ2VzLAoJLy8gICAgICAgJ1RoaXMgcGx1Z2luIGRvZXMgbm90IGhhdmUgYWRtaW4gcHJpdmlsZWdlcycKCS8vICAgICApCglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCWNvbmNhdAoJYm94X2xlbgoJc3dhcAoJcG9wCglkdXAKCWJ6ICpza2lwX2FuZDQKCWJ5dGUgMHg3MCAvLyAicCIKCWZyYW1lX2RpZyAwIC8vIGtleTogUGx1Z2luc0tleQoJY29uY2F0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLnBsdWdpbnMoa2V5KS52YWx1ZQoJYXNzZXJ0CglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJaW50IDE5MgoJZ2V0Yml0CgkmJgoKKnNraXBfYW5kNDoKCS8vIFRoaXMgcGx1Z2luIGRvZXMgbm90IGhhdmUgYWRtaW4gcHJpdmlsZWdlcwoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxMjUKCS8vIHRoaXMuYWRtaW4udmFsdWUgPSBuZXdBZG1pbgoJYnl0ZSAweDYxIC8vICJhIgoJZnJhbWVfZGlnIC0zIC8vIG5ld0FkbWluOiBBZGRyZXNzCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBhcmM1OF9nZXRBZG1pbigpYWRkcmVzcwoqYWJpX3JvdXRlX2FyYzU4X2dldEFkbWluOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIGFyYzU4X2dldEFkbWluKClhZGRyZXNzCgljYWxsc3ViIGFyYzU4X2dldEFkbWluCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gYXJjNThfZ2V0QWRtaW4oKTogQWRkcmVzcwovLwovLyBHZXQgdGhlIGFkbWluIG9mIHRoaXMgYXBwLiBUaGlzIG1ldGhvZCBTSE9VTEQgYWx3YXlzIGJlIHVzZWQgcmF0aGVyIHRoYW4gcmVhZGluZyBkaXJlY3RseSBmcm9tIHN0YXRlCi8vIGJlY2F1c2UgZGlmZmVyZW50IGltcGxlbWVudGF0aW9ucyBtYXkgaGF2ZSBkaWZmZXJlbnQgd2F5cyBvZiBkZXRlcm1pbmluZyB0aGUgYWRtaW4uCmFyYzU4X2dldEFkbWluOgoJcHJvdG8gMCAxCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxMzMKCS8vIHJldHVybiB0aGlzLmFkbWluLnZhbHVlOwoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCXJldHN1YgoKLy8gYXJjNThfdmVyaWZ5QXV0aEFkZHIoKXZvaWQKKmFiaV9yb3V0ZV9hcmM1OF92ZXJpZnlBdXRoQWRkcjoKCS8vIGV4ZWN1dGUgYXJjNThfdmVyaWZ5QXV0aEFkZHIoKXZvaWQKCWNhbGxzdWIgYXJjNThfdmVyaWZ5QXV0aEFkZHIKCWludCAxCglyZXR1cm4KCi8vIGFyYzU4X3ZlcmlmeUF1dGhBZGRyKCk6IHZvaWQKLy8KLy8gVmVyaWZ5IHRoZSBhYnN0cmFjdGVkIGFjY291bnQgaXMgcmVrZXllZCB0byB0aGlzIGFwcAphcmM1OF92ZXJpZnlBdXRoQWRkcjoKCXByb3RvIDAgMAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTQwCgkvLyBhc3NlcnQodGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZS5hdXRoQWRkciA9PT0gdGhpcy5nZXRBdXRoQWRkcigpKQoJYnl0ZSAweDYzIC8vICJjIgoJYXBwX2dsb2JhbF9nZXQKCWFjY3RfcGFyYW1zX2dldCBBY2N0QXV0aEFkZHIKCXBvcAoJY2FsbHN1YiBnZXRBdXRoQWRkcgoJPT0KCWFzc2VydAoJcmV0c3ViCgovLyBhcmM1OF9yZWtleVRvKGFkZHJlc3MsYm9vbCl2b2lkCiphYmlfcm91dGVfYXJjNThfcmVrZXlUbzoKCS8vIGZsYXNoOiBib29sCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50IDEKCT09CgoJLy8gYXJndW1lbnQgMCAoZmxhc2gpIGZvciBhcmM1OF9yZWtleVRvIG11c3QgYmUgYSBib29sCglhc3NlcnQKCWludCAwCglnZXRiaXQKCgkvLyBhZGRyOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGFkZHIpIGZvciBhcmM1OF9yZWtleVRvIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBleGVjdXRlIGFyYzU4X3Jla2V5VG8oYWRkcmVzcyxib29sKXZvaWQKCWNhbGxzdWIgYXJjNThfcmVrZXlUbwoJaW50IDEKCXJldHVybgoKLy8gYXJjNThfcmVrZXlUbyhhZGRyOiBBZGRyZXNzLCBmbGFzaDogYm9vbGVhbik6IHZvaWQKLy8KLy8gUmVrZXkgdGhlIGFic3RyYWN0ZWQgYWNjb3VudCB0byBhbm90aGVyIGFkZHJlc3MuIFByaW1hcmlseSB1c2VmdWwgZm9yIHJla2V5aW5nIHRvIGFuIEVPQS4KLy8KLy8gQHBhcmFtIGFkZHIgVGhlIGFkZHJlc3MgdG8gcmVrZXkgdG8KLy8gQHBhcmFtIGZsYXNoIFdoZXRoZXIgb3Igbm90IHRoaXMgc2hvdWxkIGJlIGEgZmxhc2ggcmVrZXkuIElmIHRydWUsIHRoZSByZWtleSBiYWNrIHRvIHRoZSBhcHAgYWRkcmVzcyBtdXN0IGRvbmUgaW4gdGhlIHNhbWUgdHhuIGdyb3VwIGFzIHRoaXMgY2FsbAphcmM1OF9yZWtleVRvOgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTAKCS8vIHZlcmlmeUFwcENhbGxUeG4odGhpcy50eG4sIHsgc2VuZGVyOiB0aGlzLmFkbWluLnZhbHVlIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCgl0eG4gU2VuZGVyCglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InRoaXMudHhuIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMuYWRtaW4udmFsdWUifQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTIKCS8vIHNlbmRQYXltZW50KHsKCS8vICAgICAgIHNlbmRlcjogdGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZSwKCS8vICAgICAgIHJlY2VpdmVyOiBhZGRyLAoJLy8gICAgICAgcmVrZXlUbzogYWRkciwKCS8vICAgICAgIG5vdGU6ICdyZWtleWluZyBhYnN0cmFjdGVkIGFjY291bnQnLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnQgcGF5CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTMKCS8vIHNlbmRlcjogdGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZQoJYnl0ZSAweDYzIC8vICJjIgoJYXBwX2dsb2JhbF9nZXQKCWl0eG5fZmllbGQgU2VuZGVyCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTQKCS8vIHJlY2VpdmVyOiBhZGRyCglmcmFtZV9kaWcgLTEgLy8gYWRkcjogQWRkcmVzcwoJaXR4bl9maWVsZCBSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTU1CgkvLyByZWtleVRvOiBhZGRyCglmcmFtZV9kaWcgLTEgLy8gYWRkcjogQWRkcmVzcwoJaXR4bl9maWVsZCBSZWtleVRvCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTYKCS8vIG5vdGU6ICdyZWtleWluZyBhYnN0cmFjdGVkIGFjY291bnQnCglieXRlIDB4NzI2NTZiNjU3OTY5NmU2NzIwNjE2MjczNzQ3MjYxNjM3NDY1NjQyMDYxNjM2MzZmNzU2ZTc0IC8vICJyZWtleWluZyBhYnN0cmFjdGVkIGFjY291bnQiCglpdHhuX2ZpZWxkIE5vdGUKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnQgMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CgoJLy8gKmlmMl9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTU5CgkvLyBmbGFzaAoJZnJhbWVfZGlnIC0yIC8vIGZsYXNoOiBib29sZWFuCglieiAqaWYyX2VuZAoKCS8vICppZjJfY29uc2VxdWVudAoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNTkKCS8vIHRoaXMudmVyaWZ5UmVrZXlUb0Fic3RyYWN0ZWRBY2NvdW50KCkKCWNhbGxzdWIgdmVyaWZ5UmVrZXlUb0Fic3RyYWN0ZWRBY2NvdW50CgoqaWYyX2VuZDoKCXJldHN1YgoKLy8gcGx1Z2luQ2FsbEFsbG93ZWQoYXBwOiBBcHBJRCwgY2FsbGVyOiBBZGRyZXNzKTogYm9vbGVhbgpwbHVnaW5DYWxsQWxsb3dlZDoKCXByb3RvIDIgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoxNjMKCS8vIGtleTogUGx1Z2luc0tleSA9IHsgYXBwbGljYXRpb246IGFwcCwgYWxsb3dlZENhbGxlcjogY2FsbGVyIH0KCWZyYW1lX2RpZyAtMSAvLyBhcHA6IEFwcElECglpdG9iCglmcmFtZV9kaWcgLTIgLy8gY2FsbGVyOiBBZGRyZXNzCgljb25jYXQKCWZyYW1lX2J1cnkgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE2NQoJLy8gcmV0dXJuICgKCS8vICAgICAgIHRoaXMucGx1Z2lucyhrZXkpLmV4aXN0cyAmJgoJLy8gICAgICAgdGhpcy5wbHVnaW5zKGtleSkudmFsdWUubGFzdFZhbGlkUm91bmQgPj0gZ2xvYmFscy5yb3VuZCAmJgoJLy8gICAgICAgZ2xvYmFscy5yb3VuZCAtIHRoaXMucGx1Z2lucyhrZXkpLnZhbHVlLmxhc3RDYWxsZWQgPj0gdGhpcy5wbHVnaW5zKGtleSkudmFsdWUuY29vbGRvd24KCS8vICAgICApOwoJYnl0ZSAweDcwIC8vICJwIgoJZnJhbWVfZGlnIDAgLy8ga2V5OiBQbHVnaW5zS2V5Cgljb25jYXQKCWJveF9sZW4KCXN3YXAKCXBvcAoJZHVwCglieiAqc2tpcF9hbmQ1CglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCWNvbmNhdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5wbHVnaW5zKGtleSkudmFsdWUKCWFzc2VydAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWV4dHJhY3QgMCA4CglidG9pCglnbG9iYWwgUm91bmQKCT49CgkmJgoKKnNraXBfYW5kNToKCWR1cAoJYnogKnNraXBfYW5kNgoJZ2xvYmFsIFJvdW5kCglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCWNvbmNhdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5wbHVnaW5zKGtleSkudmFsdWUKCWFzc2VydAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWV4dHJhY3QgMTYgOAoJYnRvaQoJLQoJYnl0ZSAweDcwIC8vICJwIgoJZnJhbWVfZGlnIDAgLy8ga2V5OiBQbHVnaW5zS2V5Cgljb25jYXQKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMucGx1Z2lucyhrZXkpLnZhbHVlCglhc3NlcnQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglleHRyYWN0IDggOAoJYnRvaQoJPj0KCSYmCgoqc2tpcF9hbmQ2OgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIGFyYzU4X3Jla2V5VG9QbHVnaW4odWludDY0KXZvaWQKKmFiaV9yb3V0ZV9hcmM1OF9yZWtleVRvUGx1Z2luOgoJLy8gcGx1Z2luOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGFyYzU4X3Jla2V5VG9QbHVnaW4odWludDY0KXZvaWQKCWNhbGxzdWIgYXJjNThfcmVrZXlUb1BsdWdpbgoJaW50IDEKCXJldHVybgoKLy8gYXJjNThfcmVrZXlUb1BsdWdpbihwbHVnaW46IEFwcElEKTogdm9pZAovLwovLyBUZW1wb3JhcmlseSByZWtleSB0byBhbiBhcHByb3ZlZCBwbHVnaW4gYXBwIGFkZHJlc3MKLy8KLy8gQHBhcmFtIHBsdWdpbiBUaGUgYXBwIHRvIHJla2V5IHRvCmFyYzU4X3Jla2V5VG9QbHVnaW46Cglwcm90byAxIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTc4CgkvLyBnbG9iYWxBbGxvd2VkID0gdGhpcy5wbHVnaW5DYWxsQWxsb3dlZChwbHVnaW4sIEFkZHJlc3MuemVyb0FkZHJlc3MpCglnbG9iYWwgWmVyb0FkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyBwbHVnaW46IEFwcElECgljYWxsc3ViIHBsdWdpbkNhbGxBbGxvd2VkCglmcmFtZV9idXJ5IDAgLy8gZ2xvYmFsQWxsb3dlZDogYm9vbAoKCS8vICppZjNfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE4MAoJLy8gIWdsb2JhbEFsbG93ZWQKCWZyYW1lX2RpZyAwIC8vIGdsb2JhbEFsbG93ZWQ6IGJvb2wKCSEKCWJ6ICppZjNfZW5kCgoJLy8gKmlmM19jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE4MQoJLy8gYXNzZXJ0KHRoaXMucGx1Z2luQ2FsbEFsbG93ZWQocGx1Z2luLCB0aGlzLnR4bi5zZW5kZXIpLCAnVGhpcyBzZW5kZXIgaXMgbm90IGFsbG93ZWQgdG8gdHJpZ2dlciB0aGlzIHBsdWdpbicpCgl0eG4gU2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gcGx1Z2luOiBBcHBJRAoJY2FsbHN1YiBwbHVnaW5DYWxsQWxsb3dlZAoKCS8vIFRoaXMgc2VuZGVyIGlzIG5vdCBhbGxvd2VkIHRvIHRyaWdnZXIgdGhpcyBwbHVnaW4KCWFzc2VydAoKKmlmM19lbmQ6CgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE4MwoJLy8gc2VuZFBheW1lbnQoewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLmNvbnRyb2xsZWRBZGRyZXNzLnZhbHVlLAoJLy8gICAgICAgcmVjZWl2ZXI6IHRoaXMuY29udHJvbGxlZEFkZHJlc3MudmFsdWUsCgkvLyAgICAgICByZWtleVRvOiBwbHVnaW4uYWRkcmVzcywKCS8vICAgICAgIG5vdGU6ICdyZWtleWluZyB0byBwbHVnaW4gYXBwJywKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50IHBheQoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTg0CgkvLyBzZW5kZXI6IHRoaXMuY29udHJvbGxlZEFkZHJlc3MudmFsdWUKCWJ5dGUgMHg2MyAvLyAiYyIKCWFwcF9nbG9iYWxfZ2V0CglpdHhuX2ZpZWxkIFNlbmRlcgoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTg1CgkvLyByZWNlaXZlcjogdGhpcy5jb250cm9sbGVkQWRkcmVzcy52YWx1ZQoJYnl0ZSAweDYzIC8vICJjIgoJYXBwX2dsb2JhbF9nZXQKCWl0eG5fZmllbGQgUmVjZWl2ZXIKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE4NgoJLy8gcmVrZXlUbzogcGx1Z2luLmFkZHJlc3MKCWZyYW1lX2RpZyAtMSAvLyBwbHVnaW46IEFwcElECglhcHBfcGFyYW1zX2dldCBBcHBBZGRyZXNzCglwb3AKCWl0eG5fZmllbGQgUmVrZXlUbwoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MTg3CgkvLyBub3RlOiAncmVrZXlpbmcgdG8gcGx1Z2luIGFwcCcKCWJ5dGUgMHg3MjY1NmI2NTc5Njk2ZTY3MjA3NDZmMjA3MDZjNzU2NzY5NmUyMDYxNzA3MCAvLyAicmVrZXlpbmcgdG8gcGx1Z2luIGFwcCIKCWl0eG5fZmllbGQgTm90ZQoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE5MAoJLy8gdGhpcy5wbHVnaW5zKHsKCS8vICAgICAgIGFwcGxpY2F0aW9uOiBwbHVnaW4sCgkvLyAgICAgICBhbGxvd2VkQ2FsbGVyOiBnbG9iYWxBbGxvd2VkID8gQWRkcmVzcy56ZXJvQWRkcmVzcyA6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICB9KS52YWx1ZS5sYXN0Q2FsbGVkID0gZ2xvYmFscy5yb3VuZAoJYnl0ZSAweDcwIC8vICJwIgoJZnJhbWVfZGlnIC0xIC8vIHBsdWdpbjogQXBwSUQKCWl0b2IKCWZyYW1lX2RpZyAwIC8vIGdsb2JhbEFsbG93ZWQ6IGJvb2wKCWJ6ICp0ZXJuYXJ5M19mYWxzZQoJZ2xvYmFsIFplcm9BZGRyZXNzCgliICp0ZXJuYXJ5M19lbmQKCip0ZXJuYXJ5M19mYWxzZToKCXR4biBTZW5kZXIKCip0ZXJuYXJ5M19lbmQ6Cgljb25jYXQKCWNvbmNhdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5wbHVnaW5zKHsgYXBwbGljYXRpb246IHBsdWdpbiwgYWxsb3dlZENhbGxlcjogZ2xvYmFsQWxsb3dlZCA/IEFkZHJlc3MuemVyb0FkZHJlc3MgOiB0aGlzLnR4bi5zZW5kZXIsIH0pLnZhbHVlCglhc3NlcnQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglpbnQgMTYKCWdsb2JhbCBSb3VuZAoJaXRvYgoJYnl0ZSAweDcwIC8vICJwIgoJZnJhbWVfZGlnIC0xIC8vIHBsdWdpbjogQXBwSUQKCWl0b2IKCWZyYW1lX2RpZyAwIC8vIGdsb2JhbEFsbG93ZWQ6IGJvb2wKCWJ6ICp0ZXJuYXJ5NV9mYWxzZQoJZ2xvYmFsIFplcm9BZGRyZXNzCgliICp0ZXJuYXJ5NV9lbmQKCip0ZXJuYXJ5NV9mYWxzZToKCXR4biBTZW5kZXIKCip0ZXJuYXJ5NV9lbmQ6Cgljb25jYXQKCWNvbmNhdAoJY292ZXIgMgoJYm94X3JlcGxhY2UKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjE5NQoJLy8gdGhpcy52ZXJpZnlSZWtleVRvQWJzdHJhY3RlZEFjY291bnQoKQoJY2FsbHN1YiB2ZXJpZnlSZWtleVRvQWJzdHJhY3RlZEFjY291bnQKCXJldHN1YgoKLy8gYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luKHN0cmluZyl2b2lkCiphYmlfcm91dGVfYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luOgoJLy8gbmFtZTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luKHN0cmluZyl2b2lkCgljYWxsc3ViIGFyYzU4X3Jla2V5VG9OYW1lZFBsdWdpbgoJaW50IDEKCXJldHVybgoKLy8gYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luKG5hbWU6IHN0cmluZyk6IHZvaWQKLy8KLy8gVGVtcG9yYXJpbHkgcmVrZXkgdG8gYSBuYW1lZCBwbHVnaW4gYXBwIGFkZHJlc3MKLy8KLy8gQHBhcmFtIG5hbWUgVGhlIG5hbWUgb2YgdGhlIHBsdWdpbiB0byByZWtleSB0bwphcmM1OF9yZWtleVRvTmFtZWRQbHVnaW46Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjIwNAoJLy8gdGhpcy5hcmM1OF9yZWtleVRvUGx1Z2luKHRoaXMubmFtZWRQbHVnaW5zKG5hbWUpLnZhbHVlLmFwcGxpY2F0aW9uKQoJaW50IDAKCWludCA4CglieXRlIDB4NmUgLy8gIm4iCglmcmFtZV9kaWcgLTEgLy8gbmFtZTogc3RyaW5nCgljb25jYXQKCWNvdmVyIDIKCWJveF9leHRyYWN0CglidG9pCgljYWxsc3ViIGFyYzU4X3Jla2V5VG9QbHVnaW4KCXJldHN1YgoKLy8gYXJjNThfYWRkUGx1Z2luKHVpbnQ2NCxhZGRyZXNzLHVpbnQ2NCx1aW50NjQsYm9vbCl2b2lkCiphYmlfcm91dGVfYXJjNThfYWRkUGx1Z2luOgoJLy8gYWRtaW5Qcml2aWxlZ2VzOiBib29sCgl0eG5hIEFwcGxpY2F0aW9uQXJncyA1CglkdXAKCWxlbgoJaW50IDEKCT09CgoJLy8gYXJndW1lbnQgMCAoYWRtaW5Qcml2aWxlZ2VzKSBmb3IgYXJjNThfYWRkUGx1Z2luIG11c3QgYmUgYSBib29sCglhc3NlcnQKCWludCAwCglnZXRiaXQKCgkvLyBjb29sZG93bjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyA0CglidG9pCgoJLy8gbGFzdFZhbGlkUm91bmQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGFsbG93ZWRDYWxsZXI6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMyAoYWxsb3dlZENhbGxlcikgZm9yIGFyYzU4X2FkZFBsdWdpbiBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gYXBwOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGFyYzU4X2FkZFBsdWdpbih1aW50NjQsYWRkcmVzcyx1aW50NjQsdWludDY0LGJvb2wpdm9pZAoJY2FsbHN1YiBhcmM1OF9hZGRQbHVnaW4KCWludCAxCglyZXR1cm4KCi8vIGFyYzU4X2FkZFBsdWdpbihhcHA6IEFwcElELCBhbGxvd2VkQ2FsbGVyOiBBZGRyZXNzLCBsYXN0VmFsaWRSb3VuZDogdWludDY0LCBjb29sZG93bjogdWludDY0LCBhZG1pblByaXZpbGVnZXM6IGJvb2xlYW4pOiB2b2lkCi8vCi8vIEFkZCBhbiBhcHAgdG8gdGhlIGxpc3Qgb2YgYXBwcm92ZWQgcGx1Z2lucwovLwovLyBAcGFyYW0gYXBwIFRoZSBhcHAgdG8gYWRkCi8vIEBwYXJhbSBhbGxvd2VkQ2FsbGVyIFRoZSBhZGRyZXNzIG9mIHRoYXQncyBhbGxvd2VkIHRvIGNhbGwgdGhlIGFwcAovLyBvciB0aGUgZ2xvYmFsIHplcm8gYWRkcmVzcyBmb3IgYWxsIGFkZHJlc3NlcwovLyBAcGFyYW0gbGFzdFZhbGlkUm91bmQgVGhlIHJvdW5kIHdoZW4gdGhlIHBlcm1pc3Npb24gZXhwaXJlcwovLyBAcGFyYW0gY29vbGRvd24gIFRoZSBudW1iZXIgb2Ygcm91bmRzIHRoYXQgbXVzdCBwYXNzIGJlZm9yZSB0aGUgcGx1Z2luIGNhbiBiZSBjYWxsZWQgYWdhaW4KLy8gQHBhcmFtIGFkbWluUHJpdmlsZWdlcyBXaGV0aGVyIHRoZSBwbHVnaW4gaGFzIHBlcm1pc3Npb25zIHRvIGNoYW5nZSB0aGUgYWRtaW4gYWNjb3VudAphcmM1OF9hZGRQbHVnaW46Cglwcm90byA1IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjI0CgkvLyB2ZXJpZnlUeG4odGhpcy50eG4sIHsgc2VuZGVyOiB0aGlzLmFkbWluLnZhbHVlIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCgl0eG4gU2VuZGVyCglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InRoaXMudHhuIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMuYWRtaW4udmFsdWUifQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoyMjUKCS8vIGtleTogUGx1Z2luc0tleSA9IHsgYXBwbGljYXRpb246IGFwcCwgYWxsb3dlZENhbGxlcjogYWxsb3dlZENhbGxlciB9CglmcmFtZV9kaWcgLTEgLy8gYXBwOiBBcHBJRAoJaXRvYgoJZnJhbWVfZGlnIC0yIC8vIGFsbG93ZWRDYWxsZXI6IEFkZHJlc3MKCWNvbmNhdAoJZnJhbWVfYnVyeSAwIC8vIGtleTogUGx1Z2luc0tleQoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjI2CgkvLyB0aGlzLnBsdWdpbnMoa2V5KS52YWx1ZSA9IHsKCS8vICAgICAgIGxhc3RWYWxpZFJvdW5kOiBsYXN0VmFsaWRSb3VuZCwKCS8vICAgICAgIGNvb2xkb3duOiBjb29sZG93biwKCS8vICAgICAgIGxhc3RDYWxsZWQ6IDAsCgkvLyAgICAgICBhZG1pblByaXZpbGVnZXM6IGFkbWluUHJpdmlsZWdlcywKCS8vICAgICB9CglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCWNvbmNhdAoJZnJhbWVfZGlnIC0zIC8vIGxhc3RWYWxpZFJvdW5kOiB1aW50NjQKCWl0b2IKCWZyYW1lX2RpZyAtNCAvLyBjb29sZG93bjogdWludDY0CglpdG9iCgljb25jYXQKCWJ5dGUgMHgwMDAwMDAwMDAwMDAwMDAwCgljb25jYXQKCWJ5dGUgMHgwMAoJaW50IDAKCWZyYW1lX2RpZyAtNSAvLyBhZG1pblByaXZpbGVnZXM6IGJvb2xlYW4KCXNldGJpdAoJY29uY2F0Cglib3hfcHV0CglyZXRzdWIKCi8vIGFyYzU4X3JlbW92ZVBsdWdpbih1aW50NjQsYWRkcmVzcyl2b2lkCiphYmlfcm91dGVfYXJjNThfcmVtb3ZlUGx1Z2luOgoJLy8gYWxsb3dlZENhbGxlcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludCAzMgoJPT0KCgkvLyBhcmd1bWVudCAwIChhbGxvd2VkQ2FsbGVyKSBmb3IgYXJjNThfcmVtb3ZlUGx1Z2luIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBhcHA6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYXJjNThfcmVtb3ZlUGx1Z2luKHVpbnQ2NCxhZGRyZXNzKXZvaWQKCWNhbGxzdWIgYXJjNThfcmVtb3ZlUGx1Z2luCglpbnQgMQoJcmV0dXJuCgovLyBhcmM1OF9yZW1vdmVQbHVnaW4oYXBwOiBBcHBJRCwgYWxsb3dlZENhbGxlcjogQWRkcmVzcyk6IHZvaWQKLy8KLy8gUmVtb3ZlIGFuIGFwcCBmcm9tIHRoZSBsaXN0IG9mIGFwcHJvdmVkIHBsdWdpbnMKLy8KLy8gQHBhcmFtIGFwcCBUaGUgYXBwIHRvIHJlbW92ZQphcmM1OF9yZW1vdmVQbHVnaW46Cglwcm90byAyIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjQwCgkvLyB2ZXJpZnlUeG4odGhpcy50eG4sIHsgc2VuZGVyOiB0aGlzLmFkbWluLnZhbHVlIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCgl0eG4gU2VuZGVyCglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InRoaXMudHhuIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMuYWRtaW4udmFsdWUifQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoyNDIKCS8vIGtleTogUGx1Z2luc0tleSA9IHsgYXBwbGljYXRpb246IGFwcCwgYWxsb3dlZENhbGxlcjogYWxsb3dlZENhbGxlciB9CglmcmFtZV9kaWcgLTEgLy8gYXBwOiBBcHBJRAoJaXRvYgoJZnJhbWVfZGlnIC0yIC8vIGFsbG93ZWRDYWxsZXI6IEFkZHJlc3MKCWNvbmNhdAoJZnJhbWVfYnVyeSAwIC8vIGtleTogUGx1Z2luc0tleQoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjQzCgkvLyB0aGlzLnBsdWdpbnMoa2V5KS5kZWxldGUoKQoJYnl0ZSAweDcwIC8vICJwIgoJZnJhbWVfZGlnIDAgLy8ga2V5OiBQbHVnaW5zS2V5Cgljb25jYXQKCWJveF9kZWwKCXJldHN1YgoKLy8gYXJjNThfYWRkTmFtZWRQbHVnaW4oc3RyaW5nLHVpbnQ2NCxhZGRyZXNzLHVpbnQ2NCx1aW50NjQsYm9vbCl2b2lkCiphYmlfcm91dGVfYXJjNThfYWRkTmFtZWRQbHVnaW46CgkvLyBhZG1pblByaXZpbGVnZXM6IGJvb2wKCXR4bmEgQXBwbGljYXRpb25BcmdzIDYKCWR1cAoJbGVuCglpbnQgMQoJPT0KCgkvLyBhcmd1bWVudCAwIChhZG1pblByaXZpbGVnZXMpIGZvciBhcmM1OF9hZGROYW1lZFBsdWdpbiBtdXN0IGJlIGEgYm9vbAoJYXNzZXJ0CglpbnQgMAoJZ2V0Yml0CgoJLy8gY29vbGRvd246IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNQoJYnRvaQoKCS8vIGxhc3RWYWxpZFJvdW5kOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDQKCWJ0b2kKCgkvLyBhbGxvd2VkQ2FsbGVyOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglkdXAKCWxlbgoJaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKGFsbG93ZWRDYWxsZXIpIGZvciBhcmM1OF9hZGROYW1lZFBsdWdpbiBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gYXBwOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBhcmM1OF9hZGROYW1lZFBsdWdpbihzdHJpbmcsdWludDY0LGFkZHJlc3MsdWludDY0LHVpbnQ2NCxib29sKXZvaWQKCWNhbGxzdWIgYXJjNThfYWRkTmFtZWRQbHVnaW4KCWludCAxCglyZXR1cm4KCi8vIGFyYzU4X2FkZE5hbWVkUGx1Z2luKG5hbWU6IHN0cmluZywgYXBwOiBBcHBJRCwgYWxsb3dlZENhbGxlcjogQWRkcmVzcywgbGFzdFZhbGlkUm91bmQ6IHVpbnQ2NCwgY29vbGRvd246IHVpbnQ2NCwgYWRtaW5Qcml2aWxlZ2VzOiBib29sZWFuKTogdm9pZAovLwovLyBBZGQgYSBuYW1lZCBwbHVnaW4KLy8KLy8gQHBhcmFtIGFwcCBUaGUgcGx1Z2luIGFwcAovLyBAcGFyYW0gbmFtZSBUaGUgcGx1Z2luIG5hbWUKLy8gQHBhcmFtIGFsbG93ZWRDYWxsZXIgVGhlIGFkZHJlc3Mgb2YgdGhhdCdzIGFsbG93ZWQgdG8gY2FsbCB0aGUgYXBwCi8vIG9yIHRoZSBnbG9iYWwgemVybyBhZGRyZXNzIGZvciBhbGwgYWRkcmVzc2VzCi8vIEBwYXJhbSBsYXN0VmFsaWRSb3VuZCBUaGUgcm91bmQgd2hlbiB0aGUgcGVybWlzc2lvbiBleHBpcmVzCi8vIEBwYXJhbSBjb29sZG93biAgVGhlIG51bWJlciBvZiByb3VuZHMgdGhhdCBtdXN0IHBhc3MgYmVmb3JlIHRoZSBwbHVnaW4gY2FuIGJlIGNhbGxlZCBhZ2FpbgovLyBAcGFyYW0gYWRtaW5Qcml2aWxlZ2VzIFdoZXRoZXIgdGhlIHBsdWdpbiBoYXMgcGVybWlzc2lvbnMgdG8gY2hhbmdlIHRoZSBhZG1pbiBhY2NvdW50CmFyYzU4X2FkZE5hbWVkUGx1Z2luOgoJcHJvdG8gNiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjI2NQoJLy8gdmVyaWZ5VHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5hZG1pbi52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFkbWluLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjY2CgkvLyBhc3NlcnQoIXRoaXMubmFtZWRQbHVnaW5zKG5hbWUpLmV4aXN0cykKCWJ5dGUgMHg2ZSAvLyAibiIKCWZyYW1lX2RpZyAtMSAvLyBuYW1lOiBzdHJpbmcKCWNvbmNhdAoJYm94X2xlbgoJc3dhcAoJcG9wCgkhCglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjI2OAoJLy8ga2V5OiBQbHVnaW5zS2V5ID0geyBhcHBsaWNhdGlvbjogYXBwLCBhbGxvd2VkQ2FsbGVyOiBhbGxvd2VkQ2FsbGVyIH0KCWZyYW1lX2RpZyAtMiAvLyBhcHA6IEFwcElECglpdG9iCglmcmFtZV9kaWcgLTMgLy8gYWxsb3dlZENhbGxlcjogQWRkcmVzcwoJY29uY2F0CglmcmFtZV9idXJ5IDAgLy8ga2V5OiBQbHVnaW5zS2V5CgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoyNjkKCS8vIHRoaXMubmFtZWRQbHVnaW5zKG5hbWUpLnZhbHVlID0ga2V5CglieXRlIDB4NmUgLy8gIm4iCglmcmFtZV9kaWcgLTEgLy8gbmFtZTogc3RyaW5nCgljb25jYXQKCWZyYW1lX2RpZyAwIC8vIGtleTogUGx1Z2luc0tleQoJYm94X3B1dAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6MjcwCgkvLyB0aGlzLnBsdWdpbnMoa2V5KS52YWx1ZSA9IHsKCS8vICAgICAgIGxhc3RWYWxpZFJvdW5kOiBsYXN0VmFsaWRSb3VuZCwKCS8vICAgICAgIGNvb2xkb3duOiBjb29sZG93biwKCS8vICAgICAgIGxhc3RDYWxsZWQ6IDAsCgkvLyAgICAgICBhZG1pblByaXZpbGVnZXM6IGFkbWluUHJpdmlsZWdlcywKCS8vICAgICB9CglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBrZXk6IFBsdWdpbnNLZXkKCWNvbmNhdAoJZnJhbWVfZGlnIC00IC8vIGxhc3RWYWxpZFJvdW5kOiB1aW50NjQKCWl0b2IKCWZyYW1lX2RpZyAtNSAvLyBjb29sZG93bjogdWludDY0CglpdG9iCgljb25jYXQKCWJ5dGUgMHgwMDAwMDAwMDAwMDAwMDAwCgljb25jYXQKCWJ5dGUgMHgwMAoJaW50IDAKCWZyYW1lX2RpZyAtNiAvLyBhZG1pblByaXZpbGVnZXM6IGJvb2xlYW4KCXNldGJpdAoJY29uY2F0Cglib3hfcHV0CglyZXRzdWIKCi8vIGFyYzU4X3JlbW92ZU5hbWVkUGx1Z2luKHN0cmluZyl2b2lkCiphYmlfcm91dGVfYXJjNThfcmVtb3ZlTmFtZWRQbHVnaW46CgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBhcmM1OF9yZW1vdmVOYW1lZFBsdWdpbihzdHJpbmcpdm9pZAoJY2FsbHN1YiBhcmM1OF9yZW1vdmVOYW1lZFBsdWdpbgoJaW50IDEKCXJldHVybgoKLy8gYXJjNThfcmVtb3ZlTmFtZWRQbHVnaW4obmFtZTogc3RyaW5nKTogdm9pZAovLwovLyBSZW1vdmUgYSBuYW1lZCBwbHVnaW4KLy8KLy8gQHBhcmFtIG5hbWUgVGhlIHBsdWdpbiBuYW1lCmFyYzU4X3JlbW92ZU5hbWVkUGx1Z2luOgoJcHJvdG8gMSAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCgkvLyBleGFtcGxlcy9hcmM1OC9hcmM1OC5hbGdvLnRzOjI4NAoJLy8gdmVyaWZ5VHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5hZG1pbi52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFkbWluLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6Mjg2CgkvLyBhcHAgPSB0aGlzLm5hbWVkUGx1Z2lucyhuYW1lKS52YWx1ZQoJYnl0ZSAweDZlIC8vICJuIgoJZnJhbWVfZGlnIC0xIC8vIG5hbWU6IHN0cmluZwoJY29uY2F0CglmcmFtZV9idXJ5IDAgLy8gc3RvcmFnZSBrZXkvL2FwcAoKCS8vIGV4YW1wbGVzL2FyYzU4L2FyYzU4LmFsZ28udHM6Mjg3CgkvLyB0aGlzLm5hbWVkUGx1Z2lucyhuYW1lKS5kZWxldGUoKQoJYnl0ZSAweDZlIC8vICJuIgoJZnJhbWVfZGlnIC0xIC8vIG5hbWU6IHN0cmluZwoJY29uY2F0Cglib3hfZGVsCgoJLy8gZXhhbXBsZXMvYXJjNTgvYXJjNTguYWxnby50czoyODgKCS8vIHRoaXMucGx1Z2lucyhhcHApLmRlbGV0ZSgpCglieXRlIDB4NzAgLy8gInAiCglmcmFtZV9kaWcgMCAvLyBzdG9yYWdlIGtleS8vYXBwCglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLm5hbWVkUGx1Z2lucyhuYW1lKS52YWx1ZQoJYXNzZXJ0Cgljb25jYXQKCWJveF9kZWwKCXJldHN1YgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbihhZGRyZXNzLGFkZHJlc3Mpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiYXJjNThfY2hhbmdlQWRtaW4oYWRkcmVzcyl2b2lkIgoJbWV0aG9kICJhcmM1OF9wbHVnaW5DaGFuZ2VBZG1pbih1aW50NjQsYWRkcmVzcyxhZGRyZXNzKXZvaWQiCgltZXRob2QgImFyYzU4X2dldEFkbWluKClhZGRyZXNzIgoJbWV0aG9kICJhcmM1OF92ZXJpZnlBdXRoQWRkcigpdm9pZCIKCW1ldGhvZCAiYXJjNThfcmVrZXlUbyhhZGRyZXNzLGJvb2wpdm9pZCIKCW1ldGhvZCAiYXJjNThfcmVrZXlUb1BsdWdpbih1aW50NjQpdm9pZCIKCW1ldGhvZCAiYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luKHN0cmluZyl2b2lkIgoJbWV0aG9kICJhcmM1OF9hZGRQbHVnaW4odWludDY0LGFkZHJlc3MsdWludDY0LHVpbnQ2NCxib29sKXZvaWQiCgltZXRob2QgImFyYzU4X3JlbW92ZVBsdWdpbih1aW50NjQsYWRkcmVzcyl2b2lkIgoJbWV0aG9kICJhcmM1OF9hZGROYW1lZFBsdWdpbihzdHJpbmcsdWludDY0LGFkZHJlc3MsdWludDY0LHVpbnQ2NCxib29sKXZvaWQiCgltZXRob2QgImFyYzU4X3JlbW92ZU5hbWVkUGx1Z2luKHN0cmluZyl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9hcmM1OF9jaGFuZ2VBZG1pbiAqYWJpX3JvdXRlX2FyYzU4X3BsdWdpbkNoYW5nZUFkbWluICphYmlfcm91dGVfYXJjNThfZ2V0QWRtaW4gKmFiaV9yb3V0ZV9hcmM1OF92ZXJpZnlBdXRoQWRkciAqYWJpX3JvdXRlX2FyYzU4X3Jla2V5VG8gKmFiaV9yb3V0ZV9hcmM1OF9yZWtleVRvUGx1Z2luICphYmlfcm91dGVfYXJjNThfcmVrZXlUb05hbWVkUGx1Z2luICphYmlfcm91dGVfYXJjNThfYWRkUGx1Z2luICphYmlfcm91dGVfYXJjNThfcmVtb3ZlUGx1Z2luICphYmlfcm91dGVfYXJjNThfYWRkTmFtZWRQbHVnaW4gKmFiaV9yb3V0ZV9hcmM1OF9yZW1vdmVOYW1lZFBsdWdpbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"

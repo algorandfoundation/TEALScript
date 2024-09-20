@@ -65,331 +65,334 @@
     "create": [],
     "call": []
   },
-  "sourceInfo": [
-    {
-      "teal": 1,
-      "source": 1205,
-      "pc": [
-        0,
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "teal": 13,
-      "source": 1205,
-      "pc": [
-        4,
-        5
-      ]
-    },
-    {
-      "teal": 14,
-      "source": 1205,
-      "pc": [
-        6
-      ]
-    },
-    {
-      "teal": 15,
-      "source": 1205,
-      "pc": [
-        7,
-        8
-      ]
-    },
-    {
-      "teal": 16,
-      "source": 1205,
-      "pc": [
-        9
-      ]
-    },
-    {
-      "teal": 17,
-      "source": 1205,
-      "pc": [
-        10,
-        11
-      ]
-    },
-    {
-      "teal": 18,
-      "source": 1205,
-      "pc": [
-        12
-      ]
-    },
-    {
-      "teal": 19,
-      "source": 1205,
-      "pc": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        37,
-        38
-      ]
-    },
-    {
-      "teal": 23,
-      "source": 1205,
-      "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
-      "pc": [
-        39
-      ]
-    },
-    {
-      "teal": 28,
-      "source": 1206,
-      "pc": [
-        40,
-        41,
-        42,
-        43,
-        44,
-        45
-      ]
-    },
-    {
-      "teal": 31,
-      "source": 1206,
-      "pc": [
-        46,
-        47,
-        48
-      ]
-    },
-    {
-      "teal": 32,
-      "source": 1206,
-      "pc": [
-        49
-      ]
-    },
-    {
-      "teal": 33,
-      "source": 1206,
-      "pc": [
-        50
-      ]
-    },
-    {
-      "teal": 34,
-      "source": 1206,
-      "pc": [
-        51,
-        52
-      ]
-    },
-    {
-      "teal": 35,
-      "source": 1206,
-      "pc": [
-        53
-      ]
-    },
-    {
-      "teal": 38,
-      "source": 1206,
-      "errorMessage": "argument 0 (a) for biggerByteCasting must be a byte[2]",
-      "pc": [
-        54
-      ]
-    },
-    {
-      "teal": 41,
-      "source": 1206,
-      "pc": [
-        55,
-        56,
-        57
-      ]
-    },
-    {
-      "teal": 42,
-      "source": 1206,
-      "pc": [
-        58
-      ]
-    },
-    {
-      "teal": 43,
-      "source": 1206,
-      "pc": [
-        59
-      ]
-    },
-    {
-      "teal": 44,
-      "source": 1206,
-      "pc": [
-        60
-      ]
-    },
-    {
-      "teal": 45,
-      "source": 1206,
-      "pc": [
-        61
-      ]
-    },
-    {
-      "teal": 49,
-      "source": 1206,
-      "pc": [
-        62,
-        63,
-        64
-      ]
-    },
-    {
-      "teal": 53,
-      "source": 1207,
-      "pc": [
-        65,
-        66
-      ]
-    },
-    {
-      "teal": 54,
-      "source": 1207,
-      "pc": [
-        67,
-        68,
-        69,
-        70
-      ]
-    },
-    {
-      "teal": 55,
-      "source": 1207,
-      "pc": [
-        71
-      ]
-    },
-    {
-      "teal": 56,
-      "source": 1206,
-      "pc": [
-        72
-      ]
-    },
-    {
-      "teal": 59,
-      "source": 1205,
-      "pc": [
-        73
-      ]
-    },
-    {
-      "teal": 60,
-      "source": 1205,
-      "pc": [
-        74
-      ]
-    },
-    {
-      "teal": 63,
-      "source": 1205,
-      "pc": [
-        75,
-        76,
-        77,
-        78,
-        79,
-        80
-      ]
-    },
-    {
-      "teal": 64,
-      "source": 1205,
-      "pc": [
-        81,
-        82,
-        83
-      ]
-    },
-    {
-      "teal": 65,
-      "source": 1205,
-      "pc": [
-        84,
-        85,
-        86,
-        87
-      ]
-    },
-    {
-      "teal": 68,
-      "source": 1205,
-      "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-      "pc": [
-        88
-      ]
-    },
-    {
-      "teal": 71,
-      "source": 1205,
-      "pc": [
-        89,
-        90,
-        91,
-        92,
-        93,
-        94
-      ]
-    },
-    {
-      "teal": 72,
-      "source": 1205,
-      "pc": [
-        95,
-        96,
-        97
-      ]
-    },
-    {
-      "teal": 73,
-      "source": 1205,
-      "pc": [
-        98,
-        99,
-        100,
-        101
-      ]
-    },
-    {
-      "teal": 76,
-      "source": 1205,
-      "errorMessage": "this contract does not implement the given ABI method for call NoOp",
-      "pc": [
-        102
-      ]
-    }
-  ],
+  "sourceInfo": {
+    "approval": [
+      {
+        "teal": 1,
+        "source": 1205,
+        "pc": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "teal": 13,
+        "source": 1205,
+        "pc": [
+          4,
+          5
+        ]
+      },
+      {
+        "teal": 14,
+        "source": 1205,
+        "pc": [
+          6
+        ]
+      },
+      {
+        "teal": 15,
+        "source": 1205,
+        "pc": [
+          7,
+          8
+        ]
+      },
+      {
+        "teal": 16,
+        "source": 1205,
+        "pc": [
+          9
+        ]
+      },
+      {
+        "teal": 17,
+        "source": 1205,
+        "pc": [
+          10,
+          11
+        ]
+      },
+      {
+        "teal": 18,
+        "source": 1205,
+        "pc": [
+          12
+        ]
+      },
+      {
+        "teal": 19,
+        "source": 1205,
+        "pc": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ]
+      },
+      {
+        "teal": 23,
+        "source": 1205,
+        "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+        "pc": [
+          39
+        ]
+      },
+      {
+        "teal": 28,
+        "source": 1206,
+        "pc": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ]
+      },
+      {
+        "teal": 31,
+        "source": 1206,
+        "pc": [
+          46,
+          47,
+          48
+        ]
+      },
+      {
+        "teal": 32,
+        "source": 1206,
+        "pc": [
+          49
+        ]
+      },
+      {
+        "teal": 33,
+        "source": 1206,
+        "pc": [
+          50
+        ]
+      },
+      {
+        "teal": 34,
+        "source": 1206,
+        "pc": [
+          51,
+          52
+        ]
+      },
+      {
+        "teal": 35,
+        "source": 1206,
+        "pc": [
+          53
+        ]
+      },
+      {
+        "teal": 38,
+        "source": 1206,
+        "errorMessage": "argument 0 (a) for biggerByteCasting must be a byte[2]",
+        "pc": [
+          54
+        ]
+      },
+      {
+        "teal": 41,
+        "source": 1206,
+        "pc": [
+          55,
+          56,
+          57
+        ]
+      },
+      {
+        "teal": 42,
+        "source": 1206,
+        "pc": [
+          58
+        ]
+      },
+      {
+        "teal": 43,
+        "source": 1206,
+        "pc": [
+          59
+        ]
+      },
+      {
+        "teal": 44,
+        "source": 1206,
+        "pc": [
+          60
+        ]
+      },
+      {
+        "teal": 45,
+        "source": 1206,
+        "pc": [
+          61
+        ]
+      },
+      {
+        "teal": 49,
+        "source": 1206,
+        "pc": [
+          62,
+          63,
+          64
+        ]
+      },
+      {
+        "teal": 53,
+        "source": 1207,
+        "pc": [
+          65,
+          66
+        ]
+      },
+      {
+        "teal": 54,
+        "source": 1207,
+        "pc": [
+          67,
+          68,
+          69,
+          70
+        ]
+      },
+      {
+        "teal": 55,
+        "source": 1207,
+        "pc": [
+          71
+        ]
+      },
+      {
+        "teal": 56,
+        "source": 1206,
+        "pc": [
+          72
+        ]
+      },
+      {
+        "teal": 59,
+        "source": 1205,
+        "pc": [
+          73
+        ]
+      },
+      {
+        "teal": 60,
+        "source": 1205,
+        "pc": [
+          74
+        ]
+      },
+      {
+        "teal": 63,
+        "source": 1205,
+        "pc": [
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ]
+      },
+      {
+        "teal": 64,
+        "source": 1205,
+        "pc": [
+          81,
+          82,
+          83
+        ]
+      },
+      {
+        "teal": 65,
+        "source": 1205,
+        "pc": [
+          84,
+          85,
+          86,
+          87
+        ]
+      },
+      {
+        "teal": 68,
+        "source": 1205,
+        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+        "pc": [
+          88
+        ]
+      },
+      {
+        "teal": 71,
+        "source": 1205,
+        "pc": [
+          89,
+          90,
+          91,
+          92,
+          93,
+          94
+        ]
+      },
+      {
+        "teal": 72,
+        "source": 1205,
+        "pc": [
+          95,
+          96,
+          97
+        ]
+      },
+      {
+        "teal": 73,
+        "source": 1205,
+        "pc": [
+          98,
+          99,
+          100,
+          101
+        ]
+      },
+      {
+        "teal": 76,
+        "source": 1205,
+        "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+        "pc": [
+          102
+        ]
+      }
+    ],
+    "clear": []
+  },
   "source": {
     "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMi4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBiaWdnZXJCeXRlQ2FzdGluZyhieXRlWzJdKWJ5dGVbNF0KKmFiaV9yb3V0ZV9iaWdnZXJCeXRlQ2FzdGluZzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gYTogYnl0ZVsyXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludCAyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGEpIGZvciBiaWdnZXJCeXRlQ2FzdGluZyBtdXN0IGJlIGEgYnl0ZVsyXQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBiaWdnZXJCeXRlQ2FzdGluZyhieXRlWzJdKWJ5dGVbNF0KCWNhbGxzdWIgYmlnZ2VyQnl0ZUNhc3RpbmcKCWNvbmNhdAoJbG9nCglpbnQgMQoJcmV0dXJuCgovLyBiaWdnZXJCeXRlQ2FzdGluZyhhOiBieXRlczwyPik6IGJ5dGVzPDQ+CmJpZ2dlckJ5dGVDYXN0aW5nOgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2FiaS5hbGdvLnRzOjEyMDcKCS8vIHJldHVybiA8Ynl0ZXM8ND4+YTsKCWZyYW1lX2RpZyAtMSAvLyBhOiBieXRlczwyPgoJYnl0ZSAweDAwMDAKCWNvbmNhdAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCW1ldGhvZCAiYmlnZ2VyQnl0ZUNhc3RpbmcoYnl0ZVsyXSlieXRlWzRdIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9iaWdnZXJCeXRlQ2FzdGluZwoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
