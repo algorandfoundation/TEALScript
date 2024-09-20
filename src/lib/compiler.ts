@@ -536,7 +536,7 @@ export default class Compiler {
   sourceInfo: {
     source: number;
     teal: number;
-    disassembledTeal?: number;
+    bytecblockPcOffset?: number[];
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -7499,7 +7499,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
             if (tVar === undefined) return arg;
 
-            if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
+            if (isNumeric(tVar.type)) {
+              return 0;
+            }
+
+            if (this.isDynamicType(tVar.type)) {
               if (program === 'lsig' || program === 'approval') {
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
@@ -7508,10 +7512,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
                 );
 
                 this.hasDynamicTemplateVar = true;
-              }
-
-              if (isNumeric(tVar.type)) {
-                return 0;
               }
 
               return '0x';
@@ -7600,53 +7600,22 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       addrLine.teal += ` ${json.hash}`;
     }
 
-    if (!this.hasDynamicTemplateVar) {
-      this.sourceInfo.forEach((sm) => {
+    let lasteBytecblockPc = 0;
+    let bytecblockLine = 0;
+    if (this.hasDynamicTemplateVar) {
+      bytecblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('bytecblock'));
+      lasteBytecblockPc = this.lineToPc[bytecblockLine].at(-1)!;
+    }
+    this.sourceInfo.forEach((sm) => {
+      if (this.hasDynamicTemplateVar) {
+        if (sm.teal - 1 <= bytecblockLine) return;
+        console.debug(lasteBytecblockPc, this.lineToPc);
         // eslint-disable-next-line no-param-reassign
-        sm.pc = this.lineToPc[sm.teal - 1];
-      });
-
-      return json;
-    }
-
-    // Now dissasemble the program to get a mapping of source -> dissasembled TEAL
-
-    const disassembleResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/disassemble`, {
-      method: 'POST',
-      headers: {
-        'X-Algo-API-Token': this.algodToken,
-      },
-      body: Buffer.from(json.result, 'base64'),
-    });
-
-    const dissasembleJson = await disassembleResponse.json();
-
-    const recompileResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain',
-        'X-Algo-API-Token': this.algodToken,
-      },
-      body: dissasembleJson.result,
-    });
-
-    const recompiledJson = await recompileResponse.json();
-
-    if (recompileResponse.status !== 200) {
-      throw new Error(`Error when compiling disassembled program: ${response.statusText}: ${recompiledJson.message}`);
-    }
-
-    const recompiledMapping = await getSourceMap(recompiledJson.sourcemap.mappings);
-
-    // Look at both recompiledMapping and mapping and find the mapping of source teal -> recompiled teal line
-    Object.keys(recompiledMapping.pcToLine).forEach((pcKey) => {
-      const pc = Number(pcKey);
-      const recompiledLine = recompiledMapping.pcToLine[pc];
-      const originalLine = mapping.pcToLine[pc];
-
-      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine + 1);
-
-      if (sourceInfo) sourceInfo.disassembledTeal = recompiledLine;
+        sm.bytecblockPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lasteBytecblockPc);
+        return;
+      }
+      // eslint-disable-next-line no-param-reassign
+      sm.pc = this.lineToPc[sm.teal - 1];
     });
 
     return json;

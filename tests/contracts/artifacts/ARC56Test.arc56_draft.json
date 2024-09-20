@@ -170,478 +170,881 @@
       {
         "teal": 1,
         "source": 6,
-        "disassembledTeal": 0
+        "pc": [
+          0
+        ]
       },
       {
         "teal": 2,
         "source": 6,
-        "disassembledTeal": 1
+        "pc": [
+          1,
+          2,
+          3
+        ]
       },
       {
         "teal": 3,
         "source": 6,
-        "disassembledTeal": 2
+        "pc": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
       },
       {
         "teal": 11,
         "source": 6,
-        "disassembledTeal": 3
+        "pc": [
+          13
+        ]
       },
       {
         "teal": 18,
         "source": 6,
-        "disassembledTeal": 4
+        "pc": [
+          14,
+          15
+        ]
       },
       {
         "teal": 19,
         "source": 6,
-        "disassembledTeal": 5
+        "pc": [
+          16
+        ]
       },
       {
         "teal": 20,
         "source": 6,
-        "disassembledTeal": 6
+        "pc": [
+          17,
+          18
+        ]
       },
       {
         "teal": 21,
         "source": 6,
-        "disassembledTeal": 7
+        "pc": [
+          19
+        ]
       },
       {
         "teal": 22,
         "source": 6,
-        "disassembledTeal": 8
+        "pc": [
+          20,
+          21
+        ]
       },
       {
         "teal": 23,
         "source": 6,
-        "disassembledTeal": 9
+        "pc": [
+          22
+        ]
       },
       {
         "teal": 24,
         "source": 6,
-        "disassembledTeal": 10
+        "pc": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ]
       },
       {
         "teal": 28,
         "source": 6,
         "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
-        "disassembledTeal": 12
+        "pc": [
+          49
+        ]
       },
       {
         "teal": 33,
         "source": 23,
-        "disassembledTeal": 14
+        "pc": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55
+        ]
       },
       {
         "teal": 36,
         "source": 23,
-        "disassembledTeal": 15
+        "pc": [
+          56,
+          57,
+          58
+        ]
       },
       {
         "teal": 37,
         "source": 23,
-        "disassembledTeal": 16
+        "pc": [
+          59
+        ]
       },
       {
         "teal": 38,
         "source": 23,
-        "disassembledTeal": 17
+        "pc": [
+          60
+        ]
       },
       {
         "teal": 39,
         "source": 23,
-        "disassembledTeal": 18
+        "pc": [
+          61,
+          62
+        ]
       },
       {
         "teal": 40,
         "source": 23,
-        "disassembledTeal": 19
+        "pc": [
+          63
+        ]
       },
       {
         "teal": 43,
         "source": 23,
         "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
-        "disassembledTeal": 20
+        "pc": [
+          64
+        ]
       },
       {
         "teal": 46,
         "source": 23,
-        "disassembledTeal": 21
+        "pc": [
+          65,
+          66,
+          67
+        ]
       },
       {
         "teal": 47,
         "source": 23,
-        "disassembledTeal": 22
+        "pc": [
+          68
+        ]
       },
       {
         "teal": 48,
         "source": 23,
-        "disassembledTeal": 23
+        "pc": [
+          69
+        ]
       },
       {
         "teal": 49,
         "source": 23,
-        "disassembledTeal": 24
+        "pc": [
+          70,
+          71
+        ]
       },
       {
         "teal": 50,
         "source": 23,
-        "disassembledTeal": 25
+        "pc": [
+          72
+        ]
       },
       {
         "teal": 54,
         "source": 23,
-        "disassembledTeal": 27
+        "pc": [
+          73,
+          74,
+          75
+        ]
       },
       {
         "teal": 59,
         "source": 24,
-        "disassembledTeal": 28
+        "pc": [
+          76,
+          77
+        ]
       },
       {
         "teal": 60,
         "source": 24,
-        "disassembledTeal": 29
+        "pc": [
+          78,
+          79,
+          80
+        ]
       },
       {
         "teal": 61,
         "source": 24,
-        "disassembledTeal": 30
+        "pc": [
+          81
+        ]
       },
       {
         "teal": 62,
         "source": 24,
-        "disassembledTeal": 31
+        "pc": [
+          82,
+          83
+        ]
       },
       {
         "teal": 63,
         "source": 24,
-        "disassembledTeal": 32
+        "pc": [
+          84,
+          85,
+          86
+        ]
       },
       {
         "teal": 64,
         "source": 24,
-        "disassembledTeal": 33
+        "pc": [
+          87
+        ]
       },
       {
         "teal": 65,
         "source": 24,
-        "disassembledTeal": 34
+        "pc": [
+          88
+        ]
       },
       {
         "teal": 66,
         "source": 24,
-        "disassembledTeal": 35
+        "pc": [
+          89,
+          90,
+          91
+        ]
       },
       {
         "teal": 70,
         "source": 24,
         "errorMessage": "subtract.a must be greater than subtract.b",
-        "disassembledTeal": 36
+        "pc": [
+          92
+        ]
       },
       {
         "teal": 75,
         "source": 26,
-        "disassembledTeal": 38
+        "pc": [
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103
+        ]
       },
       {
         "teal": 76,
         "source": 26,
-        "disassembledTeal": 39
+        "pc": [
+          104
+        ]
       },
       {
         "teal": 77,
         "source": 26,
-        "disassembledTeal": 40
+        "pc": [
+          105
+        ]
       },
       {
         "teal": 81,
         "source": 27,
-        "disassembledTeal": 41
+        "pc": [
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113
+        ]
       },
       {
         "teal": 82,
         "source": 27,
-        "disassembledTeal": 42
+        "pc": [
+          114,
+          115,
+          116,
+          117,
+          118,
+          119
+        ]
       },
       {
         "teal": 83,
         "source": 27,
-        "disassembledTeal": 43
+        "pc": [
+          120
+        ]
       },
       {
         "teal": 90,
         "source": 30,
-        "disassembledTeal": 44
+        "pc": [
+          121,
+          122
+        ]
       },
       {
         "teal": 91,
         "source": 30,
-        "disassembledTeal": 45
+        "pc": [
+          123,
+          124,
+          125
+        ]
       },
       {
         "teal": 92,
         "source": 30,
-        "disassembledTeal": 46
+        "pc": [
+          126
+        ]
       },
       {
         "teal": 93,
         "source": 30,
-        "disassembledTeal": 47
+        "pc": [
+          127,
+          128
+        ]
       },
       {
         "teal": 94,
         "source": 30,
-        "disassembledTeal": 48
+        "pc": [
+          129,
+          130,
+          131
+        ]
       },
       {
         "teal": 95,
         "source": 30,
-        "disassembledTeal": 49
+        "pc": [
+          132
+        ]
       },
       {
         "teal": 96,
         "source": 30,
-        "disassembledTeal": 50
+        "pc": [
+          133
+        ]
       },
       {
         "teal": 97,
         "source": 30,
-        "disassembledTeal": 51
+        "pc": [
+          134
+        ]
       },
       {
         "teal": 98,
         "source": 31,
-        "disassembledTeal": 52
+        "pc": [
+          135,
+          136
+        ]
       },
       {
         "teal": 99,
         "source": 31,
-        "disassembledTeal": 53
+        "pc": [
+          137,
+          138,
+          139
+        ]
       },
       {
         "teal": 100,
         "source": 31,
-        "disassembledTeal": 54
+        "pc": [
+          140
+        ]
       },
       {
         "teal": 101,
         "source": 31,
-        "disassembledTeal": 55
+        "pc": [
+          141,
+          142
+        ]
       },
       {
         "teal": 102,
         "source": 31,
-        "disassembledTeal": 56
+        "pc": [
+          143,
+          144,
+          145
+        ]
       },
       {
         "teal": 103,
         "source": 31,
-        "disassembledTeal": 57
+        "pc": [
+          146
+        ]
       },
       {
         "teal": 104,
         "source": 31,
-        "disassembledTeal": 58
+        "pc": [
+          147
+        ]
       },
       {
         "teal": 105,
         "source": 31,
-        "disassembledTeal": 59
+        "pc": [
+          148
+        ]
       },
       {
         "teal": 106,
         "source": 31,
-        "disassembledTeal": 60
+        "pc": [
+          149
+        ]
       },
       {
         "teal": 107,
         "source": 23,
-        "disassembledTeal": 61
+        "pc": [
+          150
+        ]
       },
       {
         "teal": 112,
         "source": 35,
-        "disassembledTeal": 63
+        "pc": [
+          151,
+          152,
+          153
+        ]
       },
       {
         "teal": 113,
         "source": 35,
-        "disassembledTeal": 64
+        "pc": [
+          154,
+          155
+        ]
       },
       {
         "teal": 114,
         "source": 35,
-        "disassembledTeal": 65
+        "pc": [
+          156
+        ]
       },
       {
         "teal": 118,
         "source": 35,
-        "disassembledTeal": 67
+        "pc": [
+          157,
+          158,
+          159
+        ]
       },
       {
         "teal": 122,
         "source": 36,
-        "disassembledTeal": 68
+        "pc": [
+          160,
+          161
+        ]
       },
       {
         "teal": 123,
         "source": 36,
-        "disassembledTeal": 69
+        "pc": [
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171
+        ]
       },
       {
         "teal": 124,
         "source": 36,
-        "disassembledTeal": 70
+        "pc": [
+          172
+        ]
       },
       {
         "teal": 125,
         "source": 36,
-        "disassembledTeal": 71
+        "pc": [
+          173
+        ]
       },
       {
         "teal": 129,
         "source": 37,
-        "disassembledTeal": 72
+        "pc": [
+          174,
+          175
+        ]
       },
       {
         "teal": 130,
         "source": 37,
-        "disassembledTeal": 73
+        "pc": [
+          176,
+          177,
+          178,
+          179,
+          180,
+          181
+        ]
       },
       {
         "teal": 131,
         "source": 37,
-        "disassembledTeal": 74
+        "pc": [
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188
+        ]
       },
       {
         "teal": 132,
         "source": 37,
-        "disassembledTeal": 75
+        "pc": [
+          189
+        ]
       },
       {
         "teal": 136,
         "source": 38,
-        "disassembledTeal": 76
+        "pc": [
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ]
       },
       {
         "teal": 137,
         "source": 38,
-        "disassembledTeal": 77
+        "pc": [
+          198
+        ]
       },
       {
         "teal": 138,
         "source": 38,
-        "disassembledTeal": 78
+        "pc": [
+          199
+        ]
       },
       {
         "teal": 139,
         "source": 38,
-        "disassembledTeal": 79
+        "pc": [
+          200
+        ]
       },
       {
         "teal": 140,
         "source": 38,
-        "disassembledTeal": 80
+        "pc": [
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207
+        ]
       },
       {
         "teal": 141,
         "source": 38,
-        "disassembledTeal": 81
+        "pc": [
+          208
+        ]
       },
       {
         "teal": 145,
         "source": 39,
-        "disassembledTeal": 82
+        "pc": [
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243
+        ]
       },
       {
         "teal": 146,
         "source": 39,
-        "disassembledTeal": 83
+        "pc": [
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261
+        ]
       },
       {
         "teal": 147,
         "source": 39,
-        "disassembledTeal": 84
+        "pc": [
+          262
+        ]
       },
       {
         "teal": 148,
         "source": 35,
-        "disassembledTeal": 85
+        "pc": [
+          263
+        ]
       },
       {
         "teal": 151,
         "source": 6,
-        "disassembledTeal": 87
+        "pc": [
+          264,
+          265
+        ]
       },
       {
         "teal": 152,
         "source": 6,
-        "disassembledTeal": 88
+        "pc": [
+          266
+        ]
       },
       {
         "teal": 155,
         "source": 6,
-        "disassembledTeal": 90
+        "pc": [
+          267,
+          268,
+          269,
+          270,
+          271,
+          272
+        ]
       },
       {
         "teal": 156,
         "source": 6,
-        "disassembledTeal": 91
+        "pc": [
+          273,
+          274,
+          275
+        ]
       },
       {
         "teal": 157,
         "source": 6,
-        "disassembledTeal": 92
+        "pc": [
+          276,
+          277,
+          278,
+          279
+        ]
       },
       {
         "teal": 160,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-        "disassembledTeal": 93
+        "pc": [
+          280
+        ]
       },
       {
         "teal": 163,
         "source": 6,
-        "disassembledTeal": 95
+        "pc": [
+          281,
+          282,
+          283,
+          284,
+          285,
+          286
+        ]
       },
       {
         "teal": 164,
         "source": 6,
-        "disassembledTeal": 96
+        "pc": [
+          287,
+          288,
+          289
+        ]
       },
       {
         "teal": 165,
         "source": 6,
-        "disassembledTeal": 97
+        "pc": [
+          290,
+          291,
+          292,
+          293
+        ]
       },
       {
         "teal": 168,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for call NoOp",
-        "disassembledTeal": 98
+        "pc": [
+          294
+        ]
       },
       {
         "teal": 171,
         "source": 6,
-        "disassembledTeal": 100
+        "pc": [
+          295,
+          296,
+          297,
+          298,
+          299,
+          300
+        ]
       },
       {
         "teal": 172,
         "source": 6,
-        "disassembledTeal": 101
+        "pc": [
+          301,
+          302,
+          303
+        ]
       },
       {
         "teal": 173,
         "source": 6,
-        "disassembledTeal": 102
+        "pc": [
+          304,
+          305,
+          306,
+          307
+        ]
       },
       {
         "teal": 176,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for call OptIn",
-        "disassembledTeal": 103
+        "pc": [
+          308
+        ]
       }
     ],
     "clear": []
