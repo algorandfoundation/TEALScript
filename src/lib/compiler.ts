@@ -928,7 +928,11 @@ export default class Compiler {
             node.getExpression(),
             'box_get',
             valueType,
-            `box value does not exist: ${node.getText()}`
+            `box value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         }
 
@@ -1043,7 +1047,11 @@ export default class Compiler {
           node.getExpression(),
           'box_len',
           StackType.uint64,
-          `box value does not exist: ${node.getText()}`
+          `box value does not exist: ${node
+            .getText()
+            .split('\n')
+            .map((l) => l.trim())
+            .join(' ')}`
         );
         break;
       default:

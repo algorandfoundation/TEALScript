@@ -3,6 +3,39 @@
   "desc": "",
   "methods": [
     {
+      "name": "createApplication",
+      "desc": "Create an abstracted account application.\nThis is not part of ARC58 and implementation specific.",
+      "args": [
+        {
+          "name": "controlledAddress",
+          "type": "address",
+          "desc": "The address of the abstracted account. If zeroAddress, then the address of the contract account will be used"
+        },
+        {
+          "name": "admin",
+          "type": "address",
+          "desc": "The admin for this app"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_changeAdmin",
+      "desc": "Attempt to change the admin for this app. Some implementations MAY not support this.",
+      "args": [
+        {
+          "name": "newAdmin",
+          "type": "address",
+          "desc": "The new admin"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "arc58_pluginChangeAdmin",
       "desc": "Attempt to change the admin via plugin.",
       "args": [
@@ -27,8 +60,169 @@
       }
     },
     {
-      "name": "createApplication",
+      "name": "arc58_getAdmin",
+      "desc": "Get the admin of this app. This method SHOULD always be used rather than reading directly from state\nbecause different implementations may have different ways of determining the admin.",
       "args": [],
+      "returns": {
+        "type": "address"
+      }
+    },
+    {
+      "name": "arc58_verifyAuthAddr",
+      "desc": "Verify the abstracted account is rekeyed to this app",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_rekeyTo",
+      "desc": "Rekey the abstracted account to another address. Primarily useful for rekeying to an EOA.",
+      "args": [
+        {
+          "name": "addr",
+          "type": "address",
+          "desc": "The address to rekey to"
+        },
+        {
+          "name": "flash",
+          "type": "bool",
+          "desc": "Whether or not this should be a flash rekey. If true, the rekey back to the app address must done in the same txn group as this call"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_rekeyToPlugin",
+      "desc": "Temporarily rekey to an approved plugin app address",
+      "args": [
+        {
+          "name": "plugin",
+          "type": "uint64",
+          "desc": "The app to rekey to"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_rekeyToNamedPlugin",
+      "desc": "Temporarily rekey to a named plugin app address",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "The name of the plugin to rekey to"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_addPlugin",
+      "desc": "Add an app to the list of approved plugins",
+      "args": [
+        {
+          "name": "app",
+          "type": "uint64",
+          "desc": "The app to add"
+        },
+        {
+          "name": "allowedCaller",
+          "type": "address",
+          "desc": "The address of that's allowed to call the app\nor the global zero address for all addresses"
+        },
+        {
+          "name": "lastValidRound",
+          "type": "uint64",
+          "desc": "The round when the permission expires"
+        },
+        {
+          "name": "cooldown",
+          "type": "uint64",
+          "desc": "The number of rounds that must pass before the plugin can be called again"
+        },
+        {
+          "name": "adminPrivileges",
+          "type": "bool",
+          "desc": "Whether the plugin has permissions to change the admin account"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_removePlugin",
+      "desc": "Remove an app from the list of approved plugins",
+      "args": [
+        {
+          "name": "app",
+          "type": "uint64",
+          "desc": "The app to remove"
+        },
+        {
+          "name": "allowedCaller",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_addNamedPlugin",
+      "desc": "Add a named plugin",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "The plugin name"
+        },
+        {
+          "name": "app",
+          "type": "uint64",
+          "desc": "The plugin app"
+        },
+        {
+          "name": "allowedCaller",
+          "type": "address",
+          "desc": "The address of that's allowed to call the app\nor the global zero address for all addresses"
+        },
+        {
+          "name": "lastValidRound",
+          "type": "uint64",
+          "desc": "The round when the permission expires"
+        },
+        {
+          "name": "cooldown",
+          "type": "uint64",
+          "desc": "The number of rounds that must pass before the plugin can be called again"
+        },
+        {
+          "name": "adminPrivileges",
+          "type": "bool",
+          "desc": "Whether the plugin has permissions to change the admin account"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "arc58_removeNamedPlugin",
+      "desc": "Remove a named plugin",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": "The plugin name"
+        }
+      ],
       "returns": {
         "type": "void"
       }
