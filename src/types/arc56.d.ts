@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /** Describes the entire contract. This interface is an extension of the interface described in ARC-4 */
 export interface ARC56Contract {
   /** The ARCs used and/or supported by this contract. All contracts implicity support ARC4 and ARC56 */
