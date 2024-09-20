@@ -2967,7 +2967,7 @@ export default class Compiler {
     }
 
     this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
-    // this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
+    this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
 
     this.teal[this.currentProgram].forEach((t, i) => {
