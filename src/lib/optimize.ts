@@ -528,29 +528,56 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     return t;
   });
 
-  const bytesValues = newTeal
-    .filter((t) => t.teal.startsWith('byte '))
-    .map((t) => t.teal.split(' ')[1])
-    .sort((a, b) => b.length - a.length);
+  // We want to priortize values that take up the most space, so we sort byte byte size * number of uses
 
-  const intValues = newTeal
-    .filter((t) => t.teal.startsWith('int '))
-    .map((t) => t.teal.split(' ')[1])
-    .sort((a, b) => {
-      const diff = BigInt(b.replace(/_/g, '')) - BigInt(a.replace(/_/g, ''));
-      if (diff > 0n) return 1;
-      if (diff < 0n) return -1;
-      return 0;
-    });
+  // Map of byte values to their number of uses
+  const byteValues: Record<string, number> = {};
+
+  // Map of int values to their number of uses
+  const intValues: Record<string, number> = {};
+
+  newTeal.forEach((t) => {
+    if (t.teal.startsWith('byte ')) {
+      const value = t.teal.split(' ')[1];
+      byteValues[value] = (byteValues[value] || 0) + 1;
+    }
+
+    if (t.teal.startsWith('int ')) {
+      const value = t.teal.split(' ')[1];
+      intValues[value] = (intValues[value] || 0) + 1;
+    }
+  });
+
+  Object.entries(byteValues).forEach(([value, count]) => {
+    byteValues[value] = value.length * count;
+  });
+
+  const numberOfBytes = (n: bigint) => {
+    return Math.ceil(n.toString(2).length / 8) || 1;
+  };
+
+  Object.entries(intValues).forEach(([value, count]) => {
+    intValues[value] = numberOfBytes(BigInt(value)) * count;
+  });
+
+  const sortedByteValues = Object.entries(byteValues)
+    .sort((a, b) => b[1] - a[1])
+    .map(([value]) => value);
+
+  const sortedIntValues = Object.entries(intValues)
+    .sort((a, b) => b[1] - a[1])
+    .map(([value]) => value);
+
+  // create set of byteValues ordered by length * use
 
   // Keep adding to bytecblock until it's 255 long
-  while (bytecblock.size < 255 && bytesValues.length > 0) {
-    bytecblock.add(bytesValues.shift()!);
+  while (bytecblock.size < 255 && sortedByteValues.length > 0) {
+    bytecblock.add(sortedByteValues.shift()!);
   }
 
   // Keep adding to intcblock until it's 255 long
-  while (intcblock.size < 255 && intValues.length > 0) {
-    intcblock.add(intValues.shift()!);
+  while (intcblock.size < 255 && sortedIntValues.length > 0) {
+    intcblock.add(sortedIntValues.shift()!);
   }
 
   newTeal = newTeal.map((t) => {
