@@ -549,6 +549,11 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
   });
 
   Object.entries(byteValues).forEach(([value, count]) => {
+    // Delete byte values that are only used once otheriwse we waste bytes putting it in constant block and then calling bytec
+    if (count === 1) {
+      delete byteValues[value];
+      return;
+    }
     byteValues[value] = value.length * count;
   });
 
@@ -558,6 +563,11 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
 
   Object.entries(intValues).forEach(([value, count]) => {
     intValues[value] = numberOfBytes(BigInt(value.replace(/_/g, ''))) * count;
+
+    // ints always take up 8 bytes in constant blocks, so it doens't make sense to put them in the constant block if they take up less than that
+    if (intValues[value] < 8) {
+      delete intValues[value];
+    }
   });
 
   const sortedByteValues = Object.entries(byteValues)
