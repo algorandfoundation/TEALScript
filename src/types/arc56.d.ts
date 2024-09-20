@@ -51,16 +51,9 @@ export interface ARC56Contract {
   /** Supported bare actions for the contract. An action is a combination of call/create and an OnComplete */
   bareActions: {
     /** OnCompletes this method allows when appID === 0 */
-    create: ("NoOp" | "OptIn" | "DeleteApplication")[];
+    create: ('NoOp' | 'OptIn' | 'DeleteApplication')[];
     /** OnCompletes this method allows when appID !== 0 */
-    call: (
-      | "NoOp"
-      | "OptIn"
-      | "CloseOut"
-      | "ClearState"
-      | "UpdateApplication"
-      | "DeleteApplication"
-    )[];
+    call: ('NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication')[];
   };
   /** Information about the TEAL programs */
   sourceInfo?: {
@@ -86,7 +79,7 @@ export interface ARC56Contract {
   /** Information used to get the given byteCode and/or PC values in sourceInfo. MUST be given if byteCode or PC values are present */
   compilerInfo?: {
     /** The name of the compiler */
-    compiler: "algod" | "puya";
+    compiler: 'algod' | 'puya';
     /** Compiler version information */
     compilerVersion: {
       major: number;
@@ -142,8 +135,8 @@ export interface Method {
        * - global: The data key signifies the global state key to read the value from
        * - local: The data key signifies the local state key to read the value from (for the sender)
        * - literal: the value is a literal and should be passed directly as the argument
-      */
-      source: 'box' | 'global' | 'local' | 'literal;
+       */
+      source: 'box' | 'global' | 'local' | 'literal';
     };
   }>;
   /** Information about the method's return value */
@@ -158,16 +151,9 @@ export interface Method {
   /** an action is a combination of call/create and an OnComplete */
   actions: {
     /** OnCompletes this method allows when appID === 0 */
-    create: ("NoOp" | "OptIn" | "DeleteApplication")[];
+    create: ('NoOp' | 'OptIn' | 'DeleteApplication')[];
     /** OnCompletes this method allows when appID !== 0 */
-    call: (
-      | "NoOp"
-      | "OptIn"
-      | "CloseOut"
-      | "ClearState"
-      | "UpdateApplication"
-      | "DeleteApplication"
-    )[];
+    call: ('NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication')[];
   };
   /** If this method does not write anything to the ledger (ARC-22) */
   readonly?: boolean;
@@ -222,17 +208,17 @@ type ABIType = string;
 type StructName = string;
 
 /** Raw byteslice without the length prefixed that is specified in ARC-4 */
-type AVMBytes = "AVMBytes";
+type AVMBytes = 'AVMBytes';
 
 /** A string without the length prefix that is specified in ARC-4 */
-type AVMString = "AVMString";
+type AVMString = 'AVMString';
 
 /** Information about a single field in a struct */
-export interface StructField = {
+export interface StructField {
   /** The name of the struct field */
   name: string;
   /** The type of the struct field's value */
-  type: ABIType | StructName;
+  type: ABIType | StructName | StructField[];
 }
 
 /** Describes a single key in app storage */
@@ -255,7 +241,7 @@ export interface StorageMap {
   keyType: ABIType | AVMString | AVMBytes | StructName;
   /** The type of the values in the map */
   valueType: ABIType | AVMString | AVMBytes | StructName;
-  /** The base64-encoded prefix of the map keys*/
+  /** The base64-encoded prefix of the map keys */
   prefix?: string;
 }
 
