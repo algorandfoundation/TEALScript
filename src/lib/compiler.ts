@@ -2967,7 +2967,7 @@ export default class Compiler {
     }
 
     this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
-    this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
+    // this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = this.prettyTeal(this.teal[this.currentProgram]);
 
     this.teal[this.currentProgram].forEach((t, i) => {
@@ -6120,7 +6120,11 @@ export default class Compiler {
         action! !== 'value' ||
         getFullValue ||
         storageProp.valueType.kind === 'base' ||
-        !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
+        !(
+          storageProp.type === 'box' &&
+          !this.isDynamicType(storageProp.valueType) &&
+          !typeInfoToABIString(storageProp.valueType).match('bool')
+        )
       ) {
         this.handleStorageAction({
           node: actionNode,
@@ -6507,7 +6511,8 @@ export default class Compiler {
             getStorageName(storageExpression) &&
             this.storageProps[getStorageName(storageExpression)!] &&
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
-            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
+            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType) &&
+            !typeInfoToABIString(this.storageProps[getStorageName(storageExpression)!].valueType).match('bool');
 
           if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
