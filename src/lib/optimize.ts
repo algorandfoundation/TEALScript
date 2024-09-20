@@ -557,7 +557,7 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
   };
 
   Object.entries(intValues).forEach(([value, count]) => {
-    intValues[value] = numberOfBytes(BigInt(value)) * count;
+    intValues[value] = numberOfBytes(BigInt(value.replace(/_/g, ''))) * count;
   });
 
   const sortedByteValues = Object.entries(byteValues)
