@@ -545,17 +545,29 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
 
   // Keep adding to bytecblock until it's 255 long
   while (bytecblock.size < 255 && bytesValues.length > 0) {
-    bytecblock.add(bytesValues.pop()!);
+    bytecblock.add(bytesValues.shift()!);
   }
 
   // Keep adding to intcblock until it's 255 long
   while (intcblock.size < 255 && intValues.length > 0) {
-    intcblock.add(intValues.pop()!);
+    intcblock.add(intValues.shift()!);
   }
 
-  if (intValues.length > 0 || bytesValues.length > 0) {
-    throw Error(`constant blocks are too big: ${bytecblock.size} ${intcblock.size}`);
-  }
+  newTeal = newTeal.map((t) => {
+    if (t.teal.startsWith('byte ')) {
+      if (!bytecblock.has(t.teal.split(' ')[1])) {
+        return { teal: t.teal.replace('byte', 'pushbytes'), node: t.node };
+      }
+    }
+
+    if (t.teal.startsWith('int ')) {
+      if (!intcblock.has(t.teal.split(' ')[1])) {
+        return { teal: t.teal.replace('int', 'pushint'), node: t.node };
+      }
+    }
+
+    return t;
+  });
 
   // Insert bytecblock before the first non-comment line
   const firstNonCommentLine = newTeal.findIndex((t) => !t.teal.startsWith('//') && !t.teal.startsWith('#'));
