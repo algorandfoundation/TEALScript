@@ -7609,7 +7609,6 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     this.sourceInfo.forEach((sm) => {
       if (this.hasDynamicTemplateVar) {
         if (sm.teal - 1 <= bytecblockLine) return;
-        console.debug(lasteBytecblockPc, this.lineToPc);
         // eslint-disable-next-line no-param-reassign
         sm.bytecblockPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lasteBytecblockPc);
         return;
