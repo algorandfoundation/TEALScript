@@ -1,4 +1,7 @@
 import * as ts from 'ts-morph';
+import base32 from 'hi-base32';
+// eslint-disable-next-line camelcase
+import { sha512_256 } from 'js-sha512';
 import langspec from '../static/langspec.json';
 
 type TEALInfo = {
@@ -8,9 +11,42 @@ type TEALInfo = {
 };
 
 const MAX_UINT64 = BigInt('0xFFFFFFFFFFFFFFFF');
+const ALGORAND_CHECKSUM_BYTE_LENGTH = 4;
 
 const arglessOps = langspec.Ops.filter((op) => op.Args === undefined && op.Returns !== undefined);
 const arglessOpNames = ['byte', 'int', 'addr', ...arglessOps.map((op) => op.Name)];
+
+// def decode_address(addr):
+//     """
+//     Decode a string address into its address bytes and checksum.
+
+//     Args:
+//         addr (str): base32 address
+
+//     Returns:
+//         bytes: address decoded into bytes
+
+//     """
+//     if not addr:
+//         return addr
+//     if not len(addr) == constants.address_len:
+//         raise error.WrongKeyLengthError
+//     decoded = base64.b32decode(_correct_padding(addr))
+//     pubkey = decoded[: -constants.check_sum_len_bytes]
+//     expected_checksum = decoded[-constants.check_sum_len_bytes :]
+//     chksum = _checksum(pubkey)
+
+//     if chksum == expected_checksum:
+//         return pubkey
+function decodeAddress(address: string) {
+  if (address.length !== 58) {
+    throw Error(`Wrong address length: ${address}`);
+  }
+
+  const decoded = base32.decode.asBytes(address);
+  const pubkey = decoded.slice(0, -ALGORAND_CHECKSUM_BYTE_LENGTH);
+  return Buffer.from(pubkey).toString('hex');
+}
 
 export function optimizeFrames(inputTeal: TEALInfo[]) {
   const outputTeal = inputTeal.slice();
@@ -415,6 +451,132 @@ export function rmUnusedLabels(inputTeal: TEALInfo[]) {
   });
 }
 
+function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
+  let newTeal: TEALInfo[] = [];
+  const oldTeal: TEALInfo[] = inputTeal.slice();
+
+  const bytecblock = new Set<string>();
+  const intcblock = new Set<string>();
+
+  // first find TMPL_ and add them to constant blocks
+  oldTeal.forEach((t) => {
+    const { teal } = t;
+
+    if (teal.startsWith('bytes ')) {
+      const value = teal.split(' ')[1];
+      if (value.startsWith('TMPL_')) {
+        bytecblock.add(value);
+        // index of value in bytecblock
+        const index = Array.from(bytecblock).indexOf(value);
+        newTeal.push({ teal: `bytec ${index} // ${value}`, node: t.node });
+        return;
+      }
+    }
+
+    if (teal.startsWith('int')) {
+      const value = teal.split(' ')[1];
+      if (value.startsWith('TMPL_')) {
+        intcblock.add(value);
+        // index of value in intcblock
+        const index = Array.from(intcblock).indexOf(value);
+        newTeal.push({ teal: `intc ${index} // ${value}`, node: t.node });
+        return;
+      }
+    }
+
+    newTeal.push(t);
+  });
+
+  const intEnums: Record<string, string> = {
+    unknown: '0',
+    pay: '1',
+    keyreg: '2',
+    acfg: '3',
+    axfer: '4',
+    afrz: '5',
+    appl: '6',
+    NoOp: '0',
+    OptIn: '1',
+    CloseOut: '2',
+    ClearState: '3',
+    UpdateApplication: '4',
+    DeleteApplication: '5',
+  };
+
+  newTeal = newTeal.map((t) => {
+    if (t.teal.startsWith('method ')) {
+      const signature = t.teal.split('"')[1];
+      const selector = sha512_256(Buffer.from(signature)).slice(0, 8);
+      return { teal: `byte 0x${selector} // method "${signature}"`, node: t.node };
+    }
+
+    if (t.teal.startsWith('addr ')) {
+      const address = t.teal.split(' ')[1];
+      const decoded = decodeAddress(address);
+      return { teal: `byte 0x${decoded} // addr "${address}"`, node: t.node };
+    }
+
+    if (t.teal.startsWith('int ')) {
+      let arg = t.teal.split(' ')[1];
+      if (intEnums[arg]) {
+        arg = `${intEnums[arg]} // ${arg}`;
+
+        return { teal: `int ${arg}`, node: t.node };
+      }
+    }
+
+    return t;
+  });
+
+  const bytesValues = newTeal
+    .filter((t) => t.teal.startsWith('byte '))
+    .map((t) => t.teal.split(' ')[1])
+    .sort((a, b) => b.length - a.length);
+
+  const intValues = newTeal
+    .filter((t) => t.teal.startsWith('int '))
+    .map((t) => t.teal.split(' ')[1])
+    .sort((a, b) => {
+      const diff = BigInt(b.replace(/_/g, '')) - BigInt(a.replace(/_/g, ''));
+      if (diff > 0n) return 1;
+      if (diff < 0n) return -1;
+      return 0;
+    });
+
+  // Keep adding to bytecblock until it's 255 long
+  while (bytecblock.size < 255 && bytesValues.length > 0) {
+    bytecblock.add(bytesValues.pop()!);
+  }
+
+  // Keep adding to intcblock until it's 255 long
+  while (intcblock.size < 255 && intValues.length > 0) {
+    intcblock.add(intValues.pop()!);
+  }
+
+  if (intValues.length > 0 || bytesValues.length > 0) {
+    throw Error(`constant blocks are too big: ${bytecblock.size} ${intcblock.size}`);
+  }
+
+  // Insert bytecblock before the first non-comment line
+  const firstNonCommentLine = newTeal.findIndex((t) => !t.teal.startsWith('//') && !t.teal.startsWith('#'));
+
+  if (bytecblock.size > 0) {
+    newTeal.splice(firstNonCommentLine, 0, {
+      teal: `bytecblock ${Array.from(bytecblock).join(' ')}`,
+      node: newTeal[0].node,
+    });
+  }
+
+  if (intcblock.size > 0) {
+    newTeal.splice(firstNonCommentLine, 0, {
+      teal: `intcblock ${Array.from(intcblock).join(' ')}`,
+      node: newTeal[0].node,
+    });
+  }
+
+  return newTeal;
+}
+
 export function optimizeTeal(inputTeal: TEALInfo[]) {
   let newTeal: TEALInfo[] = inputTeal.slice();
   let oldTeal: TEALInfo[] = inputTeal.slice();
@@ -426,6 +588,8 @@ export function optimizeTeal(inputTeal: TEALInfo[]) {
     newTeal = optimizeFrames(newTeal);
     newTeal = optimizeOpcodes(newTeal);
   } while (JSON.stringify(newTeal.map((t) => t.teal)) !== JSON.stringify(oldTeal.map((t) => t.teal)));
+
+  newTeal = constantBlocks(newTeal);
 
   return deDupTeal(newTeal);
 }

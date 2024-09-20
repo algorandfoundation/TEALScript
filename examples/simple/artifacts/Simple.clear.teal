@@ -2,6 +2,8 @@
 
 // examples/simple/simple.algo.ts:27
 // this.incrementCounter(1)
+intcblock 1
+bytecblock 0x636f756e746572
 int 1
 callsub incrementCounter
 int 1

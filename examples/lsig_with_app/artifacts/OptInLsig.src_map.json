@@ -2,394 +2,252 @@
   {
     "teal": 1,
     "source": 8,
-    "pc": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ]
+    "disassembledTeal": 0
   },
   {
-    "teal": 9,
-    "source": 35,
-    "pc": [
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14
-    ]
+    "teal": 3,
+    "source": 8,
+    "disassembledTeal": 1
   },
   {
-    "teal": 10,
-    "source": 35,
-    "pc": [
-      15
-    ]
+    "teal": 4,
+    "source": 8,
+    "disassembledTeal": 2
   },
   {
     "teal": 11,
     "source": 35,
-    "pc": [
-      16,
-      17
-    ]
+    "disassembledTeal": 3
   },
   {
     "teal": 15,
     "source": 8,
-    "pc": [
-      18,
-      19,
-      20
-    ]
+    "disassembledTeal": 4
   },
   {
     "teal": 20,
     "source": 12,
-    "pc": [
-      21,
-      22,
-      23
-    ]
+    "disassembledTeal": 6
   },
   {
     "teal": 21,
     "source": 12,
-    "pc": [
-      24
-    ]
+    "disassembledTeal": 7
   },
   {
     "teal": 22,
     "source": 12,
-    "pc": [
-      25
-    ]
+    "disassembledTeal": 8
   },
   {
     "teal": 28,
     "source": 12,
-    "pc": [
-      26,
-      27,
-      28
-    ]
+    "disassembledTeal": 10
   },
   {
     "teal": 31,
     "source": 12,
-    "pc": [
-      29,
-      30
-    ]
+    "disassembledTeal": 11
   },
   {
     "teal": 46,
     "source": 14,
-    "pc": [
-      31,
-      32
-    ]
+    "disassembledTeal": 12
   },
   {
     "teal": 47,
     "source": 14,
-    "pc": [
-      33,
-      34
-    ]
+    "disassembledTeal": 13
   },
   {
     "teal": 48,
     "source": 14,
-    "pc": [
-      35
-    ]
+    "disassembledTeal": 14
   },
   {
     "teal": 51,
     "source": 14,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
-    "pc": [
-      36
-    ]
+    "disassembledTeal": 15
   },
   {
     "teal": 54,
     "source": 15,
-    "pc": [
-      37,
-      38
-    ]
+    "disassembledTeal": 16
   },
   {
     "teal": 55,
     "source": 15,
-    "pc": [
-      39
-    ]
+    "disassembledTeal": 17
   },
   {
     "teal": 56,
     "source": 15,
-    "pc": [
-      40
-    ]
+    "disassembledTeal": 18
   },
   {
     "teal": 59,
     "source": 15,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
-    "pc": [
-      41
-    ]
+    "disassembledTeal": 19
   },
   {
     "teal": 62,
     "source": 16,
-    "pc": [
-      42,
-      43
-    ]
+    "disassembledTeal": 20
   },
   {
     "teal": 63,
     "source": 16,
-    "pc": [
-      44,
-      45
-    ]
+    "disassembledTeal": 21
   },
   {
     "teal": 64,
     "source": 16,
-    "pc": [
-      46
-    ]
+    "disassembledTeal": 22
   },
   {
     "teal": 67,
     "source": 16,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
-    "pc": [
-      47
-    ]
+    "disassembledTeal": 23
   },
   {
     "teal": 70,
     "source": 19,
-    "pc": [
-      48,
-      49
-    ]
+    "disassembledTeal": 24
   },
   {
     "teal": 71,
     "source": 19,
-    "pc": [
-      50
-    ]
+    "disassembledTeal": 25
   },
   {
     "teal": 72,
     "source": 19,
-    "pc": [
-      51
-    ]
+    "disassembledTeal": 26
   },
   {
     "teal": 75,
     "source": 19,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
-    "pc": [
-      52
-    ]
+    "disassembledTeal": 27
   },
   {
     "teal": 78,
     "source": 21,
-    "pc": [
-      53,
-      54
-    ]
+    "disassembledTeal": 28
   },
   {
     "teal": 79,
     "source": 21,
-    "pc": [
-      55,
-      56
-    ]
+    "disassembledTeal": 29
   },
   {
     "teal": 80,
     "source": 21,
-    "pc": [
-      57
-    ]
+    "disassembledTeal": 30
   },
   {
     "teal": 83,
     "source": 21,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
-    "pc": [
-      58
-    ]
+    "disassembledTeal": 31
   },
   {
     "teal": 86,
     "source": 23,
-    "pc": [
-      59,
-      60
-    ]
+    "disassembledTeal": 32
   },
   {
     "teal": 87,
     "source": 23,
-    "pc": [
-      61,
-      62
-    ]
+    "disassembledTeal": 33
   },
   {
     "teal": 88,
     "source": 23,
-    "pc": [
-      63
-    ]
+    "disassembledTeal": 34
   },
   {
     "teal": 91,
     "source": 23,
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
-    "pc": [
-      64
-    ]
+    "disassembledTeal": 35
   },
   {
     "teal": 95,
     "source": 26,
-    "pc": [
-      65,
-      66
-    ]
+    "disassembledTeal": 36
   },
   {
     "teal": 96,
     "source": 26,
-    "pc": [
-      67
-    ]
+    "disassembledTeal": 37
   },
   {
     "teal": 97,
     "source": 26,
-    "pc": [
-      68
-    ]
+    "disassembledTeal": 38
   },
   {
     "teal": 98,
     "source": 26,
-    "pc": [
-      69,
-      70
-    ]
+    "disassembledTeal": 39
   },
   {
     "teal": 102,
     "source": 29,
-    "pc": [
-      71,
-      72
-    ]
+    "disassembledTeal": 40
   },
   {
     "teal": 103,
     "source": 29,
-    "pc": [
-      73,
-      74
-    ]
+    "disassembledTeal": 41
   },
   {
     "teal": 104,
     "source": 29,
-    "pc": [
-      75,
-      76
-    ]
+    "disassembledTeal": 42
   },
   {
     "teal": 105,
     "source": 29,
-    "pc": [
-      77
-    ]
+    "disassembledTeal": 43
   },
   {
     "teal": 106,
     "source": 29,
-    "pc": [
-      78
-    ]
+    "disassembledTeal": 44
   },
   {
     "teal": 110,
     "source": 30,
-    "pc": [
-      79,
-      80
-    ]
+    "disassembledTeal": 45
   },
   {
     "teal": 111,
     "source": 30,
-    "pc": [
-      81,
-      82,
-      83
-    ]
+    "disassembledTeal": 46
   },
   {
     "teal": 112,
     "source": 30,
-    "pc": [
-      84,
-      85,
-      86,
-      87,
-      88,
-      89
-    ]
+    "disassembledTeal": 47
   },
   {
     "teal": 113,
     "source": 30,
-    "pc": [
-      90
-    ]
+    "disassembledTeal": 48
   },
   {
     "teal": 114,
     "source": 30,
-    "pc": [
-      91
-    ]
+    "disassembledTeal": 49
   },
   {
     "teal": 115,
     "source": 12,
-    "pc": [
-      92
-    ]
+    "disassembledTeal": 50
   }
 ]
