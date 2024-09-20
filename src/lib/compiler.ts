@@ -2948,7 +2948,7 @@ export default class Compiler {
     Object.keys(this.templateVars).forEach((propName, i) => {
       const { name, type } = this.templateVars[propName];
 
-      let op = 'bytes';
+      let op = 'byte';
 
       if (isNumeric(type)) {
         op = 'int';
@@ -6007,7 +6007,7 @@ export default class Compiler {
       const propName = chain[0].getNameNode().getText();
       const { name, type } = this.templateVars[propName];
 
-      let op = 'bytes';
+      let op = 'byte';
       if (isNumeric(type)) op = 'int';
 
       this.push(chain[0], `${op} TMPL_${name}`, type);

@@ -462,7 +462,7 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
   oldTeal.forEach((t) => {
     const { teal } = t;
 
-    if (teal.startsWith('bytes ')) {
+    if (teal.startsWith('byte ')) {
       const value = teal.split(' ')[1];
       if (value.startsWith('TMPL_')) {
         bytecblock.add(value);
@@ -473,7 +473,7 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
       }
     }
 
-    if (teal.startsWith('int')) {
+    if (teal.startsWith('int ')) {
       const value = teal.split(' ')[1];
       if (value.startsWith('TMPL_')) {
         intcblock.add(value);
