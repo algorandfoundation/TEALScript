@@ -928,7 +928,11 @@ export default class Compiler {
             node.getExpression(),
             'box_get',
             valueType,
-            `box value does not exist: ${node.getText()}`
+            `box value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         }
 
@@ -1043,7 +1047,11 @@ export default class Compiler {
           node.getExpression(),
           'box_len',
           StackType.uint64,
-          `box value does not exist: ${node.getText()}`
+          `box value does not exist: ${node
+            .getText()
+            .split('\n')
+            .map((l) => l.trim())
+            .join(' ')}`
         );
         break;
       default:
@@ -6120,7 +6128,11 @@ export default class Compiler {
         action! !== 'value' ||
         getFullValue ||
         storageProp.valueType.kind === 'base' ||
-        !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
+        !(
+          storageProp.type === 'box' &&
+          !this.isDynamicType(storageProp.valueType) &&
+          !typeInfoToABIString(storageProp.valueType).match('bool')
+        )
       ) {
         this.handleStorageAction({
           node: actionNode,
@@ -6507,7 +6519,8 @@ export default class Compiler {
             getStorageName(storageExpression) &&
             this.storageProps[getStorageName(storageExpression)!] &&
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
-            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
+            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType) &&
+            !typeInfoToABIString(this.storageProps[getStorageName(storageExpression)!].valueType).match('bool');
 
           if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
