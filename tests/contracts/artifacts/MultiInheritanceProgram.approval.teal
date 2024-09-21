@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -26,7 +26,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 *abi_route_prog:
 	// execute prog()void
 	callsub prog
-	int 1
+	pushint 1
 	return
 
 // prog(): void
@@ -35,16 +35,16 @@ prog:
 
 	// tests/contracts/inheritance.algo.ts:100
 	// log(MultiInheritance.approvalProgram())
-	byte b64 CiACAbkKJgEBYTEYFIEGCzEZCI0MALcAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAIgAAiJDigAAKCNniYgAAiJDigAAKGQjEkSAAWKBKmeJiAACIkOKAACAAmIysImIAAIiQ4oAAIBsCiABATEYFIEGCzEZCI0MAC8AAAAAAAAAAAAAACEAAAAAAAAAAAAAAIgAAiJDigAAgAFhgbkKZ4mIAAIiQ4oAAIACYjKwiSJDgAS4RHs2NhoAjgH/8QCABB56rRyABEQ7Mxk2GgCOAv+9/80AsIkiQ4AEuER7NjYaAI4B//EAgAQeeq0cgAQ6yQsIgAREOzMZgASERnr/NhoAjgT/Jf8x/0X/UwA=
+	pushbytes 0x0a2601016131181481060b3119088d0c00c40000000000000000000000b600000000000000000000008800038101438a000080016181b90a67898800038101438a00008001616481b90a1244800162812a67898800038101438a000080026232b0898800038101438a0000806c0a31181481060b3119088d0c003200000000000000000000002400000000000000000000008800038101438a000080016181b90a67898800038101438a000080026232b0898101438004b8447b36361a008e01fff00080041e7aad1c8004443b3319361a008e02ffbaffcb00b0898101438004b8447b36361a008e01fff00080041e7aad1c80043ac90b088004443b3319800484467aff361a008e04ff18ff29ff42ff5100
 	log
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -52,7 +52,7 @@ prog:
 	err
 
 *call_NoOp:
-	method "prog()void"
+	pushbytes 0x81d79bef // method "prog()void"
 	txna ApplicationArgs 0
 	match *abi_route_prog
 

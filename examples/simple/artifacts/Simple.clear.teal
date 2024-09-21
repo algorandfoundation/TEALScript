@@ -2,9 +2,10 @@
 
 // examples/simple/simple.algo.ts:27
 // this.incrementCounter(1)
-int 1
+bytecblock 0x636f756e746572
+pushint 1
 callsub incrementCounter
-int 1
+pushint 1
 return
 
 // incrementCounter(i: uint64): void

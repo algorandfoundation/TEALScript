@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,14 +25,14 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // disgusting()uint64
 *abi_route_disgusting:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute disgusting()uint64
 	callsub disgusting
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // disgusting(): uint64
@@ -40,7 +40,7 @@ disgusting:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:304
 	// a: StaticArray<
@@ -66,13 +66,13 @@ disgusting:
 	//         ],
 	//       ],
 	//     ]
-	byte 0x000b00160000000000000021002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063006f00de000000000000014d01bc000000000000022b000000000000029a0000000000000309000000000000037800000000000003e7
+	pushbytes 0x000b00160000000000000021002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063006f00de000000000000014d01bc000000000000022b000000000000029a0000000000000309000000000000037800000000000003e7
 	frame_bury 0 // a: StaticArray<       [StaticArray<uint16, 2>, uint64, [uint16, uint64], StaticArray<StaticArray<uint64, 2>, 2>],       2     >
 
 	// tests/contracts/abi.algo.ts:328
 	// a[1][3][1] = [8888, 9999]
 	frame_dig 0 // a: StaticArray<       [StaticArray<uint16, 2>, uint64, [uint16, uint64], StaticArray<StaticArray<uint64, 2>, 2>],       2     >
-	byte 0x00000000000022b8000000000000270f
+	pushbytes 0x00000000000022b8000000000000270f
 	replace2 92
 	frame_bury 0 // a: StaticArray<       [StaticArray<uint16, 2>, uint64, [uint16, uint64], StaticArray<StaticArray<uint64, 2>, 2>],       2     >
 
@@ -87,11 +87,11 @@ disgusting:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -99,7 +99,7 @@ disgusting:
 	err
 
 *call_NoOp:
-	method "disgusting()uint64"
+	pushbytes 0x1b6c968e // method "disgusting()uint64"
 	txna ApplicationArgs 0
 	match *abi_route_disgusting
 

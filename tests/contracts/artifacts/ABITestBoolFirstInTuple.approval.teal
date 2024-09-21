@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // boolFirstInTuple()(bool,uint64,uint64)
 *abi_route_boolFirstInTuple:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute boolFirstInTuple()(bool,uint64,uint64)
 	callsub boolFirstInTuple
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // boolFirstInTuple(): [boolean, uint64, uint64]
@@ -39,17 +39,17 @@ boolFirstInTuple:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:1582
 	// a: [boolean, uint64, uint64] = [true, 1, 2]
-	byte 0x00
-	int 0
-	int 1
+	pushbytes 0x00
+	pushint 0
+	pushint 1
 	setbit
-	byte 0x0000000000000001
+	pushbytes 0x0000000000000001
 	concat
-	byte 0x0000000000000002
+	pushbytes 0x0000000000000002
 	concat
 	frame_bury 0 // a: [boolean, uint64, uint64]
 
@@ -62,11 +62,11 @@ boolFirstInTuple:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -74,7 +74,7 @@ boolFirstInTuple:
 	err
 
 *call_NoOp:
-	method "boolFirstInTuple()(bool,uint64,uint64)"
+	pushbytes 0xa27318d5 // method "boolFirstInTuple()(bool,uint64,uint64)"
 	txna ApplicationArgs 0
 	match *abi_route_boolFirstInTuple
 

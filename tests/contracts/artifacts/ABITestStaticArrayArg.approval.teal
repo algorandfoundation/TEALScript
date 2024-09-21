@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // staticArrayArg(uint64[3])uint64
 *abi_route_staticArrayArg:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// a: uint64[3]
 	txna ApplicationArgs 1
 	dup
 	len
-	int 24
+	pushint 24
 	==
 
 	// argument 0 (a) for staticArrayArg must be a uint64[3]
@@ -42,7 +42,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // staticArrayArg(a: StaticArray<uint64, 3>): uint64
@@ -57,11 +57,11 @@ staticArrayArg:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -69,7 +69,7 @@ staticArrayArg:
 	err
 
 *call_NoOp:
-	method "staticArrayArg(uint64[3])uint64"
+	pushbytes 0xb9baec56 // method "staticArrayArg(uint64[3])uint64"
 	txna ApplicationArgs 0
 	match *abi_route_staticArrayArg
 

@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -26,7 +26,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 *abi_route_arrayInMethodCall:
 	// execute arrayInMethodCall()void
 	callsub arrayInMethodCall
-	int 1
+	pushint 1
 	return
 
 // arrayInMethodCall(): void
@@ -40,33 +40,33 @@ arrayInMethodCall:
 	//       methodArgs: [[1, 2], this.txn.sender, 3, false],
 	//     })
 	itxn_begin
-	int appl
+	pushint 6 // appl
 	itxn_field TypeEnum
-	method "foo((uint64,uint64),address,uint64,bool)void"
+	pushbytes 0x69a5458d // method "foo((uint64,uint64),address,uint64,bool)void"
 	itxn_field ApplicationArgs
 
 	// tests/contracts/abi.algo.ts:1394
 	// applicationID: AppID.fromUint64(0)
-	int 0
+	pushint 0
 	itxn_field ApplicationID
 
 	// tests/contracts/abi.algo.ts:1396
 	// methodArgs: [[1, 2], this.txn.sender, 3, false]
-	byte 0x00000000000000010000000000000002
+	pushbytes 0x00000000000000010000000000000002
 	itxn_field ApplicationArgs
 	txn Sender
 	itxn_field ApplicationArgs
-	byte 0x0000000000000003
+	pushbytes 0x0000000000000003
 	itxn_field ApplicationArgs
-	int 0
-	byte 0x00
-	int 0
+	pushint 0
+	pushbytes 0x00
+	pushint 0
 	uncover 2
 	setbit
 	itxn_field ApplicationArgs
 
 	// Fee field not set, defaulting to 0
-	int 0
+	pushint 0
 	itxn_field Fee
 
 	// Submit inner transaction
@@ -74,11 +74,11 @@ arrayInMethodCall:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -86,7 +86,7 @@ arrayInMethodCall:
 	err
 
 *call_NoOp:
-	method "arrayInMethodCall()void"
+	pushbytes 0xbe15cf10 // method "arrayInMethodCall()void"
 	txna ApplicationArgs 0
 	match *abi_route_arrayInMethodCall
 

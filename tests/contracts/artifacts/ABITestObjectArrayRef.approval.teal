@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // objectArrayRef()(uint8[2][2])
 *abi_route_objectArrayRef:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute objectArrayRef()(uint8[2][2])
 	callsub objectArrayRef
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // objectArrayRef(): ObjectRefType
@@ -39,7 +39,7 @@ objectArrayRef:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:817
 	// a: ObjectRefType = {
@@ -48,7 +48,7 @@ objectArrayRef:
 	//         [3, 4],
 	//       ],
 	//     }
-	byte 0x01020304
+	pushbytes 0x01020304
 	frame_bury 0 // a: ObjectRefType
 
 	// tests/contracts/abi.algo.ts:824
@@ -56,7 +56,7 @@ objectArrayRef:
 	// tests/contracts/abi.algo.ts:826
 	// c[1] = 5 as uint<8>
 	frame_dig 0 // a: ObjectRefType
-	byte 0x05
+	pushbytes 0x05
 	replace2 3
 	frame_bury 0 // c: ObjectRefType
 
@@ -69,11 +69,11 @@ objectArrayRef:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -81,7 +81,7 @@ objectArrayRef:
 	err
 
 *call_NoOp:
-	method "objectArrayRef()(uint8[2][2])"
+	pushbytes 0x545b4016 // method "objectArrayRef()(uint8[2][2])"
 	txna ApplicationArgs 0
 	match *abi_route_objectArrayRef
 
