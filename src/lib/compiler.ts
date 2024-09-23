@@ -13,7 +13,7 @@ import path from 'path';
 import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
-import { type ARC56Contract, type StructFields } from '../types/arc56.d';
+import { type ARC56Contract, type StructField } from '../types/arc56.d';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -928,7 +928,11 @@ export default class Compiler {
             node.getExpression(),
             'box_get',
             valueType,
-            `box value does not exist: ${node.getText()}`
+            `box value does not exist: ${node
+              .getText()
+              .split('\n')
+              .map((l) => l.trim())
+              .join(' ')}`
           );
         }
 
@@ -1043,7 +1047,11 @@ export default class Compiler {
           node.getExpression(),
           'box_len',
           StackType.uint64,
-          `box value does not exist: ${node.getText()}`
+          `box value does not exist: ${node
+            .getText()
+            .split('\n')
+            .map((l) => l.trim())
+            .join(' ')}`
         );
         break;
       default:
@@ -6120,7 +6128,11 @@ export default class Compiler {
         action! !== 'value' ||
         getFullValue ||
         storageProp.valueType.kind === 'base' ||
-        !(storageProp.type === 'box' && !this.isDynamicType(storageProp.valueType))
+        !(
+          storageProp.type === 'box' &&
+          !this.isDynamicType(storageProp.valueType) &&
+          !typeInfoToABIString(storageProp.valueType).match('bool')
+        )
       ) {
         this.handleStorageAction({
           node: actionNode,
@@ -6507,7 +6519,8 @@ export default class Compiler {
             getStorageName(storageExpression) &&
             this.storageProps[getStorageName(storageExpression)!] &&
             this.storageProps[getStorageName(storageExpression)!].type === 'box' &&
-            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
+            !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType) &&
+            !typeInfoToABIString(this.storageProps[getStorageName(storageExpression)!].valueType).match('bool');
 
           if (!isStaticBox) {
             this.processFrame(chain[0].getExpression(), chain[0].getExpression().getText(), true);
@@ -7650,14 +7663,14 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
   arc56Description(): ARC56Contract {
     const objectToStructFields = (typeInfo: TypeInfo & { kind: 'object' }) => {
-      const fields: StructFields = {};
+      const fields: StructField[] = [];
 
       // eslint-disable-next-line no-restricted-syntax
       for (const [field, type] of Object.entries(typeInfo.properties)) {
         if (type.kind === 'object') {
-          fields[field] = objectToStructFields(type);
+          fields.push({ name: field, type: objectToStructFields(type) });
         } else {
-          fields[field] = typeInfoToABIString(type);
+          fields.push({ name: field, type: typeInfoToABIString(type) });
         }
       }
 
@@ -7693,7 +7706,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       structs: {},
       state,
       bareActions: { create: [], call: [] },
-      sourceInfo: this.sourceInfo,
+      // TODO: clear source mapping
+      sourceInfo: { approval: this.sourceInfo, clear: [] },
       source: {
         approval: Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64'),
         clear: Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64'),
