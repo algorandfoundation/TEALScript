@@ -169,91 +169,84 @@
     "approval": [
       {
         "teal": 1,
-        "source": 6,
-        "pc": [
-          0
-        ]
+        "source": 6
       },
       {
         "teal": 2,
-        "source": 6,
-        "pc": [
-          1,
-          2,
-          3
-        ]
+        "source": 6
       },
       {
         "teal": 3,
-        "source": 6,
-        "pc": [
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10,
-          11,
-          12
-        ]
+        "source": 6
       },
       {
         "teal": 11,
         "source": 6,
-        "pc": [
-          13
+        "cblocksPcOffset": [
+          1
         ]
       },
       {
         "teal": 18,
         "source": 6,
-        "pc": [
-          14,
-          15
+        "cblocksPcOffset": [
+          2,
+          3
         ]
       },
       {
         "teal": 19,
         "source": 6,
-        "pc": [
-          16
+        "cblocksPcOffset": [
+          4
         ]
       },
       {
         "teal": 20,
         "source": 6,
-        "pc": [
-          17,
-          18
+        "cblocksPcOffset": [
+          5,
+          6
         ]
       },
       {
         "teal": 21,
         "source": 6,
-        "pc": [
-          19
+        "cblocksPcOffset": [
+          7
         ]
       },
       {
         "teal": 22,
         "source": 6,
-        "pc": [
-          20,
-          21
+        "cblocksPcOffset": [
+          8,
+          9
         ]
       },
       {
         "teal": 23,
         "source": 6,
-        "pc": [
-          22
+        "cblocksPcOffset": [
+          10
         ]
       },
       {
         "teal": 24,
         "source": 6,
-        "pc": [
+        "cblocksPcOffset": [
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
           23,
           24,
           25,
@@ -267,211 +260,229 @@
           33,
           34,
           35,
-          36,
-          37,
-          38,
-          39,
-          40,
-          41,
-          42,
-          43,
-          44,
-          45,
-          46,
-          47,
-          48
+          36
         ]
       },
       {
         "teal": 28,
         "source": 6,
         "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
-        "pc": [
-          49
+        "cblocksPcOffset": [
+          37
         ]
       },
       {
         "teal": 33,
         "source": 23,
-        "pc": [
-          50,
-          51,
-          52,
-          53,
-          54,
-          55
+        "cblocksPcOffset": [
+          38,
+          39,
+          40,
+          41,
+          42,
+          43
         ]
       },
       {
         "teal": 36,
         "source": 23,
-        "pc": [
-          56,
-          57,
-          58
+        "cblocksPcOffset": [
+          44,
+          45,
+          46
         ]
       },
       {
         "teal": 37,
         "source": 23,
-        "pc": [
-          59
+        "cblocksPcOffset": [
+          47
         ]
       },
       {
         "teal": 38,
         "source": 23,
-        "pc": [
-          60
+        "cblocksPcOffset": [
+          48
         ]
       },
       {
         "teal": 39,
         "source": 23,
-        "pc": [
-          61,
-          62
+        "cblocksPcOffset": [
+          49,
+          50
         ]
       },
       {
         "teal": 40,
         "source": 23,
-        "pc": [
-          63
+        "cblocksPcOffset": [
+          51
         ]
       },
       {
         "teal": 43,
         "source": 23,
         "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
-        "pc": [
-          64
+        "cblocksPcOffset": [
+          52
         ]
       },
       {
         "teal": 46,
         "source": 23,
-        "pc": [
-          65,
-          66,
-          67
+        "cblocksPcOffset": [
+          53,
+          54,
+          55
         ]
       },
       {
         "teal": 47,
         "source": 23,
-        "pc": [
-          68
+        "cblocksPcOffset": [
+          56
         ]
       },
       {
         "teal": 48,
         "source": 23,
-        "pc": [
-          69
+        "cblocksPcOffset": [
+          57
         ]
       },
       {
         "teal": 49,
         "source": 23,
-        "pc": [
-          70,
-          71
+        "cblocksPcOffset": [
+          58,
+          59
         ]
       },
       {
         "teal": 50,
         "source": 23,
-        "pc": [
-          72
+        "cblocksPcOffset": [
+          60
         ]
       },
       {
         "teal": 54,
         "source": 23,
-        "pc": [
-          73,
-          74,
-          75
+        "cblocksPcOffset": [
+          61,
+          62,
+          63
         ]
       },
       {
         "teal": 59,
         "source": 24,
-        "pc": [
-          76,
-          77
+        "cblocksPcOffset": [
+          64,
+          65
         ]
       },
       {
         "teal": 60,
         "source": 24,
-        "pc": [
-          78,
-          79,
-          80
+        "cblocksPcOffset": [
+          66,
+          67,
+          68
         ]
       },
       {
         "teal": 61,
         "source": 24,
-        "pc": [
-          81
+        "cblocksPcOffset": [
+          69
         ]
       },
       {
         "teal": 62,
         "source": 24,
-        "pc": [
-          82,
-          83
+        "cblocksPcOffset": [
+          70,
+          71
         ]
       },
       {
         "teal": 63,
         "source": 24,
-        "pc": [
-          84,
-          85,
-          86
+        "cblocksPcOffset": [
+          72,
+          73,
+          74
         ]
       },
       {
         "teal": 64,
         "source": 24,
-        "pc": [
-          87
+        "cblocksPcOffset": [
+          75
         ]
       },
       {
         "teal": 65,
         "source": 24,
-        "pc": [
-          88
+        "cblocksPcOffset": [
+          76
         ]
       },
       {
         "teal": 66,
         "source": 24,
-        "pc": [
-          89,
-          90,
-          91
+        "cblocksPcOffset": [
+          77,
+          78,
+          79
         ]
       },
       {
         "teal": 70,
         "source": 24,
         "errorMessage": "subtract.a must be greater than subtract.b",
-        "pc": [
-          92
+        "cblocksPcOffset": [
+          80
         ]
       },
       {
         "teal": 75,
         "source": 26,
-        "pc": [
-          93,
+        "cblocksPcOffset": [
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91
+        ]
+      },
+      {
+        "teal": 76,
+        "source": 26,
+        "cblocksPcOffset": [
+          92
+        ]
+      },
+      {
+        "teal": 77,
+        "source": 26,
+        "cblocksPcOffset": [
+          93
+        ]
+      },
+      {
+        "teal": 81,
+        "source": 27,
+        "cblocksPcOffset": [
           94,
           95,
           96,
@@ -479,366 +490,348 @@
           98,
           99,
           100,
-          101,
-          102,
-          103
+          101
         ]
       },
       {
-        "teal": 76,
-        "source": 26,
-        "pc": [
-          104
-        ]
-      },
-      {
-        "teal": 77,
-        "source": 26,
-        "pc": [
-          105
-        ]
-      },
-      {
-        "teal": 81,
+        "teal": 82,
         "source": 27,
-        "pc": [
+        "cblocksPcOffset": [
+          102,
+          103,
+          104,
+          105,
           106,
-          107,
-          108,
+          107
+        ]
+      },
+      {
+        "teal": 83,
+        "source": 27,
+        "cblocksPcOffset": [
+          108
+        ]
+      },
+      {
+        "teal": 90,
+        "source": 30,
+        "cblocksPcOffset": [
           109,
-          110,
+          110
+        ]
+      },
+      {
+        "teal": 91,
+        "source": 30,
+        "cblocksPcOffset": [
           111,
           112,
           113
         ]
       },
       {
-        "teal": 82,
-        "source": 27,
-        "pc": [
-          114,
+        "teal": 92,
+        "source": 30,
+        "cblocksPcOffset": [
+          114
+        ]
+      },
+      {
+        "teal": 93,
+        "source": 30,
+        "cblocksPcOffset": [
           115,
-          116,
+          116
+        ]
+      },
+      {
+        "teal": 94,
+        "source": 30,
+        "cblocksPcOffset": [
           117,
           118,
           119
         ]
       },
       {
-        "teal": 83,
-        "source": 27,
-        "pc": [
-          120
-        ]
-      },
-      {
-        "teal": 90,
-        "source": 30,
-        "pc": [
-          121,
-          122
-        ]
-      },
-      {
-        "teal": 91,
-        "source": 30,
-        "pc": [
-          123,
-          124,
-          125
-        ]
-      },
-      {
-        "teal": 92,
-        "source": 30,
-        "pc": [
-          126
-        ]
-      },
-      {
-        "teal": 93,
-        "source": 30,
-        "pc": [
-          127,
-          128
-        ]
-      },
-      {
-        "teal": 94,
-        "source": 30,
-        "pc": [
-          129,
-          130,
-          131
-        ]
-      },
-      {
         "teal": 95,
         "source": 30,
-        "pc": [
-          132
+        "cblocksPcOffset": [
+          120
         ]
       },
       {
         "teal": 96,
         "source": 30,
-        "pc": [
-          133
+        "cblocksPcOffset": [
+          121
         ]
       },
       {
         "teal": 97,
         "source": 30,
-        "pc": [
-          134
+        "cblocksPcOffset": [
+          122
         ]
       },
       {
         "teal": 98,
         "source": 31,
-        "pc": [
-          135,
-          136
+        "cblocksPcOffset": [
+          123,
+          124
         ]
       },
       {
         "teal": 99,
         "source": 31,
-        "pc": [
-          137,
-          138,
-          139
+        "cblocksPcOffset": [
+          125,
+          126,
+          127
         ]
       },
       {
         "teal": 100,
         "source": 31,
-        "pc": [
-          140
+        "cblocksPcOffset": [
+          128
         ]
       },
       {
         "teal": 101,
         "source": 31,
-        "pc": [
-          141,
-          142
+        "cblocksPcOffset": [
+          129,
+          130
         ]
       },
       {
         "teal": 102,
         "source": 31,
-        "pc": [
-          143,
-          144,
-          145
+        "cblocksPcOffset": [
+          131,
+          132,
+          133
         ]
       },
       {
         "teal": 103,
         "source": 31,
-        "pc": [
-          146
+        "cblocksPcOffset": [
+          134
         ]
       },
       {
         "teal": 104,
         "source": 31,
-        "pc": [
-          147
+        "cblocksPcOffset": [
+          135
         ]
       },
       {
         "teal": 105,
         "source": 31,
-        "pc": [
-          148
+        "cblocksPcOffset": [
+          136
         ]
       },
       {
         "teal": 106,
         "source": 31,
-        "pc": [
-          149
+        "cblocksPcOffset": [
+          137
         ]
       },
       {
         "teal": 107,
         "source": 23,
-        "pc": [
-          150
+        "cblocksPcOffset": [
+          138
         ]
       },
       {
         "teal": 112,
         "source": 35,
-        "pc": [
-          151,
-          152,
-          153
+        "cblocksPcOffset": [
+          139,
+          140,
+          141
         ]
       },
       {
         "teal": 113,
         "source": 35,
-        "pc": [
-          154,
-          155
+        "cblocksPcOffset": [
+          142,
+          143
         ]
       },
       {
         "teal": 114,
         "source": 35,
-        "pc": [
-          156
+        "cblocksPcOffset": [
+          144
         ]
       },
       {
         "teal": 118,
         "source": 35,
-        "pc": [
+        "cblocksPcOffset": [
+          145,
+          146,
+          147
+        ]
+      },
+      {
+        "teal": 122,
+        "source": 36,
+        "cblocksPcOffset": [
+          148,
+          149
+        ]
+      },
+      {
+        "teal": 123,
+        "source": 36,
+        "cblocksPcOffset": [
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
           157,
           158,
           159
         ]
       },
       {
-        "teal": 122,
-        "source": 36,
-        "pc": [
-          160,
-          161
-        ]
-      },
-      {
-        "teal": 123,
-        "source": 36,
-        "pc": [
-          162,
-          163,
-          164,
-          165,
-          166,
-          167,
-          168,
-          169,
-          170,
-          171
-        ]
-      },
-      {
         "teal": 124,
         "source": 36,
-        "pc": [
-          172
+        "cblocksPcOffset": [
+          160
         ]
       },
       {
         "teal": 125,
         "source": 36,
-        "pc": [
-          173
+        "cblocksPcOffset": [
+          161
         ]
       },
       {
         "teal": 129,
         "source": 37,
-        "pc": [
-          174,
-          175
+        "cblocksPcOffset": [
+          162,
+          163
         ]
       },
       {
         "teal": 130,
         "source": 37,
-        "pc": [
-          176,
-          177,
-          178,
-          179,
-          180,
-          181
+        "cblocksPcOffset": [
+          164,
+          165,
+          166,
+          167,
+          168,
+          169
         ]
       },
       {
         "teal": 131,
         "source": 37,
-        "pc": [
-          182,
-          183,
-          184,
-          185,
-          186,
-          187,
-          188
+        "cblocksPcOffset": [
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176
         ]
       },
       {
         "teal": 132,
         "source": 37,
-        "pc": [
-          189
+        "cblocksPcOffset": [
+          177
         ]
       },
       {
         "teal": 136,
         "source": 38,
-        "pc": [
-          190,
-          191,
-          192,
-          193,
-          194,
-          195,
-          196,
-          197
+        "cblocksPcOffset": [
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185
         ]
       },
       {
         "teal": 137,
         "source": 38,
-        "pc": [
-          198
+        "cblocksPcOffset": [
+          186
         ]
       },
       {
         "teal": 138,
         "source": 38,
-        "pc": [
-          199
+        "cblocksPcOffset": [
+          187
         ]
       },
       {
         "teal": 139,
         "source": 38,
-        "pc": [
-          200
+        "cblocksPcOffset": [
+          188
         ]
       },
       {
         "teal": 140,
         "source": 38,
-        "pc": [
+        "cblocksPcOffset": [
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195
+        ]
+      },
+      {
+        "teal": 141,
+        "source": 38,
+        "cblocksPcOffset": [
+          196
+        ]
+      },
+      {
+        "teal": 145,
+        "source": 39,
+        "cblocksPcOffset": [
+          197,
+          198,
+          199,
+          200,
           201,
           202,
           203,
           204,
           205,
           206,
-          207
-        ]
-      },
-      {
-        "teal": 141,
-        "source": 38,
-        "pc": [
-          208
-        ]
-      },
-      {
-        "teal": 145,
-        "source": 39,
-        "pc": [
+          207,
+          208,
           209,
           210,
           211,
@@ -861,7 +854,13 @@
           228,
           229,
           230,
-          231,
+          231
+        ]
+      },
+      {
+        "teal": 146,
+        "source": 39,
+        "cblocksPcOffset": [
           232,
           233,
           234,
@@ -873,177 +872,159 @@
           240,
           241,
           242,
-          243
-        ]
-      },
-      {
-        "teal": 146,
-        "source": 39,
-        "pc": [
+          243,
           244,
           245,
           246,
           247,
           248,
-          249,
-          250,
-          251,
-          252,
-          253,
-          254,
-          255,
-          256,
-          257,
-          258,
-          259,
-          260,
-          261
+          249
         ]
       },
       {
         "teal": 147,
         "source": 39,
-        "pc": [
-          262
+        "cblocksPcOffset": [
+          250
         ]
       },
       {
         "teal": 148,
         "source": 35,
-        "pc": [
-          263
+        "cblocksPcOffset": [
+          251
         ]
       },
       {
         "teal": 151,
         "source": 6,
-        "pc": [
-          264,
-          265
+        "cblocksPcOffset": [
+          252,
+          253
         ]
       },
       {
         "teal": 152,
         "source": 6,
-        "pc": [
-          266
+        "cblocksPcOffset": [
+          254
         ]
       },
       {
         "teal": 155,
         "source": 6,
-        "pc": [
-          267,
-          268,
-          269,
-          270,
-          271,
-          272
+        "cblocksPcOffset": [
+          255,
+          256,
+          257,
+          258,
+          259,
+          260
         ]
       },
       {
         "teal": 156,
         "source": 6,
-        "pc": [
-          273,
-          274,
-          275
+        "cblocksPcOffset": [
+          261,
+          262,
+          263
         ]
       },
       {
         "teal": 157,
         "source": 6,
-        "pc": [
-          276,
-          277,
-          278,
-          279
+        "cblocksPcOffset": [
+          264,
+          265,
+          266,
+          267
         ]
       },
       {
         "teal": 160,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-        "pc": [
-          280
+        "cblocksPcOffset": [
+          268
         ]
       },
       {
         "teal": 163,
         "source": 6,
-        "pc": [
-          281,
-          282,
-          283,
-          284,
-          285,
-          286
+        "cblocksPcOffset": [
+          269,
+          270,
+          271,
+          272,
+          273,
+          274
         ]
       },
       {
         "teal": 164,
         "source": 6,
-        "pc": [
-          287,
-          288,
-          289
+        "cblocksPcOffset": [
+          275,
+          276,
+          277
         ]
       },
       {
         "teal": 165,
         "source": 6,
-        "pc": [
-          290,
-          291,
-          292,
-          293
+        "cblocksPcOffset": [
+          278,
+          279,
+          280,
+          281
         ]
       },
       {
         "teal": 168,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for call NoOp",
-        "pc": [
-          294
+        "cblocksPcOffset": [
+          282
         ]
       },
       {
         "teal": 171,
         "source": 6,
-        "pc": [
-          295,
-          296,
-          297,
-          298,
-          299,
-          300
+        "cblocksPcOffset": [
+          283,
+          284,
+          285,
+          286,
+          287,
+          288
         ]
       },
       {
         "teal": 172,
         "source": 6,
-        "pc": [
-          301,
-          302,
-          303
+        "cblocksPcOffset": [
+          289,
+          290,
+          291
         ]
       },
       {
         "teal": 173,
         "source": 6,
-        "pc": [
-          304,
-          305,
-          306,
-          307
+        "cblocksPcOffset": [
+          292,
+          293,
+          294,
+          295
         ]
       },
       {
         "teal": 176,
         "source": 6,
         "errorMessage": "this contract does not implement the given ABI method for call OptIn",
-        "pc": [
-          308
+        "cblocksPcOffset": [
+          296
         ]
       }
     ],

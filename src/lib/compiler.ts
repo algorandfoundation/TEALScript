@@ -7499,11 +7499,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
             if (tVar === undefined) return arg;
 
-            if (isNumeric(tVar.type)) {
-              return 0;
-            }
-
-            if (this.isDynamicType(tVar.type)) {
+            if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
               if (program === 'lsig' || program === 'approval') {
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
@@ -7514,7 +7510,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
                 this.hasDynamicTemplateVar = true;
               }
 
-              return '0x';
+              return isNumeric(tVar.type) ? '0' : '0x';
             }
 
             return `0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
@@ -7600,17 +7596,21 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       addrLine.teal += ` ${json.hash}`;
     }
 
-    let lasteBytecblockPc = 0;
-    let bytecblockLine = 0;
+    let lastCblockPc = 0;
+    let lastCblockLine = 0;
+
     if (this.hasDynamicTemplateVar) {
-      bytecblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('bytecblock'));
-      lasteBytecblockPc = this.lineToPc[bytecblockLine].at(-1)!;
+      const bytecblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('bytecblock'));
+      const intcblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('intcblock'));
+      lastCblockLine = Math.max(bytecblockLine, intcblockLine);
+
+      lastCblockPc = this.lineToPc[lastCblockLine].at(-1)!;
     }
     this.sourceInfo.forEach((sm) => {
       if (this.hasDynamicTemplateVar) {
-        if (sm.teal - 1 <= bytecblockLine) return;
+        if (sm.teal - 1 <= lastCblockLine) return;
         // eslint-disable-next-line no-param-reassign
-        sm.cblocksPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lasteBytecblockPc);
+        sm.cblocksPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
         return;
       }
       // eslint-disable-next-line no-param-reassign
