@@ -536,7 +536,7 @@ export default class Compiler {
   sourceInfo: {
     source: number;
     teal: number;
-    bytecblockPcOffset?: number[];
+    cblocksPcOffset?: number[];
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -7610,7 +7610,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       if (this.hasDynamicTemplateVar) {
         if (sm.teal - 1 <= bytecblockLine) return;
         // eslint-disable-next-line no-param-reassign
-        sm.bytecblockPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lasteBytecblockPc);
+        sm.cblocksPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lasteBytecblockPc);
         return;
       }
       // eslint-disable-next-line no-param-reassign
