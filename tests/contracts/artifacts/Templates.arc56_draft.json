@@ -29,6 +29,19 @@
       }
     },
     {
+      "name": "throwError",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
@@ -337,117 +350,179 @@
         ]
       },
       {
-        "teal": 75,
-        "source": 24,
+        "teal": 77,
+        "source": 42,
         "cblocksPcOffset": [
           69,
-          70
-        ]
-      },
-      {
-        "teal": 76,
-        "source": 24,
-        "cblocksPcOffset": [
+          70,
           71
         ]
       },
       {
-        "teal": 79,
-        "source": 24,
+        "teal": 78,
+        "source": 42,
         "cblocksPcOffset": [
           72,
-          73,
-          74,
+          73
+        ]
+      },
+      {
+        "teal": 79,
+        "source": 42,
+        "cblocksPcOffset": [
+          74
+        ]
+      },
+      {
+        "teal": 83,
+        "source": 42,
+        "cblocksPcOffset": [
           75,
           76,
           77
         ]
       },
       {
-        "teal": 80,
-        "source": 24,
+        "teal": 86,
+        "source": 43,
+        "errorMessage": "this is an error",
         "cblocksPcOffset": [
-          78,
-          79,
-          80
-        ]
-      },
-      {
-        "teal": 81,
-        "source": 24,
-        "cblocksPcOffset": [
-          81,
-          82,
-          83,
-          84
-        ]
-      },
-      {
-        "teal": 84,
-        "source": 24,
-        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-        "cblocksPcOffset": [
-          85
+          78
         ]
       },
       {
         "teal": 87,
-        "source": 24,
+        "source": 42,
         "cblocksPcOffset": [
-          86,
-          87,
-          88,
-          89,
-          90,
-          91
-        ]
-      },
-      {
-        "teal": 88,
-        "source": 24,
-        "cblocksPcOffset": [
-          92,
-          93,
-          94,
-          95,
-          96,
-          97
-        ]
-      },
-      {
-        "teal": 89,
-        "source": 24,
-        "cblocksPcOffset": [
-          98,
-          99,
-          100
+          79
         ]
       },
       {
         "teal": 90,
         "source": 24,
         "cblocksPcOffset": [
-          101,
-          102,
-          103,
-          104,
-          105,
-          106
+          80,
+          81
         ]
       },
       {
-        "teal": 93,
+        "teal": 91,
+        "source": 24,
+        "cblocksPcOffset": [
+          82
+        ]
+      },
+      {
+        "teal": 94,
+        "source": 24,
+        "cblocksPcOffset": [
+          83,
+          84,
+          85,
+          86,
+          87,
+          88
+        ]
+      },
+      {
+        "teal": 95,
+        "source": 24,
+        "cblocksPcOffset": [
+          89,
+          90,
+          91
+        ]
+      },
+      {
+        "teal": 96,
+        "source": 24,
+        "cblocksPcOffset": [
+          92,
+          93,
+          94,
+          95
+        ]
+      },
+      {
+        "teal": 99,
+        "source": 24,
+        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+        "cblocksPcOffset": [
+          96
+        ]
+      },
+      {
+        "teal": 102,
+        "source": 24,
+        "cblocksPcOffset": [
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ]
+      },
+      {
+        "teal": 103,
+        "source": 24,
+        "cblocksPcOffset": [
+          103,
+          104,
+          105,
+          106,
+          107,
+          108
+        ]
+      },
+      {
+        "teal": 104,
+        "source": 24,
+        "cblocksPcOffset": [
+          109,
+          110,
+          111,
+          112,
+          113,
+          114
+        ]
+      },
+      {
+        "teal": 105,
+        "source": 24,
+        "cblocksPcOffset": [
+          115,
+          116,
+          117
+        ]
+      },
+      {
+        "teal": 106,
+        "source": 24,
+        "cblocksPcOffset": [
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125
+        ]
+      },
+      {
+        "teal": 109,
         "source": 24,
         "errorMessage": "this contract does not implement the given ABI method for call NoOp",
         "cblocksPcOffset": [
-          107
+          126
         ]
       }
     ],
     "clear": []
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3VpbnQ2NFRtcGxWYXIKYnl0ZWNibG9jayBUTVBMX2J5dGVzNjRUbXBsVmFyIFRNUExfYnl0ZXMzMlRtcGxWYXIgVE1QTF9ieXRlc1RtcGxWYXIKCi8vIFRoaXMgVEVBTCB3YXMgZ2VuZXJhdGVkIGJ5IFRFQUxTY3JpcHQgdjAuMTAyLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgbGluZXMgb2YgVEVBTCBhcmUgdXNlZCB0byBpbml0aWFsaXplIHRlbXBsYXRlIHZhcmlhYmxlcyBpbiBzY3JhdGNoIHNsb3RzCmJ5dGVjIDAgLy8gVE1QTF9ieXRlczY0VG1wbFZhcgpieXRlYyAxIC8vIFRNUExfYnl0ZXMzMlRtcGxWYXIKaW50YyAwIC8vIFRNUExfdWludDY0VG1wbFZhcgpieXRlYyAyIC8vIFRNUExfYnl0ZXNUbXBsVmFyCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gdG1wbCgpdm9pZAoqYWJpX3JvdXRlX3RtcGw6CgkvLyBleGVjdXRlIHRtcGwoKXZvaWQKCWNhbGxzdWIgdG1wbAoJcHVzaGludCAxCglyZXR1cm4KCi8vIHRtcGwoKTogdm9pZAp0bXBsOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czozNAoJLy8gbG9nKHRoaXMuYnl0ZXNUbXBsVmFyKQoJYnl0ZWMgMiAvLyBUTVBMX2J5dGVzVG1wbFZhcgoJbG9nCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czozNQoJLy8gYXNzZXJ0KHRoaXMudWludDY0VG1wbFZhcikKCWludGMgMCAvLyBUTVBMX3VpbnQ2NFRtcGxWYXIKCWFzc2VydAoJcmV0c3ViCgovLyBzcGVjaWZpY0xlbmd0aFRlbXBsYXRlVmFyKCl2b2lkCiphYmlfcm91dGVfc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcjoKCS8vIGV4ZWN1dGUgc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcigpdm9pZAoJY2FsbHN1YiBzcGVjaWZpY0xlbmd0aFRlbXBsYXRlVmFyCglwdXNoaW50IDEKCXJldHVybgoKLy8gc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcigpOiB2b2lkCnNwZWNpZmljTGVuZ3RoVGVtcGxhdGVWYXI6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvZ2VuZXJhbC5hbGdvLnRzOjM5CgkvLyBlZDI1NTE5VmVyaWZ5QmFyZSh0aGlzLmJ5dGVzVG1wbFZhciwgdGhpcy5ieXRlczY0VG1wbFZhciwgdGhpcy5ieXRlczMyVG1wbFZhcikKCWJ5dGVjIDIgLy8gVE1QTF9ieXRlc1RtcGxWYXIKCWJ5dGVjIDAgLy8gVE1QTF9ieXRlczY0VG1wbFZhcgoJYnl0ZWMgMSAvLyBUTVBMX2J5dGVzMzJUbXBsVmFyCgllZDI1NTE5dmVyaWZ5X2JhcmUKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCXB1c2hpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4OWE3MWQyYjQgLy8gbWV0aG9kICJ0bXBsKCl2b2lkIgoJcHVzaGJ5dGVzIDB4ZGY0ZDVjM2IgLy8gbWV0aG9kICJzcGVjaWZpY0xlbmd0aFRlbXBsYXRlVmFyKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV90bXBsICphYmlfcm91dGVfc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3VpbnQ2NFRtcGxWYXIKYnl0ZWNibG9jayBUTVBMX2J5dGVzNjRUbXBsVmFyIFRNUExfYnl0ZXMzMlRtcGxWYXIgVE1QTF9ieXRlc1RtcGxWYXIKCi8vIFRoaXMgVEVBTCB3YXMgZ2VuZXJhdGVkIGJ5IFRFQUxTY3JpcHQgdjAuMTAyLjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgbGluZXMgb2YgVEVBTCBhcmUgdXNlZCB0byBpbml0aWFsaXplIHRlbXBsYXRlIHZhcmlhYmxlcyBpbiBzY3JhdGNoIHNsb3RzCmJ5dGVjIDAgLy8gVE1QTF9ieXRlczY0VG1wbFZhcgpieXRlYyAxIC8vIFRNUExfYnl0ZXMzMlRtcGxWYXIKaW50YyAwIC8vIFRNUExfdWludDY0VG1wbFZhcgpieXRlYyAyIC8vIFRNUExfYnl0ZXNUbXBsVmFyCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gdG1wbCgpdm9pZAoqYWJpX3JvdXRlX3RtcGw6CgkvLyBleGVjdXRlIHRtcGwoKXZvaWQKCWNhbGxzdWIgdG1wbAoJcHVzaGludCAxCglyZXR1cm4KCi8vIHRtcGwoKTogdm9pZAp0bXBsOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czozNAoJLy8gbG9nKHRoaXMuYnl0ZXNUbXBsVmFyKQoJYnl0ZWMgMiAvLyBUTVBMX2J5dGVzVG1wbFZhcgoJbG9nCgoJLy8gdGVzdHMvY29udHJhY3RzL2dlbmVyYWwuYWxnby50czozNQoJLy8gYXNzZXJ0KHRoaXMudWludDY0VG1wbFZhcikKCWludGMgMCAvLyBUTVBMX3VpbnQ2NFRtcGxWYXIKCWFzc2VydAoJcmV0c3ViCgovLyBzcGVjaWZpY0xlbmd0aFRlbXBsYXRlVmFyKCl2b2lkCiphYmlfcm91dGVfc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcjoKCS8vIGV4ZWN1dGUgc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcigpdm9pZAoJY2FsbHN1YiBzcGVjaWZpY0xlbmd0aFRlbXBsYXRlVmFyCglwdXNoaW50IDEKCXJldHVybgoKLy8gc3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcigpOiB2b2lkCnNwZWNpZmljTGVuZ3RoVGVtcGxhdGVWYXI6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvZ2VuZXJhbC5hbGdvLnRzOjM5CgkvLyBlZDI1NTE5VmVyaWZ5QmFyZSh0aGlzLmJ5dGVzVG1wbFZhciwgdGhpcy5ieXRlczY0VG1wbFZhciwgdGhpcy5ieXRlczMyVG1wbFZhcikKCWJ5dGVjIDIgLy8gVE1QTF9ieXRlc1RtcGxWYXIKCWJ5dGVjIDAgLy8gVE1QTF9ieXRlczY0VG1wbFZhcgoJYnl0ZWMgMSAvLyBUTVBMX2J5dGVzMzJUbXBsVmFyCgllZDI1NTE5dmVyaWZ5X2JhcmUKCXJldHN1YgoKLy8gdGhyb3dFcnJvcigpdm9pZAoqYWJpX3JvdXRlX3Rocm93RXJyb3I6CgkvLyBleGVjdXRlIHRocm93RXJyb3IoKXZvaWQKCWNhbGxzdWIgdGhyb3dFcnJvcgoJcHVzaGludCAxCglyZXR1cm4KCi8vIHRocm93RXJyb3IoKTogdm9pZAp0aHJvd0Vycm9yOgoJcHJvdG8gMCAwCgoJLy8gdGhpcyBpcyBhbiBlcnJvcgoJZXJyCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglwdXNoaW50IDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDlhNzFkMmI0IC8vIG1ldGhvZCAidG1wbCgpdm9pZCIKCXB1c2hieXRlcyAweGRmNGQ1YzNiIC8vIG1ldGhvZCAic3BlY2lmaWNMZW5ndGhUZW1wbGF0ZVZhcigpdm9pZCIKCXB1c2hieXRlcyAweDNkODcwZDg3IC8vIG1ldGhvZCAidGhyb3dFcnJvcigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfdG1wbCAqYWJpX3JvdXRlX3NwZWNpZmljTGVuZ3RoVGVtcGxhdGVWYXIgKmFiaV9yb3V0ZV90aHJvd0Vycm9yCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "templateVariables": {

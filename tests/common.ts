@@ -88,7 +88,9 @@ export async function compileAndCreate(
   sender: algosdk.Account,
   sourcePath: string,
   artifactsPath: string,
-  className: string
+  className: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  deployTimeParams?: Record<string, any>
 ): Promise<{
   appClient: ApplicationClient;
   appId: number | bigint;
@@ -129,6 +131,7 @@ export async function compileAndCreate(
     method: 'createApplication',
     methodArgs: [],
     sendParams: { suppressLog: true },
+    deployTimeParams,
   });
 
   return { appClient, appId, compiler };
