@@ -3,6 +3,18 @@
   "desc": "",
   "methods": [
     {
+      "name": "customStructMethod",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)"
+      }
+    },
+    {
       "name": "foo",
       "args": [
         {
@@ -19,6 +31,18 @@
       "args": [],
       "returns": {
         "type": "void"
+      }
+    },
+    {
+      "name": "customType",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)"
       }
     },
     {

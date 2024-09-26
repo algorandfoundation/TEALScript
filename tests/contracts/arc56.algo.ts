@@ -1,9 +1,10 @@
 import { Contract } from '../../src/lib';
+import { CustomStruct as CustomStructAsName, ContractWithCustomStruct } from './inheritance-external.algo';
 
 type Inputs = { add: { a: uint64; b: uint64 }; subtract: { a: uint64; b: uint64 } };
 type Outputs = { sum: uint64; difference: uint64 };
 
-export class ARC56Test extends Contract {
+export class ARC56Test extends ContractWithCustomStruct {
   globalKey = GlobalStateKey<uint64>();
 
   globalMap = GlobalStateMap<string, { foo: uint16; bar: uint16 }>({ maxKeys: 37, prefix: 'p' });
@@ -37,6 +38,10 @@ export class ARC56Test extends Contract {
     this.localMap(this.txn.sender, 'foo').value = 'bar';
     this.boxKey.value = 'baz';
     this.boxMap({ add: { a: 1, b: 2 }, subtract: { a: 4, b: 3 } }).value = { sum: 3, difference: 1 };
+  }
+
+  customType(input: CustomStructAsName): CustomStructAsName {
+    return input;
   }
 }
 

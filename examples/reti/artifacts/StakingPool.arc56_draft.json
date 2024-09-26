@@ -162,7 +162,7 @@
       "returns": {
         "type": "(address,uint64,uint64,uint64,uint64)",
         "desc": "StakedInfo - The staked information for the given staker.",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/stakingPool.algo\").StakedInfo"
+        "struct": "StakedInfo"
       },
       "actions": {
         "create": [],
@@ -329,12 +329,12 @@
           "name": "poolKey",
           "type": "(uint64,uint64,uint64)",
           "desc": "ValidatorPoolKey tuple",
-          "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+          "struct": "ValidatorPoolKey"
         }
       ],
       "returns": {
         "type": "(uint64[24],uint64)",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").PoolTokenPayoutRatio"
+        "struct": "PoolTokenPayoutRatio"
       },
       "actions": {
         "create": [],
@@ -349,7 +349,7 @@
     56
   ],
   "structs": {
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/stakingPool.algo\").StakedInfo": [
+    "StakedInfo": [
       {
         "name": "account",
         "type": "address"
@@ -371,7 +371,7 @@
         "type": "uint64"
       }
     ],
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").PoolTokenPayoutRatio": [
+    "PoolTokenPayoutRatio": [
       {
         "name": "poolPctOfWhole",
         "type": "uint64[24]"
@@ -381,7 +381,7 @@
         "type": "uint64"
       }
     ],
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey": [
+    "ValidatorPoolKey": [
       {
         "name": "id",
         "type": "uint64"
