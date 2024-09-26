@@ -149,7 +149,7 @@
       ],
       "returns": {
         "type": "(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorConfig"
+        "struct": "ValidatorConfig"
       },
       "actions": {
         "create": [],
@@ -243,7 +243,7 @@
         {
           "name": "poolKey",
           "type": "(uint64,uint64,uint64)",
-          "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+          "struct": "ValidatorPoolKey"
         }
       ],
       "returns": {
@@ -328,7 +328,7 @@
       ],
       "returns": {
         "type": "(uint64[24],uint64)",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").PoolTokenPayoutRatio"
+        "struct": "PoolTokenPayoutRatio"
       },
       "actions": {
         "create": [],
@@ -387,7 +387,7 @@
           "name": "config",
           "type": "(uint64,address,address,uint64,uint8,address,uint64[4],uint64,uint64,uint64,uint32,uint32,address,uint64,uint64,uint8,uint64,uint64)",
           "desc": "ValidatorConfig struct",
-          "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorConfig"
+          "struct": "ValidatorConfig"
         }
       ],
       "returns": {
@@ -571,7 +571,7 @@
       "returns": {
         "type": "(uint64,uint64,uint64)",
         "desc": "ValidatorPoolKey pool key to created pool",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+        "struct": "ValidatorPoolKey"
       },
       "actions": {
         "create": [],
@@ -603,7 +603,7 @@
       "returns": {
         "type": "(uint64,uint64,uint64)",
         "desc": "ValidatorPoolKey - The key of the validator pool.",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+        "struct": "ValidatorPoolKey"
       },
       "actions": {
         "create": [],
@@ -625,7 +625,7 @@
       "returns": {
         "type": "(uint64[24],uint64)",
         "desc": "PoolTokenPayoutRatio - the finished ratio data",
-        "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").PoolTokenPayoutRatio"
+        "struct": "PoolTokenPayoutRatio"
       },
       "actions": {
         "create": [],
@@ -642,7 +642,7 @@
           "name": "poolKey",
           "type": "(uint64,uint64,uint64)",
           "desc": "ValidatorPoolKey type",
-          "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+          "struct": "ValidatorPoolKey"
         },
         {
           "name": "algoToAdd",
@@ -683,7 +683,7 @@
           "name": "poolKey",
           "type": "(uint64,uint64,uint64)",
           "desc": "calling us from which stake was removed",
-          "struct": "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey"
+          "struct": "ValidatorPoolKey"
         },
         {
           "name": "staker",
@@ -995,7 +995,7 @@
         "type": "uint64"
       }
     ],
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorConfig": [
+    "ValidatorConfig": [
       {
         "name": "id",
         "type": "uint64"
@@ -1101,7 +1101,7 @@
         "type": "uint64"
       }
     ],
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").ValidatorPoolKey": [
+    "ValidatorPoolKey": [
       {
         "name": "id",
         "type": "uint64"
@@ -1115,7 +1115,7 @@
         "type": "uint64"
       }
     ],
-    "import(\"/Users/joe/git/algorandfoundation/tealscript/examples/reti/validatorRegistry.algo\").PoolTokenPayoutRatio": [
+    "PoolTokenPayoutRatio": [
       {
         "name": "poolPctOfWhole",
         "type": "uint64[24]"
