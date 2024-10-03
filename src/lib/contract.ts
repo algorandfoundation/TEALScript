@@ -54,6 +54,8 @@ export default abstract class Contract {
 
   static clearProgram: () => bytes;
 
+  static approvalProgramPages: () => bytes[];
+
   static schema: {
     global: {
       numUint: number;
