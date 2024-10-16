@@ -614,26 +614,26 @@
       "global": {
         "globalKey": {
           "key": "Zm9v",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         }
       },
       "local": {
         "localKey": {
           "key": "Zm9v",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         }
       },
       "box": {
         "largeStaticArrayInBox": {
           "key": "bGFyZ2VTdGF0aWNBcnJheUluQm94",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint16[4000]"
         },
         "boxKey": {
           "key": "Zm9v",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         }
       }
@@ -641,34 +641,34 @@
     "maps": {
       "global": {
         "globalMap": {
-          "keyType": "bytes",
-          "valueType": "bytes"
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes"
         },
         "globalMapWithPrefix": {
-          "keyType": "bytes",
-          "valueType": "bytes",
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes",
           "prefix": "f"
         }
       },
       "local": {
         "localMap": {
-          "keyType": "bytes",
-          "valueType": "bytes"
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes"
         },
         "localMapWithPrefix": {
-          "keyType": "bytes",
-          "valueType": "bytes",
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes",
           "prefix": "f"
         }
       },
       "box": {
         "boxMap": {
-          "keyType": "bytes",
-          "valueType": "bytes"
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes"
         },
         "boxMapWithPrefix": {
-          "keyType": "bytes",
-          "valueType": "bytes",
+          "keyType": "AVMBytes",
+          "valueType": "AVMBytes",
           "prefix": "f"
         }
       }

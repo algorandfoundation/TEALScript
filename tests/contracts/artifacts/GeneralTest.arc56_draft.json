@@ -1086,12 +1086,12 @@
       "global": {
         "gKey": {
           "key": "Z0tleQ==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "storageArray": {
           "key": "c3RvcmFnZUFycmF5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       },
@@ -1099,12 +1099,12 @@
       "box": {
         "pageOne": {
           "key": "cGFnZU9uZQ==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         },
         "pageTwo": {
           "key": "cGFnZVR3bw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         }
       }

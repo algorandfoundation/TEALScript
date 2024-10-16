@@ -411,72 +411,72 @@
       "global": {
         "creatingValidatorContractAppId": {
           "key": "Y3JlYXRvckFwcA==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "validatorId": {
           "key": "dmFsaWRhdG9ySWQ=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "poolId": {
           "key": "cG9vbElk",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "numStakers": {
           "key": "bnVtU3Rha2Vycw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "totalAlgoStaked": {
           "key": "c3Rha2Vk",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "minEntryStake": {
           "key": "bWluRW50cnlTdGFrZQ==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "lastPayout": {
           "key": "bGFzdFBheW91dA==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "epochNumber": {
           "key": "ZXBvY2hOdW1iZXI=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "algodVer": {
           "key": "YWxnb2RWZXI=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         },
         "roundsPerDay": {
           "key": "cm91bmRzUGVyRGF5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "binRoundStart": {
           "key": "YmluUm91bmRTdGFydA==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "stakeAccumulator": {
           "key": "c3Rha2VBY2N1bXVsYXRvcg==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint128"
         },
         "rewardAccumulator": {
           "key": "cmV3YXJkQWNjdW11bGF0b3I=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "weightedMovingAverage": {
           "key": "ZXdtYQ==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint128"
         }
       },
@@ -484,7 +484,7 @@
       "box": {
         "stakers": {
           "key": "c3Rha2Vycw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "(address,uint64,uint64,uint64,uint64)[200]"
         }
       }

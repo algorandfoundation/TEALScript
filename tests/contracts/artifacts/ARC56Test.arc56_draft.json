@@ -170,21 +170,21 @@
       "global": {
         "globalKey": {
           "key": "Z2xvYmFsS2V5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
       "local": {
         "localKey": {
           "key": "bG9jYWxLZXk=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
       "box": {
         "boxKey": {
           "key": "Ym94S2V5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "string"
         }
       }
@@ -199,7 +199,7 @@
       },
       "local": {
         "localMap": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "string",
           "prefix": "p"
         }
