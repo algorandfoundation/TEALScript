@@ -12,3 +12,12 @@ export class ExternalContract extends Contract {
     return this.externalKey.value;
   }
 }
+
+export type CustomStruct = { a: uint64 };
+export type AnotherCustomStruct = { b: uint64 };
+
+export class ContractWithCustomStruct extends Contract {
+  customStructMethod(input: AnotherCustomStruct): AnotherCustomStruct {
+    return input;
+  }
+}
