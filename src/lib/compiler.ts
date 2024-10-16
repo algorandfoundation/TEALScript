@@ -7718,12 +7718,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       if (sp.key) {
         state.keys[sp.type][sp.name] = {
           key: Buffer.from(sp.key).toString('base64'),
-          keyType: 'bytes',
+          keyType: 'AVMBytes',
           valueType: typeInfoToABIString(sp.valueType),
         };
       } else {
-        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
-        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
+        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'AVMBytes' : typeInfoToABIString(sp.keyType);
+        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'AVMBytes' : typeInfoToABIString(sp.valueType);
 
         const typeArgs = sp.initNode.getTypeArguments();
 

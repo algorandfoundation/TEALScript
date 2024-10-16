@@ -49,21 +49,21 @@
       "global": {
         "gRef": {
           "key": "Z1JlZg==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       },
       "local": {
         "lRef": {
           "key": "bFJlZg==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       },
       "box": {
         "bRef": {
           "key": "YlJlZg==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       }
@@ -71,19 +71,19 @@
     "maps": {
       "global": {
         "gMap": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       },
       "local": {
         "lMap": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       },
       "box": {
         "bMap": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64[3]"
         }
       }

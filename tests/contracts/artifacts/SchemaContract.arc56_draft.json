@@ -45,7 +45,7 @@
         },
         "globalBytes": {
           "keyType": "uint16",
-          "valueType": "bytes"
+          "valueType": "AVMBytes"
         }
       },
       "local": {
@@ -55,7 +55,7 @@
         },
         "localBytes": {
           "keyType": "uint16",
-          "valueType": "bytes"
+          "valueType": "AVMBytes"
         }
       },
       "box": {}

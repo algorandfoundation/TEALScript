@@ -349,12 +349,12 @@
       "global": {
         "admin": {
           "key": "YQ==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "address"
         },
         "controlledAddress": {
           "key": "Yw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "address"
         }
       },
@@ -371,7 +371,7 @@
           "prefix": "p"
         },
         "namedPlugins": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "PluginsKey",
           "prefix": "n"
         }

@@ -1147,22 +1147,22 @@
       "global": {
         "stakingPoolInitialized": {
           "key": "aW5pdA==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "bool"
         },
         "numValidators": {
           "key": "bnVtVg==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "numStakers": {
           "key": "bnVtU3Rha2Vycw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         },
         "totalAlgoStaked": {
           "key": "c3Rha2Vk",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
@@ -1170,7 +1170,7 @@
       "box": {
         "stakingPoolApprovalProgram": {
           "key": "cG9vbFRlbXBsYXRlQXBwcm92YWxCeXRlcw==",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "byte[]"
         }
       }

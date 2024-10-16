@@ -150,7 +150,7 @@
       "global": {
         "currentIndex": {
           "key": "Y3VycmVudEluZGV4",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
@@ -163,10 +163,10 @@
       "box": {
         "dataBoxes": {
           "keyType": "uint64",
-          "valueType": "bytes"
+          "valueType": "AVMBytes"
         },
         "metadata": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "Metadata"
         }
       }
