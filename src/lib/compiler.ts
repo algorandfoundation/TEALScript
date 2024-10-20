@@ -7695,12 +7695,12 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       if (sp.key) {
         state.keys[sp.type][sp.name] = {
           key: Buffer.from(sp.key).toString('base64'),
-          keyType: 'bytes',
-          valueType: typeInfoToABIString(sp.valueType),
+          keyType: 'AVMBytes',
+          valueType: equalTypes(sp.valueType, StackType.bytes) ? 'AVMBytes' : typeInfoToABIString(sp.valueType),
         };
       } else {
-        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.keyType);
-        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'bytes' : typeInfoToABIString(sp.valueType);
+        let keyType = equalTypes(sp.keyType, StackType.bytes) ? 'AVMBytes' : typeInfoToABIString(sp.keyType);
+        let valueType = equalTypes(sp.valueType, StackType.bytes) ? 'AVMBytes' : typeInfoToABIString(sp.valueType);
 
         const typeArgs = sp.initNode.getTypeArguments();
 
@@ -7741,7 +7741,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         const returnTypeInfo = this.getTypeInfo(subroutine.node.getReturnType());
 
         if (returnTypeInfo.kind === 'object') {
-          const structName = subroutine.node.getReturnType().getText();
+          const returnTypeNode =
+            subroutine.node.getChildrenOfKind(ts.SyntaxKind.TypeReference)?.[0] || subroutine.node.getReturnType();
+          const structName = returnTypeNode?.getText();
+
           // eslint-disable-next-line no-param-reassign
           m.returns.struct = structName;
           if (!arc56.structs[structName]) {
@@ -7755,7 +7758,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
           const typeInfo = this.getTypeInfo(p.getType());
 
           if (typeInfo.kind === 'object') {
-            const structName = p.getType().getText();
+            const structName = (p.getChildrenOfKind(ts.SyntaxKind.TypeReference)?.[0] || p.getType()).getText();
             arg.struct = structName;
             if (!arc56.structs[structName]) {
               arc56.structs[structName] = objectToStructFields(typeInfo);

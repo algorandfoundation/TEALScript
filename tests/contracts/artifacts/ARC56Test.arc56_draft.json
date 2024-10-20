@@ -3,6 +3,26 @@
   "desc": "",
   "methods": [
     {
+      "name": "customStructMethod",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)",
+          "struct": "AnotherCustomStruct"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)",
+        "struct": "AnotherCustomStruct"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
       "name": "foo",
       "args": [
         {
@@ -32,6 +52,26 @@
         "create": [],
         "call": [
           "OptIn"
+        ]
+      }
+    },
+    {
+      "name": "customType",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)",
+          "struct": "CustomStructAsName"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)",
+        "struct": "CustomStructAsName"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
         ]
       }
     },
@@ -101,6 +141,18 @@
           }
         ]
       }
+    ],
+    "AnotherCustomStruct": [
+      {
+        "name": "b",
+        "type": "uint64"
+      }
+    ],
+    "CustomStructAsName": [
+      {
+        "name": "a",
+        "type": "uint64"
+      }
     ]
   },
   "state": {
@@ -118,21 +170,21 @@
       "global": {
         "globalKey": {
           "key": "Z2xvYmFsS2V5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
       "local": {
         "localKey": {
           "key": "bG9jYWxLZXk=",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "uint64"
         }
       },
       "box": {
         "boxKey": {
           "key": "Ym94S2V5",
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "string"
         }
       }
@@ -147,7 +199,7 @@
       },
       "local": {
         "localMap": {
-          "keyType": "bytes",
+          "keyType": "AVMBytes",
           "valueType": "string",
           "prefix": "p"
         }
@@ -169,26 +221,26 @@
     "approval": [
       {
         "teal": 1,
-        "source": 6
+        "source": 7
       },
       {
         "teal": 2,
-        "source": 6
+        "source": 7
       },
       {
         "teal": 3,
-        "source": 6
+        "source": 7
       },
       {
         "teal": 11,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           1
         ]
       },
       {
         "teal": 18,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           2,
           3
@@ -196,14 +248,14 @@
       },
       {
         "teal": 19,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           4
         ]
       },
       {
         "teal": 20,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           5,
           6
@@ -211,14 +263,14 @@
       },
       {
         "teal": 21,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           7
         ]
       },
       {
         "teal": 22,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           8,
           9
@@ -226,14 +278,14 @@
       },
       {
         "teal": 23,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           10
         ]
       },
       {
         "teal": 24,
-        "source": 6,
+        "source": 7,
         "cblocksPcOffset": [
           11,
           12,
@@ -265,7 +317,7 @@
       },
       {
         "teal": 28,
-        "source": 6,
+        "source": 7,
         "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
         "cblocksPcOffset": [
           37
@@ -273,7 +325,7 @@
       },
       {
         "teal": 33,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           38,
           39,
@@ -285,7 +337,7 @@
       },
       {
         "teal": 36,
-        "source": 23,
+        "source": 14,
         "cblocksPcOffset": [
           44,
           45,
@@ -294,21 +346,21 @@
       },
       {
         "teal": 37,
-        "source": 23,
+        "source": 14,
         "cblocksPcOffset": [
           47
         ]
       },
       {
         "teal": 38,
-        "source": 23,
+        "source": 14,
         "cblocksPcOffset": [
           48
         ]
       },
       {
         "teal": 39,
-        "source": 23,
+        "source": 14,
         "cblocksPcOffset": [
           49,
           50
@@ -316,22 +368,22 @@
       },
       {
         "teal": 40,
-        "source": 23,
+        "source": 14,
         "cblocksPcOffset": [
           51
         ]
       },
       {
         "teal": 43,
-        "source": 23,
-        "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
+        "source": 14,
+        "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)",
         "cblocksPcOffset": [
           52
         ]
       },
       {
         "teal": 46,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           53,
           54,
@@ -340,21 +392,21 @@
       },
       {
         "teal": 47,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           56
         ]
       },
       {
         "teal": 48,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           57
         ]
       },
       {
         "teal": 49,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           58,
           59
@@ -362,14 +414,14 @@
       },
       {
         "teal": 50,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           60
         ]
       },
       {
         "teal": 54,
-        "source": 23,
+        "source": 12,
         "cblocksPcOffset": [
           61,
           62,
@@ -377,459 +429,514 @@
         ]
       },
       {
-        "teal": 59,
-        "source": 24,
+        "teal": 58,
+        "source": 16,
         "cblocksPcOffset": [
           64,
           65
         ]
       },
       {
-        "teal": 60,
-        "source": 24,
+        "teal": 59,
+        "source": 12,
         "cblocksPcOffset": [
-          66,
-          67,
-          68
-        ]
-      },
-      {
-        "teal": 61,
-        "source": 24,
-        "cblocksPcOffset": [
-          69
-        ]
-      },
-      {
-        "teal": 62,
-        "source": 24,
-        "cblocksPcOffset": [
-          70,
-          71
-        ]
-      },
-      {
-        "teal": 63,
-        "source": 24,
-        "cblocksPcOffset": [
-          72,
-          73,
-          74
+          66
         ]
       },
       {
         "teal": 64,
         "source": 24,
         "cblocksPcOffset": [
+          67,
+          68,
+          69,
+          70,
+          71,
+          72
+        ]
+      },
+      {
+        "teal": 67,
+        "source": 24,
+        "cblocksPcOffset": [
+          73,
+          74,
           75
         ]
       },
       {
-        "teal": 65,
+        "teal": 68,
         "source": 24,
         "cblocksPcOffset": [
           76
         ]
       },
       {
-        "teal": 66,
+        "teal": 69,
         "source": 24,
         "cblocksPcOffset": [
-          77,
-          78,
-          79
+          77
         ]
       },
       {
         "teal": 70,
         "source": 24,
-        "errorMessage": "subtract.a must be greater than subtract.b",
+        "cblocksPcOffset": [
+          78,
+          79
+        ]
+      },
+      {
+        "teal": 71,
+        "source": 24,
         "cblocksPcOffset": [
           80
         ]
       },
       {
-        "teal": 75,
-        "source": 26,
+        "teal": 74,
+        "source": 24,
+        "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
         "cblocksPcOffset": [
-          81,
-          82,
-          83,
-          84,
-          85,
-          86,
-          87,
-          88,
-          89,
-          90,
-          91
-        ]
-      },
-      {
-        "teal": 76,
-        "source": 26,
-        "cblocksPcOffset": [
-          92
+          81
         ]
       },
       {
         "teal": 77,
-        "source": 26,
+        "source": 24,
         "cblocksPcOffset": [
-          93
+          82,
+          83,
+          84
+        ]
+      },
+      {
+        "teal": 78,
+        "source": 24,
+        "cblocksPcOffset": [
+          85
+        ]
+      },
+      {
+        "teal": 79,
+        "source": 24,
+        "cblocksPcOffset": [
+          86
+        ]
+      },
+      {
+        "teal": 80,
+        "source": 24,
+        "cblocksPcOffset": [
+          87,
+          88
         ]
       },
       {
         "teal": 81,
-        "source": 27,
+        "source": 24,
         "cblocksPcOffset": [
-          94,
-          95,
-          96,
-          97,
-          98,
-          99,
-          100,
-          101
+          89
         ]
       },
       {
-        "teal": 82,
-        "source": 27,
+        "teal": 85,
+        "source": 24,
         "cblocksPcOffset": [
-          102,
-          103,
-          104,
-          105,
-          106,
-          107
-        ]
-      },
-      {
-        "teal": 83,
-        "source": 27,
-        "cblocksPcOffset": [
-          108
+          90,
+          91,
+          92
         ]
       },
       {
         "teal": 90,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          109,
-          110
+          93,
+          94
         ]
       },
       {
         "teal": 91,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          111,
-          112,
-          113
+          95,
+          96,
+          97
         ]
       },
       {
         "teal": 92,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          114
+          98
         ]
       },
       {
         "teal": 93,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          115,
-          116
+          99,
+          100
         ]
       },
       {
         "teal": 94,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          117,
-          118,
-          119
+          101,
+          102,
+          103
         ]
       },
       {
         "teal": 95,
-        "source": 30,
+        "source": 25,
         "cblocksPcOffset": [
-          120
+          104
         ]
       },
       {
         "teal": 96,
-        "source": 30,
+        "source": 25,
+        "cblocksPcOffset": [
+          105
+        ]
+      },
+      {
+        "teal": 97,
+        "source": 25,
+        "cblocksPcOffset": [
+          106,
+          107,
+          108
+        ]
+      },
+      {
+        "teal": 101,
+        "source": 25,
+        "errorMessage": "subtract.a must be greater than subtract.b",
+        "cblocksPcOffset": [
+          109
+        ]
+      },
+      {
+        "teal": 106,
+        "source": 27,
+        "cblocksPcOffset": [
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120
+        ]
+      },
+      {
+        "teal": 107,
+        "source": 27,
         "cblocksPcOffset": [
           121
         ]
       },
       {
-        "teal": 97,
-        "source": 30,
+        "teal": 108,
+        "source": 27,
         "cblocksPcOffset": [
           122
         ]
       },
       {
-        "teal": 98,
-        "source": 31,
+        "teal": 112,
+        "source": 28,
         "cblocksPcOffset": [
           123,
-          124
-        ]
-      },
-      {
-        "teal": 99,
-        "source": 31,
-        "cblocksPcOffset": [
+          124,
           125,
           126,
-          127
-        ]
-      },
-      {
-        "teal": 100,
-        "source": 31,
-        "cblocksPcOffset": [
-          128
-        ]
-      },
-      {
-        "teal": 101,
-        "source": 31,
-        "cblocksPcOffset": [
+          127,
+          128,
           129,
           130
         ]
       },
       {
-        "teal": 102,
-        "source": 31,
+        "teal": 113,
+        "source": 28,
         "cblocksPcOffset": [
           131,
           132,
-          133
-        ]
-      },
-      {
-        "teal": 103,
-        "source": 31,
-        "cblocksPcOffset": [
-          134
-        ]
-      },
-      {
-        "teal": 104,
-        "source": 31,
-        "cblocksPcOffset": [
-          135
-        ]
-      },
-      {
-        "teal": 105,
-        "source": 31,
-        "cblocksPcOffset": [
+          133,
+          134,
+          135,
           136
         ]
       },
       {
-        "teal": 106,
-        "source": 31,
+        "teal": 114,
+        "source": 28,
         "cblocksPcOffset": [
           137
         ]
       },
       {
-        "teal": 107,
-        "source": 23,
+        "teal": 121,
+        "source": 31,
         "cblocksPcOffset": [
-          138
-        ]
-      },
-      {
-        "teal": 112,
-        "source": 35,
-        "cblocksPcOffset": [
-          139,
-          140,
-          141
-        ]
-      },
-      {
-        "teal": 113,
-        "source": 35,
-        "cblocksPcOffset": [
-          142,
-          143
-        ]
-      },
-      {
-        "teal": 114,
-        "source": 35,
-        "cblocksPcOffset": [
-          144
-        ]
-      },
-      {
-        "teal": 118,
-        "source": 35,
-        "cblocksPcOffset": [
-          145,
-          146,
-          147
+          138,
+          139
         ]
       },
       {
         "teal": 122,
-        "source": 36,
+        "source": 31,
         "cblocksPcOffset": [
-          148,
-          149
+          140,
+          141,
+          142
         ]
       },
       {
         "teal": 123,
-        "source": 36,
+        "source": 31,
         "cblocksPcOffset": [
-          150,
-          151,
+          143
+        ]
+      },
+      {
+        "teal": 124,
+        "source": 31,
+        "cblocksPcOffset": [
+          144,
+          145
+        ]
+      },
+      {
+        "teal": 125,
+        "source": 31,
+        "cblocksPcOffset": [
+          146,
+          147,
+          148
+        ]
+      },
+      {
+        "teal": 126,
+        "source": 31,
+        "cblocksPcOffset": [
+          149
+        ]
+      },
+      {
+        "teal": 127,
+        "source": 31,
+        "cblocksPcOffset": [
+          150
+        ]
+      },
+      {
+        "teal": 128,
+        "source": 31,
+        "cblocksPcOffset": [
+          151
+        ]
+      },
+      {
+        "teal": 129,
+        "source": 32,
+        "cblocksPcOffset": [
           152,
-          153,
+          153
+        ]
+      },
+      {
+        "teal": 130,
+        "source": 32,
+        "cblocksPcOffset": [
           154,
           155,
-          156,
-          157,
+          156
+        ]
+      },
+      {
+        "teal": 131,
+        "source": 32,
+        "cblocksPcOffset": [
+          157
+        ]
+      },
+      {
+        "teal": 132,
+        "source": 32,
+        "cblocksPcOffset": [
           158,
           159
         ]
       },
       {
-        "teal": 124,
-        "source": 36,
+        "teal": 133,
+        "source": 32,
         "cblocksPcOffset": [
-          160
+          160,
+          161,
+          162
         ]
       },
       {
-        "teal": 125,
-        "source": 36,
+        "teal": 134,
+        "source": 32,
         "cblocksPcOffset": [
-          161
-        ]
-      },
-      {
-        "teal": 129,
-        "source": 37,
-        "cblocksPcOffset": [
-          162,
           163
         ]
       },
       {
-        "teal": 130,
-        "source": 37,
+        "teal": 135,
+        "source": 32,
         "cblocksPcOffset": [
-          164,
-          165,
-          166,
-          167,
-          168,
-          169
+          164
         ]
       },
       {
-        "teal": 131,
-        "source": 37,
+        "teal": 136,
+        "source": 32,
         "cblocksPcOffset": [
-          170,
+          165
+        ]
+      },
+      {
+        "teal": 137,
+        "source": 32,
+        "cblocksPcOffset": [
+          166
+        ]
+      },
+      {
+        "teal": 138,
+        "source": 24,
+        "cblocksPcOffset": [
+          167
+        ]
+      },
+      {
+        "teal": 143,
+        "source": 36,
+        "cblocksPcOffset": [
+          168,
+          169,
+          170
+        ]
+      },
+      {
+        "teal": 144,
+        "source": 36,
+        "cblocksPcOffset": [
           171,
-          172,
-          173,
+          172
+        ]
+      },
+      {
+        "teal": 145,
+        "source": 36,
+        "cblocksPcOffset": [
+          173
+        ]
+      },
+      {
+        "teal": 149,
+        "source": 36,
+        "cblocksPcOffset": [
           174,
           175,
           176
         ]
       },
       {
-        "teal": 132,
+        "teal": 153,
         "source": 37,
         "cblocksPcOffset": [
-          177
+          177,
+          178
         ]
       },
       {
-        "teal": 136,
-        "source": 38,
+        "teal": 154,
+        "source": 37,
         "cblocksPcOffset": [
-          178,
           179,
           180,
           181,
           182,
           183,
           184,
-          185
-        ]
-      },
-      {
-        "teal": 137,
-        "source": 38,
-        "cblocksPcOffset": [
-          186
-        ]
-      },
-      {
-        "teal": 138,
-        "source": 38,
-        "cblocksPcOffset": [
-          187
-        ]
-      },
-      {
-        "teal": 139,
-        "source": 38,
-        "cblocksPcOffset": [
+          185,
+          186,
+          187,
           188
         ]
       },
       {
-        "teal": 140,
+        "teal": 155,
+        "source": 37,
+        "cblocksPcOffset": [
+          189
+        ]
+      },
+      {
+        "teal": 156,
+        "source": 37,
+        "cblocksPcOffset": [
+          190
+        ]
+      },
+      {
+        "teal": 160,
         "source": 38,
         "cblocksPcOffset": [
-          189,
-          190,
           191,
-          192,
+          192
+        ]
+      },
+      {
+        "teal": 161,
+        "source": 38,
+        "cblocksPcOffset": [
           193,
           194,
-          195
+          195,
+          196,
+          197,
+          198
         ]
       },
       {
-        "teal": 141,
+        "teal": 162,
         "source": 38,
         "cblocksPcOffset": [
-          196
-        ]
-      },
-      {
-        "teal": 145,
-        "source": 39,
-        "cblocksPcOffset": [
-          197,
-          198,
           199,
           200,
           201,
           202,
           203,
           204,
-          205,
-          206,
+          205
+        ]
+      },
+      {
+        "teal": 163,
+        "source": 38,
+        "cblocksPcOffset": [
+          206
+        ]
+      },
+      {
+        "teal": 167,
+        "source": 39,
+        "cblocksPcOffset": [
           207,
           208,
           209,
@@ -837,30 +944,60 @@
           211,
           212,
           213,
-          214,
-          215,
-          216,
-          217,
+          214
+        ]
+      },
+      {
+        "teal": 168,
+        "source": 39,
+        "cblocksPcOffset": [
+          215
+        ]
+      },
+      {
+        "teal": 169,
+        "source": 39,
+        "cblocksPcOffset": [
+          216
+        ]
+      },
+      {
+        "teal": 170,
+        "source": 39,
+        "cblocksPcOffset": [
+          217
+        ]
+      },
+      {
+        "teal": 171,
+        "source": 39,
+        "cblocksPcOffset": [
           218,
           219,
           220,
           221,
           222,
           223,
-          224,
-          225,
+          224
+        ]
+      },
+      {
+        "teal": 172,
+        "source": 39,
+        "cblocksPcOffset": [
+          225
+        ]
+      },
+      {
+        "teal": 176,
+        "source": 40,
+        "cblocksPcOffset": [
           226,
           227,
           228,
           229,
           230,
-          231
-        ]
-      },
-      {
-        "teal": 146,
-        "source": 39,
-        "cblocksPcOffset": [
+          231,
           232,
           233,
           234,
@@ -878,42 +1015,12 @@
           246,
           247,
           248,
-          249
-        ]
-      },
-      {
-        "teal": 147,
-        "source": 39,
-        "cblocksPcOffset": [
-          250
-        ]
-      },
-      {
-        "teal": 148,
-        "source": 35,
-        "cblocksPcOffset": [
-          251
-        ]
-      },
-      {
-        "teal": 151,
-        "source": 6,
-        "cblocksPcOffset": [
+          249,
+          250,
+          251,
           252,
-          253
-        ]
-      },
-      {
-        "teal": 152,
-        "source": 6,
-        "cblocksPcOffset": [
-          254
-        ]
-      },
-      {
-        "teal": 155,
-        "source": 6,
-        "cblocksPcOffset": [
+          253,
+          254,
           255,
           256,
           257,
@@ -923,115 +1030,328 @@
         ]
       },
       {
-        "teal": 156,
-        "source": 6,
+        "teal": 177,
+        "source": 40,
         "cblocksPcOffset": [
           261,
           262,
-          263
-        ]
-      },
-      {
-        "teal": 157,
-        "source": 6,
-        "cblocksPcOffset": [
+          263,
           264,
           265,
           266,
-          267
-        ]
-      },
-      {
-        "teal": 160,
-        "source": 6,
-        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-        "cblocksPcOffset": [
-          268
-        ]
-      },
-      {
-        "teal": 163,
-        "source": 6,
-        "cblocksPcOffset": [
+          267,
+          268,
           269,
           270,
           271,
           272,
           273,
-          274
-        ]
-      },
-      {
-        "teal": 164,
-        "source": 6,
-        "cblocksPcOffset": [
+          274,
           275,
           276,
-          277
+          277,
+          278
         ]
       },
       {
-        "teal": 165,
-        "source": 6,
+        "teal": 178,
+        "source": 40,
         "cblocksPcOffset": [
-          278,
-          279,
-          280,
-          281
+          279
         ]
       },
       {
-        "teal": 168,
-        "source": 6,
-        "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+        "teal": 179,
+        "source": 36,
         "cblocksPcOffset": [
-          282
+          280
         ]
       },
       {
-        "teal": 171,
-        "source": 6,
+        "teal": 184,
+        "source": 43,
         "cblocksPcOffset": [
+          281,
+          282,
           283,
           284,
           285,
-          286,
-          287,
-          288
+          286
         ]
       },
       {
-        "teal": 172,
-        "source": 6,
+        "teal": 187,
+        "source": 43,
         "cblocksPcOffset": [
-          289,
-          290,
+          287,
+          288,
+          289
+        ]
+      },
+      {
+        "teal": 188,
+        "source": 43,
+        "cblocksPcOffset": [
+          290
+        ]
+      },
+      {
+        "teal": 189,
+        "source": 43,
+        "cblocksPcOffset": [
           291
         ]
       },
       {
-        "teal": 173,
-        "source": 6,
+        "teal": 190,
+        "source": 43,
         "cblocksPcOffset": [
           292,
-          293,
-          294,
+          293
+        ]
+      },
+      {
+        "teal": 191,
+        "source": 43,
+        "cblocksPcOffset": [
+          294
+        ]
+      },
+      {
+        "teal": 194,
+        "source": 43,
+        "errorMessage": "argument 0 (input) for customType must be a (uint64)",
+        "cblocksPcOffset": [
           295
         ]
       },
       {
-        "teal": 176,
-        "source": 6,
+        "teal": 197,
+        "source": 43,
+        "cblocksPcOffset": [
+          296,
+          297,
+          298
+        ]
+      },
+      {
+        "teal": 198,
+        "source": 43,
+        "cblocksPcOffset": [
+          299
+        ]
+      },
+      {
+        "teal": 199,
+        "source": 43,
+        "cblocksPcOffset": [
+          300
+        ]
+      },
+      {
+        "teal": 200,
+        "source": 43,
+        "cblocksPcOffset": [
+          301,
+          302
+        ]
+      },
+      {
+        "teal": 201,
+        "source": 43,
+        "cblocksPcOffset": [
+          303
+        ]
+      },
+      {
+        "teal": 205,
+        "source": 43,
+        "cblocksPcOffset": [
+          304,
+          305,
+          306
+        ]
+      },
+      {
+        "teal": 209,
+        "source": 44,
+        "cblocksPcOffset": [
+          307,
+          308
+        ]
+      },
+      {
+        "teal": 210,
+        "source": 43,
+        "cblocksPcOffset": [
+          309
+        ]
+      },
+      {
+        "teal": 213,
+        "source": 7,
+        "cblocksPcOffset": [
+          310,
+          311
+        ]
+      },
+      {
+        "teal": 214,
+        "source": 7,
+        "cblocksPcOffset": [
+          312
+        ]
+      },
+      {
+        "teal": 217,
+        "source": 7,
+        "cblocksPcOffset": [
+          313,
+          314,
+          315,
+          316,
+          317,
+          318
+        ]
+      },
+      {
+        "teal": 218,
+        "source": 7,
+        "cblocksPcOffset": [
+          319,
+          320,
+          321
+        ]
+      },
+      {
+        "teal": 219,
+        "source": 7,
+        "cblocksPcOffset": [
+          322,
+          323,
+          324,
+          325
+        ]
+      },
+      {
+        "teal": 222,
+        "source": 7,
+        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+        "cblocksPcOffset": [
+          326
+        ]
+      },
+      {
+        "teal": 225,
+        "source": 7,
+        "cblocksPcOffset": [
+          327,
+          328,
+          329,
+          330,
+          331,
+          332
+        ]
+      },
+      {
+        "teal": 226,
+        "source": 7,
+        "cblocksPcOffset": [
+          333,
+          334,
+          335,
+          336,
+          337,
+          338
+        ]
+      },
+      {
+        "teal": 227,
+        "source": 7,
+        "cblocksPcOffset": [
+          339,
+          340,
+          341,
+          342,
+          343,
+          344
+        ]
+      },
+      {
+        "teal": 228,
+        "source": 7,
+        "cblocksPcOffset": [
+          345,
+          346,
+          347
+        ]
+      },
+      {
+        "teal": 229,
+        "source": 7,
+        "cblocksPcOffset": [
+          348,
+          349,
+          350,
+          351,
+          352,
+          353,
+          354,
+          355
+        ]
+      },
+      {
+        "teal": 232,
+        "source": 7,
+        "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+        "cblocksPcOffset": [
+          356
+        ]
+      },
+      {
+        "teal": 235,
+        "source": 7,
+        "cblocksPcOffset": [
+          357,
+          358,
+          359,
+          360,
+          361,
+          362
+        ]
+      },
+      {
+        "teal": 236,
+        "source": 7,
+        "cblocksPcOffset": [
+          363,
+          364,
+          365
+        ]
+      },
+      {
+        "teal": 237,
+        "source": 7,
+        "cblocksPcOffset": [
+          366,
+          367,
+          368,
+          369
+        ]
+      },
+      {
+        "teal": 240,
+        "source": 7,
         "errorMessage": "this contract does not implement the given ABI method for call OptIn",
         "cblocksPcOffset": [
-          296
+          370
         ]
       }
     ],
     "clear": []
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3NvbWVOdW1iZXIKYnl0ZWNibG9jayAweDYyNmY3ODRiNjU3OQoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDIuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyBsaW5lcyBvZiBURUFMIGFyZSB1c2VkIHRvIGluaXRpYWxpemUgdGVtcGxhdGUgdmFyaWFibGVzIGluIHNjcmF0Y2ggc2xvdHMKaW50YyAwIC8vIFRNUExfc29tZU51bWJlcgoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpjYWxsX09wdEluICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KQoqYWJpX3JvdXRlX2ZvbzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJcHVzaGJ5dGVzIDB4MTUxZjdjNzUKCgkvLyBpbnB1dHM6ICgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoaW5wdXRzKSBmb3IgZm9vIG11c3QgYmUgYSAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkKCWNhbGxzdWIgZm9vCgljb25jYXQKCWxvZwoJcHVzaGludCAxCglyZXR1cm4KCi8vIGZvbyhpbnB1dHM6IElucHV0cyk6IE91dHB1dHMKZm9vOgoJcHJvdG8gMSAxCgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI0CgkvLyBpbnB1dHMuc3VidHJhY3QuYSA8IGlucHV0cy5zdWJ0cmFjdC5iCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMTYgOAoJYnRvaQoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDI0IDgKCWJ0b2kKCTwKCWJ6ICppZjBfZW5kCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBzdWJ0cmFjdC5hIG11c3QgYmUgZ3JlYXRlciB0aGFuIHN1YnRyYWN0LmIKCWVycgoKKmlmMF9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czoyNgoJLy8gdGhpcy5nbG9iYWxLZXkudmFsdWUgPSB0aGlzLnNvbWVOdW1iZXIKCXB1c2hieXRlcyAweDY3NmM2ZjYyNjE2YzRiNjU3OSAvLyAiZ2xvYmFsS2V5IgoJaW50YyAwIC8vIFRNUExfc29tZU51bWJlcgoJYXBwX2dsb2JhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czoyNwoJLy8gdGhpcy5nbG9iYWxNYXAoJ2ZvbycpLnZhbHVlID0geyBmb286IDEzLCBiYXI6IDM3IH0KCXB1c2hieXRlcyAweDcwMDAwMzY2NmY2ZgoJcHVzaGJ5dGVzIDB4MDAwZDAwMjUKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjkKCS8vIHJldHVybiB7CgkvLyAgICAgICBzdW06IGlucHV0cy5hZGQuYSArIGlucHV0cy5hZGQuYiwKCS8vICAgICAgIGRpZmZlcmVuY2U6IGlucHV0cy5zdWJ0cmFjdC5hIC0gaW5wdXRzLnN1YnRyYWN0LmIsCgkvLyAgICAgfTsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAwIDgKCWJ0b2kKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCA4IDgKCWJ0b2kKCSsKCWl0b2IKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAxNiA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMjQgOAoJYnRvaQoJLQoJaXRvYgoJY29uY2F0CglyZXRzdWIKCi8vIG9wdEluVG9BcHBsaWNhdGlvbigpdm9pZAoqYWJpX3JvdXRlX29wdEluVG9BcHBsaWNhdGlvbjoKCS8vIGV4ZWN1dGUgb3B0SW5Ub0FwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIG9wdEluVG9BcHBsaWNhdGlvbgoJcHVzaGludCAxCglyZXR1cm4KCi8vIG9wdEluVG9BcHBsaWNhdGlvbigpOiB2b2lkCm9wdEluVG9BcHBsaWNhdGlvbjoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM2CgkvLyB0aGlzLmxvY2FsS2V5KHRoaXMudHhuLnNlbmRlcikudmFsdWUgPSB0aGlzLnNvbWVOdW1iZXIKCXR4biBTZW5kZXIKCXB1c2hieXRlcyAweDZjNmY2MzYxNmM0YjY1NzkgLy8gImxvY2FsS2V5IgoJaW50YyAwIC8vIFRNUExfc29tZU51bWJlcgoJYXBwX2xvY2FsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM3CgkvLyB0aGlzLmxvY2FsTWFwKHRoaXMudHhuLnNlbmRlciwgJ2ZvbycpLnZhbHVlID0gJ2JhcicKCXR4biBTZW5kZXIKCXB1c2hieXRlcyAweDcwNjY2ZjZmCglwdXNoYnl0ZXMgMHgwMDAzNjI2MTcyCglhcHBfbG9jYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MzgKCS8vIHRoaXMuYm94S2V5LnZhbHVlID0gJ2JheicKCWJ5dGUgMHg2MjZmNzg0YjY1NzkgLy8gImJveEtleSIKCWR1cAoJYm94X2RlbAoJcG9wCglwdXNoYnl0ZXMgMHgwMDAzNjI2MTdhCglib3hfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MzkKCS8vIHRoaXMuYm94TWFwKHsgYWRkOiB7IGE6IDEsIGI6IDIgfSwgc3VidHJhY3Q6IHsgYTogNCwgYjogMyB9IH0pLnZhbHVlID0geyBzdW06IDMsIGRpZmZlcmVuY2U6IDEgfQoJcHVzaGJ5dGVzIDB4NzAwMDAwMDAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDQwMDAwMDAwMDAwMDAwMDAzCglwdXNoYnl0ZXMgMHgwMDAwMDAwMDAwMDAwMDAzMDAwMDAwMDAwMDAwMDAwMQoJYm94X3B1dAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJcHVzaGludCAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHgzOTZkNTUwZSAvLyBtZXRob2QgImZvbygoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkpKHVpbnQ2NCx1aW50NjQpIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9mb28KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnIKCipjYWxsX09wdEluOgoJcHVzaGJ5dGVzIDB4MDFhM2EzZmYgLy8gbWV0aG9kICJvcHRJblRvQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX29wdEluVG9BcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE9wdEluCgllcnI=",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3NvbWVOdW1iZXIKYnl0ZWNibG9jayAweDE1MWY3Yzc1IDB4NjI2Zjc4NGI2NTc5CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMy4yCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIGxpbmVzIG9mIFRFQUwgYXJlIHVzZWQgdG8gaW5pdGlhbGl6ZSB0ZW1wbGF0ZSB2YXJpYWJsZXMgaW4gc2NyYXRjaCBzbG90cwppbnRjIDAgLy8gVE1QTF9zb21lTnVtYmVyCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKmNhbGxfT3B0SW4gKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGN1c3RvbVN0cnVjdE1ldGhvZCgodWludDY0KSkodWludDY0KQoqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXQ6ICh1aW50NjQpCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJcHVzaGludCA4Cgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0KSBmb3IgY3VzdG9tU3RydWN0TWV0aG9kIG11c3QgYmUgYSAodWludDY0KQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tU3RydWN0TWV0aG9kCgljb25jYXQKCWxvZwoJcHVzaGludCAxCglyZXR1cm4KCi8vIGN1c3RvbVN0cnVjdE1ldGhvZChpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdCk6IEFub3RoZXJDdXN0b21TdHJ1Y3QKY3VzdG9tU3RydWN0TWV0aG9kOgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLWV4dGVybmFsLmFsZ28udHM6MjEKCS8vIHJldHVybiBpbnB1dDsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdAoJcmV0c3ViCgovLyBmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KQoqYWJpX3JvdXRlX2ZvbzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXRzOiAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglwdXNoaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0cykgZm9yIGZvbyBtdXN0IGJlIGEgKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpCglhc3NlcnQKCgkvLyBleGVjdXRlIGZvbygoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkpKHVpbnQ2NCx1aW50NjQpCgljYWxsc3ViIGZvbwoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBmb28oaW5wdXRzOiBJbnB1dHMpOiBPdXRwdXRzCmZvbzoKCXByb3RvIDEgMQoKCS8vICppZjBfY29uZGl0aW9uCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czoyNQoJLy8gaW5wdXRzLnN1YnRyYWN0LmEgPCBpbnB1dHMuc3VidHJhY3QuYgoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDE2IDgKCWJ0b2kKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAyNCA4CglidG9pCgk8CglieiAqaWYwX2VuZAoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gc3VidHJhY3QuYSBtdXN0IGJlIGdyZWF0ZXIgdGhhbiBzdWJ0cmFjdC5iCgllcnIKCippZjBfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjcKCS8vIHRoaXMuZ2xvYmFsS2V5LnZhbHVlID0gdGhpcy5zb21lTnVtYmVyCglwdXNoYnl0ZXMgMHg2NzZjNmY2MjYxNmM0YjY1NzkgLy8gImdsb2JhbEtleSIKCWludGMgMCAvLyBUTVBMX3NvbWVOdW1iZXIKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjgKCS8vIHRoaXMuZ2xvYmFsTWFwKCdmb28nKS52YWx1ZSA9IHsgZm9vOiAxMywgYmFyOiAzNyB9CglwdXNoYnl0ZXMgMHg3MDAwMDM2NjZmNmYKCXB1c2hieXRlcyAweDAwMGQwMDI1CglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjMwCgkvLyByZXR1cm4gewoJLy8gICAgICAgc3VtOiBpbnB1dHMuYWRkLmEgKyBpbnB1dHMuYWRkLmIsCgkvLyAgICAgICBkaWZmZXJlbmNlOiBpbnB1dHMuc3VidHJhY3QuYSAtIGlucHV0cy5zdWJ0cmFjdC5iLAoJLy8gICAgIH07CglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMCA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgOCA4CglidG9pCgkrCglpdG9iCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMTYgOAoJYnRvaQoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDI0IDgKCWJ0b2kKCS0KCWl0b2IKCWNvbmNhdAoJcmV0c3ViCgovLyBvcHRJblRvQXBwbGljYXRpb24oKXZvaWQKKmFiaV9yb3V0ZV9vcHRJblRvQXBwbGljYXRpb246CgkvLyBleGVjdXRlIG9wdEluVG9BcHBsaWNhdGlvbigpdm9pZAoJY2FsbHN1YiBvcHRJblRvQXBwbGljYXRpb24KCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBvcHRJblRvQXBwbGljYXRpb24oKTogdm9pZApvcHRJblRvQXBwbGljYXRpb246Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozNwoJLy8gdGhpcy5sb2NhbEtleSh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlID0gdGhpcy5zb21lTnVtYmVyCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg2YzZmNjM2MTZjNGI2NTc5IC8vICJsb2NhbEtleSIKCWludGMgMCAvLyBUTVBMX3NvbWVOdW1iZXIKCWFwcF9sb2NhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozOAoJLy8gdGhpcy5sb2NhbE1hcCh0aGlzLnR4bi5zZW5kZXIsICdmb28nKS52YWx1ZSA9ICdiYXInCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg3MDY2NmY2ZgoJcHVzaGJ5dGVzIDB4MDAwMzYyNjE3MgoJYXBwX2xvY2FsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM5CgkvLyB0aGlzLmJveEtleS52YWx1ZSA9ICdiYXonCglieXRlIDB4NjI2Zjc4NGI2NTc5IC8vICJib3hLZXkiCglkdXAKCWJveF9kZWwKCXBvcAoJcHVzaGJ5dGVzIDB4MDAwMzYyNjE3YQoJYm94X3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjQwCgkvLyB0aGlzLmJveE1hcCh7IGFkZDogeyBhOiAxLCBiOiAyIH0sIHN1YnRyYWN0OiB7IGE6IDQsIGI6IDMgfSB9KS52YWx1ZSA9IHsgc3VtOiAzLCBkaWZmZXJlbmNlOiAxIH0KCXB1c2hieXRlcyAweDcwMDAwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDAwMwoJcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMzAwMDAwMDAwMDAwMDAwMDEKCWJveF9wdXQKCXJldHN1YgoKLy8gY3VzdG9tVHlwZSgodWludDY0KSkodWludDY0KQoqYWJpX3JvdXRlX2N1c3RvbVR5cGU6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGUgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVR5cGUgbXVzdCBiZSBhICh1aW50NjQpCglhc3NlcnQKCgkvLyBleGVjdXRlIGN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tVHlwZQoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBjdXN0b21UeXBlKGlucHV0OiBDdXN0b21TdHJ1Y3RBc05hbWUpOiBDdXN0b21TdHJ1Y3RBc05hbWUKY3VzdG9tVHlwZToKCXByb3RvIDEgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjQ0CgkvLyByZXR1cm4gaW5wdXQ7CglmcmFtZV9kaWcgLTEgLy8gaW5wdXQ6IEN1c3RvbVN0cnVjdEFzTmFtZQoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJcHVzaGludCAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHg4ZDIyNzM5YSAvLyBtZXRob2QgImN1c3RvbVN0cnVjdE1ldGhvZCgodWludDY0KSkodWludDY0KSIKCXB1c2hieXRlcyAweDM5NmQ1NTBlIC8vIG1ldGhvZCAiZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkiCglwdXNoYnl0ZXMgMHgwZGJmMDJjNyAvLyBtZXRob2QgImN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZCAqYWJpX3JvdXRlX2ZvbyAqYWJpX3JvdXRlX2N1c3RvbVR5cGUKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnIKCipjYWxsX09wdEluOgoJcHVzaGJ5dGVzIDB4MDFhM2EzZmYgLy8gbWV0aG9kICJvcHRJblRvQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX29wdEluVG9BcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE9wdEluCgllcnI=",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "templateVariables": {
@@ -1053,9 +1373,9 @@
     "compiler": "algod",
     "compilerVersion": {
       "major": 3,
-      "minor": 25,
+      "minor": 26,
       "patch": 0,
-      "commitHash": "9855f57c"
+      "commitHash": "0d10b244"
     }
   }
 }
