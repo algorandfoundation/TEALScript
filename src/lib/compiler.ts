@@ -534,9 +534,8 @@ export default class Compiler {
   private classNode!: ts.ClassDeclaration;
 
   sourceInfo: {
-    source: number;
+    source: string;
     teal: number;
-    cblocksPcOffset?: number[];
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -2981,9 +2980,12 @@ export default class Compiler {
 
     this.teal[this.currentProgram].forEach((t, i) => {
       if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
+
+      const relativePath = path.relative(this.cwd, t.node.getSourceFile().getFilePath());
+      const line = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1;
       this.sourceInfo.push({
         teal: i + 1,
-        source: ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1,
+        source: `${relativePath}:${line}`,
         errorMessage: t.errorMessage,
       });
     });
@@ -7610,7 +7612,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       if (this.hasDynamicTemplateVar) {
         if (sm.teal - 1 <= lastCblockLine) return;
         // eslint-disable-next-line no-param-reassign
-        sm.cblocksPcOffset = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
+        sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
         return;
       }
       // eslint-disable-next-line no-param-reassign
@@ -7677,6 +7679,13 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
+    const arc56SourceInfo: { pc: number[]; errorMessage: string }[] = this.sourceInfo
+      .filter((s) => s.errorMessage)
+      .map((s) => ({
+        pc: s.pc as number[],
+        errorMessage: s.errorMessage as string,
+      }));
+
     const arc56: ARC56Contract = {
       ...this.arc4Description(),
       arcs: [4, 56],
@@ -7684,7 +7693,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       state,
       bareActions: { create: [], call: [] },
       // TODO: clear source mapping
-      sourceInfo: { approval: this.sourceInfo, clear: [] },
+      sourceInfo: {
+        approval: { sourceInfo: arc56SourceInfo, pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none' },
+        clear: { sourceInfo: [], pcOffsetMethod: 'none' },
+      },
       source: {
         approval: Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64'),
         clear: Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64'),

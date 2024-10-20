@@ -59,9 +59,9 @@ export interface ARC56Contract {
   /** Information about the TEAL programs */
   sourceInfo?: {
     /** Approval program information */
-    approval: SourceInfo[];
+    approval: ProgramSourceInfo;
     /** Clear program information */
-    clear: SourceInfo[];
+    clear: ProgramSourceInfo;
   };
   /** The pre-compiled TEAL that may contain template variables. MUST be omitted if included as part of ARC23 */
   source?: {
@@ -247,12 +247,18 @@ export interface StorageMap {
 }
 
 export interface SourceInfo {
-  /** The line of pre-compiled TEAL */
-  teal?: number;
   /** The program counter offset(s) that correspond to this line of TEAL */
   pc?: Array<number>;
   /** A human-readable string that describes the error when the program fails at this given line of TEAL */
-  errorMessage?: string;
-  /** The line of the dissasembled TEAL this line of pre-compiled TEAL corresponds to */
-  disassembledTeal?: number;
+  errorMessage: string;
+}
+
+export interface ProgramSourceInfo {
+  /** The source information for the program */
+  sourceInfo: SourceInfo[];
+  /** How the program counter offset is calculated
+   * - none: The pc values in sourceInfo are not offset
+   * - cblocks: The pc values in sourceInfo are offset by the PC of the first op following the last cblock at the top of the program
+   */
+  pcOffsetMethod: 'none' | 'cblocks';
 }
