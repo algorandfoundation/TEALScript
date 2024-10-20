@@ -78,7 +78,7 @@ describe('Template Variables', function () {
 
       const offsetPc = pc - cblocksOffset;
 
-      const sourceInfo = arc56.sourceInfo.approval.find((s) => s.cblocksPcOffset?.includes(offsetPc));
+      const sourceInfo = arc56.sourceInfo.approval.sourceInfo.find((s) => s.pc?.includes(offsetPc));
       expect(sourceInfo?.errorMessage).toBe('this is an error');
     });
   });
