@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,7 +25,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // dynamicArrayArg(uint64[])uint64
 *abi_route_dynamicArrayArg:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// a: uint64[]
 	txna ApplicationArgs 1
@@ -36,7 +36,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // dynamicArrayArg(a: uint64[]): uint64
@@ -53,11 +53,11 @@ dynamicArrayArg:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -65,7 +65,7 @@ dynamicArrayArg:
 	err
 
 *call_NoOp:
-	method "dynamicArrayArg(uint64[])uint64"
+	pushbytes 0xaac44c79 // method "dynamicArrayArg(uint64[])uint64"
 	txna ApplicationArgs 0
 	match *abi_route_dynamicArrayArg
 

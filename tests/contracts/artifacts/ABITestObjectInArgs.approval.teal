@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -40,14 +40,14 @@ privateMethod:
 // objectInArgs()uint64
 *abi_route_objectInArgs:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute objectInArgs()uint64
 	callsub objectInArgs
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // objectInArgs(): uint64
@@ -56,17 +56,17 @@ objectInArgs:
 
 	// tests/contracts/abi.algo.ts:1408
 	// return this.privateMethod(this.txn.sender, { foo: 1, bar: 2 });
-	byte 0x00000000000000010000000000000002
+	pushbytes 0x00000000000000010000000000000002
 	txn Sender
 	callsub privateMethod
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -74,7 +74,7 @@ objectInArgs:
 	err
 
 *call_NoOp:
-	method "objectInArgs()uint64"
+	pushbytes 0x6886a971 // method "objectInArgs()uint64"
 	txna ApplicationArgs 0
 	match *abi_route_objectInArgs
 

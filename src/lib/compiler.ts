@@ -534,9 +534,8 @@ export default class Compiler {
   private classNode!: ts.ClassDeclaration;
 
   sourceInfo: {
-    source: number;
+    source: string;
     teal: number;
-    disassembledTeal?: number;
     pc?: number[];
     errorMessage?: string;
   }[] = [];
@@ -1907,7 +1906,7 @@ export default class Compiler {
           'itxn_field TypeEnum',
           'int 0',
           'itxn_field Fee',
-          'byte b64 CoEB // #pragma version 10; int 1',
+          'byte 0x0a8101 // #pragma version 10; int 1',
           'dup',
           'itxn_field ApprovalProgram',
           'itxn_field ClearStateProgram',
@@ -2588,7 +2587,9 @@ export default class Compiler {
 
             const target = tealLine.split(':')[0].split('_').at(-1)!.toLowerCase() as 'approval' | 'clear' | 'lsig';
             const compiledProgram = await c.algodCompileProgram(target);
-            return { teal: `byte b64 ${compiledProgram.result}`, node: t.node };
+            // decode result from base64 to hex
+            const hexResult = Buffer.from(compiledProgram.result, 'base64').toString('hex');
+            return { teal: `byte 0x${hexResult}`, node: t.node };
           }
 
           const method = tealLine.split(' ')[1];
@@ -2944,17 +2945,16 @@ export default class Compiler {
     const templateVarIndex = 6;
 
     Object.keys(this.templateVars).forEach((propName, i) => {
-      const { name } = this.templateVars[propName];
-      const { slot, type } = this.scratch[propName];
+      const { name, type } = this.templateVars[propName];
 
-      this.teal[this.currentProgram].splice(templateVarIndex, 0, { teal: `store ${slot}`, node: this.lastNode });
+      let op = 'byte';
 
       if (isNumeric(type)) {
-        this.teal[this.currentProgram].splice(templateVarIndex, 0, { teal: `btoi`, node: this.lastNode });
+        op = 'int';
       }
 
       this.teal[this.currentProgram].splice(templateVarIndex, 0, {
-        teal: `pushbytes TMPL_${name}`,
+        teal: `${op} TMPL_${name}`,
         node: this.lastNode,
       });
     });
@@ -2980,9 +2980,12 @@ export default class Compiler {
 
     this.teal[this.currentProgram].forEach((t, i) => {
       if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
+
+      const relativePath = path.relative(this.cwd, t.node.getSourceFile().getFilePath());
+      const line = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1;
       this.sourceInfo.push({
         teal: i + 1,
-        source: ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1,
+        source: `${relativePath}:${line}`,
         errorMessage: t.errorMessage,
       });
     });
@@ -6004,10 +6007,12 @@ export default class Compiler {
       this.templateVars[chain[0].getNameNode().getText()]
     ) {
       const propName = chain[0].getNameNode().getText();
-      const { name } = this.templateVars[propName];
-      const { slot, type } = this.scratch[propName];
+      const { name, type } = this.templateVars[propName];
 
-      this.push(chain[0], `load ${slot} // TMPL_${name}`, type);
+      let op = 'byte';
+      if (isNumeric(type)) op = 'int';
+
+      this.push(chain[0], `${op} TMPL_${name}`, type);
 
       chain.splice(0, 1);
       return;
@@ -7490,28 +7495,30 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       .map((t) => t.teal)
       .map((t) => {
         // Replace template variables
-        if (t.startsWith('pushbytes TMPL_')) {
-          const [_, arg] = t.trim().split(' ');
+        if (t.startsWith('bytecblock') || t.startsWith('intcblock')) {
+          const newArgs = t.split(' ').map((arg) => {
+            const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
 
-          const tVar = Object.values(this.templateVars).find((v) => v.name === arg.replace(/^TMPL_/, ''));
+            if (tVar === undefined) return arg;
 
-          if (tVar === undefined) throw Error(`Could not find template variable ${arg}`);
+            if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
+              if (program === 'lsig' || program === 'approval') {
+                console.warn(
+                  `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
+                    tVar.type
+                  )}) PC values will not be included in the emitted source mapping`
+                );
 
-          if (this.isDynamicType(tVar.type)) {
-            if (program === 'lsig' || program === 'approval') {
-              console.warn(
-                `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
-                  tVar.type
-                )}) PC values will not be included in the emitted source mapping`
-              );
+                this.hasDynamicTemplateVar = true;
+              }
 
-              this.hasDynamicTemplateVar = true;
+              return isNumeric(tVar.type) ? '0' : '0x';
             }
 
-            return 'byte 0x';
-          }
+            return `0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
+          });
 
-          return `byte 0x${'00'.repeat(this.getTypeLength(tVar.type))}`;
+          return newArgs.join(' ');
         }
 
         // Remove comments to avoid taking up space in the request body
@@ -7591,53 +7598,25 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       addrLine.teal += ` ${json.hash}`;
     }
 
-    if (!this.hasDynamicTemplateVar) {
-      this.sourceInfo.forEach((sm) => {
+    let lastCblockPc = 0;
+    let lastCblockLine = 0;
+
+    if (this.hasDynamicTemplateVar) {
+      const bytecblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('bytecblock'));
+      const intcblockLine = this.teal[program].findIndex((t) => t.teal.trim().startsWith('intcblock'));
+      lastCblockLine = Math.max(bytecblockLine, intcblockLine);
+
+      lastCblockPc = this.lineToPc[lastCblockLine].at(-1)!;
+    }
+    this.sourceInfo.forEach((sm) => {
+      if (this.hasDynamicTemplateVar) {
+        if (sm.teal - 1 <= lastCblockLine) return;
         // eslint-disable-next-line no-param-reassign
-        sm.pc = this.lineToPc[sm.teal - 1];
-      });
-
-      return json;
-    }
-
-    // Now dissasemble the program to get a mapping of source -> dissasembled TEAL
-
-    const disassembleResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/disassemble`, {
-      method: 'POST',
-      headers: {
-        'X-Algo-API-Token': this.algodToken,
-      },
-      body: Buffer.from(json.result, 'base64'),
-    });
-
-    const dissasembleJson = await disassembleResponse.json();
-
-    const recompileResponse = await fetch(`${this.algodServer}:${this.algodPort}/v2/teal/compile?sourcemap=true`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain',
-        'X-Algo-API-Token': this.algodToken,
-      },
-      body: dissasembleJson.result,
-    });
-
-    const recompiledJson = await recompileResponse.json();
-
-    if (recompileResponse.status !== 200) {
-      throw new Error(`Error when compiling disassembled program: ${response.statusText}: ${recompiledJson.message}`);
-    }
-
-    const recompiledMapping = await getSourceMap(recompiledJson.sourcemap.mappings);
-
-    // Look at both recompiledMapping and mapping and find the mapping of source teal -> recompiled teal line
-    Object.keys(recompiledMapping.pcToLine).forEach((pcKey) => {
-      const pc = Number(pcKey);
-      const recompiledLine = recompiledMapping.pcToLine[pc];
-      const originalLine = mapping.pcToLine[pc];
-
-      const sourceInfo = this.sourceInfo.find((si) => si.teal === originalLine + 1);
-
-      if (sourceInfo) sourceInfo.disassembledTeal = recompiledLine;
+        sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
+        return;
+      }
+      // eslint-disable-next-line no-param-reassign
+      sm.pc = this.lineToPc[sm.teal - 1];
     });
 
     return json;
@@ -7700,6 +7679,13 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
+    const arc56SourceInfo: { pc: number[]; errorMessage: string }[] = this.sourceInfo
+      .filter((s) => s.errorMessage)
+      .map((s) => ({
+        pc: s.pc as number[],
+        errorMessage: s.errorMessage as string,
+      }));
+
     const arc56: ARC56Contract = {
       ...this.arc4Description(),
       arcs: [4, 56],
@@ -7707,7 +7693,10 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       state,
       bareActions: { create: [], call: [] },
       // TODO: clear source mapping
-      sourceInfo: { approval: this.sourceInfo, clear: [] },
+      sourceInfo: {
+        approval: { sourceInfo: arc56SourceInfo, pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none' },
+        clear: { sourceInfo: [], pcOffsetMethod: 'none' },
+      },
       source: {
         approval: Buffer.from(this.teal.approval.map((t) => t.teal).join('\n')).toString('base64'),
         clear: Buffer.from(this.teal.clear.map((t) => t.teal).join('\n')).toString('base64'),

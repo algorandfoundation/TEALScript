@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // returnTuple()(uint64,uint16,uint64)
 *abi_route_returnTuple:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute returnTuple()(uint64,uint16,uint64)
 	callsub returnTuple
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // returnTuple(): [uint64, uint16, uint64]
@@ -39,11 +39,11 @@ returnTuple:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:335
 	// a: [uint64, uint16, uint64] = [11, 22, 33]
-	byte 0x000000000000000b00160000000000000021
+	pushbytes 0x000000000000000b00160000000000000021
 	frame_bury 0 // a: [uint64, uint16, uint64]
 
 	// tests/contracts/abi.algo.ts:336
@@ -55,11 +55,11 @@ returnTuple:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -67,7 +67,7 @@ returnTuple:
 	err
 
 *call_NoOp:
-	method "returnTuple()(uint64,uint16,uint64)"
+	pushbytes 0x528b86bf // method "returnTuple()(uint64,uint16,uint64)"
 	txna ApplicationArgs 0
 	match *abi_route_returnTuple
 

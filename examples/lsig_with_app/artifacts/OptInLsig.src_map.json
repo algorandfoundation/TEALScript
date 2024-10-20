@@ -1,395 +1,371 @@
 [
   {
     "teal": 1,
-    "source": 8,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:8"
+  },
+  {
+    "teal": 3,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:8"
+  },
+  {
+    "teal": 10,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
     "pc": [
-      0,
-      1,
+      1
+    ]
+  },
+  {
+    "teal": 14,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:8",
+    "pc": [
       2,
       3,
       4
     ]
   },
   {
-    "teal": 9,
-    "source": 35,
+    "teal": 19,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
     "pc": [
       5,
       6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14
+      7
     ]
   },
   {
-    "teal": 10,
-    "source": 35,
+    "teal": 20,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
     "pc": [
+      8,
+      9
+    ]
+  },
+  {
+    "teal": 21,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
+    "pc": [
+      10
+    ]
+  },
+  {
+    "teal": 27,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
+    "pc": [
+      11,
+      12,
+      13
+    ]
+  },
+  {
+    "teal": 30,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
+    "pc": [
+      14,
       15
     ]
   },
   {
-    "teal": 11,
-    "source": 35,
+    "teal": 45,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:14",
     "pc": [
       16,
       17
     ]
   },
   {
-    "teal": 15,
-    "source": 8,
+    "teal": 46,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:14",
     "pc": [
       18,
-      19,
+      19
+    ]
+  },
+  {
+    "teal": 47,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:14",
+    "pc": [
       20
     ]
   },
   {
-    "teal": 20,
-    "source": 12,
+    "teal": 50,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:14",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
     "pc": [
-      21,
+      21
+    ]
+  },
+  {
+    "teal": 53,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:15",
+    "pc": [
       22,
       23
     ]
   },
   {
-    "teal": 21,
-    "source": 12,
+    "teal": 54,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:15",
     "pc": [
-      24
-    ]
-  },
-  {
-    "teal": 22,
-    "source": 12,
-    "pc": [
+      24,
       25
     ]
   },
   {
-    "teal": 28,
-    "source": 12,
+    "teal": 55,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:15",
     "pc": [
-      26,
-      27,
-      28
+      26
     ]
   },
   {
-    "teal": 31,
-    "source": 12,
+    "teal": 58,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:15",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
     "pc": [
-      29,
-      30
+      27
     ]
   },
   {
-    "teal": 46,
-    "source": 14,
+    "teal": 61,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:16",
     "pc": [
-      31,
+      28,
+      29
+    ]
+  },
+  {
+    "teal": 62,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:16",
+    "pc": [
+      30,
+      31
+    ]
+  },
+  {
+    "teal": 63,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:16",
+    "pc": [
       32
     ]
   },
   {
-    "teal": 47,
-    "source": 14,
+    "teal": 66,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:16",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      33,
-      34
+      33
     ]
   },
   {
-    "teal": 48,
-    "source": 14,
+    "teal": 69,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:19",
     "pc": [
+      34,
       35
     ]
   },
   {
-    "teal": 51,
-    "source": 14,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
+    "teal": 70,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:19",
     "pc": [
-      36
+      36,
+      37
     ]
   },
   {
-    "teal": 54,
-    "source": 15,
+    "teal": 71,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:19",
     "pc": [
-      37,
       38
     ]
   },
   {
-    "teal": 55,
-    "source": 15,
+    "teal": 74,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:19",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
     "pc": [
       39
     ]
   },
   {
-    "teal": 56,
-    "source": 15,
+    "teal": 77,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:21",
     "pc": [
-      40
-    ]
-  },
-  {
-    "teal": 59,
-    "source": 15,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
-    "pc": [
+      40,
       41
     ]
   },
   {
-    "teal": 62,
-    "source": 16,
+    "teal": 78,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:21",
     "pc": [
       42,
       43
     ]
   },
   {
-    "teal": 63,
-    "source": 16,
+    "teal": 79,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:21",
     "pc": [
-      44,
+      44
+    ]
+  },
+  {
+    "teal": 82,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:21",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
+    "pc": [
       45
     ]
   },
   {
-    "teal": 64,
-    "source": 16,
+    "teal": 85,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:23",
     "pc": [
-      46
-    ]
-  },
-  {
-    "teal": 67,
-    "source": 16,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
-    "pc": [
+      46,
       47
     ]
   },
   {
-    "teal": 70,
-    "source": 19,
+    "teal": 86,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:23",
     "pc": [
       48,
       49
     ]
   },
   {
-    "teal": 71,
-    "source": 19,
+    "teal": 87,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:23",
     "pc": [
       50
     ]
   },
   {
-    "teal": 72,
-    "source": 19,
+    "teal": 90,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:23",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
     "pc": [
       51
     ]
   },
   {
-    "teal": 75,
-    "source": 19,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
+    "teal": 94,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:26",
     "pc": [
-      52
+      52,
+      53
     ]
   },
   {
-    "teal": 78,
-    "source": 21,
+    "teal": 95,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:26",
     "pc": [
-      53,
-      54
+      54,
+      55
     ]
   },
   {
-    "teal": 79,
-    "source": 21,
+    "teal": 96,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:26",
     "pc": [
-      55,
       56
     ]
   },
   {
-    "teal": 80,
-    "source": 21,
+    "teal": 97,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:26",
     "pc": [
-      57
-    ]
-  },
-  {
-    "teal": 83,
-    "source": 21,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
-    "pc": [
+      57,
       58
     ]
   },
   {
-    "teal": 86,
-    "source": 23,
+    "teal": 101,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:29",
     "pc": [
       59,
       60
     ]
   },
   {
-    "teal": 87,
-    "source": 23,
+    "teal": 102,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:29",
     "pc": [
       61,
       62
     ]
   },
   {
-    "teal": 88,
-    "source": 23,
+    "teal": 103,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:29",
     "pc": [
       63
     ]
   },
   {
-    "teal": 91,
-    "source": 23,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
+    "teal": 104,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:29",
     "pc": [
       64
     ]
   },
   {
-    "teal": 95,
-    "source": 26,
+    "teal": 105,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:29",
     "pc": [
-      65,
-      66
+      65
     ]
   },
   {
-    "teal": 96,
-    "source": 26,
+    "teal": 109,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:30",
     "pc": [
+      66,
       67
     ]
   },
   {
-    "teal": 97,
-    "source": 26,
+    "teal": 110,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:30",
     "pc": [
-      68
-    ]
-  },
-  {
-    "teal": 98,
-    "source": 26,
-    "pc": [
+      68,
       69,
       70
     ]
   },
   {
-    "teal": 102,
-    "source": 29,
+    "teal": 111,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:30",
     "pc": [
       71,
-      72
-    ]
-  },
-  {
-    "teal": 103,
-    "source": 29,
-    "pc": [
+      72,
       73,
-      74
-    ]
-  },
-  {
-    "teal": 104,
-    "source": 29,
-    "pc": [
+      74,
       75,
       76
     ]
   },
   {
-    "teal": 105,
-    "source": 29,
+    "teal": 112,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:30",
     "pc": [
       77
     ]
   },
   {
-    "teal": 106,
-    "source": 29,
+    "teal": 113,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:30",
     "pc": [
       78
     ]
   },
   {
-    "teal": 110,
-    "source": 30,
-    "pc": [
-      79,
-      80
-    ]
-  },
-  {
-    "teal": 111,
-    "source": 30,
-    "pc": [
-      81,
-      82,
-      83
-    ]
-  },
-  {
-    "teal": 112,
-    "source": 30,
-    "pc": [
-      84,
-      85,
-      86,
-      87,
-      88,
-      89
-    ]
-  },
-  {
-    "teal": 113,
-    "source": 30,
-    "pc": [
-      90
-    ]
-  },
-  {
     "teal": 114,
-    "source": 30,
+    "source": "examples/lsig_with_app/lsig_with_app.algo.ts:12",
     "pc": [
-      91
-    ]
-  },
-  {
-    "teal": 115,
-    "source": 12,
-    "pc": [
-      92
+      79
     ]
   }
 ]

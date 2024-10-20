@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // uint64Casting(uint256)uint64
 *abi_route_uint64Casting:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// a: uint256
 	txna ApplicationArgs 1
 	dup
 	len
-	int 32
+	pushint 32
 	==
 
 	// argument 0 (a) for uint64Casting must be a uint256
@@ -42,7 +42,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // uint64Casting(a: uint256): uint64
@@ -54,7 +54,7 @@ uint64Casting:
 	frame_dig -1 // a: uint256
 	dup
 	bitlen
-	int 64
+	pushint 64
 	<=
 
 	// a as uint64 overflowed 64 bits
@@ -64,11 +64,11 @@ uint64Casting:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -76,7 +76,7 @@ uint64Casting:
 	err
 
 *call_NoOp:
-	method "uint64Casting(uint256)uint64"
+	pushbytes 0xfac99706 // method "uint64Casting(uint256)uint64"
 	txna ApplicationArgs 0
 	match *abi_route_uint64Casting
 

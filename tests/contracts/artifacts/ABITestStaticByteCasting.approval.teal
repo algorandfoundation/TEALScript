@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // staticByteCasting()byte[5]
 *abi_route_staticByteCasting:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute staticByteCasting()byte[5]
 	callsub staticByteCasting
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // staticByteCasting(): bytes<5>
@@ -40,15 +40,15 @@ staticByteCasting:
 
 	// tests/contracts/abi.algo.ts:1041
 	// return 'abc' as bytes<5>;
-	byte 0x6162630000 // "abc"
+	pushbytes 0x6162630000 // "abc"
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -56,7 +56,7 @@ staticByteCasting:
 	err
 
 *call_NoOp:
-	method "staticByteCasting()byte[5]"
+	pushbytes 0x83fb5b55 // method "staticByteCasting()byte[5]"
 	txna ApplicationArgs 0
 	match *abi_route_staticByteCasting
 

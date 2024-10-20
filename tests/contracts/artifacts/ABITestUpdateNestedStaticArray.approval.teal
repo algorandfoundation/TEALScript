@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,14 +25,14 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // updateNestedStaticArray()uint64
 *abi_route_updateNestedStaticArray:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute updateNestedStaticArray()uint64
 	callsub updateNestedStaticArray
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // updateNestedStaticArray(): uint64
@@ -40,7 +40,7 @@ updateNestedStaticArray:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:224
 	// a: StaticArray<StaticArray<uint64, 3>, 3> = [
@@ -48,13 +48,13 @@ updateNestedStaticArray:
 	//       [44, 55, 66],
 	//       [77, 88, 99],
 	//     ]
-	byte 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
+	pushbytes 0x000000000000000b00000000000000160000000000000021000000000000002c00000000000000370000000000000042000000000000004d00000000000000580000000000000063
 	frame_bury 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 
 	// tests/contracts/abi.algo.ts:230
 	// a[1] = [444, 555, 666]
 	frame_dig 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
-	byte 0x00000000000001bc000000000000022b000000000000029a
+	pushbytes 0x00000000000001bc000000000000022b000000000000029a
 	replace2 24
 	frame_bury 0 // a: StaticArray<StaticArray<uint64, 3>, 3>
 
@@ -69,11 +69,11 @@ updateNestedStaticArray:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -81,7 +81,7 @@ updateNestedStaticArray:
 	err
 
 *call_NoOp:
-	method "updateNestedStaticArray()uint64"
+	pushbytes 0x704142eb // method "updateNestedStaticArray()uint64"
 	txna ApplicationArgs 0
 	match *abi_route_updateNestedStaticArray
 

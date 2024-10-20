@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // spliceLastElement()uint16[]
 *abi_route_spliceLastElement:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute spliceLastElement()uint16[]
 	callsub spliceLastElement
 	dup
 	len
-	int 2
+	pushint 2
 	/
 	itob
 	extract 6 2
@@ -39,7 +39,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	concat
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // spliceLastElement(): uint16[]
@@ -47,23 +47,23 @@ spliceLastElement:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:490
 	// a: uint16[] = [1, 2, 3]
-	byte 0x000100020003
+	pushbytes 0x000100020003
 	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:492
 	// a.splice(2, 1)
 	frame_dig 0 // a: uint16[]
-	int 1
-	int 4
+	pushint 1
+	pushint 4
 	store 247 // splice start
-	int 4
+	pushint 4
 	store 246 // splice byte length
 	frame_dig 0 // a: uint16[]
-	int 0
+	pushint 0
 	load 247 // splice start
 	substring3
 	frame_dig 0 // a: uint16[]
@@ -72,7 +72,7 @@ spliceLastElement:
 	load 247 // splice start
 	load 246 // splice byte length
 	+
-	int 2
+	pushint 2
 	-
 	swap
 	substring3
@@ -88,11 +88,11 @@ spliceLastElement:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -100,7 +100,7 @@ spliceLastElement:
 	err
 
 *call_NoOp:
-	method "spliceLastElement()uint16[]"
+	pushbytes 0x80ed4fb5 // method "spliceLastElement()uint16[]"
 	txna ApplicationArgs 0
 	match *abi_route_spliceLastElement
 

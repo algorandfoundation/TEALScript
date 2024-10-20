@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // arrayPop()uint16[]
 *abi_route_arrayPop:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute arrayPop()uint16[]
 	callsub arrayPop
 	dup
 	len
-	int 2
+	pushint 2
 	/
 	itob
 	extract 6 2
@@ -39,7 +39,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	concat
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // arrayPop(): uint16[]
@@ -47,11 +47,11 @@ arrayPop:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:439
 	// a: uint16[] = [1, 2, 3]
-	byte 0x000100020003
+	pushbytes 0x000100020003
 	frame_bury 0 // a: uint16[]
 
 	// tests/contracts/abi.algo.ts:441
@@ -59,9 +59,9 @@ arrayPop:
 	frame_dig 0 // a: uint16[]
 	dup
 	len
-	int 2
+	pushint 2
 	-
-	int 0
+	pushint 0
 	swap
 	extract3
 	frame_bury 0 // a: uint16[]
@@ -75,11 +75,11 @@ arrayPop:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -87,7 +87,7 @@ arrayPop:
 	err
 
 *call_NoOp:
-	method "arrayPop()uint16[]"
+	pushbytes 0x30d77006 // method "arrayPop()uint16[]"
 	txna ApplicationArgs 0
 	match *abi_route_arrayPop
 

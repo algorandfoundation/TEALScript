@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // plusEqualsArrayValue()uint64[2]
 *abi_route_plusEqualsArrayValue:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// execute plusEqualsArrayValue()uint64[2]
 	callsub plusEqualsArrayValue
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // plusEqualsArrayValue(): StaticArray<uint64, 2>
@@ -39,21 +39,21 @@ plusEqualsArrayValue:
 	proto 0 1
 
 	// Push empty bytes after the frame pointer to reserve space for local variables
-	byte 0x
+	pushbytes 0x
 
 	// tests/contracts/abi.algo.ts:1233
 	// a: StaticArray<uint64, 2> = [1, 2]
-	byte 0x00000000000000010000000000000002
+	pushbytes 0x00000000000000010000000000000002
 	frame_bury 0 // a: StaticArray<uint64, 2>
 
 	// tests/contracts/abi.algo.ts:1234
 	// a[1] += 1
 	frame_dig 0 // a: StaticArray<uint64, 2>
-	int 8
+	pushint 8
 	frame_dig 0 // a: StaticArray<uint64, 2>
 	extract 8 8
 	btoi
-	int 1
+	pushint 1
 	+
 	itob
 	replace3
@@ -68,11 +68,11 @@ plusEqualsArrayValue:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -80,7 +80,7 @@ plusEqualsArrayValue:
 	err
 
 *call_NoOp:
-	method "plusEqualsArrayValue()uint64[2]"
+	pushbytes 0xb5ef79bd // method "plusEqualsArrayValue()uint64[2]"
 	txna ApplicationArgs 0
 	match *abi_route_plusEqualsArrayValue
 

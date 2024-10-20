@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,7 +25,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // createNFT(string,string)uint64
 *abi_route_createNFT:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// unitName: string
 	txna ApplicationArgs 2
@@ -40,7 +40,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	itob
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // createNFT(name: string, unitName: string): AssetID
@@ -54,7 +54,7 @@ createNFT:
 	//       configAssetTotal: 1,
 	//     });
 	itxn_begin
-	int acfg
+	pushint 3 // acfg
 	itxn_field TypeEnum
 
 	// examples/itxns/itxns.algo.ts:7
@@ -69,11 +69,11 @@ createNFT:
 
 	// examples/itxns/itxns.algo.ts:9
 	// configAssetTotal: 1
-	int 1
+	pushint 1
 	itxn_field ConfigAssetTotal
 
 	// Fee field not set, defaulting to 0
-	int 0
+	pushint 0
 	itxn_field Fee
 
 	// Submit inner transaction
@@ -87,7 +87,7 @@ createNFT:
 	txna ApplicationArgs 2
 	dup
 	len
-	int 32
+	pushint 32
 	==
 
 	// argument 0 (receiver) for transferNFT must be a address
@@ -99,7 +99,7 @@ createNFT:
 
 	// execute transferNFT(uint64,address)void
 	callsub transferNFT
-	int 1
+	pushint 1
 	return
 
 // transferNFT(asset: AssetID, receiver: Address): void
@@ -113,7 +113,7 @@ transferNFT:
 	//       xferAsset: asset,
 	//     })
 	itxn_begin
-	int axfer
+	pushint 4 // axfer
 	itxn_field TypeEnum
 
 	// examples/itxns/itxns.algo.ts:15
@@ -123,7 +123,7 @@ transferNFT:
 
 	// examples/itxns/itxns.algo.ts:16
 	// assetAmount: 1
-	int 1
+	pushint 1
 	itxn_field AssetAmount
 
 	// examples/itxns/itxns.algo.ts:17
@@ -132,7 +132,7 @@ transferNFT:
 	itxn_field XferAsset
 
 	// Fee field not set, defaulting to 0
-	int 0
+	pushint 0
 	itxn_field Fee
 
 	// Submit inner transaction
@@ -140,11 +140,11 @@ transferNFT:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -152,8 +152,8 @@ transferNFT:
 	err
 
 *call_NoOp:
-	method "createNFT(string,string)uint64"
-	method "transferNFT(uint64,address)void"
+	pushbytes 0xd2024c73 // method "createNFT(string,string)uint64"
+	pushbytes 0xc7e260af // method "transferNFT(uint64,address)void"
 	txna ApplicationArgs 0
 	match *abi_route_createNFT *abi_route_transferNFT
 

@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -25,13 +25,13 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 // smallerByteCasting(byte[4])byte[2]
 *abi_route_smallerByteCasting:
 	// The ABI return prefix
-	byte 0x151f7c75
+	pushbytes 0x151f7c75
 
 	// a: byte[4]
 	txna ApplicationArgs 1
 	dup
 	len
-	int 4
+	pushint 4
 	==
 
 	// argument 0 (a) for smallerByteCasting must be a byte[4]
@@ -41,7 +41,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 	callsub smallerByteCasting
 	concat
 	log
-	int 1
+	pushint 1
 	return
 
 // smallerByteCasting(a: bytes<4>): bytes<2>
@@ -55,11 +55,11 @@ smallerByteCasting:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -67,7 +67,7 @@ smallerByteCasting:
 	err
 
 *call_NoOp:
-	method "smallerByteCasting(byte[4])byte[2]"
+	pushbytes 0xb5340fa8 // method "smallerByteCasting(byte[4])byte[2]"
 	txna ApplicationArgs 0
 	match *abi_route_smallerByteCasting
 

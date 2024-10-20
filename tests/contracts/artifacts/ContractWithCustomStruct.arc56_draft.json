@@ -75,322 +75,46 @@
     "call": []
   },
   "sourceInfo": {
-    "approval": [
-      {
-        "teal": 1,
-        "source": 19,
-        "pc": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
-      {
-        "teal": 13,
-        "source": 19,
-        "pc": [
-          4,
-          5
-        ]
-      },
-      {
-        "teal": 14,
-        "source": 19,
-        "pc": [
-          6
-        ]
-      },
-      {
-        "teal": 15,
-        "source": 19,
-        "pc": [
-          7,
-          8
-        ]
-      },
-      {
-        "teal": 16,
-        "source": 19,
-        "pc": [
-          9
-        ]
-      },
-      {
-        "teal": 17,
-        "source": 19,
-        "pc": [
-          10,
-          11
-        ]
-      },
-      {
-        "teal": 18,
-        "source": 19,
-        "pc": [
-          12
-        ]
-      },
-      {
-        "teal": 19,
-        "source": 19,
-        "pc": [
-          13,
-          14,
-          15,
-          16,
-          17,
-          18,
-          19,
-          20,
-          21,
-          22,
-          23,
-          24,
-          25,
-          26,
-          27,
-          28,
-          29,
-          30,
-          31,
-          32,
-          33,
-          34,
-          35,
-          36,
-          37,
-          38
-        ]
-      },
-      {
-        "teal": 23,
-        "source": 19,
-        "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
-        "pc": [
-          39
-        ]
-      },
-      {
-        "teal": 28,
-        "source": 20,
-        "pc": [
-          40,
-          41,
-          42,
-          43,
-          44,
-          45
-        ]
-      },
-      {
-        "teal": 31,
-        "source": 20,
-        "pc": [
-          46,
-          47,
-          48
-        ]
-      },
-      {
-        "teal": 32,
-        "source": 20,
-        "pc": [
-          49
-        ]
-      },
-      {
-        "teal": 33,
-        "source": 20,
-        "pc": [
-          50
-        ]
-      },
-      {
-        "teal": 34,
-        "source": 20,
-        "pc": [
-          51,
-          52
-        ]
-      },
-      {
-        "teal": 35,
-        "source": 20,
-        "pc": [
-          53
-        ]
-      },
-      {
-        "teal": 38,
-        "source": 20,
-        "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)",
-        "pc": [
-          54
-        ]
-      },
-      {
-        "teal": 41,
-        "source": 20,
-        "pc": [
-          55,
-          56,
-          57
-        ]
-      },
-      {
-        "teal": 42,
-        "source": 20,
-        "pc": [
-          58
-        ]
-      },
-      {
-        "teal": 43,
-        "source": 20,
-        "pc": [
-          59
-        ]
-      },
-      {
-        "teal": 44,
-        "source": 20,
-        "pc": [
-          60
-        ]
-      },
-      {
-        "teal": 45,
-        "source": 20,
-        "pc": [
-          61
-        ]
-      },
-      {
-        "teal": 49,
-        "source": 20,
-        "pc": [
-          62,
-          63,
-          64
-        ]
-      },
-      {
-        "teal": 53,
-        "source": 21,
-        "pc": [
-          65,
-          66
-        ]
-      },
-      {
-        "teal": 54,
-        "source": 20,
-        "pc": [
-          67
-        ]
-      },
-      {
-        "teal": 57,
-        "source": 19,
-        "pc": [
-          68
-        ]
-      },
-      {
-        "teal": 58,
-        "source": 19,
-        "pc": [
-          69
-        ]
-      },
-      {
-        "teal": 61,
-        "source": 19,
-        "pc": [
-          70,
-          71,
-          72,
-          73,
-          74,
-          75
-        ]
-      },
-      {
-        "teal": 62,
-        "source": 19,
-        "pc": [
-          76,
-          77,
-          78
-        ]
-      },
-      {
-        "teal": 63,
-        "source": 19,
-        "pc": [
-          79,
-          80,
-          81,
-          82
-        ]
-      },
-      {
-        "teal": 66,
-        "source": 19,
-        "errorMessage": "this contract does not implement the given ABI method for create NoOp",
-        "pc": [
-          83
-        ]
-      },
-      {
-        "teal": 69,
-        "source": 19,
-        "pc": [
-          84,
-          85,
-          86,
-          87,
-          88,
-          89
-        ]
-      },
-      {
-        "teal": 70,
-        "source": 19,
-        "pc": [
-          90,
-          91,
-          92
-        ]
-      },
-      {
-        "teal": 71,
-        "source": 19,
-        "pc": [
-          93,
-          94,
-          95,
-          96
-        ]
-      },
-      {
-        "teal": 74,
-        "source": 19,
-        "errorMessage": "this contract does not implement the given ABI method for call NoOp",
-        "pc": [
-          97
-        ]
-      }
-    ],
-    "clear": []
+    "approval": {
+      "sourceInfo": [
+        {
+          "pc": [
+            36
+          ],
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+        },
+        {
+          "pc": [
+            51
+          ],
+          "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)"
+        },
+        {
+          "pc": [
+            82
+          ],
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+        },
+        {
+          "pc": [
+            96
+          ],
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMy4yCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKKmFiaV9yb3V0ZV9jdXN0b21TdHJ1Y3RNZXRob2Q6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGUgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludCA4Cgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0KSBmb3IgY3VzdG9tU3RydWN0TWV0aG9kIG11c3QgYmUgYSAodWludDY0KQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tU3RydWN0TWV0aG9kCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gY3VzdG9tU3RydWN0TWV0aG9kKGlucHV0OiBBbm90aGVyQ3VzdG9tU3RydWN0KTogQW5vdGhlckN1c3RvbVN0cnVjdApjdXN0b21TdHJ1Y3RNZXRob2Q6Cglwcm90byAxIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UtZXh0ZXJuYWwuYWxnby50czoyMQoJLy8gcmV0dXJuIGlucHV0OwoJZnJhbWVfZGlnIC0xIC8vIGlucHV0OiBBbm90aGVyQ3VzdG9tU3RydWN0CglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CgltZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJbWV0aG9kICJjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwMy4yCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCiphYmlfcm91dGVfY3VzdG9tU3RydWN0TWV0aG9kOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglwdXNoYnl0ZXMgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVN0cnVjdE1ldGhvZCBtdXN0IGJlIGEgKHVpbnQ2NCkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCgljYWxsc3ViIGN1c3RvbVN0cnVjdE1ldGhvZAoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBjdXN0b21TdHJ1Y3RNZXRob2QoaW5wdXQ6IEFub3RoZXJDdXN0b21TdHJ1Y3QpOiBBbm90aGVyQ3VzdG9tU3RydWN0CmN1c3RvbVN0cnVjdE1ldGhvZDoKCXByb3RvIDEgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS1leHRlcm5hbC5hbGdvLnRzOjIxCgkvLyByZXR1cm4gaW5wdXQ7CglmcmFtZV9kaWcgLTEgLy8gaW5wdXQ6IEFub3RoZXJDdXN0b21TdHJ1Y3QKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCXB1c2hpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4OGQyMjczOWEgLy8gbWV0aG9kICJjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CiABATEYFIEGCzEZCI0MAC0AAAAAAAAAAAAAAB8AAAAAAAAAAAAAAIAEFR98dTYaAUkVgQgSRIgABFCwIkOKAQGL/4kiQ4AEuER7NjYaAI4B//EAgASNInOaNhoAjgH/xwA=",
+    "approval": "CjEYFIEGCzEZCI0MAC8AAAAAAAAAAAAAACEAAAAAAAAAAAAAAIAEFR98dTYaAUkVgQgSRIgABVCwgQFDigEBi/+JgQFDgAS4RHs2NhoAjgH/8ACABI0ic5o2GgCOAf/FAA==",
     "clear": "Cg=="
   },
   "compilerInfo": {

@@ -12,7 +12,7 @@
 // If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
 txn ApplicationID
 !
-int 6
+pushint 6
 *
 txn OnCompletion
 +
@@ -26,7 +26,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 *abi_route_staticTypeInBox:
 	// execute staticTypeInBox()void
 	callsub staticTypeInBox
-	int 1
+	pushint 1
 	return
 
 // staticTypeInBox(): void
@@ -53,11 +53,11 @@ staticTypeInBox:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	pushint 1
 	return
 
 *create_NoOp:
-	method "createApplication()void"
+	pushbytes 0xb8447b36 // method "createApplication()void"
 	txna ApplicationArgs 0
 	match *abi_route_createApplication
 
@@ -65,7 +65,7 @@ staticTypeInBox:
 	err
 
 *call_NoOp:
-	method "staticTypeInBox()void"
+	pushbytes 0x0f5207d9 // method "staticTypeInBox()void"
 	txna ApplicationArgs 0
 	match *abi_route_staticTypeInBox
 
