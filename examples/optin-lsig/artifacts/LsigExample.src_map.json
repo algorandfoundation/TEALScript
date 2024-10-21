@@ -1,17 +1,23 @@
 [
   {
     "teal": 1,
-    "source": 4,
+    "source": "examples/optin-lsig/lsig.algo.ts:4",
     "pc": [
-      0,
+      0
+    ]
+  },
+  {
+    "teal": 9,
+    "source": "examples/optin-lsig/lsig.algo.ts:4",
+    "pc": [
       1,
       2,
       3
     ]
   },
   {
-    "teal": 9,
-    "source": 4,
+    "teal": 14,
+    "source": "examples/optin-lsig/lsig.algo.ts:6",
     "pc": [
       4,
       5,
@@ -19,227 +25,220 @@
     ]
   },
   {
-    "teal": 14,
-    "source": 6,
+    "teal": 15,
+    "source": "examples/optin-lsig/lsig.algo.ts:6",
     "pc": [
       7,
-      8,
-      9
-    ]
-  },
-  {
-    "teal": 15,
-    "source": 6,
-    "pc": [
-      10,
-      11
+      8
     ]
   },
   {
     "teal": 16,
-    "source": 6,
+    "source": "examples/optin-lsig/lsig.algo.ts:6",
     "pc": [
-      12
+      9
     ]
   },
   {
     "teal": 22,
-    "source": 6,
+    "source": "examples/optin-lsig/lsig.algo.ts:6",
     "pc": [
-      13,
-      14,
-      15
+      10,
+      11,
+      12
     ]
   },
   {
     "teal": 33,
-    "source": 7,
+    "source": "examples/optin-lsig/lsig.algo.ts:7",
     "pc": [
-      16,
-      17
+      13,
+      14
     ]
   },
   {
     "teal": 34,
-    "source": 7,
+    "source": "examples/optin-lsig/lsig.algo.ts:7",
     "pc": [
-      18,
-      19
+      15,
+      16
     ]
   },
   {
     "teal": 35,
-    "source": 7,
+    "source": "examples/optin-lsig/lsig.algo.ts:7",
     "pc": [
-      20
+      17
     ]
   },
   {
     "teal": 38,
-    "source": 7,
+    "source": "examples/optin-lsig/lsig.algo.ts:7",
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"typeEnum\",\"expected\":\"axfer\"}",
     "pc": [
-      21
+      18
     ]
   },
   {
     "teal": 41,
-    "source": 8,
+    "source": "examples/optin-lsig/lsig.algo.ts:8",
     "pc": [
-      22,
-      23
+      19,
+      20
     ]
   },
   {
     "teal": 42,
-    "source": 8,
+    "source": "examples/optin-lsig/lsig.algo.ts:8",
+    "pc": [
+      21,
+      22
+    ]
+  },
+  {
+    "teal": 43,
+    "source": "examples/optin-lsig/lsig.algo.ts:8",
+    "pc": [
+      23
+    ]
+  },
+  {
+    "teal": 46,
+    "source": "examples/optin-lsig/lsig.algo.ts:8",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
     "pc": [
       24
     ]
   },
   {
-    "teal": 43,
-    "source": 8,
+    "teal": 49,
+    "source": "examples/optin-lsig/lsig.algo.ts:9",
     "pc": [
-      25
-    ]
-  },
-  {
-    "teal": 46,
-    "source": 8,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetAmount\",\"expected\":\"0\"}",
-    "pc": [
+      25,
       26
     ]
   },
   {
-    "teal": 49,
-    "source": 9,
+    "teal": 50,
+    "source": "examples/optin-lsig/lsig.algo.ts:9",
     "pc": [
       27,
       28
     ]
   },
   {
-    "teal": 50,
-    "source": 9,
-    "pc": [
-      29,
-      30
-    ]
-  },
-  {
     "teal": 51,
-    "source": 9,
+    "source": "examples/optin-lsig/lsig.algo.ts:9",
     "pc": [
-      31
+      29
     ]
   },
   {
     "teal": 54,
-    "source": 9,
+    "source": "examples/optin-lsig/lsig.algo.ts:9",
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetReceiver\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      32
+      30
     ]
   },
   {
     "teal": 57,
-    "source": 10,
+    "source": "examples/optin-lsig/lsig.algo.ts:10",
+    "pc": [
+      31,
+      32
+    ]
+  },
+  {
+    "teal": 58,
+    "source": "examples/optin-lsig/lsig.algo.ts:10",
     "pc": [
       33,
       34
     ]
   },
   {
-    "teal": 58,
-    "source": 10,
+    "teal": 59,
+    "source": "examples/optin-lsig/lsig.algo.ts:10",
     "pc": [
       35
     ]
   },
   {
-    "teal": 59,
-    "source": 10,
+    "teal": 62,
+    "source": "examples/optin-lsig/lsig.algo.ts:10",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
     "pc": [
       36
     ]
   },
   {
-    "teal": 62,
-    "source": 10,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"fee\",\"expected\":\"0\"}",
-    "pc": [
-      37
-    ]
-  },
-  {
     "teal": 65,
-    "source": 11,
+    "source": "examples/optin-lsig/lsig.algo.ts:11",
     "pc": [
-      38,
-      39
+      37,
+      38
     ]
   },
   {
     "teal": 66,
-    "source": 11,
+    "source": "examples/optin-lsig/lsig.algo.ts:11",
     "pc": [
-      40,
-      41
+      39,
+      40
     ]
   },
   {
     "teal": 67,
-    "source": 11,
+    "source": "examples/optin-lsig/lsig.algo.ts:11",
+    "pc": [
+      41
+    ]
+  },
+  {
+    "teal": 70,
+    "source": "examples/optin-lsig/lsig.algo.ts:11",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
     "pc": [
       42
     ]
   },
   {
-    "teal": 70,
-    "source": 11,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"rekeyTo\",\"expected\":\"globals.zeroAddress\"}",
-    "pc": [
-      43
-    ]
-  },
-  {
     "teal": 73,
-    "source": 12,
+    "source": "examples/optin-lsig/lsig.algo.ts:12",
     "pc": [
-      44,
-      45
+      43,
+      44
     ]
   },
   {
     "teal": 74,
-    "source": 12,
+    "source": "examples/optin-lsig/lsig.algo.ts:12",
     "pc": [
-      46,
-      47
+      45,
+      46
     ]
   },
   {
     "teal": 75,
-    "source": 12,
+    "source": "examples/optin-lsig/lsig.algo.ts:12",
+    "pc": [
+      47
+    ]
+  },
+  {
+    "teal": 78,
+    "source": "examples/optin-lsig/lsig.algo.ts:12",
+    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
     "pc": [
       48
     ]
   },
   {
-    "teal": 78,
-    "source": 12,
-    "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"assetCloseTo\",\"expected\":\"globals.zeroAddress\"}",
+    "teal": 79,
+    "source": "examples/optin-lsig/lsig.algo.ts:6",
     "pc": [
       49
-    ]
-  },
-  {
-    "teal": 79,
-    "source": 6,
-    "pc": [
-      50
     ]
   }
 ]

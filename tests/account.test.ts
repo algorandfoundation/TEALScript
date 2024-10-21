@@ -41,7 +41,7 @@ describe('Account', function () {
     expect(await getTeal('assetBalance')).toEqual([
       '// assert(a.assetBalance(AssetID.fromUint64(123)))',
       'frame_dig -1 // a: Address',
-      'int 123',
+      'pushint 123',
       'asset_holding_get AssetBalance',
       'pop',
       'assert',
@@ -52,7 +52,7 @@ describe('Account', function () {
     expect(await getTeal('assetFrozen')).toEqual([
       '// assert(a.assetFrozen(AssetID.fromUint64(123)))',
       'frame_dig -1 // a: Address',
-      'int 123',
+      'pushint 123',
       'asset_holding_get AssetFrozen',
       'pop',
       'assert',
@@ -63,7 +63,7 @@ describe('Account', function () {
     expect(await getTeal('hasAsset')).toEqual([
       '// assert(a.isOptedInToAsset(AssetID.fromUint64(123)))',
       'frame_dig -1 // a: Address',
-      'int 123',
+      'pushint 123',
       'asset_holding_get AssetBalance',
       'swap',
       'pop',

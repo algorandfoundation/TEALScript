@@ -38,6 +38,10 @@ class Templates extends Contract {
   specificLengthTemplateVar(): void {
     ed25519VerifyBare(this.bytesTmplVar, this.bytes64TmplVar, this.bytes32TmplVar);
   }
+
+  throwError(): void {
+    throw Error('this is an error');
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
