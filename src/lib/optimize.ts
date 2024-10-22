@@ -153,7 +153,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       pushTeal(`gitxn ${index} ${gitxnField}`, node);
       optimized = true;
     } else if (teal.startsWith('replace3')) {
-      if (outputTeal.at(-1)?.teal.startsWith('byte 0x') && outputTeal.at(-2)?.teal.startsWith('int ')) {
+      if (outputTeal.at(-1)?.teal.startsWith('byte 0x') && outputTeal.at(-2)?.teal.match(/^int \d/)) {
         const bytes = outputTeal.at(-1)!;
         const start = parseInt(outputTeal.at(-2)!.teal.split(' ')[1].replace('_', ''), 10);
 
@@ -165,14 +165,14 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
         optimized = true;
       }
     } else if (teal.startsWith('gloadss')) {
-      if (outputTeal.at(-1)?.teal.startsWith('int ')) {
+      if (outputTeal.at(-1)?.teal.match(/^int \d/)) {
         const scratchSlot = Number(outputTeal.at(-1)?.teal.split(' ')[1]);
         popTeal();
         pushTeal(`gloads ${scratchSlot}`, node);
         optimized = true;
       }
     } else if (teal.startsWith('gloads')) {
-      if (outputTeal.at(-1)?.teal.startsWith('int ')) {
+      if (outputTeal.at(-1)?.teal.match(/^int \d/)) {
         const scratchSlot = Number(teal.split(' ')[1]);
         const txnIndex = Number(outputTeal.at(-1)?.teal.split(' ')[1]);
 
@@ -264,7 +264,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
 
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+      if (aLine?.match(/^int \d/) && bLine?.match(/^int \d/)) {
         const a = BigInt(aLine.split(' ')[1].replace('_', ''));
         const b = BigInt(bLine.split(' ')[1].replace('_', ''));
 
@@ -281,7 +281,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
 
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+      if (aLine?.match(/^int \d/) && bLine?.match(/^int \d/)) {
         const a = BigInt(aLine.split(' ')[1].replace('_', ''));
         const b = BigInt(bLine.split(' ')[1].replace('_', ''));
 
@@ -311,7 +311,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
         optimized = true;
       }
     } else if (teal.startsWith('itob')) {
-      if (outputTeal.at(-1)?.teal.startsWith('int ')) {
+      if (outputTeal.at(-1)?.teal.match(/^int \d/)) {
         const intStr = outputTeal.at(-1)!.teal.split(' ')[1].replace(/_/g, '');
         const n = BigInt(intStr);
         popTeal();
@@ -344,7 +344,7 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
       const aLine = outputTeal.at(-2)?.teal;
       const bLine = outputTeal.at(-1)?.teal;
 
-      if (aLine?.startsWith('int ') && bLine?.startsWith('int ')) {
+      if (aLine?.match(/^int \d/) && bLine?.match(/^int \d/)) {
         const a = BigInt(aLine.split(' ')[1].replace('_', ''));
         const b = BigInt(bLine.split(' ')[1].replace('_', ''));
 
