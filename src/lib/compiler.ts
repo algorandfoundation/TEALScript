@@ -7506,7 +7506,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                     tVar.type
-                  )}) PC values will not be included in the emitted source mapping`
+                  )}) PC values will be offset from first opcode after constant blocks`
                 );
 
                 this.hasDynamicTemplateVar = true;

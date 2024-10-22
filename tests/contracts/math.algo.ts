@@ -225,4 +225,8 @@ class MathTest extends Contract {
   uintFromHex(): uint256 {
     return Uint<256>('0xFF');
   }
+
+  wideRatioTest(): uint64 {
+    return wideRatio([Uint<64>('18446744073709551615'), 2, 3, 4, 5], [2, 3, 4, 5]);
+  }
 }

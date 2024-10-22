@@ -42,6 +42,10 @@ class Templates extends Contract {
   throwError(): void {
     throw Error('this is an error');
   }
+
+  itobTemplateVar(): bytes {
+    return itob(this.uint64TmplVar);
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
