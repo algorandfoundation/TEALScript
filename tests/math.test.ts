@@ -113,6 +113,11 @@ describe('Math', function () {
         method: 'unsafeVariables',
       });
     });
+
+    test('wideRatioTest', async function () {
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      expect(await runMethod({ appClient, method: 'wideRatioTest' })).toBe(18446744073709551615n);
+    });
   });
 
   describe('Compile Errors', function () {
