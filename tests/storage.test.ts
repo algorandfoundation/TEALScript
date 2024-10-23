@@ -54,10 +54,10 @@ describe('Storage', function () {
             if (['local', 'global'].includes(storageType) && method === 'Exists')
               expectedTeal.push('txna Applications 0');
 
-            expectedTeal.push('byte 0x666f6f // "foo"');
+            expectedTeal.push('bytec 0 //  "foo"');
 
             if (method === 'Put') {
-              expectedTeal.push('byte 0x626172 // "bar"');
+              expectedTeal.push('bytec 1 //  "bar"');
             }
 
             expectedTeal.push(ops[storageType][method]);
@@ -76,7 +76,7 @@ describe('Storage', function () {
               if (storageType === 'box' && storageClass === 'Map') {
                 expectedTeal.push("// box value does not exist: this.boxMap('foo').value", 'assert');
               }
-              expectedTeal.push('byte 0x626172 // "bar"');
+              expectedTeal.push('bytec 1 //  "bar"');
               expectedTeal.push('==');
               expectedTeal.push('assert');
             }

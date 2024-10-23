@@ -39,7 +39,13 @@ export function lowerFirstChar(str: string) {
   return `${str.charAt(0).toLocaleLowerCase() + str.slice(1)}`;
 }
 
-export function artifactsTest(sourcePath: string, artifactsPath: string, className: string, lsig = false) {
+export function artifactsTest(
+  sourcePath: string,
+  artifactsPath: string,
+  className: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options: { lsig?: boolean } = {}
+) {
   const project = sourcePath.startsWith('examples/') ? EXAMPLES_PROJECT : TESTS_PROJECT;
   const compiler = new Compiler({
     srcPath: sourcePath,
@@ -55,14 +61,19 @@ export function artifactsTest(sourcePath: string, artifactsPath: string, classNa
       await compiler.algodCompile();
     });
 
+    const target = options.lsig ? 'lsig' : 'approval';
+
     test('Generates TEAL', () => {
-      const target = lsig ? 'lsig' : 'approval';
       expect(compiler.teal[target].map((t) => t.teal).join('\n')).toEqual(
         fs.readFileSync(`${artifactsPath}/${className}.${target}.teal`, 'utf-8')
       );
     });
 
-    if (!lsig) {
+    test('Maintains program size', async function () {
+      expect(compiler.estimatedProgramSize[target]).toMatchSnapshot();
+    });
+
+    if (!options.lsig) {
       test('Generates ABI JSON', () => {
         expect(compiler.arc4Description()).toEqual(
           JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8'))

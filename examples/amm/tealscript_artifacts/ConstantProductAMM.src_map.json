@@ -20,16 +20,16 @@
       8,
       9,
       10,
-      11
+      11,
+      12,
+      13,
+      14
     ]
   },
   {
     "teal": 3,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      12,
-      13,
-      14,
       15,
       16,
       17,
@@ -39,26 +39,14 @@
       21,
       22,
       23,
-      24
-    ]
-  },
-  {
-    "teal": 15,
-    "source": "examples/amm/amm.algo.ts:8",
-    "pc": [
+      24,
       25,
-      26
-    ]
-  },
-  {
-    "teal": 16,
-    "source": "examples/amm/amm.algo.ts:8",
-    "pc": [
+      26,
       27
     ]
   },
   {
-    "teal": 17,
+    "teal": 15,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
       28,
@@ -66,14 +54,14 @@
     ]
   },
   {
-    "teal": 18,
+    "teal": 16,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
       30
     ]
   },
   {
-    "teal": 19,
+    "teal": 17,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
       31,
@@ -81,19 +69,31 @@
     ]
   },
   {
-    "teal": 20,
+    "teal": 18,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
       33
     ]
   },
   {
-    "teal": 21,
+    "teal": 19,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
       34,
-      35,
-      36,
+      35
+    ]
+  },
+  {
+    "teal": 20,
+    "source": "examples/amm/amm.algo.ts:8",
+    "pc": [
+      36
+    ]
+  },
+  {
+    "teal": 21,
+    "source": "examples/amm/amm.algo.ts:8",
+    "pc": [
       37,
       38,
       39,
@@ -116,7 +116,10 @@
       56,
       57,
       58,
-      59
+      59,
+      60,
+      61,
+      62
     ]
   },
   {
@@ -124,48 +127,45 @@
     "source": "examples/amm/amm.algo.ts:8",
     "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
     "pc": [
-      60
+      63
     ]
   },
   {
     "teal": 30,
     "source": "examples/amm/amm.algo.ts:19",
     "pc": [
-      61,
-      62,
-      63
+      64,
+      65,
+      66
     ]
   },
   {
     "teal": 31,
     "source": "examples/amm/amm.algo.ts:19",
     "pc": [
-      64,
-      65
+      67
     ]
   },
   {
     "teal": 32,
     "source": "examples/amm/amm.algo.ts:19",
     "pc": [
-      66
+      68
     ]
   },
   {
     "teal": 36,
     "source": "examples/amm/amm.algo.ts:19",
     "pc": [
-      67,
-      68,
-      69
+      69,
+      70,
+      71
     ]
   },
   {
     "teal": 40,
     "source": "examples/amm/amm.algo.ts:20",
     "pc": [
-      70,
-      71,
       72
     ]
   },
@@ -343,71 +343,89 @@
     "source": "examples/amm/amm.algo.ts:29",
     "pc": [
       116,
-      117,
-      118,
-      119,
-      120,
-      121
+      117
     ]
   },
   {
     "teal": 85,
     "source": "examples/amm/amm.algo.ts:29",
     "pc": [
-      122,
-      123
+      118,
+      119
     ]
   },
   {
     "teal": 89,
     "source": "examples/amm/amm.algo.ts:30",
     "pc": [
-      124,
-      125
+      120,
+      121
     ]
   },
   {
     "teal": 90,
     "source": "examples/amm/amm.algo.ts:30",
     "pc": [
-      126,
-      127
+      122,
+      123
     ]
   },
   {
     "teal": 94,
     "source": "examples/amm/amm.algo.ts:31",
     "pc": [
-      128,
-      129
+      124,
+      125
     ]
   },
   {
     "teal": 95,
     "source": "examples/amm/amm.algo.ts:31",
     "pc": [
-      130,
-      131
+      126,
+      127
     ]
   },
   {
     "teal": 99,
     "source": "examples/amm/amm.algo.ts:32",
     "pc": [
-      132,
-      133
+      128,
+      129
     ]
   },
   {
     "teal": 100,
     "source": "examples/amm/amm.algo.ts:32",
     "pc": [
-      134,
-      135
+      130,
+      131
     ]
   },
   {
     "teal": 103,
+    "source": "examples/amm/amm.algo.ts:26",
+    "pc": [
+      132
+    ]
+  },
+  {
+    "teal": 104,
+    "source": "examples/amm/amm.algo.ts:26",
+    "pc": [
+      133,
+      134
+    ]
+  },
+  {
+    "teal": 107,
+    "source": "examples/amm/amm.algo.ts:26",
+    "pc": [
+      135
+    ]
+  },
+  {
+    "teal": 108,
     "source": "examples/amm/amm.algo.ts:26",
     "pc": [
       136,
@@ -415,338 +433,308 @@
     ]
   },
   {
-    "teal": 104,
-    "source": "examples/amm/amm.algo.ts:26",
-    "pc": [
-      138,
-      139
-    ]
-  },
-  {
-    "teal": 107,
-    "source": "examples/amm/amm.algo.ts:26",
-    "pc": [
-      140
-    ]
-  },
-  {
-    "teal": 108,
-    "source": "examples/amm/amm.algo.ts:26",
-    "pc": [
-      141,
-      142
-    ]
-  },
-  {
     "teal": 109,
     "source": "examples/amm/amm.algo.ts:23",
     "pc": [
-      143
+      138
     ]
   },
   {
     "teal": 113,
     "source": "examples/amm/amm.algo.ts:36",
     "pc": [
-      144,
-      145,
-      146
+      139,
+      140,
+      141
     ]
   },
   {
     "teal": 121,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      147
+      142
     ]
   },
   {
     "teal": 122,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      148,
-      149
+      143
     ]
   },
   {
     "teal": 123,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      150,
-      151
+      144,
+      145
     ]
   },
   {
     "teal": 127,
     "source": "examples/amm/amm.algo.ts:38",
     "pc": [
-      152,
-      153
+      146,
+      147
     ]
   },
   {
     "teal": 128,
     "source": "examples/amm/amm.algo.ts:38",
     "pc": [
-      154,
-      155
+      148,
+      149
     ]
   },
   {
     "teal": 132,
     "source": "examples/amm/amm.algo.ts:39",
     "pc": [
-      156,
-      157
+      150,
+      151
     ]
   },
   {
     "teal": 133,
     "source": "examples/amm/amm.algo.ts:39",
     "pc": [
-      158,
-      159
+      152,
+      153
     ]
   },
   {
     "teal": 137,
     "source": "examples/amm/amm.algo.ts:40",
     "pc": [
-      160,
-      161
+      154,
+      155
     ]
   },
   {
     "teal": 138,
     "source": "examples/amm/amm.algo.ts:40",
     "pc": [
-      162,
-      163
+      156,
+      157
     ]
   },
   {
     "teal": 141,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      164,
-      165
+      158
     ]
   },
   {
     "teal": 142,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      166,
-      167
+      159,
+      160
     ]
   },
   {
     "teal": 145,
     "source": "examples/amm/amm.algo.ts:37",
     "pc": [
-      168
+      161
     ]
   },
   {
     "teal": 146,
     "source": "examples/amm/amm.algo.ts:36",
     "pc": [
-      169
+      162
     ]
   },
   {
     "teal": 150,
     "source": "examples/amm/amm.algo.ts:44",
     "pc": [
-      170,
-      171,
-      172
+      163,
+      164,
+      165
     ]
   },
   {
     "teal": 154,
     "source": "examples/amm/amm.algo.ts:45",
     "pc": [
-      173,
-      174
+      166
     ]
   },
   {
     "teal": 155,
     "source": "examples/amm/amm.algo.ts:45",
     "pc": [
-      175,
-      176
+      167,
+      168
     ]
   },
   {
     "teal": 156,
     "source": "examples/amm/amm.algo.ts:45",
     "pc": [
-      177,
-      178
+      169,
+      170
     ]
   },
   {
     "teal": 157,
     "source": "examples/amm/amm.algo.ts:45",
     "pc": [
-      179,
-      180,
-      181
+      171,
+      172,
+      173
     ]
   },
   {
     "teal": 158,
     "source": "examples/amm/amm.algo.ts:44",
     "pc": [
-      182
+      174
     ]
   },
   {
     "teal": 162,
     "source": "examples/amm/amm.algo.ts:48",
     "pc": [
-      183,
-      184,
-      185
+      175,
+      176,
+      177
     ]
   },
   {
     "teal": 166,
     "source": "examples/amm/amm.algo.ts:49",
     "pc": [
-      186,
-      187
+      178,
+      179
     ]
   },
   {
     "teal": 167,
     "source": "examples/amm/amm.algo.ts:49",
     "pc": [
-      188,
-      189
+      180,
+      181
     ]
   },
   {
     "teal": 168,
     "source": "examples/amm/amm.algo.ts:49",
     "pc": [
-      190
+      182
     ]
   },
   {
     "teal": 169,
     "source": "examples/amm/amm.algo.ts:49",
     "pc": [
-      191
+      183
     ]
   },
   {
     "teal": 170,
     "source": "examples/amm/amm.algo.ts:48",
     "pc": [
-      192
+      184
     ]
   },
   {
     "teal": 174,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      193,
-      194,
-      195
+      185,
+      186,
+      187
     ]
   },
   {
     "teal": 177,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      196,
-      197
+      188
     ]
   },
   {
     "teal": 178,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      198,
-      199
+      189,
+      190
     ]
   },
   {
     "teal": 182,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      200,
-      201
+      191,
+      192
     ]
   },
   {
     "teal": 183,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      202,
-      203,
-      204
+      193
     ]
   },
   {
     "teal": 184,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      205
+      194
     ]
   },
   {
     "teal": 185,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      206,
-      207
+      195
     ]
   },
   {
     "teal": 186,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      208,
-      209
+      196,
+      197
     ]
   },
   {
     "teal": 187,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      210
+      198
     ]
   },
   {
     "teal": 188,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      211
+      199
     ]
   },
   {
     "teal": 189,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      212
+      200
     ]
   },
   {
     "teal": 190,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      213
+      201
     ]
   },
   {
     "teal": 191,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      214
+      202
     ]
   },
   {
@@ -754,90 +742,87 @@
     "source": "examples/amm/amm.algo.ts:53",
     "errorMessage": "wideRatio failed",
     "pc": [
-      215
+      203
     ]
   },
   {
     "teal": 195,
     "source": "examples/amm/amm.algo.ts:53",
     "pc": [
-      216,
-      217
+      204,
+      205
     ]
   },
   {
     "teal": 199,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      218,
-      219
+      206,
+      207
     ]
   },
   {
     "teal": 200,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      220,
-      221,
-      222
+      208
     ]
   },
   {
     "teal": 201,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      223
+      209
     ]
   },
   {
     "teal": 202,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      224,
-      225
+      210
     ]
   },
   {
     "teal": 203,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      226,
-      227
+      211,
+      212
     ]
   },
   {
     "teal": 204,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      228
+      213
     ]
   },
   {
     "teal": 205,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      229
+      214
     ]
   },
   {
     "teal": 206,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      230
+      215
     ]
   },
   {
     "teal": 207,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      231
+      216
     ]
   },
   {
     "teal": 208,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
-      232
+      217
     ]
   },
   {
@@ -845,19 +830,76 @@
     "source": "examples/amm/amm.algo.ts:54",
     "errorMessage": "wideRatio failed",
     "pc": [
-      233
+      218
     ]
   },
   {
     "teal": 212,
     "source": "examples/amm/amm.algo.ts:54",
     "pc": [
+      219,
+      220
+    ]
+  },
+  {
+    "teal": 216,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      221,
+      222
+    ]
+  },
+  {
+    "teal": 217,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      223,
+      224
+    ]
+  },
+  {
+    "teal": 218,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      225
+    ]
+  },
+  {
+    "teal": 219,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      226,
+      227,
+      228
+    ]
+  },
+  {
+    "teal": 220,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      229,
+      230
+    ]
+  },
+  {
+    "teal": 221,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
+      231,
+      232,
+      233
+    ]
+  },
+  {
+    "teal": 224,
+    "source": "examples/amm/amm.algo.ts:56",
+    "pc": [
       234,
       235
     ]
   },
   {
-    "teal": 216,
+    "teal": 227,
     "source": "examples/amm/amm.algo.ts:56",
     "pc": [
       236,
@@ -865,135 +907,75 @@
     ]
   },
   {
-    "teal": 217,
-    "source": "examples/amm/amm.algo.ts:56",
+    "teal": 231,
+    "source": "examples/amm/amm.algo.ts:58",
     "pc": [
       238,
       239
     ]
   },
   {
-    "teal": 218,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      240
-    ]
-  },
-  {
-    "teal": 219,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      241,
-      242,
-      243
-    ]
-  },
-  {
-    "teal": 220,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      244,
-      245
-    ]
-  },
-  {
-    "teal": 221,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      246,
-      247,
-      248
-    ]
-  },
-  {
-    "teal": 224,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      249,
-      250
-    ]
-  },
-  {
-    "teal": 227,
-    "source": "examples/amm/amm.algo.ts:56",
-    "pc": [
-      251,
-      252
-    ]
-  },
-  {
-    "teal": 231,
-    "source": "examples/amm/amm.algo.ts:58",
-    "pc": [
-      253,
-      254
-    ]
-  },
-  {
     "teal": 232,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      255,
-      256
+      240,
+      241
     ]
   },
   {
     "teal": 233,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      257
+      242
     ]
   },
   {
     "teal": 234,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      258,
-      259
+      243
     ]
   },
   {
     "teal": 235,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      260,
-      261,
-      262
+      244
     ]
   },
   {
     "teal": 236,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      263
+      245
     ]
   },
   {
     "teal": 237,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      264
+      246
     ]
   },
   {
     "teal": 238,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      265
+      247
     ]
   },
   {
     "teal": 239,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      266
+      248
     ]
   },
   {
     "teal": 240,
     "source": "examples/amm/amm.algo.ts:58",
     "pc": [
-      267
+      249
     ]
   },
   {
@@ -1001,176 +983,169 @@
     "source": "examples/amm/amm.algo.ts:58",
     "errorMessage": "wideRatio failed",
     "pc": [
-      268
+      250
     ]
   },
   {
     "teal": 246,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      269,
-      270
+      251,
+      252
     ]
   },
   {
     "teal": 249,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      271,
-      272
+      253,
+      254
     ]
   },
   {
     "teal": 250,
     "source": "examples/amm/amm.algo.ts:52",
     "pc": [
-      273
+      255
     ]
   },
   {
     "teal": 254,
     "source": "examples/amm/amm.algo.ts:61",
     "pc": [
-      274,
-      275,
-      276
+      256,
+      257,
+      258
     ]
   },
   {
     "teal": 261,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      277,
-      278
+      259,
+      260
     ]
   },
   {
     "teal": 262,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      279,
-      280,
-      281
+      261
     ]
   },
   {
     "teal": 263,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      282
+      262
     ]
   },
   {
     "teal": 264,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      283,
-      284
+      263,
+      264
     ]
   },
   {
     "teal": 265,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      285
+      265
     ]
   },
   {
     "teal": 266,
     "source": "examples/amm/amm.algo.ts:63",
     "pc": [
-      286,
-      287,
-      288
+      266
     ]
   },
   {
     "teal": 267,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      289
+      267
     ]
   },
   {
     "teal": 268,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      290,
-      291
+      268
     ]
   },
   {
     "teal": 269,
     "source": "examples/amm/amm.algo.ts:64",
     "pc": [
-      292,
-      293
+      269,
+      270
     ]
   },
   {
     "teal": 270,
     "source": "examples/amm/amm.algo.ts:64",
     "pc": [
-      294,
-      295,
-      296
+      271
     ]
   },
   {
     "teal": 271,
     "source": "examples/amm/amm.algo.ts:64",
     "pc": [
-      297
+      272
     ]
   },
   {
     "teal": 272,
     "source": "examples/amm/amm.algo.ts:64",
     "pc": [
-      298,
-      299
+      273,
+      274
     ]
   },
   {
     "teal": 273,
     "source": "examples/amm/amm.algo.ts:64",
     "pc": [
-      300
+      275
     ]
   },
   {
     "teal": 274,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      301
+      276
     ]
   },
   {
     "teal": 275,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      302
+      277
     ]
   },
   {
     "teal": 276,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      303
+      278
     ]
   },
   {
     "teal": 277,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      304
+      279
     ]
   },
   {
     "teal": 278,
     "source": "examples/amm/amm.algo.ts:62",
     "pc": [
-      305
+      280
     ]
   },
   {
@@ -1178,97 +1153,96 @@
     "source": "examples/amm/amm.algo.ts:62",
     "errorMessage": "wideRatio failed",
     "pc": [
-      306
+      281
     ]
   },
   {
     "teal": 282,
     "source": "examples/amm/amm.algo.ts:61",
     "pc": [
-      307
+      282
     ]
   },
   {
     "teal": 286,
     "source": "examples/amm/amm.algo.ts:68",
     "pc": [
-      308,
-      309,
-      310
+      283,
+      284,
+      285
     ]
   },
   {
     "teal": 290,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      311,
-      312
+      286,
+      287
     ]
   },
   {
     "teal": 291,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      313,
-      314
+      288,
+      289
     ]
   },
   {
     "teal": 292,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      315
+      290
     ]
   },
   {
     "teal": 293,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      316,
-      317
+      291
     ]
   },
   {
     "teal": 294,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      318,
-      319
+      292,
+      293
     ]
   },
   {
     "teal": 295,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      320
+      294
     ]
   },
   {
     "teal": 296,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      321
+      295
     ]
   },
   {
     "teal": 297,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      322
+      296
     ]
   },
   {
     "teal": 298,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      323
+      297
     ]
   },
   {
     "teal": 299,
     "source": "examples/amm/amm.algo.ts:69",
     "pc": [
-      324
+      298
     ]
   },
   {
@@ -1276,236 +1250,232 @@
     "source": "examples/amm/amm.algo.ts:69",
     "errorMessage": "wideRatio failed",
     "pc": [
-      325
+      299
     ]
   },
   {
     "teal": 303,
     "source": "examples/amm/amm.algo.ts:68",
     "pc": [
-      326
+      300
     ]
   },
   {
     "teal": 307,
     "source": "examples/amm/amm.algo.ts:72",
     "pc": [
-      327,
-      328,
-      329
+      301,
+      302,
+      303
     ]
   },
   {
     "teal": 310,
     "source": "examples/amm/amm.algo.ts:72",
     "pc": [
-      330,
-      331
+      304
     ]
   },
   {
     "teal": 314,
     "source": "examples/amm/amm.algo.ts:73",
     "pc": [
-      332,
-      333,
-      334
+      305,
+      306,
+      307
     ]
   },
   {
     "teal": 315,
     "source": "examples/amm/amm.algo.ts:73",
     "pc": [
-      335,
-      336
+      308,
+      309
     ]
   },
   {
     "teal": 319,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      337,
-      338
+      310,
+      311
     ]
   },
   {
     "teal": 320,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      339,
-      340
+      312,
+      313
     ]
   },
   {
     "teal": 321,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      341
+      314
     ]
   },
   {
     "teal": 322,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      342,
-      343
+      315,
+      316
     ]
   },
   {
     "teal": 323,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      344,
-      345
+      317,
+      318
     ]
   },
   {
     "teal": 324,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      346,
-      347
+      319,
+      320
     ]
   },
   {
     "teal": 325,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      348
+      321
     ]
   },
   {
     "teal": 326,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      349,
-      350
+      322,
+      323
     ]
   },
   {
     "teal": 327,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      351
+      324
     ]
   },
   {
     "teal": 328,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      352,
-      353
+      325,
+      326
     ]
   },
   {
     "teal": 329,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      354
+      327
     ]
   },
   {
     "teal": 330,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      355
+      328
     ]
   },
   {
     "teal": 331,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      356,
-      357
+      329
     ]
   },
   {
     "teal": 332,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      358,
-      359
+      330,
+      331
     ]
   },
   {
     "teal": 333,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      360,
-      361,
-      362
+      332
     ]
   },
   {
     "teal": 334,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      363
+      333
     ]
   },
   {
     "teal": 335,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      364,
-      365
+      334,
+      335
     ]
   },
   {
     "teal": 336,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      366,
-      367
+      336,
+      337
     ]
   },
   {
     "teal": 337,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      368
+      338
     ]
   },
   {
     "teal": 338,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      369
+      339
     ]
   },
   {
     "teal": 339,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      370
+      340
     ]
   },
   {
     "teal": 340,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      371
+      341
     ]
   },
   {
     "teal": 341,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      372
+      342
     ]
   },
   {
     "teal": 342,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      373
+      343
     ]
   },
   {
     "teal": 343,
     "source": "examples/amm/amm.algo.ts:74",
     "pc": [
-      374
+      344
     ]
   },
   {
@@ -1513,60 +1483,60 @@
     "source": "examples/amm/amm.algo.ts:74",
     "errorMessage": "wideRatio failed",
     "pc": [
-      375
+      345
     ]
   },
   {
     "teal": 349,
     "source": "examples/amm/amm.algo.ts:72",
     "pc": [
-      376,
-      377
+      346,
+      347
     ]
   },
   {
     "teal": 350,
     "source": "examples/amm/amm.algo.ts:72",
     "pc": [
-      378
+      348
     ]
   },
   {
     "teal": 355,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      379,
-      380,
-      381
+      349,
+      350,
+      351
     ]
   },
   {
     "teal": 356,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      382
+      352
     ]
   },
   {
     "teal": 357,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      383
+      353
     ]
   },
   {
     "teal": 358,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      384,
-      385
+      354,
+      355
     ]
   },
   {
     "teal": 359,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      386
+      356
     ]
   },
   {
@@ -1574,71 +1544,68 @@
     "source": "examples/amm/amm.algo.ts:77",
     "errorMessage": "argument 0 (governor) for set_governor must be a address",
     "pc": [
-      387
+      357
     ]
   },
   {
     "teal": 365,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      388,
-      389,
-      390
+      358,
+      359,
+      360
     ]
   },
   {
     "teal": 366,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      391,
-      392
+      361
     ]
   },
   {
     "teal": 367,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      393
+      362
     ]
   },
   {
     "teal": 371,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      394,
-      395,
-      396
+      363,
+      364,
+      365
     ]
   },
   {
     "teal": 376,
     "source": "examples/amm/amm.algo.ts:78",
     "pc": [
-      397,
-      398
+      366,
+      367
     ]
   },
   {
     "teal": 377,
     "source": "examples/amm/amm.algo.ts:78",
     "pc": [
-      399,
-      400,
-      401
+      368
     ]
   },
   {
     "teal": 378,
     "source": "examples/amm/amm.algo.ts:78",
     "pc": [
-      402
+      369
     ]
   },
   {
     "teal": 379,
     "source": "examples/amm/amm.algo.ts:78",
     "pc": [
-      403
+      370
     ]
   },
   {
@@ -1646,135 +1613,131 @@
     "source": "examples/amm/amm.algo.ts:78",
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
     "pc": [
-      404
+      371
     ]
   },
   {
     "teal": 386,
     "source": "examples/amm/amm.algo.ts:79",
     "pc": [
-      405,
-      406,
-      407
+      372
     ]
   },
   {
     "teal": 387,
     "source": "examples/amm/amm.algo.ts:79",
     "pc": [
-      408,
-      409
+      373,
+      374
     ]
   },
   {
     "teal": 388,
     "source": "examples/amm/amm.algo.ts:79",
     "pc": [
-      410
+      375
     ]
   },
   {
     "teal": 389,
     "source": "examples/amm/amm.algo.ts:77",
     "pc": [
-      411
+      376
     ]
   },
   {
     "teal": 394,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      412,
-      413,
-      414,
-      415,
-      416,
-      417
+      377,
+      378,
+      379,
+      380,
+      381,
+      382
     ]
   },
   {
     "teal": 397,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      418,
-      419,
-      420
+      383,
+      384,
+      385
     ]
   },
   {
     "teal": 398,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      421
+      386
     ]
   },
   {
     "teal": 401,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      422,
-      423,
-      424
+      387,
+      388,
+      389
     ]
   },
   {
     "teal": 402,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      425
+      390
     ]
   },
   {
     "teal": 405,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      426,
-      427
+      391,
+      392
     ]
   },
   {
     "teal": 406,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      428,
-      429
+      393
     ]
   },
   {
     "teal": 407,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      430
+      394
     ]
   },
   {
     "teal": 408,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      431
+      395
     ]
   },
   {
     "teal": 409,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      432,
-      433
+      396,
+      397
     ]
   },
   {
     "teal": 410,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      434,
-      435
+      398
     ]
   },
   {
     "teal": 411,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      436
+      399
     ]
   },
   {
@@ -1782,92 +1745,89 @@
     "source": "examples/amm/amm.algo.ts:82",
     "errorMessage": "argument 2 (seed) for bootstrap must be a pay transaction",
     "pc": [
-      437
+      400
     ]
   },
   {
     "teal": 417,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      438,
-      439,
-      440
+      401,
+      402,
+      403
     ]
   },
   {
     "teal": 418,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      441
+      404
     ]
   },
   {
     "teal": 419,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      442
+      405
     ]
   },
   {
     "teal": 420,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      443
+      406
     ]
   },
   {
     "teal": 421,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      444,
-      445
+      407
     ]
   },
   {
     "teal": 422,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      446
+      408
     ]
   },
   {
     "teal": 426,
     "source": "examples/amm/amm.algo.ts:82",
     "pc": [
-      447,
-      448,
-      449
+      409,
+      410,
+      411
     ]
   },
   {
     "teal": 431,
     "source": "examples/amm/amm.algo.ts:83",
     "pc": [
-      450,
-      451
+      412,
+      413
     ]
   },
   {
     "teal": 432,
     "source": "examples/amm/amm.algo.ts:83",
     "pc": [
-      452,
-      453,
-      454
+      414
     ]
   },
   {
     "teal": 433,
     "source": "examples/amm/amm.algo.ts:83",
     "pc": [
-      455
+      415
     ]
   },
   {
     "teal": 434,
     "source": "examples/amm/amm.algo.ts:83",
     "pc": [
-      456
+      416
     ]
   },
   {
@@ -1875,68 +1835,68 @@
     "source": "examples/amm/amm.algo.ts:83",
     "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
     "pc": [
-      457
+      417
     ]
   },
   {
     "teal": 441,
     "source": "examples/amm/amm.algo.ts:85",
     "pc": [
-      458,
-      459
+      418,
+      419
     ]
   },
   {
     "teal": 442,
     "source": "examples/amm/amm.algo.ts:85",
     "pc": [
-      460,
-      461
+      420,
+      421
     ]
   },
   {
     "teal": 443,
     "source": "examples/amm/amm.algo.ts:85",
     "pc": [
-      462
+      422
     ]
   },
   {
     "teal": 444,
     "source": "examples/amm/amm.algo.ts:85",
     "pc": [
-      463
+      423
     ]
   },
   {
     "teal": 449,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      464,
-      465
+      424,
+      425
     ]
   },
   {
     "teal": 450,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      466,
-      467
+      426,
+      427
     ]
   },
   {
     "teal": 451,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      468,
-      469
+      428,
+      429
     ]
   },
   {
     "teal": 452,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      470
+      430
     ]
   },
   {
@@ -1944,40 +1904,40 @@
     "source": "examples/amm/amm.algo.ts:87",
     "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
     "pc": [
-      471
+      431
     ]
   },
   {
     "teal": 458,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      472,
-      473
+      432,
+      433
     ]
   },
   {
     "teal": 459,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      474,
-      475
+      434,
+      435
     ]
   },
   {
     "teal": 460,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      476,
-      477,
-      478,
-      479
+      436,
+      437,
+      438,
+      439
     ]
   },
   {
     "teal": 461,
     "source": "examples/amm/amm.algo.ts:87",
     "pc": [
-      480
+      440
     ]
   },
   {
@@ -1985,42 +1945,214 @@
     "source": "examples/amm/amm.algo.ts:87",
     "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"amount\",\"condition\":\"greaterThanEqualTo\",\"expected\":\">=300_000\"}",
     "pc": [
-      481
+      441
     ]
   },
   {
     "teal": 468,
     "source": "examples/amm/amm.algo.ts:88",
     "pc": [
-      482,
-      483
+      442,
+      443
     ]
   },
   {
     "teal": 469,
     "source": "examples/amm/amm.algo.ts:88",
     "pc": [
-      484,
-      485
+      444,
+      445
     ]
   },
   {
     "teal": 470,
     "source": "examples/amm/amm.algo.ts:88",
     "pc": [
-      486
+      446
     ]
   },
   {
     "teal": 471,
     "source": "examples/amm/amm.algo.ts:88",
     "pc": [
-      487
+      447
     ]
   },
   {
     "teal": 475,
     "source": "examples/amm/amm.algo.ts:90",
+    "pc": [
+      448
+    ]
+  },
+  {
+    "teal": 476,
+    "source": "examples/amm/amm.algo.ts:90",
+    "pc": [
+      449,
+      450
+    ]
+  },
+  {
+    "teal": 477,
+    "source": "examples/amm/amm.algo.ts:90",
+    "pc": [
+      451
+    ]
+  },
+  {
+    "teal": 481,
+    "source": "examples/amm/amm.algo.ts:91",
+    "pc": [
+      452
+    ]
+  },
+  {
+    "teal": 482,
+    "source": "examples/amm/amm.algo.ts:91",
+    "pc": [
+      453,
+      454
+    ]
+  },
+  {
+    "teal": 483,
+    "source": "examples/amm/amm.algo.ts:91",
+    "pc": [
+      455
+    ]
+  },
+  {
+    "teal": 487,
+    "source": "examples/amm/amm.algo.ts:92",
+    "pc": [
+      456,
+      457
+    ]
+  },
+  {
+    "teal": 488,
+    "source": "examples/amm/amm.algo.ts:92",
+    "pc": [
+      458,
+      459
+    ]
+  },
+  {
+    "teal": 489,
+    "source": "examples/amm/amm.algo.ts:92",
+    "pc": [
+      460,
+      461
+    ]
+  },
+  {
+    "teal": 490,
+    "source": "examples/amm/amm.algo.ts:92",
+    "pc": [
+      462,
+      463,
+      464
+    ]
+  },
+  {
+    "teal": 491,
+    "source": "examples/amm/amm.algo.ts:92",
+    "pc": [
+      465
+    ]
+  },
+  {
+    "teal": 495,
+    "source": "examples/amm/amm.algo.ts:94",
+    "pc": [
+      466,
+      467
+    ]
+  },
+  {
+    "teal": 496,
+    "source": "examples/amm/amm.algo.ts:94",
+    "pc": [
+      468,
+      469,
+      470
+    ]
+  },
+  {
+    "teal": 500,
+    "source": "examples/amm/amm.algo.ts:95",
+    "pc": [
+      471,
+      472
+    ]
+  },
+  {
+    "teal": 501,
+    "source": "examples/amm/amm.algo.ts:95",
+    "pc": [
+      473,
+      474,
+      475
+    ]
+  },
+  {
+    "teal": 505,
+    "source": "examples/amm/amm.algo.ts:97",
+    "pc": [
+      476,
+      477
+    ]
+  },
+  {
+    "teal": 506,
+    "source": "examples/amm/amm.algo.ts:97",
+    "pc": [
+      478
+    ]
+  },
+  {
+    "teal": 507,
+    "source": "examples/amm/amm.algo.ts:82",
+    "pc": [
+      479
+    ]
+  },
+  {
+    "teal": 512,
+    "source": "examples/amm/amm.algo.ts:100",
+    "pc": [
+      480,
+      481,
+      482
+    ]
+  },
+  {
+    "teal": 513,
+    "source": "examples/amm/amm.algo.ts:100",
+    "pc": [
+      483
+    ]
+  },
+  {
+    "teal": 516,
+    "source": "examples/amm/amm.algo.ts:100",
+    "pc": [
+      484,
+      485,
+      486
+    ]
+  },
+  {
+    "teal": 517,
+    "source": "examples/amm/amm.algo.ts:100",
+    "pc": [
+      487
+    ]
+  },
+  {
+    "teal": 520,
+    "source": "examples/amm/amm.algo.ts:100",
     "pc": [
       488,
       489,
@@ -2028,241 +2160,61 @@
     ]
   },
   {
-    "teal": 476,
-    "source": "examples/amm/amm.algo.ts:90",
-    "pc": [
-      491,
-      492
-    ]
-  },
-  {
-    "teal": 477,
-    "source": "examples/amm/amm.algo.ts:90",
-    "pc": [
-      493
-    ]
-  },
-  {
-    "teal": 481,
-    "source": "examples/amm/amm.algo.ts:91",
-    "pc": [
-      494,
-      495,
-      496
-    ]
-  },
-  {
-    "teal": 482,
-    "source": "examples/amm/amm.algo.ts:91",
-    "pc": [
-      497,
-      498
-    ]
-  },
-  {
-    "teal": 483,
-    "source": "examples/amm/amm.algo.ts:91",
-    "pc": [
-      499
-    ]
-  },
-  {
-    "teal": 487,
-    "source": "examples/amm/amm.algo.ts:92",
-    "pc": [
-      500,
-      501,
-      502
-    ]
-  },
-  {
-    "teal": 488,
-    "source": "examples/amm/amm.algo.ts:92",
-    "pc": [
-      503,
-      504
-    ]
-  },
-  {
-    "teal": 489,
-    "source": "examples/amm/amm.algo.ts:92",
-    "pc": [
-      505,
-      506
-    ]
-  },
-  {
-    "teal": 490,
-    "source": "examples/amm/amm.algo.ts:92",
-    "pc": [
-      507,
-      508,
-      509
-    ]
-  },
-  {
-    "teal": 491,
-    "source": "examples/amm/amm.algo.ts:92",
-    "pc": [
-      510
-    ]
-  },
-  {
-    "teal": 495,
-    "source": "examples/amm/amm.algo.ts:94",
-    "pc": [
-      511,
-      512
-    ]
-  },
-  {
-    "teal": 496,
-    "source": "examples/amm/amm.algo.ts:94",
-    "pc": [
-      513,
-      514,
-      515
-    ]
-  },
-  {
-    "teal": 500,
-    "source": "examples/amm/amm.algo.ts:95",
-    "pc": [
-      516,
-      517
-    ]
-  },
-  {
-    "teal": 501,
-    "source": "examples/amm/amm.algo.ts:95",
-    "pc": [
-      518,
-      519,
-      520
-    ]
-  },
-  {
-    "teal": 505,
-    "source": "examples/amm/amm.algo.ts:97",
-    "pc": [
-      521,
-      522,
-      523
-    ]
-  },
-  {
-    "teal": 506,
-    "source": "examples/amm/amm.algo.ts:97",
-    "pc": [
-      524
-    ]
-  },
-  {
-    "teal": 507,
-    "source": "examples/amm/amm.algo.ts:82",
-    "pc": [
-      525
-    ]
-  },
-  {
-    "teal": 512,
-    "source": "examples/amm/amm.algo.ts:100",
-    "pc": [
-      526,
-      527,
-      528
-    ]
-  },
-  {
-    "teal": 513,
-    "source": "examples/amm/amm.algo.ts:100",
-    "pc": [
-      529
-    ]
-  },
-  {
-    "teal": 516,
-    "source": "examples/amm/amm.algo.ts:100",
-    "pc": [
-      530,
-      531,
-      532
-    ]
-  },
-  {
-    "teal": 517,
-    "source": "examples/amm/amm.algo.ts:100",
-    "pc": [
-      533
-    ]
-  },
-  {
-    "teal": 520,
-    "source": "examples/amm/amm.algo.ts:100",
-    "pc": [
-      534,
-      535,
-      536
-    ]
-  },
-  {
     "teal": 521,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      537
+      491
     ]
   },
   {
     "teal": 524,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      538,
-      539
+      492,
+      493
     ]
   },
   {
     "teal": 525,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      540,
-      541
+      494
     ]
   },
   {
     "teal": 526,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      542
+      495
     ]
   },
   {
     "teal": 527,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      543
+      496
     ]
   },
   {
     "teal": 528,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      544,
-      545
+      497,
+      498
     ]
   },
   {
     "teal": 529,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      546,
-      547
+      499
     ]
   },
   {
     "teal": 530,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      548
+      500
     ]
   },
   {
@@ -2270,60 +2222,59 @@
     "source": "examples/amm/amm.algo.ts:100",
     "errorMessage": "argument 3 (bXfer) for mint must be a axfer transaction",
     "pc": [
-      549
+      501
     ]
   },
   {
     "teal": 536,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      550,
-      551
+      502,
+      503
     ]
   },
   {
     "teal": 537,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      552,
-      553
+      504,
+      505
     ]
   },
   {
     "teal": 538,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      554
+      506
     ]
   },
   {
     "teal": 539,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      555
+      507
     ]
   },
   {
     "teal": 540,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      556,
-      557
+      508,
+      509
     ]
   },
   {
     "teal": 541,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      558,
-      559
+      510
     ]
   },
   {
     "teal": 542,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      560
+      511
     ]
   },
   {
@@ -2331,193 +2282,186 @@
     "source": "examples/amm/amm.algo.ts:100",
     "errorMessage": "argument 4 (aXfer) for mint must be a axfer transaction",
     "pc": [
-      561
+      512
     ]
   },
   {
     "teal": 548,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      562,
-      563,
-      564
+      513,
+      514,
+      515
     ]
   },
   {
     "teal": 549,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      565,
-      566
+      516
     ]
   },
   {
     "teal": 550,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      567
+      517
     ]
   },
   {
     "teal": 554,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      568,
-      569,
-      570
+      518,
+      519,
+      520
     ]
   },
   {
     "teal": 557,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      571,
-      572
+      521
     ]
   },
   {
     "teal": 562,
     "source": "examples/amm/amm.algo.ts:102",
     "pc": [
-      573,
-      574
+      522,
+      523
     ]
   },
   {
     "teal": 563,
     "source": "examples/amm/amm.algo.ts:102",
     "pc": [
-      575,
-      576,
-      577
+      524
     ]
   },
   {
     "teal": 564,
     "source": "examples/amm/amm.algo.ts:102",
     "pc": [
-      578
+      525
     ]
   },
   {
     "teal": 565,
     "source": "examples/amm/amm.algo.ts:102",
     "pc": [
-      579
+      526
     ]
   },
   {
     "teal": 566,
     "source": "examples/amm/amm.algo.ts:102",
     "pc": [
-      580
+      527
     ]
   },
   {
     "teal": 570,
     "source": "examples/amm/amm.algo.ts:103",
     "pc": [
-      581,
-      582
+      528,
+      529
     ]
   },
   {
     "teal": 571,
     "source": "examples/amm/amm.algo.ts:103",
     "pc": [
-      583,
-      584,
-      585
+      530
     ]
   },
   {
     "teal": 572,
     "source": "examples/amm/amm.algo.ts:103",
     "pc": [
-      586
+      531
     ]
   },
   {
     "teal": 573,
     "source": "examples/amm/amm.algo.ts:103",
     "pc": [
-      587
+      532
     ]
   },
   {
     "teal": 574,
     "source": "examples/amm/amm.algo.ts:103",
     "pc": [
-      588
+      533
     ]
   },
   {
     "teal": 578,
     "source": "examples/amm/amm.algo.ts:104",
     "pc": [
-      589,
-      590
+      534,
+      535
     ]
   },
   {
     "teal": 579,
     "source": "examples/amm/amm.algo.ts:104",
     "pc": [
-      591,
-      592,
-      593
+      536,
+      537
     ]
   },
   {
     "teal": 580,
     "source": "examples/amm/amm.algo.ts:104",
     "pc": [
-      594
+      538
     ]
   },
   {
     "teal": 581,
     "source": "examples/amm/amm.algo.ts:104",
     "pc": [
-      595
+      539
     ]
   },
   {
     "teal": 582,
     "source": "examples/amm/amm.algo.ts:104",
     "pc": [
-      596
+      540
     ]
   },
   {
     "teal": 593,
     "source": "examples/amm/amm.algo.ts:107",
     "pc": [
-      597,
-      598
+      541,
+      542
     ]
   },
   {
     "teal": 594,
     "source": "examples/amm/amm.algo.ts:108",
     "pc": [
-      599,
-      600
+      543,
+      544
     ]
   },
   {
     "teal": 595,
     "source": "examples/amm/amm.algo.ts:108",
     "pc": [
-      601,
-      602
+      545,
+      546
     ]
   },
   {
     "teal": 596,
     "source": "examples/amm/amm.algo.ts:108",
     "pc": [
-      603
+      547
     ]
   },
   {
@@ -2525,38 +2469,37 @@
     "source": "examples/amm/amm.algo.ts:108",
     "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      604
+      548
     ]
   },
   {
     "teal": 602,
     "source": "examples/amm/amm.algo.ts:107",
     "pc": [
-      605,
-      606
+      549,
+      550
     ]
   },
   {
     "teal": 603,
     "source": "examples/amm/amm.algo.ts:109",
     "pc": [
-      607,
-      608
+      551,
+      552
     ]
   },
   {
     "teal": 604,
     "source": "examples/amm/amm.algo.ts:109",
     "pc": [
-      609,
-      610
+      553
     ]
   },
   {
     "teal": 605,
     "source": "examples/amm/amm.algo.ts:109",
     "pc": [
-      611
+      554
     ]
   },
   {
@@ -2564,38 +2507,38 @@
     "source": "examples/amm/amm.algo.ts:109",
     "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
     "pc": [
-      612
+      555
     ]
   },
   {
     "teal": 611,
     "source": "examples/amm/amm.algo.ts:107",
     "pc": [
-      613,
-      614
+      556,
+      557
     ]
   },
   {
     "teal": 612,
     "source": "examples/amm/amm.algo.ts:110",
     "pc": [
-      615,
-      616
+      558,
+      559
     ]
   },
   {
     "teal": 613,
     "source": "examples/amm/amm.algo.ts:110",
     "pc": [
-      617,
-      618
+      560,
+      561
     ]
   },
   {
     "teal": 614,
     "source": "examples/amm/amm.algo.ts:110",
     "pc": [
-      619
+      562
     ]
   },
   {
@@ -2603,38 +2546,38 @@
     "source": "examples/amm/amm.algo.ts:110",
     "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
     "pc": [
-      620
+      563
     ]
   },
   {
     "teal": 620,
     "source": "examples/amm/amm.algo.ts:107",
     "pc": [
-      621,
-      622
+      564,
+      565
     ]
   },
   {
     "teal": 621,
     "source": "examples/amm/amm.algo.ts:111",
     "pc": [
-      623,
-      624
+      566,
+      567
     ]
   },
   {
     "teal": 622,
     "source": "examples/amm/amm.algo.ts:111",
     "pc": [
-      625,
-      626
+      568,
+      569
     ]
   },
   {
     "teal": 623,
     "source": "examples/amm/amm.algo.ts:111",
     "pc": [
-      627
+      570
     ]
   },
   {
@@ -2642,38 +2585,38 @@
     "source": "examples/amm/amm.algo.ts:111",
     "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"xferAsset\",\"expected\":\"aAsset\"}",
     "pc": [
-      628
+      571
     ]
   },
   {
     "teal": 637,
     "source": "examples/amm/amm.algo.ts:115",
     "pc": [
-      629,
-      630
+      572,
+      573
     ]
   },
   {
     "teal": 638,
     "source": "examples/amm/amm.algo.ts:116",
     "pc": [
-      631,
-      632
+      574,
+      575
     ]
   },
   {
     "teal": 639,
     "source": "examples/amm/amm.algo.ts:116",
     "pc": [
-      633,
-      634
+      576,
+      577
     ]
   },
   {
     "teal": 640,
     "source": "examples/amm/amm.algo.ts:116",
     "pc": [
-      635
+      578
     ]
   },
   {
@@ -2681,38 +2624,37 @@
     "source": "examples/amm/amm.algo.ts:116",
     "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      636
+      579
     ]
   },
   {
     "teal": 646,
     "source": "examples/amm/amm.algo.ts:115",
     "pc": [
-      637,
-      638
+      580,
+      581
     ]
   },
   {
     "teal": 647,
     "source": "examples/amm/amm.algo.ts:117",
     "pc": [
-      639,
-      640
+      582,
+      583
     ]
   },
   {
     "teal": 648,
     "source": "examples/amm/amm.algo.ts:117",
     "pc": [
-      641,
-      642
+      584
     ]
   },
   {
     "teal": 649,
     "source": "examples/amm/amm.algo.ts:117",
     "pc": [
-      643
+      585
     ]
   },
   {
@@ -2720,38 +2662,38 @@
     "source": "examples/amm/amm.algo.ts:117",
     "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
     "pc": [
-      644
+      586
     ]
   },
   {
     "teal": 655,
     "source": "examples/amm/amm.algo.ts:115",
     "pc": [
-      645,
-      646
+      587,
+      588
     ]
   },
   {
     "teal": 656,
     "source": "examples/amm/amm.algo.ts:118",
     "pc": [
-      647,
-      648
+      589,
+      590
     ]
   },
   {
     "teal": 657,
     "source": "examples/amm/amm.algo.ts:118",
     "pc": [
-      649,
-      650
+      591,
+      592
     ]
   },
   {
     "teal": 658,
     "source": "examples/amm/amm.algo.ts:118",
     "pc": [
-      651
+      593
     ]
   },
   {
@@ -2759,38 +2701,38 @@
     "source": "examples/amm/amm.algo.ts:118",
     "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
     "pc": [
-      652
+      594
     ]
   },
   {
     "teal": 664,
     "source": "examples/amm/amm.algo.ts:115",
     "pc": [
-      653,
-      654
+      595,
+      596
     ]
   },
   {
     "teal": 665,
     "source": "examples/amm/amm.algo.ts:119",
     "pc": [
-      655,
-      656
+      597,
+      598
     ]
   },
   {
     "teal": 666,
     "source": "examples/amm/amm.algo.ts:119",
     "pc": [
-      657,
-      658
+      599,
+      600
     ]
   },
   {
     "teal": 667,
     "source": "examples/amm/amm.algo.ts:119",
     "pc": [
-      659
+      601
     ]
   },
   {
@@ -2798,575 +2740,568 @@
     "source": "examples/amm/amm.algo.ts:119",
     "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"xferAsset\",\"expected\":\"bAsset\"}",
     "pc": [
-      660
+      602
     ]
   },
   {
     "teal": 676,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      661,
-      662
+      603,
+      604
     ]
   },
   {
     "teal": 677,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      663,
-      664
+      605,
+      606
     ]
   },
   {
     "teal": 678,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      665,
-      666
+      607,
+      608
     ]
   },
   {
     "teal": 679,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      667
+      609
     ]
   },
   {
     "teal": 680,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      668,
-      669
+      610,
+      611
     ]
   },
   {
     "teal": 681,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      670,
-      671
+      612,
+      613
     ]
   },
   {
     "teal": 682,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      672
+      614
     ]
   },
   {
     "teal": 683,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      673
+      615
     ]
   },
   {
     "teal": 684,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      674,
-      675,
-      676
+      616,
+      617,
+      618
     ]
   },
   {
     "teal": 685,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      677,
-      678
+      619,
+      620
     ]
   },
   {
     "teal": 686,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      679,
-      680
+      621,
+      622
     ]
   },
   {
     "teal": 687,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      681,
-      682
+      623,
+      624
     ]
   },
   {
     "teal": 688,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      683
+      625
     ]
   },
   {
     "teal": 689,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      684,
-      685
+      626,
+      627
     ]
   },
   {
     "teal": 690,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      686,
-      687
+      628,
+      629
     ]
   },
   {
     "teal": 691,
     "source": "examples/amm/amm.algo.ts:124",
     "pc": [
-      688
+      630
     ]
   },
   {
     "teal": 692,
     "source": "examples/amm/amm.algo.ts:123",
     "pc": [
-      689
+      631
     ]
   },
   {
     "teal": 695,
     "source": "examples/amm/amm.algo.ts:122",
     "pc": [
-      690,
-      691,
-      692
+      632,
+      633,
+      634
     ]
   },
   {
     "teal": 700,
     "source": "examples/amm/amm.algo.ts:126",
     "pc": [
-      693,
-      694
+      635,
+      636
     ]
   },
   {
     "teal": 701,
     "source": "examples/amm/amm.algo.ts:126",
     "pc": [
-      695,
-      696
+      637,
+      638
     ]
   },
   {
     "teal": 702,
     "source": "examples/amm/amm.algo.ts:126",
     "pc": [
-      697,
-      698
+      639,
+      640
     ]
   },
   {
     "teal": 703,
     "source": "examples/amm/amm.algo.ts:126",
     "pc": [
-      699,
-      700
+      641,
+      642
     ]
   },
   {
     "teal": 704,
     "source": "examples/amm/amm.algo.ts:126",
     "pc": [
-      701,
-      702,
-      703
+      643,
+      644,
+      645
     ]
   },
   {
     "teal": 705,
     "source": "examples/amm/amm.algo.ts:122",
     "pc": [
-      704,
-      705,
-      706
+      646,
+      647,
+      648
     ]
   },
   {
     "teal": 716,
     "source": "examples/amm/amm.algo.ts:133",
     "pc": [
-      707,
-      708
+      649,
+      650
     ]
   },
   {
     "teal": 717,
     "source": "examples/amm/amm.algo.ts:133",
     "pc": [
-      709,
-      710
+      651,
+      652
     ]
   },
   {
     "teal": 718,
     "source": "examples/amm/amm.algo.ts:132",
     "pc": [
-      711,
-      712
+      653,
+      654
     ]
   },
   {
     "teal": 719,
     "source": "examples/amm/amm.algo.ts:132",
     "pc": [
-      713,
-      714
+      655,
+      656
     ]
   },
   {
     "teal": 720,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      715,
-      716
+      657,
+      658
     ]
   },
   {
     "teal": 721,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      717,
-      718
+      659,
+      660
     ]
   },
   {
     "teal": 722,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      719,
-      720
+      661,
+      662
     ]
   },
   {
     "teal": 723,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      721
+      663
     ]
   },
   {
     "teal": 724,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      722,
-      723
+      664,
+      665
     ]
   },
   {
     "teal": 725,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      724,
-      725
+      666,
+      667
     ]
   },
   {
     "teal": 726,
     "source": "examples/amm/amm.algo.ts:131",
     "pc": [
-      726
+      668
     ]
   },
   {
     "teal": 727,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      727,
-      728
+      669,
+      670
     ]
   },
   {
     "teal": 728,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      729,
-      730
+      671,
+      672
     ]
   },
   {
     "teal": 729,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      731,
-      732
+      673,
+      674
     ]
   },
   {
     "teal": 730,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      733
+      675
     ]
   },
   {
     "teal": 731,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      734,
-      735
+      676,
+      677
     ]
   },
   {
     "teal": 732,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      736,
-      737
+      678,
+      679
     ]
   },
   {
     "teal": 733,
     "source": "examples/amm/amm.algo.ts:130",
     "pc": [
-      738
+      680
     ]
   },
   {
     "teal": 734,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      739,
-      740,
-      741,
-      742,
-      743,
-      744
+      681,
+      682
     ]
   },
   {
     "teal": 735,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      745,
-      746
+      683,
+      684
     ]
   },
   {
     "teal": 736,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      747,
-      748
+      685,
+      686
     ]
   },
   {
     "teal": 737,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      749,
-      750
+      687,
+      688
     ]
   },
   {
     "teal": 738,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      751
+      689
     ]
   },
   {
     "teal": 739,
     "source": "examples/amm/amm.algo.ts:129",
     "pc": [
-      752
+      690
     ]
   },
   {
     "teal": 740,
     "source": "examples/amm/amm.algo.ts:128",
     "pc": [
-      753,
-      754,
-      755
+      691,
+      692,
+      693
     ]
   },
   {
     "teal": 741,
     "source": "examples/amm/amm.algo.ts:128",
     "pc": [
-      756,
-      757
+      694,
+      695
     ]
   },
   {
     "teal": 745,
     "source": "examples/amm/amm.algo.ts:136",
     "pc": [
-      758,
-      759
+      696,
+      697
     ]
   },
   {
     "teal": 746,
     "source": "examples/amm/amm.algo.ts:136",
     "pc": [
-      760,
-      761
+      698
     ]
   },
   {
     "teal": 747,
     "source": "examples/amm/amm.algo.ts:136",
     "pc": [
-      762
+      699
     ]
   },
   {
     "teal": 748,
     "source": "examples/amm/amm.algo.ts:136",
     "pc": [
-      763
+      700
     ]
   },
   {
     "teal": 752,
     "source": "examples/amm/amm.algo.ts:138",
     "pc": [
-      764,
-      765
+      701,
+      702
     ]
   },
   {
     "teal": 753,
     "source": "examples/amm/amm.algo.ts:138",
     "pc": [
-      766,
-      767
+      703,
+      704
     ]
   },
   {
     "teal": 754,
     "source": "examples/amm/amm.algo.ts:138",
     "pc": [
-      768,
-      769
+      705,
+      706
     ]
   },
   {
     "teal": 755,
     "source": "examples/amm/amm.algo.ts:138",
     "pc": [
-      770,
-      771,
-      772
+      707,
+      708,
+      709
     ]
   },
   {
     "teal": 758,
     "source": "examples/amm/amm.algo.ts:100",
     "pc": [
-      773
+      710
     ]
   },
   {
     "teal": 763,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      774,
-      775,
-      776
+      711,
+      712,
+      713
     ]
   },
   {
     "teal": 764,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      777
+      714
     ]
   },
   {
     "teal": 767,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      778,
-      779,
-      780
+      715,
+      716,
+      717
     ]
   },
   {
     "teal": 768,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      781
+      718
     ]
   },
   {
     "teal": 771,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      782,
-      783,
-      784
+      719,
+      720,
+      721
     ]
   },
   {
     "teal": 772,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      785
+      722
     ]
   },
   {
     "teal": 775,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      786,
-      787
+      723,
+      724
     ]
   },
   {
     "teal": 776,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      788,
-      789
+      725
     ]
   },
   {
     "teal": 777,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      790
+      726
     ]
   },
   {
     "teal": 778,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      791
+      727
     ]
   },
   {
     "teal": 779,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      792,
-      793
+      728,
+      729
     ]
   },
   {
     "teal": 780,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      794,
-      795
+      730
     ]
   },
   {
     "teal": 781,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      796
+      731
     ]
   },
   {
@@ -3374,201 +3309,194 @@
     "source": "examples/amm/amm.algo.ts:142",
     "errorMessage": "argument 3 (poolXfer) for burn must be a axfer transaction",
     "pc": [
-      797
+      732
     ]
   },
   {
     "teal": 787,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      798,
-      799,
-      800
+      733,
+      734,
+      735
     ]
   },
   {
     "teal": 788,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      801,
-      802
+      736
     ]
   },
   {
     "teal": 789,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      803
+      737
     ]
   },
   {
     "teal": 793,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      804,
-      805,
-      806
+      738,
+      739,
+      740
     ]
   },
   {
     "teal": 796,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      807,
-      808
+      741
     ]
   },
   {
     "teal": 797,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      809,
-      810
+      742,
+      743
     ]
   },
   {
     "teal": 802,
     "source": "examples/amm/amm.algo.ts:144",
     "pc": [
-      811,
-      812
+      744,
+      745
     ]
   },
   {
     "teal": 803,
     "source": "examples/amm/amm.algo.ts:144",
     "pc": [
-      813,
-      814,
-      815
+      746,
+      747
     ]
   },
   {
     "teal": 804,
     "source": "examples/amm/amm.algo.ts:144",
     "pc": [
-      816
+      748
     ]
   },
   {
     "teal": 805,
     "source": "examples/amm/amm.algo.ts:144",
     "pc": [
-      817
+      749
     ]
   },
   {
     "teal": 806,
     "source": "examples/amm/amm.algo.ts:144",
     "pc": [
-      818
+      750
     ]
   },
   {
     "teal": 810,
     "source": "examples/amm/amm.algo.ts:145",
     "pc": [
-      819,
-      820
+      751,
+      752
     ]
   },
   {
     "teal": 811,
     "source": "examples/amm/amm.algo.ts:145",
     "pc": [
-      821,
-      822,
-      823
+      753
     ]
   },
   {
     "teal": 812,
     "source": "examples/amm/amm.algo.ts:145",
     "pc": [
-      824
+      754
     ]
   },
   {
     "teal": 813,
     "source": "examples/amm/amm.algo.ts:145",
     "pc": [
-      825
+      755
     ]
   },
   {
     "teal": 814,
     "source": "examples/amm/amm.algo.ts:145",
     "pc": [
-      826
+      756
     ]
   },
   {
     "teal": 818,
     "source": "examples/amm/amm.algo.ts:146",
     "pc": [
-      827,
-      828
+      757,
+      758
     ]
   },
   {
     "teal": 819,
     "source": "examples/amm/amm.algo.ts:146",
     "pc": [
-      829,
-      830,
-      831
+      759
     ]
   },
   {
     "teal": 820,
     "source": "examples/amm/amm.algo.ts:146",
     "pc": [
-      832
+      760
     ]
   },
   {
     "teal": 821,
     "source": "examples/amm/amm.algo.ts:146",
     "pc": [
-      833
+      761
     ]
   },
   {
     "teal": 822,
     "source": "examples/amm/amm.algo.ts:146",
     "pc": [
-      834
+      762
     ]
   },
   {
     "teal": 833,
     "source": "examples/amm/amm.algo.ts:149",
     "pc": [
-      835,
-      836
+      763,
+      764
     ]
   },
   {
     "teal": 834,
     "source": "examples/amm/amm.algo.ts:150",
     "pc": [
-      837,
-      838
+      765,
+      766
     ]
   },
   {
     "teal": 835,
     "source": "examples/amm/amm.algo.ts:150",
     "pc": [
-      839,
-      840
+      767,
+      768
     ]
   },
   {
     "teal": 836,
     "source": "examples/amm/amm.algo.ts:150",
     "pc": [
-      841
+      769
     ]
   },
   {
@@ -3576,38 +3504,37 @@
     "source": "examples/amm/amm.algo.ts:150",
     "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      842
+      770
     ]
   },
   {
     "teal": 842,
     "source": "examples/amm/amm.algo.ts:149",
     "pc": [
-      843,
-      844
+      771,
+      772
     ]
   },
   {
     "teal": 843,
     "source": "examples/amm/amm.algo.ts:151",
     "pc": [
-      845,
-      846
+      773,
+      774
     ]
   },
   {
     "teal": 844,
     "source": "examples/amm/amm.algo.ts:151",
     "pc": [
-      847,
-      848
+      775
     ]
   },
   {
     "teal": 845,
     "source": "examples/amm/amm.algo.ts:151",
     "pc": [
-      849
+      776
     ]
   },
   {
@@ -3615,38 +3542,38 @@
     "source": "examples/amm/amm.algo.ts:151",
     "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
     "pc": [
-      850
+      777
     ]
   },
   {
     "teal": 851,
     "source": "examples/amm/amm.algo.ts:149",
     "pc": [
-      851,
-      852
+      778,
+      779
     ]
   },
   {
     "teal": 852,
     "source": "examples/amm/amm.algo.ts:152",
     "pc": [
-      853,
-      854
+      780,
+      781
     ]
   },
   {
     "teal": 853,
     "source": "examples/amm/amm.algo.ts:152",
     "pc": [
-      855,
-      856
+      782,
+      783
     ]
   },
   {
     "teal": 854,
     "source": "examples/amm/amm.algo.ts:152",
     "pc": [
-      857
+      784
     ]
   },
   {
@@ -3654,38 +3581,38 @@
     "source": "examples/amm/amm.algo.ts:152",
     "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
     "pc": [
-      858
+      785
     ]
   },
   {
     "teal": 860,
     "source": "examples/amm/amm.algo.ts:149",
     "pc": [
-      859,
-      860
+      786,
+      787
     ]
   },
   {
     "teal": 861,
     "source": "examples/amm/amm.algo.ts:153",
     "pc": [
-      861,
-      862
+      788,
+      789
     ]
   },
   {
     "teal": 862,
     "source": "examples/amm/amm.algo.ts:153",
     "pc": [
-      863,
-      864
+      790,
+      791
     ]
   },
   {
     "teal": 863,
     "source": "examples/amm/amm.algo.ts:153",
     "pc": [
-      865
+      792
     ]
   },
   {
@@ -3693,415 +3620,408 @@
     "source": "examples/amm/amm.algo.ts:153",
     "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"xferAsset\",\"expected\":\"poolAsset\"}",
     "pc": [
-      866
+      793
     ]
   },
   {
     "teal": 870,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      867,
-      868,
-      869,
-      870,
-      871,
-      872
+      794,
+      795
     ]
   },
   {
     "teal": 871,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      873,
-      874
+      796,
+      797
     ]
   },
   {
     "teal": 872,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      875,
-      876
+      798,
+      799
     ]
   },
   {
     "teal": 873,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      877,
-      878
+      800,
+      801
     ]
   },
   {
     "teal": 874,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      879
+      802
     ]
   },
   {
     "teal": 875,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      880,
-      881
+      803,
+      804
     ]
   },
   {
     "teal": 876,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      882,
-      883
+      805,
+      806
     ]
   },
   {
     "teal": 877,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      884
+      807
     ]
   },
   {
     "teal": 878,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      885
+      808
     ]
   },
   {
     "teal": 879,
     "source": "examples/amm/amm.algo.ts:156",
     "pc": [
-      886,
-      887
+      809,
+      810
     ]
   },
   {
     "teal": 883,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      888,
-      889
+      811,
+      812
     ]
   },
   {
     "teal": 884,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      890,
-      891
+      813,
+      814
     ]
   },
   {
     "teal": 885,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      892,
-      893
+      815,
+      816
     ]
   },
   {
     "teal": 886,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      894,
-      895
+      817,
+      818
     ]
   },
   {
     "teal": 887,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      896,
-      897
+      819,
+      820
     ]
   },
   {
     "teal": 888,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      898
+      821
     ]
   },
   {
     "teal": 889,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      899,
-      900
+      822,
+      823
     ]
   },
   {
     "teal": 890,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      901,
-      902,
-      903
+      824,
+      825,
+      826
     ]
   },
   {
     "teal": 891,
     "source": "examples/amm/amm.algo.ts:158",
     "pc": [
-      904,
-      905
+      827,
+      828
     ]
   },
   {
     "teal": 895,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      906,
-      907
+      829,
+      830
     ]
   },
   {
     "teal": 896,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      908,
-      909
+      831,
+      832
     ]
   },
   {
     "teal": 897,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      910,
-      911
+      833,
+      834
     ]
   },
   {
     "teal": 898,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      912,
-      913
+      835,
+      836
     ]
   },
   {
     "teal": 899,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      914,
-      915
+      837,
+      838
     ]
   },
   {
     "teal": 900,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      916
+      839
     ]
   },
   {
     "teal": 901,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      917,
-      918
+      840,
+      841
     ]
   },
   {
     "teal": 902,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      919,
-      920,
-      921
+      842,
+      843,
+      844
     ]
   },
   {
     "teal": 903,
     "source": "examples/amm/amm.algo.ts:160",
     "pc": [
-      922,
-      923
+      845,
+      846
     ]
   },
   {
     "teal": 907,
     "source": "examples/amm/amm.algo.ts:162",
     "pc": [
-      924,
-      925
+      847,
+      848
     ]
   },
   {
     "teal": 908,
     "source": "examples/amm/amm.algo.ts:162",
     "pc": [
-      926,
-      927
+      849,
+      850
     ]
   },
   {
     "teal": 909,
     "source": "examples/amm/amm.algo.ts:162",
     "pc": [
-      928,
-      929
+      851,
+      852
     ]
   },
   {
     "teal": 910,
     "source": "examples/amm/amm.algo.ts:162",
     "pc": [
-      930,
-      931,
-      932
+      853,
+      854,
+      855
     ]
   },
   {
     "teal": 914,
     "source": "examples/amm/amm.algo.ts:163",
     "pc": [
-      933,
-      934
+      856,
+      857
     ]
   },
   {
     "teal": 915,
     "source": "examples/amm/amm.algo.ts:163",
     "pc": [
-      935,
-      936
+      858,
+      859
     ]
   },
   {
     "teal": 916,
     "source": "examples/amm/amm.algo.ts:163",
     "pc": [
-      937,
-      938
+      860,
+      861
     ]
   },
   {
     "teal": 917,
     "source": "examples/amm/amm.algo.ts:163",
     "pc": [
-      939,
-      940,
-      941
+      862,
+      863,
+      864
     ]
   },
   {
     "teal": 921,
     "source": "examples/amm/amm.algo.ts:165",
     "pc": [
-      942,
-      943,
-      944
+      865,
+      866
     ]
   },
   {
     "teal": 922,
     "source": "examples/amm/amm.algo.ts:165",
     "pc": [
-      945,
-      946,
-      947
+      867,
+      868,
+      869
     ]
   },
   {
     "teal": 923,
     "source": "examples/amm/amm.algo.ts:165",
     "pc": [
-      948
+      870
     ]
   },
   {
     "teal": 924,
     "source": "examples/amm/amm.algo.ts:142",
     "pc": [
-      949
+      871
     ]
   },
   {
     "teal": 929,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      950,
-      951,
-      952
+      872,
+      873,
+      874
     ]
   },
   {
     "teal": 930,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      953
+      875
     ]
   },
   {
     "teal": 933,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      954,
-      955,
-      956
+      876,
+      877,
+      878
     ]
   },
   {
     "teal": 934,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      957
+      879
     ]
   },
   {
     "teal": 937,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      958,
-      959
+      880,
+      881
     ]
   },
   {
     "teal": 938,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      960,
-      961
+      882
     ]
   },
   {
     "teal": 939,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      962
+      883
     ]
   },
   {
     "teal": 940,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      963
+      884
     ]
   },
   {
     "teal": 941,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      964,
-      965
+      885,
+      886
     ]
   },
   {
     "teal": 942,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      966,
-      967
+      887
     ]
   },
   {
     "teal": 943,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      968
+      888
     ]
   },
   {
@@ -4109,163 +4029,156 @@
     "source": "examples/amm/amm.algo.ts:168",
     "errorMessage": "argument 2 (swapXfer) for swap must be a axfer transaction",
     "pc": [
-      969
+      889
     ]
   },
   {
     "teal": 949,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      970,
-      971,
-      972
+      890,
+      891,
+      892
     ]
   },
   {
     "teal": 950,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      973,
-      974
+      893
     ]
   },
   {
     "teal": 951,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      975
+      894
     ]
   },
   {
     "teal": 955,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      976,
-      977,
-      978
+      895,
+      896,
+      897
     ]
   },
   {
     "teal": 958,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      979,
-      980
+      898
     ]
   },
   {
     "teal": 959,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      981,
-      982
+      899,
+      900
     ]
   },
   {
     "teal": 964,
     "source": "examples/amm/amm.algo.ts:170",
     "pc": [
-      983,
-      984
+      901,
+      902
     ]
   },
   {
     "teal": 965,
     "source": "examples/amm/amm.algo.ts:170",
     "pc": [
-      985,
-      986,
-      987
+      903
     ]
   },
   {
     "teal": 966,
     "source": "examples/amm/amm.algo.ts:170",
     "pc": [
-      988
+      904
     ]
   },
   {
     "teal": 967,
     "source": "examples/amm/amm.algo.ts:170",
     "pc": [
-      989
+      905
     ]
   },
   {
     "teal": 968,
     "source": "examples/amm/amm.algo.ts:170",
     "pc": [
-      990
+      906
     ]
   },
   {
     "teal": 972,
     "source": "examples/amm/amm.algo.ts:171",
     "pc": [
-      991,
-      992
+      907,
+      908
     ]
   },
   {
     "teal": 973,
     "source": "examples/amm/amm.algo.ts:171",
     "pc": [
-      993,
-      994,
-      995
+      909
     ]
   },
   {
     "teal": 974,
     "source": "examples/amm/amm.algo.ts:171",
     "pc": [
-      996
+      910
     ]
   },
   {
     "teal": 975,
     "source": "examples/amm/amm.algo.ts:171",
     "pc": [
-      997
+      911
     ]
   },
   {
     "teal": 976,
     "source": "examples/amm/amm.algo.ts:171",
     "pc": [
-      998
+      912
     ]
   },
   {
     "teal": 986,
     "source": "examples/amm/amm.algo.ts:173",
     "pc": [
-      999,
-      1000
+      913,
+      914
     ]
   },
   {
     "teal": 987,
     "source": "examples/amm/amm.algo.ts:174",
     "pc": [
-      1001,
-      1002
+      915,
+      916
     ]
   },
   {
     "teal": 988,
     "source": "examples/amm/amm.algo.ts:174",
     "pc": [
-      1003,
-      1004
+      917
     ]
   },
   {
     "teal": 989,
     "source": "examples/amm/amm.algo.ts:174",
     "pc": [
-      1005
+      918
     ]
   },
   {
@@ -4273,38 +4186,38 @@
     "source": "examples/amm/amm.algo.ts:174",
     "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
     "pc": [
-      1006
+      919
     ]
   },
   {
     "teal": 995,
     "source": "examples/amm/amm.algo.ts:173",
     "pc": [
-      1007,
-      1008
+      920,
+      921
     ]
   },
   {
     "teal": 996,
     "source": "examples/amm/amm.algo.ts:175",
     "pc": [
-      1009,
-      1010
+      922,
+      923
     ]
   },
   {
     "teal": 997,
     "source": "examples/amm/amm.algo.ts:175",
     "pc": [
-      1011,
-      1012
+      924,
+      925
     ]
   },
   {
     "teal": 998,
     "source": "examples/amm/amm.algo.ts:175",
     "pc": [
-      1013
+      926
     ]
   },
   {
@@ -4312,38 +4225,38 @@
     "source": "examples/amm/amm.algo.ts:175",
     "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
     "pc": [
-      1014
+      927
     ]
   },
   {
     "teal": 1004,
     "source": "examples/amm/amm.algo.ts:173",
     "pc": [
-      1015,
-      1016
+      928,
+      929
     ]
   },
   {
     "teal": 1005,
     "source": "examples/amm/amm.algo.ts:176",
     "pc": [
-      1017,
-      1018
+      930,
+      931
     ]
   },
   {
     "teal": 1006,
     "source": "examples/amm/amm.algo.ts:176",
     "pc": [
-      1019,
-      1020
+      932,
+      933
     ]
   },
   {
     "teal": 1007,
     "source": "examples/amm/amm.algo.ts:176",
     "pc": [
-      1021
+      934
     ]
   },
   {
@@ -4351,76 +4264,76 @@
     "source": "examples/amm/amm.algo.ts:176",
     "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
     "pc": [
-      1022
+      935
     ]
   },
   {
     "teal": 1013,
     "source": "examples/amm/amm.algo.ts:173",
     "pc": [
-      1023,
-      1024
+      936,
+      937
     ]
   },
   {
     "teal": 1014,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1025,
-      1026
+      938,
+      939
     ]
   },
   {
     "teal": 1015,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1027,
-      1028
+      940,
+      941
     ]
   },
   {
     "teal": 1016,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1029
+      942
     ]
   },
   {
     "teal": 1017,
     "source": "examples/amm/amm.algo.ts:173",
     "pc": [
-      1030,
-      1031
+      943,
+      944
     ]
   },
   {
     "teal": 1018,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1032,
-      1033
+      945,
+      946
     ]
   },
   {
     "teal": 1019,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1034,
-      1035
+      947,
+      948
     ]
   },
   {
     "teal": 1020,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1036
+      949
     ]
   },
   {
     "teal": 1021,
     "source": "examples/amm/amm.algo.ts:177",
     "pc": [
-      1037
+      950
     ]
   },
   {
@@ -4428,348 +4341,346 @@
     "source": "examples/amm/amm.algo.ts:177",
     "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"swapXfer\"},\"field\":\"xferAsset\",\"condition\":\"includedIn\",\"expected\":\"[aAsset, bAsset]\"}",
     "pc": [
-      1038
+      951
     ]
   },
   {
     "teal": 1028,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1039,
-      1040
+      952,
+      953
     ]
   },
   {
     "teal": 1029,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1041,
-      1042
+      954,
+      955
     ]
   },
   {
     "teal": 1030,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1043,
-      1044
+      956,
+      957
     ]
   },
   {
     "teal": 1031,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1045
+      958
     ]
   },
   {
     "teal": 1032,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1046,
-      1047,
-      1048
+      959,
+      960,
+      961
     ]
   },
   {
     "teal": 1033,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1049,
-      1050
+      962,
+      963
     ]
   },
   {
     "teal": 1034,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1051,
-      1052,
-      1053
+      964,
+      965,
+      966
     ]
   },
   {
     "teal": 1037,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1054,
-      1055
+      967,
+      968
     ]
   },
   {
     "teal": 1040,
     "source": "examples/amm/amm.algo.ts:180",
     "pc": [
-      1056,
-      1057
+      969,
+      970
     ]
   },
   {
     "teal": 1044,
     "source": "examples/amm/amm.algo.ts:182",
     "pc": [
-      1058,
-      1059
+      971,
+      972
     ]
   },
   {
     "teal": 1045,
     "source": "examples/amm/amm.algo.ts:182",
     "pc": [
-      1060,
-      1061
+      973,
+      974
     ]
   },
   {
     "teal": 1046,
     "source": "examples/amm/amm.algo.ts:182",
     "pc": [
-      1062,
-      1063
+      975,
+      976
     ]
   },
   {
     "teal": 1054,
     "source": "examples/amm/amm.algo.ts:187",
     "pc": [
-      1064,
-      1065
+      977,
+      978
     ]
   },
   {
     "teal": 1055,
     "source": "examples/amm/amm.algo.ts:187",
     "pc": [
-      1066,
-      1067
+      979,
+      980
     ]
   },
   {
     "teal": 1056,
     "source": "examples/amm/amm.algo.ts:187",
     "pc": [
-      1068,
-      1069
+      981,
+      982
     ]
   },
   {
     "teal": 1057,
     "source": "examples/amm/amm.algo.ts:187",
     "pc": [
-      1070
+      983
     ]
   },
   {
     "teal": 1058,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1071,
-      1072
+      984,
+      985
     ]
   },
   {
     "teal": 1059,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1073,
-      1074
+      986,
+      987
     ]
   },
   {
     "teal": 1060,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1075,
-      1076
+      988,
+      989
     ]
   },
   {
     "teal": 1061,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1077
+      990
     ]
   },
   {
     "teal": 1062,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1078,
-      1079
+      991,
+      992
     ]
   },
   {
     "teal": 1063,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1080,
-      1081
+      993,
+      994
     ]
   },
   {
     "teal": 1064,
     "source": "examples/amm/amm.algo.ts:186",
     "pc": [
-      1082
+      995
     ]
   },
   {
     "teal": 1065,
     "source": "examples/amm/amm.algo.ts:185",
     "pc": [
-      1083,
-      1084
+      996,
+      997
     ]
   },
   {
     "teal": 1066,
     "source": "examples/amm/amm.algo.ts:185",
     "pc": [
-      1085,
-      1086
+      998,
+      999
     ]
   },
   {
     "teal": 1067,
     "source": "examples/amm/amm.algo.ts:184",
     "pc": [
-      1087,
-      1088,
-      1089
+      1000,
+      1001,
+      1002
     ]
   },
   {
     "teal": 1068,
     "source": "examples/amm/amm.algo.ts:184",
     "pc": [
-      1090,
-      1091
+      1003,
+      1004
     ]
   },
   {
     "teal": 1072,
     "source": "examples/amm/amm.algo.ts:190",
     "pc": [
-      1092,
-      1093
+      1005,
+      1006
     ]
   },
   {
     "teal": 1073,
     "source": "examples/amm/amm.algo.ts:190",
     "pc": [
-      1094,
-      1095
+      1007
     ]
   },
   {
     "teal": 1074,
     "source": "examples/amm/amm.algo.ts:190",
     "pc": [
-      1096
+      1008
     ]
   },
   {
     "teal": 1075,
     "source": "examples/amm/amm.algo.ts:190",
     "pc": [
-      1097
+      1009
     ]
   },
   {
     "teal": 1079,
     "source": "examples/amm/amm.algo.ts:192",
     "pc": [
-      1098,
-      1099
+      1010,
+      1011
     ]
   },
   {
     "teal": 1080,
     "source": "examples/amm/amm.algo.ts:192",
     "pc": [
-      1100,
-      1101
+      1012,
+      1013
     ]
   },
   {
     "teal": 1081,
     "source": "examples/amm/amm.algo.ts:192",
     "pc": [
-      1102,
-      1103
+      1014,
+      1015
     ]
   },
   {
     "teal": 1082,
     "source": "examples/amm/amm.algo.ts:192",
     "pc": [
-      1104,
-      1105,
-      1106
+      1016,
+      1017,
+      1018
     ]
   },
   {
     "teal": 1086,
     "source": "examples/amm/amm.algo.ts:194",
     "pc": [
-      1107,
-      1108,
-      1109
+      1019,
+      1020
     ]
   },
   {
     "teal": 1087,
     "source": "examples/amm/amm.algo.ts:194",
     "pc": [
-      1110,
-      1111,
-      1112
+      1021,
+      1022,
+      1023
     ]
   },
   {
     "teal": 1088,
     "source": "examples/amm/amm.algo.ts:194",
     "pc": [
-      1113
+      1024
     ]
   },
   {
     "teal": 1089,
     "source": "examples/amm/amm.algo.ts:168",
     "pc": [
-      1114
+      1025
     ]
   },
   {
     "teal": 1092,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1115,
-      1116,
-      1117,
-      1118,
-      1119,
-      1120
+      1026,
+      1027,
+      1028,
+      1029,
+      1030,
+      1031
     ]
   },
   {
     "teal": 1093,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1121,
-      1122,
-      1123
+      1032,
+      1033,
+      1034
     ]
   },
   {
     "teal": 1094,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1124,
-      1125,
-      1126,
-      1127
+      1035,
+      1036,
+      1037,
+      1038
     ]
   },
   {
@@ -4777,94 +4688,94 @@
     "source": "examples/amm/amm.algo.ts:8",
     "errorMessage": "this contract does not implement the given ABI method for create NoOp",
     "pc": [
-      1128
+      1039
     ]
   },
   {
     "teal": 1100,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1129,
-      1130,
-      1131,
-      1132,
-      1133,
-      1134
+      1040,
+      1041,
+      1042,
+      1043,
+      1044,
+      1045
     ]
   },
   {
     "teal": 1101,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1135,
-      1136,
-      1137,
-      1138,
-      1139,
-      1140
+      1046,
+      1047,
+      1048,
+      1049,
+      1050,
+      1051
     ]
   },
   {
     "teal": 1102,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1141,
-      1142,
-      1143,
-      1144,
-      1145,
-      1146
+      1052,
+      1053,
+      1054,
+      1055,
+      1056,
+      1057
     ]
   },
   {
     "teal": 1103,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1147,
-      1148,
-      1149,
-      1150,
-      1151,
-      1152
+      1058,
+      1059,
+      1060,
+      1061,
+      1062,
+      1063
     ]
   },
   {
     "teal": 1104,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1153,
-      1154,
-      1155,
-      1156,
-      1157,
-      1158
+      1064,
+      1065,
+      1066,
+      1067,
+      1068,
+      1069
     ]
   },
   {
     "teal": 1105,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1159,
-      1160,
-      1161
+      1070,
+      1071,
+      1072
     ]
   },
   {
     "teal": 1106,
     "source": "examples/amm/amm.algo.ts:8",
     "pc": [
-      1162,
-      1163,
-      1164,
-      1165,
-      1166,
-      1167,
-      1168,
-      1169,
-      1170,
-      1171,
-      1172,
-      1173
+      1073,
+      1074,
+      1075,
+      1076,
+      1077,
+      1078,
+      1079,
+      1080,
+      1081,
+      1082,
+      1083,
+      1084
     ]
   },
   {
@@ -4872,7 +4783,7 @@
     "source": "examples/amm/amm.algo.ts:8",
     "errorMessage": "this contract does not implement the given ABI method for call NoOp",
     "pc": [
-      1174
+      1085
     ]
   }
 ]

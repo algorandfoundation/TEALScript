@@ -316,50 +316,44 @@
           "teal": 33,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            38,
-            39,
-            40,
-            41,
-            42,
-            43
+            38
           ]
         },
         {
           "teal": 36,
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "pc": [
-            44,
-            45,
-            46
+            39,
+            40,
+            41
           ]
         },
         {
           "teal": 37,
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "pc": [
-            47
+            42
           ]
         },
         {
           "teal": 38,
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "pc": [
-            48
+            43
           ]
         },
         {
           "teal": 39,
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "pc": [
-            49,
-            50
+            44
           ]
         },
         {
           "teal": 40,
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "pc": [
-            51
+            45
           ]
         },
         {
@@ -367,50 +361,80 @@
           "source": "tests/contracts/inheritance-external.algo.ts:14",
           "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)",
           "pc": [
-            52
+            46
           ]
         },
         {
           "teal": 46,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            53,
-            54,
-            55
+            47,
+            48,
+            49
           ]
         },
         {
           "teal": 47,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            56
+            50
           ]
         },
         {
           "teal": 48,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            57
+            51
           ]
         },
         {
           "teal": 49,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            58,
-            59
+            52
           ]
         },
         {
           "teal": 50,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
           "pc": [
-            60
+            53
           ]
         },
         {
           "teal": 54,
           "source": "tests/contracts/inheritance-external.algo.ts:12",
+          "pc": [
+            54,
+            55,
+            56
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/inheritance-external.algo.ts:16",
+          "pc": [
+            57,
+            58
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/inheritance-external.algo.ts:12",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            60
+          ]
+        },
+        {
+          "teal": 67,
+          "source": "tests/contracts/arc56.algo.ts:24",
           "pc": [
             61,
             62,
@@ -418,68 +442,32 @@
           ]
         },
         {
-          "teal": 58,
-          "source": "tests/contracts/inheritance-external.algo.ts:16",
-          "pc": [
-            64,
-            65
-          ]
-        },
-        {
-          "teal": 59,
-          "source": "tests/contracts/inheritance-external.algo.ts:12",
-          "pc": [
-            66
-          ]
-        },
-        {
-          "teal": 64,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            67,
-            68,
-            69,
-            70,
-            71,
-            72
-          ]
-        },
-        {
-          "teal": 67,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            73,
-            74,
-            75
-          ]
-        },
-        {
           "teal": 68,
           "source": "tests/contracts/arc56.algo.ts:24",
           "pc": [
-            76
+            64
           ]
         },
         {
           "teal": 69,
           "source": "tests/contracts/arc56.algo.ts:24",
           "pc": [
-            77
+            65
           ]
         },
         {
           "teal": 70,
           "source": "tests/contracts/arc56.algo.ts:24",
           "pc": [
-            78,
-            79
+            66,
+            67
           ]
         },
         {
           "teal": 71,
           "source": "tests/contracts/arc56.algo.ts:24",
           "pc": [
-            80
+            68
           ]
         },
         {
@@ -487,12 +475,66 @@
           "source": "tests/contracts/arc56.algo.ts:24",
           "errorMessage": "argument 0 (inputs) for foo must be a ((uint64,uint64),(uint64,uint64))",
           "pc": [
-            81
+            69
           ]
         },
         {
           "teal": 77,
           "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            70,
+            71,
+            72
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            73
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 80,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            75
+          ]
+        },
+        {
+          "teal": 81,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            76
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            77,
+            78,
+            79
+          ]
+        },
+        {
+          "teal": 90,
+          "source": "tests/contracts/arc56.algo.ts:25",
+          "pc": [
+            80,
+            81
+          ]
+        },
+        {
+          "teal": 91,
+          "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
             82,
             83,
@@ -500,105 +542,50 @@
           ]
         },
         {
-          "teal": 78,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            85
-          ]
-        },
-        {
-          "teal": 79,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            86
-          ]
-        },
-        {
-          "teal": 80,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            87,
-            88
-          ]
-        },
-        {
-          "teal": 81,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            89
-          ]
-        },
-        {
-          "teal": 85,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            90,
-            91,
-            92
-          ]
-        },
-        {
-          "teal": 90,
-          "source": "tests/contracts/arc56.algo.ts:25",
-          "pc": [
-            93,
-            94
-          ]
-        },
-        {
-          "teal": 91,
-          "source": "tests/contracts/arc56.algo.ts:25",
-          "pc": [
-            95,
-            96,
-            97
-          ]
-        },
-        {
           "teal": 92,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            98
+            85
           ]
         },
         {
           "teal": 93,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            99,
-            100
+            86,
+            87
           ]
         },
         {
           "teal": 94,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            101,
-            102,
-            103
+            88,
+            89,
+            90
           ]
         },
         {
           "teal": 95,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            104
+            91
           ]
         },
         {
           "teal": 96,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            105
+            92
           ]
         },
         {
           "teal": 97,
           "source": "tests/contracts/arc56.algo.ts:25",
           "pc": [
-            106,
-            107,
-            108
+            93,
+            94,
+            95
           ]
         },
         {
@@ -606,12 +593,43 @@
           "source": "tests/contracts/arc56.algo.ts:25",
           "errorMessage": "subtract.a must be greater than subtract.b",
           "pc": [
-            109
+            96
           ]
         },
         {
           "teal": 106,
           "source": "tests/contracts/arc56.algo.ts:27",
+          "pc": [
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "tests/contracts/arc56.algo.ts:27",
+          "pc": [
+            108
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "tests/contracts/arc56.algo.ts:27",
+          "pc": [
+            109
+          ]
+        },
+        {
+          "teal": 112,
+          "source": "tests/contracts/arc56.algo.ts:28",
           "pc": [
             110,
             111,
@@ -620,156 +638,192 @@
             114,
             115,
             116,
-            117,
-            118,
-            119,
-            120
-          ]
-        },
-        {
-          "teal": 107,
-          "source": "tests/contracts/arc56.algo.ts:27",
-          "pc": [
-            121
-          ]
-        },
-        {
-          "teal": 108,
-          "source": "tests/contracts/arc56.algo.ts:27",
-          "pc": [
-            122
-          ]
-        },
-        {
-          "teal": 112,
-          "source": "tests/contracts/arc56.algo.ts:28",
-          "pc": [
-            123,
-            124,
-            125,
-            126,
-            127,
-            128,
-            129,
-            130
+            117
           ]
         },
         {
           "teal": 113,
           "source": "tests/contracts/arc56.algo.ts:28",
           "pc": [
-            131,
-            132,
-            133,
-            134,
-            135,
-            136
+            118,
+            119,
+            120,
+            121,
+            122,
+            123
           ]
         },
         {
           "teal": 114,
           "source": "tests/contracts/arc56.algo.ts:28",
           "pc": [
-            137
+            124
           ]
         },
         {
           "teal": 121,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            138,
-            139
+            125,
+            126
           ]
         },
         {
           "teal": 122,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            140,
-            141,
-            142
+            127,
+            128,
+            129
           ]
         },
         {
           "teal": 123,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            143
+            130
           ]
         },
         {
           "teal": 124,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            144,
-            145
+            131,
+            132
           ]
         },
         {
           "teal": 125,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            146,
-            147,
-            148
+            133,
+            134,
+            135
           ]
         },
         {
           "teal": 126,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            149
+            136
           ]
         },
         {
           "teal": 127,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            150
+            137
           ]
         },
         {
           "teal": 128,
           "source": "tests/contracts/arc56.algo.ts:31",
           "pc": [
-            151
+            138
           ]
         },
         {
           "teal": 129,
           "source": "tests/contracts/arc56.algo.ts:32",
           "pc": [
-            152,
-            153
+            139,
+            140
           ]
         },
         {
           "teal": 130,
           "source": "tests/contracts/arc56.algo.ts:32",
           "pc": [
-            154,
-            155,
-            156
+            141,
+            142,
+            143
           ]
         },
         {
           "teal": 131,
           "source": "tests/contracts/arc56.algo.ts:32",
           "pc": [
-            157
+            144
           ]
         },
         {
           "teal": 132,
           "source": "tests/contracts/arc56.algo.ts:32",
           "pc": [
-            158,
-            159
+            145,
+            146
           ]
         },
         {
           "teal": 133,
           "source": "tests/contracts/arc56.algo.ts:32",
+          "pc": [
+            147,
+            148,
+            149
+          ]
+        },
+        {
+          "teal": 134,
+          "source": "tests/contracts/arc56.algo.ts:32",
+          "pc": [
+            150
+          ]
+        },
+        {
+          "teal": 135,
+          "source": "tests/contracts/arc56.algo.ts:32",
+          "pc": [
+            151
+          ]
+        },
+        {
+          "teal": 136,
+          "source": "tests/contracts/arc56.algo.ts:32",
+          "pc": [
+            152
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "tests/contracts/arc56.algo.ts:32",
+          "pc": [
+            153
+          ]
+        },
+        {
+          "teal": 138,
+          "source": "tests/contracts/arc56.algo.ts:24",
+          "pc": [
+            154
+          ]
+        },
+        {
+          "teal": 143,
+          "source": "tests/contracts/arc56.algo.ts:36",
+          "pc": [
+            155,
+            156,
+            157
+          ]
+        },
+        {
+          "teal": 144,
+          "source": "tests/contracts/arc56.algo.ts:36",
+          "pc": [
+            158
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "tests/contracts/arc56.algo.ts:36",
+          "pc": [
+            159
+          ]
+        },
+        {
+          "teal": 149,
+          "source": "tests/contracts/arc56.algo.ts:36",
           "pc": [
             160,
             161,
@@ -777,155 +831,137 @@
           ]
         },
         {
-          "teal": 134,
-          "source": "tests/contracts/arc56.algo.ts:32",
-          "pc": [
-            163
-          ]
-        },
-        {
-          "teal": 135,
-          "source": "tests/contracts/arc56.algo.ts:32",
-          "pc": [
-            164
-          ]
-        },
-        {
-          "teal": 136,
-          "source": "tests/contracts/arc56.algo.ts:32",
-          "pc": [
-            165
-          ]
-        },
-        {
-          "teal": 137,
-          "source": "tests/contracts/arc56.algo.ts:32",
-          "pc": [
-            166
-          ]
-        },
-        {
-          "teal": 138,
-          "source": "tests/contracts/arc56.algo.ts:24",
-          "pc": [
-            167
-          ]
-        },
-        {
-          "teal": 143,
-          "source": "tests/contracts/arc56.algo.ts:36",
-          "pc": [
-            168,
-            169,
-            170
-          ]
-        },
-        {
-          "teal": 144,
-          "source": "tests/contracts/arc56.algo.ts:36",
-          "pc": [
-            171,
-            172
-          ]
-        },
-        {
-          "teal": 145,
-          "source": "tests/contracts/arc56.algo.ts:36",
-          "pc": [
-            173
-          ]
-        },
-        {
-          "teal": 149,
-          "source": "tests/contracts/arc56.algo.ts:36",
-          "pc": [
-            174,
-            175,
-            176
-          ]
-        },
-        {
           "teal": 153,
           "source": "tests/contracts/arc56.algo.ts:37",
           "pc": [
-            177,
-            178
+            163,
+            164
           ]
         },
         {
           "teal": 154,
           "source": "tests/contracts/arc56.algo.ts:37",
           "pc": [
-            179,
-            180,
-            181,
-            182,
-            183,
-            184,
-            185,
-            186,
-            187,
-            188
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174
           ]
         },
         {
           "teal": 155,
           "source": "tests/contracts/arc56.algo.ts:37",
           "pc": [
-            189
+            175
           ]
         },
         {
           "teal": 156,
           "source": "tests/contracts/arc56.algo.ts:37",
           "pc": [
-            190
+            176
           ]
         },
         {
           "teal": 160,
           "source": "tests/contracts/arc56.algo.ts:38",
           "pc": [
-            191,
-            192
+            177,
+            178
           ]
         },
         {
           "teal": 161,
           "source": "tests/contracts/arc56.algo.ts:38",
           "pc": [
-            193,
-            194,
-            195,
-            196,
-            197,
-            198
+            179,
+            180,
+            181,
+            182,
+            183,
+            184
           ]
         },
         {
           "teal": 162,
           "source": "tests/contracts/arc56.algo.ts:38",
           "pc": [
-            199,
-            200,
-            201,
-            202,
-            203,
-            204,
-            205
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191
           ]
         },
         {
           "teal": 163,
           "source": "tests/contracts/arc56.algo.ts:38",
           "pc": [
-            206
+            192
           ]
         },
         {
           "teal": 167,
           "source": "tests/contracts/arc56.algo.ts:39",
           "pc": [
+            193
+          ]
+        },
+        {
+          "teal": 168,
+          "source": "tests/contracts/arc56.algo.ts:39",
+          "pc": [
+            194
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "tests/contracts/arc56.algo.ts:39",
+          "pc": [
+            195
+          ]
+        },
+        {
+          "teal": 170,
+          "source": "tests/contracts/arc56.algo.ts:39",
+          "pc": [
+            196
+          ]
+        },
+        {
+          "teal": 171,
+          "source": "tests/contracts/arc56.algo.ts:39",
+          "pc": [
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203
+          ]
+        },
+        {
+          "teal": 172,
+          "source": "tests/contracts/arc56.algo.ts:39",
+          "pc": [
+            204
+          ]
+        },
+        {
+          "teal": 176,
+          "source": "tests/contracts/arc56.algo.ts:40",
+          "pc": [
+            205,
+            206,
             207,
             208,
             209,
@@ -933,54 +969,18 @@
             211,
             212,
             213,
-            214
-          ]
-        },
-        {
-          "teal": 168,
-          "source": "tests/contracts/arc56.algo.ts:39",
-          "pc": [
-            215
-          ]
-        },
-        {
-          "teal": 169,
-          "source": "tests/contracts/arc56.algo.ts:39",
-          "pc": [
-            216
-          ]
-        },
-        {
-          "teal": 170,
-          "source": "tests/contracts/arc56.algo.ts:39",
-          "pc": [
-            217
-          ]
-        },
-        {
-          "teal": 171,
-          "source": "tests/contracts/arc56.algo.ts:39",
-          "pc": [
+            214,
+            215,
+            216,
+            217,
             218,
             219,
             220,
             221,
             222,
             223,
-            224
-          ]
-        },
-        {
-          "teal": 172,
-          "source": "tests/contracts/arc56.algo.ts:39",
-          "pc": [
-            225
-          ]
-        },
-        {
-          "teal": 176,
-          "source": "tests/contracts/arc56.algo.ts:40",
-          "pc": [
+            224,
+            225,
             226,
             227,
             228,
@@ -994,7 +994,13 @@
             236,
             237,
             238,
-            239,
+            239
+          ]
+        },
+        {
+          "teal": 177,
+          "source": "tests/contracts/arc56.algo.ts:40",
+          "pc": [
             240,
             241,
             242,
@@ -1012,98 +1018,65 @@
             254,
             255,
             256,
-            257,
-            258,
-            259,
-            260
-          ]
-        },
-        {
-          "teal": 177,
-          "source": "tests/contracts/arc56.algo.ts:40",
-          "pc": [
-            261,
-            262,
-            263,
-            264,
-            265,
-            266,
-            267,
-            268,
-            269,
-            270,
-            271,
-            272,
-            273,
-            274,
-            275,
-            276,
-            277,
-            278
+            257
           ]
         },
         {
           "teal": 178,
           "source": "tests/contracts/arc56.algo.ts:40",
           "pc": [
-            279
+            258
           ]
         },
         {
           "teal": 179,
           "source": "tests/contracts/arc56.algo.ts:36",
           "pc": [
-            280
+            259
           ]
         },
         {
           "teal": 184,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            281,
-            282,
-            283,
-            284,
-            285,
-            286
+            260
           ]
         },
         {
           "teal": 187,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            287,
-            288,
-            289
+            261,
+            262,
+            263
           ]
         },
         {
           "teal": 188,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            290
+            264
           ]
         },
         {
           "teal": 189,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            291
+            265
           ]
         },
         {
           "teal": 190,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            292,
-            293
+            266
           ]
         },
         {
           "teal": 191,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            294
+            267
           ]
         },
         {
@@ -1111,115 +1084,113 @@
           "source": "tests/contracts/arc56.algo.ts:43",
           "errorMessage": "argument 0 (input) for customType must be a (uint64)",
           "pc": [
-            295
+            268
           ]
         },
         {
           "teal": 197,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            296,
-            297,
-            298
+            269,
+            270,
+            271
           ]
         },
         {
           "teal": 198,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            299
+            272
           ]
         },
         {
           "teal": 199,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            300
+            273
           ]
         },
         {
           "teal": 200,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            301,
-            302
+            274
           ]
         },
         {
           "teal": 201,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            303
+            275
           ]
         },
         {
           "teal": 205,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            304,
-            305,
-            306
+            276,
+            277,
+            278
           ]
         },
         {
           "teal": 209,
           "source": "tests/contracts/arc56.algo.ts:44",
           "pc": [
-            307,
-            308
+            279,
+            280
           ]
         },
         {
           "teal": 210,
           "source": "tests/contracts/arc56.algo.ts:43",
           "pc": [
-            309
+            281
           ]
         },
         {
           "teal": 213,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            310,
-            311
+            282
           ]
         },
         {
           "teal": 214,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            312
+            283
           ]
         },
         {
           "teal": 217,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            313,
-            314,
-            315,
-            316,
-            317,
-            318
+            284,
+            285,
+            286,
+            287,
+            288,
+            289
           ]
         },
         {
           "teal": 218,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            319,
-            320,
-            321
+            290,
+            291,
+            292
           ]
         },
         {
           "teal": 219,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            322,
-            323,
-            324,
-            325
+            293,
+            294,
+            295,
+            296
           ]
         },
         {
@@ -1227,66 +1198,66 @@
           "source": "tests/contracts/arc56.algo.ts:7",
           "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            326
+            297
           ]
         },
         {
           "teal": 225,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            327,
-            328,
-            329,
-            330,
-            331,
-            332
+            298,
+            299,
+            300,
+            301,
+            302,
+            303
           ]
         },
         {
           "teal": 226,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            333,
-            334,
-            335,
-            336,
-            337,
-            338
+            304,
+            305,
+            306,
+            307,
+            308,
+            309
           ]
         },
         {
           "teal": 227,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            339,
-            340,
-            341,
-            342,
-            343,
-            344
+            310,
+            311,
+            312,
+            313,
+            314,
+            315
           ]
         },
         {
           "teal": 228,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            345,
-            346,
-            347
+            316,
+            317,
+            318
           ]
         },
         {
           "teal": 229,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            348,
-            349,
-            350,
-            351,
-            352,
-            353,
-            354,
-            355
+            319,
+            320,
+            321,
+            322,
+            323,
+            324,
+            325,
+            326
           ]
         },
         {
@@ -1294,38 +1265,38 @@
           "source": "tests/contracts/arc56.algo.ts:7",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            356
+            327
           ]
         },
         {
           "teal": 235,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            357,
-            358,
-            359,
-            360,
-            361,
-            362
+            328,
+            329,
+            330,
+            331,
+            332,
+            333
           ]
         },
         {
           "teal": 236,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            363,
-            364,
-            365
+            334,
+            335,
+            336
           ]
         },
         {
           "teal": 237,
           "source": "tests/contracts/arc56.algo.ts:7",
           "pc": [
-            366,
-            367,
-            368,
-            369
+            337,
+            338,
+            339,
+            340
           ]
         },
         {
@@ -1333,7 +1304,7 @@
           "source": "tests/contracts/arc56.algo.ts:7",
           "errorMessage": "this contract does not implement the given ABI method for call OptIn",
           "pc": [
-            370
+            341
           ]
         }
       ],
@@ -1345,7 +1316,7 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3NvbWVOdW1iZXIKYnl0ZWNibG9jayAweDE1MWY3Yzc1IDB4NjI2Zjc4NGI2NTc5CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIGxpbmVzIG9mIFRFQUwgYXJlIHVzZWQgdG8gaW5pdGlhbGl6ZSB0ZW1wbGF0ZSB2YXJpYWJsZXMgaW4gc2NyYXRjaCBzbG90cwppbnRjIDAgLy8gVE1QTF9zb21lTnVtYmVyCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKmNhbGxfT3B0SW4gKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGN1c3RvbVN0cnVjdE1ldGhvZCgodWludDY0KSkodWludDY0KQoqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXQ6ICh1aW50NjQpCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJcHVzaGludCA4Cgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0KSBmb3IgY3VzdG9tU3RydWN0TWV0aG9kIG11c3QgYmUgYSAodWludDY0KQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tU3RydWN0TWV0aG9kCgljb25jYXQKCWxvZwoJcHVzaGludCAxCglyZXR1cm4KCi8vIGN1c3RvbVN0cnVjdE1ldGhvZChpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdCk6IEFub3RoZXJDdXN0b21TdHJ1Y3QKY3VzdG9tU3RydWN0TWV0aG9kOgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLWV4dGVybmFsLmFsZ28udHM6MjEKCS8vIHJldHVybiBpbnB1dDsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdAoJcmV0c3ViCgovLyBmb28oKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpKSh1aW50NjQsdWludDY0KQoqYWJpX3JvdXRlX2ZvbzoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZSAweDE1MWY3Yzc1CgoJLy8gaW5wdXRzOiAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglwdXNoaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0cykgZm9yIGZvbyBtdXN0IGJlIGEgKCh1aW50NjQsdWludDY0KSwodWludDY0LHVpbnQ2NCkpCglhc3NlcnQKCgkvLyBleGVjdXRlIGZvbygoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkpKHVpbnQ2NCx1aW50NjQpCgljYWxsc3ViIGZvbwoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBmb28oaW5wdXRzOiBJbnB1dHMpOiBPdXRwdXRzCmZvbzoKCXByb3RvIDEgMQoKCS8vICppZjBfY29uZGl0aW9uCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czoyNQoJLy8gaW5wdXRzLnN1YnRyYWN0LmEgPCBpbnB1dHMuc3VidHJhY3QuYgoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDE2IDgKCWJ0b2kKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAyNCA4CglidG9pCgk8CglieiAqaWYwX2VuZAoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gc3VidHJhY3QuYSBtdXN0IGJlIGdyZWF0ZXIgdGhhbiBzdWJ0cmFjdC5iCgllcnIKCippZjBfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjcKCS8vIHRoaXMuZ2xvYmFsS2V5LnZhbHVlID0gdGhpcy5zb21lTnVtYmVyCglwdXNoYnl0ZXMgMHg2NzZjNmY2MjYxNmM0YjY1NzkgLy8gImdsb2JhbEtleSIKCWludGMgMCAvLyBUTVBMX3NvbWVOdW1iZXIKCWFwcF9nbG9iYWxfcHV0CgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjgKCS8vIHRoaXMuZ2xvYmFsTWFwKCdmb28nKS52YWx1ZSA9IHsgZm9vOiAxMywgYmFyOiAzNyB9CglwdXNoYnl0ZXMgMHg3MDAwMDM2NjZmNmYKCXB1c2hieXRlcyAweDAwMGQwMDI1CglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjMwCgkvLyByZXR1cm4gewoJLy8gICAgICAgc3VtOiBpbnB1dHMuYWRkLmEgKyBpbnB1dHMuYWRkLmIsCgkvLyAgICAgICBkaWZmZXJlbmNlOiBpbnB1dHMuc3VidHJhY3QuYSAtIGlucHV0cy5zdWJ0cmFjdC5iLAoJLy8gICAgIH07CglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMCA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgOCA4CglidG9pCgkrCglpdG9iCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMTYgOAoJYnRvaQoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDI0IDgKCWJ0b2kKCS0KCWl0b2IKCWNvbmNhdAoJcmV0c3ViCgovLyBvcHRJblRvQXBwbGljYXRpb24oKXZvaWQKKmFiaV9yb3V0ZV9vcHRJblRvQXBwbGljYXRpb246CgkvLyBleGVjdXRlIG9wdEluVG9BcHBsaWNhdGlvbigpdm9pZAoJY2FsbHN1YiBvcHRJblRvQXBwbGljYXRpb24KCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBvcHRJblRvQXBwbGljYXRpb24oKTogdm9pZApvcHRJblRvQXBwbGljYXRpb246Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozNwoJLy8gdGhpcy5sb2NhbEtleSh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlID0gdGhpcy5zb21lTnVtYmVyCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg2YzZmNjM2MTZjNGI2NTc5IC8vICJsb2NhbEtleSIKCWludGMgMCAvLyBUTVBMX3NvbWVOdW1iZXIKCWFwcF9sb2NhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozOAoJLy8gdGhpcy5sb2NhbE1hcCh0aGlzLnR4bi5zZW5kZXIsICdmb28nKS52YWx1ZSA9ICdiYXInCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg3MDY2NmY2ZgoJcHVzaGJ5dGVzIDB4MDAwMzYyNjE3MgoJYXBwX2xvY2FsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM5CgkvLyB0aGlzLmJveEtleS52YWx1ZSA9ICdiYXonCglieXRlIDB4NjI2Zjc4NGI2NTc5IC8vICJib3hLZXkiCglkdXAKCWJveF9kZWwKCXBvcAoJcHVzaGJ5dGVzIDB4MDAwMzYyNjE3YQoJYm94X3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjQwCgkvLyB0aGlzLmJveE1hcCh7IGFkZDogeyBhOiAxLCBiOiAyIH0sIHN1YnRyYWN0OiB7IGE6IDQsIGI6IDMgfSB9KS52YWx1ZSA9IHsgc3VtOiAzLCBkaWZmZXJlbmNlOiAxIH0KCXB1c2hieXRlcyAweDcwMDAwMDAwMDAwMDAwMDAwMTAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDA0MDAwMDAwMDAwMDAwMDAwMwoJcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMzAwMDAwMDAwMDAwMDAwMDEKCWJveF9wdXQKCXJldHN1YgoKLy8gY3VzdG9tVHlwZSgodWludDY0KSkodWludDY0KQoqYWJpX3JvdXRlX2N1c3RvbVR5cGU6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGUgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVR5cGUgbXVzdCBiZSBhICh1aW50NjQpCglhc3NlcnQKCgkvLyBleGVjdXRlIGN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tVHlwZQoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBjdXN0b21UeXBlKGlucHV0OiBDdXN0b21TdHJ1Y3RBc05hbWUpOiBDdXN0b21TdHJ1Y3RBc05hbWUKY3VzdG9tVHlwZToKCXByb3RvIDEgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjQ0CgkvLyByZXR1cm4gaW5wdXQ7CglmcmFtZV9kaWcgLTEgLy8gaW5wdXQ6IEN1c3RvbVN0cnVjdEFzTmFtZQoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJcHVzaGludCAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHg4ZDIyNzM5YSAvLyBtZXRob2QgImN1c3RvbVN0cnVjdE1ldGhvZCgodWludDY0KSkodWludDY0KSIKCXB1c2hieXRlcyAweDM5NmQ1NTBlIC8vIG1ldGhvZCAiZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkiCglwdXNoYnl0ZXMgMHgwZGJmMDJjNyAvLyBtZXRob2QgImN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZCAqYWJpX3JvdXRlX2ZvbyAqYWJpX3JvdXRlX2N1c3RvbVR5cGUKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnIKCipjYWxsX09wdEluOgoJcHVzaGJ5dGVzIDB4MDFhM2EzZmYgLy8gbWV0aG9kICJvcHRJblRvQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX29wdEluVG9BcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE9wdEluCgllcnI=",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayBUTVBMX3NvbWVOdW1iZXIgMSA4CmJ5dGVjYmxvY2sgMHgxNTFmN2M3NSAweDYyNmY3ODRiNjU3OQoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyBsaW5lcyBvZiBURUFMIGFyZSB1c2VkIHRvIGluaXRpYWxpemUgdGVtcGxhdGUgdmFyaWFibGVzIGluIHNjcmF0Y2ggc2xvdHMKaW50YyAwIC8vIFRNUExfc29tZU51bWJlcgoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpjYWxsX09wdEluICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKKmFiaV9yb3V0ZV9jdXN0b21TdHJ1Y3RNZXRob2Q6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludGMgMiAvLyA4Cgk9PQoKCS8vIGFyZ3VtZW50IDAgKGlucHV0KSBmb3IgY3VzdG9tU3RydWN0TWV0aG9kIG11c3QgYmUgYSAodWludDY0KQoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tU3RydWN0TWV0aG9kCgljb25jYXQKCWxvZwoJaW50YyAxIC8vIDEKCXJldHVybgoKLy8gY3VzdG9tU3RydWN0TWV0aG9kKGlucHV0OiBBbm90aGVyQ3VzdG9tU3RydWN0KTogQW5vdGhlckN1c3RvbVN0cnVjdApjdXN0b21TdHJ1Y3RNZXRob2Q6Cglwcm90byAxIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UtZXh0ZXJuYWwuYWxnby50czoyMQoJLy8gcmV0dXJuIGlucHV0OwoJZnJhbWVfZGlnIC0xIC8vIGlucHV0OiBBbm90aGVyQ3VzdG9tU3RydWN0CglyZXRzdWIKCi8vIGZvbygoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkpKHVpbnQ2NCx1aW50NjQpCiphYmlfcm91dGVfZm9vOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBpbnB1dHM6ICgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoaW5wdXRzKSBmb3IgZm9vIG11c3QgYmUgYSAoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZm9vKCgodWludDY0LHVpbnQ2NCksKHVpbnQ2NCx1aW50NjQpKSkodWludDY0LHVpbnQ2NCkKCWNhbGxzdWIgZm9vCgljb25jYXQKCWxvZwoJaW50YyAxIC8vIDEKCXJldHVybgoKLy8gZm9vKGlucHV0czogSW5wdXRzKTogT3V0cHV0cwpmb286Cglwcm90byAxIDEKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6MjUKCS8vIGlucHV0cy5zdWJ0cmFjdC5hIDwgaW5wdXRzLnN1YnRyYWN0LmIKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAxNiA4CglidG9pCglmcmFtZV9kaWcgLTEgLy8gaW5wdXRzOiBJbnB1dHMKCWV4dHJhY3QgMjQgOAoJYnRvaQoJPAoJYnogKmlmMF9lbmQKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIHN1YnRyYWN0LmEgbXVzdCBiZSBncmVhdGVyIHRoYW4gc3VidHJhY3QuYgoJZXJyCgoqaWYwX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI3CgkvLyB0aGlzLmdsb2JhbEtleS52YWx1ZSA9IHRoaXMuc29tZU51bWJlcgoJcHVzaGJ5dGVzIDB4Njc2YzZmNjI2MTZjNGI2NTc5IC8vICJnbG9iYWxLZXkiCglpbnRjIDAgLy8gVE1QTF9zb21lTnVtYmVyCglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjI4CgkvLyB0aGlzLmdsb2JhbE1hcCgnZm9vJykudmFsdWUgPSB7IGZvbzogMTMsIGJhcjogMzcgfQoJcHVzaGJ5dGVzIDB4NzAwMDAzNjY2ZjZmCglwdXNoYnl0ZXMgMHgwMDBkMDAyNQoJYXBwX2dsb2JhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozMAoJLy8gcmV0dXJuIHsKCS8vICAgICAgIHN1bTogaW5wdXRzLmFkZC5hICsgaW5wdXRzLmFkZC5iLAoJLy8gICAgICAgZGlmZmVyZW5jZTogaW5wdXRzLnN1YnRyYWN0LmEgLSBpbnB1dHMuc3VidHJhY3QuYiwKCS8vICAgICB9OwoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDAgOAoJYnRvaQoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDggOAoJYnRvaQoJKwoJaXRvYgoJZnJhbWVfZGlnIC0xIC8vIGlucHV0czogSW5wdXRzCglleHRyYWN0IDE2IDgKCWJ0b2kKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dHM6IElucHV0cwoJZXh0cmFjdCAyNCA4CglidG9pCgktCglpdG9iCgljb25jYXQKCXJldHN1YgoKLy8gb3B0SW5Ub0FwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfb3B0SW5Ub0FwcGxpY2F0aW9uOgoJLy8gZXhlY3V0ZSBvcHRJblRvQXBwbGljYXRpb24oKXZvaWQKCWNhbGxzdWIgb3B0SW5Ub0FwcGxpY2F0aW9uCglpbnRjIDEgLy8gMQoJcmV0dXJuCgovLyBvcHRJblRvQXBwbGljYXRpb24oKTogdm9pZApvcHRJblRvQXBwbGljYXRpb246Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozNwoJLy8gdGhpcy5sb2NhbEtleSh0aGlzLnR4bi5zZW5kZXIpLnZhbHVlID0gdGhpcy5zb21lTnVtYmVyCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg2YzZmNjM2MTZjNGI2NTc5IC8vICJsb2NhbEtleSIKCWludGMgMCAvLyBUTVBMX3NvbWVOdW1iZXIKCWFwcF9sb2NhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czozOAoJLy8gdGhpcy5sb2NhbE1hcCh0aGlzLnR4bi5zZW5kZXIsICdmb28nKS52YWx1ZSA9ICdiYXInCgl0eG4gU2VuZGVyCglwdXNoYnl0ZXMgMHg3MDY2NmY2ZgoJcHVzaGJ5dGVzIDB4MDAwMzYyNjE3MgoJYXBwX2xvY2FsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hcmM1Ni5hbGdvLnRzOjM5CgkvLyB0aGlzLmJveEtleS52YWx1ZSA9ICdiYXonCglieXRlYyAxIC8vICAiYm94S2V5IgoJZHVwCglib3hfZGVsCglwb3AKCXB1c2hieXRlcyAweDAwMDM2MjYxN2EKCWJveF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvYXJjNTYuYWxnby50czo0MAoJLy8gdGhpcy5ib3hNYXAoeyBhZGQ6IHsgYTogMSwgYjogMiB9LCBzdWJ0cmFjdDogeyBhOiA0LCBiOiAzIH0gfSkudmFsdWUgPSB7IHN1bTogMywgZGlmZmVyZW5jZTogMSB9CglwdXNoYnl0ZXMgMHg3MDAwMDAwMDAwMDAwMDAwMDEwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwNDAwMDAwMDAwMDAwMDAwMDMKCXB1c2hieXRlcyAweDAwMDAwMDAwMDAwMDAwMDMwMDAwMDAwMDAwMDAwMDAxCglib3hfcHV0CglyZXRzdWIKCi8vIGN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkKKmFiaV9yb3V0ZV9jdXN0b21UeXBlOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBpbnB1dDogKHVpbnQ2NCkKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDIgLy8gOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVR5cGUgbXVzdCBiZSBhICh1aW50NjQpCglhc3NlcnQKCgkvLyBleGVjdXRlIGN1c3RvbVR5cGUoKHVpbnQ2NCkpKHVpbnQ2NCkKCWNhbGxzdWIgY3VzdG9tVHlwZQoJY29uY2F0Cglsb2cKCWludGMgMSAvLyAxCglyZXR1cm4KCi8vIGN1c3RvbVR5cGUoaW5wdXQ6IEN1c3RvbVN0cnVjdEFzTmFtZSk6IEN1c3RvbVN0cnVjdEFzTmFtZQpjdXN0b21UeXBlOgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2FyYzU2LmFsZ28udHM6NDQKCS8vIHJldHVybiBpbnB1dDsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dDogQ3VzdG9tU3RydWN0QXNOYW1lCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnRjIDEgLy8gMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4OGQyMjczOWEgLy8gbWV0aG9kICJjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkiCglwdXNoYnl0ZXMgMHgzOTZkNTUwZSAvLyBtZXRob2QgImZvbygoKHVpbnQ2NCx1aW50NjQpLCh1aW50NjQsdWludDY0KSkpKHVpbnQ2NCx1aW50NjQpIgoJcHVzaGJ5dGVzIDB4MGRiZjAyYzcgLy8gbWV0aG9kICJjdXN0b21UeXBlKCh1aW50NjQpKSh1aW50NjQpIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jdXN0b21TdHJ1Y3RNZXRob2QgKmFiaV9yb3V0ZV9mb28gKmFiaV9yb3V0ZV9jdXN0b21UeXBlCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJyCgoqY2FsbF9PcHRJbjoKCXB1c2hieXRlcyAweDAxYTNhM2ZmIC8vIG1ldGhvZCAib3B0SW5Ub0FwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9vcHRJblRvQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBPcHRJbgoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "templateVariables": {

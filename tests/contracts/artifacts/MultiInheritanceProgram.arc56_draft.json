@@ -71,22 +71,16 @@
           ]
         },
         {
-          "teal": 13,
+          "teal": 2,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             1,
-            2
-          ]
-        },
-        {
-          "teal": 14,
-          "source": "tests/contracts/inheritance.algo.ts:98",
-          "pc": [
+            2,
             3
           ]
         },
         {
-          "teal": 15,
+          "teal": 14,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             4,
@@ -94,14 +88,14 @@
           ]
         },
         {
-          "teal": 16,
+          "teal": 15,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             6
           ]
         },
         {
-          "teal": 17,
+          "teal": 16,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             7,
@@ -109,19 +103,31 @@
           ]
         },
         {
-          "teal": 18,
+          "teal": 17,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             9
           ]
         },
         {
-          "teal": 19,
+          "teal": 18,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
             10,
-            11,
-            12,
+            11
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance.algo.ts:98",
+          "pc": [
+            12
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/inheritance.algo.ts:98",
+          "pc": [
             13,
             14,
             15,
@@ -144,23 +150,17 @@
             32,
             33,
             34,
-            35
+            35,
+            36,
+            37,
+            38
           ]
         },
         {
-          "teal": 23,
+          "teal": 24,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
-            36
-          ]
-        },
-        {
-          "teal": 28,
-          "source": "tests/contracts/inheritance.algo.ts:99",
-          "pc": [
-            37,
-            38,
             39
           ]
         },
@@ -169,31 +169,37 @@
           "source": "tests/contracts/inheritance.algo.ts:99",
           "pc": [
             40,
-            41
+            41,
+            42
           ]
         },
         {
           "teal": 30,
           "source": "tests/contracts/inheritance.algo.ts:99",
           "pc": [
-            42
+            43
           ]
         },
         {
-          "teal": 34,
+          "teal": 31,
           "source": "tests/contracts/inheritance.algo.ts:99",
           "pc": [
-            43,
-            44,
-            45
+            44
           ]
         },
         {
-          "teal": 38,
+          "teal": 35,
+          "source": "tests/contracts/inheritance.algo.ts:99",
+          "pc": [
+            45,
+            46,
+            47
+          ]
+        },
+        {
+          "teal": 39,
           "source": "tests/contracts/inheritance.algo.ts:100",
           "pc": [
-            46,
-            47,
             48,
             49,
             50,
@@ -462,50 +468,62 @@
             313,
             314,
             315,
-            316,
-            317,
-            318,
-            319,
-            320,
-            321,
-            322
-          ]
-        },
-        {
-          "teal": 39,
-          "source": "tests/contracts/inheritance.algo.ts:100",
-          "pc": [
-            323
+            316
           ]
         },
         {
           "teal": 40,
-          "source": "tests/contracts/inheritance.algo.ts:99",
+          "source": "tests/contracts/inheritance.algo.ts:100",
           "pc": [
-            324
+            317
           ]
         },
         {
-          "teal": 43,
-          "source": "tests/contracts/inheritance.algo.ts:98",
+          "teal": 41,
+          "source": "tests/contracts/inheritance.algo.ts:99",
           "pc": [
-            325,
-            326
+            318
           ]
         },
         {
           "teal": 44,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
-            327
+            319
           ]
         },
         {
-          "teal": 47,
+          "teal": 45,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
+            320
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "tests/contracts/inheritance.algo.ts:98",
+          "pc": [
+            321,
+            322,
+            323,
+            324,
+            325,
+            326
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/inheritance.algo.ts:98",
+          "pc": [
+            327,
             328,
-            329,
+            329
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/inheritance.algo.ts:98",
+          "pc": [
             330,
             331,
             332,
@@ -513,18 +531,19 @@
           ]
         },
         {
-          "teal": 48,
+          "teal": 53,
           "source": "tests/contracts/inheritance.algo.ts:98",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            334,
-            335,
-            336
+            334
           ]
         },
         {
-          "teal": 49,
+          "teal": 56,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
+            335,
+            336,
             337,
             338,
             339,
@@ -532,19 +551,18 @@
           ]
         },
         {
-          "teal": 52,
+          "teal": 57,
           "source": "tests/contracts/inheritance.algo.ts:98",
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            341
+            341,
+            342,
+            343
           ]
         },
         {
-          "teal": 55,
+          "teal": 58,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "pc": [
-            342,
-            343,
             344,
             345,
             346,
@@ -552,30 +570,11 @@
           ]
         },
         {
-          "teal": 56,
-          "source": "tests/contracts/inheritance.algo.ts:98",
-          "pc": [
-            348,
-            349,
-            350
-          ]
-        },
-        {
-          "teal": 57,
-          "source": "tests/contracts/inheritance.algo.ts:98",
-          "pc": [
-            351,
-            352,
-            353,
-            354
-          ]
-        },
-        {
-          "teal": 60,
+          "teal": 61,
           "source": "tests/contracts/inheritance.algo.ts:98",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            355
+            348
           ]
         }
       ],
@@ -587,11 +586,11 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gcHJvZygpdm9pZAoqYWJpX3JvdXRlX3Byb2c6CgkvLyBleGVjdXRlIHByb2coKXZvaWQKCWNhbGxzdWIgcHJvZwoJcHVzaGludCAxCglyZXR1cm4KCi8vIHByb2coKTogdm9pZApwcm9nOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLmFsZ28udHM6MTAwCgkvLyBsb2coTXVsdGlJbmhlcml0YW5jZS5hcHByb3ZhbFByb2dyYW0oKSkKCXB1c2hieXRlcyAweDBhMjYwMTAxNjEzMTE4MTQ4MTA2MGIzMTE5MDg4ZDBjMDBjNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDBiNjAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ODAwMDM4MTAxNDM4YTAwMDA4MDAxNjE4MWI5MGE2Nzg5ODgwMDAzODEwMTQzOGEwMDAwODAwMTYxNjQ4MWI5MGExMjQ0ODAwMTYyODEyYTY3ODk4ODAwMDM4MTAxNDM4YTAwMDA4MDAyNjIzMmIwODk4ODAwMDM4MTAxNDM4YTAwMDA4MDZjMGEzMTE4MTQ4MTA2MGIzMTE5MDg4ZDBjMDAzMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ODAwMDM4MTAxNDM4YTAwMDA4MDAxNjE4MWI5MGE2Nzg5ODgwMDAzODEwMTQzOGEwMDAwODAwMjYyMzJiMDg5ODEwMTQzODAwNGI4NDQ3YjM2MzYxYTAwOGUwMWZmZjAwMDgwMDQxZTdhYWQxYzgwMDQ0NDNiMzMxOTM2MWEwMDhlMDJmZmJhZmZjYjAwYjA4OTgxMDE0MzgwMDRiODQ0N2IzNjM2MWEwMDhlMDFmZmYwMDA4MDA0MWU3YWFkMWM4MDA0M2FjOTBiMDg4MDA0NDQzYjMzMTk4MDA0ODQ0NjdhZmYzNjFhMDA4ZTA0ZmYxOGZmMjlmZjQyZmY1MTAwCglsb2cKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCXB1c2hpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ODFkNzliZWYgLy8gbWV0aG9kICJwcm9nKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9wcm9nCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gcHJvZygpdm9pZAoqYWJpX3JvdXRlX3Byb2c6CgkvLyBleGVjdXRlIHByb2coKXZvaWQKCWNhbGxzdWIgcHJvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gcHJvZygpOiB2b2lkCnByb2c6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UuYWxnby50czoxMDAKCS8vIGxvZyhNdWx0aUluaGVyaXRhbmNlLmFwcHJvdmFsUHJvZ3JhbSgpKQoJcHVzaGJ5dGVzIDB4MGEyMDAyMDFiOTBhMjYwMTAxNjEzMTE4MTQ4MTA2MGIzMTE5MDg4ZDBjMDBiNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDBhOTAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ODAwMDIyMjQzOGEwMDAwMjgyMzY3ODk4ODAwMDIyMjQzOGEwMDAwMjg2NDIzMTI0NDgwMDE2MjgxMmE2Nzg5ODgwMDAyMjI0MzhhMDAwMDgwMDI2MjMyYjA4OTg4MDAwMjIyNDM4YTAwMDA4MDZjMGEyMDAxMDEzMTE4MTQ4MTA2MGIzMTE5MDg4ZDBjMDAyZjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDA4ODAwMDIyMjQzOGEwMDAwODAwMTYxODFiOTBhNjc4OTg4MDAwMjIyNDM4YTAwMDA4MDAyNjIzMmIwODkyMjQzODAwNGI4NDQ3YjM2MzYxYTAwOGUwMWZmZjEwMDgwMDQxZTdhYWQxYzgwMDQ0NDNiMzMxOTM2MWEwMDhlMDJmZmJkZmZjZDAwYjA4OTIyNDM4MDA0Yjg0NDdiMzYzNjFhMDA4ZTAxZmZmMTAwODAwNDFlN2FhZDFjODAwNDNhYzkwYjA4ODAwNDQ0M2IzMzE5ODAwNDg0NDY3YWZmMzYxYTAwOGUwNGZmMjVmZjMxZmY0NWZmNTMwMAoJbG9nCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnRjIDAgLy8gMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ODFkNzliZWYgLy8gbWV0aG9kICJwcm9nKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9wcm9nCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CjEYFIEGCzEZCI0MATIAAAAAAAAAAAAAASQAAAAAAAAAAAAAAIgAA4EBQ4oAAICSAgomAQFhMRgUgQYLMRkIjQwAxAAAAAAAAAAAAAAAtgAAAAAAAAAAAAAAiAADgQFDigAAgAFhgbkKZ4mIAAOBAUOKAACAAWFkgbkKEkSAAWKBKmeJiAADgQFDigAAgAJiMrCJiAADgQFDigAAgGwKMRgUgQYLMRkIjQwAMgAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAiAADgQFDigAAgAFhgbkKZ4mIAAOBAUOKAACAAmIysImBAUOABLhEezY2GgCOAf/wAIAEHnqtHIAERDszGTYaAI4C/7r/ywCwiYEBQ4AEuER7NjYaAI4B//AAgAQeeq0cgAQ6yQsIgAREOzMZgASERnr/NhoAjgT/GP8p/0L/UQCwiYEBQ4AEuER7NjYaAI4B//AAgASB15vvNhoAjgH+wgA=",
+    "approval": "CiABATEYFIEGCzEZCI0MASgAAAAAAAAAAAAAARoAAAAAAAAAAAAAAIgAAiJDigAAgIoCCiACAbkKJgEBYTEYFIEGCzEZCI0MALcAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAIgAAiJDigAAKCNniYgAAiJDigAAKGQjEkSAAWKBKmeJiAACIkOKAACAAmIysImIAAIiQ4oAAIBsCiABATEYFIEGCzEZCI0MAC8AAAAAAAAAAAAAACEAAAAAAAAAAAAAAIgAAiJDigAAgAFhgbkKZ4mIAAIiQ4oAAIACYjKwiSJDgAS4RHs2NhoAjgH/8QCABB56rRyABEQ7Mxk2GgCOAv+9/80AsIkiQ4AEuER7NjYaAI4B//EAgAQeeq0cgAQ6yQsIgAREOzMZgASERnr/NhoAjgT/Jf8x/0X/UwCwiSJDgAS4RHs2NhoAjgH/8QCABIHXm+82GgCOAf7MAA==",
     "clear": "Cg=="
   },
   "compilerInfo": {

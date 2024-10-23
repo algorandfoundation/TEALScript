@@ -528,79 +528,82 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     return t;
   });
 
-  // We want to priortize values that take up the most space, so we sort byte byte size * number of uses
-
-  // Map of byte values to their number of uses
-  const byteValues: Record<string, number> = {};
-
-  // Map of int values to their number of uses
-  const intValues: Record<string, number> = {};
-
-  newTeal.forEach((t) => {
-    if (t.teal.startsWith('byte ')) {
-      const value = t.teal.split(' ')[1];
-      byteValues[value] = (byteValues[value] || 0) + 1;
-    }
-
-    if (t.teal.startsWith('int ')) {
-      const value = t.teal.split(' ')[1];
-      intValues[value] = (intValues[value] || 0) + 1;
-    }
-  });
-
-  Object.entries(byteValues).forEach(([value, count]) => {
-    // Delete byte values that are only used once otheriwse we waste bytes putting it in constant block and then calling bytec
-    if (count === 1) {
-      delete byteValues[value];
-      return;
-    }
-    byteValues[value] = value.length * count;
-  });
+  const byteValues: Record<string, { count: number; size: number }> = {};
+  const intValues: Record<string, { count: number; size: number }> = {};
 
   const numberOfBytes = (n: bigint) => {
     return Math.ceil(n.toString(2).length / 8) || 1;
   };
 
-  Object.entries(intValues).forEach(([value, count]) => {
-    intValues[value] = numberOfBytes(BigInt(value.replace(/_/g, ''))) * count;
-
-    // ints always take up 8 bytes in constant blocks, so it doens't make sense to put them in the constant block if they take up less than that
-    if (intValues[value] < 8) {
-      delete intValues[value];
-    }
-  });
-
-  const sortedByteValues = Object.entries(byteValues)
-    .sort((a, b) => b[1] - a[1])
-    .map(([value]) => value);
-
-  const sortedIntValues = Object.entries(intValues)
-    .sort((a, b) => b[1] - a[1])
-    .map(([value]) => value);
-
-  // create set of byteValues ordered by length * use
-
-  // Keep adding to bytecblock until it's 255 long
-  while (bytecblock.size < 255 && sortedByteValues.length > 0) {
-    bytecblock.add(sortedByteValues.shift()!);
-  }
-
-  // Keep adding to intcblock until it's 255 long
-  while (intcblock.size < 255 && sortedIntValues.length > 0) {
-    intcblock.add(sortedIntValues.shift()!);
-  }
-
-  newTeal = newTeal.map((t) => {
+  newTeal.forEach((t) => {
     if (t.teal.startsWith('byte ')) {
-      if (!bytecblock.has(t.teal.split(' ')[1])) {
-        return { teal: t.teal.replace('byte', 'pushbytes'), node: t.node };
-      }
+      const value = t.teal.split(' ')[1];
+      if (byteValues[value]) byteValues[value].count += 1;
+      else byteValues[value] = { count: 1, size: value.length };
     }
 
     if (t.teal.startsWith('int ')) {
-      if (!intcblock.has(t.teal.split(' ')[1])) {
-        return { teal: t.teal.replace('int', 'pushint'), node: t.node };
+      const value = t.teal.split(' ')[1];
+      if (intValues[value]) intValues[value].count += 1;
+      else intValues[value] = { count: 1, size: numberOfBytes(BigInt(value.replace(/_/g, ''))) };
+    }
+  });
+
+  // Delete values that only occur once
+  Object.entries(byteValues).forEach(([value, sizeAndCount]) => {
+    if (sizeAndCount.count === 1) delete byteValues[value];
+  });
+
+  Object.entries(intValues).forEach(([value, sizeAndCount]) => {
+    if (sizeAndCount.count === 1) delete intValues[value];
+  });
+
+  // First sort by size * count to determine the 255 values that should go in the block
+  const sortedByteValues = Object.entries(byteValues)
+    .sort((a, b) => b[1].size * b[1].count - a[1].size * a[1].count)
+    .map(([value]) => value);
+
+  const sortedIntValues = Object.entries(intValues)
+    .sort((a, b) => b[1].size * b[1].count - a[1].size * a[1].count)
+    .map(([value]) => value);
+
+  // Now get the top 255 values and sort by count so intc_n and bytec_n usage is optimal
+  sortedByteValues
+    .slice(0, 255)
+    .sort((a, b) => byteValues[b].count - byteValues[a].count)
+    .forEach((value) => {
+      bytecblock.add(value);
+    });
+
+  sortedIntValues
+    .slice(0, 255)
+    .sort((a, b) => intValues[b].count - intValues[a].count)
+    .forEach((value) => {
+      intcblock.add(value);
+    });
+
+  newTeal = newTeal.map((t) => {
+    if (t.teal.startsWith('byte ')) {
+      const value = t.teal.split(' ')[1];
+      const comment = t.teal.split(' //')[1];
+
+      if (bytecblock.has(value)) {
+        const index = Array.from(bytecblock).indexOf(value);
+        return { teal: `bytec ${index} // ${comment || value}`, node: t.node };
       }
+
+      return { teal: t.teal.replace('byte', 'pushbytes'), node: t.node };
+    }
+
+    if (t.teal.startsWith('int ')) {
+      const value = t.teal.split(' ')[1];
+      const comment = t.teal.split(' //')[1];
+
+      if (intcblock.has(value)) {
+        const index = Array.from(intcblock).indexOf(value);
+        return { teal: `intc ${index} // ${comment || value}`, node: t.node };
+      }
+      return { teal: t.teal.replace('int', 'pushint'), node: t.node };
     }
 
     return t;
