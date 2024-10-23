@@ -7613,6 +7613,16 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     this.sourceInfo.forEach((sm) => {
       if (this.hasDynamicTemplateVar) {
         if (sm.teal - 1 <= lastCblockLine) return;
+        const pcs = this.lineToPc[sm.teal - 1];
+
+        if (pcs === undefined) {
+          throw new Error(
+            `Internal Compiler Error: PC values not found when trying to calculate cblock offsets for TEAL line ${
+              sm.teal
+            } (${this.teal[program][sm.teal - 1].teal}). Last cblock line was ${lastCblockLine}.`
+          );
+        }
+
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
         return;
