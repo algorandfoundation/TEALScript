@@ -2,10 +2,11 @@
 
 // examples/simple/simple.algo.ts:27
 // this.incrementCounter(1)
+intcblock 1
 bytecblock 0x636f756e746572
-pushint 1
+intc 0 // 1
 callsub incrementCounter
-pushint 1
+intc 0 // 1
 return
 
 // incrementCounter(i: uint64): void
@@ -14,7 +15,7 @@ incrementCounter:
 
 	// examples/simple/simple.algo.ts:7
 	// this.counter.value = this.counter.value + i
-	byte 0x636f756e746572 // "counter"
+	bytec 0 //  "counter"
 	dup
 	app_global_get
 	frame_dig -1 // i: uint64

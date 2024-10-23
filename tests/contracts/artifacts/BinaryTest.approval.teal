@@ -35,7 +35,7 @@ switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEM
 
 	// execute and(uint64,uint64)void
 	callsub and
-	int 1
+	intc 0 // 1
 	return
 
 // and(a: uint64, b: uint64): void
@@ -66,7 +66,7 @@ and:
 
 	// execute or(uint64,uint64)void
 	callsub or
-	int 1
+	intc 0 // 1
 	return
 
 // or(a: uint64, b: uint64): void
@@ -97,7 +97,7 @@ or:
 
 	// execute equal(uint64,uint64)void
 	callsub equal
-	int 1
+	intc 0 // 1
 	return
 
 // equal(a: uint64, b: uint64): void
@@ -124,7 +124,7 @@ equal:
 
 	// execute notEqual(uint64,uint64)void
 	callsub notEqual
-	int 1
+	intc 0 // 1
 	return
 
 // notEqual(a: uint64, b: uint64): void
@@ -151,7 +151,7 @@ notEqual:
 
 	// execute bitAnd(uint64,uint64)void
 	callsub bitAnd
-	int 1
+	intc 0 // 1
 	return
 
 // bitAnd(a: uint64, b: uint64): void
@@ -178,7 +178,7 @@ bitAnd:
 
 	// execute bitOr(uint64,uint64)void
 	callsub bitOr
-	int 1
+	intc 0 // 1
 	return
 
 // bitOr(a: uint64, b: uint64): void
@@ -205,7 +205,7 @@ bitOr:
 
 	// execute bitXor(uint64,uint64)void
 	callsub bitXor
-	int 1
+	intc 0 // 1
 	return
 
 // bitXor(a: uint64, b: uint64): void
@@ -236,7 +236,7 @@ bitXor:
 
 	// execute combo(uint64,uint64,uint64)void
 	callsub combo
-	int 1
+	intc 0 // 1
 	return
 
 // combo(a: uint64, b: uint64, c: uint64): void
@@ -262,7 +262,7 @@ combo:
 	retsub
 
 *abi_route_createApplication:
-	int 1
+	intc 0 // 1
 	return
 
 *create_NoOp:
