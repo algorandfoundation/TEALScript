@@ -7491,6 +7491,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   }
 
   async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
+    let dynamicTemplateWarning = false;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
@@ -7502,14 +7503,15 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
             if (tVar === undefined) return arg;
 
             if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
-              if (program === 'lsig' || program === 'approval') {
+              if (program === 'lsig' || (program === 'approval' && !dynamicTemplateWarning)) {
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                     tVar.type
-                  )}) PC values will be offset from first opcode after constant blocks`
+                  )}) PC values will be offset from first opcode after constant blocks. This will be handled by algokit clients, but ARC56 has a minimal reference implementation available for scenarios where algokit is not being used: https://github.com/joe-p/ARCs/blob/extended_app_description/ARCs/arc-0056.md#calculating-cblock-offsets`
                 );
 
                 this.hasDynamicTemplateVar = true;
+                dynamicTemplateWarning = true;
               }
 
               return isNumeric(tVar.type) ? '0' : '0x';
