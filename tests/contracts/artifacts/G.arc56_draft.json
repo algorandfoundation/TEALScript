@@ -77,22 +77,533 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            20,
+            21
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            22
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            23,
+            24
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            25
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            26,
+            27
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            28
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54
+          ]
+        },
+        {
+          "teal": 24,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             55
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 29,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            56,
+            57,
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            65
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            66
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            67
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            68,
+            69,
+            70
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            71
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            72
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            73
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            75,
+            76
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            77
+          ]
+        },
+        {
+          "teal": 46,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            78,
+            79,
+            80
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/inheritance.algo.ts:67",
+          "pc": [
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            89
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "tests/contracts/inheritance.algo.ts:70",
+          "pc": [
+            90,
+            91,
+            92
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/inheritance.algo.ts:71",
+          "pc": [
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "tests/contracts/inheritance.algo.ts:70",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "tests/contracts/inheritance.algo.ts:74",
+          "pc": [
+            103,
+            104,
+            105
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "tests/contracts/inheritance.algo.ts:75",
+          "pc": [
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/inheritance.algo.ts:74",
+          "pc": [
+            117
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            118,
+            119,
+            120
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            123
+          ]
+        },
+        {
+          "teal": 80,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            124,
+            125,
+            126
+          ]
+        },
+        {
+          "teal": 84,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            127,
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            141
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            142
+          ]
+        },
+        {
+          "teal": 91,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153
+          ]
+        },
+        {
+          "teal": 93,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            154
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            155
+          ]
+        },
+        {
+          "teal": 95,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            156
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            157,
+            158
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            159
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            160,
+            161,
+            162,
+            163,
+            164,
+            165
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            166,
+            167,
+            168
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            169,
+            170,
+            171,
+            172
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             173
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 110,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            174,
+            175,
+            176,
+            177,
+            178,
+            179
+          ]
+        },
+        {
+          "teal": 111,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ]
+        },
+        {
+          "teal": 112,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            186,
+            187,
+            188
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            189,
+            190,
+            191,
+            192,
+            193,
+            194
+          ]
+        },
+        {
+          "teal": 116,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             195
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"

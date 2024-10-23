@@ -7679,12 +7679,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
-    const arc56SourceInfo: { pc: number[]; errorMessage: string }[] = this.sourceInfo
-      .filter((s) => s.errorMessage)
-      .map((s) => ({
-        pc: s.pc as number[],
-        errorMessage: s.errorMessage as string,
-      }));
+    const sourceInfo = this.sourceInfo.filter((s) => s.pc !== undefined);
 
     const arc56: ARC56Contract = {
       ...this.arc4Description(),
@@ -7694,7 +7689,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       bareActions: { create: [], call: [] },
       // TODO: clear source mapping
       sourceInfo: {
-        approval: { sourceInfo: arc56SourceInfo, pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none' },
+        approval: {
+          // @ts-expect-error Undefined PCs are filtered out above
+          sourceInfo,
+          pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none',
+        },
         clear: { sourceInfo: [], pcOffsetMethod: 'none' },
       },
       source: {

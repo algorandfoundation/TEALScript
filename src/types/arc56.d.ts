@@ -246,11 +246,15 @@ export interface StorageMap {
   prefix?: string;
 }
 
-export interface SourceInfo {
-  /** The program counter offset(s) that correspond to this line of TEAL */
-  pc?: Array<number>;
-  /** A human-readable string that describes the error when the program fails at this given line of TEAL */
-  errorMessage: string;
+interface SourceInfo {
+  /** The program counter value(s). Could be offset if pcOffsetMethod is not "none" */
+  pc: Array<number>;
+  /** A human-readable string that describes the error when the program fails at the given PC */
+  errorMessage?: string;
+  /** The TEAL line number that corresponds to the given PC. RECOMMENDED to be used for development purposes, but not required for clients */
+  teal?: number;
+  /** The original source file and line number that corresponds to the given PC. RECOMMENDED to be used for development purposes, but not required for clients */
+  source?: string;
 }
 
 export interface ProgramSourceInfo {

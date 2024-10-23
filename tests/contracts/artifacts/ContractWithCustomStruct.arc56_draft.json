@@ -78,28 +78,309 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 13,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            1,
+            2
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            3
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            4,
+            5
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            6
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            9
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ]
+        },
+        {
+          "teal": 23,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             36
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 28,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            37,
+            38,
+            39,
+            40,
+            41,
+            42
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            43,
+            44,
+            45
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            46
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            47
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            48,
+            49
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            50
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)",
           "pc": [
             51
-          ],
-          "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)"
+          ]
         },
         {
+          "teal": 41,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            52,
+            53,
+            54
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            55
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            56
+          ]
+        },
+        {
+          "teal": 44,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            57,
+            58
+          ]
+        },
+        {
+          "teal": 45,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            60,
+            61,
+            62
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "tests/contracts/inheritance-external.algo.ts:21",
+          "pc": [
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            65
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            66,
+            67
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            69,
+            70,
+            71,
+            72,
+            73,
+            74
+          ]
+        },
+        {
+          "teal": 62,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            75,
+            76,
+            77
+          ]
+        },
+        {
+          "teal": 63,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            78,
+            79,
+            80,
+            81
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             82
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 69,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            83,
+            84,
+            85,
+            86,
+            87,
+            88
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            89,
+            90,
+            91
+          ]
+        },
+        {
+          "teal": 71,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            92,
+            93,
+            94,
+            95
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             96
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"
