@@ -70,22 +70,253 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 13,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            1,
+            2
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            3
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            4,
+            5
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            6
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            9
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ]
+        },
+        {
+          "teal": 23,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             36
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 28,
+          "source": "tests/contracts/inheritance.algo.ts:39",
+          "pc": [
+            37,
+            38,
+            39
+          ]
+        },
+        {
+          "teal": 29,
+          "source": "tests/contracts/inheritance.algo.ts:39",
+          "pc": [
+            40,
+            41
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "tests/contracts/inheritance.algo.ts:39",
+          "pc": [
+            42
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/inheritance.algo.ts:39",
+          "pc": [
+            43,
+            44,
+            45
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/inheritance.algo.ts:40",
+          "pc": [
+            46,
+            47,
+            48
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "tests/contracts/inheritance.algo.ts:40",
+          "pc": [
+            49,
+            50
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "tests/contracts/inheritance.algo.ts:40",
+          "pc": [
+            51
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "tests/contracts/inheritance.algo.ts:39",
+          "pc": [
+            52
+          ]
+        },
+        {
+          "teal": 44,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            53,
+            54
+          ]
+        },
+        {
+          "teal": 45,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            55
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            56,
+            57,
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            65,
+            66,
+            67,
+            68
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             69
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 56,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            76,
+            77,
+            78
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "pc": [
+            79,
+            80,
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "tests/contracts/inheritance.algo.ts:36",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             83
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"

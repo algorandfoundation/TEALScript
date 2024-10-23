@@ -181,22 +181,2441 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            45,
+            46
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            47
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            48,
+            49
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            50
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            51,
+            52
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             80
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 30,
+          "source": "tests/contracts/itxns.algo.ts:5",
+          "pc": [
+            81,
+            82,
+            83
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "tests/contracts/itxns.algo.ts:5",
+          "pc": [
+            84,
+            85
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "tests/contracts/itxns.algo.ts:5",
+          "pc": [
+            86
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/itxns.algo.ts:5",
+          "pc": [
+            87,
+            88,
+            89
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            90
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            91,
+            92
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "tests/contracts/itxns.algo.ts:7",
+          "pc": [
+            95,
+            96
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "tests/contracts/itxns.algo.ts:7",
+          "pc": [
+            97,
+            98
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/itxns.algo.ts:8",
+          "pc": [
+            99,
+            100
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/itxns.algo.ts:8",
+          "pc": [
+            101,
+            102
+          ]
+        },
+        {
+          "teal": 63,
+          "source": "tests/contracts/itxns.algo.ts:9",
+          "pc": [
+            103,
+            104
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "tests/contracts/itxns.algo.ts:9",
+          "pc": [
+            105,
+            106
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "tests/contracts/itxns.algo.ts:10",
+          "pc": [
+            107,
+            108
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/itxns.algo.ts:10",
+          "pc": [
+            109,
+            110
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "tests/contracts/itxns.algo.ts:11",
+          "pc": [
+            111,
+            112
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/itxns.algo.ts:11",
+          "pc": [
+            113,
+            114
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "tests/contracts/itxns.algo.ts:12",
+          "pc": [
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "tests/contracts/itxns.algo.ts:12",
+          "pc": [
+            129,
+            130
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            131,
+            132
+          ]
+        },
+        {
+          "teal": 83,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            133,
+            134
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/itxns.algo.ts:6",
+          "pc": [
+            135
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/itxns.algo.ts:5",
+          "pc": [
+            136
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            137,
+            138,
+            139,
+            140,
+            141,
+            142
+          ]
+        },
+        {
+          "teal": 95,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 96,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            146
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            147
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            148
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            149,
+            150
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            151
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            152,
+            153,
+            154
+          ]
+        },
+        {
+          "teal": 119,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            155
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            156,
+            157
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            158,
+            159
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "tests/contracts/itxns.algo.ts:18",
+          "pc": [
+            160,
+            161,
+            162,
+            163,
+            164,
+            165
+          ]
+        },
+        {
+          "teal": 126,
+          "source": "tests/contracts/itxns.algo.ts:18",
+          "pc": [
+            166,
+            167
+          ]
+        },
+        {
+          "teal": 130,
+          "source": "tests/contracts/itxns.algo.ts:19",
+          "pc": [
+            168,
+            169,
+            170,
+            171,
+            172,
+            173
+          ]
+        },
+        {
+          "teal": 131,
+          "source": "tests/contracts/itxns.algo.ts:19",
+          "pc": [
+            174,
+            175
+          ]
+        },
+        {
+          "teal": 135,
+          "source": "tests/contracts/itxns.algo.ts:20",
+          "pc": [
+            176,
+            177
+          ]
+        },
+        {
+          "teal": 136,
+          "source": "tests/contracts/itxns.algo.ts:20",
+          "pc": [
+            178,
+            179
+          ]
+        },
+        {
+          "teal": 140,
+          "source": "tests/contracts/itxns.algo.ts:21",
+          "pc": [
+            180,
+            181
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "tests/contracts/itxns.algo.ts:21",
+          "pc": [
+            182,
+            183
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "tests/contracts/itxns.algo.ts:22",
+          "pc": [
+            184,
+            185
+          ]
+        },
+        {
+          "teal": 146,
+          "source": "tests/contracts/itxns.algo.ts:22",
+          "pc": [
+            186,
+            187
+          ]
+        },
+        {
+          "teal": 150,
+          "source": "tests/contracts/itxns.algo.ts:23",
+          "pc": [
+            188,
+            189
+          ]
+        },
+        {
+          "teal": 151,
+          "source": "tests/contracts/itxns.algo.ts:23",
+          "pc": [
+            190,
+            191
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "tests/contracts/itxns.algo.ts:24",
+          "pc": [
+            192,
+            193
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "tests/contracts/itxns.algo.ts:24",
+          "pc": [
+            194,
+            195
+          ]
+        },
+        {
+          "teal": 160,
+          "source": "tests/contracts/itxns.algo.ts:25",
+          "pc": [
+            196,
+            197
+          ]
+        },
+        {
+          "teal": 161,
+          "source": "tests/contracts/itxns.algo.ts:25",
+          "pc": [
+            198,
+            199
+          ]
+        },
+        {
+          "teal": 165,
+          "source": "tests/contracts/itxns.algo.ts:26",
+          "pc": [
+            200,
+            201,
+            202,
+            203,
+            204
+          ]
+        },
+        {
+          "teal": 166,
+          "source": "tests/contracts/itxns.algo.ts:26",
+          "pc": [
+            205,
+            206
+          ]
+        },
+        {
+          "teal": 170,
+          "source": "tests/contracts/itxns.algo.ts:27",
+          "pc": [
+            207,
+            208,
+            209,
+            210,
+            211,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217,
+            218,
+            219,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            239,
+            240
+          ]
+        },
+        {
+          "teal": 171,
+          "source": "tests/contracts/itxns.algo.ts:27",
+          "pc": [
+            241,
+            242
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            243,
+            244
+          ]
+        },
+        {
+          "teal": 175,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            245,
+            246
+          ]
+        },
+        {
+          "teal": 178,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            247
+          ]
+        },
+        {
+          "teal": 179,
+          "source": "tests/contracts/itxns.algo.ts:17",
+          "pc": [
+            248,
+            249
+          ]
+        },
+        {
+          "teal": 180,
+          "source": "tests/contracts/itxns.algo.ts:16",
+          "pc": [
+            250
+          ]
+        },
+        {
+          "teal": 185,
+          "source": "tests/contracts/itxns.algo.ts:31",
+          "pc": [
+            251,
+            252,
+            253
+          ]
+        },
+        {
+          "teal": 186,
+          "source": "tests/contracts/itxns.algo.ts:31",
+          "pc": [
+            254,
+            255
+          ]
+        },
+        {
+          "teal": 187,
+          "source": "tests/contracts/itxns.algo.ts:31",
+          "pc": [
+            256
+          ]
+        },
+        {
+          "teal": 191,
+          "source": "tests/contracts/itxns.algo.ts:31",
+          "pc": [
+            257,
+            258,
+            259
+          ]
+        },
+        {
+          "teal": 208,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            260
+          ]
+        },
+        {
+          "teal": 209,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            261,
+            262
+          ]
+        },
+        {
+          "teal": 210,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            263,
+            264
+          ]
+        },
+        {
+          "teal": 214,
+          "source": "tests/contracts/itxns.algo.ts:33",
+          "pc": [
+            265,
+            266
+          ]
+        },
+        {
+          "teal": 215,
+          "source": "tests/contracts/itxns.algo.ts:33",
+          "pc": [
+            267,
+            268
+          ]
+        },
+        {
+          "teal": 219,
+          "source": "tests/contracts/itxns.algo.ts:34",
+          "pc": [
+            269,
+            270,
+            271,
+            272,
+            273,
+            274
+          ]
+        },
+        {
+          "teal": 220,
+          "source": "tests/contracts/itxns.algo.ts:34",
+          "pc": [
+            275,
+            276
+          ]
+        },
+        {
+          "teal": 221,
+          "source": "tests/contracts/itxns.algo.ts:34",
+          "pc": [
+            277,
+            278,
+            279,
+            280,
+            281,
+            282
+          ]
+        },
+        {
+          "teal": 222,
+          "source": "tests/contracts/itxns.algo.ts:34",
+          "pc": [
+            283,
+            284
+          ]
+        },
+        {
+          "teal": 226,
+          "source": "tests/contracts/itxns.algo.ts:35",
+          "pc": [
+            285,
+            286,
+            287
+          ]
+        },
+        {
+          "teal": 227,
+          "source": "tests/contracts/itxns.algo.ts:35",
+          "pc": [
+            288,
+            289
+          ]
+        },
+        {
+          "teal": 231,
+          "source": "tests/contracts/itxns.algo.ts:36",
+          "pc": [
+            290,
+            291,
+            292
+          ]
+        },
+        {
+          "teal": 232,
+          "source": "tests/contracts/itxns.algo.ts:36",
+          "pc": [
+            293,
+            294
+          ]
+        },
+        {
+          "teal": 236,
+          "source": "tests/contracts/itxns.algo.ts:37",
+          "pc": [
+            295,
+            296,
+            297,
+            298,
+            299,
+            300,
+            301,
+            302,
+            303,
+            304
+          ]
+        },
+        {
+          "teal": 237,
+          "source": "tests/contracts/itxns.algo.ts:37",
+          "pc": [
+            305,
+            306
+          ]
+        },
+        {
+          "teal": 241,
+          "source": "tests/contracts/itxns.algo.ts:38",
+          "pc": [
+            307,
+            308
+          ]
+        },
+        {
+          "teal": 242,
+          "source": "tests/contracts/itxns.algo.ts:38",
+          "pc": [
+            309,
+            310
+          ]
+        },
+        {
+          "teal": 246,
+          "source": "tests/contracts/itxns.algo.ts:39",
+          "pc": [
+            311,
+            312,
+            313,
+            314,
+            315,
+            316,
+            317
+          ]
+        },
+        {
+          "teal": 247,
+          "source": "tests/contracts/itxns.algo.ts:39",
+          "pc": [
+            318,
+            319
+          ]
+        },
+        {
+          "teal": 251,
+          "source": "tests/contracts/itxns.algo.ts:40",
+          "pc": [
+            320,
+            321
+          ]
+        },
+        {
+          "teal": 252,
+          "source": "tests/contracts/itxns.algo.ts:40",
+          "pc": [
+            322,
+            323
+          ]
+        },
+        {
+          "teal": 256,
+          "source": "tests/contracts/itxns.algo.ts:41",
+          "pc": [
+            324,
+            325
+          ]
+        },
+        {
+          "teal": 257,
+          "source": "tests/contracts/itxns.algo.ts:41",
+          "pc": [
+            326,
+            327
+          ]
+        },
+        {
+          "teal": 261,
+          "source": "tests/contracts/itxns.algo.ts:42",
+          "pc": [
+            328,
+            329
+          ]
+        },
+        {
+          "teal": 262,
+          "source": "tests/contracts/itxns.algo.ts:42",
+          "pc": [
+            330,
+            331
+          ]
+        },
+        {
+          "teal": 266,
+          "source": "tests/contracts/itxns.algo.ts:43",
+          "pc": [
+            332,
+            333
+          ]
+        },
+        {
+          "teal": 267,
+          "source": "tests/contracts/itxns.algo.ts:43",
+          "pc": [
+            334,
+            335
+          ]
+        },
+        {
+          "teal": 271,
+          "source": "tests/contracts/itxns.algo.ts:44",
+          "pc": [
+            336,
+            337,
+            338,
+            339,
+            340,
+            341
+          ]
+        },
+        {
+          "teal": 272,
+          "source": "tests/contracts/itxns.algo.ts:44",
+          "pc": [
+            342,
+            343
+          ]
+        },
+        {
+          "teal": 275,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            344,
+            345
+          ]
+        },
+        {
+          "teal": 276,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            346,
+            347
+          ]
+        },
+        {
+          "teal": 279,
+          "source": "tests/contracts/itxns.algo.ts:32",
+          "pc": [
+            348
+          ]
+        },
+        {
+          "teal": 280,
+          "source": "tests/contracts/itxns.algo.ts:31",
+          "pc": [
+            349
+          ]
+        },
+        {
+          "teal": 285,
+          "source": "tests/contracts/itxns.algo.ts:48",
+          "pc": [
+            350,
+            351,
+            352
+          ]
+        },
+        {
+          "teal": 286,
+          "source": "tests/contracts/itxns.algo.ts:48",
+          "pc": [
+            353,
+            354
+          ]
+        },
+        {
+          "teal": 287,
+          "source": "tests/contracts/itxns.algo.ts:48",
+          "pc": [
+            355
+          ]
+        },
+        {
+          "teal": 291,
+          "source": "tests/contracts/itxns.algo.ts:48",
+          "pc": [
+            356,
+            357,
+            358
+          ]
+        },
+        {
+          "teal": 301,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            359
+          ]
+        },
+        {
+          "teal": 302,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            360,
+            361
+          ]
+        },
+        {
+          "teal": 303,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            362,
+            363
+          ]
+        },
+        {
+          "teal": 307,
+          "source": "tests/contracts/itxns.algo.ts:50",
+          "pc": [
+            364,
+            365
+          ]
+        },
+        {
+          "teal": 308,
+          "source": "tests/contracts/itxns.algo.ts:50",
+          "pc": [
+            366,
+            367
+          ]
+        },
+        {
+          "teal": 312,
+          "source": "tests/contracts/itxns.algo.ts:51",
+          "pc": [
+            368,
+            369
+          ]
+        },
+        {
+          "teal": 313,
+          "source": "tests/contracts/itxns.algo.ts:51",
+          "pc": [
+            370,
+            371
+          ]
+        },
+        {
+          "teal": 317,
+          "source": "tests/contracts/itxns.algo.ts:52",
+          "pc": [
+            372,
+            373
+          ]
+        },
+        {
+          "teal": 318,
+          "source": "tests/contracts/itxns.algo.ts:52",
+          "pc": [
+            374,
+            375
+          ]
+        },
+        {
+          "teal": 322,
+          "source": "tests/contracts/itxns.algo.ts:53",
+          "pc": [
+            376,
+            377
+          ]
+        },
+        {
+          "teal": 323,
+          "source": "tests/contracts/itxns.algo.ts:53",
+          "pc": [
+            378,
+            379
+          ]
+        },
+        {
+          "teal": 327,
+          "source": "tests/contracts/itxns.algo.ts:54",
+          "pc": [
+            380,
+            381
+          ]
+        },
+        {
+          "teal": 328,
+          "source": "tests/contracts/itxns.algo.ts:54",
+          "pc": [
+            382,
+            383
+          ]
+        },
+        {
+          "teal": 331,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            384,
+            385
+          ]
+        },
+        {
+          "teal": 332,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            386,
+            387
+          ]
+        },
+        {
+          "teal": 335,
+          "source": "tests/contracts/itxns.algo.ts:49",
+          "pc": [
+            388
+          ]
+        },
+        {
+          "teal": 336,
+          "source": "tests/contracts/itxns.algo.ts:48",
+          "pc": [
+            389
+          ]
+        },
+        {
+          "teal": 341,
+          "source": "tests/contracts/itxns.algo.ts:58",
+          "pc": [
+            390,
+            391,
+            392
+          ]
+        },
+        {
+          "teal": 342,
+          "source": "tests/contracts/itxns.algo.ts:58",
+          "pc": [
+            393,
+            394
+          ]
+        },
+        {
+          "teal": 343,
+          "source": "tests/contracts/itxns.algo.ts:58",
+          "pc": [
+            395
+          ]
+        },
+        {
+          "teal": 347,
+          "source": "tests/contracts/itxns.algo.ts:58",
+          "pc": [
+            396,
+            397,
+            398
+          ]
+        },
+        {
+          "teal": 355,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            399
+          ]
+        },
+        {
+          "teal": 356,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            400,
+            401
+          ]
+        },
+        {
+          "teal": 357,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            402,
+            403
+          ]
+        },
+        {
+          "teal": 361,
+          "source": "tests/contracts/itxns.algo.ts:60",
+          "pc": [
+            404,
+            405
+          ]
+        },
+        {
+          "teal": 362,
+          "source": "tests/contracts/itxns.algo.ts:60",
+          "pc": [
+            406,
+            407
+          ]
+        },
+        {
+          "teal": 366,
+          "source": "tests/contracts/itxns.algo.ts:61",
+          "pc": [
+            408,
+            409
+          ]
+        },
+        {
+          "teal": 367,
+          "source": "tests/contracts/itxns.algo.ts:61",
+          "pc": [
+            410,
+            411
+          ]
+        },
+        {
+          "teal": 371,
+          "source": "tests/contracts/itxns.algo.ts:62",
+          "pc": [
+            412,
+            413
+          ]
+        },
+        {
+          "teal": 372,
+          "source": "tests/contracts/itxns.algo.ts:62",
+          "pc": [
+            414,
+            415
+          ]
+        },
+        {
+          "teal": 375,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            416,
+            417
+          ]
+        },
+        {
+          "teal": 376,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            418,
+            419
+          ]
+        },
+        {
+          "teal": 379,
+          "source": "tests/contracts/itxns.algo.ts:59",
+          "pc": [
+            420
+          ]
+        },
+        {
+          "teal": 380,
+          "source": "tests/contracts/itxns.algo.ts:58",
+          "pc": [
+            421
+          ]
+        },
+        {
+          "teal": 385,
+          "source": "tests/contracts/itxns.algo.ts:66",
+          "pc": [
+            422,
+            423,
+            424
+          ]
+        },
+        {
+          "teal": 386,
+          "source": "tests/contracts/itxns.algo.ts:66",
+          "pc": [
+            425,
+            426
+          ]
+        },
+        {
+          "teal": 387,
+          "source": "tests/contracts/itxns.algo.ts:66",
+          "pc": [
+            427
+          ]
+        },
+        {
+          "teal": 391,
+          "source": "tests/contracts/itxns.algo.ts:66",
+          "pc": [
+            428,
+            429,
+            430
+          ]
+        },
+        {
+          "teal": 401,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            431
+          ]
+        },
+        {
+          "teal": 402,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            432,
+            433
+          ]
+        },
+        {
+          "teal": 403,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            434,
+            435
+          ]
+        },
+        {
+          "teal": 407,
+          "source": "tests/contracts/itxns.algo.ts:68",
+          "pc": [
+            436,
+            437
+          ]
+        },
+        {
+          "teal": 408,
+          "source": "tests/contracts/itxns.algo.ts:68",
+          "pc": [
+            438,
+            439
+          ]
+        },
+        {
+          "teal": 412,
+          "source": "tests/contracts/itxns.algo.ts:69",
+          "pc": [
+            440,
+            441
+          ]
+        },
+        {
+          "teal": 413,
+          "source": "tests/contracts/itxns.algo.ts:69",
+          "pc": [
+            442,
+            443
+          ]
+        },
+        {
+          "teal": 417,
+          "source": "tests/contracts/itxns.algo.ts:70",
+          "pc": [
+            444,
+            445
+          ]
+        },
+        {
+          "teal": 418,
+          "source": "tests/contracts/itxns.algo.ts:70",
+          "pc": [
+            446,
+            447
+          ]
+        },
+        {
+          "teal": 422,
+          "source": "tests/contracts/itxns.algo.ts:71",
+          "pc": [
+            448,
+            449
+          ]
+        },
+        {
+          "teal": 423,
+          "source": "tests/contracts/itxns.algo.ts:71",
+          "pc": [
+            450,
+            451
+          ]
+        },
+        {
+          "teal": 427,
+          "source": "tests/contracts/itxns.algo.ts:72",
+          "pc": [
+            452,
+            453
+          ]
+        },
+        {
+          "teal": 428,
+          "source": "tests/contracts/itxns.algo.ts:72",
+          "pc": [
+            454,
+            455
+          ]
+        },
+        {
+          "teal": 431,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            456,
+            457
+          ]
+        },
+        {
+          "teal": 432,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            458,
+            459
+          ]
+        },
+        {
+          "teal": 435,
+          "source": "tests/contracts/itxns.algo.ts:67",
+          "pc": [
+            460
+          ]
+        },
+        {
+          "teal": 436,
+          "source": "tests/contracts/itxns.algo.ts:66",
+          "pc": [
+            461
+          ]
+        },
+        {
+          "teal": 441,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            462,
+            463,
+            464,
+            465,
+            466,
+            467
+          ]
+        },
+        {
+          "teal": 444,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            468,
+            469,
+            470
+          ]
+        },
+        {
+          "teal": 445,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            471
+          ]
+        },
+        {
+          "teal": 446,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            472
+          ]
+        },
+        {
+          "teal": 447,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            473
+          ]
+        },
+        {
+          "teal": 448,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            474,
+            475
+          ]
+        },
+        {
+          "teal": 449,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            476
+          ]
+        },
+        {
+          "teal": 453,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            477,
+            478,
+            479
+          ]
+        },
+        {
+          "teal": 460,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            480
+          ]
+        },
+        {
+          "teal": 461,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            481,
+            482
+          ]
+        },
+        {
+          "teal": 462,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            483,
+            484
+          ]
+        },
+        {
+          "teal": 463,
+          "source": "tests/contracts/itxns.algo.ts:78",
+          "pc": [
+            485,
+            486,
+            487,
+            488,
+            489,
+            490
+          ]
+        },
+        {
+          "teal": 464,
+          "source": "tests/contracts/itxns.algo.ts:78",
+          "pc": [
+            491,
+            492
+          ]
+        },
+        {
+          "teal": 468,
+          "source": "tests/contracts/itxns.algo.ts:79",
+          "pc": [
+            493,
+            494,
+            495
+          ]
+        },
+        {
+          "teal": 469,
+          "source": "tests/contracts/itxns.algo.ts:79",
+          "pc": [
+            496
+          ]
+        },
+        {
+          "teal": 470,
+          "source": "tests/contracts/itxns.algo.ts:79",
+          "pc": [
+            497,
+            498
+          ]
+        },
+        {
+          "teal": 471,
+          "source": "tests/contracts/itxns.algo.ts:79",
+          "pc": [
+            499,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508
+          ]
+        },
+        {
+          "teal": 472,
+          "source": "tests/contracts/itxns.algo.ts:79",
+          "pc": [
+            509,
+            510
+          ]
+        },
+        {
+          "teal": 475,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            511,
+            512
+          ]
+        },
+        {
+          "teal": 476,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            513,
+            514
+          ]
+        },
+        {
+          "teal": 479,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            515
+          ]
+        },
+        {
+          "teal": 480,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            516,
+            517
+          ]
+        },
+        {
+          "teal": 481,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            518,
+            519
+          ]
+        },
+        {
+          "teal": 482,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            520
+          ]
+        },
+        {
+          "teal": 483,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            521,
+            522
+          ]
+        },
+        {
+          "teal": 484,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            523,
+            524,
+            525
+          ]
+        },
+        {
+          "teal": 485,
+          "source": "tests/contracts/itxns.algo.ts:77",
+          "pc": [
+            526
+          ]
+        },
+        {
+          "teal": 486,
+          "source": "tests/contracts/itxns.algo.ts:76",
+          "pc": [
+            527
+          ]
+        },
+        {
+          "teal": 491,
+          "source": "tests/contracts/itxns.algo.ts:83",
+          "pc": [
+            528,
+            529,
+            530
+          ]
+        },
+        {
+          "teal": 492,
+          "source": "tests/contracts/itxns.algo.ts:83",
+          "pc": [
+            531,
+            532
+          ]
+        },
+        {
+          "teal": 493,
+          "source": "tests/contracts/itxns.algo.ts:83",
+          "pc": [
+            533
+          ]
+        },
+        {
+          "teal": 497,
+          "source": "tests/contracts/itxns.algo.ts:83",
+          "pc": [
+            534,
+            535,
+            536
+          ]
+        },
+        {
+          "teal": 508,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            537
+          ]
+        },
+        {
+          "teal": 509,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            538,
+            539
+          ]
+        },
+        {
+          "teal": 510,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            540,
+            541
+          ]
+        },
+        {
+          "teal": 514,
+          "source": "tests/contracts/itxns.algo.ts:85",
+          "pc": [
+            542,
+            543,
+            544,
+            545,
+            546,
+            547,
+            548,
+            549,
+            550,
+            551,
+            552,
+            553,
+            554,
+            555,
+            556,
+            557,
+            558,
+            559,
+            560,
+            561,
+            562,
+            563,
+            564,
+            565,
+            566,
+            567,
+            568,
+            569,
+            570,
+            571,
+            572,
+            573,
+            574,
+            575
+          ]
+        },
+        {
+          "teal": 515,
+          "source": "tests/contracts/itxns.algo.ts:85",
+          "pc": [
+            576,
+            577
+          ]
+        },
+        {
+          "teal": 519,
+          "source": "tests/contracts/itxns.algo.ts:86",
+          "pc": [
+            578,
+            579,
+            580,
+            581,
+            582,
+            583,
+            584,
+            585,
+            586,
+            587,
+            588,
+            589,
+            590,
+            591,
+            592,
+            593,
+            594,
+            595,
+            596,
+            597,
+            598,
+            599,
+            600,
+            601,
+            602,
+            603,
+            604,
+            605,
+            606,
+            607,
+            608,
+            609,
+            610,
+            611
+          ]
+        },
+        {
+          "teal": 520,
+          "source": "tests/contracts/itxns.algo.ts:86",
+          "pc": [
+            612,
+            613
+          ]
+        },
+        {
+          "teal": 524,
+          "source": "tests/contracts/itxns.algo.ts:87",
+          "pc": [
+            614,
+            615
+          ]
+        },
+        {
+          "teal": 525,
+          "source": "tests/contracts/itxns.algo.ts:87",
+          "pc": [
+            616,
+            617
+          ]
+        },
+        {
+          "teal": 529,
+          "source": "tests/contracts/itxns.algo.ts:88",
+          "pc": [
+            618,
+            619
+          ]
+        },
+        {
+          "teal": 530,
+          "source": "tests/contracts/itxns.algo.ts:88",
+          "pc": [
+            620,
+            621
+          ]
+        },
+        {
+          "teal": 534,
+          "source": "tests/contracts/itxns.algo.ts:89",
+          "pc": [
+            622,
+            623
+          ]
+        },
+        {
+          "teal": 535,
+          "source": "tests/contracts/itxns.algo.ts:89",
+          "pc": [
+            624,
+            625
+          ]
+        },
+        {
+          "teal": 539,
+          "source": "tests/contracts/itxns.algo.ts:90",
+          "pc": [
+            626,
+            627,
+            628,
+            629,
+            630,
+            631,
+            632,
+            633,
+            634,
+            635,
+            636,
+            637,
+            638,
+            639,
+            640,
+            641,
+            642,
+            643,
+            644,
+            645,
+            646,
+            647,
+            648,
+            649,
+            650,
+            651,
+            652,
+            653,
+            654,
+            655,
+            656,
+            657,
+            658,
+            659
+          ]
+        },
+        {
+          "teal": 540,
+          "source": "tests/contracts/itxns.algo.ts:90",
+          "pc": [
+            660,
+            661
+          ]
+        },
+        {
+          "teal": 543,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            662,
+            663
+          ]
+        },
+        {
+          "teal": 544,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            664,
+            665
+          ]
+        },
+        {
+          "teal": 547,
+          "source": "tests/contracts/itxns.algo.ts:84",
+          "pc": [
+            666
+          ]
+        },
+        {
+          "teal": 548,
+          "source": "tests/contracts/itxns.algo.ts:83",
+          "pc": [
+            667
+          ]
+        },
+        {
+          "teal": 553,
+          "source": "tests/contracts/itxns.algo.ts:94",
+          "pc": [
+            668,
+            669,
+            670
+          ]
+        },
+        {
+          "teal": 554,
+          "source": "tests/contracts/itxns.algo.ts:94",
+          "pc": [
+            671,
+            672
+          ]
+        },
+        {
+          "teal": 555,
+          "source": "tests/contracts/itxns.algo.ts:94",
+          "pc": [
+            673
+          ]
+        },
+        {
+          "teal": 559,
+          "source": "tests/contracts/itxns.algo.ts:94",
+          "pc": [
+            674,
+            675,
+            676
+          ]
+        },
+        {
+          "teal": 563,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            677
+          ]
+        },
+        {
+          "teal": 564,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            678,
+            679
+          ]
+        },
+        {
+          "teal": 565,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            680,
+            681
+          ]
+        },
+        {
+          "teal": 568,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            682,
+            683
+          ]
+        },
+        {
+          "teal": 569,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            684,
+            685
+          ]
+        },
+        {
+          "teal": 572,
+          "source": "tests/contracts/itxns.algo.ts:95",
+          "pc": [
+            686
+          ]
+        },
+        {
+          "teal": 573,
+          "source": "tests/contracts/itxns.algo.ts:94",
+          "pc": [
+            687
+          ]
+        },
+        {
+          "teal": 578,
+          "source": "tests/contracts/itxns.algo.ts:98",
+          "pc": [
+            688,
+            689,
+            690
+          ]
+        },
+        {
+          "teal": 579,
+          "source": "tests/contracts/itxns.algo.ts:98",
+          "pc": [
+            691,
+            692
+          ]
+        },
+        {
+          "teal": 580,
+          "source": "tests/contracts/itxns.algo.ts:98",
+          "pc": [
+            693
+          ]
+        },
+        {
+          "teal": 584,
+          "source": "tests/contracts/itxns.algo.ts:98",
+          "pc": [
+            694,
+            695,
+            696
+          ]
+        },
+        {
+          "teal": 591,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            697
+          ]
+        },
+        {
+          "teal": 592,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            698,
+            699
+          ]
+        },
+        {
+          "teal": 593,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            700,
+            701
+          ]
+        },
+        {
+          "teal": 597,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            702,
+            703
+          ]
+        },
+        {
+          "teal": 598,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            704,
+            705
+          ]
+        },
+        {
+          "teal": 601,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            706,
+            707
+          ]
+        },
+        {
+          "teal": 602,
+          "source": "tests/contracts/itxns.algo.ts:101",
+          "pc": [
+            708,
+            709
+          ]
+        },
+        {
+          "teal": 603,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            710
+          ]
+        },
+        {
+          "teal": 604,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            711,
+            712
+          ]
+        },
+        {
+          "teal": 605,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            713,
+            714
+          ]
+        },
+        {
+          "teal": 606,
+          "source": "tests/contracts/itxns.algo.ts:100",
+          "pc": [
+            715,
+            716,
+            717,
+            718,
+            719,
+            720
+          ]
+        },
+        {
+          "teal": 607,
+          "source": "tests/contracts/itxns.algo.ts:100",
+          "pc": [
+            721,
+            722
+          ]
+        },
+        {
+          "teal": 612,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            723,
+            724
+          ]
+        },
+        {
+          "teal": 613,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            725,
+            726
+          ]
+        },
+        {
+          "teal": 616,
+          "source": "tests/contracts/itxns.algo.ts:99",
+          "pc": [
+            727
+          ]
+        },
+        {
+          "teal": 617,
+          "source": "tests/contracts/itxns.algo.ts:98",
+          "pc": [
+            728
+          ]
+        },
+        {
+          "teal": 620,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            729,
+            730
+          ]
+        },
+        {
+          "teal": 621,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            731
+          ]
+        },
+        {
+          "teal": 624,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            732,
+            733,
+            734,
+            735,
+            736,
+            737
+          ]
+        },
+        {
+          "teal": 625,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            738,
+            739,
+            740
+          ]
+        },
+        {
+          "teal": 626,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            741,
+            742,
+            743,
+            744
+          ]
+        },
+        {
+          "teal": 629,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             745
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 632,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            746,
+            747,
+            748,
+            749,
+            750,
+            751
+          ]
+        },
+        {
+          "teal": 633,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            752,
+            753,
+            754,
+            755,
+            756,
+            757
+          ]
+        },
+        {
+          "teal": 634,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            758,
+            759,
+            760,
+            761,
+            762,
+            763
+          ]
+        },
+        {
+          "teal": 635,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            764,
+            765,
+            766,
+            767,
+            768,
+            769
+          ]
+        },
+        {
+          "teal": 636,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            770,
+            771,
+            772,
+            773,
+            774,
+            775
+          ]
+        },
+        {
+          "teal": 637,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            776,
+            777,
+            778,
+            779,
+            780,
+            781
+          ]
+        },
+        {
+          "teal": 638,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            782,
+            783,
+            784,
+            785,
+            786,
+            787
+          ]
+        },
+        {
+          "teal": 639,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            788,
+            789,
+            790,
+            791,
+            792,
+            793
+          ]
+        },
+        {
+          "teal": 640,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            794,
+            795,
+            796,
+            797,
+            798,
+            799
+          ]
+        },
+        {
+          "teal": 641,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            800,
+            801,
+            802,
+            803,
+            804,
+            805
+          ]
+        },
+        {
+          "teal": 642,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            806,
+            807,
+            808
+          ]
+        },
+        {
+          "teal": 643,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "pc": [
+            809,
+            810,
+            811,
+            812,
+            813,
+            814,
+            815,
+            816,
+            817,
+            818,
+            819,
+            820,
+            821,
+            822,
+            823,
+            824,
+            825,
+            826,
+            827,
+            828,
+            829,
+            830
+          ]
+        },
+        {
+          "teal": 646,
+          "source": "tests/contracts/itxns.algo.ts:4",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             831
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"

@@ -82,28 +82,647 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 13,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            1,
+            2
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            3
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            4,
+            5
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            6
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            9
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ]
+        },
+        {
+          "teal": 23,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             36
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 33,
+          "source": "examples/calculator/calculator.algo.ts:12",
+          "pc": [
+            37,
+            38,
+            39
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "examples/calculator/calculator.algo.ts:13",
+          "pc": [
+            40,
+            41
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "examples/calculator/calculator.algo.ts:13",
+          "pc": [
+            42,
+            43
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "examples/calculator/calculator.algo.ts:13",
+          "pc": [
+            44
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "examples/calculator/calculator.algo.ts:12",
+          "pc": [
+            45
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "examples/calculator/calculator.algo.ts:23",
+          "pc": [
+            46,
+            47,
+            48
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            49,
+            50
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            51,
+            52
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            54,
+            55,
+            56
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            57,
+            58
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            59,
+            60
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            61
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            65,
+            66
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            67,
+            68
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "examples/calculator/calculator.algo.ts:24",
+          "pc": [
+            69
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "examples/calculator/calculator.algo.ts:23",
+          "pc": [
+            70
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            71,
+            72,
+            73,
+            74,
+            75,
+            76
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            77,
+            78,
+            79
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            80,
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 81,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            83,
+            84,
+            85
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            86
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            87,
+            88,
+            89
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            90
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            91,
+            92,
+            93
+          ]
+        },
+        {
+          "teal": 90,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            94
+          ]
+        },
+        {
+          "teal": 91,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 93,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            97,
+            98
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            99
+          ]
+        },
+        {
+          "teal": 106,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            100,
+            101,
+            102
+          ]
+        },
+        {
+          "teal": 109,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            103,
+            104
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "examples/calculator/calculator.algo.ts:39",
+          "pc": [
+            105,
+            106
+          ]
+        },
+        {
+          "teal": 115,
+          "source": "examples/calculator/calculator.algo.ts:39",
+          "pc": [
+            107,
+            108,
+            109,
+            110,
+            111
+          ]
+        },
+        {
+          "teal": 116,
+          "source": "examples/calculator/calculator.algo.ts:39",
+          "pc": [
+            112
+          ]
+        },
+        {
+          "teal": 117,
+          "source": "examples/calculator/calculator.algo.ts:39",
+          "pc": [
+            113,
+            114,
+            115
+          ]
+        },
+        {
+          "teal": 122,
+          "source": "examples/calculator/calculator.algo.ts:40",
+          "pc": [
+            116,
+            117
+          ]
+        },
+        {
+          "teal": 123,
+          "source": "examples/calculator/calculator.algo.ts:40",
+          "pc": [
+            118,
+            119
+          ]
+        },
+        {
+          "teal": 124,
+          "source": "examples/calculator/calculator.algo.ts:40",
+          "pc": [
+            120,
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "examples/calculator/calculator.algo.ts:40",
+          "pc": [
+            123,
+            124
+          ]
+        },
+        {
+          "teal": 126,
+          "source": "examples/calculator/calculator.algo.ts:39",
+          "pc": [
+            125,
+            126,
+            127
+          ]
+        },
+        {
+          "teal": 131,
+          "source": "examples/calculator/calculator.algo.ts:41",
+          "pc": [
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 132,
+          "source": "examples/calculator/calculator.algo.ts:41",
+          "pc": [
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141
+          ]
+        },
+        {
+          "teal": 133,
+          "source": "examples/calculator/calculator.algo.ts:41",
+          "pc": [
+            142
+          ]
+        },
+        {
+          "teal": 134,
+          "source": "examples/calculator/calculator.algo.ts:41",
+          "pc": [
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 139,
+          "source": "examples/calculator/calculator.algo.ts:42",
+          "pc": [
+            146,
+            147
+          ]
+        },
+        {
+          "teal": 140,
+          "source": "examples/calculator/calculator.algo.ts:42",
+          "pc": [
+            148,
+            149
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "examples/calculator/calculator.algo.ts:42",
+          "pc": [
+            150,
+            151,
+            152
+          ]
+        },
+        {
+          "teal": 142,
+          "source": "examples/calculator/calculator.algo.ts:42",
+          "pc": [
+            153,
+            154
+          ]
+        },
+        {
+          "teal": 143,
+          "source": "examples/calculator/calculator.algo.ts:41",
+          "pc": [
+            155,
+            156,
+            157
+          ]
+        },
+        {
+          "teal": 147,
+          "source": "examples/calculator/calculator.algo.ts:43",
+          "errorMessage": "Invalid operation",
           "pc": [
             158
-          ],
-          "errorMessage": "Invalid operation"
+          ]
         },
         {
+          "teal": 152,
+          "source": "examples/calculator/calculator.algo.ts:45",
+          "pc": [
+            159,
+            160
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            161,
+            162
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "examples/calculator/calculator.algo.ts:36",
+          "pc": [
+            163
+          ]
+        },
+        {
+          "teal": 159,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            164,
+            165
+          ]
+        },
+        {
+          "teal": 160,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            166
+          ]
+        },
+        {
+          "teal": 163,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            167,
+            168,
+            169,
+            170,
+            171,
+            172
+          ]
+        },
+        {
+          "teal": 164,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            173,
+            174,
+            175
+          ]
+        },
+        {
+          "teal": 165,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            176,
+            177,
+            178,
+            179
+          ]
+        },
+        {
+          "teal": 168,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             180
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 171,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            181,
+            182,
+            183,
+            184,
+            185,
+            186
+          ]
+        },
+        {
+          "teal": 172,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            187,
+            188,
+            189
+          ]
+        },
+        {
+          "teal": 173,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "pc": [
+            190,
+            191,
+            192,
+            193
+          ]
+        },
+        {
+          "teal": 176,
+          "source": "examples/calculator/calculator.algo.ts:4",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             194
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"

@@ -64,22 +64,374 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 13,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            1,
+            2
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            3
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            4,
+            5
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            6
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            9
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35
+          ]
+        },
+        {
+          "teal": 23,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             36
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 27,
+          "source": "tests/contracts/abi.algo.ts:1403",
+          "pc": [
+            37,
+            38,
+            39
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            40,
+            41
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            42,
+            43,
+            44
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            45
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            46,
+            47
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            48,
+            49,
+            50
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            51
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/abi.algo.ts:1404",
+          "pc": [
+            52
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/abi.algo.ts:1403",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            54,
+            55,
+            56,
+            57,
+            58,
+            59
+          ]
+        },
+        {
+          "teal": 46,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            60,
+            61,
+            62
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            63
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            64
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            65
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            66,
+            67
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            69,
+            70,
+            71
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/abi.algo.ts:1408",
+          "pc": [
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "tests/contracts/abi.algo.ts:1408",
+          "pc": [
+            90,
+            91
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "tests/contracts/abi.algo.ts:1408",
+          "pc": [
+            92,
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 62,
+          "source": "tests/contracts/abi.algo.ts:1407",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            96,
+            97
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            98
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            99,
+            100,
+            101,
+            102,
+            103,
+            104
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            105,
+            106,
+            107
+          ]
+        },
+        {
+          "teal": 71,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            108,
+            109,
+            110,
+            111
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             112
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 77,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            113,
+            114,
+            115,
+            116,
+            117,
+            118
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            119,
+            120,
+            121
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "pc": [
+            122,
+            123,
+            124,
+            125
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "tests/contracts/abi.algo.ts:1402",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             126
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"
